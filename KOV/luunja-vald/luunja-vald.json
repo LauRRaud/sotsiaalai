@@ -1,0 +1,1871 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-luunja-vald",
+  "document_id": "kov-luunja-vald",
+  "municipality": "Luunja vald",
+  "municipality_id": "luunja_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "luunja_vald_contact_vallavalitsus",
+      "canonical_item_id": "luunja_vald:contact:vallavalitsus",
+      "itemType": "contact",
+      "title": "Luunja Vallavalitsus üldkontakt",
+      "status": "active",
+      "summary": "Luunja Vallavalitsuse üldkontakt on esmane kontakt valla teenuste ja taotluste kohta. KOV veeb avaldab telefoninumbri, üldise e-posti aadressi ja vallamaja aadressi.",
+      "sourceKeys": [
+        "home",
+        "kontaktid_page"
+      ],
+      "name": "Luunja Vallavalitsus",
+      "role": "üldkontakt",
+      "department": "vallavalitsus",
+      "phone": "+372 741 7319",
+      "email": "vald@luunja.ee",
+      "address": "Puiestee 14, Luunja alevik, Luunja vald, Tartu maakond 62222",
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_maarika_kits",
+      "canonical_item_id": "luunja_vald:contact:maarika_kits",
+      "itemType": "contact",
+      "title": "Maarika Kits",
+      "status": "active",
+      "summary": "Maarika Kits on Luunja valla sotsiaalnõunik-osakonnajuhataja. Tema vastutusalana on KOV veebis nimetatud osakonna töö juhtimine, eestkoste ja sotsiaalhoolekande küsimused.",
+      "sourceKeys": [
+        "kontaktid_page",
+        "kriisikontaktid_page"
+      ],
+      "name": "Maarika Kits",
+      "role": "sotsiaalnõunik-osakonnajuhataja",
+      "department": "Sotsiaalosakond",
+      "phone": "5376 9818",
+      "email": "maarika.kits@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_henrik_puija",
+      "canonical_item_id": "luunja_vald:contact:henrik_puija",
+      "itemType": "contact",
+      "title": "Henrik Puija",
+      "status": "active",
+      "summary": "Henrik Puija on Luunja valla lastekaitsespetsialist. KOV veeb seostab tema ülesanded lastekaitse, lapse õiguste ja heaolu tagamisega.",
+      "sourceKeys": [
+        "kontaktid_page",
+        "laps_pere_teenused_toetused",
+        "laps_pere_noustamine"
+      ],
+      "name": "Henrik Puija",
+      "role": "lastekaitsespetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "5331 7767",
+      "email": "henrik.puija@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_maret_sildala",
+      "canonical_item_id": "luunja_vald:contact:maret_sildala",
+      "itemType": "contact",
+      "title": "Maret Sildala",
+      "status": "active",
+      "summary": "Maret Sildala on Luunja valla peretöötaja. KOV veeb kirjeldab tema vastutusala lastega perede jõustamise ja abistamisena.",
+      "sourceKeys": [
+        "kontaktid_page"
+      ],
+      "name": "Maret Sildala",
+      "role": "peretöötaja",
+      "department": "Sotsiaalosakond",
+      "phone": "5911 2716",
+      "email": "maret.sildala@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_ainika_zilinski",
+      "canonical_item_id": "luunja_vald:contact:ainika_zilinski",
+      "itemType": "contact",
+      "title": "Ainika Zilinski",
+      "status": "active",
+      "summary": "Ainika Zilinski on Luunja valla sotsiaaltööspetsialist. KOV veeb seostab tema töö koduteenuse ja sotsiaaltransporditeenuse korraldamisega.",
+      "sourceKeys": [
+        "kontaktid_page",
+        "tooealised_teenused_toetused"
+      ],
+      "name": "Ainika Zilinski",
+      "role": "sotsiaaltööspetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "5346 6169",
+      "email": "ainika.zilinski@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_siivi_lubi",
+      "canonical_item_id": "luunja_vald:contact:siivi_lubi",
+      "itemType": "contact",
+      "title": "Siivi Lubi",
+      "status": "active",
+      "summary": "Siivi Lubi on Luunja valla koduhooldustöötaja. KOV veeb kirjeldab tema vastutusala täisealiste inimeste iseseisva ja turvalise toimetuleku toetamisena harjumuspärases keskkonnas.",
+      "sourceKeys": [
+        "kontaktid_page"
+      ],
+      "name": "Siivi Lubi",
+      "role": "koduhooldustöötaja",
+      "department": "Sotsiaalosakond",
+      "phone": "5480 0645",
+      "email": "siivi.lubi@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_triin_tokman",
+      "canonical_item_id": "luunja_vald:contact:triin_tokman",
+      "itemType": "contact",
+      "title": "Triin Tokman",
+      "status": "active",
+      "summary": "Triin Tokman on Luunja valla noorte heaolu spetsialist. KOV veeb kirjeldab tema rolli 13–29-aastaste noorte toetamisel tööturule jõudmisel.",
+      "sourceKeys": [
+        "kontaktid_page",
+        "laps_pere_noustamine"
+      ],
+      "name": "Triin Tokman",
+      "role": "noorte heaolu spetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "5345 3655",
+      "email": "triin.tokman@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+    },
+    {
+      "id": "luunja_vald_contact_kairi_kolk",
+      "canonical_item_id": "luunja_vald:contact:kairi_kolk",
+      "itemType": "contact",
+      "title": "Kairi Kolk",
+      "status": "active",
+      "summary": "Kairi Kolk on tugikeskuse juht ja juhtumikorraldaja. KOV veeb seostab tema töö haridus- ja sotsiaalvaldkonna üleste juhtumite koordineerimise ning perede kaasamisega.",
+      "sourceKeys": [
+        "kontaktid_page",
+        "laste_toetamine_page"
+      ],
+      "name": "Kairi Kolk",
+      "role": "tugikeskuse juht / juhtumikorraldaja",
+      "department": "Haridus- ja kultuuriosakond / tugikeskus",
+      "phone": "5328 4909",
+      "email": "kairi.kolk@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/"
+    },
+    {
+      "id": "luunja_vald_contact_anni_paal",
+      "canonical_item_id": "luunja_vald:contact:anni_paal",
+      "itemType": "contact",
+      "title": "Anni Paal",
+      "status": "active",
+      "summary": "Anni Paal on registripidaja-sekretär, kelle kontakt on avaldatud lapse sünni lehel. Tema kontakt on seotud sünni registreerimise elusündmuse praktilise teabega.",
+      "sourceKeys": [
+        "lapse_sund_page"
+      ],
+      "name": "Anni Paal",
+      "role": "registripidaja-sekretär",
+      "department": "vallavalitsus",
+      "phone": "+372 5885 6108",
+      "email": "anni.paal@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/"
+    },
+    {
+      "id": "luunja_vald_contact_marko_tiirmaa",
+      "canonical_item_id": "luunja_vald:contact:marko_tiirmaa",
+      "itemType": "contact",
+      "title": "Marko Tiirmaa",
+      "status": "active",
+      "summary": "Marko Tiirmaa on kriisiennetuse spetsialist, kelle kontakt on avaldatud Luunja valla kriisikontaktide lehel. Tema roll on seotud kohaliku kriisitoe ja kriisivalmiduse teabega.",
+      "sourceKeys": [
+        "kriisikontaktid_page"
+      ],
+      "name": "Marko Tiirmaa",
+      "role": "kriisiennetuse spetsialist",
+      "department": "vallavalitsus",
+      "phone": "5877 7952",
+      "email": "marko.tiirmaa@luunja.ee",
+      "address": null,
+      "officialUrl": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/"
+    },
+    {
+      "id": "luunja_vald_service_sotsiaalnoustamine",
+      "canonical_item_id": "luunja_vald:service:sotsiaalnoustamine",
+      "itemType": "service",
+      "title": "Sotsiaalnõustamine",
+      "status": "active",
+      "summary": "Sotsiaalnõustamine aitab ennetada sotsiaalsete probleemide tekkimist ja toetab inimest juba tekkinud probleemide lahendamisel. Teenuse käigus selgitatakse inimese õigusi, võimalusi, teenuseid ja toetusi ning otsitakse lahendusi toimetuleku parandamiseks.",
+      "sourceKeys": [
+        "tooealised_noustamine"
+      ],
+      "targetGroup": "Isik või perekond, kelle iseseisev toimetulek on häirunud või häirumas",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonna või sotsiaaltööspetsialisti poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/noustamine-tooealistele-ja-eakatele/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_service_laste_ja_perede_noustamine",
+      "canonical_item_id": "luunja_vald:service:laste_ja_perede_noustamine",
+      "itemType": "service",
+      "title": "Laste ja perede nõustamine",
+      "status": "active",
+      "summary": "Laste ja perede nõustamine toetab laste ja perede heaolu eri eluolukordades. Nõustamine võib hõlmata lapse arengut, vanemlikke oskusi, peresuhteid, turvalisust ja erivajadusega seotud küsimusi.",
+      "sourceKeys": [
+        "laps_pere_noustamine"
+      ],
+      "targetGroup": "Lapsed, lapsevanemad ja pered, kes vajavad lapse heaolu või turvalisuse küsimustes tuge",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine lastekaitsespetsialisti või sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_service_noorte_heaolu_spetsialisti_tugi",
+      "canonical_item_id": "luunja_vald:service:noorte_heaolu_spetsialisti_tugi",
+      "itemType": "service",
+      "title": "Noorte heaolu spetsialisti tugi",
+      "status": "active",
+      "summary": "Noorte heaolu spetsialisti tugi on mõeldud eelkõige 16–29-aastastele noortele, kes ei tööta ega õpi ning vajavad tuge õppimise, töötamise või tööturule jõudmise eesmärgil. KOV veebis on kirjeldatud ka ennetavat kaasamist 13–15-aastaste noorte toetamiseks.",
+      "sourceKeys": [
+        "laps_pere_noustamine",
+        "kontaktid_page"
+      ],
+      "targetGroup": "13–29-aastased noored, eriti mittetöötavad ja mitteõppivad noored",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine noorte heaolu spetsialisti poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "relatedContacts": [
+        "luunja_vald_contact_triin_tokman"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_form_koduteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:koduteenuse_taotlus",
+      "itemType": "form",
+      "title": "Koduteenuse taotlus",
+      "status": "active",
+      "summary": "Koduteenuse taotlus on SPOKU e-vorm, mille kaudu saab taotleda koduteenust. KOV leht nimetab teenuse juures koduteenuse taotlemise linki. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_koduteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_uldhooldusteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:uldhooldusteenuse_taotlus",
+      "itemType": "form",
+      "title": "Väljaspool kodu osutatava üldhooldusteenuse taotlus",
+      "status": "active",
+      "summary": "Üldhooldusteenuse taotlus on SPOKU e-vorm üldhooldusteenuse saamiseks. KOV leht nimetab vormi teenuse juures. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_taisealise_isiku_hoolduse_taotlus",
+      "canonical_item_id": "luunja_vald:form:taisealise_isiku_hoolduse_taotlus",
+      "itemType": "form",
+      "title": "Täisealise isiku hoolduse taotlus",
+      "status": "active",
+      "summary": "Täisealise isiku hoolduse taotlus on SPOKU e-vorm hoolduse seadmiseks ja hooldaja määramiseks. Sama taotlus on seotud nii teenuse kui hooldajatoetuse käsitlusega. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_taisealise_isiku_hooldus",
+        "luunja_vald_benefit_taisealise_isiku_hooldajatoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_isikliku_abistaja_teenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:isikliku_abistaja_teenuse_taotlus",
+      "itemType": "form",
+      "title": "Isikliku abistaja teenuse taotlus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenuse taotlus on SPOKU e-vorm füüsilist kõrvalabi vajava inimese teenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_isikliku_abistaja_teenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_varjupaigateenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:varjupaigateenuse_taotlus",
+      "itemType": "form",
+      "title": "Varjupaigateenuse taotlus",
+      "status": "active",
+      "summary": "Varjupaigateenuse taotlus on SPOKU e-vorm ajutise ööbimis- ja varjupaigateenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_varjupaigateenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_sotsiaaltransporditeenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:sotsiaaltransporditeenuse_taotlus",
+      "itemType": "form",
+      "title": "Sotsiaaltransporditeenuse taotlus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenuse taotlus on SPOKU e-vorm sotsiaaltranspordi kasutamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:eluruumi_tagamise_teenuse_taotlus",
+      "itemType": "form",
+      "title": "Eluruumi tagamise teenuse taotlus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenuse taotlus on SPOKU e-vorm eluruumi kasutamise võimaluse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_eluruumi_tagamise_teenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_volanoustamisteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:volanoustamisteenuse_taotlus",
+      "itemType": "form",
+      "title": "Võlanõustamisteenuse taotlus",
+      "status": "active",
+      "summary": "Võlanõustamisteenuse taotlus on SPOKU e-vorm võlanõustamisteenusele pöördumiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_volanoustamisteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_valtimatu_abi_taotlus",
+      "canonical_item_id": "luunja_vald:form:valtimatu_abi_taotlus",
+      "itemType": "form",
+      "title": "Vältimatu abi taotlus",
+      "status": "active",
+      "summary": "Vältimatu abi taotlus on SPOKU e-vorm vältimatu sotsiaalabi saamiseks elatusvahendite kaotuse või puudumise korral. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_valtimatu_abi"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_koduteenus",
+      "canonical_item_id": "luunja_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus toetab täisealise inimese iseseisvat ja turvalist toimetulekut kodustes tingimustes. Teenuse raames abistatakse toimingutes, mida inimene ei suuda teha kõrvalabita, ning korraldatakse abi ka väljaspool kodu, näiteks toidu toomisel või arsti juurde saatmisel.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Täisealine inimene, kes vajab kodustes tingimustes kõrvalabi",
+      "conditions": "Teenuse määramiseks hinnatakse kõrvalabi vajaduse määra iga juhtumi puhul eraldi.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Pärast taotluse esitamist hinnatakse inimese abivajadust ja toimetulekut kodustes tingimustes.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_siivi_lubi"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_koduteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "luunja_vald:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenus on mõeldud täisealisele inimesele, kes terviseseisundi, tegevusvõime või elukeskkonna tõttu ei saa kodus ajutiselt või püsivalt iseseisvalt toime tulla. KOV osaleb hooldekodu kohatasu hoolduskomponendi tasumisel kehtestatud piirmäära ulatuses ning inimese või lähedaste kanda jäävad majutus, toitlustus ja muud isiklikud kulud.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Täisealine inimene, kelle hooldusvajadust ei saa kodus või muude sotsiaalteenustega tagada",
+      "conditions": "Teenuse määramiseks hinnatakse abivajadust; üldhooldusteenus määratakse haldusaktiga.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Pärast taotluse või kõrvalise teavituse saamist hinnatakse inimese abivajadust.",
+        "deadline": null
+      },
+      "pricing": "KOV hoolduskulude piirmäärana on veebis nimetatud 520 eurot alates 01.07.2023; teenuse saaja tasub majutus-, toitlustus- ja muud kulud.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_maarika_kits",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_uldhooldusteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "luunja_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hoolduse eesmärk on korraldada abi inimesele, kes vaimse või kehalise puude tõttu vajab tuge õiguste teostamisel ja kohustuste täitmisel. Hooldus seatakse ning hooldaja määratakse hooldatava ja hooldaja nõusolekul ning hooldusvajadust hinnatakse iga juhtumi alusel.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Täisealine vaimse või kehalise puudega inimene, kes vajab kodus jätkamiseks tuge",
+      "conditions": "Üldjuhul ei määrata hooldajaks isikut, kellel on hooldatava suhtes ülalpidamiskohustus või kellel on sügav või raske puue.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Hoolduse seadmisel hinnatakse hooldusvajadust ja hooldaja ülesanded määratakse puude raskusastme lõpptähtajani.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_maarika_kits",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_taisealise_isiku_hoolduse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "luunja_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus suurendab puude tõttu füüsilist kõrvalabi vajava täisealise inimese iseseisvat toimetulekut ja osalemist kõigis eluvaldkondades. Teenus sobib inimesele, kes suudab oma elukorralduse üle otsustada ja isiklikku abistajat juhendada.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Eelkõige sügava liikumis- või nägemispuudega täisealised inimesed",
+      "conditions": "Isiklik abistaja tegutseb koos teenuse saajaga ega osuta meditsiini-, tõlke-, juriidilisi ega ehitus- või remonditeenuseid.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": "Sotsiaalosakonna otsuse alusel sõlmitakse teenuse saaja ja teenuse osutajaga leping.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_isikliku_abistaja_teenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_varjupaigateenus",
+      "canonical_item_id": "luunja_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus tagab täisealisele inimesele ajutise turvalise ööbimiskoha ning talveperioodil vajadusel päevase viibimise ja hügieeni eest hoolitsemise võimaluse. Teenus on ajutine abimeede inimestele, kellel puudub alalise elukoha kasutamise võimalus või kes vajavad vältimatut abi.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Täisealised inimesed, kellel puudub turvaline ööbimiskoht või kes vajavad vältimatut abi",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_maarika_kits",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_varjupaigateenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "luunja_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab puudega inimesel, kellel puue takistab isikliku või ühissõiduki kasutamist, kasutada sobivat transpordivahendit tööle, õppima või avalike teenuste kasutamiseks sõitmisel. Teenust võib KOV pakkuda ka laiemale sihtrühmale, näiteks eakatele või riskiperedele, kui nende ühiskonnaelus osalemine on takistatud.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Puudega inimesed ning vajadusel eakad, riskipered ja muud liikumistuge vajavad inimesed",
+      "conditions": "Teenust korraldatakse juhuveona ja otsustamisel arvestatakse inimese võimet kasutada ühistransporti ning muid olemasolevaid võimalusi.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": "Üldjuhul tuleb taotlus esitada viis tööpäeva enne soovitud sõiduaega."
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_sotsiaaltransporditeenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_eluruumi_tagamise_teenus",
+      "canonical_item_id": "luunja_vald:service:eluruumi_tagamise_teenus",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenus võimaldab eluruumi kasutamist inimesele, kes sotsiaalmajandusliku olukorra tõttu ei suuda endale või perele sobivat eluaset tagada. Teenus on tähtajaline ning eluruum antakse ajaks, mil inimene seda abi vajab.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Inimesed ja pered, kes ei suuda eluaset osta ega vabaturult üürida",
+      "conditions": "Teenuse saaja tasub eluruumi kasutamisega seotud eluasemekulud, sh vajadusel üüri.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Valla omandis oleva eluruumi vajadust hinnatakse vähemalt kord aastas.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_maarika_kits",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_volanoustamisteenus",
+      "canonical_item_id": "luunja_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimesel selgitada varalist olukorda, pidada läbirääkimisi võlausaldajatega, rahuldada nõudeid ning vältida uute võlgade tekkimist. Teenus toetab inimest võlgnevuste põhjuste ja tagajärgede mõistmisel ning edaspidiste probleemide ennetamisel.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Isikud, kellele on esitatud sissenõutav rahaline kohustus ja kes ei suuda seda iseseisvalt täita",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_volanoustamisteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_valtimatu_abi",
+      "canonical_item_id": "luunja_vald:service:valtimatu_abi",
+      "itemType": "service",
+      "title": "Vältimatu abi",
+      "status": "active",
+      "summary": "Vältimatut sotsiaalabi osutatakse inimesele, kes on sattunud elatusvahendite kaotuse või puudumise tõttu sotsiaalselt abitusse olukorda. Abi tagab vähemalt toidu, riietuse ja ajutise majutuse seni, kuni inimene ei ole enam sellises olukorras.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Luunja valla territooriumil viibiv inimene, kes vajab vältimatut sotsiaalabi",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "kiire pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_maarika_kits",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_valtimatu_abi_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_tugiisikuteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:tugiisikuteenuse_taotlus",
+      "itemType": "form",
+      "title": "Tugiisikuteenuse taotlus",
+      "status": "active",
+      "summary": "Tugiisikuteenuse taotlus on SPOKU e-vorm tugiisikuteenuse taotlemiseks lapsele, perele või abivajavale isikule. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_tugiisikuteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_turvakoduteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:turvakoduteenuse_taotlus",
+      "itemType": "form",
+      "title": "Turvakoduteenuse taotlus",
+      "status": "active",
+      "summary": "Turvakoduteenuse taotlus on SPOKU e-vorm turvakoduteenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_turvakoduteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_lapsehoiuteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:lapsehoiuteenuse_taotlus",
+      "itemType": "form",
+      "title": "Lapsehoiuteenuse taotlus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse taotlus on SPOKU e-vorm lapsehoiuteenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_lapsehoiuteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_asendushooldusteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:asendushooldusteenuse_taotlus",
+      "itemType": "form",
+      "title": "Asendushooldusteenuse taotlus",
+      "status": "active",
+      "summary": "Asendushooldusteenuse taotlus on SPOKU e-vorm asendushooldusteenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_asendushooldusteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_jarelhooldusteenuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:jarelhooldusteenuse_taotlus",
+      "itemType": "form",
+      "title": "Järelhooldusteenuse taotlus",
+      "status": "active",
+      "summary": "Järelhooldusteenuse taotlus on SPOKU e-vorm järelhooldusteenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_service_jarelhooldusteenus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_tugiisikuteenus",
+      "canonical_item_id": "luunja_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab inimese või pere iseseisvat toimetulekut olukorras, kus kõrvalabi on vaja sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu. Lapse või last kasvatava isiku puhul toetab teenus lapse hooldamist, turvalist kasvukeskkonda ja lapse arengut.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Abivajav inimene, laps või pere",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Sotsiaalosakonna otsuse alusel sõlmitakse leping, kus määratakse toimingud, aeg, maht ja tasumise kord.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala",
+        "luunja_vald_contact_ainika_zilinski"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_tugiisikuteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_turvakoduteenus",
+      "canonical_item_id": "luunja_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab ajutise eluaseme lapsele, lastega perele või täiskasvanule, kes vajab turvalist elukohta. Esmase abi raames tagatakse kriisiabi, mis aitab taastada inimese psüühilist tasakaalu ja igapäevase tegutsemise võimet.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Laps, lastega pere või täiskasvanu, kes vajab ajutist turvalist elukohta",
+      "conditions": "Lapsele osutatakse teenust üldjuhul tasuta; teenuse maht ja kestus sõltuvad vajaduse hindamisest.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "laste puhul koostöö lastekaitsespetsialistiga"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "pricing": "Lapsele üldjuhul tasuta; täiskasvanult võib võtta tasu.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_turvakoduteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "luunja_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenus toetab 1,5–3-aastase lapse või kuni 18-aastase raske või sügava puudega lapse hooldusõigust omava inimese toimetulekut ja töötamist. Sotsiaalosakond hindab vajadust individuaalselt ning teenust saab taotleda kuni selle kalendriaasta lõpuni, mil laps saab 18-aastaseks.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "1,5–3-aastase lapse või kuni 18-aastase raske või sügava puudega lapse hooldusõigusega inimene",
+      "conditions": "Teenust ei kasutata lasteaiakoha, õpilaskodu või pikapäevarühma puuduse kompenseerimiseks.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": "Sotsiaalosakond hindab lapsehoiuteenuse vajadust individuaalselt.",
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_lapsehoiuteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_asendushooldusteenus",
+      "canonical_item_id": "luunja_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus tagab lapse heaolu ja õigused, võimaldab peresarnased elutingimused ning loob turvalise ja arengut toetava elukeskkonna. Teenust osutatakse hooldusperes, perekodus või asenduskodus ning lapse teenusele suunamisel eelistatakse hooldusperet.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Vanemliku hoolitsuseta laps",
+      "conditions": "Teenust osutatakse pikaajaliselt või lühiajaliselt, sh vanema nõusolekul ajutiselt kuni 90 päeva.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine lastekaitsespetsialisti poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_asendushooldusteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "luunja_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus toetab asendushoolduselt ja eestkostelt lahkuva inimese iseseisvat toimetulekut ning õpingute jätkamist. Teenust osutatakse juhtumiplaani alusel ning vald tagab inimesele eluaseme ja vajaduspõhised tugiteenused või toetused.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Asendushoolduselt või eestkostelt lahkuv noor või täisealine isik",
+      "conditions": "Õppiva noore puhul võib teenus kesta õpingute nominaalaja lõpuni, kuid mitte kauem kui 25. eluaastani; erijuhtudel võib tugi kehtida ka mitteõppivale kuni 21-aastasele.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pöördumine sotsiaalosakonna või lastekaitsespetsialisti poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_jarelhooldusteenuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_matusetoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:matusetoetuse_taotlus",
+      "itemType": "form",
+      "title": "Matusetoetuse taotlus",
+      "status": "active",
+      "summary": "Matusetoetuse taotlus on SPOKU e-vorm Luunja valla elaniku matusega seotud toetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_matusetoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu",
+      "canonical_item_id": "luunja_vald:form:tervisetoetuse_taotlus_taiskasvanu",
+      "itemType": "form",
+      "title": "Tervisetoetuse taotlus täiskasvanule",
+      "status": "active",
+      "summary": "Täiskasvanu tervisetoetuse taotlus on SPOKU e-vorm tervisega seotud kulude hüvitamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_tervisetoetus_taiskasvanu"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_kuttepuude_toetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:kuttepuude_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Küttepuude toetuse taotlus",
+      "status": "active",
+      "summary": "Küttepuude toetuse taotlus on SPOKU e-vorm ahiküttega eluruumi küttekulude kompenseerimiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_kuttepuude_toetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_yhekordse_toetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:yhekordse_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Ühekordse toetuse taotlus",
+      "status": "active",
+      "summary": "Ühekordse toetuse taotlus on SPOKU e-vorm kriisiolukorra või õnnetusjuhtumi toetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_toimetulekutoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:toimetulekutoetuse_taotlus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse taotlus",
+      "status": "active",
+      "summary": "Toimetulekutoetuse taotlus on SPOKU e-vorm toimetulekutoetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_toimetulekutoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_matusetoetus",
+      "canonical_item_id": "luunja_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetust makstakse isiku surma korral, kui surnud inimese rahvastikuregistrijärgne elukoht oli Luunja vald. Toetus makstakse kirjaliku taotluse alusel matuse korraldajale olenemata korraldaja elukohast või sugulusastmest.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Luunja valla elaniku matuse korraldaja",
+      "conditions": "Surnud isiku rahvastikuregistrijärgne elukoht oli Luunja vald.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_matusetoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_tervisetoetus_taiskasvanu",
+      "canonical_item_id": "luunja_vald:benefit:tervisetoetus_taiskasvanu",
+      "itemType": "benefit",
+      "title": "Tervisetoetus täiskasvanule",
+      "status": "active",
+      "summary": "Tervisetoetust makstakse vajaduspõhiselt tervisega seotud kulude osaliseks või täielikuks katmiseks. KOV veeb nimetab retseptiravimite kompenseerimise, meditsiiniliselt põhjendatud abivahendid, hapnikuravi elektrikulu, juhtkoera ülalpidamise ja muud põhjendatud tervisekulud.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Töövõimetoetust või riiklikku pensioni saav inimene, puudega täiskasvanu või muu tervisepõhise kuluga abivajaja",
+      "conditions": "Retseptiravimite kompensatsiooni puhul on tingimus, et inimene ei teeni sotsiaalmaksuga maksustatavat tulu; abivahendite ja muude kulude puhul tuleb lisada kulusid tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_kuttepuude_toetus",
+      "canonical_item_id": "luunja_vald:benefit:kuttepuude_toetus",
+      "itemType": "benefit",
+      "title": "Küttepuude toetus",
+      "status": "active",
+      "summary": "Küttepuude toetus on kord aastas makstav toetus ahiküttega eluruumi küttekulude kompenseerimiseks. Toetus on mõeldud toimetulekuraskustes perekonnale ja üksi elavale vanaduspensionärile ning taotlusele tuleb lisada kulu tõendav dokument.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Toimetulekuraskustes pere või üksi elav vanaduspensionär, kelle eluruum on ahiküttega",
+      "conditions": "Taotlusele tuleb lisada kulu tõendav dokument.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_kuttepuude_toetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_eakate_juubelitoetus",
+      "canonical_item_id": "luunja_vald:benefit:eakate_juubelitoetus",
+      "itemType": "benefit",
+      "title": "Eakate juubelitoetus",
+      "status": "active",
+      "summary": "Eakate juubelitoetust makstakse alates 70. eluaastast iga viie aasta järel inimese sünnikuul. Toetuse eelduseks on, et inimese elukoht on elanike registri andmetel viimased kuus kuud olnud Luunja vald ja tema tegelik elukoht on Luunja vallas.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Luunja vallas elav eakas inimene alates 70. eluaastast",
+      "conditions": "Elukoht peab olema viimased kuus kuud registreeritud Luunja valda ja tegelik elukoht peab olema Luunja vallas.",
+      "application": {
+        "channels": [
+          "KOV veebis ei nimetatud eraldi taotluslinki"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "canonical_item_id": "luunja_vald:benefit:taisealise_isiku_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Täisealise isiku hooldajatoetus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldajatoetus seostub hoolduse seadmisega inimesele, kes vajab vaimse või kehalise puude tõttu abi. KOV veeb nimetab hooldajatoetuse määrad: raske puudega inimese hooldajale 70 eurot kuus ja sügava puudega inimese hooldajale 100 eurot kuus.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Täisealise raske või sügava puudega inimese hooldaja",
+      "conditions": "Hooldus seatakse ja hooldaja määratakse hooldatava ning hooldaja nõusolekul.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": "Raske puudega inimese hooldajale 70 eurot kuus; sügava puudega inimese hooldajale 100 eurot kuus.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedTo": [
+        "luunja_vald_service_taisealise_isiku_hooldus"
+      ],
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_taisealise_isiku_hoolduse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral",
+      "canonical_item_id": "luunja_vald:benefit:toetus_kriisiolukorra_voi_onnetusjuhtumi_korral",
+      "itemType": "benefit",
+      "title": "Toetus kriisiolukorra või õnnetusjuhtumi korral",
+      "status": "active",
+      "summary": "Toetust makstakse isikule või perekonnale, kes on sattunud loodusõnnetuse, tulekahju või muu õnnetusjuhtumi tõttu kriisiolukorda. Toetuse määramisel arvestatakse inimese või pere toimetulekuvõimet ja elukondlikke vajadusi ning vajadusel lisatakse ametkondade tõendid.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Kriisiolukorra või õnnetusjuhtumi tõttu abi vajav isik või perekond",
+      "conditions": "Taotlusele lisatakse vajadusel päästeameti, politsei, tervishoiuasutuse või muu ametkonna tõend.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_yhekordse_toetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "luunja_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus toetab inimest või perekonda, kelle sissetulek pärast eluasemekulude arvestamist jääb alla toimetulekupiiri. 2026. aastal on toimetulekupiir üksi elavale inimesele või pere esimesele liikmele 220 eurot, igale alaealisele 264 eurot ning teisele ja igale järgmisele täisealisele liikmele 176 eurot kuus.",
+      "sourceKeys": [
+        "tooealised_teenused_toetused"
+      ],
+      "targetGroup": "Majanduslikult raskustes isik või perekond",
+      "conditions": "Esitada tuleb taotlus, sissetulekut ja kulusid tõendavad dokumendid ning vajadusel täiendavad andmed vara või muude asjaolude kohta.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": "Otsus tehakse viie tööpäeva jooksul pärast kõikide dokumentide esitamist.",
+        "deadline": null
+      },
+      "decisionTime": "5 tööpäeva pärast kõikide dokumentide esitamist",
+      "amount": "Toimetulekupiir 2026: 220 eurot esimesele liikmele, 264 eurot alaealisele, 176 eurot järgmisele täisealisele liikmele.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "relatedContacts": [
+        "luunja_vald_contact_ainika_zilinski",
+        "luunja_vald_contact_maarika_kits"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_toimetulekutoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_sunnitoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:sunnitoetuse_taotlus",
+      "itemType": "form",
+      "title": "Sünnitoetuse taotlus",
+      "status": "active",
+      "summary": "Sünnitoetuse taotlus on SPOKU e-vorm Luunja valla sünnitoetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused",
+        "lapse_sund_page"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_sunnitoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_aabitsatoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:aabitsatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Aabitsatoetuse taotlus",
+      "status": "active",
+      "summary": "Aabitsatoetuse taotlus on SPOKU e-vorm esimesse klassi mineva lapse toetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_aabitsatoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_koolilouna_toetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:koolilouna_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Koolilõuna toetuse taotlus",
+      "status": "active",
+      "summary": "Koolilõuna toetuse taotlus on SPOKU e-vorm koolilõuna kulude hüvitamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_koolilouna_toetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus",
+      "canonical_item_id": "luunja_vald:form:toovihikute_maksumuse_kompenseerimise_taotlus",
+      "itemType": "form",
+      "title": "Töövihikute maksumuse kompenseerimise taotlus",
+      "status": "active",
+      "summary": "Töövihikute maksumuse kompenseerimise taotlus on SPOKU e-vorm õppetoetuse saamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_soidukompensatsiooni_taotlus",
+      "canonical_item_id": "luunja_vald:form:soidukompensatsiooni_taotlus",
+      "itemType": "form",
+      "title": "Sõidukompensatsiooni taotlus",
+      "status": "active",
+      "summary": "Sõidukompensatsiooni taotlus on SPOKU e-vorm õpilase ühistranspordi kulude hüvitamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_soidukompensatsioon"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:puudega_lapse_hooldajatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Puudega lapse hooldajatoetuse taotlus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetuse taotlus on SPOKU e-vorm hooldajatoetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_puudega_lapse_hooldajatoetus"
+      ]
+    },
+    {
+      "id": "luunja_vald_form_lapse_tervisetoetuse_taotlus",
+      "canonical_item_id": "luunja_vald:form:lapse_tervisetoetuse_taotlus",
+      "itemType": "form",
+      "title": "Lapse tervisetoetuse taotlus",
+      "status": "active",
+      "summary": "Lapse tervisetoetuse taotlus on SPOKU e-vorm lapse tervisega seotud kulude hüvitamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-teenus",
+        "taotluse sisu võib vajadusel kopeerida e-kirja või Wordi dokumenti"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [
+        "luunja_vald_benefit_tervisetoetus_laps"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_sunnitoetus",
+      "canonical_item_id": "luunja_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Luunja vald maksab sünnitoetust lapse vanemale või eestkostjale kolmes osas. Esimese ja teise lapse puhul on esimene osa 300 eurot, kolmanda ja iga järgmise lapse puhul 420 eurot ning teine ja kolmas osa on kumbki 150 eurot.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused",
+        "lapse_sund_page"
+      ],
+      "targetGroup": "Luunja vallas elava lapse vanem, üksikvanem või eestkostja",
+      "conditions": "Vähemalt üks lapse vanem, üksikvanem või eestkostja peab olema rahvastikuregistri järgi elanud Luunja vallas vähemalt kuus kuud enne lapse sündi; elukoht peab olema registreeritud valda kuni viimase osa maksmiseni.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": "Iga sünnitoetuse osa taotlemiseks esitatakse eraldi avaldus; SPOKUs saab II ja III osa taotleda pärast lapse 1- või 2-aastaseks saamist.",
+        "deadline": null
+      },
+      "amount": "I osa 300 eurot esimese ja teise lapse puhul, 420 eurot alates kolmandast lapsest; II osa 150 eurot; III osa 150 eurot.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala",
+        "luunja_vald_contact_anni_paal"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_sunnitoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_suure_pere_toetus",
+      "canonical_item_id": "luunja_vald:benefit:suure_pere_toetus",
+      "itemType": "benefit",
+      "title": "Suure pere toetus",
+      "status": "active",
+      "summary": "Suure pere toetust makstakse alates pere neljandast lapsest. KOV veebis on märgitud, et toetust makstakse kaks korda aastas, augustis ja detsembris, ning toetuse suuruse otsustab vallavalitsus volikogu kehtestatud eelarve piires.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Pere, kus kasvab vähemalt neli last",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "KOV veebis ei olnud eraldi vormi linki avaldatud"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": "Suuruse otsustab vallavalitsus eelarve piires.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_benefit_aabitsatoetus",
+      "canonical_item_id": "luunja_vald:benefit:aabitsatoetus",
+      "itemType": "benefit",
+      "title": "Aabitsatoetus",
+      "status": "active",
+      "summary": "Aabitsatoetus on ühekordne toetus esimest korda 1. klassi mineva lapse vanematele. Toetus on seotud tingimusega, et lapse ja mõlema vanema, üksikvanema või eestkostja elukoht on avalduse esitamise ajaks olnud eelnevad kolm kuud Luunja vald.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Esmakordselt 1. klassi mineva lapse vanemad",
+      "conditions": "Lapse ja vanemate, üksikvanema või eestkostja elukoht peab olema avalduse esitamise ajaks olnud eelnevad kolm kuud Luunja vald.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": "Taotluse võib esitada lapse esmakordse koolimineku aastal 1. septembrist kuni 31. detsembrini."
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_aabitsatoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_koolilouna_toetus",
+      "canonical_item_id": "luunja_vald:benefit:koolilouna_toetus",
+      "itemType": "benefit",
+      "title": "Koolilõuna toetus",
+      "status": "active",
+      "summary": "Koolilõuna toetus hüvitab põhikooli- ja gümnaasiumiastme õpilastele riigieelarvest makstava ja tegeliku koolilõuna maksumuse vahe 50 protsendi ulatuses. Luunja Keskkooli õpilastele kompenseeritakse ka hommikusöögi maksumus ning kutsekooliõpilastele võib hüvitist maksta kord kvartalis.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Põhikooli-, gümnaasiumi- ja põhikooli baasil kutsekooli õpilased",
+      "conditions": "Kutseõppe õpilasel ei tohi olla kvartalis üle 10 tunni põhjuseta puudumist.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": "Taotluse saab esitada SPOKUs alates 13. septembrist pärast koolide EHIS õpilaste nimekirjade kinnitamist."
+      },
+      "amount": "50% riikliku koolilõuna toetuse ja tegeliku maksumuse vahest; Luunja Keskkooli õpilastele hommikusöök.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_koolilouna_toetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine",
+      "canonical_item_id": "luunja_vald:benefit:toovihikute_maksumuse_kompenseerimine",
+      "itemType": "benefit",
+      "title": "Töövihikute maksumuse kompenseerimine",
+      "status": "active",
+      "summary": "Töövihikute maksumuse kompenseerimine on õppetoetuse osa gümnaasiumiastme õpilastele, kes õpivad väljaspool Luunja valda. Hüvitis katab töövihikute maksumuse KOV veebis kirjeldatud õppetoetuse raames.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Gümnaasiumiastme õpilased, kes elavad Luunja vallas ja õpivad väljaspool Luunja valda",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_soidukompensatsioon",
+      "canonical_item_id": "luunja_vald:benefit:soidukompensatsioon",
+      "itemType": "benefit",
+      "title": "Sõidukompensatsioon",
+      "status": "active",
+      "summary": "Sõidukompensatsioon on õppetoetuse osa, millega kompenseeritakse ühistranspordi kasutamise maksumust. Toetus on mõeldud vähekindlustatud peredest pärit või muukeelsetele põhikooli-, gümnaasiumi- ja põhikooli baasil kutsekooli õpilastele, kes kasutavad kooli sõiduks ühistransporti, sh Tartu linnaliine.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Vähekindlustatud peredest pärit või muukeelsed õpilased, kes kasutavad koolisõiduks ühistransporti",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_soidukompensatsiooni_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_lastelaagri_toetus",
+      "canonical_item_id": "luunja_vald:benefit:lastelaagri_toetus",
+      "itemType": "benefit",
+      "title": "Lastelaagri toetus",
+      "status": "active",
+      "summary": "Lastelaagri toetus on kord aastas makstav vajaduspõhine toetus laagris osaleva lapse osaluse hüvitamiseks. KOV veebis on sihtrühmana nimetatud 7–18-aastane laps, kes õpib üldhariduskooli päevases õppevormis.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "7–18-aastane üldhariduskooli päevases õppevormis õppiv laps",
+      "conditions": "Toetus on vajaduspõhine ja makstakse üks kord aastas.",
+      "application": {
+        "channels": [
+          "KOV veebis ei olnud eraldi vormi linki avaldatud"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_benefit_hobelusikas",
+      "canonical_item_id": "luunja_vald:benefit:hobelusikas",
+      "itemType": "benefit",
+      "title": "Hõbelusikas",
+      "status": "active",
+      "summary": "Hõbelusikas on asjaline toetus vastsündinule. KOV veebis on kirjas, et vastsündinule kingitakse nimeline hõbelusikas, kui lapse, lapse vanemate, üksikvanema või eestkostja elukoht on rahvastikuregistri järgi Luunja vald.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Luunja vallas registreeritud vastsündinud laps",
+      "conditions": "Lapse ja lapse vanemate, üksikvanema või eestkostja elukoht peab olema rahvastikuregistri andmetel Luunja vald.",
+      "application": {
+        "channels": [
+          "automaatselt või vallavalitsuse korralduse kaudu"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": "Asjaline toetus: nimeline hõbelusikas.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala",
+        "luunja_vald_contact_anni_paal"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_benefit_laste_joulupakid",
+      "canonical_item_id": "luunja_vald:benefit:laste_joulupakid",
+      "itemType": "benefit",
+      "title": "Laste jõulupakid",
+      "status": "active",
+      "summary": "Laste jõulupakkide toetus on asjaline toetus Luunja valla lastele. KOV veebis on nimetatud, et jõulupaki saamise õigus on kõigil Luunja valla lastel alates teisest eluaastast ning 1.–9. klassi õpilastel.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Luunja valla lapsed alates teisest eluaastast ja 1.–9. klassi õpilased",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "KOV veebis ei olnud eraldi taotlemist nimetatud"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": "Asjaline toetus: jõulupakk.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": []
+    },
+    {
+      "id": "luunja_vald_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "luunja_vald:benefit:puudega_lapse_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajatoetus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetuse eesmärk on tagada puudega lapsele igapäevane kõrvalabi, juhendamine ja järelevalve ning osaliselt hüvitada hooldamise tõttu saamata jäänud sissetulek. Toetus on igakuine ning seda makstakse ühele hooldajale perekonnas.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Kuni 18-aastase hooldusvajadusega puudega lapse vanem, eestkostja või perehoolduslepingu alusel hooldav isik",
+      "conditions": "Toetuse saamiseks esitab puudega lapse vanem, hooldaja või eestkostja vallavalitsusele taotluse.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": "Sügava puudega lapse hooldajale 150 eurot; raske puudega lapse hooldajale 120 eurot.",
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_benefit_tervisetoetus_laps",
+      "canonical_item_id": "luunja_vald:benefit:tervisetoetus_laps",
+      "itemType": "benefit",
+      "title": "Tervisetoetus lapsele",
+      "status": "active",
+      "summary": "Lapse tervisetoetus on vajaduspõhine toetus tervisega seotud kulude osaliseks või täielikuks katmiseks. KOV veebis on nimetatud puudega lapse abivahendid, kuni 18-aastase lapse prillid või nägemisabivahendid, pikaajalise hapnikuravi elektrikulu ja muud põhjendatud tervisekulud.",
+      "sourceKeys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "targetGroup": "Puudega laps või kuni 18-aastane laps tervisega seotud põhjendatud kuludega",
+      "conditions": "Taotlusele tuleb lisada kulusid tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "relatedContacts": [
+        "luunja_vald_contact_henrik_puija",
+        "luunja_vald_contact_maret_sildala"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_lapse_tervisetoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_resource_spoku_taotluskeskkond",
+      "canonical_item_id": "luunja_vald:resource:spoku_taotluskeskkond",
+      "itemType": "resource",
+      "title": "SPOKU taotluskeskkond",
+      "status": "active",
+      "summary": "Luunja vald kasutab taotluste esitamiseks SPOKU keskkonda. KOV veebis on selgitatud, et taotlusi saab esitada SPOKUs ning vormide eelvaadet saab vajadusel kopeerida Wordi dokumenti või e-kirja sisusse.",
+      "sourceKeys": [
+        "home",
+        "tooealised_teenused_toetused"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "externalUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
+      "relatedTo": [],
+      "relatedContacts": [
+        "luunja_vald_contact_vallavalitsus"
+      ],
+      "relatedForms": [
+        "luunja_vald_form_koduteenuse_taotlus",
+        "luunja_vald_form_uldhooldusteenuse_taotlus",
+        "luunja_vald_form_taisealise_isiku_hoolduse_taotlus",
+        "luunja_vald_form_isikliku_abistaja_teenuse_taotlus",
+        "luunja_vald_form_varjupaigateenuse_taotlus",
+        "luunja_vald_form_sotsiaaltransporditeenuse_taotlus",
+        "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus",
+        "luunja_vald_form_volanoustamisteenuse_taotlus",
+        "luunja_vald_form_valtimatu_abi_taotlus",
+        "luunja_vald_form_tugiisikuteenuse_taotlus",
+        "luunja_vald_form_turvakoduteenuse_taotlus",
+        "luunja_vald_form_lapsehoiuteenuse_taotlus",
+        "luunja_vald_form_asendushooldusteenuse_taotlus",
+        "luunja_vald_form_jarelhooldusteenuse_taotlus",
+        "luunja_vald_form_matusetoetuse_taotlus",
+        "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu",
+        "luunja_vald_form_kuttepuude_toetuse_taotlus",
+        "luunja_vald_form_yhekordse_toetuse_taotlus",
+        "luunja_vald_form_toimetulekutoetuse_taotlus",
+        "luunja_vald_form_sunnitoetuse_taotlus",
+        "luunja_vald_form_aabitsatoetuse_taotlus",
+        "luunja_vald_form_koolilouna_toetuse_taotlus",
+        "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus",
+        "luunja_vald_form_soidukompensatsiooni_taotlus",
+        "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+        "luunja_vald_form_lapse_tervisetoetuse_taotlus"
+      ]
+    },
+    {
+      "id": "luunja_vald_resource_olulised_abi_ja_infotelefonid",
+      "canonical_item_id": "luunja_vald:resource:olulised_abi_ja_infotelefonid",
+      "itemType": "resource",
+      "title": "Olulised abi- ja infotelefonid",
+      "status": "active",
+      "summary": "Kriisikontaktide lehel on koondatud hädaabi, riigiinfo, perearsti nõuandeliini, lastearsti nõuandeliini, mürgitusinfo, naiste tugiliini, ohvriabi kriisitelefoni ja vaimse tervise abiliini numbrid. Leht sisaldab ka kohaliku toe kontakte ja kriisikomisjoni infot.",
+      "sourceKeys": [
+        "kriisikontaktid_page"
+      ],
+      "officialUrl": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "luunja_vald_contact_marko_tiirmaa",
+        "luunja_vald_contact_maarika_kits"
+      ]
+    },
+    {
+      "id": "luunja_vald_resource_laste_toetamine_ja_tugikeskus",
+      "canonical_item_id": "luunja_vald:resource:laste_toetamine_ja_tugikeskus",
+      "itemType": "resource",
+      "title": "Laste toetamine Luunja vallas ja tugikeskus",
+      "status": "active",
+      "summary": "Laste toetamise leht suunab lastega seotud abivajaduse korral Luunja juhtumikorraldaja poole. Lehel on toodud ka Tartumaa heaoluprogrammi info ja koolipsühholoogide nõuandeliin vaimse tervise küsimusteks.",
+      "sourceKeys": [
+        "laste_toetamine_page"
+      ],
+      "officialUrl": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "relatedTo": [
+        "luunja_vald_service_laste_ja_perede_noustamine",
+        "luunja_vald_service_noorte_heaolu_spetsialisti_tugi"
+      ],
+      "relatedContacts": [
+        "luunja_vald_contact_kairi_kolk"
+      ]
+    },
+    {
+      "id": "luunja_vald_resource_koolipsuhholoogide_nouandeliin",
+      "canonical_item_id": "luunja_vald:resource:koolipsuhholoogide_nouandeliin",
+      "itemType": "resource",
+      "title": "Koolipsühholoogide nõuandeliin 1226",
+      "status": "active",
+      "summary": "KOV veeb kirjeldab koolipsühholoogide nõuandeliini kui tasuta, kiiret ja anonüümset psühholoogilist nõustamise võimalust. Helistada võivad lapsed ja noored, lapsevanemad ning laste ja noortega töötavad spetsialistid; eestikeelne liin on 1226 ning venekeelne/ukrainakeelne info on seotud numbriga 1227.",
+      "sourceKeys": [
+        "laste_toetamine_page"
+      ],
+      "officialUrl": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "relatedTo": [
+        "luunja_vald_service_laste_ja_perede_noustamine"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "luunja_vald_resource_lapse_sunni_registreerimine",
+      "canonical_item_id": "luunja_vald:resource:lapse_sunni_registreerimine",
+      "itemType": "resource",
+      "title": "Lapse sünni registreerimine",
+      "status": "active",
+      "summary": "Lapse sünni leht selgitab, et lapse sündi saab registreerida e-rahvastikuregistris ja alates 1. jaanuarist 2026 registreerivad sünni maakonnakeskuste kohalikud omavalitsused. Lehel on Luunja valla sünnitoetuse tingimuste kokkuvõte ning kontakt registripidajale.",
+      "sourceKeys": [
+        "lapse_sund_page"
+      ],
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "relatedTo": [
+        "luunja_vald_benefit_sunnitoetus"
+      ],
+      "relatedContacts": [
+        "luunja_vald_contact_anni_paal"
+      ]
+    },
+    {
+      "id": "luunja_vald_resource_hallatavad_asutused_sotsiaalvaldkonna_kontroll",
+      "canonical_item_id": "luunja_vald:resource:hallatavad_asutused_sotsiaalvaldkonna_kontroll",
+      "itemType": "resource",
+      "title": "Hallatavad asutused – sotsiaalvaldkonna kontroll",
+      "status": "active",
+      "summary": "Hallatavate asutuste leht kontrolliti sotsiaalvaldkonna asutuste leidmiseks. Lehel on loetletud haridus-, kultuuri- ja valla osalusega asutused, kuid eraldi päevakeskust või hoolekandeasutust sellel lehel ei avaldatud.",
+      "sourceKeys": [
+        "hallatavad_asutused_page"
+      ],
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
+      "relatedTo": [],
+      "relatedContacts": []
+    }
+  ]
+}

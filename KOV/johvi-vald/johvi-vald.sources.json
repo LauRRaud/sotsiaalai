@@ -1,0 +1,503 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-johvi-vald",
+  "document_id": "kov-johvi-vald",
+  "municipality": "Jõhvi vald",
+  "municipality_id": "johvi_vald",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Jõhvi valla avaleht",
+      "url": "https://www.johvi.ee/",
+      "url_canonical": "https://www.johvi.ee/",
+      "normalized_url": "https://www.johvi.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_contact_vallavalitsuse_uldinfo",
+        "johvi_vald_resource_riigi_infonumbrid",
+        "navigation_structure",
+        "general_footer_contacts"
+      ]
+    },
+    {
+      "source_id": "social_overview",
+      "title": "Pere, sotsiaal ja tervishoid",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/",
+      "source_type": "kov_social_overview",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_riigi_infonumbrid",
+        "social_branch_navigation"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenused_page",
+      "title": "Sotsiaalteenused",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "source_type": "kov_service_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_service_koduteenus",
+        "johvi_vald_service_hoolekandelaste_abivahendite_teenus",
+        "johvi_vald_service_tugiisikuteenus",
+        "johvi_vald_service_taisealise_isiku_hooldus",
+        "johvi_vald_service_isikliku_abistaja_teenus",
+        "johvi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "johvi_vald_service_sotsiaaltransporditeenus",
+        "johvi_vald_service_varjupaigateenus",
+        "johvi_vald_service_turvakoduteenus",
+        "johvi_vald_service_eluruumi_tagamise_teenus",
+        "johvi_vald_service_kogukonnapohise_toetatud_elamise_teenus",
+        "johvi_vald_service_volanoustamisteenus",
+        "johvi_vald_service_pere_tugiteenused",
+        "johvi_vald_service_tugiisikuteenus_lapsele",
+        "johvi_vald_service_sotsiaaltransport_suure_abivajadusega_lapsele",
+        "johvi_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiu_teenus",
+        "johvi_vald_service_asendushooldusteenus",
+        "johvi_vald_service_jarelhooldusteenus",
+        "johvi_vald_service_vaimse_tervise_teenus",
+        "johvi_vald_service_taiendavad_toetavad_sotsiaalteenused",
+        "johvi_vald_service_toetatud_elamise_teenus",
+        "johvi_vald_service_igapaevaelu_toetamise_teenus",
+        "johvi_vald_service_toidupangateenus",
+        "johvi_vald_service_supikoogi_teenus",
+        "johvi_vald_service_valtimatu_sotsiaalabi",
+        "johvi_vald_service_eakate_paevakeskuse_teenus"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetused_page",
+      "title": "Sotsiaaltoetused",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "source_type": "kov_benefit_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_koolitoetuse_evorm_arno",
+        "johvi_vald_benefit_toimetulekutoetus",
+        "johvi_vald_benefit_ravimitoetus",
+        "johvi_vald_benefit_prillide_toetus",
+        "johvi_vald_benefit_ahikutte_toetus",
+        "johvi_vald_benefit_lasteaiatoidu_toetus",
+        "johvi_vald_benefit_suvelaagri_tuusiku_toetus",
+        "johvi_vald_benefit_taiendav_sotsiaaltoetus",
+        "johvi_vald_benefit_sunnitoetus_ja_kinkekaart",
+        "johvi_vald_benefit_isikliku_tahtpaeva_toetus",
+        "johvi_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
+        "johvi_vald_benefit_puudega_taisealise_isiku_taiendav_sotsiaaltoetus",
+        "johvi_vald_benefit_puudega_lapse_hooldajatoetus",
+        "johvi_vald_benefit_matusetoetus",
+        "johvi_vald_benefit_puudega_isiku_eluruumi_kohandamise_toetus"
+      ]
+    },
+    {
+      "source_id": "tugiteenused_puuetega_lastele_page",
+      "title": "Tugiteenused puuetega lastele",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tugiteenused-puuetega-lastele/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tugiteenused-puuetega-lastele/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tugiteenused-puuetega-lastele/",
+      "source_type": "kov_service_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_service_lapsehoiuteenus"
+      ]
+    },
+    {
+      "source_id": "lastekaitse_page",
+      "title": "Lastekaitse",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_lastekaitse",
+        "johvi_vald_resource_lasteabi_116111"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_lasteabi_116111",
+        "johvi_vald_resource_ohvriabi_kriisitelefon_116006",
+        "johvi_vald_resource_inimkaubanduse_nouandeliin",
+        "johvi_vald_resource_vagivallast_loobumise_tugiliin",
+        "johvi_vald_resource_seksuaalvagivalla_kriisiabikeskus"
+      ]
+    },
+    {
+      "source_id": "kogukonnas_elamise_page",
+      "title": "Kogukonnas elamise teenus",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/kogukonnas-elamise-teenus/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/kogukonnas-elamise-teenus/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/kogukonnas-elamise-teenus/",
+      "source_type": "kov_service_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_service_kogukonnas_elamise_teenus"
+      ]
+    },
+    {
+      "source_id": "sotsiaalasutused_page",
+      "title": "Sotsiaalasutused",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_contact_eha_samra",
+        "johvi_vald_resource_sa_johvi_hooldekeskus",
+        "johvi_vald_resource_johvi_sotsiaalmaja",
+        "johvi_vald_resource_johvi_kodutute_oomaja",
+        "johvi_vald_resource_johvi_sotsiaalmaja_supikook",
+        "johvi_vald_resource_johvi_eakate_paevakeskus",
+        "johvi_vald_resource_johvi_puuetega_inimeste_paevakeskus",
+        "johvi_vald_resource_mtu_virumaa_noustamis_aktiviseerimiskeskus",
+        "johvi_vald_resource_mtu_virumaa_laste_perede_tugikeskus",
+        "johvi_vald_resource_ou_corrigo",
+        "johvi_vald_resource_sa_johvi_haigla",
+        "johvi_vald_resource_mtu_puuetega_laste_tugikodu_paikesekiir",
+        "johvi_vald_resource_ida_virumaa_naiste_tugikeskus_varjupaik",
+        "johvi_vald_resource_ohvriabi_ida_piirkond"
+      ]
+    },
+    {
+      "source_id": "eakate_paevakeskus_page",
+      "title": "Eakate päevakeskus",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/eakate-paevakeskus/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/eakate-paevakeskus/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/eakate-paevakeskus/",
+      "source_type": "kov_service_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_contact_eha_samra",
+        "johvi_vald_service_eakate_paevakeskuse_teenus"
+      ]
+    },
+    {
+      "source_id": "hooldereform_page",
+      "title": "Hooldereform",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/hooldereform/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/hooldereform/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/hooldereform/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_hooldereform"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Valdkonna seadused, õigusaktid, blanketid",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/valdkonna-oigusaktid-blanketid/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/valdkonna-oigusaktid-blanketid/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/valdkonna-oigusaktid-blanketid/",
+      "source_type": "application_form",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "sotsiaalprojektid_page",
+      "title": "Sotsiaalvaldkonna projektid",
+      "url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/sotsiaalvaldkonna-projektid/",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/sotsiaalvaldkonna-projektid/",
+      "normalized_url": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/sotsiaalvaldkonna-projektid/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_sotsiaalvaldkonna_projektid"
+      ]
+    },
+    {
+      "source_id": "contacts_page",
+      "title": "Kontaktid",
+      "url": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "normalized_url": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "source_type": "kov_contact_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_contact_sirli_tammiste",
+        "johvi_vald_contact_kaire_polgaste",
+        "johvi_vald_contact_kersti_vihmann",
+        "johvi_vald_contact_marika_freiberg",
+        "johvi_vald_contact_krista_kool",
+        "johvi_vald_contact_kristiina_nommiste",
+        "johvi_vald_contact_moonika_raitsak",
+        "johvi_vald_contact_sirle_lumiste",
+        "johvi_vald_contact_kersti_tammesaar",
+        "johvi_vald_contact_marju_paas",
+        "johvi_vald_contact_nadezda_andrejeva",
+        "johvi_vald_contact_pille_ruutel",
+        "johvi_vald_contact_anu_liis_podra",
+        "johvi_vald_contact_vallavalitsuse_uldinfo"
+      ]
+    },
+    {
+      "source_id": "medi_hairenupp_page",
+      "title": "Medi häirenuputeenus ja nutikad abivahendid",
+      "url": "https://www.johvi.ee/medi-hairenuputeenus-ja-nutikad-abivahendid/",
+      "url_canonical": "https://www.johvi.ee/medi-hairenuputeenus-ja-nutikad-abivahendid/",
+      "normalized_url": "https://www.johvi.ee/medi-hairenuputeenus-ja-nutikad-abivahendid/",
+      "source_type": "kov_resource_page",
+      "source_format": "text/html",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_resource_medi_hairenupp"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenuse_avaldus_pdf",
+      "title": "Sotsiaalteenuse avaldus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/08/2024-teenuse-avaldus-.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/08/2024-teenuse-avaldus-.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/08/2024-teenuse-avaldus-.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_sotsiaalteenuse_avaldus"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetuse_avaldus_pdf",
+      "title": "Sotsiaaltoetuse avaldus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/sotsiaaltoetuse_avaldus.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/sotsiaaltoetuse_avaldus.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/sotsiaaltoetuse_avaldus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_sotsiaaltoetuse_avaldus"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetuse_avaldus_pdf",
+      "title": "Toimetulekutoetuse avaldus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/toimetulekutoetuse_avaldus.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/toimetulekutoetuse_avaldus.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/toimetulekutoetuse_avaldus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_toimetulekutoetuse_avaldus"
+      ]
+    },
+    {
+      "source_id": "isikliku_tahtpaeva_taotlus_pdf",
+      "title": "Isikliku tähtpäeva toetuse taotlus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/isiklik-tahtpaev_taotlus.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/isiklik-tahtpaev_taotlus.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/isiklik-tahtpaev_taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_isikliku_tahtpaeva_toetuse_taotlus"
+      ]
+    },
+    {
+      "source_id": "synnitoetuse_taotlus_pdf",
+      "title": "Sünnitoetuse taotlus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/sunnitoetuse_taotlus.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/sunnitoetuse_taotlus.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/sunnitoetuse_taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_sunnitoetuse_taotlus"
+      ]
+    },
+    {
+      "source_id": "matusetoetuse_taotlus_pdf",
+      "title": "Matusetoetuse taotlus 2026",
+      "url": "https://www.johvi.ee/wp-content/uploads/2026/01/Matusetoetuse-taotlus-2026.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2026/01/Matusetoetuse-taotlus-2026.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2026/01/Matusetoetuse-taotlus-2026.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_matusetoetuse_taotlus"
+      ]
+    },
+    {
+      "source_id": "puudega_lapse_hooldajatoetuse_taotlus_pdf",
+      "title": "Puudega lapse hooldaja hooldajatoetuse taotlus",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/puudega-lapse-hooldajale-hooldajatoetuse_taotlus.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/puudega-lapse-hooldajale-hooldajatoetuse_taotlus.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/puudega-lapse-hooldajale-hooldajatoetuse_taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_puudega_lapse_hooldajatoetuse_taotlus"
+      ]
+    },
+    {
+      "source_id": "logopeed_psuhh_tugi_lapsehoid_taotlus_pdf",
+      "title": "Taotlus logopeediteenuse, psühholoogilise nõustamise, tugiisikuteenuse või lapsehoiuteenuse rahastamiseks",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/Taotlus_logopeediline_psuhhol_tugiisikuteenus_lapsehoiuteenus_.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/Taotlus_logopeediline_psuhhol_tugiisikuteenus_lapsehoiuteenus_.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/Taotlus_logopeediline_psuhhol_tugiisikuteenus_lapsehoiuteenus_.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_logopeed_psuhholoog_tugiisik_lapsehoid_taotlus"
+      ]
+    },
+    {
+      "source_id": "tasuta_lasteaiatoidu_ankeet_pdf",
+      "title": "Tasuta lasteaiatoidu taotleja ankeet",
+      "url": "https://www.johvi.ee/wp-content/uploads/2025/10/tasuta-lasteaiatoidu-taotleja_ankeet.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/tasuta-lasteaiatoidu-taotleja_ankeet.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2025/10/tasuta-lasteaiatoidu-taotleja_ankeet.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_tasuta_lasteaiatoidu_taotleja_ankeet"
+      ]
+    },
+    {
+      "source_id": "avaldus_teenustele_2026_pdf",
+      "title": "Avaldus teenustele 2026",
+      "url": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_avaldus_teenustele_2026"
+      ]
+    },
+    {
+      "source_id": "avaldus_teenustele_2026_2_pdf",
+      "title": "Avaldus teenustele 2026-2",
+      "url": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026-2.pdf",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026-2.pdf",
+      "normalized_url": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026-2.pdf",
+      "source_type": "pdf_form",
+      "source_format": "application/pdf",
+      "collection_id": "kov_services",
+      "authority": "Jõhvi vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "johvi_vald_form_avaldus_teenustele_2026"
+      ]
+    }
+  ]
+}

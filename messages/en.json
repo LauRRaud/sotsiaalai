@@ -1540,6 +1540,7 @@
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
+      "pricing": "Pricing",
       "author": "From the author",
       "analytics": "Analytics",
       "admin": "RAG knowledge base management",
@@ -1565,6 +1566,46 @@
         "SotsiaalAI's vision is to become a next-generation support platform for the social sector, centred around a single chat window. SotsiaalAI brings together social-sector knowledge, AI support, practical tools, and matching requests for help with offers of help. Its direction of development is to move toward a comprehensive everyday coping environment that can also help people find support with debt counselling, career counselling, work and housing opportunities, and questions related to assistive aids.",
         "SotsiaalAI lugu on ligi kümne aasta pikkune teekond esimesest ideest toimiva lahenduseni. Selles peegelduvad nii sotsiaalne ettevõtlus kui ka innovatsioon: platvormi arendatakse teadlikult ja hoolikalt, et SotsiaalAI-st kujuneks sisuliselt väärtuslik, hästi toimiv ja turvaline platvorm, mis võiks jõuda iga eestlase taskusse."
       ]
+    },
+    "pricing": {
+      "title": "Pricing",
+      "intro": "Choose a package based on whether you want to use SotsiaalAI for free help requests and offers, for your own life-related questions, or as a social-sector work tool.",
+      "columns": {
+        "feature": "Feature",
+        "free": "Free",
+        "client": "For people seeking help",
+        "worker": "For specialists"
+      },
+      "rows": {
+        "price": "Price",
+        "start": "Start"
+      },
+      "prices": {
+        "free": "0 € / month",
+        "client": "7.99 € / month",
+        "worker": "14.99 € / month"
+      },
+      "actions": {
+        "free": "Start free",
+        "client": "Choose help-seeker",
+        "worker": "Choose specialist"
+      },
+      "features": {
+        "help": "Help requests and help offers with matching",
+        "role_ai": "Role-based AI support",
+        "sources": "Source display",
+        "drafting": "Drafting applications, documents, and reports",
+        "analysis": "Document analysis",
+        "research": "Deep research",
+        "rooms": "Chat rooms and communication with other users",
+        "documents": "Documents: storage and management"
+      },
+      "values": {
+        "included": "Included",
+        "limited": "Limited",
+        "not_included": "Not included"
+      },
+      "note": "Limited means a smaller usage volume."
     },
     "guide": {
       "jump_link": "Guide",
@@ -1742,6 +1783,10 @@
     "subscription": {
       "title": "Subscription - SotsiaalAI",
       "description": "Review and manage your SotsiaalAI subscription and billing."
+    },
+    "pricing": {
+      "title": "Pricing - SotsiaalAI",
+      "description": "Compare the free, help-seeker, and specialist packages for SotsiaalAI."
     },
     "reset": {
       "title": "PIN update - SotsiaalAI",

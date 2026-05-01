@@ -1540,6 +1540,7 @@
     "links": {
       "privacy": "Privaatsuspoliitika",
       "terms": "Kasutustingimused",
+      "pricing": "Hinnastus",
       "author": "Autorilt",
       "analytics": "Analüütika",
       "admin": "RAG",
@@ -1565,6 +1566,46 @@
         "SotsiaalAI visioon on kujuneda järgmise põlvkonna sotsiaalvaldkonna abiplatvormiks, mille keskmes on üks vestlusaken. SotsiaalAI ühendab sotsiaalvaldkonna teadmised, tehisintellekti toe, praktilised töövahendid ning abisoovide ja -pakkumiste kokkuviimise. Arengusuund on liikuda tervikliku elulise toimetuleku keskkonna poole, mis aitab leida tuge ka võlanõustamise, karjäärinõustamise, töö- ja elamisvõimaluste ning abivahenditega seotud küsimustes.",
         "SotsiaalAI lugu on ligi kümne aasta pikkune teekond esimesest ideest toimiva lahenduseni. Selles peegelduvad nii sotsiaalne ettevõtlus kui ka innovatsioon: platvormi arendatakse teadlikult ja hoolikalt, et SotsiaalAI-st kujuneks sisuliselt väärtuslik, hästi toimiv ja turvaline platvorm, mis võiks jõuda iga eestlase taskusse."
       ]
+    },
+    "pricing": {
+      "title": "Hinnastus",
+      "intro": "Vali pakett selle järgi, kas soovid kasutada SotsiaalAI-d tasuta abisoovide ja abipakkumiste jaoks, enda eluliste küsimuste lahendamiseks või sotsiaalvaldkonna töövahendina.",
+      "columns": {
+        "feature": "Võimalus",
+        "free": "Tasuta",
+        "client": "Pöördujale",
+        "worker": "Spetsialistile"
+      },
+      "rows": {
+        "price": "Hind",
+        "start": "Alustamine"
+      },
+      "prices": {
+        "free": "0 € / kuu",
+        "client": "7,99 € / kuu",
+        "worker": "14,99 € / kuu"
+      },
+      "actions": {
+        "free": "Alusta tasuta",
+        "client": "Vali pöördujale",
+        "worker": "Vali spetsialistile"
+      },
+      "features": {
+        "help": "Abisoovid ja abipakkumised koos vastete leidmisega",
+        "role_ai": "Rollipõhine AI-tugi",
+        "sources": "Allikate kuvamine",
+        "drafting": "Taotluste, dokumentide ja aruannete koostamine",
+        "analysis": "Dokumendi analüüs",
+        "research": "Süvauuring",
+        "rooms": "Vestlusruumid ja suhtlus teiste kasutajatega",
+        "documents": "Dokumendid: hoidla ja haldus"
+      },
+      "values": {
+        "included": "Sisaldub",
+        "limited": "Piiratud",
+        "not_included": "Ei sisaldu"
+      },
+      "note": "Piiratud tähendab väiksemat kasutusmahtu."
     },
     "guide": {
       "jump_link": "Kasutusjuhend",
@@ -1742,6 +1783,10 @@
     "subscription": {
       "title": "Tellimus – SotsiaalAI",
       "description": "Vaata ja halda oma SotsiaalAI tellimust ja makseid."
+    },
+    "pricing": {
+      "title": "Hinnastus - SotsiaalAI",
+      "description": "Vaata SotsiaalAI tasuta, pöörduja ja spetsialisti pakettide võimalusi."
     },
     "reset": {
       "title": "PIN-i taastamine – SotsiaalAI",

@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, useId } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
@@ -67,6 +67,10 @@ const checkboxCardClassName =
 const registerControlVarsClassName =
   "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerOptionButtonClassName = primarySegmentedButtonClassName;
+const lockedRoleCardClassName =
+  "register-option-card relative overflow-hidden flex items-center rounded-[var(--seg-card-radius)] px-[0.85rem] py-[1.1rem] text-[1.18rem] font-normal tracking-[0.03em] shadow-[var(--seg-card-shadow-selected,var(--btn-primary-shadow-hover))] " +
+  "[background:var(--seg-card-bg-selected,var(--btn-primary-bg-hover))] text-[color:var(--seg-card-text-selected,var(--title-color,var(--brand-primary)))] " +
+  "w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34]";
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const successButtonClassName =
@@ -127,11 +131,30 @@ function normalizeDraftForm(draft) {
   };
 }
 
+function normalizeRegistrationRoleParam(value) {
+  const raw = String(value || "").trim().toLowerCase();
+  if (raw === "specialist" || raw === "worker" || raw === "social_worker") {
+    return "SOCIAL_WORKER";
+  }
+  if (raw === "client" || raw === "citizen") {
+    return "CLIENT";
+  }
+  return "";
+}
+
 export default function RegistreerimineBody({}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { t, locale } = useI18n();
+  const lockedRole = normalizeRegistrationRoleParam(searchParams?.get("role"));
+  const isRoleLocked = Boolean(lockedRole);
   const localizedTitleClassName = `${titleClassName}${locale === "ru" ? " glass-title-register-ru" : ""}`;
   const scrollRef = useRef(null);
+  const backButtonRef = useRef(null);
+  const lockedRoleCardRef = useRef(null);
+  const lockedRoleCardOffsetYRef = useRef(0);
+  const submitButtonRef = useRef(null);
+  const submitPadCorrectionRef = useRef(0);
   const handleClose = () => {
     pushWithTransition(router, localizePath("/", locale), {
       glassRingTilt: "left",
@@ -202,6 +225,8 @@ export default function RegistreerimineBody({}) {
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
+  const [lockedRoleCardOffsetY, setLockedRoleCardOffsetY] = useState(0);
+  const [submitPadCorrection, setSubmitPadCorrection] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -228,6 +253,9 @@ export default function RegistreerimineBody({}) {
     "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-edge-stroke-width:0px] [--glass-ring-edge-stroke-opacity:0] [--glass-ring-edge-stroke-blur:0px] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
     isFrameworkModalOpen ? "pointer-events-none opacity-0" : null,
   );
+  const roleStepIndex = 0;
+  const emailStepIndex = 1;
+  const pinStepIndex = 2;
   const agreementStepIndex = 3;
   const guideStepIndex = 4;
   const workerStepIndex = 5;
@@ -250,6 +278,166 @@ export default function RegistreerimineBody({}) {
     }
     event.preventDefault();
   }, []);
+
+  useLayoutEffect(() => {
+    const resetLockedRoleOffset = () => {
+      lockedRoleCardOffsetYRef.current = 0;
+      setLockedRoleCardOffsetY((prev) => (prev === 0 ? prev : 0));
+    };
+
+    if (!isRoleLocked || isMobileViewport || showSuccessState) {
+      resetLockedRoleOffset();
+      return;
+    }
+
+    const alignLockedRoleToBackButton = () => {
+      const backButton = backButtonRef.current;
+      const lockedRoleCard = lockedRoleCardRef.current;
+      if (!backButton || !lockedRoleCard) return;
+
+      const backRect = backButton.getBoundingClientRect();
+      const cardRect = lockedRoleCard.getBoundingClientRect();
+      const backCenterY = backRect.top + backRect.height / 2;
+      const cardCenterY = cardRect.top + cardRect.height / 2;
+      const centerDelta = backCenterY - cardCenterY;
+      if (Math.abs(centerDelta) < 0.25) return;
+
+      const nextOffset =
+        Math.round((lockedRoleCardOffsetYRef.current + centerDelta) * 100) /
+        100;
+      lockedRoleCardOffsetYRef.current = nextOffset;
+      setLockedRoleCardOffsetY((prev) =>
+        Math.abs(prev - nextOffset) < 0.25 ? prev : nextOffset,
+      );
+    };
+
+    const rafA = requestAnimationFrame(alignLockedRoleToBackButton);
+    const rafB = requestAnimationFrame(() =>
+      requestAnimationFrame(alignLockedRoleToBackButton),
+    );
+    const settleTimer = window.setTimeout(alignLockedRoleToBackButton, 150);
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(alignLockedRoleToBackButton)
+        : null;
+
+    if (backButtonRef.current) {
+      resizeObserver?.observe(backButtonRef.current);
+    }
+    if (lockedRoleCardRef.current) {
+      resizeObserver?.observe(lockedRoleCardRef.current);
+    }
+    window.addEventListener("resize", alignLockedRoleToBackButton);
+
+    return () => {
+      cancelAnimationFrame(rafA);
+      cancelAnimationFrame(rafB);
+      window.clearTimeout(settleTimer);
+      resizeObserver?.disconnect?.();
+      window.removeEventListener("resize", alignLockedRoleToBackButton);
+    };
+  }, [
+    isMobileViewport,
+    isRoleLocked,
+    lockedRole,
+    scrollPad,
+    scrollPadBottom,
+    scrollPadTop,
+    showSuccessState,
+  ]);
+
+  useLayoutEffect(() => {
+    const resetSubmitPadCorrection = () => {
+      submitPadCorrectionRef.current = 0;
+      setSubmitPadCorrection((prev) => (prev === 0 ? prev : 0));
+    };
+
+    if (isMobileViewport || showSuccessState) {
+      resetSubmitPadCorrection();
+      return;
+    }
+
+    const alignSubmitButtonAtScrollEnd = () => {
+      const scrollEl = scrollRef.current;
+      const backButton = backButtonRef.current;
+      const submitButton = submitButtonRef.current;
+      if (!scrollEl || !backButton || !submitButton) return;
+
+      const scrollRect = scrollEl.getBoundingClientRect();
+      const backRect = backButton.getBoundingClientRect();
+      const submitRect = submitButton.getBoundingClientRect();
+      const submitCenterContentY =
+        submitRect.top -
+        scrollRect.top +
+        (scrollEl.scrollTop || 0) +
+        submitRect.height / 2;
+      const maxScrollTop = Math.max(
+        0,
+        scrollEl.scrollHeight - scrollEl.clientHeight,
+      );
+      const submitCenterAtScrollEnd = submitCenterContentY - maxScrollTop;
+      const targetCenterY =
+        backRect.top + backRect.height / 2 - scrollRect.top;
+      const centerDelta = submitCenterAtScrollEnd - targetCenterY;
+      if (Math.abs(centerDelta) < 0.25) return;
+
+      const nextCorrection =
+        Math.round((submitPadCorrectionRef.current + centerDelta) * 100) /
+        100;
+      submitPadCorrectionRef.current = nextCorrection;
+      setSubmitPadCorrection((prev) =>
+        Math.abs(prev - nextCorrection) < 0.25 ? prev : nextCorrection,
+      );
+    };
+
+    const rafA = requestAnimationFrame(alignSubmitButtonAtScrollEnd);
+    const rafB = requestAnimationFrame(() =>
+      requestAnimationFrame(alignSubmitButtonAtScrollEnd),
+    );
+    const settleTimer = window.setTimeout(alignSubmitButtonAtScrollEnd, 150);
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(alignSubmitButtonAtScrollEnd)
+        : null;
+
+    if (scrollRef.current) {
+      resizeObserver?.observe(scrollRef.current);
+    }
+    if (backButtonRef.current) {
+      resizeObserver?.observe(backButtonRef.current);
+    }
+    if (submitButtonRef.current) {
+      resizeObserver?.observe(submitButtonRef.current);
+    }
+    window.addEventListener("resize", alignSubmitButtonAtScrollEnd);
+
+    return () => {
+      cancelAnimationFrame(rafA);
+      cancelAnimationFrame(rafB);
+      window.clearTimeout(settleTimer);
+      resizeObserver?.disconnect?.();
+      window.removeEventListener("resize", alignSubmitButtonAtScrollEnd);
+    };
+  }, [
+    isMobileViewport,
+    scrollPad,
+    scrollPadBottom,
+    scrollPadTop,
+    showSuccessState,
+    submitStepIndex,
+  ]);
+
+  useEffect(() => {
+    if (!draftReady || !lockedRole) return;
+
+    setForm((prev) => ({
+      ...prev,
+      role: lockedRole,
+      workerUse: lockedRole === "SOCIAL_WORKER" ? prev.workerUse : "",
+      frameworkAck: lockedRole === "SOCIAL_WORKER" ? prev.frameworkAck : false,
+    }));
+  }, [draftReady, lockedRole]);
+
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
     const nextValue =
@@ -301,12 +489,17 @@ export default function RegistreerimineBody({}) {
     const jumpToStep = (index) => {
       scrollToIndex(index);
     };
+    if (!form.role) {
+      setError(t("auth.register.error.role_required"));
+      jumpToStep(roleStepIndex);
+      return;
+    }
     if (!email) {
       setFieldErrors((prev) => ({
         ...prev,
         email: t("profile.email_update.error_email_required"),
       }));
-      jumpToStep(0);
+      jumpToStep(emailStepIndex);
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -315,7 +508,7 @@ export default function RegistreerimineBody({}) {
         ...prev,
         email: t("profile.email_update.error_email_invalid"),
       }));
-      jumpToStep(0);
+      jumpToStep(emailStepIndex);
       return;
     }
     if (!pin) {
@@ -323,7 +516,7 @@ export default function RegistreerimineBody({}) {
         ...prev,
         pin: t("profile.email_update.error_pin_required"),
       }));
-      jumpToStep(1);
+      jumpToStep(pinStepIndex);
       return;
     }
     if (pin.length < PIN_MIN || pin.length > PIN_MAX) {
@@ -334,12 +527,7 @@ export default function RegistreerimineBody({}) {
           max: PIN_MAX,
         }),
       }));
-      jumpToStep(1);
-      return;
-    }
-    if (!form.role) {
-      setError(t("auth.register.error.role_required"));
-      jumpToStep(2);
+      jumpToStep(pinStepIndex);
       return;
     }
     if (requiresFramework && !form.frameworkAck) {
@@ -388,7 +576,7 @@ export default function RegistreerimineBody({}) {
             ...prev,
             email: resolvedMessage,
           }));
-          jumpToStep(0);
+          jumpToStep(emailStepIndex);
           return;
         }
         if (
@@ -399,7 +587,7 @@ export default function RegistreerimineBody({}) {
             ...prev,
             pin: resolvedMessage,
           }));
-          jumpToStep(1);
+          jumpToStep(pinStepIndex);
           return;
         }
         setError(resolvedMessage);
@@ -532,9 +720,10 @@ export default function RegistreerimineBody({}) {
       const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
       const nextPad = nextPadTopBase;
       setScrollPad((prev) => (prev === nextPad ? prev : nextPad));
-      const liftPx = isMobileViewport ? 5 : 18;
+      const liftPx = isRoleLocked && !isMobileViewport ? padOffset : isMobileViewport ? 5 : 18;
       const nextTop = Math.max(0, nextPadTopBase - liftPx);
-      const nextBottom = Math.max(0, nextPadBottomBase + liftPx);
+      const bottomStyleOffset = isMobileViewport ? 16 : padOffset;
+      const nextBottom = Math.max(0, nextPadBottomBase - bottomStyleOffset);
       setScrollPadTop((prev) => (prev === nextTop ? prev : nextTop));
       setScrollPadBottom((prev) => (prev === nextBottom ? prev : nextBottom));
     };
@@ -549,7 +738,7 @@ export default function RegistreerimineBody({}) {
       ro?.disconnect?.();
       window.removeEventListener("resize", updatePad);
     };
-  }, [isMobileViewport]);
+  }, [isMobileViewport, isRoleLocked]);
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -682,6 +871,7 @@ export default function RegistreerimineBody({}) {
         onWheel={proxyWheelToRegisterScroll}
       >
         <BackButton
+          ref={backButtonRef}
           onClick={showSuccessState ? handleClose : handleClose}
           ariaLabel={t("buttons.back_home")}
           className={showSuccessState ? glassPageBackMobileBottomCenterClassName : `${glassPageBackClassName} scroll-reactive-back`}
@@ -769,7 +959,7 @@ export default function RegistreerimineBody({}) {
                 style={{
                   "--csp-pad": `${scrollPad + padOffset}px`,
                   "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
-                  "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset))}px`,
+                  "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset) + submitPadCorrection)}px`,
                   "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`,
                 }}
                 tabIndex={0}
@@ -782,9 +972,75 @@ export default function RegistreerimineBody({}) {
                   noValidate
                 >
               <section
-                className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(0)}`}
+                className={`${registerStepClassName} ${getRegisterStepClassName(roleStepIndex)}`}
               >
-                <div className="register-input-shell register-input-shell--mid relative">
+                {!isRoleLocked ? (
+                  <>
+                    <div
+                      id={roleLabelId}
+                      className="mb-[0.9rem] text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]"
+                    >
+                      {roleLabelText}
+                    </div>
+                    <div
+                      className="register-role-options flex flex-col gap-[0.95rem]"
+                      role="radiogroup"
+                      aria-labelledby={roleLabelId}
+                      aria-describedby={roleHintId}
+                    >
+                      <div id={roleHintId} className="sr-only">
+                        {t("auth.register.role_hint")}
+                      </div>
+                      <OptionCard
+                        type="radio"
+                        name="role"
+                        value="SOCIAL_WORKER"
+                        checked={form.role === "SOCIAL_WORKER"}
+                        onChange={handleChange}
+                        fitTextLines={2}
+                        fitTextMinPx={15}
+                        className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                      >
+                        {t("role.worker")}
+                      </OptionCard>
+                      <OptionCard
+                        type="radio"
+                        name="role"
+                        value="CLIENT"
+                        checked={form.role === "CLIENT"}
+                        onChange={handleChange}
+                        fitTextLines={2}
+                        fitTextMinPx={15}
+                        className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                      >
+                        {t("role.client")}
+                      </OptionCard>
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    ref={lockedRoleCardRef}
+                    className={`${lockedRoleCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                    style={
+                      lockedRoleCardOffsetY
+                        ? {
+                            transform: `translateY(${lockedRoleCardOffsetY}px)`,
+                          }
+                        : undefined
+                    }
+                    aria-label={lockedRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client")}
+                  >
+                    <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                      {lockedRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client")}
+                    </span>
+                  </div>
+                )}
+              </section>
+
+              <section
+                className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(emailStepIndex)}`}
+              >
+                <div className="register-input-shell register-input-shell--mid relative flex justify-center">
                   <input
                     type="email"
                     id="email"
@@ -814,9 +1070,9 @@ export default function RegistreerimineBody({}) {
               </section>
 
               <section
-                className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(1)}`}
+                className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(pinStepIndex)}`}
               >
-                <div className="register-input-shell register-input-shell--mid relative">
+                <div className="register-input-shell register-input-shell--mid relative flex justify-center">
                   <input
                     type="text"
                     id="pin"
@@ -849,51 +1105,6 @@ export default function RegistreerimineBody({}) {
                       {fieldErrors.pin}
                     </span>
                   ) : null}
-                </div>
-              </section>
-
-              <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(2)}`}
-              >
-                <div
-                  id={roleLabelId}
-                  className="mb-[0.9rem] text-center text-[1.35rem] font-medium tracking-[0.02em] text-[color:var(--title-color,var(--brand-primary))]"
-                >
-                  {roleLabelText}
-                </div>
-                <div
-                  className="register-role-options flex flex-col gap-[0.95rem]"
-                  role="radiogroup"
-                  aria-labelledby={roleLabelId}
-                  aria-describedby={roleHintId}
-                >
-                  <div id={roleHintId} className="sr-only">
-                    {t("auth.register.role_hint")}
-                  </div>
-                  <OptionCard
-                    type="radio"
-                    name="role"
-                    value="SOCIAL_WORKER"
-                    checked={form.role === "SOCIAL_WORKER"}
-                    onChange={handleChange}
-                    fitTextLines={2}
-                    fitTextMinPx={15}
-                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                  >
-                    {t("role.worker")}
-                  </OptionCard>
-                  <OptionCard
-                    type="radio"
-                    name="role"
-                    value="CLIENT"
-                    checked={form.role === "CLIENT"}
-                    onChange={handleChange}
-                    fitTextLines={2}
-                    fitTextMinPx={15}
-                    className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                  >
-                    {t("role.client")}
-                  </OptionCard>
                 </div>
               </section>
 
@@ -998,6 +1209,7 @@ export default function RegistreerimineBody({}) {
                       className="register-submit-wrap flex justify-center"
                     >
                       <Button
+                        ref={submitButtonRef}
                         type="submit"
                         variant="primary"
                         className={registerButtonClassName}

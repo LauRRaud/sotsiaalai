@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-marjamaa-vald",
+  "document_id": "kov-marjamaa-vald",
+  "municipality": "Märjamaa vald",
+  "municipality_id": "marjamaa_vald",
+  "county": "Raplamaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Märjamaa valla avaleht",
+      "url": "https://marjamaa.ee",
+      "url_canonical": "https://marjamaa.ee",
+      "normalized_url": "https://marjamaa.ee",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "start_page",
+        "site_structure"
+      ]
+    },
+    {
+      "source_id": "social_overview",
+      "title": "Pere, sotsiaal ja tervishoid",
+      "url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid",
+      "url_canonical": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid",
+      "normalized_url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "social_branch"
+      ]
+    },
+    {
+      "source_id": "iseteenindus",
+      "title": "Märjamaa iseteenindus SPOKU",
+      "url": "https://iseteenindus.marjamaa.ee",
+      "url_canonical": "https://iseteenindus.marjamaa.ee",
+      "normalized_url": "https://iseteenindus.marjamaa.ee",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "web_forms"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetus_page",
+      "title": "Toimetulekutoetus",
+      "url": "https://marjamaa.ee/toiming/toimetulekutoetus",
+      "url_canonical": "https://marjamaa.ee/toiming/toimetulekutoetus",
+      "normalized_url": "https://marjamaa.ee/toiming/toimetulekutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "erakorraline_toetus_page",
+      "title": "Erakorraline toetus",
+      "url": "https://marjamaa.ee/toiming/erakorraline-toetus",
+      "url_canonical": "https://marjamaa.ee/toiming/erakorraline-toetus",
+      "normalized_url": "https://marjamaa.ee/toiming/erakorraline-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "volanoustamisteenus_page",
+      "title": "Võlanõustamisteenus",
+      "url": "https://marjamaa.ee/toiming/volanoustamisteenus",
+      "url_canonical": "https://marjamaa.ee/toiming/volanoustamisteenus",
+      "normalized_url": "https://marjamaa.ee/toiming/volanoustamisteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "tugiisikuteenus_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://marjamaa.ee/toiming/tugiisikuteenus",
+      "url_canonical": "https://marjamaa.ee/toiming/tugiisikuteenus",
+      "normalized_url": "https://marjamaa.ee/toiming/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "toiduabi_page",
+      "title": "Toiduabi",
+      "url": "https://marjamaa.ee/toiming/toiduabi",
+      "url_canonical": "https://marjamaa.ee/toiming/toiduabi",
+      "normalized_url": "https://marjamaa.ee/toiming/toiduabi",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "valtimatu_sotsiaalabi_page",
+      "title": "Vältimatu sotsiaalabi teenus",
+      "url": "https://marjamaa.ee/valtimatu-sotsiaalabi",
+      "url_canonical": "https://marjamaa.ee/valtimatu-sotsiaalabi",
+      "normalized_url": "https://marjamaa.ee/valtimatu-sotsiaalabi",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "eluruumi_tagamine_page",
+      "title": "Eluruumi tagamine",
+      "url": "https://marjamaa.ee/toiming/eluruumi-tagamine",
+      "url_canonical": "https://marjamaa.ee/toiming/eluruumi-tagamine",
+      "normalized_url": "https://marjamaa.ee/toiming/eluruumi-tagamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "varjupaigateenus_page",
+      "title": "Varjupaigateenus",
+      "url": "https://marjamaa.ee/toiming/varjupaigateenus",
+      "url_canonical": "https://marjamaa.ee/toiming/varjupaigateenus",
+      "normalized_url": "https://marjamaa.ee/toiming/varjupaigateenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "turvakoduteenus_page",
+      "title": "Turvakoduteenus",
+      "url": "https://marjamaa.ee/toiming/turvakoduteenus",
+      "url_canonical": "https://marjamaa.ee/toiming/turvakoduteenus",
+      "normalized_url": "https://marjamaa.ee/toiming/turvakoduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltransport_page",
+      "title": "Sotsiaaltranspordi teenus",
+      "url": "https://marjamaa.ee/toiming/sotsiaaltranspordi-teenus",
+      "url_canonical": "https://marjamaa.ee/toiming/sotsiaaltranspordi-teenus",
+      "normalized_url": "https://marjamaa.ee/toiming/sotsiaaltranspordi-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "isikliku_abistaja_page",
+      "title": "Isikliku abistaja teenus",
+      "url": "https://marjamaa.ee/toiming/isikliku-abistaja-teenus",
+      "url_canonical": "https://marjamaa.ee/toiming/isikliku-abistaja-teenus",
+      "normalized_url": "https://marjamaa.ee/toiming/isikliku-abistaja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "taisealise_hooldus_page",
+      "title": "Täisealise isiku hooldus",
+      "url": "https://marjamaa.ee/toiming/taisealise-isiku-hooldus",
+      "url_canonical": "https://marjamaa.ee/toiming/taisealise-isiku-hooldus",
+      "normalized_url": "https://marjamaa.ee/toiming/taisealise-isiku-hooldus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "parkimiskaart_page",
+      "title": "Parkimiskaart",
+      "url": "https://marjamaa.ee/toiming/parkimiskaart",
+      "url_canonical": "https://marjamaa.ee/toiming/parkimiskaart",
+      "normalized_url": "https://marjamaa.ee/toiming/parkimiskaart",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "taiendavad_sotsiaalteenused_page",
+      "title": "Täiendavad sotsiaalteenused",
+      "url": "https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused",
+      "url_canonical": "https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused",
+      "normalized_url": "https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "resource"
+      ]
+    },
+    {
+      "source_id": "hooldusteenus_valjaspool_kodu_page",
+      "title": "Hooldusteenus väljaspool kodu",
+      "url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu",
+      "url_canonical": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu",
+      "normalized_url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service",
+        "resource"
+      ]
+    },
+    {
+      "source_id": "eestkoste_page",
+      "title": "Eestkoste",
+      "url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/erivajadused-ja-igapaevaelu/eestkoste",
+      "url_canonical": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/erivajadused-ja-igapaevaelu/eestkoste",
+      "normalized_url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/erivajadused-ja-igapaevaelu/eestkoste",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "sunnitoetus_page",
+      "title": "Sünnitoetuse taotlemine",
+      "url": "https://marjamaa.ee/toiming/sunnitoetuse-taotlemine",
+      "url_canonical": "https://marjamaa.ee/toiming/sunnitoetuse-taotlemine",
+      "normalized_url": "https://marjamaa.ee/toiming/sunnitoetuse-taotlemine",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "ranitsatoetus_page",
+      "title": "Ranitsatoetuse taotlemine",
+      "url": "https://marjamaa.ee/toiming/ranitsatoetuse-taotlemine-0",
+      "url_canonical": "https://marjamaa.ee/toiming/ranitsatoetuse-taotlemine-0",
+      "normalized_url": "https://marjamaa.ee/toiming/ranitsatoetuse-taotlemine-0",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "matusetoetus_page",
+      "title": "Matusetoetus",
+      "url": "https://marjamaa.ee/toiming/matusetoetus-0",
+      "url_canonical": "https://marjamaa.ee/toiming/matusetoetus-0",
+      "normalized_url": "https://marjamaa.ee/toiming/matusetoetus-0",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi",
+      "url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/ohvriabi/ohvriabi",
+      "url_canonical": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/ohvriabi/ohvriabi",
+      "normalized_url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/ohvriabi/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "lastekaitse_page",
+      "title": "Lastekaitse",
+      "url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastekaitse",
+      "url_canonical": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastekaitse",
+      "normalized_url": "https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastekaitse",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource",
+        "contacts"
+      ]
+    }
+  ]
+}

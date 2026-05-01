@@ -506,6 +506,15 @@ export default function HomeAboutSection({
                   ) : null}
                   <li className={homeCircleItemClassName}>
                     <AppLink
+                      href="/hinnastus"
+                      onClick={(event) => openGlassPage(event, "/hinnastus")}
+                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
+                    >
+                      {t("about.links.pricing")}
+                    </AppLink>
+                  </li>
+                  <li className={homeCircleItemClassName}>
+                    <AppLink
                       href="/autorilt"
                       onClick={(event) => openGlassPage(event, "/autorilt")}
                       className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}

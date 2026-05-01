@@ -1,0 +1,1560 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-kihnu-vald",
+  "document_id": "kov-kihnu-vald",
+  "municipality": "Kihnu vald",
+  "municipality_id": "kihnu_vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "kihnu_vald_contact_kihnu_vallavalitsus",
+      "canonical_item_id": "kihnu_vald:contact:kihnu_vallavalitsus",
+      "itemType": "contact",
+      "title": "Kihnu Vallavalitsus",
+      "status": "active",
+      "summary": "Kihnu Vallavalitsuse üldkontakt ja aadress sotsiaalvaldkonna pöördumiste üldiseks suunamiseks.",
+      "name": "Kihnu Vallavalitsus",
+      "role": "üldkontakt",
+      "department": "Kihnu Vallavalitsus",
+      "phone": "+372 446 9910",
+      "email": "info@kihnu.ee",
+      "address": "Kooli/1, Linaküla, Kihnu vald, 88003, Pärnumaa",
+      "office_hours": "E–R 09.00–16.00; vastuvõtt eelneval kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page",
+        "home"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_aive_sepp",
+      "canonical_item_id": "kihnu_vald:contact:aive_sepp",
+      "itemType": "contact",
+      "title": "Aive Sepp",
+      "status": "active",
+      "summary": "Aive Sepp on Kihnu valla sotsiaalametnik ja lastekaitsetöötaja. Tema poole suunatakse sotsiaalteenuste, sotsiaaltoetuste, üldhoolduse, lastekaitse ja kriisiabi pöördumised.",
+      "name": "Aive Sepp",
+      "role": "sotsiaalametnik, lastekaitsetöötaja, töökeskkonnaspetsialist",
+      "department": "Kihnu Vallavalitsus",
+      "phone": "+372 513 3193",
+      "email": "aive.sepp@kihnu.ee",
+      "address": null,
+      "office_hours": "Vastuvõtt kokkuleppel; lapsele abi lehel E–R 8:00–16:00",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page",
+        "child_help_page",
+        "social_services_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_ene_ly_juganson",
+      "canonical_item_id": "kihnu_vald:contact:ene_ly_juganson",
+      "itemType": "contact",
+      "title": "Ene-Ly Juganson",
+      "status": "active",
+      "summary": "Kihnu valla kontaktilehel avaldatud juhtumikorraldaja kontakt; e-posti domeen ei ole KOV domeen, mistõttu rolli ulatus vajab vajadusel üle täpsustamist.",
+      "name": "Ene-Ly Juganson",
+      "role": "juhtumikorraldaja",
+      "department": "Kihnu Vallavalitsus",
+      "phone": "+372 504 7973",
+      "email": "enely@pol.parnumaa.ee",
+      "address": null,
+      "office_hours": "Kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_malve_laus",
+      "canonical_item_id": "kihnu_vald:contact:malve_laus",
+      "itemType": "contact",
+      "title": "Malve Laus",
+      "status": "active",
+      "summary": "Kihnu valla kontaktilehel avaldatud koduhooldaja kontaktandmetega seotud kirje; telefon ja e-post ei ole lehel avaldatud.",
+      "name": "Malve Laus",
+      "role": "koduhooldaja",
+      "department": "Kihnu Vallavalitsus",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "office_hours": "Kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_lea_lang",
+      "canonical_item_id": "kihnu_vald:contact:lea_lang",
+      "itemType": "contact",
+      "title": "Lea Lang",
+      "status": "active",
+      "summary": "Kihnu valla kontaktilehel avaldatud koduhooldaja kontaktandmetega seotud kirje; telefon ja e-post ei ole lehel avaldatud.",
+      "name": "Lea Lang",
+      "role": "koduhooldaja",
+      "department": "Kihnu Vallavalitsus",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "office_hours": "Kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_jaanika_vahkel",
+      "canonical_item_id": "kihnu_vald:contact:jaanika_vahkel",
+      "itemType": "contact",
+      "title": "Jaanika Vahkel",
+      "status": "active",
+      "summary": "Kihnu valla kontaktilehel avaldatud abihooldaja kontaktandmetega seotud kirje; telefon ja e-post ei ole lehel avaldatud.",
+      "name": "Jaanika Vahkel",
+      "role": "abihooldaja",
+      "department": "Kihnu Vallavalitsus",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "office_hours": "Kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_contact_kaie_lehtpuu",
+      "canonical_item_id": "kihnu_vald:contact:kaie_lehtpuu",
+      "itemType": "contact",
+      "title": "Kaie Lehtpuu",
+      "status": "active",
+      "summary": "Kihnu valla kontaktilehel avaldatud abihooldaja kontaktandmetega seotud kirje; telefon ja e-post ei ole lehel avaldatud.",
+      "name": "Kaie Lehtpuu",
+      "role": "abihooldaja",
+      "department": "Kihnu Vallavalitsus",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "office_hours": "Kokkuleppel",
+      "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "contact_page"
+      ]
+    },
+    {
+      "id": "kihnu_vald_service_koduteenus",
+      "canonical_item_id": "kihnu_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus on Kihnu Vallavalitsuse sotsiaalteenus täisealise inimese iseseisva ja turvalise koduse toimetuleku tagamiseks. Teenuse saamiseks tuleb esitada põhjendatud avaldus sotsiaalametnikule ning teenuse osutamiseks sõlmitakse leping kliendi ja vallavalitsuse vahel. Teenust osutab vallavalitsuse palgal olev koduhooldaja.",
+      "targetGroup": [
+        "täisealine inimene, kes vajab kodus kõrvalabi"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "kirjalik avaldus",
+          "e-post sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita põhjendatud avaldus sotsiaalametnikule",
+          "teenuse osutamiseks sõlmitakse leping kliendi ja vallavalitsuse vahel"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_koduteenuste_taotlus"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "kihnu_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenuse eesmärk on võimaldada puudega inimesel, kelle puue takistab isikliku või ühissõiduki kasutamist, kasutada sobivat transpordivahendit tööle, õppeasutusse või avalike teenuste juurde sõitmiseks. Teenuse taotlemisel tuleb nimetada külastatavad asutused ning avaldus esitatakse vähemalt üks tööpäev ette.",
+      "targetGroup": [
+        "puudega inimesed, kelle puue takistab isikliku või ühissõiduki kasutamist"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "kirjalik avaldus",
+          "suuline avaldus"
+        ],
+        "steps": [
+          "esita teenuse vajaduse avaldus sotsiaalametnikule vähemalt üks tööpäev enne sõitu",
+          "mandrile sõitude puhul teata võimalusel varakult, et broneerida koht laeval"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_eluruumi_tagamine",
+      "canonical_item_id": "kihnu_vald:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Sotsiaalkorter on Kihnu valla munitsipaalomandis olev korter või muu eluruumidele esitatavatele nõuetele vastav ruum, mis antakse üürile sotsiaalteenusena eluaset hädasti vajavale inimesele ja tema perele. Sotsiaalkorteri üürimiseks esitab taotleja vallavalitsusele kirjaliku avalduse ning üürile andmise või mitteandmise otsustab vallavalitsus.",
+      "targetGroup": [
+        "isik või pere, kes vajab hädasti eluaset ega suuda seda ise tagada"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "kirjalik avaldus"
+        ],
+        "steps": [
+          "esita vallavalitsusele kirjalik avaldus sotsiaalkorteri üürimiseks"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_sotsiaalkorteri_taotlus"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "kihnu_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealisele inimesele seatakse hooldus, kui ta vajab vaimse või kehalise puude tõttu abi oma õiguste teostamiseks ja kohustuste täitmiseks. Hooldus tähendab vähenenud toimetulekuvõimega inimese abistamist koduste ja isikliku eluga seotud igapäevatoimingutes. Hooldus seatakse ja hooldaja määratakse hooldatava nõusolekul ning teenuse osutamiseks sõlmitakse kolmepoolne leping hooldatava, hooldaja ja vallavalitsuse vahel.",
+      "targetGroup": [
+        "vaimse või kehalise puudega täisealised inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta ühendust sotsiaalametnikuga hoolduse seadmise vajaduse hindamiseks",
+          "hooldatava nõusolekul määratakse hooldaja ja sõlmitakse kolmepoolne leping"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_tugiisikuteenus",
+      "canonical_item_id": "kihnu_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab iseseisvat toimetulekut olukordades, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu oma kohustuste täitmisel ja õiguste teostamisel olulisel määral kõrvalabi. Kõrvalabi seisneb juhendamises, motiveerimises ning isiku iseseisvuse ja omavastutuse võime arendamises. Lapse puhul toetatakse koostöös last kasvatava isikuga lapse arengut ja igapäevaelus hakkamasaamist.",
+      "targetGroup": [
+        "isikud, kes vajavad juhendamist ja kõrvalabi",
+        "lapsed, kelle areng vajab tugiisiku tuge"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "avaldus sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita vastavasisuline avaldus sotsiaalametnikule"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "kliendile tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "kihnu_vald:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool inimese kodu osutatav üldhooldusteenus tagab turvalise keskkonna ja toimetuleku täisealisele inimesele, kes ei suuda terviseseisundi, tegevusvõime või elukeskkonna tõttu kodus ajutiselt või püsivalt iseseisvalt toime tulla. Hooldereformi järgi katab avalik rahastus hoolduskulude osa, inimese omaosaluseks jäävad majutus, toitlustus ja muud isiklikud kulud. Kihnu veebis on ööpäevaringse üldhooldusteenuse piirmäärana nimetatud kuni 700 eurot.",
+      "targetGroup": [
+        "täisealine inimene, kes ei suuda kodus ajutiselt või püsivalt iseseisvalt toime tulla"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta teenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "hoolduskulude piirmäär kuni 700 eurot",
+        "currency": "EUR",
+        "notes": "omaosalusena jäävad majutus, toitlustus ja isiklikud kulud"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page",
+        "hooldekodu_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "kihnu_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenuse eesmärk on puudega täisealise inimese füüsiline abistamine igapäevastes tegevustes, toetades iseseisvat toimetulekut. Abistaja aitab liikumisel, söömisel, riietumisel, suhtlemisel, hügieeniprotseduurides, kirjutamisel, lugemisel, majapidamistöödes ja muudes tegevustes, milles inimene puude tõttu abi vajab.",
+      "targetGroup": [
+        "puudega täisealised inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "avaldus sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita avaldus sotsiaalametnikule"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_varjupaigateenus",
+      "canonical_item_id": "kihnu_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus kindlustab ajutise ööbimiskoha täisealisele inimesele, kes ei ole võimeline endale ööbimiskohta leidma. Ajutises ööbimiskohas tagatakse voodikoht, pesemisvõimalus ja turvaline keskkond. Teenus on inimesele tasuta.",
+      "targetGroup": [
+        "täisealised inimesed, kellel puudub ööbimiskoht"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta varjupaigateenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_turvakoduteenus",
+      "canonical_item_id": "kihnu_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenusega tagatakse ajutine eluase, turvaline keskkond ja esmane abi lapsele, kes vajab abi hooldamises esinevate elu, tervist või arengut ohustavate puuduste tõttu, ning inimesele, kes on langenud lähisuhtes füüsilise, vaimse või seksuaalse vägivalla ohvriks ja vajab turvalist keskkonda. Teenus on tasuta.",
+      "targetGroup": [
+        "abivajavad lapsed",
+        "lähisuhtevägivalla ohvrid"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta teenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_volanoustamisteenus",
+      "canonical_item_id": "kihnu_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimest tema varalise olukorra kindlakstegemisel, võlausaldajaga läbirääkimiste pidamisel ja nõuete rahuldamisel. Teenus aitab vältida uusi võlgnevusi, parandada toimetulekuvõimet ja lahendada muid võlgnevusega seotud probleeme. Teenus hõlmab nõustamist, juhendamist ja uute võlgade ennetamist ning on inimesele tasuta.",
+      "targetGroup": [
+        "võlgnevusega või võlgnevuse riskis inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "pöördu võlanõustamisteenuse vajaduse korral sotsiaalametniku poole"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "kihnu_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada last kasvatava inimese toimetulekut või töötamist ning vähendada lapse erivajadusest tulenevat hoolduskoormust. Teenust on õigus saada raske või sügava puudega last kasvataval inimesel kuni selle kalendriaasta lõpuni, mil laps saab 18-aastaseks, kui hooldusteenuse vajadus on rehabilitatsiooniplaanis, hooldamine ei ole samal ajal tagatud teiste sotsiaalteenustega ja laps ei viibi samal ajal haridusasutuses.",
+      "targetGroup": [
+        "raske või sügava puudega last kasvatavad isikud"
+      ],
+      "conditions": "Lapse hooldusteenuste vajadus peab olema kirjas lapse rehabilitatsiooniplaanis; hooldamine ei tohi olla samal ajal tagatud teiste sotsiaalteenustega ning laps ei tohi samal ajal viibida haridusasutuses.",
+      "application": {
+        "channels": [
+          "taotlus sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita taotlus sotsiaalametnikule"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_asendushooldusteenus",
+      "canonical_item_id": "kihnu_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenuse eesmärk on pika- või lühiajaliselt lapse heaolu ja õiguste tagamine, põhivajaduste rahuldamiseks peresarnaste elutingimuste võimaldamine, turvalise ja arenguks soodsa elukeskkonna loomine ning lapse ettevalmistamine võimetekohaseks toimetulekuks täisealisena. Teenuse osutajaks on hoolduspere, perekodu või asenduskodu.",
+      "targetGroup": [
+        "lapsed, kes vajavad asendushooldust"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta teenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "kihnu_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus toetab asendushoolduselt ja eestkostelt lahkuva inimese iseseisvat toimetulekut ja õpingute jätkamist. Teenust osutatakse juhtumiplaani alusel, mille järgi vallavalitsus tagab eluaseme ning vajaduspõhised tugiteenused ja toetused.",
+      "targetGroup": [
+        "asendushoolduselt või eestkostelt lahkuvad noored"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "pöördu teenuse vajaduse korral sotsiaalametniku poole"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_hairekella_teenus",
+      "canonical_item_id": "kihnu_vald:service:hairekella_teenus",
+      "itemType": "service",
+      "title": "Häirekella teenus",
+      "status": "active",
+      "summary": "Häirekella teenus suurendab vähenenud toimetulekuvõimega inimese ja tema lähedaste turvatunnet ning võimaldab ootamatus olukorras ööpäevaringselt abi kutsuda. Teenus koosneb abivajaja koju paigaldatavast tugijaamast ja käele paigaldatavast kellast ning häirekella kutsungile reageerivad sotsiaalvaldkonna töötajad.",
+      "targetGroup": [
+        "vähenenud toimetulekuvõimega inimesed",
+        "eakad",
+        "puudega inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta teenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "24,50 eurot kuus kuni 30.06.2026; 27 eurot kuus alates 01.07.2026; osalise töövõimega inimestele, toimetulekutoetuse ja rahvapensioni saajatele tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_vaimse_tervise_teenus",
+      "canonical_item_id": "kihnu_vald:service:vaimse_tervise_teenus",
+      "itemType": "service",
+      "title": "Vaimse tervise teenus",
+      "status": "active",
+      "summary": "Vaimse tervise teenuse eesmärk on toetada inimeste heaolu ning hoida ära vaimse tervise probleemide ja nende tagajärgede väljakujunemine, süvenemine ja kordumine. Teenuse alla kuuluvad psühholoogiline nõustamine, vaimse tervise kriisinõustamine, leinanõustamine, hingehoidlik nõustamine, pereteraapia, kogemusnõustamine ja vajadusel muu nõustamine. Teenus on kliendile tasuta.",
+      "targetGroup": [
+        "abivajajad, kes vajavad vaimse tervise tuge"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "võta teenuse vajaduse korral ühendust sotsiaalametnikuga"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_dusi_kasutamine_tervisekeskuses",
+      "canonical_item_id": "kihnu_vald:service:dusi_kasutamine_tervisekeskuses",
+      "itemType": "service",
+      "title": "Duši kasutamine tervisekeskuses",
+      "status": "active",
+      "summary": "Kihnu veebis on avaldatud tervisekeskuses duši kasutamise võimalus hinnaga 4 eurot kord.",
+      "targetGroup": [],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "pricing": {
+        "amount": "4 eurot kord",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_pesupesemine_tervisekeskuses",
+      "canonical_item_id": "kihnu_vald:service:pesupesemine_tervisekeskuses",
+      "itemType": "service",
+      "title": "Pesupesemine tervisekeskuses",
+      "status": "active",
+      "summary": "Kihnu veebis on avaldatud tervisekeskuses pesupesemise teenus hinnaga 6 eurot ühe masinatäie eest koos kuivatusega.",
+      "targetGroup": [],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "pricing": {
+        "amount": "6 eurot kord / masinatäis koos kuivatusega",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_ravimite_kojuvedu",
+      "canonical_item_id": "kihnu_vald:service:ravimite_kojuvedu",
+      "itemType": "service",
+      "title": "Ravimite kojuvedu",
+      "status": "active",
+      "summary": "Ravimite kojuveo hind kehtib mandril asuvast apteegist ravimite toomisel sotsiaaltranspordi sõidu raames. Hind on 2,50 eurot kord.",
+      "targetGroup": [],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "pricing": {
+        "amount": "2,50 eurot kord",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_service_puudega_inimese_parkimiskaart",
+      "canonical_item_id": "kihnu_vald:service:puudega_inimese_parkimiskaart",
+      "itemType": "service",
+      "title": "Puudega inimese parkimiskaardi taotlemine",
+      "status": "active",
+      "summary": "Parkimiskaart antakse välja taotluse alusel inimesele, kellel on keskmisele, raskele või sügavale puude raskusastmele vastav liikumisfunktsioonihäire või nägemisfunktsiooni kõrvalekalle või ajutine liikumis- või nägemisfunktsiooni kõrvalekalle. Taotlusele lisatakse vabas vormis avaldus, 3×4 cm foto ning vajadusel pere- või eriarsti tõend. Parkimiskaart antakse välja puuet tõendavale dokumendile märgitud perioodiks, kuid mitte kauemaks kui viieks aastaks; ajutise kõrvalekalde korral kuni kuueks kuuks.",
+      "targetGroup": [
+        "liikumis- või nägemispuudega inimesed"
+      ],
+      "conditions": "Parkimiskaart on isikupõhine ja kasutada võib seda ainult õigustatud isiku sõitudeks ja parkimiseks.",
+      "application": {
+        "channels": [
+          "vabas vormis avaldus sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita vabas vormis avaldus sotsiaalametnikule",
+          "lisa 3×4 cm foto ja vajadusel arstitõend"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puuetega-inimestele-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "disability_aid_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "kihnu_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riigi rahaline abi puuduses inimestele, mida maksab kohalik omavalitsus. Toetuse arvestamise aluseks on üksi elava inimese või pere eelmise kuu netosissetulek, jooksva kuu eluasemekulud ja toimetulekupiir. 2026. aastal on toimetulekupiir üksi elavale inimesele või pere esimesele liikmele 220 eurot kuus, igale alaealisele liikmele 264 eurot ja pere teisele ning igale järgmisele täisealisele liikmele 176 eurot.",
+      "targetGroup": [
+        "puuduses inimene",
+        "madala sissetulekuga pere"
+      ],
+      "conditions": "Taotlusele lisatakse sissetulekuid ja vajadusel eluasemekulusid tõendavad dokumendid; esmakordsel taotlemisel või vara muutumisel esitatakse varaandmed.",
+      "application": {
+        "channels": [
+          "taotlus e-postiga sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita toimetulekutoetuse taotlus",
+          "lisa sissetulekut, eluasemekulusid ja vajadusel vara puudutavad dokumendid"
+        ],
+        "deadline": "jooksva kuu viimane tööpäev"
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "sõltub sissetulekust, eluasemekuludest ja toimetulekupiirist",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_toimetulekutoetuse_avaldus",
+        "kihnu_vald_form_varade_leht"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_taiendav_sotsiaaltoetus_alalaealiste_perele",
+      "canonical_item_id": "kihnu_vald:benefit:taiendav_sotsiaaltoetus_alalaealiste_perele",
+      "itemType": "benefit",
+      "title": "Täiendav sotsiaaltoetus alaealistest koosnevale perele",
+      "status": "active",
+      "summary": "Toimetulekutoetuse saajal, kelle kõik pereliikmed on alaealised, on õigus saada koos toimetulekutoetusega täiendavat sotsiaaltoetust 15 eurot. Toetust maksab kohalik omavalitsus riigieelarvelistest vahenditest.",
+      "targetGroup": [
+        "toimetulekutoetuse saaja, kelle kõik pereliikmed on alaealised"
+      ],
+      "conditions": "Kõik pereliikmed peavad olema alaealised ja pere peab saama toimetulekutoetust.",
+      "application": null,
+      "decisionTime": null,
+      "amount": {
+        "amount": "15 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [
+        "kihnu_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_sunnitoetus",
+      "canonical_item_id": "kihnu_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetust makstakse lapse sünni puhul ühele lapse vanemale tingimusel, et laps registreeritakse sündimisel Kihnu valla elanikuks ning lapse vanema või lapsendaja elukoht lapse sünni aasta 1. jaanuari seisuga on rahvastikuregistris Kihnu vald. Toetus on 1000 eurot lapse kohta ja makstakse välja neljas osas: 300 eurot pärast sünni registreerimist, 200 eurot lapse sünnile järgneval aastal, 200 eurot sellele järgneval aastal ning 300 eurot sünnile järgneval kolmandal aastal.",
+      "targetGroup": [
+        "Kihnu vallas lapse saanud või lapsendanud vanemad"
+      ],
+      "conditions": "Laps peab sündimisel olema registreeritud Kihnu valla elanikuks ja vanema või lapsendaja elukoht lapse sünniaasta 1. jaanuari seisuga peab olema Kihnu vald.",
+      "application": {
+        "channels": [
+          "avalduse esitamine sotsiaalametnikule"
+        ],
+        "steps": [
+          "esimese osa saamiseks avaldust ei esitata, välja arvatud kui sünd on registreeritud mujal",
+          "teise, kolmanda ja neljanda osa saamiseks esita avaldus, kuhu märgitakse ka arvelduskonto"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "1000 eurot (300 + 200 + 200 + 300)",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_sunnitoetuse_esimese_osa_avaldus",
+        "kihnu_vald_form_sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_matusetoetus",
+      "canonical_item_id": "kihnu_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetust makstakse rahvastikuregistrisse Kihnu valla elanikuna kantud inimese surma korral tema leibkonna liikmetele või nende puudumisel matust korraldavale füüsilisele isikule. Toetuse saaja elukoht ei pea olema Kihnu vald. Toetus makstakse matuse korraldajale pärast surma registreerimist.",
+      "targetGroup": [
+        "Kihnu valla elaniku matuse korraldaja"
+      ],
+      "conditions": "Matusetoetuse aluseks on surmatõend ja matusetoetuse avaldus.",
+      "application": {
+        "channels": [
+          "avalduse esitamine sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita matusetoetuse avaldus",
+          "lisa surmatõend"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "300 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_matusetoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_koolitoetus_oppetoetus",
+      "canonical_item_id": "kihnu_vald:benefit:koolitoetus_oppetoetus",
+      "itemType": "benefit",
+      "title": "Koolitoetus – õppetoetus",
+      "status": "active",
+      "summary": "Õppetoetust makstakse Kihnu Kooli õpilastele ning väljaspool Kihnut üldkesk- ja kutsekeskharidust omandavatele õpilastele, kelle elukoht on rahvastikuregistri järgi Kihnu vald ja kes on lõpetanud Kihnu Kooli. Kihnu Kooli õpilaste õppetoetus on 150 eurot õppeaastas ning väljaspool Kihnut õppivate õpilaste õppetoetus 400 eurot õppeaastas.",
+      "targetGroup": [
+        "Kihnu Kooli õpilased",
+        "väljaspool Kihnut üldkesk- või kutsekeskharidust omandavad Kihnu valla õpilased"
+      ],
+      "conditions": "Täiskasvanute gümnaasiumi õpilased on toetuse saajate hulgast välja arvatud; alla 18-aastase õpilase toetus makstakse vanemale või eestkostjale.",
+      "application": null,
+      "decisionTime": null,
+      "amount": {
+        "amount": "150 eurot või 400 eurot õppeaastas",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_kooli_lopetamise_toetus",
+      "canonical_item_id": "kihnu_vald:benefit:kooli_lopetamise_toetus",
+      "itemType": "benefit",
+      "title": "Kooli lõpetamise toetus",
+      "status": "active",
+      "summary": "Kooli lõpetamise toetuse suurus on 150 eurot ja see makstakse välja kahe kuu jooksul pärast kooli lõpetamist. Toetuse saamise aluseks on Kihnu Kooli esitatud kooli lõpetavate õpilaste nimekiri või väljaspool Kihnut omandatud üldkesk- või kutseharidust tõendav dokument.",
+      "targetGroup": [
+        "Kihnu valla kooli lõpetavad õpilased"
+      ],
+      "conditions": "Aluseks on Kihnu Kooli lõpetajate nimekiri või väljaspool Kihnut omandatud haridust tõendav dokument.",
+      "application": null,
+      "decisionTime": null,
+      "amount": {
+        "amount": "150 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_lastetoetus",
+      "canonical_item_id": "kihnu_vald:benefit:lastetoetus",
+      "itemType": "benefit",
+      "title": "Lastetoetus",
+      "status": "active",
+      "summary": "Lastetoetus on asjaline toetus, mille saamise õigus on Kihnu Kooli lasteaialastel ja põhikooli õpilastel.",
+      "targetGroup": [
+        "Kihnu Kooli lasteaialapsed ja põhikooli õpilased"
+      ],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": [
+        "KOV veebileht ei täpsusta lastetoetuse asjalist sisu, taotlemise korda ega väärtust."
+      ]
+    },
+    {
+      "id": "kihnu_vald_benefit_toitjakaotustoetus",
+      "canonical_item_id": "kihnu_vald:benefit:toitjakaotustoetus",
+      "itemType": "benefit",
+      "title": "Toitjakaotustoetus",
+      "status": "active",
+      "summary": "Toitjakaotustoetust makstakse üksikvanemale, kelle elukoht on rahvastikuregistris Kihnu vald ning kelle lapse või laste elukoht on samuti Kihnu vald. Toetust makstakse lapse täisealiseks saamiseni üks kord aastas.",
+      "targetGroup": [
+        "üksikvanem, eestkostja või lapse hooldamisele võtja, kes kasvatab last, kelle üks või mõlemad vanemad on surnud"
+      ],
+      "conditions": "Üksikvanema ja lapse elukoht peab olema rahvastikuregistri järgi Kihnu vald.",
+      "application": {
+        "channels": [
+          "avalduse esitamine sotsiaalametnikule"
+        ],
+        "steps": [
+          "esita toitjakaotustoetuse avaldus"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "300 eurot lapse kohta aastas",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kihnu_vald_form_toitjakaotustoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_tahtpaeva_toetus",
+      "canonical_item_id": "kihnu_vald:benefit:tahtpaeva_toetus",
+      "itemType": "benefit",
+      "title": "Tähtpäeva toetus",
+      "status": "active",
+      "summary": "Tähtpäevatoetus on rahaline toetus Kihnu valla viiele kõige eakamale mehele ja viiele kõige eakamale naisele. Toetus makstakse üks kord aastas eakate päeval ning toetuse saamiseks avaldust ei esitata.",
+      "targetGroup": [
+        "Kihnu valla viis kõige eakamat meest ja viis kõige eakamat naist"
+      ],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "amount": {
+        "amount": "50 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_uhekordne_toetus",
+      "canonical_item_id": "kihnu_vald:benefit:uhekordne_toetus",
+      "itemType": "benefit",
+      "title": "Ühekordne toetus",
+      "status": "active",
+      "summary": "Vallavalitsus võib maksta ühekordseid toetusi raskustes olevate leibkondade hädavajalike kulutuste osaliseks või täielikuks hüvitamiseks. Kulu võib olla seotud tule- või loodusõnnetuse kahjuga, tehnilise abivahendi soetamisega, toimetulekuraskusega, erivajadustega inimeste arengu ja rehabilitatsiooniga, kindlustamata isiku ravikuluga, kütte ostuga või muu vallavalitsuse otsustatud põhjusega. Toetuse eesmärk on tagada taotleja või leibkonna võimalikult iseseisev toimetulek ja ära hoida abituse süvenemist.",
+      "targetGroup": [
+        "raskustes olevad leibkonnad ja üksikisikud"
+      ],
+      "conditions": "Toetuse määramisel võetakse arvesse leibkonna kõigi liikmete sissetulekuid.",
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": [
+        "KOV veebileht ei nimeta ühekordse toetuse juures konkreetset taotlusvormi ega tähtaega."
+      ]
+    },
+    {
+      "id": "kihnu_vald_benefit_valtimatu_abi_toetus",
+      "canonical_item_id": "kihnu_vald:benefit:valtimatu_abi_toetus",
+      "itemType": "benefit",
+      "title": "Vältimatu abi toetus",
+      "status": "active",
+      "summary": "Vältimatu abi toetust makstakse sotsiaalhoolekande seaduse mõistes vältimatut sotsiaalabi vajavale inimesele. Toetus on elatusvahendita inimesele osutatav abi, mis koos vajalike sotsiaalhoolekandeliste abinõudega, nagu toit, riietus ja ajutine peavari, aitab inimesel abitusest olukorrast väljuda.",
+      "targetGroup": [
+        "elatusvahenditeta ja vältimatut sotsiaalabi vajavad inimesed"
+      ],
+      "conditions": "Abi osutatakse seni, kuni inimene ei ole enam elatusvahendite kaotuse või puudumise tõttu sotsiaalselt abitus olukorras.",
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_benefit_hooldajatoetus",
+      "canonical_item_id": "kihnu_vald:benefit:hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetus on täisealise isiku hooldajale makstav igakuine rahaline toetus. Kohalik omavalitsus seab inimese taotluse alusel hoolduse täisealisele inimesele, kes vajab vaimse või kehalise puude tõttu abi oma õiguste teostamiseks ja kohustuste täitmiseks. Hooldajatoetuse suurus on 80 eurot kuus ning mitme hooldatava hooldamisel on õigus saada toetust iga hooldatava hooldamise eest.",
+      "targetGroup": [
+        "täisealise isiku hooldajad"
+      ],
+      "conditions": "Hooldus seatakse ja hooldaja määratakse hooldatava nõusolekul.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalametniku poole"
+        ],
+        "steps": [
+          "pöördu täisealise isiku hoolduse ja hooldajatoetuse küsimuses sotsiaalametniku poole"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "80 eurot kuus iga hooldatava eest",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "relatedTo": [
+        "kihnu_vald_service_taisealise_isiku_hooldus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "social_benefits_page"
+      ],
+      "unresolvedIssues": [
+        "KOV veebileht ei nimeta hooldajatoetuse juures eraldi taotlusblanketti."
+      ]
+    },
+    {
+      "id": "kihnu_vald_resource_kihnu_hooldekodu",
+      "canonical_item_id": "kihnu_vald:resource:kihnu_hooldekodu",
+      "itemType": "resource",
+      "title": "Kihnu hooldekodu",
+      "status": "active",
+      "summary": "Kihnu hooldekodus osutatava ööpäevaringse üldhooldusteenuse eesmärk on tagada turvaline keskkond ja toimetulek täisealisele inimesele, kes ei tule terviseseisundi, tegevusvõime või elukeskkonna tõttu kodus toime ning kellele vajalikku abi ei ole võimalik tagada muude sotsiaalteenustega. Hooldekodu on 9-kohaline. Kohatasu on alates 01.04.2026 1450 eurot kuus ja intervallhoolduse päevahind alates 01.04.2026 25 eurot.",
+      "phone": "+372 513 3193",
+      "email": "aive.sepp@kihnu.ee",
+      "address": "Tervisekeskus, Linaküla, Kihnu vald, 88003, Pärnumaa",
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/kihnu-hooldekodu/",
+      "relatedTo": [
+        "kihnu_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "hooldekodu_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_lastekaitse_lapsele_abi",
+      "canonical_item_id": "kihnu_vald:resource:lastekaitse_lapsele_abi",
+      "itemType": "resource",
+      "title": "Lastekaitse: lapsele abi",
+      "status": "active",
+      "summary": "Kihnu valla lapsele abi leht nimetab kohaliku lastekaitsetöötajana Aive Sepa ning pakub pöördumisvõimalust lapse või noore mure korral. Leht suunab vaimse tervise teenuse, kooli lõpetamise toetuse ning anonüümse mureteavituse juurde.",
+      "phone": "+372 513 3193",
+      "email": "aive.sepp@kihnu.ee",
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "child_help_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_lapsevanemale_abi",
+      "canonical_item_id": "kihnu_vald:resource:lapsevanemale_abi",
+      "itemType": "resource",
+      "title": "Lapsevanemale abi",
+      "status": "active",
+      "summary": "Lapsevanemale abi leht koondab Kihnu valla suunised lapsevanemale, kes vajab nõu lapsekasvatuse, lapse heaolu või enda vaimse tervise küsimustes. Leht suunab kohaliku lastekaitsetöötaja, Lasteabi ja Ohvriabi poole.",
+      "phone": "+372 513 3193",
+      "email": "aive.sepp@kihnu.ee",
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsevanemale-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kihnu_vald_contact_aive_sepp"
+      ],
+      "sourceKeys": [
+        "parent_help_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_lasteabi_telefon_116111",
+      "canonical_item_id": "kihnu_vald:resource:lasteabi_telefon_116111",
+      "itemType": "resource",
+      "title": "Lasteabi telefon 116111",
+      "status": "active",
+      "summary": "Lasteabitelefon 116111 on ööpäevaringne tasuta teenus abivajavast lapsest teatamiseks või lastega seotud teemadel nõu küsimiseks. Pöörduja võib jääda anonüümseks, kui see ei ohusta lapse elu ja tervist; nõustamine toimub eesti, vene ja inglise keeles.",
+      "phone": "116111",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "child_help_page",
+        "parent_help_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_ohvriabi",
+      "canonical_item_id": "kihnu_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Kihnu valla lastekaitse lehed suunavad ohvriabi poole, kui inimene ise või tema lähedane on kannatanud kuriteo, vägivalla või kriisijuhtumi tõttu, näinud väärkohtlemist või juhtunud õnnetust. KOV leht viitab ohvriabi lisainfole sotsiaalkindlustusameti ja palunabi.ee kaudu.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "child_help_page",
+        "parent_help_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_puude_taotlemine_ja_toovoime_hindamine",
+      "canonical_item_id": "kihnu_vald:resource:puude_taotlemine_ja_toovoime_hindamine",
+      "itemType": "resource",
+      "title": "Puude taotlemine ja töövõime hindamine",
+      "status": "active",
+      "summary": "Kihnu valla leht selgitab puude raskusastme taotlemist vanaduspensioniealisele, tööealisele ning lapsele ning suunab täpse taotlemise Sotsiaalkindlustusameti infolehtedele. Leht kirjeldab, et puude tuvastamine on suunatud inimestele, kelle igapäevane tegutsemine ja ühiskonnaelus osalemine on piiratud või takistatud.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puude-taotlemine-ja-toovoime-hindamine/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "disability_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_erivajadustega_inimeste_ligipaas_kihnus",
+      "canonical_item_id": "kihnu_vald:resource:erivajadustega_inimeste_ligipaas_kihnus",
+      "itemType": "resource",
+      "title": "Erivajadustega inimeste ligipääs Kihnus",
+      "status": "active",
+      "summary": "Kihnu valla puuetega inimeste abi leht kirjeldab ligipääsuvõimalusi: rahvamajja pääseb tagauksest, perearstikeskuses ja apteegis on kaldtee, tervisekeskuse sotsiaalmajutuses on kaldtee, muuseumis on kaldtee ning laeval on lift. Leht märgib, et poodidesse ratastooliga inimesed kahjuks ei pääse.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puuetega-inimestele-abi/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "disability_aid_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_resource_medi_hairekella_lisainfo",
+      "canonical_item_id": "kihnu_vald:resource:medi_hairekella_lisainfo",
+      "itemType": "resource",
+      "title": "Medi häirekella lisainfo",
+      "status": "active",
+      "summary": "Häirekella teenuse plokis viitab Kihnu vald lisainfo saamiseks Medi veebilehele. KOV lehel avaldatud info alusel on tegemist häirekella teenusega seotud lisainfo ressursiga, kuid välist veebilehte ei kasutatud andmekorje allikana.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [
+        "kihnu_vald_service_hairekella_teenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "unresolvedIssues": [
+        "Välise teenusepakkuja täpsem sisu jäi allikapiirangu tõttu kontrollimata."
+      ]
+    },
+    {
+      "id": "kihnu_vald_resource_riigi_infotelefonid",
+      "canonical_item_id": "kihnu_vald:resource:riigi_infotelefonid",
+      "itemType": "resource",
+      "title": "Riigi infotelefonid",
+      "status": "active",
+      "summary": "Kihnu valla sotsiaalvaldkonna lehtede jaluses on avaldatud riigi infotelefonid: 1247 kriisiinfo, 1220 perearsti nõuandetelefon, 5301 9999 konsulaarabi ning 112 hädaabi.",
+      "phone": "1247; 1220; 5301 9999; 112",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "social_services_page",
+        "social_benefits_page",
+        "child_help_page"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_form_koduteenuste_taotlus",
+      "canonical_item_id": "kihnu_vald:form:koduteenuste_taotlus",
+      "itemType": "form",
+      "title": "Koduteenuste taotlus",
+      "status": "active",
+      "summary": "Koduteenuste taotluse PDF vorm sisaldab isikuandmeid, leibkonna, laste, kontaktisiku, lähedaste abi, eluaseme, tervisliku seisundi ja soovitud teenuste andmeid.",
+      "format": "pdf",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Koduteenuste-taotlus.pdf",
+      "relatedTo": [
+        "kihnu_vald_service_koduteenus"
+      ],
+      "sourceKeys": [
+        "koduteenuste_taotlus_pdf"
+      ],
+      "sections_present": [
+        "isikuandmed",
+        "elab koos",
+        "lapsed",
+        "kontaktisik või lähedane",
+        "lähedaste abi",
+        "eluase",
+        "tervislik seisund",
+        "soovitud teenused"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kihnu_vald_form_sotsiaalkorteri_taotlus",
+      "canonical_item_id": "kihnu_vald:form:sotsiaalkorteri_taotlus",
+      "itemType": "form",
+      "title": "Avaldus sotsiaalkorteri taotlemiseks",
+      "status": "active",
+      "summary": "Sotsiaalkorteri taotlemise avaldus eluruumi tagamise teenuse jaoks.",
+      "format": "doc",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sotsiaalkorteri-taotlemiseks.doc",
+      "relatedTo": [
+        "kihnu_vald_service_eluruumi_tagamine"
+      ],
+      "sourceKeys": [
+        "sotsiaalkorteri_taotlus_doc"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_toimetulekutoetuse_avaldus",
+      "canonical_item_id": "kihnu_vald:form:toimetulekutoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus",
+      "status": "active",
+      "summary": "Toimetulekutoetuse avalduse vorm toetuse taotlemiseks.",
+      "format": "doc",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Toimetulekutoetuse-avaldus.doc",
+      "relatedTo": [
+        "kihnu_vald_benefit_toimetulekutoetus"
+      ],
+      "sourceKeys": [
+        "toimetulekutoetuse_avaldus_doc"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_varade_leht",
+      "canonical_item_id": "kihnu_vald:form:varade_leht",
+      "itemType": "form",
+      "title": "Varade leht",
+      "status": "active",
+      "summary": "Varade leht on toimetulekutoetuse taotlemisel esitatav täiendav andmeleht taotleja ja perekonnaliikmete kasutuses või omandis oleva vara kohta.",
+      "format": "rtf",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Varade_leht.rtf",
+      "relatedTo": [
+        "kihnu_vald_benefit_toimetulekutoetus"
+      ],
+      "sourceKeys": [
+        "varade_leht_rtf"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "canonical_item_id": "kihnu_vald:form:sunnitoetuse_esimese_osa_avaldus",
+      "itemType": "form",
+      "title": "Avaldus sünnitoetuse esimese osa saamiseks juhul, kui lapse sünd ei ole registreeritud Kihnu vallas",
+      "status": "active",
+      "summary": "Sünnitoetuse esimese osa avaldus olukorras, kus lapse sünd ei ole registreeritud Kihnu vallas.",
+      "format": "doc",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sunnitoetuse-esimese-osa-saamiseks-juhul-kui-lapse-sund-ei-ole-registreeritud-Kihnu-vallas.doc",
+      "relatedTo": [
+        "kihnu_vald_benefit_sunnitoetus"
+      ],
+      "sourceKeys": [
+        "sunnitoetuse_esimese_osa_avaldus_doc"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus",
+      "canonical_item_id": "kihnu_vald:form:sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus",
+      "itemType": "form",
+      "title": "Avaldus sünnitoetuse teise, kolmanda ja neljanda osa saamiseks",
+      "status": "active",
+      "summary": "Sünnitoetuse teise, kolmanda ja neljanda osa taotlemise avaldus.",
+      "format": "doc",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sunnitoetuse-teise-kolmanda-ja-neljanda-osa-saamiseks.doc",
+      "relatedTo": [
+        "kihnu_vald_benefit_sunnitoetus"
+      ],
+      "sourceKeys": [
+        "sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus_doc"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_matusetoetuse_avaldus",
+      "canonical_item_id": "kihnu_vald:form:matusetoetuse_avaldus",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus",
+      "status": "active",
+      "summary": "Matusetoetuse avaldus matuse korraldajale toetuse taotlemiseks.",
+      "format": "docx",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Matusetoetuse-avaldus.docx",
+      "relatedTo": [
+        "kihnu_vald_benefit_matusetoetus"
+      ],
+      "sourceKeys": [
+        "matusetoetuse_avaldus_docx"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    },
+    {
+      "id": "kihnu_vald_form_toitjakaotustoetuse_avaldus",
+      "canonical_item_id": "kihnu_vald:form:toitjakaotustoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toitjakaotustoetuse avaldus",
+      "status": "active",
+      "summary": "Toitjakaotustoetuse avaldus toetuse taotlemiseks lapse eest, kelle üks või mõlemad vanemad on surnud.",
+      "format": "doc",
+      "submissionChannels": [
+        "e-post sotsiaalametnikule",
+        "paberkandjal vallavalitsusele"
+      ],
+      "officialUrl": "https://kihnu.ee/wp-content/uploads/2026/04/Toitjakaotusetoetuse-avaldus.doc",
+      "relatedTo": [
+        "kihnu_vald_benefit_toitjakaotustoetus"
+      ],
+      "sourceKeys": [
+        "toitjakaotustoetuse_avaldus_doc"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1819 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-kiili-vald",
+  "document_id": "kov-kiili-vald",
+  "municipality": "Kiili vald",
+  "municipality_id": "kiili_vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "kiili_vald_contact_ann_vahtramae",
+      "canonical_item_id": "kiili_vald:contact:ann_vahtramae",
+      "itemType": "contact",
+      "title": "Ann Vahtramäe",
+      "status": "active",
+      "summary": "Ann Vahtramäe on Kiili Vallavalitsuse haridus- ja sotsiaalosakonna juhataja. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Ann Vahtramäe",
+      "role": "haridus- ja sotsiaalosakonna juhataja",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5830 8395",
+      "email": "ann.vahtramae@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_karmen_heinmaa",
+      "canonical_item_id": "kiili_vald:contact:karmen_heinmaa",
+      "itemType": "contact",
+      "title": "Karmen Heinmaa",
+      "status": "active",
+      "summary": "Karmen Heinmaa on Kiili Vallavalitsuse laste heaolu spetsialist. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Karmen Heinmaa",
+      "role": "laste heaolu spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 679 0246; +372 5551 2286",
+      "email": "karmen.heinmaa@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_kati_orgmets",
+      "canonical_item_id": "kiili_vald:contact:kati_orgmets",
+      "itemType": "contact",
+      "title": "Kati Orgmets",
+      "status": "active",
+      "summary": "Kati Orgmets on Kiili Vallavalitsuse haridusnõunik. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Kati Orgmets",
+      "role": "haridusnõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5567 7838",
+      "email": "kati.orgmets@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_anneli_sternfeld",
+      "canonical_item_id": "kiili_vald:contact:anneli_sternfeld",
+      "itemType": "contact",
+      "title": "Anneli Sternfeld",
+      "status": "active",
+      "summary": "Anneli Sternfeld on Kiili Vallavalitsuse sotsiaalnõunik. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Anneli Sternfeld",
+      "role": "sotsiaalnõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 508 1638",
+      "email": "anneli.sternfeld@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_merili_adamson",
+      "canonical_item_id": "kiili_vald:contact:merili_adamson",
+      "itemType": "contact",
+      "title": "Merili Adamson",
+      "status": "active",
+      "summary": "Merili Adamson on Kiili Vallavalitsuse sotsiaalnõunik. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Merili Adamson",
+      "role": "sotsiaalnõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5566 4498",
+      "email": "merili.adamson@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_liisa_luts",
+      "canonical_item_id": "kiili_vald:contact:liisa_luts",
+      "itemType": "contact",
+      "title": "Liisa Luts",
+      "status": "active",
+      "summary": "Liisa Luts on Kiili Vallavalitsuse noorte heaolu spetsialist. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Liisa Luts",
+      "role": "noorte heaolu spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5567 7268",
+      "email": "liisa.luts@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_marje_perv",
+      "canonical_item_id": "kiili_vald:contact:marje_perv",
+      "itemType": "contact",
+      "title": "Marje Perv",
+      "status": "active",
+      "summary": "Marje Perv on Kiili Vallavalitsuse sotsiaalhoolekande töötaja. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Marje Perv",
+      "role": "sotsiaalhoolekande töötaja",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5880 5247",
+      "email": "marje.perv@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_aime_parn",
+      "canonical_item_id": "kiili_vald:contact:aime_parn",
+      "itemType": "contact",
+      "title": "Aime Pärn",
+      "status": "active",
+      "summary": "Aime Pärn on Kiili Vallavalitsuse päevakeskuse juhendaja. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Aime Pärn",
+      "role": "päevakeskuse juhendaja",
+      "department": "Haridus- ja sotsiaalosakond",
+      "phone": "+372 5558 9446",
+      "email": "aime.parn@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "social_officials"
+      ]
+    },
+    {
+      "id": "kiili_vald_contact_kiili_vallavalitsus",
+      "canonical_item_id": "kiili_vald:contact:kiili_vallavalitsus",
+      "itemType": "contact",
+      "title": "Kiili Vallavalitsus",
+      "status": "active",
+      "summary": "Kiili Vallavalitsus on Kiili Vallavalitsuse üldkontakt. Kontakt on avaldatud Kiili valla sotsiaalhoolekande ja tervishoiu ametnike lehel.",
+      "name": "Kiili Vallavalitsus",
+      "role": "üldkontakt",
+      "department": null,
+      "phone": "+372 679 0260",
+      "email": "info@kiilivald.ee",
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee",
+      "relatedTo": [],
+      "sourceKeys": [
+        "home"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_koduteenus",
+      "canonical_item_id": "kiili_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse eesmärk on tagada täisealise inimese iseseisev ja turvaline toimetulek kodus. Teenuse sisuks on abi toimingutes, mida inimene terviseseisundi, tegevusvõime või elukeskkonna tõttu ei suuda kõrvalabita teha, näiteks kütmine, toiduvalmistamine, eluruumi ja riiete korrastamine, toiduainete ja majapidamistarvete ostmine ning asjaajamine. Teenuse eest tasutakse vallavalitsuse hinnakirja alusel, kuid teenust võib osutada tasuta, kui teenuse vajaja ja ülalpidajad ei suuda teenuse eest tasuda.",
+      "targetGroup": [
+        "täisealised isikud, kes vajavad koduses keskkonnas kõrvalabi"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita digitaalselt allkirjastatud avaldus aadressile info@kiilivald.ee",
+          "ametnik võib küsida täiendavaid abivajadust tõendavaid dokumente"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": {
+        "amount": "vastavalt vallavalitsuse hinnakirjale; tasuta, kui isik ja ülalpidajad ei ole võimelised tasuma",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/sotsiaalteenused/koduteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae",
+        "kiili_vald_contact_kiili_vallavalitsus"
+      ],
+      "sourceKeys": [
+        "koduteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "kiili_vald:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatav üldhooldusteenus tagab täisealisele inimesele turvalise keskkonna ja toimetuleku, kui ta ei suuda terviseseisundi, tegevusvõime või elukeskkonna tõttu kodus iseseisvalt toime tulla. Valla eelarvest tasutakse hoolduskulud kuni 700 eurot kalendrikuus ühe teenusesaaja kohta; teenuse saaja tasub majutus- ja toitlustuskulud ning muud teenuse osutamisega seotud kulud. Kui teenuse saaja sissetulek on keskmisest vanaduspensionist madalam, hüvitab omavalitsus puudujääva osa kuni sissetuleku ja keskmise vanaduspensioni vaheni.",
+      "targetGroup": [
+        "täisealised isikud, kes ei tule kodus ajutiselt või püsivalt toime"
+      ],
+      "conditions": "Teenuse vajaduse selgitab välja vallavalitsus; tasu suuruse hindamisel arvestatakse teenuse saaja ja ülalpidajate majanduslikku olukorda.",
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus vallavalitsuses"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee või paberkandjal vallavalitsusse",
+          "lisa vajadusel täiendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": {
+        "amount": "hoolduskulu piirmäär 700 eurot kuus; majutus ja toitlustus teenuse saaja kanda",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_merili_adamson",
+        "kiili_vald_contact_kiili_vallavalitsus"
+      ],
+      "sourceKeys": [
+        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_tugiisikuteenus",
+      "canonical_item_id": "kiili_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab iseseisvat toimetulekut, kui inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu olulist kõrvalabi oma kohustuste täitmisel ja õiguste teostamisel. Lapse puhul toetab tugiisik koostöös last kasvatava isikuga lapse arengut, sealhulgas vajaduse korral puudega lapse hooldustoiminguid, juhendamist ja motiveerimist igapäevaelus. Teenust osutatakse kodus või kokkulepitud asukohas ning seda rahastatakse valla eelarvest.",
+      "targetGroup": [
+        "täiskasvanud, lapsed ja pered, kes vajavad juhendamist või kõrvalabi"
+      ],
+      "conditions": "Tugiisikuks ei määrata teenuse saaja esimese ja teise astme ülenejat või alanejat sugulast ega samas eluruumis elavat isikut.",
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa vajadusel abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": {
+        "amount": "taotlejale tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/tugiisikuteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae",
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "kiili_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Hooldus seatakse täisealisele inimesele, kes vajab vaimse või kehalise puude tõttu abi oma õiguste teostamisel ja kohustuste täitmisel ning kelle toimetulekut ei saa tagada teiste teenustega. Hooldus hõlmab igapäevast füüsilist kõrvalabi, juhendamist, söömisel, hügieenitoimingutes, riietumisel, liikumisel või suhtlemisel abistamist ning vajadusel järelevalvet. Hooldusvajaduse selgitamiseks külastab sotsiaaltöötaja abivajajat ja täidab hooldusvajaduse hindamise instrumendi.",
+      "targetGroup": [
+        "täisealised puudega inimesed, kes vajavad hooldust"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga"
+        ],
+        "steps": [
+          "esita taotlus aadressile info@kiilivald.ee",
+          "sotsiaaltöötaja hindab hooldusvajadust"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/taisealise-isiku-hooldus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_taisealise_puudega_isiku_hooldaja_ja_hooldajatoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "taisealise_isiku_hooldus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "kiili_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus suurendab puude tõttu füüsilist kõrvalabi vajava täisealise inimese iseseisvat toimetulekut ja osalemist kõigis eluvaldkondades. Abistaja aitab tegevustes, mille tegemiseks vajab inimene puude tõttu füüsilist kõrvalabi, näiteks liikumisel, söömisel, toidu valmistamisel, riietumisel, hügieenitoimingutes ja majapidamistöödes. Teenust kasutav inimene peab suutma korraldada oma asjaajamist ja koordineerida isikliku abistaja tööd.",
+      "targetGroup": [
+        "puude tõttu füüsilist kõrvalabi vajavad täisealised isikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "ametnik võib küsida täiendavaid dokumente"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/isikliku-abistaja-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae"
+      ],
+      "sourceKeys": [
+        "isikliku_abistaja_teenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_varjupaigateenus",
+      "canonical_item_id": "kiili_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus tagab ajutise ööbimiskoha täisealisele inimesele, kes ei ole võimeline endale ööbimiskohta leidma. Ajutises ööbimiskohas peab olema tagatud voodikoht, pesemisvõimalus ja turvaline keskkond.",
+      "targetGroup": [
+        "täisealised isikud, kellel puudub ööbimiskoht"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/varjupaigateenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_turvakoduteenus",
+      "canonical_item_id": "kiili_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab ajutise eluaseme, turvalise keskkonna ja esmase abi lastele ning täiskasvanutele. Esmase abi raames tagatakse vajadusel kriisiabi, mis taastab psüühilise tasakaalu ja tegevusvõime, ning inimest teavitatakse muudest abi saamise võimalustest. Teenust osutatakse lastele, kelle hooldamises esinevad elu, tervist või arengut ohustavad puudused, ning täiskasvanutele, kes on sattunud vaimse või füüsilise vägivalla ohvriks.",
+      "targetGroup": [
+        "abivajavad lapsed",
+        "vaimse või füüsilise vägivalla ohvriks sattunud täisealised isikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/turvakoduteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "kiili_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab puuetega inimestel, kelle puue takistab isikliku või ühissõiduki kasutamist, sõita tööle, õppeasutusse või avalikke teenuseid kasutama. Teenuse eest võetava tasu suurus sõltub teenuse mahust, teenuse maksumusest ning teenust saava inimese ja tema pere majanduslikust olukorrast; vallavalitsusel on õigus vabastada inimene teenuse tasust täielikult või osaliselt.",
+      "targetGroup": [
+        "puuetega inimesed, kelle puue takistab tavalise transpordi kasutamist"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa vajadusel abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": {
+        "amount": "sõltub teenuse mahust, maksumusest ja pere majanduslikust olukorrast; võimalik vabastus",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/sotsiaaltransporditeenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae",
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "sotsiaaltransporditeenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_eluruumi_tagamine",
+      "canonical_item_id": "kiili_vald:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Eluruumi tagamine on kohaliku omavalitsuse teenus, mille eesmärk on kindlustada eluruumi kasutamise võimalus inimesele, kes ei suuda sotsiaalmajandusliku olukorra tõttu endale või perele vajadustele vastavat eluruumi tagada. Teenus võib sisaldada puudega inimesele kuuluva või tema valduses oleva eluruumi kohandamist või sobivama eluruumi leidmisel abistamist.",
+      "targetGroup": [
+        "inimesed ja pered, kes ei suuda sobivat eluruumi tagada",
+        "puudega inimesed, kelle eluruumi on vaja kohandada"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/eluruumi-tagamine",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "eluruumi_tagamine_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_volanoustamisteenus",
+      "canonical_item_id": "kiili_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimest tema varalise olukorra kindlakstegemisel, võlausaldajaga läbirääkimiste pidamisel ja nõuete rahuldamisel, et vältida uute võlgnevuste teket ning lahendada võlgnevusega seotud probleeme. Teenus on inimesele tasuta.",
+      "targetGroup": [
+        "võlgnevusega või majanduslikes raskustes isikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa vajadusel abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/volanoustamisteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "volanoustamisteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_lapsehoiuteenus_erivajadusega_lapsele",
+      "canonical_item_id": "kiili_vald:service:lapsehoiuteenus_erivajadusega_lapsele",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus erivajadusega lapsele",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada last kasvatava isiku toimetulekut või töötamist või vähendada lapse erivajadusest tulenevat hoolduskoormust. Teenust osutatakse lapse kodus, hoidja kodus või hoiukodus ning seda saab kasutada nii ööpäevase kui päevase teenusena.",
+      "targetGroup": [
+        "erivajadusega lapsed ja nende pered"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa vajadusel abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/lapsehoiuteenus-puudega-lapsele",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "lapsehoiuteenus_erivajadusega_lapsele_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_vajaduspohised_sotsiaalteenused",
+      "canonical_item_id": "kiili_vald:service:vajaduspohised_sotsiaalteenused",
+      "itemType": "service",
+      "title": "Vajaduspõhised sotsiaalteenused",
+      "status": "active",
+      "summary": "Vajaduspõhiste sotsiaalteenuste hulka kuuluvad psühholoogi teenus, pereteraapia, perelepitus, logopeedi teenus, kriisiabi (sh laste leinalaagris osalemine), tugirühmad ja tugiprogrammid, rehabilitatsiooniteenus, sõltuvusravi, viipekeele tõlketeenus, toiduabi, sauna ja duši kasutamine, pesumasina ja kuivati kasutamine, omasteta surnud isiku matmise korraldamine ning muud toetavad teenused. Teenusele suunatakse sotsiaalosakonna töötaja ettepaneku või isiku taotluse alusel.",
+      "targetGroup": [
+        "abivajavad isikud ja pered, kellel on vajaduspõhine kõrvalabi või tugi"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "sotsiaalosakonna töötaja ettepanek"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee või aruta vajadust sotsiaalosakonna töötajaga",
+          "lisa vajadusel abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/vajaduspohised-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae",
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "vajaduspohised_sotsiaalteenused_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_valtimatu_sotsiaalabi",
+      "canonical_item_id": "kiili_vald:service:valtimatu_sotsiaalabi",
+      "itemType": "service",
+      "title": "Vältimatu sotsiaalabi",
+      "status": "active",
+      "summary": "Vältimatu sotsiaalabi eesmärk on tagada inimesele, sh Eestis ajutiselt viibivale välismaalasele, kes on sattunud elatusvahendite kaotuse või puudumise tõttu sotsiaalselt abitusse olukorda, vähemalt toit, riietus ja ajutine majutus. Abi osutatakse kõigile valla territooriumil viibivatele abivajajatele ning see on tasuta.",
+      "targetGroup": [
+        "sotsiaalselt abitus olukorras olevad inimesed",
+        "Kiili vallas viibivad abivajajad"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonna ametnike poole",
+          "avalduse esitamine e-postiga"
+        ],
+        "steps": [
+          "pöördu Kiili valla sotsiaalosakonna poole või esita avaldus aadressile info@kiilivald.ee"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/valtimatu-sotsiaalabi",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "valtimatu_sotsiaalabi_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_puudega_inimese_soiduki_parkimiskaart",
+      "canonical_item_id": "kiili_vald:service:puudega_inimese_soiduki_parkimiskaart",
+      "itemType": "service",
+      "title": "Puudega inimese sõiduki parkimiskaardi väljastamine",
+      "status": "active",
+      "summary": "Parkimiskaart väljastatakse inimesele, kellel on keskmisele, raskele või sügavale puude raskusastmele vastav liikumis- või nägemisfunktsiooni kõrvalekalle, või ajutine liikumis- või nägemisfunktsiooni kõrvalekalle. Kaart antakse puuet tõendaval dokumendil märgitud puude kehtivuse ajaks, kuid mitte kauemaks kui viieks aastaks; ajutise puude korral kuni kuueks kuuks. Taotlusele lisatakse foto ja ajutise puude korral pere- või eriarsti tõend.",
+      "targetGroup": [
+        "liikumis- või nägemispuudega inimesed"
+      ],
+      "conditions": "Ajutise liikumis- või nägemisfunktsiooni kõrvalekalde korral tuleb esitada pere- või eriarsti tõend.",
+      "application": {
+        "channels": [
+          "taotlus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita taotlus Kiili Vallavalitsusele aadressile info@kiilivald.ee",
+          "lisa 3×4 cm foto ja ajutise puude korral arstitõend"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/puudega-inimese-soiduki-parkimiskaardi-valjastamine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "puudega_inimese_soiduki_parkimiskaart_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_kogukonnapsuhholoogi_teenus",
+      "canonical_item_id": "kiili_vald:service:kogukonnapsuhholoogi_teenus",
+      "itemType": "service",
+      "title": "Kogukonnapsühholoogi teenus",
+      "status": "active",
+      "summary": "Kogukonnapsühholoogi teenus on mõeldud Kiili valla noortele, täiskasvanutele ja peredele vaimse tervise toetamiseks. Teenus annab psühholoogilist tuge ja jõustamist inimestele, kes vajavad paremat arusaamist oma mõtetest, tunnetest ja käitumismustritest seoses igapäevaelu probleemide ja stressitekitavate olukordadega. Iga klient või pereliige saab viis seanssi tasuta; järgnevad seansid on MTÜ Perede ja Laste Nõuandekeskuse hinnakirja järgi 65 eurot.",
+      "targetGroup": [
+        "Kiili valla noored",
+        "täiskasvanud",
+        "pered"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "broneerimissüsteem",
+          "telefon"
+        ],
+        "steps": [
+          "broneeri aeg broneerimissüsteemis",
+          "kui veebibroneering ei ole võimalik, helista psühholoogile numbril 5645 0472"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "esimesed 5 seanssi tasuta; järgmine seanss 65 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/kogukonnapsuhholoogi-teenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae"
+      ],
+      "sourceKeys": [
+        "kogukonnapsuhholoogi_teenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_pereteraapia_teenus",
+      "canonical_item_id": "kiili_vald:service:pereteraapia_teenus",
+      "itemType": "service",
+      "title": "Pereteraapia teenus",
+      "status": "active",
+      "summary": "Pereteraapia keskendub suhetele ja on mõeldud Kiili valla perede vaimse tervise toetamiseks. Terapeudi juurde tasub pöörduda, kui on vaja suhet enda või teistega muuta, parandada või toetada. Kiili valla elanikele on pereteraapia seansid tasuta; teenust osutab pereterapeut Reelika Kravets, Thera OÜ.",
+      "targetGroup": [
+        "Kiili valla pered ja paarid"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "broneering veebis"
+        ],
+        "steps": [
+          "broneeri vastuvõtuaeg Thera OÜ broneerimislehel"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Kiili valla elanikele tasuta; aja tühistamata jätmisel 90 min seansi arve 79 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/pereteraapia-teenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_ann_vahtramae",
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "pereteraapia_teenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_kunstiteraapia_lastele",
+      "canonical_item_id": "kiili_vald:service:kunstiteraapia_lastele",
+      "itemType": "service",
+      "title": "Kunstiteraapia lastele",
+      "status": "active",
+      "summary": "Kunstiteraapia on mõeldud Kiili valla lastele alates 3. eluaastast. Kunstiterapeut kasutab mängulist ja loomingulist lähenemist ning visuaalkunsti materjale, et laps saaks väljendada oma mõtteid, tundeid, soove, fantaasiaid ja vajadusi. Teenus aitab pakkuda emotsionaalset tuge, toetada arengut, kohanemist lasteaias või koolis ning arendada koostööd, keskendumist ja eneseväljendust.",
+      "targetGroup": [
+        "Kiili valla lapsed alates 3. eluaastast"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "broneering veebis"
+        ],
+        "steps": [
+          "registreeri laps broneerimissüsteemis",
+          "tühista kokkulepitud aeg vähemalt 24 tundi varem"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/kunstiteraapia-lastele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa",
+        "kiili_vald_contact_ann_vahtramae"
+      ],
+      "sourceKeys": [
+        "kunstiteraapia_lastele_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_asendushooldusteenus",
+      "canonical_item_id": "kiili_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus on kohaliku omavalitsuse teenus, mille eesmärk on lapse heaolu ja õiguste tagamine ning peresarnaste elutingimuste võimaldamine, kui laps ei saa kasvada oma sünniperes. Teenuse osutajaks on hoolduspere, perekodu või asenduskodu. Teenust saab osutada pikaajaliselt ööpäevaringsena või lühiajaliselt lapse hooldusõigusliku vanema või eestkostja nõusolekul.",
+      "targetGroup": [
+        "vanemliku hoolitsuseta või asendushooldust vajavad lapsed"
+      ],
+      "conditions": "Teenust korraldatakse lapse heaolust ja õigustest lähtudes; lühiajalise teenuse puhul on vajalik lapse hooldusõigusliku vanema või eestkostja nõusolek.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/asendushooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "asendushooldusteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "kiili_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenuse eesmärk on toetada asendushoolduselt või eestkostelt lahkuva noore iseseisvat toimetulekut ja õpingute jätkamist. Teenust osutatakse juhtumiplaani alusel, mille järgi vallavalitsus tagab noorele eluaseme ning vajaduspõhised tugiteenused ja toetused.",
+      "targetGroup": [
+        "asendushoolduselt või eestkostelt lahkuvad noored"
+      ],
+      "conditions": null,
+      "application": null,
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.kiilivald.ee/jarelhooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "jarelhooldusteenus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_sunnitoetus",
+      "canonical_item_id": "kiili_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetust saab pere, kus lapse ja vähemalt ühe vanema elukoht on lapse sünni registreerimise ja toetuse taotlemise ajal rahvastikuregistri järgi Kiili vald. Alates 1. veebruarist 2026 on toetuse määr 400 eurot. Täies määras makstakse toetus, kui mõlema vanema elukoht on Kiili vald; pooles määras, kui ainult ühe vanema elukoht on Kiili vald; üksikvanemale täies määras. Mitmikute sünni korral saab taotleda täiendavat toetust 100 eurot kuus kuni 6 kuud.",
+      "targetGroup": [
+        "Kiili valla lapsevanemad"
+      ],
+      "conditions": "Lapse ja vähemalt ühe vanema elukoht peab olema Kiili vald.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita taotlus kolme kuu jooksul lapse sünnist",
+          "sünnitõendit ei ole eraldi vaja esitada, andmed võetakse rahvastikuregistrist"
+        ],
+        "deadline": "3 kuud alates lapse sünnist"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "400 eurot; mitmike lisatoetus 100 eurot kuus kuni 6 kuud",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/sunnitoetuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sunnitoetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_matusetoetus",
+      "canonical_item_id": "kiili_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetust makstakse Kiili valla elaniku surma korral tema matust korraldavale inimesele. Toetust saab taotleda kolme kuu jooksul alates surmakuupäevast ning korrektse taotluse korral makstakse toetus välja hiljemalt 10 tööpäeva jooksul.",
+      "targetGroup": [
+        "matuse korraldajad"
+      ],
+      "conditions": "Toetust makstakse Kiili valla elaniku surma korral.",
+      "application": {
+        "channels": [
+          "pabertaotlus",
+          "e-taotlus"
+        ],
+        "steps": [
+          "esita matusetoetuse taotlus vallavalitsusele"
+        ],
+        "deadline": "3 kuud alates surmakuupäevast"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "300 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/matusetoetuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_matusetoetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "matusetoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_eakate_sunnipaevatoetus",
+      "canonical_item_id": "kiili_vald:benefit:eakate_sunnipaevatoetus",
+      "itemType": "benefit",
+      "title": "Eakate inimeste sünnipäevatoetus",
+      "status": "active",
+      "summary": "Sünnipäevatoetus on rahaline toetus Kiili valla elanikule tema 75., 80., 85., 90. ja vanemaks saamise sünnipäeval. 90-aastaseks saamise järel makstakse toetust igal aastal kahekordses suuruses. Toetusele lisanduvad õnnitluskaart ja lilled ning toetust määratakse rahvastikuregistri andmete alusel ilma taotluseta.",
+      "targetGroup": [
+        "Kiili valla eakad elanikud"
+      ],
+      "conditions": "Rahvastikuregistri järgi Kiili valla elanik; sünnipäev 75, 80, 85, 90 või vanem.",
+      "application": null,
+      "decisionTime": null,
+      "amount": {
+        "amount": "50 eurot; 90+ puhul kahekordne",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/eakate-inimeste-sunnipaevatoetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "eakate_sunnipaevatoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_elluastumistoetus",
+      "canonical_item_id": "kiili_vald:benefit:elluastumistoetus",
+      "itemType": "benefit",
+      "title": "Elluastumistoetus",
+      "status": "active",
+      "summary": "Elluastumistoetust makstakse põhikooli kiitusega lõpetajale, gümnaasiumi medaliga lõpetajale ja kutsekeskhariduse kiitusega lõpetajale. Põhikooli või kutsekeskhariduse kiitusega lõpetajale makstakse 250 eurot, gümnaasiumi kuldmedaliga lõpetajale 500 eurot ja hõbemedaliga lõpetajale 250 eurot. Taotlus esitatakse kolme kuu jooksul pärast kooli lõpetamist ja sellele lisatakse lõputunnistuse koopia.",
+      "targetGroup": [
+        "kiitusega või medaliga lõpetavad Kiili valla noored"
+      ],
+      "conditions": "Kooli lõpetamine kiitusega või medaliga.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita taotlus kolme kuu jooksul kooli lõpetamisest",
+          "lisa lõputunnistuse koopia"
+        ],
+        "deadline": "3 kuud pärast kooli lõpetamist"
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "250 eurot või 500 eurot sõltuvalt lõpetamisest",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/elluastumistoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_elluastumistoetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "elluastumistoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_haridusliku_erivajadusega_lapse_soidutoetus",
+      "canonical_item_id": "kiili_vald:benefit:haridusliku_erivajadusega_lapse_soidutoetus",
+      "itemType": "benefit",
+      "title": "Haridusliku erivajadusega lapse sõidutoetus",
+      "status": "active",
+      "summary": "Haridusliku erivajadusega lapse sõidutoetus hüvitab sõidukulusid lapsele, kes käib nõustamiskomisjoni soovitusel sobitus- või erirühmas või koolis väljaspool Kiili valda. Hüvitis makstakse juhul, kui lasteasutus või kool ei jää Harjumaa bussiliinide 116, 116A, 116B ja 164 teeninduspiirkonda või laps ei saa erivajaduse tõttu ühistransporti kasutada ning korraldatud transport puudub. Toetuse määr on 70 eurot kuus ja see määratakse üheks õppeaastaks.",
+      "targetGroup": [
+        "haridusliku erivajadusega lapsed ja nende vanemad/eestkostjad"
+      ],
+      "conditions": "Lapse ja taotleja elukoht peab olema rahvastikuregistri järgi Kiili vald; vajalik tõend lapse lasteasutuses käimise või õppimise kohta.",
+      "application": {
+        "channels": [
+          "pabertaotlus",
+          "üldine avaldus"
+        ],
+        "steps": [
+          "esita taotlus koos tõendiga haridusliku erivajadusega lapse õppeasutuses käimise kohta"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "70 eurot kuus",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/hariduslike-erivajadustega-lapse-soidutoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_uldine_avaldus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "haridusliku_erivajadusega_lapse_soidutoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_hooldajatoetus",
+      "canonical_item_id": "kiili_vald:benefit:hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetus on hooldajale makstav igakuine sotsiaaltoetus. Toetust makstakse täisealise puudega isiku hooldajale ja puudega lapse hooldajale, et tagada hooldatavale igapäevane kõrvalabi, juhendamine ja järelevalve ning osaliselt hüvitada hooldajale hooldamise tõttu saamata jäänud sissetulek ja sotsiaalkindlustus. Toetuse määra kehtestab vallavalitsus.",
+      "targetGroup": [
+        "täisealise puudega isiku hooldajad",
+        "puudega lapse hooldajad"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa vajadusel täiendavad abivajadust tõendavad dokumendid"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": null,
+      "officialUrl": "https://www.kiilivald.ee/hooldajatoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_taisealise_puudega_isiku_hooldaja_ja_hooldajatoetuse_taotlus",
+        "kiili_vald_form_puudega_lapse_hooldajatoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "hooldajatoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_joulutoetus",
+      "canonical_item_id": "kiili_vald:benefit:joulutoetus",
+      "itemType": "benefit",
+      "title": "Jõulutoetus",
+      "status": "active",
+      "summary": "Jõulutoetus on ühekordne rahaline toetus Kiili valla rahvastikuregistris olevatele puudega laste peredele, 4- ja enamalapselistele peredele, vanemliku hoolitsuseta laste eestkoste- ja hooldusperedele ning õigusvastaselt represseeritud isikutele. Toetust saab taotleda 1. novembrist kuni 20. detsembrini. Korrektselt esitatud taotluse korral makstakse toetus välja 10 tööpäeva jooksul.",
+      "targetGroup": [
+        "puudega laste pered",
+        "4 või enama lapsega pered",
+        "eestkoste- ja hoolduspered",
+        "õigusvastaselt represseeritud isikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita taotlus SPOKU-s või paberkandjal"
+        ],
+        "deadline": "1. november kuni 20. detsember"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "30–200 eurot sõltuvalt sihtrühmast",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/joulutoetuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_joulutoetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "joulutoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_uhekordne_sotsiaaltoetus",
+      "canonical_item_id": "kiili_vald:benefit:uhekordne_sotsiaaltoetus",
+      "itemType": "benefit",
+      "title": "Ühekordne sotsiaaltoetus",
+      "status": "active",
+      "summary": "Ühekordset sotsiaaltoetust makstakse majanduslikult raskes olukorras peredele või üksikisikutele, kelle viimase kuu netosissetulek pärast eluasemekulude mahaarvamist on väiksem kui riiklikult kehtestatud toimetulekupiiri kahekordne määr pereliikme kohta või muudel erandjuhtudel. Toetuse eesmärk on parandada toimetulekuvõimet ja kompenseerida hädavajalikke kulusid, mida ei hüvitata muude Kiili valla või riiklike sotsiaaltoetustega.",
+      "targetGroup": [
+        "majanduslikult raskes olukorras pered ja üksikisikud"
+      ],
+      "conditions": "Taotleja netosissetulek pärast eluasemekulude mahaarvamist on alla toimetulekupiiri kahekordse määra pereliikme kohta või esineb muu erandjuhtum.",
+      "application": {
+        "channels": [
+          "digitaalselt allkirjastatud avaldus e-postiga",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita avaldus aadressile info@kiilivald.ee",
+          "lisa varalist seisu ja viimase kolme kuu sissetulekut kirjeldavad dokumendid, eluasemekulude tõendid ja vajadusel nõusolek toetuse kandmiseks kolmanda isiku kontole"
+        ],
+        "deadline": null
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": null,
+      "officialUrl": "https://www.kiilivald.ee/uhekordne-sotsiaaltoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "uhekordne_sotsiaaltoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "kiili_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riigi rahaline abi puuduses inimestele, mida maksab kohalik omavalitsus. Toetuse sihtrühm on üksi elav inimene või pere, kelle kuu sissetulek pärast arvestatud eluasemekulude mahaarvamist on alla kehtestatud toimetulekupiiri. 2026. aastal on toimetulekupiir üksi elavale inimesele või pere esimesele liikmele 220 eurot kuus, alaealisele 264 eurot kuus ja teisele ning igale järgmisele täisealisele liikmele 176 eurot kuus. Toetuse valem on: toimetulekupiir + eluasemekulud – sissetulekud.",
+      "targetGroup": [
+        "üksi elavad inimesed ja pered, kelle sissetulek jääb alla toimetulekupiiri"
+      ],
+      "conditions": "Taotlusele lisatakse sissetulekuid ja eluasemekulusid tõendavad dokumendid; esmakordsel taotlemisel või vara muutumisel tuleb esitada vara loetelu.",
+      "application": {
+        "channels": [
+          "pabertaotlus",
+          "e-post"
+        ],
+        "steps": [
+          "esita avaldus ja vajalikud lisadokumendid oma tegeliku elukoha järgsele omavalitsusele",
+          "lisa eluasemekulude dokumendid ja vajadusel laenulepinguga seotud dokumendid"
+        ],
+        "deadline": "kuu viimane tööpäev"
+      },
+      "decisionTime": "5 tööpäeva",
+      "amount": {
+        "amount": "sõltub toimetulekupiirist, eluasemekuludest ja sissetulekust; alaealistest koosnevale perele lisaks 15 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/toimetulekutoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_toimetulekutoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_esimesse_klassi_mineva_lapse_toetus",
+      "canonical_item_id": "kiili_vald:benefit:esimesse_klassi_mineva_lapse_toetus",
+      "itemType": "benefit",
+      "title": "Esimesse klassi mineva lapse toetus",
+      "status": "active",
+      "summary": "Esimesse klassi mineva lapse toetust makstakse lapsevanemale, eestkostjale või hooldajale, kui laps on kantud 1. klassi õpilaste nimekirja. Toetust saab taotleda kolme kuu jooksul alates õppeaasta algusest, taotlusi võib esitada alates 1. septembrist. Toetuse määr on 150 eurot ning korrektse taotluse korral makstakse see välja 10 tööpäeva jooksul.",
+      "targetGroup": [
+        "1. klassi minevate laste vanemad, eestkostjad või hooldajad"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus",
+          "pabertaotlus"
+        ],
+        "steps": [
+          "esita taotlus alates 1. septembrist",
+          "kasuta SPOKU veebikeskkonda või pabertaotlust"
+        ],
+        "deadline": "3 kuud alates õppeaasta algusest"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "150 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/ranitsatoetuse-taotlus-tt",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_esimesse_klassi_toetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_anneli_sternfeld"
+      ],
+      "sourceKeys": [
+        "esimesse_klassi_mineva_lapse_toetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_benefit_lapse_huvihariduse_ja_huvitegevuse_toetus",
+      "canonical_item_id": "kiili_vald:benefit:lapse_huvihariduse_ja_huvitegevuse_toetus",
+      "itemType": "benefit",
+      "title": "Lapse huvihariduse ja huvitegevuse toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud väljaspool Kiili valda tegutsevate sporditreeningute või huviringide osaliseks kompenseerimiseks. Toetust saab kuni 20-aastane üldhariduskoolis või põhikooli baasil kutseõppeasutuses õppiv õpilane, kelle elukoht on rahvastikuregistri järgi Kiili vald. Taotlusele lisatakse leping või tõend spordiklubi või huviringi kohta; toetust ei maksta munitsipaalhuvikoolide osavõtutasu kompenseerimiseks. Toetust saab taotleda üks kord aastas.",
+      "targetGroup": [
+        "Kiili valla kuni 20-aastased õpilased, kes osalevad väljaspool valda huvihariduses või huvitegevuses"
+      ],
+      "conditions": "Õpilane peab elama Kiili vallas ja õppima üldhariduskoolis või põhikooli baasil kutseõppeasutuses; vaja on lepingut või tõendit spordiklubi/huviringi kohta.",
+      "application": {
+        "channels": [
+          "SPOKU e-taotlus"
+        ],
+        "steps": [
+          "esita taotlus SPOKU-s",
+          "lisa leping või tõend huviringi või spordiklubi kohta"
+        ],
+        "deadline": "üks kord aastas"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": {
+        "amount": "150 eurot",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.kiilivald.ee/lapse-huvihariduse-ja-huvitegevuse-toetuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "kiili_vald_form_lapse_huvihariduse_toetus_taotlus"
+      ],
+      "relatedContacts": [
+        "kiili_vald_contact_kati_orgmets"
+      ],
+      "sourceKeys": [
+        "lapse_huvihariduse_ja_huvitegevuse_toetus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_form_sotsiaalteenuse_taotlus",
+      "canonical_item_id": "kiili_vald:form:sotsiaalteenuse_taotlus",
+      "itemType": "form",
+      "title": "Taotlus sotsiaalteenuse taotlemiseks",
+      "status": "active",
+      "summary": "Üldine sotsiaalteenuse taotlus, mida kasutatakse koduteenuse, tugiisikuteenuse, sotsiaaltranspordi, isikliku abistaja teenuse, võlanõustamise, eluruumi tagamise, varjupaiga- või turvakoduteenuse ja teiste sotsiaalteenuste taotlemiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "digitaalselt allkirjastatud e-postiga",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/sotsiaalteenuse-taotlemine",
+      "relatedTo": [
+        "kiili_vald_service_koduteenus",
+        "kiili_vald_service_tugiisikuteenus",
+        "kiili_vald_service_sotsiaaltransporditeenus",
+        "kiili_vald_service_volanoustamisteenus",
+        "kiili_vald_service_eluruumi_tagamine"
+      ],
+      "sourceKeys": [
+        "sotsiaalteenuse_taotlus_form"
+      ],
+      "sections_present": [
+        "taotleja andmed",
+        "abivajaduse kirjeldus",
+        "lisadokumendid"
+      ]
+    },
+    {
+      "id": "kiili_vald_form_sunnitoetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:sunnitoetus_taotlus",
+      "itemType": "form",
+      "title": "Sünnitoetuse taotlus",
+      "status": "active",
+      "summary": "Sünnitoetuse taotlusvorm või e-taotlus lapse sünni korral toetuse saamiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/sunnitoetuse-taotlus",
+      "relatedTo": [
+        "kiili_vald_benefit_sunnitoetus"
+      ],
+      "sourceKeys": [
+        "sunnitoetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_matusetoetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:matusetoetus_taotlus",
+      "itemType": "form",
+      "title": "Matusetoetuse taotlus",
+      "status": "active",
+      "summary": "Matusetoetuse taotlusvorm matuse korraldajale toetuse saamiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/matusetoetuse-taotlus",
+      "relatedTo": [
+        "kiili_vald_benefit_matusetoetus"
+      ],
+      "sourceKeys": [
+        "matusetoetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_elluastumistoetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:elluastumistoetus_taotlus",
+      "itemType": "form",
+      "title": "Elluastumistoetuse taotlus / üldine avaldus",
+      "status": "active",
+      "summary": "Elluastumistoetuse taotlemisel kasutatakse Kiili valla üldist avaldust ja lisatakse lõputunnistuse koopia.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/elluastumistoetus",
+      "relatedTo": [
+        "kiili_vald_benefit_elluastumistoetus"
+      ],
+      "sourceKeys": [
+        "elluastumistoetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_uldine_avaldus",
+      "canonical_item_id": "kiili_vald:form:uldine_avaldus",
+      "itemType": "form",
+      "title": "Üldine avaldus",
+      "status": "active",
+      "summary": "Üldine avaldus, mida Kiili valla leht nimetab haridusliku erivajadusega lapse sõidutoetuse taotlemiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "paberkandjal",
+        "e-post"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/hariduslike-erivajadustega-lapse-soidutoetus",
+      "relatedTo": [
+        "kiili_vald_benefit_haridusliku_erivajadusega_lapse_soidutoetus"
+      ],
+      "sourceKeys": [
+        "uldine_avaldus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_taisealise_puudega_isiku_hooldaja_ja_hooldajatoetuse_taotlus",
+      "canonical_item_id": "kiili_vald:form:taisealise_puudega_isiku_hooldaja_ja_hooldajatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Taotlus täisealise puudega isiku hooldaja ja hooldajatoetuse määramiseks",
+      "status": "active",
+      "summary": "Taotlusvorm täisealise puudega isiku hooldaja määramiseks ja hooldajatoetuse taotlemiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "digitaalselt allkirjastatud e-postiga",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/hooldajatoetus",
+      "relatedTo": [
+        "kiili_vald_service_taisealise_isiku_hooldus",
+        "kiili_vald_benefit_hooldajatoetus"
+      ],
+      "sourceKeys": [
+        "taisealise_puudega_isiku_hooldaja_ja_hooldajatoetuse_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "canonical_item_id": "kiili_vald:form:puudega_lapse_hooldajatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Taotlus puudega lapse hooldajale hooldajatoetuse määramiseks",
+      "status": "active",
+      "summary": "Taotlusvorm puudega lapse hooldajatoetuse määramiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "digitaalselt allkirjastatud e-postiga",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/hooldajatoetus",
+      "relatedTo": [
+        "kiili_vald_benefit_hooldajatoetus"
+      ],
+      "sourceKeys": [
+        "puudega_lapse_hooldajatoetuse_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_joulutoetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:joulutoetus_taotlus",
+      "itemType": "form",
+      "title": "Jõulutoetuse avaldus",
+      "status": "active",
+      "summary": "Jõulutoetuse avaldus, mida saab esitada 1. novembrist kuni 20. detsembrini.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/joulutoetuse-taotlus",
+      "relatedTo": [
+        "kiili_vald_benefit_joulutoetus"
+      ],
+      "sourceKeys": [
+        "joulutoetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_sotsiaaltoetuse_taotlus",
+      "canonical_item_id": "kiili_vald:form:sotsiaaltoetuse_taotlus",
+      "itemType": "form",
+      "title": "Taotlus sotsiaaltoetuse taotlemiseks",
+      "status": "active",
+      "summary": "Ühekordse sotsiaaltoetuse taotlusvorm koos sissetulekut ja eluasemekulusid tõendavate dokumentidega.",
+      "format": "web_form",
+      "submissionChannels": [
+        "digitaalselt allkirjastatud e-postiga",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/uhekordne-sotsiaaltoetus",
+      "relatedTo": [
+        "kiili_vald_benefit_uhekordne_sotsiaaltoetus"
+      ],
+      "sourceKeys": [
+        "sotsiaaltoetuse_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_toimetulekutoetuse_taotlus",
+      "canonical_item_id": "kiili_vald:form:toimetulekutoetuse_taotlus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse taotlus",
+      "status": "active",
+      "summary": "Toimetulekutoetuse paberkandjal täidetav PDF-blankett, millele lisatakse sissetulekuid, eluasemekulusid ja vara puudutavad dokumendid.",
+      "format": "pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "e-postiga digitaalselt allkirjastatult"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/documents/1704870/41803034/Toimetulekutoetuse+blankett.pdf/6166ec45-186c-40d2-9f53-85da2cf7e3fe",
+      "relatedTo": [
+        "kiili_vald_benefit_toimetulekutoetus"
+      ],
+      "sourceKeys": [
+        "toimetulekutoetus_pdf"
+      ],
+      "sections_present": [
+        "taotleja andmed",
+        "leibkonna andmed",
+        "sissetulekud",
+        "eluasemekulud",
+        "vara"
+      ]
+    },
+    {
+      "id": "kiili_vald_form_esimesse_klassi_toetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:esimesse_klassi_toetus_taotlus",
+      "itemType": "form",
+      "title": "Esimesse klassi mineva lapse toetuse avaldus",
+      "status": "active",
+      "summary": "Taotlusvorm 1. klassi mineva lapse 150 euro suuruse toetuse saamiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus",
+        "paberkandjal"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/ranitsatoetuse-taotlus-tt",
+      "relatedTo": [
+        "kiili_vald_benefit_esimesse_klassi_mineva_lapse_toetus"
+      ],
+      "sourceKeys": [
+        "esimesse_klassi_toetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_lapse_huvihariduse_toetus_taotlus",
+      "canonical_item_id": "kiili_vald:form:lapse_huvihariduse_toetus_taotlus",
+      "itemType": "form",
+      "title": "Lapse huvihariduse ja huvitegevuse toetuse taotlus",
+      "status": "active",
+      "summary": "Taotlusvorm lapse väljaspool Kiili valda toimuva huvihariduse või huvitegevuse osaliseks kompenseerimiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "SPOKU e-taotlus"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/lapse-huvihariduse-ja-huvitegevuse-toetuse-taotlus",
+      "relatedTo": [
+        "kiili_vald_benefit_lapse_huvihariduse_ja_huvitegevuse_toetus"
+      ],
+      "sourceKeys": [
+        "lapse_huvihariduse_toetus_taotlus_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_form_tagasiside_teenuse_kohta",
+      "canonical_item_id": "kiili_vald:form:tagasiside_teenuse_kohta",
+      "itemType": "form",
+      "title": "Tagasiside või ettepanek teenuse kohta",
+      "status": "active",
+      "summary": "Veebivorm või leht sotsiaalteenuse kohta tagasiside või ettepaneku esitamiseks.",
+      "format": "web_form",
+      "submissionChannels": [
+        "veebivorm"
+      ],
+      "officialUrl": "https://www.kiilivald.ee/tagasiside-voi-ettepanek-teenuse-kohta",
+      "relatedTo": [],
+      "sourceKeys": [
+        "tagasiside_teenuse_kohta_form"
+      ],
+      "sections_present": []
+    },
+    {
+      "id": "kiili_vald_resource_eakate_ja_puuetega_inimeste_paevakeskus",
+      "canonical_item_id": "kiili_vald:resource:eakate_ja_puuetega_inimeste_paevakeskus",
+      "itemType": "resource",
+      "title": "Eakate ja puuetega inimeste päevakeskus",
+      "status": "active",
+      "summary": "Päevakeskus eakatele ja puuetega inimestele asub Kiili Vallavalitsuse majas aadressil Nabala tee 2a, Kiili alev. Keskus on avatud E–N kell 9.00–16.00 ning muudel päevadel kokkuleppel Aime Pärnaga. Päevakeskuses saab teha käsitööd, suhelda, vaadata televiisorit, kokata, osaleda mälutreeningus, loengutel ja töötubades ning kasutada sauna ja dušši.",
+      "phone": "+372 5558 9446",
+      "email": null,
+      "address": "Nabala tee 2a, Kiili 75401",
+      "officialUrl": "https://www.kiilivald.ee/eakate-ja-puuetega-inimeste-paevakeskus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_aime_parn"
+      ],
+      "sourceKeys": [
+        "eakate_ja_puuetega_inimeste_paevakeskus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_ohvriabi",
+      "canonical_item_id": "kiili_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Ohvriabi eesmärk on toetada ohvrite toimetulekut ja turvatunnet ning ennetada vägivalla kordumist. KOV leht suunab palunabi.ee ja riiklike ohvriabikeskuste poole ning avaldab kriisitelefoni 116 006, välismaalt +372 614 7393, lasteabi 116 111, inimkaubanduse nõuandeliini +372 660 7320 ja vägivallast loobumise tugiliini +372 660 6077.",
+      "phone": "116 006; +372 614 7393; 116 111; +372 660 7320; +372 660 6077",
+      "email": "kriisiabi@sotsiaalkindlustusamet.ee",
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/ohvriabi",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "ohvriabi_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_naiste_tugikeskus",
+      "canonical_item_id": "kiili_vald:resource:naiste_tugikeskus",
+      "itemType": "resource",
+      "title": "Naiste tugikeskuse teenus",
+      "status": "active",
+      "summary": "Naiste tugikeskustes pakutakse abi ja toetust naistevastase vägivalla ohvriks langenud naistele ning nendega kaasas olevatele lastele. Teenus hõlmab esmast kriisinõustamist, juhtumipõhist nõustamist, vajadusel psühholoogilist ja juriidilist nõustamist ning turvalist ajutist majutust. Kiili valla leht nimetab Harjumaal MTÜ Tallinna Naiste Kriisikodu ja Tallinna Naiste Tugikeskust.",
+      "phone": "526 4697; 5396 9834; 5757 0911",
+      "email": "tallinn@naisteabi.ee; tallinnanaistetugi@gmail.com",
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/naiste-tugikeskuse-teenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "naiste_tugikeskus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_perelepitus",
+      "canonical_item_id": "kiili_vald:resource:perelepitus",
+      "itemType": "resource",
+      "title": "Perelepitus",
+      "status": "active",
+      "summary": "Perelepitus aitab lahku minevatel lapsevanematel jõuda kokkuleppele lapse huvidest lähtudes. KOV leht selgitab, et teenus on mõeldud lapsevanematele, kes plaanivad kooselu lõpetada või on selle juba lõpetanud, ning et riiklik perelepitusteenus on lapsevanemale tasuta.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/perelepitus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "perelepitus_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_kasulik_teave",
+      "canonical_item_id": "kiili_vald:resource:kasulik_teave",
+      "itemType": "resource",
+      "title": "Kasulik teave sotsiaalhoolekande ja tervishoiu kohta",
+      "status": "active",
+      "summary": "Kiili valla kasuliku teabe leht koondab sotsiaal- ja tervishoiu abikanalid: Sotsiaalkindlustusamet, Eesti.ee teave lähedase surma korral, MEDI häirenuputeenus, Eesti Puuetega Inimeste Koda, Ohvriabi kriisitelefon, tugitelefon 1492, Tallinna Naiste Tugikeskus, vägivallast loobumise tugiliin, dementsuse infoliin ja omastehoolduse infopunkt.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/sotsiaal-ja-tervishoid/kasulik-teave",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "kasulik_teave_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_lastekaitse_kiili_vallas",
+      "canonical_item_id": "kiili_vald:resource:lastekaitse_kiili_vallas",
+      "itemType": "resource",
+      "title": "Lastekaitse Kiili vallas",
+      "status": "active",
+      "summary": "Lastekaitse infoleht koondab Kiili valla lapse ja pere abivajaduse teemalise info ning juhatab laste heaolu spetsialisti poole. Lastekaitse puudutab lapse heaolu, vanemate hooldusõiguse küsimusi, vanematevahelisi vaidlusi ja puuetega laste perede nõustamist.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/lastekaitse-kiili-vallas",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "lastekaitse_kiili_vallas_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_teata_abivajavast_lapsest",
+      "canonical_item_id": "kiili_vald:resource:teata_abivajavast_lapsest",
+      "itemType": "resource",
+      "title": "Teata abivajavast lapsest",
+      "status": "active",
+      "summary": "Leht selgitab, kuidas teavitada abivajavast või hädaohus olevast lapsest ning kuhu pöörduda. Esmaseks kohalikuks kontaktiks on laste heaolu spetsialist; ööpäevane lasteabi telefon on 116 111.",
+      "phone": "116 111",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/teata-abivajavast-lapsest",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kiili_vald_contact_karmen_heinmaa"
+      ],
+      "sourceKeys": [
+        "teata_abivajavast_lapsest_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_erihoolekandeteenused",
+      "canonical_item_id": "kiili_vald:resource:erihoolekandeteenused",
+      "itemType": "resource",
+      "title": "Erihoolekandeteenused",
+      "status": "active",
+      "summary": "KOV leht suunab riigi korraldatavate erihoolekandeteenuste infole, mis on mõeldud psüühilise erivajadusega inimestele igapäevaelu toetamiseks.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/erihoolekandeteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "erihoolekanne_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
+      "canonical_item_id": "kiili_vald:resource:sotsiaalse_rehabilitatsiooni_teenus",
+      "itemType": "resource",
+      "title": "Sotsiaalse rehabilitatsiooni teenus",
+      "status": "active",
+      "summary": "KOV leht suunab riigi korraldatava sotsiaalse rehabilitatsiooni teenuse infole, mis toetab toimetulekut, osalemist ja igapäevaelu oskusi.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/sotsiaalse-rehabilitatsiooni-teenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "rehabilitatsioon_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_abivahendid",
+      "canonical_item_id": "kiili_vald:resource:abivahendid",
+      "itemType": "resource",
+      "title": "Abivahendid",
+      "status": "active",
+      "summary": "KOV leht suunab riiklikule abivahendite infole, kus käsitletakse erivajadusega inimese igapäevaelu toetavaid abivahendeid.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/abivahendid",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "abivahendid_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_tasuta_oigusabi",
+      "canonical_item_id": "kiili_vald:resource:tasuta_oigusabi",
+      "itemType": "resource",
+      "title": "Tasuta õigusabi",
+      "status": "active",
+      "summary": "KOV leht suunab tasuta õigusabi võimaluste infole, mis aitab inimestel saada õigusalast nõustamist.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/tasuta-oigusabi",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "tasuta_oigusabi_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_oigusnoustamine_puudega_inimestele",
+      "canonical_item_id": "kiili_vald:resource:oigusnoustamine_puudega_inimestele",
+      "itemType": "resource",
+      "title": "Õigusnõustamine puudega inimestele",
+      "status": "active",
+      "summary": "KOV leht suunab puudega inimestele mõeldud õigusnõustamise infole.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/oigusnoustamine-puudega-inimestele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "oigusnoustamine_puudega_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_psuhhosotsiaalne_kriisiabi",
+      "canonical_item_id": "kiili_vald:resource:psuhhosotsiaalne_kriisiabi",
+      "itemType": "resource",
+      "title": "Psühhosotsiaalne kriisiabi",
+      "status": "active",
+      "summary": "KOV leht suunab psühhosotsiaalse kriisiabi infole inimestele, kes vajavad kriisiolukorras vaimse tervise ja toimetuleku tuge.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/psuhhosotsiaalne-kriisiabi",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "psuhhosotsiaalne_kriisiabi_page"
+      ]
+    },
+    {
+      "id": "kiili_vald_resource_abi_seksuaalvagivalla_korral",
+      "canonical_item_id": "kiili_vald:resource:abi_seksuaalvagivalla_korral",
+      "itemType": "resource",
+      "title": "Abi seksuaalvägivalla korral",
+      "status": "active",
+      "summary": "KOV leht suunab seksuaalvägivalla korral abi saamise infole, sh riiklikele kriisi- ja ohvriabikanalitele.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kiilivald.ee/abi-seksuaalvagivalla-korral",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "seksuaalvagivalla_abi_page"
+      ]
+    }
+  ]
+}

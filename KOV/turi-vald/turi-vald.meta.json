@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-turi-vald",
+  "document_id": "kov-turi-vald",
+  "municipality": "Türi vald",
+  "municipality_id": "turi_vald",
+  "county": "Järvamaa",
+  "checkedAt": "2026-04-30",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-turi-vald",
+  "coverage": {
+    "services": 17,
+    "benefits": 14,
+    "resources": 12,
+    "contacts": 9,
+    "forms": 4
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Järelkontrollis lisati sotsiaalteenuste hinnakirjas nimetatud, kuid algses paketis puudunud lapsehoiuteenus ja teenus lastega pere toetamiseks ning laste heaolu haru asendus- ja järelhoolduse info.",
+    "Koduandur ja Medi häirenupp on liigitatud resource-kirjeteks, sest KOV leht kirjeldab neid partneri/abikanalina, mitte klassikalise KOV otsusmenetlusega teenusena."
+  ],
+  "unresolvedIssues": [
+    "Lapsehoiuteenuse ja teenuse lastega pere toetamiseks kohta ei leitud eraldi detaillehte; kirjed põhinevad Türi valla sotsiaalteenuste hinnakirja loetelul.",
+    "Kõigi e-vormide otselinke ei õnnestunud kindlalt eraldada; dokumenteeritud on kodulehel nähtavad või avatud PDF/RTF failid.",
+    "Mõned toetuste alamvormide lingid paistavad korduvat sama üldvormina; vormikirjed on koondatud kanonilisteks vormideks, et vältida dubleerimist.",
+    "Riigi Teataja ja õigusaktide lingid jäeti veebipaketist välja vastavalt RT/legal kihi eraldamise reeglile."
+  ]
+}

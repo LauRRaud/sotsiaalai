@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-kohila-vald",
+  "document_id": "kov-kohila-vald",
+  "municipality": "Kohila vald",
+  "municipality_id": "kohila_vald",
+  "county": "Raplamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-kohila-vald",
+  "coverage": {
+    "services": 8,
+    "benefits": 18,
+    "resources": 28,
+    "contacts": 6,
+    "forms": 11
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Kogumine algas Kohila valla avalehelt ning sotsiaalvaldkonna peamine menüüharu oli „Pere, sotsiaal ja tervishoid“.",
+    "RT ja õigusaktide lingid jäeti KOV veebipaketist välja ning need kuuluvad eraldi RT/legal kihti."
+  ],
+  "unresolvedIssues": [
+    "Kohila valla sotsiaalteenuste lehel ei leitud eraldi kinnitatud praktilist infot isikliku abistaja teenuse, varjupaigateenuse, turvakoduteenuse, võlanõustamisteenuse, täisealise isiku hoolduse ja vältimatu sotsiaalabi kui teenuse kohta.",
+    "Hooldajatoetus, hooldusperetoetus, järelhooldustoetus ja vältimatu sotsiaaltoetus on KOV veebis nimetatud, kuid samal lehel puuduvad üksikasjalikud tingimused, summad ja menetluskäik.",
+    "Saunapileti soodustus on kinnitatud vormide lehel oleva avalduse kaudu; toetuse tingimused ja summa ei olnud KOV veebis avaldatud.",
+    "Mitme e-vormi link viib välisesse SPOKU keskkonda; välist SPOKU sisu ei kasutatud allikana ning allikaks jäeti KOV vormide leht.",
+    "Sotsiaalvaldkonna kontaktide e-posti aadressid on KOV veebis varjestatud kujul „*protected email*“; neid ei taastatud oletuse põhjal.",
+    "DOCX-vormide faililingid tuvastati KOV vormide lehelt, kuid failide sisu ei kasutatud tingimuste või summade täiendamiseks.",
+    "Väliste teenusepakkujate ja abikanalite veebilehti ei kasutatud allikana; andmed pärinevad KOV lehel avaldatud tekstist.",
+    "Parkimiskaardi, eluruumi kohandamise toetuse ja puudega täisealise inimese eraldi toetuse kohta ei leitud KOV sotsiaalvaldkonna veebikihist eraldi praktilist kinnitust."
+  ]
+}

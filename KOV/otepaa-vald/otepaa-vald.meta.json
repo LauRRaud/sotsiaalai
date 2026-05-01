@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-otepaa-vald",
+  "document_id": "kov-otepaa-vald",
+  "municipality": "Otepää vald",
+  "municipality_id": "otepaa_vald",
+  "county": "Valgamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-otepaa-vald",
+  "coverage": {
+    "services": 18,
+    "benefits": 10,
+    "resources": 16,
+    "contacts": 11,
+    "forms": 15
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett kasutab ainult Otepää valla ametliku veebilehe ja selle ametlikult avaldatud failide praktilist sotsiaalvaldkonna infot.",
+    "RT ja õigusaktide lingid jäeti teadlikult KOV veebipaketist välja, sest RT/legal kiht on eraldi."
+  ],
+  "unresolvedIssues": [
+    "SPOKU iseteeninduse otselinki ei õnnestunud KOV lehelt kindlalt eraldada; mitmel taotluslehel on märgitud, et ülemineku ajal toimub avalduste esitamine e-posti teel.",
+    "Esmakordselt kooli mineva lapse toetuse ehk ranitsatoetuse täpset summat KOV detailleht ei avaldanud.",
+    "Hooldajatoetuse leht kirjeldab nii raske või sügava puudega täisealise isiku hooldamist kui ka puudega lapse hooldamist samal detaillehel; eraldi täiskasvanu ja lapse toetuse itemiteks jagamist ei kinnitatud KOV veebis.",
+    "Mitme teenuse puhul avaldab KOV veeb üldise sotsiaalteenuse kirjelduse, kuid mitte detailset menetluskäiku, otsustamise aega ega tasu; need jäeti oletamata.",
+    "Mõne sotsiaalteenistuse töötaja e-posti aadress oli ligipääsetavas veebitekstis varjestatud või ebaselge; neid e-posti aadresse ei taastatud oletuse põhjal.",
+    "Välised teenusepakkujad ja abikanalid, näiteks Lastemaja, Medi, Lasteabi, palunabi.ee ja sõltuvusabi ressursid, on kajastatud ainult selles ulatuses, milles Otepää valla ametlik veeb neid nimetab; väliseid saite eraldi allikana ei kasutatud.",
+    "Parkimiskaardi kohta ei õnnestunud Otepää valla sotsiaalvaldkonna veebiharust eraldi praktilist KOV infot kinnitada.",
+    "Vältimatu sotsiaalabi kohta ei õnnestunud Otepää valla praktilisel veebikihil eraldi teenuse või toetuse detaillehte kinnitada."
+  ]
+}

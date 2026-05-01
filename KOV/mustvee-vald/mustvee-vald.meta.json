@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-mustvee-vald",
+  "document_id": "kov-mustvee-vald",
+  "municipality": "Mustvee vald",
+  "municipality_id": "mustvee_vald",
+  "county": "Jõgevamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-mustvee-vald",
+  "coverage": {
+    "services": 18,
+    "benefits": 12,
+    "resources": 20,
+    "contacts": 13,
+    "forms": 11
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett on koostatud Mustvee valla ametliku veebikihi praktilise sotsiaalinfo põhjal.",
+    "KOV-i sotsiaaltoetuste määrade PDF-i kasutati ainult praktiliste summade allikana; õigusliku aluse kontroll jääb eraldi RT/legal kihti."
+  ],
+  "unresolvedIssues": [
+    "Blanketid ja vormid lehel on vormide nimetused ja formaadid avaldatud, kuid täpseid otseseid faililinke ei õnnestunud kindlalt eraldada. Vormide itemite allikana on kasutatud vormide koondlehte, mitte oletuslikke failiteid.",
+    "Mitme toetuse puhul, näiteks matusetoetus, laste prillitoetus, tervisetoetus, küttepuude toetus ja alushariduse toiduraha toetus, leidus KOV veebikihis summa, kuid detailne menetluskäik või tingimused jäid ebapiisavalt avatuks.",
+    "Vajaduspõhist sotsiaaltoetust, täiendavat sotsiaaltoetust ja erakorralist toetust eraldi nimetatud detaillehtedena ei kinnitatud; KOV veebis leidus üldine sotsiaaltoetuse vorm ja vältimatu abi toetus.",
+    "Eluruumi kohandamise aktiivset toetust ei kinnitatud; KOV veebis leidus vaid varasema puuetega inimeste eluaseme füüsilise kohandamise projekti info.",
+    "Parkimiskaardi ja abivahendite kohta leidus KOV veebis peamiselt infoviiteid, mitte vallateenuse detailseid tingimusi.",
+    "Sotsiaalosakonna kontaktide e-posti aadressid olid mitmel juhul varjestatud kujul [ät]; failides säilitati ametlikul lehel nähtud kuju.",
+    "Kasulikud lingid sisaldavad mitut välist tugiliini ja abikanalit; väliste veebilehtede sisu ei kasutatud korje allikana.",
+    "Sotsiaalinfo paikneb Mustvee valla veebis teenuste, uudiste, perekonnasündmuste, vormide ja kasulike linkide vahel hajusalt; osa harude sisu võib vajada käsitsi ülevaatust."
+  ]
+}

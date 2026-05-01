@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-rapla-vald",
+  "document_id": "kov-rapla-vald",
+  "municipality": "Rapla vald",
+  "municipality_id": "rapla_vald",
+  "county": "Raplamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-rapla-vald",
+  "coverage": {
+    "services": 16,
+    "benefits": 12,
+    "resources": 13,
+    "contacts": 12,
+    "forms": 11
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Paketis on kasutatud ainult Rapla valla ametlikul veebilehel ja seal nimetatud ametlikel e-vormi linkidel avaldatud praktilist sotsiaalvaldkonna infot.",
+    "RT ja õigusaktide kontroll on sellest veebipaketist teadlikult välja jäetud ning kuulub eraldi RT/legal kihti."
+  ],
+  "unresolvedIssues": [
+    "Mitme teenuse puhul on KOV lehel avaldatud üldine taotlemisviis, kuid mitte detailne menetluskäik ega kõik otsustamise alused.",
+    "Osa Rapla valla kontaktide e-posti aadresse on avaldatud varjestatud kujul „(ät)“ või „*protected email*“; aadresse ei taastatud oletuse põhjal.",
+    "Sünnitoetuse allalaetava vormi lingi failinimi viitab ainult I osa vormile, kuigi blanketilehel on kirjas „Sünnitoetuse I osa ja II osa“; täpne vormide komplekt vajab käsitsi ülevaatust.",
+    "Hariduse rubriigis on avaldatud „Lapsehoiuteenuse rahastamise toetuse taotlus“, kuid seos sotsiaalvaldkonna lapsehoiuteenusega ei ole KOV lehel üheselt tõendatud; seda ei seotud automaatselt sotsiaalteenusega.",
+    "Hoolduspere vanema toetuse eraldi vormi ei olnud blanketide lehel selgelt nimetatud; taotlemisena on kajastatud sotsiaalabi taotlus, mida toetuse detailtekst kasutab.",
+    "Väliste teenusepakkujate (nt Ridiradiralla OÜ, Rapla Lastehoid, Sotsiaalkindlustusamet, Koduandur või MTÜ Vabatahtlikud Seltsilised) veebisisu ei kasutatud allikana; kajastatud on ainult Rapla valla lehel avaldatud info.",
+    "„Muud täiendavad vajaduspõhised sotsiaalteenused“ on Rapla valla lehel eraldi nimetatud, kuid detaillehte ja konkreetseid teenuseliike ei olnud avaldatud.",
+    "Sotsiaaltranspordi teenuse e-posti aadress ja osa hoolekandeasutuste e-postidest on lehel avaldatud kas tavalise tekstina või varjestatud; varjestatud aadresside osas on eelistatud ametlikku nähtavat kuju.",
+    "Kriisi- ja abitelefonid on kajastatud KOV veebilehel oleva info põhjal; abikanalite täpsemad tingimused tuleb kontrollida vastavatest riiklikest kanalitest.",
+    "SPOKU e-vormide otselinke kasutatakse vormi eFormUrl väljal, kuid sources.json allikaks on KOV ametlik blanketileht, sest e-vormid asuvad välises Piksel/SPOKU keskkonnas."
+  ],
+  "RT_CANDIDATES_FOR_SEPARATE_MANIFEST": [
+    "Sotsiaalhoolekande abi andmise kord Rapla vallas",
+    "Rapla Vallavalitsuse korraldused sotsiaaltoetuste määrade ja üldhooldusteenuse piirmäärade kohta"
+  ]
+}

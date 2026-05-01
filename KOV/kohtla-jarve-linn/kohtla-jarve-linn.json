@@ -1,0 +1,3815 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-kohtla-jarve-linn",
+  "document_id": "kov-kohtla-jarve-linn",
+  "municipality": "Kohtla-Järve linn",
+  "municipality_id": "kohtla_jarve_linn",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "kohtla_jarve_linn_service_koduteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus aitab täisealisel inimesel iseseisvalt ja turvaliselt kodus toime tulla. Teenuse käigus abistatakse toidu, ravimite, majapidamistarvete, majapidamistoimingute, asjaajamise, küttematerjali korraldamise ning eneseteenindusega. Teenus määratakse haldusotsusega ja seda osutatakse lepingu alusel.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "targetGroup": "täisealine isik, kes vajab kodus kõrvalabi",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormi kaudu ID-kaardi või mobiil-ID-ga sisenemine",
+          "kohapeal Keskallee 17 kab 2 või sotsiaaltöötajaga kokkuleppel kodus",
+          "esitada isikut tõendav dokument; hooldusvajaduse hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": "Teenusepakett I 33 eurot kuus; pakett II 50 eurot kuus; pakett III 80 eurot kuus.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/koduteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "pricing",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatav üldhooldusteenus tagab turvalise keskkonna ja toimetuleku inimesele, kes ei saa ajutiselt või püsivalt kodus hakkama terviseseisundi, tegevusvõime või elukeskkonna tõttu. Teenuse vajadust hindab sotsiaaltöö spetsialist ning rahastamise või teenuse määramise otsus tehakse pärast taotlust ja hindamist.",
+      "sourceKeys": [
+        "uldhooldusteenus_page"
+      ],
+      "targetGroup": "täisealine inimene, kes ei saa kodus iseseisvalt toime tulla",
+      "conditions": "Teenuse eeldus on hinnatud hooldusvajadus; teenust ei määrata, kui toimetulek on võimalik tagada muu sotsiaalabiga.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "esitada kirjalik taotlus pärast hooldusvajaduse hindamist",
+          "kohapeal Keskallee 17 kab 2 või kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": "Alates 01.01.2026 on KOV hoolduskulu katmise piirmäär 700 eurot teenusesaaja kohta kuus; teenusesaaja tasub majutus-, toitlustus- ja muud kulud.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "pricing",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_tugiisikuteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab isiku iseseisvat toimetulekut olukordades, kus sotsiaalsed, majanduslikud, psühholoogilised või terviseprobleemid takistavad kohustuste täitmist ja õiguste teostamist. Lapse puhul toetab teenus arengut ja turvalist kasvukeskkonda ning vajadusel puudega lapse hooldustoiminguid. Teenust osutatakse kodus või muudes kokkulepitud asukohtades.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "targetGroup": "abivajavad lapsed, puudega lapsed ja täiskasvanud",
+      "conditions": "Kõrvalabi vajaduse määr hinnatakse iga inimese puhul eraldi; teenuse osutajaks ei või olla lähisugulane ega samas eluruumis elav isik.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormiga taotlemine",
+          "täisealise isiku taotlus Keskallee 17 kab 2 kokkuleppel",
+          "puudega lapse puhul Keskallee 17 kab 4 vastuvõtuaegadel",
+          "esitada isikut tõendav dokument; puudega lapse esindaja võib esitada vabas vormis põhjendatud avalduse"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/tugiisikuteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf",
+        "kohtla_jarve_linn_form_vabas_vormis_puudega_lapse_teenuse_avaldus"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp",
+        "kohtla_jarve_linn_contact_svetlana_sheina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "kohtla_jarve_linn:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldus seatakse täiskasvanule, kes vaimse või kehalise puude tõttu vajab abi oma õiguste teostamisel ja kohustuste täitmisel. Hooldus seatakse hooldatava ja hooldaja nõusolekul ning hooldaja ülesanded määratakse hindamise põhjal.",
+      "sourceKeys": [
+        "taisealise_isiku_hooldus_page"
+      ],
+      "targetGroup": "täisealine puudega inimene, kes vajab hooldajat",
+      "conditions": "Hooldusvajadus ja hooldaja ülesanded tuvastatakse hindamisega; hooldaja peab teavitama asjaoludest, mis võivad hoolduse lõpetada.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormi kasutamine",
+          "kohapeal Keskallee 17 kab 4 E, T, N vastuvõtuaegadel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/taisealise-isiku-hooldus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_oksana_zaitseva"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus suurendab puudega täisealise inimese iseseisvat toimetulekut ja osalemist kõigis eluvaldkondades. Teenust osutatakse teenuse määramise otsuse ja lepingu alusel ning abistaja lähtub teenusesaaja juhistest.",
+      "sourceKeys": [
+        "isikliku_abistaja_teenus_page"
+      ],
+      "targetGroup": "puudega täisealine inimene",
+      "conditions": "Abistaja ei tohi olla esimese või teise astme üleneja või alaneja sugulane ega elada samas eluruumis; abistaja ei tohi ohustada teenusesaaja elu, tervist ega vara.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormi kasutamine",
+          "kohapeal Keskallee 17 kab 2 või kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/isikliku-abistaja-teenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_varjupaigateenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus pakub täisealisele inimesele ajutist turvalist ööbimiskohta ja hügieenivõimalust, et vältida peavarjuta jäämist. Teenus on suunatud inimesele, kellel puudub püsiv eluruum või kes ei saa ajutiselt senist eluruumi kasutada.",
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ],
+      "targetGroup": "täisealine inimene, kellel puudub püsiv ööbimiskoht",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "online",
+          "phone",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormi kasutamine või pöördumine sotsiaalhoolekande spetsialisti poole",
+          "kohapeal Keskallee 17 kab 2 kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": "Teenusesaajale tasuta.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/varjupaigateenus/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "pricing",
+        "application",
+        "decisionTime",
+        "contact"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on märgitud, et teenuse jaoks eraldi blanketti ei ole."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_service_turvakoduteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab ajutise eluaseme, turvalise keskkonna ja esmase abi lapsele või täiskasvanule, kes vajab kaitset või hooldust. Lapse puhul on teenus mõeldud olukorraks, kus tema elu, tervis või areng on ohus hoolduse puuduste või muu ohu tõttu.",
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ],
+      "targetGroup": "ohtu sattunud laps või täiskasvanu",
+      "conditions": "Teenust osutatakse seni, kuni teenuse vajadus on ära langenud; Kohtla-Järve elanikule tasuta.",
+      "application": {
+        "channels": [
+          "phone",
+          "in-person"
+        ],
+        "steps": [
+          "pöörduda Kohtla-Järve Laste turvakodu või sotsiaalhoolekandekeskuse poole"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "pricing": "Kohtla-Järve linna elanikule tasuta; teiste KOV-ide elanikele tasuline.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/turvakoduteenus/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description",
+        "conditions",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus aitab erivajadusega inimesel jõuda tööle, õppima, avalikke teenuseid kasutama või igapäevaeluks vajalikke toiminguid tegema. Teenust osutatakse sobiva sõidukiga ning vajadusel abistatakse sõidukisse sisenemisel ja väljumisel.",
+      "sourceKeys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "targetGroup": "füüsilise või psüühilise erivajadusega inimene, kelle erivajadus takistab isikliku või ühistranspordi kasutamist",
+      "conditions": "Teenuse soov tuleb esitada vähemalt viis tööpäeva enne teenuse vajadust.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "esitada soov suuliselt, kirjalikult või e-posti teel vähemalt 5 tööpäeva enne vajadust",
+          "puudega laste puhul pöörduda Keskallee 17 kab 4 vastuvõtuaegadel",
+          "täisealised pöörduvad Keskallee 17 kab 2 kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "5 tööpäeva"
+      },
+      "decisionTime": "5 tööpäeva",
+      "pricing": "Kohtla-Järve linna elanikule linnas ja Jõhvis 7 eurot; väljaspool linna 0,24 eurot/km; ooteaeg 5 eurot/tund. Teiste KOV-ide elanikele 0,36 eurot/km ja ooteaeg 9 eurot/tund.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sotsiaaltransporditeenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf",
+        "kohtla_jarve_linn_form_vabas_vormis_puudega_lapse_teenuse_avaldus"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_arina_retukova",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_svetlana_sheina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "pricing",
+        "application",
+        "deadline",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_eluruumi_tagamise_teenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:eluruumi_tagamise_teenus",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenus aitab isikul või perekonnal, kes sotsiaalmajandusliku olukorra tõttu ei suuda endale sobivat eluruumi tagada. Teenus võib tähendada tähtajalist eluruumi kasutusse andmist või puudega inimese abistamist eluruumi kohandamisel või sobivama eluruumi saamisel.",
+      "sourceKeys": [
+        "eluruumi_tagamise_teenus_page"
+      ],
+      "targetGroup": "isik või pere, kes ei suuda eluruumi ise tagada",
+      "conditions": "Teenusesaaja tasub üldjuhul eluruumi kasutamisega seotud kulud; vajadus hinnatakse juhtumipõhiselt.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormiga taotlemine",
+          "kohapeal Keskallee 17 kab 2 kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/eluruumi-tagamise-teenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_volanoustamine",
+      "canonical_item_id": "kohtla_jarve_linn:service:volanoustamine",
+      "itemType": "service",
+      "title": "Võlanõustamine",
+      "status": "active",
+      "summary": "Võlanõustamine aitab inimesel selgitada vara- ja finantsseisu, pidada läbirääkimisi võlausaldajatega, rahuldada nõudeid ning ennetada uute võlgade tekkimist. Teenus on mõeldud inimesele, kellel on rahaline kohustus, mida ta ei suuda iseseisvalt täita.",
+      "sourceKeys": [
+        "volanoustamine_page"
+      ],
+      "targetGroup": "võlgnevustega inimene või pere",
+      "conditions": "Teenust saab taotleda isik, kellel on seadusest või lepingust tulenev rahaline kohustus ja kes ei suuda seda iseseisvalt täita.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormi kasutamine",
+          "kohapeal Keskallee 19 kab 302 kokkuleppel",
+          "esitada isikut tõendav dokument"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": "Teenusesaajale tasuta.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/volanoustamine/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "pricing",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_lapsehoiuteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenus toetab lapse hooldusõigusega isiku toimetulekut või töötamist ja vähendab lapse erivajadusest tulenevat hoolduskoormust. Raske või sügava puudega lapse puhul hinnatakse teenuse vajadust koos lapse seadusliku esindaja ja teenuseosutajaga ning teenus tagatakse kuni selle kalendriaasta lõpuni, mil laps saab 18-aastaseks.",
+      "sourceKeys": [
+        "lapsehoiuteenus_page"
+      ],
+      "targetGroup": "laps, eeskätt raske või sügava puudega laps, kelle pere vajab lapsehoiuteenust",
+      "conditions": "Laps ei viibi teenuse vajaduse ajal haridusasutuses; teenuse vajadus hinnatakse juhtumipõhiselt.",
+      "application": {
+        "channels": [
+          "online",
+          "in-person",
+          "email"
+        ],
+        "steps": [
+          "e-vormi kasutamine",
+          "kohapeal Keskallee 17 kab 4 E, T, N vastuvõtuaegadel",
+          "puudega lapse esindaja esitab vabas vormis põhjendatud avalduse"
+        ],
+        "deadline": null,
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/lapsehoiuteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_vabas_vormis_puudega_lapse_teenuse_avaldus"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_svetlana_sheina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "decisionTime",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_asendushooldusteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus tagab pika- või lühiajaliselt lapse heaolu ja õigused, peresarnased elutingimused ning turvalise arengukeskkonna. Teenust korraldatakse hooldusperes, perekodus või asenduskodus, kui laps ei saa oma vanemate hooldamisel kasvada.",
+      "sourceKeys": [
+        "asendushooldusteenus_page"
+      ],
+      "targetGroup": "laps, kelle vanem on surnud, kelle vanema hooldusõigus on piiratud või peatatud või kes on perest eraldatud",
+      "conditions": "Teenuse vajaduse hindab lastekaitse spetsialist; juhtumiplaani vaadatakse üle vähemalt kord aastas.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormiga või kirjaliku avaldusega taotlemine",
+          "kohapeal Keskallee 19 kab 108 vastuvõtuaegadel",
+          "esitada isikut tõendav dokument"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/asendushooldusteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_elen_hobemae"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_jarelhooldusteenus",
+      "canonical_item_id": "kohtla_jarve_linn:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus toetab asendushoolduselt või eestkostelt elluastuvat noort iseseisva toimetuleku ja õpingute jätkamise ajal. Teenus võib hõlmata eluaset ja vajaduspõhiseid tugiteenuseid ning põhineb juhtumiplaanil.",
+      "sourceKeys": [
+        "jarelhooldusteenus_page"
+      ],
+      "targetGroup": "noor, kes lahkub asendushoolduselt või eestkostelt ja vajab iseseisvumiseks tuge",
+      "conditions": "Teenust võib osutada kuni 21-aastasele mittestudeerivale noorele või kuni 25-aastasele õppivale noorele, kui KOV lehel nimetatud tingimused on täidetud.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormiga või kirjaliku avaldusega taotlemine",
+          "kohapeal Keskallee 19 kab 108 vastuvõtuaegadel",
+          "esitada isikut tõendav dokument"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/jarelhooldusteenus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_elen_hobemae"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_valtimatu_sotsiaalabi",
+      "canonical_item_id": "kohtla_jarve_linn:service:valtimatu_sotsiaalabi",
+      "itemType": "service",
+      "title": "Vältimatu sotsiaalabi",
+      "status": "active",
+      "summary": "Vältimatu sotsiaalabi tagab hädavajalikud sotsiaalhoolekandelised abinõud inimesele, kellel puuduvad piisavad elatusvahendid. Abi võib olla toiduabi, riideabi, ajutine peavari või muu materiaalne abi, mis aitab tagada esmase toimetuleku.",
+      "sourceKeys": [
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "targetGroup": "isik, kellel puuduvad piisavad elatusvahendid või kes viibib linnas ja vajab kiiret abi",
+      "conditions": "Abi saab taotleda Kohtla-Järve elanik, linnas viibiv inimene, isik kelle elukohta ei saa määrata, vanglast vabanenud viimane Kohtla-Järve elanik või linnas viibiv välismaalane.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "e-vormiga taotlemine",
+          "kohapeal Keskallee 17 kab 2 kokkuleppel",
+          "esitada isikut tõendav dokument; hindamisinstrument täidab sotsiaaltöötaja"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/valtimatu-sotsiaalabi/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+        "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljuba_kuptsova",
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_service_muu_vajalik_sotsiaalteenus_voi_abi",
+      "canonical_item_id": "kohtla_jarve_linn:service:muu_vajalik_sotsiaalteenus_voi_abi",
+      "itemType": "service",
+      "title": "Muu vajalik sotsiaalteenus või abi",
+      "status": "active",
+      "summary": "Kohtla-Järve sotsiaalteenuste koondleht nimetab ka muu, eespool nimetamata sotsiaalteenuse või abi võimalust, kui see on vajalik inimese toimetuleku saavutamiseks või säilitamiseks. Sellise abi osutamise otsustab Kohtla-Järve Linnavalitsuse sotsiaalkomisjon.",
+      "sourceKeys": [
+        "sotsiaalteenused_overview"
+      ],
+      "targetGroup": "isik, kelle abivajadus ei mahu loetletud teenuste alla",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in-person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_kirke_kubarsepp"
+      ],
+      "sections_present": [
+        "description",
+        "application"
+      ],
+      "unresolvedIssues": [
+        "Täpsem menetlus ja teenuse sisu on KOV lehel juhtumipõhiselt kirjeldatud ning eraldi detaillehte ei ole."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_toimetulekutoetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riiklikult reguleeritud rahaline abi, mida Kohtla-Järve elanik saab taotleda KOV kaudu, kui pere kuu netosissetulek pärast eluasemekulude mahaarvamist jääb alla toimetulekupiiri. 2026. aastal on toimetulekupiir 220 eurot esimesele või ainsale pereliikmele, 176 eurot järgmisele täisealisele ja 264 eurot alaealisele pereliikmele.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "targetGroup": "väikese sissetulekuga isik või pere",
+      "conditions": "Taotleja tegelik elukoht on KOV haldusterritooriumil; sissetulek pärast KOV lehel nimetatud eluasemekulude mahaarvamist jääb alla toimetulekupiiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "esitada taotlus jooksva kuu viimaseks tööpäevaks",
+          "lisada eelmise kuu sissetulekut ja eluasemekulusid tõendavad dokumendid",
+          "esmakordsel taotlemisel või muutuse korral esitada varade ja eluaseme andmed"
+        ],
+        "deadline": "jooksva kuu viimane tööpäev",
+        "decisionTime": "5 tööpäeva pärast kõigi dokumentide esitamist"
+      },
+      "decisionTime": "5 tööpäeva pärast kõigi dokumentide esitamist",
+      "amount": "Toetuse summa = toimetulekupiir + arvestatavad eluasemekulud – sissetulek; 2026. a piirid: 220 €, 176 €, 264 €; üksnes alaealistest koosneval perel lisatoetus 15 €.",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/toimetulekutoetus/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "amount",
+        "decisionTime"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_prillide_ja_invaabivahendi_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:prillide_ja_invaabivahendi_toetus",
+      "itemType": "benefit",
+      "title": "Prillide ja invaabivahendite maksumuse või rentimise osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus hüvitab osaliselt prillide või invaabivahendite ostu või rentimise kulu madala sissetulekuga inimesele või perele.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_balloonigaasi_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:balloonigaasi_toetus",
+      "itemType": "benefit",
+      "title": "Balloonigaasi maksumuse osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt hüvitada balloonigaasi kulu madala sissetulekuga inimesele või perele.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_kuttepuude_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:kuttepuude_toetus",
+      "itemType": "benefit",
+      "title": "Küttepuude maksumuse osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt katta küttepuude ostmise kulu madala sissetulekuga inimesele või perele.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_ettenagematu_olukorra_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:ettenagematu_olukorra_toetus",
+      "itemType": "benefit",
+      "title": "Toetus ettenägematu olukorra puhul",
+      "status": "active",
+      "summary": "Toetus on mõeldud ootamatu olukorra tõttu tekkinud abivajaduse leevendamiseks.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_ravi_ja_medtranspordi_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:ravi_ja_medtranspordi_toetus",
+      "itemType": "benefit",
+      "title": "Ravi-, järelravi-, retseptiravimi- ja medtranspordikulude osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus võib osaliselt hüvitada järelravi, raviteenuse, retseptiravimite ja medtranspordi kulu, mida Haigekassa ega Sotsiaalkindlustusamet ei rahasta.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_lemmiklooma_mikrokiibi_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:lemmiklooma_mikrokiibi_toetus",
+      "itemType": "benefit",
+      "title": "Koera või kassi mikrokiibiga märgistamise maksumuse osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus võib osaliselt hüvitada koera või kassi mikrokiibiga märgistamise kulu.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_koolieelse_lasteasutuse_toitlustuskulude_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:koolieelse_lasteasutuse_toitlustuskulude_toetus",
+      "itemType": "benefit",
+      "title": "Koolieelse lasteasutuse toitlustuskulude osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab vähekindlustatud pere lapse koolieelse lasteasutuse toitlustuskulusid osaliselt hüvitada.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_oppevahendite_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:oppevahendite_toetus",
+      "itemType": "benefit",
+      "title": "Õppevahendite osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt katta vähekindlustatud pere lapse õppevahendite kulu.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_riiete_ja_jalanoude_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:riiete_ja_jalanoude_toetus",
+      "itemType": "benefit",
+      "title": "Riiete ja jalanõude osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt hüvitada vähekindlustatud pere lapse riiete ja jalanõude kulu.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_oppeekskursiooni_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:oppeekskursiooni_toetus",
+      "itemType": "benefit",
+      "title": "Õppeekskursiooni osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt katta vähekindlustatud pere lapse õppeekskursiooni kulu.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_opilase_soidukulude_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:opilase_soidukulude_toetus",
+      "itemType": "benefit",
+      "title": "Õpilase sõidukulude hüvitamine",
+      "status": "active",
+      "summary": "Toetus võib hüvitada üldhariduskooli päevases õppes õppiva vähekindlustatud pere lapse sõidupileti kulu kuni 100% õppeperioodi jooksul.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_lastelaagri_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:lastelaagri_toetus",
+      "itemType": "benefit",
+      "title": "Lastelaagri osaline hüvitamine",
+      "status": "active",
+      "summary": "Toetus aitab osaliselt hüvitada vähekindlustatud pere lapse lastelaagri kulu.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "targetGroup": "madala sissetulekuga isik, pere või vähekindlustatud pere laps",
+      "conditions": "Sissetulekust sõltuvat toetust saab taotleda madala sissetulekuga isik või pere, kelle sissetulek pereliikme kohta pärast eluasemekulude mahaarvamist jääb alla KOV lehel nimetatud piiri.",
+      "application": {
+        "channels": [
+          "in-person",
+          "email",
+          "paper"
+        ],
+        "steps": [
+          "pöörduda elukohajärgse piirkonna sotsiaaltöö spetsialisti poole",
+          "esitada vormikohane avaldus koos kulu ja abivajadust tõendavate dokumentidega",
+          "e-postiga esitamisel peab avaldus olema digitaalselt allkirjastatud"
+        ],
+        "deadline": "3 kuu jooksul pärast kulu tegemist või sündmuse toimumist",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+        "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_natalja_gainulina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_lapse_sunnitoetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:lapse_sunnitoetus",
+      "itemType": "benefit",
+      "title": "Lapse sünnitoetus",
+      "status": "active",
+      "summary": "Lapse sünnitoetus on universaaltoetus lapse sünni puhul. Toetus makstakse kolmes osas: pärast lapse sündi, lapse üheaastaseks saamisel ja lapse kaheaastaseks saamisel, kui KOV lehel kirjeldatud elukoha tingimused on täidetud.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "targetGroup": "Kohtla-Järve elanikust lapsevanem",
+      "conditions": "Lapse elukohaks rahvastikuregistris peab sünni registreerimisest alates olema Kohtla-Järve; vanema(te) elukoha tingimused sõltuvad toetuse osast.",
+      "application": {
+        "channels": [
+          "online",
+          "email",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "I osa saab taotleda e-vormiga või taotlusega",
+          "lisada lapse sündi tõendav dokument",
+          "kohapeal Keskallee 17 kab 5/7 või Estonia pst 38 vastuvõtuaegadel"
+        ],
+        "deadline": "3 kuud lapse sünnist",
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": "Toetus makstakse kolmes osas; täpsed osade summad on KOV vormi ja kehtivate piirmäärade alusel.",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_sunnitoetus_i_e_vorm",
+        "kohtla_jarve_linn_form_sunnitoetus_i_doc",
+        "kohtla_jarve_linn_form_sunnitoetus_i_pdf",
+        "kohtla_jarve_linn_form_sunnitoetus_ii_doc",
+        "kohtla_jarve_linn_form_sunnitoetus_ii_pdf",
+        "kohtla_jarve_linn_form_sunnitoetus_iii_doc",
+        "kohtla_jarve_linn_form_sunnitoetus_iii_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_natalja_gainulina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "deadline",
+        "decisionTime",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_esimesse_klassi_mineva_lapse_toetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:esimesse_klassi_mineva_lapse_toetus",
+      "itemType": "benefit",
+      "title": "Esmakordselt üldhariduskooli esimesse klassi mineva lapse toetus",
+      "status": "active",
+      "summary": "Toetus on mõeldud lapsevanemale või eestkostjale, kelle laps läheb esmakordselt üldhariduskooli esimesse klassi. Laps peab olema Kohtla-Järve linna elanik ning vanema või eestkostja elukohatingimus peab olema KOV lehe järgi täidetud.",
+      "sourceKeys": [
+        "esimese_klassi_toetus_page"
+      ],
+      "targetGroup": "esimest korda 1. klassi minev laps ja tema vanem või eestkostja",
+      "conditions": "Vähemalt üks vanem või eestkostja peab olema elanud Kohtla-Järve linnas vähemalt ühe aasta vahetult enne lapse kooliminekut ja olema linna elanik toetuse määramise ajal; laps peab olema Kohtla-Järve elanik.",
+      "application": {
+        "channels": [
+          "online",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "taotleda e-vormiga või vormikohase avaldusega",
+          "kohapeal Keskallee 17 kab 5/7 või Estonia pst 38 vastuvõtuaegadel",
+          "esitada isikut tõendav dokument"
+        ],
+        "deadline": "31. oktoober koolimineku aastal",
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": "150 eurot",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/haridus-ja-noored/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_esimese_klassi_toetus_e_vorm",
+        "kohtla_jarve_linn_form_esimese_klassi_toetus_doc",
+        "kohtla_jarve_linn_form_esimese_klassi_toetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_natalja_gainulina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "amount",
+        "deadline",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:puudega_lapse_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajatoetus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetus on igakuine toetus raske või sügava puudega 1,5–17-aastase lapse vanemale või eestkostjale, kes ei saa puudega lapse igapäevase hooldamise tõttu töötada. Toetus määratakse sotsiaaltöötaja hinnangu alusel.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "targetGroup": "raske või sügava puudega lapse vanem või eestkostja",
+      "conditions": "Laps ja hooldaja peavad elama rahvastikuregistri andmetel Kohtla-Järvel; toetust ei maksta, kui taotleja elab hoolekandeasutuses või statsionaarsel õendusteenusel.",
+      "application": {
+        "channels": [
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "esitada avaldus ja isikut tõendavate dokumentide koopiad",
+          "vajadusel lisada eestkoste kohtuotsus ja rehabilitatsiooniplaan"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": "Igakuine toetus kehtiva piirmäära järgi.",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_puudega_lapse_hooldajatoetus_doc",
+        "kohtla_jarve_linn_form_puudega_lapse_hooldajatoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_svetlana_sheina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "amount",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_taisealise_isiku_hooldajatoetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:taisealise_isiku_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Täisealise isiku hooldajatoetus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldajatoetus on igakuine rahaline toetus täisealise puudega inimese hooldajale või hooldatavale hooldamisega seotud lisakulude hüvitamiseks. Toetust makstakse juhul, kui hooldaja on määratud linnavalitsuse korraldusega.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "targetGroup": "täisealise puudega inimese hooldaja või hooldatav",
+      "conditions": "Hooldaja peab olema määratud linnavalitsuse korraldusega; hooldusvajadus võib olla pidev või osaline.",
+      "application": {
+        "channels": [
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "esitada avaldus vormikohaselt",
+          "teavitada asjaolude muutumisest 10 päeva jooksul"
+        ],
+        "deadline": null,
+        "decisionTime": null
+      },
+      "decisionTime": null,
+      "amount": "100% hooldajatoetuse määrast pideva hooldusvajaduse korral; 70% osalise hooldusvajaduse korral.",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_taisealise_hooldajatoetus_doc",
+        "kohtla_jarve_linn_form_taisealise_hooldajatoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_oksana_zaitseva"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "amount",
+        "contact",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_benefit_matusetoetus",
+      "canonical_item_id": "kohtla_jarve_linn:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus on ühekordne toetus matuse korraldajale matusekulude osaliseks hüvitamiseks, kui surnu elukoht rahvastikuregistri järgi oli surma hetkel Kohtla-Järve linn. Toetust ei maksta, kui isik tunnistati surnuks kohtu korras või kulu hüvitatakse muu seaduse alusel.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "targetGroup": "Kohtla-Järve elaniku matuse korraldaja",
+      "conditions": "Surnu elukoht pidi surma hetkel olema Kohtla-Järve linn; lisada surmatõend või -teatis ja kulu tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "online",
+          "paper",
+          "in-person"
+        ],
+        "steps": [
+          "taotleda e-vormi või paberavaldusega",
+          "lisada surmatõend või -teatis ja kuludokumendid",
+          "kohapeal Keskallee 17 kab 5/7 või Estonia pst 38"
+        ],
+        "deadline": "3 kuu jooksul surma kuupäevast",
+        "decisionTime": "10 tööpäeva"
+      },
+      "decisionTime": "10 tööpäeva",
+      "amount": "250 eurot",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/matusetoetus/",
+      "relatedTo": [],
+      "relatedForms": [
+        "kohtla_jarve_linn_form_matusetoetus_e_vorm",
+        "kohtla_jarve_linn_form_matusetoetus_doc",
+        "kohtla_jarve_linn_form_matusetoetus_pdf"
+      ],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_ljudmila_stalina",
+        "kohtla_jarve_linn_contact_ljudmila_selivjorstova",
+        "kohtla_jarve_linn_contact_lilia_falovskaja",
+        "kohtla_jarve_linn_contact_olga_vorobjova",
+        "kohtla_jarve_linn_contact_natalja_gainulina"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "application",
+        "amount",
+        "deadline",
+        "decisionTime",
+        "forms"
+      ],
+      "unresolvedIssues": [
+        "KOV lehe otsustamise lauses on kasutatud sõna „sünnitoetus“, kuid kontekst on matusetoetus."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_kohtla_jarve_sotsiaalhoolekandekeskus",
+      "canonical_item_id": "kohtla_jarve_linn:resource:kohtla_jarve_sotsiaalhoolekandekeskus",
+      "itemType": "resource",
+      "title": "Kohtla-Järve Sotsiaalhoolekandekeskus",
+      "status": "active",
+      "summary": "Kohtla-Järve Sotsiaalhoolekandekeskus on linna hoolekandeasutus ja mitme sotsiaalteenuse osutaja. Keskuse juhatajana on KOV lehel nimetatud Maie Puusepp ning telefon 5744 6940.",
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "name": "Kohtla-Järve Sotsiaalhoolekandekeskus",
+      "role": "hoolekandeasutus",
+      "phone": "5744 6940",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/hoolekanne-ja-projektid/hoolekandeasutused/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_maie_puusepp"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_kohtla_jarve_laste_turvakodu",
+      "canonical_item_id": "kohtla_jarve_linn:resource:kohtla_jarve_laste_turvakodu",
+      "itemType": "resource",
+      "title": "Kohtla-Järve Laste turvakodu",
+      "status": "active",
+      "summary": "Kohtla-Järve Laste turvakodu osutab laste turvakoduteenust ja on KOV lehel nimetatud turvakoduteenuse kontaktina. Aadress on Järveküla tee 17, Kohtla-Järve; telefon 334 4057 ja ööpäevaringne valvelaud 332 4011.",
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ],
+      "name": "Kohtla-Järve Laste turvakodu",
+      "role": "turvakodu",
+      "phone": "334 4057; 332 4011",
+      "email": "*protected email*",
+      "address": "Järveküla tee 17, 30328 Kohtla-Järve",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/turvakoduteenus/",
+      "relatedTo": [
+        "kohtla_jarve_linn_service_turvakoduteenus"
+      ],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_kohtla_jarve_sotsiaalmaja",
+      "canonical_item_id": "kohtla_jarve_linn:resource:kohtla_jarve_sotsiaalmaja",
+      "itemType": "resource",
+      "title": "Kohtla-Järve Sotsiaalmaja",
+      "status": "active",
+      "summary": "Kohtla-Järve Sotsiaalmaja on eluruumi tagamise teenuse juures nimetatud sotsiaalhoolekandekeskuse üksus. Aadress on Järveküla tee 17, Kohtla-Järve ja juhataja telefon 332 4011.",
+      "sourceKeys": [
+        "eluruumi_tagamise_teenus_page"
+      ],
+      "name": "Kohtla-Järve Sotsiaalmaja",
+      "role": "sotsiaalmaja",
+      "phone": "332 4011",
+      "email": "*protected email*",
+      "address": "Järveküla tee 17, 30328 Kohtla-Järve",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/eluruumi-tagamise-teenus/",
+      "relatedTo": [
+        "kohtla_jarve_linn_service_eluruumi_tagamise_teenus"
+      ],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_mtu_ahtme_varjupaik",
+      "canonical_item_id": "kohtla_jarve_linn:resource:mtu_ahtme_varjupaik",
+      "itemType": "resource",
+      "title": "MTÜ Ahtme Varjupaik",
+      "status": "active",
+      "summary": "MTÜ Ahtme Varjupaik on KOV lehel nimetatud varjupaigateenuse osutajana. Aadress on Ahtme mnt 113, Kohtla-Järve; telefon 5655694.",
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ],
+      "name": "MTÜ Ahtme Varjupaik",
+      "role": "varjupaigateenuse osutaja",
+      "phone": "5655694",
+      "email": "*protected email*",
+      "address": "Ahtme mnt 113, Kohtla-Järve",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/varjupaigateenus/",
+      "relatedTo": [
+        "kohtla_jarve_linn_service_varjupaigateenus"
+      ],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_mtu_virumaa_laste_ja_perede_tugikeskus",
+      "canonical_item_id": "kohtla_jarve_linn:resource:mtu_virumaa_laste_ja_perede_tugikeskus",
+      "itemType": "resource",
+      "title": "MTÜ Virumaa Laste ja Perede Tugikeskus",
+      "status": "active",
+      "summary": "MTÜ Virumaa Laste ja Perede Tugikeskus on KOV lehel nimetatud tugiisikuteenuse, isikliku abistaja teenuse ja võlanõustamise teenuse osutajana. Aadress on Sompa 5a, 41533 Jõhvi; telefonid 336 4777 ja 5656 1742.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "name": "MTÜ Virumaa Laste ja Perede Tugikeskus",
+      "role": "teenuseosutaja",
+      "phone": "336 4777; 5656 1742",
+      "email": "*protected email*",
+      "address": "Sompa 5a, 41533 Jõhvi",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/tugiisikuteenus/",
+      "relatedTo": [
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_isikliku_abistaja_teenus",
+        "kohtla_jarve_linn_service_volanoustamine"
+      ],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_mtu_puuetega_laste_tugikeskus_paikesekiir",
+      "canonical_item_id": "kohtla_jarve_linn:resource:mtu_puuetega_laste_tugikeskus_paikesekiir",
+      "itemType": "resource",
+      "title": "MTÜ Puuetega Laste Tugikeskus Päikesekiir",
+      "status": "active",
+      "summary": "MTÜ Puuetega Laste Tugikeskus Päikesekiir on KOV lehel nimetatud tugiisikuteenuse ja lapsehoiuteenuse teenuseosutajana. Aadress on Sompa 5a, 41533 Jõhvi; telefon 524 6584.",
+      "sourceKeys": [
+        "lapsehoiuteenus_page"
+      ],
+      "name": "MTÜ Puuetega Laste Tugikeskus Päikesekiir",
+      "role": "puudega laste teenuseosutaja",
+      "phone": "524 6584",
+      "email": null,
+      "address": "Sompa 5a, 41533 Jõhvi",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/lapsehoiuteenus/",
+      "relatedTo": [
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_lapsehoiuteenus"
+      ],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_lasteabi_116111",
+      "canonical_item_id": "kohtla_jarve_linn:resource:lasteabi_116111",
+      "itemType": "resource",
+      "title": "Lasteabi 116111",
+      "status": "active",
+      "summary": "Lasteabi telefon 116111 on KOV lehel nimetatud abikanal, kuhu saab ööpäevaringselt teatada abivajavast lapsest.",
+      "sourceKeys": [
+        "laste_ja_perede_heaolu_page"
+      ],
+      "name": "Lasteabi 116111",
+      "role": "tugiliin",
+      "phone": "116111",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/laste-ja-perede-heaolu/",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_hadaabi_112",
+      "canonical_item_id": "kohtla_jarve_linn:resource:hadaabi_112",
+      "itemType": "resource",
+      "title": "Hädaabi 112",
+      "status": "active",
+      "summary": "Hädaabinumber 112 on KOV lehel nimetatud abikanal hädaohus oleva lapse või muu kiire abi vajaduse korral.",
+      "sourceKeys": [
+        "laste_ja_perede_heaolu_page"
+      ],
+      "name": "Hädaabi 112",
+      "role": "hädaabinumber",
+      "phone": "112",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/laste-ja-perede-heaolu/",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_kadunud_lapse_telefon_116000",
+      "canonical_item_id": "kohtla_jarve_linn:resource:kadunud_lapse_telefon_116000",
+      "itemType": "resource",
+      "title": "Kadunud lapse telefon 116000",
+      "status": "active",
+      "summary": "Kadunud lapse telefon 116000 on ööpäevaringne abikanal kadunud lapsest teatamiseks.",
+      "sourceKeys": [
+        "laste_ja_perede_heaolu_page"
+      ],
+      "name": "Kadunud lapse telefon 116000",
+      "role": "tugiliin",
+      "phone": "116000",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/laste-ja-perede-heaolu/",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_kriisiinfotelefon_1247",
+      "canonical_item_id": "kohtla_jarve_linn:resource:kriisiinfotelefon_1247",
+      "itemType": "resource",
+      "title": "Kriisiinfotelefon 1247",
+      "status": "active",
+      "summary": "Kriisiinfotelefon 1247 on KOV lehe jaluses nimetatud riigi infotelefon kriisiinfo saamiseks.",
+      "sourceKeys": [
+        "home"
+      ],
+      "name": "Kriisiinfotelefon 1247",
+      "role": "infotelefon",
+      "phone": "1247",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kohtla-jarve.ee",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_perearsti_nouandetelefon_1220",
+      "canonical_item_id": "kohtla_jarve_linn:resource:perearsti_nouandetelefon_1220",
+      "itemType": "resource",
+      "title": "Perearsti nõuandetelefon 1220",
+      "status": "active",
+      "summary": "Perearsti nõuandetelefon 1220 on KOV lehe jaluses nimetatud tervisealane nõuandetelefon.",
+      "sourceKeys": [
+        "home"
+      ],
+      "name": "Perearsti nõuandetelefon 1220",
+      "role": "nõuandetelefon",
+      "phone": "1220",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kohtla-jarve.ee",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_konsulaarabi_53019999",
+      "canonical_item_id": "kohtla_jarve_linn:resource:konsulaarabi_53019999",
+      "itemType": "resource",
+      "title": "Konsulaarabi 5301 9999",
+      "status": "active",
+      "summary": "Konsulaarabi telefon 5301 9999 on KOV lehe jaluses nimetatud abikanal.",
+      "sourceKeys": [
+        "home"
+      ],
+      "name": "Konsulaarabi 5301 9999",
+      "role": "abitelefon",
+      "phone": "5301 9999",
+      "email": null,
+      "address": null,
+      "officialUrl": "https://www.kohtla-jarve.ee",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_parkimiskaart_puudega_inimesele",
+      "canonical_item_id": "kohtla_jarve_linn:resource:parkimiskaart_puudega_inimesele",
+      "itemType": "resource",
+      "title": "Liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaart",
+      "status": "active",
+      "summary": "KOV lehel kirjeldatakse parkimiskaardi taotlemist liikumispuudega või pimedat inimest teenindavale sõidukile. Taotlemiseks tuleb esitada isikut tõendav dokument, puude või ajutise kõrvalekalde tõend ja foto 3x4.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "name": "Liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaart",
+      "role": "praktiline sotsiaalvaldkonna ressurss",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_oksana_zaitseva"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_taisealisele_isikule_eestkostja_maaramine",
+      "canonical_item_id": "kohtla_jarve_linn:resource:taisealisele_isikule_eestkostja_maaramine",
+      "itemType": "resource",
+      "title": "Täisealisele isikule eestkostja määramine",
+      "status": "active",
+      "summary": "KOV lehel kirjeldatakse täisealisele isikule eestkostja määramise avalduse edastamist kohtule. Linnavalitsus aitab koostada või edastada avalduse, kui tegemist on Kohtla-Järve elanikuga.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "name": "Täisealisele isikule eestkostja määramine",
+      "role": "eestkoste info",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_kerli_peenema",
+        "kohtla_jarve_linn_contact_helika_maeots"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_puudega_inimeste_soidusoodustused",
+      "canonical_item_id": "kohtla_jarve_linn:resource:puudega_inimeste_soidusoodustused",
+      "itemType": "resource",
+      "title": "Puudega inimeste sõidusoodustused",
+      "status": "active",
+      "summary": "KOV lehel antakse praktiline info puudega inimeste ühistranspordi sõidusoodustuse tõendamiseks vajalike dokumentide kohta.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "name": "Puudega inimeste sõidusoodustused",
+      "role": "soodustuste info",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_tasuta_oigusnoustamine_puuetega_inimestele",
+      "canonical_item_id": "kohtla_jarve_linn:resource:tasuta_oigusnoustamine_puuetega_inimestele",
+      "itemType": "resource",
+      "title": "Tasuta õigusnõustamine puuetega inimestele",
+      "status": "active",
+      "summary": "KOV lehel viidatakse tasuta õigusnõustamisele keskmise, raske või sügava puudega inimestele, nende hooldajatele ja pereliikmetele. Registreerimise telefon on 53 850 005 ja lisainfo telefon 661 6614.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "name": "Tasuta õigusnõustamine puuetega inimestele",
+      "role": "õigusabi ressurss",
+      "phone": "53 850 005; 661 6614",
+      "email": "*protected email*",
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_lastekaitse_toovaldkond",
+      "canonical_item_id": "kohtla_jarve_linn:resource:lastekaitse_toovaldkond",
+      "itemType": "resource",
+      "title": "Laste ja perede heaolu töövaldkond",
+      "status": "active",
+      "summary": "KOV lehel kirjeldatakse lastekaitse ja laste perede heaolu töövaldkonda: laste eestkoste, hoolduspered, alaealiste teenustele suunamine, koolikohustuse küsimused ning laste huvide kaitse menetlustes.",
+      "sourceKeys": [
+        "laste_ja_perede_heaolu_page"
+      ],
+      "name": "Laste ja perede heaolu töövaldkond",
+      "role": "lastekaitse info",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/laste-ja-perede-heaolu/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_elen_hobemae",
+        "kohtla_jarve_linn_contact_maria_riimast",
+        "kohtla_jarve_linn_contact_aljona_kopp",
+        "kohtla_jarve_linn_contact_jelena_rodina",
+        "kohtla_jarve_linn_contact_merike_kukk",
+        "kohtla_jarve_linn_contact_julia_skolozhabskyy",
+        "kohtla_jarve_linn_contact_maria_popova",
+        "kohtla_jarve_linn_contact_ksenia_aleksejeva"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_resource_turvalisuse_arenguprogramm",
+      "canonical_item_id": "kohtla_jarve_linn:resource:turvalisuse_arenguprogramm",
+      "itemType": "resource",
+      "title": "Turvalisuse arenguprogramm",
+      "status": "active",
+      "summary": "Kohtla-Järve osaleb turvalisuse arenguprogrammis 2023–2027, mille eesmärk on arendada omavalitsuse ennetus- ja turvalisusvõimekust. KOV lehel on kontaktina nimetatud Joosep Mägi.",
+      "sourceKeys": [
+        "turvalisuse_arenguprogramm_page"
+      ],
+      "name": "Turvalisuse arenguprogramm",
+      "role": "projekt ja ennetusressurss",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/hoolekanne-ja-projektid/turvalisuse-arenguprogramm/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "kohtla_jarve_linn_contact_joosep_magi"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_linnavalitsuse_uld_kontakt",
+      "canonical_item_id": "kohtla_jarve_linn:contact:linnavalitsuse_uld_kontakt",
+      "itemType": "contact",
+      "title": "Kohtla-Järve Linnavalitsuse üldkontakt",
+      "status": "active",
+      "summary": "Kohtla-Järve Linnavalitsuse üldkontakt on sotsiaalvaldkonna ja muude linna küsimuste esmane kontakt. Üldtelefon on +372 337 8500, e-post on linnavalitsus@kjlv.ee ning aadress on Keskallee 19, Kohtla-Järve 30395.",
+      "sourceKeys": [
+        "social_overview",
+        "contact_page"
+      ],
+      "name": "Kohtla-Järve Linnavalitsus",
+      "role": "üldkontakt",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "+372 337 8500",
+      "email": "linnavalitsus@kjlv.ee",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": null,
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "address"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_evelyn_danilov",
+      "canonical_item_id": "kohtla_jarve_linn:contact:evelyn_danilov",
+      "itemType": "contact",
+      "title": "Evelyn Danilov",
+      "status": "active",
+      "summary": "Evelyn Danilov on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaalvaldkonna abilinnapea. Telefon: 529 5655.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Evelyn Danilov",
+      "role": "sotsiaalvaldkonna abilinnapea",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "529 5655",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 15.00-16.30, kab 308",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_kirke_kubarsepp",
+      "canonical_item_id": "kohtla_jarve_linn:contact:kirke_kubarsepp",
+      "itemType": "contact",
+      "title": "Kirke Kübarsepp",
+      "status": "active",
+      "summary": "Kirke Kübarsepp on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Sotsiaalteenistuse juhtivspetsialist. Telefon: 5309 7737.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Kirke Kübarsepp",
+      "role": "Sotsiaalteenistuse juhtivspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5309 7737",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 303",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_elen_hobemae",
+      "canonical_item_id": "kohtla_jarve_linn:contact:elen_hobemae",
+      "itemType": "contact",
+      "title": "Elen Hõbemäe",
+      "status": "active",
+      "summary": "Elen Hõbemäe on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu juhtivspetsialist. Telefon: 5192 2231.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Elen Hõbemäe",
+      "role": "Laste ja perede heaolu juhtivspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5192 2231",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 303",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_maria_riimast",
+      "canonical_item_id": "kohtla_jarve_linn:contact:maria_riimast",
+      "itemType": "contact",
+      "title": "Maria Riimast",
+      "status": "active",
+      "summary": "Maria Riimast on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5300 3129.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Maria Riimast",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5300 3129",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 301",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_aljona_kopp",
+      "canonical_item_id": "kohtla_jarve_linn:contact:aljona_kopp",
+      "itemType": "contact",
+      "title": "Aljona Kõpp",
+      "status": "active",
+      "summary": "Aljona Kõpp on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5785 0596.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Aljona Kõpp",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5785 0596",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 304",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_jelena_rodina",
+      "canonical_item_id": "kohtla_jarve_linn:contact:jelena_rodina",
+      "itemType": "contact",
+      "title": "Jelena Rodina",
+      "status": "active",
+      "summary": "Jelena Rodina on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5307 8561.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Jelena Rodina",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5307 8561",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 301",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_merike_kukk",
+      "canonical_item_id": "kohtla_jarve_linn:contact:merike_kukk",
+      "itemType": "contact",
+      "title": "Merike Kukk",
+      "status": "active",
+      "summary": "Merike Kukk on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5884 8531.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Merike Kukk",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5884 8531",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 301",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_julia_skolozhabskyy",
+      "canonical_item_id": "kohtla_jarve_linn:contact:julia_skolozhabskyy",
+      "itemType": "contact",
+      "title": "Julia Skolozhabskyy",
+      "status": "active",
+      "summary": "Julia Skolozhabskyy on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5192 6683.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Julia Skolozhabskyy",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5192 6683",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 302",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_maria_popova",
+      "canonical_item_id": "kohtla_jarve_linn:contact:maria_popova",
+      "itemType": "contact",
+      "title": "Maria Popova",
+      "status": "active",
+      "summary": "Maria Popova on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5855 8513.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Maria Popova",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5855 8513",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 302",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_ksenia_aleksejeva",
+      "canonical_item_id": "kohtla_jarve_linn:contact:ksenia_aleksejeva",
+      "itemType": "contact",
+      "title": "Ksenia Aleksejeva",
+      "status": "active",
+      "summary": "Ksenia Aleksejeva on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Laste ja perede heaolu peaspetsialist. Telefon: 5306 8597.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Ksenia Aleksejeva",
+      "role": "Laste ja perede heaolu peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5306 8597",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 304",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_julia_lehtla",
+      "canonical_item_id": "kohtla_jarve_linn:contact:julia_lehtla",
+      "itemType": "contact",
+      "title": "Julia Lehtla",
+      "status": "active",
+      "summary": "Julia Lehtla on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal ennetustöö peaspetsialist. Telefon: 5387 5517.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Julia Lehtla",
+      "role": "ennetustöö peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5387 5517",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "E 8.30-12.00 ja 13.00-16.30; N 8.30-12.00 ja 13.00-16.00, kab 304",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_svetlana_sheina",
+      "canonical_item_id": "kohtla_jarve_linn:contact:svetlana_sheina",
+      "itemType": "contact",
+      "title": "Svetlana Sheina",
+      "status": "active",
+      "summary": "Svetlana Sheina on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal puuetega laste spetsialist. Telefon: 5450 0083.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Svetlana Sheina",
+      "role": "puuetega laste spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5450 0083",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "kokkuleppel, kab 4",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_kerli_peenema",
+      "canonical_item_id": "kohtla_jarve_linn:contact:kerli_peenema",
+      "itemType": "contact",
+      "title": "Kerli Peenema",
+      "status": "active",
+      "summary": "Kerli Peenema on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal eestkoste peaspetsialist (täisealised). Telefon: 5860 5589.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Kerli Peenema",
+      "role": "eestkoste peaspetsialist (täisealised)",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5860 5589",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 213",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_helika_maeots",
+      "canonical_item_id": "kohtla_jarve_linn:contact:helika_maeots",
+      "itemType": "contact",
+      "title": "Helika Mäeots",
+      "status": "active",
+      "summary": "Helika Mäeots on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal eestkoste spetsialist (täisealised). Telefon: 5411 0502.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Helika Mäeots",
+      "role": "eestkoste spetsialist (täisealised)",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5411 0502",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 212",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_arina_retukova",
+      "canonical_item_id": "kohtla_jarve_linn:contact:arina_retukova",
+      "itemType": "contact",
+      "title": "Arina Retukova",
+      "status": "active",
+      "summary": "Arina Retukova on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaalhoolekande peaspetsialist. Telefon: 5307 6677.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Arina Retukova",
+      "role": "sotsiaalhoolekande peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5307 6677",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 711",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_oksana_zaitseva",
+      "canonical_item_id": "kohtla_jarve_linn:contact:oksana_zaitseva",
+      "itemType": "contact",
+      "title": "Oksana Zaitseva",
+      "status": "active",
+      "summary": "Oksana Zaitseva on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaalhoolekande spetsialist. Telefon: 5300 9329.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Oksana Zaitseva",
+      "role": "sotsiaalhoolekande spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5300 9329",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "E, T, N 8.30-11.30 ja 13.30-16.00, kab 4",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_ljuba_kuptsova",
+      "canonical_item_id": "kohtla_jarve_linn:contact:ljuba_kuptsova",
+      "itemType": "contact",
+      "title": "Ljuba Kuptsova",
+      "status": "active",
+      "summary": "Ljuba Kuptsova on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaalhoolekande spetsialist. Telefon: 5303 1214.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Ljuba Kuptsova",
+      "role": "sotsiaalhoolekande spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5303 1214",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "kokkuleppel, kab 2",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_olga_vorobjova",
+      "canonical_item_id": "kohtla_jarve_linn:contact:olga_vorobjova",
+      "itemType": "contact",
+      "title": "Olga Vorobjova",
+      "status": "active",
+      "summary": "Olga Vorobjova on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaaltöö spetsialist. Telefon: 332 2101.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Olga Vorobjova",
+      "role": "sotsiaaltöö spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "332 2101",
+      "email": "*protected email*",
+      "address": "Estonia pst 38, Kohtla-Järve",
+      "reception": "E-N 8.30-12.00 ja 13.00-16.30",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_lilia_falovskaja",
+      "canonical_item_id": "kohtla_jarve_linn:contact:lilia_falovskaja",
+      "itemType": "contact",
+      "title": "Lilia Falovskaja",
+      "status": "active",
+      "summary": "Lilia Falovskaja on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaaltöö spetsialist. Telefon: 5886 7482.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Lilia Falovskaja",
+      "role": "sotsiaaltöö spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5886 7482",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "E-N 8.30-12.00 ja 13.00-16.30, kab 5",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_ljudmila_stalina",
+      "canonical_item_id": "kohtla_jarve_linn:contact:ljudmila_stalina",
+      "itemType": "contact",
+      "title": "Ljudmila Stalina",
+      "status": "active",
+      "summary": "Ljudmila Stalina on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaaltöö spetsialist. Telefon: 5561 9526.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Ljudmila Stalina",
+      "role": "sotsiaaltöö spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5561 9526",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "E-N 8.30-12.00 ja 13.00-16.30, kab 5",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_natalja_gainulina",
+      "canonical_item_id": "kohtla_jarve_linn:contact:natalja_gainulina",
+      "itemType": "contact",
+      "title": "Natalja Gainulina",
+      "status": "active",
+      "summary": "Natalja Gainulina on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaaltöö spetsialist. Telefon: 5336 6472.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Natalja Gainulina",
+      "role": "sotsiaaltöö spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5336 6472",
+      "email": "*protected email*",
+      "address": "Estonia pst 38, Kohtla-Järve",
+      "reception": "E-N 8.30-12.00 ja 13.00-16.30",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_ljudmila_selivjorstova",
+      "canonical_item_id": "kohtla_jarve_linn:contact:ljudmila_selivjorstova",
+      "itemType": "contact",
+      "title": "Ljudmila Selivjorstova",
+      "status": "active",
+      "summary": "Ljudmila Selivjorstova on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal sotsiaaltöö spetsialist. Telefon: 5388 2712.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Ljudmila Selivjorstova",
+      "role": "sotsiaaltöö spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5388 2712",
+      "email": "*protected email*",
+      "address": "Keskallee 17, Kohtla-Järve",
+      "reception": "E-N 8.30-12.00 ja 13.00-16.30, kab 7",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_jelena_solomanjuk",
+      "canonical_item_id": "kohtla_jarve_linn:contact:jelena_solomanjuk",
+      "itemType": "contact",
+      "title": "Jelena Solomanjuk",
+      "status": "active",
+      "summary": "Jelena Solomanjuk on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal noorte heaolu spetsialist. Telefon: 5388 2105.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Jelena Solomanjuk",
+      "role": "noorte heaolu spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5388 2105",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 713",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_jessika_erzinka_lapina",
+      "canonical_item_id": "kohtla_jarve_linn:contact:jessika_erzinka_lapina",
+      "itemType": "contact",
+      "title": "Jessika Eržinka Lapina",
+      "status": "active",
+      "summary": "Jessika Eržinka Lapina on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal noorte heaolu spetsialist. Telefon: 5865 0518.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Jessika Eržinka Lapina",
+      "role": "noorte heaolu spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5865 0518",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 714",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_elizaveta_shilman",
+      "canonical_item_id": "kohtla_jarve_linn:contact:elizaveta_shilman",
+      "itemType": "contact",
+      "title": "Elizaveta Shilman",
+      "status": "active",
+      "summary": "Elizaveta Shilman on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal noorte heaolu spetsialist. Telefon: 5883 8564.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Elizaveta Shilman",
+      "role": "noorte heaolu spetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5883 8564",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 703",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_laivi_siitan",
+      "canonical_item_id": "kohtla_jarve_linn:contact:laivi_siitan",
+      "itemType": "contact",
+      "title": "Laivi Siitan",
+      "status": "active",
+      "summary": "Laivi Siitan on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal projektijuht. Telefon: 5887 2427, 5386 1183.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Laivi Siitan",
+      "role": "projektijuht",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5887 2427, 5386 1183",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 712",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_vitali_ljubimov",
+      "canonical_item_id": "kohtla_jarve_linn:contact:vitali_ljubimov",
+      "itemType": "contact",
+      "title": "Vitali Ljubimov",
+      "status": "active",
+      "summary": "Vitali Ljubimov on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal projektijuht. Telefon: 5885 3534.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Vitali Ljubimov",
+      "role": "projektijuht",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5885 3534",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 305",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_joosep_magi",
+      "canonical_item_id": "kohtla_jarve_linn:contact:joosep_magi",
+      "itemType": "contact",
+      "title": "Joosep Mägi",
+      "status": "active",
+      "summary": "Joosep Mägi on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal valmisoleku peaspetsialist. Telefon: 5884 5521.",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "name": "Joosep Mägi",
+      "role": "valmisoleku peaspetsialist",
+      "department": "Kohtla-Järve Linnavalitsus",
+      "phone": "5884 5521",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": "kokkuleppel, kab 109",
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_contact_maie_puusepp",
+      "canonical_item_id": "kohtla_jarve_linn:contact:maie_puusepp",
+      "itemType": "contact",
+      "title": "Maie Puusepp",
+      "status": "active",
+      "summary": "Maie Puusepp on Kohtla-Järve linna sotsiaalvaldkonna kontakt ametikohal Kohtla-Järve Sotsiaalhoolekandekeskuse juhataja. Telefon: 5744 6940.",
+      "sourceKeys": [
+        "hoolekandeasutused_page",
+        "contact_page"
+      ],
+      "name": "Maie Puusepp",
+      "role": "Kohtla-Järve Sotsiaalhoolekandekeskuse juhataja",
+      "department": "Kohtla-Järve Sotsiaalhoolekandekeskus",
+      "phone": "5744 6940",
+      "email": "*protected email*",
+      "address": "Keskallee 19, Kohtla-Järve 30395",
+      "reception": null,
+      "officialUrl": "https://kohtla-jarve.ee/linn-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "relatedTo": [],
+      "sections_present": [
+        "name",
+        "role",
+        "phone",
+        "email",
+        "reception"
+      ],
+      "unresolvedIssues": [
+        "E-posti aadress on KOV veebilehel varjestatud kujul „*protected email*“."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_e_vorm",
+      "canonical_item_id": "kohtla_jarve_linn:form:sotsiaalteenuse_taotlus_e_vorm",
+      "itemType": "form",
+      "title": "Taotlus sotsiaalteenuse saamiseks (e-vorm)",
+      "status": "active",
+      "summary": "Üldine e-taotlus sotsiaalteenuse saamiseks Kohtla-Järve linnas.",
+      "sourceKeys": [
+        "sotsiaalteenused_overview"
+      ],
+      "format": "web_form",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "submissionChannels": [
+        "online"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_service_koduteenus",
+        "kohtla_jarve_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_taisealise_isiku_hooldus",
+        "kohtla_jarve_linn_service_isikliku_abistaja_teenus",
+        "kohtla_jarve_linn_service_sotsiaaltransporditeenus",
+        "kohtla_jarve_linn_service_eluruumi_tagamise_teenus",
+        "kohtla_jarve_linn_service_volanoustamine",
+        "kohtla_jarve_linn_service_asendushooldusteenus",
+        "kohtla_jarve_linn_service_jarelhooldusteenus",
+        "kohtla_jarve_linn_service_valtimatu_sotsiaalabi"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:sotsiaalteenuse_taotlus_doc",
+      "itemType": "form",
+      "title": "Taotlus sotsiaalteenuse saamiseks (DOC)",
+      "status": "active",
+      "summary": "Üldine DOC-vorm sotsiaalteenuse saamiseks.",
+      "sourceKeys": [
+        "sotsiaalteenused_overview"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_service_koduteenus",
+        "kohtla_jarve_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_taisealise_isiku_hooldus",
+        "kohtla_jarve_linn_service_isikliku_abistaja_teenus",
+        "kohtla_jarve_linn_service_sotsiaaltransporditeenus",
+        "kohtla_jarve_linn_service_eluruumi_tagamise_teenus",
+        "kohtla_jarve_linn_service_volanoustamine",
+        "kohtla_jarve_linn_service_asendushooldusteenus",
+        "kohtla_jarve_linn_service_jarelhooldusteenus",
+        "kohtla_jarve_linn_service_valtimatu_sotsiaalabi"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sotsiaalteenuse_taotlus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:sotsiaalteenuse_taotlus_pdf",
+      "itemType": "form",
+      "title": "Taotlus sotsiaalteenuse saamiseks (PDF)",
+      "status": "active",
+      "summary": "Üldine PDF-vorm sotsiaalteenuse saamiseks.",
+      "sourceKeys": [
+        "sotsiaalteenused_overview"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_service_koduteenus",
+        "kohtla_jarve_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_taisealise_isiku_hooldus",
+        "kohtla_jarve_linn_service_isikliku_abistaja_teenus",
+        "kohtla_jarve_linn_service_sotsiaaltransporditeenus",
+        "kohtla_jarve_linn_service_eluruumi_tagamise_teenus",
+        "kohtla_jarve_linn_service_volanoustamine",
+        "kohtla_jarve_linn_service_asendushooldusteenus",
+        "kohtla_jarve_linn_service_jarelhooldusteenus",
+        "kohtla_jarve_linn_service_valtimatu_sotsiaalabi"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_vabas_vormis_puudega_lapse_teenuse_avaldus",
+      "canonical_item_id": "kohtla_jarve_linn:form:vabas_vormis_puudega_lapse_teenuse_avaldus",
+      "itemType": "form",
+      "title": "Vabas vormis avaldus puudega lapse teenuse taotlemiseks",
+      "status": "active",
+      "summary": "Puudega lapse esindaja saab esitada vabas vormis põhjendatud avalduse.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "format": "free_text",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/tugiisikuteenus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_service_tugiisikuteenus",
+        "kohtla_jarve_linn_service_sotsiaaltransporditeenus",
+        "kohtla_jarve_linn_service_lapsehoiuteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:sissetulekust_soltuv_sotsiaaltoetus_doc",
+      "itemType": "form",
+      "title": "Sissetulekust sõltuva sotsiaaltoetuse määramise avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm sissetulekust sõltuva sotsiaaltoetuse taotlemiseks.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_prillide_ja_invaabivahendi_toetus",
+        "kohtla_jarve_linn_benefit_balloonigaasi_toetus",
+        "kohtla_jarve_linn_benefit_kuttepuude_toetus",
+        "kohtla_jarve_linn_benefit_ettenagematu_olukorra_toetus",
+        "kohtla_jarve_linn_benefit_ravi_ja_medtranspordi_toetus",
+        "kohtla_jarve_linn_benefit_lemmiklooma_mikrokiibi_toetus",
+        "kohtla_jarve_linn_benefit_koolieelse_lasteasutuse_toitlustuskulude_toetus",
+        "kohtla_jarve_linn_benefit_oppevahendite_toetus",
+        "kohtla_jarve_linn_benefit_riiete_ja_jalanoude_toetus",
+        "kohtla_jarve_linn_benefit_oppeekskursiooni_toetus",
+        "kohtla_jarve_linn_benefit_opilase_soidukulude_toetus",
+        "kohtla_jarve_linn_benefit_lastelaagri_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sissetulekust_soltuv_sotsiaaltoetus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:sissetulekust_soltuv_sotsiaaltoetus_pdf",
+      "itemType": "form",
+      "title": "Sissetulekust sõltuva sotsiaaltoetuse määramise avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm sissetulekust sõltuva sotsiaaltoetuse taotlemiseks.",
+      "sourceKeys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_prillide_ja_invaabivahendi_toetus",
+        "kohtla_jarve_linn_benefit_balloonigaasi_toetus",
+        "kohtla_jarve_linn_benefit_kuttepuude_toetus",
+        "kohtla_jarve_linn_benefit_ettenagematu_olukorra_toetus",
+        "kohtla_jarve_linn_benefit_ravi_ja_medtranspordi_toetus",
+        "kohtla_jarve_linn_benefit_lemmiklooma_mikrokiibi_toetus",
+        "kohtla_jarve_linn_benefit_koolieelse_lasteasutuse_toitlustuskulude_toetus",
+        "kohtla_jarve_linn_benefit_oppevahendite_toetus",
+        "kohtla_jarve_linn_benefit_riiete_ja_jalanoude_toetus",
+        "kohtla_jarve_linn_benefit_oppeekskursiooni_toetus",
+        "kohtla_jarve_linn_benefit_opilase_soidukulude_toetus",
+        "kohtla_jarve_linn_benefit_lastelaagri_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_i_e_vorm",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_i_e_vorm",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse I osa e-vorm",
+      "status": "active",
+      "summary": "E-vorm lapse sünnitoetuse I osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "web_form",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "online"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_i_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_i_doc",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse I osa avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm lapse sünnitoetuse I osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_i_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_i_pdf",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse I osa avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm lapse sünnitoetuse I osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_ii_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_ii_doc",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse II osa avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm lapse sünnitoetuse II osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_ii_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_ii_pdf",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse II osa avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm lapse sünnitoetuse II osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_iii_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_iii_doc",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse III osa avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm lapse sünnitoetuse III osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_sunnitoetus_iii_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:sunnitoetus_iii_pdf",
+      "itemType": "form",
+      "title": "Lapse sünnitoetuse III osa avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm lapse sünnitoetuse III osa taotlemiseks.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/sunnitoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_lapse_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_esimese_klassi_toetus_e_vorm",
+      "canonical_item_id": "kohtla_jarve_linn:form:esimese_klassi_toetus_e_vorm",
+      "itemType": "form",
+      "title": "Esmakordselt kooli mineva lapse toetuse e-vorm",
+      "status": "active",
+      "summary": "E-vorm esimesse klassi mineva lapse toetuse taotlemiseks.",
+      "sourceKeys": [
+        "esimese_klassi_toetus_page"
+      ],
+      "format": "web_form",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/haridus-ja-noored/",
+      "submissionChannels": [
+        "online"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_esimesse_klassi_mineva_lapse_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_esimese_klassi_toetus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:esimese_klassi_toetus_doc",
+      "itemType": "form",
+      "title": "Esmakordselt kooli mineva lapse toetuse avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm esimesse klassi mineva lapse toetuse taotlemiseks.",
+      "sourceKeys": [
+        "esimese_klassi_toetus_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/haridus-ja-noored/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_esimesse_klassi_mineva_lapse_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_esimese_klassi_toetus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:esimese_klassi_toetus_pdf",
+      "itemType": "form",
+      "title": "Esmakordselt kooli mineva lapse toetuse avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm esimesse klassi mineva lapse toetuse taotlemiseks.",
+      "sourceKeys": [
+        "esimese_klassi_toetus_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/haridus-ja-noored/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_esimesse_klassi_mineva_lapse_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_matusetoetus_e_vorm",
+      "canonical_item_id": "kohtla_jarve_linn:form:matusetoetus_e_vorm",
+      "itemType": "form",
+      "title": "Matusetoetuse e-vorm",
+      "status": "active",
+      "summary": "E-vorm matusetoetuse taotlemiseks.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "format": "web_form",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/matusetoetus/",
+      "submissionChannels": [
+        "online"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_matusetoetus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:matusetoetus_doc",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm matusetoetuse taotlemiseks.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/matusetoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_matusetoetus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:matusetoetus_pdf",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm matusetoetuse taotlemiseks.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/juhtimine-ja-majandus/e-teenused-ja-blanketid/sotsiaal-ja-tervishoid/matusetoetus/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_puudega_lapse_hooldajatoetus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:puudega_lapse_hooldajatoetus_doc",
+      "itemType": "form",
+      "title": "Puudega lapse hooldajatoetuse avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm puudega lapse hooldajatoetuse taotlemiseks.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_puudega_lapse_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_puudega_lapse_hooldajatoetus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:puudega_lapse_hooldajatoetus_pdf",
+      "itemType": "form",
+      "title": "Puudega lapse hooldajatoetuse avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm puudega lapse hooldajatoetuse taotlemiseks.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_puudega_lapse_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_taisealise_hooldajatoetus_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:taisealise_hooldajatoetus_doc",
+      "itemType": "form",
+      "title": "Täisealise isiku hooldajatoetuse avaldus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm täisealise isiku hooldajatoetuse taotlemiseks.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_taisealise_isiku_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_taisealise_hooldajatoetus_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:taisealise_hooldajatoetus_pdf",
+      "itemType": "form",
+      "title": "Täisealise isiku hooldajatoetuse avaldus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm täisealise isiku hooldajatoetuse taotlemiseks.",
+      "sourceKeys": [
+        "universaaltoetused_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/universaaltoetused/",
+      "submissionChannels": [
+        "email",
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_benefit_taisealise_isiku_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_parkimiskaart_vorm",
+      "canonical_item_id": "kohtla_jarve_linn:form:parkimiskaart_vorm",
+      "itemType": "form",
+      "title": "Parkimiskaardi taotluse vorm",
+      "status": "active",
+      "summary": "Taotluse vorm liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaardi saamiseks.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "format": "web_form",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "submissionChannels": [
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_resource_parkimiskaart_puudega_inimesele"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_parkimiskaart_doc",
+      "canonical_item_id": "kohtla_jarve_linn:form:parkimiskaart_doc",
+      "itemType": "form",
+      "title": "Parkimiskaardi taotlus (DOC)",
+      "status": "active",
+      "summary": "DOC-vorm parkimiskaardi taotlemiseks.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "format": "doc",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "submissionChannels": [
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_resource_parkimiskaart_puudega_inimesele"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    },
+    {
+      "id": "kohtla_jarve_linn_form_parkimiskaart_pdf",
+      "canonical_item_id": "kohtla_jarve_linn:form:parkimiskaart_pdf",
+      "itemType": "form",
+      "title": "Parkimiskaardi taotlus (PDF)",
+      "status": "active",
+      "summary": "PDF-vorm parkimiskaardi taotlemiseks.",
+      "sourceKeys": [
+        "puudega_inimesele_page"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://kohtla-jarve.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-inimesele/",
+      "submissionChannels": [
+        "paper",
+        "in-person"
+      ],
+      "relatedTo": [
+        "kohtla_jarve_linn_resource_parkimiskaart_puudega_inimesele"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [
+        "format",
+        "submissionChannels",
+        "relatedTo"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel on vorm või e-vorm lingitud, kuid selles paketis ei kasutatud eraldi allikana välist e-teenuse või faili lõpp-URL-i; allikas on KOV ametlik leht."
+      ]
+    }
+  ]
+}

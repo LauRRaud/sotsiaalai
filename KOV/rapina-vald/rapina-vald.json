@@ -1,0 +1,1390 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-rapina-vald",
+  "document_id": "kov-rapina-vald",
+  "municipality": "Räpina vald",
+  "municipality_id": "rapina_vald",
+  "county": "Põlvamaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "rapina_vald_service_sotsiaalnoustamine",
+      "canonical_item_id": "rapina_vald:service:sotsiaalnoustamine",
+      "itemType": "service",
+      "title": "Sotsiaalnõustamine",
+      "status": "active",
+      "summary": "Sotsiaalnõustamine aitab inimesi ja peresid, kelle igapäevane toimetulek on sotsiaalsete, majanduslike, tervislike või psühholoogiliste tegurite tõttu häiritud. Teenuse käigus antakse teavet sotsiaalsete õiguste, teenuste ja toetuste kohta ning otsitakse lahendusi toimetuleku parandamiseks.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "targetGroup": "Isikud ja pered, kelle iseseisev toimetulek on häiritud või häirumas.",
+      "conditions": "Vajadus sotsiaalse või majandusliku toimetuleku parandamiseks.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu sotsiaalosakonda, helista või saada päring elektrooniliselt.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/noustamine/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_psuhholoogiline_noustamine",
+      "canonical_item_id": "rapina_vald:service:psuhholoogiline_noustamine",
+      "itemType": "service",
+      "title": "Psühholoogiline nõustamine",
+      "status": "active",
+      "summary": "Psühholoogiline nõustamine on mõeldud vähekindlustatud Räpina valla elanikele, kes vajavad abi kriisi, pingete, suhete või elusündmustega toimetulekuks. Teenuse eesmärk on parandada iseseisvat toimetulekut ja heaolu.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "targetGroup": "Vähekindlustatud Räpina valla elanikud, kes vajavad psühholoogilist abi.",
+      "conditions": "Elukoht rahvastikuregistris peab olema Räpina vald ning isikul peab olema vajadus psühholoogilise abi järele.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone"
+        ],
+        "steps": "Pöördu sotsiaaltöötaja või perearsti poole.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/noustamine/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_volanoustamisteenus",
+      "canonical_item_id": "rapina_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamine aitab kindlaks teha inimese varalise olukorra, pidada läbirääkimisi võlausaldajatega, vältida uute võlgade tekkimist ja lahendada võlgadega seotud probleeme. KOV lehel suunatakse pöörduma sotsiaaltöötaja või võlanõustaja Annika Rau poole.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "targetGroup": "Võlgade või makseraskustega inimesed.",
+      "conditions": "Inimesel peab olema võlanõustamise vajadus ja võlgnevusega seotud probleem.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu valla sotsiaaltöötaja või võlanõustaja Annika Rau poole.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/noustamine/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_annika_rau",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_oigusalane_noustamine",
+      "canonical_item_id": "rapina_vald:service:oigusalane_noustamine",
+      "itemType": "service",
+      "title": "Õigusalane nõustamine",
+      "status": "active",
+      "summary": "Õigusalane nõustamine on KOV lehel nimetatud nõustamisteenus, mille kontaktiks on vallasekretär Piret Paulson. Teenus aitab õigusalaste küsimuste esmase selgitamise ja suunamisega.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "targetGroup": "Räpina valla elanikud, kes vajavad esmaseid õigusalaseid selgitusi.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "email"
+        ],
+        "steps": "Võta ühendust Piret Paulsoniga telefoni või e-posti teel.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/noustamine/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_piret_paulson"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_koduteenused",
+      "canonical_item_id": "rapina_vald:service:koduteenused",
+      "itemType": "service",
+      "title": "Koduteenused",
+      "status": "active",
+      "summary": "Koduteenused toetavad täisealist inimest, kes vajab abi kodus püsimiseks ja igapäevaseks toimetulekuks. Teenus hõlmab toidu ja esmatarbekaupadega varustamist, sooja toidu võimaldamist, hügieeni, arstiabi korraldamist, ravimite ja abivahendite hankimist, pesu, sauna ja maksete korraldamist, kütmist, vee toomist, asjaajamist ning eluruumide korrastamist.",
+      "sourceKeys": [
+        "koduteenused_page"
+      ],
+      "targetGroup": "Täisealised, kes tervise, tegevusvõime või elukeskkonna tõttu ei saa kodus kõrvalabita hakkama.",
+      "conditions": "Taotleja esitab avalduse; sotsiaaltöö spetsialist teeb kodukülastuse ja hindab abivajadust ning toimetulekut.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita avaldus, milles on avaldaja ja teenuse vajaja andmed ning põhjendus. Pärast avalduse saamist teeb sotsiaaltöö spetsialist kodukülastuse ja vajaduse hindamise.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/koduteenused/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_tugiisikuteenus",
+      "canonical_item_id": "rapina_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisik nõustab ja toetab abivajajat või koos elavaid abivajajaid kohustuste täitmisel, õiguste teostamisel ja igapäevases keskkonnas toimetulekul. Täiskasvanu tugiisik motiveerib ja juhendab konkreetseid toiminguid ning lapse tugiisik aitab lapsel areneda ja igapäevaelus toime tulla.",
+      "sourceKeys": [
+        "tugiisik_abistaja_hooldaja_page"
+      ],
+      "targetGroup": "Täiskasvanud, lapsed ja pered, kes vajavad toimetuleku toetust, juhendamist või abi lapse eest hoolitsemisel.",
+      "conditions": "Tugiisik peab olema vastava koolituse läbinud; vajadus hinnatakse juhtumipõhiselt.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu sotsiaalosakonna või lastekaitsespetsialisti poole, et kirjeldada abivajadust.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/tugiisik-abistajad-hooldaja/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kersti_kittus"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "rapina_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus toetab puudega inimese iseseisvust ja osalemist kõigis eluvaldkondades ning vähendab pereliikmete hoolduskoormust. Abistaja aitab liikumisel, söömisel, riietumisel, suhtlemisel, hügieenitoimingutes, kirjutamisel, lugemisel, majapidamistöödes ja muudes puudest tulenevates toimingutes.",
+      "sourceKeys": [
+        "tugiisik_abistaja_hooldaja_page"
+      ],
+      "targetGroup": "Puudega inimesed, kes vajavad füüsilist abi igapäevatoimingutes.",
+      "conditions": "Tööülesanded ja tööaeg lepitakse kokku teenust saava inimese ja abistaja vahelises lepingus; abistaja ei osuta meditsiini-, tõlke-, juriidilisi või ehitusteenuseid.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu valla sotsiaalosakonna poole ja kirjelda isikliku abistaja vajadust.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/tugiisik-abistajad-hooldaja/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "rapina_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Hooldaja määratakse eakale või puudega inimesele kohaliku omavalitsuse poolt. Hooldaja määramisega võib kaasneda hooldajatoetus, mida kasutatakse hooldustegevuse toetamiseks.",
+      "sourceKeys": [
+        "tugiisik_abistaja_hooldaja_page",
+        "hooldajatoetus_page"
+      ],
+      "targetGroup": "Eakad või puudega täisealised inimesed, kes vajavad hooldajat.",
+      "conditions": "Hooldajaks saab olla täisealine teovõimeline isik, kellel ei ole rasket või sügavat puuet ja kelle elukoht on rahvastikuregistri andmetel Räpina vallas.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita avaldus hooldaja määramiseks; vald teeb otsuse 30 päeva jooksul, vajadusel pikendatakse hindamist.",
+        "deadline": null
+      },
+      "decisionTime": "30 päeva",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/tugiisik-abistajad-hooldaja/",
+      "relatedForms": [
+        "rapina_vald_form_hooldaja_maaramise_avaldus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_eluruumi_tagamise_teenus",
+      "canonical_item_id": "rapina_vald:service:eluruumi_tagamise_teenus",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenus annab eluruumi kasutamise võimaluse inimesele, kes ei suuda endale või oma perekonnale sobivat eluruumi tagada. Teenus on mõeldud Räpina valla elanikule, kelle füüsilised võimed, psüühilised erivajadused, sotsiaalne toimetulematus, madal sissetulek või vara puudumine takistavad eluaseme hankimist.",
+      "sourceKeys": [
+        "eluruumi_page"
+      ],
+      "targetGroup": "Räpina valla elanikud, kes ei saa sotsiaalmajanduslikel või tervislikel põhjustel endale eluruumi tagada.",
+      "conditions": "Isiku abivajadus peab olema tuvastatud; teenuse saaja tasub eluruumi kõrvalkulud.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita avaldus sotsiaal- ja tervishoiuosakonna piirkonnakeskuse sotsiaaltöö spetsialistile.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/eluruumi-tagamise-teenus/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "rapina_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus aitab inimesi, kes ei saa liikumis-, nägemis- või vaimupuude või tervisliku erivajaduse tõttu kasutada ühistransporti või isiklikku sõiduautot. Põlva ja Võru maakonnas korraldab teenust Kagu Ühistranspordikeskus ning sõidukid on kohandatud ka ratastooli või kanderaamiga klientidele.",
+      "sourceKeys": [
+        "sotsiaaltransport_page"
+      ],
+      "targetGroup": "Liikumis- või nägemiskahjustusega ja vaimupuudega vallaelanikud ning muud abivajajad, kellel on takistus ühiskonnaelus osalemiseks.",
+      "conditions": "Vajadust hindab vald; sõit tuleb tellida kohe vajaduse ilmnemisel, kuid vähemalt kaks tööpäeva ette.",
+      "application": {
+        "channels": [
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu sotsiaaltöötaja poole ja edasta sõidu kuupäev, alguspunkt, sihtpunkt, kellaaeg, eesmärk, saatja olemasolu ja abivahendite vajadus.",
+        "deadline": "vähemalt kaks tööpäeva enne sõitu"
+      },
+      "pricing": {
+        "amount": "5 € Kagu ÜTK piirkonnas; 10 € naabermaakonda; 30 € mujal Eestis; saatja tasuta",
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/sotsiaaltransport/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena",
+        "rapina_vald_contact_kersti_kittus"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_varjupaigateenus",
+      "canonical_item_id": "rapina_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus on vältimatu abi täisealisele inimesele, kes ilma abita võib sattuda elu või tervist ohustavasse olukorda. Teenus tagab voodikoha, pesemisvõimaluse, turvalise keskkonna ning vajadusel nõustamise ja abi dokumentide või toimetulekutoetuse taotlemisel.",
+      "sourceKeys": [
+        "varjupaik_turvakodu_page"
+      ],
+      "targetGroup": "Täisealised, kes vajavad ajutist turvalist peavarju.",
+      "conditions": "Teenust vajab inimene, kellel puudub turvaline ööbimisvõimalus või kes on sattunud kriisiolukorda.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone"
+        ],
+        "steps": "Pöördu sotsiaalosakonna poole; lähim varjupaik asub Tartus, aadressil Peetri 16c.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/varjupaik-ja-turvakodu/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_turvakoduteenus",
+      "canonical_item_id": "rapina_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenuse info on avaldatud varjupaiga ja turvakodu rubriigis ning lastekaitse turvakodu alamlehel. Teenus pakub turvalist ajutist keskkonda vägivalla, hooletuse või muu kriisi tõttu abi vajavale lapsele või täiskasvanule ning KOV suunab abivajaja sobiva teenusepakkuja juurde.",
+      "sourceKeys": [
+        "varjupaik_turvakodu_page",
+        "turvakodu_page"
+      ],
+      "targetGroup": "Kriisiolukorras lapsed ja täiskasvanud, sh vägivalla ohvrid.",
+      "conditions": "Abivajadus hinnatakse juhtumipõhiselt; KOV lehel on detailne lastekaitse turvakodu alamleht osaliselt kättesaamatu.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone"
+        ],
+        "steps": "Pöördu sotsiaalosakonna või lastekaitsespetsialisti poole; vahetu ohu korral helista 112.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/lastekaitse/turvakodu/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ],
+      "unresolvedIssues": [
+        "Lastekaitse turvakodu detailleht oli korje ajal osaliselt kättesaamatu; praktiline info on võetud KOV varjupaiga ja turvakodu lehelt."
+      ]
+    },
+    {
+      "id": "rapina_vald_service_uldhooldusteenus",
+      "canonical_item_id": "rapina_vald:service:uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenus on hoolekandeasutuses osutatav hooldus täiskasvanule, kes kõrvalabi- ja hooldusvajaduse tõttu ei saa iseseisvalt elada ning kelle toimetulekut ei ole võimalik tagada koduste teenuste või muu abiga. Räpina vallas on selleks loetletud Leevi hooldekodu, Miikaeli koguduse hooldekodu, Ristipalo pansionaat ja AS Räpina Haigla.",
+      "sourceKeys": [
+        "hoolekandeasutus_page"
+      ],
+      "targetGroup": "Täiskasvanud ja eakad, kes vajavad ööpäevaringset hooldust.",
+      "conditions": "Teenuse eest maksab üldjuhul isik või tema perekond; valla osalusel sõlmitakse kolmepoolne finantseerimiskokkulepe.",
+      "application": {
+        "channels": [
+          "written_application",
+          "in_person"
+        ],
+        "steps": "Pöördu hooldekodu või sotsiaaltöötaja poole; valla toetuse korral esita kirjalik avaldus. Hooldekodusse asumisel on nõutav pere- või eriarsti saatekiri ja terviseandmed.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/hooldamine-hoolekandeasutuses/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "rapina_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenus toetab lapsevanema töötamist, õppimist või toimetulekut ning lapsehoiuteenuse osutaja tagab lapse hooldamise, arendamise ja turvalisuse. Teenust võivad kasutada kõik lapsevanemad; raske või sügava puudega lapse lapsehoiuteenuse eest tasutakse riigieelarvest eraldatud summa ulatuses.",
+      "sourceKeys": [
+        "lapsehoiuteenus_page"
+      ],
+      "targetGroup": "Lapsevanemad ning raske või sügava puudega lapse seaduslik esindaja.",
+      "conditions": "Riikliku hüvitamise puhul peab lapse hooldusteenuse vajadus olema rehabilitatsiooniplaanis ning lapse hooldamine ei tohi samal ajal olla tagatud teiste sotsiaalteenustega.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone"
+        ],
+        "steps": "Pöördu valla lastekaitsetöötaja või lapsehoiuteenuse pakkuja poole ja lepi teenuse periood kokku.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/lastekaitse/lapsehoiuteenus/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_perelepitus",
+      "canonical_item_id": "rapina_vald:service:perelepitus",
+      "itemType": "service",
+      "title": "Perelepitus",
+      "status": "active",
+      "summary": "Perelepitus on läbirääkimiste protsess, mille abil lapsevanemad lepivad erapooletu lepitaja toel kokku lapse tulevases elukorralduses ja elatisraha maksmises. KOV lehe järgi osutab teenust sotsiaalosakonna lastekaitsespetsialist, kes on läbinud perelepitajate koolituse.",
+      "sourceKeys": [
+        "perelepitus_page"
+      ],
+      "targetGroup": "Lapsevanemad, kellel tuleb pärast suhte purunemist kokku leppida lapse elukorraldus või elatis.",
+      "conditions": "Teenuse eelduseks on vanemate valmisolek läbirääkimisteks erapooletu lepitaja juures.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu vallavalitsuse lastekaitsespetsialisti poole.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/lastekaitse/perelepitus/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_asendushooldusteenus",
+      "canonical_item_id": "rapina_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus on lapsele asendava hoolduse korraldamine, kui lapse vanemad ei saa tema eest hoolitseda. KOV leht kirjeldab vanemliku hoolitsuseta lapse puhul eestkostet, lapsendamist, perekonnas hooldamist ja asenduskodusse paigutamist.",
+      "sourceKeys": [
+        "vanemliku_hoolitsuseta_laps_page",
+        "toetused_overview"
+      ],
+      "targetGroup": "Vanemliku hoolitsuseta lapsed.",
+      "conditions": "Lapse olukorda hindab lastekaitse; eelistatakse lapsele sobivaimat hooldusvormi.",
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": "Pöördu vallavalitsuse lastekaitsespetsialisti poole.",
+        "deadline": null
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/lastekaitse/vanemliku-hoolitsuseta-laps/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ]
+    },
+    {
+      "id": "rapina_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "rapina_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus on KOV sotsiaalhoolekandelise abi loetelus eraldi nimetatud teenus. KOV üldleht nimetab seda eraldi sotsiaalhoolekandelise abina, kuid detailset praktilist kirjeldust eraldi lehel ei olnud korje käigus võimalik kinnitada.",
+      "sourceKeys": [
+        "toetused_overview"
+      ],
+      "targetGroup": "Asendushooldusest või eestkostelt iseseisvasse ellu suunduvad noored.",
+      "conditions": null,
+      "application": null,
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/",
+      "relatedForms": [],
+      "relatedContacts": [
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ],
+      "unresolvedIssues": [
+        "Järelhooldusteenuse eraldi praktilist detaillehte ei leitud; teenus on tuvastatud KOV sotsiaalhoolekandelise abi loetelust."
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_sunnitoetus",
+      "canonical_item_id": "rapina_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Räpina valla sünnitoetus makstakse lapse ühele hooldusõigusega vanemale kahes osas: 300 eurot pärast lapse sünni registreerimist ja 200 eurot lapse aastaseks saamisel. Toetuse saamiseks tuleb esitada vallavalitsusele avaldus.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "targetGroup": "Lapsevanemad, kelle laps on seotud Räpina vallaga ja kellel on hooldusõigus.",
+      "conditions": "Taotlus esitatakse vallavalitsusele; KOV lehel on eraldi välja toodud ka riiklik sünnitoetus, kuid see ei kuulu KOV toetuse hulka.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita sünnitoetuse avaldus vallavalitsusele.",
+        "deadline": null
+      },
+      "amount": {
+        "value": 500,
+        "currency": "EUR",
+        "note": "300 € pärast sünni registreerimist ja 200 € lapse aastaseks saamisel"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/sunnitoetus/",
+      "relatedForms": [
+        "rapina_vald_form_rapina_valla_eelarvest_toetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_rapina_vallavalitsus"
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_lasteaialapse_toitlustustoetus",
+      "canonical_item_id": "rapina_vald:benefit:lasteaialapse_toitlustustoetus",
+      "itemType": "benefit",
+      "title": "Lasteaia toidupäeva toetus",
+      "status": "active",
+      "summary": "Lasteaia toidupäeva toetus määratakse iga toidupäeva kohta Räpina Lasteaias Vikerkaar käivale lapsele, kes sööb lõunatoitu. Toetus makstakse toitlustajale lasteaias toitlustatud laste nimekirja ja toidupäevade arvu alusel.",
+      "sourceKeys": [
+        "lasteaia_toidupaev_page"
+      ],
+      "targetGroup": "Räpina Lasteaias Vikerkaar käivad lapsed, kes söövad lõunatoitu.",
+      "conditions": "Toetus arvutatakse toitlustatud laste nimekirja ja toidupäevade järgi.",
+      "application": {
+        "channels": [
+          "not_required"
+        ],
+        "steps": "Eraldi taotlust lapsevanemalt ei nõuta; toetus makstakse toitlustajale nimekirja alusel.",
+        "deadline": null
+      },
+      "amount": {
+        "value": 0.19,
+        "currency": "EUR",
+        "unit": "lõunatoit"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/lasteaia-toidupaeva-toetus/",
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_benefit_koolitoetus",
+      "canonical_item_id": "rapina_vald:benefit:koolitoetus",
+      "itemType": "benefit",
+      "title": "Koolitoetus",
+      "status": "active",
+      "summary": "Koolitoetus on 50 euro suurune toetus lapsele, kelle rahvastikuregistrijärgne elukoht on jooksva aasta 10. septembri seisuga Räpina vald ja kes õpib Räpina valla munitsipaalkoolis. Toetus makstakse septembris EHIS andmete alusel ning üldjuhul eraldi avaldust vallavalitsusele ei esitata.",
+      "sourceKeys": [
+        "koolitoetus_page"
+      ],
+      "targetGroup": "Räpina valla munitsipaalkoolide õpilased ja nende hooldusõigusega vanemad või eestkostjad.",
+      "conditions": "Laps peab 10. septembril olema Räpina valla elanik ja õppima valla munitsipaalkoolis; väljaspool valda õppimisel nõustamiskomisjoni soovitusel tuleb esitada taotlus.",
+      "application": {
+        "channels": [
+          "school_data",
+          "written_application"
+        ],
+        "steps": "Üldjuhul edastab kool vanema nime ja konto numbri vallale; erandjuhtudel esitab lapsevanem taotluse vallavalitsusele.",
+        "deadline": "kooli nimekirja andmete seis 10. september; kontoandmed koolile 1. septembriks"
+      },
+      "amount": {
+        "value": 50,
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/koolitoetus/",
+      "relatedForms": [
+        "rapina_vald_form_rapina_valla_eelarvest_toetuse_taotlus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_benefit_koolilopu_toetus",
+      "canonical_item_id": "rapina_vald:benefit:koolilopu_toetus",
+      "itemType": "benefit",
+      "title": "Koolilõpu toetus",
+      "status": "active",
+      "summary": "Koolilõpu toetus makstakse Räpina valla munitsipaalkoolide lõpetajatele. Põhikooli lõpetaja toetus on 50 eurot ja gümnaasiumi lõpetaja toetus 100 eurot; toetus kantakse üle pärast kooli lõpetamist lõpetaja pangakontole.",
+      "sourceKeys": [
+        "koolilopu_toetus_page"
+      ],
+      "targetGroup": "Räpina valla munitsipaalkoolide põhikooli ja gümnaasiumi lõpetajad.",
+      "conditions": "Lõpetaja peab esitama kooli kantseleisse pangakonto numbri; kool edastab lõpetajate andmed vallavalitsusele.",
+      "application": {
+        "channels": [
+          "school_data"
+        ],
+        "steps": "Esita kooli kantseleisse oma pangakonto number; kool edastab andmed vallavalitsusele.",
+        "deadline": null
+      },
+      "amount": {
+        "value": null,
+        "currency": "EUR",
+        "note": "50 € põhikooli lõpetajale; 100 € gümnaasiumi lõpetajale"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/koolilopu-toetus/",
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_benefit_prillitoetus",
+      "canonical_item_id": "rapina_vald:benefit:prillitoetus",
+      "itemType": "benefit",
+      "title": "Toetus lapse prillide soetamiseks",
+      "status": "active",
+      "summary": "Toetus lapse nägemist korrigeeriva abivahendi soetamiseks määratakse üks kord aastas koolieelikutele või Räpina valla munitsipaalkooli statsionaarse õppekava alusel õppivatele õpilastele. Toetuse saamiseks tuleb esitada taotlus ja kulu tõendav dokument.",
+      "sourceKeys": [
+        "prillitoetus_page"
+      ],
+      "targetGroup": "Koolieelikud ja Räpina valla munitsipaalkooli õpilased, kellel on vajadus nägemist korrigeerida.",
+      "conditions": "Toetust saab üks kord aastas; lisada tuleb kuludokument.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita vallavalitsusele taotlus koos prillide või muu nägemist korrigeeriva abivahendi kuludokumendiga.",
+        "deadline": null
+      },
+      "amount": {
+        "value": 50,
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/toetus-lapse-prillide-soetamiseks/",
+      "relatedForms": [
+        "rapina_vald_form_rapina_valla_eelarvest_toetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_hooldajatoetus",
+      "canonical_item_id": "rapina_vald:benefit:hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetus ja puuetega inimeste sotsiaaltoetus määratakse Räpina Vallavalitsuse korraldusega 30 päeva jooksul pärast avalduse registreerimist. Toetus sõltub hooldusplaanist ja hooldusvajadusest ning makstakse igakuiselt jooksva kuu eest kuu viimaseks päevaks.",
+      "sourceKeys": [
+        "hooldajatoetus_page"
+      ],
+      "targetGroup": "Hooldajad, puudega inimesed ja puudega laste hooldajad, kelle hooldusvajadus on hinnatud.",
+      "conditions": "Hooldajaks võib olla täisealine teovõimeline inimene, kellel ei ole rasket ega sügavat puuet, kelle elukoht on Räpina vald ja kes ei õpi statsionaarses õppes.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita hooldaja määramise või hooldajatoetuse avaldus vallavalitsusele. Vald teeb otsuse 30 päeva jooksul, vajadusel pikeneb tähtaeg hindamise tõttu.",
+        "deadline": null
+      },
+      "decisionTime": "30 päeva",
+      "amount": {
+        "value": null,
+        "currency": "EUR",
+        "note": "kuni 12,78 €; 12,78–25,56 €; või kuni miinimumpalgani vastavalt hooldusvajadusele"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/hooldajatoetus/",
+      "relatedForms": [
+        "rapina_vald_form_hooldaja_maaramise_avaldus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_saunapiletitoetus",
+      "canonical_item_id": "rapina_vald:benefit:saunapiletitoetus",
+      "itemType": "benefit",
+      "title": "Saunapiletitoetus",
+      "status": "active",
+      "summary": "Saunapiletitoetus on pensionärile määratav toetus Räpina valla üldsauna kasutamiseks. Toetus määratakse pensionitunnistuse alusel, makstakse igakuiselt sauna haldajale ning toetuse määr on 0,60 eurot sauna kasutuskorra kohta.",
+      "sourceKeys": [
+        "saunapiletitoetus_page"
+      ],
+      "targetGroup": "Räpina valla üldsaunas käivad pensionärid.",
+      "conditions": "Toetus määratakse pensionitunnistuse alusel ja makstakse sauna haldajale nimekirja ning arve alusel.",
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": "Esita pensionitunnistus sauna kasutamisel või valla nõutud korras.",
+        "deadline": null
+      },
+      "amount": {
+        "value": 0.6,
+        "currency": "EUR",
+        "unit": "sauna kasutuskord"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/saunapiletitoetus/",
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_benefit_matusetoetus",
+      "canonical_item_id": "rapina_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus makstakse matuse korraldajale, kui surnud isiku rahvastikuregistrijärgne elukoht oli Räpina vald. Toetuse eesmärk on katta osa matusekuludest ning toetuse suurus on 250 eurot.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "targetGroup": "Isik, kes korraldab Räpina vallas elanud inimese matuseid.",
+      "conditions": "Lahkunu elukoht rahvastikuregistris peab olema määratletud Räpina vallas.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita vallavalitsusele avaldus matusetoetuse saamiseks; täpsemat infot annab sotsiaalosakond.",
+        "deadline": null
+      },
+      "amount": {
+        "value": 250,
+        "currency": "EUR"
+      },
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/matusetoetus/",
+      "relatedForms": [
+        "rapina_vald_form_rapina_valla_eelarvest_toetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre"
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "rapina_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riiklik toetuse liik, mida inimene taotleb elukohajärgsest vallavalitsusest. Toetust saab taotleda üksi elav isik või pere, kelle netosissetulek jääb pärast eluasemekulude arvestamist alla kehtiva toimetulekupiiri. Avaldus tuleb esitada jooksva kuu 20. kuupäevaks ja lisada sissetulekute ning eluasemekulude dokumendid.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "targetGroup": "Üksi elavad isikud või pered, kelle sissetulek pärast eluasemekulusid on alla toimetulekupiiri.",
+      "conditions": "Avaldusele lisatakse eelmisel kuul saadud netosissetulekute, makstud elatise, eluasemekulude ja vajadusel vara loetelu tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Esita avaldus hiljemalt jooksva kuu 20. kuupäevaks vallavalitsusele koos vajalike sissetuleku- ja eluasemekulude dokumentidega.",
+        "deadline": "jooksva kuu 20. kuupäev"
+      },
+      "amount": null,
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/toimetulekutoetus/",
+      "relatedForms": [
+        "rapina_vald_form_toimetulekutoetuse_taotlus",
+        "rapina_vald_form_toimetulekutoetuse_esmakordne_lisa",
+        "rapina_vald_form_eluasemekulude_arvestuskaart"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ],
+      "unresolvedIssues": [
+        "KOV lehel kuvatud toimetulekupiiri summa on 2017. aasta info; seda ei kasutatud kehtiva summana."
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_joulutoetus_kommipakk",
+      "canonical_item_id": "rapina_vald:benefit:joulutoetus_kommipakk",
+      "itemType": "benefit",
+      "title": "Jõulutoetus (kommipakk)",
+      "status": "active",
+      "summary": "Jõulutoetus ehk kommipakk on Räpina valla toetuste ülevaates nimetatud kindlaksmääratud suurusega toetus. Detailset praktilist kirjeldust, sihtrühma ja taotlemise korda ei olnud eraldi lehelt võimalik kinnitada.",
+      "sourceKeys": [
+        "toetused_overview"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": null,
+      "amount": null,
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Toetuste ülevaates nimetatud, kuid detailset praktilist lehte ei leitud."
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_eakate_onnitluskaart",
+      "canonical_item_id": "rapina_vald:benefit:eakate_onnitluskaart",
+      "itemType": "benefit",
+      "title": "Eakate õnnitluskaart",
+      "status": "active",
+      "summary": "Eakate õnnitluskaart on Räpina valla toetuste ülevaates nimetatud kindlaksmääratud toetus või mitterahaline hüve. Detailset praktilist kirjeldust ja taotlemise korda ei olnud eraldi lehelt võimalik kinnitada.",
+      "sourceKeys": [
+        "toetused_overview"
+      ],
+      "targetGroup": "Eakad inimesed",
+      "conditions": null,
+      "application": null,
+      "amount": null,
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Toetuste ülevaates nimetatud, kuid detailset praktilist lehte ei leitud."
+      ]
+    },
+    {
+      "id": "rapina_vald_benefit_elamu_valisilme_toetus",
+      "canonical_item_id": "rapina_vald:benefit:elamu_valisilme_toetus",
+      "itemType": "benefit",
+      "title": "Toetus elamu välisilme parandamiseks",
+      "status": "active",
+      "summary": "Räpina valla toetuste ülevaates on nimetatud toetus elamu välisilme parandamiseks. KOV vormide lehel on selle jaoks eraldi taotluse vorm, kuid sotsiaalvaldkonna praktilised tingimused ei olnud eraldi detaillehelt kättesaadavad.",
+      "sourceKeys": [
+        "toetused_overview",
+        "sotsiaal_blanketid_page"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": {
+        "channels": [
+          "written_application"
+        ],
+        "steps": "Kasuta vormide lehel olevat hoonete välisilme parandamise taotluse vormi.",
+        "deadline": null
+      },
+      "amount": null,
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/toetused/",
+      "relatedForms": [
+        "rapina_vald_form_elamu_valisilme_toetus_taotlus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Toetus on nimetatud sotsiaaltoetuste ülevaates ja vormide lehel, kuid detailne sotsiaalvaldkonna kirjeldus jäi leidmata."
+      ]
+    },
+    {
+      "id": "rapina_vald_resource_ohvriabi",
+      "canonical_item_id": "rapina_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Ohvriabi toetab kuriteo, vägivalla või kriisijuhtumi tõttu kannatanud inimest. Abi eesmärk on taastada turvatunne ja toimetulek; teenus võib hõlmata vaimse tervise abi, ohvriabi hüvitist ja MARAC-võrgustiku tuge.",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/ohvriabi/",
+      "relatedTo": [],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_kersti_kittus",
+        "rapina_vald_contact_diana_bondareva"
+      ]
+    },
+    {
+      "id": "rapina_vald_resource_ohvriabi_kriisitelefonid",
+      "canonical_item_id": "rapina_vald:resource:ohvriabi_kriisitelefonid",
+      "itemType": "resource",
+      "title": "Ohvriabi ja kriisiabinumbrid",
+      "status": "active",
+      "summary": "KOV leht suunab kriisi ja vägivalla korral järgmistele abikanalitele: ohvriabi kriisitelefon 116 006, lasteabi telefon 116 111, inimkaubanduse nõuandeliin +372 660 7320, vägivallast loobumise tugiliin +372 660 6077 ning e-post kriisiabi@sotsiaalkindlustusamet.ee. KOV leht viitab ka palunabi.ee veebilehele.",
+      "sourceKeys": [
+        "ohvriabi_kriis_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/ohvriabi-abi-ja-tugi-kriisiolukorras/",
+      "phone": "116 006; 116 111; +372 660 7320; +372 660 6077",
+      "email": "kriisiabi@sotsiaalkindlustusamet.ee",
+      "relatedTo": [
+        "rapina_vald_service_varjupaigateenus",
+        "rapina_vald_service_turvakoduteenus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_resource_vorumaa_naiste_tugikeskus",
+      "canonical_item_id": "rapina_vald:resource:vorumaa_naiste_tugikeskus",
+      "itemType": "resource",
+      "title": "Võrumaa Naiste Tugikeskus",
+      "status": "active",
+      "summary": "Võrumaa Naiste Tugikeskus pakub lähisuhtevägivalla ohvriks olnud naistele ja lastele ööpäevaringset varjupaigateenust ning pikemaajalist tuge ja abi. KOV lehel on kontaktina avaldatud telefon 5283615 ja e-post runaistevarjupaik@gmail.com.",
+      "sourceKeys": [
+        "varjupaik_turvakodu_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/varjupaik-ja-turvakodu/",
+      "phone": "5283615",
+      "email": "runaistevarjupaik@gmail.com",
+      "relatedTo": [
+        "rapina_vald_service_turvakoduteenus",
+        "rapina_vald_service_varjupaigateenus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Väline teenusepakkuja on kajastatud ainult KOV lehel avaldatud info ulatuses."
+      ]
+    },
+    {
+      "id": "rapina_vald_resource_tartu_varjupaik",
+      "canonical_item_id": "rapina_vald:resource:tartu_varjupaik",
+      "itemType": "resource",
+      "title": "Tartu varjupaik",
+      "status": "active",
+      "summary": "Räpina valla lehel on lähima varjupaigana nimetatud Tartu varjupaik aadressil Peetri 16c. Ressurssi kasutatakse ajutise ööpäevase abi ja kaitse pakkumiseks.",
+      "sourceKeys": [
+        "varjupaik_turvakodu_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/varjupaik-ja-turvakodu/",
+      "address": "Peetri 16c, Tartu",
+      "relatedTo": [
+        "rapina_vald_service_varjupaigateenus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Välise teenusepakkuja andmeid ei kontrollitud väljaspool KOV lehte."
+      ]
+    },
+    {
+      "id": "rapina_vald_resource_kagu_uhistranspordikeskus",
+      "canonical_item_id": "rapina_vald:resource:kagu_uhistranspordikeskus",
+      "itemType": "resource",
+      "title": "Kagu Ühistranspordikeskuse sotsiaaltransport",
+      "status": "active",
+      "summary": "Põlva ja Võru maakonnas korraldab sotsiaaltranspordi teenust Kagu Ühistranspordikeskus. Teenust teostab KOV lehe järgi OÜ Merling Reisid ning sõidutellimuse tühistamiseks saab kasutada dispetšeri telefoni 58552755 või e-posti tellimus@ytk.ee.",
+      "sourceKeys": [
+        "sotsiaaltransport_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/sotsiaaltransport/",
+      "phone": "58552755",
+      "email": "tellimus@ytk.ee",
+      "relatedTo": [
+        "rapina_vald_service_sotsiaaltransporditeenus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_resource_leevi_hooldekodu",
+      "canonical_item_id": "rapina_vald:resource:leevi_hooldekodu",
+      "itemType": "resource",
+      "title": "Leevi Hooldekodu",
+      "status": "active",
+      "summary": "Leevi Hooldekodu on Räpina valla hoolekandeasutus aadressil Kooli tn 2, Leevi küla. KOV lehel on kontaktidena avaldatud juhataja Aina Olle, telefonid 79 53 382 ja 5348 0892, hooldajate telefon 79 53 384 ning e-postid aina.olle@rapina.ee ja leevi.hooldekodu@rapina.ee. Hooldekodul on valmisolek pakkuda üldhooldusteenust dementsuse diagnoosiga inimestele.",
+      "sourceKeys": [
+        "hoolekandeasutus_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/hooldamine-hoolekandeasutuses/",
+      "address": "Kooli tn 2, Leevi küla, Räpina vald, 64231 Põlvamaa",
+      "phone": "79 53 382; 5348 0892; hooldajad 79 53 384",
+      "email": "aina.olle@rapina.ee; leevi.hooldekodu@rapina.ee",
+      "relatedTo": [
+        "rapina_vald_service_uldhooldusteenus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_resource_miikaeli_hooldekodu",
+      "canonical_item_id": "rapina_vald:resource:miikaeli_hooldekodu",
+      "itemType": "resource",
+      "title": "EELK Räpina Miikaeli Koguduse Hooldekodu",
+      "status": "active",
+      "summary": "EELK Räpina Miikaeli Koguduse Hooldekodu on KOV hooldekodude loetelus nimetatud hoolekandeasutus. Asutuse aadress on Tartu mnt 5, Räpina linn 64504; juhataja Ene Mölder, telefon 7961380 ja e-post rapinahooldekodu@gmail.com.",
+      "sourceKeys": [
+        "hoolekandeasutus_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/hooldamine-hoolekandeasutuses/",
+      "address": "Tartu mnt 5, Räpina linn 64504",
+      "phone": "7961380",
+      "email": "rapinahooldekodu@gmail.com",
+      "relatedTo": [
+        "rapina_vald_service_uldhooldusteenus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_resource_ristipalo_pansionaat",
+      "canonical_item_id": "rapina_vald:resource:ristipalo_pansionaat",
+      "itemType": "resource",
+      "title": "OÜ Kagutuul (Ristipalo pansionaat)",
+      "status": "active",
+      "summary": "Ristipalo pansionaat on KOV hooldekodude loetelus nimetatud teenusepakkuja aadressil Keskuse tee 2, Ristipalo küla. Juhataja on Maarika Loodus, telefon 53002224, e-post juhataja@ristipalo.ee; hooldajate telefonid on +372 5692 5955 ja +372 5694 5665.",
+      "sourceKeys": [
+        "hoolekandeasutus_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/hooldamine-hoolekandeasutuses/",
+      "address": "Keskuse tee 2, Ristipalo küla, Räpina vald",
+      "phone": "53002224; +372 5692 5955; +372 5694 5665",
+      "email": "juhataja@ristipalo.ee",
+      "relatedTo": [
+        "rapina_vald_service_uldhooldusteenus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Väline teenusepakkuja on kajastatud KOV lehel avaldatud info ulatuses."
+      ]
+    },
+    {
+      "id": "rapina_vald_resource_rapina_haigla",
+      "canonical_item_id": "rapina_vald:resource:rapina_haigla",
+      "itemType": "resource",
+      "title": "AS Räpina Haigla",
+      "status": "active",
+      "summary": "AS Räpina Haigla on KOV hoolekandeasutuste loetelus nimetatud asutus aadressil Võru mnt 1, Räpina linn 64505. Kontaktina on avaldatud juhatuse esimees Peeter Sibul, telefonid 799 9237 ja 501 9734 ning e-post peeter@rapinahaigla.ee.",
+      "sourceKeys": [
+        "hoolekandeasutus_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaalne-kaitse/hooldamine-hoolekandeasutuses/",
+      "address": "Võru mnt 1, Räpina linn 64505",
+      "phone": "799 9237; 501 9734",
+      "email": "peeter@rapinahaigla.ee",
+      "relatedTo": [
+        "rapina_vald_service_uldhooldusteenus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_resource_kriisikontaktid",
+      "canonical_item_id": "rapina_vald:resource:kriisikontaktid",
+      "itemType": "resource",
+      "title": "Kriisikontaktid ja hädaabinumbrid",
+      "status": "active",
+      "summary": "Räpina valla kriisikontaktide haru koondab hädaabi, riigiinfo ja muid kriisikontakte. KOV menüüs on eraldi kriisikontaktid, kriisikomisjon, elutähtsad teenused ning kriisiabi ja varjumise alamlehed.",
+      "sourceKeys": [
+        "teenused_overview",
+        "kriisikontaktid_page",
+        "kriisiabi_varjumine_page"
+      ],
+      "officialUrl": "https://www.rapina.ee/kriisikontaktid/",
+      "relatedTo": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rapina_vald_contact_katrin_taimre",
+      "canonical_item_id": "rapina_vald:contact:katrin_taimre",
+      "itemType": "contact",
+      "title": "Katrin Taimre",
+      "status": "active",
+      "summary": "Katrin Taimre on Räpina valla sotsiaalosakonna juhataja. KOV lehel on tema kontaktidena avaldatud telefonid 799 9515 ja 514 3178 ning e-post katrin.taimre@rapina.ee; vastuvõtt toimub esmaspäeval ja neljapäeval kell 9–12.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Katrin Taimre",
+      "role": "sotsiaalosakonna juhataja",
+      "department": "Sotsiaalosakond",
+      "phone": "799 9515; 514 3178",
+      "email": "katrin.taimre@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_karmen_kukk",
+      "canonical_item_id": "rapina_vald:contact:karmen_kukk",
+      "itemType": "contact",
+      "title": "Karmen Kukk",
+      "status": "active",
+      "summary": "Karmen Kukk on Räpina valla sotsiaaltööspetsialist. Kontaktlehel on tema telefon 501 6623 ja e-post karmen.kukk@rapina.ee; teenuslehtedel on lisaks avaldatud varasem või alternatiivne telefon 514 3217.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Karmen Kukk",
+      "role": "sotsiaaltööspetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "501 6623",
+      "email": "karmen.kukk@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": [],
+      "alternatePhone": "514 3217"
+    },
+    {
+      "id": "rapina_vald_contact_kadi_kibena",
+      "canonical_item_id": "rapina_vald:contact:kadi_kibena",
+      "itemType": "contact",
+      "title": "Kadi Kibena",
+      "status": "active",
+      "summary": "Kadi Kibena on Räpina valla sotsiaaltööspetsialist. Kontaktlehel on tema telefon 514 3261 ja e-post kadi.kibena@rapina.ee; ta võtab vastu Ruusal ja Räpinas avaldatud vastuvõtuaegadel.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Kadi Kibena",
+      "role": "sotsiaaltööspetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "514 3261",
+      "email": "kadi.kibena@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_kersti_kittus",
+      "canonical_item_id": "rapina_vald:contact:kersti_kittus",
+      "itemType": "contact",
+      "title": "Kersti Kittus",
+      "status": "active",
+      "summary": "Kersti Kittus on Räpina valla lastekaitsespetsialist. Kontaktlehel on tema telefon 5919 0010 ja e-post kersti.kittus@rapina.ee; vastuvõtt toimub etteregistreerimisel.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Kersti Kittus",
+      "role": "lastekaitsespetsialist",
+      "department": "Lastekaitse",
+      "phone": "5919 0010",
+      "email": "kersti.kittus@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_diana_bondareva",
+      "canonical_item_id": "rapina_vald:contact:diana_bondareva",
+      "itemType": "contact",
+      "title": "Diana Bondareva",
+      "status": "active",
+      "summary": "Diana Bondareva on Räpina valla lastekaitsespetsialist. Kontaktlehel on tema telefon 5363 8803 ja e-post diana.bondareva@rapina.ee; vastuvõtt toimub etteregistreerimisel.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Diana Bondareva",
+      "role": "lastekaitsespetsialist",
+      "department": "Lastekaitse",
+      "phone": "5363 8803",
+      "email": "diana.bondareva@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_heivi_ly_hirmo",
+      "canonical_item_id": "rapina_vald:contact:heivi_ly_hirmo",
+      "itemType": "contact",
+      "title": "Heivi-Ly Hirmo",
+      "status": "active",
+      "summary": "Heivi-Ly Hirmo on Räpina valla noorte heaoluspetsialist. Kontaktlehel on tema telefon 5343 6620 ja e-post heivi.hirmo@rapina.ee; vastuvõtt toimub etteregistreerimisel.",
+      "sourceKeys": [
+        "kontakt_page",
+        "ohvriabi_page"
+      ],
+      "name": "Heivi-Ly Hirmo",
+      "role": "noorte heaoluspetsialist",
+      "department": "Sotsiaalosakond",
+      "phone": "5343 6620",
+      "email": "heivi.hirmo@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_piret_paulson",
+      "canonical_item_id": "rapina_vald:contact:piret_paulson",
+      "itemType": "contact",
+      "title": "Piret Paulson",
+      "status": "active",
+      "summary": "Piret Paulson on vallasekretär ja õigusalase nõustamise kontakt. Nõustamise lehel on tema telefonid 799 9502 ja 5340 6636 ning e-post piret.paulson@rapina.ee.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "name": "Piret Paulson",
+      "role": "vallasekretär",
+      "department": "Vallavalitsus",
+      "phone": "799 9502; 5340 6636",
+      "email": "piret.paulson@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_contact_annika_rau",
+      "canonical_item_id": "rapina_vald:contact:annika_rau",
+      "itemType": "contact",
+      "title": "Annika Rau",
+      "status": "active",
+      "summary": "Annika Rau on KOV lehel nimetatud võlanõustaja Eesti Võlanõustajate Liidu kaudu. KOV lehel on avaldatud e-post volanoustamine@gmail.com ja telefon 56620629; välise teenusepakkuja andmeid ei ole selles paketis eraldi kontrollitud.",
+      "sourceKeys": [
+        "noustamine_page"
+      ],
+      "name": "Annika Rau",
+      "role": "võlanõustaja",
+      "department": "väline partner",
+      "phone": "56620629",
+      "email": "volanoustamine@gmail.com",
+      "address": null,
+      "relatedTo": [],
+      "unresolvedIssues": [
+        "KOV lehel nimetatud välise teenusepakkuja andmeid ei kontrollitud väliselt."
+      ]
+    },
+    {
+      "id": "rapina_vald_contact_rapina_vallavalitsus",
+      "canonical_item_id": "rapina_vald:contact:rapina_vallavalitsus",
+      "itemType": "contact",
+      "title": "Räpina Vallavalitsus üldkontakt",
+      "status": "active",
+      "summary": "Räpina Vallavalitsuse üldkontakt on Kooli 1, Räpina 64504; telefon 799 9500 ja e-post vald@rapina.ee. Seda kontakti kasutatakse sotsiaalvaldkonna taotluste üldiseks esitamiseks, kui konkreetne spetsialist ei ole lehel eraldi määratud.",
+      "sourceKeys": [
+        "home",
+        "teenused_overview"
+      ],
+      "name": "Räpina Vallavalitsus",
+      "role": "üldkontakt",
+      "department": "Räpina Vallavalitsus",
+      "phone": "799 9500",
+      "email": "vald@rapina.ee",
+      "address": "Kooli 1, Räpina 64504",
+      "relatedTo": []
+    },
+    {
+      "id": "rapina_vald_form_toimetulekutoetuse_taotlus",
+      "canonical_item_id": "rapina_vald:form:toimetulekutoetuse_taotlus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse taotlemise avalduse blankett",
+      "status": "active",
+      "summary": "Toimetulekutoetuse taotlemise avalduse blankett on KOV vorm toimetulekutoetuse taotlemiseks. Vorm tuleb täita ning esitada koos sissetulekut ja eluasemekulusid tõendavate dokumentidega.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ],
+      "unresolvedIssues": [
+        "Vormi otsest faililinki ei õnnestunud korje ajal kindlalt avada."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_toimetulekutoetuse_esmakordne_lisa",
+      "canonical_item_id": "rapina_vald:form:toimetulekutoetuse_esmakordne_lisa",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse esmakordse taotlemise avalduse lisa blankett",
+      "status": "active",
+      "summary": "Esmakordse toimetulekutoetuse taotlemise lisa on vorm, mida kasutatakse esmakordsel taotlemisel või vara koosseisu muutumisel lisateabe esitamiseks.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Vormi otsest faililinki ei õnnestunud korje ajal kindlalt avada."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_eluasemekulude_arvestuskaart",
+      "canonical_item_id": "rapina_vald:form:eluasemekulude_arvestuskaart",
+      "itemType": "form",
+      "title": "Eluasemekulude arvestuskaart toimetulekutoetuse taotlemisel",
+      "status": "active",
+      "summary": "Eluasemekulude arvestuskaart on vorm, millega esitatakse toimetulekutoetuse taotlemisel arvesse võetavad eluasemekulud.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Vormi otsest faililinki ei õnnestunud korje ajal kindlalt avada."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_hooldaja_maaramise_avaldus",
+      "canonical_item_id": "rapina_vald:form:hooldaja_maaramise_avaldus",
+      "itemType": "form",
+      "title": "Hooldaja määramise avalduse blankett",
+      "status": "active",
+      "summary": "Hooldaja määramise avalduse blankett on vorm täisealise isiku hooldaja määramiseks ning hooldajatoetuse menetlemiseks.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_service_taisealise_isiku_hooldus",
+        "rapina_vald_benefit_hooldajatoetus"
+      ],
+      "relatedContacts": [
+        "rapina_vald_contact_katrin_taimre",
+        "rapina_vald_contact_karmen_kukk",
+        "rapina_vald_contact_kadi_kibena"
+      ],
+      "unresolvedIssues": [
+        "Vormi otsest faililinki ei õnnestunud korje ajal kindlalt avada."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_rapina_valla_eelarvest_toetuse_taotlus",
+      "canonical_item_id": "rapina_vald:form:rapina_valla_eelarvest_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Räpina valla eelarvest toetuse taotlemise blankett",
+      "status": "active",
+      "summary": "Räpina valla eelarvest toetuse taotlemise blankett on üldvorm mitme vallaeelarvest makstava toetuse taotlemiseks. Vormi saab kasutada nt prillitoetuse, matusetoetuse või sünnitoetuse taotlemise alusvormina, kui detailleht ei viita eraldi vormile.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_benefit_sunnitoetus",
+        "rapina_vald_benefit_prillitoetus",
+        "rapina_vald_benefit_matusetoetus",
+        "rapina_vald_benefit_koolitoetus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Vormi otsest faililinki ei õnnestunud korje ajal kindlalt avada; täpne vormiseos kõigi toetustega vajab ülevaatamist."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_elamu_valisilme_toetus_taotlus",
+      "canonical_item_id": "rapina_vald:form:elamu_valisilme_toetus_taotlus",
+      "itemType": "form",
+      "title": "Taotluse vorm hoonete välisilme parandamiseks tehtud kulutuste katmiseks",
+      "status": "active",
+      "summary": "See on vorm toetuse taotlemiseks hoonete välisilme parandamiseks tehtud kulude katmisel. Vorm paikneb sotsiaal- ja tervishoiu blankettide loendis, kuid toetuse sotsiaalne sihtrühm ei olnud eraldi kirjeldatud.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [
+        "rapina_vald_benefit_elamu_valisilme_toetus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Vormi täpne sotsiaalvaldkonna seos vajab ülevaatamist."
+      ]
+    },
+    {
+      "id": "rapina_vald_form_energiatoetuse_taotlus",
+      "canonical_item_id": "rapina_vald:form:energiatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Energiatoetuse taotluse vorm",
+      "status": "active",
+      "summary": "Energiatoetuse taotluse vorm on sotsiaal- ja tervishoiu blankettide loendis avaldatud vorm energiakuludega seotud toetuse taotlemiseks. Detailset toetuse lehte ei leitud.",
+      "sourceKeys": [
+        "sotsiaal_blanketid_page"
+      ],
+      "format": "not_published",
+      "officialUrl": "https://www.rapina.ee/teenused/sotsiaal-ja-tervishoid/sotsiaal-ja-tervishoiu-alased-blanketid/",
+      "submissionChannels": [
+        "paper",
+        "email"
+      ],
+      "relatedTo": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [
+        "Energiatoetuse detailset teenuse või toetuse lehte ei leitud."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,784 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-rakvere-linn",
+  "document_id": "kov-rakvere-linn",
+  "municipality": "Rakvere linn",
+  "municipality_id": "rakvere_linn",
+  "county": "Lääne-Virumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Rakvere linna avaleht",
+      "url": "https://rakvere.ee/",
+      "url_canonical": "https://rakvere.ee/",
+      "normalized_url": "https://rakvere.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "navigation"
+      ]
+    },
+    {
+      "source_id": "services_index",
+      "title": "Kõik teenused",
+      "url": "https://rakvere.ee/teenused",
+      "url_canonical": "https://rakvere.ee/teenused",
+      "normalized_url": "https://rakvere.ee/teenused",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "navigation",
+        "coverage_check"
+      ]
+    },
+    {
+      "source_id": "social_contacts_page",
+      "title": "Üldkontaktid, teenistujad",
+      "url": "https://rakvere.ee/kontakt",
+      "url_canonical": "https://rakvere.ee/kontakt",
+      "normalized_url": "https://rakvere.ee/kontakt",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetus_page",
+      "title": "Toimetulekutoetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toimetulekutoetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toimetulekutoetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toimetulekutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "uhekordne_toetus_page",
+      "title": "Ühekordne sotsiaaltoetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/uhekordne-sotsiaaltoetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/uhekordne-sotsiaaltoetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/uhekordne-sotsiaaltoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "valtimatu_sotsiaalabi_page",
+      "title": "Vältimatu sotsiaalabi",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/valtimatu-sotsiaalabi",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/valtimatu-sotsiaalabi",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/valtimatu-sotsiaalabi",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "volanoustamine_page",
+      "title": "Võlanõustamisteenus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "tugiisikuteenus_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "contact"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "toiduabi_page",
+      "title": "Toiduabiteenus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toiduabiteenus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toiduabiteenus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/toiduabiteenus",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "eaka_toimetulek_page",
+      "title": "Eaka ja erivajadusega isiku toimetulek kodus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eaka-ja-erivajadusega-isiku-toimetulek",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eaka-ja-erivajadusega-isiku-toimetulek",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eaka-ja-erivajadusega-isiku-toimetulek",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "sotsiaaltransport_page",
+      "title": "Sotsiaaltransport",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport-0",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport-0",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport-0",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "parkimiskaart_page",
+      "title": "Parkimiskaart",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/parkimiskaart",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/parkimiskaart",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/parkimiskaart",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "hooldus_hooldajatoetus_page",
+      "title": "Hoolduse seadmine ja hooldajatoetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolduse-seadmine-ja-hooldajatoetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolduse-seadmine-ja-hooldajatoetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolduse-seadmine-ja-hooldajatoetus",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "hooldekodu_toetus_page",
+      "title": "Hooldekodu teenuse toetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hooldekodu-teenuse-toetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hooldekodu-teenuse-toetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hooldekodu-teenuse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "eluruumi_kohandamine_page",
+      "title": "Puudega isiku eluruumi kohandamise toetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/puudega-isiku-eluruumi-kohandamise",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/puudega-isiku-eluruumi-kohandamise",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/puudega-isiku-eluruumi-kohandamise",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "represseeritu_toetus_page",
+      "title": "Represseeritud ning represseerituga võrdsustatud isikute toetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/represseeritud-ning-represseerituga",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/represseeritud-ning-represseerituga",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/represseeritud-ning-represseerituga",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "taisealiste_eestkoste_page",
+      "title": "Täisealiste eestkoste",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealiste-eestkoste",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealiste-eestkoste",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealiste-eestkoste",
+      "source_type": "kov_resource_page",
+      "source_format": [
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "iste_page",
+      "title": "Isikukeskse erihoolekande teenusmudel",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/isikukeskse-erihoolekande-teenusmudel",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/isikukeskse-erihoolekande-teenusmudel",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/isikukeskse-erihoolekande-teenusmudel",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "synnitoetus_page",
+      "title": "Sünnitoetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/sunnitoetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/sunnitoetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/sunnitoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "matusetoetus_page",
+      "title": "Matusetoetus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/matusetoetus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/matusetoetus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/matusetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "lastega_perede_toetused_page",
+      "title": "Lastega perede sotsiaaltoetused",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastega-perede-sotsiaaltoetused",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastega-perede-sotsiaaltoetused",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastega-perede-sotsiaaltoetused",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "kooli_alguse_toetus_page",
+      "title": "Kooli alguse toetus",
+      "url": "https://rakvere.ee/haridus-ja-noored/haridusvaldkonna-taotlused-ja-toetused/kooli-alguse-toetus",
+      "url_canonical": "https://rakvere.ee/haridus-ja-noored/haridusvaldkonna-taotlused-ja-toetused/kooli-alguse-toetus",
+      "normalized_url": "https://rakvere.ee/haridus-ja-noored/haridusvaldkonna-taotlused-ja-toetused/kooli-alguse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": [
+        "benefit",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "asendus_jarelhooldus_page",
+      "title": "Asendus- ja järelhooldusteenus",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/asendus-ja-jarelhooldusteenus",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/asendus-ja-jarelhooldusteenus",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/asendus-ja-jarelhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "contact"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "haadaohus_laps_page",
+      "title": "Hädaohus ja abivajav laps",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
+      "source_type": "kov_resource_page",
+      "source_format": [
+        "resource",
+        "contact"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "erivajadusega_laps_page",
+      "title": "Erivajadusega laps",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps",
+      "source_type": "kov_resource_page",
+      "source_format": [
+        "resource",
+        "contact"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "vaimse_tervise_teenused_page",
+      "title": "Vaimse tervise teenused",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/vaimse-tervise-teenused",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/vaimse-tervise-teenused",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/vaimse-tervise-teenused",
+      "source_type": "kov_service_page",
+      "source_format": [
+        "service",
+        "form"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "tark_lapsevanem_page",
+      "title": "Tark lapsevanem",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/tark-lapsevanem",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/tark-lapsevanem",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/tark-lapsevanem",
+      "source_type": "kov_resource_page",
+      "source_format": [
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "ngts_page",
+      "title": "Noortegarantii tugisüsteem (NGTS)",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/noortegarantii-tugisusteem-ngts",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/noortegarantii-tugisusteem-ngts",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/noortegarantii-tugisusteem-ngts",
+      "source_type": "kov_resource_page",
+      "source_format": [
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "ohvriabi_pdf",
+      "title": "Ohvriabi info",
+      "url": "https://rakvere.ee/sites/default/files/documents/2026-03/Ohvriabi-info-2025.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2026-03/Ohvriabi-info-2025.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2026-03/Ohvriabi-info-2025.pdf",
+      "source_type": "file_attachment",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetuse_taotlus_pdf",
+      "title": "Toimetulekutoetuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetuse_taotlus_doc",
+      "title": "Toimetulekutoetuse taotlus (DOC)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.doc",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.doc",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse%20taotlus.doc",
+      "source_type": "file_attachment",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "uhekordse_toetuse_taotlus_pdf",
+      "title": "Ühekordse toetuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "uhekordse_toetuse_taotlus_doc",
+      "title": "Ühekordse toetuse taotlus (DOC)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.doc",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.doc",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/%C3%9Chekordse%20toetuse%20taotlus.doc",
+      "source_type": "file_attachment",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "synnitoetuse_taotlus_pdf",
+      "title": "Sünnitoetuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "synnitoetuse_taotlus_doc",
+      "title": "Sünnitoetuse taotlus (DOC)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.doc",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.doc",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/synnitoetuse%20avaldus_230725b.doc",
+      "source_type": "file_attachment",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "matusetoetuse_taotlus_pdf",
+      "title": "Matusetoetuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "matusetoetuse_taotlus_doc",
+      "title": "Matusetoetuse taotlus (DOC)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.doc",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.doc",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Matusetoetus_230725.doc",
+      "source_type": "file_attachment",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetuse_avaldus_pdf",
+      "title": "Avaldus hooldajatoetuse saamiseks (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetuse_avaldus_doc",
+      "title": "Avaldus hooldajatoetuse saamiseks (DOC)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.doc",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.doc",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Avaldus%20hooldajatoetuse%20saamiseks.doc",
+      "source_type": "file_attachment",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "lastega_perede_toetused_avaldus_pdf",
+      "title": "Lastega perede sotsiaaltoetuste avaldus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/2025-07/Lastega_perede_sostiaaltoetus_14112024.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/2025-07/Lastega_perede_sostiaaltoetus_14112024.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/2025-07/Lastega_perede_sostiaaltoetus_14112024.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "lastega_perede_toetused_avaldus_docx",
+      "title": "Lastega perede sotsiaaltoetuste avaldus (DOCX)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Lastega_perede_sotsiaaltoetus_14112024.docx",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Lastega_perede_sotsiaaltoetus_14112024.docx",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Lastega_perede_sotsiaaltoetus_14112024.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "kooli_alguse_toetus_avaldus_pdf",
+      "title": "Kooli alguse toetuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20151124.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20151124.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20151124.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "kooli_alguse_toetus_avaldus_docx",
+      "title": "Kooli alguse toetuse taotlus (DOCX)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20020623.docx",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20020623.docx",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-07/Kooli%20alguse%20toetus%20020623.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "vaimse_tervise_taotlus_pdf",
+      "title": "Vaimse tervise teenuse taotlus (PDF)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.pdf",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.pdf",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "vaimse_tervise_taotlus_docx",
+      "title": "Vaimse tervise teenuse taotlus (DOCX)",
+      "url": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.docx",
+      "url_canonical": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.docx",
+      "normalized_url": "https://rakvere.ee/sites/default/files/documents/2025-12/Vaimse%20tervise%20teenuse%20taotlus.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "sotsiaal_mtu_toetused_page",
+      "title": "Sotsiaalvaldkonnas tegutsevate mittetulundusühingute toetused",
+      "url": "https://rakvere.ee/kultuur-sport-kogukonnad/taotlused-ja-toetused/sotsiaalvaldkonnas-tegutsevate-mittetulundusuhingute",
+      "url_canonical": "https://rakvere.ee/kultuur-sport-kogukonnad/taotlused-ja-toetused/sotsiaalvaldkonnas-tegutsevate-mittetulundusuhingute",
+      "normalized_url": "https://rakvere.ee/kultuur-sport-kogukonnad/taotlused-ja-toetused/sotsiaalvaldkonnas-tegutsevate-mittetulundusuhingute",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "used_for": [
+        "benefit",
+        "web_form",
+        "contact"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active"
+    },
+    {
+      "source_id": "perearstid_page",
+      "title": "Perearstid",
+      "url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/tervis/perearstid",
+      "url_canonical": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/tervis/perearstid",
+      "normalized_url": "https://rakvere.ee/pere-sotsiaal-ja-tervishoid/tervis/perearstid",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "used_for": [
+        "resource"
+      ],
+      "collection_id": "kov_services",
+      "authority": "Rakvere linn",
+      "language": "et",
+      "source_status": "active"
+    }
+  ]
+}

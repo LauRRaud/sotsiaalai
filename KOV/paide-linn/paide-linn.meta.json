@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-paide-linn",
+  "document_id": "kov-paide-linn",
+  "municipality": "Paide linn",
+  "municipality_id": "paide_linn",
+  "county": "Järvamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-paide-linn",
+  "coverage": {
+    "services": 9,
+    "benefits": 13,
+    "resources": 4,
+    "contacts": 5,
+    "forms": 13
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [],
+  "unresolvedIssues": [
+    "Paide linna avalduste vormid asuvad e-teeninduses SPOKU ning konkreetseid failinimesid ei olnud veebilehel kättesaadavad.",
+    "Mõned teenuste või toetuste täpsemad tingimused võivad olla sätestatud volikogu määrustes, mis ei ole KOV veebi sotsiaalinfo kiht."
+  ]
+}

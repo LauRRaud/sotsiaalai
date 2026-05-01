@@ -1,0 +1,2259 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-rae-vald",
+  "document_id": "kov-rae-vald",
+  "municipality": "Rae vald",
+  "municipality_id": "rae_vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "rae_vald_contact_general_rae_vallavalitsus",
+      "canonical_item_id": "rae_vald:contact:general_rae_vallavalitsus",
+      "itemType": "contact",
+      "title": "Rae Vallavalitsus",
+      "status": "active",
+      "summary": "Rae Vallavalitsuse üldkontakt sotsiaalvaldkonna pöördumiste esmaseks suunamiseks. Aadress on Aruküla tee 9, Jüri.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Rae Vallavalitsus",
+      "role": "Üldkontakt",
+      "department": null,
+      "phone": [
+        "605 6750"
+      ],
+      "email": "info@rae.ee",
+      "address": "Aruküla tee 9, Jüri alevik 75301",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_natalja_grusdam",
+      "canonical_item_id": "rae_vald:contact:natalja_grusdam",
+      "itemType": "contact",
+      "title": "Natalja Grusdam",
+      "status": "active",
+      "summary": "Natalja Grusdam juhib sotsiaal- ja kogukonna ametit ning planeerib ja korraldab valla sotsiaalküsimusi.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Natalja Grusdam",
+      "role": "Sotsiaal- ja kogukonna ameti juhataja",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5615 8672"
+      ],
+      "email": "natalja.grusdam@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_liina_liibert",
+      "canonical_item_id": "rae_vald:contact:liina_liibert",
+      "itemType": "contact",
+      "title": "Liina Liibert",
+      "status": "active",
+      "summary": "Liina Liibert tegeleb sotsiaalhoolekande eelarve, õigusaktide eelnõude, arengu- ja tegevuskavade ning sotsiaalvaldkonna projektidega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Liina Liibert",
+      "role": "Sotsiaalhoolekande peaspetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5685 1982"
+      ],
+      "email": "liina.liibert@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_ylle_parmas",
+      "canonical_item_id": "rae_vald:contact:ylle_parmas",
+      "itemType": "contact",
+      "title": "Ülle Parmas",
+      "status": "active",
+      "summary": "Ülle Parmas nõustab ja informeerib valla inimesi sotsiaalkaitse küsimustes, menetleb sotsiaaltoetuste ja -teenuste taotlusi ning tegeleb Tallinna Ühistranspordi soodustuse tõenditega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Ülle Parmas",
+      "role": "Sotsiaalhoolekande spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "526 6774"
+      ],
+      "email": "ylle.parmas@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_kadi_pytsepp",
+      "canonical_item_id": "rae_vald:contact:kadi_pytsepp",
+      "itemType": "contact",
+      "title": "Kadi Pütsepp",
+      "status": "active",
+      "summary": "Kadi Pütsepp koordineerib erivajadustega lastega seotud teenuseid ning nõustab puuetega inimesi sotsiaalhoolekande küsimustes.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Kadi Pütsepp",
+      "role": "Erivajadustega inimeste spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5596 4361"
+      ],
+      "email": "kadi.pytsepp@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_katarina_kimsen",
+      "canonical_item_id": "rae_vald:contact:katarina_kimsen",
+      "itemType": "contact",
+      "title": "Katarina Kimsen",
+      "status": "active",
+      "summary": "Katarina Kimsen koordineerib erivajadustega täisealiste inimeste teenuseid, väljastab puudega isiku parkimiskaarte ja menetleb täiskasvanute hooldajatoetuse taotlusi.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Katarina Kimsen",
+      "role": "Erivajadustega inimeste spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5649 0168"
+      ],
+      "email": "katarina.kimsen@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_helen_molder",
+      "canonical_item_id": "rae_vald:contact:helen_molder",
+      "itemType": "contact",
+      "title": "Helen Mölder",
+      "status": "active",
+      "summary": "Helen Mölder tegeleb vanemate hooldusõiguse, eestkoste, hoolduspere leidmise, perede nõustamise ja lapsesse puutuvate vaidlustega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Helen Mölder",
+      "role": "Laste ja perede heaolu spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5626 4249"
+      ],
+      "email": "helen.molder@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_catriin_kolbak",
+      "canonical_item_id": "rae_vald:contact:catriin_kolbak",
+      "itemType": "contact",
+      "title": "Catriin Kolbak",
+      "status": "active",
+      "summary": "Catriin Kolbak tegeleb vanemate hooldusõiguse, eestkoste, hoolduspere leidmise, perede nõustamise ja lapsesse puutuvate vaidlustega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Catriin Kolbak",
+      "role": "Laste ja perede heaolu spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5833 2952"
+      ],
+      "email": "catriin.kolbak@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_gris_tammiksaar",
+      "canonical_item_id": "rae_vald:contact:gris_tammiksaar",
+      "itemType": "contact",
+      "title": "Gris Tammiksaar",
+      "status": "active",
+      "summary": "Gris Tammiksaar tegeleb lastekaitse valdkonnas vanemliku hoolitsuseta laste, eestkoste, hoolduspere ja perede nõustamise teemadega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Gris Tammiksaar",
+      "role": "Laste ja perede heaolu spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5623 8001"
+      ],
+      "email": "gris.tammiksaar@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_elle_veelmaa",
+      "canonical_item_id": "rae_vald:contact:elle_veelmaa",
+      "itemType": "contact",
+      "title": "Elle Veelmaa",
+      "status": "active",
+      "summary": "Elle Veelmaa tegeleb vanemliku hoolitsuseta laste elu korraldamise, eestkoste, hoolduspere leidmise, perede nõustamise ja lapsega seotud vaidlustega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Elle Veelmaa",
+      "role": "Laste ja perede heaolu spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5625 3867"
+      ],
+      "email": "elle.veelmaa@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_kai_sinisalu",
+      "canonical_item_id": "rae_vald:contact:kai_sinisalu",
+      "itemType": "contact",
+      "title": "Kai Sinisalu",
+      "status": "active",
+      "summary": "Kai Sinisalu tegeleb vanemate hooldusõiguse, vanemliku hoolitsuseta laste elu korraldamise, eestkoste ja hoolduspere teemadega ning koordineerib valla lastekaitsealaseid juhtumeid.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Kai Sinisalu",
+      "role": "Laste ja perede heaolu spetsialist",
+      "department": "Sotsiaal- ja kogukonna amet",
+      "phone": [
+        "5689 1066"
+      ],
+      "email": "kai.sinisalu@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_contact_diana_praam",
+      "canonical_item_id": "rae_vald:contact:diana_praam",
+      "itemType": "contact",
+      "title": "Diana Prääm",
+      "status": "active",
+      "summary": "Diana Prääm toetab noori nende tööalase konkurentsivõime parandamisel ning tööle või haridussüsteemi liikumisel.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Diana Prääm",
+      "role": "Noorte heaolu spetsialist",
+      "department": "Haridus ja noored",
+      "phone": [
+        "5363 9574"
+      ],
+      "email": "diana.praam@rae.ee",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "rae_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenuse eesmärk on võimaldada puudega või liikumistakistusega inimesele sõiduki kasutamise võimalus tervisega või asjaajamisega seotud toimingute tegemiseks. Teenus on mõeldud arsti vastuvõtule, rehabilitatsioonile, haiglasse, hädavajalikule asjaajamisele, tööle või õppesse sõitmiseks.",
+      "sourceKeys": [
+        "sotsiaaltransport_page"
+      ],
+      "targetGroup": "Rae valla elanikud, kes sügava või raske liikumis-, nägemis-, vaimu- või liitpuude tõttu ei saa kõrvalabita kasutada ühistransporti või isiklikku sõidukit.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Osaliselt tasuline"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/sotsiaaltransporditeenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_service_tugiisikuteenus",
+      "canonical_item_id": "rae_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab iseseisvat toimetulekut olukordades, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu juhendamist ja motiveerimist. Lapse puhul toetab tugiisik koostöös last kasvatava isikuga lapse arengut ning võib vajaduse korral teha puudega lapse hooldustoiminguid.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "targetGroup": "Lapsed ja täiskasvanud, kes vajavad kõrvalabi oma kohustuste täitmisel ja õiguste teostamisel.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Osaliselt tasuline"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/tugiisikuteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus",
+        "rae_vald_form_lapse_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_kadi_pytsepp"
+      ]
+    },
+    {
+      "id": "rae_vald_service_volanoustamisteenus",
+      "canonical_item_id": "rae_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab võlaprobleemidega inimesel hinnata oma varalist olukorda, pidada läbirääkimisi võlausaldajatega, korraldada nõuete rahuldamist ja ennetada edasisi võlgnevusi. Teenus on suunatud majandusliku toimetuleku parandamisele.",
+      "sourceKeys": [
+        "volanoustamisteenus_page"
+      ],
+      "targetGroup": "Võlgadega või võlgade tekkimise riskis olevad inimesed.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Tasuta"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/volanoustamisteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_kadi_pytsepp"
+      ]
+    },
+    {
+      "id": "rae_vald_service_valtimatu_sotsiaalabi",
+      "canonical_item_id": "rae_vald:service:valtimatu_sotsiaalabi",
+      "itemType": "service",
+      "title": "Vältimatu sotsiaalabi teenus",
+      "status": "active",
+      "summary": "Vältimatu sotsiaalabi teenus tagab esmase abi toidu, riiete ja ajutise peavarju osas inimesele või perele, kes on sattunud elatusvahendite kaotuse või puudumise tõttu sotsiaalselt abitusse olukorda. Abi vormi otsustab vallavalitsus ja abi osutatakse seni, kuni inimene ei ole enam sotsiaalselt abitu.",
+      "sourceKeys": [
+        "valtimatu_sotsiaalabi_service_page"
+      ],
+      "targetGroup": "Rae valla elanikud, Rae vallas viibivad abivajajad, teadmata elukohaga inimesed ja välismaalased, kes vajavad ajutiselt vältimatut abi.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Tasuta"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/valtimatu-sotsiaalabi-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_service_koduteenus",
+      "canonical_item_id": "rae_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse eesmärk on tagada täisealise isiku iseseisev ja turvaline toimetulek kodustes tingimustes. Kõrvalabi võib hõlmata toiduainete, ravimite ja esmatarbekaupade koju toomist, kütte ja veega varustamist, olmejäätmete väljaviimist, asjaajamisel abistamist ning muid vajadusi, mis tulenevad terviseseisundist või keskkonnast.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "targetGroup": "Täisealised, kes üldjuhul saavad koduses keskkonnas hakkama, kuid vajavad iseseisvaks toimetulekuks kõrvalabi.",
+      "conditions": "Teenust ei osutata isikule, kellele on määratud hooldaja.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Osaliselt tasuline"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/koduteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_katarina_kimsen"
+      ]
+    },
+    {
+      "id": "rae_vald_service_uldhooldusteenus",
+      "canonical_item_id": "rae_vald:service:uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatav üldhooldusteenus on täisealise isiku abistamine ja hooldamine hooldekodus. Teenusele võib suunata eakaid ja puudega inimesi, kes ei suuda kodustes tingimustes iseseisvalt toime tulla ning kelle toimetulekut ei ole võimalik tagada mõne muu teenusega.",
+      "sourceKeys": [
+        "uldhooldusteenus_page"
+      ],
+      "targetGroup": "Eakad ja puudega inimesed, kelle abivajadust ei saa tagada kodus.",
+      "conditions": "Teenusele ei suunata nakkushaigusi põdevaid või enda või teiste suhtes ohtliku psüühika- või käitumishäirega inimesi.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Tasuline"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uldhoolduse_taotlus",
+        "rae_vald_form_uldhoolduse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_katarina_kimsen"
+      ]
+    },
+    {
+      "id": "rae_vald_service_turvakoduteenus",
+      "canonical_item_id": "rae_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenuse eesmärk on tagada ajutine eluase, turvaline keskkond ja esmane abi lapsele, kelle elu, tervis või areng on ohus, ning täisealisele isikule, kes vajab turvalist keskkonda edasise elu korraldamiseks.",
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ],
+      "targetGroup": "Lapsed ja täisealised, kes vajavad ajutiselt turvalist elukohta ja esmast abi.",
+      "conditions": null,
+      "application": {
+        "channels": [],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/turvakoduteenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam"
+      ]
+    },
+    {
+      "id": "rae_vald_service_varjupaigateenus",
+      "canonical_item_id": "rae_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenuse eesmärk on ajutise ööbimiskoha võimaluse kindlustamine täisealisele isikule, kes ei ole endale võimeline ööbimiskohta leidma. Ajutises ööbimiskohas peab olema tagatud voodikoht, pesemisvõimalus ja turvaline keskkond.",
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ],
+      "targetGroup": "Täisealised, kellel puudub ajutine ööbimiskoht.",
+      "conditions": null,
+      "application": {
+        "channels": [],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/varjupaigateenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_service_eluruumi_tagamine",
+      "canonical_item_id": "rae_vald:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenuse eesmärk on luua eluruumi kasutamise võimalus inimesele, kes ei ole ise võimeline eluaset tagama või ei saa senises eluruumis oma elu ja tervist ohtu seadmata iseseisvalt hakkama. Teenus võib hõlmata vallale kuuluva eluruumi kasutusse andmist või puudega isiku koduse keskkonna kohandamist.",
+      "sourceKeys": [
+        "eluruumi_tagamine_page"
+      ],
+      "targetGroup": "Inimesed, kellel puudub sobiv eluruum, ning puudega inimesed, kelle kodu vajab kohandamist.",
+      "conditions": "Eluruumi kasutusse andmiseks sõlmitakse kirjalik üürileping ning üürnik tasub üüri ja kõrvalkulud.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Üürnik tasub üüri ja kõrvalkulud"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/eluruumi-tagamine",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_munitsipaaleluruumi_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_katarina_kimsen"
+      ]
+    },
+    {
+      "id": "rae_vald_service_asendushooldusteenus",
+      "canonical_item_id": "rae_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus tagab lapse heaolu ja õigused, võimaldab lapsele peresarnased elutingimused, loob turvalise ja arenguks sobiva elukeskkonna ning valmistab lapse ette võimetekohaseks toimetulekuks täisealisena. Teenust osutatakse hooldusperes, perekodus või asenduskodus ning seda võib osutada ka lühiajaliselt vanema nõusolekul.",
+      "sourceKeys": [
+        "asendushooldusteenus_page"
+      ],
+      "targetGroup": "Lapsed, kelle vanem on surnud, kelle vanema hooldusõigus on peatatud, piiratud või ära võetud või kes on vanemast eraldatud.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/asendushooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "rae_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus on täisealise puudega inimese füüsiline abistamine igapäevaelu tegevustes. Abistaja aitab liikumisel, söömisel, toidu valmistamisel, riietumisel, hügieeni- ja majapidamistoimingutes, kuid teenuse saaja peab suutma ise oma elukorralduse üle otsustada ja abistajat juhendada.",
+      "sourceKeys": [
+        "isikliku_abistaja_page"
+      ],
+      "targetGroup": "Täisealised puudega inimesed, kes vajavad füüsilist kõrvalabi igapäevaelu tegevustes.",
+      "conditions": "Teenuse saaja peab suutma võtta vastu oma elukorraldust puudutavaid otsuseid ja juhendada teenuseosutajat.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "Osaliselt tasuline"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/erivajadused-ja-igapaevaelu/isikliku-abistaja-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_service_taisealise_isiku_hoolduse_seadmine",
+      "canonical_item_id": "rae_vald:service:taisealise_isiku_hoolduse_seadmine",
+      "itemType": "service",
+      "title": "Täisealise isiku hoolduse seadmine",
+      "status": "active",
+      "summary": "Hooldus seatakse suure abivajadusega, raske või sügava puudega täisealisele isikule, kes vaimse või kehalise puude tõttu vajab abi oma õiguste teostamiseks ja kohustuste täitmiseks. Hoolduse seadmisel määratakse kindlaks hooldaja ülesanded ning hooldus seatakse siis, kui inimese toimetulekut ei ole võimalik tagada muude teenustega.",
+      "sourceKeys": [
+        "taisealise_hooldus_page"
+      ],
+      "targetGroup": "Suure abivajadusega, raske või sügava puudega täisealised inimesed.",
+      "conditions": "Nii hooldaja kui ka hooldatava rahvastikuregistrijärgne elukoht peab asuma Rae vallas.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/erivajadused-ja-igapaevaelu/taisealise-isiku-hoolduse-seadmine-ja",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_katarina_kimsen"
+      ]
+    },
+    {
+      "id": "rae_vald_service_kogukonnapsuhholoogi_teenus",
+      "canonical_item_id": "rae_vald:service:kogukonnapsuhholoogi_teenus",
+      "itemType": "service",
+      "title": "Vaimse tervise nõustamine ja kogukonnapsühholoogid",
+      "status": "active",
+      "summary": "Rae vallas pakutakse kogukonnapsühholoogide ja psühhoterapeudi nõustamist elanikele, kes vajavad tuge ärevuse, stressi, suhteprobleemide, lapse murede, leina, läbipõlemise või kohanemisraskuste korral. Nõustamine toimub veebis või kohapeal Jüri tervisekeskuses ja Rae sotsiaalkeskuses ning seansi hind on alates 1.04.2026 20 eurot.",
+      "sourceKeys": [
+        "vaimne_tervis_page"
+      ],
+      "targetGroup": "Rae valla elanikud, kes vajavad vaimse tervise tuge.",
+      "conditions": "Nõustamiseks on vajalik eelregistreerimine. Vallavalitsusel on õigus põhjendatud otsusega inimene täielikult või osaliselt teenuse eest tasumisest vabastada.",
+      "application": {
+        "channels": [
+          "web_registration"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "20 eurot seanss alates 01.04.2026"
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/tervis/vaimne-tervis",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_service_psuhholoogi_noustamisteenus",
+      "canonical_item_id": "rae_vald:service:psuhholoogi_noustamisteenus",
+      "itemType": "service",
+      "title": "Psühholoogi nõustamisteenus",
+      "status": "active",
+      "summary": "Psühholoogi nõustamisteenus on vajaduspõhine täiendav sotsiaalteenus, mida vald võib osutada isiku abivajadusest ja eelarve võimalustest lähtudes.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_eripedagoogi_noustamisteenus",
+      "canonical_item_id": "rae_vald:service:eripedagoogi_noustamisteenus",
+      "itemType": "service",
+      "title": "Eripedagoogi nõustamisteenus",
+      "status": "active",
+      "summary": "Eripedagoogi nõustamisteenus on vajaduspõhine täiendav sotsiaalteenus, mida vald võib osutada abivajaduse hindamise alusel.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_logopeedi_teenus",
+      "canonical_item_id": "rae_vald:service:logopeedi_teenus",
+      "itemType": "service",
+      "title": "Logopeedi teenus",
+      "status": "active",
+      "summary": "Logopeedi teenus on üks valla nimetatud täiendavatest sotsiaalteenustest, mida saab vajaduspõhiselt kasutada abivajaduse hindamise tulemusel.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_kriisiabi",
+      "canonical_item_id": "rae_vald:service:kriisiabi",
+      "itemType": "service",
+      "title": "Kriisiabi, sh laste leinalaagris osalemine",
+      "status": "active",
+      "summary": "Kriisiabi on vajaduspõhine täiendav sotsiaalteenus, mis võib hõlmata ka laste leinalaagris osalemise toetamist.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_tugiruhmad_ja_tugiprogrammid",
+      "canonical_item_id": "rae_vald:service:tugiruhmad_ja_tugiprogrammid",
+      "itemType": "service",
+      "title": "Tugirühmades ja tugiprogrammides osalemine",
+      "status": "active",
+      "summary": "Vald võib toetada abivajaja osalemist tugirühmades ja tugiprogrammides, kui see vastab inimese abivajadusele ja valla võimalustele.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_rehabilitatsiooniteenusel_osalemine",
+      "canonical_item_id": "rae_vald:service:rehabilitatsiooniteenusel_osalemine",
+      "itemType": "service",
+      "title": "Rehabilitatsiooniteenusel osalemine",
+      "status": "active",
+      "summary": "Rehabilitatsiooniteenusel osalemist nimetatakse Rae valla täiendava sotsiaalteenusena, mida saab võimaldada abivajaduse ja rahaliste vahendite olemasolu korral.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_soltuvusravi",
+      "canonical_item_id": "rae_vald:service:soltuvusravi",
+      "itemType": "service",
+      "title": "Sõltuvusravi",
+      "status": "active",
+      "summary": "Sõltuvusravi on Rae valla nimetatud täiendav vajaduspõhine sotsiaalteenus, mille võimaldamine sõltub inimese vajadusest ja valla rahalistest võimalustest.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_erihoolekandeteenus",
+      "canonical_item_id": "rae_vald:service:erihoolekandeteenus",
+      "itemType": "service",
+      "title": "Erihoolekandeteenus",
+      "status": "active",
+      "summary": "Erihoolekandeteenust nimetab Rae vald täiendava sotsiaalteenusena, mille saamiseks hinnatakse inimese abi- ja hooldusvajadust.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_viipekeele_tolketeenus",
+      "canonical_item_id": "rae_vald:service:viipekeele_tolketeenus",
+      "itemType": "service",
+      "title": "Viipekeele tõlketeenus",
+      "status": "active",
+      "summary": "Viipekeele tõlketeenus on täiendav sotsiaalteenus, mida vald võib võimaldada abivajaduse hindamise tulemusel.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_service_omasteta_surnu_matmise_korraldamine",
+      "canonical_item_id": "rae_vald:service:omasteta_surnu_matmise_korraldamine",
+      "itemType": "service",
+      "title": "Omasteta surnud isiku matmise korraldamine",
+      "status": "active",
+      "summary": "Omasteta surnud isiku matmise korraldamist nimetatakse Rae valla täiendava sotsiaalteenusena, mida osutatakse vajaduse ja eelarve võimaluste alusel.",
+      "sourceKeys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "targetGroup": "Abivajajad, kellele teenus on abivajaduse hindamise alusel sobiv.",
+      "conditions": "Teenuse pakkumine sõltub abivajadusest ja valla rahaliste vahendite olemasolust.",
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/muud-taiendavad-sotsiaalteenused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_resource_toiduabi",
+      "canonical_item_id": "rae_vald:resource:toiduabi",
+      "itemType": "resource",
+      "title": "Toiduabi",
+      "status": "active",
+      "summary": "Toiduabi kaudu laetakse kord kvartalis toiduabikaardile 30 eurot inimese kohta neile, kes said vastaval perioodil toimetulekutoetust või kohaliku omavalitsuse toetust. Ühe perekonna kohta väljastatakse üks kaart ning toidukaardiga ei saa osta alkoholi, tubaka- ja lototooteid ega kinkekaarte.",
+      "sourceKeys": [
+        "toiduabi_page"
+      ],
+      "targetGroup": "Toimetulekutoetust või KOV toetust saanud inimesed ja pered.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "automatic"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaalteenused/toiduabi",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_resource_abivajav_laps",
+      "canonical_item_id": "rae_vald:resource:abivajav_laps",
+      "itemType": "resource",
+      "title": "Abivajav laps",
+      "status": "active",
+      "summary": "Abivajav laps on laps, kelle heaolu on ohustatud või kelle puhul on tekkinud kahtlus väärkohtlemise, hooletusse jätmise või muu õigusi rikkuva olukorra suhtes. Abivajavast lapsest tuleb viivitamata teatada kohalikule omavalitsusele või lasteabitelefonile 116 111; hädaohus lapse puhul tuleb helistada 112.",
+      "sourceKeys": [
+        "abivajav_laps_page"
+      ],
+      "targetGroup": "Abivajavad ja hädaohus lapsed.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_resource_perelepitus",
+      "canonical_item_id": "rae_vald:resource:perelepitus",
+      "itemType": "resource",
+      "title": "Perelepitus",
+      "status": "active",
+      "summary": "Perelepitus aitab lahku minevatel või lahku läinud lapsevanematel jõuda lapse huvidest lähtuvate kokkulepeteni ja lahendada erimeelsusi kohtuväliselt. Riiklik perelepitusteenus on lapsevanemale tasuta ja seda taotletakse Sotsiaalkindlustusametis.",
+      "sourceKeys": [
+        "perelepitus_page"
+      ],
+      "targetGroup": "Lahku minevad või lahus elavad lapsevanemad.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "external_application"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/perelepitus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_resource_lastekaitse",
+      "canonical_item_id": "rae_vald:resource:lastekaitse",
+      "itemType": "resource",
+      "title": "Lastekaitse Rae vallas",
+      "status": "active",
+      "summary": "Lastekaitse valdkonna eesmärk on lapse õiguste ja heaolu tagamine. KOV ülesannetena on nimetatud sotsiaalnõustamist, vanemliku hoolitsuseta laste hoolduse korraldamist, eestkostja ülesandeid, vanematevaheliste vaidluste lahendamise toetamist, laste varaliste õiguste kaitset, lastele sotsiaalteenuste korraldamist ja lastega perede toetuste menetlemist.",
+      "sourceKeys": [
+        "lastekaitse_page"
+      ],
+      "targetGroup": "Lapsed ja pered, kes vajavad lastekaitse tuge.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/lastekaitse",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_helen_molder",
+        "rae_vald_contact_catriin_kolbak",
+        "rae_vald_contact_gris_tammiksaar",
+        "rae_vald_contact_elle_veelmaa",
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_resource_rae_sotsiaalkeskus",
+      "canonical_item_id": "rae_vald:resource:rae_sotsiaalkeskus",
+      "itemType": "resource",
+      "title": "Rae Sotsiaalkeskus",
+      "status": "active",
+      "summary": "Rae Sotsiaalkeskus on KOV veebis väärika vananemise plokis nimetatud hoolekande- ja tugikeskus. KOV leht viitab keskusele kui praktilisele ressursile, kuid täpsemat teavet tuleb kontrollida keskuse enda infokanalist.",
+      "sourceKeys": [
+        "social_menu_home"
+      ],
+      "targetGroup": "Eakad ja sotsiaalhoolekande teenuseid vajavad inimesed.",
+      "conditions": null,
+      "application": {
+        "channels": [],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_resource_tervishoiuteenuste_osutajad",
+      "canonical_item_id": "rae_vald:resource:tervishoiuteenuste_osutajad",
+      "itemType": "resource",
+      "title": "Tervishoiuteenuste osutajad Rae vallas",
+      "status": "active",
+      "summary": "Lehel on esitatud praktilised tervishoiu kontaktid ja juhised: kiirabi hädaabinumber 112, perearsti nõuandetelefon 1220 ning info perearsti leidmiseks riigiportaalist või Tervisekassa kliendiinfost. Leht koondab Rae valla perearstide, hambaarstide ja apteekide info.",
+      "sourceKeys": [
+        "tervishoiuteenuste_page"
+      ],
+      "targetGroup": "Rae valla elanikud, kes vajavad tervishoiu kontakte.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "web"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/tervis/tervishoiuteenuste-osutajad",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_resource_ohvriabi_info",
+      "canonical_item_id": "rae_vald:resource:ohvriabi_info",
+      "itemType": "resource",
+      "title": "Ohvriabi info",
+      "status": "active",
+      "summary": "Rae valla kodulehel avaldatud ohvriabi infomaterjal koondab ohvriabi ja kriisiabi kontaktid. Materjal nimetab ohvriabi kriisitelefoni 116 006, välismaalt helistamise numbri +372 614 7393, lasteabi telefoni 116 111, inimkaubanduse ennetamise ja ohvrite abistamise nõuandeliini +372 660 7320 ning vägivallast loobumise tugiliini +372 660 6077.",
+      "sourceKeys": [
+        "ohvriabi_pdf"
+      ],
+      "targetGroup": "Kuriteo, vägivalla või kriisijuhtumi tõttu abi vajavad inimesed.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-11/Ohvriabi%20info%202025.pdf",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_resource_noortegarantii_tugisusteem",
+      "canonical_item_id": "rae_vald:resource:noortegarantii_tugisusteem",
+      "itemType": "resource",
+      "title": "Noortegarantii tugisüsteem",
+      "status": "active",
+      "summary": "Noortegarantii tugisüsteem toetab 13–29-aastaseid noori, kes ei õpi ega tööta või kellel on risk sellisesse olukorda sattuda. Rae, Saue ja Viimsi valdade ühisprojekt pakub personaalset nõustamist ning tuge haridusteele naasmisel või tööturule sisenemisel.",
+      "sourceKeys": [
+        "noortegarantii_page"
+      ],
+      "targetGroup": "13–29-aastased noored, kes ei õpi ega tööta või on riskis.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://rae.ee/haridus-ja-noored/noored/noortegarantii-tugisusteem",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_diana_praam"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_synnitoetus",
+      "canonical_item_id": "rae_vald:benefit:synnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetus on 400 eurot lapse sünni puhul. Taotlust saab esitada kuue kuu jooksul pärast lapse sündi; mõlemad vanemad peavad olema rahvastikuregistri andmetel Rae valla elanikud vähemalt kolm kuud enne lapse sündi. Lisaks antakse beebipakk ja sünnijärgselt Rae valda registreeritud lastele hõbelusikas.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Lapsevanemad, kellel on sündinud laps.",
+      "conditions": "Mõlemad vanemad peavad olema Rae valla elanikud vähemalt kolm kuud enne lapse sündi.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "6 kuu jooksul pärast lapse sündi"
+      },
+      "decisionTime": null,
+      "amount": "400 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_synnitoetuse_taotlus",
+        "rae_vald_form_synnitoetuse_e_taotlus"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
+      "canonical_item_id": "rae_vald:benefit:vahekindlustatud_pere_lapse_koolitoetus",
+      "itemType": "benefit",
+      "title": "Vähekindlustatud pere lapse koolitoetus",
+      "status": "active",
+      "summary": "Koolitoetus on 150 eurot vähekindlustatud pere lapse õppevahendite, koolitarvete, kooliriiete või koolis käimisega seotud põhjendatud kulude katteks. Taotleda võivad lapsevanem, eestkostja või hooldaja ning samuti klassijuhataja, sotsiaaltöötaja või lastekaitsetöötaja.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Vähekindlustatud perede lapsed, sh õpilaskodus, kutsekoolis või statsionaarses üldhariduskoolis õppivad noored.",
+      "conditions": "Lapsevanema, eestkostja või hooldaja taotlusele tuleb lisada pere sissetulekut tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "150 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_asendushoolduse_lapse_tahtpaeva_toetus",
+      "canonical_item_id": "rae_vald:benefit:asendushoolduse_lapse_tahtpaeva_toetus",
+      "itemType": "benefit",
+      "title": "Asendushooldusteenusel oleva lapse või noore sünnipäeva-, jõulu-, koolilõpu- ja elluastumise toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud valla eestkostel ja asenduskodus elava lapse või noore toimetuleku parandamiseks. Sünnipäevatoetus on 50 eurot, jõulutoetus 100 eurot, koolilõputoetus 50 eurot ja asenduskodust elluastumise toetus 320 eurot. Taotluse esitab tavaliselt lastekaitsetöötaja; elluastumise toetust võib taotleda ka iseseisvasse ellu astuv noor.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Valla eestkostel või asenduskodus elavad lapsed ja noored.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "contact_social_worker"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Sünnipäev 50 eurot; jõulud 100 eurot; koolilõpp 50 eurot; elluastumine 320 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam",
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_emadepaeva_toetus",
+      "canonical_item_id": "rae_vald:benefit:emadepaeva_toetus",
+      "itemType": "benefit",
+      "title": "Suurpere, eestkostepere ja puudega lapse vanema emadepäeva toetus",
+      "status": "active",
+      "summary": "Emadepäeva toetus on 100 eurot perele, kus kasvab vähemalt neli alaealist last, eestkostjale, kes kasvatab vanemliku hoolitsuseta last, või perele, kus kasvab puudega laps. Kui peres kasvab vähemalt neli alaealist last ja nende hulgas on puudega või vanemliku hoolitsuseta laps, makstakse toetus kahekordses piirmääras.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Suurpered, eestkostepered ja puudega lapsega pered.",
+      "conditions": "Mõlemad vanemad peavad olema rahvastikuregistri andmetel Rae valla elanikud.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "Taotlus 15. märtsist 15. aprillini; hilisemaid taotlusi vastu ei võeta."
+      },
+      "decisionTime": null,
+      "amount": "100 eurot; teatud juhtudel kahekordne piirmäär",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_emadepaeva_toetuse_vorm",
+        "rae_vald_form_emadepaeva_toetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_joulutoetus",
+      "canonical_item_id": "rae_vald:benefit:joulutoetus",
+      "itemType": "benefit",
+      "title": "Suurpere, eestkostepere ja puudega lapse vanema jõulutoetus",
+      "status": "active",
+      "summary": "Jõulutoetus on 100 eurot perele, kus kasvab vähemalt neli alaealist last, eestkostjale või puudega lapse vanemale. Teatud tingimustel makstakse toetus kahekordses piirmääras. Toetus makstakse välja detsembrikuus.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Suurpered, eestkostepered ja puudega lapsega pered.",
+      "conditions": "Mõlemad vanemad peavad olema rahvastikuregistri andmetel Rae valla elanikud.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "Taotlus 1. novembrist 1. detsembrini; hilisemaid taotlusi vastu ei võeta."
+      },
+      "decisionTime": null,
+      "amount": "100 eurot; teatud juhtudel kahekordne piirmäär",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_joulutoetuse_vorm",
+        "rae_vald_form_joulutoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam",
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_vanemliku_hoolitsuseta_lapse_toetus",
+      "canonical_item_id": "rae_vald:benefit:vanemliku_hoolitsuseta_lapse_toetus",
+      "itemType": "benefit",
+      "title": "Vanemliku hoolitsuseta jäänud lapse ülalpidamis- ja koolituskulude toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud vanemliku hoolitsuseta jäänud lapse ülalpidamis- ja koolituskulude katmiseks. Taotluse võib esitada eestkostja või lastekaitsetöötaja ning toetus makstakse õppeasutuse poolt esitatud arve alusel.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Vanemliku hoolitsuseta jäänud lapsed.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "contact_social_worker",
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam",
+        "rae_vald_contact_kai_sinisalu"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_puudega_lapse_prillitoetus",
+      "canonical_item_id": "rae_vald:benefit:puudega_lapse_prillitoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse prillitoetus",
+      "status": "active",
+      "summary": "Puudega lapse prillitoetus on ette nähtud prillide soetamise kulude osaliseks katmiseks. Taotlusele tuleb lisada prillide retsept ning maksedokument lapse nimega; taotlejaks võib olla puudega lapse vanem, kes on enne taotlemist olnud vähemalt aasta Rae valla elanik.",
+      "sourceKeys": [
+        "laste_perede_toetused_page"
+      ],
+      "targetGroup": "Puudega lapsed ja nende vanemad.",
+      "conditions": "Taotleja peab olema rahvastikuregistri järgi Rae valla elanik vähemalt ühe aasta ning lisama retsepti ja maksedokumendi.",
+      "application": {
+        "channels": [
+          "self_service"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/laste-ja-perede-heaolu/toetused-lastele-ja-peredele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam",
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "rae_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riigi rahaline abi puuduses inimestele ja seda maksab kohalik omavalitsus. Toetust makstakse siis, kui muud vaesuse ja puuduse leevendamise abinõud on ebapiisavad; taotlus esitatakse jooksva kuu eest hiljemalt kuu viimaseks tööpäevaks.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "targetGroup": "Puuduses inimesed ja pered, kelle tegelik elukoht on Rae valla haldusterritooriumil.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "Jooksva kuu eest hiljemalt kuu viimane tööpäev"
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/toimetulekutoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_toimetulekutoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_invatehnilise_abivahendi_toetus",
+      "canonical_item_id": "rae_vald:benefit:invatehnilise_abivahendi_toetus",
+      "itemType": "benefit",
+      "title": "Invatehnilise abivahendi toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud meditsiiniliselt põhjendatud invatehnilise abivahendi soetamise või rentimise kulude osaliseks katmiseks. Toetuse suurus on kuni 50% kulust ning seda makstakse üks kord aastas samal aastal tehtud kulude katmiseks.",
+      "sourceKeys": [
+        "invatehnilise_abivahendi_toetus_page"
+      ],
+      "targetGroup": "Abivahendi soetanud või rentinud inimene.",
+      "conditions": "Taotleja peab enne toetuse taotlemist olema rahvastikuregistri järgi olnud Rae valla elanik vähemalt ühe aasta ning lisama nimelise maksedokumendi.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 50% kulust",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/invatehnilise-abivahendi-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_ravikindlustuseta_isiku_ravikulude_toetus",
+      "canonical_item_id": "rae_vald:benefit:ravikindlustuseta_isiku_ravikulude_toetus",
+      "itemType": "benefit",
+      "title": "Ravikindlustuseta isiku ravikulude toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud ravikindlustuseta inimese esmase uuringu kulude katmiseks, kui see on vajalik töövõimetuspensioni taotlemiseks. Vallavalitsus võib anda raviasutusele garantiikirja ja toetus makstakse välja uuringu eest esitatud arve alusel.",
+      "sourceKeys": [
+        "ravikindlustuseta_toetus_page"
+      ],
+      "targetGroup": "Ravikindlustuseta isikud, kellel on vaja töövõime või töövõimetuspensioniga seotud esmaseid uuringuid.",
+      "conditions": "Taotlusele tuleb lisada arsti väljastatud tõend uuringute vajalikkuse kohta.",
+      "application": {
+        "channels": [
+          "contact_social_worker",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/ravikindlustuseta-isiku-ravikulude-toetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_vabanenud_isiku_uhekordne_toetus",
+      "canonical_item_id": "rae_vald:benefit:vabanenud_isiku_uhekordne_toetus",
+      "itemType": "benefit",
+      "title": "Kinnipidamisasutusest vabanenud isiku ühekordne toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud kinnipidamiskohast vabanenud inimese esmase toimetuleku tagamiseks. Toetuse suurus on 50 eurot ja taotlusele tuleb lisada vabastamistõendi koopia.",
+      "sourceKeys": [
+        "vabanenud_isiku_toetus_page"
+      ],
+      "targetGroup": "Kinnipidamiskohast vabanenud inimene, kelle elukoht enne kinnipidamist oli Rae vald või kelle pereliikmed elavad Rae vallas ja kelle juurde isik elama asub.",
+      "conditions": "Taotlusele tuleb lisada vabastamistõendi koopia.",
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/kinnipidamisasutusest-vabanenud-isiku-uhekordne-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_valtimatu_sotsiaalabi_toetus",
+      "canonical_item_id": "rae_vald:benefit:valtimatu_sotsiaalabi_toetus",
+      "itemType": "benefit",
+      "title": "Vältimatu sotsiaalabi toetus",
+      "status": "active",
+      "summary": "Vältimatu sotsiaalabi toetus on ette nähtud hädavajaliku sotsiaalhoolekandelise abi osutamiseks toidu, riiete ja ajutise peavarju osas. Abi osutamise viisi otsustab vallavalitsus ning abi antakse seni, kuni inimene ei ole enam sotsiaalselt abitus olukorras.",
+      "sourceKeys": [
+        "valtimatu_sotsiaalabi_toetus_page"
+      ],
+      "targetGroup": "Isikud ja pered, kes vajavad vältimatut abi, sh Rae vallas viibivad inimesed, kelle elukoht ei asu Rae vallas.",
+      "conditions": "Kui abi vajaja viibib Rae vallas, kuid tema elukoht on mujal, tuleb abi kooskõlastada tema elukohajärgse omavalitsusega.",
+      "application": {
+        "channels": [
+          "contact_social_worker",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/valtimatu-sotsiaalabi-toetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_muu_toimetulekut_soodustav_toetus",
+      "canonical_item_id": "rae_vald:benefit:muu_toimetulekut_soodustav_toetus",
+      "itemType": "benefit",
+      "title": "Muu toimetulekut soodustav toetus",
+      "status": "active",
+      "summary": "Muu toimetulekut soodustav toetus on ette nähtud inimesele või perele ootamatu raske majandusliku olukorraga toimetulekuks või vähekindlustatud inimesele või perele muude põhjendatud kulutuste hüvitamiseks. Vallavalitsusel on õigus määrata erandkorras toetusi või esitada materjalid volikogule otsustamiseks.",
+      "sourceKeys": [
+        "muu_toimetulek_toetus_page"
+      ],
+      "targetGroup": "Inimesed ja pered, kellel on ootamatu raske majanduslik olukord või põhjendatud lisakulutused.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/muu-toimetulekut-soodustav-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_dokumenditoetus",
+      "canonical_item_id": "rae_vald:benefit:dokumenditoetus",
+      "itemType": "benefit",
+      "title": "Dokumenditoetus",
+      "status": "active",
+      "summary": "Dokumenditoetus on ette nähtud isikutunnistuse ja elamisloa riigilõivu tasumiseks inimesele, kellel puudub või on lõppenud elamisluba ja ID-kaart on kehtetu. Taotlusele tuleb lisada maksedokumendid.",
+      "sourceKeys": [
+        "dokumenditoetus_page"
+      ],
+      "targetGroup": "Isikud, kelle ID-kaart on kehtetu või kellel puudub või on lõppenud elamisluba.",
+      "conditions": "Taotlusele tuleb lisada maksedokumendid ning taotlusvormil valida toetuseliik „muu toetus“.",
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/sotsiaaltoetused/dokumenditoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_erivajadusega_inimese_kuttekulude_toetus",
+      "canonical_item_id": "rae_vald:benefit:erivajadusega_inimese_kuttekulude_toetus",
+      "itemType": "benefit",
+      "title": "Erivajadusega inimese küttekulude toetus",
+      "status": "active",
+      "summary": "Toetus on ette nähtud puudega inimesele küttekulude osaliseks kompenseerimiseks. Toetuse suurus on 150 eurot aastas ja seda makstakse üks kord aastas kulu tõendava maksedokumendi alusel.",
+      "sourceKeys": [
+        "kuttekulude_toetus_page"
+      ],
+      "targetGroup": "Puudega inimesed.",
+      "conditions": "Taotlusele tuleb lisada kulu tõendav maksedokument.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "150 eurot aastas",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/erivajadused-ja-igapaevaelu/erivajadusega-inimese-kuttekulude-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "canonical_item_id": "rae_vald:benefit:taisealise_isiku_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Täisealise isiku hooldajatoetus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldajatoetus on seotud suure abivajadusega, raske või sügava puudega täisealise isiku hoolduse seadmisega. KOV lehel kirjeldatakse hoolduse seadmise tingimusi ning märgitakse, et erivajadustega täisealiste spetsialist menetleb täiskasvanute hooldajatoetuse taotlusi.",
+      "sourceKeys": [
+        "taisealise_hooldus_page",
+        "social_contacts"
+      ],
+      "targetGroup": "Hooldajad, kes hooldavad suure abivajadusega raske või sügava puudega täisealist inimest.",
+      "conditions": "Nii hooldaja kui ka hooldatava rahvastikuregistrijärgne elukoht peab asuma Rae vallas.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/erivajadused-ja-igapaevaelu/taisealise-isiku-hoolduse-seadmine-ja",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_sotsiaalteenuse_taotlus",
+        "rae_vald_form_sotsiaalteenuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_katarina_kimsen"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_pensionari_prillitoetus",
+      "canonical_item_id": "rae_vald:benefit:pensionari_prillitoetus",
+      "itemType": "benefit",
+      "title": "Pensionäri prillitoetus",
+      "status": "active",
+      "summary": "Pensionäri prillitoetus on ette nähtud prillide soetamise kulude osaliseks katmiseks. Toetuse suurus on 100 eurot ning taotlusele tuleb lisada prillide retsept ja nimeline maksedokument.",
+      "sourceKeys": [
+        "pensionari_prillitoetus_page"
+      ],
+      "targetGroup": "Pensionärid.",
+      "conditions": "Taotleja peab enne taotluse esitamist olema Rae valla elanik vähemalt ühe aasta.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "100 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/vaarikas-vananemine/pensionari-prillitoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_uhekordse_toetuse_taotlus",
+        "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_eaka_tahtpaevatoetus",
+      "canonical_item_id": "rae_vald:benefit:eaka_tahtpaevatoetus",
+      "itemType": "benefit",
+      "title": "Eaka tähtpäevatoetus",
+      "status": "active",
+      "summary": "Eaka tähtpäevatoetus on ette nähtud Rae valla elanikule alates 80. sünnipäevast. Esmakordsel toetuse saamisel tuleb esitada vabas vormis taotlus kontoandmetega; edaspidi algatab vallavalitsus menetluse ise.",
+      "sourceKeys": [
+        "eaka_tahtpaevatoetus_page"
+      ],
+      "targetGroup": "Rae valla elanikud alates 80. sünnipäevast.",
+      "conditions": "Esmakordsel saamisel tuleb esitada vabas vormis taotlus kontoandmetega.",
+      "application": {
+        "channels": [
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/vaarikas-vananemine/eaka-tahtpaevatoetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_benefit_matusetoetus",
+      "canonical_item_id": "rae_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus on ühekordne sissetulekust mittesõltuv toetus valla elaniku matusekulude osaliseks katmiseks. Toetust võib taotleda inimene, kes korraldab matuse, kui surnud isik oli rahvastikuregistri andmetel Rae valla elanik.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "targetGroup": "Matuse korraldaja, kui surnud inimene oli Rae valla elanik.",
+      "conditions": "Surnud isik peab olema rahvastikuregistri andmetel olnud Rae valla elanik.",
+      "application": {
+        "channels": [
+          "self_service",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "350 eurot",
+      "officialUrl": "https://rae.ee/pere-sotsiaal-ja-tervis/lahedase-kaotus/matusetoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "rae_vald_form_matusetoetuse_vorm",
+        "rae_vald_form_matusetoetuse_e_taotlus"
+      ],
+      "relatedContacts": [
+        "rae_vald_contact_natalja_grusdam",
+        "rae_vald_contact_liina_liibert",
+        "rae_vald_contact_ylle_parmas"
+      ]
+    },
+    {
+      "id": "rae_vald_form_sotsiaalteenuse_taotlus",
+      "canonical_item_id": "rae_vald:form:sotsiaalteenuse_taotlus",
+      "itemType": "form",
+      "title": "Sotsiaalteenuse taotlus",
+      "status": "active",
+      "summary": "Blankett sotsiaalteenuse taotlemiseks. Lehtedel viidatakse sellele tugiisikuteenuse, isikliku abistaja teenuse, täisealise isiku hoolduse ning teiste sotsiaalteenuste taotlemisel.",
+      "sourceKeys": [
+        "sotsiaalteenuse_taotlus_file"
+      ],
+      "name": "Sotsiaalteenuse taotlus",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-05/Sotsiaalteenuse%20taotluse%20blankett%20%281%29%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_tugiisikuteenus",
+        "rae_vald_service_volanoustamisteenus",
+        "rae_vald_service_valtimatu_sotsiaalabi",
+        "rae_vald_service_koduteenus",
+        "rae_vald_service_isikliku_abistaja_teenus",
+        "rae_vald_service_taisealise_isiku_hoolduse_seadmine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_uldhoolduse_taotlus",
+      "canonical_item_id": "rae_vald:form:uldhoolduse_taotlus",
+      "itemType": "form",
+      "title": "Üldhoolduse taotlus",
+      "status": "active",
+      "summary": "Blankett väljaspool kodu osutatava üldhooldusteenuse taotlemiseks.",
+      "sourceKeys": [
+        "uldhoolduse_taotlus_file"
+      ],
+      "name": "Üldhoolduse taotlus",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-05/%C3%9Cldhoolduse%20taotlus%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_uldhooldusteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_toimetulekutoetuse_avaldus",
+      "canonical_item_id": "rae_vald:form:toimetulekutoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse taotlemise avaldus",
+      "status": "active",
+      "summary": "Blankett riikliku toimetulekutoetuse taotlemiseks.",
+      "sourceKeys": [
+        "toimetulekutoetuse_avaldus_file"
+      ],
+      "name": "Toimetulekutoetuse taotlemise avaldus",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-11/Toimetulekutoetuse%20taotlemise%20avaldus%20.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_uhekordse_toetuse_taotlus",
+      "canonical_item_id": "rae_vald:form:uhekordse_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Ühekordse toetuse taotluse blankett",
+      "status": "active",
+      "summary": "Blankett ühekordsete sotsiaaltoetuste taotlemiseks. Seda kasutatakse mitme toetuse, sh küttekulude, prillitoetuse, invatehnilise abivahendi, dokumendi- ja muu toimetulekutoetuse puhul.",
+      "sourceKeys": [
+        "uhekordse_toetuse_taotlus_file"
+      ],
+      "name": "Ühekordse toetuse taotluse blankett",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-04/%C3%9Chekordse%20toetuse%20taotluse%20blankett%20%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
+        "rae_vald_benefit_invatehnilise_abivahendi_toetus",
+        "rae_vald_benefit_vabanenud_isiku_uhekordne_toetus",
+        "rae_vald_benefit_muu_toimetulekut_soodustav_toetus",
+        "rae_vald_benefit_dokumenditoetus",
+        "rae_vald_benefit_erivajadusega_inimese_kuttekulude_toetus",
+        "rae_vald_benefit_pensionari_prillitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_synnitoetuse_taotlus",
+      "canonical_item_id": "rae_vald:form:synnitoetuse_taotlus",
+      "itemType": "form",
+      "title": "Sünnitoetuse taotlus",
+      "status": "active",
+      "summary": "Blankett Rae valla sünnitoetuse taotlemiseks.",
+      "sourceKeys": [
+        "synnitoetuse_taotlus_file"
+      ],
+      "name": "Sünnitoetuse taotlus",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-05/s%C3%BCnnitoetus%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_synnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_emadepaeva_toetuse_vorm",
+      "canonical_item_id": "rae_vald:form:emadepaeva_toetuse_vorm",
+      "itemType": "form",
+      "title": "Emadepäeva toetuse vorm",
+      "status": "active",
+      "summary": "Blankett suurpere, eestkostepere ja puudega lapse vanema emadepäeva toetuse taotlemiseks.",
+      "sourceKeys": [
+        "emadepaeva_toetuse_vorm_file"
+      ],
+      "name": "Emadepäeva toetuse vorm",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-04/Emadep%C3%A4eva%20toetuse%20vorm%20.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_emadepaeva_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_joulutoetuse_vorm",
+      "canonical_item_id": "rae_vald:form:joulutoetuse_vorm",
+      "itemType": "form",
+      "title": "Jõulutoetuse blankett",
+      "status": "active",
+      "summary": "Blankett suurpere, eestkostepere ja puudega lapse vanema jõulutoetuse taotlemiseks.",
+      "sourceKeys": [
+        "joulutoetuse_vorm_file"
+      ],
+      "name": "Jõulutoetuse blankett",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-04/J%C3%B5ulutoetuse%20blankett%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_joulutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_matusetoetuse_vorm",
+      "canonical_item_id": "rae_vald:form:matusetoetuse_vorm",
+      "itemType": "form",
+      "title": "Matusetoetuse blankett",
+      "status": "active",
+      "summary": "Blankett matusetoetuse taotlemiseks.",
+      "sourceKeys": [
+        "matusetoetuse_vorm_file"
+      ],
+      "name": "Matusetoetuse blankett",
+      "format": "docx",
+      "officialUrl": "https://rae.ee/sites/default/files/documents/2025-04/Matusetoetuse%20blankett%20conv.docx",
+      "submissionChannels": [
+        "in_person",
+        "email"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "rae_vald_form_synnitoetuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:synnitoetuse_e_taotlus",
+      "itemType": "form",
+      "title": "Sünnitoetuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Sünnitoetuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Sünnitoetuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/synnitoetus",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_synnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/synnitoetus"
+    },
+    {
+      "id": "rae_vald_form_uhekordse_sotsiaaltoetuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:uhekordse_sotsiaaltoetuse_e_taotlus",
+      "itemType": "form",
+      "title": "Ühekordse sotsiaaltoetuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Ühekordse sotsiaaltoetuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Ühekordse sotsiaaltoetuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/sotsiaaltoetus/ylevaade?toetus=2379",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
+        "rae_vald_benefit_invatehnilise_abivahendi_toetus",
+        "rae_vald_benefit_vabanenud_isiku_uhekordne_toetus",
+        "rae_vald_benefit_muu_toimetulekut_soodustav_toetus",
+        "rae_vald_benefit_dokumenditoetus",
+        "rae_vald_benefit_erivajadusega_inimese_kuttekulude_toetus",
+        "rae_vald_benefit_pensionari_prillitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/sotsiaaltoetus/ylevaade?toetus=2379"
+    },
+    {
+      "id": "rae_vald_form_matusetoetuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:matusetoetuse_e_taotlus",
+      "itemType": "form",
+      "title": "Matusetoetuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Matusetoetuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Matusetoetuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/matusetoetus",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/matusetoetus"
+    },
+    {
+      "id": "rae_vald_form_lapse_sotsiaalteenuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:lapse_sotsiaalteenuse_e_taotlus",
+      "itemType": "form",
+      "title": "Lapse sotsiaalteenuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Lapse sotsiaalteenuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Lapse sotsiaalteenuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/lapsesots",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_tugiisikuteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/lapsesots"
+    },
+    {
+      "id": "rae_vald_form_sotsiaalteenuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:sotsiaalteenuse_e_taotlus",
+      "itemType": "form",
+      "title": "Sotsiaalteenuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Sotsiaalteenuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Sotsiaalteenuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/sotsiaalteenus",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_sotsiaaltransporditeenus",
+        "rae_vald_service_tugiisikuteenus",
+        "rae_vald_service_volanoustamisteenus",
+        "rae_vald_service_valtimatu_sotsiaalabi",
+        "rae_vald_service_koduteenus",
+        "rae_vald_service_isikliku_abistaja_teenus",
+        "rae_vald_service_taisealise_isiku_hoolduse_seadmine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/sotsiaalteenus"
+    },
+    {
+      "id": "rae_vald_form_uldhoolduse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:uldhoolduse_e_taotlus",
+      "itemType": "form",
+      "title": "Väljaspool kodu osutatava üldhooldusteenuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Väljaspool kodu osutatava üldhooldusteenuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Väljaspool kodu osutatava üldhooldusteenuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/yldhooldus",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_uldhooldusteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/yldhooldus"
+    },
+    {
+      "id": "rae_vald_form_munitsipaaleluruumi_e_taotlus",
+      "canonical_item_id": "rae_vald:form:munitsipaaleluruumi_e_taotlus",
+      "itemType": "form",
+      "title": "Munitsipaaleluruumi üürimise e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Munitsipaaleluruumi üürimise e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Munitsipaaleluruumi üürimise e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/munitsipaalruum",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_service_eluruumi_tagamine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/munitsipaalruum"
+    },
+    {
+      "id": "rae_vald_form_emadepaeva_toetuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:emadepaeva_toetuse_e_taotlus",
+      "itemType": "form",
+      "title": "Emadepäeva toetuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Emadepäeva toetuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Emadepäeva toetuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/emad/ylevaade?asutus=3496&toetus=2354",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_emadepaeva_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/emad/ylevaade?asutus=3496&toetus=2354"
+    },
+    {
+      "id": "rae_vald_form_joulutoetuse_e_taotlus",
+      "canonical_item_id": "rae_vald:form:joulutoetuse_e_taotlus",
+      "itemType": "form",
+      "title": "Jõulutoetuse e-taotlus",
+      "status": "active",
+      "summary": "E-teenus ametlikus Rae valla iseteeninduse loetelus: Jõulutoetuse e-taotlus.",
+      "sourceKeys": [
+        "eteenused_page"
+      ],
+      "name": "Jõulutoetuse e-taotlus",
+      "format": "web_form",
+      "officialUrl": "https://piksel.ee/spoku/rae/joulud/",
+      "submissionChannels": [
+        "self_service"
+      ],
+      "sections_present": [
+        "application_form"
+      ],
+      "relatedTo": [
+        "rae_vald_benefit_joulutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "externalUrl": "https://piksel.ee/spoku/rae/joulud/"
+    }
+  ]
+}
