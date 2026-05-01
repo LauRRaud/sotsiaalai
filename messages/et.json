@@ -1592,7 +1592,8 @@
       },
       "features": {
         "help": "Abisoovid ja abipakkumised koos vastete leidmisega",
-        "role_ai": "Rollipõhine AI-tugi",
+        "knowledge_base": "SotsiaalAI teadmusbaas",
+        "assistants_agents": "SotsiaalAI assistendid ja agendid",
         "sources": "Allikate kuvamine",
         "drafting": "Taotluste, dokumentide ja aruannete koostamine",
         "analysis": "Dokumendi analüüs",

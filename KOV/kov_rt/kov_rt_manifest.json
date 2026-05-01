@@ -2185,10 +2185,10 @@
         "historical": false,
         "is_current_version": true
       },
-      "auto_ingest": true,
-      "ingest_status": "ingest_ready",
+      "auto_ingest": false,
+      "ingest_status": "deferred",
       "original_status": "FOUND_EXACT",
-      "notes": "General social welfare regulation for Tallinn."
+      "notes": "Tallinn RT is intentionally deferred until the Tallinn KOV package is prepared."
     },
     {
       "municipality_name": "Tapa vald",

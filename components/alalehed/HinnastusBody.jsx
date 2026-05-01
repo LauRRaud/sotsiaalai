@@ -65,7 +65,11 @@ const featureRows = [
     values: ["included", "included", "included"]
   },
   {
-    key: "role_ai",
+    key: "knowledge_base",
+    values: ["dash", "included", "included"]
+  },
+  {
+    key: "assistants_agents",
     values: ["dash", "included", "included"]
   },
   {

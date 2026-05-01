@@ -1592,7 +1592,8 @@
       },
       "features": {
         "help": "Help requests and help offers with matching",
-        "role_ai": "Role-based AI support",
+        "knowledge_base": "SotsiaalAI knowledge base",
+        "assistants_agents": "SotsiaalAI assistants and agents",
         "sources": "Source display",
         "drafting": "Drafting applications, documents, and reports",
         "analysis": "Document analysis",

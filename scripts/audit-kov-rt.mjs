@@ -37,13 +37,14 @@ async function main() {
     total: items.length,
     xml_found: items.filter(item => item.xml_found).length,
     ingest_ready: items.filter(item => item.ingest_status === "ingest_ready").length,
+    deferred: items.filter(item => item.ingest_status === "deferred").length,
     skipped: items.filter(item => item.ingest_status === "skipped").length,
     needs_review: items.filter(item => item.ingest_status === "needs_review").length,
     generated_metadata_valid: items.filter(item => item.generated_metadata_valid).length
   };
   const payload = {
     ok: true,
-    all_ready: items.every(item => item.ingest_status === "ingest_ready" || item.ingest_status === "skipped"),
+    all_ready: items.every(item => item.ingest_status === "ingest_ready" || item.ingest_status === "skipped" || item.ingest_status === "deferred"),
     manifestPath,
     schemaVersion: manifest.schemaVersion,
     policy: manifest.policy || {},

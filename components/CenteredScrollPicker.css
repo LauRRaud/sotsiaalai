@@ -67,6 +67,13 @@
   scroll-behavior: auto;
 }
 
+.register-scroll.csp-container.csp-desktop-free-scroll,
+.rooms-scroll.csp-container.csp-desktop-free-scroll {
+  scroll-snap-type: none;
+  scroll-padding-top: 0 !important;
+  scroll-padding-bottom: 0 !important;
+}
+
 .register-scroll.csp-container,
 .a11y-csp-scroll.csp-container {
   --csp-scroll-fade-top: clamp(2.7rem, 6.6vh, 4rem);
