@@ -30,6 +30,7 @@ export default function OptionCard({
   children,
   fitTextLines,
   fitTextMinPx = 16,
+  fitTextMaxPx,
   ...props
 }) {
   const internalRef = useRef(null);
@@ -64,26 +65,37 @@ export default function OptionCard({
     let rafId = 0;
 
     const fit = () => {
-      const style = window.getComputedStyle(node);
-      const baseFont = Number.parseFloat(style.fontSize) || 16;
-      const lineHeightRaw = Number.parseFloat(style.lineHeight);
-      const lineHeight = Number.isFinite(lineHeightRaw) ? lineHeightRaw : baseFont * 1.24;
-      const maxHeight = lineHeight * fitTextLines + 1;
-      const minFont = Math.min(baseFont, fitTextMinPx);
-
       node.style.removeProperty("font-size");
       node.style.removeProperty("--fit-text-size");
 
-      if (node.scrollHeight <= maxHeight) return;
+      const baseStyle = window.getComputedStyle(node);
+      const baseFont = Number.parseFloat(baseStyle.fontSize) || 16;
+      const minFont = Math.min(baseFont, fitTextMinPx);
+      const maxFontValue = Number.parseFloat(fitTextMaxPx);
+      const maxFont = Number.isFinite(maxFontValue)
+        ? Math.max(baseFont, maxFontValue)
+        : baseFont;
+
+      const fitsAt = (size) => {
+        node.style.fontSize = `${size}px`;
+        const style = window.getComputedStyle(node);
+        const currentFont = Number.parseFloat(style.fontSize) || size;
+        const lineHeightRaw = Number.parseFloat(style.lineHeight);
+        const lineHeight = Number.isFinite(lineHeightRaw)
+          ? lineHeightRaw
+          : currentFont * 1.24;
+        const maxHeight = lineHeight * fitTextLines + 1;
+        const maxWidth = node.clientWidth + 1;
+        return node.scrollHeight <= maxHeight && node.scrollWidth <= maxWidth;
+      };
 
       let low = minFont;
-      let high = baseFont;
+      let high = maxFont;
       let best = minFont;
 
-      for (let i = 0; i < 10; i += 1) {
+      for (let i = 0; i < 12; i += 1) {
         const mid = (low + high) / 2;
-        node.style.fontSize = `${mid}px`;
-        if (node.scrollHeight <= maxHeight) {
+        if (fitsAt(mid)) {
           best = mid;
           low = mid;
         } else {
@@ -105,11 +117,18 @@ export default function OptionCard({
     window.addEventListener("resize", scheduleFit);
     document.fonts?.ready?.then?.(scheduleFit).catch?.(() => {});
 
+    const ro =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(scheduleFit)
+        : null;
+    if (node.parentElement) ro?.observe(node.parentElement);
+
     return () => {
       window.cancelAnimationFrame(rafId);
       window.removeEventListener("resize", scheduleFit);
+      ro?.disconnect?.();
     };
-  }, [children, fitTextLines, fitTextMinPx, resolvedRef]);
+  }, [children, fitTextLines, fitTextMinPx, fitTextMaxPx, resolvedRef]);
   return <label data-checked={checked ? "true" : "false"} data-control-type={type} data-focus-visible={isFocusVisible ? "true" : "false"} className={cn(baseCard, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)} {...props}>
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} onFocus={e => setIsFocusVisible(e.target.matches(":focus-visible"))} onBlur={() => setIsFocusVisible(false)} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}

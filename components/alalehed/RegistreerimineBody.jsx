@@ -52,7 +52,9 @@ const successMessageClassName =
   "m-0 text-center text-[1.18rem] leading-[1.5] tracking-[0.012em] text-[color:var(--glass-surface-text,#f2f2f2)] light:text-[color:var(--input-text)] max-[768px]:text-[1.28rem] max-[768px]:leading-[1.42]";
 const successActionsClassName = "mt-[0.25rem] flex w-full justify-center";
 const scrollClassName =
-  "register-scroll relative flex-1 w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] min-h-0 overflow-y-auto overflow-x-hidden min-[769px]:overflow-x-visible px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
+  "register-scroll relative flex-1 w-full max-w-full min-h-0 overflow-y-auto overflow-x-hidden px-[0.6rem] min-[769px]:px-[1.02rem] text-left csp-container mx-auto";
+const registerFormClassName =
+  "register-form mx-auto flex w-full max-w-[clamp(18rem,39vw,25.2rem)] min-[769px]:max-w-[clamp(18.2rem,calc(var(--ring-diameter,52rem)/2.2),23.6rem)] flex-col gap-[2rem]";
 const registerTextClassName =
   "register-copy text-[1.25rem] leading-[1.45] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
 const registerPolicyLinkClassName =
@@ -224,12 +226,10 @@ export default function RegistreerimineBody({}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const [pressedRole, setPressedRole] = useState("");
   const initViewportModeRef = useRef(null);
   const initialScrollTopRef = useRef(0);
   const hasInitialScrollTopRef = useRef(false);
   const initialFirstStepAlignDoneRef = useRef(false);
-  const pressedRoleClearTimerRef = useRef(null);
   const roleLabelId = useId();
   const roleHintId = useId();
   const emailErrorId = useId();
@@ -320,25 +320,28 @@ export default function RegistreerimineBody({}) {
       );
     }
   }
-  const setActivePressedRole = (role) => {
-    if (pressedRoleClearTimerRef.current && typeof window !== "undefined") {
-      window.clearTimeout(pressedRoleClearTimerRef.current);
-      pressedRoleClearTimerRef.current = null;
-    }
-    setPressedRole(role);
+  const handleRoleSelect = (role) => {
+    setForm((prev) => ({
+      ...prev,
+      role,
+      ...(role !== "SOCIAL_WORKER"
+        ? {
+            workerUse: "",
+            frameworkAck: false,
+          }
+        : null),
+    }));
   };
-  const clearPressedRole = () => {
-    if (typeof window === "undefined") {
-      setPressedRole("");
+  const handleRoleKeyDown = (event, role) => {
+    if (event.key !== "ArrowUp" && event.key !== "ArrowDown" && event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
       return;
     }
-    if (pressedRoleClearTimerRef.current) {
-      window.clearTimeout(pressedRoleClearTimerRef.current);
+    event.preventDefault();
+    if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+      handleRoleSelect(role === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER");
+      return;
     }
-    pressedRoleClearTimerRef.current = window.setTimeout(() => {
-      setPressedRole("");
-      pressedRoleClearTimerRef.current = null;
-    }, 120);
+    handleRoleSelect(role === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER");
   };
   async function handleSubmit(e) {
     e.preventDefault();
@@ -710,13 +713,6 @@ export default function RegistreerimineBody({}) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [closeFrameworkModal, isFrameworkModalOpen, router, locale]);
-  useEffect(() => {
-    return () => {
-      if (pressedRoleClearTimerRef.current && typeof window !== "undefined") {
-        window.clearTimeout(pressedRoleClearTimerRef.current);
-      }
-    };
-  }, []);
   const handleWorkerUseToggle = (checked) => {
     if (checked) {
       const registerFrameworkAck =
@@ -857,7 +853,7 @@ export default function RegistreerimineBody({}) {
                 aria-label={t("auth.register.title")}
               >
                 <form
-                  className="register-form flex flex-col gap-[2rem]"
+                  className={registerFormClassName}
                   onSubmit={handleSubmit}
                   autoComplete="on"
                   noValidate
@@ -875,7 +871,6 @@ export default function RegistreerimineBody({}) {
                     </div>
                     <div
                       className="register-role-options flex flex-col gap-[0.95rem]"
-                      data-pressed-role={pressedRole || "none"}
                       role="radiogroup"
                       aria-labelledby={roleLabelId}
                       aria-describedby={roleHintId}
@@ -883,42 +878,30 @@ export default function RegistreerimineBody({}) {
                       <div id={roleHintId} className="sr-only">
                         {t("auth.register.role_hint")}
                       </div>
-                      <OptionCard
-                        type="radio"
-                        name="role"
-                        value="SOCIAL_WORKER"
-                        data-role-value="SOCIAL_WORKER"
-                        checked={form.role === "SOCIAL_WORKER"}
-                        onChange={handleChange}
-                        onPointerDown={() => setActivePressedRole("SOCIAL_WORKER")}
-                        onPointerUp={clearPressedRole}
-                        onPointerCancel={clearPressedRole}
-                        onPointerLeave={clearPressedRole}
-                        onBlur={clearPressedRole}
-                        fitTextLines={2}
-                        fitTextMinPx={15}
-                        className={`register-option-card register-role-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={form.role === "SOCIAL_WORKER"}
+                        onClick={() => handleRoleSelect("SOCIAL_WORKER")}
+                        onKeyDown={(event) => handleRoleKeyDown(event, "SOCIAL_WORKER")}
+                        className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                       >
-                        {t("role.worker")}
-                      </OptionCard>
-                      <OptionCard
-                        type="radio"
-                        name="role"
-                        value="CLIENT"
-                        data-role-value="CLIENT"
-                        checked={form.role === "CLIENT"}
-                        onChange={handleChange}
-                        onPointerDown={() => setActivePressedRole("CLIENT")}
-                        onPointerUp={clearPressedRole}
-                        onPointerCancel={clearPressedRole}
-                        onPointerLeave={clearPressedRole}
-                        onBlur={clearPressedRole}
-                        fitTextLines={2}
-                        fitTextMinPx={15}
-                        className={`register-option-card register-role-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                        <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                          {t("role.worker")}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={form.role === "CLIENT"}
+                        onClick={() => handleRoleSelect("CLIENT")}
+                        onKeyDown={(event) => handleRoleKeyDown(event, "CLIENT")}
+                        className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                       >
-                        {t("role.client")}
-                      </OptionCard>
+                        <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                          {t("role.client")}
+                        </span>
+                      </button>
                     </div>
                   </>
                 ) : (
@@ -1014,6 +997,7 @@ export default function RegistreerimineBody({}) {
                   onChange={handleChange}
                   fitTextLines={2}
                   fitTextMinPx={15}
+                  fitTextMaxPx={19}
                   className={`register-agree-card ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                 >
                   <RichText
@@ -1042,6 +1026,7 @@ export default function RegistreerimineBody({}) {
                   onChange={handleChange}
                   fitTextLines={2}
                   fitTextMinPx={15}
+                  fitTextMaxPx={19}
                   className={`register-guide-card ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                 >
                   <RichText
@@ -1074,6 +1059,9 @@ export default function RegistreerimineBody({}) {
                       name="workerUseOrg"
                       checked={hasConfirmedFramework}
                       onChange={(e) => handleWorkerUseToggle(e.target.checked)}
+                      fitTextLines={2}
+                      fitTextMinPx={15}
+                      fitTextMaxPx={19}
                       className={`w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${checkboxCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                     >
                       {t("auth.register.worker_use_org")}
