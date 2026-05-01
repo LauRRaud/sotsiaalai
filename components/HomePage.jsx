@@ -678,6 +678,15 @@ export default function HomePage() {
   return <>
       <div className={cn("relative flex min-h-[100dvh] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
+          <div className={cn(
+            "absolute left-1/2 top-[calc(env(safe-area-inset-top,0px)+clamp(1rem,3.6vh,2.5rem))] z-[60] -translate-x-1/2",
+            "pointer-events-none select-none px-[clamp(1rem,3vw,1.55rem)] py-[0.48rem]",
+            "text-center font-headline text-[clamp(0.825rem,2.1vw,1.725rem)] font-normal uppercase leading-none tracking-[0.16em] text-[color:var(--home-title-color)]",
+            "transition-[opacity,visibility] duration-300 ease-out max-[768px]:top-[calc(env(safe-area-inset-top,0px)+0.8rem)] max-[768px]:tracking-[0.16em]",
+            isHomeOverlayOpen || isLoginOpen ? "opacity-0 invisible" : "opacity-100 visible"
+          )}>
+            {t("home.opening_banner")}
+          </div>
           <div className={cn("home-hero-shell", "relative z-20 flex flex-1 items-center justify-between gap-[clamp(1.5rem,5vw,5rem)] box-border pointer-events-none max-w-full max-[768px]:flex-col max-[768px]:gap-[clamp(1.2rem,4vw,1.8rem)] max-[768px]:px-[clamp(1rem,4vw,1.5rem)] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.6rem)] max-[768px]:pb-[clamp(5rem,12vw,7rem)] max-[768px]:min-h-[auto]")}>
             <div className={cn("relative box-border flex min-w-0 flex-1 flex-col items-center justify-center px-6 py-8 min-h-[100dvh] pointer-events-auto touch-pan-y max-[768px]:min-h-[auto] max-[768px]:w-full max-[768px]:px-4 max-[768px]:py-4", "side")}>
               <div ref={leftCardWrapRef} data-phase={leftPhase} className={cn(leftCardClassName, "home-card-a11y-button")} onMouseEnter={onLeftEnter} onMouseLeave={onLeftLeave} onClick={handleCardTap("left")} role="link" aria-label={leftCardAriaLabel} aria-disabled={!cardInteractionAllowed} tabIndex={cardInteractionAllowed ? 0 : -1} onKeyDown={handleCardAccessibilityKeyDown("left")}>
