@@ -513,15 +513,6 @@ export default function HomeAboutSection({
                       {t("about.links.pricing")}
                     </AppLink>
                   </li>
-                  <li className={homeCircleItemClassName}>
-                    <AppLink
-                      href="/autorilt"
-                      onClick={(event) => openGlassPage(event, "/autorilt")}
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    >
-                      {t("about.links.author")}
-                    </AppLink>
-                  </li>
                 </ul>
                 <p className="m-0 max-[768px]:mt-[clamp(0.35rem,1.1vw,0.6rem)]">
                   <button

@@ -3345,6 +3345,72 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   animation: none !important;
 }
 
+.register-role-options .register-role-card {
+  transition:
+    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+.register-role-options .register-role-card::before {
+  transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+.register-role-options[data-pressed-role="SOCIAL_WORKER"]
+  .register-role-card:not([data-role-value="SOCIAL_WORKER"]),
+.register-role-options[data-pressed-role="CLIENT"]
+  .register-role-card:not([data-role-value="CLIENT"]) {
+  background: var(--seg-card-bg) !important;
+  border-color: var(--seg-card-border) !important;
+  box-shadow: var(--seg-card-shadow) !important;
+  color: var(--seg-card-text) !important;
+  transition: none !important;
+}
+
+.register-role-options[data-pressed-role="SOCIAL_WORKER"]
+  .register-role-card:not([data-role-value="SOCIAL_WORKER"])::before,
+.register-role-options[data-pressed-role="CLIENT"]
+  .register-role-card:not([data-role-value="CLIENT"])::before {
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+.register-role-options[data-pressed-role="SOCIAL_WORKER"]
+  .register-role-card:not([data-role-value="SOCIAL_WORKER"])
+  > span:last-child,
+.register-role-options[data-pressed-role="CLIENT"]
+  .register-role-card:not([data-role-value="CLIENT"])
+  > span:last-child {
+  color: var(--seg-card-text) !important;
+}
+
+.register-role-options[data-pressed-role="SOCIAL_WORKER"]
+  .register-role-card[data-role-value="SOCIAL_WORKER"],
+.register-role-options[data-pressed-role="CLIENT"]
+  .register-role-card[data-role-value="CLIENT"] {
+  background: var(
+    --seg-card-bg-active,
+    var(--seg-card-bg-selected, var(--seg-card-bg))
+  ) !important;
+  border-color: var(
+    --seg-card-border-active,
+    var(--seg-card-border-selected, var(--seg-card-border))
+  ) !important;
+  box-shadow: var(
+    --seg-card-shadow-active,
+    var(--seg-card-shadow-selected, var(--seg-card-shadow))
+  ) !important;
+  color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+}
+
+.register-role-options[data-pressed-role="SOCIAL_WORKER"]
+  .register-role-card[data-role-value="SOCIAL_WORKER"]::before,
+.register-role-options[data-pressed-role="CLIENT"]
+  .register-role-card[data-role-value="CLIENT"]::before {
+  opacity: 1 !important;
+}
+
 @keyframes home-scroll-blink {
   0% {
     opacity: 0.55;

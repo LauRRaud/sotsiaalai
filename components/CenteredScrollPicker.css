@@ -194,6 +194,14 @@
   filter: blur(0.7px);
   pointer-events: none;
 }
+
+.register-scroll.csp-container .register-step--role.csp-item {
+  transition:
+    opacity var(--csp-transition-ms) ease-out,
+    filter var(--csp-transition-ms) ease-out !important;
+  transform: none !important;
+}
+
 .csp-no-neighbor-click .csp-neighbor {
   pointer-events: none;
 }

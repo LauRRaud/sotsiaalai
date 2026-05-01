@@ -151,10 +151,6 @@ export default function RegistreerimineBody({}) {
   const localizedTitleClassName = `${titleClassName}${locale === "ru" ? " glass-title-register-ru" : ""}`;
   const scrollRef = useRef(null);
   const backButtonRef = useRef(null);
-  const lockedRoleCardRef = useRef(null);
-  const lockedRoleCardOffsetYRef = useRef(0);
-  const submitButtonRef = useRef(null);
-  const submitPadCorrectionRef = useRef(0);
   const handleClose = () => {
     pushWithTransition(router, localizePath("/", locale), {
       glassRingTilt: "left",
@@ -225,15 +221,15 @@ export default function RegistreerimineBody({}) {
   const [scrollPad, setScrollPad] = useState(0);
   const [scrollPadTop, setScrollPadTop] = useState(0);
   const [scrollPadBottom, setScrollPadBottom] = useState(0);
-  const [lockedRoleCardOffsetY, setLockedRoleCardOffsetY] = useState(0);
-  const [submitPadCorrection, setSubmitPadCorrection] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasUserStartedScroll, setHasUserStartedScroll] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [pressedRole, setPressedRole] = useState("");
   const initViewportModeRef = useRef(null);
   const initialScrollTopRef = useRef(0);
   const hasInitialScrollTopRef = useRef(false);
-  const padOffset = 36;
+  const initialFirstStepAlignDoneRef = useRef(false);
+  const pressedRoleClearTimerRef = useRef(null);
   const roleLabelId = useId();
   const roleHintId = useId();
   const emailErrorId = useId();
@@ -278,154 +274,6 @@ export default function RegistreerimineBody({}) {
     }
     event.preventDefault();
   }, []);
-
-  useLayoutEffect(() => {
-    const resetLockedRoleOffset = () => {
-      lockedRoleCardOffsetYRef.current = 0;
-      setLockedRoleCardOffsetY((prev) => (prev === 0 ? prev : 0));
-    };
-
-    if (!isRoleLocked || isMobileViewport || showSuccessState) {
-      resetLockedRoleOffset();
-      return;
-    }
-
-    const alignLockedRoleToBackButton = () => {
-      const backButton = backButtonRef.current;
-      const lockedRoleCard = lockedRoleCardRef.current;
-      if (!backButton || !lockedRoleCard) return;
-
-      const backRect = backButton.getBoundingClientRect();
-      const cardRect = lockedRoleCard.getBoundingClientRect();
-      const backCenterY = backRect.top + backRect.height / 2;
-      const cardCenterY = cardRect.top + cardRect.height / 2;
-      const centerDelta = backCenterY - cardCenterY;
-      if (Math.abs(centerDelta) < 0.25) return;
-
-      const nextOffset =
-        Math.round((lockedRoleCardOffsetYRef.current + centerDelta) * 100) /
-        100;
-      lockedRoleCardOffsetYRef.current = nextOffset;
-      setLockedRoleCardOffsetY((prev) =>
-        Math.abs(prev - nextOffset) < 0.25 ? prev : nextOffset,
-      );
-    };
-
-    const rafA = requestAnimationFrame(alignLockedRoleToBackButton);
-    const rafB = requestAnimationFrame(() =>
-      requestAnimationFrame(alignLockedRoleToBackButton),
-    );
-    const settleTimer = window.setTimeout(alignLockedRoleToBackButton, 150);
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(alignLockedRoleToBackButton)
-        : null;
-
-    if (backButtonRef.current) {
-      resizeObserver?.observe(backButtonRef.current);
-    }
-    if (lockedRoleCardRef.current) {
-      resizeObserver?.observe(lockedRoleCardRef.current);
-    }
-    window.addEventListener("resize", alignLockedRoleToBackButton);
-
-    return () => {
-      cancelAnimationFrame(rafA);
-      cancelAnimationFrame(rafB);
-      window.clearTimeout(settleTimer);
-      resizeObserver?.disconnect?.();
-      window.removeEventListener("resize", alignLockedRoleToBackButton);
-    };
-  }, [
-    isMobileViewport,
-    isRoleLocked,
-    lockedRole,
-    scrollPad,
-    scrollPadBottom,
-    scrollPadTop,
-    showSuccessState,
-  ]);
-
-  useLayoutEffect(() => {
-    const resetSubmitPadCorrection = () => {
-      submitPadCorrectionRef.current = 0;
-      setSubmitPadCorrection((prev) => (prev === 0 ? prev : 0));
-    };
-
-    if (isMobileViewport || showSuccessState) {
-      resetSubmitPadCorrection();
-      return;
-    }
-
-    const alignSubmitButtonAtScrollEnd = () => {
-      const scrollEl = scrollRef.current;
-      const backButton = backButtonRef.current;
-      const submitButton = submitButtonRef.current;
-      if (!scrollEl || !backButton || !submitButton) return;
-
-      const scrollRect = scrollEl.getBoundingClientRect();
-      const backRect = backButton.getBoundingClientRect();
-      const submitRect = submitButton.getBoundingClientRect();
-      const submitCenterContentY =
-        submitRect.top -
-        scrollRect.top +
-        (scrollEl.scrollTop || 0) +
-        submitRect.height / 2;
-      const maxScrollTop = Math.max(
-        0,
-        scrollEl.scrollHeight - scrollEl.clientHeight,
-      );
-      const submitCenterAtScrollEnd = submitCenterContentY - maxScrollTop;
-      const targetCenterY =
-        backRect.top + backRect.height / 2 - scrollRect.top;
-      const centerDelta = submitCenterAtScrollEnd - targetCenterY;
-      if (Math.abs(centerDelta) < 0.25) return;
-
-      const nextCorrection =
-        Math.round((submitPadCorrectionRef.current + centerDelta) * 100) /
-        100;
-      submitPadCorrectionRef.current = nextCorrection;
-      setSubmitPadCorrection((prev) =>
-        Math.abs(prev - nextCorrection) < 0.25 ? prev : nextCorrection,
-      );
-    };
-
-    const rafA = requestAnimationFrame(alignSubmitButtonAtScrollEnd);
-    const rafB = requestAnimationFrame(() =>
-      requestAnimationFrame(alignSubmitButtonAtScrollEnd),
-    );
-    const settleTimer = window.setTimeout(alignSubmitButtonAtScrollEnd, 150);
-    const resizeObserver =
-      typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(alignSubmitButtonAtScrollEnd)
-        : null;
-
-    if (scrollRef.current) {
-      resizeObserver?.observe(scrollRef.current);
-    }
-    if (backButtonRef.current) {
-      resizeObserver?.observe(backButtonRef.current);
-    }
-    if (submitButtonRef.current) {
-      resizeObserver?.observe(submitButtonRef.current);
-    }
-    window.addEventListener("resize", alignSubmitButtonAtScrollEnd);
-
-    return () => {
-      cancelAnimationFrame(rafA);
-      cancelAnimationFrame(rafB);
-      window.clearTimeout(settleTimer);
-      resizeObserver?.disconnect?.();
-      window.removeEventListener("resize", alignSubmitButtonAtScrollEnd);
-    };
-  }, [
-    isMobileViewport,
-    scrollPad,
-    scrollPadBottom,
-    scrollPadTop,
-    showSuccessState,
-    submitStepIndex,
-  ]);
 
   useEffect(() => {
     if (!draftReady || !lockedRole) return;
@@ -472,6 +320,26 @@ export default function RegistreerimineBody({}) {
       );
     }
   }
+  const setActivePressedRole = (role) => {
+    if (pressedRoleClearTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(pressedRoleClearTimerRef.current);
+      pressedRoleClearTimerRef.current = null;
+    }
+    setPressedRole(role);
+  };
+  const clearPressedRole = () => {
+    if (typeof window === "undefined") {
+      setPressedRole("");
+      return;
+    }
+    if (pressedRoleClearTimerRef.current) {
+      window.clearTimeout(pressedRoleClearTimerRef.current);
+    }
+    pressedRoleClearTimerRef.current = window.setTimeout(() => {
+      setPressedRole("");
+      pressedRoleClearTimerRef.current = null;
+    }, 120);
+  };
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -704,7 +572,7 @@ export default function RegistreerimineBody({}) {
     query.addListener(apply);
     return () => query.removeListener(apply);
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const updatePad = () => {
@@ -716,16 +584,22 @@ export default function RegistreerimineBody({}) {
       const lastH = lastStep.getBoundingClientRect().height || 0;
       const viewH = Math.max(0, scrollEl.clientHeight || 0);
       if (!viewH || !firstH || !lastH) return;
-      const nextPadTopBase = Math.max(0, Math.floor((viewH - firstH) / 2));
-      const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
-      const nextPad = nextPadTopBase;
+      const scrollRect = scrollEl.getBoundingClientRect();
+      const backRect = backButtonRef.current?.getBoundingClientRect?.();
+      const targetCenter = !isMobileViewport && backRect
+        ? backRect.top + backRect.height / 2 - scrollRect.top
+        : viewH / 2 - 5;
+      const nextPadTopBase = Math.max(0, Math.floor(targetCenter - firstH / 2));
+      const nextPadBottomBase = Math.max(
+        0,
+        Math.floor(viewH - targetCenter - lastH / 2),
+      );
+      const nextPad = Math.max(0, Math.floor((viewH - firstH) / 2));
       setScrollPad((prev) => (prev === nextPad ? prev : nextPad));
-      const liftPx = isRoleLocked && !isMobileViewport ? padOffset : isMobileViewport ? 5 : 18;
-      const nextTop = Math.max(0, nextPadTopBase - liftPx);
-      const bottomStyleOffset = isMobileViewport ? 16 : padOffset;
-      const nextBottom = Math.max(0, nextPadBottomBase - bottomStyleOffset);
-      setScrollPadTop((prev) => (prev === nextTop ? prev : nextTop));
-      setScrollPadBottom((prev) => (prev === nextBottom ? prev : nextBottom));
+      setScrollPadTop((prev) => (prev === nextPadTopBase ? prev : nextPadTopBase));
+      setScrollPadBottom((prev) =>
+        prev === nextPadBottomBase ? prev : nextPadBottomBase,
+      );
     };
     updatePad();
     const ro =
@@ -745,6 +619,7 @@ export default function RegistreerimineBody({}) {
     const mode = isMobileViewport ? "mobile" : "desktop";
     if (initViewportModeRef.current === mode) return;
     initViewportModeRef.current = mode;
+    initialFirstStepAlignDoneRef.current = false;
     const resetToFirstStep = () => {
       scrollEl.scrollTop = 0;
       if (isMobileViewport) {
@@ -760,6 +635,7 @@ export default function RegistreerimineBody({}) {
       setHasUserStartedScroll(false);
       hasInitialScrollTopRef.current = true;
       initialScrollTopRef.current = scrollEl.scrollTop || 0;
+      initialFirstStepAlignDoneRef.current = true;
     };
     resetToFirstStep();
     const rafA = requestAnimationFrame(resetToFirstStep);
@@ -774,7 +650,13 @@ export default function RegistreerimineBody({}) {
     };
   }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
-    if (!isMobileViewport || hasUserStartedScroll) return;
+    if (
+      !isMobileViewport ||
+      hasUserStartedScroll ||
+      initialFirstStepAlignDoneRef.current
+    ) {
+      return;
+    }
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const alignToFirst = () => {
@@ -782,6 +664,7 @@ export default function RegistreerimineBody({}) {
       setIsScrolled(false);
       hasInitialScrollTopRef.current = true;
       initialScrollTopRef.current = scrollEl.scrollTop || 0;
+      initialFirstStepAlignDoneRef.current = true;
     };
     const raf = requestAnimationFrame(alignToFirst);
     return () => cancelAnimationFrame(raf);
@@ -827,6 +710,13 @@ export default function RegistreerimineBody({}) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [closeFrameworkModal, isFrameworkModalOpen, router, locale]);
+  useEffect(() => {
+    return () => {
+      if (pressedRoleClearTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(pressedRoleClearTimerRef.current);
+      }
+    };
+  }, []);
   const handleWorkerUseToggle = (checked) => {
     if (checked) {
       const registerFrameworkAck =
@@ -957,10 +847,11 @@ export default function RegistreerimineBody({}) {
                 ref={scrollRef}
                 className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`}
                 style={{
-                  "--csp-pad": `${scrollPad + padOffset}px`,
-                  "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
-                  "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset) + submitPadCorrection)}px`,
+                  "--csp-pad": `${scrollPad}px`,
+                  "--csp-pad-top": `${scrollPadTop || scrollPad}px`,
+                  "--csp-pad-bottom": `${scrollPadBottom || scrollPad}px`,
                   "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`,
+                  overflowAnchor: "none",
                 }}
                 tabIndex={0}
                 aria-label={t("auth.register.title")}
@@ -972,7 +863,7 @@ export default function RegistreerimineBody({}) {
                   noValidate
                 >
               <section
-                className={`${registerStepClassName} ${getRegisterStepClassName(roleStepIndex)}`}
+                className={`${registerStepClassName} register-step--role ${getRegisterStepClassName(roleStepIndex)}`}
               >
                 {!isRoleLocked ? (
                   <>
@@ -984,6 +875,7 @@ export default function RegistreerimineBody({}) {
                     </div>
                     <div
                       className="register-role-options flex flex-col gap-[0.95rem]"
+                      data-pressed-role={pressedRole || "none"}
                       role="radiogroup"
                       aria-labelledby={roleLabelId}
                       aria-describedby={roleHintId}
@@ -995,11 +887,17 @@ export default function RegistreerimineBody({}) {
                         type="radio"
                         name="role"
                         value="SOCIAL_WORKER"
+                        data-role-value="SOCIAL_WORKER"
                         checked={form.role === "SOCIAL_WORKER"}
                         onChange={handleChange}
+                        onPointerDown={() => setActivePressedRole("SOCIAL_WORKER")}
+                        onPointerUp={clearPressedRole}
+                        onPointerCancel={clearPressedRole}
+                        onPointerLeave={clearPressedRole}
+                        onBlur={clearPressedRole}
                         fitTextLines={2}
                         fitTextMinPx={15}
-                        className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                        className={`register-option-card register-role-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                       >
                         {t("role.worker")}
                       </OptionCard>
@@ -1007,11 +905,17 @@ export default function RegistreerimineBody({}) {
                         type="radio"
                         name="role"
                         value="CLIENT"
+                        data-role-value="CLIENT"
                         checked={form.role === "CLIENT"}
                         onChange={handleChange}
+                        onPointerDown={() => setActivePressedRole("CLIENT")}
+                        onPointerUp={clearPressedRole}
+                        onPointerCancel={clearPressedRole}
+                        onPointerLeave={clearPressedRole}
+                        onBlur={clearPressedRole}
                         fitTextLines={2}
                         fitTextMinPx={15}
-                        className={`register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                        className={`register-option-card register-role-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                       >
                         {t("role.client")}
                       </OptionCard>
@@ -1019,15 +923,7 @@ export default function RegistreerimineBody({}) {
                   </>
                 ) : (
                   <div
-                    ref={lockedRoleCardRef}
                     className={`${lockedRoleCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                    style={
-                      lockedRoleCardOffsetY
-                        ? {
-                            transform: `translateY(${lockedRoleCardOffsetY}px)`,
-                          }
-                        : undefined
-                    }
                     aria-label={lockedRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client")}
                   >
                     <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
@@ -1209,7 +1105,6 @@ export default function RegistreerimineBody({}) {
                       className="register-submit-wrap flex justify-center"
                     >
                       <Button
-                        ref={submitButtonRef}
                         type="submit"
                         variant="primary"
                         className={registerButtonClassName}
