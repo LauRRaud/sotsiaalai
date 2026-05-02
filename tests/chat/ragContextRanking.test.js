@@ -24,6 +24,27 @@ test("topic hints outrank generic high-scoring noise for named concept questions
   assert.equal(ranked[0].key, "voimaluste-kohvik");
 });
 
+test("groupMatches strips repeated synthetic metadata prefix from chunk body", () => {
+  const groups = groupMatches([
+    {
+      id: "ai-chunk",
+      doc_id: "article-doc",
+      title: "Tehisintellekt sotsiaaltĆ¶Ć¶s",
+      chunk: "[TITLE] Tehisintellekt sotsiaaltĆ¶Ć¶s [DESC] Artikkel arutleb AI kasutuse yle. [AUTHORS] Laur Raudsoo [JOURNAL] SotsiaaltĆ¶Ć¶ [ISSUE] 2/2025 [SECTION] Eetika [YEAR] 2025 [STATUS] active Eesti tĆ¶Ć¶tukassa OTT-sĆ¼steem hindab pikaajalise tĆ¶Ć¶tuse riski 45 nĆ¤itaja alusel.",
+      metadata: {
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles"
+      },
+      retrieval_channels: ["dense"]
+    }
+  ]);
+
+  assert.equal(groups.length, 1);
+  assert.doesNotMatch(groups[0].bodies[0], /^\[TITLE\]/);
+  assert.match(groups[0].bodies[0], /^Eesti/);
+  assert.match(groups[0].bodies[0], /OTT-sĆ¼steem/);
+});
+
 test("title_match channel boosts lexical exact title candidates", () => {
   const ranked = rankGroupsWithTopicHints([
     {

@@ -51,6 +51,13 @@ test("uses RAG for short article follow-ups when recent assistant sources exist"
   );
 });
 
+test("uses RAG for work and social-field AI questions without requiring a KOV term", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("kas tehisintellekti kasutatakse tĆ¶Ć¶tukassas?"),
+    true
+  );
+});
+
 test("does not use RAG for a source-anchored decline", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("ei", {

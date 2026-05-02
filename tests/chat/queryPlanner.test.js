@@ -156,6 +156,8 @@ test("Query Planner V2 marks open issue synthesis as thematic synthesis", () => 
   assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
   assert.equal(plan.queryPlan.flags.thematic_synthesis, true);
   assert.equal(plan.queryPlan.context_group_target >= 12, true);
+  assert.deepEqual(plan.searchFilters.source_type.$in.includes("journal_article"), true);
+  assert.deepEqual(plan.searchFilters.source_type.$in.includes("research_report"), true);
 });
 
 test("Query Planner V2 expands municipality service and benefit list queries", () => {
