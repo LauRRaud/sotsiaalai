@@ -223,6 +223,137 @@ test("does not keep the only candidate when high-risk evidence is insufficient",
   assert.equal(attribution.filter_reasons["single-journal"], "insufficient_evidence_strength");
 });
 
+test("keeps the scoped KOV service source for an inflected municipality service question", () => {
+  const reply = [
+    "Jah, Viljandi vallas on koduteenus olemas.",
+    "Teenusega aidatakse kodus toime tulla ja taotluse kohta tehakse otsus 10 toopaeva jooksul."
+  ].join(" ");
+  const sources = [
+    {
+      id: "viljandi-vald-koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      municipality_id: "viljandi_vald",
+      municipality_name: "Viljandi vald",
+      item_type: "service",
+      evidenceText: "Koduteenuse eesmargiks on aidata inimest kodus toime tulla. Otsus tehakse 10 toopaeva jooksul."
+    },
+    {
+      id: "anija-koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      municipality_id: "anija_vald",
+      municipality_name: "Anija vald",
+      item_type: "service",
+      evidenceText: "Koduteenuse eesmargiks on aidata inimest kodus toime tulla."
+    },
+    {
+      id: "viljandi-linn-koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      municipality_id: "viljandi_linn",
+      municipality_name: "Viljandi linn",
+      item_type: "service",
+      evidenceText: "Koduteenuse eesmargiks on aidata inimest kodus toime tulla."
+    }
+  ];
+
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "viljandi vallas pakutakse koduteenust?",
+    municipalityContext: [{
+      id: "viljandi_vald",
+      municipalityId: "viljandi_vald",
+      slug: "viljandi-vald",
+      baseName: "Viljandi",
+      type: "vald",
+      displayName: "Viljandi vald"
+    }],
+    riskPolicy: {
+      riskLevel: "low",
+      requiredEvidence: "medium",
+      insufficientEvidenceMode: false
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["viljandi-vald-koduteenus"]);
+  assert.equal(attribution.filter_reasons["anija-koduteenus"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["viljandi-linn-koduteenus"], "query_anchor_mismatch");
+});
+
+test("keeps KOV service anchors strict when municipality context is missing", () => {
+  const attribution = buildSourceAttribution(
+    "Viljandi vallas on koduteenus olemas.",
+    [
+      {
+        id: "viljandi-vald-koduteenus",
+        title: "Koduteenus",
+        source_type: "kov_service_info",
+        municipality_id: "viljandi_vald",
+        municipality_name: "Viljandi vald",
+        item_type: "service",
+        evidenceText: "Koduteenuse info."
+      },
+      {
+        id: "anija-koduteenus",
+        title: "Koduteenus",
+        source_type: "kov_service_info",
+        municipality_id: "anija_vald",
+        municipality_name: "Anija vald",
+        item_type: "service",
+        evidenceText: "Koduteenuse info."
+      }
+    ],
+    {
+      query: "viljandi vallas pakutakse koduteenust?"
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["viljandi-vald-koduteenus"]);
+  assert.equal(attribution.filter_reasons["anija-koduteenus"], "query_anchor_mismatch");
+});
+
+test("uses municipality context for settlement alias service questions", () => {
+  const attribution = buildSourceAttribution(
+    "Tartu linnas on koduteenus ja selle kohta saab esitada taotluse.",
+    [
+      {
+        id: "tartu-koduteenus",
+        title: "Koduteenus",
+        source_type: "kov_service_info",
+        municipality_id: "tartu_linn",
+        municipality_name: "Tartu linn",
+        item_type: "service",
+        evidenceText: "Koduteenuse info Tartu linnas."
+      },
+      {
+        id: "joelahtme-koduteenus",
+        title: "Koduteenus",
+        source_type: "kov_service_info",
+        municipality_id: "joelahtme_vald",
+        municipality_name: "Joelahtme vald",
+        item_type: "service",
+        evidenceText: "Koduteenuse info Joelahtme vallas."
+      }
+    ],
+    {
+      query: "mis sotsiaalteenuseid ja toetusi Ihastes pakutakse?",
+      municipalityContext: [{
+        id: "tartu_linn",
+        municipalityId: "tartu_linn",
+        slug: "tartu-linn",
+        baseName: "Tartu",
+        type: "linn",
+        displayName: "Tartu linn",
+        matchedTerm: "Ihaste",
+        matchSource: "location_alias"
+      }]
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["tartu-koduteenus"]);
+  assert.equal(attribution.filter_reasons["joelahtme-koduteenus"], "query_anchor_mismatch");
+});
+
 test("uses legal chunk ids for national law attribution instead of collapsing by document source", () => {
   const sources = [
     {

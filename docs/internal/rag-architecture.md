@@ -37,6 +37,21 @@ Current-state update after V3.4A follow-up:
 - The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement. V3.4B is not required to solve same-turn wrong-KOV source leakage; that is handled by strict municipality scoping and post-retrieval guardrails.
 - KOV table rows above are superseded by the 2026-04-29 golden reingest and 10-KOV control batch state plus the 2026-05-02 coverage update below: server cleanup is complete, Harku and Jogeva gates are complete, the 10-KOV batch is ingested/audited as a quality control sample, and all KOV/RT source files are in the database except Tallinn.
 
+### KOV Source Display Attribution Fix 2026-05-02
+
+STATUS: implemented
+
+The Viljandi source-icon regression was not a frontend rendering bug. The RAG trace had `retrieved: 59`, `selected: 5`, but `attribution: 0/5`; therefore the backend returned an empty `displayed_sources` list and the chat UI correctly had no `Vastuste allikad` icon to show.
+
+Fix:
+
+- `sourceAttribution.js` now includes KOV metadata (`municipality_name`, `canonical_item_id`, `item_type`, `resource_type`) in attribution matching.
+- Estonian inflections used in KOV questions are normalized for attribution anchors, for example `vallas` -> `vald` and `koduteenust` / `koduteenuse` -> `koduteenus`.
+- KOV service/benefit attribution receives the retrieval municipality context, so an Ihaste-style settlement alias can still display Tartu linn sources, while Viljandi valla questions do not display Viljandi linna or Anija valla service sources.
+- The UI contract remains unchanged: the source icon appears only when `displayed_sources` is non-empty. If retrieval finds context but attribution rejects all selected sources, the trace must show the hide reasons in `attribution_decisions`.
+
+V3.4B claim-level attribution is still useful for high-risk claim evidence, but it is not required for this source-icon class. This class is handled by municipality scoping plus answer-source attribution guardrails.
+
 ### KOV Admin / Metadata Update 2026-04-29
 
 STATUS: implemented
@@ -406,6 +421,25 @@ Planning implication:
 
 - V3.4B claim-level attribution is still a roadmap item for high-risk claim evidence, claim hashing, admin claim analytics and possible persisted claim store.
 - V3.4B is not needed before closing this wrong-KOV leakage class; this class is covered by municipality disambiguation, hard `municipality_id` filters, post-retrieval same-KOV filtering and targeted regressions.
+
+### Settlement / District To KOV Fallback 2026-05-02
+
+STATUS: implemented for local alias fallback / external geocoder remains optional
+
+The chat path must not require the user to know the municipality name when they provide a known settlement, village or district. The help/workflow layer already had location alias and optional geocoding helpers, but `detectMentionedMunicipalitiesFromUserText` only used official KOV names. This left questions such as `mis sotsiaalteenuseid ja toetusi Ihastes pakutakse?`, `ihaste` and `aga Kaberneeme?` on the default planner path with no `municipality_id`, zero selected context and a prompt asking for a municipality.
+
+Implemented behavior:
+
+- chat municipality detection now applies local `locationAliases` before official KOV-name matching;
+- `Ihaste` / `Ihastes` resolves to `Tartu linn` (`tartu_linn`);
+- `Kaberneeme` resolves to `Jõelähtme vald` (`joelahtme_vald`);
+- alias-resolved municipalities use the same stable `municipalityId` contract as direct KOV mentions, so query planning can use `municipality_service_benefit_list` and hard `municipality_id` filters.
+
+Remaining work:
+
+- expand the local alias table from an authoritative settlement/asum dataset instead of adding aliases one by one;
+- keep the external geocoder optional and bounded because chat latency must not depend on a slow third-party geocoding call;
+- add analytics for `location_alias`, `geocoding`, `geocoding_unmapped` and ambiguous place fallback rates.
 
 ### V3.0A Implementation Update 2026-04-28
 
@@ -2484,7 +2518,7 @@ STATUS: reference / active test map
 
 - `tests/chat/queryPlanner.test.js` - Query Planner V2 plaani, filtrite, broad/source-focused käitumise ja KOV laiendatud päringute testid.
 - `tests/fixtures/query-planner-v2-cases.json` - Query Planner V2 eval-fixture planner mode'ide ja filtrite regressiooniks.
-- `tests/chat/municipalityDetection.test.js` - KOV nime ja tüüpi sisaldavate käändevormide regressioonid, sh `Viljandi valla` -> `viljandi_vald` ja `Viljandi linna` -> `viljandi_linn`.
+- `tests/chat/municipalityDetection.test.js` - KOV nime ja tüüpi sisaldavate käändevormide regressioonid ning asula/asumi alias fallback, sh `Viljandi valla` -> `viljandi_vald`, `Viljandi linna` -> `viljandi_linn`, `Ihastes` -> `tartu_linn` ja `Kaberneeme` -> `joelahtme_vald`.
 - `tests/rag/kovAdminValidation.test.js` - KOV admin `sources.json` validaatori regressioonid V2.5 `source_id/source_type` ja legacy `key/type` kujule.
 - `tests/chat/sourceNeed.test.js` - RAG vajaduse tuvastus.
 - `tests/chat/retrievalOrchestrator.test.js` - RAG päringute, follow-up source anchoring'u, hübriidkanalite ja source filter merge'i testid.

@@ -21,3 +21,17 @@ test("detectMentionedMunicipalitiesFromUserText distinguishes Viljandi linn infl
   assert.deepEqual(matches.map(item => item.id), ["viljandi_linn"]);
   assert.deepEqual(matches.map(item => item.displayName), ["Viljandi linn"]);
 });
+
+test("detectMentionedMunicipalitiesFromUserText resolves settlement aliases to KOV scope", async () => {
+  const ihasteMatches = await detectMentionedMunicipalitiesFromUserText(
+    [],
+    "mis sotsiaalteenuseid ja toetusi Ihastes pakutakse?"
+  );
+  const kaberneemeMatches = await detectMentionedMunicipalitiesFromUserText([], "aga Kaberneeme?");
+
+  assert.deepEqual(ihasteMatches.map(item => item.id), ["tartu_linn"]);
+  assert.deepEqual(ihasteMatches.map(item => item.displayName), ["Tartu linn"]);
+  assert.deepEqual(ihasteMatches.map(item => item.matchedLocation), ["Ihaste"]);
+  assert.deepEqual(kaberneemeMatches.map(item => item.id), ["joelahtme_vald"]);
+  assert.deepEqual(kaberneemeMatches.map(item => item.displayName), ["Jõelähtme vald"]);
+});
