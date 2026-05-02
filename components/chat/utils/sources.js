@@ -144,7 +144,16 @@ export function formatSourceLabel(src) {
 export function normalizeSources(sources) {
   if (!Array.isArray(sources)) return [];
   return sources.map((src, idx) => {
-    const url = src?.url || src?.source || null;
+    const url =
+      src?.url ||
+      src?.source ||
+      src?.url_canonical ||
+      src?.urlCanonical ||
+      src?.source_url ||
+      src?.sourceUrl ||
+      src?.official_url ||
+      src?.officialUrl ||
+      null;
     const page = typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
     const label = formatSourceLabel(src);
     const sourceId = src?.source_id || src?.sourceId || null;

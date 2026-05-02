@@ -413,7 +413,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
               title={sourcesTitle}
               onClick={() => onShowSources?.(messageSources)}
             >
-              <SourcesIcon isLightTheme={isLightTheme} className="h-[1.34rem] w-[1.34rem]" />
+              <SourcesIcon isLightTheme={isLightTheme} className="h-[1.18rem] w-[1.18rem]" />
             </button>
           ) : null}
           {messageTime ? (

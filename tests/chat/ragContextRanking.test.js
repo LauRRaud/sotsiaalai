@@ -164,6 +164,40 @@ test("groupMatches preserves related form and contact metadata for SourcePackage
   assert.deepEqual(groups[0].relatedContacts, ["jogeva_vald_contact_eve_viks"]);
 });
 
+test("groupMatches preserves canonical and official URL aliases for displayed sources", () => {
+  const canonicalUrl = "https://www.kuusalu.ee/koduteenus";
+  const groups = groupMatches([
+    {
+      id: "kuusalu-koduteenus",
+      text: "Kuusalu vallas pakutakse koduteenust.",
+      metadata: {
+        title: "Koduteenus",
+        source_id: "kov_kuusalu_vald_item_kuusalu_vald_service_koduteenus",
+        source_type: "kov_service_info",
+        collection_id: "kov_services",
+        item_type: "service",
+        municipality_id: "kuusalu_vald",
+        url_canonical: canonicalUrl
+      }
+    },
+    {
+      id: "kuusalu-koduteenus-2",
+      text: "Koduteenuse taotlemise info.",
+      metadata: {
+        title: "Koduteenus",
+        source_id: "kov_kuusalu_vald_item_kuusalu_vald_service_koduteenus",
+        source_type: "kov_service_info",
+        collection_id: "kov_services",
+        item_type: "service",
+        municipality_id: "kuusalu_vald",
+        officialUrl: canonicalUrl
+      }
+    }
+  ]);
+
+  assert.equal(groups[0].url, canonicalUrl);
+});
+
 test("filterMatchesToMunicipalities drops wrong KOV service matches", () => {
   const matches = filterMatchesToMunicipalities([
     {
