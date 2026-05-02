@@ -2457,6 +2457,15 @@ def _copy_bool_metadata_filter(source: Dict[str, object], target: Dict[str, obje
         elif normalized in {"0", "false", "no", "off"}:
             target[metadata_key] = False
 
+def _normalize_search_filter_clause(source: Dict[str, object]) -> Dict[str, object]:
+    target: Dict[str, object] = {}
+    if not isinstance(source, dict):
+        return target
+    for input_key, metadata_key in SEARCH_METADATA_STRING_FILTERS:
+        _copy_string_metadata_filter(source, target, input_key, metadata_key)
+    _copy_bool_metadata_filter(source, target, "historical", "historical")
+    return target
+
 SEARCH_METADATA_STRING_FILTERS: List[Tuple[str, str]] = [
     ("document_id", "document_id"),
     ("documentId", "document_id"),
@@ -4243,6 +4252,15 @@ def search(payload: SearchIn, request: Request):
         for input_key, metadata_key in SEARCH_METADATA_STRING_FILTERS:
             _copy_string_metadata_filter(payload.where, md_where, input_key, metadata_key)
         _copy_bool_metadata_filter(payload.where, md_where, "historical", "historical")
+        if "$or" in payload.where:
+            or_clauses = [
+                _normalize_search_filter_clause(clause)
+                for clause in list(payload.where.get("$or") or [])
+                if isinstance(clause, dict)
+            ]
+            or_clauses = [clause for clause in or_clauses if clause]
+            if or_clauses:
+                md_where["$or"] = or_clauses
         if "authors" in payload.where:
             md_where["authors"] = payload.where["authors"]
         if "tags" in payload.where:

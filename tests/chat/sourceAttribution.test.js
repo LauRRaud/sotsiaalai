@@ -111,6 +111,26 @@ test("requires exact named-list anchors before displaying generic topical source
   assert.equal(attribution.filter_reasons["generic-mental-health"], "query_anchor_mismatch");
 });
 
+test("requires more than one exact anchor when a query lists several names", () => {
+  const attribution = buildSourceAttribution("Allikas mainib ainult ühte nimetatud tööriista.", [
+    {
+      id: "single-name-article",
+      source_type: "journal_article",
+      title: "Woebot vaimse tervise toetamisel",
+      evidenceText: "Woebot on vaimse tervise vestlusrobot."
+    }
+  ], {
+    query: "Woebot, Wysa, Vivibot ja XiaoE",
+    riskPolicy: {
+      riskLevel: "low",
+      requiredEvidence: "medium"
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, []);
+  assert.equal(attribution.filter_reasons["single-name-article"], "query_anchor_mismatch");
+});
+
 test("keeps journal article evidence for inflected AI and Tootukassa anchors", () => {
   const reply = [
     "Jah, Eestis on Töötukassa OTT-süsteemi kirjeldatud tehisintellekti kasutusnäitena.",

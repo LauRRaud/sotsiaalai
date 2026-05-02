@@ -58,6 +58,13 @@ test("uses RAG for work and social-field AI questions without requiring a KOV te
   );
 });
 
+test("uses RAG for mental health digital support and chatbot questions", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("Vaimse tervise valdkonnas on esile kerkinud vestlusrobotid, nagu Woebot ja Wysa?"),
+    true
+  );
+});
+
 test("does not use RAG for a source-anchored decline", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("ei", {
