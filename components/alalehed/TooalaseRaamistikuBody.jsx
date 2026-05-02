@@ -60,14 +60,20 @@ const confirmPanelClassName =
 const documentStackClassName = "grid gap-[0.82rem]";
 const documentHtmlClassName =
   "framework-document-html overflow-x-auto text-[1.08rem] leading-[1.72] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[--framework-table-border:rgba(148,163,184,0.26)] [--framework-table-head-text:color-mix(in_srgb,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))_92%,var(--title-color,var(--brand-primary))_8%)] " +
+  "[--framework-table-strong-text:color-mix(in_srgb,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))_96%,var(--title-color,var(--brand-primary))_4%)] " +
+  "[.theme-light_&]:[--framework-table-border:rgba(51,65,85,0.22)] [.theme-light_&]:[--framework-table-head-text:#26364a] [.theme-light_&]:[--framework-table-strong-text:#26364a] " +
+  "[.theme-night_&]:[--framework-table-border:rgba(248,253,255,0.2)] [.theme-dark_&]:[--framework-table-border:rgba(248,253,255,0.2)] " +
   "[&_p]:m-0 [&_p]:mb-[0.82rem] [&_em]:text-[color:var(--glass-modal-text-soft,var(--pt-120))] " +
   "[&_h1]:m-0 [&_h1]:pt-[1.05rem] [&_h1]:pb-[0.25rem] [&_h1]:text-[1.36rem] [&_h1]:font-[500] [&_h1]:leading-[1.32] [&_h1]:tracking-[0.01em] [&_h1]:text-[color:var(--title-color,var(--brand-primary))] " +
+  "[&>h1:first-child]:text-center [&>h1:first-child]:text-[1.52rem] [&>h1:first-child]:font-[400] [&>h1:first-child]:pb-[0.72rem] [&>h1:first-child_strong]:font-[400] [&>p:first-child]:text-center [&>p:first-child]:text-[1.52rem] [&>p:first-child]:pb-[0.72rem] [&>p:first-child_strong]:font-[400] " +
   "[&_h2]:m-0 [&_h2]:pt-[0.75rem] [&_h2]:pb-[0.2rem] [&_h2]:text-[1.22rem] [&_h2]:font-[500] [&_h2]:leading-[1.45] [&_h2]:text-[color:var(--title-color,var(--brand-primary))] " +
   "[&_ol]:my-[0.72rem] [&_ol]:grid [&_ol]:gap-[0.5rem] [&_ol]:pl-[1.55rem] [&_ul]:my-[0.72rem] [&_ul]:grid [&_ul]:gap-[0.5rem] [&_ul]:pl-[1.55rem] [&_li]:pl-[0.15rem] " +
   "[&_table]:my-[1.1rem] [&_table]:w-full [&_table]:min-w-[38rem] [&_table]:border-collapse [&_table]:text-[0.98rem] [&_table]:leading-[1.48] [&_table]:tracking-[0.01em] " +
-  "[&_td]:border [&_td]:border-white/20 [&_td]:px-[0.7rem] [&_td]:py-[0.55rem] [&_td]:align-top [&_td]:text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
-  "[&_th]:border [&_th]:border-white/25 [&_th]:px-[0.7rem] [&_th]:py-[0.58rem] [&_th]:text-left [&_th]:font-[600] [&_th]:text-[color:var(--title-color,var(--brand-primary))] " +
-  "[&_tr:first-child_td]:font-[600] [&_tr:first-child_td]:text-[color:var(--title-color,var(--brand-primary))] max-[768px]:text-[1.08rem] max-[768px]:[&_table]:min-w-[34rem] max-[768px]:[&_td]:px-[0.55rem] max-[768px]:[&_td]:py-[0.48rem]";
+  "[&_td]:border [&_td]:border-[color:var(--framework-table-border)] [&_td]:px-[0.7rem] [&_td]:py-[0.55rem] [&_td]:align-top [&_td]:text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
+  "[&_td_strong]:font-[600] [&_td_strong]:text-[color:var(--framework-table-strong-text)] [&_th_strong]:text-[color:var(--framework-table-head-text)] " +
+  "[&_th]:border [&_th]:border-[color:var(--framework-table-border)] [&_th]:px-[0.7rem] [&_th]:py-[0.58rem] [&_th]:text-left [&_th]:font-[600] [&_th]:text-[color:var(--framework-table-head-text)] " +
+  "[&_tr:first-child_td]:font-[600] [&_tr:first-child_td]:text-[color:var(--framework-table-head-text)] max-[768px]:text-[1.08rem] max-[768px]:[&_table]:min-w-[34rem] max-[768px]:[&_td]:px-[0.55rem] max-[768px]:[&_td]:py-[0.48rem]";
 const docHeadingClassName =
   "m-0 pt-[0.55rem] text-[1.36rem] font-[500] leading-[1.32] tracking-[0.01em] text-[color:var(--title-color,var(--brand-primary))]";
 const docSubheadingClassName =
@@ -97,6 +103,40 @@ const frameworkCheckboxRowClassName =
   "fancy-checkbox--otp fancy-checkbox--multiline w-full justify-start " +
   "[--otp-check-shape:var(--glass-modal-text,var(--pt-150))] [--otp-check-tick:var(--title-color,var(--brand-primary))] [--otp-check-text:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] " +
   "[--otp-check-box-size:1.45rem] [--otp-check-font-size:1.08rem] [--otp-check-line-height:1.46] [--otp-check-text-max-width:100%] [--otp-check-text-max-width-mobile:100%] [--otp-check-box-offset:0.08rem]";
+
+function getUpdatedFrameworkIntroCopy(locale) {
+  const introCopy = {
+    et: {
+      introTitle: "Raamlepingu allalaadimine ja kinnitus",
+      lead:
+        "Laadi uus raamleping alla või loe täisteksti allpool. Kinnituse saad salvestada pärast raamlepingu ja allkirjastatud DigiDoc-faili allalaadimist.",
+      paragraphs: [
+        "SotsiaalAI platvormi tavapäraseks kasutamiseks ei ole eraldi raamlepingut vaja. Raamleping on mõeldud tööülesanneteks, mille käigus võib esineda isikuandmete töötlemist.",
+        "Organisatsioon peab enne tööalase kasutuse lubamist määrama, kes võib SotsiaalAI-d kasutada, millistel eesmärkidel, milliseid andmeid võib sisestada ja kes kontrollib lõpptulemuse enne kasutamist üle."
+      ]
+    },
+    en: {
+      introTitle: "Framework agreement download and confirmation",
+      lead:
+        "Download the updated framework agreement or read the full text below. You can save the confirmation after downloading the agreement and the signed DigiDoc file.",
+      paragraphs: [
+        "No separate framework agreement is required for ordinary use of the SotsiaalAI platform. The framework agreement is intended for work-related tasks in the course of which personal data may be processed.",
+        "Before permitting work-related use, the organisation must define who may use SotsiaalAI, for which purposes, which data may be entered, and who checks the final output before use."
+      ]
+    },
+    ru: {
+      introTitle: "Скачивание рамочного соглашения и подтверждение",
+      lead:
+        "Скачайте обновленное рамочное соглашение или прочитайте полный текст ниже. Подтверждение можно сохранить после скачивания соглашения и подписанного файла DigiDoc.",
+      paragraphs: [
+        "Для обычного использования платформы SotsiaalAI отдельное рамочное соглашение не требуется. Рамочное соглашение предназначено для рабочих задач, в ходе которых может происходить обработка персональных данных.",
+        "Перед разрешением рабочего использования организация должна определить, кто может использовать SotsiaalAI, для каких целей, какие данные можно вводить и кто проверяет итоговый результат перед использованием."
+      ]
+    }
+  };
+
+  return Object.prototype.hasOwnProperty.call(introCopy, locale) ? introCopy[locale] : null;
+}
 
 function FrameworkBlocks({ blocks = [] }) {
   return (
@@ -185,6 +225,9 @@ function FrameworkBlocks({ blocks = [] }) {
 }
 
 function getIntroCopy(locale) {
+  const updatedCopy = getUpdatedFrameworkIntroCopy(locale);
+  if (updatedCopy) return updatedCopy;
+
   const fallbackCopy = getNormalizedIntroCopy(locale);
   const compactIntroCopy = {
     et: {

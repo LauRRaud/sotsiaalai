@@ -573,8 +573,8 @@ body .chat-input-row .chat-side-control-btn svg {
 }
 
 body .chat-inputbar .chat-listen-btn svg {
-  width: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
-  height: var(--chat-composer-listen-icon-size, calc(2.02 * var(--base-rem))) !important;
+  width: var(--chat-composer-mic-icon-size, calc(2 * var(--base-rem))) !important;
+  height: var(--chat-composer-mic-icon-size, calc(2 * var(--base-rem))) !important;
 }
 
 body .chat-inputbar .chat-send-btn .chat-send-glyph {
@@ -653,7 +653,7 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn:focus-visible svg,
 .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:hover svg,
 .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) .chat-inputbar > .chat-listen-btn:focus-visible svg {
-  transform: scale(1.08) !important;
+  transform: none !important;
   transform-origin: center;
 }
 

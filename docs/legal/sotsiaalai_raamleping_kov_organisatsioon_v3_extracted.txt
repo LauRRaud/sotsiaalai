@@ -324,7 +324,7 @@ Maksete ja tellimuste töötlemine.
 
 Google Cloud Text-to-Speech
 
-Kõnesüntees, kui vastav funktsioon on kasutusel.
+Kõnesüntees.
 
 E-posti teenusepakkuja
 
@@ -336,7 +336,7 @@ Platvormi andmete hoidmine ja teenuse toimimine.
 
 Redis või muu sõnumivahenduse teenus
 
-Ruumide, reaalajas sündmuste või tehniliste töövoogude käitamine, kui kasutusel.
+Ruumide, reaalajas sündmuste ja tehniliste töövoogude käitamine.
 
 Chroma / RAG teenus
 
@@ -348,7 +348,7 @@ Asukohaotsing abisoovide või abipakkumiste töövoos, kui kasutusel.
 
 Zone Media OÜ / VPS-taristu
 
-Platvormi majutus ja serveritaristu, kui see on konkreetse keskkonna teenusepakkuja.
+Platvormi majutus ja serveritaristu.
 
 
 

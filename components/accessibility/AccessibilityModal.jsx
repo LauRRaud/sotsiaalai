@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import OptionCard from "@/components/ui/OptionCard";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
+import useSmoothWheelProxy from "@/components/ui/useSmoothWheelProxy";
 const titleClassName =
   `${glassPageTitleClassName} glass-title-register !text-[clamp(1.58rem,calc(var(--ring-diameter,52rem)/24.5),2.12rem)] min-[769px]:!mt-0 min-[769px]:!mb-0 max-[768px]:!text-[clamp(2rem,7.9vw,2.75rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0 max-[768px]:!whitespace-normal`;
 const modalBackdropClassName =
@@ -122,24 +123,10 @@ export default function AccessibilityModal({
   const saveDisabled =
     requireInitialSelection &&
     (!lang || !contrast || !uiScale || !uiProfile || !theme);
-  const proxyWheelToModalScroll = useCallback((event) => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl) return;
-    if (event.defaultPrevented || event.ctrlKey || event.metaKey) return;
-    if (scrollEl.contains(event.target)) return;
-    const hasScrollableOverflow = scrollEl.scrollHeight - scrollEl.clientHeight > 1;
-    if (!hasScrollableOverflow) return;
-    const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scrollEl.clientHeight : 1;
-    const top = (event.deltaY || 0) * factor;
-    const left = (event.deltaX || 0) * factor;
-    if (typeof scrollEl.scrollBy === "function") {
-      scrollEl.scrollBy({ top, left, behavior: "auto" });
-    } else {
-      scrollEl.scrollTop += top;
-      scrollEl.scrollLeft += left;
-    }
-    event.preventDefault();
-  }, []);
+  const proxyWheelToModalScroll = useSmoothWheelProxy({
+    scrollRef,
+    disabled: isMobileViewport,
+  });
   useEffect(() => {
     setUiScale(current => current ?? initialUiScale);
     setUiProfile(current => current ?? initialUiProfile);

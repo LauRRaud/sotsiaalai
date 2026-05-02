@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, useId } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
@@ -23,6 +23,7 @@ import CenteredScrollPicker from "@/components/CenteredScrollPicker";
 import "@/components/CenteredScrollPicker.css";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
+import useSmoothWheelProxy from "@/components/ui/useSmoothWheelProxy";
 import {
   WORKER_FRAMEWORK_REGISTER_ACK_STORAGE_KEY,
   WORKER_FRAMEWORK_REGISTER_CONTEXT_STORAGE_KEY,
@@ -222,24 +223,10 @@ export default function RegistreerimineBody({}) {
   const guideStepIndex = 4;
   const workerStepIndex = 5;
   const submitStepIndex = isSocialWorker ? 6 : 5;
-  const proxyWheelToRegisterScroll = useCallback((event) => {
-    const scrollEl = scrollRef.current;
-    if (!scrollEl) return;
-    if (event.defaultPrevented || event.ctrlKey || event.metaKey) return;
-    if (scrollEl.contains(event.target)) return;
-    const hasScrollableOverflow = scrollEl.scrollHeight - scrollEl.clientHeight > 1;
-    if (!hasScrollableOverflow) return;
-    const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scrollEl.clientHeight : 1;
-    const top = (event.deltaY || 0) * factor;
-    const left = (event.deltaX || 0) * factor;
-    if (typeof scrollEl.scrollBy === "function") {
-      scrollEl.scrollBy({ top, left, behavior: "auto" });
-    } else {
-      scrollEl.scrollTop += top;
-      scrollEl.scrollLeft += left;
-    }
-    event.preventDefault();
-  }, []);
+  const proxyWheelToRegisterScroll = useSmoothWheelProxy({
+    scrollRef,
+    disabled: isMobileViewport,
+  });
 
   useEffect(() => {
     if (!draftReady || !lockedRole) return;
