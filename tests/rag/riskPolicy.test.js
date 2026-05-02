@@ -74,6 +74,20 @@ test("official source types meet strong evidence requirements", () => {
   assert.equal(result.reason, "official_source_type");
 });
 
+test("municipality_kov service items meet medium-risk strong evidence requirements", () => {
+  const policy = classifyRagRisk("Kuidas taotleda Viljandi vallas koduteenust?");
+  const result = sourceMeetsEvidenceRequirement({
+    source_type: "municipality_kov",
+    item_type: "service",
+    source_status: "active"
+  }, policy);
+
+  assert.equal(policy.riskLevel, "medium");
+  assert.equal(result.ok, true);
+  assert.equal(result.strength, "strong");
+  assert.equal(result.reason, "official_source_type");
+});
+
 test("background sources do not meet high-risk strong evidence requirements", () => {
   const policy = classifyRagRisk("Mis summa on hooldajatoetusel?");
   const result = sourceMeetsEvidenceRequirement({

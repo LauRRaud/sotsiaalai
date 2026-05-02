@@ -82,6 +82,31 @@ test("source panel collectors keep known RAG source types without urls", () => {
   ]);
 });
 
+test("source panel collectors keep municipality_kov sources without urls", () => {
+  const normalizedSources = normalizeSources([
+    {
+      id: "viljandi-municipality-kov-koduteenus",
+      title: "Koduteenus",
+      source_type: "municipality_kov"
+    }
+  ]);
+
+  const latestSources = collectLatestAnswerSources([
+    {
+      role: "user",
+      text: "viljandi vallas pakutakse koduteenust?"
+    },
+    {
+      role: "assistant",
+      text: "Jah, Viljandi vallas pakutakse koduteenust.",
+      sources: normalizedSources
+    }
+  ]);
+
+  assert.equal(latestSources.length, 1);
+  assert.equal(latestSources[0].key, "viljandi-municipality-kov-koduteenus");
+});
+
 test("source panel collectors separate latest answer from whole conversation", () => {
   const messages = [
     {

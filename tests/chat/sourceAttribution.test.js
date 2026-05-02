@@ -312,6 +312,42 @@ test("keeps KOV service anchors strict when municipality context is missing", ()
   assert.equal(attribution.filter_reasons["anija-koduteenus"], "query_anchor_mismatch");
 });
 
+test("keeps municipality_kov service sources for medium-risk KOV service answers", () => {
+  const attribution = buildSourceAttribution(
+    "Jah, Viljandi vallas pakutakse koduteenust. Teenusega aidatakse kodus toime tulla ja otsus tehakse 10 toopaeva jooksul.",
+    [
+      {
+        id: "viljandi-municipality-kov-koduteenus",
+        title: "Koduteenus",
+        source_type: "municipality_kov",
+        municipality_id: "viljandi_vald",
+        municipality_name: "Viljandi vald",
+        item_type: "service",
+        evidenceText: "Koduteenuse eesmargiks on aidata inimest kodus toime tulla. Otsus tehakse 10 toopaeva jooksul."
+      }
+    ],
+    {
+      query: "viljandi vallas pakutakse koduteenust?",
+      municipalityContext: [{
+        id: "viljandi_vald",
+        municipalityId: "viljandi_vald",
+        slug: "viljandi-vald",
+        baseName: "Viljandi",
+        type: "vald",
+        displayName: "Viljandi vald"
+      }],
+      riskPolicy: {
+        riskLevel: "medium",
+        requiredEvidence: "strong",
+        insufficientEvidenceMode: true
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["viljandi-municipality-kov-koduteenus"]);
+  assert.equal(attribution.attribution_decisions[0].evidence_strength, "strong");
+});
+
 test("uses municipality context for settlement alias service questions", () => {
   const attribution = buildSourceAttribution(
     "Tartu linnas on koduteenus ja selle kohta saab esitada taotluse.",
