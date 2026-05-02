@@ -88,7 +88,9 @@ if [ "$SKIP_BUILD" != "1" ]; then
     set +a
   fi
 
-  if ! npm run build; then
+  if npm run build; then
+    :
+  else
     build_status="$?"
     if [ "$frontend_was_active" = "1" ]; then
       echo "[deploy:server] Build failed; restarting previous frontend state" >&2
