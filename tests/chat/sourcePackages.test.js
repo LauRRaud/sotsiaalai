@@ -1,10 +1,78 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 
 import {
   buildRuntimeSourcePackages,
   normalizeSourcePackageCanonicalItemId
 } from "../../lib/chat/sourcePackages.js";
+
+function ensureJogevaCanonicalFixture(t) {
+  const root = path.join(process.cwd(), "KOV", "jogeva-vald");
+  const jsonPath = path.join(root, "jogeva-vald.json");
+  const sourcesPath = path.join(root, "jogeva-vald.sources.json");
+  if (fs.existsSync(jsonPath) && fs.existsSync(sourcesPath)) return;
+
+  fs.mkdirSync(root, { recursive: true });
+  fs.writeFileSync(jsonPath, JSON.stringify({
+    items: [
+      {
+        id: "jogeva_vald_service_koduteenus",
+        itemType: "service",
+        relatedForms: ["jogeva_vald_form_sotsiaalabi_taotlus"],
+        relatedContacts: ["jogeva_vald_contact_eve_viks"]
+      },
+      {
+        id: "jogeva_vald_service_eluruumi_tagamise_teenus",
+        itemType: "service",
+        relatedForms: ["jogeva_vald_form_sotsiaalabi_taotlus"],
+        relatedContacts: ["jogeva_vald_contact_eve_viks"]
+      },
+      {
+        id: "jogeva_vald_form_sotsiaalabi_taotlus",
+        itemType: "form",
+        sourceKeys: ["jogeva_vald_sotsiaalabi_taotlus_pdf"]
+      },
+      {
+        id: "jogeva_vald_contact_eve_viks",
+        itemType: "contact"
+      }
+    ]
+  }, null, 2));
+  fs.writeFileSync(sourcesPath, JSON.stringify({
+    sources: [
+      {
+        source_id: "jogeva_vald_sotsiaalabi_taotlus_pdf",
+        source_key: "jogeva_vald_sotsiaalabi_taotlus_pdf",
+        title: "Sotsiaalabi taotlus",
+        source_type: "application_form",
+        item_type: "form",
+        resource_type: "form",
+        municipality_id: "jogeva_vald",
+        source_status: "active"
+      },
+      {
+        source_id: "jogeva_vald_social_contacts",
+        title: "Jogeva valla kontaktid",
+        source_type: "contact_page",
+        item_type: "contact",
+        resource_type: "contact",
+        municipality_id: "jogeva_vald",
+        source_status: "active"
+      }
+    ]
+  }, null, 2));
+
+  t.after(() => {
+    try {
+      fs.rmSync(jsonPath, { force: true });
+      fs.rmSync(sourcesPath, { force: true });
+      fs.rmdirSync(root);
+      fs.rmdirSync(path.join(process.cwd(), "KOV"));
+    } catch {}
+  });
+}
 
 test("buildRuntimeSourcePackages groups Jogeva KOV service evidence by canonical item and municipality", () => {
   const packages = buildRuntimeSourcePackages([
@@ -303,7 +371,63 @@ test("buildRuntimeSourcePackages maps service relatedForms and relatedContacts i
   assert.equal(pkg.missing_sections.includes("deadlines"), true);
 });
 
-test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from canonical repo JSON fallback", () => {
+test("buildRuntimeSourcePackages uses service page form and contact section signals as partial evidence", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "alutaguse-koduteenus",
+      title: "Koduteenus",
+      url: "https://www.alutagusevald.ee/toiming/koduteenus-0",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "alutaguse_vald_service_koduteenus",
+      municipality_id: "alutaguse_vald",
+      municipality_name: "Alutaguse vald",
+      sections_present: ["description", "eligibility", "application", "forms", "contacts"],
+      source_status: "active",
+      last_checked: "2026-05-02"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "alutaguse_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.forms.map(source => source.source_id), ["alutaguse-koduteenus"]);
+  assert.equal(pkg.sections.forms[0].source_type, "kov_service_info");
+  assert.equal(pkg.sections.forms[0].evidence_strength, "partial");
+  assert.deepEqual(pkg.sections.contacts.map(source => source.source_id), ["alutaguse-koduteenus"]);
+  assert.equal(pkg.sections.contacts[0].source_type, "kov_service_info");
+  assert.equal(pkg.sections.contacts[0].evidence_strength, "partial");
+  assert.equal(pkg.missing_sections.includes("forms"), false);
+  assert.equal(pkg.missing_sections.includes("contacts"), false);
+});
+
+test("buildRuntimeSourcePackages resolves Alutaguse related forms and contacts from generic canonical repo fallback", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "alutaguse_vald_koduteenus_page",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "alutaguse_vald_service_koduteenus",
+      municipality_id: "alutaguse_vald",
+      municipality_name: "Alutaguse vald",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active",
+      last_checked: "2026-05-02"
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "alutaguse_vald_service_koduteenus");
+  assert.ok(pkg);
+  assert.equal(pkg.sections.forms.some(source => source.source_id === "alutaguse_vald_form_teenuse_taotlus_pdf"), true);
+  assert.equal(pkg.sections.contacts.some(source => source.source_id === "alutaguse_vald_social_contacts_page"), true);
+  assert.equal(pkg.missing_sections.includes("forms"), false);
+  assert.equal(pkg.missing_sections.includes("contacts"), false);
+});
+
+test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from canonical repo JSON fallback", (t) => {
+  ensureJogevaCanonicalFixture(t);
   const packages = buildRuntimeSourcePackages([
     {
       source_id: "kov_jogeva_vald_item_jogeva_vald_service_koduteenus",
@@ -338,7 +462,8 @@ test("buildRuntimeSourcePackages resolves Jogeva related forms and contacts from
   assert.equal(pkg.missing_sections.includes("contacts"), false);
 });
 
-test("buildRuntimeSourcePackages uses canonical normalization for lookup without changing package identity", () => {
+test("buildRuntimeSourcePackages uses canonical normalization for lookup without changing package identity", (t) => {
+  ensureJogevaCanonicalFixture(t);
   const packages = buildRuntimeSourcePackages([
     {
       source_id: "service-info",

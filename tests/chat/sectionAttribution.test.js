@@ -157,6 +157,27 @@ test("partial KOV regulation association stays partial in section attribution", 
   assert.deepEqual(entry.evidence_statuses, ["weak_or_indirect_section"]);
 });
 
+test("service page can partially confirm forms and contacts when section signals are present", () => {
+  const result = buildSectionAttribution({
+    sourcePackages: [
+      packageFixture({
+        sections: {
+          ...packageFixture().sections,
+          forms: [{ source_id: "service-info", source_type: "kov_service_info", source_status: "active", evidence_strength: "partial" }],
+          contacts: [{ source_id: "service-info", source_type: "kov_service_info", source_status: "active", evidence_strength: "partial" }]
+        },
+        missing_sections: ["legal_basis", "fees", "deadlines"]
+      })
+    ],
+    packageAwareAnswering: { used: true }
+  });
+
+  assert.equal(section(result, "forms").evidence_strength, "partial");
+  assert.deepEqual(section(result, "forms").evidence_statuses, ["weak_or_indirect_section"]);
+  assert.equal(section(result, "contacts").evidence_strength, "partial");
+  assert.deepEqual(section(result, "contacts").evidence_statuses, ["weak_or_indirect_section"]);
+});
+
 test("legal exact query opts out of SourcePackage section attribution", () => {
   const result = buildSectionAttribution({
     sourcePackages: [packageFixture()],

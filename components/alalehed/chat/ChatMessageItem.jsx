@@ -256,15 +256,16 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const actionsLabel = locale === "en" ? "Message actions" : locale === "ru" ? "Действия с сообщением" : "Sõnumi tegevused";
   const hasMessageSources = Array.isArray(messageSources) && messageSources.length > 0;
   const assistantActionsClassName =
-    "mt-[0.54rem] flex w-full items-center gap-[0.42rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
+    "mt-[0.54rem] flex w-full items-center gap-[0.46rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
   const assistantActionButtonClassName =
-    "inline-flex h-[2rem] w-[2rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
+    "inline-flex h-[2.15rem] w-[2.15rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
     "text-current shadow-none outline-none transition-opacity duration-150 " +
     "focus-visible:ring-2 focus-visible:ring-current/35 " +
     "disabled:cursor-not-allowed disabled:opacity-45";
+  const assistantActionIconClassName = "h-[1.56rem] w-[1.56rem]";
   const timestampClassName =
-    "select-none whitespace-nowrap text-[0.92rem] leading-none tracking-[0.02em] text-[color:var(--chat-composer-action-icon-color,#c57171)] opacity-75";
-  const assistantTimestampClassName = cn(timestampClassName, "ml-auto translate-y-[-0.04rem] pr-[0.18rem]");
+    "inline-flex h-[2.15rem] select-none items-center whitespace-nowrap text-[1.08rem] leading-none tracking-[0.02em] text-[color:var(--chat-composer-action-icon-color,#c57171)] opacity-75";
+  const assistantTimestampClassName = cn(timestampClassName, "ml-auto pr-[0.18rem]");
   const userTimestampClassName =
     "mt-[0.48rem] mr-[0.34rem] select-none whitespace-nowrap text-[0.9rem] leading-none tracking-[0.02em] text-[color:var(--input-text)] opacity-55";
   const handleCopy = async () => {
@@ -388,7 +389,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
             disabled={!voiceEnabled || !canSpeak}
             data-speaking={isSpeaking ? "true" : "false"}
           >
-            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-[1.45rem] w-[1.45rem]">
+            <svg aria-hidden="true" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={assistantActionIconClassName}>
               <path d="M11 5 6 9H2v6h4l5 4z" />
               <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
             </svg>
@@ -400,7 +401,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
             title={copyTitle}
             onClick={handleCopy}
           >
-            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-[1.32rem] w-[1.32rem]">
+            <svg aria-hidden="true" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={assistantActionIconClassName}>
               <rect x="9" y="9" width="10" height="10" rx="2" />
               <path d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" />
             </svg>
@@ -413,7 +414,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
               title={sourcesTitle}
               onClick={() => onShowSources?.(messageSources)}
             >
-              <SourcesIcon isLightTheme={isLightTheme} className="h-[1.18rem] w-[1.18rem]" />
+              <SourcesIcon isLightTheme={isLightTheme} className={assistantActionIconClassName} />
             </button>
           ) : null}
           {messageTime ? (

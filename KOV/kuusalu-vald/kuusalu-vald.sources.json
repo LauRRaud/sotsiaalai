@@ -1,0 +1,798 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-kuusalu-vald",
+  "document_id": "kov-kuusalu-vald",
+  "municipality": "Kuusalu vald",
+  "municipality_id": "kuusalu_vald",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Kuusalu vallavalitsuse avaleht",
+      "url": "https://www.kuusalu.ee",
+      "url_canonical": "https://www.kuusalu.ee",
+      "normalized_url": "https://www.kuusalu.ee",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalvaldkonna menüüstruktuur"
+      ]
+    },
+    {
+      "source_id": "social_overview",
+      "title": "Sotsiaal ja tervishoid menüüharu",
+      "url": "https://www.kuusalu.ee",
+      "url_canonical": "https://www.kuusalu.ee",
+      "normalized_url": "https://www.kuusalu.ee",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalvaldkonna koondstruktuur"
+      ]
+    },
+    {
+      "source_id": "abivajadus_puue_overview",
+      "title": "Abivajadus ja puue",
+      "url": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalteenuste ja puuetega inimeste toetuste koondinfo"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenused_menu",
+      "title": "Abivajadus ja puue teenuste loend",
+      "url": "https://www.kuusalu.ee/sotsiaalteenused",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaalteenused",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaalteenused",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "teenuste ja ressursilehtede navigeerimine"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetused_overview",
+      "title": "Sotsiaaltoetused",
+      "url": "https://www.kuusalu.ee/sotsiaaltoetused",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaaltoetused",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaaltoetused",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaaltoetuste loend"
+      ]
+    },
+    {
+      "source_id": "small_income_page",
+      "title": "Väike sissetulek",
+      "url": "https://www.kuusalu.ee/sotsiaaltoetusted",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaaltoetusted",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaaltoetusted",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sissetulekust sõltuvate toetuste koondinfo ja taotluskanalid"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Taotluste vormid",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "application_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vormide, avalduste ja taotluskanalite kontroll"
+      ]
+    },
+    {
+      "source_id": "koduteenus_page",
+      "title": "Koduteenus",
+      "url": "https://www.kuusalu.ee/koduteenus",
+      "url_canonical": "https://www.kuusalu.ee/koduteenus",
+      "normalized_url": "https://www.kuusalu.ee/koduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Koduteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "uldhooldusteenus_page",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "url": "https://www.kuusalu.ee/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "url_canonical": "https://www.kuusalu.ee/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "normalized_url": "https://www.kuusalu.ee/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Väljaspool kodu osutatav üldhooldusteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "tugiisikuteenus_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://www.kuusalu.ee/tugiisikuteenus",
+      "url_canonical": "https://www.kuusalu.ee/tugiisikuteenus",
+      "normalized_url": "https://www.kuusalu.ee/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Tugiisikuteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "taisealise_hooldus_page",
+      "title": "Täisealise isiku hooldus",
+      "url": "https://www.kuusalu.ee/hooldajatoetus",
+      "url_canonical": "https://www.kuusalu.ee/hooldajatoetus",
+      "normalized_url": "https://www.kuusalu.ee/hooldajatoetus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Täisealise isiku hooldus detailinfo"
+      ]
+    },
+    {
+      "source_id": "isikliku_abistaja_page",
+      "title": "Isikliku abistaja teenus",
+      "url": "https://www.kuusalu.ee/isikliku-abistaja-teenus",
+      "url_canonical": "https://www.kuusalu.ee/isikliku-abistaja-teenus",
+      "normalized_url": "https://www.kuusalu.ee/isikliku-abistaja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Isikliku abistaja teenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "varjupaigateenus_page",
+      "title": "Varjupaigateenus",
+      "url": "https://www.kuusalu.ee/varjupaigateenus",
+      "url_canonical": "https://www.kuusalu.ee/varjupaigateenus",
+      "normalized_url": "https://www.kuusalu.ee/varjupaigateenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Varjupaigateenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "turvakoduteenus_page",
+      "title": "Turvakoduteenus",
+      "url": "https://www.kuusalu.ee/turvakoduteenus",
+      "url_canonical": "https://www.kuusalu.ee/turvakoduteenus",
+      "normalized_url": "https://www.kuusalu.ee/turvakoduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Turvakoduteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltransport_page",
+      "title": "Sotsiaaltransporditeenus",
+      "url": "https://www.kuusalu.ee/sotsiaaltransporditeenus",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaaltransporditeenus",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaaltransporditeenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Sotsiaaltransporditeenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "eluruumi_tagamine_page",
+      "title": "Eluruumi tagamine",
+      "url": "https://www.kuusalu.ee/eluruumi-tagamine",
+      "url_canonical": "https://www.kuusalu.ee/eluruumi-tagamine",
+      "normalized_url": "https://www.kuusalu.ee/eluruumi-tagamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Eluruumi tagamine detailinfo"
+      ]
+    },
+    {
+      "source_id": "volanoustamisteenus_page",
+      "title": "Võlanõustamisteenus",
+      "url": "https://www.kuusalu.ee/volanoustamisteenus1",
+      "url_canonical": "https://www.kuusalu.ee/volanoustamisteenus1",
+      "normalized_url": "https://www.kuusalu.ee/volanoustamisteenus1",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Võlanõustamisteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "lapsehoiuteenus_page",
+      "title": "Lapsehoiuteenus",
+      "url": "https://www.kuusalu.ee/lapsehoiuteenus",
+      "url_canonical": "https://www.kuusalu.ee/lapsehoiuteenus",
+      "normalized_url": "https://www.kuusalu.ee/lapsehoiuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Lapsehoiuteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "asendushooldusteenus_page",
+      "title": "Asendushooldusteenus",
+      "url": "https://www.kuusalu.ee/asendushooldusteenus",
+      "url_canonical": "https://www.kuusalu.ee/asendushooldusteenus",
+      "normalized_url": "https://www.kuusalu.ee/asendushooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Asendushooldusteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "jarelhooldusteenus_page",
+      "title": "Järelhooldusteenus",
+      "url": "https://www.kuusalu.ee/jarelhooldusteenus",
+      "url_canonical": "https://www.kuusalu.ee/jarelhooldusteenus",
+      "normalized_url": "https://www.kuusalu.ee/jarelhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Järelhooldusteenus detailinfo"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetus_page",
+      "title": "Toimetulekutoetus",
+      "url": "https://www.kuusalu.ee/et/toimetulekutoetus",
+      "url_canonical": "https://www.kuusalu.ee/et/toimetulekutoetus",
+      "normalized_url": "https://www.kuusalu.ee/et/toimetulekutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Toimetulekutoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "osalustasu_toetus_page",
+      "title": "Osalustasu toetus",
+      "url": "https://www.kuusalu.ee/et/osalustasu-toetus",
+      "url_canonical": "https://www.kuusalu.ee/et/osalustasu-toetus",
+      "normalized_url": "https://www.kuusalu.ee/et/osalustasu-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Osalustasu toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "toidutoetus_page",
+      "title": "Toidutoetus",
+      "url": "https://www.kuusalu.ee/et/toidutoetus",
+      "url_canonical": "https://www.kuusalu.ee/et/toidutoetus",
+      "normalized_url": "https://www.kuusalu.ee/et/toidutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Toidutoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "huvihariduse_toetus_page",
+      "title": "Huvihariduse, huviringi ja laagri toetus",
+      "url": "https://www.kuusalu.ee/et/huvihariduse-huviringi-ja-laagri-toetus",
+      "url_canonical": "https://www.kuusalu.ee/et/huvihariduse-huviringi-ja-laagri-toetus",
+      "normalized_url": "https://www.kuusalu.ee/et/huvihariduse-huviringi-ja-laagri-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Huvihariduse, huviringi ja laagri toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "tervisetoetus_page",
+      "title": "Tervisetoetus",
+      "url": "https://www.kuusalu.ee/et/tervisetoetus",
+      "url_canonical": "https://www.kuusalu.ee/et/tervisetoetus",
+      "normalized_url": "https://www.kuusalu.ee/et/tervisetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Tervisetoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "kuttetoetus_page",
+      "title": "Küttetoetus",
+      "url": "https://www.kuusalu.ee/et/kuttetoetus",
+      "url_canonical": "https://www.kuusalu.ee/et/kuttetoetus",
+      "normalized_url": "https://www.kuusalu.ee/et/kuttetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Küttetoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "uhekordne_toetus_page",
+      "title": "Ühekordne toetus",
+      "url": "https://www.kuusalu.ee/et/uhekordne-toetus",
+      "url_canonical": "https://www.kuusalu.ee/et/uhekordne-toetus",
+      "normalized_url": "https://www.kuusalu.ee/et/uhekordne-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Ühekordne toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "valtimatu_abi_toetus_page",
+      "title": "Vältimatu abi toetus",
+      "url": "https://www.kuusalu.ee/valtimatu-abi-toetus",
+      "url_canonical": "https://www.kuusalu.ee/valtimatu-abi-toetus",
+      "normalized_url": "https://www.kuusalu.ee/valtimatu-abi-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Vältimatu abi toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "sunnitoetus_page",
+      "title": "Sünnitoetus",
+      "url": "https://www.kuusalu.ee/sunnitoetus",
+      "url_canonical": "https://www.kuusalu.ee/sunnitoetus",
+      "normalized_url": "https://www.kuusalu.ee/sunnitoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Sünnitoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "lapsehoiuteenuse_toetus_page",
+      "title": "Lapsehoiuteenuse toetus",
+      "url": "https://www.kuusalu.ee/lapsehoiuteenuse-toetus",
+      "url_canonical": "https://www.kuusalu.ee/lapsehoiuteenuse-toetus",
+      "normalized_url": "https://www.kuusalu.ee/lapsehoiuteenuse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Lapsehoiuteenuse toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "aabitsatoetus_page",
+      "title": "Aabitsatoetus",
+      "url": "https://www.kuusalu.ee/aabitsatoetus",
+      "url_canonical": "https://www.kuusalu.ee/aabitsatoetus",
+      "normalized_url": "https://www.kuusalu.ee/aabitsatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Aabitsatoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "matusetoetus_page",
+      "title": "Matusetoetus",
+      "url": "https://www.kuusalu.ee/matusetoetus",
+      "url_canonical": "https://www.kuusalu.ee/matusetoetus",
+      "normalized_url": "https://www.kuusalu.ee/matusetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Matusetoetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "suure_hooldusvajadusega_lapse_toetus_page",
+      "title": "Suure hooldus- ja abivajadusega lapse lapsehoiuteenuse ja toetavate teenuste toetus",
+      "url": "https://www.kuusalu.ee/suure-hooldus-ja-abivajadusega-lapse-lapsehoiuteenuse-ja-toetavate-teenuste-toetus",
+      "url_canonical": "https://www.kuusalu.ee/suure-hooldus-ja-abivajadusega-lapse-lapsehoiuteenuse-ja-toetavate-teenuste-toetus",
+      "normalized_url": "https://www.kuusalu.ee/suure-hooldus-ja-abivajadusega-lapse-lapsehoiuteenuse-ja-toetavate-teenuste-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Suure hooldus- ja abivajadusega lapse lapsehoiuteenuse ja toetavate teenuste toetus detailinfo"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetus_page",
+      "title": "Hooldajatoetus täisealise isiku hooldamise eest",
+      "url": "https://www.kuusalu.ee/hooldajatoetus",
+      "url_canonical": "https://www.kuusalu.ee/hooldajatoetus",
+      "normalized_url": "https://www.kuusalu.ee/hooldajatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Hooldajatoetus täisealise isiku hooldamise eest detailinfo"
+      ]
+    },
+    {
+      "source_id": "medi_hairenuputeenus_page",
+      "title": "MEDI häirenuputeenus",
+      "url": "https://www.kuusalu.ee/medi-hairenuputeenus",
+      "url_canonical": "https://www.kuusalu.ee/medi-hairenuputeenus",
+      "normalized_url": "https://www.kuusalu.ee/medi-hairenuputeenus",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "MEDI häirenuputeenus info"
+      ]
+    },
+    {
+      "source_id": "isikliku_abivahendi_kaart_page",
+      "title": "Isikliku abivahendi kaart",
+      "url": "https://www.kuusalu.ee/isikliku-abivahendi-kaart",
+      "url_canonical": "https://www.kuusalu.ee/isikliku-abivahendi-kaart",
+      "normalized_url": "https://www.kuusalu.ee/isikliku-abivahendi-kaart",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Isikliku abivahendi kaart info"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi",
+      "url": "https://www.kuusalu.ee/ohvriabi",
+      "url_canonical": "https://www.kuusalu.ee/ohvriabi",
+      "normalized_url": "https://www.kuusalu.ee/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Ohvriabi info"
+      ]
+    },
+    {
+      "source_id": "abi_infotelefonid_page",
+      "title": "Abi- ja infotelefonid",
+      "url": "https://www.kuusalu.ee/abi-ja-infotelefonid",
+      "url_canonical": "https://www.kuusalu.ee/abi-ja-infotelefonid",
+      "normalized_url": "https://www.kuusalu.ee/abi-ja-infotelefonid",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Abi- ja infotelefonid info"
+      ]
+    },
+    {
+      "source_id": "politsei_ohvriabi_page",
+      "title": "Politsei ja ohvriabi kontaktid",
+      "url": "https://www.kuusalu.ee/politsei",
+      "url_canonical": "https://www.kuusalu.ee/politsei",
+      "normalized_url": "https://www.kuusalu.ee/politsei",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Politsei ja ohvriabi kontaktid info"
+      ]
+    },
+    {
+      "source_id": "parkimiskaart_page",
+      "title": "Puudega inimese sõiduki parkimiskaart",
+      "url": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "url_canonical": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "normalized_url": "https://www.kuusalu.ee/sotsiaalteenused1",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Puudega inimese sõiduki parkimiskaart info"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenuse_avaldus_form_page",
+      "title": "Sotsiaalteenuse avaldus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Sotsiaalteenuse avaldus vormi info"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetuste_avaldus_form_page",
+      "title": "Sotsiaaltoetuste avaldus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Sotsiaaltoetuste avaldus vormi info"
+      ]
+    },
+    {
+      "source_id": "osalus_toidutoetus_avaldus_form_page",
+      "title": "Osalus- ja toidutoetuse avaldus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Osalus- ja toidutoetuse avaldus vormi info"
+      ]
+    },
+    {
+      "source_id": "ametkooli_opilase_toetus_form_page",
+      "title": "Ametikooli õpilase toetuse avaldus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Ametikooli õpilase toetuse avaldus vormi info"
+      ]
+    },
+    {
+      "source_id": "raske_sugava_puudega_lapse_toetus_form_page",
+      "title": "Raske ja sügava puudega lapse sotsiaalteenuste toetuse avaldus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Raske ja sügava puudega lapse sotsiaalteenuste toetuse avaldus vormi info"
+      ]
+    },
+    {
+      "source_id": "aabitsatoetus_form_page",
+      "title": "Aabitsatoetuse taotlus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Aabitsatoetuse taotlus vormi info"
+      ]
+    },
+    {
+      "source_id": "huvihariduse_toetus_form_page",
+      "title": "Huvihariduse, huviringi ja laagri toetuse taotlus",
+      "url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "url_canonical": "https://www.kuusalu.ee/taotluste-vormid1",
+      "normalized_url": "https://www.kuusalu.ee/taotluste-vormid1",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Huvihariduse, huviringi ja laagri toetuse taotlus vormi info"
+      ]
+    },
+    {
+      "source_id": "matusetoetus_form_page",
+      "title": "Matusetoetuse taotlus",
+      "url": "https://www.kuusalu.ee/matusetoetus",
+      "url_canonical": "https://www.kuusalu.ee/matusetoetus",
+      "normalized_url": "https://www.kuusalu.ee/matusetoetus",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Matusetoetuse taotlus vormi info"
+      ]
+    },
+    {
+      "source_id": "sunnitoetus_form_page",
+      "title": "Sünnitoetuse taotlus",
+      "url": "https://www.kuusalu.ee/sunnitoetus",
+      "url_canonical": "https://www.kuusalu.ee/sunnitoetus",
+      "normalized_url": "https://www.kuusalu.ee/sunnitoetus",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Kuusalu vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "Sünnitoetuse taotlus vormi info"
+      ]
+    }
+  ]
+}

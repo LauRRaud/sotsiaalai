@@ -92,3 +92,36 @@ test("buildPackageAwareContext anchors package selection to the requested servic
   assert.equal(result.contextText.includes("Asendushooldusteenus"), false);
   assert.equal(result.contextText.includes("Isikliku abistaja teenus"), false);
 });
+
+test("buildPackageAwareContext exposes confirmed form URLs for answer text", () => {
+  const formUrl = "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx";
+  const result = buildPackageAwareContext([
+    {
+      package_id: "alutaguse_vald_service_koduteenus_package",
+      canonical_item_id: "alutaguse_vald_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "alutaguse_vald",
+      sections: {
+        description: [{ source_id: "alutaguse-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        application: [{ source_id: "alutaguse-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        forms: [{
+          source_id: "alutaguse_vald_form_teenuse_taotlus_pdf",
+          title: "Avaldus teenuse taotlemiseks abivajaduse korral",
+          source_type: "application_form",
+          resource_type: "form",
+          url: formUrl
+        }],
+        contacts: []
+      },
+      source_ids: ["alutaguse-koduteenus", "alutaguse_vald_form_teenuse_taotlus_pdf"],
+      missing_sections: ["contacts", "fees", "deadlines"]
+    }
+  ], {
+    query: "kas alutaguse vallas pakutakse koduteenust?"
+  });
+
+  assert.equal(result.contextText.includes("Avaldus teenuse taotlemiseks abivajaduse korral"), true);
+  assert.equal(result.contextText.includes(`url=${formUrl}`), true);
+  assert.equal(result.contextText.includes("Kui forms sektsioonis on vormi URL"), true);
+});
