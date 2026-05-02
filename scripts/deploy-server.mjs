@@ -6,6 +6,7 @@ const remote = process.env.DEPLOY_SSH_HOST || "sotsiaalai";
 const appDir = process.env.DEPLOY_APP_DIR || "/home/ubuntu/apps/sotsiaalai";
 const branch = process.env.DEPLOY_BRANCH || "main";
 const frontendEnv = process.env.DEPLOY_FRONTEND_ENV || "/etc/sotsiaalai/frontend.env";
+const buildTimeoutSeconds = Number.parseInt(String(process.env.DEPLOY_BUILD_TIMEOUT_SECONDS || "900"), 10) || 900;
 const discardTracked = args.has("--discard-tracked");
 const skipBuild = args.has("--skip-build");
 
@@ -24,10 +25,31 @@ set -euo pipefail
 APP_DIR=${shellEscape(appDir)}
 BRANCH=${shellEscape(branch)}
 FRONTEND_ENV=${shellEscape(frontendEnv)}
+BUILD_TIMEOUT_SECONDS=${Math.max(60, buildTimeoutSeconds)}
 DISCARD_TRACKED=${discardTracked ? "1" : "0"}
 SKIP_BUILD=${skipBuild ? "1" : "0"}
 
 cd "$APP_DIR"
+
+frontend_was_active="0"
+frontend_stopped_for_build="0"
+build_log=""
+
+restore_frontend_on_failure() {
+  status="$?"
+  if [ "$frontend_stopped_for_build" = "1" ] && [ "$status" != "0" ]; then
+    echo "[deploy:server] Deploy interrupted/failed; restarting previous frontend state" >&2
+    sudo systemctl start sotsiaalai-frontend.service || true
+  fi
+}
+
+handle_interrupt() {
+  echo "[deploy:server] Deploy interrupted" >&2
+  exit 130
+}
+
+trap restore_frontend_on_failure EXIT
+trap handle_interrupt HUP INT TERM
 
 current_branch="$(git branch --show-current)"
 if [ "$current_branch" != "$BRANCH" ]; then
@@ -71,7 +93,6 @@ else
   exit 4
 fi
 
-frontend_was_active="0"
 if systemctl is-active --quiet sotsiaalai-frontend.service; then
   frontend_was_active="1"
 fi
@@ -80,6 +101,7 @@ if [ "$SKIP_BUILD" != "1" ]; then
   if [ "$frontend_was_active" = "1" ]; then
     echo "[deploy:server] Stopping frontend before in-place build"
     sudo systemctl stop sotsiaalai-frontend.service
+    frontend_stopped_for_build="1"
   fi
 
   if [ -f "$FRONTEND_ENV" ]; then
@@ -88,13 +110,21 @@ if [ "$SKIP_BUILD" != "1" ]; then
     set +a
   fi
 
-  if npm run build; then
+  mkdir -p "$APP_DIR/deploy-build-logs"
+  build_log="$APP_DIR/deploy-build-logs/build-$(date -u +%Y%m%dT%H%M%SZ).log"
+  echo "[deploy:server] Build log: $build_log"
+
+  if timeout "$BUILD_TIMEOUT_SECONDS"s npm run build 2>&1 | tee "$build_log"; then
     :
   else
-    build_status="$?"
+    build_status="\${PIPESTATUS[0]}"
+    if [ "$build_status" = "124" ]; then
+      echo "[deploy:server] Build timed out after \${BUILD_TIMEOUT_SECONDS}s" >&2
+    fi
     if [ "$frontend_was_active" = "1" ]; then
       echo "[deploy:server] Build failed; restarting previous frontend state" >&2
       sudo systemctl start sotsiaalai-frontend.service || true
+      frontend_stopped_for_build="0"
     fi
     exit "$build_status"
   fi
@@ -107,6 +137,7 @@ if systemctl list-unit-files sotsiaalai-research-worker.service >/dev/null 2>&1;
   sudo systemctl restart sotsiaalai-research-worker.service
 fi
 sudo systemctl restart sotsiaalai-frontend.service
+frontend_stopped_for_build="0"
 
 if systemctl list-unit-files sotsiaalai-rag.service >/dev/null 2>&1; then
   systemctl is-active sotsiaalai-rag.service

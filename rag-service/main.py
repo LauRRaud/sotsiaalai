@@ -1604,6 +1604,64 @@ def _split_chunks_with_pages(pages: List[Tuple[Optional[int], str]]) -> Tuple[Li
             pnums.append(page_no)
     return docs, pnums
 
+def _coerce_int(value) -> Optional[int]:
+    try:
+        if value is None or value == "":
+            return None
+        number = int(value)
+        return number if number >= 1 else None
+    except Exception:
+        return None
+
+def _metadata_list(value) -> List[str]:
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item or "").strip()]
+    if isinstance(value, str) and value.strip():
+        return [value.strip()]
+    return []
+
+def _normalize_section_index(meta_common: Dict) -> List[Dict[str, object]]:
+    raw = meta_common.get("sectionIndex") or meta_common.get("section_index")
+    if isinstance(raw, str):
+        try:
+            raw = json.loads(raw)
+        except Exception:
+            raw = []
+    if not isinstance(raw, list):
+        return []
+    out: List[Dict[str, object]] = []
+    for entry in raw:
+        if not isinstance(entry, dict):
+            continue
+        page_start = _coerce_int(entry.get("page_start") or entry.get("pageStart"))
+        page_end = _coerce_int(entry.get("page_end") or entry.get("pageEnd")) or page_start
+        title = str(entry.get("title") or entry.get("section_title") or "").strip()
+        if not page_start or not page_end or page_end < page_start or not title:
+            continue
+        out.append({
+            "section_id": str(entry.get("section_id") or entry.get("sectionId") or "").strip() or None,
+            "title": title,
+            "page_start": page_start,
+            "page_end": page_end,
+            "section_type": str(entry.get("section_type") or entry.get("sectionType") or "").strip() or None,
+            "evidence_role": str(entry.get("evidence_role") or entry.get("evidenceRole") or "").strip() or None,
+            "allowed_claim_types": _metadata_list(entry.get("allowed_claim_types") or entry.get("allowedClaimTypes")),
+            "disallowed_claim_types": _metadata_list(entry.get("disallowed_claim_types") or entry.get("disallowedClaimTypes")),
+            "heading_path": _metadata_list(entry.get("heading_path") or entry.get("headingPath")) or [title],
+        })
+    return sorted(out, key=lambda item: (item["page_start"], item["page_end"], item["title"]))
+
+def _section_for_page(section_index: List[Dict[str, object]], page_num: Optional[int]) -> Optional[Dict[str, object]]:
+    page = _coerce_int(page_num)
+    if not page or not section_index:
+        return None
+    for section in section_index:
+        start = _coerce_int(section.get("page_start"))
+        end = _coerce_int(section.get("page_end")) or start
+        if start and end and start <= page <= end:
+            return section
+    return None
+
 def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict[str, object]:
     meta = build_rag_metadata(meta_common, doc_id=doc_id)
     title = (meta.title or "").strip()
@@ -1657,6 +1715,8 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     geo_detection_method = (meta.geo_detection_method or "").strip() or None
     geo_detection_confidence = (meta.geo_detection_confidence or "").strip() or None
 
+    section_index = _normalize_section_index(meta_common)
+
     # PREFIKS – lisame chunk’i teksti ette (autor/pealkiri/jne saavad embeddingusse)
     prefix_lines: List[str] = []
     if title:         prefix_lines.append(f"[TITLE] {title}")
@@ -1693,7 +1753,9 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
         full_text = _clean_text(" ".join(t or "" for _, t in text_or_pages))
         # Decide based on mode+limit unless ALWAYS_CHUNK is set
         should_single = False
-        if not ALWAYS_CHUNK:
+        if section_index:
+            should_single = False
+        elif not ALWAYS_CHUNK:
             if CHUNK_MODE == "tokens" and _TIKTOKEN_OK:
                 should_single = _token_len(full_text) <= SINGLE_CHUNK_TOKEN_LIMIT
             else:
@@ -1728,7 +1790,14 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "embeddings": [],
         }
 
-    final_texts = [(prefix + ch).strip() if prefix else ch for ch in chunks]
+    final_texts = []
+    for i, ch in enumerate(chunks):
+        section_meta = _section_for_page(section_index, page_nums[i] if i < len(page_nums) else None)
+        section_title = str(section_meta.get("title") or "").strip() if section_meta else ""
+        section_prefix = prefix
+        if section_title and section_title != section:
+            section_prefix = f"{section_prefix}[PDF_SECTION] {section_title}\n"
+        final_texts.append((section_prefix + ch).strip() if section_prefix else ch)
 
     # STABIILNE ID: doc_id + jrk + 8-kohaline hash chunkist
     ids = []
@@ -1739,6 +1808,7 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
     metadatas = []
     for i, _ in enumerate(final_texts):
         chunk_id = f"{doc_id}:{i}"
+        section_meta = _section_for_page(section_index, page_nums[i] if i < len(page_nums) else None)
         m = {
             "doc_id": meta.docId or doc_id,
             "docId": meta.docId or doc_id,
@@ -1794,6 +1864,15 @@ def _build_ingest_payload(doc_id: str, text_or_pages, meta_common: Dict) -> Dict
             "pdf_start_page": meta.pdf_start_page,
             "pdf_end_page": meta.pdf_end_page,
             "page": page_nums[i],
+            "section_id": section_meta.get("section_id") if section_meta else None,
+            "section_title": section_meta.get("title") if section_meta else None,
+            "section_type": section_meta.get("section_type") if section_meta else None,
+            "section_page_start": section_meta.get("page_start") if section_meta else None,
+            "section_page_end": section_meta.get("page_end") if section_meta else None,
+            "section_evidence_role": section_meta.get("evidence_role") if section_meta else None,
+            "heading_path": section_meta.get("heading_path") if section_meta else None,
+            "allowed_claim_types": section_meta.get("allowed_claim_types") if section_meta else None,
+            "disallowed_claim_types": section_meta.get("disallowed_claim_types") if section_meta else None,
             "collection_id": collection_id,
             "country": country,
             "county": county,

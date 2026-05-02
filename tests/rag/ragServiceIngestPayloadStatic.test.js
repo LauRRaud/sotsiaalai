@@ -74,3 +74,18 @@ test("RAG service PDF metadata ingest logs unexpected failures with source ident
   assert.match(fn, /original_doc_id/);
   assert.match(fn, /source_type/);
 });
+
+test("RAG service PDF ingest maps sectionIndex into chunk metadata", () => {
+  const source = readRagServiceMain();
+  const fn = extractPythonFunction(source, "_build_ingest_payload");
+
+  assert.match(source, /def _normalize_section_index/);
+  assert.match(source, /def _section_for_page/);
+  assert.match(fn, /section_index = _normalize_section_index\(meta_common\)/);
+  assert.match(fn, /\[PDF_SECTION\]/);
+  assert.match(fn, /"section_id": section_meta\.get\("section_id"\)/);
+  assert.match(fn, /"section_title": section_meta\.get\("title"\)/);
+  assert.match(fn, /"section_evidence_role": section_meta\.get\("evidence_role"\)/);
+  assert.match(fn, /"allowed_claim_types": section_meta\.get\("allowed_claim_types"\)/);
+  assert.match(fn, /"disallowed_claim_types": section_meta\.get\("disallowed_claim_types"\)/);
+});

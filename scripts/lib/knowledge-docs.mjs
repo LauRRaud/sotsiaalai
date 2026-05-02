@@ -19,14 +19,20 @@ export const ALLOWED_RESOURCE_TYPES = new Set([
   "policy_context",
   "method_guidance",
   "training_material",
-  "professional_article"
+  "professional_article",
+  "information_material",
+  "organization_guidance"
 ]);
 
 export const ALLOWED_SOURCE_TYPES = new Set([
   "official_guideline",
+  "information_material",
   "research_report",
   "policy_analysis",
   "methodology_material",
+  "methodology_guide",
+  "state_guide",
+  "quality_guideline",
   "training_material",
   "journal_article",
   "uploaded_file"
@@ -36,7 +42,12 @@ export const ALLOWED_COLLECTION_IDS = new Set([
   "national_guidelines",
   "research_reports",
   "policy_analyses",
+  "organization_guidelines",
+  "organization_materials",
+  "sotsiaaltoo_articles",
   "training_materials",
+  "guides",
+  "methodology_guides",
   "journal_articles"
 ]);
 
@@ -485,7 +496,7 @@ export function validateKnowledgeMetadata(metadataInput = {}, context = {}) {
     requireField(field);
   }
   if (!metadata.publisher && !metadata.source_organization) errors.push("publisher or source_organization is required");
-  if (!metadata.year && !metadata.publication_date) errors.push("year or publication_date is required");
+  if (!metadata.year && !metadata.publication_date) warnings.push("year or publication_date is recommended");
   if (!metadata.audience && !metadata.audiences.length) errors.push("audience or audiences is required");
   if (!metadata.source_path && !metadata.source_url) errors.push("source_path or source_url is required");
   if (!metadata.allowed_claim_types.length) errors.push("allowed_claim_types is required");

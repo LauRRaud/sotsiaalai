@@ -84,6 +84,8 @@
     "knowledge:validate": "node scripts/validate-knowledge-doc-metadata.mjs",
     "knowledge:upgrade": "node scripts/upgrade-knowledge-doc-metadata.mjs",
     "knowledge:smoke": "node scripts/smoke-knowledge-docs.mjs",
+    "knowledge:source-master:plan": "node scripts/ingest-source-master-pdfs.mjs --dry-run",
+    "knowledge:source-master:ingest": "node scripts/ingest-source-master-pdfs.mjs --ingest",
     "organization:validate": "node scripts/validate-organization-metadata.mjs",
     "organization:audit-metadata": "node scripts/audit-organization-metadata.mjs"
   },
