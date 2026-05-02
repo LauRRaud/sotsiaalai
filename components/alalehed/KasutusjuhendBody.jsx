@@ -185,7 +185,7 @@ export default function KasutusjuhendBody() {
               <span className="mt-[0.1rem] hidden items-center gap-[0.16rem] min-[769px]:flex">
                 <span>{guideContent.expandHint}</span>
                 <FocusModeToggleIcon
-                  expanded={expanded}
+                  expanded={false}
                   isLightTheme={isLightTheme}
                   className="inline-block h-[1.58em] w-[1.58em] translate-y-[-0.12em]"
                 />

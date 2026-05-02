@@ -281,6 +281,7 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   });
   const [confirmChecked, setConfirmChecked] = useState(false);
   const [isRegisterContext, setIsRegisterContext] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [savePending, setSavePending] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
@@ -356,6 +357,9 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
   }, [loadFrameworkStatus]);
 
   const handleBack = () => {
+    if (isClosing) return;
+    setIsClosing(true);
+
     if (typeof window !== "undefined" && window.history.length > 1) {
       backWithTransition(router, {
         glassRingTilt: "left",
@@ -365,11 +369,15 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
       return;
     }
 
-    pushWithTransition(router, localizePath("/", locale), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
+    pushWithTransition(
+      router,
+      localizePath(isRegisterContext ? "/registreerimine" : "/", locale),
+      {
+        glassRingTilt: "left",
+        waitForGlassRingTilt: true,
+        persistGlassRingTilt: false
+      }
+    );
   };
 
   const handleShellWheel = useCallback((event) => {
@@ -468,7 +476,10 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
-      <div ref={panelRef} className={panelClassName}>
+      <div
+        ref={panelRef}
+        className={`${panelClassName} ${isClosing ? "pointer-events-none [--glass-ring-tilt-angle-left:-3deg] motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+      >
         <BackButton
           onClick={handleBack}
           ariaLabel={t("buttons.back_previous")}

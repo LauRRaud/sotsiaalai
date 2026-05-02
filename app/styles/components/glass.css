@@ -423,13 +423,19 @@
   transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
+.register-role-options .register-role-button.register-option-card[data-checked="true"] {
+  background: var(--seg-card-bg) !important;
+}
+
 .register-role-options .register-role-button:hover::before,
-.register-role-options .register-role-button:focus-visible::before {
+.register-role-options .register-role-button:focus-visible::before,
+.register-role-options .register-role-button[data-checked="true"]::before {
   opacity: 1 !important;
 }
 
 .register-role-options .register-role-button:hover,
-.register-role-options .register-role-button:focus-visible {
+.register-role-options .register-role-button:focus-visible,
+.register-role-options .register-role-button[data-checked="true"] {
   border-color: var(--seg-card-border-hover, var(--seg-card-border)) !important;
   box-shadow: var(--seg-card-shadow-hover, var(--seg-card-shadow)) !important;
   color: var(--seg-card-text-hover, var(--seg-card-text)) !important;
@@ -458,6 +464,8 @@
 .register-role-options .register-role-button > span {
   justify-content: center;
   text-align: center;
+  color: inherit !important;
+  transition: color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 .register-role-options .register-role-button.register-option-card {

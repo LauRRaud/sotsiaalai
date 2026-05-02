@@ -344,6 +344,7 @@ export function MicrophoneIcon({ className, ...props }) {
       fill="none"
       aria-hidden="true"
       focusable="false"
+      shapeRendering="geometricPrecision"
       className={cn(className)}
       {...props}
     >

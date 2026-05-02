@@ -14,11 +14,11 @@
   },
   "notes": [
     "Kontaktide ja blanketide osa täiendati ametliku kontaktilehe ning valdkonna blanketilehe põhjal.",
-    "Parandati mitu vananenud või eksitavat URL-i, sh sotsiaalkontaktide, parkimiskaartide, võlanõustamise ning nõustamisteenuste lehed."
+    "Parandati Alutaguse valla lehtede URL-id vastavalt uuendatud kodulehe struktuurile: teenuste ja toetuste detaillehed viidi /toiming/ aadressidele ning sotsiaalvaldkonna kontaktide ja laste/ohvriabi lehed uutele pere-sotsiaal-ja-tervishoid alamteedele.",
+    "Asendati vanad Liferay dokumendilingid uute /sites/default/files/documents/ vormi-URL-idega seal, kus valla uuendatud lehtedel oli uus vorm leitav."
   ],
   "unresolvedIssues": [
     "Eakate sünnipäevatoetuse detaillehte ei õnnestunud kontrolli käigus otse avada; toetus lisati ametliku otsingukatke põhjal, kuid taotlemise täpsem kord jäi detaillehest täielikult kinnitamata.",
-    "Sõltuvusnõustamise ja psühholoogilise nõustamise ametlikud URL-id on valla veebis pealkirjadega risti: psühholoogilise nõustamise sisu asub aadressil /soltuvusnoustamine ja sõltuvusnõustamise sisu aadressil /psuhholoogiline-noustamine.",
     "E-taotluste leht nimetab kindlustamata isiku ravikulude katmist sotsiaaltoetuse taotluse ühe liigina, kuid selle toetuse eraldi detaillehte ega täpsemaid tingimusi ei õnnestunud ametlikul veebilt üheselt leida.",
     "Kontaktilehel on ajutine teade, et Kuremäe teeninduspunkt on remondi ajaks suletud ja vastuvõtt toimub Kurtna seltsimajas; see operatiivne info võib hiljem muutuda."
   ],

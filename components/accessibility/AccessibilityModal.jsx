@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useRouter } from "next/navigation";
@@ -116,7 +116,7 @@ export default function AccessibilityModal({
   const initViewportModeRef = useRef(null);
   const initialScrollTopRef = useRef(0);
   const hasInitialScrollTopRef = useRef(false);
-  const padOffset = 36;
+  const initialFirstStepAlignDoneRef = useRef(false);
   const originalLocaleRef = useRef(locale);
   const previewedLangRef = useRef(null);
   const saveDisabled =
@@ -215,15 +215,9 @@ export default function AccessibilityModal({
       target.focus();
     }
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
-    const getCssPx = (el, varName) => {
-      const raw = window.getComputedStyle(el).getPropertyValue(varName).trim();
-      if (!raw) return 0;
-      const value = Number.parseFloat(raw);
-      return Number.isFinite(value) ? value : 0;
-    };
     const updatePad = () => {
       const steps = Array.from(scrollEl.querySelectorAll(".csp-step"));
       const firstStep = steps[0] || null;
@@ -231,19 +225,18 @@ export default function AccessibilityModal({
       if (!firstStep || !lastStep) return;
       const firstH = firstStep.getBoundingClientRect().height || 0;
       const lastH = lastStep.getBoundingClientRect().height || 0;
-      const titleOffset = getCssPx(scrollEl, "--csp-title-offset");
-      const viewH = Math.max(0, (scrollEl.clientHeight || 0) - titleOffset);
+      const viewH = Math.max(0, scrollEl.clientHeight || 0);
       if (!viewH || !firstH || !lastH) return;
-      const nextPadTopBase = Math.max(0, Math.floor((viewH - firstH) / 2));
-      const nextPadBottomBase = Math.max(0, Math.floor((viewH - lastH) / 2));
-      const nextPad = nextPadTopBase;
+      const targetCenter = viewH / 2 - (isMobileViewport ? 5 : 0);
+      const nextPadTopBase = Math.max(0, Math.floor(targetCenter - firstH / 2));
+      const nextPadBottomBase = Math.max(
+        0,
+        Math.floor(viewH - targetCenter - lastH / 2),
+      );
+      const nextPad = Math.max(0, Math.floor((viewH - firstH) / 2));
       setScrollPad(prev => prev === nextPad ? prev : nextPad);
-      const topLiftPx = isMobileViewport ? 7 : 0;
-      const bottomLiftPx = isMobileViewport ? 5 : -14;
-      const nextTop = Math.max(0, nextPadTopBase - topLiftPx);
-      const nextBottom = Math.max(0, nextPadBottomBase + bottomLiftPx);
-      setScrollPadTop(prev => prev === nextTop ? prev : nextTop);
-      setScrollPadBottom(prev => prev === nextBottom ? prev : nextBottom);
+      setScrollPadTop(prev => prev === nextPadTopBase ? prev : nextPadTopBase);
+      setScrollPadBottom(prev => prev === nextPadBottomBase ? prev : nextPadBottomBase);
     };
     updatePad();
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(updatePad) : null;
@@ -299,6 +292,7 @@ export default function AccessibilityModal({
     const mode = isMobileViewport ? "mobile" : "desktop";
     if (initViewportModeRef.current === mode) return;
     initViewportModeRef.current = mode;
+    initialFirstStepAlignDoneRef.current = false;
     const resetToFirstStep = () => {
       scrollEl.scrollTop = 0;
       if (isMobileViewport) {
@@ -308,6 +302,7 @@ export default function AccessibilityModal({
       setHasUserStartedScroll(false);
       hasInitialScrollTopRef.current = true;
       initialScrollTopRef.current = scrollEl.scrollTop || 0;
+      initialFirstStepAlignDoneRef.current = true;
     };
     resetToFirstStep();
     const rafA = requestAnimationFrame(resetToFirstStep);
@@ -320,7 +315,13 @@ export default function AccessibilityModal({
     };
   }, [scrollToIndex, isMobileViewport]);
   useEffect(() => {
-    if (!isMobileViewport || hasUserStartedScroll) return;
+    if (
+      !isMobileViewport ||
+      hasUserStartedScroll ||
+      initialFirstStepAlignDoneRef.current
+    ) {
+      return;
+    }
     const scrollEl = scrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
     const alignToFirst = () => {
@@ -328,6 +329,7 @@ export default function AccessibilityModal({
       setIsScrolled(false);
       hasInitialScrollTopRef.current = true;
       initialScrollTopRef.current = scrollEl.scrollTop || 0;
+      initialFirstStepAlignDoneRef.current = true;
     };
     const raf = requestAnimationFrame(alignToFirst);
     return () => cancelAnimationFrame(raf);
@@ -510,9 +512,9 @@ export default function AccessibilityModal({
         </div></>
 
         <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`.trim()} style={{
-        "--csp-pad": `${scrollPad + padOffset}px`,
-        "--csp-pad-top": `${Math.max(0, (scrollPadTop || scrollPad) + padOffset)}px`,
-        "--csp-pad-bottom": `${Math.max(0, (scrollPadBottom || scrollPad) + (isMobileViewport ? 16 : padOffset))}px`,
+        "--csp-pad": `${scrollPad}px`,
+        "--csp-pad-top": `${scrollPadTop || scrollPad}px`,
+        "--csp-pad-bottom": `${scrollPadBottom || scrollPad}px`,
         "--csp-center-offset": `${isMobileViewport ? -5 : 0}px`
       }} tabIndex={0} aria-label={t("profile.preferences.title")}>
           <fieldset className={`${fieldsetClassName} ${languageFieldsetClassName} ${languageWraps ? `a11y-language-fieldset--wrap ${languageFieldsetWrappedSpacingClassName}` : `a11y-language-fieldset--single ${languageFieldsetSingleRowSpacingClassName}`} ${getA11yStepClassName(0)}`}>

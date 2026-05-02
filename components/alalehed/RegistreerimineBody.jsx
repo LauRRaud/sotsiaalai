@@ -15,7 +15,6 @@ import {
   glassPageBackClassName,
   glassPageBackMobileBottomCenterClassName,
   glassPageCloseClassName,
-  glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName,
 } from "@/components/ui/glassPageStyles";
@@ -31,7 +30,7 @@ import {
   WORKER_FRAMEWORK_SIGNED_DOWNLOAD_STORAGE_KEY,
   WORKER_FRAMEWORK_VERSION,
 } from "@/lib/frameworkAcceptances";
-import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
+import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = `${glassPageTitleClassName} glass-title-register max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0`;
@@ -84,26 +83,6 @@ const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
   `register-input register-input-mid-shell ${pillInputBaseClassName} ` +
   "min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
-const frameworkDownloadClassName =
-  "w-auto whitespace-normal text-center leading-[1.08] !px-[1.45rem] !py-[0.7rem] !text-[1.1rem] no-underline !min-h-[2.95rem] min-[769px]:min-w-[10.9rem] max-[768px]:min-w-[11.6rem] max-[768px]:!min-h-[3rem] max-[768px]:!px-[1.25rem] max-[768px]:!py-[0.72rem] max-[768px]:!text-[1.08rem]";
-const frameworkRingClassName = cn(
-  glassPageRingCenteredClassName,
-  "glass-ring--desktop-stable [--glass-shell-shadow:none] max-[768px]:[--mobile-glass-card-gap:0rem] max-[768px]:[--glass-ring-pad-x:clamp(0.28rem,1vw,0.45rem)] max-[768px]:[--glass-ring-pad-top:clamp(0.26rem,1vh,0.5rem)]",
-);
-const frameworkOverlayClassName =
-  "fixed inset-0 z-[60] flex items-center justify-center bg-transparent p-[1.25rem] max-[768px]:p-0";
-const frameworkInnerClassName =
-  "flex h-full w-full min-h-0 flex-col items-center text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
-const frameworkTitleClassName = `${glassPageTitleClassName} framework-title subpage-mobile-title policy-mobile-title policy-mobile-title--static w-full min-[769px]:!text-[2.28rem] min-[769px]:!leading-[1.06] min-[769px]:!mt-[2.1rem] min-[769px]:!mb-[0.1rem] max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const frameworkTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center pt-[1rem] pb-[0.42rem] max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const frameworkContentClassName =
-  "framework-content-shell mx-auto mt-[clamp(1.35rem,3.2vh,1.75rem)] flex w-full max-w-[clamp(19rem,44vw,26.5rem)] flex-col items-center gap-[1.05rem] px-[0.35rem] pb-[calc(env(safe-area-inset-bottom,0px)+1.35rem)] text-center " +
-  "max-[768px]:w-full max-[768px]:max-w-[min(100%,28rem)] max-[768px]:px-0";
-const frameworkLeadClassName =
-  "m-0 w-full max-w-none text-center text-[1.14rem] leading-[1.52] tracking-[0.01em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.18rem]";
-const frameworkActionsClassName =
-  "mt-[0.95rem] flex w-full items-stretch justify-center";
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true")
     .trim()
@@ -160,21 +139,16 @@ export default function RegistreerimineBody({}) {
       persistGlassRingTilt: false,
     });
   };
-  const closeFrameworkModal = useCallback(() => {
-    runWithTransition(() => setIsFrameworkModalOpen(false), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false,
-    });
-  }, []);
-  const openFrameworkPage = () => {
+  const openFrameworkPage = (overrides = {}) => {
     if (typeof window !== "undefined") {
       const liveForm = {
         ...form,
+        ...overrides,
         email: document.getElementById("email")?.value || form.email,
         pin: document.getElementById("pin")?.value || form.pin,
         role:
           document.querySelector('input[name="role"]:checked')?.value ||
+          overrides.role ||
           form.role ||
           "SOCIAL_WORKER",
         agree:
@@ -216,7 +190,6 @@ export default function RegistreerimineBody({}) {
   });
   const [successMessage, setSuccessMessage] = useState("");
   const showSuccessState = Boolean(successMessage);
-  const [isFrameworkModalOpen, setIsFrameworkModalOpen] = useState(false);
   const [frameworkReviewOpenedAt, setFrameworkReviewOpenedAt] = useState("");
   const [frameworkSignedDownloadedAt, setFrameworkSignedDownloadedAt] =
     useState("");
@@ -235,19 +208,12 @@ export default function RegistreerimineBody({}) {
   const emailErrorId = useId();
   const pinErrorId = useId();
   const roleLabelText = t("auth.register.role_label_question");
-  const frameworkTitleLines =
-    locale === "et"
-      ? ["Tööalase kasutuse", "raamistik"]
-      : locale === "ru"
-        ? ["Рамка рабочего", "использования"]
-        : ["Professional-use", "framework"];
   const isSocialWorker = form.role === "SOCIAL_WORKER";
   const requiresFramework =
     isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
     "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-edge-stroke-width:0px] [--glass-ring-edge-stroke-opacity:0] [--glass-ring-edge-stroke-blur:0px] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
-    isFrameworkModalOpen ? "pointer-events-none opacity-0" : null,
   );
   const roleStepIndex = 0;
   const emailStepIndex = 1;
@@ -704,15 +670,11 @@ export default function RegistreerimineBody({}) {
     const onKey = (e) => {
       if (e.key !== "Escape") return;
       e.preventDefault();
-      if (isFrameworkModalOpen) {
-        closeFrameworkModal();
-        return;
-      }
       pushWithTransition(router, localizePath("/", locale));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [closeFrameworkModal, isFrameworkModalOpen, router, locale]);
+  }, [router, locale]);
   const handleWorkerUseToggle = (checked) => {
     if (checked) {
       const registerFrameworkAck =
@@ -724,7 +686,11 @@ export default function RegistreerimineBody({}) {
         frameworkAck: registerFrameworkAck,
       }));
       if (!registerFrameworkAck) {
-        setIsFrameworkModalOpen(true);
+        openFrameworkPage({
+          role: "SOCIAL_WORKER",
+          workerUse: "ORG_IDENTIFIABLE",
+          frameworkAck: false,
+        });
       }
       return;
     }
@@ -744,7 +710,6 @@ export default function RegistreerimineBody({}) {
       workerUse: "",
       frameworkAck: false,
     }));
-    setIsFrameworkModalOpen(false);
   };
   return (
     <section className={pageShellClassName} lang={locale}>
@@ -882,6 +847,7 @@ export default function RegistreerimineBody({}) {
                         type="button"
                         role="radio"
                         aria-checked={form.role === "SOCIAL_WORKER"}
+                        data-checked={form.role === "SOCIAL_WORKER" ? "true" : "false"}
                         onClick={() => handleRoleSelect("SOCIAL_WORKER")}
                         onKeyDown={(event) => handleRoleKeyDown(event, "SOCIAL_WORKER")}
                         className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
@@ -894,6 +860,7 @@ export default function RegistreerimineBody({}) {
                         type="button"
                         role="radio"
                         aria-checked={form.role === "CLIENT"}
+                        data-checked={form.role === "CLIENT" ? "true" : "false"}
                         onClick={() => handleRoleSelect("CLIENT")}
                         onKeyDown={(event) => handleRoleKeyDown(event, "CLIENT")}
                         className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
@@ -1110,52 +1077,6 @@ export default function RegistreerimineBody({}) {
           </>
         )}
       </GlassRing>
-      {isFrameworkModalOpen ? (
-        <div
-          className={frameworkOverlayClassName}
-          role="presentation"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) closeFrameworkModal();
-          }}
-        >
-          <GlassRing
-            className={frameworkRingClassName}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("auth.register.worker_framework_title")}
-          >
-            <div className={frameworkInnerClassName}>
-              <BackButton
-                onClick={closeFrameworkModal}
-                ariaLabel={t("buttons.back_previous")}
-                holdPressedVisualDisabled
-                className={glassPageBackMobileBottomCenterClassName}
-              />
-              <div className={frameworkTitleWrapClassName}>
-                <h2 className={frameworkTitleClassName}>
-                  <span className="block max-[768px]:whitespace-nowrap">{frameworkTitleLines[0]}</span>
-                  <span className="block max-[768px]:whitespace-nowrap">{frameworkTitleLines[1]}</span>
-                </h2>
-              </div>
-              <div className={frameworkContentClassName}>
-                <p className={frameworkLeadClassName}>
-                  {t("auth.register.worker_framework_note")}
-                </p>
-                <div className={frameworkActionsClassName}>
-                  <Button
-                    type="button"
-                    onClick={openFrameworkPage}
-                    variant="primary"
-                    className={frameworkDownloadClassName}
-                  >
-                    {t("auth.register.worker_framework_open")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </GlassRing>
-        </div>
-      ) : null}
     </section>
   );
 }

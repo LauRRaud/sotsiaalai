@@ -12,7 +12,7 @@
       "targetGroup": "Lapsed, kes on jäänud ilma vanemliku hoolitsuseta seoses vanema surma, piiratud teovõime või hooldusõiguse peatamisega.",
       "conditions": "Laps paigutatakse asendushooldusele kuni 18. eluaastani. Kulud katab vald ja lapse sissetulekud.",
       "application": "Lapse asendushoolduse korraldab lastekaitsetöötaja; vanemate või hooldajate taotlust tavaliselt ei nõuta.",
-      "officialUrl": "https://www.alutagusevald.ee/asendushooldusteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/asendushooldusteenus",
       "sourceKeys": [
         "asendushooldusteenus_page",
         "social_services_overview"
@@ -54,8 +54,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/asendushooldusteenus",
-      "content_hash": "4655bd204f5912b6bb1cf093ce40eb07d11d98ccaf62142864fda148e4d86191",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/asendushooldusteenus",
+      "content_hash": "46160346f68b9426e071b853f1d9bdf5d477ee2ec27256bf69499f0bc3cd8f13",
       "evidence_allowed": true
     },
     {
@@ -67,7 +67,7 @@
       "targetGroup": "Isikud, kellel puudub sobiv eluruum sotsiaal-majanduslikel põhjustel või kelle puue raskendab senises elamises hakkamasaamist.",
       "conditions": "Abi saamiseks hinnatakse vajadust ning taotleja esitab andmed leibkonna koosseisu ja sissetulekute kohta. Kasutusõigus võib lõppeda korduvate rikkumiste või võlgnevuse korral.",
       "application": "Taotlus koos põhjenduse, leibkonna koosseisu ja sissetuleku andmetega esitatakse sotsiaaltöötajale. Sotsiaalosakond otsustab eluruumi eraldamise.",
-      "officialUrl": "https://www.alutagusevald.ee/eluruumi-tagamise-teenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/eluruumi-tagamise-teenus",
       "sourceKeys": [
         "eluruumi_tagamise_teenus_page",
         "social_services_overview"
@@ -106,8 +106,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/eluruumi-tagamise-teenus",
-      "content_hash": "70c3492c603f966bf3172b102e2de786fc5f424f2168c1a12295a21521b29885",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/eluruumi-tagamise-teenus",
+      "content_hash": "29a278fe26233641f7e5c847882e02fb929770614995f7423f43ea5b399e843f",
       "evidence_allowed": true
     },
     {
@@ -119,7 +119,7 @@
       "targetGroup": "Puudega täiskasvanud, kes vajavad igapäevatoimingutes füüsilist abi.",
       "conditions": "Abistaja peab olema isik, kes ei ole lähedane sugulane ega ela taotlejaga koos. Taotluses tuleb kirjeldada tegevused, kus abi vajatakse.",
       "application": "Taotlus koos põhjenduste ja soovitava abistaja andmetega esitatakse sotsiaaltöötajale. Sotsiaalosakond hindab vajaduse ja määrab teenuse mahu.",
-      "officialUrl": "https://www.alutagusevald.ee/isikliku-abistaja-teenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/isikliku-abistaja-teenus",
       "sourceKeys": [
         "isikliku_abistaja_teenus_page",
         "social_services_overview"
@@ -161,8 +161,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/isikliku-abistaja-teenus",
-      "content_hash": "9b522aa1acdb01438807c2df2f5a034d175eaf47eede3af6e0e9a95893ce1b78",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/isikliku-abistaja-teenus",
+      "content_hash": "350a23dcbfbaaf9e3f9fa3d962a2d9a4c1fc2951f4e537eaac74aec5a42e343a",
       "evidence_allowed": true
     },
     {
@@ -174,7 +174,7 @@
       "targetGroup": "Noored, kes on üles kasvanud asendushooldusel või eestkostel ja vajavad iseseisvasse ellu siirdumiseks tuge.",
       "conditions": "Teenust osutatakse kuni noor saab iseseisvaks ja suudab õppida või töötada.",
       "application": "Taotluse võivad esitada teenusele õigustatud isik ise, tema haridusasutus või varasem hoolduspere; teenuse võib algatada ka vald.",
-      "officialUrl": "https://www.alutagusevald.ee/jarelhooldusteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/jarelhooldusteenus",
       "sourceKeys": [
         "jarelhooldusteenus_page",
         "social_services_overview"
@@ -216,8 +216,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/jarelhooldusteenus",
-      "content_hash": "96863bf2e90c7d3d48bd53c94b3c5c5a6758b40b87c455f2701068823e4d31fb",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/jarelhooldusteenus",
+      "content_hash": "bb142d4f79a28fa1eeccc78dd8da9a57916d18638eacb0e52a31c67d906bd098",
       "evidence_allowed": true
     },
     {
@@ -229,7 +229,7 @@
       "targetGroup": "Täiskasvanud inimesed, kes vajavad abi igapäevaelus, et jätkata elamist oma kodus.",
       "conditions": "Teenust osutatakse, kui taotleja ei tule iseseisvalt toime ja teised sotsiaalteenused ei ole piisavad. Sotsiaaltöötaja hindab vajadust ja teenuse mahtu.",
       "application": "Taotlus esitatakse valla sotsiaaltöötajale, kes viib läbi abivajaduse hindamise ja korraldab teenuse. Taotluse jaoks on soovituslik vorm.",
-      "officialUrl": "https://www.alutagusevald.ee/koduteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/koduteenus-0",
       "sourceKeys": [
         "koduteenus_page",
         "social_services_overview"
@@ -273,8 +273,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/koduteenus",
-      "content_hash": "d524d7452889f06740137d11910d9aea7441365c0e9dadd42e16677b98612ac9",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/koduteenus-0",
+      "content_hash": "b620f912eb61638445abe30ca7d2533d10af70f55ee28a623535dbb52f5f92d0",
       "evidence_allowed": true
     },
     {
@@ -286,7 +286,7 @@
       "targetGroup": "Lapsed erivajadusega, kes vajavad hooldaja kõrval hooldust, ja nende hooldajad.",
       "conditions": "Teenust saab kasutada ajal, mil laps ei viibi haridusasutuses. Teenusevajadus määratakse hindamise käigus ja raskelt puudega lapse puhul kooskõlastatakse teenusepakkuja.",
       "application": "Hooldaja esitab kirjaliku taotluse valla sotsiaalosakonnale. Pärast vajaduse hindamist sõlmitakse teenusepakkujaga leping.",
-      "officialUrl": "https://www.alutagusevald.ee/lapsehoiuteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/lapsehoiuteenus",
       "sourceKeys": [
         "lapsehoiuteenus_page",
         "social_services_overview"
@@ -328,8 +328,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/lapsehoiuteenus",
-      "content_hash": "b5b2732f0fffc7b69fba695d358c533f9c718fe360a482e303a2b9f1490f687b",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/lapsehoiuteenus",
+      "content_hash": "a6ef9d9c67d2bd657852747fc9028185c13e704a286424625e3872c148f0b714",
       "evidence_allowed": true
     },
     {
@@ -341,10 +341,9 @@
       "targetGroup": "Tööealised isikud (alates 16. eluaastast) ja nende lähedased, kes vajavad psühholoogilist tuge toimetulekuks.",
       "conditions": "Teenust pakutakse inimestele, kelle sissetulek on väike ja kes vajavad psühholoogilist abi. Teenust rahastatakse riiklikust programmist ja otsuse teenuse saamiseks teeb sotsiaalkomisjon.",
       "application": "Isik esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaalkomisjon otsustab teenuse ja suunab kliendi koostööpartneri juurde.",
-      "officialUrl": "https://www.alutagusevald.ee/soltuvusnoustamine",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "psuhholoogiline_noustamine_page",
-        "psychological_help_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "relatedForms": [
@@ -358,8 +357,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "psuhholoogiline_noustamine_page",
-        "psychological_help_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
@@ -382,8 +380,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/soltuvusnoustamine",
-      "content_hash": "29b6be75bc3b5a29ebaaf170133c331babb7be2b2f4bb382ecb791cf481e15af",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
+      "content_hash": "6fc583c2fc1090968eb5162424196a8e7ab12c72bfa2c8c5d4244ed71fd267f8",
       "evidence_allowed": true
     },
     {
@@ -396,7 +394,7 @@
       "conditions": "Teenust saab kasutada, kui teised transpordivõimalused puuduvad. Sõidu eest tuleb tasuda kehtiva hinnakirja alusel, kuid majanduslikult raskes olukorras võib taotleda kulude osalist või täielikku hüvitamist.",
       "application": "Taotlus esitatakse suuliselt või kirjalikult sotsiaaltöötajale vähemalt viis tööpäeva enne sõitu. Taotluses märgitakse sõidu põhjus, marsruut, vajadusel abistaja ja sõitude sagedus.",
       "amount": "8 € Ida-Virumaal; 0,30 €/km väljaspool maakonda; mittresidentidele 16 € Ida-Virumaal ja 0,60 €/km väljaspool maakonda; ootetunni tasu 4 € (püsielanikele) ja 8 € (mittresidentidele).",
-      "officialUrl": "https://www.alutagusevald.ee/sotsiaaltransporditeenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/sotsiaaltranspordi-teenus",
       "sourceKeys": [
         "social_services_overview",
         "sotsiaaltransporditeenus_page"
@@ -435,8 +433,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sotsiaaltransporditeenus",
-      "content_hash": "fdba52b04bb8dac2e63db9148d8a1cc9785aee3467dbf113b08a7f337bc26028",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/sotsiaaltranspordi-teenus",
+      "content_hash": "51627e2d8de7e17daca48b7e3f39a78c6f94d65f90f35e3d3b21cb5d82e14249",
       "evidence_allowed": true
     },
     {
@@ -448,11 +446,10 @@
       "targetGroup": "Sõltuvusprobleemiga toimetulekuraskustes tööealised inimesed.",
       "conditions": "Teenuse kasutamine eeldab abivajaduse hindamist ning vallavalitsuse otsust teenuse määramise või mittemääramise kohta. Teenusele suunamisel määratakse teenuse saaja, teenuse osutaja ja teenuse maht.",
       "application": "Teenuse saamiseks tasub pöörduda vallavalitsuse sotsiaaltöötaja poole ja esitada põhjendatud taotlus. Klient suunatakse teenust saama vallavalitsuse koostööpartneri juurde.",
-      "officialUrl": "https://www.alutagusevald.ee/psuhholoogiline-noustamine",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "psychological_help_page",
-        "social_services_overview",
-        "soltuvusnoustamine_page"
+        "muud_vajaduspohised_sotsiaalteenused_page",
+        "social_services_overview"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -468,9 +465,8 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "psychological_help_page",
-        "social_services_overview",
-        "soltuvusnoustamine_page"
+        "muud_vajaduspohised_sotsiaalteenused_page",
+        "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_soltuvusnoustamine",
@@ -492,8 +488,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/psuhholoogiline-noustamine",
-      "content_hash": "a2e0adb2b13405e154d94986ae292166ffac51b26ce987b4c309a5fc7b19a2b3",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
+      "content_hash": "8237dc4c55365ed1e9b3c7ae895196e21abbea63fb1d6b85171fc38286773e90",
       "evidence_allowed": true
     },
     {
@@ -505,7 +501,7 @@
       "targetGroup": "Isikud ja pered, kelle toimetulekut raskendavad sotsiaalsed, majanduslikud, psühholoogilised või terviseprobleemid, sealhulgas lapsevanemad ja erivajadusega lapsed.",
       "conditions": "Teenust osutatakse, kui see on vajalik iseseisva toimetuleku taastamiseks või säilitamiseks ning teised teenused ei ole piisavad. Maht ja eesmärk määratakse abivajaduse hindamisel.",
       "application": "Taotleja esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaaltöötaja ja sotsiaalkomisjon otsustavad teenuse osutamise ning teenuse mahud.",
-      "officialUrl": "https://www.alutagusevald.ee/tugiisikuteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/tugiisikuteenus",
       "sourceKeys": [
         "social_services_overview",
         "tugiisikuteenus_page"
@@ -547,8 +543,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/tugiisikuteenus",
-      "content_hash": "5e31d61b50ba7a7c6ae9331a48a6eaa72343e31c382ca7b778cb071d61ae55b2",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/tugiisikuteenus",
+      "content_hash": "0855ab5a5a9c12af296b77f8e091403dac6cd1816191ffd5fd6877f6688a5951",
       "evidence_allowed": true
     },
     {
@@ -560,7 +556,7 @@
       "targetGroup": "Lapsed ja täiskasvanud, kelle elu, tervis või areng on ohus.",
       "conditions": "Teenust osutatakse hädavajaduse korral ja see on ajutine. Otsus võib sündida ka ilma taotluseta.",
       "application": "Teenust saab taotleda isik ise või algatab selle sotsiaalosakond; suunatakse turvakodusse vastavalt vajadusele.",
-      "officialUrl": "https://www.alutagusevald.ee/turvakoduteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/turvakoduteenus",
       "sourceKeys": [
         "social_services_overview",
         "turvakoduteenus_page"
@@ -599,8 +595,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/turvakoduteenus",
-      "content_hash": "f6d3b97dcd98d769ab037a58a3c2e7c207e7d6a4b3c6895ed2392c66f0fe0ac9",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/turvakoduteenus",
+      "content_hash": "f836cdf96312bb62813bb83bfc4edca4e71763d6f440c00b9a474c22f2ff8e86",
       "evidence_allowed": true
     },
     {
@@ -612,7 +608,7 @@
       "targetGroup": "Täisealised isikud, kelle vaimne või füüsiline puue takistab neil oma õigusi ja kohustusi teostamast.",
       "conditions": "Hoolduse korraldamisel hinnatakse esmalt, kas abi on võimalik tagada teiste teenustega. Hooldaja kandidaat peab olema nõus abi osutama ning võimeline hooldusülesandeid täitma.",
       "application": "Taotlus esitatakse sotsiaaltöötajale ja selles märgitakse pakutava hooldaja andmed ning tema nõusolek. Vallavalitsus hindab abivajadust ja otsustab hoolduse korraldamise.",
-      "officialUrl": "https://www.alutagusevald.ee/taisealise-isiku-hooldus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/taisealise-isiku-hooldus",
       "sourceKeys": [
         "social_services_overview",
         "taisealise_isiku_hooldus_page"
@@ -654,8 +650,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/taisealise-isiku-hooldus",
-      "content_hash": "8e8c2b9f0be4eab1a4da56e0bd8941390293d6b42332a4316c3357da8d9935f8",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/taisealise-isiku-hooldus",
+      "content_hash": "cd5d96e1747ef1088bcdb294561e458bbdcdd0393b86e83a2e028419df2a7c0a",
       "evidence_allowed": true
     },
     {
@@ -667,7 +663,7 @@
       "targetGroup": "Inimesed, kellel puudub peavarju ja kelle majanduslik seis ei võimalda eluaset tagada.",
       "conditions": "Teenust osutatakse ajutiselt kuni inimese toimetuleku taastumiseni.",
       "application": "Taotlus esitatakse sotsiaaltöötajale või suunatakse isik teenusele ka ilma taotluseta, kui see on vältimatu.",
-      "officialUrl": "https://www.alutagusevald.ee/varjupaigateenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/varjupaigateenus",
       "sourceKeys": [
         "social_services_overview",
         "varjupaigateenus_page"
@@ -706,8 +702,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/varjupaigateenus",
-      "content_hash": "1eec869b8953e89f9c970bb1f23ec04d413dd35d5a0de8fae3e54f69e9705146",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/varjupaigateenus",
+      "content_hash": "5f531eea6e3d268718391584d114bac07ba89e94f5fc400eb998fa5482505d56",
       "evidence_allowed": true
     },
     {
@@ -719,7 +715,7 @@
       "targetGroup": "Isikud, kes on kaotanud oma toimetulekuvõimalused ja vajavad kohest abi.",
       "conditions": "Abi hõlmab toitu, riideid, ajutist majutust ja vajaduse korral rahalist toetust dokumentide või õnnetusjuhtumite korral.",
       "application": "Taotlus esitatakse sotsiaaltöötajale. Abi antakse kuni inimene suudab jälle ise oma vajadusi rahuldada.",
-      "officialUrl": "https://www.alutagusevald.ee/valtimatu-sotsiaalabi",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/valtimatu-sotsiaalabi",
       "sourceKeys": [
         "social_services_overview",
         "valtimatu_sotsiaalabi_page"
@@ -761,8 +757,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/valtimatu-sotsiaalabi",
-      "content_hash": "ed98f0c5a88470706db0cc2b3fb9e01b489a78969a031b612020802470d2b974",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/valtimatu-sotsiaalabi",
+      "content_hash": "7d2d1b911ba6c8aa83fccd1bc259d5e182af2c46244713d9840b6817eead3fcc",
       "evidence_allowed": true
     },
     {
@@ -774,7 +770,7 @@
       "targetGroup": "Inimesed, kellel on täitmisele pööratud võlakohustusi ja kes ei suuda neid täita.",
       "conditions": "Teenust pakutakse võlgadesse sattunud isikutele, et parandada nende toimetulekut ja ennetada uute võlgade tekkimist.",
       "application": "Võlanõustamisteenuse saamiseks esitab isik vallavalitsuse sotsiaaltöötajale põhjendatud taotluse. Otsuse teenuse määramise või mittemääramise kohta teeb vallavalitsuse sotsiaalkomisjon ning klient suunatakse vallavalitsuse koostööpartneri juurde. Teenus on tasuta.",
-      "officialUrl": "https://www.alutagusevald.ee/volanoustamisteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/volanoustamisteenus",
       "sourceKeys": [
         "social_services_overview",
         "volanoustamine_page",
@@ -818,8 +814,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/volanoustamisteenus",
-      "content_hash": "200b0e8031349cbea2e18d0f83e4e7288abe4a175650a622f0982d862e6a5259",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/volanoustamisteenus",
+      "content_hash": "786db58484ef7158ab22e88a718f0d44368bed33c6bc1930fbb7f78751208b9e",
       "evidence_allowed": true
     },
     {
@@ -832,10 +828,10 @@
       "conditions": "Teenusele suunatakse pärast abivajaduse hindamist, kui muud teenused ei ole piisavad. Hooldekodu valikul arvestatakse inimese vajadusi ja võimalusi.",
       "application": "Teenuse saamiseks pöördutakse sotsiaaltöötaja poole ning esitatakse taotlus. Sotsiaaltöötaja hindab vajaduse ja abivajaduse ulatuse.",
       "amount": "Kasutaja või tema lähedased tasuvad hooldekodu majutuse ja toitlustuse eest kuni 670 eurot kuus (alates 1.05.2025). Omavalitsus katab personali kulu ja vajadusel lisatoetuse.",
-      "officialUrl": "https://www.alutagusevald.ee/uldhooldusteenus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
       "sourceKeys": [
         "social_services_overview",
-        "yldhooldusteenus_page"
+        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -852,7 +848,7 @@
       "county": "Ida-Virumaa",
       "source_keys": [
         "social_services_overview",
-        "yldhooldusteenus_page"
+        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_uldhooldusteenus",
@@ -874,8 +870,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/uldhooldusteenus",
-      "content_hash": "0228cdc34956d653bd0da1062dddfdb14b9225f3072576f5aebb9d8b32d41017",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "content_hash": "619785213b004b5a90799849dff155b10f4583b0857e5cdc56c0f57f15b86de7",
       "evidence_allowed": true
     },
     {
@@ -887,7 +883,7 @@
       "targetGroup": "Alutaguse valla eakad elanikud, kelle rahvastikuregistrijärgne elukoht on olnud Alutaguse vallas vähemalt üks aasta ja kes tegelikult alaliselt vallas elavad.",
       "conditions": "Toetusele on õigus isikul, kelle rahvastikuregistrijärgne elukoht on Alutaguse vallas vähemalt üks aasta ning kes tegelikult alaliselt Alutaguse vallas elab.",
       "amount": "50 €",
-      "officialUrl": "https://www.alutagusevald.ee/eakate-sunnipaevatoetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/eakate-sunnipaevatoetus",
       "sourceKeys": [
         "eakate_sunnipaevatoetus_page",
         "social_services_overview"
@@ -926,8 +922,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/eakate-sunnipaevatoetus",
-      "content_hash": "aa5ef56bfbe1bb8b155cabd8d9036b21f6d8b2014dc85d1ac5db13d7238eac59",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/eakate-sunnipaevatoetus",
+      "content_hash": "1f8fa1dd59956a0fbc9fc4c5cbd2d780030e6eceac5902c31263057b586a9437",
       "evidence_allowed": true
     },
     {
@@ -939,7 +935,7 @@
       "targetGroup": "Valla elanikest leibkonnad, kes on ajutises rahalises kitsikuses.",
       "conditions": "Taotleja peab kirjeldama majandusliku raskuse põhjuseid ja esitama taotluse. Toetuse suurus sõltub konkreetse olukorra raskusest.",
       "application": "Taotlus esitatakse sotsiaalosakonnale. Vajadusel võib sotsiaaltöötaja küsida lisadokumente.",
-      "officialUrl": "https://www.alutagusevald.ee/erakorraline-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/erakorraline-toetus",
       "sourceKeys": [
         "erakorraline_toetus_page"
       ],
@@ -979,8 +975,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/erakorraline-toetus",
-      "content_hash": "39c02876fb5d5aa8e4e0f886cdf15f5ceb4008e2183f0d79ab4baf469203df4b",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/erakorraline-toetus",
+      "content_hash": "c4b83d6c9b6d32a7554834170f911d21424f09897108096e98f319f2b9e309cd",
       "evidence_allowed": true
     },
     {
@@ -994,7 +990,7 @@
       "application": "Kirjalik taotlus tuleb esitada hiljemalt 31. oktoobril samal aastal, kui laps alustab kooliteed.",
       "amount": "100 €",
       "deadline": "31. oktoober",
-      "officialUrl": "https://www.alutagusevald.ee/esmakordselt-kooli-mineva-lapse-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus",
       "sourceKeys": [
         "esmakordselt_kooli_mineva_lapse_toetus_page"
       ],
@@ -1034,8 +1030,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/esmakordselt-kooli-mineva-lapse-toetus",
-      "content_hash": "f15b03a581658b5308c066aea7d55fde5e71952ea5b0f60c98ce5aac9d41fa81",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus",
+      "content_hash": "83df258d485b9f07f630e55dfe1d88625617a525a11a5fb82a898d620e25ee1f",
       "evidence_allowed": true
     },
     {
@@ -1048,7 +1044,7 @@
       "conditions": "Taotleja peab olema valla elanik vähemalt üks aasta ja hooldusvajadus peab olema hinnatud sotsiaaltöötaja poolt. Toetus määratakse vastavalt hooldusvajaduse raskusastmele.",
       "application": "Taotlus koos hooldusvajaduse hindamisega esitatakse sotsiaalosakonnale.",
       "amount": "50 € kuus (kui vaja järelevalvet ja abi igapäevatoimingutes); 100 € kuus (kui inimene ei suuda iseseisvalt hakkama saada)",
-      "officialUrl": "https://www.alutagusevald.ee/hooldust-vajava-taiskasvanu-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/hooldust-vajava-taiskasvanu-toetus",
       "sourceKeys": [
         "hooldust_vajava_taiskasvanu_toetus_page"
       ],
@@ -1088,8 +1084,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/hooldust-vajava-taiskasvanu-toetus",
-      "content_hash": "2e3a0b367dfeffe20a3a24e8bee42c46deb998a9a4e6f2f7c031960392a500a5",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/hooldust-vajava-taiskasvanu-toetus",
+      "content_hash": "5a504eca690d3f0660caf6772733a6b2f5b55f204c5b54b4a092160bbee8988a",
       "evidence_allowed": true
     },
     {
@@ -1102,7 +1098,7 @@
       "conditions": "Taotleja ja vähemalt üks vanem/vanemahooldaja peavad olema Alutaguse valla elanikud minimaalselt kuus kuud. Hüvitist saab ühe huvikooli või -ringi kohta ning taotlejal ei tohi olla vallale võlgnevusi. Kuludokumente tuleb esitada.",
       "application": "Taotlus koos kuludokumentidega tuleb esitada hiljemalt 21. detsembriks. Väljamaksed toimuvad kahes osas: sügissemestril ja kevadsemestril.",
       "amount": "Kuni 25 € kuus või 250 € kalendriaastas (alates 1.09.2025)",
-      "officialUrl": "https://www.alutagusevald.ee/huvihariduse-ja-huvitegevuse-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/huvihariduse-ja-huvitegevuse-toetus",
       "sourceKeys": [
         "hobby_education_support_page"
       ],
@@ -1142,8 +1138,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/huvihariduse-ja-huvitegevuse-toetus",
-      "content_hash": "655e146c44fcf98a664841b794e41d0a9a8740919a07090ce02105da1d14663a",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/huvihariduse-ja-huvitegevuse-toetus",
+      "content_hash": "df45a6ff79d672eba8078ab4b0528a10ad76aaac8f4b3674177d53b8db44158a",
       "evidence_allowed": true
     },
     {
@@ -1190,7 +1186,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/e-taotlused",
-      "content_hash": "c5e2dd77edde319ac5d8e0a6efc47b03f596ee838580c0bfe4b175b84d36fe5a",
+      "content_hash": "26086c436e8e32d97324681d53ebf918435b0a038621705cdabf870d99bbc66c",
       "evidence_allowed": true
     },
     {
@@ -1203,7 +1199,7 @@
       "conditions": "Taotleja ja tema pere peavad olema valla elanikud vähemalt ühe aasta ning taotleja peab olema saanud toimetulekutoetust. Hüvitatakse kulud õppevahenditele ja kooliriietele vastavate kuludokumentide alusel.",
       "application": "Taotlus esitatakse ning toetuse saamiseks tuleb esitada kuludokumendid.",
       "amount": "Kuni 100 € lapse kohta kalendriaastas",
-      "officialUrl": "https://www.alutagusevald.ee/koolitarvete-ja-kooliriiete-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/koolitarvete-ja-kooliriiete-toetus",
       "sourceKeys": [
         "koolitarvete_kooliriiete_toetus_page"
       ],
@@ -1243,8 +1239,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/koolitarvete-ja-kooliriiete-toetus",
-      "content_hash": "522d9d9e832e1b8830ea103d0628646db146efe4dc3a7bf9586ad243dbc6852d",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/koolitarvete-ja-kooliriiete-toetus",
+      "content_hash": "9e299fd32ea3adefb96a112b7e10a2992e9860fc0438b1abdaa00786af67ce14",
       "evidence_allowed": true
     },
     {
@@ -1258,7 +1254,7 @@
       "application": "Taotlus koos nõutud andmetega esitatakse sotsiaalosakonnale.",
       "amount": "350 €",
       "deadline": "3 kuud pärast surma",
-      "officialUrl": "https://www.alutagusevald.ee/matusetoetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/matusetoetus-0",
       "sourceKeys": [
         "matusetoetus_page"
       ],
@@ -1298,8 +1294,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/matusetoetus",
-      "content_hash": "27ece8f9da6ede6cc8d649be41faff1c3ce820312da673ed308ec528020041bc",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/matusetoetus-0",
+      "content_hash": "f3ab7995b5b2679f878561f6f6c1e0c49940b4eb3220e7767f4d221fd36c8364",
       "evidence_allowed": true
     },
     {
@@ -1312,7 +1308,7 @@
       "conditions": "Taotleja peab saama toimetulekutoetust (v.a lapsevanemad) ja esitama arstitõendi. Prillide ostu toetatakse kord kahe aasta jooksul ja abivahendite ostu või laenutuse kuni 100 eurot aastas.",
       "application": "Taotlus koos arstitõendi ja kuludokumentidega tuleb esitada hiljemalt 21. detsembriks.",
       "amount": "Prillid: kuni 100 € iga kahe aasta järel; abivahendid: kuni 100 € kalendriaastas",
-      "officialUrl": "https://www.alutagusevald.ee/prillide-ja-abivahendite-ostmise-voi-laenutamise-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/prillide-ja-invatehniliste-abivahendite-toetus",
       "sourceKeys": [
         "prillide_abivahendite_toetus_page"
       ],
@@ -1352,8 +1348,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/prillide-ja-abivahendite-ostmise-voi-laenutamise-toetus",
-      "content_hash": "c1e3d25cea6b8ebfcde1bcd75046039f5586c051b7dad518b092cf3f661e4d1c",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/prillide-ja-invatehniliste-abivahendite-toetus",
+      "content_hash": "7f348eb138b4cbb1a2ad25397878d5452aa045c1257db1b21f6ed40e4070f241",
       "evidence_allowed": true
     },
     {
@@ -1366,7 +1362,7 @@
       "conditions": "Taotleja peab olema valla elanik vähemalt aasta. Lapsel peab olema raske või sügav puue.",
       "application": "Taotlus esitatakse sotsiaalosakonnale. Taotlusele tuleb lisada lapse puude tuvastamise otsus ja hooldaja andmed.",
       "amount": "Raske puudega lapse hooldajale 50 € kuus; sügava puudega lapse hooldajale 100 € kuus",
-      "officialUrl": "https://www.alutagusevald.ee/puudega-lapse-hooldaja-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/puudega-lapse-hooldajatoetus",
       "sourceKeys": [
         "puudega_lapse_hooldaja_toetus_page"
       ],
@@ -1406,8 +1402,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/puudega-lapse-hooldaja-toetus",
-      "content_hash": "a75ee91f0f7c724caec6205fe1c8ca75f3a421a4cb6a9716ef0cf96926efe13d",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/puudega-lapse-hooldajatoetus",
+      "content_hash": "8c4ea31cf6aadb1060065bb6d466784cd34dd3311c9dd8ab852f3031086f3c03",
       "evidence_allowed": true
     },
     {
@@ -1420,7 +1416,7 @@
       "conditions": "Taotleja peab lisaks olema toimetulekutoetuse saaja (välja arvatud puudega lapse hooldajad) ja esitama ravimiostu kviitungid. Toetust makstakse kuni 150 eurot kalendriaastas.",
       "application": "Taotlus tuleb esitada ja kuludokumente esitada hiljemalt 21. detsembriks.",
       "amount": "Kuni 150 € kalendriaastas",
-      "officialUrl": "https://www.alutagusevald.ee/retseptiravimite-ostmise-toetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/retseptiravimite-ostmise-toetus",
       "sourceKeys": [
         "retseptiravimite_ostmise_toetus_page"
       ],
@@ -1460,8 +1456,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/retseptiravimite-ostmise-toetus",
-      "content_hash": "e29172d66ec42d6687215e9128c2c410562198e8079847aa9194453136c121a9",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/retseptiravimite-ostmise-toetus",
+      "content_hash": "f22f7fdeb4b3c6eeb1e38420a94746dda2b287878f6aa912c83c768d2dd344ad",
       "evidence_allowed": true
     },
     {
@@ -1515,7 +1511,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/sunnitoetus",
-      "content_hash": "2f3d327935c3f0386020866b2171287f0091c3f996566ad08e1b252de505942e",
+      "content_hash": "73284142891348020bec0ed8db4675109eddd3a3c0fe759ff0ee01fa28881250",
       "evidence_allowed": true
     },
     {
@@ -1528,7 +1524,7 @@
       "conditions": "Abikõlblikkus hinnatakse sissetulekute ja eluasemekulude alusel; taotleja peab esitama pangakontode väljavõtteid, üürilepinguid ja muud vajalikku. Toetus on riiklik.",
       "application": "Taotleja pöördub sotsiaalosakonda, täidab taotluse ja esitab kõik sissetuleku- ja kuludokumendid. Vormide ja juhiste saamiseks tuleb võtta ühendust sotsiaaltöötajaga.",
       "amount": "Toetuse suurus arvutatakse individuaalselt, arvestades riiklikku toimetulekupiiri 220 € kuus (2026).",
-      "officialUrl": "https://www.alutagusevald.ee/toimetulekutoetus",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/toimetulekutoetus",
       "sourceKeys": [
         "toimetulekutoetus_page"
       ],
@@ -1568,8 +1564,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/toimetulekutoetus",
-      "content_hash": "83c1bcde423245c92dfce9c9b1f61f8470938294b041bc7f8b93b9aebbd2c9a9",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/toimetulekutoetus",
+      "content_hash": "fb307a04892af21116173e2a5b1d4e02dc886c3264bf4c5b6564a0d88fd7200b",
       "evidence_allowed": true
     },
     {
@@ -1581,7 +1577,7 @@
       "targetGroup": "Alutaguse valla õpilased, kes vajavad kooli jõudmiseks transpordikulu hüvitamist.",
       "conditions": "Kui ühistransporti ei ole või see ei võimalda vajalikku sõitu, võib hüvitada isikliku sõiduki kulud valla kehtestatud tariifide alusel. Kui õpilane õpib mujal kui lähimas sobivas koolis, hüvitatakse kulud vaid lähimale koolile vastavas mahus.",
       "application": "Taotlus koos piletite või sõidukulu dokumentidega tuleb esitada iga kuu 10. kuupäevaks. Üle kahe kuu vanu pileteid ei hüvitata.",
-      "officialUrl": "https://www.alutagusevald.ee/soidukulude-huvitamine",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "sourceKeys": [
         "soidukulude_huvitamine_page"
       ],
@@ -1621,8 +1617,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/soidukulude-huvitamine",
-      "content_hash": "3e85d83e199c455c4bc40378f6670cf03c46022af4a68f51abe089653f2ff104",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
+      "content_hash": "277a668ee285fb8d05d40d87571bd29651fca2f030e4ef8d6470037826a724c5",
       "evidence_allowed": true
     },
     {
@@ -1663,7 +1659,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/asenduskodud",
-      "content_hash": "0706934479561bc8cc4a445b3653c1dbb1ff6939d64159fc7b9878bfc0c01fff",
+      "content_hash": "eddd41b976d6d451207fb59df8248f01b13fdc14c1fba45489cb7d990d76107e",
       "evidence_allowed": true
     },
     {
@@ -1704,7 +1700,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/medi-hairenuputeenus",
-      "content_hash": "243aab26f88d8225158bd577d84f1dd53e2e7075633bf22b6bc2b262336adbd8",
+      "content_hash": "b105befbd67511fca136208ce61b706a3d598f47e6e13e7f1f7321eac148bab1",
       "evidence_allowed": true
     },
     {
@@ -1713,7 +1709,7 @@
       "title": "Ohvriabi",
       "status": "active",
       "summary": "Ohvriabi on ametlik infokeskkond inimesele, kes ise või kelle lähedane on langenud hooletuse, halva kohtlemise, füüsilise, vaimse või seksuaalse vägivalla ohvriks. Abi saamise eelduseks ei ole kriminaalasja olemasolu; pöörduda võib ka siis, kui inimene on näinud õnnetust või kellegi teise halba kohtlemist ega tea, kust abi saada.",
-      "officialUrl": "https://www.alutagusevald.ee/ohvriabi",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/lapsele-ja-perele/ohvriabi",
       "sourceKeys": [
         "victim_support_page"
       ],
@@ -1744,8 +1740,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/ohvriabi",
-      "content_hash": "7ec6e8d5e82c919b04ec48dcd891e3ba46da7d4f712904a460dd0feacaaae8f9",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/lapsele-ja-perele/ohvriabi",
+      "content_hash": "c21b5e8146a8f39cecbddffb8f06c5fc5011c0f2b09e1a611b69fe95aa58ad31",
       "evidence_allowed": true
     },
     {
@@ -1786,7 +1782,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/olulised-nouandeliinid",
-      "content_hash": "b820331f3a134c3974515999d37ff6ae0b630cccae5926213725bcc0058c7cd8",
+      "content_hash": "e4d07c25ac5ca2ea9e54323615f677626d990ee0a784b15fbf4f57e9072bde22",
       "evidence_allowed": true
     },
     {
@@ -1836,7 +1832,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/parkimiskaardid",
-      "content_hash": "4a1c0afc25f0049023bff2d9c6fcf1e45e1d69fb408f2ca2ae9633735d1cd9f4",
+      "content_hash": "70bad86dbb96114d5cbb153171258784109ab25e65699a0f03f81f5163dc1477",
       "evidence_allowed": true
     },
     {
@@ -1877,7 +1873,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/hoolekandeasutused",
-      "content_hash": "92ef5e17a08371bab790632dd932e4c192a43d22da0d7e60ea132cd4827e7c3e",
+      "content_hash": "d83ea4d8a75f6ffd38ff3f3f4edd269087cc42ccb730d1553a35108485c27adb",
       "evidence_allowed": true
     },
     {
@@ -1918,7 +1914,7 @@
       "historical": false,
       "source_status": "active",
       "url_canonical": "https://www.alutagusevald.ee/asenduskodud",
-      "content_hash": "bbfc791c495276959c37ad8b9ca51cff5347c9c3d4714a0b5440fb6ed7d7cdad",
+      "content_hash": "afcc52076404554a6f500d18276744bd25635cc716a41a5265860307dce5be09",
       "evidence_allowed": true
     },
     {
@@ -1932,7 +1928,7 @@
       "phone": "+372 3366921, +372 58144909",
       "email": "aita.murdsalu@alutagusevald.ee",
       "summary": "Aita Murdsalu on sotsiaaltöötaja, kelle vastuvõtt toimub Mäetaguse teenuskeskuses kindlatel nädalapäevadel ja kellaaegadel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -1963,8 +1959,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "20fa01355d5c6aea6c2429f8c8752c2c329626d7daee42459eccf8fd6ef9c82a",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "f8e9c66b83d3b72b6bd4dc19bccb6a45abdfb0757837c5f791f209067516f14d",
       "evidence_allowed": true
     },
     {
@@ -1978,7 +1974,7 @@
       "phone": "+372 56929676",
       "email": "anu.kljutsnik@alutagusevald.ee",
       "summary": "Anu Kljutšnik töötab sotsiaaltöötajana ja võtab vastu Iisaku ja Mäetaguse teenuskeskustes vastavalt graafikule.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2009,8 +2005,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "88e2f8aaf15d0562f91b69049be13af648d0d5311ffc44bfd9822f13d30f337c",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "de13fba4d6bf14efbe6647352d6a430636f343ec2b3cda9a8b7068bdbb5a769a",
       "evidence_allowed": true
     },
     {
@@ -2024,7 +2020,7 @@
       "phone": "+372 3366900, +372 5280514",
       "email": "heidi.kruut@alutagusevald.ee",
       "summary": "Heidi Kruut tegeleb registrite ja isikkoosseisu küsimustega ning võtab vastu kindlaksmääratud aegadel teenuskeskustes.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2055,8 +2051,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "6a9765d52b847b2057ce7e4bf5806e5657ba450fd4e3d6220337a86edb54de0d",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "2af58d71f50fb70f957f732e5c0a3e62603199f13d87f94ffeeeb54c2db202e9",
       "evidence_allowed": true
     },
     {
@@ -2070,7 +2066,7 @@
       "phone": "+372 3366912, +372 56638765",
       "email": "heli.smigelskene@alutagusevald.ee",
       "summary": "Heli Šmigelskene nõustab sotsiaalküsimustes. Tema vastuvõtud toimuvad Tudulinna ja Iisaku teenuskeskustes kindlatel aegadel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2101,8 +2097,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "a5845c470209c65a6f099a2e95e3261c5f55d5bf802e636af12693651f98d5a2",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "93bc98c31378e3fcca9da9f75d9e946ade21953ce7f7171219eb21fbdde5e411",
       "evidence_allowed": true
     },
     {
@@ -2116,7 +2112,7 @@
       "phone": "+372 3366914, +372 55553486",
       "email": "inna.zahhalina@alutagusevald.ee",
       "summary": "Inna Zahhalina nõustab ja teenindab Iisaku, Alajõe ja Kurtna piirkondade elanikke. Tal on vastuvõtuajad vastavalt teenuskeskuste graafikule.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2147,8 +2143,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "d8bf06419199ccc8d00c79ad9ec67e9f9045378e4682738e8df9b9d9b9ef876e",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "bfb6561b14ac324bc12474d2fdeda497809ab0b2079db0d0843fe5c75f2e4dac",
       "evidence_allowed": true
     },
     {
@@ -2162,7 +2158,7 @@
       "department": "Haridus-, kultuuri- ja sotsiaalteenistus",
       "phone": "+372 54820842",
       "email": "kaarel.treimann@alutagusevald.ee",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2193,8 +2189,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "cbc32d28c573c57cc00eb90213d72326dbec209d4398ed27f880e2b246e0bc53",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "a549cb69ca009870364d2364b31ad370a35671211245d06beff122cfe83bac9f",
       "evidence_allowed": true
     },
     {
@@ -2208,7 +2204,7 @@
       "phone": "+372 3366911, +372 58552996",
       "email": "kairi.hobemeri@alutagusevald.ee",
       "summary": "Kairi Hõbemeri on Alutaguse valla abivallavanem. Vastuvõtt toimub kokkuleppel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2239,8 +2235,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "81c0dd0af7c7d90053a0e045a2e7f433484d0cc7008b62127dbec75e56b2a20f",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "ea9d15941c5d7768532c9faf74eba1d054943bc178bbaf24297823561d8317cf",
       "evidence_allowed": true
     },
     {
@@ -2253,7 +2249,7 @@
       "department": "Sotsiaalosakond",
       "email": null,
       "summary": "Mari-Liis Are töötab Alutaguse vallas psühholoogina osakoormusega. Vastuvõtt toimub kokkuleppel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2284,8 +2280,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "f8a3dddc93bb74e10ba71b88f183dd48d5bed07326e324922f4cb4b1175c1c52",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "4d185105cab29d4e66c054b0180e23b91ac6788d9e1e90fea6e66ebce7a27d63",
       "evidence_allowed": true
     },
     {
@@ -2299,7 +2295,7 @@
       "department": "Haridus-, kultuuri- ja sotsiaalteenistus",
       "phone": "+372 5016916",
       "email": "merike.linder@alutagusevald.ee",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2330,8 +2326,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "09cbad8804f9353c5d8b7d409186a0cfeb12b853e81ce42065bc8639d4c75a25",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "29bf8562495b49587b0b73e2226b9b839ef2757729a27914a6259739a4eefe51",
       "evidence_allowed": true
     },
     {
@@ -2345,7 +2341,7 @@
       "phone": "+372 3366948, +372 51972608",
       "email": "nelli.kuldmaa@alutagusevald.ee",
       "summary": "Nelli Kuldmaa tegeleb hariduse ja noorsootööga ning annab nõu kokkuleppel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2376,8 +2372,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "9481733f95d13075eb677abb7a227ebd1198c4e0d118e02fd3e6ec145570ce65",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "789f44a51d89b1c8d04ce1517d15a89ce9520d28042926ba3bd351118cc4f335",
       "evidence_allowed": true
     },
     {
@@ -2391,7 +2387,7 @@
       "phone": "+372 51925475",
       "email": "zlata.hollat@alutagusevald.ee",
       "summary": "Zlata Hollat tegeleb lastekaitse juhtumitega ning võtab abivajajaid vastu kokkuleppel.",
-      "officialUrl": "https://www.alutagusevald.ee/sots_kontakt",
+      "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
       ],
@@ -2422,8 +2418,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/sots_kontakt",
-      "content_hash": "a3ecf72bfd390de6aab07290b769ca507ed50324875867b77df8cd043d9596ec",
+      "url_canonical": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
+      "content_hash": "c4e9d75c1dd329a99c99bbc0979de0a7ee20fc68c8cfe7023291a6950e884be4",
       "evidence_allowed": true
     },
     {
@@ -2432,7 +2428,7 @@
       "title": "Avaldus abivajadusest sõltuva toetuse taotlemiseks",
       "status": "active",
       "summary": "Ametlik blankett abivajadusest sõltuva toetuse taotlemiseks.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_abivajadusest_s%C3%B5ltuva_toetuse_taotlemiseks.pdf/cdcf79fc-8657-4fca-95b9-d3cfc61f650d?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20abivajadusest%20s%C3%B5ltuva%20toetuse%20taotlemiseks%20%281%29.docx",
       "sourceKeys": [
         "form_abivajadusest_soltuva_toetuse_taotlus_pdf",
         "social_rules_page"
@@ -2469,8 +2465,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_abivajadusest_s%C3%B5ltuva_toetuse_taotlemiseks.pdf/cdcf79fc-8657-4fca-95b9-d3cfc61f650d?version=1.0",
-      "content_hash": "8ddd9eba1a53a0de8f3e69397055c563d0fa793db87455c66a289747fc3593f0",
+      "url_canonical": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20abivajadusest%20s%C3%B5ltuva%20toetuse%20taotlemiseks%20%281%29.docx",
+      "content_hash": "9efbc4346b64b580849d22e870fe9bf75df0a8d7b31876315f9dc84afb6dda97",
       "evidence_allowed": true
     },
     {
@@ -2479,7 +2475,7 @@
       "title": "Avaldus sotsiaaltoetuse taotlemiseks",
       "status": "active",
       "summary": "Ametlik blankett sotsiaaltoetuste taotlemiseks. Blanketi valikutest on näha, et seda kasutatakse sünnitoetuse, esmakordselt kooli mineva lapse toetuse, prillide ja abivahendite toetuse, retseptiravimite toetuse, koolitarvete ja kooliriiete toetuse, matusetoetuse ning erakorralise toetuse taotlemiseks.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_sotsiaaltoetuse_%2Btaotlemiseks.pdf/8f20f143-79cb-4196-8f90-54e590c2b12f?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx",
       "sourceKeys": [
         "form_sotsiaaltoetuse_taotlus_pdf",
         "social_rules_page"
@@ -2521,8 +2517,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_sotsiaaltoetuse_%2Btaotlemiseks.pdf/8f20f143-79cb-4196-8f90-54e590c2b12f?version=1.0",
-      "content_hash": "34b39257436e58a0052bbce0da209e6d3cca6b789cac6f7003c64bab0df40162",
+      "url_canonical": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx",
+      "content_hash": "478a9fc07cbd17f36df82dbd41bd222bac62bc40f7b718b87e8a566337feb72c",
       "evidence_allowed": true
     },
     {
@@ -2531,7 +2527,7 @@
       "title": "Avaldus teenuse taotlemiseks abivajaduse korral",
       "status": "active",
       "summary": "Ametlik blankett teenuse taotlemiseks abivajaduse korral.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_teenuse_taotlemiseks_abivajaduse_korral.pdf/b1d07a81-3c83-4eff-ba5d-d624d22f62df?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx",
       "sourceKeys": [
         "form_teenuse_taotlus_pdf",
         "social_rules_page"
@@ -2578,8 +2574,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_teenuse_taotlemiseks_abivajaduse_korral.pdf/b1d07a81-3c83-4eff-ba5d-d624d22f62df?version=1.0",
-      "content_hash": "16e35f3376cc5332863504d32d94d8ef17eaa33a05f19a6db5af8a8ffccc5dd6",
+      "url_canonical": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx",
+      "content_hash": "1fa67c0217836b134a2a44c031b308685fccb7558b8a58ad38fd9b2618cc73c6",
       "evidence_allowed": true
     },
     {
@@ -2588,7 +2584,7 @@
       "title": "Avaldus toimetuleku taotlemiseks",
       "status": "active",
       "summary": "Ametlik blankett toimetulekutoetuse taotlemiseks.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_toimetuleku_taotlemiseks.pdf/a9c508db-d335-4b6b-b913-56334361d321?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20toimetuleku%20taotlemiseks.docx",
       "sourceKeys": [
         "form_toimetuleku_taotlus_pdf",
         "social_rules_page"
@@ -2624,8 +2620,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/Avaldus_toimetuleku_taotlemiseks.pdf/a9c508db-d335-4b6b-b913-56334361d321?version=1.0",
-      "content_hash": "9c090395655aa588cdcb696972c195aa52b0b871f96d04805b3351c340098d84",
+      "url_canonical": "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20toimetuleku%20taotlemiseks.docx",
+      "content_hash": "0e549b6133c1602c4293132845f706e41529f1cd03c843bb453ed8e1ca80d564",
       "evidence_allowed": true
     },
     {
@@ -2634,7 +2630,7 @@
       "title": "Huvihariduse ja huvitegevuse taotlus",
       "status": "active",
       "summary": "Ametlik blankett huvihariduse ja huvitegevuse toetuse taotlemiseks.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/Huvihariduse%2Bja%2Bhuvitegevuse%2Btaotlus%2B.pdf/78ef3885-7b70-4001-83da-4bf5bbf6312d?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/sites/default/files/documents/2026-04/Huvihariduse%20ja%20huvitegevuse%20taotlus%20.docx",
       "sourceKeys": [
         "form_huviharidus_huvitegevus_pdf",
         "social_rules_page"
@@ -2670,8 +2666,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/Huvihariduse%2Bja%2Bhuvitegevuse%2Btaotlus%2B.pdf/78ef3885-7b70-4001-83da-4bf5bbf6312d?version=1.0",
-      "content_hash": "dc28ad650898749d162abc56feb7acdfd9e547b539903f9e605279746b4311a2",
+      "url_canonical": "https://www.alutagusevald.ee/sites/default/files/documents/2026-04/Huvihariduse%20ja%20huvitegevuse%20taotlus%20.docx",
+      "content_hash": "eb1b39fbd05db58918d50d11d6803636e03ee9940f0739e79510b4452d1e00f0",
       "evidence_allowed": true
     },
     {
@@ -2680,7 +2676,7 @@
       "title": "Sõidupiletite hüvitamise avaldus",
       "status": "active",
       "summary": "Ametlik blankett õpilaste sõidukulude hüvitamise taotlemiseks.",
-      "officialUrl": "https://www.alutagusevald.ee/documents/12278831/18287671/S%C3%B5idupiletite%2Bh%C3%BCvitamise%2Bavaldus.pdf/873c66cc-d416-4d28-a348-d0ee95cd836a?version=1.0",
+      "officialUrl": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "sourceKeys": [
         "form_soidupiletite_huvitamise_avaldus_pdf",
         "social_rules_page"
@@ -2716,8 +2712,8 @@
       "valid_to": null,
       "historical": false,
       "source_status": "active",
-      "url_canonical": "https://www.alutagusevald.ee/documents/12278831/18287671/S%C3%B5idupiletite%2Bh%C3%BCvitamise%2Bavaldus.pdf/873c66cc-d416-4d28-a348-d0ee95cd836a?version=1.0",
-      "content_hash": "147286923d1389b966fdcfedddbfb471b933273f038c0c3b0f24ec24eda3e357",
+      "url_canonical": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
+      "content_hash": "acab1f574e28858b7becb865bd510b87c91d6c244b15352b7736beb286245553",
       "evidence_allowed": true
     }
   ],
