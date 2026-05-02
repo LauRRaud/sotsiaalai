@@ -92,6 +92,7 @@ export default function KovTable({
   onIngestSelected,
   onIngestRtSelected,
   onIngestRow,
+  onReplaceIngestRow,
   onIngestRtRow,
   onOpenEditor,
   revalidateBusySlug,
@@ -435,6 +436,15 @@ export default function KovTable({
                       disabled={!canIngest || ingestBusy}
                     >
                       {ingestBusy ? (et ? "Saadan..." : "Ingesting...") : et ? "Ingest" : "Ingest"}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonTinyClassName}`}
+                      onClick={event => stopEvent(event, () => onReplaceIngestRow?.(row.slug))}
+                      disabled={!canIngest || ingestBusy}
+                      title={et ? "Kustutab enne sama KOV-i vana veebikihi ja ingestib uuesti" : "Remove old web layer for this municipality before ingesting again"}
+                    >
+                      {ingestBusy ? (et ? "Asendan..." : "Replacing...") : et ? "Asenda" : "Replace"}
                     </Button>
                     <Button
                       variant="primary"

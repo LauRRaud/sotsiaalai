@@ -26,8 +26,26 @@ export async function POST(request, { params }) {
     );
   }
 
+  let body = {};
   try {
-    const item = await ingestKovEntryBySlug(slug);
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+  const replaceExisting = body?.replaceExisting === true;
+  const confirmCleanup = body?.confirmCleanup === true;
+  if (replaceExisting && !confirmCleanup) {
+    return json(
+      {
+        ok: false,
+        message: "Replace ingest requires confirmCleanup=true."
+      },
+      400
+    );
+  }
+
+  try {
+    const item = await ingestKovEntryBySlug(slug, { replaceExisting });
     if (!item) {
       return json(
         {
@@ -40,6 +58,7 @@ export async function POST(request, { params }) {
 
     return json({
       ok: true,
+      replaceExisting,
       item
     });
   } catch (error) {

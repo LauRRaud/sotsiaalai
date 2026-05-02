@@ -12,6 +12,8 @@ function parseArgs(argv = process.argv.slice(2)) {
     slug: "",
     excludeSlugs: ["kov_rt", "tallinn"],
     skipValidate: false,
+    replaceExisting: false,
+    confirmCleanup: false,
     help: false
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -23,6 +25,8 @@ function parseArgs(argv = process.argv.slice(2)) {
     else if (arg === "--slug") args.slug = String(argv[++index] || "").trim().toLowerCase();
     else if (arg === "--exclude-slug") args.excludeSlugs.push(String(argv[++index] || "").trim().toLowerCase());
     else if (arg === "--skip-validate") args.skipValidate = true;
+    else if (arg === "--replace-existing" || arg === "--replace-existing-web") args.replaceExisting = true;
+    else if (arg === "--confirm-cleanup") args.confirmCleanup = true;
     else if (arg === "--help" || arg === "-h") args.help = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
@@ -34,7 +38,8 @@ function usage() {
     "Usage:",
     "  node scripts/ingest-kov-web-batch.mjs --root KOV --dry-run",
     "  node scripts/ingest-kov-web-batch.mjs --root KOV --systemd-env sotsiaalai-rag.service",
-    "  node scripts/ingest-kov-web-batch.mjs --root KOV --slug harku-vald --systemd-env sotsiaalai-rag.service"
+    "  node scripts/ingest-kov-web-batch.mjs --root KOV --slug harku-vald --systemd-env sotsiaalai-rag.service",
+    "  node scripts/ingest-kov-web-batch.mjs --root KOV --slug harku-vald --replace-existing --confirm-cleanup --systemd-env sotsiaalai-rag.service"
   ].join("\n");
 }
 
@@ -97,6 +102,9 @@ async function main() {
   if (!args.dryRun && !String(env.RAG_SERVICE_API_KEY || "").trim()) {
     throw new Error("RAG_SERVICE_API_KEY is required. Pass --systemd-env <service> or export it in the shell.");
   }
+  if (args.replaceExisting && !args.dryRun && !args.confirmCleanup) {
+    throw new Error("Refusing --replace-existing without --confirm-cleanup.");
+  }
 
   let slugs = listKovBundleSlugs(args.root);
   const excluded = new Set(args.excludeSlugs.filter(Boolean));
@@ -117,6 +125,8 @@ async function main() {
     const childArgs = ["scripts/ingest-kov-rag.mjs", path.join(args.root, slug)];
     if (args.skipValidate) childArgs.push("--skip-validate");
     if (args.dryRun) childArgs.push("--dry-run");
+    if (args.replaceExisting) childArgs.push("--replace-existing");
+    if (args.confirmCleanup) childArgs.push("--confirm-cleanup");
     const child = spawnSync(process.execPath, childArgs, {
       cwd: process.cwd(),
       env,

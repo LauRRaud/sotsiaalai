@@ -449,6 +449,7 @@ export default function KovDetailPanel({
   onMarkReady: _onMarkReady,
   onResetRagState,
   onIngest: _onIngest,
+  onReplaceIngest,
   onIngestRt: _onIngestRt,
   onRevalidateAll: _onRevalidateAll,
   onRevalidateRt: _onRevalidateRt,
@@ -686,6 +687,16 @@ export default function KovDetailPanel({
                 </div>
               ) : null}
               <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="primary"
+                  className={`${buttonBaseClassName} ${buttonPrimaryClassName} ${buttonCompactClassName}`}
+                  onClick={() => onReplaceIngest?.()}
+                  disabled={_ingestBusy || entry.ingestSummary?.canIngest !== true}
+                >
+                  {_ingestBusy
+                    ? et ? "Asendan..." : "Replacing..."
+                    : et ? "Asenda KOV veeb RAG-is" : "Replace KOV web in RAG"}
+                </Button>
                 <Button
                   variant="ghost"
                   className={`${buttonBaseClassName} ${buttonGhostClassName} ${buttonCompactClassName}`}

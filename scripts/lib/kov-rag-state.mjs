@@ -532,6 +532,33 @@ export function recordLooksLikeMunicipality(record = {}, municipality = {}) {
   return false;
 }
 
+export function documentMatchesCleanupLayer(record = {}, municipality = {}, layer = "all") {
+  if (layer === "all") return true;
+  const docId = docIdOf(record) || "";
+  const slug = clean(municipality.slug);
+  const collectionId = collectionIdOf(record);
+  const sourceType = sourceTypeOf(record);
+  const isRtDoc = Boolean(
+    (slug && docId === `kov-rt-${slug}`) ||
+    collectionId === "kov_legal" ||
+    collectionId === "kov_regulations" ||
+    sourceType === "kov_regulation"
+  );
+  if (layer === "rt") return isRtDoc;
+  if (layer === "web") {
+    const isKnownWebDoc = Boolean(
+      (slug && docId === `kov-${slug}`) ||
+      (slug && docId.startsWith(`kov::${slug}::`)) ||
+      collectionId === "kov_services" ||
+      sourceType === "municipality_kov" ||
+      sourceType === "kov_service_info" ||
+      sourceType === "municipality_web"
+    );
+    return isKnownWebDoc && !isRtDoc;
+  }
+  return false;
+}
+
 export function summarizeDocumentRecord(record = {}, origin = "unknown") {
   const merged = mergeDocumentMetadata(record);
   return {

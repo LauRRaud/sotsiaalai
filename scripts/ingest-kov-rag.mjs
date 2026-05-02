@@ -20,6 +20,7 @@ function usage() {
   console.log(`
 Usage:
   node scripts/ingest-kov-rag.mjs <dir|base-path|file> [--slug <slug>] [--skip-validate] [--bundle-only] [--doc-id <doc-id>] [--dry-run]
+  node scripts/ingest-kov-rag.mjs <dir|base-path|file> --replace-existing --confirm-cleanup
 
 Examples:
   node scripts/ingest-kov-rag.mjs output/parnu-linn
@@ -356,6 +357,8 @@ function parseArgs(argv) {
   let skipValidate = false;
   let bundleOnly = false;
   let dryRun = false;
+  let replaceExisting = false;
+  let confirmCleanup = false;
   const positional = [];
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -387,6 +390,14 @@ function parseArgs(argv) {
       dryRun = true;
       continue;
     }
+    if (arg === "--replace-existing" || arg === "--replace-existing-web") {
+      replaceExisting = true;
+      continue;
+    }
+    if (arg === "--confirm-cleanup") {
+      confirmCleanup = true;
+      continue;
+    }
     positional.push(arg);
   }
 
@@ -401,8 +412,36 @@ function parseArgs(argv) {
     docId,
     skipValidate,
     bundleOnly,
-    dryRun
+    dryRun,
+    replaceExisting,
+    confirmCleanup
   };
+}
+
+function runScopedWebCleanup({ canonicalSlug, dryRun, confirmCleanup }) {
+  if (!dryRun && !confirmCleanup) {
+    throw new Error("Refusing replace cleanup without --confirm-cleanup");
+  }
+  const cleanupSlug = String(canonicalSlug || "").trim().toLowerCase().replace(/_/g, "-");
+  const cleanupArgs = [
+    path.join(rootDir, "scripts", "cleanup-kov-rag-state.mjs"),
+    "--municipality",
+    _slugify(canonicalSlug),
+    "--slug",
+    cleanupSlug,
+    "--layer",
+    "web",
+    dryRun ? "--dry-run" : "--write"
+  ];
+  if (!dryRun && confirmCleanup) cleanupArgs.push("--confirm-cleanup");
+  const child = spawnSync(process.execPath, cleanupArgs, {
+    cwd: rootDir,
+    env: process.env,
+    stdio: "inherit"
+  });
+  if (child.status !== 0) {
+    throw new Error(`Scoped KOV web cleanup failed with status ${child.status}`);
+  }
 }
 
 async function ingestText(baseUrl, payload) {
@@ -507,6 +546,17 @@ async function main() {
   const canonicalSlug = resolveCanonicalKovSlug(paths, meta);
   const bundleDocId = args.docId || `kov::${canonicalSlug}::bundle`;
   const nowIso = new Date().toISOString();
+
+  if (args.replaceExisting) {
+    if (!args.dryRun && !args.confirmCleanup) {
+      throw new Error("Refusing --replace-existing without --confirm-cleanup.");
+    }
+    runScopedWebCleanup({
+      canonicalSlug,
+      dryRun: args.dryRun,
+      confirmCleanup: args.confirmCleanup
+    });
+  }
 
   if (args.dryRun) {
     console.log(`[rag:ingest:kov] Dry run OK: ${paths.slug}`);

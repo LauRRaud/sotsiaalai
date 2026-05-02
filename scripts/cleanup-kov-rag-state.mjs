@@ -14,6 +14,7 @@ import {
   DEFAULT_RAG_BASE_URL,
   DEFAULT_REGISTRY_PATH,
   deleteRagDocument,
+  documentMatchesCleanupLayer,
   discoverKovMunicipalities,
   groupSnapshotSummary,
   loadCleanupManifest,
@@ -46,6 +47,7 @@ function usage() {
     "  --write                Execute the planned RAG deletes and archive SourcePackage snapshots",
     "  --confirm-cleanup      Required together with --write. Does nothing without --write",
     "  --include-files         Also plan/delete scoped KOV runtime upload and RAG docs files",
+    "  --layer <all|web|rt>    Cleanup layer. Default all. Use web before KOV web reingest",
     "  --base-url <url>       RAG service URL. Default from env or http://127.0.0.1:8000",
     "  --registry <path>      RAG registry.json path. Default /var/lib/sotsiaalai-rag/registry.json",
     "  --json <path>          Write dry-run plan/result JSON",
@@ -71,6 +73,7 @@ function parseArgs(argv = []) {
     logDir: DEFAULT_LOG_DIR,
     pageSize: 100,
     maxDocs: 5000,
+    layer: "all",
     includeFiles: false,
     help: false
   };
@@ -91,7 +94,11 @@ function parseArgs(argv = []) {
     else if (arg === "--log-dir") args.logDir = argv[++index] || args.logDir;
     else if (arg === "--page-size") args.pageSize = Number.parseInt(argv[++index] || "100", 10) || 100;
     else if (arg === "--max-docs") args.maxDocs = Number.parseInt(argv[++index] || "5000", 10) || 5000;
+    else if (arg === "--layer") args.layer = argv[++index] || args.layer;
     else throw new Error(`Unknown option: ${arg}`);
+  }
+  if (!["all", "web", "rt"].includes(args.layer)) {
+    throw new Error("--layer must be one of: all, web, rt");
   }
   return args;
 }
@@ -222,8 +229,11 @@ function documentExistsInApi(records = [], docId) {
 }
 
 async function buildPlanForMunicipality(municipality, registryRecords, apiRecords, snapshots, adminRows, options = {}) {
-  const registryMatches = matchedDocumentsForMunicipality(registryRecords, municipality, "registry");
-  const apiMatches = matchedDocumentsForMunicipality(apiRecords, municipality, "documents_api");
+  const layer = options.layer || "all";
+  const registryMatches = matchedDocumentsForMunicipality(registryRecords, municipality, "registry")
+    .filter(record => documentMatchesCleanupLayer(record, municipality, layer));
+  const apiMatches = matchedDocumentsForMunicipality(apiRecords, municipality, "documents_api")
+    .filter(record => documentMatchesCleanupLayer(record, municipality, layer));
   const byDocId = new Map();
   for (const doc of [...registryMatches, ...apiMatches]) {
     if (!doc.docId) continue;
@@ -244,14 +254,16 @@ async function buildPlanForMunicipality(municipality, registryRecords, apiRecord
   const bundleReadiness = await readKovBundleReadiness(municipality);
   const expectedWebDocId = adminRow?.ragDocId || (municipality.slug ? `kov-${municipality.slug}` : null);
   const expectedRtDocId = adminRow?.rtRagDocId || (municipality.slug ? `kov-rt-${municipality.slug}` : null);
-  const adminStatusReset = buildKovAdminStatusResetPlan({
-    row: adminRow,
-    municipality,
-    bundleReadiness,
-    webDocumentExists: documentExistsInApi(apiRecords, expectedWebDocId),
-    rtDocumentExists: documentExistsInApi(apiRecords, expectedRtDocId)
-  });
-  const active = municipalitySnapshots.filter(row => row.active === true);
+  const adminStatusReset = layer === "all"
+    ? buildKovAdminStatusResetPlan({
+        row: adminRow,
+        municipality,
+        bundleReadiness,
+        webDocumentExists: documentExistsInApi(apiRecords, expectedWebDocId),
+        rtDocumentExists: documentExistsInApi(apiRecords, expectedRtDocId)
+      })
+    : { will_update: false, reason: `skipped_for_layer_${layer}` };
+  const active = layer === "rt" ? [] : municipalitySnapshots.filter(row => row.active === true);
   const archived = municipalitySnapshots.filter(row => row.active !== true);
   const reviewEventCount = municipalitySnapshots.reduce((sum, row) => sum + Number(row._count?.reviewEvents || 0), 0);
   const matchedDocIds = [...byDocId.keys()].sort();
@@ -284,6 +296,7 @@ async function buildPlanForMunicipality(municipality, registryRecords, apiRecord
       review_event_count: Number(row._count?.reviewEvents || 0)
     })),
     counts: {
+      cleanup_layer: layer,
       matched_rag_doc_ids: byDocId.size,
       matched_registry_entries: registryMatches.length,
       matched_documents_api_entries: apiMatches.length,
@@ -293,6 +306,7 @@ async function buildPlanForMunicipality(municipality, registryRecords, apiRecord
       review_event_count: reviewEventCount
     },
     planned_actions: {
+      cleanup_layer: layer,
       delete_rag_documents_via_service: matchedDocIds,
       archive_active_source_package_snapshots: active.map(row => row.id).sort(),
       leave_archived_source_package_snapshots: archived.map(row => row.id).sort(),
@@ -453,7 +467,8 @@ async function main() {
   const municipalityPlans = await Promise.all(municipalities.map(item =>
     buildPlanForMunicipality(item, registry.records, documentsApi.records, snapshotResult.rows, adminRowsResult.rows, {
       includeFiles: args.includeFiles,
-      registryPath: args.registry
+      registryPath: args.registry,
+      layer: args.layer
     })
   ));
   const adminResetPlans = municipalityPlans.map(item => item.admin_status_reset).filter(Boolean);
@@ -468,6 +483,7 @@ async function main() {
   const plan = {
     ok: true,
     mode: args.write ? "write" : "dry-run",
+    cleanup_layer: args.layer,
     generated_at: new Date().toISOString(),
     dry_run_first: !args.write,
     repo_files_deleted: false,

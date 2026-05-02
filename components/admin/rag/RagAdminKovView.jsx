@@ -91,6 +91,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
     rtLightCheckBusySlug,
     resetBusySlug,
     ingestSingle,
+    replaceIngestSingle,
     ingestSelected,
     ingestRtSingle,
     ingestRtSelected,
@@ -214,6 +215,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onMarkReady={() => selectedEntry && markReady(selectedEntry.slug)}
             onResetRagState={() => selectedEntry && resetRagState(selectedEntry.slug)}
             onIngest={() => selectedEntry && ingestSingle(selectedEntry.slug)}
+            onReplaceIngest={() => selectedEntry && replaceIngestSingle(selectedEntry.slug)}
             onIngestRt={() => selectedEntry && ingestRtSingle(selectedEntry.slug)}
             onRevalidateAll={() => selectedEntry && revalidateSingle(selectedEntry.slug)}
             onRevalidateRt={() => selectedEntry && revalidateRtSingle(selectedEntry.slug)}
@@ -259,6 +261,7 @@ export default function RagAdminKovView({ locale, initialItems = [] }) {
             onIngestSelected={ingestSelected}
             onIngestRtSelected={ingestRtSelected}
             onIngestRow={ingestSingle}
+            onReplaceIngestRow={replaceIngestSingle}
             onIngestRtRow={ingestRtSingle}
             onOpenEditor={openEditor}
             revalidateBusySlug={revalidateBusySlug}

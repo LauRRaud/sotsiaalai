@@ -926,12 +926,37 @@ export function useKovAdminController(locale, initialItems = []) {
   }, [applyServerItem, et, selectedSlugs]);
 
   const ingestSingle = useCallback(
-    async slug => {
+    async (slug, options = {}) => {
       if (!slug) return null;
+      const replaceExisting = options.replaceExisting === true;
+      if (replaceExisting) {
+        const confirmed = window.confirm(
+          et
+            ? [
+                `Asendan ${slug} KOV veebikihi RAG-is?`,
+                "See kustutab enne sama KOV-i vanad veebidokumendid ja archiveerib aktiivsed SourcePackage snapshotid.",
+                "RT kihti ega repo faile see ei muuda."
+              ].join("\n")
+            : [
+                `Replace ${slug} KOV web layer in RAG?`,
+                "This first removes old web documents for this municipality and archives active SourcePackage snapshots.",
+                "RT layer and repo files are not changed."
+              ].join("\n")
+        );
+        if (!confirmed) return null;
+      }
       setIngestBusySlug(slug);
       try {
         const response = await fetch(`/api/admin/rag/kov/${encodeURIComponent(slug)}/ingest`, {
-          method: "POST"
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(
+            replaceExisting
+              ? { replaceExisting: true, confirmCleanup: true }
+              : {}
+          )
         });
         const payload = await response.json();
         if (!response.ok || payload?.ok === false) {
@@ -943,7 +968,9 @@ export function useKovAdminController(locale, initialItems = []) {
         }
         setMessage({
           type: "success",
-          text: et ? "KOV saadeti RAG-i edukalt." : "Municipality was ingested into RAG."
+          text: replaceExisting
+            ? et ? "KOV veebikiht asendati RAG-is edukalt." : "Municipality web layer was replaced in RAG."
+            : et ? "KOV saadeti RAG-i edukalt." : "Municipality was ingested into RAG."
         });
         return payload.item;
       } catch (error) {
@@ -957,6 +984,11 @@ export function useKovAdminController(locale, initialItems = []) {
       }
     },
     [applyServerItem, et, refreshSelectedRagStatus, selectedEntry]
+  );
+
+  const replaceIngestSingle = useCallback(
+    slug => ingestSingle(slug, { replaceExisting: true }),
+    [ingestSingle]
   );
 
   const ingestSelected = useCallback(async () => {
@@ -1365,6 +1397,7 @@ export function useKovAdminController(locale, initialItems = []) {
     rtLightCheckBusySlug,
     resetBusySlug,
     ingestSingle,
+    replaceIngestSingle,
     ingestSelected,
     ingestRtSingle,
     ingestRtSelected,
