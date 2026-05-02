@@ -346,6 +346,9 @@
     "errors": {
       "load_failed": "Failed to load materials.",
       "upload_failed": "Failed to upload material.",
+      "review_failed": "Failed to save material review.",
+      "review_status_invalid": "Invalid material review status.",
+      "storage_dir_missing": "Materials storage directory is not configured on the server.",
       "delete_failed": "Failed to delete material.",
       "file_count_exceeded": "You can send at most 10 files per request.",
       "daily_upload_quota_exceeded": "Daily upload limit reached. Please try again tomorrow.",
@@ -359,6 +362,16 @@
       "empty": "No materials have been sent yet.",
       "comment_missing": "No comment was added.",
       "download": "Download",
+      "mark_reviewed": "Mark reviewed",
+      "mark_imported": "Mark imported",
+      "reject": "Reject",
+      "review_note_prompt": "Review note (optional):",
+      "status": {
+        "pending": "Pending",
+        "reviewed": "Reviewed",
+        "rejected": "Rejected",
+        "imported": "Imported"
+      },
       "delete": "Delete",
       "delete_confirm": "Delete this material?"
     }

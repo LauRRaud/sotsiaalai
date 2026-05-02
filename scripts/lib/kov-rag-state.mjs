@@ -59,7 +59,7 @@ export function normalizeCanonicalId(value) {
 
 export async function readJson(filePath) {
   try {
-    return JSON.parse(await fs.readFile(filePath, "utf8"));
+    return JSON.parse(await fs.readFile(/*turbopackIgnore: true*/ filePath, "utf8"));
   } catch {
     return null;
   }
@@ -67,22 +67,22 @@ export async function readJson(filePath) {
 
 export async function readText(filePath) {
   try {
-    return await fs.readFile(filePath, "utf8");
+    return await fs.readFile(/*turbopackIgnore: true*/ filePath, "utf8");
   } catch {
     return null;
   }
 }
 
 export async function writeJson(filePath, payload) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(filePath), { recursive: true });
+  await fs.writeFile(/*turbopackIgnore: true*/ filePath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 }
 
 export async function discoverKovMunicipalities(root = "KOV") {
-  const rootPath = path.resolve(process.cwd(), root);
+  const rootPath = path.resolve(/*turbopackIgnore: true*/ process.cwd(), root);
   let entries = [];
   try {
-    entries = await fs.readdir(rootPath, { withFileTypes: true });
+    entries = await fs.readdir(/*turbopackIgnore: true*/ rootPath, { withFileTypes: true });
   } catch {
     return [];
   }
@@ -91,14 +91,14 @@ export async function discoverKovMunicipalities(root = "KOV") {
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const slug = entry.name;
-    const metaPath = path.join(rootPath, slug, `${slug}.meta.json`);
+    const metaPath = path.join(/*turbopackIgnore: true*/ rootPath, slug, `${slug}.meta.json`);
     const meta = await readJson(metaPath);
     if (!meta) continue;
     out.push({
       municipality_id: clean(meta.municipality_id) || slugToMunicipalityId(slug),
       municipality_name: clean(meta.municipality_name || meta.municipality),
       slug,
-      root: path.join(rootPath, slug),
+      root: path.join(/*turbopackIgnore: true*/ rootPath, slug),
       county: clean(meta.county)
     });
   }
@@ -119,7 +119,7 @@ export async function readKovBundleReadiness(municipality = {}, root = "KOV") {
     };
   }
 
-  const metaPath = path.join(root, slug, `${slug}.meta.json`);
+  const metaPath = path.join(/*turbopackIgnore: true*/ root, slug, `${slug}.meta.json`);
   const meta = await readJson(metaPath);
   if (!meta) {
     return {
@@ -328,42 +328,42 @@ export function sourcePathOf(record = {}) {
 }
 
 export function resolveRuntimeStorageRoots(registryPath = DEFAULT_REGISTRY_PATH) {
-  const registryDir = path.dirname(path.resolve(registryPath || DEFAULT_REGISTRY_PATH));
-  const docsStorageDir = path.resolve(process.env.DOCS_STORAGE_DIR || "tmp/documents");
+  const registryDir = path.dirname(path.resolve(/*turbopackIgnore: true*/ registryPath || DEFAULT_REGISTRY_PATH));
+  const docsStorageDir = path.resolve(/*turbopackIgnore: true*/ process.env.DOCS_STORAGE_DIR || "tmp/documents");
   return {
     ragRegistryDir: registryDir,
-    ragDocsDir: path.resolve(process.env.RAG_DOCS_DIR || path.join(registryDir, "docs")),
-    ragChromaDir: path.resolve(process.env.RAG_CHROMA_DIR || path.join(registryDir, "chroma")),
+    ragDocsDir: path.resolve(/*turbopackIgnore: true*/ process.env.RAG_DOCS_DIR || path.join(/*turbopackIgnore: true*/ registryDir, "docs")),
+    ragChromaDir: path.resolve(/*turbopackIgnore: true*/ process.env.RAG_CHROMA_DIR || path.join(/*turbopackIgnore: true*/ registryDir, "chroma")),
     docsStorageDir,
-    kovUploadDir: path.resolve(path.join(docsStorageDir, "kov"))
+    kovUploadDir: path.resolve(/*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ docsStorageDir, "kov"))
   };
 }
 
 async function statOrNull(filePath) {
   try {
-    return await fs.stat(filePath);
+    return await fs.stat(/*turbopackIgnore: true*/ filePath);
   } catch {
     return null;
   }
 }
 
 function isInsidePath(targetPath, rootPath) {
-  const target = path.resolve(targetPath);
-  const root = path.resolve(rootPath);
+  const target = path.resolve(/*turbopackIgnore: true*/ targetPath);
+  const root = path.resolve(/*turbopackIgnore: true*/ rootPath);
   return target === root || target.startsWith(`${root}${path.sep}`);
 }
 
 function isForbiddenRepoPath(targetPath) {
-  const repoRoot = path.resolve(process.cwd());
+  const repoRoot = path.resolve(/*turbopackIgnore: true*/ process.cwd());
   return [
-    path.join(repoRoot, "KOV"),
-    path.join(repoRoot, "scripts"),
-    path.join(repoRoot, "config")
+    path.join(/*turbopackIgnore: true*/ repoRoot, "KOV"),
+    path.join(/*turbopackIgnore: true*/ repoRoot, "scripts"),
+    path.join(/*turbopackIgnore: true*/ repoRoot, "config")
   ].some(root => isInsidePath(targetPath, root));
 }
 
 async function listFilesRecursive(rootPath, { maxFiles = 10000 } = {}) {
-  const root = path.resolve(rootPath);
+  const root = path.resolve(/*turbopackIgnore: true*/ rootPath);
   const rootStats = await statOrNull(root);
   if (!rootStats?.isDirectory?.()) return [];
   const out = [];
@@ -372,12 +372,12 @@ async function listFilesRecursive(rootPath, { maxFiles = 10000 } = {}) {
     const current = stack.pop();
     let entries = [];
     try {
-      entries = await fs.readdir(current, { withFileTypes: true });
+      entries = await fs.readdir(/*turbopackIgnore: true*/ current, { withFileTypes: true });
     } catch {
       continue;
     }
     for (const entry of entries) {
-      const absolutePath = path.join(current, entry.name);
+      const absolutePath = path.join(/*turbopackIgnore: true*/ current, entry.name);
       if (entry.isDirectory()) {
         stack.push(absolutePath);
       } else if (entry.isFile()) {
@@ -419,7 +419,7 @@ export async function collectKovRuntimeFiles({
   const warnings = [];
 
   function addCandidate(filePath, reason, storagePath = null) {
-    const absolutePath = path.resolve(filePath);
+    const absolutePath = path.resolve(/*turbopackIgnore: true*/ filePath);
     const allowed =
       isInsidePath(absolutePath, roots.kovUploadDir) ||
       isInsidePath(absolutePath, roots.ragDocsDir);
@@ -452,14 +452,14 @@ export async function collectKovRuntimeFiles({
     for (const file of arrayValue(row?.files)) {
       const storagePath = clean(file.storagePath);
       if (!storagePath) continue;
-      addCandidate(path.resolve(roots.docsStorageDir, path.normalize(storagePath)), "kov_admin_upload_file", storagePath);
+      addCandidate(path.resolve(/*turbopackIgnore: true*/ roots.docsStorageDir, path.normalize(storagePath)), "kov_admin_upload_file", storagePath);
     }
   }
 
   for (const municipality of municipalities) {
     const slug = clean(municipality.slug);
     if (!slug) continue;
-    const slugUploadDir = path.join(roots.kovUploadDir, slug);
+    const slugUploadDir = path.join(/*turbopackIgnore: true*/ roots.kovUploadDir, slug);
     for (const filePath of await listFilesRecursive(slugUploadDir)) {
       addCandidate(filePath, "kov_admin_upload_slug_directory");
     }

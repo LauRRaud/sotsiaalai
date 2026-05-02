@@ -63,6 +63,7 @@ export async function GET(request, { params }) {
     if (isMaterialSubmissionSchemaError(error)) {
       return errorJson(getMaterialSubmissionSchemaMessage(locale), 503, locale)
     }
-    return errorJson("Materjali allalaadimine ebaõnnestus.", 500, locale)
+    const status = Number(error?.status) || 500
+    return errorJson(status === 500 ? "Materjali allalaadimine ebaõnnestus." : error?.message || "Materjali allalaadimine ebaõnnestus.", status, locale)
   }
 }

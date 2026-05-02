@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server"
 import { getMaterialSubmissionSchemaMessage, isMaterialSubmissionSchemaError } from "@/lib/materials/compat"
+import { serializeMaterialSubmission } from "@/lib/materials/submissions"
 import { getDailyUploadQuotaBytes, getMaterialsFileCountLimit, getStorageQuotaBytes, getUtcDayStart, sumFileBytes } from "@/lib/storageGuardrails"
 import { getUserDailyUploadBytes, getUserStorageUsageBytes } from "@/lib/storageUsage"
 import {
@@ -16,6 +17,7 @@ import {
   normalizeMaterialComment,
   writeUploadedMaterial
 } from "@/lib/materials/server"
+import { getMailer, resolveBaseUrl } from "@/lib/mailer"
 import { safeError } from "@/lib/privacy/safeError"
 
 export const runtime = "nodejs"
@@ -26,28 +28,89 @@ const MATERIALS_RATE_LIMIT_WINDOW_MS = readDocumentsRateLimit(process.env.MATERI
 const MATERIALS_UPLOAD_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.MATERIALS_UPLOAD_RATE_LIMIT_MAX, 8)
 const MATERIALS_LIST_LIMIT = 100
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+}
+
+function splitRecipients(value) {
+  return String(value || "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean)
+}
+
+function resolveMaterialsAdminRecipients() {
+  return splitRecipients(
+    process.env.MATERIALS_ADMIN_EMAIL ||
+      process.env.MATERIALS_NOTIFICATION_EMAIL ||
+      process.env.ADMIN_NOTIFICATION_EMAIL ||
+      process.env.PAYMENT_OWNER_EMAIL ||
+      ""
+  )
+}
+
+async function sendMaterialUploadNotification({ submissions, session, comment }) {
+  const recipients = resolveMaterialsAdminRecipients()
+  const from = String(process.env.EMAIL_FROM || process.env.SMTP_FROM || "").trim()
+  if (!recipients.length || !from || !submissions?.length) {
+    console.warn("[materials] admin notification skipped", {
+      reason: !recipients.length ? "recipient_missing" : !from ? "from_missing" : "submissions_missing"
+    })
+    return
+  }
+
+  const submittedBy = String(session?.user?.email || session?.user?.id || "unknown")
+  const baseUrl = String(resolveBaseUrl() || "").replace(/\/+$/, "")
+  const adminUrl = baseUrl ? `${baseUrl}/materjalid` : "/materjalid"
+  const totalBytes = submissions.reduce((sum, item) => sum + Number(item.size || 0), 0)
+  const safeComment = String(comment || "").slice(0, 1000)
+  const files = submissions.map((item) => `- ${item.originalName} (${item.mime}, ${item.size} B)`).join("\n")
+  const text = [
+    "SotsiaalAI materjalide lehele saadeti uus failipakk.",
+    "",
+    `Saatja: ${submittedBy}`,
+    `Faile: ${submissions.length}`,
+    `Maht kokku: ${totalBytes} B`,
+    "",
+    "Failid:",
+    files,
+    "",
+    safeComment ? `Kommentaar:\n${safeComment}` : "Kommentaar: puudub",
+    "",
+    `Admini vaade: ${adminUrl}`
+  ].join("\n")
+  const htmlFileRows = submissions
+    .map((item) => `<li><strong>${escapeHtml(item.originalName)}</strong> (${escapeHtml(item.mime)}, ${Number(item.size || 0)} B)</li>`)
+    .join("")
+  const html = `
+    <p>SotsiaalAI materjalide lehele saadeti uus failipakk.</p>
+    <p><strong>Saatja:</strong> ${escapeHtml(submittedBy)}<br />
+    <strong>Faile:</strong> ${submissions.length}<br />
+    <strong>Maht kokku:</strong> ${totalBytes} B</p>
+    <ul>${htmlFileRows}</ul>
+    <p><strong>Kommentaar:</strong><br />${escapeHtml(safeComment || "puudub").replace(/\n/g, "<br />")}</p>
+    <p><a href="${escapeHtml(adminUrl)}">Ava materjalide adminivaade</a></p>
+  `
+
+  await getMailer("materials").sendMail({
+    to: recipients,
+    from,
+    replyTo: session?.user?.email || undefined,
+    subject: `SotsiaalAI: uus materjal (${submissions.length})`,
+    text,
+    html
+  })
+}
+
 function clampLimit(value, fallback = MATERIALS_LIST_LIMIT) {
   const parsed = Number(value)
   if (!Number.isFinite(parsed) || parsed <= 0) return fallback
   return Math.min(Math.floor(parsed), MATERIALS_LIST_LIMIT)
-}
-
-function serializeSubmission(submission) {
-  return {
-    id: submission.id,
-    comment: submission.comment,
-    originalName: submission.originalName,
-    mime: submission.mime,
-    size: submission.size,
-    createdAt: submission.createdAt,
-    updatedAt: submission.updatedAt,
-    submittedByUser: submission.submittedByUser
-      ? {
-          id: submission.submittedByUser.id,
-          email: submission.submittedByUser.email
-        }
-      : null
-  }
 }
 
 async function getOptionalSession() {
@@ -81,7 +144,7 @@ export async function GET(request) {
 
     return json({
       ok: true,
-      submissions: submissions.map(serializeSubmission)
+      submissions: submissions.map(serializeMaterialSubmission)
     })
   } catch (error) {
     console.error("[materials] list failed", safeError(error))
@@ -203,7 +266,11 @@ export async function POST(request) {
       )
     )
 
-    const serialized = submissions.map(serializeSubmission)
+    const serialized = submissions.map(serializeMaterialSubmission)
+
+    sendMaterialUploadNotification({ submissions: serialized, session, comment }).catch((notifyError) => {
+      console.error("[materials] admin notification failed", safeError(notifyError))
+    })
 
     return json(
       {

@@ -346,6 +346,9 @@
     "errors": {
       "load_failed": "Materjalide laadimine ebaõnnestus.",
       "upload_failed": "Materjali üleslaadimine ebaõnnestus.",
+      "review_failed": "Materjali ülevaatuse salvestamine ebaõnnestus.",
+      "review_status_invalid": "Materjali ülevaatuse staatus ei sobi.",
+      "storage_dir_missing": "Materjalide salvestuskataloog pole serveris seadistatud.",
       "delete_failed": "Materjali kustutamine ebaõnnestus.",
       "file_count_exceeded": "Saad korraga saata kuni 10 faili.",
       "daily_upload_quota_exceeded": "Päevane üleslaadimise limiit on täitunud. Proovi homme uuesti.",
@@ -359,6 +362,16 @@
       "empty": "Ühtegi materjali ei ole veel saadetud.",
       "comment_missing": "Kommentaari ei lisatud.",
       "download": "Laadi alla",
+      "mark_reviewed": "Märgi üle vaadatuks",
+      "mark_imported": "Märgi impordituks",
+      "reject": "Lükka tagasi",
+      "review_note_prompt": "Märkus ülevaatuse kohta (valikuline):",
+      "status": {
+        "pending": "Ootel",
+        "reviewed": "Üle vaadatud",
+        "rejected": "Tagasi lükatud",
+        "imported": "Imporditud"
+      },
       "delete": "Kustuta",
       "delete_confirm": "Kas kustutan selle materjali?"
     }

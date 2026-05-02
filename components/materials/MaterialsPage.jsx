@@ -48,6 +48,8 @@ const materialsSectionTitleClassName =
   "text-[1.22rem] font-[650] leading-[1.18] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]"
 const materialsSectionCopyClassName =
   "text-[0.98rem] leading-[1.52] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]"
+const materialsStatusBadgeClassName =
+  "inline-flex items-center rounded-full border border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.08)] px-[0.62rem] py-[0.22rem] text-[0.78rem] font-[620] uppercase tracking-[0.04em]"
 
 function formatFileSize(size) {
   const value = Number(size || 0)
@@ -77,6 +79,11 @@ function formatDate(value, locale) {
   }
 }
 
+function materialStatusLabel(t, status) {
+  const normalized = String(status || "pending").toLowerCase()
+  return t(`materials_page.admin.status.${normalized}`, normalized)
+}
+
 export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   const router = useRouter()
   const { t, locale: activeLocale } = useI18n()
@@ -92,6 +99,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   const [items, setItems] = useState([])
   const [loadingItems, setLoadingItems] = useState(isAdmin)
   const [adminError, setAdminError] = useState("")
+  const [reviewingId, setReviewingId] = useState("")
 
   useEffect(() => {
     if (!notice) return undefined
@@ -201,6 +209,36 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
       setItems((current) => current.filter((item) => item.id !== id))
     } catch (deleteError) {
       setAdminError(deleteError?.message || t("materials_page.errors.delete_failed"))
+    }
+  }
+
+  async function handleReview(id, action) {
+    if (reviewingId) return
+    const reviewNote = window.prompt(t("materials_page.admin.review_note_prompt", "Märkus ülevaatuse kohta (valikuline):"), "")
+    if (reviewNote === null) return
+
+    setReviewingId(id)
+    setAdminError("")
+    try {
+      const response = await fetch(`/api/materials/${encodeURIComponent(id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ action, reviewNote })
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload?.message || t("materials_page.errors.review_failed", "Materjali ülevaatuse salvestamine ebaõnnestus."))
+      }
+      const updated = payload?.submission
+      if (updated?.id) {
+        setItems((current) => current.map((item) => (item.id === updated.id ? updated : item)))
+      }
+    } catch (reviewError) {
+      setAdminError(reviewError?.message || t("materials_page.errors.review_failed", "Materjali ülevaatuse salvestamine ebaõnnestus."))
+    } finally {
+      setReviewingId("")
     }
   }
 
@@ -364,12 +402,19 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                             <span>{item.submittedByUser.email}</span>
                           </>
                         ) : null}
+                        <span className={materialsStatusBadgeClassName}>{materialStatusLabel(t, item.status)}</span>
                       </div>
                       <div className="grid gap-[0.36rem]">
                         <h3 className="text-[1rem] font-[620] leading-[1.3] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">{item.originalName}</h3>
                         <p className="whitespace-pre-wrap text-[0.95rem] leading-[1.55] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.9]">
                           {item.comment || t("materials_page.admin.comment_missing")}
                         </p>
+                        {item.reviewedAt || item.reviewNote ? (
+                          <p className="text-[0.84rem] leading-[1.45] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.72]">
+                            {item.reviewedAt ? `${formatDate(item.reviewedAt, resolvedLocale)}${item.reviewedBy ? ` · ${item.reviewedBy}` : ""}` : null}
+                            {item.reviewNote ? `${item.reviewedAt ? " · " : ""}${item.reviewNote}` : null}
+                          </p>
+                        ) : null}
                       </div>
                       <div className="flex flex-wrap gap-[0.5rem]">
                         <Button
@@ -378,6 +423,30 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                           className={materialsSecondaryButtonClassName}
                         >
                           {t("materials_page.admin.download")}
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          disabled={reviewingId === item.id || item.status === "reviewed"}
+                          onClick={() => void handleReview(item.id, "mark_reviewed")}
+                          className={materialsSecondaryButtonClassName}
+                        >
+                          {t("materials_page.admin.mark_reviewed", "Märgi üle vaadatuks")}
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          disabled={reviewingId === item.id || item.status === "imported"}
+                          onClick={() => void handleReview(item.id, "mark_imported")}
+                          className={materialsSecondaryButtonClassName}
+                        >
+                          {t("materials_page.admin.mark_imported", "Märgi impordituks")}
+                        </Button>
+                        <Button
+                          variant="danger"
+                          disabled={reviewingId === item.id || item.status === "rejected"}
+                          onClick={() => void handleReview(item.id, "reject")}
+                          className={materialsSecondaryButtonClassName}
+                        >
+                          {t("materials_page.admin.reject", "Lükka tagasi")}
                         </Button>
                         <Button
                           variant="danger"

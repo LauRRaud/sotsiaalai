@@ -1332,6 +1332,10 @@ model MaterialSubmission {
   size              Int
   sha256            String
   storagePath       String
+  status            String   @default("pending")
+  reviewedAt        DateTime?
+  reviewedBy        String?
+  reviewNote        String?  @db.Text
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -1340,4 +1344,6 @@ model MaterialSubmission {
   @@index([submittedByUserId, createdAt])
   @@index([createdAt])
   @@index([sha256])
+  @@index([status, createdAt])
+  @@index([reviewedAt])
 }
