@@ -107,6 +107,39 @@ test("source panel collectors keep municipality_kov sources without urls", () =>
   assert.equal(latestSources[0].key, "viljandi-municipality-kov-koduteenus");
 });
 
+test("source panel collectors expose canonical and official URL aliases", () => {
+  const latestSources = collectLatestAnswerSources([
+    {
+      role: "user",
+      text: "Kas Kuusalu vallas pakutakse koduteenust?"
+    },
+    {
+      role: "assistant",
+      text: "Jah, Kuusalu vallas pakutakse koduteenust.",
+      displayed_sources: [
+        {
+          source_id: "kuusalu-koduteenus",
+          title: "Koduteenus",
+          source_type: "kov_service_info",
+          url_canonical: "https://www.kuusalu.ee/koduteenus"
+        },
+        {
+          source_id: "kuusalu-contact",
+          title: "Kontakt",
+          source_type: "contact_page",
+          officialUrl: "https://www.kuusalu.ee/kontakt"
+        }
+      ]
+    }
+  ]);
+
+  assert.equal(latestSources.length, 2);
+  assert.deepEqual(latestSources.map(source => source.allUrls[0]), [
+    "https://www.kuusalu.ee/koduteenus",
+    "https://www.kuusalu.ee/kontakt"
+  ]);
+});
+
 test("source panel collectors separate latest answer from whole conversation", () => {
   const messages = [
     {

@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 
 import {
   buildLegalExactSelection,
-  buildRagSearchErrorPayload
+  buildRagSearchErrorPayload,
+  mergePackageDisplayedSources
 } from "../../lib/chat/retrievalContextAssembler.js";
 
 test("buildRagSearchErrorPayload marks optional RAG failures with planner context", () => {
@@ -45,6 +46,28 @@ test("buildRagSearchErrorPayload truncates long error text", () => {
   });
 
   assert.equal(payload.error_message.length, 240);
+});
+
+test("mergePackageDisplayedSources enriches existing package source with package URL", () => {
+  const merged = mergePackageDisplayedSources([
+    {
+      source_id: "kuusalu-koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info"
+    }
+  ], [
+    {
+      source_id: "kuusalu-koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      url_canonical: "https://www.kuusalu.ee/koduteenus"
+    }
+  ]);
+
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].source_id, "kuusalu-koduteenus");
+  assert.equal(merged[0].url, "https://www.kuusalu.ee/koduteenus");
+  assert.equal(merged[0].url_canonical, "https://www.kuusalu.ee/koduteenus");
 });
 
 test("buildLegalExactSelection keeps only requested legal paragraph groups", () => {

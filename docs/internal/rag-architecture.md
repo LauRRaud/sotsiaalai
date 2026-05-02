@@ -50,6 +50,7 @@ Fix:
 - KOV service/benefit attribution receives the retrieval municipality context, so an Ihaste-style settlement alias can still display Tartu linn sources, while Viljandi valla questions do not display Viljandi linna or Anija valla service sources.
 - KOV displayed-source URL handling now preserves service URL aliases through the backend and frontend. `url_canonical`, `urlCanonical`, `official_url`, `officialUrl` and `sourceUrl` are normalized into a clickable displayed-source URL instead of requiring only a literal `url` field.
 - The Kuusalu/Alutaguse class of issues was therefore a source metadata/display contract bug, not a source modal bug: a backend-confirmed service source may be displayed only when attribution accepts it, but if the accepted source has a canonical or official URL alias, the UI must render `Ava allikas`.
+- Package-aware displayed source merge now enriches an already-selected source with the matching `SourcePackage` URL when both have the same `source_id`; the package source must not be dropped as a duplicate if it is the only layer that carries the clickable service URL.
 - The UI contract remains unchanged: the source icon appears only when `displayed_sources` is non-empty. If retrieval finds context but attribution rejects all selected sources, the trace must show the hide reasons in `attribution_decisions`.
 - If old RAG storage lacks any canonical/official URL metadata for a KOV service, the fix still requires reingesting or revalidating that KOV web bundle; the UI does not invent links.
 

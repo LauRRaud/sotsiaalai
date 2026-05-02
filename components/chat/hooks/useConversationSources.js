@@ -83,6 +83,24 @@ function getSourceType(src) {
           : "";
 }
 
+function getSourceUrl(src) {
+  return typeof src?.url === "string" && src.url.trim()
+    ? src.url.trim()
+    : typeof src?.url_canonical === "string" && src.url_canonical.trim()
+      ? src.url_canonical.trim()
+      : typeof src?.urlCanonical === "string" && src.urlCanonical.trim()
+        ? src.urlCanonical.trim()
+        : typeof src?.source_url === "string" && src.source_url.trim()
+          ? src.source_url.trim()
+          : typeof src?.sourceUrl === "string" && src.sourceUrl.trim()
+            ? src.sourceUrl.trim()
+            : typeof src?.official_url === "string" && src.official_url.trim()
+              ? src.official_url.trim()
+              : typeof src?.officialUrl === "string" && src.officialUrl.trim()
+                ? src.officialUrl.trim()
+                : "";
+}
+
 function isDbSource(src, uploadName = "") {
   if (!src) return false;
   const fileName = typeof src.fileName === "string" ? src.fileName.trim().toLowerCase() : "";
@@ -94,7 +112,7 @@ function isDbSource(src, uploadName = "") {
   const hasDbHint =
     sourceType.includes("rag") ||
     hasKnownSourceType ||
-    !!src.url ||
+    !!getSourceUrl(src) ||
     !!src.short_ref ||
     !!src.journalTitle ||
     !!src.source_id ||
@@ -113,7 +131,7 @@ function getSourceKey(src, fallback) {
     src?.id ||
     src?.canonical_item_id ||
     src?.canonicalItemId ||
-    src?.url ||
+    getSourceUrl(src) ||
     fallback;
 }
 
@@ -123,7 +141,7 @@ export function collectMessageSources(message, uploadPreview) {
   const sources = getDisplayedMessageSources(message);
   sources.forEach((src, idx) => {
     if (!isDbSource(src, uploadName)) return;
-    const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
+    const url = getSourceUrl(src);
     const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
     const label =
       rawLabel && !isSyntheticEvidenceRef(rawLabel)
@@ -209,7 +227,7 @@ export function collectConversationSources(messages, uploadPreview) {
     const sources = getDisplayedMessageSources(message);
     sources.forEach((src, idx) => {
       if (!isDbSource(src, uploadName)) return;
-      const url = typeof src?.url === "string" && src.url.trim() ? src.url.trim() : "";
+      const url = getSourceUrl(src);
       const rawLabel = typeof src?.label === "string" ? src.label.trim() : "";
       const label =
         rawLabel && !isSyntheticEvidenceRef(rawLabel)
