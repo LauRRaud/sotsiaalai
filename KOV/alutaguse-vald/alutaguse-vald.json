@@ -343,7 +343,7 @@
       "application": "Isik esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaalkomisjon otsustab teenuse ja suunab kliendi koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
+        "psuhholoogiline_noustamine_page",
         "social_services_overview"
       ],
       "relatedForms": [
@@ -357,7 +357,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
+        "psuhholoogiline_noustamine_page",
         "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
@@ -448,7 +448,7 @@
       "application": "Teenuse saamiseks tasub pöörduda vallavalitsuse sotsiaaltöötaja poole ja esitada põhjendatud taotlus. Klient suunatakse teenust saama vallavalitsuse koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
+        "soltuvusnoustamine_page",
         "social_services_overview"
       ],
       "relatedForms": [
@@ -465,7 +465,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
+        "soltuvusnoustamine_page",
         "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
@@ -831,7 +831,7 @@
       "officialUrl": "https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
       "sourceKeys": [
         "social_services_overview",
-        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
+        "yldhooldusteenus_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -848,7 +848,7 @@
       "county": "Ida-Virumaa",
       "source_keys": [
         "social_services_overview",
-        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
+        "yldhooldusteenus_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_uldhooldusteenus",

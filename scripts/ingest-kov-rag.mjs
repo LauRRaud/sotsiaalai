@@ -470,6 +470,89 @@ function resolveCanonicalKovSlug(paths, meta) {
     .replace(/-final$/, "");
 }
 
+function sourceKeyOf(source = {}) {
+  return String(source.key || source.source_key || source.source_id || source.document_id || "").trim();
+}
+
+function sourceUrlOf(source = {}) {
+  return String(source.url || source.url_canonical || source.normalized_url || "").trim();
+}
+
+function legacySourceTypeFor(source = {}) {
+  const sourceType = String(source.source_type || source.type || "").trim();
+  const resourceType = String(source.resource_type || "").trim();
+  if (source.type) return source.type;
+  if (sourceType === "kov_regulation") return "RT";
+  if (["application_form", "web_form", "pdf_form", "doc_form"].includes(sourceType) || resourceType === "form") return "FORMS";
+  if (["official_contact", "contact_page", "contact"].includes(sourceType) || resourceType === "contact") return "CONTACT";
+  if (sourceType === "kov_service_info" || resourceType === "service_page") return "DETAIL";
+  return "OTHER";
+}
+
+function normalizeSourcesForIngest(sources = {}) {
+  const normalizedSources = Array.isArray(sources.sources)
+    ? sources.sources.map((source) => ({
+        ...source,
+        key: sourceKeyOf(source),
+        type: legacySourceTypeFor(source),
+        url: sourceUrlOf(source) || source.url || null
+      }))
+    : [];
+  return {
+    ...sources,
+    sources: normalizedSources
+  };
+}
+
+function normalizeItemForIngest(item = {}) {
+  const itemType = item.itemType || item.item_type || "resource";
+  const resourceType = item.resourceType || item.resource_type || null;
+  const sourceKeys = Array.isArray(item.sourceKeys)
+    ? item.sourceKeys
+    : Array.isArray(item.source_keys)
+      ? item.source_keys
+      : [];
+  return {
+    ...item,
+    itemType,
+    item_type: item.item_type || itemType,
+    resourceType,
+    sourceKeys,
+    source_keys: Array.isArray(item.source_keys) ? item.source_keys : sourceKeys
+  };
+}
+
+function normalizeDatasetForIngest(dataset = {}) {
+  return {
+    ...dataset,
+    items: Array.isArray(dataset.items) ? dataset.items.map(normalizeItemForIngest) : []
+  };
+}
+
+async function runInputValidation(paths) {
+  const [sources, dataset, meta] = await Promise.all([
+    readJson(paths.sourcesPath).catch(() => ({})),
+    readJson(paths.datasetPath).catch(() => ({})),
+    readJson(paths.metaPath).catch(() => ({}))
+  ]);
+  const schemaText = [
+    sources.schemaVersion,
+    dataset.schemaVersion,
+    meta.schemaVersion,
+    meta.sourcePackageReadiness ? "sourcePackageReadiness" : ""
+  ].filter(Boolean).join(" ");
+  const isSourcePackageMetadata = /v2\.5|sourcepackage|sourcePackageReadiness/i.test(schemaText);
+  const validationArgs = isSourcePackageMetadata
+    ? [path.join(rootDir, "scripts", "validate-kov-metadata.mjs"), "--root", path.dirname(paths.dirPath), "--slug", paths.slug]
+    : [path.join(rootDir, "scripts", "validate-kov-rag.mjs"), paths.dirPath, "--slug", paths.slug];
+  const validation = spawnSync(process.execPath, validationArgs, {
+    stdio: "inherit"
+  });
+  if (validation.status !== 0) {
+    process.exit(validation.status ?? 1);
+  }
+}
+
 function deriveSourceUrlsForItem(item, sourceMap) {
   if (Array.isArray(item.sourceUrls) && item.sourceUrls.length) {
     return item.sourceUrls;
@@ -526,22 +609,19 @@ async function main() {
   const paths = await resolveDatasetPaths(args.input, args.slug);
 
   if (!args.skipValidate) {
-    const validation = spawnSync(process.execPath, [path.join(rootDir, "scripts", "validate-kov-rag.mjs"), paths.dirPath, "--slug", paths.slug], {
-      stdio: "inherit"
-    });
-    if (validation.status !== 0) {
-      process.exit(validation.status ?? 1);
-    }
+    await runInputValidation(paths);
   }
 
-  const [sources, dataset, meta, ragText] = await Promise.all([
+  const [rawSources, rawDataset, meta, ragText] = await Promise.all([
     readJson(paths.sourcesPath),
     readJson(paths.datasetPath),
     readJson(paths.metaPath),
     fs.readFile(paths.ragPath, "utf8")
   ]);
 
-  const sourceMap = new Map((sources.sources || []).map((entry) => [entry.key, entry]));
+  const sources = normalizeSourcesForIngest(rawSources);
+  const dataset = normalizeDatasetForIngest(rawDataset);
+  const sourceMap = new Map((sources.sources || []).map((entry) => [entry.key, entry]).filter(([key]) => key));
   const unionAudience = [...new Set((dataset.items || []).flatMap((item) => Array.isArray(item.audience) ? item.audience : []))];
   const canonicalSlug = resolveCanonicalKovSlug(paths, meta);
   const bundleDocId = args.docId || `kov::${canonicalSlug}::bundle`;
