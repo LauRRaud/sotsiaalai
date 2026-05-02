@@ -208,6 +208,13 @@ test("buildRagSearchQuery adds a generic keyword-focused query for factual backg
   assert.doesNotMatch(query, /OTT/i);
 });
 
+test("buildRagSearchQuery adds an exact-anchor query for named example lists", () => {
+  const query = buildRagSearchQuery("Vaimse tervise vestlusrobotid, nagu Woebot, Wysa, Vivibot ja XiaoE?", []);
+
+  assert.match(query, /Woebot/i);
+  assert.match(query, /woebot wysa vivibot xiaoe/i);
+});
+
 test("buildRagSearchQuery expands open thematic synthesis questions with issue and evidence angles", () => {
   const message = "mis on need probleemsed kohad, millest on lastekaitses räägitud?";
   const query = buildRagSearchQuery(message, []);
@@ -379,6 +386,48 @@ test("searchRagQueries merges per-query source filters with base filters", async
     assert.deepEqual(calls[1].where, {
       audience: { $in: ["CLIENT", "BOTH"] }
     });
+  } finally {
+    global.fetch = previousFetch;
+  }
+});
+
+test("searchRagQueries keeps fulfilled multi-query results when another query aborts", async () => {
+  const previousFetch = global.fetch;
+  const calls = [];
+  global.fetch = async (_url, options = {}) => {
+    const body = JSON.parse(String(options.body || "{}"));
+    calls.push(body);
+    if (String(body.query || "").includes("abort")) {
+      throw new Error("This operation was aborted");
+    }
+    return {
+      ok: true,
+      async text() {
+        return JSON.stringify({
+          retrievers_used: ["dense"],
+          results: [
+            {
+              id: "child-protection-article",
+              title: "Hea töö ei sünni Excelis",
+              text: "Lastekaitsetöötajad kirjeldavad dokumenteerimise ja ajapuuduse murekohti."
+            }
+          ]
+        });
+      }
+    };
+  };
+
+  try {
+    const results = await searchRagQueries({
+      queries: [
+        "lastekaitse murekohad dokumenteerimine",
+        "abort lastekaitse"
+      ],
+      topK: 8
+    });
+
+    assert.equal(calls.length, 2);
+    assert.deepEqual(results.map(item => item.id), ["child-protection-article"]);
   } finally {
     global.fetch = previousFetch;
   }

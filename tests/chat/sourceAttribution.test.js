@@ -80,6 +80,37 @@ test("requires named question anchors for displayed answer sources", () => {
   assert.deepEqual(filtered.map(source => source.id), ["voimaluste-kohvik"]);
 });
 
+test("requires exact named-list anchors before displaying generic topical sources", () => {
+  const reply = [
+    "Vaimse tervise valdkonnas kasutatakse digitaalseid toetavaid tööriistu,",
+    "kuid nende konkreetsete nimetuste kohta ei olnud allikates kinnitust."
+  ].join(" ");
+
+  const attribution = buildSourceAttribution(reply, [
+    {
+      id: "generic-mental-health",
+      source_type: "journal_article",
+      title: "Taastumist toetav töö vaimse tervise valdkonnas",
+      evidenceText: "Artikkel käsitleb vaimse tervise valdkonna taastumist toetavaid meetodeid."
+    },
+    {
+      id: "chatbot-article",
+      source_type: "journal_article",
+      title: "Vestlusrobotid vaimse tervise toetamisel",
+      evidenceText: "Woebot, Wysa, Vivibot ja XiaoE on näited vaimse tervise vestlusrobotitest."
+    }
+  ], {
+    query: "Vaimse tervise vestlusrobotid, nagu Woebot, Wysa, Vivibot ja XiaoE?",
+    riskPolicy: {
+      riskLevel: "low",
+      requiredEvidence: "medium"
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["chatbot-article"]);
+  assert.equal(attribution.filter_reasons["generic-mental-health"], "query_anchor_mismatch");
+});
+
 test("keeps journal article evidence for inflected AI and Tootukassa anchors", () => {
   const reply = [
     "Jah, Eestis on Töötukassa OTT-süsteemi kirjeldatud tehisintellekti kasutusnäitena.",
