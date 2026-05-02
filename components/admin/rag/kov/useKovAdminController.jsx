@@ -511,9 +511,9 @@ export function useKovAdminController(locale, initialItems = []) {
       },
       {
         key: "files",
-        label: et ? "Admin failid valid" : "Admin files valid",
+        label: et ? "KOV failid valid" : "KOV files valid",
         value: completeFiles,
-        hint: et ? "Ainult adminis üles laaditud KOV failipakett, mitte CLI RAG ingest." : "Only the manually uploaded admin file package, not CLI RAG ingest.",
+        hint: et ? "Admini või repo allikapakett; see ei ole sama mis RAG ingest staatus." : "Admin or repository source package; this is separate from RAG ingest status.",
         tone: completeFiles > 0 ? "success" : "neutral"
       },
       {

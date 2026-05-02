@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { groupMatches, rankGroupsWithTopicHints, renderOneContextBlock, selectMultiSourceGroups } from "../../lib/chat/ragContext.js";
+import { filterMatchesToMunicipalities, groupMatches, rankGroupsWithTopicHints, renderOneContextBlock, selectMultiSourceGroups } from "../../lib/chat/ragContext.js";
 
 test("topic hints outrank generic high-scoring noise for named concept questions", () => {
   const ranked = rankGroupsWithTopicHints([
@@ -162,6 +162,41 @@ test("groupMatches preserves related form and contact metadata for SourcePackage
 
   assert.deepEqual(groups[0].relatedForms, ["jogeva_vald_form_sotsiaalabi_taotlus"]);
   assert.deepEqual(groups[0].relatedContacts, ["jogeva_vald_contact_eve_viks"]);
+});
+
+test("filterMatchesToMunicipalities drops wrong KOV service matches", () => {
+  const matches = filterMatchesToMunicipalities([
+    {
+      id: "viljandi-koduteenus",
+      metadata: {
+        collection_id: "kov_services",
+        municipality_id: "viljandi_vald",
+        municipality_name: "Viljandi vald"
+      }
+    },
+    {
+      id: "anija-koduteenus",
+      metadata: {
+        collection_id: "kov_services",
+        municipality_id: "anija_vald",
+        municipality_name: "Anija vald"
+      }
+    },
+    {
+      id: "national-background",
+      metadata: {
+        collection_id: "national_regulations",
+        jurisdiction_level: "NATIONAL"
+      }
+    }
+  ], [
+    {
+      id: "viljandi_vald",
+      displayName: "Viljandi vald"
+    }
+  ]);
+
+  assert.deepEqual(matches.map(item => item.id), ["viljandi-koduteenus", "national-background"]);
 });
 
 test("official active sources outrank background sources with close scores", () => {

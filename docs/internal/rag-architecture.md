@@ -26,16 +26,16 @@ STATUS: active snapshot
 | Retrieval | V2 kasutab dense + lightweight lexical kanaleid (`title_match`, `exact_phrase`, `bm25`) ning hybrid/RRF merge'i | Tugevam hübriidotsing koos metadata filtrite, full-text/BM25 indeksi ja vajadusel mudelipõhise reranking'uga |
 | Attribution | `answer_source_ids`, `displayed_source_ids`, `attribution_decisions` ja legal attribution contract on kasutusel; legal exact puhul ei kuvata valet paragrahvi; `§999` / exact missing annab `insufficient_precise_legal_source_support` signaali; V3.4A section-level attribution on productionis kinnitatud package-aware ja high-risk vastustele | Claim-level attribution kõrge riskiga väidetele ning allikakonflikti põhjendatud lahendamine |
 | Trace | `rag_trace` sisaldab `query_plan`'i, retrieval kanaleid, source kihte, `legalLookupPlan`'i, `selection_strategy`'t, riskitaset, legal exact signaale, runtime `source_packages` kokkuvõtet ning V3.4A `section_attribution` signaale; source-package ja attribution smoke kinnitavad trace kihi | Täisobservability koos source package'i, latency, tokenite ja kvaliteedimõõdikutega |
-| KOV service model | Jõgeva KOV RT ja KOV web/service on clean canonical reingest'iga sees; V3.0A runtime `SourcePackage` builder koondab valitud konteksti sama `canonical_item_id` + `municipality_id` põhjal package summary'ks; vastamine on veel valdavalt chunk-põhine ja package-aware answering on V3.2 | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele |
-| Metadata | V2.5 canonical contract on kasutusel; clean canonical reingest on tehtud olemasoleva korpuse piires (`national_rt`, Jõgeva KOV RT, Jõgeva KOV web/service, ajakiri `Sotsiaaltöö`); Harku on v2.5-sourcepackage reference-pakett; 9 olemasolevat KOV veebipaketti on batch-upgrade'iga viidud v2.5-sourcepackage metadata kujule; legacy storage jäi rollback'iks alles | Kõik tulevased korpusepered map'ivad samale source contract'ile; org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
+| KOV service model | KOV/RT andmebaasi katvus on laiendatud: kõik kohalikud omavalitsused ja nende Riigi Teataja failid on andmebaasis, erandina Tallinn; 10-KOV kontrollsample on eraldi auditeeritud SourcePackage kvaliteediproov | Runtime või persisted `SourcePackage` teenustele, vormidele, kontaktidele ja õiguslikule alusele ning kvaliteedimõõdikud kogu korpusele |
+| Metadata | V2.5 canonical contract on kasutusel; KOV veebipaketid ja RT/legal kihid on andmebaasis kõigi KOV-ide kohta peale Tallinna; 10-KOV kontrollsample on valideeritud/auditeeritud; legacy storage jäi rollback'iks alles | Kõik korpusepered map'ivad samale source contract'ile; Tallinn, org/template/methodology korpuste readiness ja ingest tuleb veel eraldi teha |
 
 
 Current-state update after V3.4A follow-up:
 
 - KOV service model is now beyond the original runtime-only package summary: V3.0A runtime `SourcePackage`, V3.1 persisted snapshot, V3.2 package-aware answering and V3.4A section attribution are confirmed.
 - The V3.4A follow-up added and production-verified conservative SourcePackage completeness mapping for `forms`, `contacts`, `legal_basis`, `fees` and `deadlines`, more precise Jogeva gap-report candidate diagnostics, a supplemental same-KOV `kov_regulation` lookup, and a Jogeva canonical relation fallback resolver for `relatedForms` / `relatedContacts`.
-- The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement.
-- KOV table rows above are superseded by the 2026-04-29 golden reingest pilot state below: server cleanup is complete, Harku web+RT is ingested as the first golden KOV, and Harku SourcePackage snapshot persistence is confirmed. Jogeva/Haljala and the 10-KOV batch are not yet run.
+- The remaining target is fuller package coverage from ingest metadata and V3.4B claim-level attribution, not a retrieval engine replacement. V3.4B is not required to solve same-turn wrong-KOV source leakage; that is handled by strict municipality scoping and post-retrieval guardrails.
+- KOV table rows above are superseded by the 2026-04-29 golden reingest and 10-KOV control batch state plus the 2026-05-02 coverage update below: server cleanup is complete, Harku and Jogeva gates are complete, the 10-KOV batch is ingested/audited as a quality control sample, and all KOV/RT source files are in the database except Tallinn.
 
 ### KOV Admin / Metadata Update 2026-04-29
 
@@ -317,10 +317,95 @@ Harku RT chat lookup follow-up:
 
 Important limits:
 
-- V3.4B claim-level attribution has not been started.
+- V3.4B claim-level attribution has not been started. It is still useful for claim-level evidence on high-risk answers, but it is no longer a blocker for the Viljandi/Häädemeeste-Anija-Alutaguse wrong-KOV source class.
 - V3.5 regression system and V3.6 full rollout are not in scope for this completed step.
-- The current batch is the 10 local KOV control sample, not a 78-KOV rollout.
+- The 10 local KOV batch remains the audited control sample. Broader KOV/RT source coverage is now in the database except Tallinn, but the whole corpus still needs quality hardening.
 - Fees/deadlines are intentionally conservative info-level gaps unless explicit evidence is mapped.
+
+### KOV / RT Database Coverage Update 2026-05-02
+
+STATUS: source coverage loaded / Tallinn exception / system hardening continues
+
+Current coverage statement:
+
+- All local government KOV source files are in the RAG database except Tallinn.
+- The corresponding KOV Riigi Teataja / RT files are in the RAG database except Tallinn.
+- Tallinn is an explicit exception and must be treated as a separate ingest/readiness track before claiming full national KOV coverage.
+- The 10-KOV batch remains the audited control sample for quality, SourcePackage behavior and smoke checks; it is no longer the full extent of database coverage.
+
+Important interpretation:
+
+- "In the database" means the source layer is present/retrievable. It does not mean every answer is already production-perfect.
+- The system still needs development around KOV disambiguation, hard `municipality_id` scoping, wrong-municipality guardrails, SourcePackage completeness, forms/contacts/legal_basis joining, displayed source precision, and larger regression coverage.
+- V3.4B claim-level attribution remains useful for high-risk claim evidence, but database coverage and KOV scope correctness must be maintained independently in the retrieval/planner/filter layers.
+- V3.5/V3.6 work should now focus on proving quality across the broader all-KOV-except-Tallinn corpus, not only on adding more source files.
+
+### KOV Admin Coverage / Workflow Drift 2026-05-02
+
+STATUS: false invalid-file signal fixed / RAG-status reconciliation still needed
+
+Admin KOV vaade ei tohi tõlgendada 10-KOV kontrollsample'it kogu andmebaasi katvuse piirina. Pärast laiema KOV/RT korpuse laadimist näitas admin paneel uute KOV-ide puhul massiliselt `Sisaldab vigaseid faile`, `Vajavad toimetamist`, `KOV: Pole ingestitud` ja `RT: Pole ingestitud`, kuigi source layer on andmebaasis olemas kõigi KOV-ide kohta peale Tallinna.
+
+Root cause:
+
+- admini `sources.json` validaator oli jäänud vanale kujule `key/type`, kuid V2.5 SourcePackage failid kasutavad `source_id/source_type`;
+- uued KOV source failid kasutavad ka kohalikku allikataxonomiat, näiteks `kov_homepage`, `kov_service_page`, `kov_benefit_page`, `kov_contact_page`, `kov_resource_page`, `docx_form` ja `file_attachment`; neid ei tohi failipaki olemasolu kontrollis tagasi lükata ainult seetõttu, et need ei ole lõplikud chunk-level RAG `source_type` väärtused;
+- `MunicipalityKovAdmin.status`, `readyForIngest`, `ingestStatus` ja `rtIngestStatus` võivad olla admin workflow read-only vaates vanad isegi siis, kui repo source bundle ja RT manifest on olemas või RAG ingest on tehtud eraldi CLI-ga;
+- admin peab eristama kolme signaali: source package on olemas/valid, admin workflow on üle vaadatud/ready, ja RAG dokument eksisteerib retrievable andmebaasis.
+
+Implemented admin behavior:
+
+- KOV admin validaator aktsepteerib nüüd V2.5 `source_id/source_type` kuju ning legacy `key/type` kuju;
+- repo fallback failid (`KOV/<slug>/<slug>.sources.json`, `.json`, `.meta.json`, `.rag.md`) ja RT manifesti kaudu leitud XML saavad admin serialiseerimisel arvestada source bundle'i valmisolekuks;
+- kui repo/manifesti source bundle on valid, ei käsitleta rida vaikimisi `NOT_STARTED`/`NEEDS_REVIEW` massveana ainult puuduva vana admin toggle'i tõttu;
+- KPI silt on `KOV failid valid`, mitte `Admin failid valid`, sest allikaks võib olla ka repo fallback, mitte ainult käsitsi admini upload.
+
+Remaining admin work:
+
+- lisada või käivitada RAG document reconciliation, mis kontrollib expected `kov-<slug>` ja `kov-rt-<slug>` olemasolu RAG `/documents` põhjal ning sünkroonib `ingestStatus` / `rtIngestStatus` ainult tõendatud dokumentide alusel;
+- Tallinn peab jääma eraldi erandiks, mitte paistma sama kvaliteedi- või ingest-valmidusega nagu all-KOV-except-Tallinn korpus;
+- admin loendurid peavad jätkuvalt eristama `source files valid`, `ready for ingest`, `RAG ingested`, `SourcePackage audited` ja `needs manual review`.
+
+### KOV Scope Guardrail Follow-up 2026-05-02
+
+STATUS: implemented / targeted regression green
+
+The Viljandi chat regression exposed a separate scoping failure from V3.4B claim attribution. The user asked whether Viljandi valla social services are in the database, but the answer displayed Häädemeeste, Anija and Alutaguse sources. Those municipalities are unrelated to Viljandi vald/linn and must not be shown as evidence for a Viljandi-scoped question.
+
+Root cause:
+
+- municipality detection matched the shared base name `Viljandi` too broadly and could keep both `Viljandi vald` and `Viljandi linn` in scope;
+- the query planner used `municipality_name` when a stable `municipality_id` should have been available;
+- a short follow-up such as `jah` did not reliably carry the previous KOV/service-list intent;
+- retrieval did not have a final same-KOV post-filter before grouping and source display.
+
+Implemented behavior:
+
+- `detectMentionedMunicipalitiesFromUserText` now returns stable `id` / `municipalityId` values derived from slug, e.g. `viljandi_vald` and `viljandi_linn`;
+- typed municipality forms such as `Viljandi valla`, `Viljandi valda` and `Viljandi linna` are matched to the correct KOV instead of falling back to the ambiguous base name;
+- KOV-scoped RAG queries and filters prefer `municipality_id` over `municipality_name`;
+- service/benefit follow-ups carry the KOV from recent history for affirmative turns such as `jah`;
+- when the current message names a new KOV in a follow-up, the previous service/benefit list intent can still be reused with the new KOV;
+- `filterMatchesToMunicipalities` removes wrong-municipality KOV service/legal matches after retrieval while preserving national/background matches where appropriate.
+
+Expected user-facing behavior:
+
+- `kas viljandi valla sotsiaalteenused on andmebaasis?` must scope to `viljandi_vald`;
+- `aga viljandi linna?` must scope to `viljandi_linn`;
+- Häädemeeste, Anija, Alutaguse or any other KOV source must not be displayed for a Viljandi scoped answer unless the user explicitly asks for comparison across municipalities.
+
+Verification:
+
+```text
+TSX_TSCONFIG_PATH=jsconfig.json node --import tsx --test tests/chat/municipalityDetection.test.js tests/chat/queryPlanner.test.js
+TSX_TSCONFIG_PATH=jsconfig.json node --import tsx --test tests/chat/ragContextRanking.test.js tests/chat/retrievalContextAssembler.test.js
+npx eslint lib/help/municipalityData.js lib/chat/requestContext.js lib/chat/queryPlanner.js lib/chat/ragContext.js lib/chat/retrievalContextAssembler.js tests/chat/municipalityDetection.test.js tests/chat/queryPlanner.test.js tests/chat/ragContextRanking.test.js
+```
+
+Planning implication:
+
+- V3.4B claim-level attribution is still a roadmap item for high-risk claim evidence, claim hashing, admin claim analytics and possible persisted claim store.
+- V3.4B is not needed before closing this wrong-KOV leakage class; this class is covered by municipality disambiguation, hard `municipality_id` filters, post-retrieval same-KOV filtering and targeted regressions.
 
 ### V3.0A Implementation Update 2026-04-28
 
@@ -1841,7 +1926,7 @@ V3.3B kasutab action log'i ja persisted review reason detaili, kuid ei tee veel 
 
 ### V3.4 — Claim/Section Attribution For High-Risk Answers
 
-STATUS: V3.4A section-level attribution foundation production confirmed / completeness follow-up implemented at code/test level
+STATUS: V3.4A section-level attribution foundation production confirmed / completeness and KOV-scope guardrail follow-ups implemented / V3.4B planned
 
 V3.4A ei ole veel täielik claim-level attribution ega persisted claim store. See lisab esimese kitsama usalduskihi: package-aware või high-risk vastuse `rag_trace` sisaldab kompaktset `section_attribution` kokkuvõtet, mis seob `SourcePackage` sektsioonid ja `source_id` väärtused.
 
@@ -1858,7 +1943,7 @@ Missing sections on deterministlikult trace'is nähtavad. Kui `forms`, `contacts
 
 Legal exact rada on opt-out. `legal_exact` ja `legal_exact_paragraph` päringud ei kasuta SourcePackage section attribution'it ning nende `displayed_sources` enforcement jääb legal exact lepingusse.
 
-V3.4B-sse jäävad täielik claim-level attribution, claim hashing, admin claim analytics ja võimalik persisted claim store.
+V3.4B-sse jäävad täielik claim-level attribution, claim hashing, admin claim analytics ja võimalik persisted claim store. V3.4B ei ole eeldus KOV-i hard-scope vigade parandamiseks; need tuleb lahendada retrieval/planner/filter guardrail kihis enne claim attribution'it.
 
 Post-confirmation audit layer:
 
@@ -1960,19 +2045,21 @@ Testid peavad kontrollima:
 
 ### V3.6 — Multi-KOV Rollout In Waves
 
-STATUS: planned
+STATUS: source coverage loaded except Tallinn / quality rollout active
 
-Kõiki KOV-e ei paketeerita korraga.
+KOV/RT source coverage has moved past the original wave plan: source files for all KOVs except Tallinn are now in the database. The remaining rollout work is quality rollout, not just source ingestion.
 
-Soovitatud laiendamine:
+Tallinn remains a separate exception and needs its own readiness/ingest/quality plan.
+
+Historical expansion path:
 
 1. Jõgeva pilot.
 2. 3–5 eri suurusega KOV-i.
 3. 10–15 KOV-i.
 4. Suurem korpus.
-5. Täiskorpus.
+5. Täiskorpus, except Tallinn until its separate track is completed.
 
-Iga laine järel tuleb kontrollida:
+The current next step is to prove quality across the all-KOV-except-Tallinn corpus:
 
 - readiness audit;
 - package build;
@@ -2075,7 +2162,7 @@ STATUS: active decisions
 - Milline rebuild trigger strategy valida pärast reingest'i, source metadata muutust või stale source signaali?
 - Kuidas admin review workflow piirata nii, et see ei muutuks käsitsi sisuhalduseks?
 - Milline on claim text privacy mudel: `text_hash` vs excerpt-free `claim_id`?
-- Millal laiendada multi-KOV rollout 3-5 KOV-ilt 10-15 KOV-ile?
+- Millal ja kuidas teha Tallinna eraldi ingest/readiness rada ning kuidas tõendada kvaliteeti kogu all-KOV-except-Tallinn korpuse peal?
 - V3.7 retrieval/index technology review on optional: Chroma, Postgres full-text, tugevam BM25, reranker, Qdrant või eraldi SourcePackage index vaadatakse üle ainult siis, kui mõõdikud näitavad vajadust.
 
 ## V3 Conceptual Target State
@@ -2397,11 +2484,13 @@ STATUS: reference / active test map
 
 - `tests/chat/queryPlanner.test.js` - Query Planner V2 plaani, filtrite, broad/source-focused käitumise ja KOV laiendatud päringute testid.
 - `tests/fixtures/query-planner-v2-cases.json` - Query Planner V2 eval-fixture planner mode'ide ja filtrite regressiooniks.
+- `tests/chat/municipalityDetection.test.js` - KOV nime ja tüüpi sisaldavate käändevormide regressioonid, sh `Viljandi valla` -> `viljandi_vald` ja `Viljandi linna` -> `viljandi_linn`.
+- `tests/rag/kovAdminValidation.test.js` - KOV admin `sources.json` validaatori regressioonid V2.5 `source_id/source_type` ja legacy `key/type` kujule.
 - `tests/chat/sourceNeed.test.js` - RAG vajaduse tuvastus.
 - `tests/chat/retrievalOrchestrator.test.js` - RAG päringute, follow-up source anchoring'u, hübriidkanalite ja source filter merge'i testid.
 - `tests/chat/sourceAttribution.test.js` - vastusepõhine allikafiltreerimine.
 - `tests/chat/ragTraceMetadata.test.js` - `rag_trace`, allikakihtide ja `query_plan` metadata testid.
-- `tests/chat/ragContextRanking.test.js` - teema vihjete põhine ranking.
+- `tests/chat/ragContextRanking.test.js` - teema vihjete põhine ranking ning wrong-KOV post-filter regressioon.
 - `tests/chat/conversationSources.test.js` - allikapaneeli jaoks sõnumitest allikate kogumise ja `displayed_sources` eelistamise testid.
 - `tests/chat/promptStyle.test.js` - prompti stiil, tervitused ja ajakontekst.
 

@@ -152,6 +152,7 @@ test("Query Planner V2 expands municipality service and benefit list queries", (
     municipalityServiceBenefitListRequest: true,
     effectiveMunicipalities: [
       {
+        id: "tartu_linn",
         displayName: "Tartu linn"
       }
     ],
@@ -164,7 +165,8 @@ test("Query Planner V2 expands municipality service and benefit list queries", (
   assert.equal(plan.queryPlan.mode, "municipality_service_benefit_list");
   assert.equal(plan.queryPlan.selection_strategy, "municipality_service_benefit_balance");
   assert.equal(plan.queryPlan.context_group_target >= 28, true);
-  assert.equal(plan.searchFilters.municipality_name, "Tartu linn");
+  assert.equal(plan.searchFilters.municipality_id, "tartu_linn");
+  assert.equal(plan.primaryRagQueries.every((query) => query?.filters?.municipality_id === "tartu_linn"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "service"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "benefit"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id === "kov_legal"), true);

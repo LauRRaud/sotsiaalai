@@ -198,6 +198,7 @@
     "message": "millised sotsiaalteenused ja toetused on Tartus",
     "municipalities": [
       {
+        "id": "tartu_linn",
         "displayName": "Tartu linn"
       }
     ],
@@ -215,7 +216,7 @@
       "query_order": "default",
       "selection_strategy": "municipality_service_benefit_balance",
       "has_per_query_filters": true,
-      "filter_keys": ["$in", "audience", "collection_id", "item_type", "municipality_name"]
+      "filter_keys": ["$in", "audience", "collection_id", "item_type", "municipality_id"]
     }
   },
   {

@@ -1,0 +1,23 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import { detectMentionedMunicipalitiesFromUserText } from "../../lib/chat/requestContext.js";
+
+test("detectMentionedMunicipalitiesFromUserText distinguishes Viljandi vald inflection from city", async () => {
+  const matches = await detectMentionedMunicipalitiesFromUserText(
+    [],
+    "kas viljandi valla sotsiaalteenused on andmebaasis?"
+  );
+  const partitiveMatches = await detectMentionedMunicipalitiesFromUserText([], "kolin Viljandi valda");
+
+  assert.deepEqual(matches.map(item => item.id), ["viljandi_vald"]);
+  assert.deepEqual(matches.map(item => item.displayName), ["Viljandi vald"]);
+  assert.deepEqual(partitiveMatches.map(item => item.id), ["viljandi_vald"]);
+});
+
+test("detectMentionedMunicipalitiesFromUserText distinguishes Viljandi linn inflection from parish", async () => {
+  const matches = await detectMentionedMunicipalitiesFromUserText([], "aga viljandi linna?");
+
+  assert.deepEqual(matches.map(item => item.id), ["viljandi_linn"]);
+  assert.deepEqual(matches.map(item => item.displayName), ["Viljandi linn"]);
+});
