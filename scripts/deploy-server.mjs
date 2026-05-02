@@ -71,13 +71,31 @@ else
   exit 4
 fi
 
+frontend_was_active="0"
+if systemctl is-active --quiet sotsiaalai-frontend.service; then
+  frontend_was_active="1"
+fi
+
 if [ "$SKIP_BUILD" != "1" ]; then
+  if [ "$frontend_was_active" = "1" ]; then
+    echo "[deploy:server] Stopping frontend before in-place build"
+    sudo systemctl stop sotsiaalai-frontend.service
+  fi
+
   if [ -f "$FRONTEND_ENV" ]; then
     set -a
     . "$FRONTEND_ENV"
     set +a
   fi
-  npm run build
+
+  if ! npm run build; then
+    build_status="$?"
+    if [ "$frontend_was_active" = "1" ]; then
+      echo "[deploy:server] Build failed; restarting previous frontend state" >&2
+      sudo systemctl start sotsiaalai-frontend.service || true
+    fi
+    exit "$build_status"
+  fi
 fi
 
 if systemctl list-unit-files sotsiaalai-rag.service >/dev/null 2>&1; then

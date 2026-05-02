@@ -1,7 +1,3 @@
-// next.config.mjs
-import { fileURLToPath } from "url";
-import path from "path";
-
 const withBundleAnalyzer =
   process.env.ANALYZE === "true"
     ? (await import("@next/bundle-analyzer")).default({
@@ -22,7 +18,6 @@ const baseConfig = {
 
   // säilita turbopack config
   turbopack: {
-    root: path.dirname(fileURLToPath(import.meta.url)),
     rules: {
       "*.svg": {
         loaders: ["@svgr/webpack"],
