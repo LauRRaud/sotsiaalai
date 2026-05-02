@@ -242,6 +242,19 @@ test("buildRagSearchQuery treats short child protection concern questions as the
   assert.equal(thematicParts.length >= 5, true);
 });
 
+test("buildRagSearchQuery treats generic discussed-topic questions as thematic synthesis", () => {
+  const message = "millest räägitakse järelevalve ja dokumenteerimise puhul?";
+  const query = buildRagSearchQuery(message, []);
+  const thematicParts = buildThematicSynthesisQueryParts(message);
+
+  assert.equal(isThematicSynthesisRagQuestion(message), true);
+  assert.equal(isBroadMultiSourceRagQuestion(message), true);
+  assert.match(query, /järelevalve/i);
+  assert.match(query, /dokumenteerimise/i);
+  assert.equal(thematicParts.length >= 4, true);
+  assert.equal(thematicParts.some(part => /uuring juhend statistika ajakiri praktika kogemus/i.test(part)), true);
+});
+
 test("buildSourceAnchoredRagQueries adds focused source filters before fallback query", () => {
   const history = [
     {

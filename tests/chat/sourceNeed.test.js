@@ -65,6 +65,32 @@ test("uses RAG for mental health digital support and chatbot questions", () => {
   );
 });
 
+test("uses RAG for substantive knowledge questions without domain keyword whitelisting", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("mis on murekohad lastekaitses?"),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("millest räägitakse järelevalve ja dokumenteerimise puhul?"),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("kas Woebot, Wysa, Vivibot ja XiaoE on allikates mainitud?"),
+    true
+  );
+});
+
+test("does not use RAG for assistant capability and greeting turns", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("kas sa saad mind aidata?"),
+    false
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("tere"),
+    false
+  );
+});
+
 test("does not use RAG for a source-anchored decline", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("ei", {
