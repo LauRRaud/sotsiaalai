@@ -93,6 +93,59 @@ test("buildPackageAwareContext anchors package selection to the requested servic
   assert.equal(result.contextText.includes("Isikliku abistaja teenus"), false);
 });
 
+test("buildPackageAwareContext does not push missing form contact text for service existence questions", () => {
+  const result = buildPackageAwareContext([
+    {
+      package_id: "alutaguse_vald_service_koduteenus_package",
+      canonical_item_id: "alutaguse_vald_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "alutaguse_vald",
+      sections: {
+        description: [{ source_id: "alutaguse-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        application: [{ source_id: "alutaguse-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        forms: [],
+        contacts: [],
+        legal_basis: []
+      },
+      source_ids: ["alutaguse-koduteenus"],
+      missing_sections: ["forms", "contacts", "legal_basis", "fees", "deadlines"]
+    }
+  ], {
+    query: "kas alutaguse vallas on olemas koduteenus?"
+  });
+
+  assert.deepEqual(result.missingSectionsUsed, []);
+  assert.equal(result.contextText.includes("vormid: missing"), false);
+  assert.equal(result.contextText.includes("kontaktid: missing"), false);
+  assert.equal(result.contextText.includes("missing_sections_relevant_to_question=none"), true);
+});
+
+test("buildPackageAwareContext keeps missing form contact text for application questions", () => {
+  const result = buildPackageAwareContext([
+    {
+      package_id: "alutaguse_vald_service_koduteenus_package",
+      canonical_item_id: "alutaguse_vald_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "alutaguse_vald",
+      sections: {
+        description: [{ source_id: "alutaguse-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        forms: [],
+        contacts: []
+      },
+      source_ids: ["alutaguse-koduteenus"],
+      missing_sections: ["forms", "contacts"]
+    }
+  ], {
+    query: "kuidas alutaguse vallas koduteenust taotleda?"
+  });
+
+  assert.deepEqual(result.missingSectionsUsed, ["contacts", "forms"]);
+  assert.equal(result.contextText.includes("vormid: missing"), true);
+  assert.equal(result.contextText.includes("kontaktid: missing"), true);
+});
+
 test("buildPackageAwareContext exposes confirmed form URLs for answer text", () => {
   const formUrl = "https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx";
   const result = buildPackageAwareContext([
@@ -124,4 +177,7 @@ test("buildPackageAwareContext exposes confirmed form URLs for answer text", () 
   assert.equal(result.contextText.includes("Avaldus teenuse taotlemiseks abivajaduse korral"), true);
   assert.equal(result.contextText.includes(`url=${formUrl}`), true);
   assert.equal(result.contextText.includes("Kui forms sektsioonis on vormi URL"), true);
+  assert.equal(result.contextText.includes("answer_focus=availability,service_content,legal_basis,application,forms,contacts"), true);
+  assert.equal(result.contextText.includes("Teenuse olemasolu küsimuses anna kohe tervikvastus"), true);
+  assert.equal(result.contextText.includes("Ära lõpeta vastust lubadusega"), true);
 });

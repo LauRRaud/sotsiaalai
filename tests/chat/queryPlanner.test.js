@@ -144,6 +144,20 @@ test("Query Planner V2 keeps broad synthesis searches broad first", () => {
   assert.deepEqual(plan.primaryRagQueries[1].filters, { doc_id: "article-doc-2025" });
 });
 
+test("Query Planner V2 marks open issue synthesis as thematic synthesis", () => {
+  const plan = basePlan({
+    effectiveMessage: "mis on need probleemsed kohad, millest on lastekaitses räägitud?",
+    thematicSynthesisQuestion: true,
+    broadMultiSourceQuestion: true
+  });
+
+  assert.equal(plan.queryPlan.mode, "thematic_synthesis");
+  assert.equal(plan.queryPlan.query_order, "broad_first");
+  assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.flags.thematic_synthesis, true);
+  assert.equal(plan.queryPlan.context_group_target >= 12, true);
+});
+
 test("Query Planner V2 expands municipality service and benefit list queries", () => {
   const plan = basePlan({
     effectiveMessage: "millised sotsiaalteenused ja toetused on Tartus",

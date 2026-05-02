@@ -28,6 +28,22 @@ export const VALID_RESOURCE_TYPES = new Set([
 ]);
 export const VALID_SOURCE_FORMATS = new Set(["html", "pdf", "doc", "docx", "xls", "xlsx", "xml", "json"]);
 
+const LEGACY_KOV_WEB_SOURCE_TYPES = new Set([
+  "kov_service_page",
+  "kov_benefit_page",
+  "kov_resource_page",
+  "kov_social_overview",
+  "kov_homepage",
+  "kov_web",
+  "municipality_web"
+]);
+
+function normalizeSourceType(value) {
+  const type = String(value || "").trim();
+  if (LEGACY_KOV_WEB_SOURCE_TYPES.has(type)) return "kov_service_info";
+  return type;
+}
+
 export function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
@@ -115,7 +131,8 @@ function looksLikeForm(source = {}) {
 }
 
 export function sourceTypeForSource(source = {}) {
-  if (source.source_type) return String(source.source_type);
+  const explicitSourceType = normalizeSourceType(source.source_type);
+  if (explicitSourceType) return explicitSourceType;
   if (looksLikeContact(source)) return String(source.type || "").toLowerCase().includes("page") ? "contact_page" : "official_contact";
   if (looksLikeForm(source)) return "application_form";
   return "kov_service_info";
@@ -182,7 +199,7 @@ export function upgradeKovBundle(entry, options = {}) {
   }
 
   let upgradedSources = cleanArray(sourcesDoc.sources).map(source => {
-    const sourceKey = source.source_key || source.key || sourceIdForKey(entry.municipality_id, source.title || source.url);
+    const sourceKey = source.source_key || source.key || source.source_id || source.sourceId || sourceIdForKey(entry.municipality_id, source.title || source.url);
     const sourceId = source.source_id || sourceIdForKey(entry.municipality_id, sourceKey);
     const sourceType = sourceTypeForSource(source);
     const resourceType = resourceTypeForSource(source, sourceType);
@@ -297,6 +314,7 @@ export function upgradeKovBundle(entry, options = {}) {
     const itemSourceType = sourceTypeForItem({ ...item, item_type: itemType });
     const itemResourceType = resourceTypeForItem({ ...item, item_type: itemType });
     const keys = uniqueSorted([...sourceKeysForItem(item), ...(sourceKeysByUrl.get(item.officialUrl) || [])]);
+    const normalizedItemSourceType = normalizeSourceType(item.source_type) || itemSourceType;
     return {
       ...item,
       itemType: item.itemType || itemType,
@@ -310,7 +328,7 @@ export function upgradeKovBundle(entry, options = {}) {
       source_id: item.source_id || item.id,
       document_id: item.document_id || item.id,
       canonical_item_id: item.canonical_item_id || item.id,
-      source_type: item.source_type || itemSourceType,
+      source_type: normalizedItemSourceType,
       resource_type: item.resource_type || itemResourceType,
       collection_id: item.collection_id || "kov_services",
       authority: item.authority || "KOV",

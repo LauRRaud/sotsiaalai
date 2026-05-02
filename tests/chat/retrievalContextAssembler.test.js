@@ -70,6 +70,31 @@ test("mergePackageDisplayedSources enriches existing package source with package
   assert.equal(merged[0].url_canonical, "https://www.kuusalu.ee/koduteenus");
 });
 
+test("mergePackageDisplayedSources enriches title municipality alias with package URL", () => {
+  const merged = mergePackageDisplayedSources([
+    {
+      source_id: "kuusalu_vald_service_koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      municipality_id: "kuusalu_vald"
+    }
+  ], [
+    {
+      source_id: "koduteenus_page",
+      title: "Koduteenus",
+      source_type: "kov_service_page",
+      resource_type: "service_page",
+      municipality_id: "kuusalu_vald",
+      url_canonical: "https://www.kuusalu.ee/koduteenus"
+    }
+  ]);
+
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].source_id, "kuusalu_vald_service_koduteenus");
+  assert.equal(merged[0].url, "https://www.kuusalu.ee/koduteenus");
+  assert.equal(merged[0].url_canonical, "https://www.kuusalu.ee/koduteenus");
+});
+
 test("buildLegalExactSelection keeps only requested legal paragraph groups", () => {
   const result = buildLegalExactSelection([
     {

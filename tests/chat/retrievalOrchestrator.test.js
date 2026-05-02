@@ -8,6 +8,7 @@ import {
   buildRagSearchQuery,
   buildSourceLookupSearchQuery,
   buildSourceAnchoredRagQueries,
+  buildThematicSynthesisQueryParts,
   detectSourceAvailabilityRequest,
   dedupeRagMatches,
   extractRecentAssistantSourceAnchors,
@@ -15,6 +16,7 @@ import {
   hasRecentAssistantSources,
   inferRetrieversUsed,
   isBroadMultiSourceRagQuestion,
+  isThematicSynthesisRagQuestion,
   searchRagQueries
 } from "../../lib/chat/retrievalOrchestrator.js";
 
@@ -198,6 +200,28 @@ test("buildRagSearchQuery anchors short follow-ups to recent assistant sources",
   ]);
 });
 
+test("buildRagSearchQuery adds a generic keyword-focused query for factual background questions", () => {
+  const query = buildRagSearchQuery("kas eestis kasutatakse tehisintellekti, nt töötukassas?", []);
+
+  assert.match(query, /töötukassas/i);
+  assert.match(query, /tehisintellekti töötukassas/i);
+  assert.doesNotMatch(query, /OTT/i);
+});
+
+test("buildRagSearchQuery expands open thematic synthesis questions with issue and evidence angles", () => {
+  const message = "mis on need probleemsed kohad, millest on lastekaitses räägitud?";
+  const query = buildRagSearchQuery(message, []);
+  const thematicParts = buildThematicSynthesisQueryParts(message);
+
+  assert.equal(isThematicSynthesisRagQuestion(message), true);
+  assert.equal(isBroadMultiSourceRagQuestion(message), true);
+  assert.match(query, /lastekaitses/i);
+  assert.match(query, /lastekaitse probleemid kitsaskohad/i);
+  assert.match(query, /uuring juhend statistika ajakiri praktika kogemus/i);
+  assert.match(query, /töökorraldus töökoormus ajapuudus dokumenteerimine andmesüsteem/i);
+  assert.equal(thematicParts.length >= 4, true);
+});
+
 test("buildSourceAnchoredRagQueries adds focused source filters before fallback query", () => {
   const history = [
     {
@@ -259,7 +283,19 @@ test("buildSourceAnchoredRagQueries keeps broad synthesis queries unfiltered fir
   assert.equal(typeof queries[0], "string");
   assert.match(queries[0], /võrdle seda teiste/);
   assert.match(queries[0], /Tehisintellekt sotsiaaltöös/);
-  assert.deepEqual(queries[1].filters, { doc_id: "article-doc-2025" });
+  const focused = queries.find(query => query?.filters?.doc_id === "article-doc-2025");
+  assert.deepEqual(focused?.filters, { doc_id: "article-doc-2025" });
+});
+
+test("buildSourceAnchoredRagQueries sends thematic synthesis lines as separate broad queries", () => {
+  const message = "mis on need probleemsed kohad, millest on lastekaitses räägitud?";
+  const queries = buildSourceAnchoredRagQueries(message, [], buildRagSearchQuery(message, []));
+
+  assert.equal(queries.length >= 4, true);
+  assert.equal(queries.every(query => typeof query === "string"), true);
+  assert.match(queries[0], /probleemsed kohad/i);
+  assert.equal(queries.some(query => /lastekaitse probleemid kitsaskohad/i.test(query)), true);
+  assert.equal(queries.some(query => /dokumenteerimine andmesüsteem/i.test(query)), true);
 });
 
 test("detectSourceAvailabilityRequest treats inflected legal provision lists as source lookup", () => {

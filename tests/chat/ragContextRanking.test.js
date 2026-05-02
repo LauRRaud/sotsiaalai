@@ -140,6 +140,42 @@ test("groupMatches preserves hybrid retrieval score components for trace", () =>
   assert.equal(groups[0].retrievalScores.hybrid_score, 0.82);
 });
 
+test("groupMatches orders same-article bodies by lexical chunk relevance", () => {
+  const groups = groupMatches([
+    {
+      id: "generic-summary",
+      doc_id: "article-doc",
+      articleId: "ai-article",
+      title: "Tehisintellekt sotsiaaltöös",
+      text: "Artikkel käsitleb tehisintellekti väärtuspõhiseid piire sotsiaaltöös üldiselt.",
+      metadata: {
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles"
+      },
+      retrieval_channels: ["dense"],
+      hybrid_score: 0.9
+    },
+    {
+      id: "ott-specific",
+      doc_id: "article-doc",
+      articleId: "ai-article",
+      title: "Tehisintellekt sotsiaaltöös",
+      text: "Eesti töötukassa OTT-süsteem hindab pikaajalise töötuse riski 45 näitaja alusel.",
+      metadata: {
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles"
+      },
+      retrieval_channels: ["bm25", "exact_phrase"],
+      hybrid_score: 0.4,
+      bm25_score: 4.2,
+      bm25_coverage: 0.8
+    }
+  ]);
+
+  assert.equal(groups.length, 1);
+  assert.match(groups[0].bodies[0], /OTT-süsteem/);
+});
+
 test("groupMatches preserves related form and contact metadata for SourcePackage mapping", () => {
   const groups = groupMatches([
     {

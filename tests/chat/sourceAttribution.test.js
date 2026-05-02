@@ -80,6 +80,34 @@ test("requires named question anchors for displayed answer sources", () => {
   assert.deepEqual(filtered.map(source => source.id), ["voimaluste-kohvik"]);
 });
 
+test("keeps journal article evidence for inflected AI and Tootukassa anchors", () => {
+  const reply = [
+    "Jah, Eestis on Töötukassa OTT-süsteemi kirjeldatud tehisintellekti kasutusnäitena.",
+    "Süsteem hindab pikaajalise töötuse riski 45 näitaja alusel ja toetab spetsialisti otsustamist."
+  ].join(" ");
+
+  const attribution = buildSourceAttribution(reply, [
+    {
+      id: "sotsiaaltoo-ai-ott",
+      source_type: "journal_article",
+      title: "Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid",
+      journalTitle: "Sotsiaaltöö",
+      year: 2025,
+      evidenceText: "Eesti töötukassa OTT-süsteem pakub tasakaalukamat käsitlust, kombineerides andmepõhist prognoosi ja inimlikku otsustamist. Süsteem hindab pikaajalise töötuse riski 45 näitaja alusel."
+    }
+  ], {
+    query: "kas eestis kasutatakse tehisintellekti, nt töötukassas?",
+    riskPolicy: {
+      riskLevel: "low",
+      requiredEvidence: "medium"
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["sotsiaaltoo-ai-ott"]);
+  assert.equal(attribution.filter_reasons["sotsiaaltoo-ai-ott"], undefined);
+  assert.equal("evidenceText" in attribution.displayedSources[0], false);
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {
