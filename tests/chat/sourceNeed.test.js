@@ -80,6 +80,25 @@ test("uses RAG for substantive knowledge questions without domain keyword whitel
   );
 });
 
+test("uses RAG for natural situation descriptions and broad professional questions", () => {
+  assert.equal(
+    shouldUseExternalSourcesForTurn("kui mul on kodus üks eakas, kes ei tööta, siis mida tuleb teha"),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("ma olen sotsiaaltöö spetsialist, aga mul ei ole lastekaitsega tegemist, mis teemad on lastekaitses peamised"),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("mul pole süüa, mida teha"),
+    true
+  );
+  assert.equal(
+    shouldUseExternalSourcesForTurn("mul pole süüa"),
+    true
+  );
+});
+
 test("does not use RAG for assistant capability and greeting turns", () => {
   assert.equal(
     shouldUseExternalSourcesForTurn("kas sa saad mind aidata?"),
