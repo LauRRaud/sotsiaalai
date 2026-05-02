@@ -23,6 +23,15 @@ test("uses short natural English and Russian greetings", () => {
   assert.equal(ruWorker.greetingWorker, "Здравствуйте! С какой темой могу помочь?");
 });
 
+test("worker no-context fallback is not municipality-only", () => {
+  const worker = langStrings("et", "SOCIAL_WORKER");
+
+  assert.match(worker.noContext, /teemat/);
+  assert.match(worker.noContext, /allikatüüpi/);
+  assert.match(worker.noContext, /vajadusel omavalitsust/);
+  assert.doesNotMatch(worker.noContext, /Palun täpsusta KOV või omavalitsus/);
+});
+
 test("Estonian base prompt discourages search-status phrasing in ordinary answers", () => {
   const input = toResponsesInput({
     history: [],

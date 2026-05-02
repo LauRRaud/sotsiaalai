@@ -4,7 +4,8 @@ import assert from "node:assert/strict";
 import {
   buildLegalExactSelection,
   buildRagSearchErrorPayload,
-  mergePackageDisplayedSources
+  mergePackageDisplayedSources,
+  shouldUseReportedPracticeInstruction
 } from "../../lib/chat/retrievalContextAssembler.js";
 
 test("buildRagSearchErrorPayload marks optional RAG failures with planner context", () => {
@@ -93,6 +94,32 @@ test("mergePackageDisplayedSources enriches title municipality alias with packag
   assert.equal(merged[0].source_id, "kuusalu_vald_service_koduteenus");
   assert.equal(merged[0].url, "https://www.kuusalu.ee/koduteenus");
   assert.equal(merged[0].url_canonical, "https://www.kuusalu.ee/koduteenus");
+});
+
+test("reported practice instruction is enabled for article-backed organization use questions", () => {
+  assert.equal(shouldUseReportedPracticeInstruction(
+    "kas tehisintellekti kasutatakse töötukassas?",
+    [
+      {
+        sourceType: "journal_article",
+        collectionId: "sotsiaaltoo_articles",
+        title: "Tehisintellekt sotsiaaltöös"
+      }
+    ]
+  ), true);
+});
+
+test("reported practice instruction is not enabled without a background practice source", () => {
+  assert.equal(shouldUseReportedPracticeInstruction(
+    "kas tehisintellekti kasutatakse töötukassas?",
+    [
+      {
+        sourceType: "kov_service_info",
+        collectionId: "kov_services",
+        title: "Koduteenus"
+      }
+    ]
+  ), false);
 });
 
 test("buildLegalExactSelection keeps only requested legal paragraph groups", () => {

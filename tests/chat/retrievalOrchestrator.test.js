@@ -222,6 +222,19 @@ test("buildRagSearchQuery expands open thematic synthesis questions with issue a
   assert.equal(thematicParts.length >= 4, true);
 });
 
+test("buildRagSearchQuery treats short child protection concern questions as thematic synthesis", () => {
+  const message = "mis on murekohad lastekaitses?";
+  const query = buildRagSearchQuery(message, []);
+  const thematicParts = buildThematicSynthesisQueryParts(message);
+
+  assert.equal(isThematicSynthesisRagQuestion(message), true);
+  assert.equal(isBroadMultiSourceRagQuestion(message), true);
+  assert.match(query, /lastekaitses/i);
+  assert.match(query, /lastekaitse probleemid kitsaskohad/i);
+  assert.match(query, /lastekaitsetootajad probleemid kitsaskohad dokumenteerimine ajapuudus/i);
+  assert.equal(thematicParts.length >= 5, true);
+});
+
 test("buildSourceAnchoredRagQueries adds focused source filters before fallback query", () => {
   const history = [
     {

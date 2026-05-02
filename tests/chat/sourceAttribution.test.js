@@ -108,6 +108,90 @@ test("keeps journal article evidence for inflected AI and Tootukassa anchors", (
   assert.equal("evidenceText" in attribution.displayedSources[0], false);
 });
 
+test("thematic synthesis displays selected journal guide and study sources without legal noise", () => {
+  const attribution = buildSourceAttribution(
+    "Lastekaitses on murekohtadena kirjeldatud dokumenteerimise koormust, andmesüsteemide tuge ja järelevalve selgust.",
+    [
+      {
+        id: "excel-article",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Hea töö ei sünni Excelis – lastekaitsetöötajad ootavad järelevalvelt selgust ja tuge",
+        evidenceText: "Lastekaitsetöötajad on kurtnud, et sisulist tööd kajastavad kanded hilinevad ning dokumente tuleb vormistada töövälisel ajal."
+      },
+      {
+        id: "child-protection-study",
+        source_type: "research_report",
+        title: "Lastekaitse töökorralduse uuring",
+        evidenceText: "Uuring käsitleb lastekaitse töökoormust, juhtumitööd ja andmesüsteemi kitsaskohti."
+      },
+      {
+        id: "child-protection-guide",
+        source_type: "methodology_guide",
+        title: "Lastekaitse juhtumitöö juhend",
+        evidenceText: "Juhend kirjeldab abivajaduse hindamist ja juhtumitöö dokumenteerimist."
+      },
+      {
+        id: "child-protection-law",
+        source_type: "national_law",
+        title: "Lastekaitseseadus",
+        evidenceText: "Seadus sätestab lastekaitse üldised põhimõtted."
+      }
+    ],
+    {
+      query: "mis on murekohad lastekaitses?",
+      queryPlan: {
+        mode: "thematic_synthesis",
+        selection_strategy: "multi_source_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(new Set(attribution.displayed_source_ids), new Set([
+    "excel-article",
+    "child-protection-study",
+    "child-protection-guide"
+  ]));
+  assert.equal(attribution.filter_reasons["child-protection-law"], "query_anchor_mismatch");
+  assert.equal(attribution.attribution_decisions.find(item => item.source_id === "excel-article")?.reason, "synthesis_context_selected");
+  assert.equal(attribution.displayedSources.some(source => "evidenceText" in source), false);
+});
+
+test("thematic synthesis can use research sources even when topic words look like service questions", () => {
+  const attribution = buildSourceAttribution(
+    "Sotsiaalteenuste kättesaadavuse murekohad puudutavad piirkondlikke erinevusi ja töökorraldust.",
+    [
+      {
+        id: "access-study",
+        source_type: "research_report",
+        title: "Sotsiaalteenuste kättesaadavuse uuring",
+        evidenceText: "Uuring käsitleb sotsiaalteenuste kättesaadavuse probleeme ja piirkondlikke erinevusi."
+      }
+    ],
+    {
+      query: "mis on probleemid sotsiaalteenuste kättesaadavuses?",
+      queryPlan: {
+        mode: "thematic_synthesis",
+        selection_strategy: "multi_source_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "medium",
+        requiredEvidence: "strong",
+        insufficientEvidenceMode: true
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["access-study"]);
+  assert.equal(attribution.attribution_decisions[0].reason, "synthesis_context_selected");
+  assert.equal(attribution.attribution_decisions[0].evidence_strength, "medium");
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {

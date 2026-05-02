@@ -824,7 +824,7 @@
     },
     "fallback": {
       "no_context_client": "I could not find an exact answer in the materials right now. Please describe your situation in a bit more detail and include at least your municipality or city.",
-      "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the municipality and the type of service or situation."
+      "no_context_worker": "I could not find an exact answer in the materials right now. Please specify the topic, source type, or, if relevant, the municipality and service or situation type."
     },
     "empty_intro": "Hello! Briefly describe what you want to know or what guidance you need. If you want another mode, choose it from the + menu.",
     "empty_intro_help_request": "Describe as clearly as possible what help you need. Include the key details so that your situation and need for help are easy to understand. If needed, I will ask for more.",
