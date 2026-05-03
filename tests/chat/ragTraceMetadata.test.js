@@ -133,6 +133,15 @@ test("RAG trace preserves retrieved, selected, answer and displayed source layer
   assert.deepEqual(trace.displayed_source_ids, ["tartu-koduteenus"]);
   assert.deepEqual(trace.filtered_out_source_ids, ["general-article"]);
   assert.equal(trace.filter_reasons["general-article"], "query_anchor_mismatch");
+  assert.equal(trace.selected_source_count, 2);
+  assert.equal(trace.answer_source_count, 1);
+  assert.equal(trace.displayed_source_count, 1);
+  assert.equal(trace.filtered_out_source_count, 1);
+  assert.equal(trace.displayed_sources_subset_of_selected, true);
+  assert.equal(trace.displayed_sources_subset_of_answer, true);
+  assert.deepEqual(trace.selected_but_not_displayed_source_ids, ["general-article"]);
+  assert.deepEqual(trace.attribution_filtered_source_ids, ["general-article"]);
+  assert.equal(trace.attribution_filter_reasons["general-article"], "query_anchor_mismatch");
   assert.equal(trace.rag_risk_level, "medium");
   assert.equal(trace.rag_required_evidence, "strong");
   assert.equal(trace.rag_insufficient_evidence_mode, true);
@@ -181,6 +190,67 @@ test("attribution metadata stores displayed sources and keeps legacy metadata", 
   assert.equal(metadata.rag_trace.selected_context_count, 2);
   assert.deepEqual(metadata.rag_trace.retrievers_used, ["dense"]);
   assert.equal(metadata.rag_trace.rag_risk_level, "medium");
+});
+
+test("RAG trace includes overview synthesis selection metadata without source excerpts", () => {
+  const overviewSources = [
+    {
+      source_id: "article-a",
+      title: "Lastekaitse artikkel",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      evidenceText: "Lastekaitse dokumenteerimise koormus."
+    },
+    {
+      source_id: "guide-b",
+      title: "Lastekaitse juhend",
+      source_type: "methodology_guide",
+      evidenceText: "JuhtumitĆ¶Ć¶ ja hindamise tugi."
+    }
+  ];
+  const attribution = buildSourceAttribution("Lastekaitses korduvad dokumenteerimise ja juhtumitĆ¶Ć¶ toe teemad.", overviewSources, {
+    query: "millised on probleemid lastekaitses?",
+    queryPlan: {
+      mode: "overview_synthesis",
+      selection_strategy: "overview_diversity_then_depth"
+    }
+  });
+  const trace = buildRagTraceFromAttribution(overviewSources, attribution, {
+    rawMatchesCount: 8,
+    selectedContextCount: 2,
+    selectedContextSourceIds: ["article-a", "guide-b"],
+    queryPlan: {
+      planner_version: "v2",
+      mode: "overview_synthesis",
+      selection_strategy: "overview_diversity_then_depth"
+    },
+    overviewSynthesis: {
+      overview_synthesis_used: true,
+      selection_strategy: "overview_diversity_then_depth",
+      distinct_candidate_document_count: 5,
+      distinct_relevant_candidate_document_count: 4,
+      distinct_selected_document_count: 2,
+      selected_document_ids: ["doc-a", "doc-b"],
+      document_identity_fields_used: { doc_id: 4, title: 1 },
+      chunks_per_document: { "doc-a": 1, "doc-b": 1 },
+      initial_diversity_pass_document_count: 2,
+      depth_pass_added_chunks: 0,
+      dominant_document_id: "doc-a",
+      dominant_document_share: 0.5,
+      dominant_document_allowed: true,
+      dominant_document_reason: "within_limit",
+      source_diversity_limited: false,
+      source_diversity_reason: null,
+      evidenceText: "Do not leak"
+    }
+  });
+
+  assert.equal(trace.overview_synthesis.mode, "overview_synthesis");
+  assert.equal(trace.overview_synthesis.selection_strategy, "overview_diversity_then_depth");
+  assert.deepEqual(trace.overview_synthesis.selected_document_ids, ["doc-a", "doc-b"]);
+  assert.equal(trace.displayed_sources_subset_of_selected, true);
+  assert.equal(trace.displayed_source_count, 2);
+  assert.equal(JSON.stringify(trace).includes("Do not leak"), false);
 });
 
 test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carries it separately", () => {

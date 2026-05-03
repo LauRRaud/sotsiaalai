@@ -41,9 +41,13 @@ test("summarizes displayed source contract precision from rag traces", () => {
   assert.equal(result.summary.displayed_source_count, 2);
   assert.equal(result.summary.displayed_source_valid_count, 1);
   assert.equal(result.summary.displayed_source_violation_count, 1);
+  assert.equal(result.summary.displayed_selected_source_valid_count, 1);
+  assert.equal(result.summary.displayed_selected_source_violation_count, 1);
   assert.equal(result.summary.displayed_source_precision, 0.5);
   assert.equal(result.summary.traces_with_display_contract_violation, 1);
+  assert.equal(result.summary.traces_with_display_selected_contract_violation, 1);
   assert.equal(result.summary.display_contract_violation_rate, 0.5);
+  assert.equal(result.summary.displayed_selected_source_contract_violation_rate, 0.5);
   assert.equal(result.summary.retrieved_but_not_displayed_count, 3);
   assert.equal(result.summary.retrieved_filter_rate, 3 / 5);
   assert.equal(result.summary.selected_but_not_displayed_count, 2);
@@ -53,9 +57,11 @@ test("summarizes displayed source contract precision from rag traces", () => {
   assert.equal(result.summary.attribution_decision_distribution.display, 2);
   assert.equal(result.summary.attribution_decision_distribution.hide, 1);
   assert.equal(result.summary.attribution_decision_reason_distribution.not_used_in_answer, 1);
-  assert.equal(result.issues.length, 1);
+  assert.equal(result.issues.length, 2);
   assert.equal(result.issues[0].type, "displayed_source_not_in_answer_sources");
   assert.deepEqual(result.issues[0].offending_source_ids, ["source-e"]);
+  assert.equal(result.issues[1].type, "displayed_source_not_in_selected_context");
+  assert.deepEqual(result.issues[1].offending_source_ids, ["source-e"]);
 });
 
 test("uses count fallbacks when trace source id arrays are missing", () => {

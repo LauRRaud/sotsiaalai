@@ -208,11 +208,15 @@ test("buildRagSearchQuery adds a generic keyword-focused query for factual backg
   assert.doesNotMatch(query, /OTT/i);
 });
 
-test("buildRagSearchQuery adds an exact-anchor query for named example lists", () => {
+test("buildRagSearchQuery does not add a separate exact-anchor query for named example lists", () => {
   const query = buildRagSearchQuery("Vaimse tervise vestlusrobotid, nagu Woebot, Wysa, Vivibot ja XiaoE?", []);
+  const normalizedLines = query
+    .split(/\n+/)
+    .map(line => line.trim().toLowerCase())
+    .filter(Boolean);
 
   assert.match(query, /Woebot/i);
-  assert.match(query, /woebot wysa vivibot xiaoe/i);
+  assert.equal(normalizedLines.includes("woebot wysa vivibot xiaoe"), false);
 });
 
 test("buildRagSearchQuery expands open thematic synthesis questions with issue and evidence angles", () => {

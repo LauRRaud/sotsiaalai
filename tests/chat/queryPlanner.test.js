@@ -144,22 +144,37 @@ test("Query Planner V2 keeps broad synthesis searches broad first", () => {
   assert.deepEqual(plan.primaryRagQueries[1].filters, { doc_id: "article-doc-2025" });
 });
 
-test("Query Planner V2 marks open issue synthesis as thematic synthesis", () => {
+test("Query Planner V2 marks open issue synthesis as overview synthesis", () => {
   const plan = basePlan({
     effectiveMessage: "mis on need probleemsed kohad, millest on lastekaitses räägitud?",
     thematicSynthesisQuestion: true,
     broadMultiSourceQuestion: true
   });
 
-  assert.equal(plan.queryPlan.mode, "thematic_synthesis");
+  assert.equal(plan.queryPlan.mode, "overview_synthesis");
   assert.equal(plan.queryPlan.query_order, "broad_first");
-  assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.selection_strategy, "overview_diversity_then_depth");
+  assert.equal(plan.queryPlan.needs_multiple_sources, true);
+  assert.deepEqual(plan.queryPlan.preferred_source_count, { min: 5, max: 8 });
+  assert.equal(plan.queryPlan.flags.overview_synthesis, true);
   assert.equal(plan.queryPlan.flags.thematic_synthesis, true);
   assert.equal(plan.queryPlan.context_group_target >= 12, true);
   assert.equal(plan.searchFilters.$or[0].source_type.$in.includes("journal_article"), true);
   assert.equal(plan.searchFilters.$or[0].source_type.$in.includes("research_report"), true);
   assert.equal(plan.searchFilters.$or[1].collection_id.$in.includes("sotsiaaltoo_articles"), true);
   assert.equal(plan.searchFilters.$or[1].collection_id.$in.includes("research_reports"), true);
+});
+
+test("Query Planner V2 does not route specific document summary to overview synthesis", () => {
+  const plan = basePlan({
+    effectiveMessage: "Tee kokkuvĆµte artiklist Hea tĆ¶Ć¶ ei sĆ¼nni Excelis",
+    thematicSynthesisQuestion: false,
+    broadMultiSourceQuestion: false
+  });
+
+  assert.notEqual(plan.queryPlan.mode, "overview_synthesis");
+  assert.notEqual(plan.queryPlan.selection_strategy, "overview_diversity_then_depth");
+  assert.equal(plan.queryPlan.needs_multiple_sources, false);
 });
 
 test("Query Planner V2 expands municipality service and benefit list queries", () => {

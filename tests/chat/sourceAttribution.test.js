@@ -243,6 +243,57 @@ test("thematic synthesis can use research sources even when topic words look lik
   assert.equal(attribution.attribution_decisions[0].evidence_strength, "medium");
 });
 
+test("overview synthesis displays selected synthesis sources instead of raw unrelated sources", () => {
+  const attribution = buildSourceAttribution(
+    "Lastekaitse murekohad korduvad dokumenteerimise, tĆ¶Ć¶koormuse ja juhtumitĆ¶Ć¶ toe teemadel.",
+    [
+      {
+        id: "selected-article",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Hea tĆ¶Ć¶ ei sĆ¼nni Excelis",
+        evidenceText: "LastekaitsetĆ¶Ć¶tajad kirjeldavad dokumenteerimise koormust ja ajapuudust."
+      },
+      {
+        id: "selected-guide",
+        source_type: "methodology_guide",
+        title: "Lastekaitse juhtumitĆ¶Ć¶ juhend",
+        evidenceText: "Juhend rĆµhutab juhtumitĆ¶Ć¶ tuge, hindamist ja dokumenteerimist."
+      },
+      {
+        id: "raw-kov-source",
+        source_type: "kov_service_info",
+        collection_id: "kov_services",
+        title: "Koduteenus",
+        evidenceText: "Koduteenuse taotlemine kohalikus omavalitsuses."
+      }
+    ],
+    {
+      query: "millised on probleemid lastekaitses?",
+      queryPlan: {
+        mode: "overview_synthesis",
+        selection_strategy: "overview_diversity_then_depth"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(new Set(attribution.displayed_source_ids), new Set([
+    "selected-article",
+    "selected-guide"
+  ]));
+  assert.equal(attribution.selected_context_source_count, 3);
+  assert.equal(attribution.displayed_source_count, 2);
+  assert.equal(attribution.answer_source_count, 2);
+  assert.equal(attribution.filtered_out_source_count, 1);
+  assert.equal(attribution.displayed_sources_subset_of_selected, true);
+  assert.equal(attribution.filter_reasons["raw-kov-source"], "query_anchor_mismatch");
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {

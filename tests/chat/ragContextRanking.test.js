@@ -1,7 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { filterMatchesToMunicipalities, groupMatches, rankGroupsWithTopicHints, renderOneContextBlock, selectMultiSourceGroups } from "../../lib/chat/ragContext.js";
+import {
+  filterMatchesToMunicipalities,
+  groupMatches,
+  rankGroupsWithTopicHints,
+  renderOneContextBlock,
+  resolveDocumentIdentity,
+  selectMultiSourceGroups,
+  selectOverviewSynthesisGroups
+} from "../../lib/chat/ragContext.js";
 
 test("topic hints outrank generic high-scoring noise for named concept questions", () => {
   const ranked = rankGroupsWithTopicHints([
@@ -219,6 +227,119 @@ test("groupMatches preserves related form and contact metadata for SourcePackage
 
   assert.deepEqual(groups[0].relatedForms, ["jogeva_vald_form_sotsiaalabi_taotlus"]);
   assert.deepEqual(groups[0].relatedContacts, ["jogeva_vald_contact_eve_viks"]);
+});
+
+test("resolveDocumentIdentity uses stable source document field priority", () => {
+  assert.deepEqual(resolveDocumentIdentity({
+    document_id: "doc-main",
+    docId: "doc-fallback",
+    sourceId: "source-fallback",
+    title: "Title"
+  }), {
+    id: "doc-main",
+    field: "document_id",
+    weak: false
+  });
+
+  assert.deepEqual(resolveDocumentIdentity({
+    docId: "doc-camel",
+    articleId: "article-fallback"
+  }), {
+    id: "doc-camel",
+    field: "doc_id",
+    weak: false
+  });
+
+  assert.deepEqual(resolveDocumentIdentity({
+    title: "Only title"
+  }), {
+    id: "Only title",
+    field: "title",
+    weak: true
+  });
+});
+
+function overviewGroup(docId, chunkId, score, body, extra = {}) {
+  return {
+    key: `${docId}-${chunkId}`,
+    docId,
+    title: extra.title || `Document ${docId}`,
+    section: extra.section || `Section ${chunkId}`,
+    bodies: [body],
+    bestScore: score,
+    rankScore: score,
+    sourceType: extra.sourceType || "journal_article",
+    collectionId: extra.collectionId || "sotsiaaltoo_articles",
+    ...extra
+  };
+}
+
+test("selectOverviewSynthesisGroups selects diverse relevant documents first", () => {
+  const groups = [
+    overviewGroup("doc-a", "1", 0.96, "lastekaitse dokumenteerimine ajapuudus juhtumitĆ¶Ć¶"),
+    overviewGroup("doc-a", "2", 0.91, "lastekaitse dokumenteerimine andmesĆ¼steem kanded"),
+    overviewGroup("doc-b", "1", 0.88, "lastekaitse jĆ¤relevalve tugi selgus kvaliteet"),
+    overviewGroup("doc-c", "1", 0.84, "lastekaitse pered riskihindamine koostĆ¶Ć¶"),
+    overviewGroup("doc-d", "1", 0.81, "lastekaitse spetsialistide koormus tĆ¶Ć¶korraldus"),
+    overviewGroup("doc-e", "1", 0.79, "lastekaitse ennetus kogukond teenused")
+  ];
+
+  const result = selectOverviewSynthesisGroups(groups, 8, 0.55, {
+    minDocuments: 3,
+    preferredSourceCount: 6
+  });
+
+  assert.equal(result.metadata.overview_synthesis_used, true);
+  assert.equal(result.metadata.selection_strategy, "overview_diversity_then_depth");
+  assert.equal(result.metadata.distinct_relevant_candidate_document_count >= 5, true);
+  assert.equal(result.metadata.distinct_selected_document_count >= 3, true);
+  assert.equal(result.metadata.initial_diversity_pass_document_count >= 3, true);
+  assert.equal(new Set(result.selected.map(item => item.docId)).size >= 3, true);
+});
+
+test("selectOverviewSynthesisGroups does not add weak documents only to meet diversity count", () => {
+  const groups = [
+    overviewGroup("strong-doc", "1", 0.95, "lastekaitse dokumenteerimine ajapuudus hindamine"),
+    overviewGroup("strong-doc", "2", 0.9, "lastekaitse kohtumised protokollimine andmesĆ¼steem"),
+    overviewGroup("weak-a", "1", 0.22, "kaugel olev Ć¼ldine mĆ¤rkus"),
+    overviewGroup("weak-b", "1", 0.2, "teine nĆµrk kandidaat"),
+    overviewGroup("weak-c", "1", 0.18, "kolmas nĆµrk kandidaat")
+  ];
+
+  const result = selectOverviewSynthesisGroups(groups, 5, 0.55, {
+    minDocuments: 3,
+    preferredSourceCount: 5
+  });
+
+  assert.equal(result.metadata.distinct_relevant_candidate_document_count, 1);
+  assert.equal(result.metadata.source_diversity_limited, true);
+  assert.equal(result.metadata.source_diversity_reason, "not_enough_relevant_documents");
+  assert.deepEqual(Array.from(new Set(result.selected.map(item => item.docId))), ["strong-doc"]);
+});
+
+test("selectOverviewSynthesisGroups allows depth after diversity without unbounded dominance", () => {
+  const groups = [
+    overviewGroup("deep-doc", "1", 0.98, "lastekaitse dokumenteerimine ajapuudus sissekanded"),
+    overviewGroup("deep-doc", "2", 0.94, "jĆ¤relevalve selgus tugi kvaliteedinĆµuded"),
+    overviewGroup("deep-doc", "3", 0.92, "andmesĆ¼steem automaatika kohtumiste protokollid"),
+    overviewGroup("deep-doc", "4", 0.9, "spetsialistide koormus otsused lepingud"),
+    overviewGroup("doc-b", "1", 0.88, "pered ja abivajaduse hindamine"),
+    overviewGroup("doc-c", "1", 0.86, "ennetustĆ¶Ć¶ ja kogukondlik tugi"),
+    overviewGroup("doc-d", "1", 0.84, "lastekaitse koostĆ¶Ć¶ koolide ja teenustega")
+  ];
+
+  const result = selectOverviewSynthesisGroups(groups, 7, 0.55, {
+    minDocuments: 3,
+    preferredSourceCount: 4,
+    dominantShareLimit: 0.4
+  });
+  const chunks = result.metadata.chunks_per_document;
+
+  assert.equal(result.metadata.distinct_selected_document_count >= 3, true);
+  assert.equal((chunks["deep-doc"] || 0) > 1, true);
+  assert.equal(result.metadata.depth_pass_added_chunks > 0, true);
+  assert.equal(result.metadata.dominant_document_allowed, true);
+  assert.equal(result.metadata.dominant_document_share <= 0.4, true);
 });
 
 test("groupMatches preserves canonical and official URL aliases for displayed sources", () => {
