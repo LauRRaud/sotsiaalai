@@ -308,15 +308,147 @@ Known limits:
 - It does not yet add a general EvidencePackage, reranker, evidence guard or source-layer metadata contract refactor.
 - Resource discovery quality still depends on organization/material/guideline metadata being present and preserved through ingest.
 
+### V2.2 Role-Aware Planner Skeleton
+
+Status: DONE / local focused tests green
+
+Scope:
+
+- Kept V2.2 deterministic. No LLM planner call was added.
+- No retrieval rewrite, SourcePackage refactor, EvidencePackage, reranker or evidence checker was added.
+- `questionPlanner.js` now carries both the input/session role and the inferred question role:
+  - `input_role`
+  - `role`
+  - `role_confidence`
+- Planner output now also carries:
+  - `topics`
+  - `life_situation`
+  - `needs_location`
+  - `municipality_hint`
+  - `risk_level`
+
+Client life-situation guidance:
+
+- First-person help-seeking questions can now become `mode = life_situation_guidance`.
+- Covered deterministic mappings:
+  - `financial_hardship`: toimetulekutoetus, vältimatu sotsiaalabi, täiendav sotsiaaltoetus, võlanõustamine, KOV sotsiaalosakond.
+  - `elderly_relative_care_difficulty`: koduteenus, abivajaduse hindamine, täisealise isiku hooldus, üldhooldusteenus, sotsiaaltransport, hoolduskoormus.
+  - `disabled_child_family_support`: puudega lapse toetus, lapsehoiuteenus, tugiisikuteenus, rehabilitatsioon, SKA, KOV lastekaitse.
+- These plans set:
+  - `role = client`
+  - `needs_rag = true`
+  - `needs_multiple_sources = true`
+  - `needs_location = true`
+  - `retrieval_strategy = life_situation_guidance_hybrid`
+  - `answer_contract = client_next_steps_no_entitlement_promise`
+
+Specialist comparison:
+
+- Professional comparison questions such as `Kuidas eristada koduteenust ja isikliku abistaja teenust?` can now become `mode = comparison`.
+- The mode is trace-visible but does not yet have a separate V2.3 retrieval strategy selector.
+
+Runtime wiring:
+
+- `retrievalContextAssembler.js` now lets any non-default question plan with `needs_rag = true` force RAG source use.
+- `queryPlanner.js` carries the V2.2 planner fields into `query_plan.question_planner`.
+- Existing legal exact, KOV/SourcePackage, overview synthesis and resource discovery routes remain in place.
+
+Validation:
+
+- Added/updated focused tests for:
+  - financial hardship -> `life_situation_guidance`
+  - elderly relative care difficulty -> `life_situation_guidance`
+  - disabled child family support -> `life_situation_guidance`
+  - service comparison -> `comparison`
+  - query trace carries V2.2 role/life-situation fields
+- Focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `76/76` tests passed.
+- Additional source-need/workflow/planner regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceNeed.test.js tests/chat/workflowBypass.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js`
+- Result: `52/52` tests passed.
+- `npm run build` passed.
+
+Known limits:
+
+- V2.2 does not yet make a separate `retrievalStrategySelector.js`.
+- `life_situation_guidance` and `comparison` are trace-visible planner modes, but deeper source-layer strategy belongs in V2.3.
+- Role inference is deterministic and conservative; ambiguous questions still fall back to the session role.
+
+### V2.3 Retrieval Strategy Selector
+
+Status: DONE / local focused tests green
+
+Scope:
+
+- Added `lib/chat/retrievalStrategySelector.js`.
+- Kept the selector deterministic. No LLM planner call was added.
+- No EvidencePackage, reranker, evidence checker or SourcePackage refactor was added.
+- Existing strong routes remain higher priority than planner-mode mapping:
+  - legal exact / legal lookup
+  - source lookup
+  - temporal lookup
+  - KOV service/benefit and municipality-scoped RAG
+  - national service/benefit and service-jurisdiction routes
+
+Selector contract:
+
+- Input:
+  - `questionPlan`
+  - `routeContext`
+- Output:
+  - `mode`
+  - `retrieval_strategy`
+  - `selection_strategy`
+  - `query_order`
+  - `needs_multiple_sources`
+  - `preferred_source_count`
+  - `source_layer_filter_mode`
+  - `answer_contract`
+  - `force_rag`
+  - `route_override`
+  - `reason`
+
+Planner mode mapping:
+
+- `resource_discovery` -> `resource_discovery_hybrid`, `resource_discovery_diversity`, broad-first queries.
+- `life_situation_guidance` -> `life_situation_guidance_hybrid`, `multi_source_diversity`, broad-first queries.
+- `comparison` -> `comparison_balanced_sources`, `multi_source_diversity`, broad-first queries.
+- `overview_synthesis` -> `overview_diversity_then_depth`.
+- `legal_exact` -> `legal_exact`.
+- `kov_service_or_benefit` -> `kov_source_package_or_scoped_rag`.
+- `specific_document_summary` -> `specific_document_lookup`.
+
+Runtime wiring:
+
+- `queryPlanner.js` now calls `selectRetrievalStrategy()`.
+- `query_plan.retrieval_strategy` and `query_plan.retrieval_strategy_selection` are trace-visible.
+- `life_situation_guidance` and `comparison` now drive `selection_strategy = multi_source_diversity` when no stronger route override applies.
+- `retrievalContextAssembler.js` now honors `selectionStrategy === "multi_source_diversity"` by using multi-source group selection and matching context budgeting.
+
+Validation:
+
+- Added `tests/chat/retrievalStrategySelector.test.js`.
+- Added query-planner regression assertions for V2.3 trace and selection behavior.
+- Focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/retrievalStrategySelector.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `81/81` tests passed.
+- Additional source-need/workflow/planner regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceNeed.test.js tests/chat/workflowBypass.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js`
+- Result: `57/57` tests passed.
+- `npm run build` passed.
+
 ## Current Next Steps
 
-1. Run a server smoke after deploy/restart for resource discovery:
+1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:
    - `Millised organisatsioonid või materjalid aitavad puudega inimest?`
    - `Mis materjale on laste vaimse tervise kohta koolis?`
    - `Mida Astangu Keskus pakub?`
+   - `Mul pole raha üüri ja toidu jaoks, mida teha?`
+   - `Ema ei saa enam üksi kodus hakkama, kuhu pöörduda?`
+   - `Mul on puudega laps, kuhu pöörduda?`
+   - `Kuidas eristada koduteenust ja isikliku abistaja teenust?`
 2. Continue V2 incrementally:
-   - V2.2 role-aware planner: `client` vs `social_worker`.
-   - V2.3 retrieval strategy selector extraction.
    - V2.4 general EvidencePackage.
 3. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.
 4. Do not add LLM planner calls until deterministic planner contracts and trace are stable.

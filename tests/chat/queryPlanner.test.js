@@ -199,6 +199,10 @@ test("Query Planner V2.1 applies resource discovery filters and trace", () => {
   assert.equal(plan.queryPlan.question_planner.mode, "resource_discovery");
   assert.equal(plan.queryPlan.question_planner.retrieval_strategy, "resource_discovery_hybrid");
   assert.equal(plan.queryPlan.question_planner.source_layer_filter_mode, "prefer");
+  assert.equal(plan.queryPlan.retrieval_strategy, "resource_discovery_hybrid");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.planner_version, "v2.3");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.selection_strategy, "resource_discovery_diversity");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.route_override, false);
   assert.equal(plan.queryPlan.source_layer_filter_mode, "prefer");
   assert.deepEqual(plan.searchFilters, audienceFilter);
 
@@ -260,6 +264,32 @@ test("Query Planner V2.1 resource discovery does not override KOV scoped service
   assert.equal(questionPlan.mode, "kov_service_or_benefit");
   assert.equal(plan.queryPlan.mode, "municipality_service_benefit_list");
   assert.notEqual(plan.queryPlan.mode, "resource_discovery");
+});
+
+test("Query Planner V2.2 carries role and life situation planner output into trace", () => {
+  const message = "Mul pole raha üüri ja toidu jaoks, mida teha?";
+  const questionPlan = buildQuestionPlan({
+    message,
+    role: "CLIENT"
+  });
+  const plan = basePlan({
+    effectiveMessage: message,
+    questionPlan
+  });
+
+  assert.equal(questionPlan.mode, "life_situation_guidance");
+  assert.equal(plan.queryPlan.question_planner.planner_version, "v2.2");
+  assert.equal(plan.queryPlan.question_planner.mode, "life_situation_guidance");
+  assert.equal(plan.queryPlan.question_planner.role, "client");
+  assert.equal(plan.queryPlan.question_planner.input_role, "client");
+  assert.equal(plan.queryPlan.question_planner.needs_location, true);
+  assert.equal(plan.queryPlan.question_planner.life_situation, "financial_hardship");
+  assert.equal(plan.queryPlan.question_planner.topics.includes("toimetulekutoetus"), true);
+  assert.equal(plan.queryPlan.question_planner.retrieval_strategy, "life_situation_guidance_hybrid");
+  assert.equal(plan.queryPlan.retrieval_strategy, "life_situation_guidance_hybrid");
+  assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.answer_contract, "client_next_steps_no_entitlement_promise");
 });
 
 test("Query Planner V2 expands municipality service and benefit list queries", () => {

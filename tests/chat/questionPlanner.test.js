@@ -28,6 +28,62 @@ test("Question Planner V2.1 routes organization and material help questions to r
   assert.equal(result.avoid_source_layers.includes("national_law_as_primary"), true);
 });
 
+test("Question Planner V2.2 maps client financial hardship to life situation guidance", () => {
+  const result = buildQuestionPlan({
+    message: "Mul pole raha üüri ja toidu jaoks, mida teha?",
+    role: "CLIENT"
+  });
+
+  assert.equal(result.mode, "life_situation_guidance");
+  assert.equal(result.role, "client");
+  assert.equal(result.input_role, "client");
+  assert.equal(result.life_situation, "financial_hardship");
+  assert.equal(result.needs_location, true);
+  assert.equal(result.needs_multiple_sources, true);
+  assert.equal(result.topics.includes("toimetulekutoetus"), true);
+  assert.equal(result.topics.includes("valtimatu_sotsiaalabi"), true);
+  assert.equal(result.answer_contract, "client_next_steps_no_entitlement_promise");
+});
+
+test("Question Planner V2.2 maps elderly relative care difficulty to life situation guidance", () => {
+  const result = buildQuestionPlan({
+    message: "Ema ei saa enam üksi kodus hakkama, kuhu pöörduda?",
+    role: "CLIENT"
+  });
+
+  assert.equal(result.mode, "life_situation_guidance");
+  assert.equal(result.role, "client");
+  assert.equal(result.life_situation, "elderly_relative_care_difficulty");
+  assert.equal(result.needs_location, true);
+  assert.equal(result.topics.includes("koduteenus"), true);
+  assert.equal(result.topics.includes("abivajaduse_hindamine"), true);
+});
+
+test("Question Planner V2.2 maps disabled child family help to life situation guidance", () => {
+  const result = buildQuestionPlan({
+    message: "Mul on puudega laps, kuhu pöörduda?",
+    role: "CLIENT"
+  });
+
+  assert.equal(result.mode, "life_situation_guidance");
+  assert.equal(result.life_situation, "disabled_child_family_support");
+  assert.equal(result.needs_location, true);
+  assert.equal(result.topics.includes("tugiisikuteenus"), true);
+  assert.equal(result.topics.includes("rehabilitatsioon"), true);
+});
+
+test("Question Planner V2.2 detects specialist comparison without overriding legal or KOV routes", () => {
+  const result = buildQuestionPlan({
+    message: "Kuidas eristada koduteenust ja isikliku abistaja teenust?",
+    role: "SOCIAL_WORKER"
+  });
+
+  assert.equal(result.mode, "comparison");
+  assert.equal(result.role, "social_worker");
+  assert.equal(result.needs_multiple_sources, true);
+  assert.equal(result.retrieval_strategy, "comparison_balanced_sources");
+});
+
 test("Question Planner V2.1 routes school mental health material questions to resource discovery", () => {
   const result = plan("Mis materjale on laste vaimse tervise kohta koolis?");
 
