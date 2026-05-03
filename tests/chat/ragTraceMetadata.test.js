@@ -253,6 +253,32 @@ test("RAG trace includes overview synthesis selection metadata without source ex
   assert.equal(JSON.stringify(trace).includes("Do not leak"), false);
 });
 
+test("RAG trace truncates selected context body previews", () => {
+  const attribution = buildSourceAttribution("Allikas kinnitab vastust.", [
+    {
+      source_id: "long-preview-source",
+      title: "Pikk diagnostiline eelvaade",
+      source_type: "journal_article",
+      evidenceText: "Allikas kinnitab vastust."
+    }
+  ], {
+    query: "test"
+  });
+  const longPreview = "x".repeat(900);
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    selectedContextDetails: [
+      {
+        source_id: "long-preview-source",
+        source_type: "journal_article",
+        body_preview: longPreview
+      }
+    ]
+  });
+
+  assert.equal(trace.selected_context_details[0].body_preview.length <= 240, true);
+  assert.equal(JSON.stringify(trace).includes(longPreview), false);
+});
+
 test("RAG trace merges legalLookupPlan into query_plan when retrievalMeta carries it separately", () => {
   const attribution = buildSourceAttribution("SHS § 140 käsitleb toimetulekutoetuse maksmist.", [
     {
