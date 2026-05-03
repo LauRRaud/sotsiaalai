@@ -109,21 +109,96 @@ Status: DONE
 
 ### Knowledge-doc lisatest metadata check
 
-Status: DONE
+Status: DONE / superseded by 2026-05-03 folder ingest
 
 - `Andmebaasi/lisatest`: 5 PDF files and 5 matching `knowledge-doc-v1` metadata JSON files are present.
 - Each metadata file has a valid `source_path` pointing to a PDF in the same folder.
 - Metadata passes `npm run knowledge:validate -- --root "Andmebaasi\lisatest"` with `ingest_ready_count = 5` and no errors.
 - Minimal metadata fixes were limited to the lisatest JSON files: `jurisdiction_level`, allowed `document_kind`, allowed `collection_id`, one `source_type` alignment for the Tarkvanem worksheet, and missing `legal_entitlement` in `disallowed_claim_types` where needed.
 - Remaining warnings are non-blocking: empty `sectionIndex` for all files and missing `year/publication_date` recommendation for the Peaasi PDF.
-- Existing `knowledge:smoke` is not a generic all-files smoke for this folder: it currently expects at least one `guideline` and a hardcoded sample doc ID, so it is not suitable for the lisatest mixed information/training-material fixture without a separate generic smoke update.
+- `knowledge:smoke` was later generalized so mixed knowledge-doc folders without the historical hardcoded guideline sample can be checked.
 - This lisatest folder is only a small future ingest/retrieval test fixture and is not used to hardcode V1.3 workflow routing.
+
+### Knowledge-doc and Organization Folder Ingest 2026-05-03
+
+Status: DONE / server ingested / smoke green
+
+- Added `scripts/ingest-knowledge-doc-folder.mjs` for local PDF + `knowledge-doc-v1` metadata folders.
+- Added npm commands:
+  - `knowledge:folder:plan`
+  - `knowledge:folder:ingest`
+- The folder ingest script supports dry-run by default, `--ingest`, `--skip-existing`, `--doc-id`, `--limit`, `--analyze-pdf`, `--require-section-index`, `--base-url`, `--request-timeout-ms` and `--json`.
+- The script sends local PDFs to RAG service `/ingest/pdf-with-metadata` with `metadata_text` and requires `RAG_SERVICE_API_KEY` or `RAG_API_KEY` for ingest mode.
+- `--analyze-pdf` can run during dry-run as well as ingest, so PDF TOC/heading section signals can be inspected before writing to RAG.
+- Added `scripts/ingest-organization-rag-folder.mjs` for organization 4-file packages (`<slug>.sources.json`, `<slug>.json`, `<slug>.meta.json`, `<slug>.rag.md`) read directly from a folder.
+- Added npm commands:
+  - `organization:ingest:plan`
+  - `organization:ingest`
+- Organization folder ingest posts the profile `rag.md` text plus organization metadata to RAG service `/ingest/text`.
+- Organization `documents[]` references remain separate document candidates. They are not automatically ingested by the organization profile script.
+- `scripts/smoke-knowledge-docs.mjs` now validates all metadata files and ingest payload shapes in a folder, while still running stricter sample assertions only if the historical sample guideline is present.
+
+Server run on 2026-05-03:
+
+- `Andmebaasi/lisatest`: 5 PDF knowledge-doc files ingested.
+- `Andmebaasi/uuringud ja juhendid`: 1 PDF knowledge-doc file ingested.
+- `Andmebaasi/organisatsioonid`: 1 organization profile package ingested (`organization-astangu`).
+- `knowledge:smoke` passed for both `lisatest` and `uuringud ja juhendid`.
+- `organization:audit-metadata -- --slug astangu` passed with `metadata_valid = true` and `ingest_ready = true`.
+- `rag:smoke:v1` passed.
+- `rag:smoke:v2 -- --chat --legal-exact` passed.
+
+Manual smoke observations:
+
+- `Kuidas toetada terviseprobleemiga lapse peret?` routed to `overview_synthesis`, selected multiple sources and displayed the new `Terviseprobleemiga laste ja nende perede toetamise hea tava` PDF as a source.
+- `Mis materjale on laste vaimse tervise kohta koolis?` found and displayed the new `Koolilaste ja noorte vaimne tervis` material plus related background articles.
+- `Millised organisatsioonid või materjalid aitavad puudega inimest?` still routed as `default` and was dominated by SHS legal sources. This is a planner/source-layer issue, not an ingest failure.
+
+Known metadata quality follow-up:
+
+- V2 smoke remains green, but metadata quality summaries show some `organizations` / `unknown` records missing `authority`, `last_checked`, `url_canonical` and `content_hash`.
+- This should be handled by source metadata contract/backfill work, not by reingesting the same files blindly.
+
+### Organization Profile Attribution Fix 2026-05-03
+
+Status: DONE / local tests and build green
+
+Problem:
+
+- The query `Mida Astangu Keskus pakub?` retrieved and selected Astangu sources, but the UI displayed no sources.
+- Trace showed selected context existed (`retrieved: 10`, `selected: 2`), so the failure was in answer-source attribution, not frontend rendering or ingest.
+
+Fix:
+
+- `sourceAttribution.js` now includes organization identity fields in attribution matching:
+  - `organization_name`
+  - `organizationName`
+  - `organization_id`
+  - `organizationId`
+  - `organization_slug`
+  - `organizationSlug`
+  - matching `metadata.*` aliases
+- `sourceAttribution.js` treats `organization_profile` and `organizations` as synthesis/background source candidates where appropriate.
+- `riskPolicy.js` now treats `organization_profile` as background evidence, so low-risk organization profile questions can display the selected organization source instead of failing with `insufficient_evidence_strength`.
+- Added a regression test for an Astangu-style named organization question.
+
+Validation:
+
+- `tests/chat/sourceAttribution.test.js` passed.
+- A wider focused attribution/sourceNeed/retrieval/sourceQuality test batch passed (`55/55`).
+- `npm run build` passed.
+
+Expected behavior after deploy:
+
+- `Mida Astangu Keskus pakub?` should display the Astangu organization profile source instead of returning an answer with no source icon.
 
 ## Current Next Steps
 
-1. Run authenticated server smoke with `SOTSIAALAI_SMOKE_COOKIE` or bearer token if a live chat trace check is required before deploy.
-2. Start V2 central `questionPlanner.js` only after that acceptance gate is accepted.
-3. Keep V2 incremental: structured planner output first, then role/life-situation mapping, retrieval strategy selector and EvidencePackage later.
+1. Deploy the organization-profile attribution fix and retest `Mida Astangu Keskus pakub?` on the live chat.
+2. Add a narrow `resource_discovery` / `organization_material_discovery` planning path before the full V2 planner, or make it the first small V2 planner use case.
+3. That mode should recognize questions such as `Millised organisatsioonid...`, `Millised materjalid...`, `Kust leida abi...`, `Kelle poole poorduda...`, `Millised kontaktid...` and prefer `organizations`, `organization_materials`, `national_guidelines` and `training_materials` over legal-only results.
+4. Start V2 central `questionPlanner.js` after the above targeted source-layer issue is either fixed directly or included as the first planner mode.
+5. Keep V2 incremental: structured planner output first, then role/life-situation mapping, retrieval strategy selector and EvidencePackage later.
 
 ## Current Runtime Flow
 
@@ -236,7 +311,7 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 | `sourcePackages.js` | Builds runtime SourcePackages from selected/retrieved context and canonical KOV relation files. | B/C | Core KOV package logic is useful and now supports forms, contacts and legal basis. Risk: historical special cases remain. Canonical fallback should be fully generic across all KOV bundles. |
 | `packageAwareContext.js` | Converts SourcePackages into compact answer context. | A/B | Good V3.2 layer. It makes package structure visible to the model and exposes missing sections. |
 | `sectionAttribution.js` | Builds V3.4A section-level attribution for SourcePackage/high-risk answers. | B | Good foundation. Not claim-level attribution and should not be treated as a full claim store. |
-| `sourceAttribution.js` | Filters selected sources into displayed/answer sources. | B | Essential layer. Good legal, package-aware and synthesis branches. Risk: may hide correct sources if evidence text or source metadata is incomplete. Needs explicit `overview_synthesis` support and better anchor coverage scoring. |
+| `sourceAttribution.js` | Filters selected sources into displayed/answer sources. | B | Essential layer. Good legal, package-aware and synthesis branches. V1.1 added overview support and 2026-05-03 added organization identity fields for named organization questions. Remaining risk: may hide correct sources if evidence text or metadata is incomplete. |
 | `mainResponseHandler.js` | Runs OpenAI response handling, attribution, trace, SourcePackage persistence and final response assembly. | A/B | Strong final contract. Persistence failure is isolated. File is long and has stream/non-stream duplication, but conceptually sound. |
 
 ### Legal and Risk
@@ -279,7 +354,7 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 | --- | --- | --- | --- |
 | `sourceMetadata.js` | Canonical RAG metadata contract, source types and validation. | A/B | Very important. Should remain the single source of truth for source types and readiness metadata. Runtime and ingest must not drift from this file. |
 | `sourceFreshness.js` | Freshness policy and audit summaries. | B | Useful and detailed. Currently more audit/admin than runtime ranking. Later selection should use freshness more directly. |
-| `riskPolicy.js` | Risk classification and source evidence strength. | B | Good evidence guard. Regex-based risk classification is useful but not sufficient as final planner. |
+| `riskPolicy.js` | Risk classification and source evidence strength. | B | Good evidence guard. `organization_profile` is now accepted as background evidence for low-risk organization profile answers. Regex-based risk classification is useful but not sufficient as final planner. |
 | `sourcePackageSnapshots.js` | Persisted SourcePackage snapshot hash/versioning. | A/B | Strong V3.1/V3.3 layer. Keep tests around normalized duplicate identity and active version cleanup. |
 | `sourceQualityMetrics.js` | Trace quality metrics: displayed/answer contract, wrong municipality, legal precision and overview source diversity. | A/B | Valuable observability layer. V1.5 now flags too-narrow overview selection and unallowed dominant-document cases. |
 | `metadataBackfillPlan.js` | Metadata backfill planning. | B | Good migration/ops helper. Not runtime. |
@@ -326,6 +401,8 @@ should not default to one article or one document. They need:
 - the query has many anchors and the source only partially matches them.
 
 This is especially important for named systems like `Woebot`, `Wysa`, `Vivibot`, `XiaoE`, `OTT`, `STAR` and similar.
+
+The 2026-05-03 Astangu fix closed one concrete instance of this class for organization profiles: organization identity metadata is now part of attribution matching, and `organization_profile` is accepted as low-risk background evidence. The broader rule remains: every new source family must expose its identity fields to attribution, otherwise retrieval may select the right source while displayed sources stay empty.
 
 ### 4. SourcePackage Is Strong but KOV Fallback Should Be General
 

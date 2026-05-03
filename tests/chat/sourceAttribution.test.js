@@ -294,6 +294,49 @@ test("overview synthesis displays selected synthesis sources instead of raw unre
   assert.equal(attribution.filter_reasons["raw-kov-source"], "query_anchor_mismatch");
 });
 
+test("organization profile attribution uses organization identity fields for named organization questions", () => {
+  const attribution = buildSourceAttribution(
+    [
+      "Astangu Kutserehabilitatsiooni Keskus pakub rehabilitatsiooniga seotud tuge,",
+      "töötegevust toetavas keskkonnas ning teavitus- ja juhendmaterjale."
+    ].join(" "),
+    [
+      {
+        id: "organization-astangu",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Töötoad ja tugiteenused",
+        organization_name: "Astangu Kutserehabilitatsiooni Keskus",
+        organization_id: "astangu",
+        authority: "organization_official",
+        source_status: "active",
+        evidenceText: "Astangu Kutserehabilitatsiooni Keskus pakub töötube, rehabilitatsiooniga seotud tuge ja juhendmaterjale."
+      },
+      {
+        id: "unrelated-organization",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Muu tugiteenus",
+        organization_name: "Muu organisatsioon",
+        authority: "organization_official",
+        source_status: "active",
+        evidenceText: "Muu organisatsioon pakub teistsuguseid teenuseid."
+      }
+    ],
+    {
+      query: "Mida Astangu Keskus pakub?",
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["organization-astangu"]);
+  assert.equal(attribution.filter_reasons["unrelated-organization"], "query_anchor_mismatch");
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {
