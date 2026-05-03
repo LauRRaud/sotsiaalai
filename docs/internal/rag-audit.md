@@ -463,6 +463,30 @@ V2.3 attribution hotfix after second live manual smoke:
 - Result: `106/106` tests passed.
 - `npm run build` passed.
 
+V2.3 comparison hotfix after live manual smoke:
+
+- Live question `Mis vahe on koduteenusel ja tugiisikuteenusel?` produced a useful answer, but the trace stayed on `planner: default` and displayed sources were missing.
+- Root cause:
+  - `questionPlanner.js` detected comparison intent too narrowly and missed inflected service names such as `koduteenusel` and `tugiisikuteenusel`.
+  - `queryPlanner.js` did not yet expand `comparison` planner output into service-aware broad-first retrieval queries.
+  - `sourceAttribution.js` treated comparison as generic synthesis, which could hide legal/KOV service sources that are valid evidence for service definitions.
+- Fixes:
+  - `questionPlanner.js` now detects inflected service comparison questions and carries normalized topics such as `koduteenus` and `tugiisikuteenus`.
+  - `queryPlanner.js` now builds comparison query variants from planner topics, with preferred-but-not-hard source layer filters for national law, KOV legal/service/web, official guidance, methodology and Sotsiaaltoo material.
+  - `query_plan.mode`, `query_order`, `retrieval_strategy`, `preferred_source_count`, `source_layer_filter_mode` and `flags.comparison` are trace-visible for comparison questions.
+  - `sourceAttribution.js` now has a comparison attribution branch that accepts official legal/KOV/service/method sources for compared services and suppresses generic journal/research background when stronger primary service evidence is displayable.
+- Added regression tests:
+  - question planner detects `Mis vahe on koduteenusel ja tugiisikuteenusel?` as `comparison`;
+  - query planner expands comparison into `comparison_balanced_sources`, `broad_first`, `multi_source_diversity`;
+  - attribution displays official sources for both compared services.
+- Focused regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalStrategySelector.test.js`
+- Result: `69/69` tests passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js`
+- Result: `223/223` tests passed.
+- `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
+
 ## Current Next Steps
 
 1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:
@@ -473,6 +497,7 @@ V2.3 attribution hotfix after second live manual smoke:
    - `Ema ei saa enam üksi kodus hakkama, kuhu pöörduda?`
    - `Mul on puudega laps, kuhu pöörduda?`
    - `Kuidas eristada koduteenust ja isikliku abistaja teenust?`
+   - `Mis vahe on koduteenusel ja tugiisikuteenusel?`
 2. Continue V2 incrementally:
    - V2.4 general EvidencePackage.
 3. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.

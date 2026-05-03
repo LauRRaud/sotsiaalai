@@ -297,6 +297,33 @@ test("Query Planner V2.2 carries role and life situation planner output into tra
   assert.equal(plan.primaryRagQueries.some(query => /valtimatu sotsiaalabi|vältimatu sotsiaalabi/.test(query.query)), true);
 });
 
+test("Query Planner V2.3 expands inflected service comparison questions", () => {
+  const message = "Mis vahe on koduteenusel ja tugiisikuteenusel?";
+  const questionPlan = buildQuestionPlan({
+    message,
+    role: "SOCIAL_WORKER"
+  });
+  const plan = basePlan({
+    effectiveMessage: message,
+    questionPlan
+  });
+
+  assert.equal(questionPlan.mode, "comparison");
+  assert.equal(plan.queryPlan.mode, "comparison");
+  assert.equal(plan.queryPlan.query_order, "broad_first");
+  assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.retrieval_strategy, "comparison_balanced_sources");
+  assert.equal(plan.queryPlan.retrieval_strategy_selection.selection_strategy, "multi_source_diversity");
+  assert.equal(plan.queryPlan.question_planner.topics.includes("koduteenus"), true);
+  assert.equal(plan.queryPlan.question_planner.topics.includes("tugiisikuteenus"), true);
+  assert.deepEqual(plan.queryPlan.preferred_source_count, { min: 2, max: 6 });
+  assert.equal(plan.queryPlan.source_layer_filter_mode, "prefer");
+  assert.equal(plan.queryPlan.flags.comparison, true);
+  assert.equal(plan.primaryRagQueries.some(query => query?.filters?.$or), true);
+  assert.equal(plan.primaryRagQueries.some(query => /koduteenus/.test(query.query) && /tugiisikuteenus/.test(query.query)), true);
+  assert.equal(plan.primaryRagQueries.some(query => !query.filters), true);
+});
+
 test("Query Planner V2 expands municipality service and benefit list queries", () => {
   const plan = basePlan({
     effectiveMessage: "millised sotsiaalteenused ja toetused on Tartus",

@@ -84,6 +84,20 @@ test("Question Planner V2.2 detects specialist comparison without overriding leg
   assert.equal(result.retrieval_strategy, "comparison_balanced_sources");
 });
 
+test("Question Planner V2.3 detects inflected service comparison topics", () => {
+  const result = buildQuestionPlan({
+    message: "Mis vahe on koduteenusel ja tugiisikuteenusel?",
+    role: "SOCIAL_WORKER"
+  });
+
+  assert.equal(result.mode, "comparison");
+  assert.equal(result.needs_multiple_sources, true);
+  assert.equal(result.retrieval_strategy, "comparison_balanced_sources");
+  assert.equal(result.source_layer_filter_mode, "prefer");
+  assert.equal(result.topics.includes("koduteenus"), true);
+  assert.equal(result.topics.includes("tugiisikuteenus"), true);
+});
+
 test("Question Planner V2.1 routes school mental health material questions to resource discovery", () => {
   const result = plan("Mis materjale on laste vaimse tervise kohta koolis?");
 

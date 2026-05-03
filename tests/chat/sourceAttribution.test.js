@@ -612,6 +612,58 @@ test("life situation guidance displays official help sources before journal back
   assert.equal(["query_anchor_mismatch", "background_suppressed_by_life_situation_guidance"].includes(attribution.filter_reasons["random-journal"]), true);
 });
 
+test("comparison displays official service sources for each compared service", () => {
+  const attribution = buildSourceAttribution(
+    "Koduteenus on praktiline abi kodus, tugiisikuteenus aga juhendav ja motiveeriv tugi iseseisvaks toimetulekuks.",
+    [
+      {
+        id: "shs-koduteenus",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus - Koduteenus",
+        evidenceText: "Koduteenus on kohaliku omavalitsuse korraldatav abi kodustes toimingutes ja asjaajamisel."
+      },
+      {
+        id: "shs-tugiisikuteenus",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus - Tugiisikuteenus",
+        evidenceText: "Tugiisikuteenus toetab inimese iseseisvat toimetulekut juhendamise, motiveerimise ja abistamise kaudu."
+      },
+      {
+        id: "journal-background",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Sotsiaalteenuste areng",
+        evidenceText: "Artikkel kirjeldab sotsiaalteenuste yldist arengut ja praktikat."
+      }
+    ],
+    {
+      query: "Mis vahe on koduteenusel ja tugiisikuteenusel?",
+      queryPlan: {
+        mode: "comparison",
+        selection_strategy: "multi_source_diversity",
+        retrieval_strategy: "comparison_balanced_sources",
+        question_planner: {
+          mode: "comparison",
+          topics: ["koduteenus", "tugiisikuteenus"]
+        }
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium"
+      }
+    }
+  );
+
+  assert.deepEqual(new Set(attribution.displayed_source_ids), new Set([
+    "shs-koduteenus",
+    "shs-tugiisikuteenus"
+  ]));
+  assert.equal(["query_anchor_mismatch", "background_suppressed_by_comparison"].includes(attribution.filter_reasons["journal-background"]), true);
+  assert.equal(attribution.displayed_sources_subset_of_selected, true);
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {
