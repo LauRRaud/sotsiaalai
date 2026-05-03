@@ -561,6 +561,57 @@ test("resource discovery keeps named organization anchors strict", () => {
   assert.equal(attribution.filter_reasons["organization-unrelated"], "query_anchor_mismatch");
 });
 
+test("life situation guidance displays official help sources before journal background", () => {
+  const attribution = buildSourceAttribution(
+    "Kui sul ei ole raha toidu ega üüri jaoks, pöördu KOV sotsiaalosakonda ja küsi vältimatut sotsiaalabi või toimetulekutoetust.",
+    [
+      {
+        id: "shs-emergency-help",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 8 Vältimatu sotsiaalabi",
+        evidenceText: "Vältimatu sotsiaalabi tagab vähemalt toidu, riietuse ja ajutise majutuse elatusvahendite kaotuse või puudumise korral."
+      },
+      {
+        id: "kov-sotsiaalabi",
+        source_type: "kov_service_info",
+        collection_id: "kov_services",
+        item_type: "service",
+        title: "Sotsiaalabi ja toimetulekutoetus",
+        evidenceText: "Kohalik omavalitsus võtab vastu toimetulekutoetuse taotlusi ja hindab vältimatu abi vajadust."
+      },
+      {
+        id: "random-journal",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Sotsiaaltööl pole piire",
+        evidenceText: "Artikkel räägib sotsiaaltöö arengust ja praktikast üldiselt."
+      }
+    ],
+    {
+      query: "Mul pole raha üüri ja toidu jaoks, mida teha?",
+      queryPlan: {
+        mode: "life_situation_guidance",
+        selection_strategy: "multi_source_diversity",
+        retrieval_strategy: "life_situation_guidance_hybrid",
+        question_planner: {
+          mode: "life_situation_guidance",
+          life_situation: "financial_hardship",
+          topics: ["toimetulekutoetus", "valtimatu_sotsiaalabi", "volanoustamine"]
+        }
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium"
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["shs-emergency-help", "kov-sotsiaalabi"]);
+  assert.equal(attribution.filtered_out_source_ids.includes("random-journal"), true);
+  assert.equal(["query_anchor_mismatch", "background_suppressed_by_life_situation_guidance"].includes(attribution.filter_reasons["random-journal"]), true);
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {

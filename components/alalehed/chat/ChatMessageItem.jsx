@@ -18,6 +18,10 @@ function splitGraphemes(text) {
 
 const TYPING_STEP_MS = 18;
 const TYPING_TRAILING_INLINE_RE = /^[\s!?,.;:)]$/;
+const THINKING_SHINE_BACKGROUND_DARK =
+  "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
+const THINKING_SHINE_BACKGROUND_LIGHT =
+  "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
 
 function getTimeLocale(locale) {
   if (locale === "et") return "et-EE";
@@ -117,7 +121,8 @@ const ChatMessageItem = memo(function ChatMessageItem({
   isSpeaking = false,
   onSpeak,
   messageSources = [],
-  onShowSources
+  onShowSources,
+  isStreaming = false
 }) {
   const isAssistant = role === "ai";
   const isOwn = role === "user";
@@ -158,6 +163,22 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
+  const thinkingLabelRaw = typeof t === "function" ? t("chat.typing.label") : "";
+  const thinkingLabel = thinkingLabelRaw && thinkingLabelRaw !== "chat.typing.label"
+    ? thinkingLabelRaw
+    : locale === "en"
+      ? "Thinking"
+      : locale === "ru"
+        ? "Думаю"
+        : "Mõtlen";
+  const thinkingClassName =
+    "inline-block whitespace-pre text-[1.1rem] leading-[1.32] tracking-[0.03em] text-transparent " +
+    "[background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] " +
+    "[-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] " +
+    "[animation:profile-footer-shine_1800ms_linear_infinite] [animation-fill-mode:both] motion-reduce:animate-pulse";
+  const thinkingStyle = {
+    backgroundImage: isLightTheme ? THINKING_SHINE_BACKGROUND_LIGHT : THINKING_SHINE_BACKGROUND_DARK
+  };
   const normalizedAttachments = Array.isArray(attachments)
     ? attachments
         .filter(item => item && typeof item === "object")
@@ -243,6 +264,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
         .filter((item) => item.title || item.body)
     : [];
   const showCards = isAssistant && normalizedCards.length > 0;
+  const showThinking = isAssistant && isStreaming && !String(visibleText || "").trim() && !showCards && !showAttachments;
   const tr = key => {
     const value = typeof t === "function" ? t(key) : "";
     return value && value !== key ? value : "";
@@ -350,6 +372,11 @@ const ChatMessageItem = memo(function ChatMessageItem({
 
       {text ? (
         <AssistantMarkdown text={visibleText} />
+      ) : null}
+      {showThinking ? (
+        <span className={thinkingClassName} style={thinkingStyle} aria-label={thinkingLabel}>
+          {thinkingLabel}
+        </span>
       ) : null}
       {showCards ? (
         <div className={cardsWrapClassName}>

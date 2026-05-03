@@ -449,6 +449,20 @@ V2.3 hotfix after live manual smoke:
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/retrievalStrategySelector.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceNeed.test.js tests/chat/workflowBypass.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
 - Result: `73/73` tests passed.
 
+V2.3 attribution hotfix after second live manual smoke:
+
+- Live retest showed routing and retrieval strategy were correct, but displayed sources were still random Sotsiaaltöö articles.
+- Root cause: `life_situation_guidance` used synthesis attribution, whose accepted source layers covered journals/guides/research better than KOV/SHS/public-help sources.
+- `sourceAttribution.js` now treats `life_situation_guidance` separately:
+  - accepts `national_law`, KOV legal/service/web sources, public-body info, official guidance, information materials and contact/service pages;
+  - matches displayed sources against planner topics/life situation terms;
+  - suppresses journal/research background sources when official/KOV/public-help sources are displayable.
+- Added regression test: official SHS/KOV emergency-help sources display before journal background for financial hardship.
+- Follow-up focused regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceNeed.test.js tests/chat/workflowBypass.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `106/106` tests passed.
+- `npm run build` passed.
+
 ## Current Next Steps
 
 1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:

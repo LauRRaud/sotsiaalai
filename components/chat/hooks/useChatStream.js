@@ -576,6 +576,14 @@ export function useChatStream(config) {
     let attachments = [];
     let cards = [];
     let workflow = null;
+    streamingMessageId = cfg.appendMessage?.({
+      role: "ai",
+      text: "",
+      isStreaming: true,
+      aiVisible: true,
+      ...(cfg.isRoomMode ? { roomScoped: true } : {})
+    });
+    cfg.onAssistantMessageCreated?.(streamingMessageId);
     const latestHelpWorkflowState = !cfg.isRoomMode && typeof cfg.getLatestHelpWorkflowState === "function"
       ? normalizeWorkflow(cfg.getLatestHelpWorkflowState())
       : normalizeWorkflow(cfg.helpWorkflowState);
@@ -650,6 +658,12 @@ export function useChatStream(config) {
           return parsedBody;
         };
         if (res.status === 401) {
+          cfg.mutateMessage?.(streamingMessageId, msg => ({
+            ...msg,
+            text: tr("chat.room.auth_required"),
+            isStreaming: false
+          }));
+          streamingMessageId = null;
           if (cfg.onAuthRedirect) {
             cfg.onAuthRedirect();
           } else if (typeof window !== "undefined") {
@@ -665,6 +679,12 @@ export function useChatStream(config) {
         if (res.status === 403) {
           const data = await readJsonBody();
           if (data?.requireSubscription && data?.redirect && typeof window !== "undefined") {
+            cfg.mutateMessage?.(streamingMessageId, msg => ({
+              ...msg,
+              text: tr("chat.error.subscription_required_profile"),
+              isStreaming: false
+            }));
+            streamingMessageId = null;
             window.location.href = String(data.redirect);
             return true;
           }
@@ -705,20 +725,19 @@ export function useChatStream(config) {
 
           cfg.setIsCrisis?.(!!data?.isCrisis);
 
-          const createdId = cfg.appendMessage?.({
-            role: "ai",
+          cfg.mutateMessage?.(streamingMessageId, msg => ({
+            ...msg,
             text: replyText,
             sources: normSources,
             attachments,
             cards,
             workflow,
-            aiVisible: true,
-            ...(cfg.isRoomMode ? { roomScoped: true } : {})
-          });
+            isStreaming: false
+          }));
 
-          cfg.onAssistantMessageCreated?.(createdId);
           dispatchHelpListingsRefresh(workflow);
           cfg.requestConversationsRefresh?.();
+          streamingMessageId = null;
           return true;
         }
 
@@ -732,16 +751,6 @@ export function useChatStream(config) {
         }
 
         const reader = (cfg.createSSEReader || defaultCreateSSEReader)(res.body);
-
-        streamingMessageId = cfg.appendMessage?.({
-          role: "ai",
-          text: "",
-          isStreaming: true,
-          aiVisible: true,
-          ...(cfg.isRoomMode ? { roomScoped: true } : {})
-        });
-
-        cfg.onAssistantMessageCreated?.(streamingMessageId);
 
         for await (const ev of reader) {
           if (ev.event === "meta") {
