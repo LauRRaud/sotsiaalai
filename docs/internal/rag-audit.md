@@ -265,9 +265,14 @@ Validation:
 - Added `tests/chat/questionPlanner.test.js`.
 - Updated `tests/chat/queryPlanner.test.js` for resource-discovery filters and trace.
 - Updated `tests/chat/sourceAttribution.test.js` for resource-discovery displayed-source behavior.
+- Hotfix after live manual smoke: resource discovery attribution now displays selected organization/material/resource sources even when broad user wording does not token-match the selected material exactly. Named organization lookups such as `Mida Astangu Keskus pakub?` still keep exact-name anchors strict, so unrelated organization profiles are not displayed.
 - Local focused test command passed:
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js`
-- Result: `58/58` tests passed.
+- Result before hotfix: `58/58` tests passed.
+- Post-hotfix focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/ragTraceMetadata.test.js`
+- Post-hotfix result: `60/60` tests passed.
+- `npm run build` passed.
 
 Known limits:
 

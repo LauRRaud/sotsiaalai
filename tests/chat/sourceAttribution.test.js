@@ -389,6 +389,73 @@ test("resource discovery attribution keeps selected organization and material so
   assert.equal(attribution.displayed_sources_subset_of_selected, true);
 });
 
+test("resource discovery displays selected resource source even when broad query wording differs", () => {
+  const attribution = buildSourceAttribution(
+    "Praegused allikad kinnitavad kõige selgemalt abivahendite õpetamist ja koostööd pere ning spetsialistidega.",
+    [
+      {
+        id: "vision-material",
+        source_type: "information_material",
+        collection_id: "organization_materials",
+        title: "Nägemispuudega inimese toetamise materjal",
+        evidenceText: "Materjal kirjeldab nägemispuudega inimese abivahendeid, nende kasutamise õpetamist ning pere ja spetsialistide koostööd."
+      }
+    ],
+    {
+      query: "Millised organisatsioonid või materjalid aitavad puudega inimest?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["vision-material"]);
+  assert.equal(attribution.filtered_out_source_count, 0);
+});
+
+test("resource discovery keeps named organization anchors strict", () => {
+  const attribution = buildSourceAttribution(
+    "Astangu Keskus pakub töötegevuse ja rehabilitatsiooniga seotud tuge.",
+    [
+      {
+        id: "organization-astangu",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Astangu Kutserehabilitatsiooni Keskus",
+        evidenceText: "Astangu Kutserehabilitatsiooni Keskus pakub töötegevuse ja rehabilitatsiooniga seotud tuge."
+      },
+      {
+        id: "organization-unrelated",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Muu organisatsioon",
+        evidenceText: "Muu organisatsioon pakub üldist nõustamist."
+      }
+    ],
+    {
+      query: "Mida Astangu Keskus pakub?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["organization-astangu"]);
+  assert.equal(attribution.filter_reasons["organization-unrelated"], "query_anchor_mismatch");
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {
