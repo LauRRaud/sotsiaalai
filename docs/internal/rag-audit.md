@@ -47,7 +47,7 @@ The main limitation is not that RAG does not exist. V1.1-V1.5 are complete, and 
 
 This creates the current quality risk: the system can now expose planner intent in trace, but some modes still need deeper evidence packaging, stronger source-layer contracts and more robust retrieval/ranking before the planner can safely govern the whole RAG path.
 
-The highest-value next patch is no longer V1.1 overview hardening. The next planned architecture step is V2.4: a general `EvidencePackage` for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior.
+The highest-value next patch is no longer V1.1 overview hardening. V2.4A has now added the first `EvidencePackage` skeleton for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior. The remaining V2.4 work is to validate the package live and then decide whether to deepen answer contracts or move to V2.5 source metadata contract hardening.
 
 ## Implemented Changes
 
@@ -503,9 +503,68 @@ V2.3 comparison displayed-source narrowing hotfix:
 - Result: `223/223` tests passed.
 - `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
 
+### V2.4A EvidencePackage Skeleton
+
+Status: DONE / local regressions and build green
+
+Scope:
+
+- Added `lib/chat/evidencePackage.js`.
+- Built a deterministic EvidencePackage from already selected context only.
+- No retrieval, query expansion, selection, reranker, evidence checker, LLM planner, SourcePackage or legal exact behavior was changed.
+- EvidencePackage currently applies only to non-KOV/non-legal-exact modes:
+  - `overview_synthesis`;
+  - `comparison`;
+  - `resource_discovery`;
+  - `life_situation_guidance`;
+  - existing broad/thematic multi-source synthesis modes.
+- EvidencePackage explicitly skips:
+  - `legal_exact` / `explicit_paragraph`;
+  - KOV/SourcePackage package-aware answering;
+  - user document context / document workflows;
+  - default mode.
+
+Runtime wiring:
+
+- `retrievalContextAssembler.js` now builds `evidencePackage` after context selection and displayed-source preparation.
+- `extraSystemInstructions` receives a short `EVIDENCE_PACKAGE_MODE` guidance block.
+- The guidance is intentionally answer-only: it tells the model how to use the already selected context and explicitly says not to retrieve new sources.
+- `mainResponseHandler.js` now exposes sanitized `rag_trace.evidence_package`.
+
+EvidencePackage fields:
+
+- `mode`
+- `selected_sources`
+- `selected_documents`
+- `source_layer_mix`
+- `evidence_strength`
+- `coverage_warnings`
+- `missing_coverage`
+- `limitations`
+- `answer_guidance`
+- `trace_summary`
+
+Initial coverage warnings:
+
+- `life_situation_guidance` warns when no official, KOV or public-body source is selected.
+- `resource_discovery` warns when support is legal-only and no organization/material/background source was selected.
+- `overview_synthesis` warns when selected document diversity is narrow or V1 overview metadata reports limited diversity.
+
+Validation:
+
+- Added `tests/chat/evidencePackage.test.js`.
+- Added `ragTraceMetadata` coverage for sanitized EvidencePackage trace output.
+- Focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/chat/ragTraceMetadata.test.js tests/chat/retrievalContextAssembler.test.js`
+- Result: `22/22` tests passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js`
+- Result: `229/229` tests passed.
+- `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
+
 ## Current Next Steps
 
-1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:
+1. After deploy/restart, run a server smoke for V2.4A EvidencePackage trace and answer guidance:
    - `Millised organisatsioonid või materjalid aitavad puudega inimest?`
    - `Mis materjale on laste vaimse tervise kohta koolis?`
    - `Mida Astangu Keskus pakub?`
@@ -515,7 +574,10 @@ V2.3 comparison displayed-source narrowing hotfix:
    - `Kuidas eristada koduteenust ja isikliku abistaja teenust?`
    - `Mis vahe on koduteenusel ja tugiisikuteenusel?`
 2. Continue V2 incrementally:
-   - V2.4 general EvidencePackage.
+   - V2.4B: tighten EvidencePackage answer contracts only if live tests show gaps.
+   - V2.5A: source metadata taxonomy audit.
+   - V2.5B: central source-layer helpers in `sourceMetadata.js`.
+   - V2.5C: gradually replace duplicated runtime source-type logic.
 3. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.
 4. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
 
@@ -549,6 +611,12 @@ ragContext
   -> group matches
   -> rank/diversify
   -> render RAG_CONTEXT
+
+evidencePackage
+  -> summarize already selected non-KOV evidence
+  -> source layer mix
+  -> coverage warnings
+  -> answer guidance
 
 sourcePackages / packageAwareContext / sectionAttribution
   -> runtime SourcePackage
@@ -587,19 +655,19 @@ mainResponseHandler / sourceAttribution
 - `retrievalStrategySelector.js` maps planner modes to retrieval, selection and query-order strategy.
 - `overview_synthesis` is now a distinct V1 mode with document-diversity selection and trace metrics.
 - Multi-source synthesis now has a V1 quality guard for distinct selected documents when enough relevant documents exist.
-- `resource_discovery`, `life_situation_guidance` and `comparison` are trace-visible and have initial V2.1-V2.3 retrieval/attribution support.
+- `resource_discovery`, `life_situation_guidance` and `comparison` are trace-visible and have initial V2.1-V2.3 retrieval/attribution support plus a V2.4A EvidencePackage skeleton.
 - Source attribution can hide useful sources if evidence text or metadata is incomplete.
 - Runtime mojibake cleanup was completed in V1.4; this audit document still contains some older captured mojibake examples and should be cleaned separately if needed.
 - Some modules are too large and combine planning, retrieval, selection, tracing and context construction.
 
 ### Most Important Next Fix
 
-Continue V2 with a general `EvidencePackage` in a small patch:
+Do not immediately expand EvidencePackage into a broad rewrite. First validate V2.4A:
 
-- Keep SourcePackage for KOV service/benefit answers.
-- Add an EvidencePackage only for non-KOV multi-source modes such as overview, comparison, resource discovery and methodology/practice questions.
-- Capture selected documents, selected chunks, source layers, evidence strength, missing coverage warnings, limitations and answer guidance.
-- Do not add an LLM planner, reranker or evidence checker in this step.
+- Run broad regression tests and build.
+- Smoke-test that `rag_trace.evidence_package` appears for overview, comparison, resource discovery and life-situation answers.
+- Confirm that `legal_exact` and KOV/SourcePackage answers still skip EvidencePackage.
+- If V2.4A is stable, move to V2.5A source metadata taxonomy audit before replacing duplicated source-type logic.
 
 ## lib/chat Audit
 
@@ -609,10 +677,11 @@ Continue V2 with a general `EvidencePackage` in a small patch:
 | --- | --- | --- | --- |
 | `questionPlanner.js` | Deterministic first-class planner skeleton for role, mode, topics, source-layer preferences, retrieval strategy and answer contract. | B | Added in V2.1 and expanded in V2.2/V2.3. Handles `resource_discovery`, `life_situation_guidance`, `comparison`, legal/KOV/overview/document-summary routing signals. Still deterministic and intentionally narrower than the future full planner. |
 | `retrievalStrategySelector.js` | Maps planner mode plus route overrides to retrieval strategy, selection strategy, query order and source-layer filter mode. | B | Added in V2.3. Keeps legal/KOV/source lookup overrides stronger than planner modes and gives `resource_discovery`, `life_situation_guidance` and `comparison` mode-specific retrieval behavior. |
+| `evidencePackage.js` | Builds a structured non-KOV EvidencePackage from already selected context. | B | Added in V2.4A. Covers `overview_synthesis`, `comparison`, `resource_discovery`, `life_situation_guidance` and broad/thematic multi-source answers. It is trace/answer-guidance only; it does not change retrieval, selection, legal exact, SourcePackage, reranking or claim checking. |
 | `sourceNeed.js` | Decides whether a turn needs external/RAG sources. | B | Improved so substantive user text triggers RAG by default. Still regex-heavy. Should keep shrinking into a gate/helper as `questionPlanner.js` becomes more authoritative. |
 | `queryPlanner.js` | Builds RAG query plan: mode, filters, topK, selection strategy and trace summary. | B/C | Important and functional. It handles legal, temporal, municipality, source lookup, overview, resource discovery, life-situation and comparison modes. It now consumes planner output and retrieval-strategy selection, but remains too broad and should keep shedding planner responsibilities. |
 | `retrievalOrchestrator.js` | Builds retrieval queries, recent-source anchors, thematic expansions and multi-query search. | B | Hybrid retrieval and partial failure handling are useful. Exact-name query expansion is intentionally deactivated so broad RAG quality does not depend on rare named anchors. Risk: thematic expansion can become hand-tuned by topic. Needs a cleaner document discovery layer. |
-| `retrievalContextAssembler.js` | Main RAG assembly layer. Runs planning, retrieval, selection, SourcePackage, risk policy and metadata assembly. | C | Functional but overloaded. This is the central integration point and the largest refactor candidate. It should eventually delegate planner, source package, evidence package and trace assembly more cleanly. |
+| `retrievalContextAssembler.js` | Main RAG assembly layer. Runs planning, retrieval, selection, SourcePackage, EvidencePackage, risk policy and metadata assembly. | C | Functional but overloaded. This is the central integration point and the largest refactor candidate. V2.4A now delegates non-KOV evidence packaging to `evidencePackage.js`; more planner/source package/evidence/trace delegation should continue gradually. |
 | `retrievalPlanning.js` | Temporal/year retrieval planning and topic hints. | B | Useful helper. Not the main bottleneck. |
 | `queryAnchors.js` | Extracts exact entity/name anchors such as `OTT`, `Woebot`, `Wysa`. | B | Optional helper only. It is deactivated for RAG gating and retrieval query expansion, and remains useful only as a source-attribution guard for rare exact-name questions. Do not build V1/V2 quality around this file. |
 
@@ -699,20 +768,20 @@ The deterministic `questionPlanner.js` and `retrievalStrategySelector.js` now ex
 
 This means the system can make a correct planner decision and still need downstream adapters to preserve that intention. Recent V2.3 hotfixes fixed this for `life_situation_guidance` and `comparison`, but the general architectural direction remains: planner output should gradually become the central contract, while route-specific legacy logic becomes thinner.
 
-### 2. Evidence Packaging Is Still Missing Outside SourcePackage
+### 2. Evidence Packaging Is Now a Skeleton Outside SourcePackage
 
-KOV service/benefit answers have SourcePackage. General overview, comparison, resource discovery and practice/methodology answers do not yet have an equivalent EvidencePackage.
+KOV service/benefit answers have SourcePackage. General overview, comparison, resource discovery, life-situation and broad/thematic answers now have a first V2.4A EvidencePackage skeleton.
 
-This means selected context and displayed sources are stronger than before, but there is still no single object that carries:
+This means selected context and displayed sources now also have a structured trace object that carries:
 
-- selected documents and chunks;
+- selected documents and selected source summaries;
 - source layer mix;
 - evidence strength;
 - missing coverage warnings;
 - answer limitations;
 - answer guidance.
 
-This is the next high-value V2 gap.
+This is still a skeleton. It does not yet enforce claim-level evidence, rerank sources or replace SourcePackage. The next V2.4 work should be driven by live/eval gaps, not by a broad rewrite.
 
 ### 3. Overview Questions Have V1 Guarantees But Still Need Eval Coverage
 
@@ -771,14 +840,20 @@ If cleaned, do it as a documentation/test-fixture cleanup patch, not as a RAG be
 
 ## Recommended Next Patch
 
-The next small, high-impact patch should be V2.4 `EvidencePackage`:
+The next small, high-impact patch should not deepen V2.4 automatically. First validate V2.4A live and with the broad local regression suite.
 
-1. Add `lib/chat/evidencePackage.js`.
-2. Keep SourcePackage untouched for KOV service/benefit answers.
-3. Build EvidencePackage for `overview_synthesis`, `comparison`, `resource_discovery` and methodology/practice questions.
-4. Include selected documents/chunks, diversity result, source layers, evidence strength, missing coverage warnings, limitations and answer guidance.
-5. Wire it into trace/prompt minimally without adding an LLM planner, reranker or evidence checker.
-6. Add tests that prove legal exact and KOV/SourcePackage routes are not affected.
+If V2.4A live tests show answer-contract gaps, do V2.4B narrowly:
+
+1. Tighten EvidencePackage answer guidance for the failing mode only.
+2. Keep retrieval and selection unchanged unless the failure clearly proves a retrieval problem.
+3. Keep legal exact and KOV/SourcePackage opt-outs unchanged.
+4. Do not add claim-level attribution or an evidence checker in V2.4B.
+
+If V2.4A is stable enough, move to V2.5A:
+
+1. Audit current source metadata taxonomy.
+2. Identify duplicated runtime source-type lists.
+3. Do not rename existing ingested `source_type`, `resource_type` or `collection_id` values in the same patch.
 
 ## Suggested Future Module Split
 
@@ -811,15 +886,15 @@ Current system quality:
 - Legal exact: good, but must be protected from planner changes.
 - Displayed-source enforcement: good.
 - Section attribution: good foundation.
-- General thematic RAG: materially improved by V1.1/V1.5, but still needs EvidencePackage and golden eval before it is considered stable at production scale.
-- Resource discovery, life-situation guidance and comparison: initial V2.1-V2.3 deterministic planner paths are implemented, but still need broader live/eval coverage.
+- General thematic RAG: materially improved by V1.1/V1.5 and now has a V2.4A EvidencePackage skeleton, but still needs golden eval before it is considered stable at production scale.
+- Resource discovery, life-situation guidance and comparison: initial V2.1-V2.3 deterministic planner paths are implemented and V2.4A now packages selected evidence for trace/answer guidance, but these modes still need broader live/eval coverage.
 - PDF/future document ingest: metadata contract exists, but retrieval quality depends on document-level discovery, section titles, chunk metadata and source diversity.
 
 The most important product-quality goal is:
 
 > A broad or practical user question should trigger an auditable evidence-seeking plan, not a narrow nearest-chunk answer.
 
-That is now partly implemented through V1/V2 planner work; the next architecture step is to package and verify the evidence chain.
+That is now partly implemented through V1/V2 planner work and the first V2.4A EvidencePackage skeleton. The next architecture step is to validate that evidence package against live/eval gaps, then harden source metadata contracts in V2.5.
 
 ## V1.1 Test Data And Manual Regression Checklist
 

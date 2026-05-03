@@ -253,6 +253,100 @@ test("RAG trace includes overview synthesis selection metadata without source ex
   assert.equal(JSON.stringify(trace).includes("Do not leak"), false);
 });
 
+test("RAG trace includes sanitized EvidencePackage metadata without source excerpts", () => {
+  const attribution = buildSourceAttribution("KOV ja SHS allikad toetavad praktilist sammude vastust.", [
+    {
+      source_id: "shs-8",
+      title: "Sotsiaalhoolekande seadus § 8 Vältimatu sotsiaalabi",
+      source_type: "national_law",
+      paragraphNumber: "8",
+      evidenceText: "Sensitive source excerpt must not be copied."
+    },
+    {
+      source_id: "kov-help",
+      title: "KOV sotsiaalabi",
+      source_type: "kov_service_info",
+      collection_id: "kov_web",
+      evidenceText: "Sensitive KOV excerpt must not be copied."
+    }
+  ], {
+    query: "Mul pole raha üüri ja toidu jaoks, mida teha?"
+  });
+  const trace = buildRagTraceFromAttribution([], attribution, {
+    queryPlan: {
+      planner_version: "v2",
+      mode: "life_situation_guidance",
+      selection_strategy: "multi_source_diversity"
+    },
+    evidencePackage: {
+      version: "v2.4a",
+      mode: "life_situation_guidance",
+      selected_sources: [
+        {
+          id: "shs-8",
+          title: "Sotsiaalhoolekande seadus § 8 Vältimatu sotsiaalabi",
+          source_type: "national_law",
+          source_layer: "legal",
+          paragraph_number: "8",
+          evidenceText: "Sensitive source excerpt must not be copied."
+        },
+        {
+          id: "kov-help",
+          title: "KOV sotsiaalabi",
+          source_type: "kov_service_info",
+          collection_id: "kov_web",
+          source_layer: "kov",
+          body_preview: "Sensitive body preview must not be copied."
+        }
+      ],
+      selected_documents: [
+        {
+          document_id: "shs-8",
+          title: "Sotsiaalhoolekande seadus § 8",
+          source_type: "national_law",
+          chunk_count: 1,
+          source_ids: ["shs-8"]
+        }
+      ],
+      source_layer_mix: {
+        by_layer: { legal: 1, kov: 1 },
+        by_source_type: { national_law: 1, kov_service_info: 1 },
+        by_collection_id: { national_regulations: 1, kov_web: 1 }
+      },
+      evidence_strength: {
+        overall: "limited",
+        selected_source_count: 2,
+        selected_document_count: 1,
+        risk_level: "medium",
+        required_evidence: "strong",
+        insufficient_evidence_mode: false
+      },
+      coverage_warnings: [],
+      missing_coverage: [],
+      limitations: [],
+      answer_guidance: ["Give practical next steps first."],
+      trace_summary: {
+        mode: "life_situation_guidance",
+        selected_source_count: 2,
+        selected_document_count: 1,
+        source_layer_count: 2,
+        warning_count: 0,
+        planner_reason: "financial hardship question",
+        topics: ["rent", "food"]
+      }
+    }
+  });
+
+  assert.equal(trace.evidence_package.version, "v2.4a");
+  assert.equal(trace.evidence_package.mode, "life_situation_guidance");
+  assert.equal(trace.evidence_package.selected_sources.length, 2);
+  assert.equal(trace.evidence_package.source_layer_mix.by_layer.legal, 1);
+  assert.equal(trace.evidence_package.source_layer_mix.by_layer.kov, 1);
+  assert.deepEqual(trace.evidence_package.answer_guidance, ["Give practical next steps first."]);
+  assert.equal(JSON.stringify(trace).includes("Sensitive source excerpt"), false);
+  assert.equal(JSON.stringify(trace).includes("Sensitive body preview"), false);
+});
+
 test("RAG trace truncates selected context body previews", () => {
   const attribution = buildSourceAttribution("Allikas kinnitab vastust.", [
     {

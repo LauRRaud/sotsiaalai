@@ -160,12 +160,18 @@ body:is(
   max-width: 100% !important;
 }
 
+.chat-msg-ai {
+  width: fit-content !important;
+  max-width: min(93%, 50rem) !important;
+}
+
 .chat-msg-user-bubble,
 .chat-msg-user-bubble > *,
 .chat-msg-ai,
 .chat-msg-ai :is(p, li, div) {
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  hyphens: auto !important;
 }
 
 @media (max-width: 768px) {
