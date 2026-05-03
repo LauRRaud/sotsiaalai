@@ -9,6 +9,7 @@ import {
   buildRagQueryPlan,
   buildServiceJurisdictionQuery
 } from "../../lib/chat/queryPlanner.js";
+import { buildQuestionPlan } from "../../lib/chat/questionPlanner.js";
 import {
   buildRagContextBudgetOptions,
   isNationalServiceBenefitQuestion
@@ -175,6 +176,76 @@ test("Query Planner V2 does not route specific document summary to overview synt
   assert.notEqual(plan.queryPlan.mode, "overview_synthesis");
   assert.notEqual(plan.queryPlan.selection_strategy, "overview_diversity_then_depth");
   assert.equal(plan.queryPlan.needs_multiple_sources, false);
+});
+
+test("Query Planner V2.1 applies resource discovery filters and trace", () => {
+  const message = "Millised organisatsioonid või materjalid aitavad puudega inimest?";
+  const questionPlan = buildQuestionPlan({
+    message,
+    role: "SOCIAL_WORKER"
+  });
+  const plan = basePlan({
+    effectiveMessage: message,
+    questionPlan,
+    resourceDiscoveryQuestion: true
+  });
+
+  assert.equal(plan.queryPlan.mode, "resource_discovery");
+  assert.equal(plan.queryPlan.selection_strategy, "resource_discovery_diversity");
+  assert.equal(plan.queryPlan.query_order, "broad_first");
+  assert.equal(plan.queryPlan.needs_multiple_sources, true);
+  assert.deepEqual(plan.queryPlan.preferred_source_count, { min: 3, max: 8 });
+  assert.equal(plan.queryPlan.flags.resource_discovery, true);
+  assert.equal(plan.queryPlan.question_planner.mode, "resource_discovery");
+  assert.equal(plan.queryPlan.question_planner.retrieval_strategy, "resource_discovery_hybrid");
+  assert.equal(plan.searchFilters.$or[0].collection_id.$in.includes("organizations"), true);
+  assert.equal(plan.searchFilters.$or[0].collection_id.$in.includes("organization_materials"), true);
+  assert.equal(plan.searchFilters.$or[1].source_type.$in.includes("organization_profile"), true);
+  assert.equal(plan.searchFilters.$or[2].resource_type.$in.includes("organization_page"), true);
+});
+
+test("Query Planner V2.1 resource discovery does not override legal exact mode", () => {
+  const message = "Mis ütleb SHS § 42?";
+  const questionPlan = buildQuestionPlan({
+    message,
+    role: "SOCIAL_WORKER"
+  });
+  const plan = basePlan({
+    effectiveMessage: message,
+    questionPlan,
+    resourceDiscoveryQuestion: questionPlan.mode === "resource_discovery"
+  });
+
+  assert.equal(questionPlan.mode, "legal_exact");
+  assert.equal(plan.queryPlan.mode, "explicit_paragraph");
+  assert.equal(plan.queryPlan.selection_strategy, "legal_exact");
+  assert.notEqual(plan.queryPlan.mode, "resource_discovery");
+});
+
+test("Query Planner V2.1 resource discovery does not override KOV scoped service mode", () => {
+  const message = "Millised on Kuusalu valla koduteenuse tingimused?";
+  const questionPlan = buildQuestionPlan({
+    message,
+    role: "SOCIAL_WORKER"
+  });
+  const plan = basePlan({
+    effectiveMessage: message,
+    questionPlan,
+    resourceDiscoveryQuestion: questionPlan.mode === "resource_discovery",
+    allowMunicipalityScopedRag: true,
+    municipalityServiceBenefitRagRequest: true,
+    municipalityServiceBenefitListRequest: true,
+    effectiveMunicipalities: [
+      {
+        id: "kuusalu_vald",
+        displayName: "Kuusalu vald"
+      }
+    ]
+  });
+
+  assert.equal(questionPlan.mode, "kov_service_or_benefit");
+  assert.equal(plan.queryPlan.mode, "municipality_service_benefit_list");
+  assert.notEqual(plan.queryPlan.mode, "resource_discovery");
 });
 
 test("Query Planner V2 expands municipality service and benefit list queries", () => {

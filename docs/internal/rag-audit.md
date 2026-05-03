@@ -161,12 +161,13 @@ Known metadata quality follow-up:
 
 ### Organization Profile Attribution Fix 2026-05-03
 
-Status: DONE / local tests and build green
+Status: DONE / local tests, build and server reingest check green
 
 Problem:
 
-- The query `Mida Astangu Keskus pakub?` retrieved and selected Astangu sources, but the UI displayed no sources.
-- Trace showed selected context existed (`retrieved: 10`, `selected: 2`), so the failure was in answer-source attribution, not frontend rendering or ingest.
+- The query `Mida Astangu Keskus pakub?` retrieved and selected Astangu sources, but initially the UI displayed no sources.
+- After the attribution fix, the source displayed, but it still had no `Ava allikas` link.
+- Server inspection showed the Astangu RAG chunks had `official_website`, `url`, `url_canonical` and `source_url` as `null`, so the link problem was also an organization ingest metadata contract issue.
 
 Fix:
 
@@ -184,6 +185,7 @@ Fix:
 - `ragContext.js` now preserves `official_website` / `officialWebsite` from RAG match metadata as the normalized group `url`, and keeps organization identity fields on grouped context entries. This closes the runtime gap where ingest metadata had an official website but selected context reached attribution without a clickable URL.
 - `retrievalContextAssembler.js` now recognizes the same official website aliases when merging/displaying selected source URLs.
 - `components/chat/utils/sources.js` and `components/chat/hooks/useConversationSources.js` now recognize the same organization URL aliases when building clickable source-panel entries.
+- `scripts/ingest-organization-rag-folder.mjs` and `lib/admin/rag/organizations/service.js` now write the organization official website into standard RAG URL fields as well: `source_url`, `sourceUrl`, `url_canonical`, `urlCanonical` and `url`. This is needed because the RAG service may not preserve custom `official_website`, but it does preserve and return `url` / `url_canonical`.
 - Added a regression test for an Astangu-style named organization question.
 
 Validation:
@@ -193,18 +195,99 @@ Validation:
 - `tests/chat/sourceUtils.test.js` and `tests/chat/conversationSources.test.js` passed for organization URL alias normalization.
 - A wider focused attribution/sourceNeed/retrieval/sourceQuality test batch passed (`55/55`).
 - `npm run build` passed.
+- Server reingest check for `organization-astangu` confirmed `/search` results now return:
+  - `url_canonical: https://www.astangu.ee/et`
+  - `url: https://www.astangu.ee/et`
+- Live retest confirmed the Astangu source link works.
 
-Expected behavior after deploy:
+Current behavior after deploy/reingest:
 
-- `Mida Astangu Keskus pakub?` should display the Astangu organization profile source and expose its official website as a clickable `Ava allikas` link when the source metadata contains an official website URL.
+- `Mida Astangu Keskus pakub?` displays the Astangu organization profile source and exposes its official website as a clickable `Ava allikas` link.
+
+### V2.1 Deterministic Question Planner Skeleton
+
+Status: DONE / local tests green
+
+Scope:
+
+- Added `lib/chat/questionPlanner.js` as a deterministic planner skeleton.
+- No LLM planner was added.
+- No large `queryPlanner.js` or `retrievalContextAssembler.js` rewrite was done.
+- The first planner-owned mode is `resource_discovery`.
+
+Planner output:
+
+- `mode`
+- `role`
+- `confidence`
+- `needs_rag`
+- `needs_multiple_sources`
+- `preferred_source_count`
+- `source_layers`
+- `avoid_source_layers`
+- `retrieval_strategy`
+- `answer_contract`
+- `planner_reason`
+
+Resource discovery behavior:
+
+- Questions such as `Millised organisatsioonid või materjalid aitavad puudega inimest?`, `Mis materjale on laste vaimse tervise kohta koolis?`, `Kust leida abi kuulmispuudega inimesele?`, `Kas on juhendmaterjale või PDF-e?` and named organization lookups such as `Mida Astangu Keskus pakub?` now produce `mode = resource_discovery`.
+- `resource_discovery` prefers organization/material/guideline layers:
+  - `organizations`
+  - `organization_materials`
+  - `national_guidelines`
+  - `training_materials`
+  - `official_guideline`
+  - `information_material`
+  - `organization_profile`
+  - `organization_page`
+- `avoid_source_layers` marks:
+  - `legal_only_answer`
+  - `national_law_as_primary`
+- `retrievalContextAssembler.js` now runs this planner before source-need routing and lets `resource_discovery` force RAG when needed.
+- `queryPlanner.js` now uses the planner output only for resource-discovery cases:
+  - `selection_strategy = resource_discovery_diversity`
+  - `query_order = broad_first`
+  - source filters prefer organization/material/guideline/resource metadata
+  - planner output is carried into `query_plan.question_planner`
+- `retrievalContextAssembler.js` adds a narrow `RESOURCE_DISCOVERY_MODE` answer instruction so legal sources can be used as background, but should not be the only displayed basis when organization/material sources are available.
+- `sourceAttribution.js` treats `resource_discovery` as synthesis-style attribution, so selected organization/material sources can display while legal-only background noise is filtered out.
+
+Non-overrides:
+
+- `Mis ütleb SHS § 42?` remains legal exact, not resource discovery.
+- `Millised on Kuusalu valla koduteenuse tingimused?` remains KOV/SourcePackage or KOV-scoped RAG, not resource discovery.
+- `Mis on murekohad lastekaitses?` remains overview synthesis, not resource discovery.
+- `Tee kokkuvõte dokumendist X` remains specific-document summary, not resource discovery.
+
+Validation:
+
+- Added `tests/chat/questionPlanner.test.js`.
+- Updated `tests/chat/queryPlanner.test.js` for resource-discovery filters and trace.
+- Updated `tests/chat/sourceAttribution.test.js` for resource-discovery displayed-source behavior.
+- Local focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `58/58` tests passed.
+
+Known limits:
+
+- V2.1 is still deterministic and intentionally narrow.
+- It does not yet implement full role/life-situation planning.
+- It does not yet add a general EvidencePackage, reranker, evidence guard or source-layer metadata contract refactor.
+- Resource discovery quality still depends on organization/material/guideline metadata being present and preserved through ingest.
 
 ## Current Next Steps
 
-1. Deploy the organization-profile attribution/link fix and retest `Mida Astangu Keskus pakub?` on the live chat.
-2. Add a narrow `resource_discovery` / `organization_material_discovery` planning path before the full V2 planner, or make it the first small V2 planner use case.
-3. That mode should recognize questions such as `Millised organisatsioonid...`, `Millised materjalid...`, `Kust leida abi...`, `Kelle poole poorduda...`, `Millised kontaktid...` and prefer `organizations`, `organization_materials`, `national_guidelines` and `training_materials` over legal-only results.
-4. Start V2 central `questionPlanner.js` after the above targeted source-layer issue is either fixed directly or included as the first planner mode.
-5. Keep V2 incremental: structured planner output first, then role/life-situation mapping, retrieval strategy selector and EvidencePackage later.
+1. Run a server smoke after deploy/restart for resource discovery:
+   - `Millised organisatsioonid või materjalid aitavad puudega inimest?`
+   - `Mis materjale on laste vaimse tervise kohta koolis?`
+   - `Mida Astangu Keskus pakub?`
+2. Continue V2 incrementally:
+   - V2.2 role-aware planner: `client` vs `social_worker`.
+   - V2.3 retrieval strategy selector extraction.
+   - V2.4 general EvidencePackage.
+3. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.
+4. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
 
 ## Current Runtime Flow
 

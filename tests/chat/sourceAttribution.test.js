@@ -341,6 +341,54 @@ test("organization profile attribution uses organization identity fields for nam
   assert.equal(attribution.filter_reasons["unrelated-organization"], "query_anchor_mismatch");
 });
 
+test("resource discovery attribution keeps selected organization and material sources before legal background", () => {
+  const attribution = buildSourceAttribution(
+    "Puudega inimest aitavad organisatsioonid, tugivõrgustikud ja praktilised materjalid; õigusallikas on ainult taust.",
+    [
+      {
+        id: "organization-source",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Puudega inimeste organisatsioon",
+        evidenceText: "Organisatsioon toetab puudega inimesi nõustamise ja tugivõrgustiku kaudu."
+      },
+      {
+        id: "material-source",
+        source_type: "information_material",
+        collection_id: "organization_materials",
+        title: "Praktiline infoleht puudega inimesele",
+        evidenceText: "Materjal selgitab abivõimalusi, kontakte ja teenuseid puudega inimesele."
+      },
+      {
+        id: "legal-background",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 42",
+        evidenceText: "Seadus reguleerib puudega isikule eluruumi tagamist."
+      }
+    ],
+    {
+      query: "Millised organisatsioonid või materjalid aitavad puudega inimest?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(new Set(attribution.displayed_source_ids), new Set([
+    "organization-source",
+    "material-source"
+  ]));
+  assert.equal(attribution.filter_reasons["legal-background"], "query_anchor_mismatch");
+  assert.equal(attribution.displayed_sources_subset_of_selected, true);
+});
+
 test("does not drop the only candidate source", () => {
   const filtered = filterSourcesForReply("Lühike vastus.", [
     {
