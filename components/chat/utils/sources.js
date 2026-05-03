@@ -153,6 +153,17 @@ export function normalizeSources(sources) {
       src?.sourceUrl ||
       src?.official_url ||
       src?.officialUrl ||
+      src?.official_website ||
+      src?.officialWebsite ||
+      src?.metadata?.url ||
+      src?.metadata?.url_canonical ||
+      src?.metadata?.urlCanonical ||
+      src?.metadata?.source_url ||
+      src?.metadata?.sourceUrl ||
+      src?.metadata?.official_url ||
+      src?.metadata?.officialUrl ||
+      src?.metadata?.official_website ||
+      src?.metadata?.officialWebsite ||
       null;
     const page = typeof src?.page === "number" || typeof src?.page === "string" ? src.page : null;
     const label = formatSourceLabel(src);

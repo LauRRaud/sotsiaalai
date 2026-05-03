@@ -308,6 +308,7 @@ test("organization profile attribution uses organization identity fields for nam
         title: "Töötoad ja tugiteenused",
         organization_name: "Astangu Kutserehabilitatsiooni Keskus",
         organization_id: "astangu",
+        official_website: "https://www.astangu.ee",
         authority: "organization_official",
         source_status: "active",
         evidenceText: "Astangu Kutserehabilitatsiooni Keskus pakub töötube, rehabilitatsiooniga seotud tuge ja juhendmaterjale."
@@ -334,6 +335,9 @@ test("organization profile attribution uses organization identity fields for nam
   );
 
   assert.deepEqual(attribution.displayed_source_ids, ["organization-astangu"]);
+  assert.equal(attribution.displayedSources[0].url, "https://www.astangu.ee");
+  assert.equal(attribution.displayedSources[0].url_canonical, "https://www.astangu.ee");
+  assert.equal("evidenceText" in attribution.displayedSources[0], false);
   assert.equal(attribution.filter_reasons["unrelated-organization"], "query_anchor_mismatch");
 });
 

@@ -21,6 +21,7 @@ const RAG_SOURCE_TYPE_HINTS = new Set([
   "official_contact",
   "contact_page",
   "journal_article",
+  "organization_profile",
   "practice_example",
   "project_description",
   "personal_story",
@@ -98,7 +99,29 @@ function getSourceUrl(src) {
               ? src.official_url.trim()
               : typeof src?.officialUrl === "string" && src.officialUrl.trim()
                 ? src.officialUrl.trim()
-                : "";
+                : typeof src?.official_website === "string" && src.official_website.trim()
+                  ? src.official_website.trim()
+                  : typeof src?.officialWebsite === "string" && src.officialWebsite.trim()
+                    ? src.officialWebsite.trim()
+                    : typeof src?.metadata?.url === "string" && src.metadata.url.trim()
+                      ? src.metadata.url.trim()
+                      : typeof src?.metadata?.url_canonical === "string" && src.metadata.url_canonical.trim()
+                        ? src.metadata.url_canonical.trim()
+                        : typeof src?.metadata?.urlCanonical === "string" && src.metadata.urlCanonical.trim()
+                          ? src.metadata.urlCanonical.trim()
+                          : typeof src?.metadata?.source_url === "string" && src.metadata.source_url.trim()
+                            ? src.metadata.source_url.trim()
+                            : typeof src?.metadata?.sourceUrl === "string" && src.metadata.sourceUrl.trim()
+                              ? src.metadata.sourceUrl.trim()
+                              : typeof src?.metadata?.official_url === "string" && src.metadata.official_url.trim()
+                                ? src.metadata.official_url.trim()
+                                : typeof src?.metadata?.officialUrl === "string" && src.metadata.officialUrl.trim()
+                                  ? src.metadata.officialUrl.trim()
+                                  : typeof src?.metadata?.official_website === "string" && src.metadata.official_website.trim()
+                                    ? src.metadata.official_website.trim()
+                                    : typeof src?.metadata?.officialWebsite === "string" && src.metadata.officialWebsite.trim()
+                                      ? src.metadata.officialWebsite.trim()
+                                      : "";
 }
 
 function isDbSource(src, uploadName = "") {

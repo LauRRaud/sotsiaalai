@@ -180,21 +180,24 @@ Fix:
   - matching `metadata.*` aliases
 - `sourceAttribution.js` treats `organization_profile` and `organizations` as synthesis/background source candidates where appropriate.
 - `riskPolicy.js` now treats `organization_profile` as background evidence, so low-risk organization profile questions can display the selected organization source instead of failing with `insufficient_evidence_strength`.
+- `sourceAttribution.js` now normalizes organization URL aliases (`official_website`, `officialWebsite` and matching `metadata.*` fields) into a displayed `url` / `url_canonical`, so the UI can render `Ava allikas` for organization profile sources.
+- `components/chat/utils/sources.js` and `components/chat/hooks/useConversationSources.js` now recognize the same organization URL aliases when building clickable source-panel entries.
 - Added a regression test for an Astangu-style named organization question.
 
 Validation:
 
 - `tests/chat/sourceAttribution.test.js` passed.
+- `tests/chat/sourceUtils.test.js` and `tests/chat/conversationSources.test.js` passed for organization URL alias normalization.
 - A wider focused attribution/sourceNeed/retrieval/sourceQuality test batch passed (`55/55`).
 - `npm run build` passed.
 
 Expected behavior after deploy:
 
-- `Mida Astangu Keskus pakub?` should display the Astangu organization profile source instead of returning an answer with no source icon.
+- `Mida Astangu Keskus pakub?` should display the Astangu organization profile source and expose its official website as a clickable `Ava allikas` link when the source metadata contains an official website URL.
 
 ## Current Next Steps
 
-1. Deploy the organization-profile attribution fix and retest `Mida Astangu Keskus pakub?` on the live chat.
+1. Deploy the organization-profile attribution/link fix and retest `Mida Astangu Keskus pakub?` on the live chat.
 2. Add a narrow `resource_discovery` / `organization_material_discovery` planning path before the full V2 planner, or make it the first small V2 planner use case.
 3. That mode should recognize questions such as `Millised organisatsioonid...`, `Millised materjalid...`, `Kust leida abi...`, `Kelle poole poorduda...`, `Millised kontaktid...` and prefer `organizations`, `organization_materials`, `national_guidelines` and `training_materials` over legal-only results.
 4. Start V2 central `questionPlanner.js` after the above targeted source-layer issue is either fixed directly or included as the first planner mode.

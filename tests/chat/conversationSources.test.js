@@ -128,15 +128,22 @@ test("source panel collectors expose canonical and official URL aliases", () => 
           title: "Kontakt",
           source_type: "contact_page",
           officialUrl: "https://www.kuusalu.ee/kontakt"
+        },
+        {
+          source_id: "organization-astangu",
+          title: "Astangu Kutserehabilitatsiooni Keskus",
+          source_type: "organization_profile",
+          official_website: "https://www.astangu.ee"
         }
       ]
     }
   ]);
 
-  assert.equal(latestSources.length, 2);
+  assert.equal(latestSources.length, 3);
   assert.deepEqual(latestSources.map(source => source.allUrls[0]), [
     "https://www.kuusalu.ee/koduteenus",
-    "https://www.kuusalu.ee/kontakt"
+    "https://www.kuusalu.ee/kontakt",
+    "https://www.astangu.ee"
   ]);
 });
 
