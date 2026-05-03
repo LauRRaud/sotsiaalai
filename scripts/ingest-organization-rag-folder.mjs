@@ -183,6 +183,14 @@ function buildIngestMetadata(loaded) {
   });
   const sourceKeys = stableUniqueStrings(preview.sourceKeys);
   const sourceUrls = stableUniqueStrings(sources.map(source => source?.url || source?.source_url));
+  const officialWebsite = clean(
+    loaded.dataPayload?.officialWebsite ||
+    loaded.metaPayload?.officialWebsite ||
+    preview.officialUrl ||
+    sourceUrls[0] ||
+    null,
+    1200
+  );
   const notes = stableUniqueStrings([
     ...(Array.isArray(loaded.metaPayload?.notes) ? loaded.metaPayload.notes : [])
   ]);
@@ -199,7 +207,13 @@ function buildIngestMetadata(loaded) {
     jurisdiction_level: loaded.dataPayload?.jurisdiction_level || loaded.metaPayload?.jurisdiction_level || "ORGANIZATION",
     organization_slug: preview.slug || loaded.slug,
     county: loaded.dataPayload?.county || loaded.metaPayload?.county || null,
-    official_website: loaded.dataPayload?.officialWebsite || loaded.metaPayload?.officialWebsite || preview.officialUrl || null,
+    official_website: officialWebsite,
+    officialWebsite,
+    source_url: officialWebsite,
+    sourceUrl: officialWebsite,
+    url_canonical: officialWebsite,
+    urlCanonical: officialWebsite,
+    url: officialWebsite,
     contact_email: loaded.dataPayload?.contactEmail || loaded.metaPayload?.contactEmail || null,
     contact_phone: loaded.dataPayload?.contactPhone || loaded.metaPayload?.contactPhone || null,
     checked_at: preview.checked_at || loaded.metaPayload?.checkedAt || null,
