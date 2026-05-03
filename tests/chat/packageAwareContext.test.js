@@ -42,6 +42,37 @@ test("buildPackageAwareContext creates compact package context and V3.2 trace si
   assert.equal(result.contextText.includes("Long source text"), false);
 });
 
+test("buildPackageAwareContext guides condition questions to use confirmed package sections", () => {
+  const result = buildPackageAwareContext([
+    {
+      package_id: "kuusalu_vald_service_koduteenus_package",
+      canonical_item_id: "kuusalu_vald_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "kuusalu_vald",
+      municipality_name: "Kuusalu vald",
+      sections: {
+        description: [{ source_id: "kuusalu-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        eligibility: [],
+        application: [{ source_id: "kuusalu-koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        legal_basis: [{ source_id: "kuusalu-rt-6", title: "Sotsiaalhoolekandelise abi andmise kord Kuusalu vallas § 6 Koduteenus", source_type: "kov_regulation" }],
+        forms: [{ source_id: "kuusalu-forms", title: "Taotluste vormid", source_type: "application_form" }]
+      },
+      source_ids: ["kuusalu-koduteenus", "kuusalu-rt-6", "kuusalu-forms"],
+      missing_sections: ["fees", "deadlines"]
+    }
+  ], {
+    query: "Millised on Kuusalu valla koduteenuse tingimused?"
+  });
+
+  assert.equal(result.contextText.includes("answer_focus_conditions=use_confirmed_description_eligibility_application_and_legal_basis"), true);
+  assert.equal(result.contextText.includes("PACKAGE-AWARE CONDITION QUESTION RULE"), true);
+  assert.equal(result.contextText.includes("ära ütle automaatselt, et tingimusi ei saa välja tuua"), true);
+  assert.equal(result.contextText.includes("description, application ja legal_basis sektsioonidest"), true);
+  assert.equal(result.missingSectionsUsed.includes("fees"), false);
+  assert.equal(result.missingSectionsUsed.includes("deadlines"), false);
+});
+
 test("buildPackageAwareContext anchors package selection to the requested service", () => {
   const result = buildPackageAwareContext([
     {

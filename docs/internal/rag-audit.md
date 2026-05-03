@@ -47,7 +47,7 @@ The main limitation is not that RAG does not exist. V1.1-V1.5 are complete, and 
 
 This creates the current quality risk: the system can now expose planner intent in trace, but some modes still need deeper evidence packaging, stronger source-layer contracts and more robust retrieval/ranking before the planner can safely govern the whole RAG path.
 
-The highest-value next patch is no longer V1.1 overview hardening. V2.4A has now added the first `EvidencePackage` skeleton for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior. The remaining V2.4 work is to validate the package live and then decide whether to deepen answer contracts or move to V2.5 source metadata contract hardening.
+The highest-value next patch is no longer V1.1 overview hardening. V2.4A has now added the first `EvidencePackage` skeleton for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior. V2.5A has mapped the current source metadata taxonomy and confirmed that the next architecture step is a central source-layer helper/normalizer before more runtime source-type logic is rewritten.
 
 ## Implemented Changes
 
@@ -562,7 +562,103 @@ Validation:
 - Result: `229/229` tests passed.
 - `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
 
+V2.4A live trace check:
+
+- Added `scripts/check-v24a-live-trace.mjs` and npm command `rag:check:v24a-live-trace`.
+- The checker verifies the latest persisted `ConversationMessage.metadata.rag_trace` for overview, comparison, legal-exact and KOV SourcePackage routes.
+- Local workstation DB did not contain the relevant live server conversation rows; one matching comparison row was an older/stale pre-EvidencePackage message. V2.4A raw-trace live smoke could not be confirmed locally. Run `npm run rag:check:v24a-live-trace` on the server after deploy/restart to mark the live trace check PASS.
+
+### KOV SourcePackage Condition Answer Hotfix
+
+Status: DONE / local regressions green
+
+- Live Kuusalu test `Millised on Kuusalu valla koduteenuse tingimused?` stayed on the correct KOV/SourcePackage route, but the answer became too cautious because the package had no dedicated `eligibility` section.
+- `packageAwareContext.js`: added service-condition query detection.
+- Package-aware context now adds `answer_focus_conditions=use_confirmed_description_eligibility_application_and_legal_basis` for condition questions.
+- Added a condition guardrail: if a dedicated eligibility/conditions section is empty, use confirmed `description`, `application` and `legal_basis` sections for target group, purpose, service content, application path and legal basis. Only mark narrowly which specific eligibility criteria, fees or deadlines are missing.
+- No KOV package builder, legal exact, retrieval, planner or SourcePackage refactor was done.
+- `tests/chat/packageAwareContext.test.js`: added a Kuusalu-style regression for condition questions with empty eligibility but confirmed description/application/legal_basis.
+- Broad focused RAG/chat regression command passed after this hotfix and V2.5A audit documentation: `230/230` tests.
+- `npm run build` passed after the runtime change.
+
+### V2.5A Source Metadata Taxonomy Audit
+
+Status: DONE / documentation audit and local metadata scan
+
+Scope:
+
+- No ingest pipeline, retrieval, planner, SourcePackage, legal exact or source attribution runtime refactor was done.
+- No mass rename of existing `source_type`, `resource_type`, `collection_id` or `evidence_role` values was done.
+- The audit used local metadata under `KOV` and `Andmebaasi`, plus code inspection of source-layer logic in `lib/chat` and `lib/rag`.
+
+Metadata values observed in local JSON sources:
+
+- `source_type`: `kov_service_info`, `information_material`, `organization_profile`, `application_form`, `research_report`, `web_page`, `official_guideline`, `official_contact`, `web_form`, `registry`, `journal_article`, `contact_page`, `policy_analysis`, `organization_service_info`, `training_material`, `methodology_material`, `social_media_page`, `file`, `source_registry`.
+- `resource_type`: `service_page`, `information_material`, `form`, `method_guidance`, `benefit`, `organization_page`, `contact`, `research_evidence`, `web_page`, `service`, `resource`, `registry`, `professional_article`, `policy_context`, `service_description`, `best_practice_guidance`, `contact_reference`, `training_material`, `organization_profile`, `source_master_list`.
+- `collection_id`: `kov_services`, `organization_guidelines`, `organization_materials`, `organizations`, `national_guidelines`, `sotsiaaltoo_articles`, `source_master_registry`, `training_materials`.
+- `evidence_role`: `background`, `practice_guidance`, `organization_background`, `research_evidence`, `service_provider_lookup`, `methodology_background`, `policy_context`, `information_material`, `ingestion_planning`, `training_material`.
+- `authority`: mostly `KOV`, named municipalities, `organization_official`, and one `editorial`.
+- `audience`: `CLIENT|SOCIAL_WORKER`, `BOTH`, and one `ADMIN`.
+- `jurisdiction_level`: `MUNICIPALITY`, `NATIONAL`, `ORGANIZATION`.
+- `source_status`: `active` and legacy `known`.
+- Freshness fields appear as both `last_checked` and `checked_at`.
+
+Metadata contract mismatches found:
+
+- `sourceMetadata.js` currently defines `RAG_SOURCE_TYPES`, but local/runtime data already uses additional values that are not in that enum: `organization_profile`, `organization_service_info`, `web_page`, `registry`, `social_media_page`, `source_registry`, `training_material`, and legacy `file`.
+- Runtime tests and logic also use values that are not consistently represented in the central enum, including `municipality_kov`, `riigiteataja_regulation`, `research`, `analysis`, `research_reports`, `journal_articles`, `organizations`, `organization_page`, and `sotsiaaltoo_articles`.
+- `source_status = known` appears in data but is not an allowed `RAG_SOURCE_STATUSES` value. V2.5B should treat it as a legacy status through normalization, not rewrite all stored data immediately.
+- `audience = ADMIN` appears in source-master metadata. This should not become an answerable/public evidence source by default.
+- `source_type`, `resource_type` and `collection_id` currently overlap semantically. Example: `information_material`, `organization_profile`, `training_material`, `web_page` and `registry` can appear in different fields depending on source family.
+- Legal/KOV family names are split across `national_law`, `law`, `regulation`, `kov_regulation`, `riigiteataja_regulation`, `kov_legal`, `kov_rt`, `national_regulations`, `kov_services`, `kov_web` and `municipality_kov`.
+
+Duplicated source-layer logic found:
+
+- `evidencePackage.js`: local legal/KOV/organization/material/research source-layer sets and `sourceLayerFor()`.
+- `sourceAttribution.js`: separate legal, synthesis, resource-discovery, life-situation, comparison, municipality-service and background source sets.
+- `ragContext.js`: independent official/background/high-authority ranking sets and KOV/legal grouping checks.
+- `queryPlanner.js`: per-mode source/collection/resource preference filters.
+- `retrievalStrategySelector.js`: planner source-layer preference plumbing.
+- `sourceQualityMetrics.js`: local legal-source detection and journal article handling.
+- `sourceFreshness.js`: freshness/current-evidence policies and collection-family inference.
+- `sourcePackages.js` and `sectionAttribution.js`: local section/source-type eligibility rules for forms, contacts, legal basis and current KOV evidence.
+
+V2.5B helper layer should add, without renaming stored metadata:
+
+- `normalizeSourceType(source)`
+- `normalizeCollectionId(source)`
+- `sourceLayerFor(source)`
+- `isLegalSource(source)`
+- `isKovSource(source)`
+- `isKovWebSource(source)`
+- `isKovRegulationSource(source)`
+- `isNationalLawSource(source)`
+- `isOrganizationSource(source)`
+- `isMaterialSource(source)`
+- `isGuidanceSource(source)`
+- `isResearchOrJournalSource(source)`
+- `isPublicBodyInfoSource(source)`
+- `canSupportClaimType(source, claimType)`
+- `evidenceRoleFor(source)`
+
+V2.5B design constraints:
+
+- Support legacy and current values through aliases/mapping first; do not mutate stored RAG metadata as the first step.
+- Treat `source_layers` from the planner as preference/boost intent unless a route explicitly requires a hard filter.
+- Keep legal exact and KOV/SourcePackage paths stronger than planner-level discovery modes.
+- Distinguish primary evidence from background evidence, especially for `journal_article`, `research_report`, organization profiles, KOV web, KOV RT and national law.
+- Add warnings for unknown/legacy source types, `source_status = known`, `audience = ADMIN`, stale/missing freshness and missing URL identity where appropriate.
+
 ## Current Next Steps
+
+1. Run `npm run rag:check:v24a-live-trace` on the server after deploy/restart to confirm V2.4A raw trace against persisted live messages.
+2. V2.5B: add central source-layer helpers in `sourceMetadata.js` or a narrow `sourceLayerContract.js`, with legacy alias support and tests.
+3. V2.5C: gradually replace duplicated runtime source-type logic in `evidencePackage.js`, `sourceAttribution.js`, `ragContext.js`, `queryPlanner.js`, `sourceQualityMetrics.js`, `sourceFreshness.js`, `sourcePackages.js` and `sectionAttribution.js`.
+4. V2.4B only if live EvidencePackage tests show answer-contract gaps.
+5. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.
+6. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
+
+## Previous V2.4A Live Smoke Prompt List
 
 1. After deploy/restart, run a server smoke for V2.4A EvidencePackage trace and answer guidance:
    - `Millised organisatsioonid või materjalid aitavad puudega inimest?`
@@ -662,12 +758,12 @@ mainResponseHandler / sourceAttribution
 
 ### Most Important Next Fix
 
-Do not immediately expand EvidencePackage into a broad rewrite. First validate V2.4A:
+Do not immediately expand EvidencePackage into a broad rewrite. V2.5A shows that source-layer semantics are now the main shared contract risk.
 
-- Run broad regression tests and build.
-- Smoke-test that `rag_trace.evidence_package` appears for overview, comparison, resource discovery and life-situation answers.
-- Confirm that `legal_exact` and KOV/SourcePackage answers still skip EvidencePackage.
-- If V2.4A is stable, move to V2.5A source metadata taxonomy audit before replacing duplicated source-type logic.
+- Run `npm run rag:check:v24a-live-trace` on the server to confirm persisted V2.4A trace behavior.
+- Implement V2.5B central source-layer helpers/normalizers with legacy alias support.
+- Replace duplicated source-type/source-layer logic gradually after the helpers exist.
+- Keep `legal_exact` and KOV/SourcePackage routes outside the EvidencePackage path unless there is a separate explicit design change.
 
 ## lib/chat Audit
 
@@ -840,20 +936,13 @@ If cleaned, do it as a documentation/test-fixture cleanup patch, not as a RAG be
 
 ## Recommended Next Patch
 
-The next small, high-impact patch should not deepen V2.4 automatically. First validate V2.4A live and with the broad local regression suite.
+The next small, high-impact patch is V2.5B, not a broad EvidencePackage expansion.
 
-If V2.4A live tests show answer-contract gaps, do V2.4B narrowly:
-
-1. Tighten EvidencePackage answer guidance for the failing mode only.
-2. Keep retrieval and selection unchanged unless the failure clearly proves a retrieval problem.
-3. Keep legal exact and KOV/SourcePackage opt-outs unchanged.
-4. Do not add claim-level attribution or an evidence checker in V2.4B.
-
-If V2.4A is stable enough, move to V2.5A:
-
-1. Audit current source metadata taxonomy.
-2. Identify duplicated runtime source-type lists.
-3. Do not rename existing ingested `source_type`, `resource_type` or `collection_id` values in the same patch.
+1. Add central source-layer helpers/normalizers with legacy alias support.
+2. Add tests that prove current values such as `organization_profile`, `journal_article`, `research_report`, `kov_service_info`, `kov_regulation`, `national_law`, `municipality_kov` and `riigiteataja_regulation` map consistently.
+3. Keep stored metadata untouched; runtime should understand legacy and current values before any backfill or rename work.
+4. Keep legal exact and KOV/SourcePackage routes stronger than general planner/source-layer preferences.
+5. Use V2.4B only if live EvidencePackage tests show answer-contract gaps.
 
 ## Suggested Future Module Split
 

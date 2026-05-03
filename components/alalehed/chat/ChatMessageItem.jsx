@@ -148,9 +148,9 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const userMessageRowClassName =
     "chat-msg-user flex w-full justify-end pl-[clamp(0.42rem,0.95vw,0.78rem)] pr-[clamp(0.42rem,0.95vw,0.78rem)] max-[768px]:pl-[0.6rem] max-[768px]:pr-[0.18rem]";
   const userMessageStackClassName =
-    "flex min-w-0 max-w-[min(93%,50rem)] flex-col items-end";
+    "flex min-w-0 max-w-[min(96%,52rem)] flex-col items-end";
   const userBubbleClassName =
-    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-full text-left [overflow-wrap:break-word] [hyphens:auto] " +
+    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-full max-w-full text-left [overflow-wrap:break-word] [hyphens:auto] " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] border-0 " +
     "[box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] rounded-[1.28rem] rounded-br-[0.5rem] " +
@@ -158,10 +158,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "text-[color:var(--opaque-panel-text,var(--rail-tooltip-text,var(--input-text)))] transition-[transform,box-shadow] duration-200 " +
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(197,113,113,0.35)]";
   const memberTextClassName =
-    "chat-msg-ai self-start w-fit max-w-[min(93%,50rem)] bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
+    "chat-msg-ai self-start w-full max-w-full bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
   const aiBubbleClassName =
-    "chat-msg-ai self-start w-fit max-w-[min(93%,50rem)] bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
+    "chat-msg-ai self-start w-full max-w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
     "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
   const thinkingLabelRaw = typeof t === "function" ? t("chat.typing.label") : "";
   const thinkingLabel = thinkingLabelRaw && thinkingLabelRaw !== "chat.typing.label"

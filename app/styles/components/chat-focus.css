@@ -161,8 +161,8 @@ body:is(
 }
 
 .chat-msg-ai {
-  width: fit-content !important;
-  max-width: min(93%, 50rem) !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .chat-msg-user-bubble,
