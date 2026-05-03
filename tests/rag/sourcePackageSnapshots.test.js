@@ -173,10 +173,14 @@ test("buildSourcePackageSnapshot hash changes when forms and contacts membership
   assert.equal(withFormsContacts.sectionSummary.contacts.count, 1);
 });
 
-test("normalizeSourcePackageSnapshotCanonicalId collapses Jogeva duplicate prefix for dedupe only", () => {
+test("normalizeSourcePackageSnapshotCanonicalId collapses generic duplicate KOV prefix", () => {
   assert.equal(
     normalizeSourcePackageSnapshotCanonicalId("jogeva_vald_service_jogeva_vald_service_koduteenus"),
     "jogeva_vald_service_koduteenus"
+  );
+  assert.equal(
+    normalizeSourcePackageSnapshotCanonicalId("alutaguse_vald_service_alutaguse_vald_service_koduteenus"),
+    "alutaguse_vald_service_koduteenus"
   );
 });
 
@@ -248,7 +252,7 @@ test("persistSourcePackageSnapshots reactivates an archived hash as the next ver
   assert.equal(client.rows.find(row => row.active === true).packageHash, reactivated[0].snapshot.packageHash);
 });
 
-test("persistSourcePackageSnapshots archives duplicate normalized active snapshots and prefers stable legacy package id", async () => {
+test("persistSourcePackageSnapshots archives duplicate normalized active snapshots and prefers normalized package id", async () => {
   const client = createFakeClient();
   await persistSourcePackageSnapshots([
     packageFixture({
@@ -266,8 +270,8 @@ test("persistSourcePackageSnapshots archives duplicate normalized active snapsho
 
   const activeRows = client.rows.filter(row => row.active === true);
   assert.equal(activeRows.length, 1);
-  assert.equal(activeRows[0].packageId, "jogeva_vald_service_jogeva_vald_service_koduteenus_package");
-  assert.equal(client.rows.find(row => row.packageId === "jogeva_vald_service_koduteenus_package").status, "archived");
+  assert.equal(activeRows[0].packageId, "jogeva_vald_service_koduteenus_package");
+  assert.equal(client.rows.find(row => row.packageId === "jogeva_vald_service_jogeva_vald_service_koduteenus_package").status, "archived");
   assert.equal(persisted[0].dedupe.archivedCount, 1);
 });
 

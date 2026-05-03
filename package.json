@@ -84,10 +84,14 @@
     "knowledge:validate": "node scripts/validate-knowledge-doc-metadata.mjs",
     "knowledge:upgrade": "node scripts/upgrade-knowledge-doc-metadata.mjs",
     "knowledge:smoke": "node scripts/smoke-knowledge-docs.mjs",
+    "knowledge:folder:plan": "node scripts/ingest-knowledge-doc-folder.mjs --dry-run",
+    "knowledge:folder:ingest": "node scripts/ingest-knowledge-doc-folder.mjs --ingest",
     "knowledge:source-master:plan": "node scripts/ingest-source-master-pdfs.mjs --dry-run",
     "knowledge:source-master:ingest": "node scripts/ingest-source-master-pdfs.mjs --ingest",
     "organization:validate": "node scripts/validate-organization-metadata.mjs",
-    "organization:audit-metadata": "node scripts/audit-organization-metadata.mjs"
+    "organization:audit-metadata": "node scripts/audit-organization-metadata.mjs",
+    "organization:ingest:plan": "node scripts/ingest-organization-rag-folder.mjs --dry-run",
+    "organization:ingest": "node scripts/ingest-organization-rag-folder.mjs --ingest"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",
