@@ -278,6 +278,8 @@ test("Query Planner V2.2 carries role and life situation planner output into tra
   });
 
   assert.equal(questionPlan.mode, "life_situation_guidance");
+  assert.equal(plan.queryPlan.mode, "life_situation_guidance");
+  assert.equal(plan.queryPlan.query_order, "broad_first");
   assert.equal(plan.queryPlan.question_planner.planner_version, "v2.2");
   assert.equal(plan.queryPlan.question_planner.mode, "life_situation_guidance");
   assert.equal(plan.queryPlan.question_planner.role, "client");
@@ -290,6 +292,9 @@ test("Query Planner V2.2 carries role and life situation planner output into tra
   assert.equal(plan.queryPlan.selection_strategy, "multi_source_diversity");
   assert.equal(plan.queryPlan.retrieval_strategy_selection.selection_strategy, "multi_source_diversity");
   assert.equal(plan.queryPlan.retrieval_strategy_selection.answer_contract, "client_next_steps_no_entitlement_promise");
+  assert.equal(plan.primaryRagQueries.some(query => query?.filters?.$or), true);
+  assert.equal(plan.primaryRagQueries.some(query => /toimetulekutoetus/.test(query.query)), true);
+  assert.equal(plan.primaryRagQueries.some(query => /valtimatu sotsiaalabi|vältimatu sotsiaalabi/.test(query.query)), true);
 });
 
 test("Query Planner V2 expands municipality service and benefit list queries", () => {

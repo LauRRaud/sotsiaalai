@@ -438,6 +438,17 @@ Validation:
 - Result: `57/57` tests passed.
 - `npm run build` passed.
 
+V2.3 hotfix after live manual smoke:
+
+- Live question `Mul pole raha üüri ja toidu jaoks, mida teha?` showed a good answer shape but weak/random sources, because `life_situation_guidance` selected `multi_source_diversity` without expanding retrieval queries from planner topics.
+- `queryPlanner.js` now builds `life_situation_guidance` queries from `questionPlan.topics` and `questionPlan.life_situation`.
+- Financial hardship retrieval now explicitly searches for toimetulekutoetus, vältimatu sotsiaalabi, täiendav sotsiaaltoetus, võlanõustamine, toiduabi, üürivõlg, ajutine majutus, varjupaigateenus and KOV sotsiaalosakond signals.
+- `query_plan.mode` now shows `life_situation_guidance` instead of `default` when no stronger route override applies.
+- `source_focused_followup` detection no longer mislabels V2.3 planner-driven per-query filters or KOV scoped filters.
+- Follow-up regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/retrievalStrategySelector.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceNeed.test.js tests/chat/workflowBypass.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `73/73` tests passed.
+
 ## Current Next Steps
 
 1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:

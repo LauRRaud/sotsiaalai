@@ -21,6 +21,8 @@ const CONVERSATION_TTL_MS = Math.max(1, CONVERSATION_TTL_DAYS) * 24 * 60 * 60 * 
 const CHAT_RATE_LIMIT_WINDOW_MS = readChatRateLimit(process.env.CHAT_RATE_LIMIT_WINDOW_MS, 60_000, 1000);
 const CHAT_CONVERSATIONS_GET_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATIONS_GET_MAX, 90);
 const CHAT_CONVERSATIONS_POST_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATIONS_POST_MAX, 30);
+const CHAT_CONVERSATIONS_DELETE_RATE_LIMIT_MAX = readChatRateLimit(process.env.CHAT_RATE_LIMIT_CONVERSATIONS_DELETE_MAX, 15);
+const CHAT_CONVERSATIONS_BULK_DELETE_MAX = readChatRateLimit(process.env.CHAT_CONVERSATIONS_BULK_DELETE_MAX, 5000);
 
 function json(data, status = 200) {
   return NextResponse.json(data, {
@@ -368,6 +370,73 @@ export async function POST(req, deps = {}) {
     console.error("[chat/conversations POST] failed", safeError(err));
     return errorJson("api.chat.db_error_conversation_create", 500, {
       code: "DB_ERROR_CONVERSATION_CREATE"
+    });
+  }
+}
+
+export async function DELETE(req, deps = {}) {
+  const requireUserFn = deps.requireUser || requireUser;
+  const enforceRateLimit = deps.enforceChatRateLimit || enforceChatRateLimit;
+  const prismaClient = deps.prisma || prisma;
+
+  const auth = await requireUserFn();
+  if (!auth.ok) return errorJson(auth.message, auth.status);
+  const rateLimitResponse = enforceRateLimit(req, {
+    scope: "conversations_delete",
+    userId: auth.userId,
+    limit: CHAT_CONVERSATIONS_DELETE_RATE_LIMIT_MAX,
+    windowMs: CHAT_RATE_LIMIT_WINDOW_MS
+  });
+  if (rateLimitResponse) return rateLimitResponse;
+
+  let body = {};
+  try {
+    body = await req.json();
+  } catch {
+    body = {};
+  }
+
+  const ids = Array.isArray(body?.ids)
+    ? Array.from(new Set(body.ids.map(id => String(id || "").trim()).filter(Boolean)))
+    : [];
+  if (!ids.length) return errorJson("api.chat.invalid_id", 400);
+  if (ids.length > CHAT_CONVERSATIONS_BULK_DELETE_MAX) {
+    return errorJson("api.chat.too_many_conversations", 400);
+  }
+  if (ids.some(id => !isPlausibleChatId(id))) {
+    return errorJson("api.chat.invalid_id", 400);
+  }
+
+  try {
+    const now = new Date();
+    const result = await prismaClient.conversation.updateMany({
+      where: {
+        id: {
+          in: ids
+        },
+        userId: auth.userId,
+        archivedAt: null
+      },
+      data: {
+        archivedAt: now,
+        expiresAt: now
+      }
+    });
+
+    return json({
+      ok: true,
+      deleted: result.count,
+      ids
+    });
+  } catch (err) {
+    console.error("[chat/conversations DELETE] failed", safeError(err));
+    if (isDbOffline(err)) {
+      return errorJson("api.chat.db_unavailable", 503, {
+        degraded: true
+      });
+    }
+    return errorJson("api.chat.db_error_conversation_delete", 500, {
+      code: "DB_ERROR_CONVERSATION_DELETE"
     });
   }
 }

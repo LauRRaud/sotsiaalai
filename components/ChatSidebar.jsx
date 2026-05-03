@@ -34,6 +34,46 @@ function formatDateTime(iso) {
     return "";
   }
 }
+function clearStoredConversationRefs(ids) {
+  if (typeof window === "undefined") return;
+  const deletedIds = new Set((Array.isArray(ids) ? ids : [ids]).map(id => String(id || "").trim()).filter(Boolean));
+  if (!deletedIds.size) return;
+  try {
+    const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
+    if (deletedIds.has(current)) {
+      window.sessionStorage.removeItem("sotsiaalai:chat:convId");
+    }
+    const keysToRemove = [];
+    for (let i = 0; i < window.sessionStorage.length; i += 1) {
+      const key = window.sessionStorage.key(i);
+      if (!key) continue;
+      const value = window.sessionStorage.getItem(key);
+      if (key.endsWith(":convId") && deletedIds.has(value)) {
+        keysToRemove.push(key);
+        continue;
+      }
+      for (const id of deletedIds) {
+        if (key.endsWith(`:messages:${id}`)) {
+          keysToRemove.push(key);
+          break;
+        }
+      }
+    }
+    keysToRemove.forEach(key => window.sessionStorage.removeItem(key));
+  } catch {}
+}
+function notifyDeletedConversations(ids) {
+  if (typeof window === "undefined") return;
+  const deletedIds = (Array.isArray(ids) ? ids : [ids]).map(id => String(id || "").trim()).filter(Boolean);
+  if (!deletedIds.length) return;
+  try {
+    window.dispatchEvent(new CustomEvent("sotsiaalai:conversations-deleted", {
+      detail: {
+        ids: deletedIds
+      }
+    }));
+  } catch {}
+}
 export default function ChatSidebar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -409,13 +449,9 @@ export default function ChatSidebar() {
       if (!r.ok || data?.ok === false) {
         throw new Error(resolveErrorMessage(data, "chat.sidebar.error.delete"));
       }
+      clearStoredConversationRefs(id);
+      notifyDeletedConversations(id);
       refreshAll();
-      try {
-        const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
-        if (current === id) {
-          window.sessionStorage.removeItem("sotsiaalai:chat:convId");
-        }
-      } catch {}
     } catch (e) {
       setError(e?.message || t("chat.sidebar.error.delete"));
     } finally {
@@ -462,41 +498,65 @@ export default function ChatSidebar() {
     const unique = Array.from(new Set(ids)).filter(Boolean);
     if (!unique.length) return {
       deleted: 0,
-      failed: 0
+      failed: 0,
+      deletedIds: []
     };
     setBulkDeleting(true);
     setError("");
     const failures = [];
-    for (const id of unique) {
+    const deletedIds = [];
+    if (unique.length > 1) {
       try {
-        const r = await fetch(`/api/chat/conversations/${encodeURIComponent(id)}`, {
-          method: "DELETE"
+        const r = await fetch("/api/chat/conversations", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            ids: unique
+          })
         });
         const data = await r.json().catch(() => ({}));
         if (!r.ok || data?.ok === false) {
           throw new Error(resolveErrorMessage(data, "chat.sidebar.error.delete"));
         }
+        deletedIds.push(...unique);
       } catch (e) {
-        failures.push({
-          id,
-          error: e
-        });
+        unique.forEach(id => failures.push({
+            id,
+            error: e
+          }));
+      }
+    } else {
+      for (const id of unique) {
+        try {
+          const r = await fetch(`/api/chat/conversations/${encodeURIComponent(id)}`, {
+            method: "DELETE"
+          });
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok || data?.ok === false) {
+            throw new Error(resolveErrorMessage(data, "chat.sidebar.error.delete"));
+          }
+          deletedIds.push(id);
+        } catch (e) {
+          failures.push({
+            id,
+            error: e
+          });
+        }
       }
     }
     if (failures.length) {
       setError(t("chat.sidebar.error.delete"));
     }
-    try {
-      const current = window.sessionStorage.getItem("sotsiaalai:chat:convId");
-      if (current && unique.includes(current)) {
-        window.sessionStorage.removeItem("sotsiaalai:chat:convId");
-      }
-    } catch {}
+    clearStoredConversationRefs(deletedIds);
+    notifyDeletedConversations(deletedIds);
     refreshAll();
     setBulkDeleting(false);
     return {
       deleted: unique.length - failures.length,
-      failed: failures.length
+      failed: failures.length,
+      deletedIds
     };
   }, [refreshAll, resolveErrorMessage, t]);
   const handleDeleteSelected = useCallback(() => {

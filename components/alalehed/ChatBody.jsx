@@ -1727,6 +1727,19 @@ export default function ChatBody({
     return () => window.removeEventListener("sotsiaalai:switch-conversation", onSwitch);
   }, [startFreshConversation]);
   useEffect(() => {
+    function onConversationsDeleted(e) {
+      const deletedIds = Array.isArray(e?.detail?.ids)
+        ? e.detail.ids.map(id => String(id || "").trim()).filter(Boolean)
+        : [];
+      if (!convId || !deletedIds.includes(convId)) return;
+      startFreshConversation("default", {
+        closeAnalysis: false
+      });
+    }
+    window.addEventListener("sotsiaalai:conversations-deleted", onConversationsDeleted);
+    return () => window.removeEventListener("sotsiaalai:conversations-deleted", onConversationsDeleted);
+  }, [convId, startFreshConversation]);
+  useEffect(() => {
     return () => {
       stop();
     };
