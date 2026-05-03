@@ -17,8 +17,14 @@ test("Question Planner V2.1 routes organization and material help questions to r
   assert.equal(result.needs_rag, true);
   assert.equal(result.needs_multiple_sources, true);
   assert.deepEqual(result.preferred_source_count, { min: 3, max: 8 });
+  assert.equal(result.source_layer_filter_mode, "prefer");
   assert.equal(result.source_layers.includes("organizations"), true);
   assert.equal(result.source_layers.includes("organization_materials"), true);
+  assert.equal(result.source_layers.includes("sotsiaaltoo_articles"), true);
+  assert.equal(result.source_layers.includes("journal_article"), true);
+  assert.equal(result.source_layers.includes("research_reports"), true);
+  assert.equal(result.source_layers.includes("partner_service_info"), true);
+  assert.equal(result.source_layers.includes("public_body_info"), true);
   assert.equal(result.avoid_source_layers.includes("national_law_as_primary"), true);
 });
 

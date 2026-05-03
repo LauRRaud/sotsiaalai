@@ -198,10 +198,24 @@ test("Query Planner V2.1 applies resource discovery filters and trace", () => {
   assert.equal(plan.queryPlan.flags.resource_discovery, true);
   assert.equal(plan.queryPlan.question_planner.mode, "resource_discovery");
   assert.equal(plan.queryPlan.question_planner.retrieval_strategy, "resource_discovery_hybrid");
-  assert.equal(plan.searchFilters.$or[0].collection_id.$in.includes("organizations"), true);
-  assert.equal(plan.searchFilters.$or[0].collection_id.$in.includes("organization_materials"), true);
-  assert.equal(plan.searchFilters.$or[1].source_type.$in.includes("organization_profile"), true);
-  assert.equal(plan.searchFilters.$or[2].resource_type.$in.includes("organization_page"), true);
+  assert.equal(plan.queryPlan.question_planner.source_layer_filter_mode, "prefer");
+  assert.equal(plan.queryPlan.source_layer_filter_mode, "prefer");
+  assert.deepEqual(plan.searchFilters, audienceFilter);
+
+  const preferredQueries = plan.primaryRagQueries.filter(query => query?.filters?.$or);
+  assert.equal(preferredQueries.length >= 2, true);
+  const preferenceFilter = preferredQueries[0].filters;
+  assert.equal(preferenceFilter.$or[0].collection_id.$in.includes("organizations"), true);
+  assert.equal(preferenceFilter.$or[0].collection_id.$in.includes("organization_materials"), true);
+  assert.equal(preferenceFilter.$or[0].collection_id.$in.includes("sotsiaaltoo_articles"), true);
+  assert.equal(preferenceFilter.$or[0].collection_id.$in.includes("research_reports"), true);
+  assert.equal(preferenceFilter.$or[0].collection_id.$in.includes("kov_services"), true);
+  assert.equal(preferenceFilter.$or[1].source_type.$in.includes("organization_profile"), true);
+  assert.equal(preferenceFilter.$or[1].source_type.$in.includes("journal_article"), true);
+  assert.equal(preferenceFilter.$or[1].source_type.$in.includes("research_report"), true);
+  assert.equal(preferenceFilter.$or[1].source_type.$in.includes("partner_service_info"), true);
+  assert.equal(preferenceFilter.$or[2].resource_type.$in.includes("organization_page"), true);
+  assert.equal(plan.primaryRagQueries.some(query => !query.filters), true);
 });
 
 test("Query Planner V2.1 resource discovery does not override legal exact mode", () => {

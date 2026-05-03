@@ -385,8 +385,76 @@ test("resource discovery attribution keeps selected organization and material so
     "organization-source",
     "material-source"
   ]));
-  assert.equal(attribution.filter_reasons["legal-background"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["legal-background"], "legal_background_suppressed_by_resource_discovery");
   assert.equal(attribution.displayed_sources_subset_of_selected, true);
+});
+
+test("resource discovery accepts journal and research sources as material evidence", () => {
+  const attribution = buildSourceAttribution(
+    "Puudega inimest toetavad materjalid hõlmavad ka artikleid ja uuringuid, mis kirjeldavad tugivõimalusi ning praktilist koostööd.",
+    [
+      {
+        id: "journal-material",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Puudega inimese toetamine kogukonnas",
+        evidenceText: "Sotsiaaltöö artikkel kirjeldab puudega inimese toetamise võimalusi, tugivõrgustikke ja praktilist koostööd."
+      },
+      {
+        id: "research-material",
+        source_type: "research_report",
+        collection_id: "research_reports",
+        title: "Puudega inimeste abivajaduse uuring",
+        evidenceText: "Uuring käsitleb puudega inimeste abivajadust, teenuseid ja info leidmise raskusi."
+      }
+    ],
+    {
+      query: "Millised organisatsioonid või materjalid aitavad puudega inimest?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(new Set(attribution.displayed_source_ids), new Set([
+    "journal-material",
+    "research-material"
+  ]));
+});
+
+test("resource discovery can display legal background only when no non-legal resource source is available", () => {
+  const attribution = buildSourceAttribution(
+    "Leitud allikas annab üksnes õigusliku tausta puudega inimese eluruumi tagamise kohta.",
+    [
+      {
+        id: "legal-background-only",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 42",
+        evidenceText: "Sotsiaalhoolekande seadus sätestab puudega isikule eluruumi tagamise raami."
+      }
+    ],
+    {
+      query: "Millised organisatsioonid või materjalid aitavad puudega inimest?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["legal-background-only"]);
 });
 
 test("resource discovery displays selected resource source even when broad query wording differs", () => {

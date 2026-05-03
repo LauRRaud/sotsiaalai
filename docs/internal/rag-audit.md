@@ -225,6 +225,7 @@ Planner output:
 - `preferred_source_count`
 - `source_layers`
 - `avoid_source_layers`
+- `source_layer_filter_mode`
 - `retrieval_strategy`
 - `answer_contract`
 - `planner_reason`
@@ -232,13 +233,25 @@ Planner output:
 Resource discovery behavior:
 
 - Questions such as `Millised organisatsioonid või materjalid aitavad puudega inimest?`, `Mis materjale on laste vaimse tervise kohta koolis?`, `Kust leida abi kuulmispuudega inimesele?`, `Kas on juhendmaterjale või PDF-e?` and named organization lookups such as `Mida Astangu Keskus pakub?` now produce `mode = resource_discovery`.
-- `resource_discovery` prefers organization/material/guideline layers:
+- `resource_discovery` treats source layers as preference/boost signals, not as a hard global filter. Preferred layers include:
   - `organizations`
   - `organization_materials`
+  - `public_body_info`
+  - `partner_service_info`
+  - `service_provider_info`
+  - `contacts`
+  - `sotsiaaltoo_articles`
+  - `journal_articles`
+  - `studies`
+  - `research_reports`
   - `national_guidelines`
   - `training_materials`
   - `official_guideline`
   - `information_material`
+  - `method_guidance`
+  - `worksheet`
+  - `journal_article`
+  - `research_report`
   - `organization_profile`
   - `organization_page`
 - `avoid_source_layers` marks:
@@ -248,10 +261,12 @@ Resource discovery behavior:
 - `queryPlanner.js` now uses the planner output only for resource-discovery cases:
   - `selection_strategy = resource_discovery_diversity`
   - `query_order = broad_first`
-  - source filters prefer organization/material/guideline/resource metadata
+  - preferred resource queries get organization/material/guideline/resource metadata filters
+  - the global search filter remains the role/audience filter, so relevant journal articles, studies, analysis, KOV resource/service info and public-body/partner/service-provider pages are not excluded just because their source type is not a guideline
+  - `source_layer_filter_mode = prefer`
   - planner output is carried into `query_plan.question_planner`
 - `retrievalContextAssembler.js` adds a narrow `RESOURCE_DISCOVERY_MODE` answer instruction so legal sources can be used as background, but should not be the only displayed basis when organization/material sources are available.
-- `sourceAttribution.js` treats `resource_discovery` as synthesis-style attribution, so selected organization/material sources can display while legal-only background noise is filtered out.
+- `sourceAttribution.js` treats `resource_discovery` as synthesis-style attribution, so selected organization/material/article/research sources can display. Legal background is suppressed when non-legal resource sources exist, but can display as fallback when no non-legal resource source is available.
 
 Non-overrides:
 
@@ -272,6 +287,17 @@ Validation:
 - Post-hotfix focused test command passed:
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/ragTraceMetadata.test.js`
 - Post-hotfix result: `60/60` tests passed.
+- Follow-up fix after manual smoke: `resource_discovery` source filters now include Sotsiaaltöö/journal articles, studies and research reports as supporting material sources. This prevents broad material/help questions from being trapped in a narrow organization-material-only layer when the article/research corpus has useful material.
+- Runtime selection now uses `selectMultiSourceGroups()` for `resource_discovery`, so the mode can select more than one relevant source family when available instead of falling back to ordinary MMR.
+- `RESOURCE_DISCOVERY_MODE` prompt now tells the model to use relevant journal articles, studies and guidance materials as supporting material sources when direct organization/material sources are sparse.
+- Follow-up focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Follow-up result: `68/68` tests passed.
+- V2.1 hotfix: resource-discovery source-layer logic is now explicitly preference-based. `query_plan.source_layer_filter_mode` and `query_plan.question_planner.source_layer_filter_mode` are set to `prefer`. Preferred metadata filters are applied per query, while the overall search keeps the role/audience filter.
+- V2.1 hotfix: source attribution now verifies that journal/research sources can be displayed as material evidence in `resource_discovery`, and that legal background is suppressed only when non-legal resource sources are available.
+- Latest hotfix focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Latest hotfix result: `70/70` tests passed.
 - `npm run build` passed.
 
 Known limits:
