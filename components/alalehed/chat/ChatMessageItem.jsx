@@ -82,7 +82,7 @@ function AssistantMarkdown({ text }) {
               )}
             >
               {block.items.map((item, itemIndex) => (
-                <li key={`${block.type}-${index}-${itemIndex}`} className="whitespace-pre-wrap">
+                <li key={`${block.type}-${index}-${itemIndex}`} className="whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]">
                   {renderInlineMarkdown(item, `${block.type}-${index}-${itemIndex}`)}
                 </li>
               ))}
@@ -91,7 +91,7 @@ function AssistantMarkdown({ text }) {
         }
 
         return (
-          <p key={`paragraph-${index}`} className="m-0 whitespace-pre-wrap">
+          <p key={`paragraph-${index}`} className="m-0 whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]">
             {renderInlineMarkdown(block.text, `paragraph-${index}`)}
           </p>
         );
@@ -150,7 +150,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const userMessageStackClassName =
     "flex min-w-0 max-w-[min(84%,44rem)] flex-col items-end";
   const userBubbleClassName =
-    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-full text-left [overflow-wrap:anywhere] break-words " +
+    "chat-msg-user-bubble mr-[0.04rem] max-[768px]:mr-[0.08rem] inline-block min-w-0 w-fit max-w-full text-left [overflow-wrap:break-word] [hyphens:auto] " +
     "[background:var(--chat-tools-panel-bg,var(--opaque-panel-bg,var(--rail-tooltip-bg,var(--subpage-card-bg))))] border-0 " +
     "[box-shadow:var(--rail-tooltip-shadow,var(--subpage-card-shadow,0_12px_24px_rgba(0,0,0,0.18)))] " +
     "[-webkit-backdrop-filter:none] [backdrop-filter:none] rounded-[1.28rem] rounded-br-[0.5rem] " +
@@ -159,10 +159,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(197,113,113,0.35)]";
   const memberTextClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
-    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
-    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500]";
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
   const thinkingLabelRaw = typeof t === "function" ? t("chat.typing.label") : "";
   const thinkingLabel = thinkingLabelRaw && thinkingLabelRaw !== "chat.typing.label"
     ? thinkingLabelRaw
@@ -334,7 +334,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
             {authorLabel}
             {": "}
           </span>
-          <div className="whitespace-pre-wrap">{text}</div>
+        <div className="whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]" lang={locale}>{text}</div>
         </div>
       </div>;
   }
@@ -354,7 +354,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
               onClick={toggleUserTimestamp}
               onKeyDown={handleUserBubbleKeyDown}
             >
-              <div className="min-w-0 max-w-full whitespace-pre-wrap [overflow-wrap:anywhere] break-words">{visibleText}</div>
+              <div className="min-w-0 max-w-full whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]" lang={locale}>{visibleText}</div>
             </div>
             {messageTime && userTimeVisible ? (
               <time className={userTimestampClassName} dateTime={messageTime.iso}>
@@ -364,7 +364,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
           </div> : null}
       </div>;
   }
-  return <div className={cn(messageBaseClassName, isAssistant ? aiBubbleClassName : userBubbleClassName)} role="article" tabIndex={0} data-chat-message-id={messageId}>
+  return <div className={cn(messageBaseClassName, isAssistant ? aiBubbleClassName : userBubbleClassName)} role="article" tabIndex={0} data-chat-message-id={messageId} lang={locale}>
       <span className="sr-only">
         {authorLabel}
         {": "}

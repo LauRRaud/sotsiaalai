@@ -636,6 +636,22 @@ test("comparison displays official service sources for each compared service", (
         collection_id: "sotsiaaltoo_articles",
         title: "Sotsiaalteenuste areng",
         evidenceText: "Artikkel kirjeldab sotsiaalteenuste yldist arengut ja praktikat."
+      },
+      {
+        id: "shs-volanoustamine",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 44 Võlanõustamisteenuse eesmärk ja sisu",
+        paragraphTitle: "Võlanõustamisteenuse eesmärk ja sisu",
+        evidenceText: "Võlanõustamisteenuse eesmärk ja sisu käsitleb inimese toimetuleku parandamist nõustamise kaudu."
+      },
+      {
+        id: "shs-asendushooldus",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 45 Asendushooldusteenuse eesmärk ja sisu",
+        paragraphTitle: "Asendushooldusteenuse eesmärk ja sisu",
+        evidenceText: "Asendushooldusteenuse eesmärk ja sisu käsitleb lapse hooldamist väljaspool sünniperet."
       }
     ],
     {
@@ -661,6 +677,8 @@ test("comparison displays official service sources for each compared service", (
     "shs-tugiisikuteenus"
   ]));
   assert.equal(["query_anchor_mismatch", "background_suppressed_by_comparison"].includes(attribution.filter_reasons["journal-background"]), true);
+  assert.equal(attribution.filter_reasons["shs-volanoustamine"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["shs-asendushooldus"], "query_anchor_mismatch");
   assert.equal(attribution.displayed_sources_subset_of_selected, true);
 });
 

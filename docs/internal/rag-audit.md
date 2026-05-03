@@ -32,7 +32,7 @@ SotsiaalAI is not a simple `question -> vector search -> top chunks -> answer` s
 9. Displayed-source enforcement.
 10. RAG trace and quality metrics.
 
-The main limitation is not that RAG does not exist. The main limitation is that the planner role is split across several files, so the system does not yet have one explicit, auditable `question_plan` object that says:
+The main limitation is not that RAG does not exist. V1.1-V1.5 are complete, and V2.1-V2.3 have introduced a deterministic first-class `questionPlanner.js`, role/life-situation modes and a `retrievalStrategySelector.js`. The remaining limitation is that planner authority is still shared across several runtime files, so `question_plan` is now present but not yet the only source of truth for every route, source-layer decision and evidence contract.
 
 ```json
 {
@@ -45,9 +45,9 @@ The main limitation is not that RAG does not exist. The main limitation is that 
 }
 ```
 
-This creates the current quality risk: broad topic questions can retrieve material, but still answer too narrowly or from too few documents.
+This creates the current quality risk: the system can now expose planner intent in trace, but some modes still need deeper evidence packaging, stronger source-layer contracts and more robust retrieval/ranking before the planner can safely govern the whole RAG path.
 
-The highest-value next patch is to make `overview_synthesis` a first-class mode with document-level source diversity guarantees.
+The highest-value next patch is no longer V1.1 overview hardening. The next planned architecture step is V2.4: a general `EvidencePackage` for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior.
 
 ## Implemented Changes
 
@@ -345,7 +345,7 @@ Client life-situation guidance:
 Specialist comparison:
 
 - Professional comparison questions such as `Kuidas eristada koduteenust ja isikliku abistaja teenust?` can now become `mode = comparison`.
-- The mode is trace-visible but does not yet have a separate V2.3 retrieval strategy selector.
+- At the V2.2 checkpoint the mode was trace-visible only; V2.3 later added the separate retrieval strategy selector and comparison strategy support.
 
 Runtime wiring:
 
@@ -371,8 +371,8 @@ Validation:
 
 Known limits:
 
-- V2.2 does not yet make a separate `retrievalStrategySelector.js`.
-- `life_situation_guidance` and `comparison` are trace-visible planner modes, but deeper source-layer strategy belongs in V2.3.
+- V2.2 itself did not include `retrievalStrategySelector.js`; this was superseded by V2.3 below.
+- At V2.2, `life_situation_guidance` and `comparison` were trace-visible planner modes only; V2.3 added deeper source-layer strategy and attribution support.
 - Role inference is deterministic and conservative; ambiguous questions still fall back to the session role.
 
 ### V2.3 Retrieval Strategy Selector
@@ -487,6 +487,22 @@ V2.3 comparison hotfix after live manual smoke:
 - Result: `223/223` tests passed.
 - `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
 
+V2.3 comparison displayed-source narrowing hotfix:
+
+- Live retest showed `comparison` routing and answer quality were now correct, but displayed sources were too broad.
+- Example: `Mis vahe on koduteenusel ja tugiisikuteenusel?` displayed valid primary sources `SHS § 17 Koduteenuse eesmärk ja sisu` and `SHS § 23 Tugiisikuteenuse eesmärk ja sisu`, but also unrelated neighboring service sections such as `SHS § 44 Võlanõustamisteenus` and `SHS § 45 Asendushooldusteenus`.
+- Root cause: comparison attribution matched broad explanatory terms such as `eesmärk`, `sisu` and `toimetulek`, so unrelated SHS service sections with similar heading shape could pass.
+- `sourceAttribution.js` now requires comparison displayed sources to match at least one compared topic identity in source identity fields such as title, section, service name, canonical item or paragraph heading.
+- This keeps `koduteenus` and `tugiisikuteenus` sources displayable while filtering unrelated legal/service sections that only share generic terms.
+- Added regression coverage with selected context containing §17, §23, §44 and §45; expected displayed sources are only §17 and §23.
+- Focused regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalStrategySelector.test.js`
+- Result: `69/69` tests passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js`
+- Result: `223/223` tests passed.
+- `npm run build` passed. Build emitted only existing email transport warnings for missing EMAIL_SERVER/SMTP_* env vars.
+
 ## Current Next Steps
 
 1. Run a server smoke after deploy/restart for V2.2/V2.3 planner and retrieval-strategy traces:
@@ -567,20 +583,23 @@ mainResponseHandler / sourceAttribution
 
 ### What Is Weak
 
-- There is no single first-class `questionPlanner.js` yet.
+- `questionPlanner.js` now exists as a deterministic first-class planner skeleton.
+- `retrievalStrategySelector.js` maps planner modes to retrieval, selection and query-order strategy.
 - `overview_synthesis` is now a distinct V1 mode with document-diversity selection and trace metrics.
 - Multi-source synthesis now has a V1 quality guard for distinct selected documents when enough relevant documents exist.
+- `resource_discovery`, `life_situation_guidance` and `comparison` are trace-visible and have initial V2.1-V2.3 retrieval/attribution support.
 - Source attribution can hide useful sources if evidence text or metadata is incomplete.
-- Several files still contain mojibake/encoding artifacts in regex strings and comments.
+- Runtime mojibake cleanup was completed in V1.4; this audit document still contains some older captured mojibake examples and should be cleaned separately if needed.
 - Some modules are too large and combine planning, retrieval, selection, tracing and context construction.
 
 ### Most Important Next Fix
 
-Add the V2 central `questionPlanner.js` in a small first patch:
+Continue V2 with a general `EvidencePackage` in a small patch:
 
-- Produce one structured planning object before retrieval.
-- Keep existing `queryPlanner.js`, `sourceNeed.js` and retrieval behavior as consumers during the first V2 step.
-- Do not replace SourcePackage, legal exact, overview synthesis or source attribution in the first V2 patch.
+- Keep SourcePackage for KOV service/benefit answers.
+- Add an EvidencePackage only for non-KOV multi-source modes such as overview, comparison, resource discovery and methodology/practice questions.
+- Capture selected documents, selected chunks, source layers, evidence strength, missing coverage warnings, limitations and answer guidance.
+- Do not add an LLM planner, reranker or evidence checker in this step.
 
 ## lib/chat Audit
 
@@ -588,8 +607,10 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 
 | File | Role | Rating | Notes |
 | --- | --- | --- | --- |
-| `sourceNeed.js` | Decides whether a turn needs external/RAG sources. | B | Improved so substantive user text triggers RAG by default. Still regex-heavy and contains encoding artifacts. Should eventually become part of a central planner. |
-| `queryPlanner.js` | Builds RAG query plan: mode, filters, topK, selection strategy and trace summary. | B/C | Important and functional. It already handles legal, temporal, municipality, source lookup and thematic modes. It is too broad and should later split into planner plus retrieval strategy selector. Missing first-class `overview_synthesis`. |
+| `questionPlanner.js` | Deterministic first-class planner skeleton for role, mode, topics, source-layer preferences, retrieval strategy and answer contract. | B | Added in V2.1 and expanded in V2.2/V2.3. Handles `resource_discovery`, `life_situation_guidance`, `comparison`, legal/KOV/overview/document-summary routing signals. Still deterministic and intentionally narrower than the future full planner. |
+| `retrievalStrategySelector.js` | Maps planner mode plus route overrides to retrieval strategy, selection strategy, query order and source-layer filter mode. | B | Added in V2.3. Keeps legal/KOV/source lookup overrides stronger than planner modes and gives `resource_discovery`, `life_situation_guidance` and `comparison` mode-specific retrieval behavior. |
+| `sourceNeed.js` | Decides whether a turn needs external/RAG sources. | B | Improved so substantive user text triggers RAG by default. Still regex-heavy. Should keep shrinking into a gate/helper as `questionPlanner.js` becomes more authoritative. |
+| `queryPlanner.js` | Builds RAG query plan: mode, filters, topK, selection strategy and trace summary. | B/C | Important and functional. It handles legal, temporal, municipality, source lookup, overview, resource discovery, life-situation and comparison modes. It now consumes planner output and retrieval-strategy selection, but remains too broad and should keep shedding planner responsibilities. |
 | `retrievalOrchestrator.js` | Builds retrieval queries, recent-source anchors, thematic expansions and multi-query search. | B | Hybrid retrieval and partial failure handling are useful. Exact-name query expansion is intentionally deactivated so broad RAG quality does not depend on rare named anchors. Risk: thematic expansion can become hand-tuned by topic. Needs a cleaner document discovery layer. |
 | `retrievalContextAssembler.js` | Main RAG assembly layer. Runs planning, retrieval, selection, SourcePackage, risk policy and metadata assembly. | C | Functional but overloaded. This is the central integration point and the largest refactor candidate. It should eventually delegate planner, source package, evidence package and trace assembly more cleanly. |
 | `retrievalPlanning.js` | Temporal/year retrieval planning and topic hints. | B | Useful helper. Not the main bottleneck. |
@@ -599,8 +620,8 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 
 | File | Role | Rating | Notes |
 | --- | --- | --- | --- |
-| `ragContext.js` | Normalizes matches, groups them, ranks/diversifies them and renders `RAG_CONTEXT`. | B/C | Very important. It has MMR and multi-source selection, but broad overview questions need a stronger document-level selector. Add `selectOverviewSynthesisGroups()`. |
-| `promptBuilder.js` | Builds model input, system prompt, `RAG_CONTEXT`, grounding messages and output token settings. | B | Good structure. Needs a dedicated overview-synthesis instruction when query plan asks for multi-source overview. |
+| `ragContext.js` | Normalizes matches, groups them, ranks/diversifies them and renders `RAG_CONTEXT`. | B/C | Very important. It now has MMR, multi-source selection and `selectOverviewSynthesisGroups()` for document-level overview diversity. Remaining work: expose/consume a future EvidencePackage cleanly. |
+| `promptBuilder.js` | Builds model input, system prompt, `RAG_CONTEXT`, grounding messages and output token settings. | B | Good structure. Overview/resource/life-situation/comparison instructions now need to stay aligned with planner answer contracts and future EvidencePackage warnings. |
 | `systemPrompts/et.js` | Estonian system prompt. | B | Good evidence discipline. Can make answers cautious when retrieval is weak. Do not solve retrieval failures by weakening this prompt. |
 | `systemPrompts/en.js` | English system prompt. | B | Should stay aligned with Estonian prompt. |
 | `systemPrompts/ru.js` | Russian system prompt. | B | Should stay aligned with Estonian prompt. |
@@ -614,7 +635,7 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 | `sourcePackages.js` | Builds runtime SourcePackages from selected/retrieved context and canonical KOV relation files. | B/C | Core KOV package logic is useful and now supports forms, contacts and legal basis. Risk: historical special cases remain. Canonical fallback should be fully generic across all KOV bundles. |
 | `packageAwareContext.js` | Converts SourcePackages into compact answer context. | A/B | Good V3.2 layer. It makes package structure visible to the model and exposes missing sections. |
 | `sectionAttribution.js` | Builds V3.4A section-level attribution for SourcePackage/high-risk answers. | B | Good foundation. Not claim-level attribution and should not be treated as a full claim store. |
-| `sourceAttribution.js` | Filters selected sources into displayed/answer sources. | B | Essential layer. Good legal, package-aware and synthesis branches. V1.1 added overview support and 2026-05-03 added organization identity fields for named organization questions. Remaining risk: may hide correct sources if evidence text or metadata is incomplete. |
+| `sourceAttribution.js` | Filters selected sources into displayed/answer sources. | B | Essential layer. Good legal, package-aware, overview/resource/life-situation/comparison branches. V1.1 added overview support; 2026-05-03 added organization identity/link handling and V2.3 added life-situation/comparison attribution support. Remaining risk: may hide correct sources if evidence text or metadata is incomplete. |
 | `mainResponseHandler.js` | Runs OpenAI response handling, attribution, trace, SourcePackage persistence and final response assembly. | A/B | Strong final contract. Persistence failure is isolated. File is long and has stream/non-stream duplication, but conceptually sound. |
 
 ### Legal and Risk
@@ -666,9 +687,9 @@ Add the V2 central `questionPlanner.js` in a small first patch:
 
 ## Key Conflicts and Limitations
 
-### 1. Planner Is Fragmented
+### 1. Planner Is Still Partly Fragmented
 
-The planner is spread across:
+The deterministic `questionPlanner.js` and `retrievalStrategySelector.js` now exist, but some planner responsibilities still remain spread across:
 
 - `sourceNeed.js`
 - `queryPlanner.js`
@@ -676,9 +697,24 @@ The planner is spread across:
 - `retrievalContextAssembler.js`
 - `ragContext.js`
 
-This means the system can make a correct decision in one file and then lose the intention later. Example: a broad thematic question may be detected, but context selection may still not enforce enough distinct source documents.
+This means the system can make a correct planner decision and still need downstream adapters to preserve that intention. Recent V2.3 hotfixes fixed this for `life_situation_guidance` and `comparison`, but the general architectural direction remains: planner output should gradually become the central contract, while route-specific legacy logic becomes thinner.
 
-### 2. Overview Questions Need a Stronger Contract
+### 2. Evidence Packaging Is Still Missing Outside SourcePackage
+
+KOV service/benefit answers have SourcePackage. General overview, comparison, resource discovery and practice/methodology answers do not yet have an equivalent EvidencePackage.
+
+This means selected context and displayed sources are stronger than before, but there is still no single object that carries:
+
+- selected documents and chunks;
+- source layer mix;
+- evidence strength;
+- missing coverage warnings;
+- answer limitations;
+- answer guidance.
+
+This is the next high-value V2 gap.
+
+### 3. Overview Questions Have V1 Guarantees But Still Need Eval Coverage
 
 Questions like:
 
@@ -686,15 +722,18 @@ Questions like:
 - "Mis raskused on omastehooldajatel?"
 - "Millised teemad korduvad sotsiaaltöö praktikas?"
 
-should not default to one article or one document. They need:
+should not default to one article or one document. V1.1 and V1.5 now provide:
 
 - document-level discovery;
-- 5-8 source candidates where available;
-- maximum 1-2 chunks per document;
+- 5-8 preferred source candidates where available;
+- diversity pass plus depth pass;
 - at least 3 distinct documents if at least 3 relevant documents exist;
-- displayed sources from the sources actually used in the synthesis.
+- displayed sources from the sources actually used in the synthesis;
+- trace metrics and quality warnings for low diversity or unallowed dominance.
 
-### 3. Attribution Can Hide Good Sources
+Remaining work belongs mostly to golden evaluation and EvidencePackage, not another V1 overview selector rewrite.
+
+### 4. Attribution Can Hide Good Sources
 
 `sourceAttribution.js` is necessary because it prevents random retrieved sources from appearing in the source modal. But it can also hide useful sources if:
 
@@ -705,9 +744,9 @@ should not default to one article or one document. They need:
 
 This is especially important for named systems like `Woebot`, `Wysa`, `Vivibot`, `XiaoE`, `OTT`, `STAR` and similar.
 
-The 2026-05-03 Astangu fix closed one concrete instance of this class for organization profiles: organization identity metadata is now part of attribution matching, and `organization_profile` is accepted as low-risk background evidence. The broader rule remains: every new source family must expose its identity fields to attribution, otherwise retrieval may select the right source while displayed sources stay empty.
+The 2026-05-03 Astangu fix closed one concrete instance of this class for organization profiles: organization identity metadata is now part of attribution matching, and `organization_profile` is accepted as low-risk background evidence. V2.3 also added life-situation and comparison attribution branches. The broader rule remains: every new source family must expose its identity fields to attribution, otherwise retrieval may select the right source while displayed sources stay empty.
 
-### 4. SourcePackage Is Strong but KOV Fallback Should Be General
+### 5. SourcePackage Is Strong but KOV Fallback Should Be General
 
 `sourcePackages.js` now supports a lot of correct KOV behavior:
 
@@ -720,36 +759,26 @@ The 2026-05-03 Astangu fix closed one concrete instance of this class for organi
 
 But KOV canonical relation fallback still has historical special-case shape. It should become a generic resolver for all `KOV/<slug>/<slug>.json` and `<slug>.sources.json` bundles.
 
-### 5. Encoding/Mojibake Artifacts Should Be Cleaned
+### 6. Encoding/Mojibake Artifacts Are Mostly Runtime-Cleaned
 
-Some files contain corrupted text fragments in regexes or stopword lists. They may not break every case because parallel ASCII alternatives often exist, but they reduce confidence and make future debugging harder.
+V1.4 cleaned the scanned runtime mojibake markers in `lib/chat` and `lib/rag`. Some older examples in this audit document still show mojibake because they were copied from historical logs/tests. That is documentation noise, not a current runtime blocker.
 
-This should be a separate cleanup patch with tests.
+If cleaned, do it as a documentation/test-fixture cleanup patch, not as a RAG behavior change.
 
-### 6. Workflow State Can Interfere With New Questions
+### 7. Workflow State Can Interfere With New Questions
 
-`modeSelection.js` and workflow state are useful, but a fresh substantive question should not remain trapped behind an old pending mode-selection state.
+`modeSelection.js` and workflow state are useful. V1.3 added bypass protection so a fresh substantive question should not remain trapped behind an old pending mode-selection state. Remaining risk is future workflow expansion reintroducing broad capture behavior.
 
 ## Recommended Next Patch
 
-The next small, high-impact patch should be:
+The next small, high-impact patch should be V2.4 `EvidencePackage`:
 
-1. Add explicit `overview_synthesis` mode.
-2. Add `selectOverviewSynthesisGroups()` to `ragContext.js`.
-3. Add source diversity trace fields:
-   - `overview_synthesis_used`
-   - `distinct_selected_document_count`
-   - `selected_document_ids`
-   - `max_chunks_per_document`
-4. Add overview prompt instruction:
-   - synthesize across sources;
-   - do not summarize a single article unless only one relevant source exists;
-   - mention if the available source base is narrow.
-5. Add tests:
-   - broad lastekaitse question chooses multiple document IDs;
-   - concrete article question can still focus on one article;
-   - displayed sources remain answer-source based;
-   - legal exact remains separate.
+1. Add `lib/chat/evidencePackage.js`.
+2. Keep SourcePackage untouched for KOV service/benefit answers.
+3. Build EvidencePackage for `overview_synthesis`, `comparison`, `resource_discovery` and methodology/practice questions.
+4. Include selected documents/chunks, diversity result, source layers, evidence strength, missing coverage warnings, limitations and answer guidance.
+5. Wire it into trace/prompt minimally without adding an LLM planner, reranker or evidence checker.
+6. Add tests that prove legal exact and KOV/SourcePackage routes are not affected.
 
 ## Suggested Future Module Split
 
@@ -757,7 +786,7 @@ Longer term, split the current planner work into explicit modules:
 
 ```text
 lib/chat/questionPlanner.js
-  -> role, mode, source layers, risk, source count, location need
+  -> role, mode, topics, source layers, risk, source count, location need
 
 lib/chat/retrievalStrategySelector.js
   -> converts question plan into retrieval channels, filters and topK
@@ -782,18 +811,19 @@ Current system quality:
 - Legal exact: good, but must be protected from planner changes.
 - Displayed-source enforcement: good.
 - Section attribution: good foundation.
-- General thematic RAG: partially working, but not yet reliable enough for broad synthesis questions.
+- General thematic RAG: materially improved by V1.1/V1.5, but still needs EvidencePackage and golden eval before it is considered stable at production scale.
+- Resource discovery, life-situation guidance and comparison: initial V2.1-V2.3 deterministic planner paths are implemented, but still need broader live/eval coverage.
 - PDF/future document ingest: metadata contract exists, but retrieval quality depends on document-level discovery, section titles, chunk metadata and source diversity.
 
 The most important product-quality goal is:
 
-> A broad user question should trigger a broad evidence-seeking plan, not a narrow nearest-chunk answer.
+> A broad or practical user question should trigger an auditable evidence-seeking plan, not a narrow nearest-chunk answer.
 
-That is the next RAG architecture step.
+That is now partly implemented through V1/V2 planner work; the next architecture step is to package and verify the evidence chain.
 
 ## V1.1 Test Data And Manual Regression Checklist
 
-STATUS: planned for Overview Synthesis Production Hardening
+STATUS: DONE / retained as manual regression checklist
 
 Use the local data folders below when validating V1.1 and later RAG hardening work:
 
