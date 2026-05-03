@@ -295,9 +295,10 @@ Validation:
 - Follow-up result: `68/68` tests passed.
 - V2.1 hotfix: resource-discovery source-layer logic is now explicitly preference-based. `query_plan.source_layer_filter_mode` and `query_plan.question_planner.source_layer_filter_mode` are set to `prefer`. Preferred metadata filters are applied per query, while the overall search keeps the role/audience filter.
 - V2.1 hotfix: source attribution now verifies that journal/research sources can be displayed as material evidence in `resource_discovery`, and that legal background is suppressed only when non-legal resource sources are available.
+- V2.1 attribution hotfix after live manual smoke: disability wording such as `puudega inimene` may raise the original risk policy to high/strong evidence, but `resource_discovery` displayed-source attribution now uses a medium evidence display contract for selected non-legal organization/material/article/guideline sources. This prevents an SHS/RT-only displayed-source result when selected non-legal resource evidence exists. Legal exact and KOV/SourcePackage attribution paths remain unchanged.
 - Latest hotfix focused test command passed:
-  - `npx tsx --tsconfig jsconfig.json --test tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/sourceAttribution.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
-- Latest hotfix result: `70/70` tests passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/ragTraceMetadata.test.js`
+- Latest hotfix result: `71/71` tests passed.
 - `npm run build` passed.
 
 Known limits:

@@ -389,6 +389,43 @@ test("resource discovery attribution keeps selected organization and material so
   assert.equal(attribution.displayed_sources_subset_of_selected, true);
 });
 
+test("resource discovery displays non-legal material sources even when disability wording raises risk", () => {
+  const attribution = buildSourceAttribution(
+    "Puudega inimest aitavad praktilised juhendmaterjalid ja erialaspetsialistide soovitused; õigusallikas jääb taustaks.",
+    [
+      {
+        id: "practice-guideline",
+        source_type: "official_guideline",
+        collection_id: "national_guidelines",
+        title: "Terviseprobleemiga laste ja nende perede toetamise hea tava",
+        evidenceText: "Hea tava kirjeldab puudega või terviseprobleemiga lapse pere toetamise põhimõtteid ja praktilist koostööd."
+      },
+      {
+        id: "legal-background",
+        source_type: "national_law",
+        collection_id: "national_law",
+        title: "Sotsiaalhoolekande seadus § 42",
+        evidenceText: "Seadus reguleerib puudega isikule eluruumi tagamist."
+      }
+    ],
+    {
+      query: "Millised organisatsioonid või materjalid aitavad puudega inimest?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "high",
+        requiredEvidence: "strong",
+        insufficientEvidenceMode: true
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["practice-guideline"]);
+  assert.equal(attribution.filter_reasons["legal-background"], "legal_background_suppressed_by_resource_discovery");
+});
+
 test("resource discovery accepts journal and research sources as material evidence", () => {
   const attribution = buildSourceAttribution(
     "Puudega inimest toetavad materjalid hõlmavad ka artikleid ja uuringuid, mis kirjeldavad tugivõimalusi ning praktilist koostööd.",
