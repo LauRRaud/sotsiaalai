@@ -205,3 +205,93 @@ test("measures legal selected paragraph precision and flags wrong selected parag
   assert.equal(result.summary.legal_wrong_paragraph_count, 1);
   assert.equal(result.issues.some(item => item.type === "legal_selected_wrong_paragraph"), true);
 });
+
+test("summarizes overview synthesis source diversity metrics", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        overview_synthesis: {
+          mode: "overview_synthesis",
+          overview_synthesis_used: true,
+          distinct_candidate_document_count: 8,
+          distinct_relevant_candidate_document_count: 5,
+          distinct_selected_document_count: 4,
+          selected_document_ids: ["doc-a", "doc-b", "doc-c", "doc-d"],
+          depth_pass_added_chunks: 2,
+          dominant_document_id: "doc-a",
+          dominant_document_share: 0.35,
+          dominant_document_allowed: false,
+          source_diversity_limited: false
+        }
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.summary.overview_synthesis_trace_count, 1);
+  assert.equal(result.summary.overview_synthesis_used_count, 1);
+  assert.equal(result.summary.overview_distinct_candidate_document_count, 8);
+  assert.equal(result.summary.overview_distinct_relevant_candidate_document_count, 5);
+  assert.equal(result.summary.overview_distinct_selected_document_count, 4);
+  assert.equal(result.summary.overview_distinct_selected_document_average, 4);
+  assert.equal(result.summary.overview_depth_pass_added_chunks, 2);
+  assert.equal(result.summary.overview_dominant_document_share_max, 0.35);
+  assert.equal(result.summary.overview_source_diversity_reason_distribution.not_limited, 1);
+});
+
+test("flags overview synthesis when enough relevant documents exist but selected context is too narrow", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        overview_synthesis: {
+          overview_synthesis_used: true,
+          distinct_candidate_document_count: 6,
+          distinct_relevant_candidate_document_count: 5,
+          distinct_selected_document_count: 2,
+          selected_document_ids: ["doc-a", "doc-b"],
+          dominant_document_id: "doc-a",
+          dominant_document_share: 0.75,
+          dominant_document_allowed: false,
+          dominant_document_reason: "none",
+          source_diversity_limited: false
+        }
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.overview_low_source_diversity_count, 1);
+  assert.equal(result.summary.overview_unallowed_dominant_document_count, 1);
+  assert.equal(result.issues.some(item => item.type === "overview_synthesis_low_source_diversity"), true);
+  assert.equal(result.issues.some(item => item.type === "overview_synthesis_unallowed_dominant_document"), true);
+});
+
+test("allows limited overview diversity when retrieval has too few relevant documents", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        overview_synthesis: {
+          overview_synthesis_used: true,
+          distinct_candidate_document_count: 2,
+          distinct_relevant_candidate_document_count: 2,
+          distinct_selected_document_count: 1,
+          selected_document_ids: ["doc-a"],
+          dominant_document_id: "doc-a",
+          dominant_document_share: 1,
+          dominant_document_allowed: true,
+          dominant_document_reason: "not_enough_relevant_documents",
+          source_diversity_limited: true,
+          source_diversity_reason: "not_enough_relevant_documents"
+        }
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.summary.overview_source_diversity_limited_count, 1);
+  assert.equal(result.summary.overview_source_diversity_limited_rate, 1);
+  assert.equal(result.summary.overview_dominant_document_allowed_count, 1);
+  assert.equal(result.summary.overview_source_diversity_reason_distribution.not_enough_relevant_documents, 1);
+  assert.equal(result.summary.overview_low_source_diversity_count, 0);
+  assert.equal(result.summary.overview_unallowed_dominant_document_count, 0);
+});

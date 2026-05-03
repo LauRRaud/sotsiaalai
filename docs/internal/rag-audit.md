@@ -79,7 +79,7 @@ Status: DONE
 - Problem fixed: an old pending mode-selection/help/document workflow can no longer trap a clearly new substantive social-domain question.
 - `modeSelection.js`: added substantive-question bypass detection for pending mode-selection prompts. The rule uses general question shape plus social/KOV/service/guidance/practice/risk/legal/public-service/organization/contact/material/disability-support signals, not hardcoded article, file, organization or municipality names.
 - `modeSelection.js`: added an assistant-capability guard so prompts such as "Kas sa saad teha PDF?" and "Kas saad dokumendi vormistada?" do not bypass a pending document workflow into RAG.
-- `modeSelection.js`: aligned general domain signals with `sourceNeed.js` for SHS, SKA, Sotsiaalkindlustusamet, Töötukassa, töövõime, STAR, infosystem, õigusakt, määrus, paragrahv and Riigi Teataja style questions.
+- `modeSelection.js`: aligned general domain signals with `sourceNeed.js` for SHS, SKA, Sotsiaalkindlustusamet, Töötukassa, töövõime, STAR, infosüsteem, õigusakt, määrus, paragrahv and Riigi Teataja style questions.
 - `sourceNeed.js`: concrete named-source follow-up terms remain limited to recent-source follow-up routing (`hasHistory && hasRecentAssistantSources`); this is a known risk to revisit in V2, but it does not currently narrow broad overview retrieval.
 - `requestBootstrap.js`: active help/document workflows are bypassed for clearly new substantive questions when no explicit forced mode is set.
 - Workflow continuations are preserved for short confirmations, negative replies, numeric choices and document format choices such as `jah`, `ei`, `1`, `2`, `PDF` and `DOCX`.
@@ -95,6 +95,18 @@ Status: DONE
 - No business logic, planner, retrieval, SourcePackage or workflow behavior was intentionally changed.
 - Focused RAG/workflow/source-attribution tests, broader SourcePackage regressions and `npm run build` passed.
 
+### V1.5 Trace and Quality Metrics Expansion
+
+Status: DONE
+
+- `sourceQualityMetrics.js`: added overview-synthesis quality metrics based on `rag_trace.overview_synthesis`.
+- Metrics now summarize overview trace count, used count, distinct candidate/relevant/selected document counts, document-count averages, depth-pass added chunks, limited-diversity rate, limited-diversity reasons, dominant-document share and dominant-document exceptions.
+- Quality guard now flags `overview_synthesis_low_source_diversity` when at least three relevant documents exist but selected context contains fewer than three distinct documents.
+- Quality guard now flags `overview_synthesis_unallowed_dominant_document` when one document dominates an overview answer without an allowed exception while enough relevant alternatives exist.
+- `tests/rag/sourceQualityMetrics.test.js`: added regressions for normal overview diversity, too-narrow overview selection and acceptable limited-diversity cases.
+- Local V1 acceptance passed: 189 focused RAG/chat/SourcePackage/knowledge tests, lisatest knowledge metadata validation, and `npm run build`.
+- Server acceptance: `rag:smoke:source-packages` passed against `https://sotsiaal.ai` for the local Alutaguse fixture with `--answering --attribution --no-persist`. `rag:smoke:v1` against `https://sotsiaal.ai` returned HTTP 401 because this shell has no `SOTSIAALAI_SMOKE_COOKIE` or bearer token configured; this is an access/setup limitation, not a V1.5 code failure.
+
 ### Knowledge-doc lisatest metadata check
 
 Status: DONE
@@ -109,9 +121,9 @@ Status: DONE
 
 ## Current Next Steps
 
-1. V1.5 Trace ja quality metrics laiendamine, kui V1.2 ei kata kõiki vajalikke mõõdikuid.
-2. Käsitsi/live kontroll päris RAG-andmetega teha eraldi ainult siis, kui otsustame selle hiljem vajalikuks.
-3. V2 keskse `questionPlanner.js` plaaniga alustada alles pärast V1 lõpetamist.
+1. Run authenticated server smoke with `SOTSIAALAI_SMOKE_COOKIE` or bearer token if a live chat trace check is required before deploy.
+2. Start V2 central `questionPlanner.js` only after that acceptance gate is accepted.
+3. Keep V2 incremental: structured planner output first, then role/life-situation mapping, retrieval strategy selector and EvidencePackage later.
 
 ## Current Runtime Flow
 
@@ -178,22 +190,19 @@ mainResponseHandler / sourceAttribution
 ### What Is Weak
 
 - There is no single first-class `questionPlanner.js` yet.
-- `overview_synthesis` is not yet a distinct mode with a strong contract.
-- Multi-source synthesis does not yet guarantee enough distinct documents when enough relevant documents exist.
+- `overview_synthesis` is now a distinct V1 mode with document-diversity selection and trace metrics.
+- Multi-source synthesis now has a V1 quality guard for distinct selected documents when enough relevant documents exist.
 - Source attribution can hide useful sources if evidence text or metadata is incomplete.
 - Several files still contain mojibake/encoding artifacts in regex strings and comments.
 - Some modules are too large and combine planning, retrieval, selection, tracing and context construction.
 
 ### Most Important Next Fix
 
-Add a first-class `overview_synthesis` path:
+Add the V2 central `questionPlanner.js` in a small first patch:
 
-- Detect broad questions such as "Millised on probleemid lastekaitses?"
-- Prefer document-level discovery.
-- Select 5-8 distinct sources when possible.
-- Limit one document to 1-2 chunks.
-- Add trace metrics for source diversity.
-- Instruct the answer generator to synthesize across sources instead of summarizing one article.
+- Produce one structured planning object before retrieval.
+- Keep existing `queryPlanner.js`, `sourceNeed.js` and retrieval behavior as consumers during the first V2 step.
+- Do not replace SourcePackage, legal exact, overview synthesis or source attribution in the first V2 patch.
 
 ## lib/chat Audit
 
@@ -272,7 +281,7 @@ Add a first-class `overview_synthesis` path:
 | `sourceFreshness.js` | Freshness policy and audit summaries. | B | Useful and detailed. Currently more audit/admin than runtime ranking. Later selection should use freshness more directly. |
 | `riskPolicy.js` | Risk classification and source evidence strength. | B | Good evidence guard. Regex-based risk classification is useful but not sufficient as final planner. |
 | `sourcePackageSnapshots.js` | Persisted SourcePackage snapshot hash/versioning. | A/B | Strong V3.1/V3.3 layer. Keep tests around normalized duplicate identity and active version cleanup. |
-| `sourceQualityMetrics.js` | Trace quality metrics: displayed/answer contract, wrong municipality, legal precision. | A/B | Valuable observability layer. Needs source-diversity metrics for overview synthesis. |
+| `sourceQualityMetrics.js` | Trace quality metrics: displayed/answer contract, wrong municipality, legal precision and overview source diversity. | A/B | Valuable observability layer. V1.5 now flags too-narrow overview selection and unallowed dominant-document cases. |
 | `metadataBackfillPlan.js` | Metadata backfill planning. | B | Good migration/ops helper. Not runtime. |
 | `ragServiceFreshnessFallback.js` | Fallback fetch of RAG service documents for freshness audit. | B | Useful operational fallback. |
 | `legacyAjakiriCleanup.js` | Legacy Sotsiaaltöö/Ajakiri cleanup planning. | B | Useful cleanup helper. Not runtime. |
