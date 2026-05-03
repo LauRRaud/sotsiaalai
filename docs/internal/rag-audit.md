@@ -47,7 +47,7 @@ The main limitation is not that RAG does not exist. V1.1-V1.5 are complete, and 
 
 This creates the current quality risk: the system can now expose planner intent in trace, but some modes still need deeper evidence packaging, stronger source-layer contracts and more robust retrieval/ranking before the planner can safely govern the whole RAG path.
 
-The highest-value next patch is no longer V1.1 overview hardening. V2.4A has now added the first `EvidencePackage` skeleton for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior. V2.5A has mapped the current source metadata taxonomy and confirmed that the next architecture step is a central source-layer helper/normalizer before more runtime source-type logic is rewritten.
+The highest-value next patch is no longer V1.1 overview hardening. V2.4A has now added the first `EvidencePackage` skeleton for non-KOV multi-source answers, while preserving legal exact and SourcePackage behavior. V2.5A mapped the current source metadata taxonomy, and V2.5B added central source-layer helpers. The next architecture step is V2.5C: gradually replacing duplicated runtime source-type logic with those helpers.
 
 ## Implemented Changes
 
@@ -649,14 +649,85 @@ V2.5B design constraints:
 - Distinguish primary evidence from background evidence, especially for `journal_article`, `research_report`, organization profiles, KOV web, KOV RT and national law.
 - Add warnings for unknown/legacy source types, `source_status = known`, `audience = ADMIN`, stale/missing freshness and missing URL identity where appropriate.
 
+### V2.5B Source-Layer Helpers
+
+Status: DONE / helper layer and tests only
+
+Scope:
+
+- Added central source-layer helper functions to `sourceMetadata.js`.
+- No broad runtime replacement was done yet.
+- No ingest, retrieval, planner, SourcePackage, legal exact or source attribution behavior was intentionally changed.
+- Existing stored metadata values are not renamed or migrated.
+
+Added helpers:
+
+- `normalizeSourceType(source)`
+- `normalizeCollectionId(source)`
+- `sourceLayerFor(source)`
+- `isLegalSource(source)`
+- `isKovSource(source)`
+- `isKovWebSource(source)`
+- `isKovRegulationSource(source)`
+- `isNationalLawSource(source)`
+- `isOrganizationSource(source)`
+- `isMaterialSource(source)`
+- `isGuidanceSource(source)`
+- `isResearchOrJournalSource(source)`
+- `isPublicBodyInfoSource(source)`
+- `canSupportClaimType(source, claimType)`
+- `evidenceRoleFor(source)`
+
+Alias/legacy handling now covered by tests:
+
+- `municipality_kov` -> KOV web/service source behavior.
+- `municipal_regulation` / KOV RT collection -> KOV regulation behavior.
+- `riigiteataja_regulation` remains legal source behavior through helper classification.
+- `research` and `analysis` normalize to research/policy-analysis behavior.
+- `journal_articles` normalizes to `sotsiaaltoo_articles`.
+- `kov_regulations` normalizes to `kov_legal`.
+- `organization_profile`, `organization_page`, `organization_service_info`, `training_material`, `journal_article`, `research_report`, `public_body_info` style sources are classified without needing immediate stored-data renames.
+
+Claim-support guardrails:
+
+- Legal entitlement/basis claims require national law or KOV regulation style sources.
+- Benefit amount, fee and deadline claims require legal or KOV current-service style sources.
+- Municipal service availability/application process claims require KOV web or KOV regulation style sources.
+- Organization background, practice guidance and research/background context claims are separated from legal/current-service claims.
+
+Validation:
+
+- `tests/rag/sourceMetadata.test.js`: added helper classification and claim-support regressions.
+- Focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceMetadata.test.js`
+- Result: `11/11` tests passed.
+
+### V2.5C Runtime Source-Layer Replacement, Step 1
+
+Status: DONE / low-risk runtime replacement
+
+Scope:
+
+- Replaced duplicated source-layer classification in `evidencePackage.js` with central `sourceMetadata.js` helper functions.
+- Kept the EvidencePackage public layer mix stable and coarse (`legal`, `kov`, `organization`, `material`, `research_or_journal`, `public_body_info`, `other`) so answer guidance and trace contracts do not churn.
+- Replaced `sourceQualityMetrics.js` local legal-source regex with central `isLegalSource()`.
+- No retrieval, planner, SourcePackage, legal exact or source attribution behavior was otherwise changed.
+
+Validation:
+
+- `tests/chat/evidencePackage.test.js`: added a regression proving `municipality_kov`, `organization_profile` and `article`/`journal_articles` aliases flow through EvidencePackage source-layer mix.
+- `tests/rag/sourceQualityMetrics.test.js`: added a regression proving `riigiteataja_regulation` legal-source alias is recognized by source-quality legal precision metrics.
+- Focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/rag/sourceQualityMetrics.test.js tests/rag/sourceMetadata.test.js`
+- Result: `26/26` tests passed.
+
 ## Current Next Steps
 
-1. Run `npm run rag:check:v24a-live-trace` on the server after deploy/restart to confirm V2.4A raw trace against persisted live messages.
-2. V2.5B: add central source-layer helpers in `sourceMetadata.js` or a narrow `sourceLayerContract.js`, with legacy alias support and tests.
-3. V2.5C: gradually replace duplicated runtime source-type logic in `evidencePackage.js`, `sourceAttribution.js`, `ragContext.js`, `queryPlanner.js`, `sourceQualityMetrics.js`, `sourceFreshness.js`, `sourcePackages.js` and `sectionAttribution.js`.
+1. V2.5C Step 2: replace selected low-risk source-layer helper logic in `sourceAttribution.js` and/or `ragContext.js`, with regressions for legal exact, KOV/SourcePackage, overview, resource discovery, life-situation and comparison.
+2. Keep replacements incremental; do not rewrite all attribution/ranking source-type logic in one patch.
+3. Keep legal exact and KOV/SourcePackage regressions protected before replacing route-critical source logic.
 4. V2.4B only if live EvidencePackage tests show answer-contract gaps.
-5. Keep KOV/RT/SourcePackage/legal exact regressions protected before expanding planner authority.
-6. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
+5. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
 
 ## Previous V2.4A Live Smoke Prompt List
 

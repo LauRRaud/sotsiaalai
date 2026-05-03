@@ -175,6 +175,35 @@ test("measures legal displayed paragraph precision and flags wrong displayed par
   assert.equal(result.issues.some(item => item.type === "legal_displayed_wrong_paragraph"), true);
 });
 
+test("measures legal paragraph precision through central source metadata aliases", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        query_plan: {
+          legalLookupPlan: {
+            enabled: true,
+            mode: "explicit_paragraph",
+            paragraphRefs: ["6"]
+          }
+        },
+        attribution_decisions: [
+          {
+            source_id: "kov-rt-6",
+            decision: "display",
+            source_type: "riigiteataja_regulation",
+            paragraph_number: "7",
+            source_status: "active"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.legal_displayed_wrong_paragraph_count, 1);
+  assert.equal(result.issues.some(item => item.type === "legal_displayed_wrong_paragraph"), true);
+});
+
 test("measures legal selected paragraph precision and flags wrong selected paragraph", () => {
   const result = summarizeRagTraceSourceQuality([
     {

@@ -91,6 +91,30 @@ test("EvidencePackage records resource discovery legal-only limitation", () => {
   assert.equal(pkg.missing_coverage.includes("organization_material_or_background_source"), true);
 });
 
+test("EvidencePackage source layer mix uses central metadata helper aliases", () => {
+  const pkg = buildEvidencePackage({
+    queryPlan: {
+      mode: "resource_discovery",
+      selection_strategy: "resource_discovery_diversity"
+    },
+    selectedEntries: [
+      { docId: "kov-service", sourceId: "kov-1", title: "Koduteenus", sourceType: "municipality_kov", collectionId: "kov_services" },
+      { docId: "org", sourceId: "org-1", title: "Astangu", sourceType: "organization_profile", collectionId: "organizations" },
+      { docId: "article", sourceId: "article-1", title: "Artikkel", sourceType: "article", collectionId: "journal_articles" }
+    ],
+    selectedSources: [
+      { source_id: "kov-1", title: "Koduteenus", source_type: "municipality_kov", collection_id: "kov_services" },
+      { source_id: "org-1", title: "Astangu", source_type: "organization_profile", collection_id: "organizations" },
+      { source_id: "article-1", title: "Artikkel", source_type: "article", collection_id: "journal_articles" }
+    ]
+  });
+
+  assert.equal(pkg.source_layer_mix.by_layer.kov, 1);
+  assert.equal(pkg.source_layer_mix.by_layer.organization, 1);
+  assert.equal(pkg.source_layer_mix.by_layer.research_or_journal, 1);
+  assert.equal(pkg.coverage_warnings.includes("resource_discovery_legal_only_support"), false);
+});
+
 test("EvidencePackage applies only to selected V2 modes and skips legal exact, SourcePackage, and user document paths", () => {
   assert.equal(shouldBuildEvidencePackage({ queryPlan: { mode: "comparison" } }), true);
   assert.equal(shouldBuildEvidencePackage({ queryPlan: { mode: "resource_discovery" } }), true);

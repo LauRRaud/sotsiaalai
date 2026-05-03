@@ -2,12 +2,26 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  canSupportClaimType,
+  evidenceRoleFor,
+  isKovRegulationSource,
+  isKovSource,
+  isKovWebSource,
   normalizeRagSourceMetadata,
+  normalizeCollectionId,
+  normalizeSourceType,
   RAG_METADATA_SCHEMA_VERSION,
   inferKovItemRagSourceType,
+  isLegalSource,
   isKnownRagSourceStatus,
   isKnownRagSourceType,
+  isMaterialSource,
+  isNationalLawSource,
+  isOrganizationSource,
+  isPublicBodyInfoSource,
+  isResearchOrJournalSource,
   mapKovItemStatusToRagSourceStatus,
+  sourceLayerFor,
   validateRagSourceMetadataContract
 } from "../../lib/rag/sourceMetadata.js";
 
@@ -186,4 +200,59 @@ test("derives source status from version flags when explicit canonical status is
   assert.equal(archived.historical, true);
   assert.equal(active.source_status, "active");
   assert.equal(active.historical, false);
+});
+
+test("source layer helpers normalize legacy and runtime source aliases", () => {
+  assert.equal(normalizeSourceType({ source_type: "municipality_kov" }), "kov_service_info");
+  assert.equal(normalizeSourceType({ source_type: "municipal_regulation" }), "kov_regulation");
+  assert.equal(normalizeSourceType({ source_type: "research" }), "research_report");
+  assert.equal(normalizeSourceType({ source_type: "analysis" }), "policy_analysis");
+  assert.equal(normalizeCollectionId({ collection_id: "journal_articles" }), "sotsiaaltoo_articles");
+  assert.equal(normalizeCollectionId({ collection_id: "kov_regulations" }), "kov_legal");
+
+  assert.equal(isNationalLawSource({ source_type: "national_law", collection_id: "national_regulations" }), true);
+  assert.equal(isKovRegulationSource({ source_type: "riigiteataja_regulation", collection_id: "kov_legal" }), true);
+  assert.equal(isKovSource({ source_type: "municipality_kov", municipality_id: "kuusalu_vald" }), true);
+  assert.equal(isKovWebSource({ source_type: "contact_page", resource_type: "contact" }), false);
+  assert.equal(isKovWebSource({ source_type: "contact_page", resource_type: "contact", municipality_id: "kuusalu_vald" }), true);
+  assert.equal(isLegalSource({ source_type: "riigiteataja_regulation", collection_id: "national_regulations" }), true);
+});
+
+test("source layer helpers classify organizations materials research and public body info", () => {
+  assert.equal(isOrganizationSource({
+    source_type: "organization_profile",
+    collection_id: "organizations",
+    organization_id: "astangu"
+  }), true);
+  assert.equal(sourceLayerFor({
+    source_type: "organization_profile",
+    collection_id: "organizations",
+    organization_id: "astangu"
+  }), "organization");
+
+  assert.equal(isMaterialSource({ source_type: "training_material", collection_id: "training_materials" }), true);
+  assert.equal(sourceLayerFor({ source_type: "official_guideline", resource_type: "method_guidance" }), "guidance");
+
+  assert.equal(isResearchOrJournalSource({ source_type: "journal_article", collection_id: "sotsiaaltoo_articles" }), true);
+  assert.equal(isResearchOrJournalSource({ resource_type: "research_evidence", evidence_role: "research_evidence" }), true);
+
+  assert.equal(isPublicBodyInfoSource({ organization_id: "sotsiaalkindlustusamet", source_type: "information_material" }), true);
+  assert.equal(evidenceRoleFor({ source_type: "organization_profile", collection_id: "organizations" }), "organization_background");
+  assert.equal(evidenceRoleFor({ source_type: "journal_article", collection_id: "sotsiaaltoo_articles" }), "research_evidence");
+});
+
+test("source layer helpers gate claim support by source family", () => {
+  const shs = { source_type: "national_law", collection_id: "national_regulations" };
+  const kovService = { source_type: "kov_service_info", collection_id: "kov_services", municipality_id: "kuusalu_vald" };
+  const org = { source_type: "organization_profile", collection_id: "organizations", organization_id: "astangu" };
+  const article = { source_type: "journal_article", collection_id: "sotsiaaltoo_articles" };
+  const guide = { source_type: "official_guideline", resource_type: "method_guidance" };
+
+  assert.equal(canSupportClaimType(shs, "legal_entitlement"), true);
+  assert.equal(canSupportClaimType(article, "legal_entitlement"), false);
+  assert.equal(canSupportClaimType(kovService, "municipal_service_availability"), true);
+  assert.equal(canSupportClaimType(org, "organization_background"), true);
+  assert.equal(canSupportClaimType(guide, "practice_guidance"), true);
+  assert.equal(canSupportClaimType(article, "background_context"), true);
+  assert.equal(canSupportClaimType(article, "application_deadline"), false);
 });
