@@ -53,6 +53,32 @@ test("groupMatches strips repeated synthetic metadata prefix from chunk body", (
   assert.match(groups[0].bodies[0], /OTT-sĆ¼steem/);
 });
 
+test("groupMatches preserves organization official website URL aliases", () => {
+  const groups = groupMatches([
+    {
+      id: "organization-astangu",
+      text: "Astangu Kutserehabilitatsiooni Keskus pakub töötamise toetamise teenust ja rehabilitatsiooniteenuseid.",
+      metadata: {
+        doc_id: "organization-astangu",
+        title: "Astangu Kutserehabilitatsiooni Keskus",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        organization_name: "Astangu Kutserehabilitatsiooni Keskus",
+        organization_id: "astangu",
+        organization_slug: "astangu",
+        official_website: "https://www.astangu.ee/et"
+      }
+    }
+  ]);
+
+  assert.equal(groups.length, 1);
+  assert.equal(groups[0].url, "https://www.astangu.ee/et");
+  assert.equal(groups[0].organizationName, "Astangu Kutserehabilitatsiooni Keskus");
+  assert.equal(groups[0].organizationId, "astangu");
+  assert.equal(groups[0].organizationSlug, "astangu");
+  assert.equal(groups[0].officialWebsite, "https://www.astangu.ee/et");
+});
+
 test("title_match channel boosts lexical exact title candidates", () => {
   const ranked = rankGroupsWithTopicHints([
     {

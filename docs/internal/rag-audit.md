@@ -181,12 +181,15 @@ Fix:
 - `sourceAttribution.js` treats `organization_profile` and `organizations` as synthesis/background source candidates where appropriate.
 - `riskPolicy.js` now treats `organization_profile` as background evidence, so low-risk organization profile questions can display the selected organization source instead of failing with `insufficient_evidence_strength`.
 - `sourceAttribution.js` now normalizes organization URL aliases (`official_website`, `officialWebsite` and matching `metadata.*` fields) into a displayed `url` / `url_canonical`, so the UI can render `Ava allikas` for organization profile sources.
+- `ragContext.js` now preserves `official_website` / `officialWebsite` from RAG match metadata as the normalized group `url`, and keeps organization identity fields on grouped context entries. This closes the runtime gap where ingest metadata had an official website but selected context reached attribution without a clickable URL.
+- `retrievalContextAssembler.js` now recognizes the same official website aliases when merging/displaying selected source URLs.
 - `components/chat/utils/sources.js` and `components/chat/hooks/useConversationSources.js` now recognize the same organization URL aliases when building clickable source-panel entries.
 - Added a regression test for an Astangu-style named organization question.
 
 Validation:
 
 - `tests/chat/sourceAttribution.test.js` passed.
+- `tests/chat/ragContextRanking.test.js` passed for organization official website propagation from RAG metadata into grouped context.
 - `tests/chat/sourceUtils.test.js` and `tests/chat/conversationSources.test.js` passed for organization URL alias normalization.
 - A wider focused attribution/sourceNeed/retrieval/sourceQuality test batch passed (`55/55`).
 - `npm run build` passed.
