@@ -699,6 +699,10 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
     -webkit-hyphens: none !important;
     hyphens: none !important;
   }
+
+  .homepage-root .home-about-scrollbox .home-about-features-link-row {
+    text-align: center !important;
+  }
 }
 
 /* Homepage glow rules: keep the ring-like edge glow on dark/night/HC only. */

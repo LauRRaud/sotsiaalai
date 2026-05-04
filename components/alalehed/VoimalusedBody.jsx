@@ -47,20 +47,20 @@ const cardBodyClassName =
 
 const featureKeys = [
   "workspace",
-  "help",
   "knowledge_base",
   "assistants_agents",
   "sources",
+  "help",
+  "service_card",
+  "rooms",
   "drafting",
   "analysis",
   "research",
-  "rooms",
   "documents",
   "pre_inquiry",
   "intake",
   "kovisioon",
   "materials_adding",
-  "service_card",
   "service_card_listing",
   "service_profile"
 ];

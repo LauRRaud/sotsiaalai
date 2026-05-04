@@ -1656,11 +1656,11 @@
     },
     "features_page": {
       "title": "SotsiaalAI võimalused",
-      "intro": "SotsiaalAI koondab vestluse, teadmistebaasi ja praktilised töövahendid ühte keskkonda. Platvorm aitab küsida sotsiaalvaldkonna infot, koostada dokumente ja pöördumisi, lisada abisoove või abipakkumisi, leida teenusekaardilt kontakte ning vajadusel jätkata suhtlust vestlusruumis. Töölaud aitab hoida dokumendid, pöördumised, kuulutused ja muud pooleliolevad tegevused korrastatult ühes vaates.",
+      "intro": "Siit leiad SotsiaalAI põhifunktsioonide lühiselgitused: mida iga võimalus teeb, kellele see on mõeldud ja kuidas kasutajat toetab.",
       "items": {
         "workspace": {
           "title": "Töölaud",
-          "body": "Töölaud on kasutaja keskne ülevaade SotsiaalAI-s. Seal saab hallata dokumente, eelpöördumisi, abisoove, abipakkumisi, vestlusruume, süvauuringuid ja rollipõhiseid vaateid. Osa sisust tekib vestluse või töövoo käigus, osa saab kasutaja ise lisada ja korrastada. Vestlused ise jäävad vestluse lehele; töölaud aitab hoida alles ja korras selle, mis vestlustest edasi tekib."
+          "body": "Töölaud on kasutaja isiklik ülevaate- ja töökoht SotsiaalAI-s. Seal saab hallata dokumente, eelpöördumisi, süvauuringuid ning abisoove ja -pakkumisi. Töölaud annab ligipääsu kasutajale sobivatele töövahenditele, sealhulgas dokumentide koostamisele ja analüüsile, kovisioonile, materjalide lisamisele, teenuseprofiilile ning teenuste kaardirakendusele."
         },
         "help": {
           "title": "Abisoovid ja abipakkumised",
@@ -1668,7 +1668,7 @@
         },
         "service_card": {
           "title": "Teenusekaart",
-          "body": "Teenusekaart aitab leida sotsiaalvaldkonna peamisi kontakte ja pöördumiskohti. Esmane fookus on KOV sotsiaalhoolekande kontaktidel ja SotsiaalAI-s nähtavatel teenuseosutajatel. Kaart aitab kasutajal jõuda kiiremini konkreetse kontakti või teenuseosutajani, ilma et peaks infot eri veebilehtedelt otsima."
+          "body": "Teenusekaart on SotsiaalAI kaardipõhine rakendus, mis aitab leida sotsiaalvaldkonna peamisi kontakte ja pöördumiskohti. Esmane fookus on KOV sotsiaalhoolekande kontaktidel ja SotsiaalAI-s nähtavatel teenuseosutajatel. Kaart aitab kasutajal jõuda kiiremini konkreetse kontakti või teenuseosutajani, ilma et peaks infot eri veebilehtedelt otsima."
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",

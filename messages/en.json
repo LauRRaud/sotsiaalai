@@ -1656,11 +1656,11 @@
     },
     "features_page": {
       "title": "SotsiaalAI features",
-      "intro": "SotsiaalAI brings chat, a knowledge base, and practical work tools into one environment. The platform helps users ask for social-sector information, draft documents and inquiries, add help requests or help offers, find contacts on the service card, and, when needed, continue communication in a chat room. The workspace helps keep documents, inquiries, listings, and other unfinished activities organised in one view.",
+      "intro": "Here you will find short explanations of SotsiaalAI's core features: what each option does, who it is for, and how it supports the user.",
       "items": {
         "workspace": {
           "title": "Workspace",
-          "body": "The workspace is the user's central overview in SotsiaalAI. It can be used to manage documents, pre-inquiries, help requests, help offers, chat rooms, deep research, and role-based views. Some content is created during a conversation or workflow, and some can be added and organised by the user. Conversations themselves remain on the chat page; the workspace helps preserve and organise what grows out of those conversations."
+          "body": "The workspace is the user's personal overview and work area in SotsiaalAI. It can be used to manage documents, pre-inquiries, deep research, and help requests and offers. The workspace gives access to tools suited to the user, including document drafting and analysis, co-vision, adding materials, the service profile, and the service map application."
         },
         "help": {
           "title": "Help requests and help offers",
@@ -1668,7 +1668,7 @@
         },
         "service_card": {
           "title": "Service card",
-          "body": "The service card helps users find key social-sector contacts and places to turn to. The initial focus is on local-government social-welfare contacts and service providers visible in SotsiaalAI. The map helps users reach a specific contact or service provider faster, without having to search across separate websites."
+          "body": "The service card is SotsiaalAI's map-based application for finding key social-sector contacts and places to turn to. The initial focus is on local-government social-welfare contacts and service providers visible in SotsiaalAI. The map helps users reach a specific contact or service provider faster, without having to search across separate websites."
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",

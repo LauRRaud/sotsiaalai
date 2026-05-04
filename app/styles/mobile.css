@@ -3420,4 +3420,8 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     -webkit-hyphens: none !important;
     hyphens: none !important;
   }
+
+  .homepage-root .home-about-scrollbox .home-about-features-link-row {
+    text-align: center !important;
+  }
 }

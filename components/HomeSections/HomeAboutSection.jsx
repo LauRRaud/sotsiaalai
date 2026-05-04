@@ -372,7 +372,7 @@ export default function HomeAboutSection({
                   />
                 </div>
               ))}
-              <p className="m-0 pt-[0.2rem] text-center">
+              <p className="home-about-features-link-row m-0 !mt-[0.42rem] pb-[clamp(0.82rem,1.8vw,1.2rem)] text-center max-[768px]:!mt-[0.36rem] max-[768px]:flex max-[768px]:justify-center max-[768px]:pb-[clamp(1rem,4vw,1.35rem)] max-[768px]:text-center">
                 <AppLink
                   href="/voimalused"
                   onClick={(event) => openGlassPage(event, "/voimalused")}
