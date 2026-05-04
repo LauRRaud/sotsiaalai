@@ -1586,7 +1586,7 @@
     },
     "pricing": {
       "title": "Pricing",
-      "intro": "Choose a package based on whether you want to use SotsiaalAI for free listings and communication, as a tool for a person seeking help, as a specialist work tool, or in a service-provider view.",
+      "intro": "Choose a package based on how extensively you want to use SotsiaalAI. The free package is suitable for getting started; paid packages provide higher usage volume and more tools for everyday use.",
       "columns": {
         "feature": "Feature",
         "free": "Free",
