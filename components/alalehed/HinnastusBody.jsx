@@ -146,7 +146,7 @@ function PlanValue({ value, t }) {
 
 export default function HinnastusBody() {
   const router = useRouter();
-  const { t, locale } = useI18n();
+  const { t, locale, messages } = useI18n();
   const panelRef = useRef(null);
 
   useEffect(() => {
@@ -205,7 +205,9 @@ export default function HinnastusBody() {
     { key: "provider", type: "text" }
   ];
 
-  const noteItems = t("about.pricing.notes", { returnObjects: true }) || [];
+  const noteItems = Array.isArray(messages?.about?.pricing?.notes)
+    ? messages.about.pricing.notes
+    : [];
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
