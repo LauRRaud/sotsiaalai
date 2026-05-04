@@ -159,6 +159,57 @@ test("keeps journal article evidence for inflected AI and Tootukassa anchors", (
   assert.equal("evidenceText" in attribution.displayedSources[0], false);
 });
 
+test("default attribution prunes broad rights articles from AI ethics answers", () => {
+  const reply = [
+    "Jah, tehisintellektiga seotud eetilised kusimused on sotsiaalvaldkonnas oluline teema.",
+    "Sotsiaaltoo jaoks on keskne, et tehnoloogia oleks oiglane, labipaistev ja vastutustundlik.",
+    "Oluline on hoida alles inimese autonoomia ja inimkeskne lahenemine."
+  ].join(" ");
+
+  const attribution = buildSourceAttribution(reply, [
+    {
+      id: "ai-ethics",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Tehisintellekt sotsiaaltoos: praktika, kaalutlused ja vaartuspohised piirid",
+      evidenceText: "Artikkel kasitleb tehisintellekti kasutamist sotsiaaltoos, eetikat, autonoomiat, labipaistvust ja vastutust."
+    },
+    {
+      id: "patient-testament",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Patsienditestament aitab arvestada inimese ravialaste soovidega",
+      evidenceText: "Artikkel kasitleb inimese autonoomiat ja ravialaste soovidega arvestamist."
+    },
+    {
+      id: "child-rights",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Lapse oiguste ja osalusoigusega seotud teadlikkus",
+      evidenceText: "Artikkel kasitleb lapse oigusi, osalusoigust ja teadlikkust."
+    },
+    {
+      id: "practice-community",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Praktikakogukond - mis ja milleks?",
+      evidenceText: "Artikkel kasitleb kogukondade arendamist ja praktikakogukonna loomist."
+    }
+  ], {
+    query: "kas tehisintellektiga seotud eetilised kusimused on sotsiaalvaldkonnas oluline teema?",
+    riskPolicy: {
+      riskLevel: "low",
+      requiredEvidence: "medium",
+      insufficientEvidenceMode: false
+    }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["ai-ethics"]);
+  assert.equal(attribution.filter_reasons["patient-testament"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["child-rights"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["practice-community"], "query_anchor_mismatch");
+});
+
 test("thematic synthesis displays selected journal guide and study sources without legal noise", () => {
   const attribution = buildSourceAttribution(
     "Lastekaitses on murekohtadena kirjeldatud dokumenteerimise koormust, andmesüsteemide tuge ja järelevalve selgust.",
@@ -559,6 +610,101 @@ test("resource discovery keeps named organization anchors strict", () => {
 
   assert.deepEqual(attribution.displayed_source_ids, ["organization-astangu"]);
   assert.equal(attribution.filter_reasons["organization-unrelated"], "query_anchor_mismatch");
+});
+
+test("resource discovery does not keep other center articles for a named organization lookup", () => {
+  const attribution = buildSourceAttribution(
+    "Astangu Keskus pakub kutserehabilitatsiooni, tooalast tuge ja noustamist.",
+    [
+      {
+        id: "organization-astangu",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Astangu Kutserehabilitatsiooni Keskus",
+        organization_name: "Astangu Kutserehabilitatsiooni Keskus",
+        organization_id: "astangu",
+        official_website: "https://www.astangu.ee",
+        evidenceText: "Astangu Kutserehabilitatsiooni Keskus pakub kutserehabilitatsiooni, tooalast tuge ja noustamist."
+      },
+      {
+        id: "tallinna-keskuse-article",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Tallinna Sotsiaaltoo Keskuse klientide analuus",
+        evidenceText: "Artikkel kirjeldab Tallinna Sotsiaaltoo Keskuse kliente ja teenuseid."
+      },
+      {
+        id: "kuressaare-keskuse-article",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Kuressaare Hoolekanne ja selle uuendusmeelne meeskond",
+        evidenceText: "Artikkel kirjeldab Kuressaare Hoolekande teenuseid ja tookorraldust."
+      }
+    ],
+    {
+      query: "Mida Astangu Keskus pakub?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["organization-astangu"]);
+  assert.equal(attribution.filter_reasons["tallinna-keskuse-article"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["kuressaare-keskuse-article"], "query_anchor_mismatch");
+});
+
+test("resource discovery applies generic center-name pruning beyond Astangu", () => {
+  const attribution = buildSourceAttribution(
+    "Tallinna Sotsiaaltoo Keskus pakub sotsiaalteenuseid ja klientide toetamist.",
+    [
+      {
+        id: "tallinna-keskus",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Tallinna Sotsiaaltoo Keskus",
+        organization_name: "Tallinna Sotsiaaltoo Keskus",
+        evidenceText: "Tallinna Sotsiaaltoo Keskus pakub sotsiaalteenuseid ja klientide toetamist."
+      },
+      {
+        id: "astangu-keskus",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        title: "Astangu Kutserehabilitatsiooni Keskus",
+        organization_name: "Astangu Kutserehabilitatsiooni Keskus",
+        evidenceText: "Astangu Kutserehabilitatsiooni Keskus pakub rehabilitatsiooni ja tooalast tuge."
+      },
+      {
+        id: "kuressaare-keskus-article",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles",
+        title: "Kuressaare Hoolekanne ja selle uuendusmeelne meeskond",
+        evidenceText: "Artikkel kirjeldab Kuressaare Hoolekande teenuseid."
+      }
+    ],
+    {
+      query: "Mida Tallinna Sotsiaaltoo Keskus pakub?",
+      queryPlan: {
+        mode: "resource_discovery",
+        selection_strategy: "resource_discovery_diversity"
+      },
+      riskPolicy: {
+        riskLevel: "low",
+        requiredEvidence: "medium",
+        insufficientEvidenceMode: false
+      }
+    }
+  );
+
+  assert.deepEqual(attribution.displayed_source_ids, ["tallinna-keskus"]);
+  assert.equal(attribution.filter_reasons["astangu-keskus"], "query_anchor_mismatch");
+  assert.equal(attribution.filter_reasons["kuressaare-keskus-article"], "query_anchor_mismatch");
 });
 
 test("life situation guidance displays official help sources before journal background", () => {

@@ -205,6 +205,7 @@ test("derives source status from version flags when explicit canonical status is
 test("source layer helpers normalize legacy and runtime source aliases", () => {
   assert.equal(normalizeSourceType({ source_type: "municipality_kov" }), "kov_service_info");
   assert.equal(normalizeSourceType({ source_type: "municipal_regulation" }), "kov_regulation");
+  assert.equal(normalizeSourceType({ source_type: "kov_service_page" }), "kov_service_info");
   assert.equal(normalizeSourceType({ source_type: "research" }), "research_report");
   assert.equal(normalizeSourceType({ source_type: "analysis" }), "policy_analysis");
   assert.equal(normalizeCollectionId({ collection_id: "journal_articles" }), "sotsiaaltoo_articles");
@@ -213,6 +214,7 @@ test("source layer helpers normalize legacy and runtime source aliases", () => {
   assert.equal(isNationalLawSource({ source_type: "national_law", collection_id: "national_regulations" }), true);
   assert.equal(isKovRegulationSource({ source_type: "riigiteataja_regulation", collection_id: "kov_legal" }), true);
   assert.equal(isKovSource({ source_type: "municipality_kov", municipality_id: "kuusalu_vald" }), true);
+  assert.equal(sourceLayerFor({ source_type: "kov_service_page" }), "kov_web");
   assert.equal(isKovWebSource({ source_type: "contact_page", resource_type: "contact" }), false);
   assert.equal(isKovWebSource({ source_type: "contact_page", resource_type: "contact", municipality_id: "kuusalu_vald" }), true);
   assert.equal(isLegalSource({ source_type: "riigiteataja_regulation", collection_id: "national_regulations" }), true);

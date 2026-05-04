@@ -115,6 +115,102 @@ test("EvidencePackage source layer mix uses central metadata helper aliases", ()
   assert.equal(pkg.coverage_warnings.includes("resource_discovery_legal_only_support"), false);
 });
 
+test("EvidencePackage preserves coarse layers while recording central source metadata contract aliases", () => {
+  const pkg = buildEvidencePackage({
+    queryPlan: {
+      mode: "resource_discovery",
+      selection_strategy: "resource_discovery_diversity"
+    },
+    selectedSources: [
+      {
+        source_id: "org-profile",
+        title: "Astangu Kutserehabilitatsiooni Keskus",
+        source_type: "organization_profile",
+        collection_id: "organizations",
+        organization_id: "astangu"
+      },
+      {
+        source_id: "training",
+        title: "Koolitusmaterjal",
+        source_type: "training_material",
+        collection_id: "training_materials"
+      },
+      {
+        source_id: "article",
+        title: "Sotsiaaltöö artikkel",
+        source_type: "journal_article",
+        collection_id: "sotsiaaltoo_articles"
+      },
+      {
+        source_id: "research",
+        title: "Uuring",
+        source_type: "research_report",
+        collection_id: "research_reports"
+      },
+      {
+        source_id: "rt",
+        title: "Riigi Teataja määrus",
+        source_type: "riigiteataja_regulation",
+        collection_id: "national_regulations"
+      },
+      {
+        source_id: "shs",
+        title: "Sotsiaalhoolekande seadus",
+        source_type: "national_law",
+        collection_id: "national_rt"
+      },
+      {
+        source_id: "kov-runtime",
+        title: "KOV teenuseleht",
+        source_type: "municipality_kov",
+        collection_id: "kov_services",
+        municipality_id: "kuusalu_vald"
+      },
+      {
+        source_id: "kov-page",
+        title: "KOV koduteenuse leht",
+        source_type: "kov_service_page",
+        collection_id: "kov_services",
+        municipality_id: "kuusalu_vald"
+      }
+    ]
+  });
+
+  const byId = Object.fromEntries(pkg.selected_sources.map((source) => [source.id, source]));
+
+  assert.equal(byId["org-profile"].source_layer, "organization");
+  assert.equal(byId["org-profile"].source_layer_contract, "organization");
+  assert.equal(byId["org-profile"].evidence_role, "organization_background");
+  assert.equal(byId["org-profile"].claim_support.includes("organization_background"), true);
+
+  assert.equal(byId.training.source_layer, "material");
+  assert.equal(byId.training.source_layer_contract, "material");
+  assert.equal(byId.training.claim_support.includes("practice_guidance"), true);
+
+  assert.equal(byId.article.source_layer, "research_or_journal");
+  assert.equal(byId.research.source_layer, "research_or_journal");
+  assert.equal(byId.article.evidence_role, "research_evidence");
+  assert.equal(byId.research.evidence_role, "research_evidence");
+
+  assert.equal(byId.rt.source_layer, "legal");
+  assert.equal(byId.rt.source_layer_contract, "national_law");
+  assert.equal(byId.shs.source_layer, "legal");
+  assert.equal(byId.shs.source_layer_contract, "national_law");
+  assert.equal(byId.rt.claim_support.includes("legal_basis"), true);
+
+  assert.equal(byId["kov-runtime"].source_layer, "kov");
+  assert.equal(byId["kov-runtime"].source_layer_contract, "kov_web");
+  assert.equal(byId["kov-page"].source_layer, "kov");
+  assert.equal(byId["kov-page"].source_layer_contract, "kov_web");
+  assert.equal(byId["kov-page"].claim_support.includes("municipal_service_availability"), true);
+
+  assert.equal(pkg.source_layer_mix.by_layer.organization, 1);
+  assert.equal(pkg.source_layer_mix.by_layer.material, 1);
+  assert.equal(pkg.source_layer_mix.by_layer.research_or_journal, 2);
+  assert.equal(pkg.source_layer_mix.by_layer.legal, 2);
+  assert.equal(pkg.source_layer_mix.by_layer.kov, 2);
+});
+
 test("EvidencePackage applies only to selected V2 modes and skips legal exact, SourcePackage, and user document paths", () => {
   assert.equal(shouldBuildEvidencePackage({ queryPlan: { mode: "comparison" } }), true);
   assert.equal(shouldBuildEvidencePackage({ queryPlan: { mode: "resource_discovery" } }), true);

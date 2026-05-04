@@ -702,28 +702,74 @@ Validation:
   - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceMetadata.test.js`
 - Result: `11/11` tests passed.
 
-### V2.5C Runtime Source-Layer Replacement, Step 1
+### V2.5C-1 EvidencePackage Runtime Replacement
 
 Status: DONE / low-risk runtime replacement
 
 Scope:
 
-- Replaced duplicated source-layer classification in `evidencePackage.js` with central `sourceMetadata.js` helper functions.
+- Replaced duplicated source-layer classification in `evidencePackage.js` with central `sourceMetadata.js` helper functions:
+  - `sourceLayerFor()`
+  - `evidenceRoleFor()`
+  - `canSupportClaimType()`
+  - `isLegalSource()`, `isKovSource()`, `isOrganizationSource()`, `isMaterialSource()`, `isGuidanceSource()`, `isResearchOrJournalSource()`, `isPublicBodyInfoSource()`
 - Kept the EvidencePackage public layer mix stable and coarse (`legal`, `kov`, `organization`, `material`, `research_or_journal`, `public_body_info`, `other`) so answer guidance and trace contracts do not churn.
-- Replaced `sourceQualityMetrics.js` local legal-source regex with central `isLegalSource()`.
-- No retrieval, planner, SourcePackage, legal exact or source attribution behavior was otherwise changed.
+- Added compact source contract metadata to selected sources: `source_layer_contract`, `evidence_role`, and `claim_support`.
+- Trace still does not copy chunk/body/evidence text.
+- Added the runtime legacy alias `kov_service_page -> kov_service_info` to the central source metadata normalizer.
+- No retrieval, planner, SourcePackage, legal exact, KOV/SourcePackage route, source attribution, `queryPlanner.js`, `retrievalStrategySelector.js`, or `ragContext.js` behavior was otherwise changed.
+- `sourceQualityMetrics.js` already uses `isLegalSource()` in this workspace and was not changed in this V2.5C-1 pass.
 
 Validation:
 
-- `tests/chat/evidencePackage.test.js`: added a regression proving `municipality_kov`, `organization_profile` and `article`/`journal_articles` aliases flow through EvidencePackage source-layer mix.
-- `tests/rag/sourceQualityMetrics.test.js`: added a regression proving `riigiteataja_regulation` legal-source alias is recognized by source-quality legal precision metrics.
+- `tests/chat/evidencePackage.test.js`: added regressions for `organization_profile`, `training_material`, `journal_article`, `research_report`, `riigiteataja_regulation`, `national_law`, `municipality_kov`, and `kov_service_page`.
+- `tests/rag/sourceMetadata.test.js`: added `kov_service_page` normalizer/layer coverage.
 - Focused test command passed:
-  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/rag/sourceQualityMetrics.test.js tests/rag/sourceMetadata.test.js`
-- Result: `26/26` tests passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+- Result: `18/18` tests passed.
+- Trace-focused test command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js tests/chat/ragTraceMetadata.test.js`
+- Result: `27/27` tests passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+- Result: `244/244` tests passed.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Follow-up hotfix:
+
+- DONE after V2.5C-1: named organization resource discovery displayed-source pruning. `Mida Astangu Keskus pakub?` previously could keep broad articles about other centers because the generic organization word `keskus/keskuse` satisfied the one-anchor resource discovery check.
+- `sourceAttribution.js` now treats generic organization words such as `keskus`, `organisatsioon`, `liit`, `uhing`, `asutus` as weak organization-name anchors. If a concrete distinctive anchor such as `astangu` exists, the source must match that distinctive anchor.
+- Added regressions:
+  - `resource discovery does not keep other center articles for a named organization lookup`
+  - `resource discovery applies generic center-name pruning beyond Astangu`
+- Validation:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js` -> `36/36` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/ragTraceMetadata.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js` -> `151/151` passed.
+  - `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Follow-up hotfix:
+
+- DONE after live AI ethics smoke: default attribution no longer displays broad rights/community articles just because they overlap with generic answer terms such as autonomy, rights, responsibility or community.
+- Example issue: `kas tehisintellektiga seotud eetilised küsimused on sotsiaalvaldkonnas oluline teema?` selected the AI ethics article plus unrelated Sotsiaaltöö articles; displayed sources showed all five even though the answer was materially supported by the AI ethics article.
+- `sourceAttribution.js` now requires non-synthesis default displayed sources to match at least one distinctive query topic token when such terms exist. Generic words such as `oluline`, `teema`, `küsimus`, `seotud` and `sotsiaalvaldkond` do not count as distinctive topic support.
+- Added regression: `default attribution prunes broad rights articles from AI ethics answers`.
+- Validation:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js` -> `37/37` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/ragTraceMetadata.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js` -> `153/153` passed.
+  - `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Server live smoke after deploy:
+
+- `npm run rag:check:v24a-live-trace` returned `ok: true` against the deployed server after the platform checks.
+- `overview_synthesis` (`Mis on murekohad lastekaitses?`) kept `evidence_package_present = true`.
+- `comparison` (`Mis vahe on koduteenusel ja tugiisikuteenusel?`) kept `evidence_package_present = true` and displayed only SHS § 23 and SHS § 17.
+- `explicit_paragraph` / legal exact (`Mis ütleb SHS § 42?`) kept `evidence_package_present = false`.
+- KOV/SourcePackage (`Millised on Kuusalu valla koduteenuse tingimused?`) kept `package_aware_answering_used = true` and `evidence_package_present = false`.
+- Manual platform smoke was acceptable for overview, comparison, legal exact, KOV service lookup, resource discovery, life-situation guidance and Astangu organization lookup.
 
 ## Current Next Steps
 
-1. V2.5C Step 2: replace selected low-risk source-layer helper logic in `sourceAttribution.js` and/or `ragContext.js`, with regressions for legal exact, KOV/SourcePackage, overview, resource discovery, life-situation and comparison.
+1. V2.5C Step 2: verify/complete the `sourceQualityMetrics.js` helper replacement, then replace selected low-risk source-layer branches in `sourceAttribution.js`, with regressions for legal exact, KOV/SourcePackage, overview, resource discovery, life-situation and comparison.
 2. Keep replacements incremental; do not rewrite all attribution/ranking source-type logic in one patch.
 3. Keep legal exact and KOV/SourcePackage regressions protected before replacing route-critical source logic.
 4. V2.4B only if live EvidencePackage tests show answer-contract gaps.

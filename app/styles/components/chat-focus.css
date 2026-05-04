@@ -166,12 +166,17 @@ body:is(
 }
 
 .chat-msg-user-bubble,
-.chat-msg-user-bubble > *,
+.chat-msg-user-bubble > * {
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  hyphens: auto !important;
+}
+
 .chat-msg-ai,
 .chat-msg-ai :is(p, li, div) {
   overflow-wrap: break-word !important;
   word-break: normal !important;
-  hyphens: auto !important;
+  hyphens: none !important;
 }
 
 @media (max-width: 768px) {

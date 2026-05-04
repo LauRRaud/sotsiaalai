@@ -82,7 +82,7 @@ function AssistantMarkdown({ text }) {
               )}
             >
               {block.items.map((item, itemIndex) => (
-                <li key={`${block.type}-${index}-${itemIndex}`} className="whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]">
+                <li key={`${block.type}-${index}-${itemIndex}`} className="whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:none]">
                   {renderInlineMarkdown(item, `${block.type}-${index}-${itemIndex}`)}
                 </li>
               ))}
@@ -91,7 +91,7 @@ function AssistantMarkdown({ text }) {
         }
 
         return (
-          <p key={`paragraph-${index}`} className="m-0 whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:auto]">
+          <p key={`paragraph-${index}`} className="m-0 whitespace-pre-wrap [overflow-wrap:break-word] [hyphens:none]">
             {renderInlineMarkdown(block.text, `paragraph-${index}`)}
           </p>
         );
@@ -159,10 +159,10 @@ const ChatMessageItem = memo(function ChatMessageItem({
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(197,113,113,0.35)]";
   const memberTextClassName =
     "chat-msg-ai self-start w-full max-w-full bg-transparent border-0 shadow-none py-[0.06em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
-    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:none]";
   const aiBubbleClassName =
     "chat-msg-ai self-start w-full max-w-full bg-transparent border-0 shadow-none py-[0.25em] pr-[clamp(0.5rem,1.6vw,1.05rem)] max-[768px]:pr-[0.4rem] " +
-    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:auto]";
+    "text-[color:var(--input-text)] text-left text-[1.1rem] leading-[1.32] tracking-[0.03em] font-[500] [overflow-wrap:break-word] [hyphens:none]";
   const thinkingLabelRaw = typeof t === "function" ? t("chat.typing.label") : "";
   const thinkingLabel = thinkingLabelRaw && thinkingLabelRaw !== "chat.typing.label"
     ? thinkingLabelRaw
