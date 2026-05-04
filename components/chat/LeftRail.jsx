@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
-import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, RoomsIcon, SourcesIcon } from "@/components/ui/icons/ChatIcons";
+import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, RoomsIcon } from "@/components/ui/icons/ChatIcons";
 import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
@@ -89,12 +89,6 @@ export default function LeftRail({
   locale = "et",
   isLightTheme,
   inputFocused,
-  sourcesButtonRef,
-  toggleSourcesPanel,
-  showSourcesPanel,
-  sourcesPulse,
-  conversationSources,
-  hasConversationSources,
   onBackHome,
   activeHelpPanelKey = "",
   onShowHelpRequests,
@@ -133,15 +127,10 @@ export default function LeftRail({
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
   );
-  const sourcesLabel = t("chat.sources.button").replace(
-    "{count}",
-    String(conversationSources.length)
-  );
   const mobileItems = useMemo(
     () => [
       { key: "chats", label: t("nav.chats") },
       { key: "rooms", label: t("nav.rooms") },
-      { key: "sources", label: sourcesLabel },
       {
         key: "help_requests",
         label: t("chat.help.helpRequests") || localizedHelpLabels.requests
@@ -151,7 +140,7 @@ export default function LeftRail({
         label: t("chat.help.helpOffers") || localizedHelpLabels.offers
       }
     ],
-    [localizedHelpLabels.offers, localizedHelpLabels.requests, sourcesLabel, t]
+    [localizedHelpLabels.offers, localizedHelpLabels.requests, t]
   );
   const items = useMemo(
     () => [
@@ -411,15 +400,8 @@ export default function LeftRail({
         return;
       }
     }
-    if (showSourcesPanel) {
-      const sourcesIndex = items.findIndex((item) => item.key === "sources");
-      if (sourcesIndex >= 0) {
-        setActiveIndex(sourcesIndex);
-        return;
-      }
-    }
     setActiveIndex(0);
-  }, [activeHelpPanelKey, items, showSourcesPanel]);
+  }, [activeHelpPanelKey, items]);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -581,16 +563,6 @@ export default function LeftRail({
         aria-label={t("chat.page_label")}
       >
           {mobileItems.map((item, itemIndex) => {
-            const setMobileRailRef = el => {
-              if (item.key !== "sources") return;
-              if (!sourcesButtonRef) return;
-              if (typeof sourcesButtonRef === "function") {
-                sourcesButtonRef(el);
-              } else {
-                sourcesButtonRef.current = el;
-              }
-            };
-
             const onActivate = event => {
               dismissAllRailTooltips();
               event.preventDefault();
@@ -601,11 +573,6 @@ export default function LeftRail({
               }
               if (item.key === "new_chat") {
                 openNewConversation();
-                return;
-              }
-              if (item.key === "sources") {
-                if (!hasConversationSources) return;
-                toggleSourcesPanel();
                 return;
               }
               if (item.key === "rooms") {
@@ -626,37 +593,15 @@ export default function LeftRail({
               <button
                 key={`left-mobile-${item.key}`}
                 type="button"
-                ref={setMobileRailRef}
                 data-key={item.key}
                 data-item-index={itemIndex}
                 className={cn(
                   styles.item,
                   styles.iconBtn,
-                  styles.mobileItem,
-                  item.key === "sources" && showSourcesPanel
-                    ? styles.iconBtnActive
-                    : null,
-                  item.key === "sources" && sourcesPulse ? styles.isPulse : null
+                  styles.mobileItem
                 )}
                 onClick={onActivate}
                 aria-label={item.label}
-                aria-haspopup={item.key === "sources" ? "dialog" : undefined}
-                aria-expanded={
-                  item.key === "sources"
-                    ? showSourcesPanel
-                      ? "true"
-                      : "false"
-                    : undefined
-                }
-                aria-controls={
-                  item.key === "sources" ? "chat-sources-panel" : undefined
-                }
-                aria-disabled={
-                  item.key === "sources" && !hasConversationSources
-                    ? "true"
-                    : undefined
-                }
-                disabled={item.key === "sources" && !hasConversationSources}
               >
                 {item.key === "chats" ? (
                   <ChatBubbleIcon
@@ -668,12 +613,6 @@ export default function LeftRail({
                   <NewConversationIcon
                     isLightTheme={isLightTheme}
                     className={styles.iconSvg}
-                  />
-                ) : null}
-                {item.key === "sources" ? (
-                  <SourcesIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconSvgSources)}
                   />
                 ) : null}
                 {item.key === "rooms" ? (
@@ -790,11 +729,6 @@ export default function LeftRail({
                 onBackHome?.();
                 return;
               }
-              if (item.key === "sources") {
-                if (!hasConversationSources) return;
-                toggleSourcesPanel();
-                return;
-              }
               if (item.key === "rooms") {
                 openRooms();
                 return;
@@ -809,25 +743,13 @@ export default function LeftRail({
               }
             };
 
-            const ariaLabel =
-              item.key === "sources" ? sourcesLabel : item.label || "";
-            const isDisabled =
-              item.key === "sources" ? !hasConversationSources : false;
-            const setRailRef = el => {
-              if (item.key !== "sources") return;
-              if (!sourcesButtonRef) return;
-              if (typeof sourcesButtonRef === "function") {
-                sourcesButtonRef(el);
-              } else {
-                sourcesButtonRef.current = el;
-              }
-            };
+            const ariaLabel = item.label || "";
+            const isDisabled = false;
 
             return (
               <button
                 key={`left-slot-${item.key}`}
                 type="button"
-                ref={setRailRef}
                 data-key={item.key}
                 data-item-index={itemIndex}
                 className={cn(
@@ -837,11 +759,7 @@ export default function LeftRail({
                     ? styles.backHoverSuppressed
                     : null,
                   styles.iconBtn,
-                  slotOffset === 0 ? styles.isActive : null,
-                  item.key === "sources" && showSourcesPanel
-                    ? styles.iconBtnActive
-                    : null,
-                  item.key === "sources" && sourcesPulse ? styles.isPulse : null
+                  slotOffset === 0 ? styles.isActive : null
                 )}
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
@@ -872,17 +790,6 @@ export default function LeftRail({
                   hideHoverTooltip(activeIndex);
                 }}
                 aria-label={ariaLabel}
-                aria-haspopup={item.key === "sources" ? "dialog" : undefined}
-                aria-expanded={
-                  item.key === "sources"
-                    ? showSourcesPanel
-                      ? "true"
-                      : "false"
-                    : undefined
-                }
-                aria-controls={
-                  item.key === "sources" ? "chat-sources-panel" : undefined
-                }
                 aria-disabled={isDisabled ? "true" : undefined}
                 disabled={isDisabled}
               >
@@ -896,12 +803,6 @@ export default function LeftRail({
                   <NewConversationIcon
                     isLightTheme={isLightTheme}
                     className={styles.iconSvg}
-                  />
-                ) : null}
-                {item.key === "sources" ? (
-                  <SourcesIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconSvgSources)}
                   />
                 ) : null}
                 {item.key === "rooms" ? (

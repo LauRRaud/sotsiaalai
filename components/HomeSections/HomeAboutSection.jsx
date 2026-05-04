@@ -60,7 +60,10 @@ export default function HomeAboutSection({
     "paragraph2",
     "paragraph3",
     "paragraph4",
-    "paragraph5"
+    "paragraph5",
+    "paragraph6",
+    "paragraph7",
+    "paragraph8"
   ];
   const aboutParagraphs = aboutParagraphKeys
     .map((key) => ({
@@ -369,6 +372,15 @@ export default function HomeAboutSection({
                   />
                 </div>
               ))}
+              <p className="m-0 pt-[0.2rem] text-center">
+                <AppLink
+                  href="/voimalused"
+                  onClick={(event) => openGlassPage(event, "/voimalused")}
+                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
+                >
+                  {t("about.links.features")}
+                </AppLink>
+              </p>
             </div>
           </div>
         </div>

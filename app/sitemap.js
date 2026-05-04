@@ -10,6 +10,7 @@ export default function sitemap() {
     "/kasutusjuhend",
     "/tooalase-kasutuse-raamistik",
     "/hinnastus",
+    "/voimalused",
     "/autorilt",
     "/kasutustingimused",
     "/privaatsustingimused"

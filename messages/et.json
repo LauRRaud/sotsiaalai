@@ -1530,12 +1530,14 @@
   "about": {
     "title": "Meist",
     "intro": {
-      "paragraph1": "<p><strong>SotsiaalAI</strong> on tehisintellektil põhinev veebiplatvorm, mis toetab nii sotsiaalvaldkonna spetsialiste kui ka inimesi, kes otsivad selgust elulistes küsimustes. Sotsiaalvaldkonda iseloomustavad <strong>suur töökoormus, killustunud info ja keeruline orienteerumine süsteemis</strong> – seda kinnitab ka <oska>OSKA raport (2025)</oska>. SotsiaalAI eesmärk on muuta vajalik teadmine paremini kättesaadavaks ning toetada nii professionaalset tööd kui ka abi otsimist.</p>",
-      "paragraph2": "<p>Platvormi keskmes on üks vestlusaken, mille kaudu saab küsida infot, saada juhendamist, koostada dokumente ja aruandeid ning vormistada praktilisi järgmisi samme. Vestluse kaudu saab kirjeldada ka abisoove ja abipakkumisi, lasta need struktureerida, vaadata sobivaid kuulutusi ning vajadusel liikuda edasi inimestevahelise suhtluseni. Lisaks saab kasutada <strong>dokumendi analüüsi, süvauuringut, grupivestlust, dikteerimist ja vastuste ettelugemist</strong>, mis parandavad ligipääsetavust ja kasutusmugavust.</p>",
-      "paragraph3": "<p>Platvormil on kaks rollipõhist, agendivõimekusega tehisintellekti assistenti: üks <strong>sotsiaaltöö spetsialistidele</strong> ja teine <strong>eluküsimustega pöördujatele</strong>. Spetsialistile on SotsiaalAI töövahend õigusraamistiku, metoodikate ja praktikate mõtestamisel, dokumentide koostamisel, materjalide haldamisel ning kovisiooni ja koostöö toetamisel. Pöördujale aitab see mõista toetusi, teenuseid ja õigusi ning vajadusel koostada ka kirju, taotlusi ja muid vajalikke tekste.</p>",
-      "paragraph4": "<p>SotsiaalAI visioon on kujuneda <strong>järgmise põlvkonna sotsiaalvaldkonna abiplatvormiks</strong>, mille keskmes on üks vestlusaken. Selles kohtuvad tehisintellekt, usaldusväärne teadmuspõhi ja praktilised lahendused, et aidata nii spetsialistidel kui ka inimestel jõuda küsimusest või vajadusest selguse, järgmiste sammude ja toimiva lahenduseni - olgu selleks teenus, toetus, dokument, abisoov või -pakkumine, karjäärinõustamine, töövõimalus või abivahend.</p>",
-      "paragraph5": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Seejuures peame oluliseks turvalist ja vastutustundlikku kasutuskogemust, mistõttu pöörame tähelepanu andmekaitsele, selgetele kasutusreeglitele ning vajalike turva- ja kaitsemeetmete rakendamisele.</p>",
-      "paragraph6": "<p>SotsiaalAI OÜ, registrikood 14206225, aadressiga Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Eesti. <a href=\"#\" data-contact-open=\"1\">Kontakt</a>.</p>"
+      "paragraph1": "<p><strong>SotsiaalAI</strong> on järgmise põlvkonna sotsiaalvaldkonna abiplatvorm, mis ühendab vestluse, usaldusväärse info ja praktilised tööriistad ühes digikeskkonnas. Platvorm on mõeldud inimestele, kes otsivad selgust elulistes küsimustes, sotsiaalvaldkonna spetsialistidele ning teenuseosutajatele.</p>",
+      "paragraph2": "<p>Sotsiaalvaldkonda iseloomustavad <strong>suur töökoormus</strong>, <strong>killustunud info</strong> ja <strong>keeruline orienteerumine teenuste, toetuste ja kontaktide süsteemis</strong> - sellele viitab ka <oska>OSKA raport (2025)</oska>. SotsiaalAI eesmärk on muuta valdkonna teadmine paremini kättesaadavaks ja arusaadavaks, lihtsustada tööprotsesse ning aidata inimesel oma olukorrast selgemalt aru saada. Selleks koondab platvorm sotsiaalvaldkonna allikaid, juhiseid, õigusraamistikku, metoodikaid ja praktilisi materjale.</p>",
+      "paragraph3": "<p>Platvormi keskne kasutuskoht on <strong>vestlusaken</strong>, kus saab küsida sotsiaalvaldkonna infot, saada selgitusi ja mõtestada erinevaid olukordi. Vastuste juures kuvatakse allikad, et info oleks kontrollitav ja kasutaja saaks vajadusel algallikani liikuda. Vestluslehelt saab alustada ka eraldi <strong>töövooge</strong>, näiteks abisoovi, abipakkumist, süvauuringut ja dokumendi analüüsi, mis aitavad kirjeldada olukorda, korrastada infot ja valmistada ette järgmisi samme.</p>",
+      "paragraph4": "<p><strong>Töölaud</strong> koondab kasutaja jaoks olulised dokumendid ja rollipõhised võimalused ühte kohta. Seal saab hallata dokumente, eelpöördumisi, abisoove, abipakkumisi ja süvauuringuid ning kasutada rollile vastavaid töövahendeid. <strong>Pöördujale</strong> annab töölaud ülevaate tema dokumentidest, abisoovidest, eelpöördumistest ja järgmistest sammudest. <strong>Sotsiaaltöö spetsialistile</strong> lisanduvad kovisioon, praktikanäited, materjalide lisamine ning laiemad võimalused dokumentide haldamiseks ja koostamiseks, analüüsiks ja süvauuringuks. <strong>Teenuseosutajal</strong> on kõige laiemad võimalused ja kasutusmaht. Lisaks saab ta hallata teenuseprofiili, kirjeldada teenuseid, sihtrühmi, piirkonda ja kontaktandmeid ning olla nähtav teenusekaardil.</p>",
+      "paragraph5": "<p><strong>Vestlusruumid</strong> on eraldi suhtluskohad, kuhu saab kutsuda pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida näiteks abisoovi ja abipakkumise sobituse või pöördumise jagamise järel, et osapooled saaksid suhtlust jätkata ja järgmisi samme täpsustada.</p>",
+      "paragraph6": "<p><strong>Teenusekaart</strong> on SotsiaalAI kaardipõhine rakendus, mis aitab leida sotsiaalvaldkonna pöördumiskohti ja kontakte. Esmalt keskendub teenusekaart KOV-i sotsiaalhoolekande kontaktidele ja teenuseosutajatele, et vajalik info ja olukorraga seotud võimalused oleksid kasutajale paremini nähtavad.</p>",
+      "paragraph7": "<p>Meie visioon on kujuneda sotsiaalvaldkonna digikeskkonnaks, mis ühendab usaldusväärse info, praktilised tööriistad, teenuseosutajad ja suhtluse. SotsiaalAI toetab inimest erinevates elu- ja tööolukordades - olgu küsimus seotud teenuse, toetuse, dokumendi, abisoovi või abipakkumise, karjäärinõustamise, töövõimaluse või abivahendiga.</p>",
+      "paragraph8": "<p>SotsiaalAI-d arendatakse <strong>sotsiaalse ettevõttena</strong> ja <strong>sotsiaalse innovatsiooni algatusena</strong>. Ühendame tehnoloogia ja sotsiaalvaldkonna praktika, et vähendada infobarjääre ning muuta töövood, koostöö ja abi leidmine selgemaks, kiiremaks ja ligipääsetavamaks. Peame oluliseks turvalisust, andmekaitset, selgeid kasutusreegleid ning vajalikke kaitsemeetmeid.</p>"
     },
     "contact": {
       "title": "Kontakt",
@@ -1555,6 +1557,7 @@
       "privacy": "Privaatsuspoliitika",
       "terms": "Kasutustingimused",
       "pricing": "Hinnastus",
+      "features": "Tutvu võimalustega",
       "author": "Autorilt",
       "analytics": "Analüütika",
       "admin": "RAG",
@@ -1609,20 +1612,21 @@
       },
       "features": {
         "workspace": "Töölaud",
-        "help": "Abisoovid ja abipakkumised koos vastete leidmisega",
+        "help": "Abisoovid ja abipakkumised",
         "service_card": "Teenusekaart",
         "knowledge_base": "SotsiaalAI teadmusbaas",
         "assistants_agents": "SotsiaalAI assistendid ja agendid",
         "sources": "Allikate kuvamine",
-        "drafting": "Taotluste, dokumentide ja aruannete koostamine",
+        "drafting": "Dokumentide koostamine",
         "analysis": "Dokumendi analüüs",
         "research": "Süvauuring",
         "rooms": "Vestlusruumid",
         "documents": "Dokumendid: hoidla ja haldus",
         "pre_inquiry": "Eelpöördumine",
         "intake": "Pöördumiste vastuvõtt",
-        "kovisioon": "Kovisioon",
-        "service_card_listing": "Teenusekaardil kuvamine",
+        "kovisioon": "Kovisioon ja praktikanäited",
+        "materials_adding": "Materjalide lisamine",
+        "service_card_listing": "Teenuseosutaja kaardiprofiil",
         "service_profile": "Teenuseprofiil ja haldus"
       },
       "values": {
@@ -1649,6 +1653,80 @@
         "Eelpöördumine aitab pöördujal oma olukorda selgelt kirjeldada ja koostada pöördumise mustandi.",
         "Pöördumiste vastuvõtt tähendab võimalust võtta platvormis vastu kasutaja nõusolekul edastatud eelpöördumisi või päringuid."
       ]
+    },
+    "features_page": {
+      "title": "SotsiaalAI võimalused",
+      "intro": "SotsiaalAI koondab vestluse, teadmistebaasi ja praktilised töövahendid ühte keskkonda. Platvorm aitab küsida sotsiaalvaldkonna infot, koostada dokumente ja pöördumisi, lisada abisoove või abipakkumisi, leida teenusekaardilt kontakte ning vajadusel jätkata suhtlust vestlusruumis. Töölaud aitab hoida dokumendid, pöördumised, kuulutused ja muud pooleliolevad tegevused korrastatult ühes vaates.",
+      "items": {
+        "workspace": {
+          "title": "Töölaud",
+          "body": "Töölaud on kasutaja keskne ülevaade SotsiaalAI-s. Seal saab hallata dokumente, eelpöördumisi, abisoove, abipakkumisi, vestlusruume, süvauuringuid ja rollipõhiseid vaateid. Osa sisust tekib vestluse või töövoo käigus, osa saab kasutaja ise lisada ja korrastada. Vestlused ise jäävad vestluse lehele; töölaud aitab hoida alles ja korras selle, mis vestlustest edasi tekib."
+        },
+        "help": {
+          "title": "Abisoovid ja abipakkumised",
+          "body": "Abisoovi või abipakkumise saab kirjeldada oma sõnadega. SotsiaalAI aitab selle selgemalt vormistada, küsib vajadusel täpsustusi ja aitab koostatud kuulutuse nähtavaks teha. Platvorm proovib leida sobivaid abisoove ja abipakkumisi ning sobituse korral saavad osapooled jätkata suhtlust ühises vestlusruumis."
+        },
+        "service_card": {
+          "title": "Teenusekaart",
+          "body": "Teenusekaart aitab leida sotsiaalvaldkonna peamisi kontakte ja pöördumiskohti. Esmane fookus on KOV sotsiaalhoolekande kontaktidel ja SotsiaalAI-s nähtavatel teenuseosutajatel. Kaart aitab kasutajal jõuda kiiremini konkreetse kontakti või teenuseosutajani, ilma et peaks infot eri veebilehtedelt otsima."
+        },
+        "knowledge_base": {
+          "title": "SotsiaalAI teadmusbaas",
+          "body": "SotsiaalAI teadmusbaas koondab sotsiaalvaldkonna allikaid, juhiseid, õigusraamistikku, metoodikaid ja praktilisi materjale. Teadmusbaasi eesmärk on toetada vastuseid valdkonnaga seotud ja kontrollitavama infoga, et kasutaja ei peaks vajalikku infot käsitsi eri allikatest kokku otsima."
+        },
+        "assistants_agents": {
+          "title": "SotsiaalAI assistendid ja agendid",
+          "body": "SotsiaalAI assistendid ja agendid aitavad küsida infot, mõtestada olukordi ning liikuda edasi sobiva töövooni. Vestlusest saab alustada näiteks dokumendi koostamist, dokumendi analüüsi, süvauuringut, eelpöördumist, abisoovi, abipakkumist või vestlusruumi loomist. Kasutaja ei pea alati ise teadma, millist tööriista valida - ta saab alustada oma küsimusest või olukorrast."
+        },
+        "sources": {
+          "title": "Allikate kuvamine",
+          "body": "Allikate kuvamine aitab näha, millele vastus tugineb. See toetab vastuse kontrollimist ja aitab eristada, kas info pärineb näiteks õigusaktist, juhendist, kohaliku omavalitsuse veebilehelt või muust kasutatud materjalist. Sotsiaalvaldkonna küsimustes on see eriti oluline, sest info peab olema usaldusväärne ja ajakohane."
+        },
+        "drafting": {
+          "title": "Dokumentide koostamine",
+          "body": "SotsiaalAI aitab koostada kirju, taotlusi, aruandeid ja muid vajalikke dokumente. Kasutaja saab kirjeldada, mida ta soovib vormistada, ning platvorm aitab teksti üles ehitada, täiendada ja viimistleda. Dokumentide koostamisel saab vajadusel kasutada olemasolevaid materjale, malle, vestluse sisu või teadmistebaasi infot."
+        },
+        "analysis": {
+          "title": "Dokumendi analüüs",
+          "body": "Dokumendi analüüs võimaldab üles laadida faili ja küsida selle kohta kokkuvõtet, selgitusi või olulisi tähelepanekuid. See sobib näiteks ametliku vastuse, juhendi, lepingu, aruande, otsuse või muu dokumendi mõistmiseks. Vajadusel saab analüüsis arvestada ka SotsiaalAI teadmistebaasi, et siduda dokumendi sisu laiema valdkondliku taustaga."
+        },
+        "research": {
+          "title": "Süvauuring",
+          "body": "Süvauuring sobib olukorras, kus kasutaja vajab põhjalikumat ülevaadet mõnest sotsiaalvaldkonna teemast, teenusest, seadusest, juhendist või praktilisest küsimusest. SotsiaalAI koondab info struktureeritud vastuseks või raportiks, tuues välja olulisemad tähelepanekud, seosed ja allikad."
+        },
+        "rooms": {
+          "title": "Vestlusruumid",
+          "body": "Vestlusruumides saab pidada ühiseid vestlusi ja kutsuda neisse näiteks pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida ka abisoovi ja abipakkumise sobituse kaudu või siis, kui eelpöördumise järel on vaja teise osapoolega infot täpsustada. Soovi korral saab inimese kutsuda vestlusruumi ning tasuda tema eest ühe kuu platvormi täieliku kasutusõiguse."
+        },
+        "documents": {
+          "title": "Dokumendid: hoidla ja haldus",
+          "body": "Dokumentide vaade koondab üleslaetud failid, loodud tekstid, mallid ja tööversioonid ühte kohta. Nii saab dokumente hiljem uuesti avada, täiendada ja kasutada uutes vestlustes või töövoogudes. Dokumendid võivad olla seotud näiteks eelpöördumise, kovisiooni, vestlusruumi või spetsialisti tööprotsessiga."
+        },
+        "pre_inquiry": {
+          "title": "Eelpöördumine",
+          "body": "Eelpöördumine aitab pöördujal oma olukorda selgelt kirjeldada ja koostada pöördumise mustandi. Seda saab üle vaadata, muuta, alla laadida või edasi saata sotsiaaltöö spetsialistile või teenuseosutajale. Eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist, vaid aitab inimesel oma olukorra arusaadavamalt kirja panna ja sobiva osapooleni viia."
+        },
+        "intake": {
+          "title": "Pöördumiste vastuvõtt",
+          "body": "Pöördumiste vastuvõtt võimaldab sotsiaaltöö spetsialistil või teenuseosutajal võtta platvormis vastu kasutaja nõusolekul edastatud eelpöördumisi või päringuid. See aitab alustada suhtlust parema eelinfoga ning vajadusel liikuda edasi vestlusruumi, täpsustuste, järgmiste tegevusteni või kohtumiseni."
+        },
+        "kovisioon": {
+          "title": "Kovisioon ja praktikanäited",
+          "body": "Kovisioon on spetsialistide kinnine kolleegidevaheline juhtumiarutelu. Spetsialist kirjeldab olukorda ise ja kutsub arutelusse kolleegid. AI assistent on toetavas rollis: aitab arutelu struktureerida, märgata tuvastatavaid detaile, sõnastada küsimusi ja koostada kokkuvõtte. Soovi korral saab arutelu järel luua üldistatud näidisjuhtumi või praktikakogemuse teistele spetsialistidele."
+        },
+        "materials_adding": {
+          "title": "Materjalide lisamine",
+          "body": "Spetsialistid ja teenuseosutajad saavad saata SotsiaalAI teadmistebaasi täiendamiseks dokumente, juhendeid, teenusekirjeldusi ja muid allikaid. Materjalid vaadatakse enne teadmistebaasi lisamist üle, et hoida platvormi sisu asjakohase ja usaldusväärsena."
+        },
+        "service_card_listing": {
+          "title": "Teenuseosutaja kaardiprofiil",
+          "body": "Teenuseosutaja kaardiprofiil teeb teenuseosutaja teenusekaardil nähtavaks. Kaardil saab kuvada teenuseosutaja asukohta või teeninduspiirkonda, peamisi teenuseid, sihtrühmi ja kontaktandmeid, et kasutaja leiaks sobiva pöördumiskoha kiiremini üles."
+        },
+        "service_profile": {
+          "title": "Teenuseprofiil ja haldus",
+          "body": "Teenuseprofiil aitab teenuseosutajal olla SotsiaalAI-s leitav nii kaardil kui ka assistendiga vestluses. Teenuseosutaja saab kirjeldada oma teenuseid, sihtrühmi, piirkonda, kontakte, keeli ja ligipääsetavuse infot. Nii saab platvorm kasutada ajakohast infot teenusekaardil, teadmistebaasis ja kasutaja küsimustele vastamisel."
+        }
+      }
     },
     "guide": {
       "jump_link": "Kasutusjuhend",
@@ -1831,6 +1909,10 @@
     "pricing": {
       "title": "Hinnastus - SotsiaalAI",
       "description": "Vaata SotsiaalAI tasuta, pöörduja, spetsialisti ja teenuseosutaja pakettide võimalusi."
+    },
+    "features": {
+      "title": "SotsiaalAI võimalused - SotsiaalAI",
+      "description": "Tutvu SotsiaalAI vestluse, teadmistebaasi, dokumentide, abisoovide, teenusekaardi ja töövoogude võimalustega."
     },
     "reset": {
       "title": "PIN-i taastamine – SotsiaalAI",

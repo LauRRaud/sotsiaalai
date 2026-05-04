@@ -1530,12 +1530,14 @@
   "about": {
     "title": "About",
     "intro": {
-      "paragraph1": "<p><strong>SotsiaalAI</strong> is an AI-powered web platform that supports both social-sector professionals and people looking for clarity in life-related questions. The social sector is characterised by <strong>heavy workloads, fragmented information, and complex system navigation</strong> – as also confirmed by <oska>the OSKA report (2025)</oska>. SotsiaalAI aims to make essential knowledge more accessible and support both professional work and the search for help.</p>",
-      "paragraph2": "<p>At the centre of the platform is a single chat window through which users can ask for information, receive guidance, draft documents and reports, and shape practical next steps. Through the chat, users can also describe requests for help and offers of help, have them structured, view matching listings, and, when needed, move on to person-to-person communication. The platform also includes <strong>document analysis, deep research, group chat, dictation, and read-aloud responses</strong>, which improve accessibility and ease of use.</p>",
-      "paragraph3": "<p>The platform includes two role-based, agent-capable AI assistants: one for <strong>social work professionals</strong> and one for <strong>people approaching with life-related questions</strong>. For professionals, SotsiaalAI is a working tool for interpreting legal frameworks, methodologies, and practices, drafting documents, managing materials, and supporting co-vision and collaboration. For people seeking help, it helps explain benefits, services, and rights and, when needed, also assists in drafting letters, applications, and other necessary texts.</p>",
-      "paragraph4": "<p>SotsiaalAI's vision is to become a <strong>next-generation support platform for the social sector</strong>, centred around a single chat window. Here, artificial intelligence, a trusted knowledge base, and practical solutions come together to help both professionals and people move from a question or need to clarity, next steps, and a working solution - whether that means a service, benefit, document, request for help or offer of help, career counselling, a job opportunity, or an assistive aid.</p>",
-      "paragraph5": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible. We also consider a safe and responsible user experience essential, which is why we focus on data protection, clear usage rules, and implementing the necessary security and protection measures.</p>",
-      "paragraph6": "<p>SotsiaalAI OÜ, registry code 14206225, address Harju maakond, Harku vald, Tabasalu, Kolde tn 6/1, 76901, Estonia. <a href=\"#\" data-contact-open=\"1\">Contact</a>.</p>"
+      "paragraph1": "<p><strong>SotsiaalAI</strong> is a next-generation support platform for the social sector that brings together chat, trustworthy information, and practical tools in one digital environment. The platform is intended for people seeking clarity in life-related questions, social-sector professionals, and service providers.</p>",
+      "paragraph2": "<p>The social sector is characterised by <strong>heavy workloads</strong>, <strong>fragmented information</strong>, and <strong>difficult navigation across the system of services, benefits, and contacts</strong> - as also noted by <oska>the OSKA report (2025)</oska>. SotsiaalAI aims to make social-sector knowledge more accessible and understandable, simplify workflows, and help people gain a clearer understanding of their situation. To do this, the platform brings together social-sector sources, guidance, legal frameworks, methodologies, and practical materials.</p>",
+      "paragraph3": "<p>The main place to use the platform is the <strong>chat window</strong>, where users can ask for social-sector information, get explanations, and make sense of different situations. Answers show the <strong>sources</strong> so that the information can be checked and the user can move to the original source when necessary. Separate <strong>workflows</strong> can also be started from the chat page, including requests for help, offers of help, deep research, and document analysis, which help describe the situation, organise information, and prepare next steps.</p>",
+      "paragraph4": "<p>The <strong>workspace</strong> brings together the documents and role-based options that matter to the user. There, users can manage documents, pre-requests, requests for help, offers of help, and deep research, and use tools that match their role. <strong>For a person seeking help</strong>, the workspace gives an overview of their documents, requests for help, pre-requests, and next steps; <strong>for a social work professional</strong>, it adds co-vision, practice examples, adding materials, and broader options for document management and drafting, analysis, and deep research. <strong>A service provider</strong> has the broadest options and usage capacity. In addition, they can manage a service profile, describe services, target groups, area, and contact details, and be visible on the service map.</p>",
+      "paragraph5": "<p><strong>Chat rooms</strong> are separate communication spaces where a person seeking help, a social work professional, a service provider, or a colleague can be invited. A room may be created, for example, after matching a request for help with an offer of help or after sharing a request, so that the parties can continue communication and clarify next steps.</p>",
+      "paragraph6": "<p>The <strong>service map</strong> is SotsiaalAI's map-based application that helps users find social-sector points of contact and contact details. At first, the service map focuses on <strong>local-government social welfare contacts</strong> and <strong>service providers</strong> so that the necessary information and situation-related options are more visible to the user.</p>",
+      "paragraph7": "<p>Our vision is to become a <strong>digital environment for the social sector</strong> that connects <strong>trustworthy information</strong>, <strong>practical tools</strong>, <strong>service providers</strong>, and <strong>communication</strong>. SotsiaalAI supports people in different life and work situations - whether the question concerns a service, benefit, document, request for help or offer of help, career counselling, job opportunity, or assistive aid.</p>",
+      "paragraph8": "<p>SotsiaalAI is being developed as a <strong>social enterprise</strong> and a <strong>social innovation initiative</strong>. We combine technology and social-sector practice to reduce information barriers and make workflows, collaboration, and finding help clearer, faster, and more accessible. We consider <strong>security</strong>, <strong>data protection</strong>, <strong>clear usage rules</strong>, and the necessary safeguards important.</p>"
     },
     "contact": {
       "title": "Contact",
@@ -1555,6 +1557,7 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Use",
       "pricing": "Pricing",
+      "features": "Explore features",
       "author": "From the author",
       "analytics": "Analytics",
       "admin": "RAG knowledge base management",
@@ -1605,24 +1608,25 @@
         "free": "Start free",
         "client": "Choose help-seeker",
         "worker": "Choose specialist",
-        "provider": "Choose service provider"
+        "provider": "Choose provider"
       },
       "features": {
         "workspace": "Workspace",
-        "help": "Help requests and help offers with matching",
+        "help": "Help requests and help offers",
         "service_card": "Service card",
         "knowledge_base": "SotsiaalAI knowledge base",
         "assistants_agents": "SotsiaalAI assistants and agents",
         "sources": "Source display",
-        "drafting": "Drafting applications, documents, and reports",
+        "drafting": "Document drafting",
         "analysis": "Document analysis",
         "research": "Deep research",
         "rooms": "Chat rooms",
         "documents": "Documents: storage and management",
         "pre_inquiry": "Pre-inquiry",
         "intake": "Inquiry intake",
-        "kovisioon": "Kovisioon",
-        "service_card_listing": "Visible on the service card",
+        "kovisioon": "Co-vision and practice examples",
+        "materials_adding": "Adding materials",
+        "service_card_listing": "Service provider card profile",
         "service_profile": "Service profile and management"
       },
       "values": {
@@ -1649,6 +1653,80 @@
         "Pre-inquiry helps a person seeking help describe their situation clearly and prepare a first draft of the inquiry.",
         "Inquiry intake means the platform can receive pre-inquiries or requests sent with the user's consent."
       ]
+    },
+    "features_page": {
+      "title": "SotsiaalAI features",
+      "intro": "SotsiaalAI brings chat, a knowledge base, and practical work tools into one environment. The platform helps users ask for social-sector information, draft documents and inquiries, add help requests or help offers, find contacts on the service card, and, when needed, continue communication in a chat room. The workspace helps keep documents, inquiries, listings, and other unfinished activities organised in one view.",
+      "items": {
+        "workspace": {
+          "title": "Workspace",
+          "body": "The workspace is the user's central overview in SotsiaalAI. It can be used to manage documents, pre-inquiries, help requests, help offers, chat rooms, deep research, and role-based views. Some content is created during a conversation or workflow, and some can be added and organised by the user. Conversations themselves remain on the chat page; the workspace helps preserve and organise what grows out of those conversations."
+        },
+        "help": {
+          "title": "Help requests and help offers",
+          "body": "A help request or help offer can be described in the user's own words. SotsiaalAI helps make it clearer, asks follow-up questions when needed, and helps make the completed listing visible. The platform tries to find suitable help requests and help offers, and when there is a match, the parties can continue communication in a shared chat room."
+        },
+        "service_card": {
+          "title": "Service card",
+          "body": "The service card helps users find key social-sector contacts and places to turn to. The initial focus is on local-government social-welfare contacts and service providers visible in SotsiaalAI. The map helps users reach a specific contact or service provider faster, without having to search across separate websites."
+        },
+        "knowledge_base": {
+          "title": "SotsiaalAI knowledge base",
+          "body": "The SotsiaalAI knowledge base brings together social-sector sources, guidance, legal frameworks, methodologies, and practical materials. Its purpose is to support answers with more field-specific and verifiable information, so the user does not have to manually collect the needed information from separate sources."
+        },
+        "assistants_agents": {
+          "title": "SotsiaalAI assistants and agents",
+          "body": "SotsiaalAI assistants and agents help users ask for information, understand situations, and move on to the right workflow. From a conversation, the user can start document drafting, document analysis, deep research, a pre-inquiry, a help request, a help offer, or chat-room creation. The user does not always need to know which tool to choose; they can start with their question or situation."
+        },
+        "sources": {
+          "title": "Source display",
+          "body": "Source display helps users see what an answer is based on. It supports checking the answer and distinguishing whether information comes from legislation, guidance, a local-government website, or another used material. In social-sector questions this is especially important because information needs to be reliable and up to date."
+        },
+        "drafting": {
+          "title": "Document drafting",
+          "body": "SotsiaalAI helps draft letters, applications, reports, and other needed documents. The user can describe what they want to prepare, and the platform helps structure, expand, and refine the text. Document drafting can use existing materials, templates, conversation content, or knowledge-base information when needed."
+        },
+        "analysis": {
+          "title": "Document analysis",
+          "body": "Document analysis allows the user to upload a file and ask for a summary, explanations, or important observations. It is useful for understanding an official response, guide, contract, report, decision, or another document. When needed, the analysis can also take the SotsiaalAI knowledge base into account to connect the document content with a wider field context."
+        },
+        "research": {
+          "title": "Deep research",
+          "body": "Deep research is useful when the user needs a more thorough overview of a social-sector topic, service, law, guide, or practical question. SotsiaalAI gathers the information into a structured answer or report, highlighting the main observations, connections, and sources."
+        },
+        "rooms": {
+          "title": "Chat rooms",
+          "body": "Chat rooms can be used for shared conversations and to invite, for example, a person seeking help, a social work professional, a service provider, or a colleague. A room may also be created through a match between a help request and a help offer, or when information needs to be clarified with another party after a pre-inquiry. If needed, a person can be invited to a chat room and given one month of full platform access paid by the inviter."
+        },
+        "documents": {
+          "title": "Documents: storage and management",
+          "body": "The documents view gathers uploaded files, created texts, templates, and working versions in one place. This makes it possible to reopen, refine, and use documents later in new conversations or workflows. Documents may be connected to a pre-inquiry, co-vision, chat room, or a professional work process."
+        },
+        "pre_inquiry": {
+          "title": "Pre-inquiry",
+          "body": "A pre-inquiry helps a person seeking help describe their situation clearly and prepare a draft inquiry. It can be reviewed, edited, downloaded, or sent on to a social work professional or service provider. A pre-inquiry does not replace an official assessment of need or decision-making; it helps the person describe their situation more clearly and bring it to the right party."
+        },
+        "intake": {
+          "title": "Inquiry intake",
+          "body": "Inquiry intake allows a social work professional or service provider to receive pre-inquiries or requests sent through the platform with the user's consent. It helps start communication with better background information and, when needed, move on to a chat room, clarifications, next actions, or a meeting."
+        },
+        "kovisioon": {
+          "title": "Co-vision and practice examples",
+          "body": "Co-vision is a closed peer discussion of a case between professionals. The professional describes the situation themselves and invites colleagues into the discussion. The AI assistant has a supporting role: it helps structure the discussion, notice identifiable details, formulate questions, and prepare a summary. After the discussion, a generalised example case or practice experience can be created for other professionals if desired."
+        },
+        "materials_adding": {
+          "title": "Adding materials",
+          "body": "Professionals and service providers can send documents, guides, service descriptions, and other sources to supplement the SotsiaalAI knowledge base. Materials are reviewed before being added to the knowledge base, so the platform content stays relevant and reliable."
+        },
+        "service_card_listing": {
+          "title": "Service provider card profile",
+          "body": "The service provider card profile makes the service provider visible on the service card. The card can show the provider's location or service area, main services, target groups, and contact details, so the user can find the right place to turn to faster."
+        },
+        "service_profile": {
+          "title": "Service profile and management",
+          "body": "The service profile helps a service provider be findable in SotsiaalAI both on the map and in assistant conversations. The service provider can describe their services, target groups, region, contacts, languages, and accessibility information. This lets the platform use current information on the service card, in the knowledge base, and when answering user questions."
+        }
+      }
     },
     "guide": {
       "jump_link": "Guide",
@@ -1831,6 +1909,10 @@
     "pricing": {
       "title": "Pricing - SotsiaalAI",
       "description": "Compare the free, help-seeker, specialist, and service-provider packages for SotsiaalAI."
+    },
+    "features": {
+      "title": "SotsiaalAI features - SotsiaalAI",
+      "description": "Explore SotsiaalAI chat, knowledge base, documents, help listings, service card, and workflow features."
     },
     "reset": {
       "title": "PIN update - SotsiaalAI",
