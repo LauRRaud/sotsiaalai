@@ -1638,7 +1638,7 @@
         "client_view": "Help-seeker view",
         "worker_view": "Specialist view",
         "provider_view": "Service-provider view",
-        "listing_only": "With a listing",
+        "listing_only": "When there is a suitable match",
         "by_agreement": "By agreement",
         "not_included": "Not included"
       },
