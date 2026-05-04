@@ -42,13 +42,13 @@ const introClassName =
 const tableWrapClassName =
   "w-full overflow-x-auto overscroll-x-contain rounded-[1.1rem] [scrollbar-gutter:stable] max-[768px]:rounded-[0.9rem]";
 const tableClassName =
-  "w-full min-w-[52rem] border-collapse text-left text-[1.05rem] leading-[1.5] tracking-[0.006em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:min-w-[48rem] max-[768px]:text-[1rem]";
+  "w-full min-w-[64rem] border-collapse text-left text-[1.05rem] leading-[1.5] tracking-[0.006em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:min-w-[58rem] max-[768px]:text-[1rem]";
 const tableHeadCellClassName =
   "border-b border-[rgba(255,255,255,0.16)] px-[0.72rem] py-[0.72rem] font-[700] text-[color:var(--title-color,var(--brand-primary))] light:border-[rgba(122,58,56,0.16)]";
 const tableCellClassName =
   "border-b border-[rgba(255,255,255,0.08)] px-[0.72rem] py-[0.78rem] align-middle light:border-[rgba(122,58,56,0.1)]";
-const featureCellClassName = `${tableCellClassName} w-[36%] font-[500]`;
-const planCellClassName = `${tableCellClassName} w-[21.33%] text-center`;
+const featureCellClassName = `${tableCellClassName} w-[28%] font-[500]`;
+const planCellClassName = `${tableCellClassName} w-[18%] text-center`;
 const priceClassName =
   "font-[700] text-[1.08em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
 const actionClassName =
@@ -58,43 +58,75 @@ const checkClassName =
 const mutedClassName = "text-[color:var(--pt-180,#cbd5e1)] light:text-[color:var(--text-muted,#6b625c)]";
 const noteClassName =
   "mx-auto m-0 max-w-[58rem] px-[0.3rem] text-left text-[1.04rem] leading-[1.58] tracking-[0.012em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:px-[0.55rem] max-[768px]:text-[1.06rem]";
+const notesListClassName =
+  "m-0 mt-[0.55rem] grid gap-[0.34rem] pl-[1.2rem] max-[768px]:pl-[1.1rem]";
+
+const planKeys = ["free", "client", "worker", "provider"];
 
 const featureRows = [
   {
+    key: "workspace",
+    values: ["simple", "client_view", "worker_view", "provider_view"]
+  },
+  {
     key: "help",
-    values: ["included", "included", "included"]
+    values: ["included", "included", "included", "included"]
+  },
+  {
+    key: "service_card",
+    values: ["included", "included", "included", "included"]
   },
   {
     key: "knowledge_base",
-    values: ["dash", "included", "included"]
+    values: ["dash", "included", "included", "included"]
   },
   {
     key: "assistants_agents",
-    values: ["dash", "included", "included"]
+    values: ["dash", "included", "included", "included"]
   },
   {
     key: "sources",
-    values: ["dash", "included", "included"]
+    values: ["dash", "included", "included", "included"]
   },
   {
     key: "drafting",
-    values: ["dash", "limited", "included"]
+    values: ["dash", "limited", "extended", "unlimited"]
   },
   {
     key: "analysis",
-    values: ["dash", "limited", "included"]
+    values: ["dash", "limited", "extended", "unlimited"]
   },
   {
     key: "research",
-    values: ["dash", "limited", "included"]
+    values: ["dash", "limited", "extended", "unlimited"]
   },
   {
     key: "rooms",
-    values: ["dash", "limited", "included"]
+    values: ["listing_only", "included", "included", "included"]
   },
   {
     key: "documents",
-    values: ["dash", "dash", "included"]
+    values: ["dash", "limited", "extended", "unlimited"]
+  },
+  {
+    key: "pre_inquiry",
+    values: ["dash", "included", "dash", "dash"]
+  },
+  {
+    key: "intake",
+    values: ["dash", "dash", "by_agreement", "included"]
+  },
+  {
+    key: "kovisioon",
+    values: ["dash", "dash", "included", "included"]
+  },
+  {
+    key: "service_card_listing",
+    values: ["dash", "dash", "dash", "included"]
+  },
+  {
+    key: "service_profile",
+    values: ["dash", "dash", "dash", "included"]
   }
 ];
 
@@ -106,10 +138,10 @@ function PlanValue({ value, t }) {
       </span>
     );
   }
-  if (value === "limited") {
-    return <span className={mutedClassName}>{t("about.pricing.values.limited")}</span>;
+  if (value === "dash") {
+    return <span className={mutedClassName} aria-label={t("about.pricing.values.not_included")}>-</span>;
   }
-  return <span className={mutedClassName} aria-label={t("about.pricing.values.not_included")}>-</span>;
+  return <span className={mutedClassName}>{t(`about.pricing.values.${value}`)}</span>;
 }
 
 export default function HinnastusBody() {
@@ -167,10 +199,13 @@ export default function HinnastusBody() {
   };
 
   const actions = [
-    { key: "free", path: "/registreerimine" },
-    { key: "client", path: "/registreerimine?role=client" },
-    { key: "worker", path: "/registreerimine?role=specialist" }
+    { key: "free", type: "button", path: "/registreerimine" },
+    { key: "client", type: "button", path: "/registreerimine?role=client" },
+    { key: "worker", type: "button", path: "/registreerimine?role=specialist" },
+    { key: "provider", type: "text" }
   ];
+
+  const noteItems = t("about.pricing.notes", { returnObjects: true }) || [];
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
@@ -199,15 +234,11 @@ export default function HinnastusBody() {
                   <th className={tableHeadCellClassName} scope="col">
                     {t("about.pricing.columns.feature")}
                   </th>
-                  <th className={cn(tableHeadCellClassName, "text-center")} scope="col">
-                    {t("about.pricing.columns.free")}
-                  </th>
-                  <th className={cn(tableHeadCellClassName, "text-center")} scope="col">
-                    {t("about.pricing.columns.client")}
-                  </th>
-                  <th className={cn(tableHeadCellClassName, "text-center")} scope="col">
-                    {t("about.pricing.columns.worker")}
-                  </th>
+                  {planKeys.map((planKey) => (
+                    <th key={planKey} className={cn(tableHeadCellClassName, "text-center")} scope="col">
+                      {t(`about.pricing.columns.${planKey}`)}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -215,15 +246,11 @@ export default function HinnastusBody() {
                   <th className={featureCellClassName} scope="row">
                     {t("about.pricing.rows.price")}
                   </th>
-                  <td className={planCellClassName}>
-                    <span className={priceClassName}>{t("about.pricing.prices.free")}</span>
-                  </td>
-                  <td className={planCellClassName}>
-                    <span className={priceClassName}>{t("about.pricing.prices.client")}</span>
-                  </td>
-                  <td className={planCellClassName}>
-                    <span className={priceClassName}>{t("about.pricing.prices.worker")}</span>
-                  </td>
+                  {planKeys.map((planKey) => (
+                    <td key={planKey} className={planCellClassName}>
+                      <span className={priceClassName}>{t(`about.pricing.prices.${planKey}`)}</span>
+                    </td>
+                  ))}
                 </tr>
                 <tr>
                   <th className={featureCellClassName} scope="row">
@@ -231,15 +258,19 @@ export default function HinnastusBody() {
                   </th>
                   {actions.map((action) => (
                     <td key={action.key} className={planCellClassName}>
-                      <Button
-                        type="button"
-                        variant="primary"
-                        size="sm"
-                        className={actionClassName}
-                        onClick={() => openRegistration(action.path)}
-                      >
-                        {t(`about.pricing.actions.${action.key}`)}
-                      </Button>
+                      {action.type === "button" ? (
+                        <Button
+                          type="button"
+                          variant="primary"
+                          size="sm"
+                          className={actionClassName}
+                          onClick={() => openRegistration(action.path)}
+                        >
+                          {t(`about.pricing.actions.${action.key}`)}
+                        </Button>
+                      ) : (
+                        <span className={mutedClassName}>{t(`about.pricing.actions.${action.key}`)}</span>
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -259,7 +290,16 @@ export default function HinnastusBody() {
             </table>
           </div>
 
-          <p className={noteClassName}>{t("about.pricing.note")}</p>
+          <div className={noteClassName}>
+            <p className="m-0 font-[700] text-[color:var(--title-color,var(--brand-primary))]">
+              {t("about.pricing.notes_title")}
+            </p>
+            <ul className={notesListClassName}>
+              {noteItems.map((note, index) => (
+                <li key={index}>{note}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

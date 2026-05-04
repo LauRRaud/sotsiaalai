@@ -1582,12 +1582,13 @@
     },
     "pricing": {
       "title": "Pricing",
-      "intro": "Choose a package based on whether you want to use SotsiaalAI for free help requests and offers, for your own life-related questions, or as a social-sector work tool.",
+      "intro": "Choose a package based on whether you want to use SotsiaalAI for free listings and communication, as a tool for a person seeking help, as a specialist work tool, or in a service-provider view.",
       "columns": {
         "feature": "Feature",
         "free": "Free",
         "client": "For people seeking help",
-        "worker": "For specialists"
+        "worker": "For specialists",
+        "provider": "For service providers"
       },
       "rows": {
         "price": "Price",
@@ -1596,30 +1597,56 @@
       "prices": {
         "free": "0 € / month",
         "client": "7.99 € / month",
-        "worker": "14.99 € / month"
+        "worker": "14.99 € / month",
+        "provider": "19.99 € / month"
       },
       "actions": {
         "free": "Start free",
         "client": "Choose help-seeker",
-        "worker": "Choose specialist"
+        "worker": "Choose specialist",
+        "provider": "By agreement"
       },
       "features": {
+        "workspace": "Workspace",
         "help": "Help requests and help offers with matching",
+        "service_card": "Service card",
         "knowledge_base": "SotsiaalAI knowledge base",
         "assistants_agents": "SotsiaalAI assistants and agents",
         "sources": "Source display",
         "drafting": "Drafting applications, documents, and reports",
         "analysis": "Document analysis",
         "research": "Deep research",
-        "rooms": "Chat rooms and communication with other users",
-        "documents": "Documents: storage and management"
+        "rooms": "Chat rooms",
+        "documents": "Documents: storage and management",
+        "pre_inquiry": "Pre-inquiry",
+        "intake": "Inquiry intake",
+        "kovisioon": "Kovisioon",
+        "service_card_listing": "Visible on the service card",
+        "service_profile": "Service profile and management"
       },
       "values": {
         "included": "Included",
         "limited": "Limited",
+        "extended": "Extended",
+        "unlimited": "Unlimited",
+        "simple": "Simple",
+        "client_view": "Help-seeker view",
+        "worker_view": "Specialist view",
+        "provider_view": "Service-provider view",
+        "listing_only": "With a listing",
+        "by_agreement": "By agreement",
         "not_included": "Not included"
       },
-      "note": "\"Limited\" means a smaller usage volume. SotsiaalAI is continuously evolving, and we add new features gradually. Prices depend on the number of users and the cost of the service. Whenever possible, we lower prices."
+      "notes_title": "Notes",
+      "notes": [
+        "\"Limited\" means a smaller usage volume.",
+        "\"Extended\" means a larger usage volume and additional features suited for work.",
+        "\"Unlimited\" means the feature can be used within reasonable use, security rules, and the platform terms of use.",
+        "\"With a listing\" means the free package allows the chat room to be used for communication related to a help request or help offer.",
+        "\"By agreement\" means the feature is configured according to the needs of the organisation or municipality.",
+        "Pre-inquiry helps a person seeking help describe their situation clearly and prepare a first draft of the inquiry.",
+        "Inquiry intake means the platform can receive pre-inquiries or requests sent with the user's consent."
+      ]
     },
     "guide": {
       "jump_link": "Guide",
@@ -1800,7 +1827,7 @@
     },
     "pricing": {
       "title": "Pricing - SotsiaalAI",
-      "description": "Compare the free, help-seeker, and specialist packages for SotsiaalAI."
+      "description": "Compare the free, help-seeker, specialist, and service-provider packages for SotsiaalAI."
     },
     "reset": {
       "title": "PIN update - SotsiaalAI",

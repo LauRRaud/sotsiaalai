@@ -1582,12 +1582,13 @@
     },
     "pricing": {
       "title": "Hinnastus",
-      "intro": "Vali pakett selle järgi, kas soovid kasutada SotsiaalAI-d tasuta abisoovide ja abipakkumiste jaoks, enda eluliste küsimuste lahendamiseks või sotsiaalvaldkonna töövahendina.",
+      "intro": "Vali pakett selle järgi, kas soovid kasutada SotsiaalAI-d tasuta kuulutuste ja suhtluse jaoks, pöörduja tööriistana, spetsialisti töövahendina või teenuseosutaja vaates.",
       "columns": {
         "feature": "Võimalus",
         "free": "Tasuta",
         "client": "Pöördujale",
-        "worker": "Spetsialistile"
+        "worker": "Spetsialistile",
+        "provider": "Teenuseosutajale"
       },
       "rows": {
         "price": "Hind",
@@ -1596,30 +1597,56 @@
       "prices": {
         "free": "0 € / kuu",
         "client": "7,99 € / kuu",
-        "worker": "14,99 € / kuu"
+        "worker": "14,99 € / kuu",
+        "provider": "19,99 € / kuu"
       },
       "actions": {
         "free": "Alusta tasuta",
         "client": "Vali pöördujale",
-        "worker": "Vali spetsialistile"
+        "worker": "Vali spetsialistile",
+        "provider": "Kokkuleppel"
       },
       "features": {
+        "workspace": "Töölaud",
         "help": "Abisoovid ja abipakkumised koos vastete leidmisega",
+        "service_card": "Teenusekaart",
         "knowledge_base": "SotsiaalAI teadmusbaas",
         "assistants_agents": "SotsiaalAI assistendid ja agendid",
         "sources": "Allikate kuvamine",
         "drafting": "Taotluste, dokumentide ja aruannete koostamine",
         "analysis": "Dokumendi analüüs",
         "research": "Süvauuring",
-        "rooms": "Vestlusruumid ja suhtlus teiste kasutajatega",
-        "documents": "Dokumendid: hoidla ja haldus"
+        "rooms": "Vestlusruumid",
+        "documents": "Dokumendid: hoidla ja haldus",
+        "pre_inquiry": "Eelpöördumine",
+        "intake": "Pöördumiste vastuvõtt",
+        "kovisioon": "Kovisioon",
+        "service_card_listing": "Teenusekaardil kuvamine",
+        "service_profile": "Teenuseprofiil ja haldus"
       },
       "values": {
         "included": "Sisaldub",
         "limited": "Piiratud",
+        "extended": "Laiendatud",
+        "unlimited": "Piiramatu",
+        "simple": "Lihtne",
+        "client_view": "Pöörduja vaade",
+        "worker_view": "Spetsialisti vaade",
+        "provider_view": "Teenuseosutaja vaade",
+        "listing_only": "Kuulutuse korral",
+        "by_agreement": "Kokkuleppel",
         "not_included": "Ei sisaldu"
       },
-      "note": "„Piiratud” tähendab väiksemat kasutusmahtu. SotsiaalAI areneb pidevalt ning lisame uusi võimalusi järk-järgult. Hinnad sõltuvad kasutajate arvust ja teenuse kuludest. Võimaluse korral langetame hindu."
+      "notes_title": "Märkused",
+      "notes": [
+        "Piiratud tähendab väiksemat kasutusmahtu.",
+        "Laiendatud tähendab suuremat kasutusmahtu ja tööks sobivaid lisavõimalusi.",
+        "Piiramatu tähendab, et vastav võimalus on kasutatav mõistliku kasutuse, turvareeglite ja platvormi kasutustingimuste piires.",
+        "Kuulutuse korral tähendab, et tasuta paketis saab vestlusruumi kasutada abisoovi või abipakkumisega seotud suhtluseks.",
+        "Kokkuleppel tähendab, et võimalus seadistatakse organisatsiooni või KOV-i vajaduste järgi.",
+        "Eelpöördumine aitab pöördujal oma olukorda selgelt kirjeldada ja koostada pöördumise mustandi.",
+        "Pöördumiste vastuvõtt tähendab võimalust võtta platvormis vastu kasutaja nõusolekul edastatud eelpöördumisi või päringuid."
+      ]
     },
     "guide": {
       "jump_link": "Kasutusjuhend",
@@ -1800,7 +1827,7 @@
     },
     "pricing": {
       "title": "Hinnastus - SotsiaalAI",
-      "description": "Vaata SotsiaalAI tasuta, pöörduja ja spetsialisti pakettide võimalusi."
+      "description": "Vaata SotsiaalAI tasuta, pöörduja, spetsialisti ja teenuseosutaja pakettide võimalusi."
     },
     "reset": {
       "title": "PIN-i taastamine – SotsiaalAI",
