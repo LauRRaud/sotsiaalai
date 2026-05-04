@@ -1605,7 +1605,7 @@
         "free": "Alusta tasuta",
         "client": "Vali pöördujale",
         "worker": "Vali spetsialistile",
-        "provider": "Vali teenuseosutajale"
+        "provider": "Vali osutajale"
       },
       "features": {
         "workspace": "Töölaud",
@@ -1638,6 +1638,7 @@
         "by_agreement": "Kokkuleppel",
         "not_included": "Ei sisaldu"
       },
+      "note": "„Piiratud” tähendab väiksemat kasutusmahtu. SotsiaalAI areneb pidevalt ning lisame uusi võimalusi järk-järgult. Hinnad sõltuvad kasutajate arvust ja teenuse kuludest. Võimaluse korral langetame hindu.",
       "notes_title": "Märkused",
       "notes": [
         "Piiratud tähendab väiksemat kasutusmahtu.",

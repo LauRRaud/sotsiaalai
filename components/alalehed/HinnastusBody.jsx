@@ -58,8 +58,6 @@ const checkClassName =
 const mutedClassName = "text-[color:var(--pt-180,#cbd5e1)] light:text-[color:var(--text-muted,#6b625c)]";
 const noteClassName =
   "mx-auto m-0 max-w-[58rem] px-[0.3rem] text-left text-[1.04rem] leading-[1.58] tracking-[0.012em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:px-[0.55rem] max-[768px]:text-[1.06rem]";
-const notesListClassName =
-  "m-0 mt-[0.55rem] grid gap-[0.34rem] pl-[1.2rem] max-[768px]:pl-[1.1rem]";
 
 const planKeys = ["free", "client", "worker", "provider"];
 
@@ -146,7 +144,7 @@ function PlanValue({ value, t }) {
 
 export default function HinnastusBody() {
   const router = useRouter();
-  const { t, locale, messages } = useI18n();
+  const { t, locale } = useI18n();
   const panelRef = useRef(null);
 
   useEffect(() => {
@@ -204,10 +202,6 @@ export default function HinnastusBody() {
     { key: "worker", type: "button", path: "/registreerimine?role=specialist" },
     { key: "provider", type: "button", path: "/registreerimine?role=provider" }
   ];
-
-  const noteItems = Array.isArray(messages?.about?.pricing?.notes)
-    ? messages.about.pricing.notes
-    : [];
 
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
@@ -292,16 +286,7 @@ export default function HinnastusBody() {
             </table>
           </div>
 
-          <div className={noteClassName}>
-            <p className="m-0 font-[700] text-[color:var(--title-color,var(--brand-primary))]">
-              {t("about.pricing.notes_title")}
-            </p>
-            <ul className={notesListClassName}>
-              {noteItems.map((note, index) => (
-                <li key={index}>{note}</li>
-              ))}
-            </ul>
-          </div>
+          <p className={noteClassName}>{t("about.pricing.note")}</p>
         </div>
       </div>
     </section>
