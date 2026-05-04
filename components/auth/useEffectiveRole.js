@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 
 function normalizeBaseRole(value, isAdmin = false) {
   const normalized = String(value || "").trim().toUpperCase();
+  if (normalized === "SERVICE_PROVIDER") return "SERVICE_PROVIDER";
   if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
   if (normalized === "CLIENT") return "CLIENT";
   if (normalized === "ADMIN" || isAdmin) return "ADMIN";
@@ -13,6 +14,7 @@ function normalizeBaseRole(value, isAdmin = false) {
 
 function normalizeEffectiveRole(value, fallbackRole = "CLIENT", isAdmin = false) {
   const normalized = String(value || "").trim().toUpperCase();
+  if (normalized === "SERVICE_PROVIDER") return "SOCIAL_WORKER";
   if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
   if (normalized === "CLIENT") return "CLIENT";
   if (normalized === "ADMIN") return "SOCIAL_WORKER";

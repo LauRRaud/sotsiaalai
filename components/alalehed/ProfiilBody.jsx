@@ -45,12 +45,14 @@ function detectMobileProfileMenu() {
 const ROLE_SHORT_KEYS = {
   ADMIN: "profile.role_short.admin",
   SOCIAL_WORKER: "profile.role_short.worker",
+  SERVICE_PROVIDER: "profile.role_short.provider",
   CLIENT: "profile.role_short.client"
 };
 function normalizeProfileRole(value, fallback = "CLIENT") {
   const normalized = String(value || "").trim().toUpperCase();
   if (normalized === "ADMIN") return "ADMIN";
   if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
+  if (normalized === "SERVICE_PROVIDER") return "SERVICE_PROVIDER";
   if (normalized === "CLIENT") return "CLIENT";
   return fallback;
 }

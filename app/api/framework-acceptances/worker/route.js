@@ -83,7 +83,12 @@ async function getCurrentUser(session) {
 }
 
 function isWorkerEligible(user) {
-  return Boolean(user && (user.role === Role.SOCIAL_WORKER || user.isAdmin === true));
+  return Boolean(
+    user &&
+      (user.role === Role.SOCIAL_WORKER ||
+        user.role === Role.SERVICE_PROVIDER ||
+        user.isAdmin === true)
+  );
 }
 
 export async function GET(request) {

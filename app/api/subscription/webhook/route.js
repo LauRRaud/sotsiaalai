@@ -53,6 +53,17 @@ const ownerMailer = getMailer("payment-owner-webhook");
 const customerMailer = getMailer("payment-customer-webhook");
 const inviteMailer = getMailer("invite");
 
+function roleLabelForNotification(locale, role) {
+  const normalized = String(role || "").toUpperCase();
+  if (normalized === "SERVICE_PROVIDER" || normalized === "SERVICE_PROVIDER_MONTHLY") {
+    return serverT(locale, "role.provider");
+  }
+  if (normalized === "SOCIAL_WORKER" || normalized === "SOCIAL_WORKER_MONTHLY") {
+    return serverT(locale, "role.worker");
+  }
+  return serverT(locale, "role.client");
+}
+
 function json(payload, status = 200) {
   return NextResponse.json(payload, {
     status,
@@ -135,10 +146,7 @@ async function sendInvitePaymentEmail({
   if (!from) return;
 
   const joinLink = buildJoinLink(token);
-  const roleLabel =
-    String(targetRole || "").toUpperCase() === "SOCIAL_WORKER"
-      ? serverT(locale, "invite.sponsored.role.worker")
-      : serverT(locale, "invite.sponsored.role.client");
+  const roleLabel = roleLabelForNotification(locale, targetRole);
 
   await inviteMailer.sendMail({
     to,
@@ -318,10 +326,10 @@ async function sendCustomerPaymentConfirmationEmail({ paymentId, providerPayment
     supportEmail: "info@sotsiaal.ai"
   };
   const hasInvite = Boolean(payment?.invite);
-  const roleLabel =
-    String(payment?.invite?.sponsoredRole || payment?.subscription?.plan || "").toUpperCase() === "SOCIAL_WORKER"
-      ? serverT(locale, "role.worker")
-      : serverT(locale, "role.client");
+  const roleLabel = roleLabelForNotification(
+    locale,
+    payment?.invite?.sponsoredRole || payment?.raw?.planRole || payment?.subscription?.plan
+  );
   const subscriptionValues = {
     ...sharedValues,
     subscriptionPlan: roleLabel,

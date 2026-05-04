@@ -24,6 +24,10 @@ const ROLE_MAP = {
   worker: Role.SOCIAL_WORKER,
   social_worker: Role.SOCIAL_WORKER,
   socialworker: Role.SOCIAL_WORKER,
+  provider: Role.SERVICE_PROVIDER,
+  service_provider: Role.SERVICE_PROVIDER,
+  serviceprovider: Role.SERVICE_PROVIDER,
+  teenuseosutaja: Role.SERVICE_PROVIDER,
   client: Role.CLIENT,
   citizen: Role.CLIENT
 };
@@ -175,8 +179,9 @@ export async function POST(request) {
     const frameworkSignedDownloadedAt = normalizeOptionalTimestamp(body?.frameworkSignedDownloadedAt);
     const ip = getRequestIpFromRequest(request);
     const userAgent = String(request.headers.get("user-agent") || "").trim() || null;
-    const requiresFramework =
-      role === Role.SOCIAL_WORKER && workerUse === "ORG_IDENTIFIABLE";
+    const isProfessionalRole =
+      role === Role.SOCIAL_WORKER || role === Role.SERVICE_PROVIDER;
+    const requiresFramework = isProfessionalRole && workerUse === "ORG_IDENTIFIABLE";
 
     const ipLimit = consumeRateLimit(
       `register:ip:${ip}`,

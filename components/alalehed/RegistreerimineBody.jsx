@@ -99,13 +99,26 @@ const initialForm = {
   agree: false,
   guideAck: false,
 };
+const REGISTER_ROLE_OPTIONS = ["SOCIAL_WORKER", "CLIENT", "SERVICE_PROVIDER"];
+const PROFESSIONAL_ROLE_VALUES = new Set(["SOCIAL_WORKER", "SERVICE_PROVIDER"]);
+
+function isProfessionalRole(role) {
+  return PROFESSIONAL_ROLE_VALUES.has(String(role || "").trim().toUpperCase());
+}
+
+function roleLabelKey(role) {
+  const normalized = String(role || "").trim().toUpperCase();
+  if (normalized === "SERVICE_PROVIDER") return "role.provider";
+  if (normalized === "SOCIAL_WORKER") return "role.worker";
+  return "role.client";
+}
 
 function normalizeDraftForm(draft) {
   if (!draft || typeof draft !== "object") return null;
   return {
     email: typeof draft.email === "string" ? draft.email : "",
     pin: typeof draft.pin === "string" ? draft.pin.replace(/\D/g, "").slice(0, 8) : "",
-    role: draft.role === "SOCIAL_WORKER" || draft.role === "CLIENT" ? draft.role : "",
+    role: REGISTER_ROLE_OPTIONS.includes(draft.role) ? draft.role : "",
     workerUse: draft.workerUse === "ORG_IDENTIFIABLE" ? "ORG_IDENTIFIABLE" : "",
     frameworkAck: draft.frameworkAck === true,
     agree: draft.agree === true,
@@ -117,6 +130,9 @@ function normalizeRegistrationRoleParam(value) {
   const raw = String(value || "").trim().toLowerCase();
   if (raw === "specialist" || raw === "worker" || raw === "social_worker") {
     return "SOCIAL_WORKER";
+  }
+  if (raw === "provider" || raw === "service_provider" || raw === "teenuseosutaja") {
+    return "SERVICE_PROVIDER";
   }
   if (raw === "client" || raw === "citizen") {
     return "CLIENT";
@@ -172,7 +188,7 @@ export default function RegistreerimineBody({}) {
         REGISTER_DRAFT_STORAGE_KEY,
         JSON.stringify({
           ...liveForm,
-          role: "SOCIAL_WORKER",
+          role: isProfessionalRole(liveForm.role) ? liveForm.role : "SOCIAL_WORKER",
           workerUse: "ORG_IDENTIFIABLE",
         }),
       );
@@ -209,9 +225,9 @@ export default function RegistreerimineBody({}) {
   const emailErrorId = useId();
   const pinErrorId = useId();
   const roleLabelText = t("auth.register.role_label_question");
-  const isSocialWorker = form.role === "SOCIAL_WORKER";
+  const isProfessionalUser = isProfessionalRole(form.role);
   const requiresFramework =
-    isSocialWorker && form.workerUse === "ORG_IDENTIFIABLE";
+    isProfessionalUser && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
     "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-edge-stroke-width:0px] [--glass-ring-edge-stroke-opacity:0] [--glass-ring-edge-stroke-blur:0px] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
@@ -222,7 +238,7 @@ export default function RegistreerimineBody({}) {
   const agreementStepIndex = 3;
   const guideStepIndex = 4;
   const workerStepIndex = 5;
-  const submitStepIndex = isSocialWorker ? 6 : 5;
+  const submitStepIndex = isProfessionalUser ? 6 : 5;
   const proxyWheelToRegisterScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
@@ -234,8 +250,8 @@ export default function RegistreerimineBody({}) {
     setForm((prev) => ({
       ...prev,
       role: lockedRole,
-      workerUse: lockedRole === "SOCIAL_WORKER" ? prev.workerUse : "",
-      frameworkAck: lockedRole === "SOCIAL_WORKER" ? prev.frameworkAck : false,
+      workerUse: isProfessionalRole(lockedRole) ? prev.workerUse : "",
+      frameworkAck: isProfessionalRole(lockedRole) ? prev.frameworkAck : false,
     }));
   }, [draftReady, lockedRole]);
 
@@ -250,7 +266,7 @@ export default function RegistreerimineBody({}) {
     setForm((prev) => ({
       ...prev,
       [name]: nextValue,
-      ...(name === "role" && nextValue !== "SOCIAL_WORKER"
+      ...(name === "role" && !isProfessionalRole(nextValue)
         ? {
             workerUse: "",
             frameworkAck: false,
@@ -277,7 +293,7 @@ export default function RegistreerimineBody({}) {
     setForm((prev) => ({
       ...prev,
       role,
-      ...(role !== "SOCIAL_WORKER"
+      ...(!isProfessionalRole(role)
         ? {
             workerUse: "",
             frameworkAck: false,
@@ -290,11 +306,11 @@ export default function RegistreerimineBody({}) {
       return;
     }
     event.preventDefault();
-    if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-      handleRoleSelect(role === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER");
-      return;
-    }
-    handleRoleSelect(role === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER");
+    const currentIndex = Math.max(0, REGISTER_ROLE_OPTIONS.indexOf(role));
+    const direction = event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1;
+    const nextIndex =
+      (currentIndex + direction + REGISTER_ROLE_OPTIONS.length) % REGISTER_ROLE_OPTIONS.length;
+    handleRoleSelect(REGISTER_ROLE_OPTIONS[nextIndex]);
   };
   async function handleSubmit(e) {
     e.preventDefault();
@@ -485,7 +501,7 @@ export default function RegistreerimineBody({}) {
           ...nextDraft,
           ...(registerFrameworkAck
             ? {
-                role: "SOCIAL_WORKER",
+                role: isProfessionalRole(nextDraft.role) ? nextDraft.role : "SOCIAL_WORKER",
                 workerUse: "ORG_IDENTIFIABLE",
                 frameworkAck: true,
               }
@@ -495,7 +511,7 @@ export default function RegistreerimineBody({}) {
         if (registerFrameworkAck) {
           setForm((prev) => ({
             ...prev,
-            role: "SOCIAL_WORKER",
+            role: isProfessionalRole(prev.role) ? prev.role : "SOCIAL_WORKER",
             workerUse: "ORG_IDENTIFIABLE",
             frameworkAck: true,
           }));
@@ -674,7 +690,7 @@ export default function RegistreerimineBody({}) {
       }));
       if (!registerFrameworkAck) {
         openFrameworkPage({
-          role: "SOCIAL_WORKER",
+          role: isProfessionalRole(form.role) ? form.role : "SOCIAL_WORKER",
           workerUse: "ORG_IDENTIFIABLE",
           frameworkAck: false,
         });
@@ -830,41 +846,31 @@ export default function RegistreerimineBody({}) {
                       <div id={roleHintId} className="sr-only">
                         {t("auth.register.role_hint")}
                       </div>
-                      <button
-                        type="button"
-                        role="radio"
-                        aria-checked={form.role === "SOCIAL_WORKER"}
-                        data-checked={form.role === "SOCIAL_WORKER" ? "true" : "false"}
-                        onClick={() => handleRoleSelect("SOCIAL_WORKER")}
-                        onKeyDown={(event) => handleRoleKeyDown(event, "SOCIAL_WORKER")}
-                        className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                      >
-                        <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
-                          {t("role.worker")}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        role="radio"
-                        aria-checked={form.role === "CLIENT"}
-                        data-checked={form.role === "CLIENT" ? "true" : "false"}
-                        onClick={() => handleRoleSelect("CLIENT")}
-                        onKeyDown={(event) => handleRoleKeyDown(event, "CLIENT")}
-                        className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                      >
-                        <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
-                          {t("role.client")}
-                        </span>
-                      </button>
+                      {REGISTER_ROLE_OPTIONS.map((role) => (
+                        <button
+                          key={role}
+                          type="button"
+                          role="radio"
+                          aria-checked={form.role === role}
+                          data-checked={form.role === role ? "true" : "false"}
+                          onClick={() => handleRoleSelect(role)}
+                          onKeyDown={(event) => handleRoleKeyDown(event, role)}
+                          className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                        >
+                          <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                            {t(roleLabelKey(role))}
+                          </span>
+                        </button>
+                      ))}
                     </div>
                   </>
                 ) : (
                   <div
                     className={`${lockedRoleCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
-                    aria-label={lockedRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client")}
+                    aria-label={t(roleLabelKey(lockedRole))}
                   >
                     <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
-                      {lockedRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client")}
+                      {t(roleLabelKey(lockedRole))}
                     </span>
                   </div>
                 )}
@@ -1003,7 +1009,7 @@ export default function RegistreerimineBody({}) {
                 </OptionCard>
               </section>
 
-              {isSocialWorker ? (
+              {isProfessionalUser ? (
                 <section
                   className={`${registerStepClassName} ${getRegisterStepClassName(workerStepIndex)}`}
                 >

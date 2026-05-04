@@ -123,7 +123,7 @@
       "pin_placeholder": "PIN (4-8 numbrit)",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
-      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist või Eluküsimusega pöörduja.",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist, Eluküsimusega pöörduja või Teenuseosutaja.",
       "worker_use_org": "Kasutan platvormi tööks kliendi isikuandmetega",
       "worker_framework_title": "Tööalase kasutuse raamistik",
       "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima eestikeelse raamlepingu ja allkirjastatud DigiDoc-faili.",
@@ -263,6 +263,7 @@
     "role_short": {
       "admin": "Administraator",
       "worker": "Spetsialist",
+      "provider": "Teenuseosutaja",
       "client": "Pöörduja",
       "unknown": ""
     },
@@ -1604,7 +1605,7 @@
         "free": "Alusta tasuta",
         "client": "Vali pöördujale",
         "worker": "Vali spetsialistile",
-        "provider": "Kokkuleppel"
+        "provider": "Vali teenuseosutajale"
       },
       "features": {
         "workspace": "Töölaud",
@@ -1717,7 +1718,7 @@
       "confirmation_pending": "Makse algatati. Ligipääs aktiveeritakse pärast makseteenuse kinnitust."
     },
     "active": {
-      "summary": "Sinu tellimus on aktiivne. Kuutasu sõltub paketist: spetsialistile 14,99 € / kuu, pöördujale 7,99 € / kuu.",
+      "summary": "Sinu tellimus on aktiivne. Kuutasu sõltub paketist: teenuseosutajale 19,99 € / kuu, spetsialistile 14,99 € / kuu, pöördujale 7,99 € / kuu.",
       "summary_priced": "Sinu tellimus on aktiivne. Pakett: {role}. Kuutasu: {amount} kuus.",
       "cancel_note": "Tellimuse saad igal ajal tühistada oma profiililehelt.",
       "sponsored_note": "Sinu ligipääs on praegu sponsoreeritud ja kehtib kuni {date}. Pärast seda pead kasutamise jätkamiseks aktiveerima oma tellimuse.",
@@ -1793,6 +1794,7 @@
   "role": {
     "admin": "Administraator",
     "worker": "Sotsiaaltöö spetsialist",
+    "provider": "Teenuseosutaja",
     "client": "Eluküsimusega pöörduja",
     "unknown": "—"
   },

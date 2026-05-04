@@ -202,7 +202,7 @@ export default function HinnastusBody() {
     { key: "free", type: "button", path: "/registreerimine" },
     { key: "client", type: "button", path: "/registreerimine?role=client" },
     { key: "worker", type: "button", path: "/registreerimine?role=specialist" },
-    { key: "provider", type: "text" }
+    { key: "provider", type: "button", path: "/registreerimine?role=provider" }
   ];
 
   const noteItems = Array.isArray(messages?.about?.pricing?.notes)

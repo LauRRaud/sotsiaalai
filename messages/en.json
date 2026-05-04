@@ -123,7 +123,7 @@
       "pin_placeholder": "PIN (4-8 digits)",
       "role_label_question": "Who are you?",
       "role_label": "Role:",
-      "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist or Person seeking help.",
+      "role_hint": "Choose a role with arrow keys. Options: Social Work Specialist, Person seeking help, or Service provider.",
       "worker_use_org": "I use SotsiaalAI in work tasks with personal data",
       "worker_framework_title": "Professional-use framework",
       "worker_framework_note": "If you use SotsiaalAI for work with other people's personal data, review the professional-use and data-processing framework and download the Estonian framework agreement and signed DigiDoc file before continuing.",
@@ -263,6 +263,7 @@
     "role_short": {
       "admin": "Administrator",
       "worker": "Specialist",
+      "provider": "Provider",
       "client": "Seeker",
       "unknown": ""
     },
@@ -1604,7 +1605,7 @@
         "free": "Start free",
         "client": "Choose help-seeker",
         "worker": "Choose specialist",
-        "provider": "By agreement"
+        "provider": "Choose service provider"
       },
       "features": {
         "workspace": "Workspace",
@@ -1717,7 +1718,7 @@
       "confirmation_pending": "Payment was started. Access is activated after provider confirmation."
     },
     "active": {
-      "summary": "Your subscription is active. Monthly pricing depends on the plan: 14.99 EUR/month for a social work professional and 7.99 EUR/month for a person seeking help.",
+      "summary": "Your subscription is active. Monthly pricing depends on the plan: 19.99 EUR/month for a service provider, 14.99 EUR/month for a social work professional, and 7.99 EUR/month for a person seeking help.",
       "summary_priced": "Your subscription is active. Plan: {role}. Fee: {amount} per month.",
       "cancel_note": "You can cancel your subscription at any time on the profile page.",
       "sponsored_note": "Your access is currently sponsored and is valid until {date}. After that, you need to activate your own subscription to continue using the platform.",
@@ -1793,6 +1794,7 @@
   "role": {
     "admin": "Administrator",
     "worker": "Social work specialist",
+    "provider": "Service provider",
     "client": "Citizen seeking help",
     "unknown": ""
   },

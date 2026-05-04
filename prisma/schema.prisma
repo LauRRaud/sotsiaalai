@@ -12,6 +12,7 @@ datasource db {
 enum Role {
   ADMIN
   SOCIAL_WORKER
+  SERVICE_PROVIDER
   CLIENT
 }
 

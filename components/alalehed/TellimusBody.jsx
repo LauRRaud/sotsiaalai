@@ -179,7 +179,11 @@ export default function TellimusBody() {
     }
   };
   const planRoleLabel =
-    planRole === "SOCIAL_WORKER" ? t("role.worker") : t("role.client");
+    planRole === "SERVICE_PROVIDER"
+      ? t("role.provider")
+      : planRole === "SOCIAL_WORKER"
+        ? t("role.worker")
+        : t("role.client");
   const subscriptionInfoText = monthlyAmountLabel
     ? t("subscription.info_priced", {
         role: planRoleLabel,
