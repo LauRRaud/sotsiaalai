@@ -941,8 +941,8 @@ html[data-contrast="hc"] {
   #terms-title,
   #privacy-title,
   #kasutusjuhend-title {
-    margin-top: clamp(2.72rem, 5.8vh, 3.78rem) !important;
-    transform: translateY(-0.62rem);
+    margin-top: clamp(2.15rem, 5.4vh, 3.25rem) !important;
+    transform: none;
   }
 
   [lang="ru"] #terms-title,
@@ -960,17 +960,17 @@ html[data-contrast="hc"] {
 
   [lang="ru"] #terms-title,
   [lang="ru"] #kasutusjuhend-title {
-    margin-top: clamp(2.16rem, 4.7vh, 3.02rem) !important;
+    margin-top: clamp(2.15rem, 5.4vh, 3.25rem) !important;
     font-size: clamp(1.92rem, 1.52rem + 1.2vw, 2.75rem) !important;
-    transform: translateY(-1rem);
+    transform: none;
   }
 
   [lang="ru"] #privacy-title {
     max-width: min(76%, 26.5rem);
-    margin-top: clamp(1.94rem, 4.3vh, 2.76rem) !important;
+    margin-top: clamp(2.15rem, 5.4vh, 3.25rem) !important;
     font-size: clamp(1.72rem, 1.3rem + 1.08vw, 2.48rem) !important;
     letter-spacing: 0.014em !important;
-    transform: translateY(-1.02rem);
+    transform: none;
   }
 
   #terms-title.glass-policy-title--expanded,
@@ -1046,6 +1046,19 @@ html[data-contrast="hc"] {
 .glass-policy-content--expanded {
   padding-top: clamp(0rem, 0.08vh, 0.08rem) !important;
   margin-top: clamp(-1.42rem, -2.75vh, -0.92rem) !important;
+}
+
+@media (min-width: 769px) {
+  .guide-policy-content.glass-ring-content--open,
+  .policy-page-content.glass-ring-content--open {
+    padding-top: clamp(0.98rem, 1.7vh, 1.32rem);
+    margin-top: clamp(0.16rem, 0.34vh, 0.26rem);
+  }
+
+  .glass-policy-content--expanded {
+    padding-top: clamp(0.98rem, 1.7vh, 1.32rem) !important;
+    margin-top: clamp(0.14rem, 0.3vh, 0.24rem) !important;
+  }
 }
 
 :root {

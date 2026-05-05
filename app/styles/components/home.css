@@ -310,6 +310,64 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   opacity: 1;
 }
 
+@media (max-width: 768px) {
+  .homepage-root .home-before-links {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    overflow: hidden !important;
+    padding-inline: 0 !important;
+  }
+
+  .homepage-root .home-before-link-list {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: clamp(0.55rem, 3.6vw, 0.95rem) !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.2rem max(1.1rem, calc((100vw - 20.6rem) / 2)) 0.35rem !important;
+  }
+
+  .homepage-root .home-before-link-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .homepage-root .home-before-link-item {
+    flex: 0 0 clamp(5.85rem, 24vw, 6.9rem) !important;
+    width: clamp(5.85rem, 24vw, 6.9rem) !important;
+    min-width: clamp(5.85rem, 24vw, 6.9rem) !important;
+    scroll-snap-align: center;
+  }
+
+  .homepage-root .home-before-link-item:is(:first-child, :last-child) {
+    justify-self: auto !important;
+  }
+
+  .homepage-root .home-before-link-item .home-quick-link svg {
+    width: clamp(3.75rem, 15.5vw, 4.45rem) !important;
+    height: clamp(3.75rem, 15.5vw, 4.45rem) !important;
+  }
+
+  .homepage-root .home-before-link-item .home-quick-label {
+    width: 100% !important;
+    min-height: 1.2em !important;
+    margin-top: 0.42rem !important;
+    white-space: nowrap !important;
+    font-size: clamp(0.86rem, 3.35vw, 0.98rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: 0.03em !important;
+    text-wrap: nowrap !important;
+  }
+}
+
 html[data-contrast="hc"] .homepage-root .home-about-panel {
   --home-panel-bg: rgba(9, 18, 30, 0.38);
 }

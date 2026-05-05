@@ -438,7 +438,7 @@ export default function HomeAboutSection({
           <h3 id={beforeHeadingId} className="sr-only">
             {ctaTitle}
           </h3>
-          <ul className="m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3">
+          <ul className="home-before-link-list m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3">
             {quickLinks.map((item) => {
               const isContactItem = item.key === "contact";
 
@@ -446,7 +446,7 @@ export default function HomeAboutSection({
                 <li
                   key={item.key}
                   className={cn(
-                    "pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
+                    "home-before-link-item pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
                     isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
                     isContactItem && beforeView === "contact" && "max-[768px]:hidden"
                   )}
