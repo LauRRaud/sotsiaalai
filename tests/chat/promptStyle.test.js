@@ -45,6 +45,7 @@ test("Estonian base prompt discourages search-status phrasing in ordinary answer
   const system = input.input[0].content;
 
   assert.match(system, /Kirjuta nagu abivalmis spetsialist/);
+  assert.match(system, /Ära kasuta vestlusvastuses Markdowni pealkirjamärke/);
   assert.match(system, /Ära alusta tavavastust allika- või otsingustaatusega/);
   assert.match(system, /Ära kasuta lõppvastuses väljendeid/);
   assert.match(system, /Praegu kasutatud allikad ei anna sellele piisavalt täpset vastust/);
@@ -89,10 +90,12 @@ test("English and Russian base prompts discourage search-status phrasing in ordi
   });
 
   assert.match(enInput.input[0].content, /Write like a helpful specialist/);
+  assert.match(enInput.input[0].content, /Do not use Markdown heading markers/);
   assert.match(enInput.input[0].content, /Do not start an ordinary answer with source- or search-status phrasing/);
   assert.doesNotMatch(enInput.input[0].content, /Phrase it naturally: "I found in the sources"/);
 
   assert.match(ruInput.input[0].content, /Пиши как внимательный специалист/);
+  assert.match(ruInput.input[0].content, /Не используй в ответах Markdown-маркеры заголовков/);
   assert.match(ruInput.input[0].content, /Не начинай обычный ответ с фраз о статусе источников или поиска/);
   assert.doesNotMatch(ruInput.input[0].content, /Формулируй естественно: "я нашел в источниках"/);
 });

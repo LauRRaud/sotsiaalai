@@ -69,6 +69,10 @@ test("buildPackageAwareContext guides condition questions to use confirmed packa
   assert.equal(result.contextText.includes("PACKAGE-AWARE CONDITION QUESTION RULE"), true);
   assert.equal(result.contextText.includes("ära ütle automaatselt, et tingimusi ei saa välja tuua"), true);
   assert.equal(result.contextText.includes("description, application ja legal_basis sektsioonidest"), true);
+  assert.equal(result.contextText.includes("Sõnasta piirang usaldust hoidvalt"), true);
+  assert.equal(result.contextText.includes("tingimused ei ole piisavalt kinnitatavad"), true);
+  assert.equal(result.contextText.includes("kasutatud allikates on teenuse tingimused kirjeldatud üldiselt"), true);
+  assert.equal(result.contextText.includes("Ära sea kahtluse alla kinnitatud teenuselehte"), true);
   assert.equal(result.missingSectionsUsed.includes("fees"), false);
   assert.equal(result.missingSectionsUsed.includes("deadlines"), false);
 });

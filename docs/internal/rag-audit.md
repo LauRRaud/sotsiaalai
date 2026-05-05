@@ -2,7 +2,7 @@
 
 STATUS: current engineering audit
 
-Last reviewed: 2026-05-03
+Last reviewed: 2026-05-05
 
 This document summarizes the current `lib/chat` and `lib/rag` architecture, with a file-by-file assessment of role, maturity, limitations and likely conflicts.
 
@@ -757,6 +757,25 @@ Follow-up hotfix:
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js` -> `37/37` passed.
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/ragTraceMetadata.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js` -> `153/153` passed.
   - `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Follow-up hotfix:
+
+- DONE after live Kuusalu condition-answer smoke: KOV/SourcePackage condition answers now get stronger wording guidance so they do not undermine trust when a service page gives general conditions but not a full separate eligibility checklist.
+- Example issue: `Millised on Kuusalu valla koduteenuse tingimused?` used the correct package route and sources, but the answer said the exact conditions were not "piisavalt täpselt kinnitatavad", which sounded less reliable than intended.
+- `packageAwareContext.js` now instructs the model to state confirmed service target, purpose, content, application path and legal basis first, then phrase limitations as: `kasutatud allikates on teenuse tingimused kirjeldatud üldiselt` or `eraldi abikõlblikkuse kriteeriume, tasusid või tähtaegu nendes allikates ei täpsustata`.
+- Added regression coverage in `buildPackageAwareContext guides condition questions to use confirmed package sections`.
+- Validation:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/packageAwareContext.test.js tests/chat/sourcePackages.test.js tests/chat/retrievalContextAssembler.test.js` -> `27/27` passed.
+  - `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Follow-up hotfix:
+
+- DONE after chat UI style smoke: conversational answers should no longer expose raw Markdown heading markers such as `### 2) Praktiline juhendmaterjal`.
+- `systemPrompts/et.js`, `systemPrompts/en.js` and `systemPrompts/ru.js` now instruct the model to avoid Markdown heading markers in chat answers and use plain-text section labels instead.
+- `messageMarkdown.js` now strips Markdown heading markers defensively when rendering assistant messages, so an occasional `#`, `##` or `###` heading is displayed as normal text rather than raw markup.
+- Added regression coverage in `tests/chat/messageMarkdown.test.js` and `tests/chat/promptStyle.test.js`.
+- Validation:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/promptStyle.test.js tests/chat/messageMarkdown.test.js` -> `10/10` passed.
 
 Server live smoke after deploy:
 
