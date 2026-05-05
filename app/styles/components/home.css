@@ -333,7 +333,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
   .homepage-root .home-before-carousel-arrow {
     position: absolute;
-    top: clamp(1.15rem, 4.2vw, 1.55rem);
+    top: clamp(0.42rem, 2.4vw, 0.82rem);
     z-index: 3;
     display: inline-flex;
     width: 2.95rem;
@@ -383,7 +383,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 
   .homepage-root .home-before-link-list {
-    --home-mobile-quick-item: clamp(6.05rem, 25vw, 7.25rem);
+    --home-mobile-quick-item: clamp(7.35rem, 31vw, 8.85rem);
     --home-mobile-quick-icon: clamp(3.35rem, 13.5vw, 3.9rem);
     --home-mobile-quick-icon-active: clamp(4rem, 16.2vw, 4.72rem);
     display: flex !important;
@@ -492,7 +492,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-label {
     opacity: 1 !important;
-    font-size: clamp(1.16rem, 4.9vw, 1.32rem) !important;
+    font-size: clamp(1.28rem, 5.35vw, 1.46rem) !important;
     letter-spacing: 0.075em !important;
     transform: translate3d(-50%, 0, 0) scale(1);
     transition:
