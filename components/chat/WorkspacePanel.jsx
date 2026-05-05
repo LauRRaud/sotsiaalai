@@ -186,8 +186,8 @@ export default function WorkspacePanel({
     {
       key: "pre_inquiries",
       icon: "compose",
-      title: text(t, "chat.workspace.cards.pre_inquiries.title", "Eelpöördumised"),
-      meta: text(t, "chat.workspace.cards.pre_inquiries.meta", "Vestluse sisend"),
+      title: text(t, "chat.workspace.cards.pre_inquiries.title", "Eelpöördumine"),
+      meta: text(t, "chat.workspace.cards.pre_inquiries.meta", "Pöördumise mustand"),
       onClick: () => navigateTo("/eelpoordumised")
     },
     {

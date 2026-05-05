@@ -3,12 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 
 const ESTONIA_BOUNDS = [
-  [57.17855, 19.46739],
-  [60.28165, 30.624]
+  [57.45, 21.35],
+  [59.95, 28.35]
+];
+
+const ESTONIA_FIT_BOUNDS = [
+  [57.52, 21.55],
+  [59.85, 28.22]
 ];
 
 const DEFAULT_TILE_URL =
-  "https://tiles.maaamet.ee/tm/tms/1.0.0/kaart@GMC/{z}/{x}/{y}.png&ASUTUS=SOTSIAALAI&KESKKOND=LIVE&IS=TEENUSEKAART";
+  "https://tiles.maaamet.ee/tm/tms/1.0.0/hallkaart@GMC/{z}/{x}/{y}.png&ASUTUS=SOTSIAALAI&KESKKOND=LIVE&IS=TEENUSEKAART";
 
 const DEFAULT_ATTRIBUTION = "Aluskaart: Maa- ja Ruumiamet";
 const DEFAULT_LEAFLET_SCRIPT_URL = "/vendor/leaflet/leaflet.js";
@@ -248,9 +253,10 @@ export default function ServiceMapLeaflet({
           minZoom: 6,
           maxZoom: 18,
           maxBounds: ESTONIA_BOUNDS,
-          maxBoundsViscosity: 0.55,
+          maxBoundsViscosity: 1,
           zoomControl: true,
-          attributionControl: true
+          attributionControl: true,
+          worldCopyJump: false
         });
 
         L.tileLayer(process.env.NEXT_PUBLIC_SERVICE_MAP_TILE_URL || DEFAULT_TILE_URL, {
@@ -258,11 +264,13 @@ export default function ServiceMapLeaflet({
           minZoom: 6,
           maxZoom: 18,
           tms: true,
+          noWrap: true,
+          bounds: ESTONIA_BOUNDS,
           updateWhenIdle: true,
           keepBuffer: 3
         }).addTo(map);
 
-        map.fitBounds(ESTONIA_BOUNDS, { padding: [12, 12] });
+        map.fitBounds(ESTONIA_FIT_BOUNDS, { padding: [12, 12] });
         markerLayerRef.current = L.layerGroup().addTo(map);
         mapRef.current = map;
         setLeaflet(L);
@@ -337,7 +345,7 @@ export default function ServiceMapLeaflet({
     } else if (bounds.length > 1) {
       mapRef.current.fitBounds(bounds, { padding: [46, 46], maxZoom: 11 });
     } else {
-      mapRef.current.fitBounds(ESTONIA_BOUNDS, { padding: [12, 12] });
+      mapRef.current.fitBounds(ESTONIA_FIT_BOUNDS, { padding: [12, 12] });
     }
   }, [entries, leaflet, t]);
 

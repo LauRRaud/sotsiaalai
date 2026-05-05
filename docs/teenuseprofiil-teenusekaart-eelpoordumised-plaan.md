@@ -399,17 +399,20 @@ Lisatud Teenusekaardi esimene päris kaardivaade:
 - lisatud Leafleti staatilised vendor-failid `public/vendor/leaflet`, et serveri deploy ei vajaks eraldi `npm install` sammu;
 - lisatud `components/workspace/ServiceMapLeaflet.jsx`;
 - lisatud `app/styles/components/service-map.css`;
-- `/teenusekaart` kasutab nüüd Maa- ja Ruumiameti Eesti aluskaardi TMS kihti `kaart@GMC`;
+- `/teenusekaart` kasutab nüüd vaikimisi Maa- ja Ruumiameti neutraalsemat halltoonides TMS aluskaarti `hallkaart@GMC`;
 - tile URL on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_TILE_URL`;
 - Leafleti JS/CSS URL-id on muudetavad env kaudu: `NEXT_PUBLIC_LEAFLET_SCRIPT_URL` ja `NEXT_PUBLIC_LEAFLET_CSS_URL`;
 - atribuut on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_ATTRIBUTION`;
-- kaart kasutab Eesti ulatust ja piirab kasutajat Eesti kaardiruumi ümber;
+- kaart kasutab Eesti ulatust ja piirab kasutajat Eesti kaardiruumi ümber `maxBounds` ja `noWrap` seadistusega;
+- raster-aluskaarti ei värvita MVP-s CSS-iga tugevalt ümber, sest Maa- ja Ruumiameti rasterpildis ei saa mugavalt eemaldada naaberriike, kohanimesid ega üksikuid kaardielemente;
+- täielikult bränditud kaart jääb hilisemaks etapiks, kus saab kaaluda MapLibre ja vektorkaardi stiili;
 - markerid tulevad ainult struktureeritud `/api/service-map/entries` andmest, mitte RAG runtime otsingust;
 - markerid kuvatakse ainult kirjetel, millel on kindlad koordinaadid;
 - KOV kontaktid ja teenuseosutajad on markeril visuaalselt eristatud;
 - markerile vajutades avaneb kontaktinfo popup;
 - vasakul on otsing, piirkonna filter, kirje tüübi filter ja tulemuste loend;
 - tulemuste loendis kirjele vajutamine valib vastava markeri kaardil.
+- kaardivaade on muudetud täiskõrguses tööalaks: Eesti kaart on põhikiht ning otsing, filtrid, tulemused ja admini rollivalik on kaardi peal overlay-paneelidena.
 
 Märkus: päris markerite ilmumiseks peab serveris olema:
 
@@ -417,6 +420,54 @@ Märkus: päris markerite ilmumiseks peab serveris olema:
 2. KOV kontaktide sünk tehtud;
 3. aadressid geokodeeritud või käsitsi kinnitatud;
 4. kirjed `PUBLISHED` ja `MATCHED`/`MANUALLY_CONFIRMED` olekus.
+
+## Arenduslõik: Eelpöördumise top-down töövoog
+
+Viimistletud `/eelpoordumised` lehe esimene päris töövoog:
+
+- lehe põhimõte on nüüd üks keskne ülevalt-alla voog, mitte mitme paralleelse paneeliga töölaud;
+- töölaua kaardi tekst on muudetud: `Eelpöördumine` ja `Pöördumise mustand`;
+- lehe pealkiri on ainsuses `Eelpöördumine`;
+- sissejuhatus selgitab, et kasutaja kirjeldab olukorda, assistent aitab sõnastada, leida kontaktid ning koostada kontrollitava mustandi;
+- lehel on nähtav märkus, et eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist;
+- esimene põhiosa on `Vestlus assistendiga`;
+- vestlus töötab lihtsa chat-tööruumina: kasutaja sisestab vabas vormis olukorra, assistent tagastab täpsustava sõnumi, põhjenduse, kontaktisoovitused ja mustandi;
+- vestluse sisend lisatakse olukorra kirjelduse konteksti, et mustand ja soovitused kasutaksid kogu kogutud infot;
+- `Sobivad kontaktid` on vestluse järel ja kasutab ainult `ServiceMapEntry` kihti;
+- `SotsiaalAI nõustaja` ei ole kontaktide nimekirjas adressaat;
+- kontaktikaardil kuvatakse KOV kontakt, KOV üldkontakt või teenuseosutaja selge tüübimärgisega;
+- kontaktide nimekirjas kuvatakse alguses kuni kolm kontakti ja vajadusel `Vaata rohkem kontakte`;
+- kasutaja saab endiselt otsida adressaati ja filtreerida KOV kontakti või teenuseosutaja tüübi järgi;
+- `Pöördumise mustand` on pärast kontaktivalikut, tekst on redigeeritav;
+- mustandi tegevused on `Salvesta`, `Kopeeri` ja `Laadi alla`;
+- välise e-kirja automaatset saatmist selles töövoos ei kuvata;
+- `EXTERNAL_EMAIL` kanal tähendab praegu salvestatavat/kopitavat/allalaaditavat kirja, mitte automaatset väljasaatmist;
+- `INTERNAL` kanal jääb alles platvormisisese eelpöördumise jaoks, kui adressaat on seotud kasutajakontoga ja vastuvõtt on lubatud;
+- `Minu eelpöördumised` on kõige all kompaktsete ridadena;
+- sotsiaaltöötaja vastuvõtu linnuke jääb lehele, kuid see on vestluse järel kompaktne seadistus, mitte põhifookus;
+- admin saab endiselt eelpöördumise vaates töörolli valida.
+
+Assistendi endpointi `/api/pre-inquiries/assist` laiendati nii, et see tagastab lisaks senisele `suggestions` ja `draft` väljundile ka:
+
+- `situationSummary`;
+- `selectedNeedAreas`;
+- `urgencyLevel`;
+- `suggestedNextSteps`: `KOV`, `SERVICE_PROVIDER` või `BOTH`;
+- `reasoningText`;
+- `recommendedRecipients`;
+- `selectedRecipientSuggestion`;
+- `draftType`;
+- `draftSubject`;
+- `draftBody`;
+- `channelSuggestion`;
+- `warnings`.
+
+Assistendi sõnastus jääb ettevaatlikuks:
+
+- ei väida, et kasutajal on kindel õigus teenusele;
+- ei väida, et KOV peab teenuse määrama;
+- kasutab sõnastust `võib olla mõistlik`, `võib vajada KOV-i hindamist` ja `teenuseosutajalt saab küsida infot`;
+- kiire ohu tuvastamisel lisab neutraalse suunamise hädaabi või kriisiabi poole.
 
 ## Kontrollid
 

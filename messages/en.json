@@ -541,16 +541,16 @@
   "workspace_feature_pages": {
     "back_to_workspace": "Back to workspace",
     "pre_inquiries": {
-      "title": "Pre-inquiries",
-      "lead": "Inquiry drafts, recipient selection, and user confirmation are gathered here.",
+      "title": "Pre-inquiry",
+      "lead": "Describe your situation and the assistant will help make it clearer and find suitable contacts. You can then prepare an inquiry draft, review it, save it, copy it, or download it.",
       "meta": {
-        "title": "Pre-inquiries",
+        "title": "Pre-inquiry",
         "description": "Create and manage inquiry drafts for a municipality contact or service provider."
       },
       "sections": {
         "input": "Inquiry input",
-        "recipient": "Recipient",
-        "draft": "Letter draft"
+        "recipient": "Suitable contacts",
+        "draft": "Inquiry draft"
       },
       "fields": {
         "topic": "Topic",
@@ -569,8 +569,8 @@
         "provider": "Service provider"
       },
       "actions": {
-        "save": "Save draft",
-        "copy": "Copy letter"
+        "save": "Save",
+        "copy": "Copy"
       }
     },
     "service_map": {
@@ -782,8 +782,8 @@
           "meta": "Drafting workspace"
         },
         "pre_inquiries": {
-          "title": "Pre-inquiries",
-          "meta": "Chat intake"
+          "title": "Pre-inquiry",
+          "meta": "Inquiry draft"
         },
         "help_requests": {
           "title": "Help requests",

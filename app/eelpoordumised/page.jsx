@@ -12,7 +12,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/eelpoordumised",
-    title: meta.title || messages?.workspace_feature_pages?.pre_inquiries?.title || "Eelpöördumised",
+    title: meta.title || messages?.workspace_feature_pages?.pre_inquiries?.title || "Eelpöördumine",
     description: meta.description || ""
   });
 }

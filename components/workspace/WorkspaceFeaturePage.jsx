@@ -154,19 +154,21 @@ function formatDate(value, locale = "et") {
 }
 
 function buildLocalPreInquiryDraft({ topic, situation, recipient }) {
-  const subject = topic?.trim() || "Pöördumine";
+  const subject = topic?.trim() || "Eelpöördumine";
+  const greeting = recipient?.title
+    ? `Lugupeetud ${recipient.title}`
+    : "Tere";
   const lines = [
-    "Tere",
+    greeting,
     "",
-    recipient?.title ? `Adressaat: ${recipient.title}` : "",
-    recipient?.email ? `E-post: ${recipient.email}` : "",
-    recipient?.title || recipient?.email ? "" : "",
     `Soovin pöörduda teemal: ${subject}.`,
     "",
     "Olukorra kirjeldus:",
     situation?.trim() || "",
     "",
-    "Palun andke teada, millised oleksid järgmised sammud ja millist lisainfot vajate.",
+    recipient?.type === "SERVICE_PROVIDER"
+      ? "Palun andke teada, kas teie teenus võiks sellises olukorras sobida ning millised on tingimused, vabad ajad ja vajadusel suunamise või otsuse nõuded."
+      : "Palun aidata välja selgitada, millised toetused või teenused võiksid minu olukorras sobida ning millised oleksid järgmised sammud.",
     "",
     "Lugupidamisega"
   ].filter((line, index, source) => line || source[index - 1] !== "");
@@ -175,9 +177,36 @@ function buildLocalPreInquiryDraft({ topic, situation, recipient }) {
 
 function getPreInquiryChannelLabel(t, channel) {
   if (channel === "EXTERNAL_EMAIL") {
-    return readText(t, "workspace_feature_pages.pre_inquiries.delivery.external_email", "External email");
+    return readText(t, "workspace_feature_pages.pre_inquiries.delivery.external_email", "E-post");
   }
-  return readText(t, "workspace_feature_pages.pre_inquiries.delivery.internal", "Internal");
+  return readText(t, "workspace_feature_pages.pre_inquiries.delivery.internal", "SotsiaalAI sisene");
+}
+
+function getPreInquiryRecipientTypeLabel(t, entry) {
+  if (entry?.type === "SERVICE_PROVIDER") {
+    return readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja");
+  }
+  if (entry?.type === "KOV_GENERAL_CONTACT") {
+    return readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov_general", "KOV üldkontakt");
+  }
+  return readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt");
+}
+
+function getPreInquiryRecipientSubtitle(entry) {
+  if (!entry) return "";
+  if (entry.type === "SERVICE_PROVIDER") {
+    return entry.description || entry.providerProfile?.shortDescription || entry.providerServices?.join(", ") || "";
+  }
+  return entry.description || entry.address || "Sotsiaalvaldkonna kontakt";
+}
+
+function buildPreInquiryDownloadName(topic) {
+  const slug = String(topic || "eelpoordumine")
+    .toLocaleLowerCase("et")
+    .replace(/[^a-z0-9õäöüšž]+/gi, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 56);
+  return `${slug || "eelpoordumine"}.txt`;
 }
 
 function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false }) {
@@ -191,11 +220,13 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   const [draft, setDraft] = useState("");
   const [assistantInput, setAssistantInput] = useState("");
   const [assistantMessage, setAssistantMessage] = useState("");
+  const [assistantReasoning, setAssistantReasoning] = useState("");
+  const [assistantWarnings, setAssistantWarnings] = useState([]);
   const [assistantSuggestions, setAssistantSuggestions] = useState([]);
+  const [showMoreContacts, setShowMoreContacts] = useState(false);
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [sending, setSending] = useState(false);
   const [assisting, setAssisting] = useState(false);
   const [savingPreferences, setSavingPreferences] = useState(false);
   const [acceptsPreInquiries, setAcceptsPreInquiries] = useState(false);
@@ -268,14 +299,23 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   }, [entries, recipientQuery, recipientType]);
 
   const selectedRecipient = useMemo(
-    () => recipientEntries.find((entry) => entry.id === selectedRecipientId) || null,
-    [recipientEntries, selectedRecipientId]
+    () => entries.find((entry) => entry.id === selectedRecipientId) || null,
+    [entries, selectedRecipientId]
   );
 
-  const activeInquiry = useMemo(
-    () => inquiries.find((inquiry) => inquiry.id === activeInquiryId) || null,
-    [activeInquiryId, inquiries]
-  );
+  const recommendedRecipients = useMemo(() => {
+    const source = assistantSuggestions.length ? assistantSuggestions : recipientEntries;
+    const seen = new Set();
+    return source.filter((entry) => {
+      if (!entry?.id || seen.has(entry.id)) return false;
+      seen.add(entry.id);
+      return true;
+    });
+  }, [assistantSuggestions, recipientEntries]);
+
+  const visibleRecommendedRecipients = showMoreContacts
+    ? recommendedRecipients.slice(0, 12)
+    : recommendedRecipients.slice(0, 3);
 
   useEffect(() => {
     if (draftTouched) return;
@@ -296,7 +336,10 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     setDraft("");
     setAssistantInput("");
     setAssistantMessage("");
+    setAssistantReasoning("");
+    setAssistantWarnings([]);
     setAssistantSuggestions([]);
+    setShowMoreContacts(false);
     setDraftTouched(false);
     setNotice("");
     setError("");
@@ -312,7 +355,10 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     setDraft(inquiry.userEditedDraft || inquiry.generatedDraft || "");
     setAssistantInput("");
     setAssistantMessage("");
+    setAssistantReasoning("");
+    setAssistantWarnings([]);
     setAssistantSuggestions([]);
+    setShowMoreContacts(false);
     setDraftTouched(true);
     setNotice("");
     setError("");
@@ -368,36 +414,18 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     setNotice(readText(t, "workspace_feature_pages.pre_inquiries.copy_success", "Draft copied."));
   }
 
-  async function handleSendExternal() {
-    if (!activeInquiry?.id || activeInquiry.deliveryChannel !== "EXTERNAL_EMAIL" || sending) return;
-    const confirmed = typeof window === "undefined"
-      ? false
-      : window.confirm(readText(t, "workspace_feature_pages.pre_inquiries.confirm_external_send", "Send this pre-inquiry as an external email?"));
-    if (!confirmed) return;
-
-    setSending(true);
-    setNotice("");
-    setError("");
-
-    try {
-      const response = await fetch(`/api/pre-inquiries/${activeInquiry.id}/send`, {
-        method: "POST"
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.send_failed", "Pre-inquiry could not be sent."));
-      }
-      const inquiry = payload?.inquiry || null;
-      if (inquiry) {
-        setInquiries((current) => [inquiry, ...current.filter((item) => item.id !== inquiry.id)]);
-        setActiveInquiryId(inquiry.id || "");
-      }
-      setNotice(readText(t, "workspace_feature_pages.pre_inquiries.send_success", "Pre-inquiry sent."));
-    } catch (sendError) {
-      setError(sendError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.send_failed", "Pre-inquiry could not be sent."));
-    } finally {
-      setSending(false);
-    }
+  function handleDownload() {
+    if (!draft.trim() || typeof window === "undefined") return;
+    const blob = new Blob([draft], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+    const link = window.document.createElement("a");
+    link.href = url;
+    link.download = buildPreInquiryDownloadName(topic);
+    window.document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+    setNotice(readText(t, "workspace_feature_pages.pre_inquiries.download_success", "Draft downloaded."));
   }
 
   async function handleSavePreferences() {
@@ -426,8 +454,11 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     }
   }
 
-  async function handleAskAssistant() {
+  async function handleAskAssistant(event) {
+    event?.preventDefault();
     if (assisting || (!assistantInput.trim() && !situation.trim())) return;
+    const message = assistantInput.trim();
+    const nextSituation = [situation.trim(), message].filter(Boolean).join(situation.trim() && message ? "\n\n" : "");
     setAssisting(true);
     setNotice("");
     setError("");
@@ -439,9 +470,9 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
         },
         body: JSON.stringify({
           topic,
-          situation,
-          assistantMessage: assistantInput,
-          recipientType,
+          situation: nextSituation,
+          assistantMessage: message,
+          recipientType: selectedRecipientId ? recipientType : "",
           activeRole
         })
       });
@@ -449,13 +480,23 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
       if (!response.ok) {
         throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.assist_failed", "Assistant could not prepare the pre-inquiry."));
       }
+      const suggestions = Array.isArray(payload?.recommendedRecipients)
+        ? payload.recommendedRecipients
+        : Array.isArray(payload?.suggestions)
+          ? payload.suggestions
+          : [];
+      setSituation(nextSituation);
+      setAssistantInput("");
       setAssistantMessage(payload?.message || "");
-      setAssistantSuggestions(Array.isArray(payload?.suggestions) ? payload.suggestions : []);
-      if (payload?.draft) {
-        setDraft(payload.draft);
+      setAssistantReasoning(payload?.reasoningText || payload?.message || "");
+      setAssistantWarnings(Array.isArray(payload?.warnings) ? payload.warnings : []);
+      setAssistantSuggestions(suggestions);
+      setShowMoreContacts(false);
+      if (payload?.draftBody || payload?.draft) {
+        setDraft(payload.draftBody || payload.draft);
         setDraftTouched(true);
       }
-      const firstSuggestion = Array.isArray(payload?.suggestions) ? payload.suggestions[0] : null;
+      const firstSuggestion = suggestions[0] || null;
       if (firstSuggestion?.id) {
         setSelectedRecipientId(firstSuggestion.id);
         setRecipientType(firstSuggestion.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
@@ -468,200 +509,209 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   }
 
   return (
-    <form onSubmit={handleSave} className="grid gap-[1rem] lg:grid-cols-[0.9fr_1.1fr]">
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.input", "Input")}>
-        <div className="flex flex-wrap items-center justify-between gap-[0.54rem]">
-          <p className={bodyTextClassName}>
-            {`${roleLabel(t, activeRole)} · ${activeInquiryId
-              ? readText(t, "workspace_feature_pages.pre_inquiries.editing_existing", "Editing saved pre-inquiry")
-              : readText(t, "workspace_feature_pages.pre_inquiries.creating_new", "New pre-inquiry")}`}
-          </p>
-          <Button type="button" onClick={handleNewInquiry}>
-            {readText(t, "workspace_feature_pages.pre_inquiries.actions.new", "New")}
-          </Button>
-        </div>
-        {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Loading pre-inquiries...")}</p> : null}
-        {error ? (
-          <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
-            {error}
-          </p>
-        ) : null}
-        {notice ? (
-          <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(223,246,236,0.96)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67]">
-            {notice}
-          </p>
-        ) : null}
-        <Label>
-          <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Topic")}</span>
-          <input className={fieldClassName} value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Short subject")} />
-        </Label>
-        <Label>
-          <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.situation", "Situation")}</span>
-          <textarea className={cn(fieldClassName, "min-h-[8.5rem] resize-y")} value={situation} onChange={(event) => { setSituation(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.situation", "Describe the situation")} />
-        </Label>
-      </SectionCard>
+    <form onSubmit={handleSave} className="mx-auto grid w-full max-w-[62rem] gap-[1rem]">
+      <div className="flex flex-wrap items-center justify-between gap-[0.54rem]">
+        <p className={bodyTextClassName}>
+          {`${roleLabel(t, activeRole)} · ${activeInquiryId
+            ? readText(t, "workspace_feature_pages.pre_inquiries.editing_existing", "Avatud salvestatud eelpöördumine")
+            : readText(t, "workspace_feature_pages.pre_inquiries.creating_new", "Uus eelpöördumine")}`}
+        </p>
+        <Button type="button" onClick={handleNewInquiry}>
+          {readText(t, "workspace_feature_pages.pre_inquiries.actions.new", "Uus")}
+        </Button>
+      </div>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "AI assistent")}>
+      <p className="m-0 rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.88rem] py-[0.62rem] text-[0.98rem] leading-[1.42] opacity-[0.86] light:bg-[rgba(255,255,255,0.62)]">
+        {readText(t, "workspace_feature_pages.pre_inquiries.disclaimer", "Eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist.")}
+      </p>
+
+      {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Laen eelpöördumisi...")}</p> : null}
+      {error ? (
+        <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
+          {error}
+        </p>
+      ) : null}
+      {notice ? (
+        <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(223,246,236,0.96)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67]">
+          {notice}
+        </p>
+      ) : null}
+
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <p className={bodyTextClassName}>
           {readText(
             t,
             "workspace_feature_pages.pre_inquiries.assistant_lead",
-            "Kirjelda olukorda ja vali adressaat; assistendi tööruum hakkab kasutama KOV kontakte, teenuseprofiile ja valitud rolli kirja ettevalmistamiseks."
+            "Kirjelda olukorda oma sõnadega. Mõtle eelkõige viimase aja raskustele, aga lisa ka pikem taust, kui probleem on kestnud kauem või kordub."
           )}
         </p>
-        <textarea
-          className={cn(fieldClassName, "min-h-[7rem] resize-y")}
-          value={assistantInput}
-          onChange={(event) => setAssistantInput(event.target.value)}
-          placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjuta siia, mida assistent peaks pöördumise koostamisel arvestama.")}
-        />
-        <div className="flex flex-wrap justify-end gap-[0.54rem]">
-          <Button type="button" disabled={assisting || (!assistantInput.trim() && !situation.trim())} onClick={handleAskAssistant}>
-            {assisting
-              ? readText(t, "workspace_feature_pages.pre_inquiries.actions.assisting", "Otsin...")
-              : readText(t, "workspace_feature_pages.pre_inquiries.actions.ask_assistant", "Valmista pöördumine")}
-          </Button>
+        <div className="grid gap-[0.62rem] rounded-[1rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.04)] p-[0.78rem] light:bg-[rgba(255,255,255,0.58)]">
+          <div className="grid min-h-[9rem] content-start gap-[0.54rem]">
+            {situation.trim() ? (
+              <div className="justify-self-end rounded-[0.9rem] border border-[rgba(208,116,108,0.14)] bg-[rgba(208,116,108,0.1)] px-[0.78rem] py-[0.56rem] text-[0.96rem] leading-[1.42] light:bg-[rgba(249,236,234,0.86)]">
+                {situation}
+              </div>
+            ) : null}
+            <div className="max-w-[85%] rounded-[0.9rem] border border-[rgba(72,146,150,0.2)] bg-[rgba(72,146,150,0.1)] px-[0.78rem] py-[0.56rem] text-[0.96rem] leading-[1.42] light:bg-[rgba(234,250,250,0.86)]">
+              {assistantMessage || readText(t, "workspace_feature_pages.pre_inquiries.assistant_prompt", "Tere. Kirjelda oma olukorda ning vajadusel küsin täpsustusi KOV-i, kiireloomulisuse ja soovitud tulemuse kohta.")}
+            </div>
+          </div>
+          <div className="grid gap-[0.5rem] sm:grid-cols-[1fr_auto] sm:items-end">
+            <textarea
+              className={cn(fieldClassName, "min-h-[4.8rem] resize-y")}
+              value={assistantInput}
+              onChange={(event) => setAssistantInput(event.target.value)}
+              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjuta oma vastus...")}
+            />
+            <Button type="button" disabled={assisting || (!assistantInput.trim() && !situation.trim())} onClick={handleAskAssistant}>
+              {assisting
+                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.assisting", "Otsin...")
+                : readText(t, "workspace_feature_pages.pre_inquiries.actions.send", "Saada")}
+            </Button>
+          </div>
         </div>
-        {assistantMessage ? <p className={bodyTextClassName}>{assistantMessage}</p> : null}
-        {assistantSuggestions.length ? (
-          <div className="grid gap-[0.45rem]">
-            {assistantSuggestions.map((suggestion) => (
-              <button
-                key={suggestion.id}
-                type="button"
-                className={cn(
-                  "grid gap-[0.18rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.76rem] py-[0.58rem] text-left light:bg-[rgba(255,255,255,0.56)]",
-                  selectedRecipientId === suggestion.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
-                )}
-                onClick={() => {
-                  setSelectedRecipientId(suggestion.id);
-                  setRecipientType(suggestion.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
-                  setDraftTouched(false);
-                }}
-              >
-                <span className="text-[0.98rem] font-[680] leading-[1.18]">{suggestion.title}</span>
-                <span className="text-[0.88rem] leading-[1.24] opacity-[0.76]">
-                  {[
-                    suggestion.email,
-                    getPreInquiryChannelLabel(t, suggestion.deliveryChannel),
-                    suggestion.municipalityName || suggestion.county
-                  ].filter(Boolean).join(" Ā· ")}
-                </span>
-              </button>
+
+        {assistantReasoning ? <p className={bodyTextClassName}>{assistantReasoning}</p> : null}
+        {assistantWarnings.length ? (
+          <div className="grid gap-[0.34rem]">
+            {assistantWarnings.map((warning) => (
+              <p key={warning} className="m-0 rounded-[0.86rem] border border-[rgba(208,116,108,0.18)] bg-[rgba(208,116,108,0.08)] px-[0.74rem] py-[0.48rem] text-[0.9rem] leading-[1.34] light:bg-[rgba(255,248,247,0.78)]">
+                {warning}
+              </p>
             ))}
+          </div>
+        ) : null}
+
+        {activeRole === "SOCIAL_WORKER" ? (
+          <div className="grid gap-[0.48rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.045)] px-[0.78rem] py-[0.62rem] light:bg-[rgba(255,255,255,0.58)]">
+            <label className="flex items-center gap-[0.58rem] text-[0.98rem] font-[620]">
+              <input
+                type="checkbox"
+                checked={acceptsPreInquiries}
+                onChange={(event) => setAcceptsPreInquiries(event.target.checked)}
+              />
+              <span>{readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}</span>
+            </label>
+            <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
+              {isAdmin
+                ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
+                : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
+            </p>
+            <Button type="button" disabled={savingPreferences} onClick={handleSavePreferences}>
+              {savingPreferences
+                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
+                : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
+            </Button>
           </div>
         ) : null}
       </SectionCard>
 
-      {activeRole === "SOCIAL_WORKER" ? (
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiving", "Vastuvõtt")}>
-          <label className="flex items-center gap-[0.58rem] text-[1rem] font-[620]">
-            <input
-              type="checkbox"
-              checked={acceptsPreInquiries}
-              onChange={(event) => setAcceptsPreInquiries(event.target.checked)}
-            />
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}</span>
-          </label>
-          <p className={bodyTextClassName}>
-            {isAdmin
-              ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
-              : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
-          </p>
-          <Button type="button" disabled={savingPreferences} onClick={handleSavePreferences}>
-            {savingPreferences
-              ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Saving...")
-              : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
-          </Button>
-        </SectionCard>
-      ) : null}
-
-      <div className="grid gap-[1rem]">
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Recipient")}>
-          <div className="flex flex-wrap gap-[0.46rem]" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Recipient type")}>
-            <button type="button" className={cn(chipClassName, recipientType === "KOV_CONTACT" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("KOV_CONTACT"); setSelectedRecipientId(""); setDraftTouched(false); }}>
-              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV contact")}
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
+        <p className={bodyTextClassName}>
+          {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
+        </p>
+        <div className="grid gap-[0.62rem] sm:grid-cols-[auto_1fr] sm:items-end">
+          <div className="flex flex-wrap gap-[0.46rem]" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
+            <button type="button" className={cn(chipClassName, recipientType === "KOV_CONTACT" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("KOV_CONTACT"); setSelectedRecipientId(""); setShowMoreContacts(false); setDraftTouched(false); }}>
+              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt")}
             </button>
-            <button type="button" className={cn(chipClassName, recipientType === "SERVICE_PROVIDER" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("SERVICE_PROVIDER"); setSelectedRecipientId(""); setDraftTouched(false); }}>
-              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Service provider")}
+            <button type="button" className={cn(chipClassName, recipientType === "SERVICE_PROVIDER" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("SERVICE_PROVIDER"); setSelectedRecipientId(""); setShowMoreContacts(false); setDraftTouched(false); }}>
+              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja")}
             </button>
           </div>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_search", "Find recipient")}</span>
-            <input className={fieldClassName} value={recipientQuery} onChange={(event) => setRecipientQuery(event.target.value)} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.recipient", "Search ServiceMapEntry data")} />
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_search", "Otsi adressaati")}</span>
+            <input className={fieldClassName} value={recipientQuery} onChange={(event) => setRecipientQuery(event.target.value)} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.recipient", "KOV, teenuseosutaja või piirkond")} />
           </Label>
-          <div className="grid max-h-[13rem] gap-[0.45rem] overflow-auto pr-[0.2rem]">
-            {recipientEntries.length ? recipientEntries.slice(0, 12).map((entry) => (
-              <button
-                key={entry.id}
-                type="button"
-                className={cn(
-                  "grid gap-[0.18rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.76rem] py-[0.58rem] text-left light:bg-[rgba(255,255,255,0.56)]",
-                  selectedRecipientId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
-                )}
-                onClick={() => { setSelectedRecipientId(entry.id); setDraftTouched(false); }}
-              >
-                <span className="text-[0.98rem] font-[680] leading-[1.18]">{entry.title}</span>
-                <span className="text-[0.88rem] leading-[1.24] opacity-[0.76]">{[entry.email, entry.phone, entry.address].filter(Boolean).join(" · ")}</span>
-              </button>
-            )) : (
-              <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "No recipients found yet.")}</p>
-            )}
-          </div>
-        </SectionCard>
-
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Draft")}>
-          <textarea className={cn(fieldClassName, "min-h-[9rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Generated draft")} />
-          <div className="flex flex-wrap justify-end gap-[0.54rem]">
-            <Button type="submit" disabled={saving || !situation.trim()}>
-              {saving
-                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Saving...")
-                : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Save draft")}
-            </Button>
-            <Button type="button" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Copy letter")}</Button>
-            <Button
+        </div>
+        <div className="grid gap-[0.52rem]">
+          {visibleRecommendedRecipients.length ? visibleRecommendedRecipients.map((entry) => (
+            <button
+              key={entry.id}
               type="button"
-              disabled={
-                !activeInquiry?.id ||
-                activeInquiry.deliveryChannel !== "EXTERNAL_EMAIL" ||
-                activeInquiry.status === "SENT" ||
-                sending
-              }
-              onClick={handleSendExternal}
+              className={cn(
+                "grid gap-[0.32rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.82rem] py-[0.68rem] text-left transition hover:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(255,255,255,0.58)] light:hover:bg-[rgba(255,255,255,0.8)]",
+                selectedRecipientId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
+              )}
+              onClick={() => {
+                setSelectedRecipientId(entry.id);
+                setRecipientType(entry.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
+                setDraftTouched(false);
+              }}
             >
-              {sending
-                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.sending", "Sending...")
-                : readText(t, "workspace_feature_pages.pre_inquiries.actions.send_external", "Send email")}
+              <span className="flex flex-wrap items-center justify-between gap-[0.5rem]">
+                <span className="text-[1.02rem] font-[720] leading-[1.16]">{entry.title}</span>
+                <span className="rounded-full bg-[rgba(72,146,150,0.13)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1] text-[color:var(--title-color,var(--brand-primary,#c57171))]">
+                  {getPreInquiryRecipientTypeLabel(t, entry)}
+                </span>
+              </span>
+              <span className="text-[0.92rem] leading-[1.28] opacity-[0.78]">{getPreInquiryRecipientSubtitle(entry)}</span>
+              <span className="text-[0.86rem] leading-[1.25] opacity-[0.7]">
+                {[
+                  getPreInquiryChannelLabel(t, entry.deliveryChannel),
+                  entry.email,
+                  entry.municipalityName || entry.county
+                ].filter(Boolean).join(" · ")}
+              </span>
+            </button>
+          )) : (
+            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "Sobivaid kontakte ei leitud veel. Kirjelda olukorda vestluses või täpsusta otsingut.")}</p>
+          )}
+          {recommendedRecipients.length > 3 ? (
+            <Button type="button" className="justify-self-start" onClick={() => setShowMoreContacts((value) => !value)}>
+              {showMoreContacts
+                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.show_less_contacts", "Näita vähem")
+                : readText(t, "workspace_feature_pages.pre_inquiries.actions.show_more_contacts", "Vaata rohkem kontakte")}
             </Button>
-          </div>
-        </SectionCard>
+          ) : null}
+        </div>
+      </SectionCard>
 
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Saved pre-inquiries")}>
-          <div className="grid max-h-[14rem] gap-[0.52rem] overflow-auto pr-[0.2rem]">
-            {inquiries.length ? inquiries.map((inquiry) => (
-              <article key={inquiry.id} className="grid gap-[0.22rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)]">
-                <div className="flex flex-wrap items-center justify-between gap-[0.4rem]">
-                  <h3 className="m-0 text-[1rem] font-[680] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Untitled")}</h3>
-                  <span className="text-[0.82rem] font-[650] opacity-[0.68]">{formatDate(inquiry.updatedAt)}</span>
-                </div>
-                <p className="m-0 text-[0.9rem] leading-[1.3] opacity-[0.78]">
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
+        <Label>
+          <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
+          <input className={fieldClassName} value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
+        </Label>
+        <textarea className={cn(fieldClassName, "min-h-[12rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+        <div className="flex flex-wrap justify-end gap-[0.54rem]">
+          <Button type="submit" disabled={saving || !situation.trim()}>
+            {saving
+              ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
+              : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Salvesta")}
+          </Button>
+          <Button type="button" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri")}</Button>
+          <Button type="button" disabled={!draft.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
+        <div className="grid gap-[0.52rem]">
+          {inquiries.length ? inquiries.map((inquiry) => (
+            <article key={inquiry.id} className="grid gap-[0.28rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)] sm:grid-cols-[1fr_auto] sm:items-center">
+              <div className="grid gap-[0.2rem]">
+                <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
+                <p className="m-0 text-[0.88rem] leading-[1.3] opacity-[0.78]">
                   {[
                     inquiry.selectedRecipientName,
                     inquiry.selectedRecipientEmail,
-                    getPreInquiryChannelLabel(t, inquiry.deliveryChannel),
-                    inquiry.status
+                    formatDate(inquiry.updatedAt)
                   ].filter(Boolean).join(" · ")}
                 </p>
-                <Button type="button" className="justify-self-start" onClick={() => handleOpenInquiry(inquiry)}>
-                  {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Open")}
+              </div>
+              <div className="flex flex-wrap items-center gap-[0.44rem] sm:justify-end">
+                <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                  {inquiry.status || "DRAFT"}
+                </span>
+                <Button type="button" onClick={() => handleOpenInquiry(inquiry)}>
+                  {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
                 </Button>
-              </article>
-            )) : (
-              <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_saved", "Saved pre-inquiries will appear here.")}</p>
-            )}
-          </div>
-        </SectionCard>
-      </div>
+              </div>
+            </article>
+          )) : (
+            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_saved", "Salvestatud eelpöördumised ilmuvad siia.")}</p>
+          )}
+        </div>
+      </SectionCard>
     </form>
   );
 }
@@ -679,7 +729,12 @@ function hasServiceMapCoordinates(entry) {
   return Number.isFinite(latitude) && Number.isFinite(longitude);
 }
 
-function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
+function ServiceMapSurface({
+  t,
+  activeRole = "SOCIAL_WORKER",
+  isAdmin = false,
+  onRoleChange
+}) {
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
   const [entryType, setEntryType] = useState("ALL");
@@ -752,8 +807,19 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
   }, [filteredEntries, selectedEntryId]);
 
   return (
-    <div className="grid gap-[1rem] lg:grid-cols-[0.72fr_1.28fr]">
-      <SectionCard title={readText(t, "workspace_feature_pages.service_map.sections.filters", "Filters")}>
+    <div className="service-map-workspace">
+      {isAdmin ? (
+        <div className="service-map-workspace__role">
+          <AdminRoleSelector
+            t={t}
+            value={activeRole}
+            onChange={onRoleChange}
+          />
+        </div>
+      ) : null}
+
+      <aside className="service-map-workspace__filters" aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}>
+        <h2 className={sectionTitleClassName}>{readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}</h2>
         <p className={bodyTextClassName}>
           {`${readText(t, "workspace_feature_pages.service_map.active_role", "Tööroll")}: ${roleLabel(t, activeRole)}`}
         </p>
@@ -786,13 +852,13 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
             ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
             : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}, ${mappableEntries.length} ${readText(t, "workspace_feature_pages.service_map.mappable", "markerit")}`}
         </p>
-        <div className="grid max-h-[24rem] gap-[0.54rem] overflow-y-auto pr-[0.12rem]">
+        <div className="grid max-h-[min(32vh,20rem)] gap-[0.54rem] overflow-y-auto pr-[0.12rem]">
           {filteredEntries.length ? filteredEntries.slice(0, 40).map((entry) => (
             <button
               key={entry.id}
               type="button"
               className={cn(
-                "grid gap-[0.22rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.74rem] py-[0.66rem] text-left text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] transition hover:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(255,255,255,0.54)]",
+                "grid gap-[0.22rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.72)] px-[0.74rem] py-[0.66rem] text-left text-[#243044] transition hover:bg-[rgba(255,255,255,0.9)]",
                 selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
               )}
               onClick={() => setSelectedEntryId(entry.id)}
@@ -813,23 +879,23 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
             </p>
           )}
         </div>
-      </SectionCard>
+      </aside>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_map.sections.map", "Map")} className="min-h-[31rem]">
+      <div className="service-map-workspace__map" aria-label={readText(t, "workspace_feature_pages.service_map.sections.map", "Kaart")}>
         <ServiceMapLeaflet
           entries={mappableEntries}
           selectedEntryId={selectedEntryId}
           onSelectEntry={setSelectedEntryId}
           t={t}
         />
-        <p className={bodyTextClassName}>
+        <div className="service-map-workspace__status">
           {loading
             ? readText(t, "workspace_feature_pages.service_map.loading", "Loading map entries...")
             : error || (mappableEntries.length
               ? readText(t, "workspace_feature_pages.service_map.loaded", "Avaldatud kaardikirjed on markeritena Eesti kaardil.")
               : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena."))}
-        </p>
-      </SectionCard>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1124,13 +1190,16 @@ export default function WorkspaceFeaturePage({ feature }) {
     ? adminWorkspaceRole
     : normalizeWorkspaceRole(session?.user?.role);
   const showAdminRoleSelector = isAdmin && (
-    featureKey === "pre_inquiries" ||
-    featureKey === "service_map"
+    featureKey === "pre_inquiries"
   );
+  const isServiceMap = featureKey === "service_map";
 
   return (
     <section className={shellClassName} lang={locale}>
-      <div className={panelClassName}>
+      <div className={cn(
+        panelClassName,
+        isServiceMap && "!max-w-[calc(100vw-1rem)] !max-h-[calc(100dvh-1rem)] !h-[calc(100dvh-1rem)] !rounded-[1.35rem] !overflow-hidden !px-[0.7rem] !pb-[0.7rem]"
+      )}>
         <BackButton
           onClick={handleBack}
           ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -1144,8 +1213,8 @@ export default function WorkspaceFeaturePage({ feature }) {
           </div>
         </header>
 
-        <div className={contentClassName}>
-          {lead ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.5rem] max-[768px]:text-[1.08rem]">{lead}</p> : null}
+        <div className={cn(contentClassName, isServiceMap && "!h-[calc(100%-5.15rem)] !max-w-none !px-0 !pt-0 !pb-0")}>
+          {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.5rem] max-[768px]:text-[1.08rem]">{lead}</p> : null}
           {showAdminRoleSelector ? (
             <AdminRoleSelector
               t={t}
@@ -1155,7 +1224,7 @@ export default function WorkspaceFeaturePage({ feature }) {
           ) : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} /> : null}
-          {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} /> : null}
+          {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}
         </div>
       </div>
