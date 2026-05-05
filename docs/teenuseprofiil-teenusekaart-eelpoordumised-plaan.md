@@ -396,11 +396,12 @@ Uued seotud failid:
 
 Lisatud Teenusekaardi esimene päris kaardivaade:
 
-- lisatud Leaflet sõltuvus;
+- lisatud Leafleti staatilised vendor-failid `public/vendor/leaflet`, et serveri deploy ei vajaks eraldi `npm install` sammu;
 - lisatud `components/workspace/ServiceMapLeaflet.jsx`;
 - lisatud `app/styles/components/service-map.css`;
 - `/teenusekaart` kasutab nüüd Maa- ja Ruumiameti Eesti aluskaardi TMS kihti `kaart@GMC`;
 - tile URL on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_TILE_URL`;
+- Leafleti JS/CSS URL-id on muudetavad env kaudu: `NEXT_PUBLIC_LEAFLET_SCRIPT_URL` ja `NEXT_PUBLIC_LEAFLET_CSS_URL`;
 - atribuut on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_ATTRIBUTION`;
 - kaart kasutab Eesti ulatust ja piirab kasutajat Eesti kaardiruumi ümber;
 - markerid tulevad ainult struktureeritud `/api/service-map/entries` andmest, mitte RAG runtime otsingust;

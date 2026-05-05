@@ -11,6 +11,10 @@ const DEFAULT_TILE_URL =
   "https://tiles.maaamet.ee/tm/tms/1.0.0/kaart@GMC/{z}/{x}/{y}.png&ASUTUS=SOTSIAALAI&KESKKOND=LIVE&IS=TEENUSEKAART";
 
 const DEFAULT_ATTRIBUTION = "Aluskaart: Maa- ja Ruumiamet";
+const DEFAULT_LEAFLET_SCRIPT_URL = "/vendor/leaflet/leaflet.js";
+const DEFAULT_LEAFLET_CSS_URL = "/vendor/leaflet/leaflet.css";
+
+let leafletLoadPromise = null;
 
 function readText(t, key, fallback) {
   return typeof t === "function" ? t(key, fallback) : fallback;
@@ -151,6 +155,52 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
+function ensureStylesheet(href) {
+  if (typeof document === "undefined") return;
+  if (document.querySelector(`link[data-service-map-leaflet="1"][href="${href}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  link.dataset.serviceMapLeaflet = "1";
+  document.head.appendChild(link);
+}
+
+function loadLeafletFromPublicAssets() {
+  if (typeof window === "undefined") return Promise.reject(new Error("Leaflet requires a browser environment."));
+  if (window.L) return Promise.resolve(window.L);
+  if (leafletLoadPromise) return leafletLoadPromise;
+
+  const scriptUrl = process.env.NEXT_PUBLIC_LEAFLET_SCRIPT_URL || DEFAULT_LEAFLET_SCRIPT_URL;
+  const cssUrl = process.env.NEXT_PUBLIC_LEAFLET_CSS_URL || DEFAULT_LEAFLET_CSS_URL;
+  ensureStylesheet(cssUrl);
+
+  leafletLoadPromise = new Promise((resolve, reject) => {
+    const existingScript = document.querySelector(`script[data-service-map-leaflet="1"][src="${scriptUrl}"]`);
+    if (existingScript) {
+      existingScript.addEventListener("load", () => resolve(window.L), { once: true });
+      existingScript.addEventListener("error", () => reject(new Error("Leaflet script failed to load.")), { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = scriptUrl;
+    script.async = true;
+    script.defer = true;
+    script.dataset.serviceMapLeaflet = "1";
+    script.onload = () => {
+      if (window.L) {
+        resolve(window.L);
+      } else {
+        reject(new Error("Leaflet global was not initialized."));
+      }
+    };
+    script.onerror = () => reject(new Error("Leaflet script failed to load."));
+    document.head.appendChild(script);
+  });
+
+  return leafletLoadPromise;
+}
+
 export default function ServiceMapLeaflet({
   entries = [],
   selectedEntryId = "",
@@ -189,10 +239,9 @@ export default function ServiceMapLeaflet({
       if (!containerRef.current || mapRef.current) return;
 
       try {
-        const leafletModule = await import("leaflet");
+        const L = await loadLeafletFromPublicAssets();
         if (cancelled || !containerRef.current) return;
 
-        const L = leafletModule.default || leafletModule;
         const map = L.map(containerRef.current, {
           center: [58.75, 25.2],
           zoom: 7,
