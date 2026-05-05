@@ -204,6 +204,53 @@ test("measures legal paragraph precision through central source metadata aliases
   assert.equal(result.issues.some(item => item.type === "legal_displayed_wrong_paragraph"), true);
 });
 
+test("does not treat non-legal research aliases as current legal source violations", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        selected_context_details: [
+          {
+            source_id: "sotsiaaltoo-article",
+            source_type: "article",
+            source_status: "active"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, true);
+  assert.equal(result.summary.legal_current_source_violation_count, 0);
+});
+
+test("measures legal selected paragraph precision through central source metadata aliases", () => {
+  const result = summarizeRagTraceSourceQuality([
+    {
+      data: {
+        query_plan: {
+          legalLookupPlan: {
+            enabled: true,
+            mode: "explicit_paragraph",
+            paragraphRefs: ["6"]
+          }
+        },
+        selected_context_details: [
+          {
+            source_id: "kov-rt-7",
+            source_type: "municipal_regulation",
+            paragraph_number: "7",
+            source_status: "active"
+          }
+        ]
+      }
+    }
+  ]);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.summary.legal_selected_wrong_paragraph_count, 1);
+  assert.equal(result.issues.some(item => item.type === "legal_selected_wrong_paragraph"), true);
+});
+
 test("measures legal selected paragraph precision and flags wrong selected paragraph", () => {
   const result = summarizeRagTraceSourceQuality([
     {

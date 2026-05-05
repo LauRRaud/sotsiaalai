@@ -6,7 +6,8 @@ import {
   buildSourceAttribution,
   extractParagraphRefsFromReply,
   filterSourcesForReply,
-  getSourceAttributionId
+  getSourceAttributionId,
+  isLegalSource
 } from "../../lib/chat/sourceAttribution.js";
 
 test("keeps only sources that overlap with the direct answer", () => {
@@ -1178,6 +1179,23 @@ test("uses legal chunk ids for national law attribution instead of collapsing by
     "riigiteataja:130122025029:paragraph-131-lg-1",
     "riigiteataja:130122025029:paragraph-132-lg-1"
   ].sort());
+});
+
+test("uses central legal aliases for source attribution identity", () => {
+  const source = {
+    id: "legacy-kov-regulation-chunk",
+    source_id: "legacy-kov-regulation-doc",
+    source_type: "municipal_regulation",
+    evidenceText: "KOV maarus kinnitab allika.",
+    title: "KOV määrus"
+  };
+  const attribution = buildSourceAttribution("KOV maarus kinnitab allika.", [source], {
+    query: "KOV maarus"
+  });
+
+  assert.equal(isLegalSource(source), true);
+  assert.equal(getSourceAttributionId(source, 0), "legacy-kov-regulation-chunk");
+  assert.equal(attribution.attribution_decisions[0].source_layer_contract, "kov_regulation");
 });
 
 test("keeps exact SHS legal sources with acronym and inflected benefit terms", () => {

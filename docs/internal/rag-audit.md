@@ -776,6 +776,7 @@ Follow-up hotfix:
 - Added regression coverage in `tests/chat/messageMarkdown.test.js` and `tests/chat/promptStyle.test.js`.
 - Validation:
   - `npx tsx --tsconfig jsconfig.json --test tests/chat/promptStyle.test.js tests/chat/messageMarkdown.test.js` -> `10/10` passed.
+  - `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
 
 Server live smoke after deploy:
 
@@ -786,13 +787,112 @@ Server live smoke after deploy:
 - KOV/SourcePackage (`Millised on Kuusalu valla koduteenuse tingimused?`) kept `package_aware_answering_used = true` and `evidence_package_present = false`.
 - Manual platform smoke was acceptable for overview, comparison, legal exact, KOV service lookup, resource discovery, life-situation guidance and Astangu organization lookup.
 
+### V2.5C-2 SourceQualityMetrics Helper Cleanup
+
+Status: DONE / focused helper replacement and alias coverage
+
+Scope:
+
+- `sourceQualityMetrics.js`: replaced the remaining local legal-source adapter usage with central `isLegalSource({ source_type })` checks from `sourceMetadata.js`, preserving the previous source-type-only metric boundary.
+- `sourceQualityMetrics.js`: removed the stale raw `journal_article` selected-context check from the legal-current metric path instead of broadening it to non-legal research sources.
+- `tests/rag/sourceQualityMetrics.test.js`: added regressions for selected-context legal aliases and for preserving the boundary that non-legal research aliases do not count as current legal source violations.
+- No retrieval, planner mode detection, SourcePackage, legal exact, KOV/SourcePackage route, ingest pipeline or stored metadata values were changed.
+
+Validation:
+
+- Focused source-quality/source-metadata tests passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceQualityMetrics.test.js` -> `11/11` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceMetadata.test.js` -> `11/11` passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+  - Result: `249/249` tests passed.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Next step:
+
+- V2.5C-3: replace selected low-risk `sourceAttribution.js` source-layer branches with central helpers.
+
+### V2.5C-3 SourceAttribution Legal Helper Cleanup
+
+Status: DONE / selected low-risk attribution replacement
+
+Scope:
+
+- `sourceAttribution.js`: replaced the local legal-source regex with the central `sourceMetadata.js` `isLegalSource()` helper behind the existing exported attribution `isLegalSource()` API.
+- `sourceAttribution.js`: kept attribution matching scoped to raw `source_type/sourceType` so collection-only metadata does not newly classify a source as legal in attribution.
+- `sourceAttribution.js`: replaced the legal ID regex in `getSourceAttributionId()` with the attribution legal helper, so central legal aliases such as `municipal_regulation` keep legal chunk IDs.
+- `tests/chat/sourceAttribution.test.js`: added a regression for `municipal_regulation` legal alias identity behavior.
+- No retrieval, planner mode detection, SourcePackage, legal exact contract matching, KOV/SourcePackage route, ingest pipeline or stored metadata values were changed.
+
+Validation:
+
+- Focused tests passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js` -> `38/38` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceMetadata.test.js` -> `11/11` passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+  - Result: `250/250` tests passed.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Next step:
+
+- V2.6 cleanup/refactor: remove remaining duplicate source-layer logic carefully, normalize trace/source-layer naming, and document the final contract.
+
+### V2.6 Source Layer Trace Contract Cleanup
+
+Status: DONE / trace-only source-layer normalization
+
+Scope:
+
+- `sourceAttribution.js`: attribution decisions now include `source_layer_contract`, derived from central `sourceMetadata.js` `sourceLayerFor()`.
+- This creates the same normalized source-layer vocabulary in attribution trace metadata that EvidencePackage already uses (`national_law`, `kov_regulation`, `kov_web`, `organization`, `guidance`, `material`, `research_or_journal`, `public_body_info`, `legal`, `other`).
+- The change is trace-only: it does not change display/hide decisions, score thresholds, source matching, retrieval, planner mode detection, SourcePackage, legal exact contract matching, KOV/SourcePackage routing, ingest pipeline or stored metadata values.
+- `tests/chat/sourceAttribution.test.js`: extended the legal alias identity regression to assert `source_layer_contract = kov_regulation` for the legacy `municipal_regulation` alias.
+
+Validation:
+
+- Focused tests passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/sourceAttribution.test.js` -> `38/38` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/ragTraceMetadata.test.js` -> `9/9` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceMetadata.test.js` -> `11/11` passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+  - Result: `250/250` tests passed.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Next step:
+
+- Final regression/build and platform live smoke.
+
 ## Current Next Steps
 
-1. V2.5C Step 2: verify/complete the `sourceQualityMetrics.js` helper replacement, then replace selected low-risk source-layer branches in `sourceAttribution.js`, with regressions for legal exact, KOV/SourcePackage, overview, resource discovery, life-situation and comparison.
-2. Keep replacements incremental; do not rewrite all attribution/ranking source-type logic in one patch.
-3. Keep legal exact and KOV/SourcePackage regressions protected before replacing route-critical source logic.
-4. V2.4B only if live EvidencePackage tests show answer-contract gaps.
-5. Do not add LLM planner calls until deterministic planner contracts and trace are stable.
+1. Final regression/build: broad RAG/chat tests, source attribution, EvidencePackage, SourcePackage, prompt style tests and `npm run build`.
+2. Platform smoke after deploy with the current live question set.
+
+Guardrails:
+
+- Keep replacements incremental; do not rewrite all attribution/ranking source-type logic in one patch.
+- Keep legal exact and KOV/SourcePackage regressions protected before replacing route-critical source logic.
+- Do not change ingest metadata values or rename stored `source_type` / `collection_id` values as part of V2.5C.
+- V2.4B only if live EvidencePackage tests show answer-contract gaps.
+- Do not add LLM planner calls until deterministic planner contracts and trace are stable.
+
+## Next Window Handoff Task
+
+Start with final validation and platform live smoke.
+
+Task:
+
+- Re-run the final broad RAG/chat regression set.
+- Run `npm run build`.
+- Deploy/restart as needed.
+- Run platform live smoke with the current live question set.
+- Update this audit section with final validation and live-smoke results.
+
+Expected final sequence:
+
+1. Final tests/build.
+2. Platform live smoke.
 
 ## Previous V2.4A Live Smoke Prompt List
 
