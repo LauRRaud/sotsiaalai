@@ -302,6 +302,11 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.85)) !important;
 }
 
+:root.theme-mid .homepage-root .home-before-contact-copy,
+:root.theme-mid .homepage-root .home-before-contact-copy :is(p, span, div) {
+  color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.9)) !important;
+}
+
 .homepage-root .home-before-links .home-quick-link:is(:hover, :focus-visible) + .home-quick-label {
   animation-play-state: paused;
 }
@@ -310,30 +315,104 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   opacity: 1;
 }
 
+.homepage-root .home-before-carousel-arrow {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .homepage-root .home-before-links {
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(50% - 50vw) !important;
     margin-right: calc(50% - 50vw) !important;
+    margin-bottom: -0.85rem !important;
     overflow: hidden !important;
     padding-inline: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .homepage-root .home-before-carousel-arrow {
+    position: absolute;
+    top: clamp(1.15rem, 4.2vw, 1.55rem);
+    z-index: 3;
+    display: inline-flex;
+    width: 2.95rem;
+    height: 4.95rem;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    color: var(--home-link-color, var(--brand-primary, #c57171));
+    opacity: 0.72;
+    box-shadow: none;
+    pointer-events: auto;
+    transition:
+      opacity 180ms ease,
+      transform 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .homepage-root .home-before-carousel-arrow--prev {
+    left: max(0.46rem, calc(env(safe-area-inset-left) + 0.26rem));
+  }
+
+  .homepage-root .home-before-carousel-arrow--next {
+    right: max(0.46rem, calc(env(safe-area-inset-right) + 0.26rem));
+  }
+
+  .homepage-root .home-before-carousel-arrow:is(:hover, :focus-visible, :active) {
+    opacity: 1;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .homepage-root .home-before-carousel-arrow:active {
+    transform: scale(0.94);
+  }
+
+  .homepage-root .home-before-carousel-arrow svg {
+    width: 2.1rem;
+    height: 2.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .homepage-root .home-before-link-list {
+    --home-mobile-quick-item: clamp(6.05rem, 25vw, 7.25rem);
+    --home-mobile-quick-icon: clamp(3.35rem, 13.5vw, 3.9rem);
+    --home-mobile-quick-icon-active: clamp(4rem, 16.2vw, 4.72rem);
     display: flex !important;
     grid-template-columns: none !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
     align-items: flex-start !important;
-    gap: clamp(0.55rem, 3.6vw, 0.95rem) !important;
+    gap: clamp(0.28rem, 2.6vw, 0.65rem) !important;
     overflow-x: auto !important;
     overflow-y: visible !important;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    padding: 0.2rem max(1.1rem, calc((100vw - 20.6rem) / 2)) 0.35rem !important;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 18%,
+      #000 82%,
+      transparent 100%
+    );
+    padding: 0.18rem max(1.2rem, calc(50vw - 3.45rem)) 0 !important;
   }
 
   .homepage-root .home-before-link-list::-webkit-scrollbar {
@@ -341,30 +420,88 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 
   .homepage-root .home-before-link-item {
-    flex: 0 0 clamp(5.85rem, 24vw, 6.9rem) !important;
-    width: clamp(5.85rem, 24vw, 6.9rem) !important;
-    min-width: clamp(5.85rem, 24vw, 6.9rem) !important;
+    flex: 0 0 var(--home-mobile-quick-item) !important;
+    width: var(--home-mobile-quick-item) !important;
+    min-width: var(--home-mobile-quick-item) !important;
+    min-height: 5.85rem !important;
     scroll-snap-align: center;
+    padding-bottom: 1.72rem !important;
+    transition:
+      opacity 260ms ease,
+      transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   .homepage-root .home-before-link-item:is(:first-child, :last-child) {
     justify-self: auto !important;
   }
 
+  .homepage-root .home-before-link-item .home-quick-link {
+    width: var(--home-mobile-quick-icon-active) !important;
+    height: var(--home-mobile-quick-icon-active) !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
   .homepage-root .home-before-link-item .home-quick-link svg {
-    width: clamp(3.75rem, 15.5vw, 4.45rem) !important;
-    height: clamp(3.75rem, 15.5vw, 4.45rem) !important;
+    width: var(--home-mobile-quick-icon) !important;
+    height: var(--home-mobile-quick-icon) !important;
+    opacity: 0.68 !important;
+    transform-origin: center;
+    transition:
+      opacity 300ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+
+  .homepage-root .home-before-link-item[data-active="true"] .home-quick-link svg {
+    opacity: 1 !important;
+    transform: translateY(-0.08rem) scale(1.18);
   }
 
   .homepage-root .home-before-link-item .home-quick-label {
-    width: 100% !important;
+    position: absolute !important;
+    top: calc(var(--home-mobile-quick-icon-active) + 0.36rem) !important;
+    left: 50% !important;
+    width: max-content !important;
+    max-width: 9.4rem !important;
     min-height: 1.2em !important;
-    margin-top: 0.42rem !important;
+    margin-top: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     white-space: nowrap !important;
-    font-size: clamp(0.86rem, 3.35vw, 0.98rem) !important;
+    text-align: center !important;
+    font-size: clamp(0.78rem, 3vw, 0.88rem) !important;
     line-height: 1.12 !important;
     letter-spacing: 0.03em !important;
     text-wrap: nowrap !important;
+    opacity: 0 !important;
+    animation: none !important;
+    background: none !important;
+    color: color-mix(in srgb, var(--home-link-color, var(--brand-primary, #c57171)) 82%, transparent) !important;
+    -webkit-text-fill-color: currentColor !important;
+    transform: translate3d(-50%, -0.08rem, 0) scale(0.985);
+    transform-origin: 50% 0;
+    will-change: opacity, transform;
+    transition:
+      opacity 150ms ease-out,
+      transform 180ms ease-out !important;
+  }
+
+  .homepage-root .home-before-link-item .home-quick-label::after {
+    content: none !important;
+  }
+
+  .homepage-root .home-before-link-item[data-active="true"] .home-quick-label {
+    opacity: 1 !important;
+    font-size: clamp(1.16rem, 4.9vw, 1.32rem) !important;
+    letter-spacing: 0.075em !important;
+    transform: translate3d(-50%, 0, 0) scale(1);
+    transition:
+      opacity 300ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 300ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+
+  .homepage-root .home-before-links + * {
+    margin-top: 0 !important;
   }
 }
 

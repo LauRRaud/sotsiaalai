@@ -151,6 +151,10 @@ export default function HomeAboutSection({
   const aboutScrollRef = useRef(null);
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
+  const quickListRef = useRef(null);
+  const quickListInitialCenterRef = useRef(false);
+  const activeQuickKeyRef = useRef("privacy");
+  const [activeQuickKey, setActiveQuickKey] = useState("privacy");
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -333,6 +337,132 @@ export default function HomeAboutSection({
       onClick: openBeforeContact
     }
   ];
+  const quickLinkSignature = quickLinks.map((item) => item.key).join("|");
+  useEffect(() => {
+    const list = quickListRef.current;
+    if (!list || typeof window === "undefined") return undefined;
+
+    const mobileQuery = window.matchMedia?.("(max-width: 768px)");
+    const isMobile = () => mobileQuery?.matches ?? window.innerWidth <= 768;
+    let rafId = 0;
+
+    const itemElements = () =>
+      Array.from(list.querySelectorAll("[data-home-quick-key]")).filter(
+        (element) => element instanceof HTMLElement
+      );
+
+    const applyActiveKey = (items, nextKey) => {
+      if (!nextKey || activeQuickKeyRef.current === nextKey) return;
+
+      activeQuickKeyRef.current = nextKey;
+      items.forEach((item) => {
+        item.dataset.active = item.dataset.homeQuickKey === nextKey ? "true" : "false";
+      });
+    };
+
+    const updateActive = () => {
+      rafId = 0;
+      if (!isMobile()) return;
+
+      const items = itemElements();
+      if (!items.length) return;
+
+      const listRect = list.getBoundingClientRect();
+      const listCenter = listRect.left + listRect.width / 2;
+      let nearest = items[0];
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      items.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(itemCenter - listCenter);
+        if (distance < nearestDistance) {
+          nearest = item;
+          nearestDistance = distance;
+        }
+      });
+
+      const nextKey = nearest.dataset.homeQuickKey;
+      applyActiveKey(items, nextKey);
+    };
+
+    const scheduleUpdate = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(updateActive);
+    };
+
+    const centerInitialItem = () => {
+      if (quickListInitialCenterRef.current || !isMobile()) {
+        scheduleUpdate();
+        return;
+      }
+
+      const target =
+        list.querySelector('[data-home-quick-key="privacy"]') ||
+        itemElements()[Math.floor(itemElements().length / 2)];
+
+      if (target instanceof HTMLElement) {
+        target.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+          behavior: "auto"
+        });
+      }
+
+      quickListInitialCenterRef.current = true;
+      scheduleUpdate();
+    };
+
+    const initialFrame = window.requestAnimationFrame(centerInitialItem);
+    list.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    mobileQuery?.addEventListener?.("change", scheduleUpdate);
+
+    return () => {
+      window.cancelAnimationFrame(initialFrame);
+      if (rafId) window.cancelAnimationFrame(rafId);
+      list.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      mobileQuery?.removeEventListener?.("change", scheduleUpdate);
+    };
+  }, [quickLinkSignature]);
+
+  const scrollQuickCarousel = (direction) => {
+    const list = quickListRef.current;
+    if (!list || typeof window === "undefined") return;
+
+    const items = Array.from(list.querySelectorAll("[data-home-quick-key]")).filter(
+      (element) => element instanceof HTMLElement && element.offsetParent !== null
+    );
+    if (!items.length) return;
+
+    const activeElementIndex = items.findIndex((item) => item.dataset.active === "true");
+    const currentIndex = Math.max(
+      0,
+      activeElementIndex >= 0
+        ? activeElementIndex
+        : items.findIndex((item) => item.dataset.homeQuickKey === activeQuickKeyRef.current)
+    );
+    const targetIndex = Math.max(0, Math.min(items.length - 1, currentIndex + direction));
+    const target = items[targetIndex];
+
+    target.scrollIntoView({
+      block: "nearest",
+      inline: "center",
+      behavior:
+        window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth"
+    });
+
+    const nextKey = target.dataset.homeQuickKey;
+    if (nextKey) {
+      activeQuickKeyRef.current = nextKey;
+      items.forEach((item) => {
+        item.dataset.active = item.dataset.homeQuickKey === nextKey ? "true" : "false";
+      });
+      setActiveQuickKey(nextKey);
+    }
+  };
+
   const handleQuickLinkClick = (event, item) => {
     item.onClick?.(event);
   };
@@ -438,13 +568,39 @@ export default function HomeAboutSection({
           <h3 id={beforeHeadingId} className="sr-only">
             {ctaTitle}
           </h3>
-          <ul className="home-before-link-list m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3">
+          <button
+            type="button"
+            className="home-before-carousel-arrow home-before-carousel-arrow--prev"
+            aria-label={locale === "et" ? "Eelmine link" : "Previous link"}
+            onClick={() => scrollQuickCarousel(-1)}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M14.6 6.2 8.8 12l5.8 5.8" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="home-before-carousel-arrow home-before-carousel-arrow--next"
+            aria-label={locale === "et" ? "Järgmine link" : "Next link"}
+            onClick={() => scrollQuickCarousel(1)}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="m9.4 6.2 5.8 5.8-5.8 5.8" />
+            </svg>
+          </button>
+          <ul
+            ref={quickListRef}
+            className="home-before-link-list m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3"
+          >
             {quickLinks.map((item) => {
               const isContactItem = item.key === "contact";
+              const isActiveQuickItem = activeQuickKey === item.key;
 
               return (
                 <li
                   key={item.key}
+                  data-home-quick-key={item.key}
+                  data-active={isActiveQuickItem ? "true" : "false"}
                   className={cn(
                     "home-before-link-item pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
                     isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
