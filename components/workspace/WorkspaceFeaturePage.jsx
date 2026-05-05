@@ -21,6 +21,7 @@ import {
   glassSubpageSurfaceScopeClassName
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
+import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
@@ -212,7 +213,26 @@ function buildPreInquiryDownloadName(topic) {
   return `${slug || "eelpoordumine"}.txt`;
 }
 
+function buildPreInquiryReplyMailto(inquiry) {
+  const email = String(inquiry?.author?.email || "").trim();
+  if (!email) return "";
+  const subject = inquiry?.topic
+    ? `Vastus eelpöördumisele: ${inquiry.topic}`
+    : "Vastus eelpöördumisele";
+  const body = [
+    "Tere",
+    "",
+    "Kirjutan seoses teie eelpöördumisega.",
+    "",
+    inquiry?.situation ? `Teie kirjeldus:\n${inquiry.situation}` : "",
+    "",
+    "Lugupidamisega"
+  ].filter(Boolean).join("\n");
+  return `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
+  const router = useRouter();
   const chatWindowRef = useRef(null);
   const inputBarRef = useRef(null);
   const inputRef = useRef(null);
@@ -237,6 +257,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [saving, setSaving] = useState(false);
   const [assisting, setAssisting] = useState(false);
   const [savingPreferences, setSavingPreferences] = useState(false);
+  const [acceptingInquiryId, setAcceptingInquiryId] = useState("");
+  const [openingRoomInquiryId, setOpeningRoomInquiryId] = useState("");
   const [acceptsPreInquiries, setAcceptsPreInquiries] = useState(false);
   const [draftTouched, setDraftTouched] = useState(false);
   const [inputFocused, setInputFocused] = useState(false);
@@ -377,7 +399,12 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }, [currentUserId, inquiries]);
 
   const savedInquiries = isAdmin ? inquiries : authoredInquiries;
-  const showReceivedInquiries = !isAdmin && activeRole !== "CLIENT";
+  const isRecipientRole = activeRole === "SOCIAL_WORKER" || activeRole === "SERVICE_PROVIDER";
+  const receiverInquiries = isAdmin && isRecipientRole ? inquiries : receivedInquiries;
+  const showReceivedInquiries = isRecipientRole;
+  const activeReceivedInquiry = activeInquiryId
+    ? receiverInquiries.find((inquiry) => inquiry.id === activeInquiryId) || null
+    : receiverInquiries[0] || null;
 
   useEffect(() => {
     if (draftTouched) return;
@@ -516,6 +543,64 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     }
   }
 
+  async function handleAcceptInquiry(inquiry) {
+    const inquiryId = String(inquiry?.id || "").trim();
+    if (!inquiryId || acceptingInquiryId) return;
+    setAcceptingInquiryId(inquiryId);
+    setNotice("");
+    setError("");
+    try {
+      const response = await fetch(`/api/pre-inquiries/${encodeURIComponent(inquiryId)}/accept`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.accept_failed", "Eelpöördumist ei saanud vastu võtta."));
+      }
+      const updated = payload?.inquiry || null;
+      if (updated) {
+        setInquiries((current) => current.map((item) => item.id === updated.id ? updated : item));
+      }
+      setNotice(readText(t, "workspace_feature_pages.pre_inquiries.accept_success", "Eelpöördumine on vastuvõetud."));
+    } catch (acceptError) {
+      setError(acceptError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.accept_failed", "Eelpöördumist ei saanud vastu võtta."));
+    } finally {
+      setAcceptingInquiryId("");
+    }
+  }
+
+  async function handleOpenInquiryRoom(inquiry) {
+    const inquiryId = String(inquiry?.id || "").trim();
+    if (!inquiryId || openingRoomInquiryId) return;
+    setOpeningRoomInquiryId(inquiryId);
+    setNotice("");
+    setError("");
+    try {
+      const response = await fetch(`/api/pre-inquiries/${encodeURIComponent(inquiryId)}/room`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.room_failed", "Vestlusruumi ei saanud avada."));
+      }
+      const roomId = payload?.room?.id || payload?.roomId || "";
+      if (!roomId) {
+        throw new Error(readText(t, "workspace_feature_pages.pre_inquiries.errors.room_failed", "Vestlusruumi ei saanud avada."));
+      }
+      pushWithTransition(router, buildRoomChatPath(roomId, locale));
+    } catch (roomError) {
+      setError(roomError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.room_failed", "Vestlusruumi ei saanud avada."));
+    } finally {
+      setOpeningRoomInquiryId("");
+    }
+  }
+
   async function handleAskAssistant(event, overrideMessage = "") {
     event?.preventDefault();
     const message = String(overrideMessage || assistantInput).trim();
@@ -576,6 +661,120 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       preventDefault() {}
     }, String(message || ""));
     return true;
+  }
+
+  if (isRecipientRole) {
+    return (
+      <div className="mx-auto grid w-full max-w-[58rem] gap-[0.82rem]">
+        <div className="flex flex-wrap items-center justify-between gap-[0.5rem]">
+          <p className={cn(bodyTextClassName, "text-[0.96rem]")}>
+            {`${roleLabel(t, activeRole)} · ${readText(t, "workspace_feature_pages.pre_inquiries.receiver_workspace", "Eelpöördumiste vastuvõtt")}`}
+          </p>
+        </div>
+
+        {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Laen eelpöördumisi...")}</p> : null}
+        {error ? (
+          <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
+            {error}
+          </p>
+        ) : null}
+        {notice ? (
+          <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(223,246,236,0.96)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67]">
+            {notice}
+          </p>
+        ) : null}
+
+        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiving_settings", "Vastuvõtt")}>
+          {activeRole === "SOCIAL_WORKER" ? (
+            <div className="workspace-feature-card grid gap-[0.48rem] rounded-[0.95rem] border px-[0.78rem] py-[0.62rem]">
+              <label className="flex items-center gap-[0.58rem] text-[0.98rem] font-[620]">
+                <input
+                  type="checkbox"
+                  checked={acceptsPreInquiries}
+                  onChange={(event) => setAcceptsPreInquiries(event.target.checked)}
+                />
+                <span>{readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}</span>
+              </label>
+              <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
+                {isAdmin
+                  ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
+                  : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
+              </p>
+              <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
+                {savingPreferences
+                  ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
+                  : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
+              </Button>
+            </div>
+          ) : (
+            <p className={bodyTextClassName}>
+              {readText(t, "workspace_feature_pages.pre_inquiries.receiving.provider_note", "Teenuseosutaja vastuvõtukanalid määratakse teenuseprofiilis. Siin näed sulle platvormisiseselt adresseeritud eelpöördumisi ja saad pöördujaga ruumi avada või vastata e-postiga.")}
+            </p>
+          )}
+        </SectionCard>
+
+        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
+          <div className="grid gap-[0.52rem]">
+            {receiverInquiries.length ? receiverInquiries.map((inquiry) => (
+              <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.38rem] rounded-[0.86rem] border px-[0.76rem] py-[0.68rem]">
+                <div className="flex flex-wrap items-start justify-between gap-[0.62rem]">
+                  <div className="grid gap-[0.2rem]">
+                    <h3 className="m-0 text-[1rem] font-[720] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
+                    <p className="m-0 text-[0.88rem] leading-[1.3] opacity-[0.78]">
+                      {[
+                        inquiry.author?.email,
+                        inquiry.selectedRecipientName,
+                        formatDate(inquiry.updatedAt, locale)
+                      ].filter(Boolean).join(" · ")}
+                    </p>
+                  </div>
+                  <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                    {inquiry.status || "DRAFT"}
+                  </span>
+                </div>
+                <p className="m-0 line-clamp-3 text-[0.92rem] leading-[1.34] opacity-[0.82]">
+                  {inquiry.situation}
+                </p>
+                <div className="flex flex-wrap gap-[0.44rem]">
+                  <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
+                    {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
+                  </Button>
+                  <Button type="button" size="sm" disabled={acceptingInquiryId === inquiry.id || inquiry.status === "READY"} onClick={() => handleAcceptInquiry(inquiry)}>
+                    {acceptingInquiryId === inquiry.id
+                      ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
+                      : readText(t, "workspace_feature_pages.pre_inquiries.actions.accept", "Märgi vastuvõetuks")}
+                  </Button>
+                  <Button type="button" size="sm" disabled={openingRoomInquiryId === inquiry.id || !inquiry.authorId} onClick={() => handleOpenInquiryRoom(inquiry)}>
+                    {openingRoomInquiryId === inquiry.id
+                      ? readText(t, "workspace_feature_pages.pre_inquiries.actions.opening_room", "Avan...")
+                      : readText(t, "workspace_feature_pages.pre_inquiries.actions.open_room", "Ava vestlusruum")}
+                  </Button>
+                  {buildPreInquiryReplyMailto(inquiry) ? (
+                    <a className={cn(chipClassName, "min-h-[2.25rem] px-[0.72rem] py-[0.34rem] text-[0.9rem] no-underline")} href={buildPreInquiryReplyMailto(inquiry)}>
+                      {readText(t, "workspace_feature_pages.pre_inquiries.actions.write_email", "Kirjuta e-kiri")}
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            )) : (
+              <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_received", "Sulle adresseeritud eelpöördumised ilmuvad siia, kui vastuvõtt on lubatud ja adressaat on kontoga seotud.")}</p>
+            )}
+          </div>
+        </SectionCard>
+
+        {activeReceivedInquiry ? (
+          <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.selected_received", "Valitud eelpöördumine")}>
+            <div className="grid gap-[0.54rem]">
+              <p className="m-0 text-[1rem] font-[720] leading-[1.2]">{activeReceivedInquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</p>
+              <p className={bodyTextClassName}>{activeReceivedInquiry.situation}</p>
+              {activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft ? (
+                <textarea className={cn(fieldClassName, "min-h-[10rem] resize-y")} readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} />
+              ) : null}
+            </div>
+          </SectionCard>
+        ) : null}
+      </div>
+    );
   }
 
   return (
@@ -940,9 +1139,6 @@ function ServiceMapSurface({
       <aside className="service-map-workspace__filters" aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}>
         <div className="service-map-toolbar__head">
           <h2 className={sectionTitleClassName}>{readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}</h2>
-          <p className={bodyTextClassName}>
-            {`${readText(t, "workspace_feature_pages.service_map.active_role", "Tööroll")}: ${roleLabel(t, activeRole)}`}
-          </p>
         </div>
         <div className="service-map-toolbar__fields">
           <Label>
@@ -1011,13 +1207,6 @@ function ServiceMapSurface({
           onSelectEntry={setSelectedEntryId}
           t={t}
         />
-        <div className="service-map-workspace__status">
-          {loading
-            ? readText(t, "workspace_feature_pages.service_map.loading", "Loading map entries...")
-            : error || (mappableEntries.length
-              ? readText(t, "workspace_feature_pages.service_map.loaded", "Avaldatud kaardikirjed on markeritena Eesti kaardil.")
-              : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena."))}
-        </div>
       </div>
     </div>
   );

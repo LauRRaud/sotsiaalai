@@ -509,7 +509,8 @@ Viimistletud `/eelpoordumised` lehe esimene päris töövoog:
 - `EXTERNAL_EMAIL` kanal tähendab praegu salvestatavat/kopitavat/allalaaditavat kirja, mitte automaatset väljasaatmist;
 - `INTERNAL` kanal jääb alles platvormisisese eelpöördumise jaoks, kui adressaat on seotud kasutajakontoga ja vastuvõtt on lubatud;
 - `Minu eelpöördumised` on kõige all kompaktsete ridadena;
-- sotsiaaltöötaja vastuvõtu linnuke jääb lehele, kuid see on vestluse järel kompaktne seadistus, mitte põhifookus;
+- sotsiaaltöötaja ja teenuseosutaja vaates ei kuvata assistendi koostamisplokki, sest nende põhifookus on saabunud eelpöördumiste vastuvõtt ja töötlemine;
+- sotsiaaltöötaja vastuvõtu linnuke on vastuvõtu seadistusena eraldi plokis, mitte pöörduja vestlustöövoo osa;
 - admin saab endiselt eelpöördumise vaates töörolli valida.
 
 Viimased UI-korrigeerimised:
@@ -524,11 +525,17 @@ Viimased UI-korrigeerimised:
 - kontaktikaardid on muudetud loetavaks: tekst on kontrastne, valitud kontakt on selgelt eristatud;
 - rollipõhine sisu on korrigeeritud:
   - `CLIENT` põhifookus on olukorra kirjeldamine, kontakti valik, mustand ja enda eelpöördumised;
-  - `SOCIAL_WORKER` näeb lisaks talle adresseeritud platvormisiseseid eelpöördumisi, kui vastuvõtt on lubatud;
-  - `SERVICE_PROVIDER` näeb talle/teenuseprofiiliga seotud saabunud eelpöördumisi ning vastuvõtukanalid seotakse teenuseprofiili seadistusega;
+  - `SOCIAL_WORKER` põhivaade on saabunud platvormisiseste eelpöördumiste vastuvõtt, aksepteerimine, vestlusruumi avamine ja vajadusel e-kirjaga vastamine;
+  - `SERVICE_PROVIDER` põhivaade on teenuseprofiiliga või kontoga seotud saabunud eelpöördumiste vastuvõtt, vestlusruumi avamine ja e-posti vastus; vastuvõtukanalid seotakse teenuseprofiili seadistusega;
   - `ADMIN` saab testimiseks valida töörolli ja näha laiemat eelpöördumiste vaadet;
 - `Minu eelpöördumised` jääb lehe lõppu sekundaarseks haldusosaks;
 - saabunud eelpöördumised kuvatakse ainult rollidel, kellel see on sisuliselt vajalik, mitte pöörduja põhivoos.
+
+Viimane rolliloogika täpsustus:
+
+- `CLIENT` vaates jääb alles assistendi top-down koostamisvoog;
+- `SOCIAL_WORKER` ja `SERVICE_PROVIDER` vaated avanevad vastuvõtu tööruumina, kus saab näha saabunud pöördumisi, märkida pöördumise vastuvõetuks, avada inimesega vestlusruumi või koostada vastuse e-postiga;
+- lisatud API suunad `POST /api/pre-inquiries/[id]/accept` ja `POST /api/pre-inquiries/[id]/room`, et vastuvõtja saaks pöördumise tööseisu muuta ja platvormisisese vestlusruumi avada.
 
 Assistendi endpointi `/api/pre-inquiries/assist` laiendati nii, et see tagastab lisaks senisele `suggestions` ja `draft` väljundile ka:
 

@@ -307,6 +307,13 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.9)) !important;
 }
 
+.homepage-root .home-before-links .home-quick-label {
+  color: var(--home-link-color, var(--brand-primary, #c57171)) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+  animation: none !important;
+}
+
 .homepage-root .home-before-links .home-quick-link:is(:hover, :focus-visible) + .home-quick-label {
   animation-play-state: paused;
 }
@@ -321,6 +328,10 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 @media (max-width: 768px) {
   .homepage-root .home-before-links {
+    --home-mobile-quick-item: clamp(5.75rem, 24vw, 6.7rem);
+    --home-mobile-quick-icon: clamp(3.25rem, 13vw, 3.72rem);
+    --home-mobile-quick-icon-active: clamp(3.75rem, 15.2vw, 4.36rem);
+    --home-mobile-quick-gap: clamp(0.12rem, 1.35vw, 0.38rem);
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(50% - 50vw) !important;
@@ -332,12 +343,17 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 
   .homepage-root .home-before-carousel-arrow {
+    --home-mobile-arrow-hit: 4.95rem;
     position: absolute;
-    top: clamp(0.42rem, 2.4vw, 0.82rem);
+    top: calc(
+      clamp(0.72rem, 1.65vw, 1.25rem) + 0.18rem +
+        (var(--home-mobile-quick-icon-active, 4.36rem) / 2) -
+        (var(--home-mobile-arrow-hit) / 2)
+    );
     z-index: 3;
     display: inline-flex;
     width: 2.95rem;
-    height: 4.95rem;
+    height: var(--home-mobile-arrow-hit);
     align-items: center;
     justify-content: center;
     border: 0;
@@ -383,15 +399,12 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 
   .homepage-root .home-before-link-list {
-    --home-mobile-quick-item: clamp(7.35rem, 31vw, 8.85rem);
-    --home-mobile-quick-icon: clamp(3.35rem, 13.5vw, 3.9rem);
-    --home-mobile-quick-icon-active: clamp(4rem, 16.2vw, 4.72rem);
     display: flex !important;
     grid-template-columns: none !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
     align-items: flex-start !important;
-    gap: clamp(0.28rem, 2.6vw, 0.65rem) !important;
+    gap: var(--home-mobile-quick-gap) !important;
     overflow-x: auto !important;
     overflow-y: visible !important;
     overscroll-behavior-x: contain;
@@ -412,7 +425,12 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
       #000 82%,
       transparent 100%
     );
-    padding: 0.18rem max(1.2rem, calc(50vw - 3.45rem)) 0 !important;
+    padding: 0.18rem max(1.05rem, calc(50vw - (var(--home-mobile-quick-item) / 2))) 0 !important;
+  }
+
+  .homepage-root .home-before-link-list:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--home-link-color, var(--brand-primary, #c57171)) 74%, transparent);
+    outline-offset: -0.2rem;
   }
 
   .homepage-root .home-before-link-list::-webkit-scrollbar {
@@ -426,9 +444,24 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     min-height: 5.85rem !important;
     scroll-snap-align: center;
     padding-bottom: 1.72rem !important;
+    opacity: 1;
+    visibility: visible;
     transition:
-      opacity 260ms ease,
+      opacity 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
       transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .homepage-root .home-before-link-item[data-quick-visibility="hidden"] {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .homepage-root
+    .home-before-link-item:is(
+      [data-quick-visibility="active"],
+      [data-quick-visibility="adjacent"]
+    ) {
+    opacity: 1 !important;
   }
 
   .homepage-root .home-before-link-item:is(:first-child, :last-child) {
@@ -454,7 +487,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-link svg {
     opacity: 1 !important;
-    transform: translateY(-0.08rem) scale(1.18);
+    transform: scale(1.08);
   }
 
   .homepage-root .home-before-link-item .home-quick-label {
@@ -492,8 +525,9 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-label {
     opacity: 1 !important;
-    font-size: clamp(1.28rem, 5.35vw, 1.46rem) !important;
+    font-size: clamp(1.46rem, 6vw, 1.68rem) !important;
     letter-spacing: 0.075em !important;
+    max-width: 10.8rem !important;
     transform: translate3d(-50%, 0, 0) scale(1);
     transition:
       opacity 300ms cubic-bezier(0.22, 0.61, 0.36, 1),

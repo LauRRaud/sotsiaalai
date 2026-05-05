@@ -27,6 +27,21 @@ const homeQuickLabelStyle = {
     "linear-gradient(90deg, transparent 0%, color-mix(in srgb, currentColor 22%, transparent) 32%, currentColor 50%, color-mix(in srgb, currentColor 22%, transparent) 68%, transparent 100%)"
 };
 
+function centerQuickItem(list, target, behavior = "auto") {
+  if (!(list instanceof HTMLElement) || !(target instanceof HTMLElement)) return;
+
+  const targetCenter = target.offsetLeft + target.offsetWidth / 2;
+  const nextLeft = Math.max(
+    0,
+    Math.min(list.scrollWidth - list.clientWidth, targetCenter - list.clientWidth / 2)
+  );
+
+  list.scrollTo({
+    left: nextLeft,
+    behavior
+  });
+}
+
 function HomeQuickLinkIcon({ name, className }) {
   const commonProps = {
     viewBox: "3 3 18 18",
@@ -338,6 +353,24 @@ export default function HomeAboutSection({
     }
   ];
   const quickLinkSignature = quickLinks.map((item) => item.key).join("|");
+  const activeQuickIndex = quickLinks.findIndex((item) => item.key === activeQuickKey);
+  const activeQuickLabel = activeQuickIndex >= 0 ? quickLinks[activeQuickIndex]?.label || "" : "";
+  const quickCarouselLabel =
+    locale === "et"
+      ? "Avalehe lisalingid"
+      : "Home quick links";
+  const quickCarouselStatus =
+    locale === "et"
+      ? `Fookuses link: ${activeQuickLabel}`
+      : `Focused link: ${activeQuickLabel}`;
+  const quickVisibilityForIndex = (index) => {
+    if (activeQuickIndex < 0) return "hidden";
+
+    const distance = Math.abs(index - activeQuickIndex);
+    if (distance === 0) return "active";
+    if (distance === 1) return "adjacent";
+    return "hidden";
+  };
   useEffect(() => {
     const list = quickListRef.current;
     if (!list || typeof window === "undefined") return undefined;
@@ -352,12 +385,23 @@ export default function HomeAboutSection({
       );
 
     const applyActiveKey = (items, nextKey) => {
-      if (!nextKey || activeQuickKeyRef.current === nextKey) return;
+      if (!nextKey) return;
+
+      const activeIndex = items.findIndex((item) => item.dataset.homeQuickKey === nextKey);
+
+      items.forEach((item, index) => {
+        const isActive = item.dataset.homeQuickKey === nextKey;
+        const distance = activeIndex >= 0 ? Math.abs(index - activeIndex) : Number.POSITIVE_INFINITY;
+
+        item.dataset.active = isActive ? "true" : "false";
+        item.dataset.quickVisibility =
+          distance === 0 ? "active" : distance === 1 ? "adjacent" : "hidden";
+      });
+
+      if (activeQuickKeyRef.current === nextKey) return;
 
       activeQuickKeyRef.current = nextKey;
-      items.forEach((item) => {
-        item.dataset.active = item.dataset.homeQuickKey === nextKey ? "true" : "false";
-      });
+      setActiveQuickKey(nextKey);
     };
 
     const updateActive = () => {
@@ -401,13 +445,7 @@ export default function HomeAboutSection({
         list.querySelector('[data-home-quick-key="privacy"]') ||
         itemElements()[Math.floor(itemElements().length / 2)];
 
-      if (target instanceof HTMLElement) {
-        target.scrollIntoView({
-          block: "nearest",
-          inline: "center",
-          behavior: "auto"
-        });
-      }
+      centerQuickItem(list, target, "auto");
 
       quickListInitialCenterRef.current = true;
       scheduleUpdate();
@@ -445,19 +483,22 @@ export default function HomeAboutSection({
     );
     const targetIndex = Math.max(0, Math.min(items.length - 1, currentIndex + direction));
     const target = items[targetIndex];
+    const behavior =
+      window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth";
 
-    target.scrollIntoView({
-      block: "nearest",
-      inline: "center",
-      behavior:
-        window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth"
-    });
+    centerQuickItem(list, target, behavior);
 
     const nextKey = target.dataset.homeQuickKey;
     if (nextKey) {
       activeQuickKeyRef.current = nextKey;
-      items.forEach((item) => {
+      const activeIndex = items.findIndex((item) => item.dataset.homeQuickKey === nextKey);
+
+      items.forEach((item, index) => {
+        const distance = activeIndex >= 0 ? Math.abs(index - activeIndex) : Number.POSITIVE_INFINITY;
+
         item.dataset.active = item.dataset.homeQuickKey === nextKey ? "true" : "false";
+        item.dataset.quickVisibility =
+          distance === 0 ? "active" : distance === 1 ? "adjacent" : "hidden";
       });
       setActiveQuickKey(nextKey);
     }
@@ -465,6 +506,37 @@ export default function HomeAboutSection({
 
   const handleQuickLinkClick = (event, item) => {
     item.onClick?.(event);
+  };
+  const handleQuickCarouselKeyDown = (event) => {
+    if (event.defaultPrevented) return;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollQuickCarousel(-1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollQuickCarousel(1);
+    } else if (event.key === "Home" || event.key === "End") {
+      const list = quickListRef.current;
+      if (!list || typeof window === "undefined") return;
+
+      event.preventDefault();
+      const items = Array.from(list.querySelectorAll("[data-home-quick-key]")).filter(
+        (element) => element instanceof HTMLElement && element.offsetParent !== null
+      );
+      const target = event.key === "Home" ? items[0] : items[items.length - 1];
+      if (!target) return;
+
+      const behavior =
+        window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth";
+      centerQuickItem(list, target, behavior);
+
+      const nextKey = target.dataset.homeQuickKey;
+      if (nextKey) {
+        activeQuickKeyRef.current = nextKey;
+        setActiveQuickKey(nextKey);
+      }
+    }
   };
   return (
     <section
@@ -590,17 +662,25 @@ export default function HomeAboutSection({
           </button>
           <ul
             ref={quickListRef}
+            tabIndex={0}
+            aria-label={quickCarouselLabel}
+            aria-describedby={`${beforeHeadingId}-quick-status`}
+            onKeyDown={handleQuickCarouselKeyDown}
             className="home-before-link-list m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3"
           >
-            {quickLinks.map((item) => {
+            {quickLinks.map((item, index) => {
               const isContactItem = item.key === "contact";
               const isActiveQuickItem = activeQuickKey === item.key;
+              const quickVisibility = quickVisibilityForIndex(index);
+              const isVisibleQuickItem = quickVisibility !== "hidden";
 
               return (
                 <li
                   key={item.key}
                   data-home-quick-key={item.key}
                   data-active={isActiveQuickItem ? "true" : "false"}
+                  data-quick-visibility={quickVisibility}
+                  aria-hidden={isVisibleQuickItem ? undefined : true}
                   className={cn(
                     "home-before-link-item pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
                     isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
@@ -614,6 +694,7 @@ export default function HomeAboutSection({
                       aria-label={item.label}
                       aria-expanded={beforeView === "contact"}
                       aria-controls={`${beforeHeadingId}-contact`}
+                      tabIndex={isVisibleQuickItem ? undefined : -1}
                       className={cn("home-before-contact-button", homeQuickLinkClassName)}
                     >
                       <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
@@ -623,6 +704,7 @@ export default function HomeAboutSection({
                       href={item.href}
                       onClick={(event) => handleQuickLinkClick(event, item)}
                       aria-label={item.label}
+                      tabIndex={isVisibleQuickItem ? undefined : -1}
                       className={homeQuickLinkClassName}
                     >
                       <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
@@ -640,6 +722,9 @@ export default function HomeAboutSection({
               );
             })}
           </ul>
+          <span id={`${beforeHeadingId}-quick-status`} className="sr-only" aria-live="polite">
+            {quickCarouselStatus}
+          </span>
           {beforeView === "contact" ? (
             <div
               id={`${beforeHeadingId}-contact`}
