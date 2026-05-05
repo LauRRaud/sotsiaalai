@@ -27,18 +27,7 @@
   );
 }
 .space-backdrop[data-mode="light"] {
-  background:
-    radial-gradient(
-      circle at 50% -12%,
-      rgba(251, 251, 250, 0.86) 0%,
-      rgba(255, 255, 255, 0) 55%
-    ),
-    radial-gradient(
-      circle at 50% 24%,
-      rgba(232, 230, 226, 0.26) 0%,
-      rgba(236, 235, 233, 0) 62%
-    ),
-    linear-gradient(180deg, #f4f4f3 0%, #edeae5 56%, #e1ddd7 100%);
+  background: linear-gradient(180deg, #f7f6f4 0%, #efeeeb 56%, #e7e5e1 100%);
 }
 .space-backdrop[data-mode="dark"] {
   background: radial-gradient(

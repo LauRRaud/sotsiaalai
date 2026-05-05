@@ -286,35 +286,12 @@
 }
 
 :root.theme-light:not(.theme-mid) .space-backdrop[data-mode="light"] {
-  --space-backdrop-glow: linear-gradient(
-    180deg,
-    rgba(255, 252, 247, 0.22) 0%,
-    rgba(255, 252, 247, 0.08) 20%,
-    rgba(255, 252, 247, 0) 42%
-  );
-  background: linear-gradient(180deg, #faf8f5 0%, #f3f0eb 52%, #e7e1da 100%);
+  --space-backdrop-glow: none;
+  background: linear-gradient(180deg, #f7f6f4 0%, #efeeeb 56%, #e7e5e1 100%);
 }
 
 :root.theme-light:not(.theme-mid) .space-backdrop[data-mode="light"]::after {
-  background:
-    radial-gradient(
-      ellipse at -8% 50%,
-      rgba(248, 239, 231, 0.18) 0%,
-      rgba(248, 239, 231, 0.08) 22%,
-      rgba(248, 239, 231, 0) 52%
-    ),
-    radial-gradient(
-      ellipse at 108% 50%,
-      rgba(248, 239, 231, 0.16) 0%,
-      rgba(248, 239, 231, 0.07) 22%,
-      rgba(248, 239, 231, 0) 52%
-    ),
-    radial-gradient(
-      ellipse at 50% 112%,
-      rgba(118, 92, 78, 0.038) 0%,
-      rgba(118, 92, 78, 0.012) 26%,
-      rgba(118, 92, 78, 0) 48%
-    );
+  background: none;
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .right-card-primary .desc-ring-right .circular-text-line,

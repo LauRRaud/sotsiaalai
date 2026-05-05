@@ -8,7 +8,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
@@ -22,9 +22,10 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const headerRowClassName = "policy-mobile-title-wrap relative z-[4] grid w-full grid-cols-[auto_1fr_auto] items-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.4rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const titleBackButtonClassName = "glass-policy-back glass-policy-back--compact relative left-auto top-auto z-[5] !inline-flex !h-[4.2rem] !w-[4.2rem] min-[769px]:!h-[4.6rem] min-[769px]:!w-[4.6rem] min-[769px]:!ml-0";
-const titleBackSpacerClassName = "block h-[4.2rem] w-[4.2rem] min-[769px]:h-[4.6rem] min-[769px]:w-[4.6rem]";
+const desktopHeaderRowClassName = "relative z-[4] hidden min-[769px]:grid min-[769px]:w-full min-[769px]:grid-cols-[auto_1fr_auto] min-[769px]:items-center";
+const titleBackButtonClassName = "glass-policy-back glass-policy-back--compact relative left-auto top-auto z-[5] !inline-flex !h-[4.6rem] !w-[4.6rem] min-[769px]:!ml-0";
+const titleBackSpacerClassName = "hidden min-[769px]:block min-[769px]:h-[4.6rem] min-[769px]:w-[4.6rem]";
+const mobileTitleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center min-[769px]:hidden max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const guideLinkClassName = `${linkRichTextBase} guide-rich-link`;
 function applyGuideLinkClass(html) {
   if (typeof html !== "string" || !html) return html;
@@ -122,7 +123,15 @@ export default function KasutusjuhendBody() {
           className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
         {!hideGuideBackButton ? (
-          <div className={headerRowClassName}>
+          <BackButton
+            onClick={handleBack}
+            ariaLabel={t("buttons.back_home")}
+            className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName, "min-[769px]:hidden")}
+            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+          />
+        ) : null}
+        {!hideGuideBackButton ? (
+          <div className={desktopHeaderRowClassName}>
             <BackButton
               onClick={handleBack}
               ariaLabel={t("buttons.back_home")}
@@ -144,11 +153,11 @@ export default function KasutusjuhendBody() {
             <span aria-hidden="true" className={titleBackSpacerClassName} />
           </div>
         ) : null}
-        {hideGuideBackButton ? <div className={headerRowClassName}>
+        <div className={mobileTitleWrapClassName}>
           <h1
             id="kasutusjuhend-title"
             className={cn(
-              "subpage-mobile-title policy-mobile-title policy-mobile-title--static col-start-2 max-[768px]:!mt-0 max-[768px]:!mb-0",
+              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
               titleClassName,
               glassPolicyTitleOffsetClassName,
               !layoutReady ? "guide-policy-title--layout-init" : null,
@@ -157,8 +166,7 @@ export default function KasutusjuhendBody() {
           >
             {t("about.guide.short_title")}
           </h1>
-          <span aria-hidden="true" className={titleBackSpacerClassName} />
-        </div> : null}
+        </div>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(
