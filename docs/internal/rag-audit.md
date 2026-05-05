@@ -864,10 +864,49 @@ Next step:
 
 - Final regression/build and platform live smoke.
 
+### V2.7 Temporal Framing for Multi-Year EvidencePackage Answers
+
+Status: DONE / answer-guidance quality improvement
+
+Scope:
+
+- `evidencePackage.js`: selected sources and selected documents now carry sanitized `source_year` when the selected RAG evidence exposes `year`, `source_year`, publication year/date, published date or issue label/id metadata.
+- `evidencePackage.js`: multi-source EvidencePackage now computes `temporal_coverage` with selected evidence years, min/max year, year range, year span and per-year counts.
+- `evidencePackage.js`: broad synthesis/resource-discovery style answer guidance now tells the model to distinguish earlier and newer selected materials when the selected sources span multiple years.
+- The temporal instruction is deliberately conservative: it says not to infer a trend or current change from publication years alone, and to use wording such as `earlier selected sources noted...` / `newer selected sources add/emphasize...` only when the selected evidence supports it.
+- `mainResponseHandler.js`: RAG trace sanitization now preserves EvidencePackage `source_year`, `temporal_coverage`, `trace_summary.year_range`, `trace_summary.distinct_year_count` and `trace_summary.temporal_span_years`.
+- `tests/chat/evidencePackage.test.js`: added regressions for multi-year overview sources and single-year sources.
+- `tests/chat/ragTraceMetadata.test.js`: added sanitized trace coverage for EvidencePackage temporal fields.
+- No retrieval, planner mode detection, SourcePackage, legal exact contract matching, KOV/SourcePackage route, ingest pipeline or stored metadata values were changed.
+
+Expected answer effect:
+
+- For broad questions backed by material from e.g. 2017-2025, the answer may now naturally separate older selected material from newer selected material.
+- The model should not claim a real-world trend merely because selected source publication years differ.
+- Legal exact, KOV SourcePackage and life-situation guidance should not get forced into artificial time-period structure.
+
+Validation:
+
+- Focused tests passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js` -> `9/9` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/ragTraceMetadata.test.js` -> `9/9` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/rag/sourceQualityMetrics.test.js tests/rag/sourceMetadata.test.js` -> `22/22` passed.
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/evidencePackage.test.js tests/chat/ragTraceMetadata.test.js tests/chat/sourceAttribution.test.js` -> `56/56` passed.
+- Broad RAG/chat regression command passed:
+  - `npx tsx --tsconfig jsconfig.json --test tests/chat/workflowBypass.test.js tests/chat/sourceNeed.test.js tests/chat/queryPlanner.test.js tests/chat/retrievalOrchestrator.test.js tests/chat/ragContextRanking.test.js tests/chat/sourceAttribution.test.js tests/chat/ragTraceMetadata.test.js tests/rag/sourceQualityMetrics.test.js tests/chat/retrievalContextAssembler.test.js tests/chat/sourcePackages.test.js tests/chat/packageAwareContext.test.js tests/chat/sectionAttribution.test.js tests/rag/sourcePackageSnapshots.test.js tests/rag/sourcePackageAdminService.test.js tests/rag/knowledgeDocsMetadata.test.js tests/rag/pdfSectionIndex.test.js tests/chat/questionPlanner.test.js tests/chat/retrievalStrategySelector.test.js tests/chat/evidencePackage.test.js tests/rag/sourceMetadata.test.js`
+  - Result: `252/252` tests passed.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Next step:
+
+- Deploy/restart and run platform live smoke with broad overview/resource-discovery questions that have multi-year article evidence.
+- If live answers still use too few sources or ignore a rich article corpus, do a separate V2.8 selector/display diversity tuning patch. Do not mix that with temporal framing.
+
 ## Current Next Steps
 
-1. Final regression/build: broad RAG/chat tests, source attribution, EvidencePackage, SourcePackage, prompt style tests and `npm run build`.
-2. Platform smoke after deploy with the current live question set.
+1. Platform smoke after deploy/restart with the current live question set.
+2. Add temporal-framing smoke checks for broad article-corpus questions such as `Mis on murekohad lastekaitses?` where selected evidence may span older and newer years.
+3. If live smoke shows source diversity is still too narrow, start V2.8 selector/display diversity tuning as a separate patch.
 
 Guardrails:
 
@@ -879,20 +918,19 @@ Guardrails:
 
 ## Next Window Handoff Task
 
-Start with final validation and platform live smoke.
+Start with platform live smoke after deploy/restart.
 
 Task:
 
-- Re-run the final broad RAG/chat regression set.
-- Run `npm run build`.
 - Deploy/restart as needed.
 - Run platform live smoke with the current live question set.
+- Confirm that broad multi-year overview/resource-discovery answers use light temporal framing without claiming unsupported trends.
 - Update this audit section with final validation and live-smoke results.
 
 Expected final sequence:
 
-1. Final tests/build.
-2. Platform live smoke.
+1. Platform live smoke.
+2. V2.8 selector/display diversity tuning only if live evidence remains too narrow.
 
 ## Previous V2.4A Live Smoke Prompt List
 

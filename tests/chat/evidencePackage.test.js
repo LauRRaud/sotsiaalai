@@ -45,6 +45,61 @@ test("EvidencePackage skeleton summarizes overview selected context without chan
   assert.equal(JSON.stringify(pkg).includes("Do not include"), false);
 });
 
+test("EvidencePackage adds temporal framing guidance for multi-year overview sources", () => {
+  const pkg = buildEvidencePackage({
+    queryPlan: {
+      mode: "overview_synthesis",
+      selection_strategy: "overview_diversity_then_depth"
+    },
+    selectedEntries: [
+      { docId: "doc-2017", sourceId: "a1", title: "Earlier article", sourceType: "journal_article", collectionId: "sotsiaaltoo_articles", year: 2017 },
+      { docId: "doc-2021", sourceId: "b1", title: "Middle report", sourceType: "research_report", collectionId: "research_reports", publication_date: "2021-04-03" },
+      { docId: "doc-2025", sourceId: "c1", title: "Recent article", sourceType: "journal_article", collectionId: "sotsiaaltoo_articles", issueLabel: "2/2025" }
+    ],
+    selectedSources: [
+      { source_id: "a1", title: "Earlier article", source_type: "journal_article", collection_id: "sotsiaaltoo_articles", year: 2017 },
+      { source_id: "b1", title: "Middle report", source_type: "research_report", collection_id: "research_reports", publication_date: "2021-04-03" },
+      { source_id: "c1", title: "Recent article", source_type: "journal_article", collection_id: "sotsiaaltoo_articles", issueLabel: "2/2025" }
+    ]
+  });
+
+  assert.deepEqual(pkg.temporal_coverage.years, [2017, 2021, 2025]);
+  assert.equal(pkg.temporal_coverage.year_range, "2017-2025");
+  assert.equal(pkg.temporal_coverage.has_multi_year_range, true);
+  assert.equal(pkg.selected_sources[0].source_year, 2017);
+  assert.equal(pkg.selected_documents[1].source_year, 2021);
+  assert.equal(pkg.answer_guidance.some(item => item.includes("earlier and newer selected materials")), true);
+  assert.equal(pkg.answer_guidance.some(item => item.includes("Do not infer a trend")), true);
+  assert.equal(pkg.trace_summary.year_range, "2017-2025");
+  assert.equal(pkg.trace_summary.distinct_year_count, 3);
+
+  const instruction = buildEvidencePackageInstruction(pkg);
+  assert.equal(instruction.includes("Temporal coverage: selected source years 2017-2025"), true);
+  assert.equal(instruction.includes("do not present publication years as proof of a trend"), true);
+});
+
+test("EvidencePackage does not add temporal framing guidance for a single source year", () => {
+  const pkg = buildEvidencePackage({
+    queryPlan: {
+      mode: "resource_discovery",
+      selection_strategy: "resource_discovery_diversity"
+    },
+    selectedEntries: [
+      { docId: "doc-2025-a", sourceId: "a1", title: "Guide A", sourceType: "official_guideline", collectionId: "national_guidelines", year: 2025 },
+      { docId: "doc-2025-b", sourceId: "b1", title: "Guide B", sourceType: "information_material", collectionId: "materials", publicationYear: 2025 }
+    ],
+    selectedSources: [
+      { source_id: "a1", title: "Guide A", source_type: "official_guideline", collection_id: "national_guidelines", year: 2025 },
+      { source_id: "b1", title: "Guide B", source_type: "information_material", collection_id: "materials", publicationYear: 2025 }
+    ]
+  });
+
+  assert.deepEqual(pkg.temporal_coverage.years, [2025]);
+  assert.equal(pkg.temporal_coverage.has_multi_year_range, false);
+  assert.equal(pkg.answer_guidance.some(item => item.includes("earlier and newer selected materials")), false);
+  assert.equal(buildEvidencePackageInstruction(pkg).includes("Temporal coverage:"), false);
+});
+
 test("EvidencePackage marks life situation guidance without official or KOV support", () => {
   const pkg = buildEvidencePackage({
     queryPlan: {

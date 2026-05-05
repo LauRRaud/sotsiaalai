@@ -287,6 +287,7 @@ test("RAG trace includes sanitized EvidencePackage metadata without source excer
           title: "Sotsiaalhoolekande seadus § 8 Vältimatu sotsiaalabi",
           source_type: "national_law",
           source_layer: "legal",
+          source_year: 2025,
           paragraph_number: "8",
           evidenceText: "Sensitive source excerpt must not be copied."
         },
@@ -296,6 +297,7 @@ test("RAG trace includes sanitized EvidencePackage metadata without source excer
           source_type: "kov_service_info",
           collection_id: "kov_web",
           source_layer: "kov",
+          source_year: 2024,
           body_preview: "Sensitive body preview must not be copied."
         }
       ],
@@ -304,6 +306,7 @@ test("RAG trace includes sanitized EvidencePackage metadata without source excer
           document_id: "shs-8",
           title: "Sotsiaalhoolekande seadus § 8",
           source_type: "national_law",
+          source_year: 2025,
           chunk_count: 1,
           source_ids: ["shs-8"]
         }
@@ -325,11 +328,25 @@ test("RAG trace includes sanitized EvidencePackage metadata without source excer
       missing_coverage: [],
       limitations: [],
       answer_guidance: ["Give practical next steps first."],
+      temporal_coverage: {
+        years: [2024, 2025],
+        min_year: 2024,
+        max_year: 2025,
+        year_range: "2024-2025",
+        span_years: 1,
+        source_count_with_year: 2,
+        document_count_with_year: 1,
+        by_year: { 2024: 1, 2025: 2 },
+        has_multi_year_range: true
+      },
       trace_summary: {
         mode: "life_situation_guidance",
         selected_source_count: 2,
         selected_document_count: 1,
         source_layer_count: 2,
+        year_range: "2024-2025",
+        distinct_year_count: 2,
+        temporal_span_years: 1,
         warning_count: 0,
         planner_reason: "financial hardship question",
         topics: ["rent", "food"]
@@ -340,8 +357,14 @@ test("RAG trace includes sanitized EvidencePackage metadata without source excer
   assert.equal(trace.evidence_package.version, "v2.4a");
   assert.equal(trace.evidence_package.mode, "life_situation_guidance");
   assert.equal(trace.evidence_package.selected_sources.length, 2);
+  assert.equal(trace.evidence_package.selected_sources[0].source_year, 2025);
+  assert.equal(trace.evidence_package.selected_documents[0].source_year, 2025);
   assert.equal(trace.evidence_package.source_layer_mix.by_layer.legal, 1);
   assert.equal(trace.evidence_package.source_layer_mix.by_layer.kov, 1);
+  assert.deepEqual(trace.evidence_package.temporal_coverage.years, [2024, 2025]);
+  assert.equal(trace.evidence_package.temporal_coverage.year_range, "2024-2025");
+  assert.equal(trace.evidence_package.trace_summary.year_range, "2024-2025");
+  assert.equal(trace.evidence_package.trace_summary.distinct_year_count, 2);
   assert.deepEqual(trace.evidence_package.answer_guidance, ["Give practical next steps first."]);
   assert.equal(JSON.stringify(trace).includes("Sensitive source excerpt"), false);
   assert.equal(JSON.stringify(trace).includes("Sensitive body preview"), false);
