@@ -248,6 +248,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(16, 19, 24, 0.74);
   background: var(
     --home-panel-bg,
     var(
@@ -259,6 +260,30 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     --home-about-panel-shadow,
     var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))
   ) !important;
+}
+
+:root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(251, 249, 246, 0.9);
+}
+
+:root.theme-mid .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(203, 190, 186, 0.82);
+}
+
+:root.theme-mid .homepage-root .home-before-links {
+  --home-link-color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.98));
+}
+
+:root.theme-mid .homepage-root .home-before-links :is(.home-quick-link, .home-quick-link svg, .home-quick-label) {
+  color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.85)) !important;
+}
+
+html[data-contrast="hc"] .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(9, 18, 30, 0.78);
+}
+
+:root.theme-night:not(.theme-mid) .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(12, 17, 27, 0.76);
 }
 
 .homepage-root .home-before-panel {

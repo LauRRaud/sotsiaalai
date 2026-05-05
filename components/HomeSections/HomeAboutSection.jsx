@@ -1,46 +1,122 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppLink from "@/components/ui/Link";
-import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles";
 import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
-import BackButton from "@/components/ui/BackButton";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 const homeCircleLinkClassName =
   "home-link inline-block align-top w-auto max-w-full text-[clamp(1.28rem,1.95vw,1.5rem)] tracking-[0.01em] leading-[1.1] text-center font-medium text-[color:var(--home-link-color,var(--brand-primary))] [--link-brand-text:var(--home-link-color,var(--brand-primary))] [--link-brand-border-hover:var(--home-link-color,var(--brand-primary))] [--link-brand-shadow-hover:rgba(197,113,113,0.35)]";
-const HOME_BEFORE_DIAMETER_KEY_PREFIX = "sotsiaalai:home-before-diameter";
 const HOME_PANEL_FADE_DURATION_MS = 900;
 const HOME_PANEL_BLUR_REVEAL_MS = 780;
 const HOME_PANEL_STAGGER_MS = 120;
+const homeQuickLinkClassName =
+  "home-quick-link peer group home-link pointer-events-auto !inline-flex !h-auto !min-h-0 appearance-none items-center justify-center !bg-transparent !p-0 text-center !leading-none [line-height:0] !no-underline !rounded-none !border-0 !shadow-none !text-[color:var(--brand-primary,#c57171)] transition-transform duration-200 ease-out hover:!border-transparent hover:!shadow-none hover:!text-[color:var(--brand-primary,#c57171)] focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!text-[color:var(--brand-primary,#c57171)] focus-visible:outline-none active:scale-[0.985] active:!border-transparent active:!shadow-none light:!text-[#7a3a38] hc:!text-[color:var(--hc-accent)]";
+const homeQuickIconClassName =
+  "block h-[clamp(3.12rem,4.25vw,3.72rem)] w-[clamp(3.12rem,4.25vw,3.72rem)] shrink-0 text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.1] group-focus-visible:scale-[1.1] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top]";
+const homeQuickLabelClassName =
+  "home-quick-label mt-[0.58rem] block w-[max-content] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0] text-[#c57171] opacity-0 pointer-events-none transform-gpu will-change-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100 light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-auto max-[768px]:max-w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0] max-[768px]:[text-wrap:balance] max-[768px]:opacity-100";
+const homeQuickLabelStyle = {
+  transition: "opacity 640ms cubic-bezier(0.16, 1, 0.3, 1)"
+};
 
-function getHomeBeforeDiameterKey(locale, showAdminLinks, view) {
-  return `${HOME_BEFORE_DIAMETER_KEY_PREFIX}:${locale || "et"}:${showAdminLinks ? "1" : "0"}:${view}`;
-}
+function HomeQuickLinkIcon({ name, className }) {
+  const commonProps = {
+    viewBox: "3 3 18 18",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 0.86,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+    focusable: "false",
+    className
+  };
 
-function readHomeBeforeDiameter(key) {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.sessionStorage.getItem(key);
-    const value = Number(raw);
-    return Number.isFinite(value) && value > 0 ? value : null;
-  } catch {
-    return null;
+  if (name === "book") {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 6.65v12.7" />
+        <path d="M4.65 6.05c2.18-.56 4.6-.08 7.35 1.43v11.87c-2.75-1.51-5.17-1.99-7.35-1.43V6.05Z" />
+        <path d="M19.35 6.05c-2.18-.56-4.6-.08-7.35 1.43v11.87c2.75-1.51 5.17-1.99 7.35-1.43V6.05Z" />
+      </svg>
+    );
   }
-}
 
-function writeHomeBeforeDiameter(key, value) {
-  if (typeof window === "undefined") return;
-  if (!Number.isFinite(value) || value <= 0) return;
-  try {
-    window.sessionStorage.setItem(key, String(Math.round(value)));
-  } catch {}
+  if (name === "file") {
+    return (
+      <svg {...commonProps}>
+        <path d="M7.25 4.05h5.92c.32 0 .62.13.85.35l3.43 3.43c.22.23.35.53.35.85V19.2c0 .47-.38.85-.85.85h-9.7a.85.85 0 0 1-.85-.85V4.9c0-.47.38-.85.85-.85Z" />
+        <path d="M13.35 4.25v3.72c0 .32.26.58.58.58h3.68" />
+        <path d="M9.65 12.1h4.65" />
+        <path d="M9.65 15.2h4.65" />
+        <path d="M9.65 9h1.55" />
+      </svg>
+    );
+  }
+
+  if (name === "shield") {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 3.92 6.1 6.17v5.05c0 3.9 2.42 7.12 5.9 8.48 3.48-1.36 5.9-4.58 5.9-8.48V6.17L12 3.92Z" />
+        <circle cx="12" cy="10.15" r="1.62" />
+        <path d="M8.95 15.55c.7-1.62 1.72-2.42 3.05-2.42s2.35.8 3.05 2.42" />
+      </svg>
+    );
+  }
+
+  if (name === "tag") {
+    return (
+      <svg {...commonProps}>
+        <path d="M5.45 5.35h5.28c.42 0 .82.17 1.12.47l7 7c.4.4.4 1.06 0 1.46l-4.57 4.57c-.4.4-1.06.4-1.46 0l-7-7a1.58 1.58 0 0 1-.47-1.12V5.98c0-.35.28-.63.63-.63Z" />
+        <circle cx="8.85" cy="8.78" r="0.42" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
+  if (name === "chart") {
+    return (
+      <svg {...commonProps}>
+        <path d="M5.2 19.2V5.4" />
+        <path d="M5.2 19.2h13.6" />
+        <path d="M8.15 15.6v-4.2" />
+        <path d="M12 15.6V8.2" />
+        <path d="M15.85 15.6v-6" />
+      </svg>
+    );
+  }
+
+  if (name === "database") {
+    return (
+      <svg {...commonProps}>
+        <ellipse cx="12" cy="5.7" rx="6.4" ry="2.55" />
+        <path d="M5.6 5.7v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55V5.7" />
+        <path d="M5.6 10.75v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55v-5.05" />
+      </svg>
+    );
+  }
+
+  if (name === "audit") {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 3.65 5.55 6.1v5.1c0 4.18 2.7 7.65 6.45 8.95 3.75-1.3 6.45-4.77 6.45-8.95V6.1L12 3.65Z" />
+        <path d="m9.2 12.2 1.9 1.9 3.95-4.35" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...commonProps}>
+      <rect x="4.35" y="6.35" width="15.3" height="11.3" rx="1.15" />
+      <path d="m5.25 7.25 6.75 5.52 6.75-5.52" />
+    </svg>
+  );
 }
 
 export default function HomeAboutSection({
@@ -71,12 +147,7 @@ export default function HomeAboutSection({
       value: t(`about.intro.${key}`)
     }))
     .filter(({ key, value }) => value && value !== `about.intro.${key}`);
-  const beforeCardRef = useRef(null);
-  const beforeContentRef = useRef(null);
   const aboutScrollRef = useRef(null);
-  const [beforeDiameter, setBeforeDiameter] = useState(() =>
-    readHomeBeforeDiameter(getHomeBeforeDiameterKey(locale, showAdminLinks, "links"))
-  );
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
@@ -94,20 +165,12 @@ export default function HomeAboutSection({
       : locale === "ru"
         ? "Аудит подтверждений"
         : "Acceptances audit";
-  const homeCircleItemClassName = cn(
-    "max-w-full"
-  );
   const homeCircleLinkResponsiveClassName = cn(
     homeCircleLinkClassName,
     "w-auto max-w-full whitespace-normal break-words [text-wrap:balance] px-[0.16em] py-[0.03em]",
     "max-[768px]:max-w-[min(72vw,19.5rem)]",
     isRussianLocale &&
       "max-[768px]:max-w-[min(80vw,23rem)] max-[768px]:text-[clamp(1.12rem,4.45vw,1.32rem)] max-[768px]:leading-[1.12] max-[768px]:tracking-[0.005em]"
-  );
-  const beforeListClassName = cn(
-    "flex w-fit max-w-full flex-col items-center justify-center list-none p-0 m-0 gap-y-[0.45rem] max-[768px]:gap-y-[0.52rem]",
-    isRussianLocale &&
-      "max-w-full"
   );
   const contactCompany = t("about.contact.company");
   const contactRegistryValue = t("about.contact.registry_value");
@@ -162,96 +225,6 @@ export default function HomeAboutSection({
     };
   }, [animateIntro]);
 
-  useLayoutEffect(() => {
-    const cardEl = beforeCardRef.current;
-    const contentEl = beforeContentRef.current;
-    if (!cardEl || !contentEl || typeof window === "undefined") return;
-    const isContactView = beforeView === "contact";
-    const diameterKey = getHomeBeforeDiameterKey(
-      locale,
-      showAdminLinks,
-      isContactView ? "contact" : "links"
-    );
-    let rafId = 0;
-    let rafId2 = 0;
-
-    const updateSize = () => {
-      const contentRect = contentEl.getBoundingClientRect();
-      if (!contentRect.width || !contentRect.height) return;
-
-      const computed = window.getComputedStyle(cardEl);
-      const padX =
-        (parseFloat(computed.paddingLeft) || 0) +
-        (parseFloat(computed.paddingRight) || 0);
-      const padY =
-        (parseFloat(computed.paddingTop) || 0) +
-        (parseFloat(computed.paddingBottom) || 0);
-
-      const contentWidth = Math.max(
-        contentRect.width,
-        contentEl.scrollWidth,
-        contentEl.offsetWidth
-      );
-      const contentHeight = Math.max(
-        contentRect.height,
-        contentEl.scrollHeight,
-        contentEl.offsetHeight
-      );
-      const isMobileViewport = window.innerWidth <= 768;
-      const extraBuffer = isMobileViewport
-        ? (isContactView ? 14 : 48)
-        : (isContactView ? 22 : 66);
-      const neededWidth = contentWidth + padX + extraBuffer;
-      const neededHeight = contentHeight + padY + extraBuffer;
-      const neededSize = Math.ceil(
-        Math.max(neededWidth, neededHeight) * (isContactView ? 0.95 : 1)
-      );
-      const minSize = isMobileViewport ? (isContactView ? 240 : 292) : (isContactView ? 260 : 350);
-      const maxSize = Math.floor(
-        isMobileViewport
-          ? Math.min(
-              window.innerWidth * (isRussianLocale ? 0.96 : 0.93),
-              window.innerHeight * (isContactView ? 0.8 : 0.88)
-            )
-          : Math.min(
-              window.innerWidth * (isRussianLocale ? 0.99 : 0.97),
-              window.innerHeight * (isContactView ? 0.82 : 0.94)
-            )
-      );
-      const nextSize = Math.max(minSize, Math.min(maxSize, neededSize));
-      writeHomeBeforeDiameter(diameterKey, nextSize);
-      setBeforeDiameter((prev) => (prev === nextSize ? prev : nextSize));
-    };
-
-    const scheduleUpdate = () => {
-      window.cancelAnimationFrame(rafId);
-      window.cancelAnimationFrame(rafId2);
-      rafId = window.requestAnimationFrame(() => {
-        rafId2 = window.requestAnimationFrame(updateSize);
-      });
-    };
-
-    scheduleUpdate();
-    // When the contact ring animates, observing its content creates a feedback loop:
-    // the ring resizes, the content reflows, and the observer fires again.
-    const ro =
-      !isContactView && typeof ResizeObserver !== "undefined"
-        ? new ResizeObserver(scheduleUpdate)
-        : null;
-    ro?.observe(contentEl);
-    window.addEventListener("resize", scheduleUpdate);
-    window.addEventListener("pageshow", scheduleUpdate);
-    window.document?.fonts?.ready?.then?.(scheduleUpdate).catch?.(() => {});
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.cancelAnimationFrame(rafId2);
-      ro?.disconnect?.();
-      window.removeEventListener("resize", scheduleUpdate);
-      window.removeEventListener("pageshow", scheduleUpdate);
-    };
-  }, [beforeView, isRussianLocale, locale, showAdminLinks]);
-
   useEffect(() => {
     const scrollEl = aboutScrollRef.current;
     if (!scrollEl || typeof window === "undefined") return;
@@ -303,6 +276,65 @@ export default function HomeAboutSection({
   const closeBeforeContact = () => {
     setBeforeView("links");
   };
+  const quickLinks = [
+    {
+      key: "guide",
+      href: "/kasutusjuhend",
+      label: t("about.guide.jump_link"),
+      icon: "book",
+      onClick: (event) => openGlassPage(event, "/kasutusjuhend")
+    },
+    {
+      key: "terms",
+      href: "/kasutustingimused",
+      label: t("about.links.terms"),
+      icon: "file",
+      onClick: (event) => openGlassPage(event, "/kasutustingimused")
+    },
+    {
+      key: "privacy",
+      href: "/privaatsustingimused",
+      label: t("about.links.privacy"),
+      icon: "shield",
+      onClick: (event) => openGlassPage(event, "/privaatsustingimused")
+    },
+    ...(showAdminLinks
+      ? [
+          {
+            key: "analytics",
+            href: "/admin/analytics",
+            label: t("about.links.analytics"),
+            icon: "chart"
+          },
+          {
+            key: "admin",
+            href: "/admin/rag",
+            label: t("about.links.admin"),
+            icon: "database"
+          },
+          {
+            key: "framework-acceptances",
+            href: "/admin/framework-acceptances",
+            label: adminFrameworkLinkLabel,
+            icon: "audit"
+          }
+        ]
+      : []),
+    {
+      key: "pricing",
+      href: "/hinnastus",
+      label: t("about.links.pricing"),
+      icon: "tag",
+      onClick: (event) => openGlassPage(event, "/hinnastus")
+    },
+    {
+      key: "contact",
+      label: t("about.contact.title"),
+      icon: "mail",
+      type: "button",
+      onClick: openBeforeContact
+    }
+  ];
   return (
     <section
       id={id}
@@ -386,162 +418,86 @@ export default function HomeAboutSection({
         </div>
         <section
           aria-labelledby={beforeHeadingId}
-          ref={beforeCardRef}
           data-blur-ready={beforeBlurReady ? "true" : "false"}
           className={cn(
-            "home-glass-panel home-before-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-full shadow-[var(--glass-shell-shadow,none)] [border:none] mx-auto mt-[clamp(0.8rem,2.2vw,1.8rem)] flex items-center justify-center px-[clamp(0.4rem,1.05vw,0.78rem)] py-[clamp(0.34rem,0.92vw,0.66rem)] max-[768px]:px-[clamp(0.24rem,0.85vw,0.42rem)] max-[768px]:py-[clamp(0.18rem,0.65vw,0.34rem)] box-border transition-[width,height,box-shadow,background-color] duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none will-change-[width,height]",
+            "home-before-links relative mx-auto mt-[clamp(2.15rem,4.5vw,3.55rem)] w-[min(92vw,58rem)] overflow-visible bg-transparent px-[clamp(0.3rem,1vw,0.75rem)] pt-[clamp(0.72rem,1.65vw,1.25rem)] pb-[clamp(0.55rem,1.6vw,1.25rem)] text-center",
             shouldFadeBefore ? "is-intro-fading" : null
           )}
           style={
-            {
-              ...(beforeDiameter
-                ? { width: `${beforeDiameter}px`, height: `${beforeDiameter}px` }
-                : { width: "min(82vw, 22rem)", height: "min(82vw, 22rem)" }),
-              ...(shouldFadeBefore
-                ? {
-                    animationDuration: `${HOME_PANEL_FADE_DURATION_MS}ms`,
-                    animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
-                    animationDelay: `${HOME_PANEL_STAGGER_MS}ms`,
-                    animationFillMode: "forwards"
-                  }
-                : null)
-            }
+            shouldFadeBefore
+              ? {
+                  animationDuration: `${HOME_PANEL_FADE_DURATION_MS}ms`,
+                  animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
+                  animationDelay: `${HOME_PANEL_STAGGER_MS}ms`,
+                  animationFillMode: "forwards"
+                }
+              : undefined
           }
         >
-          <div
-            ref={beforeContentRef}
-            className={cn(
-              "relative z-[1] w-fit max-w-[min(88vw,26rem)] text-center text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.7] flex flex-col gap-[clamp(0.44rem,0.92vw,0.68rem)] max-[768px]:gap-[clamp(0.3rem,0.74vw,0.44rem)] max-[768px]:max-w-[min(88vw,24rem)] items-center",
-              beforeView === "contact"
-                ? "justify-center w-full max-w-[min(84vw,24.5rem)] pl-[clamp(3.2rem,5.2vw,3.9rem)] pr-[clamp(2.45rem,4.2vw,3rem)] pt-[clamp(1.1rem,1.9vw,1.45rem)] pb-[clamp(0.4rem,0.8vw,0.65rem)] max-[768px]:max-w-[min(84vw,19.5rem)] max-[768px]:pl-[clamp(2.7rem,6.5vw,3.1rem)] max-[768px]:pr-[clamp(2.15rem,5.9vw,2.55rem)] max-[768px]:pt-[clamp(0.95rem,2.5vw,1.2rem)] max-[768px]:pb-[clamp(0.28rem,0.85vw,0.5rem)]"
-                : "translate-y-[clamp(0.45rem,1vw,0.82rem)] max-[768px]:translate-y-[clamp(0.45rem,1.9vw,0.72rem)]"
-            )}
-          >
-            {beforeView === "contact" ? (
-              <>
-                <BackButton
-                  type="button"
-                  onClick={closeBeforeContact}
-                  ariaLabel={t("buttons.back")}
-                  className="absolute left-[clamp(-1.25rem,-1.95vw,-0.85rem)] top-[50%] z-[2] !h-[5.1rem] !w-[5.1rem] -translate-y-1/2 min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:left-[clamp(-0.9rem,-2.2vw,-0.4rem)] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
-                  iconClassName="!h-[5.1rem] !w-[5.1rem] min-[769px]:!h-[5.6rem] min-[769px]:!w-[5.6rem] max-[768px]:!h-[4.75rem] max-[768px]:!w-[4.75rem]"
-                />
-                <h3 id={beforeHeadingId} className="sr-only">
-                  {t("about.contact.title")}
-                </h3>
-                <div className="home-before-contact-copy mx-auto flex w-full max-w-[min(78vw,23rem)] flex-col items-center gap-[clamp(0.68rem,1.08vw,0.88rem)] text-center max-[768px]:max-w-[min(78vw,18rem)] max-[768px]:gap-[clamp(0.9rem,3vw,1.12rem)]">
-                  <p className="m-0 text-[clamp(1.26rem,1.9vw,1.5rem)] max-[768px]:text-[clamp(1.18rem,5.2vw,1.38rem)] font-normal leading-[1.18] max-[768px]:leading-[1.3] tracking-[0.015em] text-[color:var(--home-prose-color)]">
-                    {contactCompany}
-                  </p>
-                  <div className="m-0 flex w-full flex-col gap-[clamp(0.56rem,0.88vw,0.76rem)] text-[color:var(--home-prose-color)] max-[768px]:gap-[clamp(0.78rem,2.65vw,1rem)]">
-                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.3] max-[768px]:leading-[1.4] tracking-[0.01em]">
-                      {contactRegistryValue}
-                    </p>
-                    <p className="m-0 text-[clamp(1.16rem,1.55vw,1.28rem)] max-[768px]:text-[clamp(1.06rem,4.55vw,1.18rem)] leading-[1.34] max-[768px]:leading-[1.48] tracking-[0.01em] [text-wrap:balance]">
-                      {contactAddressValue}
-                    </p>
-                    <p className="m-0">
-                      <span className={contactEmailLinkClassName}>
-                        {contactEmailValue}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <h3 id={beforeHeadingId} className="sr-only">
-                  {ctaTitle}
-                </h3>
-                <ul className={beforeListClassName}>
-                  <li className={homeCircleItemClassName}>
-                    <AppLink
-                      href="/kasutusjuhend"
-                      onClick={(event) => openGlassPage(event, "/kasutusjuhend")}
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    >
-                      {t("about.guide.jump_link")}
-                    </AppLink>
-                  </li>
-                  <li className={homeCircleItemClassName}>
-                    <AppLink
-                      href="/kasutustingimused"
-                      onClick={(event) => openGlassPage(event, "/kasutustingimused")}
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    >
-                      {t("about.links.terms")}
-                    </AppLink>
-                  </li>
-                  <li className={homeCircleItemClassName}>
-                    <AppLink
-                      href="/privaatsustingimused"
-                      onClick={(event) => openGlassPage(event, "/privaatsustingimused")}
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    >
-                      {t("about.links.privacy")}
-                    </AppLink>
-                  </li>
-                  <li className={homeCircleItemClassName}>
-                    <InstallAppLink
-                      variant="row"
-                      mobilePopoverPreferAbove
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    />
-                  </li>
-                  {showAdminLinks ? (
-                    <>
-                      <li className={homeCircleItemClassName}>
-                        <AppLink
-                          href="/admin/analytics"
-                          className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                        >
-                          {t("about.links.analytics")}
-                        </AppLink>
-                      </li>
-                      <li className={homeCircleItemClassName}>
-                        <AppLink
-                          href="/admin/rag"
-                          className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                        >
-                          {t("about.links.admin")}
-                        </AppLink>
-                      </li>
-                      <li className={homeCircleItemClassName}>
-                        <AppLink
-                          href="/admin/framework-acceptances"
-                          className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                        >
-                          {adminFrameworkLinkLabel}
-                        </AppLink>
-                      </li>
-                    </>
-                  ) : null}
-                  <li className={homeCircleItemClassName}>
-                    <AppLink
-                      href="/hinnastus"
-                      onClick={(event) => openGlassPage(event, "/hinnastus")}
-                      className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                    >
-                      {t("about.links.pricing")}
-                    </AppLink>
-                  </li>
-                </ul>
-                <p className="m-0 max-[768px]:mt-[clamp(0.35rem,1.1vw,0.6rem)]">
+          <h3 id={beforeHeadingId} className="sr-only">
+            {ctaTitle}
+          </h3>
+          <ul className="m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3">
+            {quickLinks.map((item) => (
+              <li key={item.key} className="pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start">
+                {item.type === "button" ? (
                   <button
                     type="button"
-                    onClick={openBeforeContact}
-                    className={cn(
-                      "home-before-contact-button",
-                      homeCircleLinkResponsiveClassName,
-                      linkBrandInlineClass
-                    )}
+                    onClick={item.onClick}
+                    aria-label={item.label}
+                    aria-expanded={beforeView === "contact"}
+                    aria-controls={`${beforeHeadingId}-contact`}
+                    className={cn("home-before-contact-button", homeQuickLinkClassName)}
                   >
-                    {t("about.contact.title")}
+                    <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
                   </button>
+                ) : (
+                  <AppLink
+                    href={item.href}
+                    onClick={item.onClick}
+                    aria-label={item.label}
+                    className={homeQuickLinkClassName}
+                  >
+                    <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
+                  </AppLink>
+                )}
+                <span aria-hidden="true" className={homeQuickLabelClassName} style={homeQuickLabelStyle}>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+          {beforeView === "contact" ? (
+            <div
+              id={`${beforeHeadingId}-contact`}
+              className="home-before-contact-copy mx-auto mt-[clamp(0.8rem,1.8vw,1.2rem)] flex w-[min(92vw,38rem)] flex-col items-center gap-[clamp(0.48rem,0.95vw,0.72rem)] border-t border-[color:var(--home-link-color,var(--brand-primary))] border-opacity-25 px-[clamp(0.8rem,2.2vw,1.4rem)] pt-[clamp(0.9rem,1.9vw,1.25rem)] text-center"
+            >
+              <div className="flex w-full items-center justify-center gap-[0.7rem]">
+                <p className="m-0 text-[clamp(1.08rem,1.48vw,1.26rem)] font-normal leading-[1.2] tracking-[0.015em] text-[color:var(--home-prose-color)]">
+                  {contactCompany}
                 </p>
-              </>
-            )}
-          </div>
+                <button
+                  type="button"
+                  onClick={closeBeforeContact}
+                  className="inline-flex h-[1.9rem] w-[1.9rem] shrink-0 appearance-none items-center justify-center rounded-full border border-transparent bg-transparent text-[1.5rem] leading-none text-[color:var(--home-link-color,var(--brand-primary))] transition-[border-color,filter] duration-150 hover:border-[color:var(--home-link-color,var(--brand-primary))] focus-visible:border-[color:var(--home-link-color,var(--brand-primary))] focus-visible:outline-none focus-visible:[filter:drop-shadow(0_0_0.35rem_rgba(197,113,113,0.38))] hc:text-[color:var(--hc-accent)]"
+                  aria-label={t("buttons.close")}
+                >
+                  {t("symbols.times")}
+                </button>
+              </div>
+              <div className="m-0 flex w-full flex-col gap-[clamp(0.4rem,0.8vw,0.62rem)] text-[color:var(--home-prose-color)]">
+                <p className="m-0 text-[clamp(1rem,1.3vw,1.14rem)] leading-[1.32] tracking-[0.01em]">
+                  {contactRegistryValue}
+                </p>
+                <p className="m-0 text-[clamp(1rem,1.3vw,1.14rem)] leading-[1.36] tracking-[0.01em] [text-wrap:balance]">
+                  {contactAddressValue}
+                </p>
+                <p className="m-0">
+                  <span className={contactEmailLinkClassName}>
+                    {contactEmailValue}
+                  </span>
+                </p>
+              </div>
+            </div>
+          ) : null}
         </section>
       </div>
     </section>

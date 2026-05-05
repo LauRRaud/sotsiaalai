@@ -902,11 +902,45 @@ Next step:
 - Deploy/restart and run platform live smoke with broad overview/resource-discovery questions that have multi-year article evidence.
 - If live answers still use too few sources or ignore a rich article corpus, do a separate V2.8 selector/display diversity tuning patch. Do not mix that with temporal framing.
 
+### V2.7A Live Trace Checker Freshness/Temporal Guard
+
+Status: DONE / checker reliability hotfix
+
+Scope:
+
+- `scripts/check-v24a-live-trace.mjs`: live trace checker now rejects stale matching conversations by default, so `npm run rag:check:v24a-live-trace` cannot silently pass because it found an older smoke-test row.
+- Default freshness window is `720` minutes and can be adjusted with `--max-age-minutes=N` or `--since-minutes=N`.
+- Manual stale-row debugging remains possible with `--allow-stale`, but that mode is not a production smoke PASS condition.
+- A single already-run smoke can be checked with `--case=<case_id>` and `--conversation-id=<conversation_id>`, which is useful when live questions were run before the checker patch was deployed.
+- The checker now normalizes Estonian diacritics and known mojibake variants before matching smoke prompts.
+- The checker now validates V2.7 temporal EvidencePackage metadata for the overview smoke case when selected evidence carries source years.
+- The checker core is exported for unit testing and imports Prisma only in CLI execution, so tests can cover checker logic without requiring a database connection.
+- `tests/scripts/checkV24aLiveTrace.test.js`: added focused tests for stale trace rejection, prompt normalization, temporal EvidencePackage validation and CLI option parsing.
+- No retrieval, planner mode detection, SourcePackage, legal exact contract matching, KOV/SourcePackage route, ingest pipeline, stored metadata values or runtime answer behavior were changed.
+
+Validation:
+
+- Focused checker tests passed:
+  - `node tests\scripts\checkV24aLiveTrace.test.js` -> `6/6` passed.
+- Local workstation DB diagnostic:
+  - `npm run rag:check:v24a-live-trace` -> expected FAIL on local data: no fresh smoke rows inside the `720` minute default window, and one old comparison row was rejected with `trace_too_old`.
+  - `node scripts\check-v24a-live-trace.mjs --allow-stale` -> expected FAIL on local data because there were no fresh live smoke rows and the only matched comparison row was an older pre-EvidencePackage trace.
+  - `node scripts\check-v24a-live-trace.mjs --case=overview_lastekaitse --conversation-id=conv-540948d4-0733-4072-b8e0-421ccc549dcf --max-age-minutes=1440` -> expected local FAIL with `checked_recent_messages: 0`, because that pasted smoke conversation is not present in the local workstation DB.
+  - This confirms the checker no longer treats stale/pre-upgrade rows as a valid live smoke PASS.
+- `npm run build` passed. Build emitted existing email transport warnings for missing email environment variables; this was not a build failure.
+
+Next step:
+
+- After deploy/restart, run fresh live smoke and then run `npm run rag:check:v24a-live-trace` within the default freshness window.
+- If the live smoke happened earlier than the default window but is still intentionally valid, run `npm run rag:check:v24a-live-trace -- --max-age-minutes=1440`.
+- For a targeted overview smoke already present in the DB, run e.g. `npm run rag:check:v24a-live-trace -- --case=overview_lastekaitse --conversation-id=conv-540948d4-0733-4072-b8e0-421ccc549dcf --max-age-minutes=1440`.
+
 ## Current Next Steps
 
 1. Platform smoke after deploy/restart with the current live question set.
-2. Add temporal-framing smoke checks for broad article-corpus questions such as `Mis on murekohad lastekaitses?` where selected evidence may span older and newer years.
-3. If live smoke shows source diversity is still too narrow, start V2.8 selector/display diversity tuning as a separate patch.
+2. Run `npm run rag:check:v24a-live-trace` after fresh smoke; use `--case=<case_id>` and `--conversation-id=<conversation_id>` for targeted already-run smoke rows.
+3. Add temporal-framing smoke checks for broad article-corpus questions such as `Mis on murekohad lastekaitses?` where selected evidence may span older and newer years.
+4. If live smoke shows source diversity is still too narrow, start V2.8 selector/display diversity tuning as a separate patch.
 
 Guardrails:
 
