@@ -266,6 +266,14 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   --home-panel-bg: rgba(251, 249, 246, 0.9);
 }
 
+:root.theme-light:not(.theme-mid) .homepage-root .home-before-links {
+  --home-quick-light-color: rgba(122, 58, 56, 0.9);
+}
+
+:root.theme-light:not(.theme-mid) .homepage-root .home-before-links :is(.home-quick-link, .home-quick-link svg, .home-quick-label) {
+  color: var(--home-quick-light-color) !important;
+}
+
 :root.theme-mid .homepage-root .home-about-panel {
   --home-panel-bg: rgba(203, 190, 186, 0.82);
 }
