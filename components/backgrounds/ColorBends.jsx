@@ -49,12 +49,14 @@ uniform float uWarpStrength;
 uniform vec2 uPointer;
 uniform float uMouseInfluence;
 uniform float uParallax;
+uniform float uScrollOffset;
 uniform float uNoise;
 varying vec2 vUv;
 
 void main() {
   float t = uPhase + (uTime * uSpeed);
   vec2 p = vUv * 2.0 - 1.0;
+  p.y += uScrollOffset;
   p += uPointer * uParallax * 0.1;
   vec2 rp = vec2(p.x * uRot.x - p.y * uRot.y, p.x * uRot.y + p.y * uRot.x);
   vec2 q = vec2(rp.x * (uCanvas.x / uCanvas.y), rp.y);
@@ -140,6 +142,9 @@ export default function ColorBends({
   warpStrength = 1,
   mouseInfluence = 1,
   parallax = 0.5,
+  scrollParallax = 0,
+  scrollParallaxMax = 0.55,
+  scrollContainerSelector = "",
   noise = 0.1,
   maxDpr = 2,
   powerPreference = "high-performance"
@@ -197,6 +202,7 @@ export default function ColorBends({
         uPointer: { value: new THREE.Vector2(0, 0) },
         uMouseInfluence: { value: mouseInfluence },
         uParallax: { value: parallax },
+        uScrollOffset: { value: 0 },
         uNoise: { value: noiseRef.current }
       },
       premultipliedAlpha: true,
@@ -365,6 +371,74 @@ export default function ColorBends({
       }
     };
   }, [maxDpr, mouseInfluence, parallax, powerPreference, transparent]);
+
+  useEffect(() => {
+    const material = materialRef.current;
+    const container = containerRef.current;
+    if (!material || !container || typeof window === "undefined") return;
+
+    const strength = Number(scrollParallax) || 0;
+    const maxOffset = Math.max(0, Number(scrollParallaxMax) || 0);
+    const uniform = material.uniforms.uScrollOffset;
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    if (strength === 0 || maxOffset === 0) {
+      uniform.value = 0;
+      if (rafRef.current == null) renderStillRef.current();
+      return;
+    }
+
+    let raf = 0;
+    let scrollEl = null;
+    const getScrollEl = () => {
+      if (!scrollContainerSelector) return null;
+      const found = document.querySelector(scrollContainerSelector);
+      return found instanceof HTMLElement ? found : null;
+    };
+    const readScrollY = () => {
+      scrollEl = getScrollEl();
+      const scrollElIsScrollable =
+        scrollEl && scrollEl.scrollHeight > scrollEl.clientHeight + 1;
+      if (scrollElIsScrollable) {
+        return scrollEl.scrollTop;
+      }
+      return (
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body?.scrollTop ||
+        0
+      );
+    };
+    const update = () => {
+      raf = 0;
+      const height = window.innerHeight || container.clientHeight || 1;
+      uniform.value = clamp((readScrollY() / height) * strength, -maxOffset, maxOffset);
+      if (rafRef.current == null) renderStillRef.current();
+    };
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    scrollEl = getScrollEl();
+    if (scrollEl) {
+      scrollEl.addEventListener("scroll", onScroll, { passive: true });
+    }
+    window.addEventListener("resize", onScroll);
+    window.visualViewport?.addEventListener("resize", onScroll);
+
+    return () => {
+      if (scrollEl) {
+        scrollEl.removeEventListener("scroll", onScroll);
+      }
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.visualViewport?.removeEventListener("resize", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [scrollParallax, scrollParallaxMax, scrollContainerSelector]);
 
   useEffect(() => {
     const material = materialRef.current;

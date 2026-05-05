@@ -212,17 +212,44 @@ const BackgroundContent = memo(function BackgroundContent({
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
     el.style.setProperty("--saai-parallax-space", "0px");
+    el.style.setProperty("--saai-bends-opacity", "1");
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
     if (!baseParallaxActive) return;
     let raf = 0;
+    let homepageRoot = null;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const isUsableElement = value => value instanceof HTMLElement;
+    const getHomepageRoot = () => {
+      if (!isHomepage) return null;
+      const root = document.querySelector(".homepage-root");
+      return isUsableElement(root) ? root : null;
+    };
+    const resolveScrollY = () => {
+      homepageRoot = getHomepageRoot();
+      const rootIsScrollable =
+        isUsableElement(homepageRoot) &&
+        homepageRoot.scrollHeight > homepageRoot.clientHeight + 1;
+      if (rootIsScrollable) {
+        return homepageRoot.scrollTop;
+      }
+      return (
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body?.scrollTop ||
+        0
+      );
+    };
     const update = () => {
       raf = 0;
-      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      const y = resolveScrollY();
       const spaceY = -clamp(y * 0.07, 0, 160);
+      const bendsOpacity = isHomepage
+        ? 1 - clamp((y - 40) / 340, 0, 1)
+        : 1;
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
+      el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
       el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
       el.style.setProperty("--saai-bg-dim", "0");
     };
@@ -234,13 +261,24 @@ const BackgroundContent = memo(function BackgroundContent({
     window.addEventListener("scroll", onScroll, {
       passive: true
     });
+    homepageRoot = getHomepageRoot();
+    if (homepageRoot) {
+      homepageRoot.addEventListener("scroll", onScroll, {
+        passive: true
+      });
+    }
     window.addEventListener("resize", onScroll);
+    window.visualViewport?.addEventListener("resize", onScroll);
     return () => {
+      if (homepageRoot) {
+        homepageRoot.removeEventListener("scroll", onScroll);
+      }
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.visualViewport?.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [reduceMotion, baseParallaxActive]);
+  }, [reduceMotion, baseParallaxActive, isHomepage]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
@@ -339,6 +377,9 @@ const BackgroundContent = memo(function BackgroundContent({
               warpStrength={1}
               mouseInfluence={reduceMotion ? 0 : 0}
               parallax={reduceMotion ? 0 : 0}
+              scrollParallax={baseParallaxActive ? isHomepage ? 0.46 : 0.16 : 0}
+              scrollParallaxMax={isHomepage ? 0.56 : 0.28}
+              scrollContainerSelector={isHomepage ? ".homepage-root" : ""}
               noise={0}
               transparent
               autoRotate={0}
