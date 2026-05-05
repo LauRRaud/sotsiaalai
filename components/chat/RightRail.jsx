@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import styles from "./RightRail.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AddPersonIcon, ChatBubbleIcon, MaterialsIcon, ProfileIcon, RoomsIcon } from "@/components/ui/icons/ChatIcons";
-import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
+import { ChatBubbleIcon, ProfileIcon, RoomsIcon, WorkspaceIcon } from "@/components/ui/icons/ChatIcons";
+import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 
@@ -41,11 +41,12 @@ function detectRailStepSpread() {
 export default function RightRail({
   t,
   locale = "et",
-  roomId,
   isLightTheme,
   inputFocused,
   onProfileToggle,
   activeWorkspaceKey = "",
+  workspaceOpen = false,
+  onWorkspaceToggle,
   embedded = false,
   suspendPointerEvents = false,
   suppressTooltip = false,
@@ -331,30 +332,8 @@ export default function RightRail({
     pushWithTransition(router, localizePath("/vestlus", locale));
   };
 
-  const openInvite = () => {
-    runWithTransition(() => {
-      try {
-        window.dispatchEvent(new CustomEvent("sotsiaalai:open-invite", {
-          detail: { roomId }
-        }));
-      } catch {}
-    }, {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-
   const openRooms = () => {
     pushWithTransition(router, localizePath("/ruum", locale), {
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  };
-
-  const openMaterials = () => {
-    pushWithTransition(router, localizePath("/materjalid", locale), {
       glassRingTilt: "right",
       waitForGlassRingTilt: true,
       persistGlassRingTilt: false
@@ -366,24 +345,18 @@ export default function RightRail({
       key: "profile",
       label: t("nav.profile")
     }, {
-      key: "invite",
-      label: t("nav.add_person")
+      key: "workspace",
+      label: t("nav.workspace", "Töölaud")
     }, {
       key: "rooms",
       label: t("nav.rooms")
-    }, {
-      key: "materials",
-      label: t("profile.materials_cta")
     }];
   }, [t]);
 
   const mobileItems = useMemo(() => {
     return [{
-      key: "materials",
-      label: t("profile.materials_cta")
-    }, {
-      key: "invite",
-      label: t("nav.add_person")
+      key: "workspace",
+      label: t("nav.workspace", "Töölaud")
     }, {
       key: "profile",
       label: t("nav.profile")
@@ -392,7 +365,7 @@ export default function RightRail({
   const items = viewportIsMobile ? mobileItems : desktopItems;
 
   const mobileSlots = useMemo(() => {
-    const order = ["materials", "invite", "profile"];
+    const order = ["workspace", "profile"];
     return order.map(key => {
       const itemIndex = mobileItems.findIndex(item => item.key === key);
       if (itemIndex < 0) return null;
@@ -601,10 +574,10 @@ export default function RightRail({
         const farEdgeOutwardPx = !viewportIsMobile && !inputFocused && ((activeIndex === 0 && slotOffset === 2) || (activeIndex === items.length - 1 && slotOffset === -2)) ? 2.2 * railProfileScale : 0;
         const outerSlotDistanceFactor = Math.abs(slotOffset) === 2 ? 0.94 : 1;
         const offsetX = -baseCurvePx * curveNorm * curveNorm - edgeSafetyPx * curveNorm * curveNorm * curveNorm * curveNorm - inwardSkewPx + centerOutwardPx + adjacentEdgeOutwardPx + farEdgeOutwardPx;
-        const inviteProfileGapPx = !viewportIsMobile && it?.key === "profile"
+        const profileGapPx = !viewportIsMobile && it?.key === "profile"
           ? -(4.2 * railProfileScale)
           : 0;
-        const offsetY = (slotOffset * stepPx * outerSlotDistanceFactor * railStepSpread) + inviteProfileGapPx;
+        const offsetY = (slotOffset * stepPx * outerSlotDistanceFactor * railStepSpread) + profileGapPx;
         const norm = Math.min(Math.abs(slotOffset) / 2, 1);
         const scale = 0.88 + (1 - norm) * 0.36;
         const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
@@ -651,16 +624,12 @@ export default function RightRail({
             openChatsDrawer(event);
             return;
           }
-          if (it.key === "invite") {
-            openInvite();
+          if (it.key === "workspace") {
+            onWorkspaceToggle?.();
             return;
           }
           if (it.key === "rooms") {
             openRooms();
-            return;
-          }
-          if (it.key === "materials") {
-            openMaterials();
             return;
           }
         };
@@ -698,7 +667,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "invite" ? <AddPersonIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconInvite)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : it?.key === "materials" ? <MaterialsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconMaterials)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "workspace" ? <WorkspaceIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconWorkspace, workspaceOpen ? styles.iconWorkspaceOpen : null)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BackIcon from "@/components/ui/icons/BackIcon";
-import { ChatBubbleIcon, HelpOfferIcon, HelpRequestIcon, RoomsIcon } from "@/components/ui/icons/ChatIcons";
-import { pushWithTransition, runWithTransition } from "@/lib/routeTransition";
+import { ChatBubbleIcon, RoomsIcon } from "@/components/ui/icons/ChatIcons";
+import { pushWithTransition } from "@/lib/routeTransition";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { cn } from "@/components/ui/cn";
 import styles from "./LeftRail.module.css";
@@ -38,17 +38,6 @@ function detectRailStepSpread() {
   const scale = root?.dataset?.uiScale;
   if (profile === "mac" || scale === "mac") return 1.18;
   return 1;
-}
-
-function _getHelpLabels(locale = "et") {
-  const normalized = String(locale || "et").trim().toLowerCase();
-  if (normalized === "en") {
-    return { requests: "Help requests", offers: "Help offers" };
-  }
-  if (normalized === "ru") {
-    return { requests: "Запросы помощи", offers: "Предложения помощи" };
-  }
-  return { requests: "Abisoovid", offers: "Abipakkumised" };
 }
 
 function NewConversationIcon({ isLightTheme = false, className }) {
@@ -90,9 +79,6 @@ export default function LeftRail({
   isLightTheme,
   inputFocused,
   onBackHome,
-  activeHelpPanelKey = "",
-  onShowHelpRequests,
-  onShowHelpOffers,
   embedded = false,
   suspendPointerEvents = false,
   mobileVisible = true
@@ -122,7 +108,6 @@ export default function LeftRail({
     Math.round(DEFAULT_RAIL_ITEM_SIZE_PX * DEFAULT_RAIL_STEP_FACTOR * detectRailProfileScale())
   );
   const [isMobile, setIsMobile] = useState(false);
-  const localizedHelpLabels = useMemo(() => _getHelpLabels(locale), [locale]);
   const normalizedPathname = useMemo(
     () => stripLocaleFromPath(pathname || "/"),
     [pathname]
@@ -130,25 +115,15 @@ export default function LeftRail({
   const mobileItems = useMemo(
     () => [
       { key: "chats", label: t("nav.chats") },
-      { key: "rooms", label: t("nav.rooms") },
-      {
-        key: "help_requests",
-        label: t("chat.help.helpRequests") || localizedHelpLabels.requests
-      },
-      {
-        key: "help_offers",
-        label: t("chat.help.helpOffers") || localizedHelpLabels.offers
-      }
+      { key: "rooms", label: t("nav.rooms") }
     ],
-    [localizedHelpLabels.offers, localizedHelpLabels.requests, t]
+    [t]
   );
   const items = useMemo(
     () => [
       { key: "back", label: t("chat.back_to_home") },
       { key: "new_chat", label: t("buttons.new_conversation") },
-      { key: "chats", label: t("nav.chats") },
-      { key: "help_requests", label: t("chat.help.helpRequests") },
-      { key: "help_offers", label: t("chat.help.helpOffers") }
+      { key: "chats", label: t("nav.chats") }
     ],
     [t]
   );
@@ -393,15 +368,8 @@ export default function LeftRail({
   }, [hideTooltipImmediately]);
 
   useEffect(() => {
-    if (activeHelpPanelKey) {
-      const nextIndex = items.findIndex((item) => item.key === activeHelpPanelKey);
-      if (nextIndex >= 0) {
-        setActiveIndex(nextIndex);
-        return;
-      }
-    }
     setActiveIndex(0);
-  }, [activeHelpPanelKey, items]);
+  }, []);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -501,26 +469,6 @@ export default function LeftRail({
     pushWithTransition(router, localizePath("/ruum", locale));
   }, [locale, router]);
 
-  const openHelpRequestsPanel = useCallback(() => {
-    runWithTransition(() => {
-      onShowHelpRequests?.();
-    }, {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  }, [onShowHelpRequests]);
-
-  const openHelpOffersPanel = useCallback(() => {
-    runWithTransition(() => {
-      onShowHelpOffers?.();
-    }, {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    });
-  }, [onShowHelpOffers]);
-
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
     event.preventDefault();
@@ -579,14 +527,6 @@ export default function LeftRail({
                 openRooms();
                 return;
               }
-              if (item.key === "help_requests") {
-                openHelpRequestsPanel();
-                return;
-              }
-              if (item.key === "help_offers") {
-                openHelpOffersPanel();
-                return;
-              }
             };
 
             return (
@@ -619,18 +559,6 @@ export default function LeftRail({
                   <RoomsIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconRooms)}
-                  />
-                ) : null}
-                {item.key === "help_requests" ? (
-                  <HelpRequestIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconHelp)}
-                  />
-                ) : null}
-                {item.key === "help_offers" ? (
-                  <HelpOfferIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconHelp)}
                   />
                 ) : null}
               </button>
@@ -733,14 +661,6 @@ export default function LeftRail({
                 openRooms();
                 return;
               }
-              if (item.key === "help_requests") {
-                openHelpRequestsPanel();
-                return;
-              }
-              if (item.key === "help_offers") {
-                openHelpOffersPanel();
-                return;
-              }
             };
 
             const ariaLabel = item.label || "";
@@ -809,18 +729,6 @@ export default function LeftRail({
                   <RoomsIcon
                     isLightTheme={isLightTheme}
                     className={cn(styles.iconSvg, styles.iconRooms)}
-                  />
-                ) : null}
-                {item.key === "help_requests" ? (
-                  <HelpRequestIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconHelp)}
-                  />
-                ) : null}
-                {item.key === "help_offers" ? (
-                  <HelpOfferIcon
-                    isLightTheme={isLightTheme}
-                    className={cn(styles.iconSvg, styles.iconHelp)}
                   />
                 ) : null}
                 {item.key === "back" ? (

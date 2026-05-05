@@ -169,6 +169,60 @@ enum OrganizationFileValidationStatus {
   INVALID
 }
 
+enum ServiceProviderProfileStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  HIDDEN
+}
+
+enum ServiceProviderFeeType {
+  FREE
+  PAID
+  AGREEMENT
+  MIXED
+  UNKNOWN
+}
+
+enum ServiceMapEntryType {
+  KOV_SOCIAL_CONTACT
+  KOV_GENERAL_CONTACT
+  SERVICE_PROVIDER
+}
+
+enum ServiceMapEntryStatus {
+  DRAFT
+  NEEDS_REVIEW
+  PUBLISHED
+  HIDDEN
+}
+
+enum ServiceMapGeocodingStatus {
+  PENDING
+  MATCHED
+  AMBIGUOUS
+  FAILED
+  MANUALLY_CONFIRMED
+}
+
+enum PreInquiryRecipientType {
+  KOV_CONTACT
+  SERVICE_PROVIDER
+}
+
+enum PreInquiryDeliveryChannel {
+  INTERNAL
+  EXTERNAL_EMAIL
+}
+
+enum PreInquiryStatus {
+  DRAFT
+  READY
+  SENT
+  DOWNLOADED
+  ARCHIVED
+}
+
 enum HelpRecordStatus {
   DRAFT
   OPEN
@@ -282,6 +336,7 @@ model User {
   role                    Role      @default(CLIENT)
   isAdmin                 Boolean   @default(false)
   sessionVersion          Int       @default(0)
+  acceptsPreInquiries     Boolean   @default(false)
 
   // NextAuth
   accounts Account[]
@@ -320,9 +375,14 @@ model User {
   requestedHelpMatches HelpMatch[]           @relation("HelpMatchRequester")
   offeredHelpMatches   HelpMatch[]           @relation("HelpMatchOfferer")
   researchJobs         ResearchJob[]
+  serviceProviderProfiles ServiceProviderProfile[]
+  authoredPreInquiries PreInquiry[]          @relation("PreInquiryAuthor")
+  receivedPreInquiries PreInquiry[]          @relation("PreInquiryRecipientOwner")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([acceptsPreInquiries])
 }
 
 model Profile {
@@ -804,6 +864,7 @@ model Municipality {
   helpRequests HelpRequest[]
   helpOffers   HelpOffer[]
   kovAdmin     MunicipalityKovAdmin?
+  serviceMapEntries ServiceMapEntry[]
 
   @@index([baseName])
   @@index([type])
@@ -939,6 +1000,122 @@ model OrganizationAdminFile {
   @@index([organizationId])
   @@index([role])
   @@index([storagePath])
+}
+
+model ServiceProviderProfile {
+  id                         String                       @id @default(cuid())
+  ownerId                    String
+  organizationName           String
+  shortDescription           String?                      @db.Text
+  services                   String[]                     @default([])
+  serviceCategories          String[]                     @default([])
+  targetGroups               String[]                     @default([])
+  serviceArea                String?                      @db.Text
+  serviceAreaMunicipalityIds String[]                     @default([])
+  county                     String?
+  address                    String?
+  normalizedAddress          String?
+  phone                      String?
+  email                      String?
+  website                    String?
+  languages                  String[]                     @default([])
+  accessibilityInfo          String?                      @db.Text
+  feeType                    ServiceProviderFeeType       @default(UNKNOWN)
+  mapVisible                 Boolean                      @default(false)
+  acceptsPlatformPreInquiries Boolean                     @default(true)
+  acceptsEmailPreInquiries   Boolean                      @default(true)
+  status                     ServiceProviderProfileStatus @default(DRAFT)
+  publicSlug                 String?                      @unique
+  publishedAt                DateTime?
+  hiddenAt                   DateTime?
+  checkedAt                  DateTime?
+  ragSourceId                String?
+  ragMetadata                Json?
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+
+  owner           User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  serviceMapEntry ServiceMapEntry?
+
+  @@unique([ownerId])
+  @@index([ownerId, updatedAt])
+  @@index([status])
+  @@index([mapVisible])
+  @@index([acceptsPlatformPreInquiries])
+  @@index([acceptsEmailPreInquiries])
+  @@index([publicSlug])
+}
+
+model ServiceMapEntry {
+  id                String                    @id @default(cuid())
+  type              ServiceMapEntryType
+  title             String
+  description       String?                   @db.Text
+  municipalityId    String?
+  municipalityName  String?
+  county            String?
+  address           String?
+  normalizedAddress String?
+  phone             String?
+  email             String?
+  website           String?
+  sourceUrl         String?
+  sourceDocId       String?
+  checkedAt         DateTime?
+  providerProfileId String?                   @unique
+  status            ServiceMapEntryStatus     @default(DRAFT)
+  geocodingStatus   ServiceMapGeocodingStatus @default(PENDING)
+  latitude          Float?
+  longitude         Float?
+  adsObjectId       String?
+  geocodingRaw      Json?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+
+  municipality    Municipality?           @relation(fields: [municipalityId], references: [id], onDelete: SetNull)
+  providerProfile ServiceProviderProfile? @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
+  preInquiries    PreInquiry[]
+
+  @@index([type])
+  @@index([status])
+  @@index([geocodingStatus])
+  @@index([municipalityId])
+  @@index([municipalityName])
+  @@index([county])
+  @@index([providerProfileId])
+  @@index([status, geocodingStatus])
+}
+
+model PreInquiry {
+  id                     String                  @id @default(cuid())
+  authorId               String
+  recipientOwnerId       String?
+  recipientEntryId       String?
+  recipientType          PreInquiryRecipientType
+  deliveryChannel        PreInquiryDeliveryChannel @default(INTERNAL)
+  selectedRecipientEmail String?
+  selectedRecipientName  String?
+  topic                  String?
+  situation              String                  @db.Text
+  generatedDraft         String?                 @db.Text
+  userEditedDraft        String?                 @db.Text
+  status                 PreInquiryStatus        @default(DRAFT)
+  sentAt                 DateTime?
+  externalSendConfirmedAt DateTime?
+  createdAt              DateTime                @default(now())
+  updatedAt              DateTime                @updatedAt
+
+  author         User             @relation("PreInquiryAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  recipientOwner User?            @relation("PreInquiryRecipientOwner", fields: [recipientOwnerId], references: [id], onDelete: SetNull)
+  recipientEntry ServiceMapEntry? @relation(fields: [recipientEntryId], references: [id], onDelete: SetNull)
+
+  @@index([authorId, updatedAt])
+  @@index([recipientOwnerId, updatedAt])
+  @@index([recipientEntryId])
+  @@index([recipientType])
+  @@index([deliveryChannel])
+  @@index([status])
+  @@index([createdAt])
 }
 
 model HelpCategory {

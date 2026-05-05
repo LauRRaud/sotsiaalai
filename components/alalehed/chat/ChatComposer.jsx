@@ -2,13 +2,10 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
-import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import Button from "@/components/ui/Button";
 import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
 import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon, MicrophoneIcon } from "@/components/ui/icons/ChatIcons";
-import { localizePath } from "@/lib/localizePath";
 
 const MODE_LABEL_SHINE_BACKGROUND_DARK =
   "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
@@ -128,9 +125,6 @@ export default function ChatComposer({
   setSendToAssistant,
   aiNote = ""
 }) {
-  const router = useRouter();
-  const { effectiveRole } = useEffectiveRole();
-  const isClientRole = effectiveRole === "CLIENT";
   const [draft, setDraft] = useState("");
   const [composerExpanded, setComposerExpanded] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
@@ -226,7 +220,7 @@ export default function ChatComposer({
       composerLayoutSignatureRef.current = layoutSignature;
       notifyLayoutChange();
     }
-  }, [composerExpanded, draft, inputFocused, inputRef, notifyLayoutChange]);
+  }, [composerExpanded, draft, inputFocused, inputRef, isMobile, notifyLayoutChange]);
   const helpRequestModeLabelRaw = t("chat.tools.help_request_mode");
   const helpRequestModeLabel =
     helpRequestModeLabelRaw && helpRequestModeLabelRaw !== "chat.tools.help_request_mode"
@@ -458,14 +452,6 @@ export default function ChatComposer({
     ensureAnalysisPanelVisible?.();
     closeToolsMenu();
   }, [ensureAnalysisPanelVisible, closeToolsMenu]);
-  const handleAgentModeSelect = useCallback(() => {
-    closeToolsMenu();
-    router.push(localizePath("/dokreziim", locale));
-  }, [closeToolsMenu, locale, router]);
-  const handleDocumentsSelect = useCallback(() => {
-    closeToolsMenu();
-    router.push(localizePath("/documents", locale));
-  }, [closeToolsMenu, locale, router]);
   const handleHelpRequestModeSelect = useCallback(() => {
     closeToolsMenu();
     onActivateHelpRequestMode?.();
@@ -722,26 +708,11 @@ export default function ChatComposer({
               </span>
               <span className={toolLabelClassName}>{deepResearchModeLabel}</span>
             </button> : null}
-          {!isClientRole ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDocumentsSelect}>
-              <span aria-hidden="true" className={toolIconSlotClassName}>
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={menuLargeModeIconClassName}>
-                  <path d="M4.85 7.4a1.75 1.75 0 0 1 1.75-1.75h4.1l1.55 1.55h5.15a1.75 1.75 0 0 1 1.75 1.75v8.45a1.75 1.75 0 0 1-1.75 1.75H6.6a1.75 1.75 0 0 1-1.75-1.75V7.4Z" stroke={iconStroke} strokeWidth={toolIconStrokeWidth} strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M4.85 10.8h14.3" stroke={iconStroke} strokeWidth={1.65} strokeLinecap="round" />
-                </svg>
-              </span>
-              <span className={toolLabelClassName}>{t("chat.tools.documents")}</span>
-            </button> : null}
           <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={openDocumentAnalysis}>
             <span aria-hidden="true" className={toolIconSlotClassName}>
               <DocumentModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
             </span>
             <span className={toolLabelClassName}>{t("chat.tools.document_analysis")}</span>
-          </button>
-          <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleAgentModeSelect}>
-            <span aria-hidden="true" className={toolIconSlotClassName}>
-              <DocumentModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} plus className={menuLargeModeIconClassName} />
-            </span>
-            <span className={toolLabelClassName}>{t("chat.tools.agent_mode")}</span>
           </button>
         </div>, document.body)
     : null;

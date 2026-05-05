@@ -5,11 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
 import { glassPageBackMobileBottomCenterClassName } from "@/components/ui/glassPageStyles";
 import {
-  AddPersonIcon,
   ChatBubbleIcon,
-  MaterialsIcon,
   ProfileIcon,
-  RoomsIcon
+  RoomsIcon,
+  WorkspaceIcon
 } from "@/components/ui/icons/ChatIcons";
 import { cn } from "@/components/ui/cn";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -17,13 +16,10 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const CHAT_CREATE_CONVERSATION_EVENT = "sotsiaalai:create-conversation";
 const MOBILE_NAV_ITEMS = [
-  { key: "materials", scale: 1.24 },
-  { key: "help_requests", scale: 1.0 },
-  { key: "help_offers", scale: 1.0 },
+  { key: "workspace", scale: 1.02 },
   { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
-  { key: "invite", scale: 1.1 },
   { key: "chats", scale: 0.96 }
 ];
 
@@ -88,74 +84,6 @@ function MobileIconFrame({ scale = 1, xNudge = 0, className, children }) {
   );
 }
 
-function MobileHelpRequestIcon({ isLightTheme = false, className }) {
-  const stroke = isLightTheme
-    ? "var(--chat-icon-light, #7A3A38)"
-    : "var(--chat-icon-dark, #c57171)";
-
-  return (
-    <svg
-      viewBox="0 0 24 25.2"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-    >
-      <path
-        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
-        stroke={stroke}
-        strokeWidth="1.68"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.25 8.55a2.25 2.25 0 1 1 3.3 1.98c-1.03.54-1.55 1.18-1.55 2.22v.48"
-        stroke={stroke}
-        strokeWidth="1.68"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M12 16.45h.01" stroke={stroke} strokeWidth="2.28" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function MobileHelpOfferIcon({ isLightTheme = false, className }) {
-  const stroke = isLightTheme
-    ? "var(--chat-icon-light, #7A3A38)"
-    : "var(--chat-icon-dark, #c57171)";
-
-  return (
-    <svg
-      viewBox="0 0 24 25.2"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-    >
-      <path
-        d="M12 23.45c-1.05 0-2.17-.56-2.92-1.45C5.4 17.63 3 13.13 3 10c0-4.96 4.04-9 9-9s9 4.04 9 9c0 3.13-2.4 7.63-6.08 12-.75.89-1.87 1.45-2.92 1.45Z"
-        stroke={stroke}
-        strokeWidth="1.68"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M12 6.95v6.7"
-        stroke={stroke}
-        strokeWidth="1.68"
-        strokeLinecap="round"
-      />
-      <path
-        d="M8.65 10.3h6.7"
-        stroke={stroke}
-        strokeWidth="1.68"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function getItemIndex(key) {
   const index = MOBILE_NAV_ITEMS.findIndex(item => item.key === key);
   return index >= 0 ? index : 0;
@@ -200,16 +128,15 @@ export default function ChatMobileTopNav({
   t,
   locale,
   isLightTheme,
-  roomId,
   embedded = false,
   handleBackHome,
   mobileRailInteractionLocked,
   leftRailActiveKey,
   rightRailActiveKey,
-  onShowHelpRequests,
-  onShowHelpOffers,
   toggleProfile,
-  openProfileDirect
+  openProfileDirect,
+  workspaceOpen = false,
+  onWorkspaceToggle
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -341,12 +268,8 @@ export default function ChatMobileTopNav({
       chats: t("nav.chats"),
       new_chat: t("chat.mobile.new_conversation"),
       rooms: t("nav.rooms"),
-      help_requests: t("chat.help.helpRequests"),
-      help_offers: t("chat.help.helpOffers"),
-      materials: t("profile.materials_cta"),
       profile: t("nav.profile"),
-      rooms: t("nav.rooms"),
-      invite: t("nav.add_person")
+      workspace: t("nav.workspace", "Töölaud")
     }),
     [t]
   );
@@ -391,20 +314,6 @@ export default function ChatMobileTopNav({
     pushWithTransition(router, localizePath("/ruum", locale));
   }, [locale, router]);
 
-  const openInvite = useCallback(() => {
-    try {
-      window.dispatchEvent(
-        new CustomEvent("sotsiaalai:open-invite", {
-          detail: { roomId }
-        })
-      );
-    } catch {}
-  }, [roomId]);
-
-  const openMaterials = useCallback(() => {
-    pushWithTransition(router, localizePath("/materjalid", locale));
-  }, [locale, router]);
-
   const handleActivate = useCallback(
     (key, event) => {
       if (key === "chats") {
@@ -415,12 +324,8 @@ export default function ChatMobileTopNav({
         openNewConversation();
         return;
       }
-      if (key === "help_requests") {
-        onShowHelpRequests?.();
-        return;
-      }
-      if (key === "help_offers") {
-        onShowHelpOffers?.();
+      if (key === "workspace") {
+        onWorkspaceToggle?.();
         return;
       }
       if (key === "profile") {
@@ -435,25 +340,14 @@ export default function ChatMobileTopNav({
         pushWithTransition(router, localizePath("/profiil", locale));
         return;
       }
-      if (key === "materials") {
-        openMaterials();
-        return;
-      }
       if (key === "rooms") {
         openRooms();
-        return;
-      }
-      if (key === "invite") {
-        openInvite();
       }
     },
     [
       locale,
-      onShowHelpOffers,
-      onShowHelpRequests,
+      onWorkspaceToggle,
       openChatsDrawer,
-      openInvite,
-      openMaterials,
       openNewConversation,
       openProfileDirect,
       openRooms,
@@ -522,17 +416,10 @@ export default function ChatMobileTopNav({
         </MobileIconFrame>
       );
     }
-    if (item.key === "help_requests") {
+    if (item.key === "workspace") {
       return (
-        <MobileIconFrame scale={item.scale}>
-          <MobileHelpRequestIcon isLightTheme={isLightTheme} className={iconClassName} />
-        </MobileIconFrame>
-      );
-    }
-    if (item.key === "help_offers") {
-      return (
-        <MobileIconFrame scale={item.scale}>
-          <MobileHelpOfferIcon isLightTheme={isLightTheme} className={iconClassName} />
+        <MobileIconFrame scale={item.scale * (workspaceOpen ? 1.08 : 1)}>
+          <WorkspaceIcon isLightTheme={isLightTheme} className={iconClassName} />
         </MobileIconFrame>
       );
     }
@@ -540,13 +427,6 @@ export default function ChatMobileTopNav({
       return (
         <MobileIconFrame scale={item.scale}>
           <ProfileIcon isLightTheme={isLightTheme} className={iconClassName} />
-        </MobileIconFrame>
-      );
-    }
-    if (item.key === "materials") {
-      return (
-        <MobileIconFrame scale={item.scale} className="h-[102%] w-[102%]">
-          <MaterialsIcon isLightTheme={isLightTheme} className="h-full w-auto aspect-[28/24]" />
         </MobileIconFrame>
       );
     }
@@ -559,7 +439,7 @@ export default function ChatMobileTopNav({
     }
     return (
       <MobileIconFrame scale={item.scale}>
-        <AddPersonIcon isLightTheme={isLightTheme} className={iconClassName} />
+        <ChatBubbleIcon isLightTheme={isLightTheme} className={iconClassName} />
       </MobileIconFrame>
     );
   };

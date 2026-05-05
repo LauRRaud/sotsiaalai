@@ -65,6 +65,7 @@
     "chats": "Vestlused",
     "rooms": "Ruumid",
     "add_person": "Lisa inimene",
+    "workspace": "Töölaud",
     "sources": "Allikad"
   },
   "auth": {
@@ -537,6 +538,110 @@
       "body": "<p>Käesolevatele tingimustele kohaldatakse Eesti Vabariigi õigust.</p><p>Vaidlused püütakse esmalt lahendada läbirääkimiste teel. Kui kokkulepet ei saavutata, lahendatakse vaidlus Eesti Vabariigi kohtus või muus pädevas vaidluste lahendamise korras vastavalt kohaldatavale õigusele.</p><p>Käesolevad tingimused ei piira kasutajale kohaldatavast õigusest tulenevaid kohustuslikke õigusi.</p>"
     }
   },
+  "workspace_feature_pages": {
+    "back_to_workspace": "Tagasi töölauale",
+    "pre_inquiries": {
+      "title": "Eelpöördumised",
+      "lead": "Pöördumise mustandid, adressaadi valik ja kasutaja kinnitamine koonduvad siia.",
+      "meta": {
+        "title": "Eelpöördumised",
+        "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."
+      },
+      "sections": {
+        "input": "Pöördumise sisend",
+        "recipient": "Adressaat",
+        "draft": "Kirja mustand"
+      },
+      "fields": {
+        "topic": "Teema",
+        "situation": "Olukorra kirjeldus",
+        "recipient_type": "Adressaadi tüüp",
+        "recipient_search": "Otsi adressaati"
+      },
+      "placeholders": {
+        "topic": "Lühike pealkiri",
+        "situation": "Kirjelda olukorda, vajadust või küsimust.",
+        "recipient": "KOV kontakt või teenuseosutaja",
+        "draft": "Koostatud pöördumise tekst"
+      },
+      "recipient": {
+        "kov": "KOV kontakt",
+        "provider": "Teenuseosutaja"
+      },
+      "actions": {
+        "save": "Salvesta mustand",
+        "copy": "Kopeeri kiri"
+      }
+    },
+    "service_map": {
+      "title": "Teenusekaart",
+      "lead": "Kaardivaade kasutab struktureeritud kaardikirjeid KOV kontaktide ja teenuseosutajate kuvamiseks.",
+      "meta": {
+        "title": "Teenusekaart",
+        "description": "Leia KOV kontaktid ja teenuseosutajad kaardilt."
+      },
+      "sections": {
+        "filters": "Otsing ja filtrid",
+        "map": "Kaart"
+      },
+      "fields": {
+        "keyword": "Märksõna",
+        "region": "Piirkond"
+      },
+      "placeholders": {
+        "keyword": "Teenus, kontakt või vajadus",
+        "region": "KOV või maakond"
+      },
+      "types": {
+        "kov": "KOV kontakt",
+        "provider": "Teenuseosutaja"
+      },
+      "marker_kov": "KOV",
+      "marker_provider": "Teenuseosutaja",
+      "map_label": "Teenusekaardi eelvaade",
+      "empty": "Avaldatud kaardikirjed kuvatakse siin markeritena."
+    },
+    "service_profile": {
+      "title": "Teenuseprofiil",
+      "lead": "Teenuseosutaja haldusvaade eraldab avaliku profiili, kaardimarkeri ja AI assistendi teadmuskirje konto profiilist.",
+      "meta": {
+        "title": "Teenuseprofiil",
+        "description": "Halda teenuseosutaja avalikku profiili, kaardil nähtavust ja assistendi jaoks leitavat infot."
+      },
+      "sections": {
+        "profile": "Teenuse info",
+        "map_profile": "Kaardiprofiil",
+        "outputs": "Väljundid"
+      },
+      "fields": {
+        "organization": "Organisatsiooni nimi",
+        "services": "Teenused",
+        "categories": "Kategooriad",
+        "target_groups": "Sihtrühmad",
+        "service_area": "Teeninduspiirkond",
+        "address": "Aadress või vastuvõtukoht",
+        "phone": "Telefon",
+        "email": "E-post",
+        "website": "Veebileht",
+        "languages": "Keeled"
+      },
+      "visibility": {
+        "visible": "Teenusekaardil nähtav"
+      },
+      "status": {
+        "draft": "Mustand"
+      },
+      "map_preview_empty": "Aadressi vaste eelvaade ilmub pärast geokodeerimist.",
+      "outputs": {
+        "public_profile": "Avalik profiil",
+        "map_marker": "Teenusekaardi marker",
+        "rag_record": "AI teadmuskirje"
+      },
+      "actions": {
+        "save": "Salvesta mustand"
+      }
+    }
+  },
   "chat": {
     "title": "SotsiaalAI",
     "intro": {
@@ -662,6 +767,54 @@
     "mobile": {
       "new_conversation": "Uus vestlus",
       "show_navigation": "Näita navigeerimist"
+    },
+    "workspace": {
+      "eyebrow": "Keskus",
+      "title": "Töölaud",
+      "close": "Sulge töölaud",
+      "cards": {
+        "documents": {
+          "title": "Dokumendid",
+          "meta": "Teek"
+        },
+        "document_drafting": {
+          "title": "Dokumendi koostamine",
+          "meta": "Koostamise tööruum"
+        },
+        "pre_inquiries": {
+          "title": "Eelpöördumised",
+          "meta": "Vestluse sisend"
+        },
+        "help_requests": {
+          "title": "Abisoovid",
+          "meta": "Kuulutused"
+        },
+        "help_offers": {
+          "title": "Abipakkumised",
+          "meta": "Pakkumised"
+        },
+        "add_person": {
+          "title": "Lisa inimene",
+          "meta": "Kutsed"
+        },
+        "service_map": {
+          "title": "Teenusekaart",
+          "meta": "Kaardivaade"
+        },
+        "kovision": {
+          "title": "Kovisioon",
+          "meta": "Ruumid"
+        },
+        "materials": {
+          "title": "Materjalide lisamine",
+          "meta": "Andmebaas"
+        },
+        "service_profile": {
+          "title": "Teenuseprofiil",
+          "meta": "Profiil",
+          "meta_provider": "Teenuseosutaja"
+        }
+      }
     },
     "help": {
       "helpRequests": "Abisoovid",

@@ -42,6 +42,7 @@ const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 const PANEL_TILT_CLOSE_MS = 540;
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
+const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 const CHAT_EMPTY_INTRO_SEEN_KEY_PREFIX = "sotsiaalai:chat:empty-intro-seen";
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
@@ -226,7 +227,7 @@ export default function ChatBody({
     data: session,
     status
   } = useSession();
-  const { effectiveRole } = useEffectiveRole();
+  const { actualRole, effectiveRole, isAdmin: effectiveRoleIsAdmin } = useEffectiveRole();
   const {
     t,
     locale
@@ -246,13 +247,19 @@ export default function ChatBody({
   const sessionUserId = session?.user?.id;
   const sessionUserRole = effectiveRole;
   const userRole = effectiveRole;
+  const userActualRole = actualRole;
+  const userIsAdmin = Boolean(
+    effectiveRoleIsAdmin ||
+    session?.user?.isAdmin ||
+    String(session?.user?.role || "").trim().toUpperCase() === "ADMIN"
+  );
   const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
   const [inputFocused, setInputFocused] = useState(false);
+  const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const {
     isMobile,
     mobileRailVisible,
-    mobileRailInteractionLocked,
-    showMobileRail
+    mobileRailInteractionLocked
   } = useChatMobileRail();
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
@@ -328,6 +335,30 @@ export default function ChatBody({
   });
   const allowAssistantForward = !isHelpMatchRoom;
   const hideComposerTools = isHelpMatchRoom;
+  useIsomorphicLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    let shouldRestore = false;
+    try {
+      const raw = window.sessionStorage.getItem(CHAT_WORKSPACE_RESTORE_STORAGE_KEY);
+      if (raw) {
+        window.sessionStorage.removeItem(CHAT_WORKSPACE_RESTORE_STORAGE_KEY);
+        const parsed = JSON.parse(raw);
+        const ts = Number(parsed?.ts || 0);
+        shouldRestore = Number.isFinite(ts) && Date.now() - ts < 30 * 60 * 1000;
+      }
+    } catch {
+      try {
+        window.sessionStorage.removeItem(CHAT_WORKSPACE_RESTORE_STORAGE_KEY);
+      } catch {}
+    }
+    if (!shouldRestore) return;
+    setWorkspaceOpen(true);
+    setShowSourcesPanel(false);
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+  }, []);
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
@@ -632,6 +663,34 @@ export default function ChatBody({
     inputRef,
     waitForComposerCollapse
   });
+  const closeWorkspace = useCallback(() => {
+    setWorkspaceOpen(false);
+  }, []);
+  const toggleWorkspace = useCallback(() => {
+    setWorkspaceOpen(prev => {
+      const next = !prev;
+      if (next) {
+        setShowSourcesPanel(false);
+        setInputFocused(false);
+        try {
+          inputRef.current?.blur?.();
+        } catch {}
+      }
+      return next;
+    });
+  }, [setShowSourcesPanel]);
+  const toggleProfileFromRail = useCallback(() => {
+    setWorkspaceOpen(false);
+    toggleProfile?.();
+  }, [toggleProfile]);
+  const openProfileDirectFromRail = useCallback((options) => {
+    setWorkspaceOpen(false);
+    return openProfileDirect?.(options);
+  }, [openProfileDirect]);
+  useEffect(() => {
+    if (!profileOpen) return;
+    setWorkspaceOpen(false);
+  }, [profileOpen]);
   useEffect(() => {
     if (!usesInputHoleSurface) return;
     refreshMask({
@@ -1959,9 +2018,10 @@ export default function ChatBody({
     prettifyFileName
   };
   const useMaskedChatSurface =
-    usesInputHoleSurface ||
-    (analysis.analysisPanelMode === "overlay" &&
-      analysis.showAnalysisPanel);
+    !workspaceOpen &&
+    (usesInputHoleSurface ||
+      (analysis.analysisPanelMode === "overlay" &&
+        analysis.showAnalysisPanel));
   const chatRingSurfaceStyle = useMaskedChatSurface
     ? {
         background: "transparent",
@@ -1999,6 +2059,9 @@ export default function ChatBody({
       focusActive
         ? "chat-container--input-focus"
         : null,
+      workspaceOpen
+        ? "chat-container--workspace-open"
+        : null,
       viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
   return <>
@@ -2008,6 +2071,9 @@ export default function ChatBody({
       locale={locale}
       profileOpen={profileOpen}
       closeProfile={closeProfile}
+      workspaceOpen={workspaceOpen}
+      onWorkspaceToggle={toggleWorkspace}
+      onWorkspaceClose={closeWorkspace}
       isEntering={isEntering}
       focusActive={focusActive}
       chatContainerRef={chatContainerRef}
@@ -2017,7 +2083,6 @@ export default function ChatBody({
       handleBackHome={handleBackHome}
       mobileRailVisible={mobileRailVisible}
       mobileRailInteractionLocked={mobileRailInteractionLocked}
-      showMobileRail={showMobileRail}
       isLightTheme={isLightTheme}
       roomId={effectiveRoomId}
       inputFocused={inputFocused}
@@ -2032,12 +2097,9 @@ export default function ChatBody({
       scopedSources={scopedSources}
       hasConversationSources={hasConversationSources}
       hasAllConversationSources={hasAllConversationSources}
-      leftRailActiveKey={activeListingsPanel?.side === "left" ? activeListingsPanel.key : ""}
       rightRailActiveKey={activeListingsPanel?.side === "right" ? activeListingsPanel.key : ""}
-      onShowHelpRequests={openGlobalRequestsPanel}
-      onShowHelpOffers={openGlobalOffersPanel}
-      toggleProfile={toggleProfile}
-      openProfileDirect={openProfileDirect}
+      toggleProfile={toggleProfileFromRail}
+      openProfileDirect={openProfileDirectFromRail}
       analysis={analysis}
       isRoomMode={isRoomMode}
       roomTitle={roomTitle}
@@ -2071,6 +2133,9 @@ export default function ChatBody({
       onFocusComposer={handleComposerFocus}
       onBlurInput={handleInputBlur}
       isGenerating={isGenerating}
+      userRole={userRole}
+      userActualRole={userActualRole}
+      isAdmin={userIsAdmin}
       onStop={stop}
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}

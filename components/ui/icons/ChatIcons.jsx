@@ -182,6 +182,55 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
+export function WorkspaceIcon({ isLightTheme = false, className, ...props }) {
+  const stroke = resolveThemeColor(isLightTheme);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      className={cn(className)}
+      {...props}
+    >
+      <rect
+        x="3.4"
+        y="4.15"
+        width="17.2"
+        height="15.7"
+        rx="2.25"
+        stroke={stroke}
+        strokeWidth="1.55"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.15 8.05h3.65v3.2H7.15v-3.2Z"
+        stroke={stroke}
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.2 8.05h3.65v3.2H13.2v-3.2Z"
+        stroke={stroke}
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.15 13.25h3.65v3.2H7.15v-3.2Z"
+        stroke={stroke}
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.2 13.25h3.65v3.2H13.2v-3.2Z"
+        stroke={stroke}
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ProfileIcon({ isLightTheme = false, className, ...props }) {
   const stroke = resolveThemeColor(isLightTheme);
   return (

@@ -65,6 +65,7 @@
     "chats": "Chats",
     "rooms": "Rooms",
     "add_person": "Add person",
+    "workspace": "Workspace",
     "sources": "Sources"
   },
   "auth": {
@@ -537,6 +538,110 @@
       "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>The parties will first try to resolve disputes by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia or through another competent dispute resolution process under applicable law.</p><p>Nothing in these Terms limits mandatory rights granted to the user under applicable law.</p>"
     }
   },
+  "workspace_feature_pages": {
+    "back_to_workspace": "Back to workspace",
+    "pre_inquiries": {
+      "title": "Pre-inquiries",
+      "lead": "Inquiry drafts, recipient selection, and user confirmation are gathered here.",
+      "meta": {
+        "title": "Pre-inquiries",
+        "description": "Create and manage inquiry drafts for a municipality contact or service provider."
+      },
+      "sections": {
+        "input": "Inquiry input",
+        "recipient": "Recipient",
+        "draft": "Letter draft"
+      },
+      "fields": {
+        "topic": "Topic",
+        "situation": "Situation description",
+        "recipient_type": "Recipient type",
+        "recipient_search": "Find recipient"
+      },
+      "placeholders": {
+        "topic": "Short subject",
+        "situation": "Describe the situation, need, or question.",
+        "recipient": "Municipality contact or service provider",
+        "draft": "Generated inquiry text"
+      },
+      "recipient": {
+        "kov": "Municipality contact",
+        "provider": "Service provider"
+      },
+      "actions": {
+        "save": "Save draft",
+        "copy": "Copy letter"
+      }
+    },
+    "service_map": {
+      "title": "Service map",
+      "lead": "The map view uses structured map entries for municipality contacts and service providers.",
+      "meta": {
+        "title": "Service map",
+        "description": "Find municipality contacts and service providers on the map."
+      },
+      "sections": {
+        "filters": "Search and filters",
+        "map": "Map"
+      },
+      "fields": {
+        "keyword": "Keyword",
+        "region": "Region"
+      },
+      "placeholders": {
+        "keyword": "Service, contact, or need",
+        "region": "Municipality or county"
+      },
+      "types": {
+        "kov": "Municipality contact",
+        "provider": "Service provider"
+      },
+      "marker_kov": "KOV",
+      "marker_provider": "Provider",
+      "map_label": "Service map preview",
+      "empty": "Published map entries will appear here as markers."
+    },
+    "service_profile": {
+      "title": "Service profile",
+      "lead": "The provider management view separates the public profile, map marker, and AI knowledge record from the account profile.",
+      "meta": {
+        "title": "Service profile",
+        "description": "Manage the provider's public profile, map visibility, and AI-discoverable information."
+      },
+      "sections": {
+        "profile": "Service information",
+        "map_profile": "Map profile",
+        "outputs": "Outputs"
+      },
+      "fields": {
+        "organization": "Organization name",
+        "services": "Services",
+        "categories": "Categories",
+        "target_groups": "Target groups",
+        "service_area": "Service area",
+        "address": "Address or reception location",
+        "phone": "Phone",
+        "email": "Email",
+        "website": "Website",
+        "languages": "Languages"
+      },
+      "visibility": {
+        "visible": "Visible on service map"
+      },
+      "status": {
+        "draft": "Draft"
+      },
+      "map_preview_empty": "Address match preview appears after geocoding.",
+      "outputs": {
+        "public_profile": "Public profile",
+        "map_marker": "Service map marker",
+        "rag_record": "AI knowledge record"
+      },
+      "actions": {
+        "save": "Save draft"
+      }
+    }
+  },
   "chat": {
     "title": "SotsiaalAI",
     "intro": {
@@ -662,6 +767,54 @@
     "mobile": {
       "new_conversation": "New conversation",
       "show_navigation": "Show navigation"
+    },
+    "workspace": {
+      "eyebrow": "Hub",
+      "title": "Workspace",
+      "close": "Close workspace",
+      "cards": {
+        "documents": {
+          "title": "Documents",
+          "meta": "Library"
+        },
+        "document_drafting": {
+          "title": "Document drafting",
+          "meta": "Drafting workspace"
+        },
+        "pre_inquiries": {
+          "title": "Pre-inquiries",
+          "meta": "Chat intake"
+        },
+        "help_requests": {
+          "title": "Help requests",
+          "meta": "Listings"
+        },
+        "help_offers": {
+          "title": "Help offers",
+          "meta": "Offers"
+        },
+        "add_person": {
+          "title": "Add person",
+          "meta": "Invites"
+        },
+        "service_map": {
+          "title": "Service map",
+          "meta": "Map view"
+        },
+        "kovision": {
+          "title": "Co-vision",
+          "meta": "Rooms"
+        },
+        "materials": {
+          "title": "Add materials",
+          "meta": "Knowledge base"
+        },
+        "service_profile": {
+          "title": "Service profile",
+          "meta": "Profile",
+          "meta_provider": "Service provider"
+        }
+      }
     },
     "help": {
       "helpRequests": "Help requests",

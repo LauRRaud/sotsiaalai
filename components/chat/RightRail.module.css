@@ -157,11 +157,6 @@
   height: calc(100% * (var(--rail-icon-scale) - 0.04));
 }
 
-.iconInvite {
-  width: calc(100% * (var(--rail-icon-scale) + 0.08));
-  height: calc(100% * (var(--rail-icon-scale) + 0.08));
-}
-
 .iconMaterials {
   width: calc(100% * (var(--rail-icon-scale) + 0.18));
   height: calc(100% * (var(--rail-icon-scale) + 0.24));
@@ -172,6 +167,15 @@
   width: calc(100% * (var(--rail-icon-scale) - 0.03));
   height: calc(100% * (var(--rail-icon-scale) - 0.03));
   transform: translateY(-0.04rem);
+}
+
+.iconWorkspace {
+  width: calc(100% * (var(--rail-icon-scale) + 0.05));
+  height: calc(100% * (var(--rail-icon-scale) + 0.05));
+}
+
+.iconWorkspaceOpen {
+  filter: drop-shadow(0 0 0.22rem rgba(197, 113, 113, 0.28));
 }
 
 .iconHelp {
@@ -435,7 +439,7 @@
     --chat-mobile-icon-scale-sources: 0.8;
     --chat-mobile-icon-scale-profile: 0.92;
     --chat-mobile-icon-scale-rooms: 0.94;
-    --chat-mobile-icon-scale-invite: 0.94;
+    --chat-mobile-icon-scale-workspace: 0.94;
     --chat-mobile-icon-scale-help: 0.94;
   }
 
@@ -481,7 +485,7 @@
 
   .iconSvgSources,
   .iconChats,
-  .iconInvite,
+  .iconWorkspace,
   .iconMaterials,
   .iconRooms,
   .iconHelp {
@@ -502,8 +506,8 @@
     transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
   }
 
-  .iconInvite {
-    transform: scale(var(--chat-mobile-icon-scale-invite)) translateY(0) !important;
+  .iconWorkspace {
+    transform: scale(var(--chat-mobile-icon-scale-workspace)) translateY(0) !important;
   }
 
   .iconMaterials {

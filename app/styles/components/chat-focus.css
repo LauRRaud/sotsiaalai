@@ -1,4 +1,5 @@
 .chat-container--input-focus,
+.chat-container--workspace-open,
 .chat-page-shell
   .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
   --chat-shell-inline-size: var(--chat-diameter);
@@ -395,6 +396,8 @@ body:is(
   .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus,
   .chat-page-shell
+    .chat-container.chat-container--round.chat-container--workspace-open,
+  .chat-page-shell
     .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
     --chat-focus-content-inline-extra: clamp(0.28rem, 0.8vw, 0.72rem);
@@ -456,6 +459,7 @@ body:is(
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
+  .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open,
   .chat-page-shell .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within) {
     --chat-focus-inline-extra: clamp(0.06rem, 0.22vw, 0.18rem);
     --chat-focus-content-inline-extra: clamp(0.22rem, 0.65vw, 0.58rem);
@@ -488,8 +492,10 @@ body:is(
 
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
 html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
+html[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open,
 body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round,
-body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
+body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus,
+body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
   transition: none !important;
 }
 
