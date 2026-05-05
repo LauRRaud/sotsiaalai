@@ -245,7 +245,7 @@ const BackgroundContent = memo(function BackgroundContent({
       const y = resolveScrollY();
       const spaceY = -clamp(y * 0.07, 0, 160);
       const bendsOpacity = isHomepage
-        ? 1 - clamp((y - 40) / 340, 0, 1)
+        ? 1 - clamp((y - 240) / 220, 0, 1)
         : 1;
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);

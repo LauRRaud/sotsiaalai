@@ -1,16 +1,13 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
-import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -22,6 +19,9 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
+const headerRowClassName = "policy-mobile-title-wrap relative z-[4] grid w-full grid-cols-[auto_1fr_auto] items-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.4rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+const titleBackButtonClassName = "glass-policy-back glass-policy-back--compact relative left-auto top-auto z-[5] !inline-flex !h-[4.2rem] !w-[4.2rem] min-[769px]:!h-[4.6rem] min-[769px]:!w-[4.6rem] min-[769px]:!ml-0";
+const titleBackSpacerClassName = "block h-[4.2rem] w-[4.2rem] min-[769px]:h-[4.6rem] min-[769px]:w-[4.6rem]";
 const richLinkClassName = `${linkRichTextBase} privacy-rich-link`;
 const lawLinkReplacements = {
   aLawEst: {
@@ -38,31 +38,12 @@ const lawLinkReplacements = {
   }
 };
 export default function PrivaatsusBody() {
-  const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
   const router = useRouter();
   const {
     t,
     locale
   } = useI18n();
-  const {
-    prefs
-  } = useAccessibility();
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
-  const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
-  const isExpandedLayout = expanded || isMobilePolicyLayout;
-  useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
-    const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
-    const updateLayout = () => setIsMobilePolicyLayout(media.matches);
-    updateLayout();
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", updateLayout);
-      return () => media.removeEventListener("change", updateLayout);
-    }
-    media.addListener(updateLayout);
-    return () => media.removeListener(updateLayout);
-  }, []);
+  const isExpandedLayout = true;
   const sections = [{
     heading: t("privacy.section1.heading"),
     content: [{
@@ -152,17 +133,17 @@ export default function PrivaatsusBody() {
           ariaLabel={t("buttons.close")}
           className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_home")}
-          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName)}
-          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-        />
-        <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+        <div className={headerRowClassName}>
+          <BackButton
+            onClick={handleBack}
+            ariaLabel={t("buttons.back_home")}
+            className={cn(glassPolicyBackButtonClassName, titleBackButtonClassName)}
+            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+          />
           <h1
             id="privacy-title"
             className={cn(
-              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
+              "subpage-mobile-title policy-mobile-title policy-mobile-title--static col-start-2 max-[768px]:!mt-0 max-[768px]:!mb-0",
               titleClassName,
               glassPolicyTitleOffsetClassName,
               isExpandedLayout ? glassPolicyTitleExpandedClassName : null
@@ -170,6 +151,7 @@ export default function PrivaatsusBody() {
           >
             {t("privacy.title")}
           </h1>
+          <span aria-hidden="true" className={titleBackSpacerClassName} />
         </div>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", "privacy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
@@ -197,9 +179,6 @@ export default function PrivaatsusBody() {
           </div>
         </div>
       </GlassRing>
-      {!isMobilePolicyLayout ? <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
-          <FocusModeToggleIcon expanded={expanded} isLightTheme={isLightTheme} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
-        </button> : null}
       </div>
     </section>;
 }

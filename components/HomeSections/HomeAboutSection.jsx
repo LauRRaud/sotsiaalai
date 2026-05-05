@@ -19,11 +19,12 @@ const HOME_PANEL_STAGGER_MS = 120;
 const homeQuickLinkClassName =
   "home-quick-link peer group home-link pointer-events-auto !inline-flex !h-auto !min-h-0 appearance-none items-center justify-center !bg-transparent !p-0 text-center !leading-none [line-height:0] !no-underline !rounded-none !border-0 !shadow-none !text-[color:var(--brand-primary,#c57171)] transition-transform duration-200 ease-out hover:!border-transparent hover:!shadow-none hover:!text-[color:var(--brand-primary,#c57171)] focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!text-[color:var(--brand-primary,#c57171)] focus-visible:outline-none active:scale-[0.985] active:!border-transparent active:!shadow-none light:!text-[#7a3a38] hc:!text-[color:var(--hc-accent)]";
 const homeQuickIconClassName =
-  "block h-[clamp(3.12rem,4.25vw,3.72rem)] w-[clamp(3.12rem,4.25vw,3.72rem)] shrink-0 text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.1] group-focus-visible:scale-[1.1] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top]";
+  "block h-[clamp(3.12rem,4.25vw,3.72rem)] w-[clamp(3.12rem,4.25vw,3.72rem)] shrink-0 text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.1] group-focus-visible:scale-[1.1] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top] max-[768px]:h-[clamp(4.25rem,17vw,5.35rem)] max-[768px]:w-[clamp(4.25rem,17vw,5.35rem)]";
 const homeQuickLabelClassName =
-  "home-quick-label mt-[0.58rem] block w-[max-content] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-[#c57171] opacity-0 pointer-events-none transform-gpu will-change-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100 light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-auto max-[768px]:max-w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance]";
+  "home-quick-label relative mt-[0.58rem] block w-[11.2rem] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-transparent opacity-100 pointer-events-none transform-gpu [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] motion-reduce:animate-pulse after:content-[attr(data-label)] after:absolute after:inset-0 after:text-center after:text-[color:var(--home-link-color,var(--brand-primary,#c57171))] after:opacity-0 after:transition-opacity after:duration-[750ms] after:ease-[cubic-bezier(0.16,1,0.3,1)] after:[-webkit-text-fill-color:currentColor] after:[animation:none] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance]";
 const homeQuickLabelStyle = {
-  transition: "opacity 640ms cubic-bezier(0.16, 1, 0.3, 1)"
+  backgroundImage:
+    "linear-gradient(90deg, transparent 0%, color-mix(in srgb, currentColor 22%, transparent) 32%, currentColor 50%, color-mix(in srgb, currentColor 22%, transparent) 68%, transparent 100%)"
 };
 
 function HomeQuickLinkIcon({ name, className }) {
@@ -150,7 +151,6 @@ export default function HomeAboutSection({
   const aboutScrollRef = useRef(null);
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
-  const [mobileQuickLabelKey, setMobileQuickLabelKey] = useState(null);
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -278,21 +278,21 @@ export default function HomeAboutSection({
     {
       key: "guide",
       href: "/kasutusjuhend",
-      label: t("about.guide.jump_link"),
+      label: locale === "et" ? "Juhend" : t("about.guide.jump_link"),
       icon: "book",
       onClick: (event) => openGlassPage(event, "/kasutusjuhend")
     },
     {
       key: "terms",
       href: "/kasutustingimused",
-      label: t("about.links.terms"),
+      label: locale === "et" ? "Tingimused" : t("about.links.terms"),
       icon: "file",
       onClick: (event) => openGlassPage(event, "/kasutustingimused")
     },
     {
       key: "privacy",
       href: "/privaatsustingimused",
-      label: t("about.links.privacy"),
+      label: locale === "et" ? "Privaatsus" : t("about.links.privacy"),
       icon: "shield",
       onClick: (event) => openGlassPage(event, "/privaatsustingimused")
     },
@@ -334,16 +334,6 @@ export default function HomeAboutSection({
     }
   ];
   const handleQuickLinkClick = (event, item) => {
-    const isMobileQuickGrid =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(max-width: 768px)")?.matches;
-
-    if (isMobileQuickGrid && mobileQuickLabelKey !== item.key) {
-      event.preventDefault();
-      setMobileQuickLabelKey(item.key);
-      return;
-    }
-
     item.onClick?.(event);
   };
   return (
@@ -484,11 +474,9 @@ export default function HomeAboutSection({
                   )}
                   <span
                     aria-hidden="true"
-                    className={cn(
-                      homeQuickLabelClassName,
-                      mobileQuickLabelKey === item.key && "max-[768px]:opacity-100"
-                    )}
+                    className={homeQuickLabelClassName}
                     style={homeQuickLabelStyle}
+                    data-label={item.label}
                   >
                     {item.label}
                   </span>

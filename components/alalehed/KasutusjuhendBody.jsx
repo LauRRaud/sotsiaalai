@@ -8,9 +8,8 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import FocusModeToggleIcon from "@/components/ui/icons/FocusModeToggleIcon";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyExpandToggleClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName, glassPolicyTitleExpandedClassName, glassPolicyTitleOffsetClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -23,6 +22,9 @@ const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
+const headerRowClassName = "policy-mobile-title-wrap relative z-[4] grid w-full grid-cols-[auto_1fr_auto] items-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+1.4rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+const titleBackButtonClassName = "glass-policy-back glass-policy-back--compact relative left-auto top-auto z-[5] !inline-flex !h-[4.2rem] !w-[4.2rem] min-[769px]:!h-[4.6rem] min-[769px]:!w-[4.6rem] min-[769px]:!ml-0";
+const titleBackSpacerClassName = "block h-[4.2rem] w-[4.2rem] min-[769px]:h-[4.6rem] min-[769px]:w-[4.6rem]";
 const guideLinkClassName = `${linkRichTextBase} guide-rich-link`;
 function applyGuideLinkClass(html) {
   if (typeof html !== "string" || !html) return html;
@@ -38,8 +40,6 @@ function applyGuideLinkClass(html) {
 }
 const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "quickstart"];
 export default function KasutusjuhendBody() {
-  const [expanded, setExpanded] = useState(false);
-  const [isMobilePolicyLayout, setIsMobilePolicyLayout] = useState(false);
   const [layoutReady, setLayoutReady] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const router = useRouter();
@@ -48,30 +48,15 @@ export default function KasutusjuhendBody() {
     locale
   } = useI18n();
   const {
-    prefs,
     openModal: openA11y,
     isModalOpen
   } = useAccessibility();
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
-  const toggleLabel = expanded ? t("buttons.collapse") : t("buttons.expand");
-  const isExpandedLayout = expanded || isMobilePolicyLayout;
+  const isExpandedLayout = true;
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
-    const media = window.matchMedia("(max-width: 768px), (pointer: coarse)");
-    const updateLayout = () => setIsMobilePolicyLayout(media.matches);
-    updateLayout();
     const readyFrame = window.requestAnimationFrame(() => setLayoutReady(true));
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", updateLayout);
-      return () => {
-        window.cancelAnimationFrame(readyFrame);
-        media.removeEventListener("change", updateLayout);
-      };
-    }
-    media.addListener(updateLayout);
     return () => {
       window.cancelAnimationFrame(readyFrame);
-      media.removeListener(updateLayout);
     };
   }, []);
   const handleA11yClick = e => {
@@ -106,7 +91,6 @@ export default function KasutusjuhendBody() {
   };
   const guideContent = {
     intro: t("about.guide.intro"),
-    expandHint: t("about.guide.expand_hint"),
     sections: SECTION_KEYS.map(key => ({
       key,
       title: t(`about.guide.sections_v2.${key}.title`),
@@ -138,22 +122,33 @@ export default function KasutusjuhendBody() {
           className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
         />
         {!hideGuideBackButton ? (
-          <BackButton
-            onClick={handleBack}
-            ariaLabel={t("buttons.back_home")}
-            className={cn(
-              glassPolicyBackButtonClassName,
-              glassPageBackMobileBottomCenterClassName,
-              "guide-policy-back"
-            )}
-            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-          />
+          <div className={headerRowClassName}>
+            <BackButton
+              onClick={handleBack}
+              ariaLabel={t("buttons.back_home")}
+              className={cn(glassPolicyBackButtonClassName, titleBackButtonClassName)}
+              iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+            />
+            <h1
+              id="kasutusjuhend-title"
+              className={cn(
+                "subpage-mobile-title policy-mobile-title policy-mobile-title--static col-start-2 max-[768px]:!mt-0 max-[768px]:!mb-0",
+                titleClassName,
+                glassPolicyTitleOffsetClassName,
+                !layoutReady ? "guide-policy-title--layout-init" : null,
+                isExpandedLayout ? glassPolicyTitleExpandedClassName : null
+              )}
+            >
+              {t("about.guide.short_title")}
+            </h1>
+            <span aria-hidden="true" className={titleBackSpacerClassName} />
+          </div>
         ) : null}
-        <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+        {hideGuideBackButton ? <div className={headerRowClassName}>
           <h1
             id="kasutusjuhend-title"
             className={cn(
-              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
+              "subpage-mobile-title policy-mobile-title policy-mobile-title--static col-start-2 max-[768px]:!mt-0 max-[768px]:!mb-0",
               titleClassName,
               glassPolicyTitleOffsetClassName,
               !layoutReady ? "guide-policy-title--layout-init" : null,
@@ -162,7 +157,8 @@ export default function KasutusjuhendBody() {
           >
             {t("about.guide.short_title")}
           </h1>
-        </div>
+          <span aria-hidden="true" className={titleBackSpacerClassName} />
+        </div> : null}
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(
@@ -182,15 +178,6 @@ export default function KasutusjuhendBody() {
           >
             <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[768px]:mb-[0.54rem]")}>
               {guideContent.intro}
-              <span className="mt-[0.1rem] hidden items-center gap-[0.16rem] min-[769px]:flex">
-                <span>{guideContent.expandHint}</span>
-                <FocusModeToggleIcon
-                  expanded={false}
-                  isLightTheme={isLightTheme}
-                  className="inline-block h-[1.58em] w-[1.58em] translate-y-[-0.12em]"
-                />
-                <span>.</span>
-              </span>
             </p>
             <div className="flex flex-col gap-0">
               {guideContent.sections.map(({
@@ -239,9 +226,6 @@ export default function KasutusjuhendBody() {
           />
         </div>
       </Modal>
-      {!isMobilePolicyLayout ? <button type="button" className={cn(glassPolicyExpandToggleClassName, expanded ? "is-expanded" : null)} onClick={() => setExpanded(prev => !prev)} aria-pressed={expanded} aria-label={toggleLabel} title={toggleLabel}>
-          <FocusModeToggleIcon expanded={expanded} isLightTheme={isLightTheme} className="glass-ring-expand-icon glass-ring-expand-icon--lg" />
-        </button> : null}
       </div>
     </section>;
 }

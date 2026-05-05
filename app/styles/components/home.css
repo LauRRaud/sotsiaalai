@@ -263,12 +263,14 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(251, 249, 246, 0.78);
+  --home-panel-bg: rgba(244, 241, 237, 0.86);
 }
 
 @media (min-width: 48.001em) {
   :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
-    --home-about-panel-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+    --home-about-panel-shadow:
+      0 -2px 8px -6px rgba(0, 0, 0, 0.1),
+      0 10px 22px -8px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -286,7 +288,9 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 @media (min-width: 48.001em) {
   :root.theme-mid .homepage-root .home-about-panel {
-    --home-about-panel-shadow: 0 8px 18px rgba(20, 12, 10, 0.11);
+    --home-about-panel-shadow:
+      0 -2px 8px -6px rgba(20, 12, 10, 0.11),
+      0 10px 22px -8px rgba(20, 12, 10, 0.17);
   }
 }
 
@@ -296,6 +300,14 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 :root.theme-mid .homepage-root .home-before-links :is(.home-quick-link, .home-quick-link svg, .home-quick-label) {
   color: var(--home-quick-mid-surface-color, rgba(238, 228, 222, 0.85)) !important;
+}
+
+.homepage-root .home-before-links .home-quick-link:is(:hover, :focus-visible) + .home-quick-label {
+  animation-play-state: paused;
+}
+
+.homepage-root .home-before-links .home-quick-link:is(:hover, :focus-visible) + .home-quick-label::after {
+  opacity: 1;
 }
 
 html[data-contrast="hc"] .homepage-root .home-about-panel {
@@ -312,7 +324,7 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
   }
 
   :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
-    --home-panel-bg: rgba(251, 249, 246, 0.9);
+    --home-panel-bg: rgba(244, 241, 237, 0.9);
   }
 
   :root.theme-mid .homepage-root .home-about-panel {
@@ -372,6 +384,16 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
     color: var(--glass-surface-text, #f2f2f2) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  .homepage-root .home-about-panel {
+    box-shadow: var(
+      --home-about-panel-shadow,
+      var(--glass-shell-shadow, none)
+    ) !important;
+  }
+
+  .homepage-root .home-before-panel {
     box-shadow: var(--glass-shell-shadow, none) !important;
   }
 }
