@@ -1,8 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import ChatComposer from "@/components/alalehed/chat/ChatComposer";
+import ChatMessageItem from "@/components/alalehed/chat/ChatMessageItem";
+import ConversationView from "@/components/alalehed/chat/ConversationView";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
@@ -209,7 +212,22 @@ function buildPreInquiryDownloadName(topic) {
   return `${slug || "eelpoordumine"}.txt`;
 }
 
-function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false }) {
+function preInquiryRoleNote(t, role) {
+  if (role === "SOCIAL_WORKER") {
+    return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.social_worker", "Sotsiaaltöötaja vaates saad koostada enda pöördumisi ning näha sulle adresseeritud platvormisiseseid eelpöördumisi, kui vastuvõtt on lubatud.");
+  }
+  if (role === "SERVICE_PROVIDER") {
+    return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.service_provider", "Teenuseosutaja vaates saad koostada päringuid ja näha teenuseprofiiliga seotud saabunud eelpöördumisi. Vastuvõtukanalid seadistatakse teenuseprofiilis.");
+  }
+  return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.client", "Pöörduja vaates on põhivoog olukorra kirjeldamine, sobiva kontakti valimine, mustandi ülevaatus ja enda eelpöördumiste haldus.");
+}
+
+function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
+  const chatWindowRef = useRef(null);
+  const inputBarRef = useRef(null);
+  const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const composerDraftApiRef = useRef(null);
   const [activeInquiryId, setActiveInquiryId] = useState("");
   const [topic, setTopic] = useState("");
   const [situation, setSituation] = useState("");
@@ -231,6 +249,7 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   const [savingPreferences, setSavingPreferences] = useState(false);
   const [acceptsPreInquiries, setAcceptsPreInquiries] = useState(false);
   const [draftTouched, setDraftTouched] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
 
@@ -304,18 +323,69 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   );
 
   const recommendedRecipients = useMemo(() => {
-    const source = assistantSuggestions.length ? assistantSuggestions : recipientEntries;
+    const hasManualSearch = Boolean(recipientQuery.trim());
+    const source = assistantSuggestions.length
+      ? assistantSuggestions
+      : hasManualSearch
+        ? recipientEntries
+        : [];
     const seen = new Set();
     return source.filter((entry) => {
       if (!entry?.id || seen.has(entry.id)) return false;
       seen.add(entry.id);
       return true;
     });
-  }, [assistantSuggestions, recipientEntries]);
+  }, [assistantSuggestions, recipientEntries, recipientQuery]);
 
   const visibleRecommendedRecipients = showMoreContacts
     ? recommendedRecipients.slice(0, 12)
     : recommendedRecipients.slice(0, 3);
+
+  const conversationItems = useMemo(() => {
+    const items = [];
+    items.push(
+      <ChatMessageItem
+        key="pre-inquiry-intro"
+        role="ai"
+        text={assistantMessage || readText(t, "workspace_feature_pages.pre_inquiries.assistant_prompt", "Tere. Kirjelda oma olukorda ning vajadusel küsin täpsustusi KOV-i, kiireloomulisuse ja soovitud tulemuse kohta.")}
+        t={t}
+      />
+    );
+    if (situation.trim()) {
+      items.push(
+        <ChatMessageItem
+          key="pre-inquiry-user-situation"
+          role="user"
+          text={situation}
+          t={t}
+        />
+      );
+    }
+    if (assisting) {
+      items.push(
+        <ChatMessageItem
+          key="pre-inquiry-assisting"
+          role="ai"
+          text={readText(t, "workspace_feature_pages.pre_inquiries.actions.assisting", "Otsin...")}
+          t={t}
+        />
+      );
+    }
+    return items;
+  }, [assistantMessage, assisting, situation, t]);
+
+  const receivedInquiries = useMemo(() => {
+    if (!currentUserId) return [];
+    return inquiries.filter((inquiry) => inquiry.recipientOwnerId === currentUserId);
+  }, [currentUserId, inquiries]);
+
+  const authoredInquiries = useMemo(() => {
+    if (!currentUserId) return inquiries;
+    return inquiries.filter((inquiry) => inquiry.authorId === currentUserId);
+  }, [currentUserId, inquiries]);
+
+  const savedInquiries = isAdmin ? inquiries : authoredInquiries;
+  const showReceivedInquiries = !isAdmin && activeRole !== "CLIENT";
 
   useEffect(() => {
     if (draftTouched) return;
@@ -454,10 +524,10 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     }
   }
 
-  async function handleAskAssistant(event) {
+  async function handleAskAssistant(event, overrideMessage = "") {
     event?.preventDefault();
-    if (assisting || (!assistantInput.trim() && !situation.trim())) return;
-    const message = assistantInput.trim();
+    const message = String(overrideMessage || assistantInput).trim();
+    if (assisting || (!message && !situation.trim())) return;
     const nextSituation = [situation.trim(), message].filter(Boolean).join(situation.trim() && message ? "\n\n" : "");
     setAssisting(true);
     setNotice("");
@@ -508,6 +578,14 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
     }
   }
 
+  async function handleComposerSend(message) {
+    setAssistantInput(String(message || ""));
+    await handleAskAssistant({
+      preventDefault() {}
+    }, String(message || ""));
+    return true;
+  }
+
   return (
     <form onSubmit={handleSave} className="mx-auto grid w-full max-w-[62rem] gap-[1rem]">
       <div className="flex flex-wrap items-center justify-between gap-[0.54rem]">
@@ -523,6 +601,9 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
 
       <p className="m-0 rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.88rem] py-[0.62rem] text-[0.98rem] leading-[1.42] opacity-[0.86] light:bg-[rgba(255,255,255,0.62)]">
         {readText(t, "workspace_feature_pages.pre_inquiries.disclaimer", "Eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist.")}
+      </p>
+      <p className="m-0 rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.88rem] py-[0.62rem] text-[0.98rem] leading-[1.42] opacity-[0.78] light:bg-[rgba(255,255,255,0.62)]">
+        {preInquiryRoleNote(t, activeRole)}
       </p>
 
       {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Laen eelpöördumisi...")}</p> : null}
@@ -545,29 +626,58 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
             "Kirjelda olukorda oma sõnadega. Mõtle eelkõige viimase aja raskustele, aga lisa ka pikem taust, kui probleem on kestnud kauem või kordub."
           )}
         </p>
-        <div className="grid gap-[0.62rem] rounded-[1rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.04)] p-[0.78rem] light:bg-[rgba(255,255,255,0.58)]">
-          <div className="grid min-h-[9rem] content-start gap-[0.54rem]">
-            {situation.trim() ? (
-              <div className="justify-self-end rounded-[0.9rem] border border-[rgba(208,116,108,0.14)] bg-[rgba(208,116,108,0.1)] px-[0.78rem] py-[0.56rem] text-[0.96rem] leading-[1.42] light:bg-[rgba(249,236,234,0.86)]">
-                {situation}
-              </div>
-            ) : null}
-            <div className="max-w-[85%] rounded-[0.9rem] border border-[rgba(72,146,150,0.2)] bg-[rgba(72,146,150,0.1)] px-[0.78rem] py-[0.56rem] text-[0.96rem] leading-[1.42] light:bg-[rgba(234,250,250,0.86)]">
-              {assistantMessage || readText(t, "workspace_feature_pages.pre_inquiries.assistant_prompt", "Tere. Kirjelda oma olukorda ning vajadusel küsin täpsustusi KOV-i, kiireloomulisuse ja soovitud tulemuse kohta.")}
-            </div>
-          </div>
-          <div className="grid gap-[0.5rem] sm:grid-cols-[1fr_auto] sm:items-end">
-            <textarea
-              className={cn(fieldClassName, "min-h-[4.8rem] resize-y")}
-              value={assistantInput}
-              onChange={(event) => setAssistantInput(event.target.value)}
-              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjuta oma vastus...")}
+        <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
+          <div className="documents-agent-conversation-shell">
+            <ConversationView
+              t={t}
+              chatWindowRef={chatWindowRef}
+              isStreamingAny={assisting}
+              hiddenCount={0}
+              pageSize={0}
+              onRevealOlder={() => {}}
+              canHideOlder={false}
+              onHideOlder={() => {}}
+              onJumpToBottom={() => {}}
+              messageItems={conversationItems}
+              mainClassName="documents-agent-conversation-main"
+              windowClassName="documents-agent-conversation-window"
+              isMobile={false}
+              isLightTheme
             />
-            <Button type="button" disabled={assisting || (!assistantInput.trim() && !situation.trim())} onClick={handleAskAssistant}>
-              {assisting
-                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.assisting", "Otsin...")
-                : readText(t, "workspace_feature_pages.pre_inquiries.actions.send", "Saada")}
-            </Button>
+
+            <div className="documents-agent-composer-slot">
+              <ChatComposer
+                t={t}
+                locale={locale}
+                isLightTheme
+                hideTools
+                embedded
+                forcePlaceholderVisible
+                placeholderText={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjuta oma vastus...")}
+                acceptAttr=""
+                ensureAnalysisPanelVisible={() => {}}
+                fileInputRef={fileInputRef}
+                onFileChange={() => {}}
+                inputBarRef={inputBarRef}
+                inputRef={inputRef}
+                onFocusInput={() => setInputFocused(true)}
+                onBlurInput={() => setInputFocused(false)}
+                isGenerating={assisting}
+                isStreamingAny={false}
+                isRoomMode={false}
+                roomBlocked={false}
+                roomAuthRequired={false}
+                onStop={() => {}}
+                onSend={handleComposerSend}
+                voiceEnabled={false}
+                recording={false}
+                recordingPulse={false}
+                handleMic={() => {}}
+                draftApiRef={composerDraftApiRef}
+                inputFocused={inputFocused}
+                isMobile={false}
+              />
+            </div>
           </div>
         </div>
 
@@ -630,7 +740,7 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
               key={entry.id}
               type="button"
               className={cn(
-                "grid gap-[0.32rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.82rem] py-[0.68rem] text-left transition hover:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(255,255,255,0.58)] light:hover:bg-[rgba(255,255,255,0.8)]",
+                "grid gap-[0.32rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.72)] px-[0.82rem] py-[0.68rem] text-left text-[#243044] transition hover:bg-[rgba(255,255,255,0.9)]",
                 selectedRecipientId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
               )}
               onClick={() => {
@@ -684,9 +794,40 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
         </div>
       </SectionCard>
 
+      {showReceivedInquiries ? (
+        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
+          <div className="grid gap-[0.52rem]">
+            {receivedInquiries.length ? receivedInquiries.map((inquiry) => (
+              <article key={inquiry.id} className="grid gap-[0.28rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)] sm:grid-cols-[1fr_auto] sm:items-center">
+                <div className="grid gap-[0.2rem]">
+                  <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
+                  <p className="m-0 text-[0.88rem] leading-[1.3] opacity-[0.78]">
+                    {[
+                      inquiry.author?.email,
+                      inquiry.selectedRecipientName,
+                      formatDate(inquiry.updatedAt)
+                    ].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-[0.44rem] sm:justify-end">
+                  <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                    {getPreInquiryChannelLabel(t, inquiry.deliveryChannel)}
+                  </span>
+                  <Button type="button" onClick={() => handleOpenInquiry(inquiry)}>
+                    {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
+                  </Button>
+                </div>
+              </article>
+            )) : (
+              <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_received", "Sulle adresseeritud eelpöördumised ilmuvad siia, kui vastuvõtt on lubatud ja adressaat on kontoga seotud.")}</p>
+            )}
+          </div>
+        </SectionCard>
+      ) : null}
+
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
         <div className="grid gap-[0.52rem]">
-          {inquiries.length ? inquiries.map((inquiry) => (
+          {savedInquiries.length ? savedInquiries.map((inquiry) => (
             <article key={inquiry.id} className="grid gap-[0.28rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)] sm:grid-cols-[1fr_auto] sm:items-center">
               <div className="grid gap-[0.2rem]">
                 <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
@@ -935,6 +1076,69 @@ function createServiceProfileForm(profile = null) {
   };
 }
 
+function serviceProfileStatusLabel(t, status) {
+  const normalized = String(status || "DRAFT").toUpperCase();
+  if (normalized === "PUBLISHED") return readText(t, "workspace_feature_pages.service_profile.status.published", "Published");
+  if (normalized === "REVIEW") return readText(t, "workspace_feature_pages.service_profile.status.review", "Review");
+  if (normalized === "HIDDEN") return readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden");
+  return readText(t, "workspace_feature_pages.service_profile.status.draft", "Draft");
+}
+
+function serviceProfileFeeLabel(t, feeType) {
+  const normalized = String(feeType || "UNKNOWN").toUpperCase();
+  if (normalized === "FREE") return readText(t, "workspace_feature_pages.service_profile.fee.free", "Free");
+  if (normalized === "PAID") return readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid");
+  if (normalized === "AGREEMENT") return readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement");
+  if (normalized === "MIXED") return readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed");
+  return readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown");
+}
+
+function serviceProfileMapStatusText(t, mapEntry) {
+  if (!mapEntry) {
+    return readText(
+      t,
+      "workspace_feature_pages.service_profile.map_status.empty",
+      "A map location can be prepared after the address is saved."
+    );
+  }
+
+  const geocodingStatus = String(mapEntry.geocodingStatus || "").toUpperCase();
+  if (geocodingStatus === "MATCHED" || geocodingStatus === "MANUALLY_CONFIRMED") {
+    return readText(
+      t,
+      "workspace_feature_pages.service_profile.map_status.matched",
+      "Address has been matched and can be shown on the service map when the profile is published."
+    );
+  }
+  if (geocodingStatus === "AMBIGUOUS") {
+    return readText(
+      t,
+      "workspace_feature_pages.service_profile.map_status.ambiguous",
+      "The address needs clarification before it can be shown on the map."
+    );
+  }
+  if (geocodingStatus === "FAILED") {
+    return readText(
+      t,
+      "workspace_feature_pages.service_profile.map_status.failed",
+      "The address could not be matched yet. The marker is not shown on the map."
+    );
+  }
+  return readText(t, "workspace_feature_pages.service_profile.map_status.pending", "The address is waiting for matching.");
+}
+
+function ToggleRow({ checked, onChange, title, body }) {
+  return (
+    <label className="grid cursor-pointer gap-[0.18rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.05)] px-[0.86rem] py-[0.72rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] light:bg-[rgba(255,255,255,0.52)]">
+      <span className="flex items-center gap-[0.62rem] text-[0.98rem] font-[680] leading-[1.2]">
+        <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
+        <span>{title}</span>
+      </span>
+      {body ? <span className="pl-[1.58rem] text-[0.9rem] font-[500] leading-[1.35] opacity-[0.72]">{body}</span> : null}
+    </label>
+  );
+}
+
 function ServiceProfileSurface({ t }) {
   const [form, setForm] = useState(() => createServiceProfileForm());
   const [profile, setProfile] = useState(null);
@@ -1019,61 +1223,75 @@ function ServiceProfileSurface({ t }) {
     }
   }
 
-  const fields = [
-    ["organization", "Organization"],
-    ["services", "Services"],
-    ["categories", "Categories"],
-    ["target_groups", "Target groups"],
-    ["service_area", "Service area"],
-    ["address", "Address"],
-    ["phone", "Phone"],
-    ["email", "Email"],
-    ["website", "Website"],
-    ["languages", "Languages"]
-  ];
-
-  const fieldToFormKey = {
-    organization: "organizationName",
-    services: "services",
-    categories: "serviceCategories",
-    target_groups: "targetGroups",
-    service_area: "serviceArea",
-    address: "address",
-    phone: "phone",
-    email: "email",
-    website: "website",
-    languages: "languages"
-  };
-
   const mapEntry = profile?.serviceMapEntry || null;
+  const canPublishToMap =
+    form.mapVisible &&
+    form.status === "PUBLISHED" &&
+    (String(mapEntry?.geocodingStatus || "").toUpperCase() === "MATCHED" ||
+      String(mapEntry?.geocodingStatus || "").toUpperCase() === "MANUALLY_CONFIRMED");
+  const saveLabel = saving
+    ? readText(t, "workspace_feature_pages.service_profile.actions.saving", "Saving...")
+    : readText(t, "workspace_feature_pages.service_profile.actions.save", "Save changes");
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-[1rem] lg:grid-cols-[1.1fr_0.9fr]">
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Profile")}>
-        {loading ? (
-          <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.service_profile.loading", "Loading service profile...")}</p>
-        ) : null}
-        {error ? (
-          <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
-            {error}
-          </p>
-        ) : null}
-        {notice ? (
-          <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(223,246,236,0.96)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67]">
-            {notice}
-          </p>
-        ) : null}
+    <form onSubmit={handleSubmit} className="mx-auto grid w-full max-w-[58rem] gap-[1rem]">
+      <div className="grid gap-[0.72rem] rounded-[1.1rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.045)] px-[1rem] py-[0.9rem] light:bg-[rgba(255,255,255,0.48)]">
+        <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
+          <div className="grid max-w-[42rem] gap-[0.3rem]">
+            <p className="m-0 text-[1.02rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+              {readText(t, "workspace_feature_pages.service_profile.overview.title", "Service provider workspace")}
+            </p>
+            <p className={bodyTextClassName}>
+              {readText(
+                t,
+                "workspace_feature_pages.service_profile.overview.body",
+                "Manage the information people need before contacting you: services, area, contact channels and whether pre-inquiries are accepted."
+              )}
+            </p>
+          </div>
+          <Button type="submit" disabled={loading || saving || !form.organizationName.trim()}>
+            {saveLabel}
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-[0.48rem]">
+          <span className={chipClassName}>
+            {readText(t, "workspace_feature_pages.service_profile.summary.status", "Status")}: {serviceProfileStatusLabel(t, form.status)}
+          </span>
+          <span className={chipClassName}>
+            {readText(t, "workspace_feature_pages.service_profile.summary.price", "Price")}: {serviceProfileFeeLabel(t, form.feeType)}
+          </span>
+          <span className={cn(chipClassName, canPublishToMap ? "ring-1 ring-[rgba(88,148,118,0.5)]" : "")}>
+            {canPublishToMap
+              ? readText(t, "workspace_feature_pages.service_profile.summary.map_ready", "Map ready")
+              : readText(t, "workspace_feature_pages.service_profile.summary.map_not_ready", "Map not shown yet")}
+          </span>
+        </div>
+      </div>
+
+      {loading ? (
+        <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.service_profile.loading", "Loading service profile...")}</p>
+      ) : null}
+      {error ? (
+        <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
+          {error}
+        </p>
+      ) : null}
+      {notice ? (
+        <p className="rounded-[1rem] border border-[rgba(88,148,118,0.22)] bg-[rgba(18,44,34,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(223,246,236,0.96)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67]">
+          {notice}
+        </p>
+      ) : null}
+
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Service information")}>
         <div className="grid gap-[0.72rem] sm:grid-cols-2">
-          {fields.map(([key, fallback]) => (
-            <Label key={key}>
-              <span>{readText(t, `workspace_feature_pages.service_profile.fields.${key}`, fallback)}</span>
-              <input
-                className={fieldClassName}
-                value={form[fieldToFormKey[key]] || ""}
-                onChange={(event) => updateField(fieldToFormKey[key], event.target.value)}
-              />
-            </Label>
-          ))}
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization", "Organization name")}</span>
+            <input className={fieldClassName} value={form.organizationName} onChange={(event) => updateField("organizationName", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.categories", "Categories")}</span>
+            <input className={fieldClassName} value={form.serviceCategories} onChange={(event) => updateField("serviceCategories", event.target.value)} />
+          </Label>
         </div>
         <Label>
           <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Short description")}</span>
@@ -1083,43 +1301,114 @@ function ServiceProfileSurface({ t }) {
             onChange={(event) => updateField("shortDescription", event.target.value)}
           />
         </Label>
-        <Label>
-          <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
-          <textarea
-            className={cn(fieldClassName, "min-h-[5.8rem] resize-y")}
-            value={form.accessibilityInfo}
-            onChange={(event) => updateField("accessibilityInfo", event.target.value)}
-          />
-        </Label>
+        <div className="grid gap-[0.72rem] sm:grid-cols-2">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.services", "Services")}</span>
+            <textarea className={cn(fieldClassName, "min-h-[6.2rem] resize-y")} value={form.services} onChange={(event) => updateField("services", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Target groups")}</span>
+            <textarea className={cn(fieldClassName, "min-h-[6.2rem] resize-y")} value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}</span>
+            <select className={fieldClassName} value={form.feeType} onChange={(event) => updateField("feeType", event.target.value)}>
+              <option value="UNKNOWN">{readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown")}</option>
+              <option value="FREE">{readText(t, "workspace_feature_pages.service_profile.fee.free", "Free")}</option>
+              <option value="PAID">{readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid")}</option>
+              <option value="AGREEMENT">{readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement")}</option>
+              <option value="MIXED">{readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed")}</option>
+            </select>
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Languages")}</span>
+            <input className={fieldClassName} value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
+          </Label>
+        </div>
       </SectionCard>
 
-      <div className="grid gap-[1rem]">
-        <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.map_profile", "Map profile")}>
-          <div className="grid gap-[0.72rem]">
-            <label className="flex items-center gap-[0.58rem] text-[1rem] font-[620]">
-              <input
-                type="checkbox"
-                checked={form.mapVisible}
-                onChange={(event) => updateField("mapVisible", event.target.checked)}
-              />
-              <span>{readText(t, "workspace_feature_pages.service_profile.visibility.visible", "Visible on map")}</span>
-            </label>
-            <label className="flex items-center gap-[0.58rem] text-[1rem] font-[620]">
-              <input
-                type="checkbox"
-                checked={form.acceptsPlatformPreInquiries}
-                onChange={(event) => updateField("acceptsPlatformPreInquiries", event.target.checked)}
-              />
-              <span>{readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}</span>
-            </label>
-            <label className="flex items-center gap-[0.58rem] text-[1rem] font-[620]">
-              <input
-                type="checkbox"
-                checked={form.acceptsEmailPreInquiries}
-                onChange={(event) => updateField("acceptsEmailPreInquiries", event.target.checked)}
-              />
-              <span>{readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}</span>
-            </label>
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.area", "Service area and location")}>
+        <div className="grid gap-[0.72rem] sm:grid-cols-2">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Service area")}</span>
+            <input className={fieldClassName} value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "Municipality IDs or names")}</span>
+            <input className={fieldClassName} value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "County")}</span>
+            <input className={fieldClassName} value={form.county} onChange={(event) => updateField("county", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.address", "Address or reception location")}</span>
+            <input className={fieldClassName} value={form.address} onChange={(event) => updateField("address", event.target.value)} />
+          </Label>
+        </div>
+        <ToggleRow
+          checked={form.mapVisible}
+          onChange={(value) => updateField("mapVisible", value)}
+          title={readText(t, "workspace_feature_pages.service_profile.visibility.visible", "Visible on service map")}
+          body={readText(
+            t,
+            "workspace_feature_pages.service_profile.visibility.visible_help",
+            "The service is shown on the map only when the profile is published and the address has a reliable match."
+          )}
+        />
+        <div className="grid gap-[0.22rem] rounded-[0.92rem] border border-dashed border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.04)] px-[0.86rem] py-[0.72rem] light:bg-[rgba(255,255,255,0.46)]">
+          <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+            {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Address status")}
+          </p>
+          <p className={bodyTextClassName}>{serviceProfileMapStatusText(t, mapEntry)}</p>
+          {mapEntry?.normalizedAddress || mapEntry?.address ? (
+            <p className={bodyTextClassName}>{mapEntry.normalizedAddress || mapEntry.address}</p>
+          ) : null}
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.contact", "Contact and pre-inquiries")}>
+        <div className="grid gap-[0.72rem] sm:grid-cols-3">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+            <input className={fieldClassName} value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+            <input className={fieldClassName} type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Website")}</span>
+            <input className={fieldClassName} value={form.website} onChange={(event) => updateField("website", event.target.value)} />
+          </Label>
+        </div>
+        <div className="grid gap-[0.64rem] sm:grid-cols-2">
+          <ToggleRow
+            checked={form.acceptsPlatformPreInquiries}
+            onChange={(value) => updateField("acceptsPlatformPreInquiries", value)}
+            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}
+            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.platform_help", "People can send an internal pre-inquiry to this provider account.")}
+          />
+          <ToggleRow
+            checked={form.acceptsEmailPreInquiries}
+            onChange={(value) => updateField("acceptsEmailPreInquiries", value)}
+            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}
+            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "The workflow can prepare an email draft for the contact address.")}
+          />
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.publish", "Publishing")}>
+        <div className="grid gap-[0.72rem] sm:grid-cols-[1fr_0.72fr]">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
+            <textarea
+              className={cn(fieldClassName, "min-h-[6.6rem] resize-y")}
+              value={form.accessibilityInfo}
+              onChange={(event) => updateField("accessibilityInfo", event.target.value)}
+            />
+          </Label>
+          <div className="grid content-start gap-[0.72rem]">
             <Label>
               <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}</span>
               <select className={fieldClassName} value={form.status} onChange={(event) => updateField("status", event.target.value)}>
@@ -1129,42 +1418,19 @@ function ServiceProfileSurface({ t }) {
                 <option value="HIDDEN">{readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden")}</option>
               </select>
             </Label>
-            <Label>
-              <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}</span>
-              <select className={fieldClassName} value={form.feeType} onChange={(event) => updateField("feeType", event.target.value)}>
-                <option value="UNKNOWN">{readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown")}</option>
-                <option value="FREE">{readText(t, "workspace_feature_pages.service_profile.fee.free", "Free")}</option>
-                <option value="PAID">{readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid")}</option>
-                <option value="AGREEMENT">{readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement")}</option>
-                <option value="MIXED">{readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed")}</option>
-              </select>
-            </Label>
+            <p className={bodyTextClassName}>
+              {readText(
+                t,
+                "workspace_feature_pages.service_profile.publish_help",
+                "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears."
+              )}
+            </p>
+            <Button type="submit" disabled={loading || saving || !form.organizationName.trim()} className="justify-self-start">
+              {saveLabel}
+            </Button>
           </div>
-          <div className="min-h-[9rem] rounded-[1rem] border border-dashed border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.045)] p-[0.88rem] light:bg-[rgba(255,255,255,0.54)]">
-            <div className="grid gap-[0.42rem]">
-              <p className={bodyTextClassName}>
-                {mapEntry
-                  ? `${readText(t, "workspace_feature_pages.service_profile.map_entry_status", "Map entry")}: ${mapEntry.status} / ${mapEntry.geocodingStatus}`
-                  : readText(t, "workspace_feature_pages.service_profile.map_preview_empty", "Address match preview appears after geocoding.")}
-              </p>
-              {mapEntry?.address ? <p className={bodyTextClassName}>{mapEntry.address}</p> : null}
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.outputs", "Outputs")}>
-          <div className="grid gap-[0.48rem]">
-            <span className={chipClassName}>{readText(t, "workspace_feature_pages.service_profile.outputs.public_profile", "Public profile")}</span>
-            <span className={chipClassName}>{readText(t, "workspace_feature_pages.service_profile.outputs.map_marker", "Service map marker")}</span>
-            <span className={chipClassName}>{readText(t, "workspace_feature_pages.service_profile.outputs.rag_record", "AI knowledge record")}</span>
-          </div>
-          <Button type="submit" disabled={loading || saving || !form.organizationName.trim()} className="justify-self-end">
-            {saving
-              ? readText(t, "workspace_feature_pages.service_profile.actions.saving", "Saving...")
-              : readText(t, "workspace_feature_pages.service_profile.actions.save", "Save draft")}
-          </Button>
-        </SectionCard>
-      </div>
+        </div>
+      </SectionCard>
     </form>
   );
 }
@@ -1198,7 +1464,7 @@ export default function WorkspaceFeaturePage({ feature }) {
     <section className={shellClassName} lang={locale}>
       <div className={cn(
         panelClassName,
-        isServiceMap && "!max-w-[calc(100vw-1rem)] !max-h-[calc(100dvh-1rem)] !h-[calc(100dvh-1rem)] !rounded-[1.35rem] !overflow-hidden !px-[0.7rem] !pb-[0.7rem]"
+        isServiceMap && "service-map-page-panel !max-w-[calc(100vw-1rem)] !max-h-[calc(100dvh-1rem)] !h-[calc(100dvh-1rem)] !rounded-[1.35rem] !overflow-hidden !px-[0.7rem] !pb-[0.7rem]"
       )}>
         <BackButton
           onClick={handleBack}
@@ -1207,13 +1473,13 @@ export default function WorkspaceFeaturePage({ feature }) {
           className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
         />
 
-        <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <div className={titleWrapClassName}>
-            <h1 className={titleClassName}>{title}</h1>
+        <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
+          <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
+            <h1 className={cn(titleClassName, isServiceMap && "service-map-page-title")}>{title}</h1>
           </div>
         </header>
 
-        <div className={cn(contentClassName, isServiceMap && "!h-[calc(100%-5.15rem)] !max-w-none !px-0 !pt-0 !pb-0")}>
+        <div className={cn(contentClassName, isServiceMap && "service-map-page-content !h-[calc(100%-5.15rem)] !max-w-none !px-0 !pt-0 !pb-0")}>
           {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.5rem] max-[768px]:text-[1.08rem]">{lead}</p> : null}
           {showAdminRoleSelector ? (
             <AdminRoleSelector
@@ -1223,7 +1489,7 @@ export default function WorkspaceFeaturePage({ feature }) {
             />
           ) : null}
 
-          {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} /> : null}
+          {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
           {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}
         </div>

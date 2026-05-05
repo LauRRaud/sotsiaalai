@@ -603,42 +603,94 @@
     },
     "service_profile": {
       "title": "Teenuseprofiil",
-      "lead": "Teenuseosutaja haldusvaade eraldab avaliku profiili, kaardimarkeri ja AI assistendi teadmuskirje konto profiilist.",
+      "lead": "Halda teenuseosutaja infot, kontakte, teeninduspiirkonda ja eelpöördumiste vastuvõttu ühes töövaates.",
       "meta": {
         "title": "Teenuseprofiil",
         "description": "Halda teenuseosutaja avalikku profiili, kaardil nähtavust ja assistendi jaoks leitavat infot."
       },
+      "overview": {
+        "title": "Teenuseosutaja tööriist",
+        "body": "Sisesta info, mida inimene vajab enne ühendust võtmist: teenused, piirkond, kontaktkanalid ja eelpöördumiste vastuvõtt."
+      },
+      "summary": {
+        "status": "Staatus",
+        "price": "Hind",
+        "map_ready": "Kaardil kuvamiseks valmis",
+        "map_not_ready": "Kaardil veel ei kuvata"
+      },
       "sections": {
         "profile": "Teenuse info",
         "map_profile": "Kaardiprofiil",
-        "outputs": "Väljundid"
+        "outputs": "Väljundid",
+        "area": "Teeninduspiirkond ja asukoht",
+        "contact": "Kontakt ja eelpöördumised",
+        "publish": "Avaldamine"
       },
       "fields": {
         "organization": "Organisatsiooni nimi",
+        "short_description": "Lühikirjeldus",
         "services": "Teenused",
         "categories": "Kategooriad",
         "target_groups": "Sihtrühmad",
         "service_area": "Teeninduspiirkond",
+        "municipalities": "KOV-id või piirkonnad",
+        "county": "Maakond",
         "address": "Aadress või vastuvõtukoht",
         "phone": "Telefon",
         "email": "E-post",
         "website": "Veebileht",
-        "languages": "Keeled"
+        "languages": "Keeled",
+        "accessibility_info": "Ligipääsetavuse info",
+        "status": "Staatus",
+        "fee_type": "Hind"
       },
       "visibility": {
-        "visible": "Teenusekaardil nähtav"
+        "visible": "Teenusekaardil nähtav",
+        "visible_help": "Teenus kuvatakse kaardil ainult siis, kui profiil on avaldatud ja aadressil on usaldusväärne vaste."
       },
       "status": {
-        "draft": "Mustand"
+        "draft": "Mustand",
+        "review": "Ülevaatusel",
+        "published": "Avaldatud",
+        "hidden": "Peidetud"
+      },
+      "fee": {
+        "unknown": "Täpsustamata",
+        "free": "Tasuta",
+        "paid": "Tasuline",
+        "agreement": "Kokkuleppel",
+        "mixed": "Mitut tüüpi"
+      },
+      "pre_inquiries": {
+        "accepts_platform": "Võtab vastu SotsiaalAI siseseid eelpöördumisi",
+        "accepts_email": "Võtab vastu e-posti mustandeid",
+        "platform_help": "Inimene saab saata sisemise eelpöördumise selle teenuseosutaja kontole.",
+        "email_help": "Töövoog saab koostada e-kirja mustandi kontaktmeili jaoks."
+      },
+      "map_status": {
+        "title": "Aadressi seis",
+        "empty": "Kaardiasukoha saab ette valmistada pärast aadressi salvestamist.",
+        "pending": "Aadress ootab vaste leidmist.",
+        "matched": "Aadressil on vaste ja avaldatud profiili saab teenusekaardil kuvada.",
+        "ambiguous": "Aadress vajab täpsustamist enne kaardil kuvamist.",
+        "failed": "Aadressile ei leitud veel vastet. Markerit kaardil ei kuvata."
       },
       "map_preview_empty": "Aadressi vaste eelvaade ilmub pärast geokodeerimist.",
+      "publish_help": "Mustand ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet.",
       "outputs": {
         "public_profile": "Avalik profiil",
         "map_marker": "Teenusekaardi marker",
         "rag_record": "AI teadmuskirje"
       },
       "actions": {
-        "save": "Salvesta mustand"
+        "save": "Salvesta muudatused",
+        "saving": "Salvestan..."
+      },
+      "loading": "Laen teenuseprofiili...",
+      "save_success": "Teenuseprofiil salvestatud.",
+      "errors": {
+        "load_failed": "Teenuseprofiili laadimine ebaõnnestus.",
+        "save_failed": "Teenuseprofiili salvestamine ebaõnnestus."
       }
     }
   },

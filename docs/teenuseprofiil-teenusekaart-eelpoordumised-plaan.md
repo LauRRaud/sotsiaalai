@@ -68,9 +68,9 @@ Lisatud ühine klientkomponent:
 
 Selles on esialgne UI-vundament:
 
-- eelpöördumise sisend, adressaadi tüüp ja mustandi ala;
-- teenusekaardi otsingu/filterpind ja markerite eelvaade;
-- teenuseprofiili vorm ja kaardiprofiili/AI väljundite osa.
+- eelpöördumise top-down töövoog koos assistendi vestluse, kontaktisoovituste, mustandi ja varasemate pöördumistega;
+- teenusekaardi päris Leafleti kaardivaade koos otsingu, filtrite, markerite ja overlay-paneelidega;
+- teenuseprofiili haldusvorm teenuse info, teeninduspiirkonna, kontaktide, eelpöördumiste vastuvõtu ja avaldamise seadistamiseks.
 
 ### Rollipõhine töölaua nähtavus
 
@@ -139,13 +139,52 @@ Teenusekaardi API:
 - tagastab ainult avaldatud ja kindla asukohaga kaardikirjed;
 - ei kasuta runtime RAG search'i markerite leidmiseks.
 
+### Teenuseprofiili UX ümberkujundus
+
+Teenuseprofiili leht on ümber kujundatud teenuseosutaja haldusvaateks, mitte tehniliste väljundite ülevaateks.
+
+Muudatused:
+
+- eemaldatud kasutajale nähtav `Väljundid` sektsioon;
+- eemaldatud töölaua vormist eraldi `Avalik profiil`, `Teenusekaardi marker` ja `AI teadmuskirje` kaardid/chipid;
+- lehe sissejuhatus on muudetud praktiliseks: mida teenuseosutaja siin haldab;
+- lisatud ülemine seisuriba profiili staatuse, hinna ja kaardil kuvamise valmisolekuga;
+- jagatud vorm selgeteks sektsioonideks:
+  - `Teenuse info`;
+  - `Teeninduspiirkond ja asukoht`;
+  - `Kontakt ja eelpöördumised`;
+  - `Avaldamine`;
+- kaardiseos on jäetud ainult inimloetavaks aadressi staatuseks;
+- kasutajale ei kuvata koordinaate ega tehnilist RAG/teadmuskorje väljundit;
+- eelpöördumiste vastuvõtu seaded on viidud kontaktide juurde, sest need määravad ühenduse võtmise kanali.
+
+Funktsionaalne loogika:
+
+- teenuseosutaja täidab organisatsiooni, teenuste, sihtrühmade, teeninduspiirkonna ja kontaktide info;
+- teenuseosutaja otsustab, kas ta võtab vastu SotsiaalAI siseseid eelpöördumisi ja/või e-posti mustandeid;
+- teenuseosutaja saab määrata, kas profiil on teenusekaardil nähtav;
+- marker ilmub teenusekaardile ainult siis, kui profiil on avaldatud ja aadressil on usaldusväärne vaste;
+- AI assistendi jaoks kasutatav teadmuskirje jääb süsteemseks taustaprotsessiks, mitte kasutajale eraldi väljundiks.
+
+Viimane korrigeerimine:
+
+- lehe nähtav juhttekst ei räägi enam avalikust profiilist, markerist ega AI teadmuskirjest kui eraldi kasutajale hallatavatest väljunditest;
+- vormi ülaossa lisati kompaktne ülevaade: staatus, hind ja kaardil kuvamise valmisolek;
+- `mapVisible` on esitatud teenusekaardi nähtavuse otsusena, mitte markerihalduse tehnilise seadistusena;
+- aadressi vaste/geokodeerimise info on sõnastatud kasutajale arusaadava `Aadressi seis` plokina;
+- eelpöördumiste vastuvõtu valikud on seotud kontaktiplokiga:
+  - SotsiaalAI sisene eelpöördumine;
+  - e-posti mustand;
+- avaldamise plokk selgitab, et mustand ja ülevaatusel profiil ei ilmu teenusekaardile ning avaldatud profiil vajab usaldusväärset aadressivastet;
+- koordinaate, RAG-i tehnilisi välju ja teenusekaardi markerit kasutaja vormis ei kuvata.
+
 ## Pooleli olevad kohad
 
-- Teenuseprofiili UI on ühendatud API suunas, kuid vajab lõplikku testimist pärast Prisma kliendi genereerimist ja migratsiooni rakendamist.
-- Teenusekaardi UI kasutab praegu lihtsat visuaalset markerieelvaadet, mitte veel Leaflet/OpenLayers kaarditeeki.
-- Eelpöördumiste UI on veel staatiline vundament; mudel, API ja salvestamine on järgmine töö.
+- Teenuseprofiili UI on API-ga ühendatud ja ümber kujundatud; vaja on käsitsi testida salvestamist admini ja teenuseosutaja rolliga serveri andmebaasi peal.
+- Teenusekaart kasutab Leafleti päris kaarti; vaja on jätkata markerite kvaliteedi, geokodeerimise ja KOV andmete katvuse parandamist.
+- Eelpöördumiste UI on top-down töövoona olemas; vaja on jätkata assistendi sisuloogika, adressaatide täpsema sobitamise, muutmise/arhiivimise ja hilisema saatmise töövooga.
 - Geokodeerimine on mudelis ette valmistatud, aga adapter Maa- ja Ruumiameti/In-ADS/In-AKS teenuse jaoks on veel lisamata.
-- KOV kontaktide sünk `ServiceMapEntry` tabelisse on veel lisamata.
+- KOV kontaktide sünk `ServiceMapEntry` tabelisse on olemas; vaja on laiendada andmekatvust ja geokodeerida rohkem aadresse.
 - RAG/AI teenuseosutajate teadmuskihi loomine avaldatud teenuseprofiilist on veel lisamata.
 
 ## Tööplaan
@@ -173,15 +212,22 @@ Acceptance:
 
 Eesmärk: teenuseosutaja saab hallata teenuseprofiili.
 
-Teha:
+Tehtud:
 
-- lõpetada `/teenuseprofiil` vormi andmesidumine;
-- lisada laadimise, salvestamise, veateate ja õnnestumise olekud;
-- lisada väljade serveripoolne valideerimine;
-- tagada, et koordinaate kasutaja vormis ei kuvata;
-- lisada staatuse loogika: `DRAFT`, `REVIEW`, `PUBLISHED`, `HIDDEN`;
-- lisada `mapVisible` lüliti;
-- kuvada kaardikirje staatus ja geokodeerimise staatus.
+- `/teenuseprofiil` vorm on API-ga seotud;
+- lisatud laadimise, salvestamise, veateate ja õnnestumise olekud;
+- koordinaate kasutaja vormis ei kuvata;
+- olemas on staatuse loogika: `DRAFT`, `REVIEW`, `PUBLISHED`, `HIDDEN`;
+- olemas on `mapVisible` lüliti;
+- kaardikirje/geokodeerimise seis kuvatakse kasutajasõbraliku aadressi seisuna;
+- tehnilised väljundid `Avalik profiil`, `Teenusekaardi marker` ja `AI teadmuskirje` on vormist eemaldatud.
+
+Teha edasi:
+
+- täiendada serveripoolset valideerimist;
+- testida salvestamist serveri andmebaasis teenuseosutaja ja admini rolliga;
+- lisada hiljem avaldatud teenuseprofiilist AI/RAG teadmuskirje sünk;
+- vajadusel lisada teenuseosutaja avaliku profiili eraldi vaatamise leht, kuid mitte kuvada seda haldusvormis tehnilise väljundina.
 
 Acceptance:
 
@@ -256,15 +302,26 @@ Acceptance:
 
 Eesmärk: kasutaja saab koostada pöördumise mustandi ja valida adressaadi.
 
-Teha:
+Tehtud:
 
-- lisada `PreInquiry` andmemudel;
-- lisada API mustandite loomiseks, uuendamiseks ja listimiseks;
+- lisatud `PreInquiry` andmemudel;
+- lisatud API mustandite loomiseks ja listimiseks;
 - adressaadid tulevad `ServiceMapEntry` kihist;
 - kasutaja saab valida KOV kontakti või teenuseosutaja;
-- lisada mustandi salvestamine töölauale;
-- lisada kopeerimine ja allalaadimine;
+- mustandi salvestamine on olemas;
+- kopeerimine ja allalaadimine on UI-s olemas;
+- leht on top-down töövoog: vestlus assistendiga, sobivad kontaktid, pöördumise mustand, minu eelpöördumised;
+- assistendi vestlus kasutab dokumendi koostamise lehega sama vestluse komponendimustrit;
+- kontaktide sektsioon ei kuva tühje tulemusridu enne soovitusi või otsingut;
+- rollipõhised vaated eristavad pöörduja, sotsiaaltöötaja, teenuseosutaja ja admini vajadusi;
 - e-postiga saatmine jääb hilisemaks ja peab nõudma kasutaja kinnitust.
+
+Teha edasi:
+
+- lisada eelpöördumise muutmise/arhiivimise API;
+- parandada adressaatide sobitamist KOV ja teenuseosutaja teenusekategooriate põhjal;
+- täiendada saabunud eelpöördumiste töövoogu spetsialistile ja teenuseosutajale;
+- lisada hilisem `EXTERNAL_EMAIL` saatmise töövoog koos eraldi kinnituse ja logimisega.
 
 Acceptance:
 
@@ -333,16 +390,24 @@ Uued või oluliselt muudetud failid:
 - `components/chat/WorkspacePanel.jsx`
 - `components/chat/WorkspacePanel.module.css`
 - `components/workspace/WorkspaceFeaturePage.jsx`
+- `components/workspace/ServiceMapLeaflet.jsx`
 - `components/alalehed/ChatBody.jsx`
 - `components/alalehed/chat/ChatBodyView.jsx`
 - `app/eelpoordumised/page.jsx`
 - `app/teenusekaart/page.jsx`
 - `app/teenuseprofiil/page.jsx`
+- `app/styles/components/service-map.css`
 - `app/api/service-provider/profile/route.js`
 - `app/api/service-map/entries/route.js`
 - `app/api/pre-inquiries/route.js`
+- `app/api/pre-inquiries/assist/route.js`
+- `app/api/pre-inquiries/preferences/route.js`
 - `lib/serviceProviderProfiles.js`
 - `lib/preInquiries.js`
+- `lib/serviceMap/kovContactSync.js`
+- `lib/serviceMap/geocoding.js`
+- `scripts/sync-kov-service-map-entries.mjs`
+- `scripts/geocode-service-map-entries.mjs`
 - `prisma/schema.prisma`
 - `prisma/migrations/20260505203000_add_service_provider_profile_and_map_entries/migration.sql`
 - `prisma/migrations/20260505212000_add_pre_inquiries/migration.sql`
@@ -447,6 +512,20 @@ Viimistletud `/eelpoordumised` lehe esimene päris töövoog:
 - sotsiaaltöötaja vastuvõtu linnuke jääb lehele, kuid see on vestluse järel kompaktne seadistus, mitte põhifookus;
 - admin saab endiselt eelpöördumise vaates töörolli valida.
 
+Viimased UI-korrigeerimised:
+
+- `Vestlus assistendiga` kasutab sama visuaalset vestluse ja sisestusriba mustrit nagu dokumendi koostamise leht;
+- eelpöördumise vestlus ei alga enam ankeetliku kaheveerulise vormina, vaid assistendi sõnumi ja ühe sisestusväljaga;
+- kontaktide sektsioon ei kuva tühje või läbipaistvaid tulemuskaarte enne, kui assistent on soovitused leidnud või kasutaja on adressaati otsinud;
+- kontaktikaardid on muudetud loetavaks: tekst on kontrastne, valitud kontakt on selgelt eristatud;
+- rollipõhine sisu on korrigeeritud:
+  - `CLIENT` põhifookus on olukorra kirjeldamine, kontakti valik, mustand ja enda eelpöördumised;
+  - `SOCIAL_WORKER` näeb lisaks talle adresseeritud platvormisiseseid eelpöördumisi, kui vastuvõtt on lubatud;
+  - `SERVICE_PROVIDER` näeb talle/teenuseprofiiliga seotud saabunud eelpöördumisi ning vastuvõtukanalid seotakse teenuseprofiili seadistusega;
+  - `ADMIN` saab testimiseks valida töörolli ja näha laiemat eelpöördumiste vaadet;
+- `Minu eelpöördumised` jääb lehe lõppu sekundaarseks haldusosaks;
+- saabunud eelpöördumised kuvatakse ainult rollidel, kellel see on sisuliselt vajalik, mitte pöörduja põhivoos.
+
 Assistendi endpointi `/api/pre-inquiries/assist` laiendati nii, et see tagastab lisaks senisele `suggestions` ja `draft` väljundile ka:
 
 - `situationSummary`;
@@ -471,13 +550,17 @@ Assistendi sõnastus jääb ettevaatlikuks:
 
 ## Kontrollid
 
-Viimati edukalt läbitud pärast eelpöördumiste MVP lisamist:
+Viimati edukalt läbitud pärast eelpöördumise lehe viimaseid UI-korrigeerimisi ja teenuseprofiili ümberkujundust:
+
+- `npx eslint components/workspace/WorkspaceFeaturePage.jsx`
+- `npm run i18n:check`
+- `npm run build`
+
+Varasemalt edukalt läbitud pärast eelpöördumiste MVP lisamist:
 
 - `npx prisma validate`
 - `npx prisma generate`
 - `npx eslint lib/serviceProviderProfiles.js lib/preInquiries.js app/api/service-map/entries/route.js app/api/pre-inquiries/route.js components/workspace/WorkspaceFeaturePage.jsx`
-- `npm run i18n:check`
-- `npm run build`
 
 Veel vaja järgmistes lõikudes:
 

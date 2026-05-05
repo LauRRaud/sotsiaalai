@@ -603,42 +603,94 @@
     },
     "service_profile": {
       "title": "Service profile",
-      "lead": "The provider management view separates the public profile, map marker, and AI knowledge record from the account profile.",
+      "lead": "Manage the provider's information, contacts, service area and pre-inquiry settings in one workspace.",
       "meta": {
         "title": "Service profile",
         "description": "Manage the provider's public profile, map visibility, and AI-discoverable information."
       },
+      "overview": {
+        "title": "Service provider workspace",
+        "body": "Enter the information people need before contacting you: services, area, contact channels and pre-inquiry settings."
+      },
+      "summary": {
+        "status": "Status",
+        "price": "Price",
+        "map_ready": "Ready for map",
+        "map_not_ready": "Not shown on map yet"
+      },
       "sections": {
         "profile": "Service information",
         "map_profile": "Map profile",
-        "outputs": "Outputs"
+        "outputs": "Outputs",
+        "area": "Service area and location",
+        "contact": "Contact and pre-inquiries",
+        "publish": "Publishing"
       },
       "fields": {
         "organization": "Organization name",
+        "short_description": "Short description",
         "services": "Services",
         "categories": "Categories",
         "target_groups": "Target groups",
         "service_area": "Service area",
+        "municipalities": "Municipalities or regions",
+        "county": "County",
         "address": "Address or reception location",
         "phone": "Phone",
         "email": "Email",
         "website": "Website",
-        "languages": "Languages"
+        "languages": "Languages",
+        "accessibility_info": "Accessibility info",
+        "status": "Status",
+        "fee_type": "Price"
       },
       "visibility": {
-        "visible": "Visible on service map"
+        "visible": "Visible on service map",
+        "visible_help": "The service is shown on the map only when the profile is published and the address has a reliable match."
       },
       "status": {
-        "draft": "Draft"
+        "draft": "Draft",
+        "review": "Review",
+        "published": "Published",
+        "hidden": "Hidden"
+      },
+      "fee": {
+        "unknown": "Unknown",
+        "free": "Free",
+        "paid": "Paid",
+        "agreement": "By agreement",
+        "mixed": "Mixed"
+      },
+      "pre_inquiries": {
+        "accepts_platform": "Accept internal SotsiaalAI pre-inquiries",
+        "accepts_email": "Accept email drafts",
+        "platform_help": "People can send an internal pre-inquiry to this provider account.",
+        "email_help": "The workflow can prepare an email draft for the contact address."
+      },
+      "map_status": {
+        "title": "Address status",
+        "empty": "A map location can be prepared after the address is saved.",
+        "pending": "The address is waiting for matching.",
+        "matched": "Address has been matched and can be shown on the service map when the profile is published.",
+        "ambiguous": "The address needs clarification before it can be shown on the map.",
+        "failed": "The address could not be matched yet. The marker is not shown on the map."
       },
       "map_preview_empty": "Address match preview appears after geocoding.",
+      "publish_help": "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears.",
       "outputs": {
         "public_profile": "Public profile",
         "map_marker": "Service map marker",
         "rag_record": "AI knowledge record"
       },
       "actions": {
-        "save": "Save draft"
+        "save": "Save changes",
+        "saving": "Saving..."
+      },
+      "loading": "Loading service profile...",
+      "save_success": "Service profile saved.",
+      "errors": {
+        "load_failed": "Service profile could not be loaded.",
+        "save_failed": "Service profile could not be saved."
       }
     }
   },
