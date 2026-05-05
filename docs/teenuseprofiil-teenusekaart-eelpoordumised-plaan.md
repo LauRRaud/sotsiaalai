@@ -392,6 +392,31 @@ Uued seotud failid:
 - `lib/serviceMap/geocoding.js`
 - `scripts/geocode-service-map-entries.mjs`
 
+## Arenduslõik: Teenusekaardi päris kaardivaade
+
+Lisatud Teenusekaardi esimene päris kaardivaade:
+
+- lisatud Leaflet sõltuvus;
+- lisatud `components/workspace/ServiceMapLeaflet.jsx`;
+- lisatud `app/styles/components/service-map.css`;
+- `/teenusekaart` kasutab nüüd Maa- ja Ruumiameti Eesti aluskaardi TMS kihti `kaart@GMC`;
+- tile URL on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_TILE_URL`;
+- atribuut on muudetav env kaudu: `NEXT_PUBLIC_SERVICE_MAP_ATTRIBUTION`;
+- kaart kasutab Eesti ulatust ja piirab kasutajat Eesti kaardiruumi ümber;
+- markerid tulevad ainult struktureeritud `/api/service-map/entries` andmest, mitte RAG runtime otsingust;
+- markerid kuvatakse ainult kirjetel, millel on kindlad koordinaadid;
+- KOV kontaktid ja teenuseosutajad on markeril visuaalselt eristatud;
+- markerile vajutades avaneb kontaktinfo popup;
+- vasakul on otsing, piirkonna filter, kirje tüübi filter ja tulemuste loend;
+- tulemuste loendis kirjele vajutamine valib vastava markeri kaardil.
+
+Märkus: päris markerite ilmumiseks peab serveris olema:
+
+1. Prisma migratsioonid rakendatud;
+2. KOV kontaktide sünk tehtud;
+3. aadressid geokodeeritud või käsitsi kinnitatud;
+4. kirjed `PUBLISHED` ja `MATCHED`/`MANUALLY_CONFIRMED` olekus.
+
 ## Kontrollid
 
 Viimati edukalt läbitud pärast eelpöördumiste MVP lisamist:

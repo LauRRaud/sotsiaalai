@@ -1,4 +1,5 @@
 ﻿import "./styles/globals.css";
+import "leaflet/dist/leaflet.css";
 import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
@@ -665,9 +666,24 @@ function PreInquiriesSurface({ t, activeRole = "SOCIAL_WORKER", isAdmin = false 
   );
 }
 
+function serviceMapEntryTypeLabel(t, type) {
+  if (type === "SERVICE_PROVIDER") {
+    return readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja");
+  }
+  return readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt");
+}
+
+function hasServiceMapCoordinates(entry) {
+  const latitude = Number(entry?.latitude);
+  const longitude = Number(entry?.longitude);
+  return Number.isFinite(latitude) && Number.isFinite(longitude);
+}
+
 function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
+  const [entryType, setEntryType] = useState("ALL");
+  const [selectedEntryId, setSelectedEntryId] = useState("");
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -703,6 +719,8 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
     const query = keyword.trim().toLocaleLowerCase("et");
     const regionQuery = region.trim().toLocaleLowerCase("et");
     return entries.filter((entry) => {
+      if (entryType === "KOV_CONTACT" && !String(entry.type || "").startsWith("KOV_")) return false;
+      if (entryType !== "ALL" && entryType !== "KOV_CONTACT" && entry.type !== entryType) return false;
       const haystack = [
         entry.title,
         entry.description,
@@ -719,23 +737,19 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
       ].join(" ").toLocaleLowerCase("et");
       return (!query || haystack.includes(query)) && (!regionQuery || regionText.includes(regionQuery));
     });
-  }, [entries, keyword, region]);
+  }, [entries, entryType, keyword, region]);
 
-  const markers = filteredEntries.map((entry, index) => {
-    const longitude = Number(entry.longitude);
-    const latitude = Number(entry.latitude);
-    const hasCoordinates = Number.isFinite(longitude) && Number.isFinite(latitude);
-    return {
-      key: entry.id || index,
-      label:
-        entry.type === "SERVICE_PROVIDER"
-          ? readText(t, "workspace_feature_pages.service_map.marker_provider", "Provider")
-          : readText(t, "workspace_feature_pages.service_map.marker_kov", "KOV"),
-      title: entry.title,
-      x: hasCoordinates ? `${Math.max(8, Math.min(92, ((longitude - 21.5) / 7.8) * 100))}%` : "50%",
-      y: hasCoordinates ? `${Math.max(8, Math.min(92, 100 - ((latitude - 57.3) / 2.4) * 100))}%` : "50%"
-    };
-  });
+  const mappableEntries = useMemo(
+    () => filteredEntries.filter((entry) => hasServiceMapCoordinates(entry)),
+    [filteredEntries]
+  );
+
+  useEffect(() => {
+    if (!selectedEntryId) return;
+    if (!filteredEntries.some((entry) => entry.id === selectedEntryId)) {
+      setSelectedEntryId("");
+    }
+  }, [filteredEntries, selectedEntryId]);
 
   return (
     <div className="grid gap-[1rem] lg:grid-cols-[0.72fr_1.28fr]">
@@ -752,35 +766,68 @@ function ServiceMapSurface({ t, activeRole = "SOCIAL_WORKER" }) {
           <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
         </Label>
         <div className="flex flex-wrap gap-[0.46rem]">
-          <span className={chipClassName}>{readText(t, "workspace_feature_pages.service_map.types.kov", "KOV contact")}</span>
-          <span className={chipClassName}>{readText(t, "workspace_feature_pages.service_map.types.provider", "Service provider")}</span>
-        </div>
-      </SectionCard>
-
-      <SectionCard title={readText(t, "workspace_feature_pages.service_map.sections.map", "Map")} className="min-h-[27rem]">
-        <div
-          className="relative min-h-[20rem] overflow-hidden rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(135deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025)),radial-gradient(circle_at_32%_28%,rgba(197,113,113,0.2),transparent_28%),radial-gradient(circle_at_72%_62%,rgba(96,165,250,0.16),transparent_32%)] light:bg-[linear-gradient(135deg,rgba(255,255,255,0.82),rgba(246,241,239,0.72))]"
-          aria-label={readText(t, "workspace_feature_pages.service_map.map_label", "Service map preview")}
-        >
-          <div className="absolute inset-0 opacity-[0.2] [background-image:linear-gradient(rgba(255,255,255,0.22)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.22)_1px,transparent_1px)] [background-size:2.4rem_2.4rem]" aria-hidden="true" />
-          {markers.map((marker) => (
+          {[
+            ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
+            ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
+            ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")]
+          ].map(([value, label]) => (
             <button
-              key={marker.key}
+              key={value}
               type="button"
-              title={marker.title || marker.label}
-              className="absolute grid h-[2.7rem] min-w-[2.7rem] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[color:var(--title-color,var(--brand-primary,#c57171))] px-[0.62rem] text-[0.78rem] font-[700] text-white shadow-[0_10px_24px_rgba(0,0,0,0.24)]"
-              style={{ left: marker.x, top: marker.y }}
+              className={cn(chipClassName, entryType === value && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")}
+              onClick={() => setEntryType(value)}
             >
-              {marker.label}
+              {label}
             </button>
           ))}
         </div>
+        <p className={cn(bodyTextClassName, "text-[0.94rem]")}>
+          {loading
+            ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
+            : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}, ${mappableEntries.length} ${readText(t, "workspace_feature_pages.service_map.mappable", "markerit")}`}
+        </p>
+        <div className="grid max-h-[24rem] gap-[0.54rem] overflow-y-auto pr-[0.12rem]">
+          {filteredEntries.length ? filteredEntries.slice(0, 40).map((entry) => (
+            <button
+              key={entry.id}
+              type="button"
+              className={cn(
+                "grid gap-[0.22rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.74rem] py-[0.66rem] text-left text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] transition hover:bg-[rgba(255,255,255,0.1)] light:bg-[rgba(255,255,255,0.54)]",
+                selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
+              )}
+              onClick={() => setSelectedEntryId(entry.id)}
+            >
+              <span className="text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
+              <span className="text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
+                {serviceMapEntryTypeLabel(t, entry.type)}
+              </span>
+              <span className="text-[0.88rem] leading-[1.24] opacity-[0.78]">
+                {[entry.address, entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(" · ") || readText(t, "workspace_feature_pages.service_map.no_address", "Asukoht vajab täpsustamist")}
+              </span>
+            </button>
+          )) : (
+            <p className={bodyTextClassName}>
+              {loading
+                ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
+                : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena.")}
+            </p>
+          )}
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.service_map.sections.map", "Map")} className="min-h-[31rem]">
+        <ServiceMapLeaflet
+          entries={mappableEntries}
+          selectedEntryId={selectedEntryId}
+          onSelectEntry={setSelectedEntryId}
+          t={t}
+        />
         <p className={bodyTextClassName}>
           {loading
             ? readText(t, "workspace_feature_pages.service_map.loading", "Loading map entries...")
-            : error || (markers.length
-              ? readText(t, "workspace_feature_pages.service_map.loaded", "Published map entries are shown as markers.")
-              : readText(t, "workspace_feature_pages.service_map.empty", "Published ServiceMapEntry records will appear here."))}
+            : error || (mappableEntries.length
+              ? readText(t, "workspace_feature_pages.service_map.loaded", "Avaldatud kaardikirjed on markeritena Eesti kaardil.")
+              : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena."))}
         </p>
       </SectionCard>
     </div>
