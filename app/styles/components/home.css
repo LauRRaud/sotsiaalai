@@ -248,7 +248,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(16, 19, 24, 0.74);
+  --home-panel-bg: rgba(16, 19, 24, 0.34);
   background: var(
     --home-panel-bg,
     var(
@@ -263,7 +263,13 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(251, 249, 246, 0.9);
+  --home-panel-bg: rgba(251, 249, 246, 0.78);
+}
+
+@media (min-width: 48.001em) {
+  :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
+    --home-about-panel-shadow: 0 10px 22px rgba(0, 0, 0, 0.09);
+  }
 }
 
 :root.theme-light:not(.theme-mid) .homepage-root .home-before-links {
@@ -275,7 +281,13 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 :root.theme-mid .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(203, 190, 186, 0.82);
+  --home-panel-bg: rgba(203, 190, 186, 0.68);
+}
+
+@media (min-width: 48.001em) {
+  :root.theme-mid .homepage-root .home-about-panel {
+    --home-about-panel-shadow: 0 8px 18px rgba(20, 12, 10, 0.11);
+  }
 }
 
 :root.theme-mid .homepage-root .home-before-links {
@@ -287,11 +299,33 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 }
 
 html[data-contrast="hc"] .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(9, 18, 30, 0.78);
+  --home-panel-bg: rgba(9, 18, 30, 0.38);
 }
 
 :root.theme-night:not(.theme-mid) .homepage-root .home-about-panel {
-  --home-panel-bg: rgba(12, 17, 27, 0.76);
+  --home-panel-bg: rgba(12, 17, 27, 0.36);
+}
+
+@media (max-width: 768px) {
+  .homepage-root .home-about-panel {
+    --home-panel-bg: rgba(16, 19, 24, 0.74);
+  }
+
+  :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
+    --home-panel-bg: rgba(251, 249, 246, 0.9);
+  }
+
+  :root.theme-mid .homepage-root .home-about-panel {
+    --home-panel-bg: rgba(203, 190, 186, 0.82);
+  }
+
+  html[data-contrast="hc"] .homepage-root .home-about-panel {
+    --home-panel-bg: rgba(9, 18, 30, 0.78);
+  }
+
+  :root.theme-night:not(.theme-mid) .homepage-root .home-about-panel {
+    --home-panel-bg: rgba(12, 17, 27, 0.76);
+  }
 }
 
 .homepage-root .home-before-panel {

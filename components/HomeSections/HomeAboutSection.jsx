@@ -21,7 +21,7 @@ const homeQuickLinkClassName =
 const homeQuickIconClassName =
   "block h-[clamp(3.12rem,4.25vw,3.72rem)] w-[clamp(3.12rem,4.25vw,3.72rem)] shrink-0 text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.1] group-focus-visible:scale-[1.1] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top]";
 const homeQuickLabelClassName =
-  "home-quick-label mt-[0.58rem] block w-[max-content] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-[#c57171] opacity-0 pointer-events-none transform-gpu will-change-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100 light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-auto max-[768px]:max-w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance] max-[768px]:opacity-100";
+  "home-quick-label mt-[0.58rem] block w-[max-content] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-[#c57171] opacity-0 pointer-events-none transform-gpu will-change-opacity peer-hover:opacity-100 peer-focus-visible:opacity-100 light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-auto max-[768px]:max-w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance]";
 const homeQuickLabelStyle = {
   transition: "opacity 640ms cubic-bezier(0.16, 1, 0.3, 1)"
 };
@@ -150,6 +150,7 @@ export default function HomeAboutSection({
   const aboutScrollRef = useRef(null);
   const [aboutFade, setAboutFade] = useState({ top: false, bottom: false });
   const [beforeView, setBeforeView] = useState("links");
+  const [mobileQuickLabelKey, setMobileQuickLabelKey] = useState(null);
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -271,10 +272,7 @@ export default function HomeAboutSection({
   const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.16), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.38), rgba(0,0,0,0.62) calc(${aboutTopFade} * 0.68), rgba(0,0,0,0.9) calc(${aboutTopFade} * 0.9), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.92) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.68) calc(100% - calc(${aboutBottomFade} * 0.62)), rgba(0,0,0,0.34) calc(100% - calc(${aboutBottomFade} * 0.34)), rgba(0,0,0,0.1) calc(100% - calc(${aboutBottomFade} * 0.12)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
-    setBeforeView("contact");
-  };
-  const closeBeforeContact = () => {
-    setBeforeView("links");
+    setBeforeView((currentView) => (currentView === "contact" ? "links" : "contact"));
   };
   const quickLinks = [
     {
@@ -335,6 +333,19 @@ export default function HomeAboutSection({
       onClick: openBeforeContact
     }
   ];
+  const handleQuickLinkClick = (event, item) => {
+    const isMobileQuickGrid =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(max-width: 768px)")?.matches;
+
+    if (isMobileQuickGrid && mobileQuickLabelKey !== item.key) {
+      event.preventDefault();
+      setMobileQuickLabelKey(item.key);
+      return;
+    }
+
+    item.onClick?.(event);
+  };
   return (
     <section
       id={id}
@@ -438,51 +449,61 @@ export default function HomeAboutSection({
             {ctaTitle}
           </h3>
           <ul className="m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3">
-            {quickLinks.map((item) => (
-              <li key={item.key} className="pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start">
-                {item.type === "button" ? (
-                  <button
-                    type="button"
-                    onClick={item.onClick}
-                    aria-label={item.label}
-                    aria-expanded={beforeView === "contact"}
-                    aria-controls={`${beforeHeadingId}-contact`}
-                    className={cn("home-before-contact-button", homeQuickLinkClassName)}
+            {quickLinks.map((item) => {
+              const isContactItem = item.key === "contact";
+
+              return (
+                <li
+                  key={item.key}
+                  className={cn(
+                    "pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
+                    isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
+                    isContactItem && beforeView === "contact" && "max-[768px]:hidden"
+                  )}
+                >
+                  {item.type === "button" ? (
+                    <button
+                      type="button"
+                      onClick={(event) => handleQuickLinkClick(event, item)}
+                      aria-label={item.label}
+                      aria-expanded={beforeView === "contact"}
+                      aria-controls={`${beforeHeadingId}-contact`}
+                      className={cn("home-before-contact-button", homeQuickLinkClassName)}
+                    >
+                      <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
+                    </button>
+                  ) : (
+                    <AppLink
+                      href={item.href}
+                      onClick={(event) => handleQuickLinkClick(event, item)}
+                      aria-label={item.label}
+                      className={homeQuickLinkClassName}
+                    >
+                      <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
+                    </AppLink>
+                  )}
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      homeQuickLabelClassName,
+                      mobileQuickLabelKey === item.key && "max-[768px]:opacity-100"
+                    )}
+                    style={homeQuickLabelStyle}
                   >
-                    <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
-                  </button>
-                ) : (
-                  <AppLink
-                    href={item.href}
-                    onClick={item.onClick}
-                    aria-label={item.label}
-                    className={homeQuickLinkClassName}
-                  >
-                    <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
-                  </AppLink>
-                )}
-                <span aria-hidden="true" className={homeQuickLabelClassName} style={homeQuickLabelStyle}>{item.label}</span>
-              </li>
-            ))}
+                    {item.label}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
           {beforeView === "contact" ? (
             <div
               id={`${beforeHeadingId}-contact`}
               className="home-before-contact-copy mx-auto mt-[clamp(0.8rem,1.8vw,1.2rem)] flex w-[min(92vw,38rem)] flex-col items-center gap-[clamp(0.48rem,0.95vw,0.72rem)] border-t border-[color:var(--home-link-color,var(--brand-primary))] border-opacity-25 px-[clamp(0.8rem,2.2vw,1.4rem)] pt-[clamp(0.9rem,1.9vw,1.25rem)] text-center"
             >
-              <div className="flex w-full items-center justify-center gap-[0.7rem]">
-                <p className="m-0 text-[clamp(1.08rem,1.48vw,1.26rem)] font-normal leading-[1.2] tracking-[0.015em] text-[color:var(--home-prose-color)]">
-                  {contactCompany}
-                </p>
-                <button
-                  type="button"
-                  onClick={closeBeforeContact}
-                  className="inline-flex h-[1.9rem] w-[1.9rem] shrink-0 appearance-none items-center justify-center rounded-full border border-transparent bg-transparent text-[1.5rem] leading-none text-[color:var(--home-link-color,var(--brand-primary))] transition-[border-color,filter] duration-150 hover:border-[color:var(--home-link-color,var(--brand-primary))] focus-visible:border-[color:var(--home-link-color,var(--brand-primary))] focus-visible:outline-none focus-visible:[filter:drop-shadow(0_0_0.35rem_rgba(197,113,113,0.38))] hc:text-[color:var(--hc-accent)]"
-                  aria-label={t("buttons.close")}
-                >
-                  {t("symbols.times")}
-                </button>
-              </div>
+              <p className="m-0 text-[clamp(1.08rem,1.48vw,1.26rem)] font-normal leading-[1.2] tracking-[0.015em] text-[color:var(--home-prose-color)]">
+                {contactCompany}
+              </p>
               <div className="m-0 flex w-full flex-col gap-[clamp(0.4rem,0.8vw,0.62rem)] text-[color:var(--home-prose-color)]">
                 <p className="m-0 text-[clamp(1rem,1.3vw,1.14rem)] leading-[1.32] tracking-[0.01em]">
                   {contactRegistryValue}
