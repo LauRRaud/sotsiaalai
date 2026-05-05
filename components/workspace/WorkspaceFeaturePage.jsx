@@ -31,7 +31,7 @@ const shellClassName =
   "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
 
 const panelClassName =
-  `relative z-[21] w-full !max-w-[66rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `workspace-feature-panel relative z-[21] w-full !max-w-[66rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [border:none] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
@@ -49,7 +49,7 @@ const contentClassName =
   `${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-0 max-[768px]:pb-[0.88rem]`;
 
 const cardClassName =
-  `${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.9rem] max-[768px]:px-[0.78rem] max-[768px]:py-[0.78rem]`;
+  `workspace-feature-card ${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.9rem] max-[768px]:px-[0.78rem] max-[768px]:py-[0.78rem]`;
 
 const sectionTitleClassName =
   "m-0 text-[1.18rem] font-[650] leading-[1.18] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
@@ -58,10 +58,10 @@ const bodyTextClassName =
   "m-0 text-[1.02rem] leading-[1.52] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]";
 
 const fieldClassName =
-  "min-h-[3rem] rounded-[0.86rem] border border-[color:var(--subpage-card-border,transparent)] bg-[rgba(255,255,255,0.06)] px-[0.82rem] py-[0.62rem] text-[1rem] leading-[1.3] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] placeholder:text-[color:color-mix(in_srgb,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))_58%,transparent)] light:bg-[rgba(255,255,255,0.58)] light:text-[color:var(--text-strong,#1f2937)]";
+  "workspace-feature-field min-h-[3rem] rounded-[0.86rem] border px-[0.82rem] py-[0.62rem] text-[1rem] leading-[1.3]";
 
 const chipClassName =
-  "inline-flex min-h-[2.42rem] items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.08)] px-[0.82rem] py-[0.36rem] text-[0.96rem] font-[600] leading-[1.15] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] light:bg-[rgba(255,255,255,0.6)] light:text-[color:var(--text-strong,#1f2937)]";
+  "workspace-feature-chip inline-flex min-h-[2.42rem] items-center justify-center rounded-full border px-[0.82rem] py-[0.36rem] text-[0.96rem] font-[600] leading-[1.15]";
 
 const ADMIN_WORKSPACE_ROLES = Object.freeze([
   "CLIENT",
@@ -113,9 +113,9 @@ function SectionCard({ title, children, className }) {
   );
 }
 
-function Label({ children }) {
+function Label({ children, className }) {
   return (
-    <label className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
+    <label className={cn("grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]", className)}>
       {children}
     </label>
   );
@@ -123,7 +123,7 @@ function Label({ children }) {
 
 function AdminRoleSelector({ t, value, onChange }) {
   return (
-    <label className="mx-auto flex w-full max-w-[28rem] flex-wrap items-center justify-center gap-[0.5rem] rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.06)] px-[0.78rem] py-[0.56rem] text-[0.92rem] font-[640] leading-[1.2] light:bg-[rgba(255,255,255,0.56)]">
+    <label className="workspace-feature-admin-role mx-auto flex w-full max-w-[28rem] flex-wrap items-center justify-center gap-[0.5rem] rounded-[1rem] border px-[0.78rem] py-[0.56rem] text-[0.92rem] font-[640] leading-[1.2]">
       <span>{readText(t, "workspace_feature_pages.admin_role.label", "Admini tööroll")}</span>
       <select
         className={cn(fieldClassName, "min-h-[2.35rem] max-w-[14rem] py-[0.36rem] text-[0.94rem]")}
@@ -671,7 +671,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         ) : null}
 
         {activeRole === "SOCIAL_WORKER" ? (
-          <div className="grid gap-[0.48rem] rounded-[0.95rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.045)] px-[0.78rem] py-[0.62rem] light:bg-[rgba(255,255,255,0.58)]">
+          <div className="workspace-feature-card grid gap-[0.48rem] rounded-[0.95rem] border px-[0.78rem] py-[0.62rem]">
             <label className="flex items-center gap-[0.58rem] text-[0.98rem] font-[620]">
               <input
                 type="checkbox"
@@ -718,7 +718,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               key={entry.id}
               type="button"
               className={cn(
-                "grid gap-[0.32rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.72)] px-[0.82rem] py-[0.68rem] text-left text-[#243044] transition hover:bg-[rgba(255,255,255,0.9)]",
+                "workspace-feature-list-card grid gap-[0.32rem] rounded-[0.92rem] border px-[0.82rem] py-[0.68rem] text-left transition",
                 selectedRecipientId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
               )}
               onClick={() => {
@@ -729,7 +729,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             >
               <span className="flex flex-wrap items-center justify-between gap-[0.5rem]">
                 <span className="text-[1.02rem] font-[720] leading-[1.16]">{entry.title}</span>
-                <span className="rounded-full bg-[rgba(72,146,150,0.13)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1] text-[color:var(--title-color,var(--brand-primary,#c57171))]">
+                <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
                   {getPreInquiryRecipientTypeLabel(t, entry)}
                 </span>
               </span>
@@ -776,7 +776,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
           <div className="grid gap-[0.52rem]">
             {receivedInquiries.length ? receivedInquiries.map((inquiry) => (
-              <article key={inquiry.id} className="grid gap-[0.28rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)] sm:grid-cols-[1fr_auto] sm:items-center">
+              <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
                 <div className="grid gap-[0.2rem]">
                   <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
                   <p className="m-0 text-[0.88rem] leading-[1.3] opacity-[0.78]">
@@ -788,7 +788,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-[0.44rem] sm:justify-end">
-                  <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                  <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
                     {getPreInquiryChannelLabel(t, inquiry.deliveryChannel)}
                   </span>
                   <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
@@ -806,7 +806,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
         <div className="grid gap-[0.52rem]">
           {savedInquiries.length ? savedInquiries.map((inquiry) => (
-            <article key={inquiry.id} className="grid gap-[0.28rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.76rem] py-[0.6rem] light:bg-[rgba(255,255,255,0.56)] sm:grid-cols-[1fr_auto] sm:items-center">
+            <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
               <div className="grid gap-[0.2rem]">
                 <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.15]">{inquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</h3>
                 <p className="m-0 text-[0.88rem] leading-[1.3] opacity-[0.78]">
@@ -818,7 +818,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[0.44rem] sm:justify-end">
-                <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
                   {inquiry.status || "DRAFT"}
                 </span>
                 <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
@@ -938,19 +938,23 @@ function ServiceMapSurface({
       ) : null}
 
       <aside className="service-map-workspace__filters" aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}>
-        <h2 className={sectionTitleClassName}>{readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}</h2>
-        <p className={bodyTextClassName}>
-          {`${readText(t, "workspace_feature_pages.service_map.active_role", "Tööroll")}: ${roleLabel(t, activeRole)}`}
-        </p>
-        <Label>
-          <span>{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
-          <input className={fieldClassName} value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")} />
-        </Label>
-        <Label>
-          <span>{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
-          <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
-        </Label>
-        <div className="flex flex-wrap gap-[0.46rem]">
+        <div className="service-map-toolbar__head">
+          <h2 className={sectionTitleClassName}>{readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}</h2>
+          <p className={bodyTextClassName}>
+            {`${readText(t, "workspace_feature_pages.service_map.active_role", "Tööroll")}: ${roleLabel(t, activeRole)}`}
+          </p>
+        </div>
+        <div className="service-map-toolbar__fields">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
+            <input className={fieldClassName} value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
+            <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
+          </Label>
+        </div>
+        <div className="service-map-toolbar__types">
           {[
             ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
             ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
@@ -966,18 +970,18 @@ function ServiceMapSurface({
             </button>
           ))}
         </div>
-        <p className={cn(bodyTextClassName, "text-[0.94rem]")}>
+        <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
           {loading
             ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
             : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}, ${mappableEntries.length} ${readText(t, "workspace_feature_pages.service_map.mappable", "markerit")}`}
         </p>
-        <div className="grid max-h-[min(32vh,20rem)] gap-[0.54rem] overflow-y-auto pr-[0.12rem]">
+        <div className="service-map-toolbar__results">
           {filteredEntries.length ? filteredEntries.slice(0, 40).map((entry) => (
             <button
               key={entry.id}
               type="button"
               className={cn(
-                "grid gap-[0.22rem] rounded-[0.86rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.72)] px-[0.74rem] py-[0.66rem] text-left text-[#243044] transition hover:bg-[rgba(255,255,255,0.9)]",
+                "workspace-feature-list-card grid gap-[0.22rem] rounded-[0.86rem] border px-[0.74rem] py-[0.66rem] text-left transition",
                 selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
               )}
               onClick={() => setSelectedEntryId(entry.id)}
@@ -1107,7 +1111,7 @@ function serviceProfileMapStatusText(t, mapEntry) {
 
 function ToggleRow({ checked, onChange, title, body }) {
   return (
-    <label className="grid cursor-pointer gap-[0.18rem] rounded-[0.92rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.05)] px-[0.86rem] py-[0.72rem] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] light:bg-[rgba(255,255,255,0.52)]">
+    <label className="workspace-feature-toggle-row grid cursor-pointer gap-[0.18rem] rounded-[0.92rem] border px-[0.86rem] py-[0.72rem]">
       <span className="flex items-center gap-[0.62rem] text-[0.98rem] font-[680] leading-[1.2]">
         <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
         <span>{title}</span>
@@ -1213,7 +1217,7 @@ function ServiceProfileSurface({ t }) {
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto grid w-full max-w-[58rem] gap-[1rem]">
-      <div className="grid gap-[0.72rem] rounded-[1.1rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.045)] px-[1rem] py-[0.9rem] light:bg-[rgba(255,255,255,0.48)]">
+      <div className="workspace-feature-card grid gap-[0.72rem] rounded-[1.1rem] border px-[1rem] py-[0.9rem]">
         <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
           <div className="grid max-w-[42rem] gap-[0.3rem]">
             <p className="m-0 text-[1.02rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
@@ -1334,7 +1338,7 @@ function ServiceProfileSurface({ t }) {
             "The service is shown on the map only when the profile is published and the address has a reliable match."
           )}
         />
-        <div className="grid gap-[0.22rem] rounded-[0.92rem] border border-dashed border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.04)] px-[0.86rem] py-[0.72rem] light:bg-[rgba(255,255,255,0.46)]">
+        <div className="workspace-feature-card workspace-feature-card--dashed grid gap-[0.22rem] rounded-[0.92rem] border px-[0.86rem] py-[0.72rem]">
           <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
             {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Address status")}
           </p>
@@ -1442,7 +1446,7 @@ export default function WorkspaceFeaturePage({ feature }) {
     <section className={shellClassName} lang={locale}>
       <div className={cn(
         isServiceMap
-          ? `service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
+          ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
           : panelClassName
       )}>
         <BackButton
