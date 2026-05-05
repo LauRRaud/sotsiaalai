@@ -114,7 +114,7 @@ if [ "$SKIP_BUILD" != "1" ]; then
   build_log="$APP_DIR/deploy-build-logs/build-$(date -u +%Y%m%dT%H%M%SZ).log"
   echo "[deploy:server] Build log: $build_log"
 
-  if timeout "$BUILD_TIMEOUT_SECONDS"s npm run build 2>&1 | tee "$build_log"; then
+  if timeout "$BUILD_TIMEOUT_SECONDS"s bash -lc 'npm run prisma:generate && npm run build' 2>&1 | tee "$build_log"; then
     :
   else
     build_status="\${PIPESTATUS[0]}"
