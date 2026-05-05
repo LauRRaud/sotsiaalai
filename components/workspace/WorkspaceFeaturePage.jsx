@@ -212,16 +212,6 @@ function buildPreInquiryDownloadName(topic) {
   return `${slug || "eelpoordumine"}.txt`;
 }
 
-function preInquiryRoleNote(t, role) {
-  if (role === "SOCIAL_WORKER") {
-    return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.social_worker", "Sotsiaaltöötaja vaates saad koostada enda pöördumisi ning näha sulle adresseeritud platvormisiseseid eelpöördumisi, kui vastuvõtt on lubatud.");
-  }
-  if (role === "SERVICE_PROVIDER") {
-    return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.service_provider", "Teenuseosutaja vaates saad koostada päringuid ja näha teenuseprofiiliga seotud saabunud eelpöördumisi. Vastuvõtukanalid seadistatakse teenuseprofiilis.");
-  }
-  return readText(t, "workspace_feature_pages.pre_inquiries.role_notes.client", "Pöörduja vaates on põhivoog olukorra kirjeldamine, sobiva kontakti valimine, mustandi ülevaatus ja enda eelpöördumiste haldus.");
-}
-
 function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
   const chatWindowRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -343,20 +333,22 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
   const conversationItems = useMemo(() => {
     const items = [];
-    items.push(
-      <ChatMessageItem
-        key="pre-inquiry-intro"
-        role="ai"
-        text={assistantMessage || readText(t, "workspace_feature_pages.pre_inquiries.assistant_prompt", "Tere. Kirjelda oma olukorda ning vajadusel küsin täpsustusi KOV-i, kiireloomulisuse ja soovitud tulemuse kohta.")}
-        t={t}
-      />
-    );
     if (situation.trim()) {
       items.push(
         <ChatMessageItem
           key="pre-inquiry-user-situation"
           role="user"
           text={situation}
+          t={t}
+        />
+      );
+    }
+    if (assistantMessage.trim()) {
+      items.push(
+        <ChatMessageItem
+          key="pre-inquiry-assistant-message"
+          role="ai"
+          text={assistantMessage}
           t={t}
         />
       );
@@ -435,7 +427,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }
 
   async function handleSave(event) {
-    event.preventDefault();
+    event?.preventDefault?.();
     if (saving || !situation.trim()) return;
 
     setSaving(true);
@@ -587,24 +579,17 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }
 
   return (
-    <form onSubmit={handleSave} className="mx-auto grid w-full max-w-[62rem] gap-[1rem]">
-      <div className="flex flex-wrap items-center justify-between gap-[0.54rem]">
-        <p className={bodyTextClassName}>
+    <div className="mx-auto grid w-full max-w-[58rem] gap-[0.82rem]">
+      <div className="flex flex-wrap items-center justify-between gap-[0.5rem]">
+        <p className={cn(bodyTextClassName, "text-[0.96rem]")}>
           {`${roleLabel(t, activeRole)} · ${activeInquiryId
             ? readText(t, "workspace_feature_pages.pre_inquiries.editing_existing", "Avatud salvestatud eelpöördumine")
             : readText(t, "workspace_feature_pages.pre_inquiries.creating_new", "Uus eelpöördumine")}`}
         </p>
-        <Button type="button" onClick={handleNewInquiry}>
+        <Button type="button" size="sm" className="w-auto" onClick={handleNewInquiry}>
           {readText(t, "workspace_feature_pages.pre_inquiries.actions.new", "Uus")}
         </Button>
       </div>
-
-      <p className="m-0 rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.88rem] py-[0.62rem] text-[0.98rem] leading-[1.42] opacity-[0.86] light:bg-[rgba(255,255,255,0.62)]">
-        {readText(t, "workspace_feature_pages.pre_inquiries.disclaimer", "Eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist.")}
-      </p>
-      <p className="m-0 rounded-[1rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(255,255,255,0.055)] px-[0.88rem] py-[0.62rem] text-[0.98rem] leading-[1.42] opacity-[0.78] light:bg-[rgba(255,255,255,0.62)]">
-        {preInquiryRoleNote(t, activeRole)}
-      </p>
 
       {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Laen eelpöördumisi...")}</p> : null}
       {error ? (
@@ -619,13 +604,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       ) : null}
 
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
-        <p className={bodyTextClassName}>
-          {readText(
-            t,
-            "workspace_feature_pages.pre_inquiries.assistant_lead",
-            "Kirjelda olukorda oma sõnadega. Mõtle eelkõige viimase aja raskustele, aga lisa ka pikem taust, kui probleem on kestnud kauem või kordub."
-          )}
-        </p>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
             <ConversationView
@@ -653,7 +631,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 hideTools
                 embedded
                 forcePlaceholderVisible
-                placeholderText={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjuta oma vastus...")}
+                placeholderText={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjelda olukorda, piirkonda ja seda, millist abi või vastust vajad.")}
                 acceptAttr=""
                 ensureAnalysisPanelVisible={() => {}}
                 fileInputRef={fileInputRef}
@@ -707,7 +685,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
                 : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
             </p>
-            <Button type="button" disabled={savingPreferences} onClick={handleSavePreferences}>
+            <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
               {savingPreferences
                 ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                 : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
@@ -768,7 +746,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "Sobivaid kontakte ei leitud veel. Kirjelda olukorda vestluses või täpsusta otsingut.")}</p>
           )}
           {recommendedRecipients.length > 3 ? (
-            <Button type="button" className="justify-self-start" onClick={() => setShowMoreContacts((value) => !value)}>
+            <Button type="button" size="sm" className="justify-self-start" onClick={() => setShowMoreContacts((value) => !value)}>
               {showMoreContacts
                 ? readText(t, "workspace_feature_pages.pre_inquiries.actions.show_less_contacts", "Näita vähem")
                 : readText(t, "workspace_feature_pages.pre_inquiries.actions.show_more_contacts", "Vaata rohkem kontakte")}
@@ -784,13 +762,13 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </Label>
         <textarea className={cn(fieldClassName, "min-h-[12rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
-          <Button type="submit" disabled={saving || !situation.trim()}>
+          <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving
               ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
               : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Salvesta")}
           </Button>
-          <Button type="button" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri")}</Button>
-          <Button type="button" disabled={!draft.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
+          <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri")}</Button>
+          <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
         </div>
       </SectionCard>
 
@@ -813,7 +791,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
                     {getPreInquiryChannelLabel(t, inquiry.deliveryChannel)}
                   </span>
-                  <Button type="button" onClick={() => handleOpenInquiry(inquiry)}>
+                  <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
                     {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
                   </Button>
                 </div>
@@ -843,7 +821,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 <span className="rounded-full bg-[rgba(72,146,150,0.12)] px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
                   {inquiry.status || "DRAFT"}
                 </span>
-                <Button type="button" onClick={() => handleOpenInquiry(inquiry)}>
+                <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
                   {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
                 </Button>
               </div>
@@ -853,7 +831,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           )}
         </div>
       </SectionCard>
-    </form>
+    </div>
   );
 }
 
@@ -1463,8 +1441,9 @@ export default function WorkspaceFeaturePage({ feature }) {
   return (
     <section className={shellClassName} lang={locale}>
       <div className={cn(
-        panelClassName,
-        isServiceMap && "service-map-page-panel !max-w-[calc(100vw-1rem)] !max-h-[calc(100dvh-1rem)] !h-[calc(100dvh-1rem)] !rounded-[1.35rem] !overflow-hidden !px-[0.7rem] !pb-[0.7rem]"
+        isServiceMap
+          ? `service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
+          : panelClassName
       )}>
         <BackButton
           onClick={handleBack}
@@ -1479,7 +1458,7 @@ export default function WorkspaceFeaturePage({ feature }) {
           </div>
         </header>
 
-        <div className={cn(contentClassName, isServiceMap && "service-map-page-content !h-[calc(100%-5.15rem)] !max-w-none !px-0 !pt-0 !pb-0")}>
+        <div className={cn(contentClassName, isServiceMap && "service-map-page-content")}>
           {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.5rem] max-[768px]:text-[1.08rem]">{lead}</p> : null}
           {showAdminRoleSelector ? (
             <AdminRoleSelector

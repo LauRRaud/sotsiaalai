@@ -542,7 +542,7 @@
     "back_to_workspace": "Back to workspace",
     "pre_inquiries": {
       "title": "Pre-inquiry",
-      "lead": "Describe your situation and the assistant will help make it clearer and find suitable contacts. You can then prepare an inquiry draft, review it, save it, copy it, or download it.",
+      "lead": "Describe the situation, find a suitable municipality contact or service provider, and prepare a reviewable inquiry draft. A pre-inquiry is not an official needs assessment or decision.",
       "meta": {
         "title": "Pre-inquiry",
         "description": "Create and manage inquiry drafts for a municipality contact or service provider."

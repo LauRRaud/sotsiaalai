@@ -515,7 +515,11 @@ Viimistletud `/eelpoordumised` lehe esimene päris töövoog:
 Viimased UI-korrigeerimised:
 
 - `Vestlus assistendiga` kasutab sama visuaalset vestluse ja sisestusriba mustrit nagu dokumendi koostamise leht;
-- eelpöördumise vestlus ei alga enam ankeetliku kaheveerulise vormina, vaid assistendi sõnumi ja ühe sisestusväljaga;
+- eelpöördumise vestlus ei alga enam ankeetliku kaheveerulise vormina ega vaikimisi assistendi tervitustekstiga, vaid kasutaja kirjeldus käivitab assistendi töövoo;
+- sõnumi sisestus kasutab dokumendi koostamise lehega sama kompaktset `ChatComposer` mustrit, sh nähtav placeholder ja katkise laiuse/paigutuse parandus;
+- lehe alguse tekst on lühendatud üheks juhttekstiks, mis selgitab töövoogu ja ametliku hindamise/otsuse piiri ilma eraldi korduvate infokaartideta;
+- tegevusnupud on muudetud kompaktsemaks, et `Uus`, `Salvesta`, `Kopeeri`, `Laadi alla` ja `Ava` ei võtaks ebaloomulikult laia ruumi;
+- eelpöördumise vorm ei kasuta enam kogu lehte hõlmavat välist `<form>` elementi, et vältida vestluse sisestusribaga tekkivaid pesastatud vorme;
 - kontaktide sektsioon ei kuva tühje või läbipaistvaid tulemuskaarte enne, kui assistent on soovitused leidnud või kasutaja on adressaati otsinud;
 - kontaktikaardid on muudetud loetavaks: tekst on kontrastne, valitud kontakt on selgelt eristatud;
 - rollipõhine sisu on korrigeeritud:
@@ -552,7 +556,7 @@ Assistendi sõnastus jääb ettevaatlikuks:
 
 Viimati edukalt läbitud pärast eelpöördumise lehe viimaseid UI-korrigeerimisi ja teenuseprofiili ümberkujundust:
 
-- `npx eslint components/workspace/WorkspaceFeaturePage.jsx`
+- `npx eslint components/workspace/WorkspaceFeaturePage.jsx lib/preInquiries.js`
 - `npm run i18n:check`
 - `npm run build`
 

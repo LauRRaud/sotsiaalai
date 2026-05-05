@@ -542,7 +542,7 @@
     "back_to_workspace": "Tagasi töölauale",
     "pre_inquiries": {
       "title": "Eelpöördumine",
-      "lead": "Kirjelda oma olukorda ja assistent aitab sul selle selgemaks sõnastada ning leida sobivad kontaktid. Seejärel saad koostada pöördumise mustandi, selle üle vaadata, salvestada, kopeerida või alla laadida.",
+      "lead": "Kirjelda olukorda, leia sobiv KOV kontakt või teenuseosutaja ja koosta kontrollitav pöördumise mustand. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
       "meta": {
         "title": "Eelpöördumine",
         "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."
