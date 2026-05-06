@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import BackButton from "@/components/ui/BackButton";
 import {
   glassPageBackTopLeftClassName,
@@ -11,6 +10,7 @@ import {
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import WorkspaceRoleCycleButton from "@/components/workspace/WorkspaceRoleCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
@@ -85,7 +85,7 @@ function DashboardCardIcon({ type }) {
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
       <path d="M8.3 14.15h7.4c2.25 0 4.05 1.8 4.05 4.05v.35c0 1.2-.97 2.17-2.17 2.17H6.42c-1.2 0-2.17-.97-2.17-2.17v-.35c0-2.25 1.8-4.05 4.05-4.05Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx="12" cy="7.55" r="4.15" stroke="currentColor" strokeWidth="1.55" />
-      <path d="M17.6 7.35h3M19.1 5.85v3" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
+      <path d="M16.95 9.1h3.9M18.9 7.15v3.9" stroke="currentColor" strokeWidth="1.72" strokeLinecap="round" />
     </svg>
   );
 }
@@ -97,12 +97,6 @@ function text(t, key, fallback) {
 function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
   const normalized = String(role || "").trim().toUpperCase();
   return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
-}
-
-function dashboardRoleLabel(t, role) {
-  if (role === "CLIENT") return text(t, "chat.workspace.roles.client", "Pöörduja");
-  if (role === "SERVICE_PROVIDER") return text(t, "chat.workspace.roles.service_provider", "Teenuseosutaja");
-  return text(t, "chat.workspace.roles.social_worker", "Spetsialist");
 }
 
 export default function WorkspacePanel({
@@ -201,10 +195,6 @@ export default function WorkspacePanel({
   const isClientView = activeRole === "CLIENT";
   const isProviderView = activeRole === "SERVICE_PROVIDER";
   const hasPaidAccess = Boolean(isAdmin || subActive);
-  const roleOptions = DASHBOARD_VIEW_ROLES.map(role => ({
-    value: role,
-    label: dashboardRoleLabel(t, role)
-  }));
 
   const makeCard = useCallback(
     (card, { requiresPaid = false } = {}) => ({
@@ -380,13 +370,11 @@ export default function WorkspacePanel({
       />
       {isAdmin ? (
         <div className={styles.roleMenu}>
-          <DocumentsDropdown
-            ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
+          <WorkspaceRoleCycleButton
+            t={t}
             value={dashboardRole}
-            onChange={nextValue => setDashboardRole(normalizeDashboardRole(nextValue))}
-            options={roleOptions}
-            className={styles.roleDropdown}
-            align="end"
+            onChange={nextRole => setDashboardRole(normalizeDashboardRole(nextRole))}
+            ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
           />
         </div>
       ) : null}

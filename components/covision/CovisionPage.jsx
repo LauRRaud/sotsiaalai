@@ -832,7 +832,7 @@ export default function CovisionPage() {
 
         <header className="mb-[0.25rem] flex w-full items-start justify-center gap-[0.75rem]">
           <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-            <h1 className={pageTitleClassName}>Kovisioon ja toimiv praktika</h1>
+            <h1 className={pageTitleClassName}>Kovisioon</h1>
           </div>
         </header>
 

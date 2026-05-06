@@ -15,7 +15,7 @@ export async function generateMetadata() {
   return buildLocalizedMetadata({
     locale,
     pathname: "/kovisioon",
-    title: "Kovisioon ja toimiv praktika",
+    title: "Kovisioon",
     description: "Spetsialistide kinnine kovisiooni tööruum ja toimiva praktika kogum."
   });
 }

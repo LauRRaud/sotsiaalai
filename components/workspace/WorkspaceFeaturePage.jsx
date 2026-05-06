@@ -28,6 +28,7 @@ import { localizePath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
+import WorkspaceRoleCycleButton from "./WorkspaceRoleCycleButton";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
@@ -134,23 +135,15 @@ function Label({ children, className }) {
 }
 
 function AdminRoleSelector({ t, value, onChange }) {
-  const options = ADMIN_WORKSPACE_ROLES.map((role) => ({
-    value: role,
-    label: roleLabel(t, role)
-  }));
-
   return (
-    <label className="workspace-feature-admin-role mx-auto flex w-full max-w-[28rem] flex-wrap items-center justify-center gap-[0.5rem] rounded-[1rem] border px-[0.78rem] py-[0.56rem] text-[0.92rem] font-[640] leading-[1.2]">
-      <span>{readText(t, "workspace_feature_pages.admin_role.label", "Admini tööroll")}</span>
-      <DocumentsDropdown
-        ariaLabel={readText(t, "workspace_feature_pages.admin_role.label", "Admini tĆ¶Ć¶roll")}
+    <div className="workspace-feature-admin-role">
+      <WorkspaceRoleCycleButton
+        t={t}
         value={value}
         onChange={(nextValue) => onChange(normalizeWorkspaceRole(nextValue))}
-        options={options}
-        className="workspace-feature-dropdown workspace-feature-dropdown--admin w-full max-w-[14rem]"
-        align="end"
+        ariaLabel={readText(t, "workspace_feature_pages.admin_role.label", "Admini tööroll")}
       />
-    </label>
+    </div>
   );
 }
 
@@ -1173,6 +1166,12 @@ function ServiceMapSurface({
 
   return (
     <div className="service-map-workspace">
+      <BackButton
+        onClick={onBack}
+        ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+        holdPressedVisualDisabled
+        className="service-map-workspace__mobile-back"
+      />
       <div
         className={cn(
           "service-map-workspace__filters",
@@ -1227,7 +1226,7 @@ function ServiceMapSurface({
                     checked={entryType === value}
                     onChange={(event) => setEntryType(event.target.value)}
                     className={serviceMapChoiceCardClassName}
-                    fitTextLines={1}
+                    fitTextLines={2}
                   >
                     <span className="text-center [text-wrap:balance]">{label}</span>
                   </OptionCard>

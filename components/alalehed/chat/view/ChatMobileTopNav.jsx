@@ -16,11 +16,11 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 
 const CHAT_CREATE_CONVERSATION_EVENT = "sotsiaalai:create-conversation";
 const MOBILE_NAV_ITEMS = [
-  { key: "workspace", scale: 1.02 },
+  { key: "chats", scale: 0.96 },
   { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
-  { key: "chats", scale: 0.96 }
+  { key: "workspace", scale: 1.02 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";

@@ -313,6 +313,11 @@ body:is(
     --chat-window-scroll-top-fade-mid-focus: 0.45rem !important;
     --chat-window-scroll-top-fade-end-focus: 0.82rem !important;
   }
+
+  .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
+    --chat-pad-bottom: 0rem;
+    padding-bottom: 0 !important;
+  }
 }
 
 @media (min-width: 768px) {

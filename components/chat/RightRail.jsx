@@ -345,11 +345,11 @@ export default function RightRail({
       key: "profile",
       label: t("nav.profile")
     }, {
-      key: "workspace",
-      label: t("nav.workspace", "Töölaud")
-    }, {
       key: "rooms",
       label: t("nav.rooms")
+    }, {
+      key: "workspace",
+      label: t("nav.workspace", "Töölaud")
     }];
   }, [t]);
 

@@ -33,32 +33,42 @@
   top: clamp(1rem, 2.2vh, 1.35rem);
   right: clamp(0.8rem, 2vw, 1.15rem);
   z-index: 6;
-  width: min(13rem, calc(100% - 5.6rem));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.roleDropdown {
-  width: 100%;
-}
-
-.roleDropdown :global(.documents-dropdown-trigger) {
-  min-height: 2.7rem;
-  border-radius: 999px;
-  padding: 0.54rem 0.82rem;
+.roleMenu :global(.workspace-role-cycle-button) {
+  display: inline-grid;
+  width: 2.42rem;
+  height: 2.42rem;
+  min-width: 2.42rem;
+  place-items: center;
+  appearance: none;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
-  color: inherit;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--title-color, var(--brand-primary, #8f3d3d));
+  font-size: 1rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
+    0 8px 20px rgba(82, 50, 46, 0.1);
+  cursor: var(--cursor-pointer);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
-.roleDropdown :global(.documents-dropdown-menu) {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 92%, rgba(20, 20, 20, 0.96));
-}
-
-.roleDropdown :global(.documents-dropdown-item) {
-  color: inherit;
+.roleMenu :global(.workspace-role-cycle-button:hover),
+.roleMenu :global(.workspace-role-cycle-button:focus-visible) {
+  background: rgba(255, 255, 255, 0.94);
+  outline: none;
+  transform: translateY(-1px);
 }
 
 .titleWrap {
@@ -261,19 +271,13 @@
   box-shadow: none;
 }
 
-:global(:root.theme-light) .roleDropdown :global(.documents-dropdown-trigger),
-:global(:root.theme-mid) .roleDropdown :global(.documents-dropdown-trigger) {
-  border-color: rgba(122, 58, 56, 0.12);
-  background: rgba(255, 255, 255, 0.7);
+:global(:root.theme-light) .roleMenu :global(.workspace-role-cycle-button),
+:global(:root.theme-mid) .roleMenu :global(.workspace-role-cycle-button) {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--title-color, #8a4b49);
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.05),
+    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
     0 8px 20px rgba(82, 50, 46, 0.08);
-}
-
-:global(:root.theme-light) .roleDropdown :global(.documents-dropdown-menu),
-:global(:root.theme-mid) .roleDropdown :global(.documents-dropdown-menu) {
-  border-color: rgba(122, 58, 56, 0.12);
-  background: rgba(255, 255, 255, 0.96);
 }
 
 :global(:root.theme-light) .cardTitle,
@@ -319,12 +323,20 @@
 }
 
 @media (max-width: 768px) {
+  :global(.chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open) {
+    --chat-pad-bottom: 0rem;
+    padding-bottom: 0 !important;
+  }
+
   .panel {
     width: 100%;
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
     padding:
-      calc(env(safe-area-inset-top, 0px) + 0.1rem)
+      calc(env(safe-area-inset-top, 0px) + 0.08rem)
       clamp(0.22rem, 1.2vw, 0.38rem)
-      max(env(safe-area-inset-bottom, 0px), 0.28rem);
+      calc(env(safe-area-inset-bottom, 0px) + clamp(0.55rem, 1.7vh, 0.9rem));
   }
 
   .title {
@@ -335,31 +347,48 @@
   .roleMenu {
     top: calc(env(safe-area-inset-top, 0px) + 0.44rem);
     right: clamp(0.58rem, 2vw, 0.82rem);
-    width: min(10.8rem, calc(100% - 4.6rem));
+  }
+
+  .roleMenu :global(.workspace-role-cycle-button) {
+    width: 2.26rem;
+    height: 2.26rem;
+    min-width: 2.26rem;
+    font-size: 0.9rem;
   }
 
   .grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
     width: min(100%, 100%);
-    gap: clamp(0.28rem, 0.8vh, 0.4rem);
+    flex: 1 1 0;
+    height: 100%;
+    min-height: 0;
+    margin-top: clamp(0.28rem, 0.82vh, 0.52rem);
+    gap: clamp(0.32rem, 0.9vh, 0.48rem);
     padding: clamp(0.04rem, 0.2vh, 0.08rem) clamp(0.2rem, 1vw, 0.38rem)
-      clamp(0.08rem, 0.4vh, 0.14rem);
+      clamp(0.18rem, 0.7vh, 0.38rem);
   }
 
   .row {
-    grid-template-columns: 1fr;
-    gap: clamp(0.28rem, 0.8vh, 0.4rem);
+    display: contents;
   }
 
   .card {
+    flex: 1 1 0;
     gap: 0.62rem;
-    padding: 0.48rem 0.48rem;
+    min-height: 3.45rem;
+    height: 100%;
+    padding: clamp(0.46rem, 1.05vh, 0.64rem) 0.58rem;
     border-radius: 0.62rem;
     --workspace-card-icon-size: 2.02rem;
   }
 
   .rowSingle .card {
-    grid-template-columns: minmax(0.12rem, 0.18fr) var(--workspace-card-icon-size) auto var(--workspace-card-icon-size) minmax(0.12rem, 0.18fr);
-    column-gap: 0.42rem;
+    display: grid;
+    grid-template-columns: minmax(0.28rem, 0.52rem) var(--workspace-card-icon-size) minmax(0, 1fr);
+    justify-content: stretch;
+    column-gap: 0.62rem;
   }
 
   .cardIcon {
@@ -378,7 +407,18 @@
   }
 
   .rowSingle .card {
-    min-height: 100%;
+    min-height: 3.45rem;
+  }
+
+  .rowSingle .cardCopy {
+    grid-column: 3;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .rowSingle .cardIcon {
+    grid-column: 2;
+    justify-self: center;
   }
 }
 
