@@ -1264,17 +1264,16 @@ function ServiceMapSurface({
             </div>
           </div>
         </div>
-
         <button
-          type="button"
-          className="service-map-workspace__toggle"
-          aria-expanded={panelOpen}
-          aria-label={panelOpen
-            ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
-            : readText(t, "workspace_feature_pages.service_map.actions.show_filters", "Näita filtreid")}
-          onClick={() => setPanelOpen((value) => !value)}
-        >
-          <ServiceMapPanelToggleIcon open={panelOpen} />
+            type="button"
+            className="service-map-workspace__toggle"
+            aria-expanded={panelOpen}
+            aria-label={panelOpen
+              ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
+              : readText(t, "workspace_feature_pages.service_map.actions.show_filters", "Näita filtreid")}
+            onClick={() => setPanelOpen((value) => !value)}
+          >
+            <ServiceMapPanelToggleIcon open={panelOpen} />
         </button>
       </div>
       </div>

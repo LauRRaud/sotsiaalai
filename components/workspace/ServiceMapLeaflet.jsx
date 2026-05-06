@@ -15,7 +15,7 @@ const ESTONIA_FIT_BOUNDS = [
 const DEFAULT_TILE_URL =
   "https://tiles.maaamet.ee/tm/tms/1.0.0/hallkaart@GMC/{z}/{x}/{y}.png&ASUTUS=SOTSIAALAI&KESKKOND=LIVE&IS=TEENUSEKAART";
 
-const DEFAULT_ATTRIBUTION = "Aluskaart: Maa- ja Ruumiamet";
+const DEFAULT_ATTRIBUTION = "Maa- ja Ruumiamet";
 const DEFAULT_LEAFLET_SCRIPT_URL = "/vendor/leaflet/leaflet.js";
 const DEFAULT_LEAFLET_CSS_URL = "/vendor/leaflet/leaflet.css";
 
@@ -238,6 +238,7 @@ export default function ServiceMapLeaflet({
   useEffect(() => {
     let cancelled = false;
     let resizeObserver = null;
+    let resizeFrame = 0;
     const markers = markerRefs.current;
 
     async function initializeMap() {
@@ -255,7 +256,7 @@ export default function ServiceMapLeaflet({
           maxBounds: ESTONIA_BOUNDS,
           maxBoundsViscosity: 1,
           zoomControl: true,
-          attributionControl: true,
+          attributionControl: false,
           worldCopyJump: false
         });
 
@@ -269,6 +270,7 @@ export default function ServiceMapLeaflet({
           updateWhenIdle: true,
           keepBuffer: 3
         }).addTo(map);
+        L.control.attribution({ prefix: false }).addTo(map);
 
         map.fitBounds(ESTONIA_FIT_BOUNDS, { padding: [12, 12] });
         markerLayerRef.current = L.layerGroup().addTo(map);
@@ -277,7 +279,20 @@ export default function ServiceMapLeaflet({
         setReady(true);
 
         resizeObserver = new ResizeObserver(() => {
-          window.requestAnimationFrame(() => map.invalidateSize());
+          if (resizeFrame) window.cancelAnimationFrame(resizeFrame);
+          resizeFrame = window.requestAnimationFrame(() => {
+            resizeFrame = 0;
+            if (
+              cancelled ||
+              mapRef.current !== map ||
+              !containerRef.current ||
+              !map._container ||
+              !map._mapPane
+            ) {
+              return;
+            }
+            map.invalidateSize();
+          });
         });
         resizeObserver.observe(containerRef.current);
       } catch (error) {
@@ -292,6 +307,10 @@ export default function ServiceMapLeaflet({
     return () => {
       cancelled = true;
       resizeObserver?.disconnect();
+      if (resizeFrame) {
+        window.cancelAnimationFrame(resizeFrame);
+        resizeFrame = 0;
+      }
       markers.clear();
       markerLayerRef.current = null;
       if (mapRef.current) {

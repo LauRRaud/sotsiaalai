@@ -30,7 +30,8 @@ export default function HelpListingsPanel({
   onSelectItem,
   detailNode = null,
   onClose,
-  onBackToProfile
+  onBackToProfile,
+  onBackToWorkspace
 }) {
   const { t } = useI18n();
   const ui = getHelpUiText(t);
@@ -137,8 +138,14 @@ export default function HelpListingsPanel({
 
   const handleBackClick = () => {
     setCloseTiltOverride("left");
-    (onBackToProfile || onClose)?.();
+    (onBackToProfile || onBackToWorkspace || onClose)?.();
   };
+
+  const backAriaLabel = onBackToProfile
+    ? t("buttons.back")
+    : onBackToWorkspace
+      ? t("workspace_feature_pages.back_to_workspace")
+      : ui.close;
 
   return createPortal(
     <Modal
@@ -153,7 +160,7 @@ export default function HelpListingsPanel({
       {!hasDetail ? (
         <BackButton
           onClick={handleBackClick}
-          ariaLabel={onBackToProfile ? t("buttons.back") : ui.close}
+          ariaLabel={backAriaLabel}
           className={glassPageBackTopLeftClassName}
         />
       ) : null}

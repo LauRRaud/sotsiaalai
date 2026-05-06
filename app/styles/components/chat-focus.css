@@ -126,6 +126,7 @@ body:is(
   min-width: 0;
 }
 
+.invite-modal-overlay.person-invite-modal-overlay,
 .help-listings-modal-overlay,
 .selected-listing-modal-overlay {
   display: grid !important;
@@ -135,6 +136,7 @@ body:is(
   align-items: start !important;
 }
 
+.invite-modal-content.person-invite-modal-content,
 .help-listings-modal-content,
 .selected-listing-modal-content {
   justify-self: center !important;

@@ -170,8 +170,8 @@
 }
 
 .iconWorkspace {
-  width: calc(100% * (var(--rail-icon-scale) + 0.05));
-  height: calc(100% * (var(--rail-icon-scale) + 0.05));
+  width: calc(100% * (var(--rail-icon-scale) + 0.1));
+  height: calc(100% * (var(--rail-icon-scale) + 0.1));
 }
 
 .iconWorkspaceOpen {

@@ -87,8 +87,8 @@ export function RoomsIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
-export function AddPersonIcon({ isLightTheme = false, className, ...props }) {
-  const stroke = resolveThemeColor(isLightTheme);
+export function AddPersonIcon({ isLightTheme = false, className, strokeColor, ...props }) {
+  const stroke = strokeColor || resolveThemeColor(isLightTheme);
   return (
     <svg
       viewBox="0 0 24 24"
@@ -182,7 +182,13 @@ export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
-export function WorkspaceIcon({ isLightTheme = false, className, ...props }) {
+export function WorkspaceIcon({
+  isLightTheme = false,
+  className,
+  outerStrokeWidth = 1.55,
+  innerStrokeWidth = 1.45,
+  ...props
+}) {
   const stroke = resolveThemeColor(isLightTheme);
   return (
     <svg
@@ -200,31 +206,31 @@ export function WorkspaceIcon({ isLightTheme = false, className, ...props }) {
         height="15.7"
         rx="2.25"
         stroke={stroke}
-        strokeWidth="1.55"
+        strokeWidth={outerStrokeWidth}
         strokeLinejoin="round"
       />
       <path
         d="M7.15 8.05h3.65v3.2H7.15v-3.2Z"
         stroke={stroke}
-        strokeWidth="1.45"
+        strokeWidth={innerStrokeWidth}
         strokeLinejoin="round"
       />
       <path
         d="M13.2 8.05h3.65v3.2H13.2v-3.2Z"
         stroke={stroke}
-        strokeWidth="1.45"
+        strokeWidth={innerStrokeWidth}
         strokeLinejoin="round"
       />
       <path
         d="M7.15 13.25h3.65v3.2H7.15v-3.2Z"
         stroke={stroke}
-        strokeWidth="1.45"
+        strokeWidth={innerStrokeWidth}
         strokeLinejoin="round"
       />
       <path
         d="M13.2 13.25h3.65v3.2H13.2v-3.2Z"
         stroke={stroke}
-        strokeWidth="1.45"
+        strokeWidth={innerStrokeWidth}
         strokeLinejoin="round"
       />
     </svg>

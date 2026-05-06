@@ -19,7 +19,6 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/hinnastus",
   "/voimalused"
 ]);
-
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -95,6 +94,7 @@ const BackgroundContent = memo(function BackgroundContent({
   isLightTheme = false,
   isHomepage = false,
   showColorBends = true,
+  showParticles = true,
   colorBendsColors = ["#7e4442"]
 }) {
   const layerRef = useRef(null);
@@ -112,7 +112,7 @@ const BackgroundContent = memo(function BackgroundContent({
     displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
   const mobileBackgroundMode = mobileLike || browserMobileMode;
   const mobileColorBendsPhase = 14;
-  const allowParticles = deviceProfileReady;
+  const allowParticles = showParticles && deviceProfileReady;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
   // Mobile browser chrome and the homepage's inner scroll container make this
   // parallax feel unstable, so keep particles static there.

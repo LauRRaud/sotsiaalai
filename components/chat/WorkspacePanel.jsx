@@ -8,6 +8,7 @@ import {
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
+import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import WorkspaceRoleCycleButton from "@/components/workspace/WorkspaceRoleCycleButton";
@@ -71,6 +72,9 @@ function DashboardCardIcon({ type }) {
         <path d="M21.1 18.9v-1.7c0-1.55-1.35-2.9-3.3-3.3M15.3 3.9a3.2 3.2 0 0 1-.08 6.4" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
+  }
+  if (type === "invite") {
+    return <AddPersonIcon strokeColor="currentColor" />;
   }
   if (type === "materials") {
     return (

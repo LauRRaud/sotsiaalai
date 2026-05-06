@@ -30,6 +30,7 @@ import ChatBodyView from "./chat/ChatBodyView";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
+import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
 const useIsomorphicLayoutEffect =
@@ -1159,6 +1160,18 @@ export default function ChatBody({
       }
     });
   }, [closeListingsPanel, openProfileDirect]);
+  const backToWorkspaceFromListingsPanel = useCallback(() => {
+    closeListingsPanel({
+      afterClose: () => {
+        setWorkspaceOpen(true);
+        setShowSourcesPanel(false);
+        setInputFocused(false);
+        try {
+          inputRef.current?.blur?.();
+        } catch {}
+      }
+    });
+  }, [closeListingsPanel, setShowSourcesPanel]);
   const openSelectedListing = useCallback(async (item) => {
     const kind = String(item?.kind || "").trim().toLowerCase();
     const id = String(item?.id || "").trim();
@@ -1391,50 +1404,58 @@ export default function ChatBody({
       }));
     }
   }, [activeListingsPanel, closeListingsPanel, dismissSelectedListing, helpUi.connectFailed, locale, router, selectedListingState.listing, selectedListingState.selectedConnectListingId]);
-  const openGlobalRequestsPanel = useCallback(() => {
+  const openGlobalRequestsPanel = useCallback((source = "chat") => {
+    const returnTarget = getHelpListingsReturnTarget(source);
     openListingsPanel({
       key: "help_requests",
       side: "left",
       kind: "request",
       scope: "global",
       status: "OPEN",
-      returnToProfile: false,
+      returnToProfile: returnTarget === "profile",
+      returnToWorkspace: returnTarget === "workspace",
       title: helpUi.helpRequests,
       emptyText: helpUi.emptyGlobalRequests
     });
   }, [helpUi.emptyGlobalRequests, helpUi.helpRequests, openListingsPanel]);
-  const openGlobalOffersPanel = useCallback(() => {
+  const openGlobalOffersPanel = useCallback((source = "chat") => {
+    const returnTarget = getHelpListingsReturnTarget(source);
     openListingsPanel({
       key: "help_offers",
       side: "left",
       kind: "offer",
       scope: "global",
       status: "OPEN",
-      returnToProfile: false,
+      returnToProfile: returnTarget === "profile",
+      returnToWorkspace: returnTarget === "workspace",
       title: helpUi.helpOffers,
       emptyText: helpUi.emptyGlobalOffers
     });
   }, [helpUi.emptyGlobalOffers, helpUi.helpOffers, openListingsPanel]);
   const openMyRequestsPanel = useCallback((source = "chat") => {
+    const returnTarget = getHelpListingsReturnTarget(source);
     openListingsPanel({
       key: "help_requests",
       side: "left",
       kind: "request",
       scope: "global",
       status: "OPEN",
-      returnToProfile: source === "profile",
+      returnToProfile: returnTarget === "profile",
+      returnToWorkspace: returnTarget === "workspace",
       title: helpUi.helpRequests,
       emptyText: helpUi.emptyGlobalRequests
     });
   }, [helpUi.emptyGlobalRequests, helpUi.helpRequests, openListingsPanel]);
   const openMyOffersPanel = useCallback((source = "chat") => {
+    const returnTarget = getHelpListingsReturnTarget(source);
     openListingsPanel({
       key: "help_offers",
       side: "left",
       kind: "offer",
       scope: "global",
       status: "OPEN",
-      returnToProfile: source === "profile",
+      returnToProfile: returnTarget === "profile",
+      returnToWorkspace: returnTarget === "workspace",
       title: helpUi.helpOffers,
       emptyText: helpUi.emptyGlobalOffers
     });
@@ -1449,11 +1470,11 @@ export default function ChatBody({
       return;
     }
     if (panelKey === "help_requests") {
-      openGlobalRequestsPanel();
+      openGlobalRequestsPanel(source);
       return;
     }
     if (panelKey === "help_offers") {
-      openGlobalOffersPanel();
+      openGlobalOffersPanel(source);
     }
   }, [openGlobalOffersPanel, openGlobalRequestsPanel, openMyOffersPanel, openMyRequestsPanel]);
   useEffect(() => {
@@ -1739,6 +1760,7 @@ export default function ChatBody({
       isClosing={listingsPanelClosing}
       onClose={closeListingsPanel}
       onBackToProfile={activeListingsPanel?.returnToProfile ? backToProfileFromListingsPanel : undefined}
+      onBackToWorkspace={activeListingsPanel?.returnToWorkspace ? backToWorkspaceFromListingsPanel : undefined}
       onLoadMore={() => loadListingsPanel(activeListingsPanel, { append: true })}
       onSelectItem={openSelectedListing}
       detailNode={inlineSelectedListingNode}

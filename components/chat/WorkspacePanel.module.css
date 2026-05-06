@@ -60,15 +60,13 @@
   transition:
     background 160ms ease,
     color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
+    box-shadow 160ms ease;
 }
 
 .roleMenu :global(.workspace-role-cycle-button:hover),
 .roleMenu :global(.workspace-role-cycle-button:focus-visible) {
   background: rgba(255, 255, 255, 0.94);
   outline: none;
-  transform: translateY(-1px);
 }
 
 .titleWrap {
@@ -142,8 +140,7 @@
   cursor: var(--cursor-pointer);
   transition:
     background 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
+    box-shadow 160ms ease;
 }
 
 .card::after {
@@ -159,7 +156,6 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.16),
     0 14px 28px rgba(0, 0, 0, 0.13);
   outline: none;
-  transform: translateY(-1px);
 }
 
 .cardDisabled,
