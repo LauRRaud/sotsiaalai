@@ -97,17 +97,20 @@ if systemctl is-active --quiet sotsiaalai-frontend.service; then
   frontend_was_active="1"
 fi
 
+if [ -f "$FRONTEND_ENV" ]; then
+  set -a
+  . "$FRONTEND_ENV"
+  set +a
+fi
+
+echo "[deploy:server] Applying Prisma migrations"
+npx prisma migrate deploy
+
 if [ "$SKIP_BUILD" != "1" ]; then
   if [ "$frontend_was_active" = "1" ]; then
     echo "[deploy:server] Stopping frontend before in-place build"
     sudo systemctl stop sotsiaalai-frontend.service
     frontend_stopped_for_build="1"
-  fi
-
-  if [ -f "$FRONTEND_ENV" ]; then
-    set -a
-    . "$FRONTEND_ENV"
-    set +a
   fi
 
   mkdir -p "$APP_DIR/deploy-build-logs"

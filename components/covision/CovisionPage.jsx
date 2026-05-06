@@ -40,14 +40,14 @@ const shellClassName =
   "relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(76rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
+  `documents-workspace workspace-feature-panel relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(56rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
   `max-[768px]:!max-w-none max-[768px]:rounded-[1.35rem] max-[768px]:px-[0.78rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
 
 const bodyClassName =
-  "mx-auto grid w-full max-w-[72rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem]";
+  "mx-auto grid w-full max-w-[52rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem]";
 
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -384,6 +384,16 @@ export default function CovisionPage() {
   const [riskLabel, setRiskLabel] = useState(COVISION_RISK_OPTIONS[0] || "");
   const [riskSeverity, setRiskSeverity] = useState("medium");
 
+  const covisionFetch = useCallback((url, options = {}) => {
+    return fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        "x-ui-locale": locale
+      }
+    });
+  }, [locale]);
+
   const selectedPartyGroup = useMemo(
     () => COVISION_PARTY_GROUPS.find((group) => group.category === partyCategory) || COVISION_PARTY_GROUPS[0],
     [partyCategory]
@@ -399,7 +409,7 @@ export default function CovisionPage() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/covision", { cache: "no-store" });
+      const response = await covisionFetch("/api/covision", { cache: "no-store" });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
         throw new Error(payload?.message || "Kovisiooni tööruumi laadimine ebaõnnestus.");
@@ -413,7 +423,7 @@ export default function CovisionPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [covisionFetch]);
 
   useEffect(() => {
     void loadWorkspace();
@@ -486,7 +496,7 @@ export default function CovisionPage() {
     setError("");
     setNotice("");
     try {
-      const response = await fetch(`/api/covision/${encodeURIComponent(item.id)}`, { cache: "no-store" });
+      const response = await covisionFetch(`/api/covision/${encodeURIComponent(item.id)}`, { cache: "no-store" });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload?.message || "Kovisiooni avamine ebaõnnestus.");
       setActiveCase(payload.case);
@@ -618,7 +628,7 @@ export default function CovisionPage() {
   async function runAnonymityCheck() {
     setError("");
     try {
-      const response = await fetch("/api/covision/assist", {
+      const response = await covisionFetch("/api/covision/assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -641,7 +651,7 @@ export default function CovisionPage() {
   async function runQuestionAssist() {
     setError("");
     try {
-      const response = await fetch("/api/covision/assist", {
+      const response = await covisionFetch("/api/covision/assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -673,7 +683,7 @@ export default function CovisionPage() {
       anonymityConfirmed: Boolean(caseForm.anonymityConfirmed)
     };
     try {
-      const response = await fetch(caseForm.id ? `/api/covision/${encodeURIComponent(caseForm.id)}` : "/api/covision", {
+      const response = await covisionFetch(caseForm.id ? `/api/covision/${encodeURIComponent(caseForm.id)}` : "/api/covision", {
         method: caseForm.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -698,7 +708,7 @@ export default function CovisionPage() {
     setSaving(true);
     setError("");
     try {
-      const response = await fetch(`/api/covision/${encodeURIComponent(activeCase.id)}/messages`, {
+      const response = await covisionFetch(`/api/covision/${encodeURIComponent(activeCase.id)}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messageType, body: messageBody })
@@ -722,7 +732,7 @@ export default function CovisionPage() {
     if (!activeCase?.id) return;
     setError("");
     try {
-      const response = await fetch("/api/covision/assist", {
+      const response = await covisionFetch("/api/covision/assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "summary", caseId: activeCase.id })
@@ -741,7 +751,7 @@ export default function CovisionPage() {
     setSaving(true);
     setError("");
     try {
-      const response = await fetch(`/api/covision/${encodeURIComponent(activeCase.id)}/summary`, {
+      const response = await covisionFetch(`/api/covision/${encodeURIComponent(activeCase.id)}/summary`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(summaryForm)
@@ -766,7 +776,7 @@ export default function CovisionPage() {
     if (!activeCase?.id) return;
     setError("");
     try {
-      const response = await fetch("/api/covision/assist", {
+      const response = await covisionFetch("/api/covision/assist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "practice", caseId: activeCase.id })
@@ -801,7 +811,7 @@ export default function CovisionPage() {
       tags: splitTags(practiceForm.tagText)
     };
     try {
-      const response = await fetch(practiceForm.id ? `/api/covision/effective-practices/${encodeURIComponent(practiceForm.id)}` : "/api/covision/effective-practices", {
+      const response = await covisionFetch(practiceForm.id ? `/api/covision/effective-practices/${encodeURIComponent(practiceForm.id)}` : "/api/covision/effective-practices", {
         method: practiceForm.id ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
