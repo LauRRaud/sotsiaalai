@@ -257,7 +257,6 @@
 
 .card,
 .suggestionCard,
-.choice,
 .chip {
   transition:
     background-color 180ms ease,
@@ -269,7 +268,6 @@
 
 .card:hover,
 .suggestionCard:hover,
-.choice:hover,
 .chip:hover {
   background: var(--covision-card-hover-bg) !important;
   border-color: var(--covision-card-border-strong) !important;
@@ -301,8 +299,7 @@
 
 .tag,
 .statusBadge,
-.chip,
-.choice {
+.chip {
   border-width: var(--covision-card-border-width) !important;
   border-color: var(--covision-chip-border) !important;
   background: var(--covision-chip-bg) !important;
@@ -310,13 +307,12 @@
   opacity: 1 !important;
 }
 
-.statusBadge {
-  color: var(--covision-strong-text) !important;
+.choice {
+  opacity: 1 !important;
+  font-weight: 500;
 }
 
-.choiceActive {
-  border-color: var(--covision-chip-active-border) !important;
-  background: var(--covision-chip-active-bg) !important;
+.statusBadge {
   color: var(--covision-strong-text) !important;
 }
 
@@ -327,6 +323,34 @@
 
 .discussionForm {
   border-color: var(--covision-divider) !important;
+}
+
+.cancelButton {
+  min-height: 2.72rem !important;
+  border: var(--seg-card-border-width, 1px) solid var(--seg-card-border) !important;
+  border-radius: 1.6rem !important;
+  background: var(--seg-card-bg) !important;
+  color: var(--seg-card-text) !important;
+  box-shadow: var(--seg-card-shadow) !important;
+  padding: 0.64rem 1.05rem !important;
+  font-size: 1.06rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.022em !important;
+}
+
+.cancelButton:hover,
+.cancelButton:focus-visible {
+  border-color: var(--seg-card-border-hover, var(--seg-card-border)) !important;
+  background: var(--seg-card-bg-hover, var(--seg-card-bg)) !important;
+  color: var(--seg-card-text-hover, var(--seg-card-text)) !important;
+  box-shadow: var(--seg-card-shadow-hover, var(--seg-card-shadow)) !important;
+}
+
+.cancelButton:active {
+  border-color: var(--seg-card-border-active, var(--seg-card-border-selected, var(--seg-card-border-hover, var(--seg-card-border)))) !important;
+  background: var(--seg-card-bg-active, var(--seg-card-bg-selected, var(--seg-card-bg-hover, var(--seg-card-bg)))) !important;
+  color: var(--seg-card-text-selected, var(--seg-card-text-hover, var(--seg-card-text))) !important;
+  box-shadow: var(--seg-card-shadow-active, var(--seg-card-shadow-selected, var(--seg-card-shadow-hover, var(--seg-card-shadow)))) !important;
 }
 
 .field,

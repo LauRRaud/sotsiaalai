@@ -7,9 +7,11 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Input from "@/components/ui/Input";
+import OptionCard from "@/components/ui/OptionCard";
 import Panel from "@/components/ui/Panel";
 import Textarea from "@/components/ui/Textarea";
 import { cn } from "@/components/ui/cn";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import styles from "./CovisionPage.module.css";
 import {
   glassPageBackTopLeftClassName,
@@ -56,11 +58,13 @@ const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 
 const primaryButtonClassName = "documents-primary-button";
-const secondaryButtonClassName = "documents-secondary-button";
+const secondaryButtonClassName = cn(styles.cancelButton, "documents-secondary-button");
 const compactPrimaryButtonClassName =
   "documents-primary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 const dangerButtonClassName =
   "documents-danger-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+const choiceCardClassName =
+  `${primarySegmentedButtonClassName} inline-flex min-h-[2.72rem] items-center justify-center rounded-[1.6rem] border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] px-[1.05rem] py-[0.64rem] text-[1.06rem] leading-[1.2] tracking-[0.022em] text-[color:var(--seg-card-text)] shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:[background:var(--seg-card-bg-hover,var(--seg-card-bg))] hover:border-[color:var(--seg-card-border-hover,var(--seg-card-border))] hover:text-[color:var(--seg-card-text-hover,var(--seg-card-text))] hover:shadow-[var(--seg-card-shadow-hover,var(--seg-card-shadow))] active:[background:var(--seg-card-bg-active,var(--seg-card-bg-selected,var(--seg-card-bg-hover,var(--seg-card-bg))))] active:border-[color:var(--seg-card-border-active,var(--seg-card-border-selected,var(--seg-card-border-hover,var(--seg-card-border))))] active:text-[color:var(--seg-card-text-selected,var(--seg-card-text-hover,var(--seg-card-text)))] active:shadow-[var(--seg-card-shadow-active,var(--seg-card-shadow-selected,var(--seg-card-shadow-hover,var(--seg-card-shadow))))] text-center max-[768px]:min-h-[2.9rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.98rem] max-[768px]:py-[0.68rem] max-[768px]:text-[1.08rem]`;
 
 const sectionHeadingClassName =
   cn(styles.heading, "m-0 text-[1.14rem] font-[680] leading-[1.18] tracking-[0]");
@@ -237,23 +241,23 @@ function MultiChoice({ options, value, onChange }) {
         const label = option.label || option;
         const active = selected.has(optionValue);
         return (
-          <button
-            type="button"
+          <OptionCard
+            type="checkbox"
             key={optionValue}
-            onClick={() => {
+            value={optionValue}
+            checked={active}
+            showIndicator={false}
+            fitTextLines={1}
+            onChange={() => {
               const next = new Set(selected);
               if (next.has(optionValue)) next.delete(optionValue);
               else next.add(optionValue);
               onChange([...next]);
             }}
-            className={cn(
-              styles.choice,
-              active ? styles.choiceActive : null,
-              "inline-flex min-h-[2.25rem] items-center rounded-full border px-[0.78rem] py-[0.32rem] text-[0.9rem] font-[640] leading-[1.12]"
-            )}
+            className={cn(styles.choice, choiceCardClassName)}
           >
-            {label}
-          </button>
+            <span className="text-center [text-wrap:balance]">{label}</span>
+          </OptionCard>
         );
       })}
     </div>

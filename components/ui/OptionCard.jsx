@@ -28,6 +28,7 @@ export default function OptionCard({
   disabled = false,
   className,
   children,
+  showIndicator = true,
   fitTextLines,
   fitTextMinPx = 16,
   fitTextMaxPx,
@@ -37,7 +38,7 @@ export default function OptionCard({
   const resolvedRef = inputRef || internalRef;
   const textRef = useRef(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
-  const indicator = type === "checkbox" ? <span aria-hidden="true" className={`${checkboxIndicator} shrink-0`}>
+  const indicator = type === "checkbox" && showIndicator ? <span aria-hidden="true" className={`${checkboxIndicator} shrink-0`}>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[var(--seg-check-size,18px)] w-[var(--seg-check-size,18px)] scale-100 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M6 12.5l4 4 8-8" />
         </svg>
