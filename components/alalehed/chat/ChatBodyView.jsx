@@ -80,6 +80,7 @@ export default function ChatBodyView({
   userRole,
   userActualRole,
   isAdmin = false,
+  subActive = false,
   onStop,
   onSend,
   onActivateInfoMode,
@@ -166,6 +167,7 @@ export default function ChatBodyView({
                   userRole={userRole}
                   userActualRole={userActualRole}
                   isAdmin={isAdmin}
+                  subActive={subActive}
                   onClose={onWorkspaceClose}
                 />
               ) : null}

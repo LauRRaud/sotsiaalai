@@ -2136,6 +2136,7 @@ export default function ChatBody({
       userRole={userRole}
       userActualRole={userActualRole}
       isAdmin={userIsAdmin}
+      subActive={Boolean(session?.user?.isAdmin || session?.subActive)}
       onStop={stop}
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}

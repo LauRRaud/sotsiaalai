@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import BackButton from "@/components/ui/BackButton";
 import {
   glassPageBackTopLeftClassName,
@@ -13,6 +14,11 @@ import { pushWithTransition } from "@/lib/routeTransition";
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const DASHBOARD_VIEW_ROLES = Object.freeze([
+  "CLIENT",
+  "SOCIAL_WORKER",
+  "SERVICE_PROVIDER"
+]);
 
 function DashboardCardIcon({ type }) {
   if (type === "document") {
@@ -87,15 +93,35 @@ function text(t, key, fallback) {
   return typeof t === "function" ? t(key, fallback) : fallback;
 }
 
+function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
+  const normalized = String(role || "").trim().toUpperCase();
+  return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
+}
+
+function dashboardRoleLabel(t, role) {
+  if (role === "CLIENT") return text(t, "chat.workspace.roles.client", "Pöörduja");
+  if (role === "SERVICE_PROVIDER") return text(t, "chat.workspace.roles.service_provider", "Teenuseosutaja");
+  return text(t, "chat.workspace.roles.social_worker", "Spetsialist");
+}
+
 export default function WorkspacePanel({
   t,
   locale = "et",
   userRole = "",
   userActualRole = "",
   isAdmin = false,
+  subActive = false,
   onClose
 }) {
   const router = useRouter();
+  const defaultDashboardRole = useMemo(() => {
+    const actualRole = String(userActualRole || "").trim().toUpperCase();
+    const currentRole = String(userRole || "").trim().toUpperCase();
+    if (DASHBOARD_VIEW_ROLES.includes(actualRole)) return actualRole;
+    if (DASHBOARD_VIEW_ROLES.includes(currentRole)) return currentRole;
+    return "SOCIAL_WORKER";
+  }, [userActualRole, userRole]);
+  const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
 
   const transitionOptions = useMemo(
     () => ({
@@ -154,6 +180,10 @@ export default function WorkspacePanel({
   }, []);
 
   useEffect(() => {
+    setDashboardRole(defaultDashboardRole);
+  }, [defaultDashboardRole]);
+
+  useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const onKeyDown = event => {
       if (event.key !== "Escape") return;
@@ -164,82 +194,113 @@ export default function WorkspacePanel({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
 
-  const providerRole =
-    String(userActualRole || userRole || "").trim().toUpperCase() === "SERVICE_PROVIDER";
-  const canUseServiceProfile = Boolean(isAdmin || providerRole);
+  const activeRole = isAdmin
+    ? dashboardRole
+    : normalizeDashboardRole(userActualRole || userRole || "", "CLIENT");
+  const isClientView = activeRole === "CLIENT";
+  const isProviderView = activeRole === "SERVICE_PROVIDER";
+  const hasPaidAccess = Boolean(isAdmin || subActive);
+  const roleOptions = DASHBOARD_VIEW_ROLES.map(role => ({
+    value: role,
+    label: dashboardRoleLabel(t, role)
+  }));
 
-  const cards = [
-    {
-      key: "documents",
-      icon: "document",
-      title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
-      meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
-      onClick: () => navigateTo("/documents")
-    },
-    {
-      key: "document_drafting",
-      icon: "compose",
-      title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-      meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tööruum"),
-      onClick: () => navigateTo("/dokreziim")
-    },
-    {
-      key: "pre_inquiries",
-      icon: "compose",
-      title: text(t, "chat.workspace.cards.pre_inquiries.title", "Eelpöördumine"),
-      meta: text(t, "chat.workspace.cards.pre_inquiries.meta", "Pöördumise mustand"),
-      onClick: () => navigateTo("/eelpoordumised")
-    },
-    {
-      key: "help_requests",
-      icon: "help-request",
-      title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
-      meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
-      onClick: () => openHelpPanel("help_requests")
-    },
-    {
-      key: "help_offers",
-      icon: "help-offer",
-      title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
-      meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
-      onClick: () => openHelpPanel("help_offers")
-    },
-    {
-      key: "add_person",
-      icon: "invite",
-      title: text(t, "chat.workspace.cards.add_person.title", text(t, "nav.add_person", "Lisa inimene")),
-      meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
-      onClick: openInvite
-    },
-    {
-      key: "service_map",
-      icon: "map",
-      title: text(t, "chat.workspace.cards.service_map.title", "Teenusekaart"),
-      meta: text(t, "chat.workspace.cards.service_map.meta", "Kaardivaade"),
-      onClick: () => navigateTo("/teenusekaart")
-    },
-    {
-      key: "kovision",
-      icon: "room",
-      title: text(t, "chat.workspace.cards.kovision.title", "Kovisioon"),
-      meta: text(t, "chat.workspace.cards.kovision.meta", "Ruumid"),
-      onClick: () => navigateTo("/ruum")
-    },
-    {
-      key: "materials",
-      icon: "materials",
-      title: text(t, "chat.workspace.cards.materials.title", "Materjalide lisamine"),
-      meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
-      onClick: () => navigateTo("/materjalid")
-    },
-    ...(canUseServiceProfile
-      ? [{
-          key: "service_profile",
-          icon: "profile",
-          title: text(t, "chat.workspace.cards.service_profile.title", "Teenuseprofiil"),
-          meta: text(t, "chat.workspace.cards.service_profile.meta_provider", "Teenuseosutaja"),
-          onClick: () => navigateTo("/teenuseprofiil")
-        }]
+  const makeCard = useCallback(
+    (card, { requiresPaid = false } = {}) => ({
+      ...card,
+      disabled: Boolean(requiresPaid && !hasPaidAccess)
+    }),
+    [hasPaidAccess]
+  );
+
+  const cardRows = [
+    [
+      makeCard({
+        key: "help_requests",
+        icon: "help-request",
+        title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
+        meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
+        onClick: () => openHelpPanel("help_requests")
+      }),
+      makeCard({
+        key: "help_offers",
+        icon: "help-offer",
+        title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
+        meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
+        onClick: () => openHelpPanel("help_offers")
+      })
+    ],
+    [
+      makeCard({
+        key: "service_map",
+        icon: "map",
+        title: text(t, "chat.workspace.cards.service_map.title", "Teenusekaart"),
+        meta: text(t, "chat.workspace.cards.service_map.meta", "Kaardivaade"),
+        onClick: () => navigateTo("/teenusekaart")
+      }),
+      ...(isProviderView
+        ? [makeCard({
+            key: "service_profile",
+            icon: "profile",
+            title: text(t, "chat.workspace.cards.service_profile.title", "Teenuseprofiil"),
+            meta: text(t, "chat.workspace.cards.service_profile.meta", "Profiil"),
+            onClick: () => navigateTo("/teenuseprofiil")
+          }, { requiresPaid: true })]
+        : [])
+    ],
+    [
+      makeCard({
+        key: "documents",
+        icon: "document",
+        title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
+        meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
+        onClick: () => navigateTo("/documents")
+      }, { requiresPaid: true }),
+      makeCard({
+        key: "document_drafting",
+        icon: "compose",
+        title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+        meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+        onClick: () => navigateTo("/dokreziim")
+      }, { requiresPaid: true })
+    ],
+    [
+      makeCard({
+        key: "pre_inquiries",
+        icon: "compose",
+        title: isClientView
+          ? text(t, "chat.workspace.cards.pre_inquiries.title_client", "Eelpöördumine")
+          : text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
+        meta: isClientView
+          ? text(t, "chat.workspace.cards.pre_inquiries.meta_client", "Pöördumise mustand")
+          : text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
+        onClick: () => navigateTo("/eelpoordumised")
+      }, { requiresPaid: true }),
+      makeCard({
+        key: "add_person",
+        icon: "invite",
+        title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
+        meta: text(t, "chat.workspace.cards.add_person.meta", text(t, "nav.add_person", "Lisa inimene")),
+        onClick: openInvite
+      }, { requiresPaid: true })
+    ],
+    ...(!isClientView
+      ? [[
+          makeCard({
+            key: "kovision",
+            icon: "room",
+            title: text(t, "chat.workspace.cards.kovision.title", "Kovisioon"),
+            meta: text(t, "chat.workspace.cards.kovision.meta", "Ruumid"),
+            onClick: () => navigateTo("/ruum")
+          }, { requiresPaid: true }),
+          makeCard({
+            key: "materials",
+            icon: "materials",
+            title: text(t, "chat.workspace.cards.materials.title", "Materjalid"),
+            meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
+            onClick: () => navigateTo("/materjalid")
+          }, { requiresPaid: true })
+        ]]
       : [])
   ];
 
@@ -255,6 +316,18 @@ export default function WorkspacePanel({
         holdPressedVisualDisabled
         className={cn(glassPageBackTopLeftClassName, styles.backButton)}
       />
+      {isAdmin ? (
+        <div className={styles.roleMenu}>
+          <DocumentsDropdown
+            ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
+            value={dashboardRole}
+            onChange={nextValue => setDashboardRole(normalizeDashboardRole(nextValue))}
+            options={roleOptions}
+            className={styles.roleDropdown}
+            align="end"
+          />
+        </div>
+      ) : null}
       <header className={styles.titleWrap}>
         <h1 id="chat-workspace-title" className={cn(glassPageTitleClassName, styles.title)}>
           {text(t, "chat.workspace.title", "Töölaud")}
@@ -262,21 +335,34 @@ export default function WorkspacePanel({
       </header>
 
       <div className={styles.grid}>
-        {cards.map(card => (
-          <button
-            key={card.key}
-            type="button"
-            className={cn(styles.card, styles[`card_${card.key}`])}
-            onClick={card.onClick}
+        {cardRows.map((row, index) => (
+          <div
+            key={`row-${index + 1}`}
+            className={cn(styles.row, row.length === 1 && styles.rowSingle)}
           >
-            <span className={styles.cardIcon} aria-hidden="true">
-              <DashboardCardIcon type={card.icon} />
-            </span>
-            <span className={styles.cardCopy}>
-              <span className={styles.cardTitle}>{card.title}</span>
-              <span className={styles.cardMeta}>{card.meta}</span>
-            </span>
-          </button>
+            {row.map(card => (
+              <button
+                key={card.key}
+                type="button"
+                className={cn(styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
+                onClick={card.disabled ? undefined : card.onClick}
+                disabled={card.disabled}
+                aria-disabled={card.disabled ? "true" : "false"}
+              >
+                <span className={styles.cardIcon} aria-hidden="true">
+                  <DashboardCardIcon type={card.icon} />
+                </span>
+                <span className={styles.cardCopy}>
+                  <span className={styles.cardTitle}>{card.title}</span>
+                  <span className={styles.cardMeta}>
+                    {card.disabled
+                      ? text(t, "chat.workspace.cards.locked_meta", "Tasuline pakett")
+                      : card.meta}
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
         ))}
       </div>
     </section>

@@ -6,10 +6,12 @@ import { useSession } from "next-auth/react";
 import ChatComposer from "@/components/alalehed/chat/ChatComposer";
 import ChatMessageItem from "@/components/alalehed/chat/ChatMessageItem";
 import ConversationView from "@/components/alalehed/chat/ConversationView";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
+import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
@@ -59,7 +61,7 @@ const bodyTextClassName =
   "m-0 text-[1.02rem] leading-[1.52] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]";
 
 const fieldClassName =
-  "workspace-feature-field min-h-[3rem] rounded-[0.86rem] border px-[0.82rem] py-[0.62rem] text-[1rem] leading-[1.3]";
+  "documents-field workspace-feature-field min-h-[3rem] rounded-[0.86rem] border px-[0.96rem] py-[0.68rem] text-[1rem] leading-[1.3]";
 
 const chipClassName =
   "workspace-feature-chip inline-flex min-h-[2.42rem] items-center justify-center rounded-full border px-[0.82rem] py-[0.36rem] text-[0.96rem] font-[600] leading-[1.15]";
@@ -123,21 +125,46 @@ function Label({ children, className }) {
 }
 
 function AdminRoleSelector({ t, value, onChange }) {
+  const options = ADMIN_WORKSPACE_ROLES.map((role) => ({
+    value: role,
+    label: roleLabel(t, role)
+  }));
+
   return (
     <label className="workspace-feature-admin-role mx-auto flex w-full max-w-[28rem] flex-wrap items-center justify-center gap-[0.5rem] rounded-[1rem] border px-[0.78rem] py-[0.56rem] text-[0.92rem] font-[640] leading-[1.2]">
       <span>{readText(t, "workspace_feature_pages.admin_role.label", "Admini tööroll")}</span>
-      <select
-        className={cn(fieldClassName, "min-h-[2.35rem] max-w-[14rem] py-[0.36rem] text-[0.94rem]")}
+      <DocumentsDropdown
+        ariaLabel={readText(t, "workspace_feature_pages.admin_role.label", "Admini tĆ¶Ć¶roll")}
         value={value}
-        onChange={(event) => onChange(normalizeWorkspaceRole(event.target.value))}
-      >
-        {ADMIN_WORKSPACE_ROLES.map((role) => (
-          <option key={role} value={role}>
-            {roleLabel(t, role)}
-          </option>
-        ))}
-      </select>
+        onChange={(nextValue) => onChange(normalizeWorkspaceRole(nextValue))}
+        options={options}
+        className="workspace-feature-dropdown workspace-feature-dropdown--admin w-full max-w-[14rem]"
+        align="end"
+      />
     </label>
+  );
+}
+
+function ServiceMapPanelToggleIcon({ open }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={cn(
+        "h-[1.05rem] w-[1.05rem] transition-transform duration-200",
+        open ? "rotate-180" : "rotate-0"
+      )}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6 9.5L12 15.5L18 9.5"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -686,15 +713,17 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
         <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiving_settings", "Vastuvõtt")}>
           {activeRole === "SOCIAL_WORKER" ? (
-            <div className="workspace-feature-card grid gap-[0.48rem] rounded-[0.95rem] border px-[0.78rem] py-[0.62rem]">
-              <label className="flex items-center gap-[0.58rem] text-[0.98rem] font-[620]">
-                <input
-                  type="checkbox"
-                  checked={acceptsPreInquiries}
-                  onChange={(event) => setAcceptsPreInquiries(event.target.checked)}
-                />
-                <span>{readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}</span>
-              </label>
+            <div className="grid gap-[0.48rem]">
+              <FancyCheckbox
+                checked={acceptsPreInquiries}
+                onChange={(value) => setAcceptsPreInquiries(Boolean(value))}
+                className="workspace-feature-fancy-checkbox fancy-checkbox--multiline fancy-checkbox--top"
+                label={
+                  <span className="text-[0.98rem] font-[620] leading-[1.28]">
+                    {readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}
+                  </span>
+                }
+              />
               <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
                 {isAdmin
                   ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
@@ -768,7 +797,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               <p className="m-0 text-[1rem] font-[720] leading-[1.2]">{activeReceivedInquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</p>
               <p className={bodyTextClassName}>{activeReceivedInquiry.situation}</p>
               {activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft ? (
-                <textarea className={cn(fieldClassName, "min-h-[10rem] resize-y")} readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} />
+              <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[10rem] resize-y")} readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} />
               ) : null}
             </div>
           </SectionCard>
@@ -830,7 +859,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 hideTools
                 embedded
                 forcePlaceholderVisible
-                placeholderText={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.assistant", "Kirjelda olukorda, piirkonda ja seda, millist abi või vastust vajad.")}
+                placeholderText=""
                 acceptAttr=""
                 ensureAnalysisPanelVisible={() => {}}
                 fileInputRef={fileInputRef}
@@ -871,14 +900,16 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
         {activeRole === "SOCIAL_WORKER" ? (
           <div className="workspace-feature-card grid gap-[0.48rem] rounded-[0.95rem] border px-[0.78rem] py-[0.62rem]">
-            <label className="flex items-center gap-[0.58rem] text-[0.98rem] font-[620]">
-              <input
-                type="checkbox"
-                checked={acceptsPreInquiries}
-                onChange={(event) => setAcceptsPreInquiries(event.target.checked)}
-              />
-              <span>{readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}</span>
-            </label>
+            <FancyCheckbox
+              checked={acceptsPreInquiries}
+              onChange={(value) => setAcceptsPreInquiries(Boolean(value))}
+              className="workspace-feature-fancy-checkbox fancy-checkbox--multiline fancy-checkbox--top"
+              label={
+                <span className="text-[0.98rem] font-[620] leading-[1.28]">
+                  {readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}
+                </span>
+              }
+            />
             <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
               {isAdmin
                 ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
@@ -959,7 +990,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
           <input className={fieldClassName} value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
         </Label>
-        <textarea className={cn(fieldClassName, "min-h-[12rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+          <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[12rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
           <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving
@@ -1051,12 +1082,14 @@ function ServiceMapSurface({
   t,
   activeRole = "SOCIAL_WORKER",
   isAdmin = false,
-  onRoleChange
+  onRoleChange,
+  onBack
 }) {
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
   const [entryType, setEntryType] = useState("ALL");
   const [selectedEntryId, setSelectedEntryId] = useState("");
+  const [panelOpen, setPanelOpen] = useState(true);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -1126,6 +1159,107 @@ function ServiceMapSurface({
 
   return (
     <div className="service-map-workspace">
+      <div
+        className={cn(
+          "service-map-workspace__filters",
+          !panelOpen && "service-map-workspace__filters--collapsed"
+        )}
+        aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
+      >
+        <div className="service-map-workspace__filters-shell">
+          <div className="service-map-toolbar__identity">
+            <BackButton
+              onClick={onBack}
+              ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+              holdPressedVisualDisabled
+              className="service-map-toolbar__back"
+            />
+            <div className="service-map-toolbar__titleblock">
+              <h2 className={sectionTitleClassName}>
+                {readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
+              </h2>
+            </div>
+          </div>
+
+          <div className="service-map-toolbar__body">
+            <div className="service-map-toolbar__fields">
+              <Label>
+                <span>{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
+                <input className={fieldClassName} value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")} />
+              </Label>
+              <Label>
+                <span>{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
+                <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
+              </Label>
+            </div>
+
+            <div className="service-map-toolbar__types">
+              {[
+                ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
+                ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
+                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")]
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={cn(chipClassName, entryType === value && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")}
+                  onClick={() => setEntryType(value)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <div className="service-map-toolbar__resultsblock">
+              <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
+                {loading
+                  ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
+                  : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}`}
+              </p>
+              <div className="service-map-toolbar__results">
+                {filteredEntries.length ? filteredEntries.slice(0, 12).map((entry) => (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    className={cn(
+                      "workspace-feature-list-card grid gap-[0.22rem] rounded-[0.86rem] border px-[0.74rem] py-[0.66rem] text-left transition",
+                      selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
+                    )}
+                    onClick={() => setSelectedEntryId(entry.id)}
+                  >
+                    <span className="text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
+                    <span className="text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
+                      {serviceMapEntryTypeLabel(t, entry.type)}
+                    </span>
+                    <span className="text-[0.88rem] leading-[1.24] opacity-[0.78]">
+                      {[entry.address, entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(" · ") || readText(t, "workspace_feature_pages.service_map.no_address", "Asukoht vajab täpsustamist")}
+                    </span>
+                  </button>
+                )) : (
+                  <p className={bodyTextClassName}>
+                    {loading
+                      ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
+                      : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena.")}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="service-map-workspace__toggle"
+          aria-expanded={panelOpen}
+          aria-label={panelOpen
+            ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
+            : readText(t, "workspace_feature_pages.service_map.actions.show_filters", "Näita filtreid")}
+          onClick={() => setPanelOpen((value) => !value)}
+        >
+          <ServiceMapPanelToggleIcon open={panelOpen} />
+        </button>
+      </div>
+
       {isAdmin ? (
         <div className="service-map-workspace__role">
           <AdminRoleSelector
@@ -1135,70 +1269,6 @@ function ServiceMapSurface({
           />
         </div>
       ) : null}
-
-      <aside className="service-map-workspace__filters" aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}>
-        <div className="service-map-toolbar__head">
-          <h2 className={sectionTitleClassName}>{readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}</h2>
-        </div>
-        <div className="service-map-toolbar__fields">
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
-            <input className={fieldClassName} value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")} />
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
-            <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
-          </Label>
-        </div>
-        <div className="service-map-toolbar__types">
-          {[
-            ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
-            ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
-            ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")]
-          ].map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              className={cn(chipClassName, entryType === value && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")}
-              onClick={() => setEntryType(value)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
-          {loading
-            ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
-            : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}, ${mappableEntries.length} ${readText(t, "workspace_feature_pages.service_map.mappable", "markerit")}`}
-        </p>
-        <div className="service-map-toolbar__results">
-          {filteredEntries.length ? filteredEntries.slice(0, 40).map((entry) => (
-            <button
-              key={entry.id}
-              type="button"
-              className={cn(
-                "workspace-feature-list-card grid gap-[0.22rem] rounded-[0.86rem] border px-[0.74rem] py-[0.66rem] text-left transition",
-                selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
-              )}
-              onClick={() => setSelectedEntryId(entry.id)}
-            >
-              <span className="text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
-              <span className="text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
-                {serviceMapEntryTypeLabel(t, entry.type)}
-              </span>
-              <span className="text-[0.88rem] leading-[1.24] opacity-[0.78]">
-                {[entry.address, entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(" · ") || readText(t, "workspace_feature_pages.service_map.no_address", "Asukoht vajab täpsustamist")}
-              </span>
-            </button>
-          )) : (
-            <p className={bodyTextClassName}>
-              {loading
-                ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
-                : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena.")}
-            </p>
-          )}
-        </div>
-      </aside>
 
       <div className="service-map-workspace__map" aria-label={readText(t, "workspace_feature_pages.service_map.sections.map", "Kaart")}>
         <ServiceMapLeaflet
@@ -1298,15 +1368,22 @@ function serviceProfileMapStatusText(t, mapEntry) {
   return readText(t, "workspace_feature_pages.service_profile.map_status.pending", "The address is waiting for matching.");
 }
 
-function ToggleRow({ checked, onChange, title, body }) {
+function ToggleRow({ checked, onChange, title, body, className }) {
   return (
-    <label className="workspace-feature-toggle-row grid cursor-pointer gap-[0.18rem] rounded-[0.92rem] border px-[0.86rem] py-[0.72rem]">
-      <span className="flex items-center gap-[0.62rem] text-[0.98rem] font-[680] leading-[1.2]">
-        <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
-        <span>{title}</span>
-      </span>
-      {body ? <span className="pl-[1.58rem] text-[0.9rem] font-[500] leading-[1.35] opacity-[0.72]">{body}</span> : null}
-    </label>
+    <FancyCheckbox
+      checked={checked}
+      onChange={(value) => onChange(Boolean(value))}
+      className={cn(
+        "workspace-feature-toggle-row workspace-feature-fancy-checkbox fancy-checkbox--top fancy-checkbox--multiline rounded-[0.92rem] border px-[0.86rem] py-[0.72rem]",
+        className
+      )}
+      label={
+        <span className="grid gap-[0.18rem]">
+          <span className="text-[0.98rem] font-[680] leading-[1.2]">{title}</span>
+          {body ? <span className="text-[0.9rem] font-[500] leading-[1.35] opacity-[0.72]">{body}</span> : null}
+        </span>
+      }
+    />
   );
 }
 
@@ -1317,6 +1394,25 @@ function ServiceProfileSurface({ t }) {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const feeOptions = useMemo(
+    () => [
+      { value: "UNKNOWN", label: readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown") },
+      { value: "FREE", label: readText(t, "workspace_feature_pages.service_profile.fee.free", "Free") },
+      { value: "PAID", label: readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid") },
+      { value: "AGREEMENT", label: readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement") },
+      { value: "MIXED", label: readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed") }
+    ],
+    [t]
+  );
+  const statusOptions = useMemo(
+    () => [
+      { value: "DRAFT", label: readText(t, "workspace_feature_pages.service_profile.status.draft", "Draft") },
+      { value: "REVIEW", label: readText(t, "workspace_feature_pages.service_profile.status.review", "Review") },
+      { value: "PUBLISHED", label: readText(t, "workspace_feature_pages.service_profile.status.published", "Published") },
+      { value: "HIDDEN", label: readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden") }
+    ],
+    [t]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -1406,7 +1502,7 @@ function ServiceProfileSurface({ t }) {
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto grid w-full max-w-[58rem] gap-[1rem]">
-      <div className="workspace-feature-card grid gap-[0.72rem] rounded-[1.1rem] border px-[1rem] py-[0.9rem]">
+      <div className="grid gap-[0.72rem] border-b pb-[0.9rem]">
         <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
           <div className="grid max-w-[42rem] gap-[0.3rem]">
             <p className="m-0 text-[1.02rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
@@ -1424,18 +1520,33 @@ function ServiceProfileSurface({ t }) {
             {saveLabel}
           </Button>
         </div>
-        <div className="flex flex-wrap gap-[0.48rem]">
-          <span className={chipClassName}>
-            {readText(t, "workspace_feature_pages.service_profile.summary.status", "Status")}: {serviceProfileStatusLabel(t, form.status)}
-          </span>
-          <span className={chipClassName}>
-            {readText(t, "workspace_feature_pages.service_profile.summary.price", "Price")}: {serviceProfileFeeLabel(t, form.feeType)}
-          </span>
-          <span className={cn(chipClassName, canPublishToMap ? "ring-1 ring-[rgba(88,148,118,0.5)]" : "")}>
-            {canPublishToMap
-              ? readText(t, "workspace_feature_pages.service_profile.summary.map_ready", "Map ready")
-              : readText(t, "workspace_feature_pages.service_profile.summary.map_not_ready", "Map not shown yet")}
-          </span>
+        <div className="grid gap-[0.56rem] sm:grid-cols-3">
+          <div className="workspace-feature-inline-stat">
+            <span className="workspace-feature-inline-stat__label">
+              {readText(t, "workspace_feature_pages.service_profile.summary.status", "Status")}
+            </span>
+            <strong className="workspace-feature-inline-stat__value">
+              {serviceProfileStatusLabel(t, form.status)}
+            </strong>
+          </div>
+          <div className="workspace-feature-inline-stat">
+            <span className="workspace-feature-inline-stat__label">
+              {readText(t, "workspace_feature_pages.service_profile.summary.price", "Price")}
+            </span>
+            <strong className="workspace-feature-inline-stat__value">
+              {serviceProfileFeeLabel(t, form.feeType)}
+            </strong>
+          </div>
+          <div className="workspace-feature-inline-stat">
+            <span className="workspace-feature-inline-stat__label">
+              {readText(t, "workspace_feature_pages.service_profile.summary.map_status", "Teenusekaart")}
+            </span>
+            <strong className={cn("workspace-feature-inline-stat__value", canPublishToMap && "text-[color:var(--workspace-feature-accent)]")}>
+              {canPublishToMap
+                ? readText(t, "workspace_feature_pages.service_profile.summary.map_ready", "Map ready")
+                : readText(t, "workspace_feature_pages.service_profile.summary.map_not_ready", "Map not shown yet")}
+            </strong>
+          </div>
         </div>
       </div>
 
@@ -1467,7 +1578,7 @@ function ServiceProfileSurface({ t }) {
         <Label>
           <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Short description")}</span>
           <textarea
-            className={cn(fieldClassName, "min-h-[7rem] resize-y")}
+            className={cn(fieldClassName, "documents-field--textarea min-h-[7rem] resize-y")}
             value={form.shortDescription}
             onChange={(event) => updateField("shortDescription", event.target.value)}
           />
@@ -1475,21 +1586,21 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-2">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.services", "Services")}</span>
-            <textarea className={cn(fieldClassName, "min-h-[6.2rem] resize-y")} value={form.services} onChange={(event) => updateField("services", event.target.value)} />
+            <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[6.2rem] resize-y")} value={form.services} onChange={(event) => updateField("services", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Target groups")}</span>
-            <textarea className={cn(fieldClassName, "min-h-[6.2rem] resize-y")} value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
+            <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[6.2rem] resize-y")} value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}</span>
-            <select className={fieldClassName} value={form.feeType} onChange={(event) => updateField("feeType", event.target.value)}>
-              <option value="UNKNOWN">{readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown")}</option>
-              <option value="FREE">{readText(t, "workspace_feature_pages.service_profile.fee.free", "Free")}</option>
-              <option value="PAID">{readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid")}</option>
-              <option value="AGREEMENT">{readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement")}</option>
-              <option value="MIXED">{readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed")}</option>
-            </select>
+            <DocumentsDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}
+              value={form.feeType}
+              onChange={(nextValue) => updateField("feeType", nextValue)}
+              options={feeOptions}
+              className="workspace-feature-dropdown"
+            />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Languages")}</span>
@@ -1527,7 +1638,7 @@ function ServiceProfileSurface({ t }) {
             "The service is shown on the map only when the profile is published and the address has a reliable match."
           )}
         />
-        <div className="workspace-feature-card workspace-feature-card--dashed grid gap-[0.22rem] rounded-[0.92rem] border px-[0.86rem] py-[0.72rem]">
+        <div className="grid gap-[0.22rem] border-t pt-[0.72rem]">
           <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
             {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Address status")}
           </p>
@@ -1553,18 +1664,20 @@ function ServiceProfileSurface({ t }) {
             <input className={fieldClassName} value={form.website} onChange={(event) => updateField("website", event.target.value)} />
           </Label>
         </div>
-        <div className="grid gap-[0.64rem] sm:grid-cols-2">
+        <div className="grid gap-[0.64rem] border-t pt-[0.72rem] sm:grid-cols-2">
           <ToggleRow
             checked={form.acceptsPlatformPreInquiries}
             onChange={(value) => updateField("acceptsPlatformPreInquiries", value)}
             title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}
             body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.platform_help", "People can send an internal pre-inquiry to this provider account.")}
+            className="workspace-feature-toggle-row--flat"
           />
           <ToggleRow
             checked={form.acceptsEmailPreInquiries}
             onChange={(value) => updateField("acceptsEmailPreInquiries", value)}
             title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}
             body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "The workflow can prepare an email draft for the contact address.")}
+            className="workspace-feature-toggle-row--flat"
           />
         </div>
       </SectionCard>
@@ -1574,7 +1687,7 @@ function ServiceProfileSurface({ t }) {
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
             <textarea
-              className={cn(fieldClassName, "min-h-[6.6rem] resize-y")}
+              className={cn(fieldClassName, "documents-field--textarea min-h-[6.6rem] resize-y")}
               value={form.accessibilityInfo}
               onChange={(event) => updateField("accessibilityInfo", event.target.value)}
             />
@@ -1582,12 +1695,13 @@ function ServiceProfileSurface({ t }) {
           <div className="grid content-start gap-[0.72rem]">
             <Label>
               <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}</span>
-              <select className={fieldClassName} value={form.status} onChange={(event) => updateField("status", event.target.value)}>
-                <option value="DRAFT">{readText(t, "workspace_feature_pages.service_profile.status.draft", "Draft")}</option>
-                <option value="REVIEW">{readText(t, "workspace_feature_pages.service_profile.status.review", "Review")}</option>
-                <option value="PUBLISHED">{readText(t, "workspace_feature_pages.service_profile.status.published", "Published")}</option>
-                <option value="HIDDEN">{readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden")}</option>
-              </select>
+              <DocumentsDropdown
+                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}
+                value={form.status}
+                onChange={(nextValue) => updateField("status", nextValue)}
+                options={statusOptions}
+                className="workspace-feature-dropdown"
+              />
             </Label>
             <p className={bodyTextClassName}>
               {readText(
@@ -1638,12 +1752,14 @@ export default function WorkspaceFeaturePage({ feature }) {
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
           : panelClassName
       )}>
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-          holdPressedVisualDisabled
-          className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
-        />
+        {!isServiceMap ? (
+          <BackButton
+            onClick={handleBack}
+            ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+            holdPressedVisualDisabled
+            className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
+          />
+        ) : null}
 
         <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
           <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
@@ -1662,7 +1778,7 @@ export default function WorkspaceFeaturePage({ feature }) {
           ) : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
-          {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} /> : null}
+          {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} onBack={handleBack} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}
         </div>
       </div>

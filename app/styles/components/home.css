@@ -21,7 +21,7 @@
   position: relative;
   transform-origin: 50% 100%;
   animation: bottom-logo-breathe var(--bottom-logo-breathe-duration) ease-in-out infinite;
-  filter: drop-shadow(0 -12px 28px rgba(0, 0, 0, 0.34));
+  filter: none;
 }
 
 @keyframes bottom-logo-breathe {

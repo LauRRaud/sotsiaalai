@@ -50,12 +50,12 @@
     </linearGradient>
 
     <linearGradient id="linear-gradient13" x1="246.84" y1="3986.48" x2="260.85" y2="4045.91" gradientTransform="translate(0 -3992.18)" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f1f1f0"/>
-      <stop offset=".21" stop-color="#e6e5e3"/>
-      <stop offset=".42" stop-color="#c3c1bc"/>
-      <stop offset=".53" stop-color="#aba8a1"/>
-      <stop offset=".65" stop-color="#8d8980"/>
-      <stop offset=".93" stop-color="#5f5b55"/>
+      <stop offset="0" stop-color="#e2dfd9"/>
+      <stop offset=".21" stop-color="#d0ccc5"/>
+      <stop offset=".42" stop-color="#aaa69e"/>
+      <stop offset=".53" stop-color="#918d85"/>
+      <stop offset=".65" stop-color="#77736c"/>
+      <stop offset=".93" stop-color="#56524d"/>
     </linearGradient>
   </defs>
 

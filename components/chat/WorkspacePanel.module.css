@@ -26,6 +26,39 @@
   z-index: 5 !important;
 }
 
+.roleMenu {
+  position: absolute;
+  top: clamp(1rem, 2.2vh, 1.35rem);
+  right: clamp(0.8rem, 2vw, 1.15rem);
+  z-index: 6;
+  width: min(13rem, calc(100% - 5.6rem));
+}
+
+.roleDropdown {
+  width: 100%;
+}
+
+.roleDropdown :global(.documents-dropdown-trigger) {
+  min-height: 2.7rem;
+  border-radius: 999px;
+  padding: 0.54rem 0.82rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+  color: inherit;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.roleDropdown :global(.documents-dropdown-menu) {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 92%, rgba(20, 20, 20, 0.96));
+}
+
+.roleDropdown :global(.documents-dropdown-item) {
+  color: inherit;
+}
+
 .titleWrap {
   position: relative;
   z-index: 4;
@@ -45,8 +78,8 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: clamp(0.48rem, 1vw, 0.68rem);
   width: min(100%, clamp(31rem, 62vw, 43rem));
   flex: 1 1 auto;
@@ -58,6 +91,17 @@
   scrollbar-gutter: stable both-edges;
   -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 0.72rem), transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 0.72rem), transparent 100%);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.48rem, 1vw, 0.68rem);
+  width: 100%;
+}
+
+.rowSingle {
+  grid-template-columns: 1fr;
 }
 
 .card {
@@ -97,6 +141,24 @@
     0 14px 28px rgba(0, 0, 0, 0.13);
   outline: none;
   transform: translateY(-1px);
+}
+
+.cardDisabled,
+.cardDisabled:hover,
+.cardDisabled:focus-visible {
+  cursor: default;
+  transform: none;
+  opacity: 0.5;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 56%, transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.cardDisabled .cardIcon {
+  opacity: 0.72;
 }
 
 .cardIcon {
@@ -157,6 +219,21 @@
     0 8px 20px rgba(82, 50, 46, 0.08);
 }
 
+:global(:root.theme-light) .roleDropdown :global(.documents-dropdown-trigger),
+:global(:root.theme-mid) .roleDropdown :global(.documents-dropdown-trigger) {
+  border-color: rgba(122, 58, 56, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.05),
+    0 8px 20px rgba(82, 50, 46, 0.08);
+}
+
+:global(:root.theme-light) .roleDropdown :global(.documents-dropdown-menu),
+:global(:root.theme-mid) .roleDropdown :global(.documents-dropdown-menu) {
+  border-color: rgba(122, 58, 56, 0.12);
+  background: rgba(255, 255, 255, 0.96);
+}
+
 :global(:root.theme-light) .cardTitle,
 :global(:root.theme-mid) .cardTitle {
   color: var(--text-strong, #1f2937);
@@ -202,11 +279,21 @@
     margin-bottom: clamp(0.24rem, 1vh, 0.58rem) !important;
   }
 
+  .roleMenu {
+    top: calc(env(safe-area-inset-top, 0px) + 0.62rem);
+    right: clamp(0.58rem, 2vw, 0.82rem);
+    width: min(11.75rem, calc(100% - 5rem));
+  }
+
   .grid {
-    grid-template-columns: 1fr;
     gap: clamp(0.42rem, 1.6vw, 0.56rem);
     padding-inline: clamp(0.58rem, 2vw, 0.84rem);
     scrollbar-gutter: auto;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: clamp(0.42rem, 1.6vw, 0.56rem);
   }
 
   .card {
