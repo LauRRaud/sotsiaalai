@@ -12,6 +12,19 @@ const Particles = dynamic(() => import("./Particles"), {
 const MaybeSplash = dynamic(() => import("../MaybeSplash"), {
   ssr: false
 });
+const COLOR_BENDS_EXCLUDED_PATHS = new Set([
+  "/kasutusjuhend",
+  "/kasutustingimused",
+  "/privaatsustingimused",
+  "/hinnastus",
+  "/voimalused"
+]);
+
+function stripLocaleFromPathname(pathname = "/") {
+  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
+}
+
 function detectMobileLikeDevice() {
   if (typeof window === "undefined") return false;
   const mq = query => typeof window.matchMedia === "function" ? window.matchMedia(query)?.matches ?? false : false;
@@ -81,6 +94,7 @@ const BackgroundContent = memo(function BackgroundContent({
   reduceMotion = false,
   isLightTheme = false,
   isHomepage = false,
+  showColorBends = true,
   colorBendsColors = ["#7e4442"]
 }) {
   const layerRef = useRef(null);
@@ -366,7 +380,7 @@ const BackgroundContent = memo(function BackgroundContent({
           />
         </div>
 
-        <div className="bg-bends-layer" aria-hidden="true">
+        {showColorBends && <div className="bg-bends-layer" aria-hidden="true">
             <ColorBends
               colors={colorBendsColors}
               rotation={-58}
@@ -384,7 +398,7 @@ const BackgroundContent = memo(function BackgroundContent({
               transparent
               autoRotate={0}
             />
-          </div>
+          </div>}
 
         {}
         {deviceProfileReady && particlesReady && allowParticles && <div
@@ -427,6 +441,8 @@ function BackgroundLayer() {
   }, []);
   const effectiveTheme = domTheme || prefs?.theme;
   const effectiveReduceMotion = domReduceMotion ?? !!prefs?.reduceMotion;
+  const normalizedPathname = stripLocaleFromPathname(pathname || "/");
+  const showColorBends = !COLOR_BENDS_EXCLUDED_PATHS.has(normalizedPathname);
   const isLightTheme =
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
@@ -440,6 +456,7 @@ function BackgroundLayer() {
     reduceMotion={effectiveReduceMotion}
     isLightTheme={isLightTheme}
     isHomepage={isHomepage}
+    showColorBends={showColorBends}
     colorBendsColors={colorBendsColors}
   />;
 }

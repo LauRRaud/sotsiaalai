@@ -36,6 +36,7 @@
   --covision-secondary-button-border: rgba(248, 253, 255, 0.18);
   --covision-secondary-button-text: var(--covision-text);
   color: var(--covision-text);
+  align-items: center !important;
 }
 
 :global(:root.theme-light:not(.theme-mid)) .page {
@@ -184,6 +185,10 @@
 
 .surface {
   color: var(--covision-text) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-self: center !important;
+  align-self: flex-start !important;
 }
 
 :global(html[data-contrast="hc"]) .surface {
@@ -340,20 +345,33 @@
   color: var(--covision-field-text);
 }
 
-.page :global(.button[data-variant="secondary"]),
-.page :global(.button[data-variant="ghost"]) {
+.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)),
+.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)) {
   border-color: var(--covision-secondary-button-border) !important;
   background: var(--covision-secondary-button-bg) !important;
   color: var(--covision-secondary-button-text) !important;
   box-shadow: none !important;
 }
 
-.page :global(.button[data-variant="secondary"]):hover,
-.page :global(.button[data-variant="ghost"]):hover,
-.page :global(.button[data-variant="secondary"]):focus-visible,
-.page :global(.button[data-variant="ghost"]):focus-visible {
+.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)):hover,
+.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)):hover,
+.page :global(.button[data-variant="secondary"]:not(.documents-secondary-button)):focus-visible,
+.page :global(.button[data-variant="ghost"]:not(.documents-secondary-button)):focus-visible {
   background: var(--covision-secondary-button-bg-hover) !important;
   box-shadow: 0 0 0 3px var(--covision-focus-ring) !important;
+}
+
+.page :global(.documents-dropdown-menu) {
+  max-height: min(22rem, calc(100vh - 7rem));
+  overflow-y: auto;
+}
+
+.page :global(.documents-dropdown-trigger) {
+  color: var(--covision-field-text);
+}
+
+.page :global(.documents-dropdown-label) {
+  letter-spacing: 0;
 }
 
 :global(html[data-contrast="hc"]) .page :global(.button)::before {

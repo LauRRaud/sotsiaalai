@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import Input from "@/components/ui/Input";
 import Panel from "@/components/ui/Panel";
 import Textarea from "@/components/ui/Textarea";
@@ -40,7 +41,7 @@ const shellClassName =
   "relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
 
 const surfaceClassName =
-  `relative z-[21] my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(76rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
+  `documents-workspace workspace-feature-panel relative z-[21] mx-auto self-center my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(76rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
@@ -52,11 +53,15 @@ const bodyClassName =
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 
-const fieldClassName =
-  "documents-field min-h-[2.85rem] rounded-[0.86rem] border px-[0.92rem] py-[0.64rem] text-[1rem] leading-[1.28]";
-
 const smallButtonClassName =
-  "!min-h-[2.35rem] !px-[0.82rem] !py-[0.42rem] !text-[0.98rem] !leading-[1.15]";
+  "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+
+const primaryButtonClassName = "documents-primary-button";
+const secondaryButtonClassName = "documents-secondary-button";
+const compactPrimaryButtonClassName =
+  "documents-primary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
+const dangerButtonClassName =
+  "documents-danger-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 
 const sectionHeadingClassName =
   cn(styles.heading, "m-0 text-[1.14rem] font-[680] leading-[1.18] tracking-[0]");
@@ -175,6 +180,16 @@ function optionLabel(options, value) {
   return options.find((option) => option.value === value)?.label || value || "";
 }
 
+function dropdownOptions(options) {
+  return (options || []).map((option) => {
+    if (typeof option === "string") return { value: option, label: option };
+    return {
+      value: option.value || option.label || "",
+      label: option.label || option.value || ""
+    };
+  });
+}
+
 function Notice({ type = "info", children }) {
   if (!children) return null;
   const isError = type === "error";
@@ -202,18 +217,14 @@ function Field({ label, children, className }) {
 
 function SelectField({ value, onChange, options, ariaLabel, className }) {
   return (
-    <select
+    <DocumentsDropdown
       value={value}
-      onChange={(event) => onChange(event.target.value)}
-      aria-label={ariaLabel}
-      className={cn(fieldClassName, styles.field, className)}
-    >
-      {options.map((option) => (
-        <option key={option.value || option} value={option.value || option}>
-          {option.label || option}
-        </option>
-      ))}
-    </select>
+      onChange={onChange}
+      ariaLabel={ariaLabel}
+      placeholder={ariaLabel}
+      options={dropdownOptions(options)}
+      className={cn("workspace-feature-dropdown", className)}
+    />
   );
 }
 
@@ -303,7 +314,7 @@ function CovisionCard({ item, onOpen, onEdit, locale }) {
         <Button type="button" variant="secondary" onClick={() => onEdit(item)} className={smallButtonClassName}>
           Muuda
         </Button>
-        <Button type="button" onClick={() => onOpen(item)} className={smallButtonClassName}>
+        <Button type="button" onClick={() => onOpen(item)} className={compactPrimaryButtonClassName}>
           Ava
         </Button>
       </div>
@@ -325,7 +336,7 @@ function PracticeCard({ item, onOpen }) {
         {item.background || item.whatHelped || "Üldistatud praktikakogemus vajab veel kirjeldust."}
       </p>
       <div className="flex justify-end">
-        <Button type="button" onClick={() => onOpen(item)} className={smallButtonClassName}>
+        <Button type="button" onClick={() => onOpen(item)} className={compactPrimaryButtonClassName}>
           Ava
         </Button>
       </div>
@@ -838,10 +849,10 @@ export default function CovisionPage() {
               <section className={cn(styles.toolbar, "grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}>
                 <div className="flex flex-wrap items-center justify-between gap-[0.72rem]">
                   <div className="flex flex-wrap gap-[0.52rem]">
-                    <Button type="button" onClick={startCase} className="!text-[1.04rem]">
+                    <Button type="button" onClick={startCase} className={primaryButtonClassName}>
                       Alusta kovisiooni
                     </Button>
-                    <Button type="button" variant="secondary" onClick={() => startPractice()} className="!text-[1.04rem]">
+                    <Button type="button" variant="secondary" onClick={() => startPractice()} className={secondaryButtonClassName}>
                       Lisa toimiv praktika
                     </Button>
                   </div>
@@ -849,7 +860,7 @@ export default function CovisionPage() {
                     <Input
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
-                      placeholder="Otsi teema, tagi või küsimuse järgi"
+                      placeholder="Otsi teema, sildi või küsimuse järgi"
                       aria-label="Otsi"
                     />
                     <SelectField
@@ -912,7 +923,7 @@ export default function CovisionPage() {
                   <p className={sectionHeadingClassName}>Teemavaldkonnad</p>
                   <MultiChoice options={COVISION_TOPICS} value={caseForm.topics} onChange={(value) => updateCaseForm("topics", value)} />
                 </div>
-                <Field label="Oma tagid">
+                <Field label="Oma sildid">
                   <Input value={caseForm.tagText} onChange={(event) => updateCaseForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
               </SectionPanel>
@@ -958,7 +969,7 @@ export default function CovisionPage() {
                           <SelectField value={step.type || COVISION_JOURNEY_STEP_TYPES[0]} onChange={(value) => updateJourneyStep(index, "type", value)} ariaLabel="Sammu tüüp" options={COVISION_JOURNEY_STEP_TYPES} />
                           <Input value={step.title || ""} onChange={(event) => updateJourneyStep(index, "title", event.target.value)} placeholder="Lühike pealkiri" />
                           <Input value={step.dateLabel || ""} onChange={(event) => updateJourneyStep(index, "dateLabel", event.target.value)} placeholder="Periood" />
-                          <Button type="button" variant="danger" onClick={() => removeJourneyStep(index)} className={smallButtonClassName}>Eemalda</Button>
+                          <Button type="button" variant="danger" onClick={() => removeJourneyStep(index)} className={dangerButtonClassName}>Eemalda</Button>
                         </div>
                         <Textarea value={step.description || ""} onChange={(event) => updateJourneyStep(index, "description", event.target.value)} rows={2} placeholder="Lühikirjeldus" />
                         <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.6fr]">
@@ -1001,7 +1012,7 @@ export default function CovisionPage() {
                           <SelectField value={party.cooperationStatus || "info puudub"} onChange={(value) => updateParty(index, "cooperationStatus", value)} ariaLabel="Koostöö seis" options={COVISION_PARTY_STATUSES} />
                         </div>
                         <Textarea value={party.note || ""} onChange={(event) => updateParty(index, "note", event.target.value)} rows={2} placeholder="Lühimärkus" />
-                        <Button type="button" variant="danger" onClick={() => updateCaseForm("parties", caseForm.parties.filter((_, partyIndex) => partyIndex !== index))} className={smallButtonClassName}>Eemalda</Button>
+                        <Button type="button" variant="danger" onClick={() => updateCaseForm("parties", caseForm.parties.filter((_, partyIndex) => partyIndex !== index))} className={dangerButtonClassName}>Eemalda</Button>
                       </div>
                     ))}
                   </div>
@@ -1043,7 +1054,7 @@ export default function CovisionPage() {
                           <span className={cn(styles.meta, "text-[0.84rem]")}>{factor.type === "protective" ? "kaitsetegur" : "risk"} · {factor.severity}</span>
                         </div>
                         <Textarea value={factor.note || ""} onChange={(event) => updateRiskFactor(index, "note", event.target.value)} rows={2} placeholder="Märkus" />
-                        <Button type="button" variant="danger" onClick={() => updateCaseForm("riskFactors", caseForm.riskFactors.filter((_, factorIndex) => factorIndex !== index))} className={smallButtonClassName}>Eemalda</Button>
+                        <Button type="button" variant="danger" onClick={() => updateCaseForm("riskFactors", caseForm.riskFactors.filter((_, factorIndex) => factorIndex !== index))} className={dangerButtonClassName}>Eemalda</Button>
                       </div>
                     ))}
                   </div>
@@ -1100,8 +1111,8 @@ export default function CovisionPage() {
               </SectionPanel>
 
               <div className="flex flex-wrap justify-end gap-[0.55rem]">
-                <Button type="button" variant="secondary" onClick={() => setView("overview")}>Tühista</Button>
-                <Button type="submit" disabled={saving || !caseForm.title.trim()}>{saving ? "Salvestan..." : "Salvesta kovisioon"}</Button>
+                <Button type="button" variant="secondary" onClick={() => setView("overview")} className={secondaryButtonClassName}>Tühista</Button>
+                <Button type="submit" disabled={saving || !caseForm.title.trim()} className={primaryButtonClassName}>{saving ? "Salvestan..." : "Salvesta kovisioon"}</Button>
               </div>
             </form>
           ) : null}
@@ -1171,7 +1182,7 @@ export default function CovisionPage() {
                     <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sõnumi tüüp" options={COVISION_MESSAGE_TYPES} />
                     <Textarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa mõte, küsimus või struktureeritud tähelepanek." />
                     <div className="flex justify-end">
-                      <Button type="submit" disabled={saving || !messageBody.trim()} className={smallButtonClassName}>Lisa arutelusse</Button>
+                      <Button type="submit" disabled={saving || !messageBody.trim()} className={compactPrimaryButtonClassName}>Lisa arutelusse</Button>
                     </div>
                   </form>
                 </SectionPanel>
@@ -1194,7 +1205,7 @@ export default function CovisionPage() {
                   <SummaryField label="Lahtised küsimused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
                 </div>
                 <div className="flex justify-end">
-                  <Button type="button" onClick={saveSummary} disabled={saving} className={smallButtonClassName}>Salvesta kokkuvõte</Button>
+                  <Button type="button" onClick={saveSummary} disabled={saving} className={compactPrimaryButtonClassName}>Salvesta kokkuvõte</Button>
                 </div>
               </SectionPanel>
             </div>
@@ -1215,7 +1226,7 @@ export default function CovisionPage() {
                   <p className={sectionHeadingClassName}>Teemad</p>
                   <MultiChoice options={COVISION_TOPICS} value={practiceForm.topics} onChange={(value) => updatePracticeForm("topics", value)} />
                 </div>
-                <Field label="Tagid">
+                <Field label="Sildid">
                   <Input value={practiceForm.tagText} onChange={(event) => updatePracticeForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
                 <div className="grid gap-[0.62rem] md:grid-cols-2">
@@ -1231,8 +1242,8 @@ export default function CovisionPage() {
                 <p className={mutedTextClassName}>Toimivat praktikat ei avaldata ilma anonüümsuse kontrolli ja ülevaatuseta.</p>
               </SectionPanel>
               <div className="flex flex-wrap justify-end gap-[0.55rem]">
-                <Button type="button" variant="secondary" onClick={() => setView(activeCase ? "room" : "overview")}>Tühista</Button>
-                <Button type="submit" disabled={saving || !practiceForm.title.trim()}>{saving ? "Salvestan..." : "Salvesta toimiv praktika"}</Button>
+                <Button type="button" variant="secondary" onClick={() => setView(activeCase ? "room" : "overview")} className={secondaryButtonClassName}>Tühista</Button>
+                <Button type="submit" disabled={saving || !practiceForm.title.trim()} className={primaryButtonClassName}>{saving ? "Salvestan..." : "Salvesta toimiv praktika"}</Button>
               </div>
             </form>
           ) : null}

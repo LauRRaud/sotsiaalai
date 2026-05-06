@@ -329,8 +329,8 @@ export default function ServiceMapLeaflet({
 
       marker.bindPopup(() => createPopupContent(entry, t), {
         className: "service-map-leaflet__popup",
-        maxWidth: 256,
-        minWidth: 176,
+        maxWidth: 296,
+        minWidth: 216,
         autoPanPaddingTopLeft: [24, 176],
         autoPanPaddingBottomRight: [24, 84]
       });

@@ -1166,6 +1166,11 @@ function ServiceMapSurface({
     }
   }, [filteredEntries, selectedEntryId]);
 
+  const handleSelectEntry = useCallback((entryId) => {
+    setSelectedEntryId(entryId);
+    if (entryId) setPanelOpen(false);
+  }, []);
+
   return (
     <div className="service-map-workspace">
       <div
@@ -1230,29 +1235,28 @@ function ServiceMapSurface({
             </div>
 
             <div className="service-map-toolbar__resultsblock">
-              <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
-                {loading
-                  ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
-                  : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}`}
-              </p>
-              {filteredEntries.length ? (
-                <div className="service-map-toolbar__results">
-                  {filteredEntries.slice(0, 12).map((entry) => (
+              {loading || error ? (
+                <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
+                  {loading
+                    ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
+                    : error}
+                </p>
+              ) : null}
+              {!loading && !error && filteredEntries.length ? (
+                <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
+                  {filteredEntries.slice(0, 10).map((entry) => (
                   <button
                     key={entry.id}
                     type="button"
                     className={cn(
-                      "workspace-feature-list-card grid gap-[0.22rem] rounded-[0.86rem] border px-[0.74rem] py-[0.66rem] text-left transition",
+                      "workspace-feature-list-card grid gap-[0.16rem] rounded-[0.86rem] border px-[0.74rem] py-[0.56rem] text-left transition",
                       selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                     )}
-                    onClick={() => setSelectedEntryId(entry.id)}
+                    onClick={() => handleSelectEntry(entry.id)}
                   >
                     <span className="text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
                     <span className="text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
                       {serviceMapEntryTypeLabel(t, entry.type)}
-                    </span>
-                    <span className="text-[0.88rem] leading-[1.24] opacity-[0.78]">
-                      {[entry.address, entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(" · ") || readText(t, "workspace_feature_pages.service_map.no_address", "Asukoht vajab täpsustamist")}
                     </span>
                   </button>
                   ))}
@@ -1290,7 +1294,7 @@ function ServiceMapSurface({
         <ServiceMapLeaflet
           entries={mappableEntries}
           selectedEntryId={selectedEntryId}
-          onSelectEntry={setSelectedEntryId}
+          onSelectEntry={handleSelectEntry}
           t={t}
         />
       </div>
