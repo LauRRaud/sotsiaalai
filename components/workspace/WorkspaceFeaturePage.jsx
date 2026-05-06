@@ -1291,6 +1291,10 @@ function ServiceMapSurface({
         <button
           type="button"
           className="service-map-workspace__toggle"
+          style={{
+            backdropFilter: "blur(26px) saturate(160%)",
+            WebkitBackdropFilter: "blur(26px) saturate(160%)"
+          }}
           aria-expanded={panelOpen}
           aria-label={panelOpen
             ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")

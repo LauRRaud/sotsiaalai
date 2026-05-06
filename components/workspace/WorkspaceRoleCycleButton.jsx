@@ -46,7 +46,8 @@ export default function WorkspaceRoleCycleButton({
   value,
   onChange,
   className,
-  ariaLabel
+  ariaLabel,
+  disabled = false
 }) {
   const normalizedValue = normalizeWorkspaceRole(value);
   const label = workspaceRoleLabel(t, normalizedValue);
@@ -57,6 +58,7 @@ export default function WorkspaceRoleCycleButton({
       className={cn("workspace-role-cycle-button", className)}
       aria-label={ariaLabel || label}
       title={label}
+      disabled={disabled}
       onClick={() => onChange?.(nextWorkspaceRole(normalizedValue))}
     >
       <span className="workspace-role-cycle-button__letter" aria-hidden="true">

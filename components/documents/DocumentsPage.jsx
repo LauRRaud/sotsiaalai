@@ -5,6 +5,7 @@ import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } f
 import { useRouter } from "next/navigation"
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
+import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton"
 import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
@@ -201,7 +202,7 @@ const documentsInlineMoreLinkClassName =
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
-  const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
+  const { effectiveRole, isAdmin, refresh: refreshEffectiveRole } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const artifactPageSize = isArtifactsExpanded ? ARTIFACT_LIST_LIMIT_ALL : initialArtifactLimit
@@ -242,8 +243,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const uploadInputRef = useRef(null)
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const trimmedArtifactSearch = String(deferredArtifactSearch || "").trim()
-  const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
-  const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
+  const roleScope = effectiveRole === "CLIENT" ? "client" : "worker"
   const workerIntroCopy = useMemo(() => getWorkerIntroCopy(locale), [locale])
   const roleIntroText = t(`documents.view_mode.intro_${roleScope}`)
   const roleIntroDetailsText = roleScope === "worker" ? workerIntroCopy.details : ""
@@ -563,17 +563,22 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               ariaLabel={t("buttons.back")}
               className={backButtonClassName}
             />
+            {isAdmin ? (
+              <AdminRoleViewCycleButton
+                t={t}
+                locale={locale}
+                value={effectiveRole}
+                onRoleChanged={refreshEffectiveRole}
+                className="documents-admin-role-menu"
+                ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
+              />
+            ) : null}
             <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
               <header className={headerClassName}>
                 <div className={mobileTitleWrapClassName}>
                   <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
                 </div>
               </header>
-              {isAdmin && isRoleViewActive ? (
-                <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                  {t("documents.view_mode.admin_notice", { role: roleViewLabel })}
-                </div>
-              ) : null}
               <div className="documents-section-description documents-library-description">
                 <div className="documents-library-copy">
                   <p className="documents-library-summary">

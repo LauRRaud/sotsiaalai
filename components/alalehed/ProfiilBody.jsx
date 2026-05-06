@@ -380,17 +380,6 @@ function AccountSettingsDockIcon({
       </g>
     </svg>;
 }
-function RoleToggleDockIcon({
-  isHovered: _isHovered,
-  ...props
-}) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M7 7h10" />
-      <path d="m13.5 4.5 3 2.5-3 2.5" />
-      <path d="M17 17H7" />
-      <path d="m10.5 14.5-3 2.5 3 2.5" />
-    </svg>;
-}
 function ThemeSunDockIcon({
   isHovered: _isHovered,
   ...props
@@ -486,7 +475,6 @@ export default function ProfiilBody({
   const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [accountSettingsClosing, setAccountSettingsClosing] = useState(false);
   const [showLogoutAll, setShowLogoutAll] = useState(false);
-  const [roleSwitching, setRoleSwitching] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const initialOrbitRequestedRef = useRef(Boolean(initialOrbitRequested && initialIsMobileProfileMenu));
   const [orbitOpen, setOrbitOpen] = useState(initialOrbitRequestedRef.current);
@@ -544,13 +532,6 @@ export default function ProfiilBody({
     profileUser?.role || session?.user?.role || (session?.user?.isAdmin ? "ADMIN" : "CLIENT"),
     session?.user?.isAdmin ? "ADMIN" : "CLIENT"
   );
-  const isAdminUser = actualRole === "ADMIN" || profileUser?.isAdmin === true || session?.user?.isAdmin === true;
-  const activePreviewRole = normalizeProfileRole(
-    profileUser?.adminViewRole || (isAdminUser ? profileUser?.effectiveRole || "SOCIAL_WORKER" : actualRole),
-    isAdminUser ? "SOCIAL_WORKER" : actualRole
-  );
-  const nextPreviewRole = activePreviewRole === "SOCIAL_WORKER" ? "CLIENT" : "SOCIAL_WORKER";
-  const nextPreviewRoleLabel = t(nextPreviewRole === "SOCIAL_WORKER" ? "profile.view_mode.worker" : "profile.view_mode.client");
   const roleLabel = t(ROLE_SHORT_KEYS[actualRole] || "profile.role_short.unknown");
   const roleLabelDisplay = splitRoleLabelToTwoLines(roleLabel);
   const roleLabelIsMultiLine =
@@ -1020,35 +1001,6 @@ export default function ProfiilBody({
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
     orbitQueryConsumedRef.current = false;
   }, [embedded, orbitOpen]);
-  const handleAdminViewRoleChange = useCallback(async nextRole => {
-    if (!isAdminUser || roleSwitching) return;
-    setError("");
-    setRoleSwitching(true);
-    try {
-      const res = await fetch("/api/profile/view-role", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": locale
-        },
-        body: JSON.stringify({ viewRole: nextRole })
-      });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setError(payload?.error || payload?.message || t("profile.view_mode.save_failed"));
-        return;
-      }
-      setProfileUser(current => ({
-        ...(current || {}),
-        ...(payload?.user || {})
-      }));
-    } catch (err) {
-      console.error("profile view role PUT", err);
-      setError(t("profile.view_mode.save_failed"));
-    } finally {
-      setRoleSwitching(false);
-    }
-  }, [isAdminUser, locale, roleSwitching, t]);
   const orbitItems = useMemo(() => [{
     key: "theme",
     icon: nextModeIcon,
@@ -1088,15 +1040,7 @@ export default function ProfiilBody({
     labelPos: "down",
     closeOnMobileAction: false,
     onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`, locale))
-  }, ...(isAdminUser ? [{
-    key: "view_role",
-    icon: <RoleToggleDockIcon className="h-full w-full" />,
-    label: nextPreviewRoleLabel,
-    labelPos: "down",
-    onClick: () => {
-      void handleAdminViewRoleChange(nextPreviewRole);
-    }
-  }] : []), {
+  }, {
     key: "preferences",
     icon: <PreferencesDockIcon />,
     label: t("profile.preferences.title"),
@@ -1105,7 +1049,7 @@ export default function ProfiilBody({
       a11yReturnToOrbitRef.current = isMobileProfileMenu;
       openA11y?.();
     }
-  }], [embedded, handleAdminViewRoleChange, handleModeSwitch, isAdminUser, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, nextPreviewRole, nextPreviewRoleLabel, openA11y, router, t]);
+  }], [embedded, handleModeSwitch, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, openA11y, router, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
       onBack();

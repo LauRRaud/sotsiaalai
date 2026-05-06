@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider"
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
+import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton"
 import ChatComposer from "@/components/alalehed/chat/ChatComposer"
 import ChatMessageItem from "@/components/alalehed/chat/ChatMessageItem"
 import ConversationView from "@/components/alalehed/chat/ConversationView"
@@ -125,14 +126,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const router = useRouter()
   const { t, locale } = useI18n()
   const { prefs } = useAccessibility()
-  const { effectiveRole, isAdmin, isRoleViewActive } = useEffectiveRole()
+  const { effectiveRole, isAdmin, refresh: refreshEffectiveRole } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
   const documentsHref = localizePath("/documents", locale)
   const chatHref = localizePath("/vestlus", locale)
   const backHref = chatHref
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid"
-  const roleScope = effectiveRole === "SOCIAL_WORKER" ? "worker" : "client"
-  const roleViewLabel = t(effectiveRole === "SOCIAL_WORKER" ? "profile.role_short.worker" : "profile.role_short.client")
+  const roleScope = effectiveRole === "CLIENT" ? "client" : "worker"
   const defaultAudience = effectiveRole === "CLIENT" ? "client" : "worker"
   const initialSelectedDocumentIds = useMemo(
     () => Array.from(new Set(initialDocumentIds.map((value) => String(value || "").trim()).filter(Boolean))),
@@ -1543,6 +1543,16 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
             className={backButtonClassName}
           />
+          {isAdmin ? (
+            <AdminRoleViewCycleButton
+              t={t}
+              locale={locale}
+              value={effectiveRole}
+              onRoleChanged={refreshEffectiveRole}
+              className="documents-admin-role-menu"
+              ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
+            />
+          ) : null}
           <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
             <header className={headerClassName}>
               <div className={mobileTitleWrapClassName}>
@@ -1551,11 +1561,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </header>
             <div className={heroBodyClassName}>
               <p className="documents-page-description documents-agent-page-description">{introText}</p>
-              {isAdmin && isRoleViewActive ? (
-                <div className="documents-notice documents-notice--muted rounded-[1rem] px-[1rem] py-[0.95rem] text-[0.95rem]">
-                  {t("documents.agent_workspace.admin_notice", { role: roleViewLabel })}
-                </div>
-              ) : null}
             </div>
           </Panel>
 

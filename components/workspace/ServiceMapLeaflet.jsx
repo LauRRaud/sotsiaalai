@@ -115,14 +115,6 @@ function createPopupContent(entry, t) {
   root.className = "service-map-popup";
 
   appendText(root, "h3", "service-map-popup__title", entry.title);
-  appendText(
-    root,
-    "p",
-    "service-map-popup__type",
-    entry.type === "SERVICE_PROVIDER"
-      ? readText(t, "workspace_feature_pages.service_map.popup.provider", "Teenuseosutaja")
-      : readText(t, "workspace_feature_pages.service_map.popup.kov", "KOV kontakt")
-  );
   appendText(root, "p", "service-map-popup__body", popupDescription(entry));
 
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.address", "Aadress"), entry.address);

@@ -14,7 +14,7 @@ function normalizeBaseRole(value, isAdmin = false) {
 
 function normalizeEffectiveRole(value, fallbackRole = "CLIENT", isAdmin = false) {
   const normalized = String(value || "").trim().toUpperCase();
-  if (normalized === "SERVICE_PROVIDER") return "SOCIAL_WORKER";
+  if (normalized === "SERVICE_PROVIDER") return "SERVICE_PROVIDER";
   if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
   if (normalized === "CLIENT") return "CLIENT";
   if (normalized === "ADMIN") return "SOCIAL_WORKER";
@@ -23,6 +23,7 @@ function normalizeEffectiveRole(value, fallbackRole = "CLIENT", isAdmin = false)
 
 function normalizePreviewRole(value) {
   const normalized = String(value || "").trim().toUpperCase();
+  if (normalized === "SERVICE_PROVIDER") return "SERVICE_PROVIDER";
   if (normalized === "SOCIAL_WORKER") return "SOCIAL_WORKER";
   if (normalized === "CLIENT") return "CLIENT";
   return null;

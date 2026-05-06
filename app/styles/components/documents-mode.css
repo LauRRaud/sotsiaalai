@@ -1950,12 +1950,71 @@
 }
 
 .documents-page-shell {
+  position: relative;
   padding: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
+}
+
+.documents-admin-role-menu {
+  position: absolute;
+  top: clamp(1rem, 2.2vh, 1.35rem);
+  right: clamp(0.8rem, 2vw, 1.15rem);
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.documents-admin-role-menu .workspace-role-cycle-button {
+  display: inline-grid;
+  width: 2.42rem;
+  height: 2.42rem;
+  min-width: 2.42rem;
+  place-items: center;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--documents-accent, var(--title-color, #8f3d3d));
+  font-size: 1rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
+    0 8px 20px rgba(82, 50, 46, 0.1);
+  cursor: var(--cursor-pointer);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.documents-admin-role-menu .workspace-role-cycle-button:hover,
+.documents-admin-role-menu .workspace-role-cycle-button:focus-visible {
+  background: rgba(255, 255, 255, 0.94);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.documents-admin-role-menu .workspace-role-cycle-button:disabled {
+  cursor: progress;
+  opacity: 0.72;
+  transform: none;
+}
+
+:root.theme-light .documents-admin-role-menu .workspace-role-cycle-button,
+:root.theme-mid .documents-admin-role-menu .workspace-role-cycle-button {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--documents-accent, #8a4b49);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
+    0 8px 20px rgba(82, 50, 46, 0.08);
 }
 
 .documents-workspace-page--library .documents-surface-panel {
@@ -2518,6 +2577,18 @@
     font-size: clamp(1.85rem, 8vw, 2.4rem);
   }
 
+  .documents-admin-role-menu {
+    top: calc(env(safe-area-inset-top, 0px) + 0.44rem);
+    right: clamp(0.58rem, 2vw, 0.82rem);
+  }
+
+  .documents-admin-role-menu .workspace-role-cycle-button {
+    width: 2.26rem;
+    height: 2.26rem;
+    min-width: 2.26rem;
+    font-size: 0.9rem;
+  }
+
   .documents-composer-grid,
   .documents-controls-grid {
     grid-template-columns: 1fr;
@@ -2856,7 +2927,8 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-primary-button,
   .documents-secondary-button,
   .documents-danger-button,
-  .documents-upload-choose-button
+  .documents-upload-choose-button,
+  .documents-admin-role-menu .workspace-role-cycle-button
 ) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
