@@ -18,6 +18,7 @@ const DEFAULT_TILE_URL =
 const DEFAULT_ATTRIBUTION = "Maa- ja Ruumiamet";
 const DEFAULT_LEAFLET_SCRIPT_URL = "/vendor/leaflet/leaflet.js";
 const DEFAULT_LEAFLET_CSS_URL = "/vendor/leaflet/leaflet.css";
+const SERVICE_MAP_MIN_ZOOM = 8;
 
 let leafletLoadPromise = null;
 
@@ -250,8 +251,8 @@ export default function ServiceMapLeaflet({
 
         const map = L.map(containerRef.current, {
           center: [58.75, 25.2],
-          zoom: 7,
-          minZoom: 6,
+          zoom: SERVICE_MAP_MIN_ZOOM,
+          minZoom: SERVICE_MAP_MIN_ZOOM,
           maxZoom: 18,
           maxBounds: ESTONIA_BOUNDS,
           maxBoundsViscosity: 1,
@@ -262,11 +263,10 @@ export default function ServiceMapLeaflet({
 
         L.tileLayer(process.env.NEXT_PUBLIC_SERVICE_MAP_TILE_URL || DEFAULT_TILE_URL, {
           attribution: process.env.NEXT_PUBLIC_SERVICE_MAP_ATTRIBUTION || DEFAULT_ATTRIBUTION,
-          minZoom: 6,
+          minZoom: SERVICE_MAP_MIN_ZOOM,
           maxZoom: 18,
           tms: true,
           noWrap: true,
-          bounds: ESTONIA_BOUNDS,
           updateWhenIdle: true,
           keepBuffer: 3
         }).addTo(map);

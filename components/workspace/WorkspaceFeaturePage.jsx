@@ -152,15 +152,12 @@ function ServiceMapPanelToggleIcon({ open }) {
     <svg
       viewBox="0 0 24 24"
       aria-hidden="true"
-      className={cn(
-        "h-[1.45rem] w-[1.45rem] transition-transform duration-200",
-        open ? "rotate-180" : "rotate-0"
-      )}
+      className="h-[1.45rem] w-[1.45rem]"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M6 9.5L12 15.5L18 9.5"
+        d={open ? "M6 14.5L12 8.5L18 14.5" : "M6 9.5L12 15.5L18 9.5"}
         stroke="currentColor"
         strokeWidth="2.2"
         strokeLinecap="round"
@@ -1092,9 +1089,25 @@ function ServiceMapSurface({
   const [entryType, setEntryType] = useState("ALL");
   const [selectedEntryId, setSelectedEntryId] = useState("");
   const [panelOpen, setPanelOpen] = useState(true);
+  const [isMobilePanel, setIsMobilePanel] = useState(false);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
+  const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return undefined;
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    const syncPanelMode = () => {
+      const nextIsMobile = mobileQuery.matches;
+      setIsMobilePanel(nextIsMobile);
+      if (!nextIsMobile) setPanelOpen(true);
+    };
+    syncPanelMode();
+    mobileQuery.addEventListener?.("change", syncPanelMode);
+    return () => mobileQuery.removeEventListener?.("change", syncPanelMode);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -1161,8 +1174,10 @@ function ServiceMapSurface({
 
   const handleSelectEntry = useCallback((entryId) => {
     setSelectedEntryId(entryId);
-    if (entryId) setPanelOpen(false);
-  }, []);
+    if (entryId && isMobilePanel) setPanelOpen(false);
+  }, [isMobilePanel]);
+
+  const panelCollapsed = isMobilePanel && !panelOpen;
 
   return (
     <div className="service-map-workspace">
@@ -1175,11 +1190,17 @@ function ServiceMapSurface({
       <div
         className={cn(
           "service-map-workspace__filters",
-          !panelOpen && "service-map-workspace__filters--collapsed"
+          panelCollapsed && "service-map-workspace__filters--collapsed"
         )}
         aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
       >
-        <div className="service-map-workspace__filters-shell">
+        <div
+          className="service-map-workspace__filters-shell"
+          style={{
+            backdropFilter: "blur(34px) saturate(176%) contrast(0.98)",
+            WebkitBackdropFilter: "blur(34px) saturate(176%) contrast(0.98)"
+          }}
+        >
           <div className="service-map-toolbar__content">
             <div className="service-map-toolbar__identity">
               <BackButton
@@ -1192,31 +1213,31 @@ function ServiceMapSurface({
 
             <div className="service-map-toolbar__body">
               <div className="service-map-toolbar__fields">
-                <label className="service-map-toolbar__field">
+                <label className="service-map-toolbar__field service-map-toolbar__field--keyword">
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
                   <input
-                    className={fieldClassName}
+                    className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--keyword")}
                     value={keyword}
                     onChange={(event) => setKeyword(event.target.value)}
-                    placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")}
+                    placeholder={keywordPlaceholder}
                   />
                 </label>
-                <label className="service-map-toolbar__field">
+                <label className="service-map-toolbar__field service-map-toolbar__field--region">
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
                   <input
-                    className={fieldClassName}
+                    className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--region")}
                     value={region}
                     onChange={(event) => setRegion(event.target.value)}
-                    placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")}
+                    placeholder={regionPlaceholder}
                   />
                 </label>
               </div>
 
               <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
-                ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
                 ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
-                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")]
+                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")],
+                ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")]
               ].map(([value, label]) => (
                   <OptionCard
                     key={value}
@@ -1264,18 +1285,18 @@ function ServiceMapSurface({
             </div>
           </div>
         </div>
+        </div>
         <button
-            type="button"
-            className="service-map-workspace__toggle"
-            aria-expanded={panelOpen}
-            aria-label={panelOpen
-              ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
+          type="button"
+          className="service-map-workspace__toggle"
+          aria-expanded={panelOpen}
+          aria-label={panelOpen
+            ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
               : readText(t, "workspace_feature_pages.service_map.actions.show_filters", "Näita filtreid")}
-            onClick={() => setPanelOpen((value) => !value)}
-          >
-            <ServiceMapPanelToggleIcon open={panelOpen} />
+          onClick={() => setPanelOpen((value) => !value)}
+        >
+          <ServiceMapPanelToggleIcon open={panelOpen} />
         </button>
-      </div>
       </div>
 
       {isAdmin ? (

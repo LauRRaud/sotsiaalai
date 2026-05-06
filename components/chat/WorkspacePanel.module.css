@@ -320,7 +320,12 @@
 
 @media (max-width: 768px) {
   :global(.chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open) {
+    --chat-pad-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    );
     --chat-pad-bottom: 0rem;
+    padding-top: var(--chat-pad-top) !important;
     padding-bottom: 0 !important;
   }
 
@@ -336,7 +341,7 @@
   }
 
   .title {
-    margin-top: calc(env(safe-area-inset-top, 0px) + 1.58rem) !important;
+    margin-top: clamp(0.82rem, 2.35vh, 1.08rem) !important;
     margin-bottom: clamp(0.32rem, 0.9vh, 0.52rem) !important;
   }
 

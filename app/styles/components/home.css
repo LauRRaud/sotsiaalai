@@ -406,10 +406,12 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     align-items: flex-start !important;
     gap: var(--home-mobile-quick-gap) !important;
     overflow-x: auto !important;
-    overflow-y: visible !important;
+    overflow-y: hidden !important;
     overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
     -webkit-mask-image: linear-gradient(
       90deg,
