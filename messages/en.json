@@ -586,19 +586,45 @@
       },
       "fields": {
         "keyword": "Keyword",
-        "region": "Region"
+        "region": "Region",
+        "type": "Entry type"
       },
       "placeholders": {
         "keyword": "Service, contact, or need",
         "region": "Municipality or county"
       },
       "types": {
+        "all": "All",
         "kov": "Municipality contact",
         "provider": "Service provider"
       },
       "marker_kov": "KOV",
       "marker_provider": "Provider",
+      "marker_kov_short": "M",
+      "marker_provider_short": "S",
       "map_label": "Service map preview",
+      "loading": "Loading map entries...",
+      "loading_map": "Loading the Estonia map...",
+      "results": "results",
+      "no_address": "Location needs clarification",
+      "actions": {
+        "hide_filters": "Hide filters",
+        "show_filters": "Show filters"
+      },
+      "errors": {
+        "load_failed": "Map entries could not be loaded.",
+        "map_failed": "The map could not be loaded."
+      },
+      "popup": {
+        "provider": "Service provider",
+        "kov": "Municipality contact",
+        "address": "Address",
+        "region": "Region",
+        "phone": "Phone",
+        "email": "Email",
+        "write": "Write",
+        "website": "Website"
+      },
       "empty": "Published map entries will appear here as markers."
     },
     "service_profile": {
@@ -846,7 +872,7 @@
           "meta": "Offers"
         },
         "add_person": {
-          "title": "Add person",
+          "title": "Invites",
           "meta": "Invites"
         },
         "service_map": {
@@ -858,7 +884,7 @@
           "meta": "Rooms"
         },
         "materials": {
-          "title": "Add materials",
+          "title": "Materials",
           "meta": "Knowledge base"
         },
         "service_profile": {

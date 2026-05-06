@@ -586,19 +586,45 @@
       },
       "fields": {
         "keyword": "Märksõna",
-        "region": "Piirkond"
+        "region": "Piirkond",
+        "type": "Kirje liik"
       },
       "placeholders": {
         "keyword": "Teenus, kontakt või vajadus",
         "region": "KOV või maakond"
       },
       "types": {
+        "all": "Kõik",
         "kov": "KOV kontakt",
         "provider": "Teenuseosutaja"
       },
       "marker_kov": "KOV",
       "marker_provider": "Teenuseosutaja",
+      "marker_kov_short": "K",
+      "marker_provider_short": "T",
       "map_label": "Teenusekaardi eelvaade",
+      "loading": "Laen kaardikirjeid...",
+      "loading_map": "Laen Eesti kaarti...",
+      "results": "tulemust",
+      "no_address": "Asukoht vajab täpsustamist",
+      "actions": {
+        "hide_filters": "Peida filtrid",
+        "show_filters": "Näita filtreid"
+      },
+      "errors": {
+        "load_failed": "Kaardikirjeid ei saanud laadida.",
+        "map_failed": "Kaarti ei saanud laadida."
+      },
+      "popup": {
+        "provider": "Teenuseosutaja",
+        "kov": "KOV kontakt",
+        "address": "Aadress",
+        "region": "Piirkond",
+        "phone": "Telefon",
+        "email": "E-post",
+        "write": "Kirjuta",
+        "website": "Veeb"
+      },
       "empty": "Avaldatud kaardikirjed kuvatakse siin markeritena."
     },
     "service_profile": {
@@ -846,7 +872,7 @@
           "meta": "Pakkumised"
         },
         "add_person": {
-          "title": "Lisa inimene",
+          "title": "Kutsed",
           "meta": "Kutsed"
         },
         "service_map": {
@@ -858,7 +884,7 @@
           "meta": "Ruumid"
         },
         "materials": {
-          "title": "Materjalide lisamine",
+          "title": "Materjalid",
           "meta": "Andmebaas"
         },
         "service_profile": {

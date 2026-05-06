@@ -12,6 +12,8 @@ import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import OptionCard from "@/components/ui/OptionCard";
+import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
@@ -65,6 +67,13 @@ const fieldClassName =
 
 const chipClassName =
   "workspace-feature-chip inline-flex min-h-[2.42rem] items-center justify-center rounded-full border px-[0.82rem] py-[0.36rem] text-[0.96rem] font-[600] leading-[1.15]";
+
+const serviceMapChoiceCardClassName =
+  `${primarySegmentedButtonClassName} service-map-toolbar__type-card inline-flex min-h-[2.72rem] items-center justify-center rounded-[1.6rem] ` +
+  "border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] " +
+  "px-[1.05rem] py-[0.64rem] text-center text-[1.06rem] leading-[1.2] tracking-[0.022em] text-[color:var(--seg-card-text)] " +
+  "shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "max-[768px]:min-h-[2.85rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.98rem] max-[768px]:py-[0.66rem] max-[768px]:text-[1.04rem]";
 
 const ADMIN_WORKSPACE_ROLES = Object.freeze([
   "CLIENT",
@@ -151,7 +160,7 @@ function ServiceMapPanelToggleIcon({ open }) {
       viewBox="0 0 24 24"
       aria-hidden="true"
       className={cn(
-        "h-[1.05rem] w-[1.05rem] transition-transform duration-200",
+        "h-[1.45rem] w-[1.45rem] transition-transform duration-200",
         open ? "rotate-180" : "rotate-0"
       )}
       fill="none"
@@ -1167,46 +1176,56 @@ function ServiceMapSurface({
         aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
       >
         <div className="service-map-workspace__filters-shell">
-          <div className="service-map-toolbar__identity">
-            <BackButton
-              onClick={onBack}
-              ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-              holdPressedVisualDisabled
-              className="service-map-toolbar__back"
-            />
-            <div className="service-map-toolbar__titleblock">
-              <h2 className={sectionTitleClassName}>
-                {readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
-              </h2>
-            </div>
-          </div>
-
-          <div className="service-map-toolbar__body">
-            <div className="service-map-toolbar__fields">
-              <Label>
-                <span>{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
-                <input className={fieldClassName} value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")} />
-              </Label>
-              <Label>
-                <span>{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
-                <input className={fieldClassName} value={region} onChange={(event) => setRegion(event.target.value)} placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")} />
-              </Label>
+          <div className="service-map-toolbar__content">
+            <div className="service-map-toolbar__identity">
+              <BackButton
+                onClick={onBack}
+                ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+                holdPressedVisualDisabled
+                className="service-map-toolbar__back"
+              />
             </div>
 
-            <div className="service-map-toolbar__types">
+            <div className="service-map-toolbar__body">
+              <div className="service-map-toolbar__fields">
+                <label className="service-map-toolbar__field">
+                  <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
+                  <input
+                    className={fieldClassName}
+                    value={keyword}
+                    onChange={(event) => setKeyword(event.target.value)}
+                    placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need")}
+                  />
+                </label>
+                <label className="service-map-toolbar__field">
+                  <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
+                  <input
+                    className={fieldClassName}
+                    value={region}
+                    onChange={(event) => setRegion(event.target.value)}
+                    placeholder={readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county")}
+                  />
+                </label>
+              </div>
+
+              <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
                 ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")],
                 ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
                 ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")]
               ].map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={cn(chipClassName, entryType === value && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")}
-                  onClick={() => setEntryType(value)}
-                >
-                  {label}
-                </button>
+                  <OptionCard
+                    key={value}
+                    type="radio"
+                    name="service-map-entry-type"
+                    value={value}
+                    checked={entryType === value}
+                    onChange={(event) => setEntryType(event.target.value)}
+                    className={serviceMapChoiceCardClassName}
+                    fitTextLines={1}
+                  >
+                    <span className="text-center [text-wrap:balance]">{label}</span>
+                  </OptionCard>
               ))}
             </div>
 
@@ -1216,8 +1235,9 @@ function ServiceMapSurface({
                   ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
                   : error || `${filteredEntries.length} ${readText(t, "workspace_feature_pages.service_map.results", "tulemust")}`}
               </p>
-              <div className="service-map-toolbar__results">
-                {filteredEntries.length ? filteredEntries.slice(0, 12).map((entry) => (
+              {filteredEntries.length ? (
+                <div className="service-map-toolbar__results">
+                  {filteredEntries.slice(0, 12).map((entry) => (
                   <button
                     key={entry.id}
                     type="button"
@@ -1235,14 +1255,9 @@ function ServiceMapSurface({
                       {[entry.address, entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(" · ") || readText(t, "workspace_feature_pages.service_map.no_address", "Asukoht vajab täpsustamist")}
                     </span>
                   </button>
-                )) : (
-                  <p className={bodyTextClassName}>
-                    {loading
-                      ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
-                      : readText(t, "workspace_feature_pages.service_map.empty", "Avaldatud kaardikirjed kuvatakse siin markeritena.")}
-                  </p>
-                )}
-              </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -1258,6 +1273,7 @@ function ServiceMapSurface({
         >
           <ServiceMapPanelToggleIcon open={panelOpen} />
         </button>
+      </div>
       </div>
 
       {isAdmin ? (

@@ -393,44 +393,67 @@ select.workspace-feature-field option {
 }
 
 .service-map-workspace__filters-shell {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  position: relative;
+  display: block;
   align-items: center;
   width: 100%;
-  border: 1px solid var(--workspace-feature-border);
+  min-height: 4.3rem;
+  border: 0 solid transparent;
   border-radius: 1.18rem;
-  background: var(--workspace-feature-surface);
+  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
   color: var(--workspace-feature-text);
-  padding: 0.84rem 0.96rem;
-  box-shadow: var(--workspace-feature-shadow);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  overflow: hidden;
+  padding: 0.72rem 4.7rem 0.72rem 0.86rem;
+  box-shadow: var(--glass-shell-shadow, var(--workspace-feature-shadow));
+  backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(100%);
+  -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(100%);
+  overflow: visible;
+  transition:
+    width 180ms ease,
+    min-height 180ms ease,
+    padding 180ms ease,
+    border-radius 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .service-map-workspace__filters--collapsed .service-map-workspace__filters-shell {
-  opacity: 0;
-  transform: translateY(-0.35rem);
+  width: 4.8rem;
+  min-height: 3rem;
+  border-radius: 1.32rem;
+  padding: 0.3rem;
+}
+
+.service-map-toolbar__content {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.72rem;
+  min-width: 0;
+  transition:
+    opacity 150ms ease,
+    max-height 180ms ease,
+    transform 180ms ease;
+}
+
+.service-map-workspace__filters--collapsed .service-map-toolbar__content {
   max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-width: 0;
+  opacity: 0;
+  overflow: hidden;
   pointer-events: none;
+  transform: translateY(-0.18rem);
 }
 
 .service-map-toolbar__identity {
   display: flex;
   align-items: center;
-  gap: 0.72rem;
   min-width: 0;
-  padding-right: 1rem;
+  padding-right: 0;
 }
 
 .service-map-toolbar__back {
-  height: 3.35rem !important;
-  width: 3.35rem !important;
-  min-height: 3.35rem !important;
-  min-width: 3.35rem !important;
+  height: 3.15rem !important;
+  width: 3.15rem !important;
+  min-height: 3.15rem !important;
+  min-width: 3.15rem !important;
   flex: 0 0 auto;
 }
 
@@ -445,9 +468,9 @@ select.workspace-feature-field option {
 
 .service-map-toolbar__body {
   display: grid;
-  grid-template-columns: minmax(20rem, 1.18fr) minmax(19rem, 0.95fr) minmax(24rem, 1.22fr);
+  grid-template-columns: minmax(29rem, 0.92fr) auto minmax(10rem, 0.68fr);
   align-items: center;
-  gap: 0.76rem;
+  gap: 0.74rem;
   min-width: 0;
 }
 
@@ -461,23 +484,40 @@ select.workspace-feature-field option {
 
 .service-map-workspace__toggle {
   pointer-events: auto;
-  margin-top: -0.08rem;
+  position: absolute;
+  top: 50%;
+  right: 0.86rem;
+  transform: translateY(-50%);
   display: inline-flex;
-  min-height: 2.1rem;
-  min-width: 3.2rem;
+  min-height: 2.72rem;
+  min-width: 2.72rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--workspace-feature-border);
+  border: 0 solid transparent;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--workspace-feature-surface) 92%, transparent);
+  background: var(--btn-primary-bg, color-mix(in srgb, var(--glass-ring-surface-bg, var(--workspace-feature-surface)) 92%, white 8%));
   color: var(--workspace-feature-text);
-  box-shadow: var(--workspace-feature-shadow);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--btn-primary-shadow, var(--workspace-feature-shadow));
+  backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    right 180ms ease;
+}
+
+.service-map-workspace__toggle:hover,
+.service-map-workspace__toggle:focus-visible {
+  background: var(--btn-primary-bg-hover, var(--workspace-feature-surface-hover));
+  color: var(--title-color, var(--workspace-feature-accent));
+  box-shadow: var(--btn-primary-shadow-hover, var(--workspace-feature-shadow));
 }
 
 .service-map-workspace__filters--collapsed .service-map-workspace__toggle {
-  margin-top: 0;
+  right: 50%;
+  transform: translate(50%, -50%);
 }
 
 .service-map-workspace__role {
@@ -556,15 +596,16 @@ select.workspace-feature-field option {
 
 .service-map-toolbar__fields {
   display: grid;
-  grid-template-columns: minmax(9rem, 1fr) minmax(8rem, 0.78fr);
-  gap: 0.46rem;
+  grid-template-columns: repeat(2, minmax(13.5rem, 1fr));
+  align-items: center;
+  gap: 0.54rem;
   min-width: 0;
 }
 
-.service-map-toolbar__fields label {
+.service-map-toolbar__field {
+  display: block;
   min-width: 0;
   color: inherit;
-  gap: 0.24rem;
 }
 
 .service-map-toolbar__fields label > span {
@@ -577,37 +618,46 @@ select.workspace-feature-field option {
 }
 
 .service-map-toolbar__fields .workspace-feature-field {
-  min-height: 2.48rem;
-  border-radius: 0.76rem;
-  padding: 0.5rem 0.72rem;
-  font-size: 0.92rem;
+  width: 100%;
+  min-height: 2.72rem;
+  border-radius: 1.6rem;
+  padding: 0.56rem 0.98rem;
+  font-size: 1.02rem;
+  line-height: 1.2;
 }
 
 .service-map-toolbar__types {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.42rem;
+  align-items: center;
+  gap: 0.44rem;
   min-width: 0;
   align-self: center;
 }
 
-.service-map-toolbar__types .workspace-feature-chip {
-  min-height: 2.1rem;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.88rem;
-  box-shadow: none;
+.service-map-toolbar__type-card {
+  flex: 0 0 auto;
+  min-height: 2.72rem;
+  white-space: nowrap;
+}
+
+.service-map-toolbar__type-card[data-checked="true"] {
+  color: var(--seg-card-text-selected, var(--title-color, var(--workspace-feature-accent)));
 }
 
 .service-map-toolbar__summary {
   align-self: center;
   min-width: 0;
+  max-width: min(18rem, 22vw);
   margin: 0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   border: 1px solid var(--workspace-feature-border);
   border-radius: 999px;
   background: color-mix(in srgb, var(--workspace-feature-surface) 94%, transparent);
-  padding: 0.36rem 0.66rem;
-  font-size: 0.84rem !important;
+  padding: 0.46rem 0.74rem;
+  font-size: 0.9rem !important;
 }
 
 .service-map-toolbar__results {
@@ -948,7 +998,11 @@ select.workspace-feature-field option {
   .service-map-workspace__filters-shell {
     gap: 0.72rem;
     border-radius: 1rem;
-    padding: 0.76rem;
+    padding: 0.72rem 3.85rem 0.72rem 0.64rem;
+  }
+
+  .service-map-toolbar__content {
+    gap: 0.48rem;
   }
 
   .service-map-toolbar__identity {
@@ -971,6 +1025,10 @@ select.workspace-feature-field option {
     gap: 0.72rem;
   }
 
+  .service-map-toolbar__fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .service-map-toolbar__types {
     gap: 0.36rem;
   }
@@ -981,7 +1039,20 @@ select.workspace-feature-field option {
   }
 
   .service-map-toolbar__summary {
+    max-width: 100%;
     white-space: normal;
+  }
+
+  .service-map-workspace__toggle {
+    top: 0.76rem;
+    right: 0.7rem;
+    transform: none;
+  }
+
+  .service-map-workspace__filters--collapsed .service-map-workspace__toggle {
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
   }
 
   .service-map-toolbar__results {
@@ -1046,7 +1117,7 @@ select.workspace-feature-field option {
   }
 
   .service-map-workspace__filters-shell {
-    padding: 0.62rem;
+    padding: 0.62rem 3.45rem 0.62rem 0.58rem;
   }
 
   .service-map-workspace__filters h2 {
@@ -1059,10 +1130,10 @@ select.workspace-feature-field option {
   }
 
   .service-map-workspace__filters input {
-    min-height: 2.45rem;
-    border-radius: 0.74rem;
-    padding: 0.46rem 0.64rem;
-    font-size: 0.92rem;
+    min-height: 2.72rem;
+    border-radius: 1.45rem;
+    padding: 0.5rem 0.78rem;
+    font-size: 0.96rem;
   }
 
   .service-map-toolbar__summary {
@@ -1076,7 +1147,17 @@ select.workspace-feature-field option {
   }
 
   .service-map-workspace__toggle {
+    top: 0.62rem;
+    right: 0.58rem;
+    min-height: 2.72rem;
     min-width: 2.9rem;
+    padding: 0;
+  }
+
+  .service-map-workspace__filters--collapsed .service-map-workspace__toggle {
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
   }
 
   .service-map-workspace__role {

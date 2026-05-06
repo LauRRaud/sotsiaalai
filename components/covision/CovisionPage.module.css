@@ -1,0 +1,365 @@
+.page {
+  --covision-text: var(--subpage-card-text, var(--glass-modal-text, #f2f7ff));
+  --covision-strong-text: var(--covision-text);
+  --covision-muted: rgba(226, 232, 240, 0.76);
+  --covision-accent: var(--brand-primary, #c57171);
+  --covision-surface-bg: var(--glass-ring-surface-bg, var(--glass-surface-bg));
+  --covision-panel-bg: var(--subpage-card-bg);
+  --covision-panel-hover-bg: var(--subpage-card-bg-hover, var(--subpage-card-bg));
+  --covision-card-bg: rgba(255, 255, 255, 0.055);
+  --covision-card-hover-bg: rgba(255, 255, 255, 0.075);
+  --covision-card-border: rgba(248, 253, 255, 0.12);
+  --covision-card-border-strong: rgba(248, 253, 255, 0.18);
+  --covision-card-border-width: 1px;
+  --covision-card-shadow: none;
+  --covision-chip-bg: rgba(255, 255, 255, 0.06);
+  --covision-chip-active-bg: rgba(197, 113, 113, 0.2);
+  --covision-chip-border: rgba(248, 253, 255, 0.16);
+  --covision-chip-active-border: rgba(197, 113, 113, 0.52);
+  --covision-success-bg: rgba(18, 44, 34, 0.62);
+  --covision-success-border: rgba(88, 148, 118, 0.26);
+  --covision-success-text: rgba(223, 246, 236, 0.96);
+  --covision-danger-bg: rgba(58, 22, 25, 0.62);
+  --covision-danger-border: rgba(208, 116, 108, 0.3);
+  --covision-danger-text: rgba(255, 223, 218, 0.98);
+  --covision-field-bg: var(--input-bg);
+  --covision-field-hover-bg: var(--input-bg-hover, var(--input-bg));
+  --covision-field-text: var(--input-text, var(--covision-text));
+  --covision-field-placeholder: var(--input-placeholder, var(--covision-muted));
+  --covision-field-border: var(--input-border, 1px solid var(--covision-card-border));
+  --covision-field-shadow: var(--input-shadow-composite, var(--input-shadow, none));
+  --covision-field-focus-shadow: var(--input-shadow-focus-composite, var(--input-shadow-hover-composite, var(--input-shadow-hover, var(--input-shadow, none))));
+  --covision-divider: rgba(248, 253, 255, 0.13);
+  --covision-focus-ring: var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28));
+  --covision-secondary-button-bg: rgba(255, 255, 255, 0.05);
+  --covision-secondary-button-bg-hover: rgba(255, 255, 255, 0.09);
+  --covision-secondary-button-border: rgba(248, 253, 255, 0.18);
+  --covision-secondary-button-text: var(--covision-text);
+  color: var(--covision-text);
+}
+
+:global(:root.theme-light:not(.theme-mid)) .page {
+  --covision-text: #334155;
+  --covision-strong-text: #26364a;
+  --covision-muted: rgba(51, 65, 85, 0.74);
+  --covision-card-bg: rgba(255, 255, 255, 0.62);
+  --covision-card-hover-bg: rgba(255, 255, 255, 0.78);
+  --covision-card-border: rgba(122, 58, 56, 0.14);
+  --covision-card-border-strong: rgba(122, 58, 56, 0.22);
+  --covision-card-shadow: 0 6px 16px rgba(82, 50, 46, 0.07);
+  --covision-chip-bg: rgba(255, 255, 255, 0.64);
+  --covision-chip-active-bg: rgba(122, 58, 56, 0.1);
+  --covision-chip-border: rgba(122, 58, 56, 0.16);
+  --covision-chip-active-border: rgba(122, 58, 56, 0.34);
+  --covision-success-bg: rgba(247, 252, 249, 0.94);
+  --covision-success-border: rgba(52, 118, 79, 0.22);
+  --covision-success-text: #356851;
+  --covision-danger-bg: rgba(255, 249, 248, 0.96);
+  --covision-danger-border: rgba(159, 79, 75, 0.24);
+  --covision-danger-text: #9f4f4b;
+  --covision-divider: rgba(122, 58, 56, 0.14);
+  --covision-secondary-button-bg: rgba(255, 255, 255, 0.64);
+  --covision-secondary-button-bg-hover: rgba(255, 255, 255, 0.82);
+  --covision-secondary-button-border: rgba(122, 58, 56, 0.16);
+  --covision-secondary-button-text: #334155;
+}
+
+:global(:root.theme-mid) .page {
+  --covision-text: #2f3a4a;
+  --covision-strong-text: #283141;
+  --covision-muted: rgba(47, 58, 74, 0.74);
+  --covision-card-bg: var(--mid-unified-surface-bg, rgba(246, 237, 233, 0.42));
+  --covision-card-hover-bg: var(--mid-unified-surface-bg-hover, rgba(246, 237, 233, 0.56));
+  --covision-card-border: rgba(126, 95, 88, 0.18);
+  --covision-card-border-strong: rgba(126, 95, 88, 0.26);
+  --covision-card-shadow: var(--mid-unified-surface-shadow, 0 6px 14px rgba(38, 24, 22, 0.1));
+  --covision-chip-bg: rgba(253, 250, 249, 0.34);
+  --covision-chip-active-bg: rgba(122, 58, 56, 0.11);
+  --covision-chip-border: rgba(126, 95, 88, 0.18);
+  --covision-chip-active-border: rgba(122, 58, 56, 0.34);
+  --covision-success-bg: rgba(237, 246, 241, 0.52);
+  --covision-success-border: rgba(52, 118, 79, 0.24);
+  --covision-success-text: #315f4a;
+  --covision-danger-bg: rgba(255, 238, 235, 0.52);
+  --covision-danger-border: rgba(154, 72, 68, 0.26);
+  --covision-danger-text: #7f3936;
+  --covision-divider: rgba(126, 95, 88, 0.16);
+  --covision-secondary-button-bg: var(--mid-unified-surface-bg, rgba(246, 237, 233, 0.42));
+  --covision-secondary-button-bg-hover: var(--mid-unified-surface-bg-hover, rgba(246, 237, 233, 0.56));
+  --covision-secondary-button-border: rgba(126, 95, 88, 0.18);
+  --covision-secondary-button-text: #2f3a4a;
+}
+
+:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])) .page {
+  --covision-text: var(--pt-120, #eef2f8);
+  --covision-strong-text: var(--pt-80, #f8fbff);
+  --covision-muted: rgba(226, 232, 240, 0.76);
+  --covision-card-bg: var(--input-flat-bg, rgba(27, 31, 37, 0.88));
+  --covision-card-hover-bg: var(--input-flat-bg-hover, rgba(34, 37, 42, 0.9));
+  --covision-card-border: rgba(248, 253, 255, 0.11);
+  --covision-card-border-strong: rgba(248, 253, 255, 0.18);
+  --covision-card-shadow: var(--subpage-card-shadow, none);
+  --covision-chip-bg: rgba(255, 255, 255, 0.055);
+  --covision-chip-active-bg: rgba(197, 113, 113, 0.2);
+  --covision-chip-border: rgba(248, 253, 255, 0.15);
+  --covision-chip-active-border: rgba(197, 113, 113, 0.46);
+}
+
+:global(:root.theme-night) .page {
+  --covision-text: rgba(234, 238, 245, 0.94);
+  --covision-strong-text: #f3f8ff;
+  --covision-muted: rgba(215, 226, 245, 0.76);
+  --covision-card-bg: var(--input-flat-bg, rgba(20, 30, 43, 0.86));
+  --covision-card-hover-bg: var(--input-flat-bg-hover, rgba(26, 38, 54, 0.88));
+  --covision-card-border: rgba(216, 226, 235, 0.14);
+  --covision-card-border-strong: rgba(226, 232, 238, 0.2);
+  --covision-card-shadow: var(--subpage-card-shadow, none);
+  --covision-chip-bg: rgba(220, 236, 255, 0.06);
+  --covision-chip-active-bg: rgba(197, 113, 113, 0.18);
+  --covision-chip-border: rgba(216, 226, 235, 0.16);
+  --covision-chip-active-border: rgba(197, 113, 113, 0.42);
+  --covision-secondary-button-bg: rgba(220, 236, 255, 0.055);
+  --covision-secondary-button-bg-hover: rgba(220, 236, 255, 0.095);
+  --covision-secondary-button-border: rgba(216, 226, 235, 0.16);
+}
+
+:global(html[data-contrast="hc"]) .page {
+  --covision-text: var(--hc-text, #eef4ff);
+  --covision-strong-text: var(--hc-accent, #ffea00);
+  --covision-muted: var(--hc-muted, #d7e2f5);
+  --covision-accent: var(--hc-accent, #ffea00);
+  --covision-surface-bg: var(--hc-bg, #090a0f);
+  --covision-panel-bg: var(--hc-bg, #090a0f);
+  --covision-panel-hover-bg: rgba(255, 234, 0, 0.08);
+  --covision-card-bg: var(--hc-bg, #090a0f);
+  --covision-card-hover-bg: rgba(255, 234, 0, 0.08);
+  --covision-card-border: var(--hc-accent, #ffea00);
+  --covision-card-border-strong: var(--hc-accent, #ffea00);
+  --covision-card-border-width: 2px;
+  --covision-card-shadow: none;
+  --covision-chip-bg: transparent;
+  --covision-chip-active-bg: rgba(255, 234, 0, 0.16);
+  --covision-chip-border: var(--hc-accent, #ffea00);
+  --covision-chip-active-border: var(--hc-accent, #ffea00);
+  --covision-success-bg: var(--hc-bg, #090a0f);
+  --covision-success-border: var(--hc-accent, #ffea00);
+  --covision-success-text: var(--hc-accent, #ffea00);
+  --covision-danger-bg: var(--hc-bg, #090a0f);
+  --covision-danger-border: var(--hc-accent, #ffea00);
+  --covision-danger-text: var(--hc-accent, #ffea00);
+  --covision-field-bg: var(--hc-bg, #090a0f);
+  --covision-field-hover-bg: rgba(255, 234, 0, 0.08);
+  --covision-field-text: var(--hc-text, #eef4ff);
+  --covision-field-placeholder: var(--hc-muted, #d7e2f5);
+  --covision-field-border: 2px solid var(--hc-accent, #ffea00);
+  --covision-field-shadow: none;
+  --covision-field-focus-shadow: 0 0 0 3px var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+  --covision-divider: var(--hc-accent, #ffea00);
+  --covision-focus-ring: var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+  --covision-secondary-button-bg: var(--hc-bg, #090a0f);
+  --covision-secondary-button-bg-hover: rgba(255, 234, 0, 0.12);
+  --covision-secondary-button-border: var(--hc-accent, #ffea00);
+  --covision-secondary-button-text: var(--hc-accent, #ffea00);
+  --btn-primary-bg: var(--hc-bg, #090a0f);
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.18);
+  --btn-primary-border: 2px solid var(--hc-accent, #ffea00);
+  --btn-primary-border-hover: 2px solid var(--hc-accent, #ffea00);
+  --btn-primary-border-active: 2px solid var(--hc-accent, #ffea00);
+  --btn-primary-text: var(--hc-accent, #ffea00);
+  --btn-primary-shadow: none;
+  --btn-primary-shadow-hover: none;
+  --btn-primary-shadow-active: none;
+  --btn-primary-shadow-focus: 0 0 0 3px var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+  --btn-danger-bg: var(--hc-bg, #090a0f);
+  --btn-danger-bg-hover: rgba(255, 234, 0, 0.12);
+  --btn-danger-bg-active: rgba(255, 234, 0, 0.18);
+  --btn-danger-border: 2px solid var(--hc-accent, #ffea00);
+  --btn-danger-text: var(--hc-accent, #ffea00);
+  --btn-danger-shadow: none;
+  --btn-danger-shadow-hover: none;
+  --btn-danger-shadow-active: none;
+  --btn-danger-shadow-focus: 0 0 0 3px var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+}
+
+.surface {
+  color: var(--covision-text) !important;
+}
+
+:global(html[data-contrast="hc"]) .surface {
+  border: 2px solid var(--hc-accent, #ffea00) !important;
+  background: var(--hc-bg, #090a0f) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.lead,
+.muted {
+  color: var(--covision-muted) !important;
+  opacity: 1 !important;
+}
+
+.heading {
+  color: var(--covision-strong-text) !important;
+}
+
+.fieldLabel {
+  color: var(--covision-strong-text);
+}
+
+.sectionPanel,
+.toolbar,
+.card,
+.subtleCard,
+.message,
+.suggestionCard,
+.confirmBox {
+  border-width: var(--covision-card-border-width) !important;
+  border-color: var(--covision-card-border) !important;
+  background: var(--covision-card-bg) !important;
+  color: var(--covision-text) !important;
+  box-shadow: var(--covision-card-shadow) !important;
+}
+
+.sectionPanel {
+  background: var(--covision-panel-bg) !important;
+}
+
+.toolbar {
+  background: var(--covision-card-bg) !important;
+}
+
+.card,
+.suggestionCard,
+.choice,
+.chip {
+  transition:
+    background-color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.card:hover,
+.suggestionCard:hover,
+.choice:hover,
+.chip:hover {
+  background: var(--covision-card-hover-bg) !important;
+  border-color: var(--covision-card-border-strong) !important;
+}
+
+.dangerCard {
+  border-width: var(--covision-card-border-width) !important;
+  border-color: var(--covision-danger-border) !important;
+  background: var(--covision-danger-bg) !important;
+  color: var(--covision-danger-text) !important;
+}
+
+.notice {
+  border-width: var(--covision-card-border-width) !important;
+  box-shadow: none !important;
+}
+
+.noticeSuccess {
+  border-color: var(--covision-success-border) !important;
+  background: var(--covision-success-bg) !important;
+  color: var(--covision-success-text) !important;
+}
+
+.noticeError {
+  border-color: var(--covision-danger-border) !important;
+  background: var(--covision-danger-bg) !important;
+  color: var(--covision-danger-text) !important;
+}
+
+.tag,
+.statusBadge,
+.chip,
+.choice {
+  border-width: var(--covision-card-border-width) !important;
+  border-color: var(--covision-chip-border) !important;
+  background: var(--covision-chip-bg) !important;
+  color: var(--covision-text) !important;
+  opacity: 1 !important;
+}
+
+.statusBadge {
+  color: var(--covision-strong-text) !important;
+}
+
+.choiceActive {
+  border-color: var(--covision-chip-active-border) !important;
+  background: var(--covision-chip-active-bg) !important;
+  color: var(--covision-strong-text) !important;
+}
+
+.meta {
+  color: var(--covision-muted) !important;
+  opacity: 1 !important;
+}
+
+.discussionForm {
+  border-color: var(--covision-divider) !important;
+}
+
+.field,
+.page :global(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"])),
+.page :global(textarea),
+.page :global(select) {
+  border: var(--covision-field-border) !important;
+  background: var(--covision-field-bg) !important;
+  color: var(--covision-field-text) !important;
+  caret-color: var(--covision-accent) !important;
+  box-shadow: var(--covision-field-shadow) !important;
+}
+
+.field:hover,
+.page :global(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"])):hover,
+.page :global(textarea):hover,
+.page :global(select):hover {
+  background: var(--covision-field-hover-bg) !important;
+}
+
+.field:focus-visible,
+.page :global(input:not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"])):focus-visible,
+.page :global(textarea):focus-visible,
+.page :global(select):focus-visible {
+  box-shadow: var(--covision-field-focus-shadow) !important;
+}
+
+.page :global(input::placeholder),
+.page :global(textarea::placeholder) {
+  color: var(--covision-field-placeholder) !important;
+  opacity: 1 !important;
+}
+
+.page :global(select option) {
+  background: var(--covision-field-bg);
+  color: var(--covision-field-text);
+}
+
+.page :global(.button[data-variant="secondary"]),
+.page :global(.button[data-variant="ghost"]) {
+  border-color: var(--covision-secondary-button-border) !important;
+  background: var(--covision-secondary-button-bg) !important;
+  color: var(--covision-secondary-button-text) !important;
+  box-shadow: none !important;
+}
+
+.page :global(.button[data-variant="secondary"]):hover,
+.page :global(.button[data-variant="ghost"]):hover,
+.page :global(.button[data-variant="secondary"]):focus-visible,
+.page :global(.button[data-variant="ghost"]):focus-visible {
+  background: var(--covision-secondary-button-bg-hover) !important;
+  box-shadow: 0 0 0 3px var(--covision-focus-ring) !important;
+}
+
+:global(html[data-contrast="hc"]) .page :global(.button)::before {
+  background: var(--btn-primary-bg-hover) !important;
+}
+
+:global(html[data-contrast="hc"]) .page :global(.ui-checkbox-glass) {
+  accent-color: var(--hc-accent, #ffea00);
+}

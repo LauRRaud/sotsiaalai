@@ -75,8 +75,9 @@ function DashboardCardIcon({ type }) {
   if (type === "materials") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M7.1 4.1h6.3l3.5 3.5v10.8a1.5 1.5 0 0 1-1.5 1.5H7.1a1.5 1.5 0 0 1-1.5-1.5V5.6a1.5 1.5 0 0 1 1.5-1.5Z" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M13.4 4.1v3.5h3.5M11.2 16.1V10.6M8.95 12.85l2.25-2.25 2.25 2.25" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7 3.8h6.35L18 8.45V19a1.6 1.6 0 0 1-1.6 1.6H7A1.6 1.6 0 0 1 5.4 19V5.4A1.6 1.6 0 0 1 7 3.8Z" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.35 3.8v4.65H18" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M11.5 17.15v-5.2M9.35 14.1l2.15-2.15 2.15 2.15" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
@@ -213,86 +214,75 @@ export default function WorkspacePanel({
     [hasPaidAccess]
   );
 
-  const cardRows = [
-    [
-      makeCard({
-        key: "help_requests",
-        icon: "help-request",
-        title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
-        meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
-        onClick: () => openHelpPanel("help_requests")
-      }),
-      makeCard({
-        key: "help_offers",
-        icon: "help-offer",
-        title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
-        meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
-        onClick: () => openHelpPanel("help_offers")
-      })
-    ],
-    [
-      makeCard({
-        key: "service_map",
-        icon: "map",
-        title: text(t, "chat.workspace.cards.service_map.title", "Teenusekaart"),
-        meta: text(t, "chat.workspace.cards.service_map.meta", "Kaardivaade"),
-        onClick: () => navigateTo("/teenusekaart")
-      }),
-      ...(isProviderView
-        ? [makeCard({
+  const serviceMapCard = makeCard({
+    key: "service_map",
+    icon: "map",
+    title: text(t, "chat.workspace.cards.service_map.title", "Teenusekaart"),
+    meta: text(t, "chat.workspace.cards.service_map.meta", "Kaardivaade"),
+    onClick: () => navigateTo("/teenusekaart")
+  });
+
+  const cardRows = isProviderView
+    ? [
+        [
+          makeCard({
+            key: "help_requests",
+            icon: "help-request",
+            title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
+            meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
+            onClick: () => openHelpPanel("help_requests")
+          }),
+          makeCard({
+            key: "help_offers",
+            icon: "help-offer",
+            title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
+            meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
+            onClick: () => openHelpPanel("help_offers")
+          })
+        ],
+        [
+          serviceMapCard,
+          makeCard({
             key: "service_profile",
             icon: "profile",
             title: text(t, "chat.workspace.cards.service_profile.title", "Teenuseprofiil"),
             meta: text(t, "chat.workspace.cards.service_profile.meta", "Profiil"),
             onClick: () => navigateTo("/teenuseprofiil")
-          }, { requiresPaid: true })]
-        : [])
-    ],
-    [
-      makeCard({
-        key: "documents",
-        icon: "document",
-        title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
-        meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
-        onClick: () => navigateTo("/documents")
-      }, { requiresPaid: true }),
-      makeCard({
-        key: "document_drafting",
-        icon: "compose",
-        title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-        meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-        onClick: () => navigateTo("/dokreziim")
-      }, { requiresPaid: true })
-    ],
-    [
-      makeCard({
-        key: "pre_inquiries",
-        icon: "compose",
-        title: isClientView
-          ? text(t, "chat.workspace.cards.pre_inquiries.title_client", "Eelpöördumine")
-          : text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
-        meta: isClientView
-          ? text(t, "chat.workspace.cards.pre_inquiries.meta_client", "Pöördumise mustand")
-          : text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
-        onClick: () => navigateTo("/eelpoordumised")
-      }, { requiresPaid: true }),
-      makeCard({
-        key: "add_person",
-        icon: "invite",
-        title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
-        meta: text(t, "chat.workspace.cards.add_person.meta", text(t, "nav.add_person", "Lisa inimene")),
-        onClick: openInvite
-      }, { requiresPaid: true })
-    ],
-    ...(!isClientView
-      ? [[
+          }, { requiresPaid: true })
+        ],
+        [
           makeCard({
-            key: "kovision",
-            icon: "room",
-            title: text(t, "chat.workspace.cards.kovision.title", "Kovisioon"),
-            meta: text(t, "chat.workspace.cards.kovision.meta", "Ruumid"),
-            onClick: () => navigateTo("/ruum")
+            key: "documents",
+            icon: "document",
+            title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
+            meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
+            onClick: () => navigateTo("/documents")
           }, { requiresPaid: true }),
+          makeCard({
+            key: "document_drafting",
+            icon: "compose",
+            title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+            meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+            onClick: () => navigateTo("/dokreziim")
+          }, { requiresPaid: true })
+        ],
+        [
+          makeCard({
+            key: "pre_inquiries",
+            icon: "compose",
+            title: text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
+            meta: text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
+            onClick: () => navigateTo("/eelpoordumised")
+          }, { requiresPaid: true }),
+          makeCard({
+            key: "add_person",
+            icon: "invite",
+            title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
+            meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
+            onClick: openInvite
+          }, { requiresPaid: true })
+        ],
+        [
           makeCard({
             key: "materials",
             icon: "materials",
@@ -300,9 +290,81 @@ export default function WorkspacePanel({
             meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
             onClick: () => navigateTo("/materjalid")
           }, { requiresPaid: true })
-        ]]
-      : [])
-  ];
+        ]
+      ]
+    : [
+        [
+          makeCard({
+            key: "help_requests",
+            icon: "help-request",
+            title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
+            meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
+            onClick: () => openHelpPanel("help_requests")
+          }),
+          makeCard({
+            key: "help_offers",
+            icon: "help-offer",
+            title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
+            meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
+            onClick: () => openHelpPanel("help_offers")
+          })
+        ],
+        [
+          makeCard({
+            key: "documents",
+            icon: "document",
+            title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
+            meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
+            onClick: () => navigateTo("/documents")
+          }, { requiresPaid: true }),
+          makeCard({
+            key: "document_drafting",
+            icon: "compose",
+            title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+            meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+            onClick: () => navigateTo("/dokreziim")
+          }, { requiresPaid: true })
+        ],
+        [
+          makeCard({
+            key: "pre_inquiries",
+            icon: "compose",
+            title: isClientView
+              ? text(t, "chat.workspace.cards.pre_inquiries.title_client", "Eelpöördumine")
+              : text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
+            meta: isClientView
+              ? text(t, "chat.workspace.cards.pre_inquiries.meta_client", "Pöördumise mustand")
+              : text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
+            onClick: () => navigateTo("/eelpoordumised")
+          }, { requiresPaid: true }),
+          makeCard({
+            key: "add_person",
+            icon: "invite",
+            title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
+            meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
+            onClick: openInvite
+          }, { requiresPaid: true })
+        ],
+        ...(!isClientView
+          ? [[
+              makeCard({
+                key: "kovision",
+                icon: "room",
+                title: text(t, "chat.workspace.cards.kovision.title", "Kovisioon"),
+                meta: text(t, "chat.workspace.cards.kovision.meta", "Ruumid"),
+                onClick: () => navigateTo("/kovisioon")
+              }, { requiresPaid: true }),
+              makeCard({
+                key: "materials",
+                icon: "materials",
+                title: text(t, "chat.workspace.cards.materials.title", "Materjalid"),
+                meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
+                onClick: () => navigateTo("/materjalid")
+              }, { requiresPaid: true })
+            ]]
+          : []),
+        [serviceMapCard]
+      ];
 
   return (
     <section
@@ -354,11 +416,6 @@ export default function WorkspacePanel({
                 </span>
                 <span className={styles.cardCopy}>
                   <span className={styles.cardTitle}>{card.title}</span>
-                  <span className={styles.cardMeta}>
-                    {card.disabled
-                      ? text(t, "chat.workspace.cards.locked_meta", "Tasuline pakett")
-                      : card.meta}
-                  </span>
                 </span>
               </button>
             ))}

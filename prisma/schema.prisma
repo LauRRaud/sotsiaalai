@@ -223,6 +223,72 @@ enum PreInquiryStatus {
   ARCHIVED
 }
 
+enum CovisionCaseStatus {
+  DRAFT
+  ACTIVE
+  SUMMARY_READY
+  CLOSED
+  ARCHIVED
+}
+
+enum CovisionVisibility {
+  PRIVATE
+  ORGANIZATION
+}
+
+enum CovisionParticipantRole {
+  OWNER
+  PARTICIPANT
+  OBSERVER
+  CO_MODERATOR
+  SUMMARY_REVIEWER
+}
+
+enum CovisionInviteStatus {
+  INVITED
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+enum CovisionFactorType {
+  RISK
+  PROTECTIVE
+}
+
+enum CovisionSeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum CovisionStepStatus {
+  CONFIRMED
+  NEEDS_CLARIFICATION
+}
+
+enum CovisionMessageType {
+  FREE_TEXT
+  OBSERVATION
+  QUESTION
+  RISK
+  PROTECTIVE_FACTOR
+  NEXT_STEP
+  EXPERIENCE
+  SOURCE_NOTE
+  DOCUMENTATION_NOTE
+  NETWORK_NOTE
+}
+
+enum EffectivePracticeStatus {
+  DRAFT
+  ANONYMITY_CHECK
+  REVIEW
+  PUBLISHED
+  HIDDEN
+  ARCHIVED
+}
+
 enum HelpRecordStatus {
   DRAFT
   OPEN
@@ -378,6 +444,10 @@ model User {
   serviceProviderProfiles ServiceProviderProfile[]
   authoredPreInquiries PreInquiry[]          @relation("PreInquiryAuthor")
   receivedPreInquiries PreInquiry[]          @relation("PreInquiryRecipientOwner")
+  covisionCasesOwned    CovisionCase[]        @relation("CovisionCaseOwner")
+  covisionParticipants  CovisionParticipant[] @relation("CovisionParticipantUser")
+  covisionMessages      CovisionMessage[]     @relation("CovisionMessageAuthor")
+  effectivePractices    EffectivePractice[]   @relation("EffectivePracticeAuthor")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1108,12 +1178,192 @@ model PreInquiry {
   author         User             @relation("PreInquiryAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   recipientOwner User?            @relation("PreInquiryRecipientOwner", fields: [recipientOwnerId], references: [id], onDelete: SetNull)
   recipientEntry ServiceMapEntry? @relation(fields: [recipientEntryId], references: [id], onDelete: SetNull)
+  covisionCases  CovisionCase[]
 
   @@index([authorId, updatedAt])
   @@index([recipientOwnerId, updatedAt])
   @@index([recipientEntryId])
   @@index([recipientType])
   @@index([deliveryChannel])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CovisionCase {
+  id                     String               @id @default(cuid())
+  ownerId                String
+  title                  String
+  summary                String?              @db.Text
+  anonymizedDescription  String?              @db.Text
+  centralQuestion        String?              @db.Text
+  expectedHelpTypes      String[]             @default([])
+  topics                 String[]             @default([])
+  tags                   String[]             @default([])
+  status                 CovisionCaseStatus   @default(DRAFT)
+  visibility             CovisionVisibility   @default(PRIVATE)
+  sourcePreInquiryId     String?
+  anonymityConfirmedAt   DateTime?
+  lastActivityAt         DateTime             @default(now())
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+
+  owner            User                  @relation("CovisionCaseOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  sourcePreInquiry PreInquiry?           @relation(fields: [sourcePreInquiryId], references: [id], onDelete: SetNull)
+  journeySteps     CovisionJourneyStep[]
+  parties          CovisionParty[]
+  riskFactors      CovisionRiskFactor[]
+  participants     CovisionParticipant[]
+  messages         CovisionMessage[]
+  summaryRecord    CovisionSummary?
+  practices        EffectivePractice[]
+
+  @@index([ownerId, updatedAt])
+  @@index([sourcePreInquiryId])
+  @@index([status])
+  @@index([visibility])
+  @@index([lastActivityAt])
+}
+
+model CovisionJourneyStep {
+  id             String             @id @default(cuid())
+  covisionCaseId String
+  type           String
+  title          String?
+  description    String?            @db.Text
+  relatedPartyIds String[]           @default([])
+  order          Int                @default(0)
+  dateLabel      String?
+  notes          String?            @db.Text
+  status         CovisionStepStatus @default(NEEDS_CLARIFICATION)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+
+  @@index([covisionCaseId, order])
+}
+
+model CovisionParty {
+  id                String   @id @default(cuid())
+  covisionCaseId    String
+  category          String
+  type              String
+  label             String
+  roleDescription   String?  @db.Text
+  involvementStatus String?
+  cooperationStatus String?
+  note              String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+
+  @@index([covisionCaseId])
+  @@index([category])
+  @@index([type])
+}
+
+model CovisionRiskFactor {
+  id             String             @id @default(cuid())
+  covisionCaseId String
+  type           CovisionFactorType
+  label          String
+  severity       CovisionSeverity   @default(MEDIUM)
+  note           String?            @db.Text
+  needsAttention Boolean            @default(true)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+
+  @@index([covisionCaseId, type])
+  @@index([severity])
+}
+
+model CovisionParticipant {
+  id             String                  @id @default(cuid())
+  covisionCaseId String
+  userId         String?
+  email          String?
+  role           CovisionParticipantRole @default(PARTICIPANT)
+  inviteStatus   CovisionInviteStatus    @default(INVITED)
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+  user         User?        @relation("CovisionParticipantUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([covisionCaseId, userId])
+  @@unique([covisionCaseId, email])
+  @@index([userId])
+  @@index([email])
+  @@index([inviteStatus])
+}
+
+model CovisionMessage {
+  id             String              @id @default(cuid())
+  covisionCaseId String
+  authorId       String
+  messageType    CovisionMessageType @default(FREE_TEXT)
+  body           String              @db.Text
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  deletedAt      DateTime?
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+  author       User         @relation("CovisionMessageAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([covisionCaseId, createdAt])
+  @@index([authorId])
+  @@index([messageType])
+}
+
+model CovisionSummary {
+  id                String   @id @default(cuid())
+  covisionCaseId    String   @unique
+  content           String?  @db.Text
+  keyObservations   String?  @db.Text
+  questions         String?  @db.Text
+  risks             String?  @db.Text
+  protectiveFactors String?  @db.Text
+  possibleNextSteps String?  @db.Text
+  ethicalNotes      String?  @db.Text
+  documentationNotes String? @db.Text
+  networkNotes      String?  @db.Text
+  takeaways         String?  @db.Text
+  openQuestions     String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
+}
+
+model EffectivePractice {
+  id                    String                  @id @default(cuid())
+  authorId              String
+  sourceCovisionCaseId  String?
+  title                 String
+  background            String?                 @db.Text
+  mainChallenge         String?                 @db.Text
+  whatHelped            String?                 @db.Text
+  networkOrServiceRole  String?                 @db.Text
+  outcome               String?                 @db.Text
+  learningPoints        String?                 @db.Text
+  limitations           String?                 @db.Text
+  sources               String?                 @db.Text
+  topics                String[]                @default([])
+  tags                  String[]                @default([])
+  status                EffectivePracticeStatus @default(DRAFT)
+  anonymityCheckedAt    DateTime?
+  reviewedAt            DateTime?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+
+  author             User          @relation("EffectivePracticeAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  sourceCovisionCase CovisionCase? @relation(fields: [sourceCovisionCaseId], references: [id], onDelete: SetNull)
+
+  @@index([authorId, updatedAt])
+  @@index([sourceCovisionCaseId])
   @@index([status])
   @@index([createdAt])
 }
