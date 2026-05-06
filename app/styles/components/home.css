@@ -332,6 +332,8 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     --home-mobile-quick-icon: clamp(3.25rem, 13vw, 3.72rem);
     --home-mobile-quick-icon-active: clamp(3.75rem, 15.2vw, 4.36rem);
     --home-mobile-quick-gap: clamp(0.12rem, 1.35vw, 0.38rem);
+    --home-mobile-quick-list-pad-top: clamp(0.54rem, 2.5vw, 0.72rem);
+    --home-mobile-quick-list-pad-bottom: clamp(0.28rem, 1.6vw, 0.44rem);
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(50% - 50vw) !important;
@@ -346,7 +348,8 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     --home-mobile-arrow-hit: 4.95rem;
     position: absolute;
     top: calc(
-      clamp(0.72rem, 1.65vw, 1.25rem) + 0.18rem +
+      clamp(0.72rem, 1.65vw, 1.25rem) +
+        var(--home-mobile-quick-list-pad-top, 0.62rem) +
         (var(--home-mobile-quick-icon-active, 4.36rem) / 2) -
         (var(--home-mobile-arrow-hit) / 2)
     );
@@ -427,7 +430,9 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
       #000 82%,
       transparent 100%
     );
-    padding: 0.18rem max(1.05rem, calc(50vw - (var(--home-mobile-quick-item) / 2))) 0 !important;
+    padding: var(--home-mobile-quick-list-pad-top)
+      max(1.05rem, calc(50vw - (var(--home-mobile-quick-item) / 2)))
+      var(--home-mobile-quick-list-pad-bottom) !important;
   }
 
   .homepage-root .home-before-link-list:focus-visible {
@@ -443,7 +448,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     flex: 0 0 var(--home-mobile-quick-item) !important;
     width: var(--home-mobile-quick-item) !important;
     min-width: var(--home-mobile-quick-item) !important;
-    min-height: 5.85rem !important;
+    min-height: clamp(6.65rem, 27vw, 7.28rem) !important;
     scroll-snap-align: center;
     padding-bottom: 1.72rem !important;
     opacity: 1;

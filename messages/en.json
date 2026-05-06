@@ -2373,6 +2373,14 @@
       }
     }
   },
+  "covision": {
+    "errors": {
+      "request_failed": "The covision request failed.",
+      "load_failed": "Could not load the covision workspace.",
+      "save_failed": "Could not save the covision workspace.",
+      "schema_missing": "Covision database tables are missing or the server is using the wrong database. Run Prisma migrations and reload the page."
+    }
+  },
   "api": {
     "common": {
       "unauthorized": "Please sign in to continue.",

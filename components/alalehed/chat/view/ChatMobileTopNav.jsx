@@ -20,7 +20,7 @@ const MOBILE_NAV_ITEMS = [
   { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
-  { key: "workspace", scale: 1.02 }
+  { key: "workspace", scale: 1.14 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
@@ -418,8 +418,13 @@ export default function ChatMobileTopNav({
     }
     if (item.key === "workspace") {
       return (
-        <MobileIconFrame scale={item.scale * (workspaceOpen ? 1.08 : 1)}>
-          <WorkspaceIcon isLightTheme={isLightTheme} className={iconClassName} />
+        <MobileIconFrame scale={item.scale * (workspaceOpen ? 1.04 : 1)}>
+          <WorkspaceIcon
+            isLightTheme={isLightTheme}
+            className={iconClassName}
+            outerStrokeWidth={1.5}
+            innerStrokeWidth={1.5}
+          />
         </MobileIconFrame>
       );
     }

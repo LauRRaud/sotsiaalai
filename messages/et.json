@@ -2373,6 +2373,14 @@
       }
     }
   },
+  "covision": {
+    "errors": {
+      "request_failed": "Kovisiooni päring ebaõnnestus.",
+      "load_failed": "Kovisiooni tööruumi laadimine ebaõnnestus.",
+      "save_failed": "Kovisiooni salvestamine ebaõnnestus.",
+      "schema_missing": "Kovisiooni andmetabelid puuduvad või server kasutab vale andmebaasi. Käivita Prisma migratsioonid ja laadi leht uuesti."
+    }
+  },
   "api": {
     "common": {
       "unauthorized": "Jatkamiseks logi sisse.",

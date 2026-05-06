@@ -45,6 +45,17 @@ function shortText(value, maxLength = 240) {
   return text.length > maxLength ? `${text.slice(0, maxLength - 1).trim()}...` : text;
 }
 
+function popupDescription(entry) {
+  if (entry?.type !== "SERVICE_PROVIDER") return "";
+  const raw = String(entry?.description || entry?.providerProfile?.shortDescription || "").replace(/\s+/g, " ").trim();
+  if (!raw) return "";
+  const withoutOperationalNotes = raw
+    .split(/\s+(?:Roll|Vastuvõtt|Vastuvott):/i)[0]
+    .trim();
+  const firstSentence = withoutOperationalNotes.match(/^.*?[.!?](?=\s|$)/u)?.[0]?.trim() || withoutOperationalNotes;
+  return shortText(firstSentence, 150);
+}
+
 function safeWebsiteUrl(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
@@ -85,6 +96,20 @@ function appendMeta(parent, label, value) {
   return row;
 }
 
+function appendActionLink(parent, href, label, options = {}) {
+  const link = document.createElement("a");
+  link.href = href;
+  if (options.target) link.target = options.target;
+  if (options.rel) link.rel = options.rel;
+
+  const labelElement = document.createElement("span");
+  labelElement.textContent = label;
+  link.appendChild(labelElement);
+
+  parent.appendChild(link);
+  return link;
+}
+
 function createPopupContent(entry, t) {
   const root = document.createElement("article");
   root.className = "service-map-popup";
@@ -98,7 +123,7 @@ function createPopupContent(entry, t) {
       ? readText(t, "workspace_feature_pages.service_map.popup.provider", "Teenuseosutaja")
       : readText(t, "workspace_feature_pages.service_map.popup.kov", "KOV kontakt")
   );
-  appendText(root, "p", "service-map-popup__body", shortText(entry.description || entry.providerProfile?.shortDescription));
+  appendText(root, "p", "service-map-popup__body", popupDescription(entry));
 
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.address", "Aadress"), entry.address);
   appendMeta(
@@ -115,19 +140,20 @@ function createPopupContent(entry, t) {
     actions.className = "service-map-popup__actions";
 
     if (entry.email) {
-      const emailLink = document.createElement("a");
-      emailLink.href = `mailto:${entry.email}`;
-      emailLink.textContent = readText(t, "workspace_feature_pages.service_map.popup.write", "Kirjuta");
-      actions.appendChild(emailLink);
+      appendActionLink(
+        actions,
+        `mailto:${entry.email}`,
+        readText(t, "workspace_feature_pages.service_map.popup.write", "Kirjuta")
+      );
     }
 
     if (websiteUrl) {
-      const websiteLink = document.createElement("a");
-      websiteLink.href = websiteUrl;
-      websiteLink.target = "_blank";
-      websiteLink.rel = "noreferrer";
-      websiteLink.textContent = readText(t, "workspace_feature_pages.service_map.popup.website", "Veeb");
-      actions.appendChild(websiteLink);
+      appendActionLink(
+        actions,
+        websiteUrl,
+        readText(t, "workspace_feature_pages.service_map.popup.website", "Veeb"),
+        { target: "_blank", rel: "noreferrer" }
+      );
     }
 
     root.appendChild(actions);

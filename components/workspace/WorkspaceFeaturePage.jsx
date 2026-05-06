@@ -1217,6 +1217,7 @@ function ServiceMapSurface({
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
                   <input
                     className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--keyword")}
+                    style={{ "--service-map-placeholder-ch": `${keywordPlaceholder.length}ch` }}
                     value={keyword}
                     onChange={(event) => setKeyword(event.target.value)}
                     placeholder={keywordPlaceholder}
@@ -1226,6 +1227,7 @@ function ServiceMapSurface({
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
                   <input
                     className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--region")}
+                    style={{ "--service-map-placeholder-ch": `${regionPlaceholder.length}ch` }}
                     value={region}
                     onChange={(event) => setRegion(event.target.value)}
                     placeholder={regionPlaceholder}
