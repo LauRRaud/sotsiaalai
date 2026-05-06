@@ -64,6 +64,16 @@ function DashboardCardIcon({ type }) {
       </svg>
     );
   }
+  if (type === "service-profile") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M6.15 4.2h11.7a1.75 1.75 0 0 1 1.75 1.75v12.1a1.75 1.75 0 0 1-1.75 1.75H6.15a1.75 1.75 0 0 1-1.75-1.75V5.95A1.75 1.75 0 0 1 6.15 4.2Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.25 9.35h9.5L15.7 6.7H8.3L7.25 9.35Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8 12.45h8M8 15.35h4.45" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
+        <path d="m14.65 16.25 1.25 1.25 2.15-2.45" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
   if (type === "room") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
@@ -238,7 +248,7 @@ export default function WorkspacePanel({
           serviceMapCard,
           makeCard({
             key: "service_profile",
-            icon: "profile",
+            icon: "service-profile",
             title: text(t, "chat.workspace.cards.service_profile.title", "Teenuseprofiil"),
             meta: text(t, "chat.workspace.cards.service_profile.meta", "Profiil"),
             onClick: () => navigateTo("/teenuseprofiil")
@@ -303,22 +313,32 @@ export default function WorkspacePanel({
             onClick: () => openHelpPanel("help_offers")
           })
         ],
-        [
-          makeCard({
-            key: "documents",
-            icon: "document",
-            title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
-            meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
-            onClick: () => navigateTo("/documents")
-          }, { requiresPaid: true }),
-          makeCard({
-            key: "document_drafting",
-            icon: "compose",
-            title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-            meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-            onClick: () => navigateTo("/dokreziim")
-          }, { requiresPaid: true })
-        ],
+        ...(!isClientView
+          ? [[
+              makeCard({
+                key: "documents",
+                icon: "document",
+                title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
+                meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
+                onClick: () => navigateTo("/documents")
+              }, { requiresPaid: true }),
+              makeCard({
+                key: "document_drafting",
+                icon: "compose",
+                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+                onClick: () => navigateTo("/dokreziim")
+              }, { requiresPaid: true })
+            ]]
+          : [[
+              makeCard({
+                key: "document_drafting",
+                icon: "compose",
+                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+                onClick: () => navigateTo("/dokreziim")
+              }, { requiresPaid: true })
+            ]]),
         [
           makeCard({
             key: "pre_inquiries",

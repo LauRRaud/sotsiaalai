@@ -448,7 +448,7 @@ function BackgroundLayer() {
     effectiveTheme === "mid";
   const colorBendsColors =
     effectiveTheme === "light"
-      ? ["#9c7068"]
+      ? ["#a06861"]
       : effectiveTheme === "mid"
         ? ["#794f4c"]
         : ["#7e4442"];

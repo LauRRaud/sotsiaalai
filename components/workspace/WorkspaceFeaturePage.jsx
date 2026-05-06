@@ -1186,6 +1186,10 @@ function ServiceMapSurface({
         ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
         holdPressedVisualDisabled
         className="service-map-workspace__mobile-back"
+        style={{
+          backdropFilter: "blur(26px) saturate(160%)",
+          WebkitBackdropFilter: "blur(26px) saturate(160%)"
+        }}
       />
       <div
         className={cn(

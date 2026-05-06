@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authConfig } from "@/auth"
 import DocumentsPage from "@/components/documents/DocumentsPage"
-import { requireSubscription, resolveSessionRoleState, roleFromSession } from "@/lib/authz"
+import { requireSubscription, roleFromSession } from "@/lib/authz"
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n"
 import { buildLocalizedMetadata } from "@/lib/metadata"
 import { ARTIFACT_LIST_LIMIT, ARTIFACT_LIST_LIMIT_ALL } from "@/lib/documents/constants"
@@ -26,16 +26,11 @@ export async function generateMetadata() {
 export default async function Page({ searchParams }) {
   const cookieStore = await cookies()
   const session = await getServerSession(authConfig).catch(() => null)
-  const roleState = resolveSessionRoleState(session, cookieStore)
   const locale = getLocaleFromCookies(cookieStore)
 
   const gate = await requireSubscription(session, roleFromSession(session))
   if (!gate.ok) {
     redirect(localizePath(gate.redirect || "/tellimus", locale))
-  }
-
-  if (session?.user?.id && roleState.effectiveRole === "CLIENT") {
-    redirect(localizePath("/dokreziim", locale))
   }
 
   const resolvedSearchParams = await searchParams

@@ -187,9 +187,11 @@ export function WorkspaceIcon({
   className,
   outerStrokeWidth = 1.55,
   innerStrokeWidth = 1.45,
+  nonScalingStroke = false,
   ...props
 }) {
   const stroke = resolveThemeColor(isLightTheme);
+  const vectorEffect = nonScalingStroke ? "non-scaling-stroke" : undefined;
   return (
     <svg
       viewBox="0 0 24 24"
@@ -197,6 +199,7 @@ export function WorkspaceIcon({
       aria-hidden="true"
       focusable="false"
       className={cn(className)}
+      shapeRendering={nonScalingStroke ? "geometricPrecision" : undefined}
       {...props}
     >
       <rect
@@ -207,30 +210,35 @@ export function WorkspaceIcon({
         rx="2.25"
         stroke={stroke}
         strokeWidth={outerStrokeWidth}
+        vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
       <path
         d="M7.15 8.05h3.65v3.2H7.15v-3.2Z"
         stroke={stroke}
         strokeWidth={innerStrokeWidth}
+        vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
       <path
         d="M13.2 8.05h3.65v3.2H13.2v-3.2Z"
         stroke={stroke}
         strokeWidth={innerStrokeWidth}
+        vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
       <path
         d="M7.15 13.25h3.65v3.2H7.15v-3.2Z"
         stroke={stroke}
         strokeWidth={innerStrokeWidth}
+        vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
       <path
         d="M13.2 13.25h3.65v3.2H13.2v-3.2Z"
         stroke={stroke}
         strokeWidth={innerStrokeWidth}
+        vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
     </svg>
