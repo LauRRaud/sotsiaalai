@@ -214,7 +214,7 @@ function Field({ label, children, className }) {
   );
 }
 
-function SelectField({ value, onChange, options, ariaLabel, className }) {
+function SelectField({ value, onChange, options, ariaLabel, className, openDirection }) {
   return (
     <DocumentsDropdown
       value={value}
@@ -223,6 +223,7 @@ function SelectField({ value, onChange, options, ariaLabel, className }) {
       placeholder={ariaLabel}
       options={dropdownOptions(options)}
       className={cn("workspace-feature-dropdown", className)}
+      openDirection={openDirection}
     />
   );
 }
@@ -861,7 +862,7 @@ export default function CovisionPage() {
                     <Button type="button" onClick={startCase} className={primaryButtonClassName}>
                       Alusta kovisiooni
                     </Button>
-                    <Button type="button" variant="secondary" onClick={() => startPractice()} className={secondaryButtonClassName}>
+                    <Button type="button" onClick={() => startPractice()} className={primaryButtonClassName}>
                       Lisa toimiv praktika
                     </Button>
                   </div>
@@ -876,6 +877,7 @@ export default function CovisionPage() {
                       value={topicFilter}
                       onChange={setTopicFilter}
                       ariaLabel="Teemafilter"
+                      openDirection="up"
                       options={[{ value: "", label: "Kõik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
                     />
                   </div>

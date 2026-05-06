@@ -250,6 +250,9 @@
 
 .toolbar {
   background: var(--covision-card-bg) !important;
+  position: relative;
+  z-index: 90;
+  overflow: visible !important;
 }
 
 .card,
@@ -378,9 +381,57 @@
   box-shadow: 0 0 0 3px var(--covision-focus-ring) !important;
 }
 
+.page :global(.documents-dropdown.is-open) {
+  z-index: 95;
+}
+
+.page :global(.workspace-feature-dropdown .documents-dropdown-trigger) {
+  min-height: 3rem;
+  border-color: transparent !important;
+  border-radius: 999px !important;
+  background: var(--covision-field-bg) !important;
+  color: var(--covision-field-text) !important;
+  box-shadow: var(--covision-field-shadow) !important;
+  padding: 0.66rem 1.06rem;
+}
+
+.page :global(.workspace-feature-dropdown .documents-dropdown-trigger:hover),
+.page :global(.workspace-feature-dropdown .documents-dropdown-trigger:focus-visible),
+.page :global(.workspace-feature-dropdown .documents-dropdown-trigger.is-open) {
+  background: var(--covision-field-hover-bg) !important;
+  box-shadow: var(--covision-field-focus-shadow) !important;
+}
+
+.page :global(.workspace-feature-dropdown .documents-dropdown-icon) {
+  color: var(--covision-strong-text) !important;
+  opacity: 0.9;
+}
+
 .page :global(.documents-dropdown-menu) {
-  max-height: min(22rem, calc(100vh - 7rem));
+  z-index: 160;
+  max-height: min(17rem, calc(100vh - 7rem));
   overflow-y: auto;
+  border: var(--covision-card-border-width) solid var(--covision-card-border-strong) !important;
+  border-radius: 1rem !important;
+  background: var(--covision-panel-bg) !important;
+  color: var(--covision-text) !important;
+  box-shadow: 0 14px 34px rgba(38, 24, 22, 0.16), var(--covision-card-shadow) !important;
+}
+
+.page :global(.documents-dropdown--open-up .documents-dropdown-menu) {
+  max-height: min(12.6rem, calc(100vh - 8rem));
+}
+
+.page :global(.documents-dropdown-item) {
+  color: var(--covision-text) !important;
+  border-radius: 0.76rem !important;
+}
+
+.page :global(.documents-dropdown-item:hover),
+.page :global(.documents-dropdown-item:focus-visible),
+.page :global(.documents-dropdown-item.is-active) {
+  background: var(--covision-card-hover-bg) !important;
+  color: var(--covision-strong-text) !important;
 }
 
 .page :global(.documents-dropdown-trigger) {

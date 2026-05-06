@@ -2108,6 +2108,11 @@
   right: 0;
 }
 
+.documents-dropdown--open-up .documents-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 0.14rem);
+}
+
 .documents-dropdown.is-open {
   z-index: 120;
 }

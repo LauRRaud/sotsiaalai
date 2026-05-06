@@ -26,7 +26,8 @@ export default function DocumentsDropdown({
   ariaLabel,
   disabled = false,
   className = "",
-  align = "start"
+  align = "start",
+  openDirection = "down"
 }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
@@ -59,7 +60,7 @@ export default function DocumentsDropdown({
   }, [disabled])
 
   return (
-    <div ref={rootRef} className={`documents-dropdown documents-dropdown--align-${align} ${open ? "is-open" : ""} ${className}`.trim()}>
+    <div ref={rootRef} className={`documents-dropdown documents-dropdown--align-${align} documents-dropdown--open-${openDirection} ${open ? "is-open" : ""} ${className}`.trim()}>
       <button
         type="button"
         className={`documents-field documents-dropdown-trigger ${open ? "is-open" : ""}`.trim()}
