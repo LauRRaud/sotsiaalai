@@ -838,12 +838,12 @@ export default function ChatBody({
     inputRowRef,
     inputBarRef: inputBarRef,
     maskLayerRef,
-    applyMaskImage: isMobile,
     enabled:
       (usesInputHoleSurface ||
         (analysis.analysisPanelMode === "overlay" &&
           analysis.showAnalysisPanel)) &&
-      !profileOpen,
+      !profileOpen &&
+      !workspaceOpen,
     applyMaskImage: true,
     refreshRef: maskRefreshRef
   });

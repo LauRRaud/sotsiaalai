@@ -9,6 +9,7 @@ import ConversationView from "@/components/alalehed/chat/ConversationView";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
+import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
@@ -1093,6 +1094,8 @@ function ServiceMapSurface({
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const workspaceRef = useRef(null);
+  const filtersShellRef = useRef(null);
   const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
   const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
 
@@ -1179,8 +1182,27 @@ function ServiceMapSurface({
 
   const panelCollapsed = isMobilePanel && !panelOpen;
 
+  useEffect(() => {
+    const workspace = workspaceRef.current;
+    const filtersShell = filtersShellRef.current;
+    if (!workspace || !filtersShell || typeof ResizeObserver === "undefined") return undefined;
+
+    const syncPanelHeight = () => {
+      workspace.style.setProperty("--service-map-panel-height", `${filtersShell.getBoundingClientRect().height}px`);
+    };
+
+    syncPanelHeight();
+    const observer = new ResizeObserver(syncPanelHeight);
+    observer.observe(filtersShell);
+    window.addEventListener("resize", syncPanelHeight);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", syncPanelHeight);
+    };
+  }, []);
+
   return (
-    <div className="service-map-workspace">
+    <div className="service-map-workspace" ref={workspaceRef}>
       <BackButton
         onClick={onBack}
         ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -1199,6 +1221,7 @@ function ServiceMapSurface({
         aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
       >
         <div
+          ref={filtersShellRef}
           className="service-map-workspace__filters-shell"
           style={{
             backdropFilter: "blur(34px) saturate(176%) contrast(0.98)",
@@ -1258,6 +1281,7 @@ function ServiceMapSurface({
                     <span className="text-center [text-wrap:balance]">{label}</span>
                   </OptionCard>
               ))}
+              </div>
             </div>
 
             <div className="service-map-toolbar__resultsblock">
@@ -1289,7 +1313,6 @@ function ServiceMapSurface({
                 </div>
               ) : null}
             </div>
-          </div>
         </div>
         </div>
         <button
@@ -1433,6 +1456,49 @@ function ToggleRow({ checked, onChange, title, body, className }) {
         </span>
       }
     />
+  );
+}
+
+function ServiceProfileGlowField({ children, className }) {
+  return (
+    <BorderGlow
+      as="div"
+      className={cn("service-profile-glow-field", className)}
+      edgeSensitivity={30}
+      glowColor="358 82 72"
+      backgroundColor="#1E222A"
+      borderRadius={14}
+      glowRadius={46}
+      glowIntensity={1.05}
+      coneSpread={20}
+      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+      fillOpacity={0}
+      edgeOnly
+    >
+      {children}
+    </BorderGlow>
+  );
+}
+
+function ServiceProfileInput({ className, ...props }) {
+  return (
+    <ServiceProfileGlowField>
+      <input
+        className={cn(fieldClassName, "service-profile-glow-control", className)}
+        {...props}
+      />
+    </ServiceProfileGlowField>
+  );
+}
+
+function ServiceProfileTextarea({ className, ...props }) {
+  return (
+    <ServiceProfileGlowField className={className}>
+      <textarea
+        className={cn(fieldClassName, "documents-field--textarea service-profile-glow-control service-profile-glow-control--textarea")}
+        {...props}
+      />
+    </ServiceProfileGlowField>
   );
 }
 
@@ -1617,17 +1683,17 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-2">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization", "Organization name")}</span>
-            <input className={fieldClassName} value={form.organizationName} onChange={(event) => updateField("organizationName", event.target.value)} />
+            <ServiceProfileInput value={form.organizationName} onChange={(event) => updateField("organizationName", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.categories", "Categories")}</span>
-            <input className={fieldClassName} value={form.serviceCategories} onChange={(event) => updateField("serviceCategories", event.target.value)} />
+            <ServiceProfileInput value={form.serviceCategories} onChange={(event) => updateField("serviceCategories", event.target.value)} />
           </Label>
         </div>
         <Label>
           <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Short description")}</span>
-          <textarea
-            className={cn(fieldClassName, "documents-field--textarea min-h-[7rem] resize-y")}
+          <ServiceProfileTextarea
+            className="min-h-[7rem]"
             value={form.shortDescription}
             onChange={(event) => updateField("shortDescription", event.target.value)}
           />
@@ -1635,25 +1701,27 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-2">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.services", "Services")}</span>
-            <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[6.2rem] resize-y")} value={form.services} onChange={(event) => updateField("services", event.target.value)} />
+            <ServiceProfileTextarea className="min-h-[6.2rem]" value={form.services} onChange={(event) => updateField("services", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Target groups")}</span>
-            <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[6.2rem] resize-y")} value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
+            <ServiceProfileTextarea className="min-h-[6.2rem]" value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}</span>
-            <DocumentsDropdown
-              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}
-              value={form.feeType}
-              onChange={(nextValue) => updateField("feeType", nextValue)}
-              options={feeOptions}
-              className="workspace-feature-dropdown"
-            />
+            <ServiceProfileGlowField>
+              <DocumentsDropdown
+                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}
+                value={form.feeType}
+                onChange={(nextValue) => updateField("feeType", nextValue)}
+                options={feeOptions}
+                className="workspace-feature-dropdown service-profile-glow-dropdown"
+              />
+            </ServiceProfileGlowField>
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Languages")}</span>
-            <input className={fieldClassName} value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
+            <ServiceProfileInput value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
           </Label>
         </div>
       </SectionCard>
@@ -1662,19 +1730,19 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-2">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Service area")}</span>
-            <input className={fieldClassName} value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
+            <ServiceProfileInput value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "Municipality IDs or names")}</span>
-            <input className={fieldClassName} value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
+            <ServiceProfileInput value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "County")}</span>
-            <input className={fieldClassName} value={form.county} onChange={(event) => updateField("county", event.target.value)} />
+            <ServiceProfileInput value={form.county} onChange={(event) => updateField("county", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.address", "Address or reception location")}</span>
-            <input className={fieldClassName} value={form.address} onChange={(event) => updateField("address", event.target.value)} />
+            <ServiceProfileInput value={form.address} onChange={(event) => updateField("address", event.target.value)} />
           </Label>
         </div>
         <ToggleRow
@@ -1702,15 +1770,15 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-3">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
-            <input className={fieldClassName} value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
+            <ServiceProfileInput value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
-            <input className={fieldClassName} type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
+            <ServiceProfileInput type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Website")}</span>
-            <input className={fieldClassName} value={form.website} onChange={(event) => updateField("website", event.target.value)} />
+            <ServiceProfileInput value={form.website} onChange={(event) => updateField("website", event.target.value)} />
           </Label>
         </div>
         <div className="grid gap-[0.64rem] border-t pt-[0.72rem] sm:grid-cols-2">
@@ -1735,8 +1803,8 @@ function ServiceProfileSurface({ t }) {
         <div className="grid gap-[0.72rem] sm:grid-cols-[1fr_0.72fr]">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
-            <textarea
-              className={cn(fieldClassName, "documents-field--textarea min-h-[6.6rem] resize-y")}
+            <ServiceProfileTextarea
+              className="min-h-[6.6rem]"
               value={form.accessibilityInfo}
               onChange={(event) => updateField("accessibilityInfo", event.target.value)}
             />
@@ -1744,13 +1812,15 @@ function ServiceProfileSurface({ t }) {
           <div className="grid content-start gap-[0.72rem]">
             <Label>
               <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}</span>
-              <DocumentsDropdown
-                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}
-                value={form.status}
-                onChange={(nextValue) => updateField("status", nextValue)}
-                options={statusOptions}
-                className="workspace-feature-dropdown"
-              />
+              <ServiceProfileGlowField>
+                <DocumentsDropdown
+                  ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}
+                  value={form.status}
+                  onChange={(nextValue) => updateField("status", nextValue)}
+                  options={statusOptions}
+                  className="workspace-feature-dropdown service-profile-glow-dropdown"
+                />
+              </ServiceProfileGlowField>
             </Label>
             <p className={bodyTextClassName}>
               {readText(

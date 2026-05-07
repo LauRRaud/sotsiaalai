@@ -17,8 +17,10 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/kasutustingimused",
   "/privaatsustingimused",
   "/hinnastus",
-  "/voimalused"
+  "/voimalused",
+  "/teenusekaart"
 ]);
+const COLOR_BENDS_MAX_OPACITY = 0.78;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -226,7 +228,7 @@ const BackgroundContent = memo(function BackgroundContent({
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
     el.style.setProperty("--saai-parallax-space", "0px");
-    el.style.setProperty("--saai-bends-opacity", "1");
+    el.style.setProperty("--saai-bends-opacity", String(COLOR_BENDS_MAX_OPACITY));
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
     if (!baseParallaxActive) return;
@@ -259,8 +261,8 @@ const BackgroundContent = memo(function BackgroundContent({
       const y = resolveScrollY();
       const spaceY = -clamp(y * 0.07, 0, 160);
       const bendsOpacity = isHomepage
-        ? 1 - clamp((y - 240) / 220, 0, 1)
-        : 1;
+        ? (1 - clamp((y - 240) / 220, 0, 1)) * COLOR_BENDS_MAX_OPACITY
+        : COLOR_BENDS_MAX_OPACITY;
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
       el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));

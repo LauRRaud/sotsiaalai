@@ -82,6 +82,7 @@
   z-index: 2;
   position: absolute;
   inset: 0;
+  opacity: var(--saai-bends-opacity, 0.78);
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -94,7 +95,7 @@
   visibility: hidden;
 }
 [data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer {
-  opacity: 1;
+  opacity: var(--saai-bends-opacity, 0.78);
   visibility: visible;
 }
 
@@ -160,7 +161,7 @@
   transform: translate3d(0, var(--saai-parallax-space), 0);
 }
 [data-bg-layer][data-parallax="on"] .bg-bends-layer {
-  opacity: var(--saai-bends-opacity, 1);
+  opacity: var(--saai-bends-opacity, 0.78);
   transform: translateZ(0);
 }
 [data-bg-layer][data-parallax="on"][data-mobile-bends="pending"] .bg-bends-layer {
