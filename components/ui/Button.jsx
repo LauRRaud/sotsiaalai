@@ -1,7 +1,12 @@
+"use client";
+
 import { forwardRef } from "react";
+import BorderGlow from "@/components/ui/BorderGlow";
 import { cn } from "@/components/ui/cn";
 import { linkBrandBase } from "@/components/ui/linkStyles";
-const baseStyles = "button inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative overflow-hidden transition-[filter,border-color,box-shadow,opacity] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] cursor-pointer appearance-none [-webkit-appearance:none] backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [&>*]:relative [&>*]:z-[1]";
+import { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
+
+const baseStyles = "button inline-flex items-center justify-center gap-[0.45rem] rounded-full border border-solid border-transparent px-[1.35rem] py-[0.8rem] text-[1.2rem] font-[500] tracking-[0.02em] min-h-[2.85rem] select-none relative overflow-hidden transition-[filter,border-color,box-shadow,opacity] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] cursor-pointer appearance-none [-webkit-appearance:none] backdrop-blur-[10px] backdrop-saturate-[120%] focus-visible:outline-none disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 aria-disabled:opacity-60 aria-disabled:cursor-not-allowed [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision]";
 const primaryStyles = "[border:var(--btn-primary-border)] text-[color:var(--btn-primary-text,rgba(248,252,255,0.92))] [background:var(--btn-primary-bg)] shadow-[var(--btn-primary-shadow)] before:content-[''] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:[background:var(--btn-primary-bg-hover)] before:opacity-0 before:transition-opacity before:duration-[560ms] before:ease-[cubic-bezier(0.22,0.61,0.36,1)] [@media(hover:hover)]:hover:before:opacity-100 [@media(hover:hover)]:hover:shadow-[var(--btn-primary-shadow-hover)] focus-visible:before:opacity-100 focus-visible:shadow-[var(--btn-primary-shadow-focus)] active:[border:var(--btn-primary-border-active,var(--btn-primary-border))] active:[background:var(--btn-primary-bg-active)] active:before:opacity-0 active:shadow-[var(--btn-primary-shadow-active)]";
 const linkBrandButtonBase = "!bg-transparent !shadow-none !border-transparent border-0 p-0 m-0 rounded-[0.32em] font-inherit leading-inherit appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed aria-disabled:opacity-60 aria-disabled:cursor-not-allowed";
 const ghostStyles =
@@ -46,7 +51,11 @@ const Button = forwardRef(function Button({
   fullWidth = false,
   className,
   disabled = false,
+  glow = variant === "primary",
   onClick,
+  style,
+  tabIndex,
+  type,
   children,
   ...props
 }, ref) {
@@ -54,6 +63,7 @@ const Button = forwardRef(function Button({
   const isDisabled = Boolean(disabled);
   const variantClass = variantStyles[variant] ?? variantStyles.primary;
   const useBaseStyles = variant !== "linkBrand";
+  const useGlow = useBaseStyles && glow && variant === "primary";
   const handleClick = event => {
     if (isDisabled) {
       event.preventDefault();
@@ -62,7 +72,52 @@ const Button = forwardRef(function Button({
     }
     onClick?.(event);
   };
-  return <Component ref={ref} href={as === "a" ? href : undefined} type={as === "button" ? props.type ?? "button" : undefined} aria-disabled={isDisabled ? "true" : undefined} tabIndex={as === "a" && isDisabled ? -1 : props.tabIndex} disabled={as === "button" ? isDisabled : undefined} data-variant={useBaseStyles ? variant : undefined} className={cn(useBaseStyles ? baseStyles : null, useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null, useBaseStyles && fullWidth ? "w-full" : null, variantClass, className)} onClick={handleClick} {...props}>{useBaseStyles ? <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
+  const sharedProps = {
+    href: as === "a" ? href : undefined,
+    type: as === "button" ? type ?? "button" : undefined,
+    "aria-disabled": isDisabled ? "true" : undefined,
+    tabIndex: as === "a" && isDisabled ? -1 : tabIndex,
+    disabled: as === "button" ? isDisabled : undefined,
+    "data-variant": useBaseStyles ? variant : undefined,
+    className: cn(
+      useBaseStyles ? baseStyles : null,
+      useBaseStyles ? sizeStyles[size] ?? sizeStyles.md : null,
+      useBaseStyles && fullWidth ? "w-full" : null,
+      useGlow ? "ui-glow-button-frame ui-glow-button-control" : null,
+      useGlow && isDisabled ? "ui-glow-button-frame--disabled" : null,
+      variantClass,
+      className
+    ),
+    onClick: handleClick,
+    style,
+    ...props
+  };
+
+  if (useGlow) {
+    return (
+      <BorderGlow
+        ref={ref}
+        as={Component}
+        edgeSensitivity={22}
+        glowColor="358 82 72"
+        backgroundColor="var(--btn-primary-bg)"
+        borderRadius={999}
+        glowRadius={48}
+        glowIntensity={0.98}
+        coneSpread={20}
+        fillOpacity={0}
+        edgeOnly
+        {...sharedProps}
+        style={{ ...fieldEdgeGlowStyle, ...style }}
+      >
+        <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
+          {children}
+        </span>
+      </BorderGlow>
+    );
+  }
+
+  return <Component ref={ref} {...sharedProps}>{useBaseStyles ? <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
         {children}
       </span> : children}</Component>;
 });

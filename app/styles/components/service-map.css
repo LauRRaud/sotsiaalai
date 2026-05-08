@@ -1940,7 +1940,7 @@ select.workspace-feature-field option {
     left: calc(env(safe-area-inset-left, 0px) + 0.42rem);
     width: auto;
     max-width: none;
-    transform: translateX(-50%);
+    transform: none;
   }
 
   .service-map-workspace__mobile-back {

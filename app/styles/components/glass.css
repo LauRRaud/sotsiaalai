@@ -172,70 +172,6 @@
   z-index: 1;
 }
 
-@media (max-width: 768px) {
-  .back-button::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 0;
-    width: var(--back-button-ring-size, clamp(3rem, 12vw, 3.55rem));
-    height: var(--back-button-ring-size, clamp(3rem, 12vw, 3.55rem));
-    border-radius: 999px;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    border: 1px solid var(--back-button-ring-border, rgba(255, 255, 255, 0.11));
-    background:
-      radial-gradient(
-        78% 72% at 50% 24%,
-        rgba(255, 255, 255, 0.14) 0%,
-        rgba(255, 255, 255, 0.06) 48%,
-        rgba(255, 255, 255, 0.02) 100%
-      ),
-      color-mix(
-        in srgb,
-        var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 68%,
-        transparent
-      );
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 8px 20px rgba(0, 0, 0, 0.12);
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem));
-    opacity: 0.82;
-    transition:
-      opacity 180ms ease,
-      border-color 180ms ease,
-      background 180ms ease,
-      transform 180ms ease;
-  }
-
-  .back-button:hover::before,
-  .back-button:focus-visible::before {
-    opacity: 0.96;
-    transform: translate(-50%, -50%) scale(1.03);
-  }
-
-  :root.theme-light .back-button,
-  :root.theme-mid .back-button {
-    --back-button-ring-border: rgba(122, 58, 56, 0.12);
-  }
-
-  :root.theme-light .back-button::before,
-  :root.theme-mid .back-button::before {
-    background:
-      radial-gradient(
-        78% 72% at 50% 24%,
-        rgba(255, 255, 255, 0.92) 0%,
-        rgba(255, 255, 255, 0.74) 50%,
-        rgba(255, 255, 255, 0.54) 100%
-      );
-    box-shadow:
-      inset 0 0 0 1px rgba(122, 58, 56, 0.06),
-      0 7px 18px rgba(82, 50, 46, 0.08);
-  }
-}
-
 .ui-checkbox-glass,
 .documents-checkbox {
   appearance: none;
@@ -379,6 +315,134 @@
   box-shadow: none !important;
   color: inherit;
   outline: none;
+}
+
+.ui-glow-button-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  border-radius: 999px;
+  color: inherit;
+  overflow: visible !important;
+  transition:
+    background 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.ui-glow-button-control {
+  max-width: 100%;
+}
+
+.ui-glow-button-frame:focus-within:not(:hover) > .edgeLight,
+.ui-glow-button-frame:focus-within:not(:hover) > [class*="edgeLight"],
+.ui-glow-button-frame:focus-within:not(:hover)::after,
+.ui-glow-button-frame--disabled > .edgeLight,
+.ui-glow-button-frame--disabled > [class*="edgeLight"],
+.ui-glow-button-frame--disabled::after {
+  opacity: 0 !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-button-frame {
+  box-shadow:
+    var(--btn-primary-shadow),
+    inset 0 0 0 1px rgba(255, 122, 126, 0),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) {
+  box-shadow:
+    var(--btn-primary-shadow-hover),
+    inset 0 0 0 1px rgba(255, 122, 126, 0.66),
+    inset 0 0 7px rgba(255, 122, 126, 0.15),
+    0 0 2px rgba(255, 122, 126, 0.52),
+    0 0 12px rgba(255, 122, 126, 0.26),
+    0 0 26px rgba(255, 122, 126, 0.13) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-button-frame:focus-visible {
+  box-shadow:
+    var(--btn-primary-shadow-focus),
+    inset 0 0 0 1px rgba(255, 122, 126, 0),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0) !important;
+}
+
+:root.theme-light .ui-glow-button-frame > .edgeLight,
+:root.theme-light .ui-glow-button-frame > [class*="edgeLight"],
+:root.theme-mid .ui-glow-button-frame > .edgeLight,
+:root.theme-mid .ui-glow-button-frame > [class*="edgeLight"] {
+  display: none !important;
+}
+
+html[data-contrast="hc"] .ui-glow-button-frame > .edgeLight,
+html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
+  display: block !important;
+}
+
+.ui-glow-option-card-frame {
+  overflow: visible !important;
+  transition:
+    color 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.ui-glow-option-card-frame:focus-within:not(:hover) > .edgeLight,
+.ui-glow-option-card-frame:focus-within:not(:hover) > [class*="edgeLight"],
+.ui-glow-option-card-frame:focus-within:not(:hover)::after,
+.ui-glow-option-card-frame--disabled > .edgeLight,
+.ui-glow-option-card-frame--disabled > [class*="edgeLight"],
+.ui-glow-option-card-frame--disabled::after {
+  opacity: 0 !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame {
+  box-shadow:
+    var(--seg-card-shadow, var(--btn-primary-shadow)),
+    inset 0 0 0 1px rgba(255, 122, 126, 0),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) {
+  box-shadow:
+    var(--seg-card-shadow-hover, var(--btn-primary-shadow-hover)),
+    inset 0 0 0 1px rgba(255, 122, 126, 0.66),
+    inset 0 0 7px rgba(255, 122, 126, 0.15),
+    0 0 2px rgba(255, 122, 126, 0.52),
+    0 0 12px rgba(255, 122, 126, 0.26),
+    0 0 26px rgba(255, 122, 126, 0.13) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame[data-focus-visible="true"]:not(:hover) {
+  box-shadow:
+    var(--seg-card-shadow-hover, var(--btn-primary-shadow-focus)),
+    inset 0 0 0 1px rgba(255, 122, 126, 0),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0) !important;
+}
+
+:root.theme-light .ui-glow-option-card-frame > .edgeLight,
+:root.theme-light .ui-glow-option-card-frame > [class*="edgeLight"],
+:root.theme-mid .ui-glow-option-card-frame > .edgeLight,
+:root.theme-mid .ui-glow-option-card-frame > [class*="edgeLight"] {
+  display: none !important;
+}
+
+html[data-contrast="hc"] .ui-glow-option-card-frame > .edgeLight,
+html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
+  display: block !important;
 }
 
 :root.theme-light .ui-glow-field {

@@ -7,7 +7,9 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
+import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
+import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import {
   glassFormInputBaseClassName,
@@ -700,7 +702,23 @@ export default function ChatSidebar() {
       }
     })();
     return <li key={`${item.kind}:${item.id}`} className={messageCardShellClassName}>
-        <div className={`${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}>
+        <BorderGlow
+          as="div"
+          className={`ui-glow-option-card-frame drawer-chat-card-glow ${messageCardClassNameCommon} ${isActive ? messageActiveVariant : ""}`}
+          edgeSensitivity={22}
+          glowColor="358 82 72"
+          backgroundColor="var(--subpage-card-bg)"
+          borderRadius={8}
+          glowRadius={48}
+          glowIntensity={0.98}
+          coneSpread={20}
+          fillOpacity={0}
+          edgeOnly
+          style={{
+            ...fieldEdgeGlowStyle,
+            "--border-radius": "0.5rem"
+          }}
+        >
           <div className="flex items-center gap-2.5">
             {selectMode && !isRoom ? <label className="flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
                 <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
@@ -744,7 +762,7 @@ export default function ChatSidebar() {
                     </svg>
               </button> : null}
           </div>
-        </div>
+        </BorderGlow>
       </li>;
   };
   return <>
@@ -778,7 +796,9 @@ export default function ChatSidebar() {
       </div>
       {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.16rem] max-[768px]:mt-[0.22rem]`}>
           <div className={searchInputShellClassName}>
-            <input id="chat-sidebar-search" name="chat-sidebar-search" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={searchInputClassName} />
+            <GlowField className="chat-sidebar-search-glow w-full">
+              <input id="chat-sidebar-search" name="chat-sidebar-search" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={`${searchInputClassName} ui-glow-control`} />
+            </GlowField>
           </div>
         </div> : null}
       {selectMode && isConversationView ? <div className={`${sidebarContentWidthClassName} flex items-center justify-center gap-2 max-[768px]:gap-[0.58rem]`}>

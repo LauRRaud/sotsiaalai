@@ -8,8 +8,9 @@ import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
+import BorderGlow from "@/components/ui/BorderGlow";
 import GlassRing from "@/components/ui/GlassRing";
-import GlowField from "@/components/ui/GlowField";
+import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 import { cn } from "@/components/ui/cn";
 import {
@@ -850,20 +851,34 @@ export default function RegistreerimineBody({}) {
                         {t("auth.register.role_hint")}
                       </div>
                       {REGISTER_ROLE_OPTIONS.map((role) => (
-                        <button
+                        <BorderGlow
                           key={role}
+                          as="button"
                           type="button"
                           role="radio"
                           aria-checked={form.role === role}
                           data-checked={form.role === role ? "true" : "false"}
                           onClick={() => handleRoleSelect(role)}
                           onKeyDown={(event) => handleRoleKeyDown(event, role)}
-                          className={`register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                          className={`ui-glow-option-card-frame register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                          edgeSensitivity={22}
+                          glowColor="358 82 72"
+                          backgroundColor="var(--seg-card-bg)"
+                          borderRadius={20}
+                          glowRadius={48}
+                          glowIntensity={0.98}
+                          coneSpread={20}
+                          fillOpacity={0}
+                          edgeOnly
+                          style={{
+                            ...fieldEdgeGlowStyle,
+                            "--border-radius": "var(--seg-card-radius, 1.25rem)"
+                          }}
                         >
                           <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
                             {t(roleLabelKey(role))}
                           </span>
-                        </button>
+                        </BorderGlow>
                       ))}
                     </div>
                   </>

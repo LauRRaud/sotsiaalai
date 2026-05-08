@@ -8,10 +8,13 @@ function read(path) {
 
 test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", () => {
   const glowField = read("components/ui/GlowField.jsx");
+  const button = read("components/ui/Button.jsx");
+  const optionCard = read("components/ui/OptionCard.jsx");
   const glassCss = read("app/styles/components/glass.css");
   const pinBody = read("components/alalehed/UuendaPinBody.jsx");
   const emailBody = read("components/alalehed/UuendaEpostiBody.jsx");
   const registerBody = read("components/alalehed/RegistreerimineBody.jsx");
+  const chatSidebar = read("components/ChatSidebar.jsx");
 
   assert.match(glowField, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
   assert.match(glowField, /className=\{cn\("ui-glow-field"/);
@@ -35,7 +38,19 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
 
   assert.match(glassCss, /\.ui-glow-field/);
   assert.match(glassCss, /\.ui-glow-control/);
+  assert.match(glassCss, /\.ui-glow-button-frame/);
+  assert.match(glassCss, /\.ui-glow-button-control/);
+  assert.match(glassCss, /\.ui-glow-option-card-frame/);
   assert.match(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-field:hover/);
+  assert.match(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-button-frame:hover:not\(\.ui-glow-button-frame--disabled\)/);
+  assert.match(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-option-card-frame:hover:not\(\.ui-glow-option-card-frame--disabled\)/);
+  assert.match(glassCss, /var\(--btn-primary-shadow-hover\)[\s\S]*?rgba\(255,\s*122,\s*126,\s*0\.66\)/);
+  assert.match(glassCss, /\.ui-glow-button-frame:focus-within:not\(:hover\)\s*>\s*\[class\*="edgeLight"\][\s\S]*?opacity:\s*0\s*!important/);
+  assert.match(glassCss, /\.ui-glow-option-card-frame:focus-within:not\(:hover\)::after[\s\S]*?opacity:\s*0\s*!important/);
+  assert.match(glassCss, /:root\.theme-light\s+\.ui-glow-button-frame\s*>\s*\[class\*="edgeLight"\]/);
+  assert.match(glassCss, /:root\.theme-light\s+\.ui-glow-option-card-frame\s*>\s*\[class\*="edgeLight"\]/);
+  assert.match(glassCss, /html\[data-contrast="hc"\]\s+\.ui-glow-button-frame\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*block\s*!important/);
+  assert.match(glassCss, /html\[data-contrast="hc"\]\s+\.ui-glow-option-card-frame\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*block\s*!important/);
   assert.doesNotMatch(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-field:focus-within/);
   assert.match(glassCss, /rgba\(255,\s*122,\s*126,\s*0\.66\)/);
   assert.match(glassCss, /\.ui-glow-field:focus-within:not\(:hover\)\s*>\s*\[class\*="edgeLight"\][\s\S]*?opacity:\s*0\s*!important/);
@@ -44,7 +59,19 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
   assert.match(glassCss, /html\[data-contrast="hc"\]\s+\.ui-glow-field/);
   assert.match(glassCss, /html\[data-contrast="hc"\]\s+\.ui-glow-field\s*>\s*\.edgeLight[\s\S]*?display:\s*block\s*!important/);
 
+  assert.match(button, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
+  assert.match(button, /import\s+\{\s*fieldEdgeGlowStyle\s*\}\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.match(button, /glow\s*=\s*variant\s*===\s*"primary"/);
+  assert.match(button, /const\s+useGlow\s*=\s*useBaseStyles\s*&&\s*glow\s*&&\s*variant\s*===\s*"primary"/);
+  assert.match(button, /<BorderGlow[\s\S]*?as=\{Component\}[\s\S]*?backgroundColor="var\(--btn-primary-bg\)"[\s\S]*?edgeOnly/);
+  assert.match(button, /ui-glow-button-frame ui-glow-button-control/);
+  assert.match(optionCard, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
+  assert.match(optionCard, /glow\s*=\s*true/);
+  assert.match(optionCard, /<BorderGlow[\s\S]*?as="label"[\s\S]*?backgroundColor="var\(--seg-card-bg\)"[\s\S]*?edgeOnly/);
+  assert.match(optionCard, /ui-glow-option-card-frame/);
   assert.match(pinBody, /import\s+GlowField\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.doesNotMatch(pinBody, /function\s+EdgeGlowButton/);
+  assert.match(pinBody, /<Button[\s\S]*?type="submit"[\s\S]*?variant="primary"[\s\S]*?buttons\.save/);
   assert.match(pinBody, /<GlowField[\s\S]*?current-pin[\s\S]*?ui-glow-control/);
   assert.match(pinBody, /<GlowField[\s\S]*?next-pin[\s\S]*?ui-glow-control/);
   assert.match(pinBody, /<GlowField[\s\S]*?confirm-pin[\s\S]*?ui-glow-control/);
@@ -54,9 +81,16 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
   assert.match(emailBody, /<GlowField[\s\S]*?name="email"[\s\S]*?ui-glow-control/);
   assert.match(emailBody, /<GlowField[\s\S]*?name="pin"[\s\S]*?ui-glow-control/);
 
-  assert.match(registerBody, /import\s+GlowField\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.match(registerBody, /import\s+GlowField,\s*\{\s*fieldEdgeGlowStyle\s*\}\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.match(registerBody, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
+  assert.match(registerBody, /<BorderGlow[\s\S]*?as="button"[\s\S]*?ui-glow-option-card-frame[\s\S]*?register-role-button/);
   assert.match(registerBody, /<GlowField[\s\S]*?id="email"[\s\S]*?ui-glow-control/);
   assert.match(registerBody, /<GlowField[\s\S]*?id="pin"[\s\S]*?ui-glow-control/);
+  assert.match(chatSidebar, /import\s+GlowField,\s*\{\s*fieldEdgeGlowStyle\s*\}\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.match(chatSidebar, /<GlowField\s+className="chat-sidebar-search-glow w-full">[\s\S]*?chat-sidebar-search[\s\S]*?ui-glow-control/);
+  assert.match(chatSidebar, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
+  assert.match(chatSidebar, /drawer-chat-card-glow/);
+  assert.match(chatSidebar, /<BorderGlow[\s\S]*?as="div"[\s\S]*?ui-glow-option-card-frame drawer-chat-card-glow/);
 });
 
 test("pre-inquiries use document-mode glow shells and service-profile style fields", () => {
