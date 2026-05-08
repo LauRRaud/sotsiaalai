@@ -32,7 +32,11 @@ test("profile dim theme icon keeps its desktop emphasis in the mobile orbit stac
   );
   assert.match(
     mobileCss,
-    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mode-icon\s*\{[\s\S]*?width:\s*68%;[\s\S]*?height:\s*68%;/
+    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mode-icon,\s*\.profile-orbit-mobile-action\s+\.dock-icon\s+\.profile-theme-mode-icon\s*\{[\s\S]*?width:\s*82%;[\s\S]*?height:\s*82%;[\s\S]*?stroke-width:\s*1\.72;/
+  );
+  assert.match(
+    mobileCss,
+    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mid-icon,\s*\.profile-orbit-mobile-action\s+\.dock-icon\s+\.profile-theme-mid-icon\s*\{[\s\S]*?transform:\s*scale\(1\.14\);[\s\S]*?stroke-width:\s*1\.84;/
   );
 });
 
