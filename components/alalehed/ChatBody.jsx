@@ -304,6 +304,10 @@ export default function ChatBody({
   const inputRowRef = useRef(null);
   const inputBarRef = useRef(null);
   const maskLayerRef = useRef(null);
+  const mobileKeyboardBaselineRef = useRef({
+    viewportExtent: 0,
+    containerHeight: 0
+  });
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const workspaceOpenDelayTimerRef = useRef(0);
@@ -432,6 +436,51 @@ export default function ChatBody({
   }, []);
   useEffect(() => {
     const node = chatContainerRef.current;
+    if (!node || typeof window === "undefined" || !isMobile) return;
+    const vv = window.visualViewport;
+    let rafId = 0;
+    const readViewportExtent = () =>
+      vv ? Math.max(0, vv.height + vv.offsetTop) : Math.max(0, window.innerHeight);
+    const readContainerHeight = () => {
+      const h = node.getBoundingClientRect().height;
+      return Math.max(0, Math.round(h || 0));
+    };
+    const captureBaseline = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        const active = document.activeElement;
+        if (node.contains(active) && isEditableElement(active)) return;
+        const viewportExtent = Math.max(
+          readViewportExtent(),
+          Math.max(0, window.innerHeight || 0)
+        );
+        const containerHeight = readContainerHeight();
+        if (viewportExtent > 0 || containerHeight > 0) {
+          mobileKeyboardBaselineRef.current = {
+            viewportExtent,
+            containerHeight
+          };
+        }
+      });
+    };
+    captureBaseline();
+    vv?.addEventListener("resize", captureBaseline);
+    vv?.addEventListener("scroll", captureBaseline);
+    window.addEventListener("resize", captureBaseline);
+    window.addEventListener("orientationchange", captureBaseline);
+    window.addEventListener("focusout", captureBaseline);
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      vv?.removeEventListener("resize", captureBaseline);
+      vv?.removeEventListener("scroll", captureBaseline);
+      window.removeEventListener("resize", captureBaseline);
+      window.removeEventListener("orientationchange", captureBaseline);
+      window.removeEventListener("focusout", captureBaseline);
+    };
+  }, [isMobile]);
+  useEffect(() => {
+    const node = chatContainerRef.current;
     if (!node || typeof window === "undefined") return;
     if (!isMobile || !inputFocused) {
       node.style.setProperty("--chat-vk-offset", "0px");
@@ -451,8 +500,15 @@ export default function ChatBody({
       const h = node.getBoundingClientRect().height;
       return Math.max(0, Math.round(h || 0));
     };
-    let baselineViewportExtent = readViewportExtent();
-    let baselineContainerHeight = readContainerHeight();
+    const storedBaseline = mobileKeyboardBaselineRef.current || {};
+    let baselineViewportExtent = Math.max(
+      readViewportExtent(),
+      storedBaseline.viewportExtent || 0
+    );
+    let baselineContainerHeight = Math.max(
+      readContainerHeight(),
+      storedBaseline.containerHeight || 0
+    );
     const baselineCaptureUntil = now() + MOBILE_KEYBOARD_BASELINE_CAPTURE_MS;
     const readKeyboardOffset = () => {
       const currentExtent = readViewportExtent();
@@ -466,9 +522,21 @@ export default function ChatBody({
           );
         }
       }
+      if (currentExtent > baselineViewportExtent) {
+        baselineViewportExtent = currentExtent;
+      }
+      if (currentContainerHeight > baselineContainerHeight) {
+        baselineContainerHeight = currentContainerHeight;
+      }
+      const layoutViewportOffset = vv
+        ? Math.max(
+            0,
+            Math.round((window.innerHeight || baselineViewportExtent) - vv.height - vv.offsetTop)
+          )
+        : 0;
       const rawOffset = Math.max(
-        0,
-        Math.round(baselineViewportExtent - currentExtent)
+        layoutViewportOffset,
+        Math.max(0, Math.round(baselineViewportExtent - currentExtent))
       );
       const layoutHandledOffset =
         baselineContainerHeight > 0 && currentContainerHeight > 0

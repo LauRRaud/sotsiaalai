@@ -22,7 +22,7 @@ const baseStyles =
   "max-md:min-w-0 max-md:min-h-0 max-md:aspect-auto " +
   "max-md:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:max-w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
-  "max-md:[--glass-mobile-height:calc(100dvh-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
+  "max-md:[--glass-mobile-height:calc(var(--glass-mobile-root-vh,100dvh)-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-var(--glass-mobile-gap)-var(--glass-mobile-gap))] " +
   "max-md:h-[var(--glass-mobile-height)] " +
   "max-md:max-h-[var(--glass-mobile-height)] " +
   "max-md:overflow-hidden " +

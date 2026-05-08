@@ -24,10 +24,10 @@ export const glassPrimaryButtonToneClassName =
   "[.theme-light:not(.theme-mid)_&]:[--btn-primary-border-hover:1px_solid_rgba(148,163,184,0.1)]";
 
 export const glassPageShellClassName =
-  `mx-auto flex w-full min-h-[100dvh] flex-col items-center justify-start box-border ${glassPrimaryButtonToneClassName}`;
+  `mx-auto flex w-full min-h-[100dvh] max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] flex-col items-center justify-start box-border ${glassPrimaryButtonToneClassName}`;
 
 export const glassPageShellCenteredClassName =
-  `mx-auto grid w-full min-h-[100dvh] place-items-center box-border ${glassPrimaryButtonToneClassName} ` +
+  `mx-auto grid w-full min-h-[100dvh] max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] place-items-center box-border ${glassPrimaryButtonToneClassName} ` +
   "max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-start";
 
 export const glassPageBackClassName =
@@ -64,7 +64,7 @@ export const glassPageRingCenteredClassName =
 
 export const glassPageMobileCardClassName =
   `${glassPrimaryButtonToneClassName} ` +
-  "max-[768px]:[--glass-mobile-vh:100dvh] " +
+  "max-[768px]:[--glass-mobile-vh:var(--glass-mobile-root-vh,100dvh)] " +
   "max-[768px]:[--glass-mobile-safe-top:env(safe-area-inset-top,0px)] " +
   "max-[768px]:[--glass-mobile-safe-bottom:env(safe-area-inset-bottom,0px)] " +
   "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +

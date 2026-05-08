@@ -553,7 +553,7 @@
   html,
   body {
     overscroll-behavior: auto;
-    min-height: 100dvh;
+    min-height: var(--glass-mobile-root-vh, 100dvh);
   }
 
   main#main {
@@ -700,7 +700,7 @@
 @media (max-width: 768px) {
   html[data-display-mode="standalone"] .homepage-root > section,
   body[data-display-mode="standalone"] .homepage-root > section {
-    min-height: calc(100dvh + clamp(2.2rem, 5.5vh, 3.4rem));
+    min-height: calc(var(--glass-mobile-root-vh, 100dvh) + clamp(2.2rem, 5.5vh, 3.4rem));
   }
 
   html[data-display-mode="standalone"] .home-hero-shell,
@@ -1073,11 +1073,11 @@
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
     height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
     max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
     padding-top: clamp(0.36rem, 1.15vh, 0.62rem);
@@ -1369,11 +1369,11 @@
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     ) !important;
     height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     ) !important;
     max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     ) !important;
     padding-top: clamp(0.9rem, 2.8vh, 1.25rem) !important;
@@ -1871,7 +1871,8 @@
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) {
-    --glass-mobile-vh: calc(var(--app-vh, var(--vh, 1vh)) * 100);
+    --glass-mobile-root-vh: var(--app-height, calc(var(--app-vh, var(--vh, 1vh)) * 100));
+    --glass-mobile-vh: var(--glass-mobile-root-vh);
     --glass-mobile-safe-top: 0px;
     --glass-mobile-safe-bottom: 0px;
   }
@@ -1880,7 +1881,7 @@
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
     --glass-mobile-safe-top: 0px !important;
     --glass-mobile-height: calc(
-      (var(--app-vh, var(--vh, 1vh)) * 100) -
+      var(--glass-mobile-root-vh, calc(var(--app-vh, var(--vh, 1vh)) * 100)) -
       var(--glass-mobile-safe-top, 0px) -
       var(--glass-mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
       var(--glass-mobile-gap, 0.35rem) -
@@ -1924,11 +1925,11 @@
     ) !important;
     max-width: none !important;
     height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (var(--mobile-glass-card-gap, 0.35rem) * 2)
     ) !important;
     max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (var(--mobile-glass-card-gap, 0.35rem) * 2)
     ) !important;
     margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
@@ -1971,11 +1972,11 @@
     ) !important;
     max-width: none !important;
     height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (var(--mobile-glass-card-gap, 0.35rem) * 2)
     ) !important;
     max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (var(--mobile-glass-card-gap, 0.35rem) * 2)
     ) !important;
     margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;

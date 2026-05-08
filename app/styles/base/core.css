@@ -1,6 +1,8 @@
 html {
   font-family: var(--font-aino), Arial, sans-serif;
   font-size: calc(var(--base-rem, 16px) * var(--ui-scale, 1));
+  --app-height: 100dvh;
+  --glass-mobile-root-vh: 100dvh;
   height: 100%;
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -14,7 +16,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  min-height: 100dvh;
+  min-height: var(--app-height, 100dvh);
   margin: 0;
   width: 100%;
   display: flex;
@@ -28,14 +30,14 @@ body {
 }
 .app-root {
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: var(--app-height, 100dvh);
   width: 100%;
 }
 .splash-cursor {
   position: fixed;
   inset: 0;
   width: 100vw;
-  height: 100dvh;
+  height: var(--app-height, 100dvh);
   pointer-events: none;
   z-index: 9999;
 }

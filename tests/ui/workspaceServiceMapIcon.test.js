@@ -9,13 +9,17 @@ function read(path) {
 test("workspace service map card uses an Estonia outline with a location marker", () => {
   const workspacePanel = read("components/chat/WorkspacePanel.jsx");
   const styles = read("components/chat/WorkspacePanel.module.css");
+  const logo = read("public/icons/eesti_kontuurkaart_logo.svg");
 
   assert.match(workspacePanel, /type === "map"/);
-  assert.match(workspacePanel, /M4\.3 14\.95 5\.9 14\.2l-\.62-1\.1/);
-  assert.match(workspacePanel, /strokeWidth="1\.74"/);
-  assert.match(workspacePanel, /M13\.05 18\.2c-\.66 0-1\.34-\.34-1\.82-\.91/);
-  assert.match(workspacePanel, /M13\.05 9\.15v3\.35/);
-  assert.match(workspacePanel, /strokeWidth="1\.6"/);
+  assert.match(workspacePanel, /className=\{styles\.serviceMapLogoIcon\}/);
+  assert.match(styles, /\.serviceMapLogoIcon/);
+  assert.match(styles, /width:\s*132%/);
+  assert.match(styles, /height:\s*132%/);
+  assert.match(styles, /margin:\s*-16%/);
+  assert.match(styles, /url\("\/icons\/eesti_kontuurkaart_logo\.svg"\)/);
+  assert.match(logo, /viewBox="0 0 34\.12 32\.89"/);
+  assert.match(logo, /M19\.8,19\.68/);
   assert.doesNotMatch(workspacePanel, /estoniaMapShape/);
   assert.doesNotMatch(styles, /estoniaMapShape/);
   assert.doesNotMatch(styles, /eesti_kontuurkaart\.svg/);

@@ -66,13 +66,17 @@ function applyVhVar() {
   const vv = window.visualViewport;
   const layoutHeight = Math.max(
     window.innerHeight || 0,
+    document.documentElement?.clientHeight || 0,
     vv ? vv.height + vv.offsetTop : 0
   );
   const height = vv ? vv.height : layoutHeight;
   const vh = height * 0.01;
   if (vh) root.style.setProperty("--vh", `${vh}px`);
   const appVh = layoutHeight * 0.01;
-  if (appVh) root.style.setProperty("--app-vh", `${appVh}px`);
+  if (appVh) {
+    root.style.setProperty("--app-vh", `${appVh}px`);
+    root.style.setProperty("--app-height", `${layoutHeight}px`);
+  }
   const offsetTop = vv ? vv.offsetTop : 0;
   const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
   const active = document.activeElement;
