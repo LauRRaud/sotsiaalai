@@ -28,10 +28,18 @@ test("profile dim theme icon keeps its desktop emphasis in the mobile orbit stac
 
   assert.match(
     profileBody,
-    /<ThemeMidDockIcon width=\{33\} height=\{33\} className="profile-theme-mid-icon" \/>/
+    /<ThemeMidDockIcon width=\{33\} height=\{33\} className="profile-theme-mode-icon profile-theme-mid-icon" \/>/
   );
   assert.match(
     mobileCss,
-    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mid-icon\s*\{[\s\S]*?width:\s*68%;[\s\S]*?height:\s*68%;/
+    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mode-icon\s*\{[\s\S]*?width:\s*68%;[\s\S]*?height:\s*68%;/
   );
+});
+
+test("profile mobile orbit stack gives every theme mode icon the larger theme sizing", () => {
+  const profileBody = read("components/alalehed/ProfiilBody.jsx");
+
+  assert.match(profileBody, /<ThemeHighContrastDockIcon width=\{27\} height=\{27\} className="profile-theme-mode-icon" \/>/);
+  assert.match(profileBody, /<ThemeSunDockIcon width=\{26\} height=\{26\} className="profile-theme-mode-icon" \/>/);
+  assert.match(profileBody, /<ThemeMoonDockIcon width=\{26\} height=\{26\} className="profile-theme-mode-icon" showStars=\{nextMode === "night"\} \/>/);
 });

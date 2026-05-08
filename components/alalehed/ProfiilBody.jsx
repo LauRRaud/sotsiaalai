@@ -829,12 +829,12 @@ export default function ProfiilBody({
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
   const nextModeIcon = useMemo(() =>
     nextMode === "mid"
-      ? <ThemeMidDockIcon width={33} height={33} className="profile-theme-mid-icon" />
+      ? <ThemeMidDockIcon width={33} height={33} className="profile-theme-mode-icon profile-theme-mid-icon" />
       : nextMode === "hc"
-        ? <ThemeHighContrastDockIcon width={27} height={27} />
+        ? <ThemeHighContrastDockIcon width={27} height={27} className="profile-theme-mode-icon" />
       : nextMode === "light"
-        ? <ThemeSunDockIcon width={26} height={26} />
-        : <ThemeMoonDockIcon width={26} height={26} showStars={nextMode === "night"} />, [nextMode]);
+        ? <ThemeSunDockIcon width={26} height={26} className="profile-theme-mode-icon" />
+        : <ThemeMoonDockIcon width={26} height={26} className="profile-theme-mode-icon" showStars={nextMode === "night"} />, [nextMode]);
   const handleModeSwitch = useCallback(() => {
     setPrefs?.({
       theme: nextMode === "hc" ? "dark" : nextMode,
