@@ -22,7 +22,7 @@ test("profile dim theme icon reads as a restrained sunrise or sunset", () => {
   assert.doesNotMatch(profileBody, /clipPath="url\(#mid-sun/);
 });
 
-test("profile dim theme icon keeps its desktop emphasis in the mobile orbit stack", () => {
+test("profile theme mode icons use the shared mobile orbital icon sizing", () => {
   const profileBody = read("components/alalehed/ProfiilBody.jsx");
   const mobileCss = read("app/styles/mobile.css");
 
@@ -32,15 +32,23 @@ test("profile dim theme icon keeps its desktop emphasis in the mobile orbit stac
   );
   assert.match(
     mobileCss,
-    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mode-icon,\s*\.profile-orbit-mobile-action\s+\.dock-icon\s+\.profile-theme-mode-icon\s*\{[\s\S]*?width:\s*82%;[\s\S]*?height:\s*82%;[\s\S]*?stroke-width:\s*1\.72;/
+    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+svg\s*\{[\s\S]*?width:\s*78%;[\s\S]*?height:\s*78%;/
   );
   assert.match(
+    read("components/effects/Components/OrbitalMenu/OrbitalMenu.css"),
+    /\.profile-orbit-mobile-action\.dock-item\s+\.dock-icon\s+svg\s*\{[\s\S]*?width:\s*68%;[\s\S]*?height:\s*68%;/
+  );
+  assert.doesNotMatch(
     mobileCss,
-    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mid-icon,\s*\.profile-orbit-mobile-action\s+\.dock-icon\s+\.profile-theme-mid-icon\s*\{[\s\S]*?transform:\s*scale\(1\.14\);[\s\S]*?stroke-width:\s*1\.84;/
+    /\.profile-orbit-(?:stack-bubble|mobile-action)\s+\.dock-icon\s+\.profile-theme-mode-icon/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /\.profile-orbit-(?:stack-bubble|mobile-action)\s+\.dock-icon\s+\.profile-theme-mid-icon/
   );
 });
 
-test("profile mobile orbit stack gives every theme mode icon the larger theme sizing", () => {
+test("profile mobile orbit stack keeps semantic classes on every theme mode icon", () => {
   const profileBody = read("components/alalehed/ProfiilBody.jsx");
 
   assert.match(profileBody, /<ThemeHighContrastDockIcon width=\{27\} height=\{27\} className="profile-theme-mode-icon" \/>/);

@@ -1248,28 +1248,12 @@
     color: var(--orbit-accent, #c57171);
   }
   .profile-orbit-stack-bubble .dock-icon svg {
-    width: 54%;
-    height: 54%;
+    width: 78%;
+    height: 78%;
     max-width: none;
     max-height: none;
     stroke: currentColor;
     fill: none;
-  }
-  .profile-orbit-stack-bubble .dock-icon .profile-theme-mode-icon,
-  .profile-orbit-mobile-action .dock-icon .profile-theme-mode-icon {
-    width: 82%;
-    height: 82%;
-    max-width: clamp(4.85rem, 24vw, 6.15rem);
-    max-height: clamp(4.85rem, 24vw, 6.15rem);
-    transform: scale(1.08);
-    transform-origin: center;
-    overflow: visible;
-    stroke-width: 1.72;
-  }
-  .profile-orbit-stack-bubble .dock-icon .profile-theme-mid-icon,
-  .profile-orbit-mobile-action .dock-icon .profile-theme-mid-icon {
-    transform: scale(1.14);
-    stroke-width: 1.84;
   }
   .profile-orbit-stack-bubble .dock-icon .profile-orbit-back-icon {
     display: block;
