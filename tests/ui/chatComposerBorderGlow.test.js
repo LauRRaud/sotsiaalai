@@ -20,9 +20,12 @@ test("chat composer supports opt-in edge-only BorderGlow on the input shell", ()
   assert.match(composer, /backgroundColor="transparent"/);
   assert.match(composer, /edgeOnly/);
   assert.match(composer, /glowColor="358 82 72"/);
+  assert.match(composer, /edgeSensitivity=\{30\}/);
+  assert.match(composer, /glowRadius=\{46\}/);
   assert.match(composer, /glowIntensity=\{1\.05\}/);
   assert.match(composer, /coneSpread=\{20\}/);
   assert.match(composer, /fillOpacity=\{0\}/);
+  assert.doesNotMatch(composer, /"--edge-only-hot-end"/);
   assert.match(bodyView, /inputGlow=\{!isLightTheme\}/);
 });
 
@@ -46,6 +49,7 @@ test("chat composer glow shell owns the visible input chrome on the chat page", 
     css,
     /\.chat-page-shell\s+\.chat-composer-glow-shell:hover,[\s\S]*?\.chat-composer-glow-shell:focus-within\s*\{[\s\S]*?var\(--chat-under-glow-strong\)\s*!important/
   );
+  assert.doesNotMatch(css, /\.chat-page-shell\s+\.chat-composer-glow-shell::after/);
   assert.match(
     css,
     /\.chat-composer-glow-shell\s+\.chat-inputbar[\s\S]*?background:\s*transparent\s*!important/

@@ -648,6 +648,17 @@ export default function RightRail({
         const isDisabled = false;
         const isAriaDisabled = isDisabled;
         const displayLabel = it?.label || "";
+        const workspaceIconProps = viewportIsMobile
+          ? {
+              outerStrokeWidth: 1.52,
+              innerStrokeWidth: 1.34,
+              nonScalingStroke: true,
+              variant: "mobileNav"
+            }
+          : {
+              outerStrokeWidth: 1.28,
+              innerStrokeWidth: 1.16
+            };
 
         return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
@@ -667,7 +678,7 @@ export default function RightRail({
         clearArmed();
         performActivate(event);
       } : undefined} aria-label={ariaLabel} aria-disabled={isAriaDisabled ? "true" : undefined} disabled={isDisabled}>
-              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "workspace" ? <WorkspaceIcon isLightTheme={isLightTheme} outerStrokeWidth={1.28} innerStrokeWidth={1.16} className={cn(styles.iconSvg, styles.iconWorkspace, workspaceOpen ? styles.iconWorkspaceOpen : null)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : null}
+              {it?.key === "profile" ? <ProfileIcon isLightTheme={isLightTheme} className={`${styles.profileAvatar} ${styles.avatar}`} /> : it?.key === "chats" ? <ChatBubbleIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconChats, isMobile ? styles.chatIconMobile : styles.chatIconDesktop)} /> : it?.key === "workspace" ? <WorkspaceIcon isLightTheme={isLightTheme} {...workspaceIconProps} className={cn(styles.iconSvg, styles.iconWorkspace, workspaceOpen ? styles.iconWorkspaceOpen : null)} /> : it?.key === "rooms" ? <RoomsIcon isLightTheme={isLightTheme} className={cn(styles.iconSvg, styles.iconRooms)} /> : null}
               <span className={cn(styles.label, mobileLabelClassName)} aria-hidden="true">
                 {displayLabel}
               </span>

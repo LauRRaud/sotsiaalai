@@ -1656,6 +1656,15 @@
     0 14px 28px rgba(0, 0, 0, 0.18) !important;
 }
 
+:root.theme-light :is(.documents-agent-glow-window, .documents-agent-glow-composer) > .edgeLight,
+:root.theme-mid :is(.documents-agent-glow-window, .documents-agent-glow-composer) > .edgeLight {
+  display: none !important;
+}
+
+html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow-composer) > .edgeLight {
+  display: block !important;
+}
+
 .documents-agent-glow-window {
   min-height: clamp(17.5rem, 37vh, 22.5rem);
 }

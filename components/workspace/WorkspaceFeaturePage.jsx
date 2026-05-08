@@ -797,7 +797,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               <p className="m-0 text-[1rem] font-[720] leading-[1.2]">{activeReceivedInquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</p>
               <p className={bodyTextClassName}>{activeReceivedInquiry.situation}</p>
               {activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft ? (
-              <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[10rem] resize-y")} readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} />
+                <ServiceProfileTextarea readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} className="min-h-[10rem]" />
               ) : null}
             </div>
           </SectionCard>
@@ -834,55 +834,83 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
-            <ConversationView
-              t={t}
-              chatWindowRef={chatWindowRef}
-              isStreamingAny={assisting}
-              hiddenCount={0}
-              pageSize={0}
-              onRevealOlder={() => {}}
-              canHideOlder={false}
-              onHideOlder={() => {}}
-              onJumpToBottom={() => {}}
-              messageItems={conversationItems}
-              mainClassName="documents-agent-conversation-main"
-              windowClassName="documents-agent-conversation-window"
-              isMobile={false}
-              isLightTheme
-            />
+            <BorderGlow
+              className="documents-agent-glow-window"
+              edgeSensitivity={30}
+              glowColor="358 82 72"
+              backgroundColor="#120F17"
+              borderRadius={16}
+              glowRadius={46}
+              glowIntensity={1.05}
+              coneSpread={20}
+              colors={["#c084fc", "#f472b6", "#38bdf8"]}
+              fillOpacity={0}
+              edgeOnly
+            >
+              <ConversationView
+                t={t}
+                chatWindowRef={chatWindowRef}
+                isStreamingAny={assisting}
+                hiddenCount={0}
+                pageSize={0}
+                onRevealOlder={() => {}}
+                canHideOlder={false}
+                onHideOlder={() => {}}
+                onJumpToBottom={() => {}}
+                messageItems={conversationItems}
+                mainClassName="documents-agent-conversation-main"
+                windowClassName="documents-agent-conversation-window"
+                isMobile={false}
+                isLightTheme
+              />
+            </BorderGlow>
 
             <div className="documents-agent-composer-slot">
-              <ChatComposer
-                t={t}
-                locale={locale}
-                isLightTheme
-                hideTools
-                embedded
-                forcePlaceholderVisible
-                placeholderText=""
-                acceptAttr=""
-                ensureAnalysisPanelVisible={() => {}}
-                fileInputRef={fileInputRef}
-                onFileChange={() => {}}
-                inputBarRef={inputBarRef}
-                inputRef={inputRef}
-                onFocusInput={() => setInputFocused(true)}
-                onBlurInput={() => setInputFocused(false)}
-                isGenerating={assisting}
-                isStreamingAny={false}
-                isRoomMode={false}
-                roomBlocked={false}
-                roomAuthRequired={false}
-                onStop={() => {}}
-                onSend={handleComposerSend}
-                voiceEnabled={false}
-                recording={false}
-                recordingPulse={false}
-                handleMic={() => {}}
-                draftApiRef={composerDraftApiRef}
-                inputFocused={inputFocused}
-                isMobile={false}
-              />
+              <BorderGlow
+                className="documents-agent-glow-composer"
+                edgeSensitivity={30}
+                glowColor="358 82 72"
+                backgroundColor="#120F17"
+                borderRadius={28}
+                glowRadius={46}
+                glowIntensity={1.05}
+                coneSpread={20}
+                colors={["#c084fc", "#f472b6", "#38bdf8"]}
+                fillOpacity={0}
+                edgeOnly
+              >
+                <ChatComposer
+                  t={t}
+                  locale={locale}
+                  isLightTheme
+                  hideTools
+                  embedded
+                  forcePlaceholderVisible
+                  placeholderText=""
+                  acceptAttr=""
+                  ensureAnalysisPanelVisible={() => {}}
+                  fileInputRef={fileInputRef}
+                  onFileChange={() => {}}
+                  inputBarRef={inputBarRef}
+                  inputRef={inputRef}
+                  onFocusInput={() => setInputFocused(true)}
+                  onBlurInput={() => setInputFocused(false)}
+                  isGenerating={assisting}
+                  isStreamingAny={false}
+                  isRoomMode={false}
+                  roomBlocked={false}
+                  roomAuthRequired={false}
+                  onStop={() => {}}
+                  onSend={handleComposerSend}
+                  voiceEnabled={false}
+                  recording={false}
+                  recordingPulse={false}
+                  handleMic={() => {}}
+                  draftApiRef={composerDraftApiRef}
+                  inputFocused={inputFocused}
+                  isMobile={false}
+                />
+              </BorderGlow>
             </div>
           </div>
         </div>
@@ -939,7 +967,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </div>
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_search", "Otsi adressaati")}</span>
-            <input className={fieldClassName} value={recipientQuery} onChange={(event) => setRecipientQuery(event.target.value)} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.recipient", "KOV, teenuseosutaja või piirkond")} />
+            <ServiceProfileInput value={recipientQuery} onChange={(event) => setRecipientQuery(event.target.value)} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.recipient", "KOV, teenuseosutaja või piirkond")} />
           </Label>
         </div>
         <div className="grid gap-[0.52rem]">
@@ -988,9 +1016,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
         <Label>
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
-          <input className={fieldClassName} value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
+          <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
         </Label>
-          <textarea className={cn(fieldClassName, "documents-field--textarea min-h-[12rem] resize-y")} value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+        <ServiceProfileTextarea className="min-h-[12rem]" value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
           <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving

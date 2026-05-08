@@ -2991,6 +2991,24 @@
     letter-spacing: 0.012em;
   }
 
+  .register-back-button {
+    display: inline-flex !important;
+    top: calc(50% + clamp(3.15rem, 8.6vh, 4.35rem)) !important;
+    bottom: auto !important;
+    left: 50% !important;
+    width: clamp(3.55rem, 15vw, 4.2rem) !important;
+    height: clamp(3.55rem, 15vw, 4.2rem) !important;
+    margin-left: 0 !important;
+    transform: translateX(-50%) !important;
+    opacity: 0.88;
+    z-index: 92 !important;
+  }
+
+  .register-back-button > svg {
+    width: clamp(3.55rem, 15vw, 4.2rem) !important;
+    height: clamp(3.55rem, 15vw, 4.2rem) !important;
+  }
+
   .register-login-link {
     font-size: clamp(1.56rem, 6.2vw, 2.02rem) !important;
     letter-spacing: 0.016em;

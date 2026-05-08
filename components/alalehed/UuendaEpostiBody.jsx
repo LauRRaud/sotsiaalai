@@ -11,6 +11,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import GlowField from "@/components/ui/GlowField";
 import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
@@ -189,15 +190,21 @@ export default function UuendaEpostiBody() {
               <label htmlFor="current-email" className="sr-only">
                 {t("profile.email_update.current_placeholder")}
               </label>
-              <input type="email" id="current-email" name="current-email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.current_placeholder")} value={currentEmail} readOnly aria-readonly="true" autoComplete="username" inputMode="email" />
+              <GlowField className={inputClassName}>
+                <input type="email" id="current-email" name="current-email" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={t("profile.email_update.current_placeholder")} value={currentEmail} readOnly aria-readonly="true" autoComplete="username" inputMode="email" />
+              </GlowField>
               <label htmlFor="email" className="sr-only">
                 {t("profile.email_update.new_placeholder")}
               </label>
-              <input type="email" id="email" name="email" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={t("profile.email_update.new_placeholder")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" inputMode="email" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
+              <GlowField className={inputClassName}>
+                <input type="email" id="email" name="email" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={t("profile.email_update.new_placeholder")} value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" inputMode="email" disabled={loading} aria-invalid={error ? "true" : "false"} aria-describedby={errorId} />
+              </GlowField>
               <label htmlFor="pin" className="sr-only">
                 {t("profile.email_update.pin_placeholder")}
               </label>
-              <input type="password" id="pin" name="pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={pinPlaceholder} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="current-password" disabled={loading} />
+              <GlowField className={inputClassName}>
+                <input type="password" id="pin" name="pin" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={pinPlaceholder} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="current-password" disabled={loading} />
+              </GlowField>
               {error && <p id={errorId} role="alert" className="text-[color:#fca5a5]">
                   {error}
                 </p>}

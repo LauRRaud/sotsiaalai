@@ -128,7 +128,7 @@
   border: 0;
   border-radius: 0.8rem;
   padding: clamp(0.58rem, 1.15vw, 0.78rem);
-  --workspace-card-icon-size: clamp(2.24rem, 4.8vw, 2.68rem);
+  --workspace-card-icon-size: clamp(2.38rem, 5.05vw, 2.84rem);
   color: inherit;
   text-align: center;
   background:
@@ -380,7 +380,7 @@
     height: 100%;
     padding: clamp(0.46rem, 1.05vh, 0.64rem) 0.58rem;
     border-radius: 0.62rem;
-    --workspace-card-icon-size: 2.02rem;
+    --workspace-card-icon-size: 2.16rem;
   }
 
   .rowSingle .card {

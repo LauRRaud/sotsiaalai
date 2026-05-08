@@ -188,10 +188,28 @@ export function WorkspaceIcon({
   outerStrokeWidth = 1.55,
   innerStrokeWidth = 1.45,
   nonScalingStroke = false,
+  variant = "default",
   ...props
 }) {
   const stroke = resolveThemeColor(isLightTheme);
   const vectorEffect = nonScalingStroke ? "non-scaling-stroke" : undefined;
+  const isMobileNavShape = variant === "mobileNav";
+  const outerFrame = isMobileNavShape
+    ? { x: 3.18, y: 3.95, width: 17.64, height: 16.08, rx: 2.18 }
+    : { x: 3.4, y: 4.15, width: 17.2, height: 15.7, rx: 2.25 };
+  const cells = isMobileNavShape
+    ? [
+        { x: 7.0, y: 7.92, width: 3.9, height: 3.32 },
+        { x: 13.1, y: 7.92, width: 3.9, height: 3.32 },
+        { x: 7.0, y: 13.28, width: 3.9, height: 3.32 },
+        { x: 13.1, y: 13.28, width: 3.9, height: 3.32 }
+      ]
+    : [
+        { x: 7.15, y: 8.05, width: 3.65, height: 3.2 },
+        { x: 13.2, y: 8.05, width: 3.65, height: 3.2 },
+        { x: 7.15, y: 13.25, width: 3.65, height: 3.2 },
+        { x: 13.2, y: 13.25, width: 3.65, height: 3.2 }
+      ];
   return (
     <svg
       viewBox="0 0 24 24"
@@ -203,44 +221,29 @@ export function WorkspaceIcon({
       {...props}
     >
       <rect
-        x="3.4"
-        y="4.15"
-        width="17.2"
-        height="15.7"
-        rx="2.25"
+        x={outerFrame.x}
+        y={outerFrame.y}
+        width={outerFrame.width}
+        height={outerFrame.height}
+        rx={outerFrame.rx}
         stroke={stroke}
         strokeWidth={outerStrokeWidth}
         vectorEffect={vectorEffect}
         strokeLinejoin="round"
       />
-      <path
-        d="M7.15 8.05h3.65v3.2H7.15v-3.2Z"
-        stroke={stroke}
-        strokeWidth={innerStrokeWidth}
-        vectorEffect={vectorEffect}
-        strokeLinejoin="round"
-      />
-      <path
-        d="M13.2 8.05h3.65v3.2H13.2v-3.2Z"
-        stroke={stroke}
-        strokeWidth={innerStrokeWidth}
-        vectorEffect={vectorEffect}
-        strokeLinejoin="round"
-      />
-      <path
-        d="M7.15 13.25h3.65v3.2H7.15v-3.2Z"
-        stroke={stroke}
-        strokeWidth={innerStrokeWidth}
-        vectorEffect={vectorEffect}
-        strokeLinejoin="round"
-      />
-      <path
-        d="M13.2 13.25h3.65v3.2H13.2v-3.2Z"
-        stroke={stroke}
-        strokeWidth={innerStrokeWidth}
-        vectorEffect={vectorEffect}
-        strokeLinejoin="round"
-      />
+      {cells.map(cell => (
+        <rect
+          key={`${cell.x}-${cell.y}`}
+          x={cell.x}
+          y={cell.y}
+          width={cell.width}
+          height={cell.height}
+          stroke={stroke}
+          strokeWidth={innerStrokeWidth}
+          vectorEffect={vectorEffect}
+          strokeLinejoin="round"
+        />
+      ))}
     </svg>
   );
 }

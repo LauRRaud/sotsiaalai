@@ -26,9 +26,10 @@ function DashboardCardIcon({ type }) {
   if (type === "document") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M7 3.8h6.35L18 8.45V19a1.6 1.6 0 0 1-1.6 1.6H7A1.6 1.6 0 0 1 5.4 19V5.4A1.6 1.6 0 0 1 7 3.8Z" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M13.35 3.8v4.65H18" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M8.6 12.1h6.8M8.6 15.35h5.2" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
+        <path d="M6.85 3.35h6.35l5.55 5.55v9.35a2.18 2.18 0 0 1-2.18 2.18H6.85a2.18 2.18 0 0 1-2.18-2.18V5.53a2.18 2.18 0 0 1 2.18-2.18Z" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.2 3.35v3.82a1.78 1.78 0 0 0 1.78 1.78h3.77" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.55 11.62h8.9v5.38h-8.9v-5.38Z" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="m7.92 11.96 4.08 3.02 4.08-3.02" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
@@ -68,10 +69,10 @@ function DashboardCardIcon({ type }) {
   if (type === "service-profile") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M6.15 4.2h11.7a1.75 1.75 0 0 1 1.75 1.75v12.1a1.75 1.75 0 0 1-1.75 1.75H6.15a1.75 1.75 0 0 1-1.75-1.75V5.95A1.75 1.75 0 0 1 6.15 4.2Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M7.25 9.35h9.5L15.7 6.7H8.3L7.25 9.35Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M8 12.45h8M8 15.35h4.45" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
-        <path d="m14.65 16.25 1.25 1.25 2.15-2.45" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5.85 4.45h12.3a1.75 1.75 0 0 1 1.75 1.75v11.6a1.75 1.75 0 0 1-1.75 1.75H5.85A1.75 1.75 0 0 1 4.1 17.8V6.2a1.75 1.75 0 0 1 1.75-1.75Z" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="8.45" cy="9.1" r="1.5" stroke="currentColor" strokeWidth="1.55" />
+        <path d="M6.3 15.05c.42-1.62 1.14-2.4 2.15-2.4s1.73.78 2.15 2.4" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12.7 8.15h4.45M12.7 11.25h4.45M12.7 14.35h3.25" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" />
       </svg>
     );
   }
@@ -90,9 +91,10 @@ function DashboardCardIcon({ type }) {
   if (type === "materials") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M7 3.8h6.35L18 8.45V19a1.6 1.6 0 0 1-1.6 1.6H7A1.6 1.6 0 0 1 5.4 19V5.4A1.6 1.6 0 0 1 7 3.8Z" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M13.35 3.8v4.65H18" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M11.5 17.15v-5.2M9.35 14.1l2.15-2.15 2.15 2.15" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6.85 3.35h6.35l5.55 5.55v9.35a2.18 2.18 0 0 1-2.18 2.18H6.85a2.18 2.18 0 0 1-2.18-2.18V5.53a2.18 2.18 0 0 1 2.18-2.18Z" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.2 3.35v3.82a1.78 1.78 0 0 0 1.78 1.78h3.77" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="m9.25 13.08 2.75-2.75 2.75 2.75" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.85 15.28v2.12h8.3v-2.12" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }

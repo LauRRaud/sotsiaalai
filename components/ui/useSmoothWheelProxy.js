@@ -23,6 +23,7 @@ function preventDefaultIfCancelable(event) {
 
 export default function useSmoothWheelProxy({
   scrollRef,
+  eventTargetRef,
   disabled = false,
   passthroughNativeTargets = true,
 }) {
@@ -42,7 +43,7 @@ export default function useSmoothWheelProxy({
     };
   }, []);
 
-  return useCallback((event) => {
+  const handleWheel = useCallback((event) => {
     const scrollEl = scrollRef?.current;
     if (!scrollEl) return;
     if (event.defaultPrevented || event.ctrlKey || event.metaKey) return;
@@ -54,11 +55,11 @@ export default function useSmoothWheelProxy({
 
     const { top, left } = wheelDeltaToPx(event, scrollEl);
     if (!top && !left) return;
+    if (!preventDefaultIfCancelable(event)) return;
 
     if (disabled || typeof window === "undefined") {
       scrollEl.scrollTop = clamp(scrollEl.scrollTop + top, 0, maxTop);
       scrollEl.scrollLeft = clamp(scrollEl.scrollLeft + left, 0, maxLeft);
-      preventDefaultIfCancelable(event);
       return;
     }
 
@@ -94,6 +95,18 @@ export default function useSmoothWheelProxy({
     if (!state.raf) {
       state.raf = window.requestAnimationFrame(tick);
     }
-    preventDefaultIfCancelable(event);
   }, [disabled, passthroughNativeTargets, scrollRef]);
+
+  useEffect(() => {
+    const target = eventTargetRef?.current;
+    if (!target) return undefined;
+    target.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+    return () => {
+      target.removeEventListener("wheel", handleWheel);
+    };
+  }, [eventTargetRef, handleWheel]);
+
+  return handleWheel;
 }

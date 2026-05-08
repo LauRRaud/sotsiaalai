@@ -20,7 +20,7 @@ const MOBILE_NAV_ITEMS = [
   { key: "new_chat", scale: 0.98 },
   { key: "profile", scale: 1.08 },
   { key: "rooms", scale: 1.02 },
-  { key: "workspace", scale: 1.22 }
+  { key: "workspace", scale: 1.14 }
 ];
 
 const DEFAULT_FOCUSED_KEY = "profile";
@@ -422,9 +422,10 @@ export default function ChatMobileTopNav({
           <WorkspaceIcon
             isLightTheme={isLightTheme}
             className={iconClassName}
-            outerStrokeWidth={1.24}
-            innerStrokeWidth={1.12}
+            outerStrokeWidth={1.52}
+            innerStrokeWidth={1.34}
             nonScalingStroke
+            variant="mobileNav"
           />
         </MobileIconFrame>
       );

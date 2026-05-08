@@ -147,6 +147,7 @@ export default function RegistreerimineBody({}) {
   const lockedRole = normalizeRegistrationRoleParam(searchParams?.get("role"));
   const isRoleLocked = Boolean(lockedRole);
   const localizedTitleClassName = `${titleClassName}${locale === "ru" ? " glass-title-register-ru" : ""}`;
+  const ringRef = useRef(null);
   const scrollRef = useRef(null);
   const backButtonRef = useRef(null);
   const handleClose = () => {
@@ -239,8 +240,9 @@ export default function RegistreerimineBody({}) {
   const guideStepIndex = 4;
   const workerStepIndex = 5;
   const submitStepIndex = isProfessionalUser ? 6 : 5;
-  const proxyWheelToRegisterScroll = useSmoothWheelProxy({
+  useSmoothWheelProxy({
     scrollRef,
+    eventTargetRef: ringRef,
     disabled: isMobileViewport,
   });
 
@@ -717,18 +719,18 @@ export default function RegistreerimineBody({}) {
   return (
     <section className={pageShellClassName} lang={locale}>
       <GlassRing
+        ref={ringRef}
         className={cn(
           registerRingClassName,
           showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]" : null,
         )}
         data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
-        onWheel={proxyWheelToRegisterScroll}
       >
         <BackButton
           ref={backButtonRef}
           onClick={showSuccessState ? handleClose : handleClose}
           ariaLabel={t("buttons.back_home")}
-          className={showSuccessState ? glassPageBackMobileBottomCenterClassName : `${glassPageBackClassName} scroll-reactive-back`}
+          className={showSuccessState ? glassPageBackMobileBottomCenterClassName : `${glassPageBackClassName} scroll-reactive-back register-back-button`}
         />
         {showSuccessState ? (
           <>

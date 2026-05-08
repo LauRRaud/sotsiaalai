@@ -11,6 +11,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import GlowField from "@/components/ui/GlowField";
 import {
   glassFormInputBaseClassName,
   glassPageBackMobileBottomCenterClassName,
@@ -203,15 +204,21 @@ export default function UuendaPinBody() {
               <label htmlFor="current-pin" className="sr-only">
                 {currentPinLabel}
               </label>
-              <input type="password" id="current-pin" name="current-pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={currentPinLabel} value={currentPin} onChange={e => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="current-password" disabled={loading} />
+              <GlowField className={inputClassName}>
+                <input type="password" id="current-pin" name="current-pin" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={currentPinLabel} value={currentPin} onChange={e => setCurrentPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="current-password" disabled={loading} />
+              </GlowField>
               <label htmlFor="next-pin" className="sr-only">
                 {pinLabel}
               </label>
-              <input type="password" id="next-pin" name="next-pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={pinLabel} value={nextPin} onChange={e => setNextPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="new-password" disabled={loading} />
+              <GlowField className={inputClassName}>
+                <input type="password" id="next-pin" name="next-pin" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={pinLabel} value={nextPin} onChange={e => setNextPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="new-password" disabled={loading} />
+              </GlowField>
               <label htmlFor="confirm-pin" className="sr-only">
                 {confirmPinLabel}
               </label>
-              <input type="password" id="confirm-pin" name="confirm-pin" className={`${inputBaseClassName} ${inputClassName}`.trim()} placeholder={confirmPinLabel} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="new-password" disabled={loading} />
+              <GlowField className={inputClassName}>
+                <input type="password" id="confirm-pin" name="confirm-pin" className={cn(inputBaseClassName, "ui-glow-control")} placeholder={confirmPinLabel} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, PIN_MAX))} required minLength={PIN_MIN} maxLength={PIN_MAX} autoComplete="new-password" disabled={loading} />
+              </GlowField>
               {error ? <p role="alert" className="text-[color:#fca5a5]">
                   {error}
                 </p> : null}

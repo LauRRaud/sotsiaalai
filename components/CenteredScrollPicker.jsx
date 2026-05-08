@@ -183,15 +183,12 @@ export default function CenteredScrollPicker({
       }
     }
   }, [manageHiddenFocus, inertOk]);
-  const moveFocusOutOfItemBeforeHide = useCallback((itemEl, activeItem) => {
+  const moveFocusOutOfItemBeforeHide = useCallback(itemEl => {
     if (!manageHiddenFocus || typeof document === "undefined") return;
     if (!isHTMLElement(itemEl)) return;
     const activeEl = document.activeElement;
     if (!isHTMLElement(activeEl) || !itemEl.contains(activeEl)) return;
-    const target = activeItem && activeItem !== itemEl ? activeItem : containerRef?.current;
-    if (target && target !== itemEl) setHiddenStateForItem(target, false);
-    const focusables = target ? Array.from(target.querySelectorAll(FOCUSABLE_SELECTOR)).filter(isHTMLElement) : [];
-    const nextFocus = focusables[0] || containerRef?.current;
+    const nextFocus = containerRef?.current;
     if (!nextFocus) return;
     try {
       nextFocus.focus({
@@ -200,14 +197,14 @@ export default function CenteredScrollPicker({
     } catch {
       nextFocus.focus();
     }
-  }, [containerRef, manageHiddenFocus, setHiddenStateForItem]);
+  }, [containerRef, manageHiddenFocus]);
   const applyHiddenFocusGuards = useCallback(newActiveIdx => {
     if (!applyItemVisibility) return;
     const items = getItems();
     if (!items.length) return;
     for (let i = 0; i < items.length; i += 1) {
       const hidden = Math.abs(i - newActiveIdx) > neighborDistance;
-      if (hidden) moveFocusOutOfItemBeforeHide(items[i], items[newActiveIdx]);
+      if (hidden) moveFocusOutOfItemBeforeHide(items[i]);
       setHiddenStateForItem(items[i], hidden);
     }
   }, [applyItemVisibility, getItems, neighborDistance, moveFocusOutOfItemBeforeHide, setHiddenStateForItem]);
