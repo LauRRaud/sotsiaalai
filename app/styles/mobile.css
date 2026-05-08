@@ -1880,13 +1880,22 @@
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
     --glass-mobile-safe-top: 0px !important;
-    --glass-mobile-height: calc(
-      var(--glass-mobile-root-vh, calc(var(--app-vh, var(--vh, 1vh)) * 100)) -
-      var(--glass-mobile-safe-top, 0px) -
-      var(--glass-mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
-      var(--glass-mobile-gap, 0.35rem) -
-      var(--glass-mobile-gap, 0.35rem)
+    --glass-mobile-safe-bottom: 0px !important;
+    --glass-mobile-height: var(
+      --glass-mobile-root-vh,
+      calc(var(--app-vh, var(--vh, 1vh)) * 100)
     ) !important;
+    height: var(--glass-mobile-height) !important;
+    max-height: var(--glass-mobile-height) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .homepage-root footer,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .homepage-root footer,
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .site-footer,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .site-footer {
+    padding-bottom: 0 !important;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
@@ -3320,6 +3329,29 @@
   body[data-platform="android"] .policy-mobile-title--static {
     font-size: clamp(1.8rem, 6.15vw, 2.14rem) !important;
     line-height: 1.04 !important;
+  }
+
+  :is(
+      .workspace-feature-title-wrap,
+      .documents-mobile-title-wrap,
+      .agent-mobile-title-wrap,
+      .covision-mobile-title-wrap,
+      .help-listings-mobile-title-wrap
+    ) {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
+  :is(
+      .workspace-feature-title,
+      .documents-mobile-title,
+      .agent-mobile-title,
+      .covision-mobile-title,
+      .help-listings-mobile-title
+    ) {
+    font-size: clamp(1.72rem, 6.15vw, 2.14rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.003em !important;
   }
 
 }

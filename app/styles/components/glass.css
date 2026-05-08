@@ -255,8 +255,8 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.11),
     0 10px 24px rgba(0, 0, 0, 0.08) !important;
   transition:
-    background 160ms ease,
-    box-shadow 160ms ease;
+    background 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .ui-glow-field:hover {
@@ -276,6 +276,16 @@
     0 0 12px rgba(255, 122, 126, 0.26),
     0 0 26px rgba(255, 122, 126, 0.13),
     0 14px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .ui-glow-field:not(:hover) {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.11),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0),
+    0 10px 24px rgba(0, 0, 0, 0.08) !important;
 }
 
 .ui-glow-field:focus-within:not(:hover) > .edgeLight,

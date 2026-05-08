@@ -28,11 +28,11 @@ import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/fr
 import { localizePath } from "@/lib/localizePath"
 
 const documentsTitleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
+  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static documents-mobile-title ${glassPageTitleClassName} ` +
   `w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
 const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]"
 const mobileTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
+  "documents-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
 
 const WORKER_INTRO_COPY = {

@@ -39,20 +39,20 @@ import { pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
+  "relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.6vw,0.5rem)] max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
 
 const surfaceClassName =
   `documents-workspace workspace-feature-panel relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(56rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-  `max-[768px]:!max-w-none max-[768px]:rounded-[1.35rem] max-[768px]:px-[0.78rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
+  `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
 
 const bodyClassName =
-  "mx-auto grid w-full max-w-[52rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem]";
+  "mx-auto grid w-full max-w-[52rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]";
 
 const pageTitleClassName =
-  `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `subpage-mobile-title policy-mobile-title policy-mobile-title--static covision-mobile-title ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -845,7 +845,7 @@ export default function CovisionPage() {
         />
 
         <header className="mb-[0.25rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+          <div className="covision-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
             <h1 className={pageTitleClassName}>Kovisioon</h1>
           </div>
         </header>

@@ -27,7 +27,11 @@ test("service profile fields use BorderGlow field wrappers", () => {
   );
   assert.match(
     serviceMapCss,
-    /\.service-profile-glow-field:hover,\s*\n\.service-profile-glow-field:focus-within\s*\{[\s\S]*?background:[\s\S]*?!important/
+    /\.service-profile-glow-field:hover\s*\{[\s\S]*?background:[\s\S]*?!important/
+  );
+  assert.match(
+    serviceMapCss,
+    /\.service-profile-glow-field:focus-within:not\(:hover\)\s*>\s*\.edgeLight,\s*\n\.service-profile-glow-field:focus-within:not\(:hover\)\s*>\s*\[class\*="edgeLight"\]\s*\{[\s\S]*?opacity:\s*0\s*!important/
   );
   assert.doesNotMatch(workspaceFeaturePage, /<BorderGlow[\s\S]{0,240}<button/);
 });

@@ -2616,18 +2616,18 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
   .documents-workspace-page--agent {
     padding:
-      calc(env(safe-area-inset-top, 0px) + 0.45rem)
-      max(0.28rem, env(safe-area-inset-right, 0px))
-      calc(env(safe-area-inset-bottom, 0px) + 1rem)
-      max(0.28rem, env(safe-area-inset-left, 0px));
+      calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem))
+      max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem))
+      max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px));
   }
 
   .documents-workspace-page--documents {
     padding:
-      calc(env(safe-area-inset-top, 0px) + 0.45rem)
-      max(0.28rem, env(safe-area-inset-right, 0px))
-      calc(env(safe-area-inset-bottom, 0px) + 1rem)
-      max(0.28rem, env(safe-area-inset-left, 0px));
+      calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem))
+      max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem))
+      max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px));
   }
 
   .documents-workspace-shell {
@@ -2636,11 +2636,11 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   }
 
   .documents-workspace-shell--agent {
-    padding-inline: 0.26rem;
+    padding: 0;
   }
 
   .documents-workspace-shell--documents {
-    padding-inline: 0.26rem;
+    padding: 0;
   }
 
   .documents-primary-button,
@@ -2668,6 +2668,15 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
   .documents-page-title {
     font-size: clamp(1.85rem, 8vw, 2.4rem);
+  }
+
+  .documents-workspace-page--library .documents-page-description,
+  .documents-workspace-page--library .documents-library-description,
+  .documents-workspace-page--library .documents-library-detail-text,
+  .documents-workspace-page--library .documents-library-detail-list {
+    font-size: clamp(1rem, 3.85vw, 1.12rem);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
   }
 
   .documents-admin-role-menu {

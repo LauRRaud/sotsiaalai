@@ -554,13 +554,21 @@ html[data-contrast="hc"] {
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
-    height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
-        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    height: var(
+      --glass-mobile-height,
+      calc(
+        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+          env(safe-area-inset-bottom, 0px) -
+          (2 * var(--mobile-glass-card-gap, 0.35rem))
+      )
     );
-    max-height: calc(
-      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
-        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    max-height: var(
+      --glass-mobile-height,
+      calc(
+        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+          env(safe-area-inset-bottom, 0px) -
+          (2 * var(--mobile-glass-card-gap, 0.35rem))
+      )
     );
     min-width: 0;
     min-height: 0;
