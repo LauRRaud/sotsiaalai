@@ -81,7 +81,7 @@
 .title {
   width: 100%;
   max-width: 100%;
-  margin-top: clamp(1.9rem, 4.6vh, 2.8rem) !important;
+  margin-top: clamp(2.15rem, 5.4vh, 3.25rem) !important;
   margin-bottom: clamp(0.6rem, 1.9vh, 1.05rem) !important;
   text-align: center;
   overflow-wrap: anywhere;
@@ -348,8 +348,13 @@
       calc(env(safe-area-inset-bottom, 0px) + clamp(0.55rem, 1.7vh, 0.9rem));
   }
 
+  .backButton {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.2rem - var(--chat-pad-top, var(--glass-ring-pad-top, 0px))) !important;
+  }
+
   .title {
-    margin-top: clamp(0.08rem, 0.7vh, 0.28rem) !important;
+    margin-top: clamp(0.52rem, 1.45vh, 0.72rem) !important;
     margin-bottom: clamp(0.32rem, 0.9vh, 0.52rem) !important;
   }
 

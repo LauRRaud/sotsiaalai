@@ -36,6 +36,7 @@ const CARD_AUTO_PREVIEW_PAUSE_MS = 2000;
 const CARD_AUTO_PREVIEW_DURATION_MS =
   CARD_FLIP_TO_BACK_MS + CARD_AUTO_PREVIEW_PAUSE_MS + CARD_FLIP_TO_FRONT_MS;
 const CARD_AUTO_PREVIEW_INTERVAL_MS = 15000;
+const LEFT_CARD_TITLE_SWAP_INTERVAL_MS = 2500;
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 function persistHomeIntroSeen() {
@@ -79,6 +80,7 @@ export default function HomePage() {
   const [showHomeFooter, setShowHomeFooter] = useState(false);
   const [autoPreviewActive, setAutoPreviewActive] = useState(false);
   const [autoPreviewBackVisible, setAutoPreviewBackVisible] = useState(false);
+  const [leftCardTitleIndex, setLeftCardTitleIndex] = useState(0);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -117,6 +119,15 @@ export default function HomePage() {
   const rightCardAriaLabel = isAuthed
     ? t("home.card.client.chat_aria")
     : t("home.card.client.login_aria");
+  const leftCardTitle = leftCardTitleIndex === 1
+    ? {
+        line1: t("home.card.service_provider.title_line1"),
+        line2: t("home.card.service_provider.title_line2")
+      }
+    : {
+        line1: t("home.card.specialist.title"),
+        line2: ""
+      };
   const isAdmin = useMemo(() => {
     const u = session?.user;
     const role = typeof u?.role === "string" ? u.role.toLowerCase() : "";
@@ -150,6 +161,13 @@ export default function HomePage() {
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
+  }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const intervalId = window.setInterval(() => {
+      setLeftCardTitleIndex(index => (index + 1) % 2);
+    }, LEFT_CARD_TITLE_SWAP_INTERVAL_MS);
+    return () => window.clearInterval(intervalId);
   }, []);
   useEffect(() => {
     const onScroll = () => {
@@ -720,8 +738,11 @@ export default function HomePage() {
                       animationDelay: `${CARD_FADE_DELAY_MS}ms`,
                       animationFillMode: "forwards"
                     } : undefined}>
-                      <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
-                        {t("home.card.specialist.title")}
+                      <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] flex min-h-[3.2em] flex-col items-center justify-center text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
+                        {leftCardTitle.line2 ? <>
+                            <span>{leftCardTitle.line1}</span>
+                            <span>{leftCardTitle.line2}</span>
+                          </> : leftCardTitle.line1}
                       </h2>
                       <SaimustLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu z-[5]")} aria-hidden="true" />
                     </div>

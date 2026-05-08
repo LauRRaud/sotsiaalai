@@ -110,7 +110,7 @@ function HomeQuickLinkIcon({ name, className }) {
 
   if (name === "database") {
     return (
-      <svg {...commonProps}>
+      <svg {...commonProps} viewBox="2.5 2.5 19 19">
         <ellipse cx="12" cy="5.7" rx="6.4" ry="2.55" />
         <path d="M5.6 5.7v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55V5.7" />
         <path d="M5.6 10.75v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55v-5.05" />

@@ -20,6 +20,8 @@ test("workspace service map card uses an Estonia outline with a location marker"
   assert.match(styles, /url\("\/icons\/eesti_kontuurkaart_logo\.svg"\)/);
   assert.match(logo, /viewBox="0 0 34\.12 32\.89"/);
   assert.match(logo, /M19\.8,19\.68/);
+  assert.match(logo, /d="M19\.85,12\.25v2\.75"/);
+  assert.match(logo, /d="M19\.8,9\.15h\.01"/);
   assert.match(logo, /<mask id="map-cutout"/);
   assert.match(logo, /mask="url\(#map-cutout\)"/);
   assert.doesNotMatch(workspacePanel, /estoniaMapShape/);

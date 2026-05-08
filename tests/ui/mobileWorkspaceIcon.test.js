@@ -11,14 +11,15 @@ test("mobile workspace nav icon uses the tuned mobile shape and stroke weights",
   const rightRail = read("components/chat/RightRail.jsx");
   const icons = read("components/ui/icons/ChatIcons.jsx");
 
-  assert.match(topNav, /key:\s*"workspace",\s*scale:\s*1\.14/);
-  assert.match(topNav, /outerStrokeWidth=\{1\.52\}/);
-  assert.match(topNav, /innerStrokeWidth=\{1\.34\}/);
+  assert.match(topNav, /key:\s*"workspace",\s*scale:\s*1\.18/);
+  assert.match(topNav, /outerStrokeWidth=\{2\.05\}/);
+  assert.match(topNav, /innerStrokeWidth=\{1\.56\}/);
   assert.match(topNav, /variant="mobileNav"/);
 
-  assert.match(rightRail, /outerStrokeWidth:\s*1\.52/);
-  assert.match(rightRail, /innerStrokeWidth:\s*1\.34/);
+  assert.match(rightRail, /outerStrokeWidth:\s*2\.05/);
+  assert.match(rightRail, /innerStrokeWidth:\s*1\.56/);
   assert.match(rightRail, /variant:\s*"mobileNav"/);
+  assert.match(read("components/chat/RightRail.module.css"), /--chat-mobile-icon-scale-workspace:\s*0\.98/);
 
   assert.match(icons, /variant = "default"/);
   assert.match(icons, /variant === "mobileNav"/);

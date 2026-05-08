@@ -650,8 +650,8 @@ export default function RightRail({
         const displayLabel = it?.label || "";
         const workspaceIconProps = viewportIsMobile
           ? {
-              outerStrokeWidth: 1.52,
-              innerStrokeWidth: 1.34,
+              outerStrokeWidth: 2.05,
+              innerStrokeWidth: 1.56,
               nonScalingStroke: true,
               variant: "mobileNav"
             }

@@ -191,6 +191,10 @@
         "chat_aria": "Open social work specialist chat",
         "title": "Social work specialist"
       },
+      "service_provider": {
+        "title_line1": "Service",
+        "title_line2": "provider"
+      },
       "client": {
         "login_aria": "Open help-seeker sign-in",
         "chat_aria": "Open help-seeker chat",

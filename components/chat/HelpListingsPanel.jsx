@@ -84,7 +84,7 @@ export default function HelpListingsPanel({
       key={`${item.kind}-${item.id}`}
       type="button"
       onClick={() => onSelectItem?.(item)}
-      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} min-w-0 rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left !shadow-none hover:!shadow-none focus-visible:!shadow-none focus-within:!shadow-none ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
+      className={`help-listings-item-card ${glassSubpageCardInteractiveClassName} min-w-0 rounded-[1.12rem] px-[1rem] py-[0.95rem] text-left ${item.isOwn ? "ring-1 ring-[rgba(197,113,113,0.34)] [.theme-light_&]:ring-[rgba(122,58,56,0.28)]" : ""}`}
     >
       <div className="flex min-w-0 items-start justify-between gap-3 max-[768px]:flex-col max-[768px]:items-stretch max-[768px]:gap-[0.55rem]">
         <div className="min-w-0 break-words text-[1.04rem] font-[650] leading-[1.28] tracking-[0.012em] max-[768px]:text-[1.02rem] max-[768px]:leading-[1.22]">
