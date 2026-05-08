@@ -100,3 +100,25 @@ test("help listings panel leaves room for the inner panel shadow", () => {
     /height:\s*auto !important/
   );
 });
+
+test("help listings standalone PWA surface extends below the mobile viewport", () => {
+  const mobileCss = read("app/styles/mobile.css");
+  const overlayIndex = mobileCss.indexOf(".help-listings-modal-overlay");
+  const contentIndex = mobileCss.indexOf(".help-listings-modal-content", overlayIndex);
+  assert.notEqual(overlayIndex, -1);
+  assert.notEqual(contentIndex, -1);
+
+  const overlayRule = mobileCss.slice(overlayIndex, mobileCss.indexOf("}", overlayIndex));
+  const contentRule = mobileCss.slice(contentIndex, mobileCss.indexOf("}", contentIndex));
+
+  assert.match(overlayRule, /overflow-y:\s*auto !important/);
+  assert.doesNotMatch(overlayRule, /overflow:\s*hidden !important/);
+  assert.match(contentRule, /--help-listings-pwa-extra-height:\s*clamp\(5\.6rem,\s*16vh,\s*8\.8rem\)/);
+  assert.match(
+    contentRule,
+    /min-height:\s*calc\(var\(--glass-mobile-root-vh,\s*100dvh\) \+ var\(--help-listings-pwa-extra-height\)\) !important/
+  );
+  assert.match(contentRule, /height:\s*auto !important/);
+  assert.match(contentRule, /max-height:\s*none !important/);
+  assert.match(contentRule, /overflow-y:\s*visible !important/);
+});

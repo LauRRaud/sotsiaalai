@@ -30,6 +30,8 @@ test("custom checkbox visuals use one square and the brand red check treatment",
   assert.match(glassCss, /--ui-checkbox-accent/);
   assert.doesNotMatch(glassCss, /--ui-checkbox-shadow/);
   assert.doesNotMatch(serviceMapCss, /\.workspace-feature-fancy-checkbox \.shape/);
+  assert.match(serviceMapCss, /--workspace-feature-checkbox-text:\s*var\(--workspace-feature-text\)/);
+  assert.match(serviceMapCss, /:root\.theme-light:not\(\.theme-mid\) \.workspace-feature-panel\s*\{[\s\S]*?--workspace-feature-checkbox-text:\s*#1f2937/);
 
   for (const source of [darkTheme, midTheme, nightTheme]) {
     assert.doesNotMatch(

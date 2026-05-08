@@ -27,6 +27,7 @@ const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([
 ]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
+const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -302,6 +303,70 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [reduceMotion, baseParallaxActive, isHomepage, colorBendsOpacity]);
+  useEffect(() => {
+    const el = layerRef.current;
+    if (!el || typeof window === "undefined") return;
+    if (!isHomepage || !mobileBackgroundMode) return;
+    let raf = 0;
+    let homepageRoot = null;
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const isUsableElement = value => value instanceof HTMLElement;
+    const getHomepageRoot = () => {
+      const root = document.querySelector(".homepage-root");
+      return isUsableElement(root) ? root : null;
+    };
+    const resolveScrollY = () => {
+      homepageRoot = getHomepageRoot();
+      const rootIsScrollable =
+        isUsableElement(homepageRoot) &&
+        homepageRoot.scrollHeight > homepageRoot.clientHeight + 1;
+      if (rootIsScrollable) {
+        return homepageRoot.scrollTop;
+      }
+      return (
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body?.scrollTop ||
+        0
+      );
+    };
+    const update = () => {
+      raf = 0;
+      const y = resolveScrollY();
+      const viewportHeight =
+        window.visualViewport?.height ||
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        1;
+      const fadeStart = Math.min(120, viewportHeight * 0.16);
+      const fadeDistance = Math.max(220, viewportHeight * 0.48);
+      const progress = clamp((y - fadeStart) / fadeDistance, 0, 1);
+      const floorOpacity = colorBendsOpacity * MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;
+      const bendsOpacity = colorBendsOpacity - progress * (colorBendsOpacity - floorOpacity);
+      el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
+    };
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    homepageRoot = getHomepageRoot();
+    if (homepageRoot) {
+      homepageRoot.addEventListener("scroll", onScroll, { passive: true });
+    }
+    window.addEventListener("resize", onScroll);
+    window.visualViewport?.addEventListener("resize", onScroll);
+    return () => {
+      if (homepageRoot) {
+        homepageRoot.removeEventListener("scroll", onScroll);
+      }
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.visualViewport?.removeEventListener("resize", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, [isHomepage, mobileBackgroundMode, colorBendsOpacity]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;

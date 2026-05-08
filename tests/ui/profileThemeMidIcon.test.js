@@ -21,3 +21,17 @@ test("profile dim theme icon reads as a restrained sunrise or sunset", () => {
   assert.doesNotMatch(profileBody, /mid-sun-disc-clip/);
   assert.doesNotMatch(profileBody, /clipPath="url\(#mid-sun/);
 });
+
+test("profile dim theme icon keeps its desktop emphasis in the mobile orbit stack", () => {
+  const profileBody = read("components/alalehed/ProfiilBody.jsx");
+  const mobileCss = read("app/styles/mobile.css");
+
+  assert.match(
+    profileBody,
+    /<ThemeMidDockIcon width=\{33\} height=\{33\} className="profile-theme-mid-icon" \/>/
+  );
+  assert.match(
+    mobileCss,
+    /\.profile-orbit-stack-bubble\s+\.dock-icon\s+\.profile-theme-mid-icon\s*\{[\s\S]*?width:\s*68%;[\s\S]*?height:\s*68%;/
+  );
+});

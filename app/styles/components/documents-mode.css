@@ -233,16 +233,16 @@
 }
 
 .documents-workspace-page--library {
-  --documents-glass-surface: rgba(28, 30, 34, 0.97);
-  --documents-panel-bg: rgba(31, 33, 38, 0.98);
-  --documents-card-bg: rgba(29, 31, 36, 0.98);
-  --documents-subpanel-bg: rgba(33, 35, 40, 0.98);
-  --documents-content-bg: rgba(28, 30, 35, 0.98);
-  --documents-muted-bg: rgba(34, 36, 41, 0.98);
-  --documents-agent-stage-bg: rgba(29, 31, 36, 0.98);
-  --documents-agent-thread-bg: rgba(26, 28, 33, 0.98);
-  --documents-agent-composer-bg: rgba(31, 33, 38, 0.98);
-  --documents-agent-composer-bg-hover: rgba(35, 37, 42, 0.99);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);
+  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 95%, transparent);
   --documents-panel-border: rgba(255, 255, 255, 0.06);
   --documents-card-border: rgba(255, 255, 255, 0.055);
   --documents-subpanel-border: rgba(255, 255, 255, 0.055);
@@ -250,25 +250,27 @@
   --documents-muted-border: rgba(255, 255, 255, 0.055);
   --documents-soft-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --documents-strong-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-  --documents-surface-panel-bg: rgba(31, 33, 38, 0.985);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(255, 255, 255, 0.06);
   --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 :root.theme-light .documents-workspace-page--library {
-  --documents-glass-surface: rgba(247, 245, 243, 0.92);
-  --documents-panel-bg: rgba(248, 246, 244, 0.94);
-  --documents-card-bg: rgba(246, 243, 241, 0.92);
-  --documents-subpanel-bg: rgba(243, 240, 237, 0.89);
-  --documents-content-bg: rgba(243, 240, 237, 0.89);
-  --documents-muted-bg: rgba(239, 236, 233, 0.86);
-  --documents-agent-stage-bg: rgba(244, 241, 238, 0.88);
-  --documents-agent-thread-bg: rgba(248, 246, 244, 0.95);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);
+  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);
   --documents-agent-thread-border: rgba(210, 214, 223, 0.24);
   --documents-agent-thread-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
-  --documents-agent-composer-bg: rgba(249, 247, 245, 0.96);
-  --documents-agent-composer-bg-hover: rgba(251, 249, 247, 0.975);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 95%, transparent);
   --documents-agent-composer-border: rgba(210, 214, 223, 0.22);
   --documents-agent-composer-shadow: 0 12px 26px rgba(15, 23, 42, 0.075);
   --documents-agent-composer-shadow-hover: 0 14px 30px rgba(15, 23, 42, 0.09);
@@ -279,26 +281,28 @@
   --documents-muted-border: rgba(190, 196, 208, 0.24);
   --documents-soft-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
   --documents-strong-shadow: 0 10px 24px rgba(15, 23, 42, 0.065);
-  --documents-surface-panel-bg: rgba(248, 246, 244, 0.94);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(190, 196, 208, 0.28);
   --documents-surface-panel-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
   --documents-surface-panel-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 :root.theme-mid .documents-workspace-page--library {
-  --documents-glass-surface: rgba(235, 227, 219, 0.9);
-  --documents-panel-bg: rgba(232, 224, 216, 0.92);
-  --documents-card-bg: rgba(228, 220, 212, 0.9);
-  --documents-subpanel-bg: rgba(234, 226, 218, 0.88);
-  --documents-content-bg: rgba(228, 220, 212, 0.88);
-  --documents-muted-bg: rgba(223, 214, 205, 0.84);
-  --documents-agent-stage-bg: rgba(232, 224, 216, 0.9);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);
+  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
   --documents-agent-stage-border: rgba(176, 155, 141, 0.18);
-  --documents-agent-thread-bg: rgba(241, 234, 227, 0.92);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);
   --documents-agent-thread-border: rgba(176, 155, 141, 0.18);
   --documents-agent-thread-shadow: 0 14px 30px rgba(88, 66, 54, 0.12);
-  --documents-agent-composer-bg: rgba(243, 235, 227, 0.975);
-  --documents-agent-composer-bg-hover: rgba(246, 239, 232, 0.99);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 95%, transparent);
   --documents-agent-composer-border: rgba(164, 141, 127, 0.3);
   --documents-agent-composer-shadow: 0 8px 18px rgba(88, 66, 54, 0.09), 0 2px 6px rgba(88, 66, 54, 0.12);
   --documents-agent-composer-shadow-hover: 0 10px 22px rgba(88, 66, 54, 0.1), 0 3px 8px rgba(88, 66, 54, 0.14);
@@ -309,20 +313,21 @@
   --documents-muted-border: rgba(176, 155, 141, 0.2);
   --documents-soft-shadow: 0 8px 20px rgba(88, 66, 54, 0.08);
   --documents-strong-shadow: 0 10px 24px rgba(88, 66, 54, 0.1);
-  --documents-surface-panel-bg: rgba(244, 237, 229, 0.9);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(176, 155, 141, 0.24);
   --documents-surface-panel-shadow: 0 8px 20px rgba(88, 66, 54, 0.08);
   --documents-surface-panel-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace-page--library {
-  --glass-ring-surface-bg: rgba(28, 30, 34, 0.97);
-  --documents-glass-surface: rgba(28, 30, 34, 0.97);
-  --documents-panel-bg: rgba(31, 33, 38, 0.985);
-  --documents-card-bg: rgba(29, 31, 36, 0.98);
-  --documents-subpanel-bg: rgba(33, 35, 40, 0.98);
-  --documents-content-bg: rgba(28, 30, 35, 0.98);
-  --documents-muted-bg: rgba(34, 36, 41, 0.98);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);
+  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);
   --documents-panel-border: rgba(255, 255, 255, 0.06);
   --documents-card-border: rgba(255, 255, 255, 0.055);
   --documents-subpanel-border: rgba(255, 255, 255, 0.055);
@@ -339,12 +344,12 @@
   --documents-warning-border: rgba(255, 255, 255, 0.06);
   --documents-error-bg: rgba(31, 33, 38, 0.985);
   --documents-error-border: rgba(255, 255, 255, 0.06);
-  --documents-agent-stage-bg: rgba(29, 31, 36, 0.98);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
   --documents-agent-stage-border: rgba(255, 255, 255, 0.055);
-  --documents-agent-thread-bg: rgba(26, 28, 33, 0.985);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);
   --documents-agent-thread-border: rgba(255, 255, 255, 0.055);
-  --documents-agent-composer-bg: rgba(31, 33, 38, 0.985);
-  --documents-agent-composer-bg-hover: rgba(35, 37, 42, 0.99);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 95%, transparent);
   --documents-agent-composer-border: rgba(255, 255, 255, 0.06);
   --documents-dropdown-bg: rgba(31, 33, 38, 0.99);
   --documents-dropdown-bg-hover: rgba(36, 38, 43, 0.995);
@@ -357,8 +362,8 @@
   --panel-secondary-bg: var(--documents-panel-bg);
   --panel-secondary-border: var(--documents-panel-border);
   --panel-secondary-shadow: var(--documents-panel-shadow);
-  --subpage-card-bg: var(--documents-card-bg);
-  --subpage-card-bg-hover: rgba(33, 35, 40, 0.99);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
   --subpage-card-border: var(--documents-card-border);
   --subpage-card-border-hover: rgba(255, 255, 255, 0.08);
   --subpage-card-shadow: var(--documents-soft-shadow);
@@ -381,19 +386,19 @@
   --input-border: 1px solid rgba(255, 255, 255, 0.06);
   --input-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   --input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.16);
-  --documents-surface-panel-bg: rgba(31, 33, 38, 0.985);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(255, 255, 255, 0.06);
   --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
 }
 
 :root.theme-night .documents-workspace-page--library {
-  --documents-glass-surface: rgba(15, 22, 34, 0.975);
-  --documents-panel-bg: rgba(18, 26, 40, 0.985);
-  --documents-card-bg: rgba(16, 23, 36, 0.98);
-  --documents-subpanel-bg: rgba(20, 28, 42, 0.98);
-  --documents-content-bg: rgba(15, 22, 34, 0.98);
-  --documents-muted-bg: rgba(22, 30, 45, 0.98);
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
+  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
+  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);
+  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);
   --documents-panel-border: rgba(133, 164, 216, 0.16);
   --documents-card-border: rgba(133, 164, 216, 0.14);
   --documents-subpanel-border: rgba(133, 164, 216, 0.14);
@@ -410,12 +415,12 @@
   --documents-warning-border: rgba(133, 164, 216, 0.16);
   --documents-error-bg: rgba(18, 26, 40, 0.985);
   --documents-error-border: rgba(133, 164, 216, 0.16);
-  --documents-agent-stage-bg: rgba(16, 23, 36, 0.98);
+  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
   --documents-agent-stage-border: rgba(133, 164, 216, 0.14);
-  --documents-agent-thread-bg: rgba(14, 20, 31, 0.985);
+  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);
   --documents-agent-thread-border: rgba(133, 164, 216, 0.14);
-  --documents-agent-composer-bg: rgba(18, 26, 40, 0.985);
-  --documents-agent-composer-bg-hover: rgba(21, 30, 45, 0.99);
+  --documents-agent-composer-bg: color-mix(in srgb, var(--documents-glass-surface) 90%, transparent);
+  --documents-agent-composer-bg-hover: color-mix(in srgb, var(--documents-glass-surface) 95%, transparent);
   --documents-agent-composer-border: rgba(133, 164, 216, 0.16);
   --documents-dropdown-bg: rgba(18, 26, 40, 0.99);
   --documents-dropdown-bg-hover: rgba(21, 30, 45, 0.995);
@@ -428,10 +433,12 @@
   --input-border: 1px solid rgba(133, 164, 216, 0.16);
   --input-shadow: 0 8px 18px rgba(2, 6, 16, 0.12);
   --input-shadow-hover: 0 10px 22px rgba(2, 6, 16, 0.16);
-  --documents-surface-panel-bg: rgba(18, 26, 40, 0.985);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(133, 164, 216, 0.16);
   --documents-surface-panel-shadow: 0 10px 24px rgba(2, 6, 16, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
 .documents-workspace-content {

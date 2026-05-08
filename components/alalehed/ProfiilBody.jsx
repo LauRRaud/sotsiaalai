@@ -829,7 +829,7 @@ export default function ProfiilBody({
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
   const nextModeIcon = useMemo(() =>
     nextMode === "mid"
-      ? <ThemeMidDockIcon width={33} height={33} />
+      ? <ThemeMidDockIcon width={33} height={33} className="profile-theme-mid-icon" />
       : nextMode === "hc"
         ? <ThemeHighContrastDockIcon width={27} height={27} />
       : nextMode === "light"
