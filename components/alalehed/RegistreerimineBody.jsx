@@ -9,6 +9,7 @@ import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
+import GlowField from "@/components/ui/GlowField";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 import { cn } from "@/components/ui/cn";
 import {
@@ -882,31 +883,33 @@ export default function RegistreerimineBody({}) {
                 className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(emailStepIndex)}`}
               >
                 <div className="register-input-shell register-input-shell--mid relative flex justify-center">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName} ${fieldErrors.email ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : ""}`.trim()}
-                    placeholder={fieldErrors.email ? "" : t("auth.email_placeholder")}
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    inputMode="email"
-                    autoComplete="email"
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    aria-invalid={fieldErrors.email ? "true" : "false"}
-                    aria-describedby={fieldErrors.email ? emailErrorId : undefined}
-                  />
-                  {fieldErrors.email ? (
-                    <span
-                      id={emailErrorId}
-                      className={registerFieldHintClassName}
-                    >
-                      {fieldErrors.email}
-                    </span>
-                  ) : null}
+                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName)}>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className={cn(inputClassName, pinInputClassName, "ui-glow-control", fieldErrors.email ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : "")}
+                      placeholder={fieldErrors.email ? "" : t("auth.email_placeholder")}
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                      inputMode="email"
+                      autoComplete="email"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      aria-invalid={fieldErrors.email ? "true" : "false"}
+                      aria-describedby={fieldErrors.email ? emailErrorId : undefined}
+                    />
+                    {fieldErrors.email ? (
+                      <span
+                        id={emailErrorId}
+                        className={registerFieldHintClassName}
+                      >
+                        {fieldErrors.email}
+                      </span>
+                    ) : null}
+                  </GlowField>
                 </div>
               </section>
 
@@ -914,38 +917,40 @@ export default function RegistreerimineBody({}) {
                 className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(pinStepIndex)}`}
               >
                 <div className="register-input-shell register-input-shell--mid relative flex justify-center">
-                  <input
-                    type="text"
-                    id="pin"
-                    name="pin"
-                    className={`${inputBaseClassName} ${inputClassName} ${pinInputClassName} ${fieldErrors.pin ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : ""}`.trim()}
-                    placeholder={
-                      fieldErrors.pin
-                        ? ""
-                        : t("auth.register.pin_placeholder", {
-                            min: PIN_MIN,
-                            max: PIN_MAX,
-                          })
-                    }
-                    value={form.pin}
-                    onChange={handleChange}
-                    required
-                    minLength={PIN_MIN}
-                    maxLength={PIN_MAX}
-                    autoComplete="new-password"
-                    inputMode="numeric"
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
-                    aria-invalid={fieldErrors.pin ? "true" : "false"}
-                    aria-describedby={fieldErrors.pin ? pinErrorId : undefined}
-                  />
-                  {fieldErrors.pin ? (
-                    <span id={pinErrorId} className={registerFieldHintClassName}>
-                      {fieldErrors.pin}
-                    </span>
-                  ) : null}
+                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName)}>
+                    <input
+                      type="text"
+                      id="pin"
+                      name="pin"
+                      className={cn(inputClassName, pinInputClassName, "ui-glow-control", fieldErrors.pin ? "text-transparent caret-[color:var(--glass-surface-text,#f2f2f2)] light:caret-[color:var(--input-text)]" : "")}
+                      placeholder={
+                        fieldErrors.pin
+                          ? ""
+                          : t("auth.register.pin_placeholder", {
+                              min: PIN_MIN,
+                              max: PIN_MAX,
+                            })
+                      }
+                      value={form.pin}
+                      onChange={handleChange}
+                      required
+                      minLength={PIN_MIN}
+                      maxLength={PIN_MAX}
+                      autoComplete="new-password"
+                      inputMode="numeric"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
+                      pattern={`\\d{${PIN_MIN},${PIN_MAX}}`}
+                      aria-invalid={fieldErrors.pin ? "true" : "false"}
+                      aria-describedby={fieldErrors.pin ? pinErrorId : undefined}
+                    />
+                    {fieldErrors.pin ? (
+                      <span id={pinErrorId} className={registerFieldHintClassName}>
+                        {fieldErrors.pin}
+                      </span>
+                    ) : null}
+                  </GlowField>
                 </div>
               </section>
 

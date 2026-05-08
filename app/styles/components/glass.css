@@ -259,8 +259,7 @@
     box-shadow 160ms ease;
 }
 
-.ui-glow-field:hover,
-.ui-glow-field:focus-within {
+.ui-glow-field:hover {
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.052)),
     color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
@@ -269,14 +268,19 @@
       0 14px 28px rgba(0, 0, 0, 0.13) !important;
 }
 
-:root:not(.theme-light):not(.theme-mid) .ui-glow-field:focus-within {
+:root:not(.theme-light):not(.theme-mid) .ui-glow-field:hover {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 122, 126, 0.82),
-    inset 0 0 7px rgba(255, 122, 126, 0.22),
-    0 0 2px rgba(255, 122, 126, 0.72),
-    0 0 12px rgba(255, 122, 126, 0.38),
-    0 0 26px rgba(255, 122, 126, 0.2),
-    0 14px 28px rgba(0, 0, 0, 0.16) !important;
+    inset 0 0 0 1px rgba(255, 122, 126, 0.66),
+    inset 0 0 7px rgba(255, 122, 126, 0.15),
+    0 0 2px rgba(255, 122, 126, 0.52),
+    0 0 12px rgba(255, 122, 126, 0.26),
+    0 0 26px rgba(255, 122, 126, 0.13),
+    0 14px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+.ui-glow-field:focus-within:not(:hover) > .edgeLight,
+.ui-glow-field:focus-within:not(:hover) > [class*="edgeLight"] {
+  opacity: 0 !important;
 }
 
 .ui-glow-control {
@@ -289,7 +293,13 @@
   outline: none;
 }
 
-:root.theme-light .ui-glow-field,
+:root.theme-light .ui-glow-field {
+  background: rgba(255, 255, 255, 0.64) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.05),
+    0 5px 12px rgba(82, 50, 46, 0.045) !important;
+}
+
 :root.theme-mid .ui-glow-field {
   background: rgba(255, 255, 255, 0.64) !important;
   box-shadow:
@@ -297,10 +307,18 @@
     0 8px 20px rgba(82, 50, 46, 0.08) !important;
 }
 
-:root.theme-light .ui-glow-field:hover,
-:root.theme-light .ui-glow-field:focus-within,
-:root.theme-mid .ui-glow-field:hover,
-:root.theme-mid .ui-glow-field:focus-within {
+:root.theme-light .ui-glow-field:hover {
+  --edge-proximity: 100;
+  --cursor-angle: 90deg;
+  background: rgba(255, 255, 255, 0.74) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.1),
+    0 6px 14px rgba(82, 50, 46, 0.055),
+    0 0 4px rgba(122, 58, 56, 0.07),
+    0 0 10px rgba(197, 113, 113, 0.045) !important;
+}
+
+:root.theme-mid .ui-glow-field:hover {
   background: rgba(255, 255, 255, 0.78) !important;
   box-shadow:
     inset 0 0 0 1px rgba(122, 58, 56, 0.12),

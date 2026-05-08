@@ -11,6 +11,7 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
   const glassCss = read("app/styles/components/glass.css");
   const pinBody = read("components/alalehed/UuendaPinBody.jsx");
   const emailBody = read("components/alalehed/UuendaEpostiBody.jsx");
+  const registerBody = read("components/alalehed/RegistreerimineBody.jsx");
 
   assert.match(glowField, /import\s+BorderGlow\s+from\s+"@\/components\/ui\/BorderGlow"/);
   assert.match(glowField, /className=\{cn\("ui-glow-field"/);
@@ -18,12 +19,26 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
   assert.match(glowField, /glowColor="358 82 72"/);
   assert.match(glowField, /edgeSensitivity=\{22\}/);
   assert.match(glowField, /glowRadius=\{48\}/);
-  assert.match(glowField, /glowIntensity=\{1\.15\}/);
+  assert.match(glowField, /glowIntensity=\{0\.98\}/);
+  assert.match(glowField, /--edge-only-field-top-fade-end/);
+  assert.match(glowField, /"--edge-only-fade-end":\s*"30%"/);
+  assert.match(glowField, /"--edge-only-tail-end":\s*"50%"/);
+  assert.match(glowField, /"--edge-only-gap-start":\s*"52%"/);
+  assert.match(glowField, /"--edge-only-return-start":\s*"52%"/);
+  assert.match(glowField, /"--edge-only-return-soft":\s*"70%"/);
+  assert.match(glowField, /"--edge-only-return-bright":\s*"84%"/);
+  assert.match(glowField, /"--edge-only-return-hot":\s*"94%"/);
+  assert.match(glowField, /"--edge-only-bottom-tail-start":\s*"42%"/);
+  assert.match(glowField, /"--edge-only-bottom-tail-end":\s*"100%"/);
+  assert.match(glowField, /"--edge-only-bottom-line-left":\s*"clamp\(0\.85rem,\s*3\.5%,\s*1\.35rem\)"/);
+  assert.match(glowField, /"--edge-only-bottom-line-right":\s*"clamp\(0\.85rem,\s*3\.5%,\s*1\.35rem\)"/);
 
   assert.match(glassCss, /\.ui-glow-field/);
   assert.match(glassCss, /\.ui-glow-control/);
-  assert.match(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-field:focus-within/);
-  assert.match(glassCss, /rgba\(255,\s*122,\s*126,\s*0\.82\)/);
+  assert.match(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-field:hover/);
+  assert.doesNotMatch(glassCss, /:root:not\(\.theme-light\):not\(\.theme-mid\)\s+\.ui-glow-field:focus-within/);
+  assert.match(glassCss, /rgba\(255,\s*122,\s*126,\s*0\.66\)/);
+  assert.match(glassCss, /\.ui-glow-field:focus-within:not\(:hover\)\s*>\s*\[class\*="edgeLight"\][\s\S]*?opacity:\s*0\s*!important/);
   assert.match(glassCss, /:root\.theme-light\s+\.ui-glow-field\s*>\s*\.edgeLight/);
   assert.match(glassCss, /:root\.theme-mid\s+\.ui-glow-field\s*>\s*\.edgeLight/);
   assert.match(glassCss, /html\[data-contrast="hc"\]\s+\.ui-glow-field/);
@@ -38,6 +53,10 @@ test("profile update pages wrap visible inputs in dark-mode BorderGlow fields", 
   assert.match(emailBody, /<GlowField[\s\S]*?current-email[\s\S]*?ui-glow-control/);
   assert.match(emailBody, /<GlowField[\s\S]*?name="email"[\s\S]*?ui-glow-control/);
   assert.match(emailBody, /<GlowField[\s\S]*?name="pin"[\s\S]*?ui-glow-control/);
+
+  assert.match(registerBody, /import\s+GlowField\s+from\s+"@\/components\/ui\/GlowField"/);
+  assert.match(registerBody, /<GlowField[\s\S]*?id="email"[\s\S]*?ui-glow-control/);
+  assert.match(registerBody, /<GlowField[\s\S]*?id="pin"[\s\S]*?ui-glow-control/);
 });
 
 test("pre-inquiries use document-mode glow shells and service-profile style fields", () => {
@@ -77,9 +96,21 @@ test("pre-inquiries use document-mode glow shells and service-profile style fiel
     serviceMapCss,
     /html\[data-contrast="hc"\]\s+\.service-profile-glow-field\s*>\s*\.edgeLight[\s\S]*?display:\s*block\s*!important/
   );
+  assert.match(workspaceFeaturePage, /--edge-only-field-top-fade-end/);
+  assert.match(workspaceFeaturePage, /"--edge-only-fade-end":\s*"30%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-tail-end":\s*"50%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-gap-start":\s*"52%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-return-start":\s*"52%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-return-soft":\s*"70%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-return-bright":\s*"84%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-return-hot":\s*"94%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-bottom-tail-start":\s*"42%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-bottom-tail-end":\s*"100%"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-bottom-line-left":\s*"clamp\(0\.85rem,\s*3\.5%,\s*1\.35rem\)"/);
+  assert.match(workspaceFeaturePage, /"--edge-only-bottom-line-right":\s*"clamp\(0\.85rem,\s*3\.5%,\s*1\.35rem\)"/);
   assert.match(
     chatFocusCss,
-    /:root\.theme-light\s+\.chat-composer-glow-shell\s*>\s*\.edgeLight/
+    /:root\.theme-light\s+\.chat-page-shell\s+\.chat-composer-glow-shell\s*>\s*\[class\*="edgeLight"\]/
   );
   assert.match(
     chatFocusCss,

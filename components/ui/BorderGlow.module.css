@@ -27,9 +27,9 @@
   z-index: 0;
 }
 
-.card:not(:hover):not(.sweepActive)::before,
-.card:not(:hover):not(.sweepActive)::after,
-.card:not(:hover):not(.sweepActive) > .edgeLight {
+.card:not(:hover):not(:focus-within):not(.sweepActive)::before,
+.card:not(:hover):not(:focus-within):not(.sweepActive)::after,
+.card:not(:hover):not(:focus-within):not(.sweepActive) > .edgeLight {
   opacity: 0;
   transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -87,7 +87,28 @@
 }
 
 .edgeOnly::after {
-  display: none;
+  display: block;
+  left: var(--edge-only-bottom-line-left, max(1.8rem, calc(var(--border-radius) * 0.72)));
+  right: var(--edge-only-bottom-line-right, max(1.15rem, calc(var(--border-radius) * 0.48)));
+  top: auto;
+  bottom: 0;
+  height: 1px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--glow-color-60, hsl(40deg 80% 80% / 60%)) 0%,
+      var(--glow-color-50, hsl(40deg 80% 80% / 50%)) 26%,
+      var(--glow-color-40, hsl(40deg 80% 80% / 40%)) 56%,
+      var(--glow-color-20, hsl(40deg 80% 80% / 20%)) var(--edge-only-bottom-tail-start, 84%),
+      var(--glow-color-10, hsl(40deg 80% 80% / 10%)) var(--edge-only-bottom-tail-end, 100%),
+      transparent var(--edge-only-bottom-fade-end, 100%)
+    );
+  box-shadow:
+    0 0 5px 0 var(--glow-color-40, hsl(40deg 80% 80% / 40%)),
+    0 0 14px 1px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
+    0 0 24px 1px var(--glow-color-10, hsl(40deg 80% 80% / 10%));
+  opacity: calc(0.86 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
 }
 
 .edgeLight {
@@ -116,15 +137,16 @@
     conic-gradient(
       from var(--cursor-angle) at center,
       rgba(0, 0, 0, 0.98) 0%,
-      rgba(0, 0, 0, 0.98) var(--edge-only-hot-end, 6%),
-      rgba(0, 0, 0, 0.76) var(--edge-only-bright-end, 10%),
-      rgba(0, 0, 0, 0.38) var(--edge-only-soft-end, 16%),
-      rgba(0, 0, 0, 0.12) var(--edge-only-fade-end, 24%),
-      transparent var(--edge-only-gap-start, 32%),
-      rgba(0, 0, 0, 0.08) var(--edge-only-return-start, 50%),
-      rgba(0, 0, 0, 0.26) var(--edge-only-return-soft, 66%),
-      rgba(0, 0, 0, 0.64) var(--edge-only-return-bright, 86%),
-      rgba(0, 0, 0, 0.9) var(--edge-only-return-hot, 96%),
+      rgba(0, 0, 0, 0.98) var(--edge-only-hot-end, 4%),
+      rgba(0, 0, 0, 0.72) var(--edge-only-bright-end, 7%),
+      rgba(0, 0, 0, 0.32) var(--edge-only-soft-end, 12%),
+      rgba(0, 0, 0, 0.11) var(--edge-only-fade-end, 28%),
+      rgba(0, 0, 0, 0.028) var(--edge-only-tail-end, 58%),
+      transparent var(--edge-only-gap-start, 64%),
+      rgba(0, 0, 0, 0.08) var(--edge-only-return-start, 60%),
+      rgba(0, 0, 0, 0.22) var(--edge-only-return-soft, 70%),
+      rgba(0, 0, 0, 0.52) var(--edge-only-return-bright, 84%),
+      rgba(0, 0, 0, 0.82) var(--edge-only-return-hot, 94%),
       rgba(0, 0, 0, 0.98) 100%
     );
 }
@@ -162,6 +184,25 @@
     0 0 20px 1px var(--glow-color-30, hsl(40deg 80% 80% / 30%)),
     0 0 34px 2px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
     0 0 52px 2px var(--glow-color-10, hsl(40deg 80% 80% / 10%));
+}
+
+:global(:root.theme-light) .edgeLight,
+:global(:root.theme-mid) .edgeLight {
+  mix-blend-mode: normal;
+}
+
+:global(:root.theme-light) .edgeLight::before,
+:global(:root.theme-mid) .edgeLight::before,
+:global(:root.theme-light) .edgeOnly > .edgeLight::before,
+:global(:root.theme-mid) .edgeOnly > .edgeLight::before {
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.42),
+    inset 0 0 4px rgba(122, 58, 56, 0.12),
+    0 0 0 1px rgba(122, 58, 56, 0.24),
+    0 0 4px 0 rgba(122, 58, 56, 0.34),
+    0 0 12px 1px rgba(197, 113, 113, 0.28),
+    0 0 26px 2px rgba(197, 113, 113, 0.18),
+    0 0 46px 3px rgba(122, 58, 56, 0.12);
 }
 
 .inner {

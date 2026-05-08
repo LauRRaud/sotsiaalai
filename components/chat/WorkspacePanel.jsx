@@ -28,8 +28,7 @@ function DashboardCardIcon({ type }) {
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
         <path d="M6.85 3.35h6.35l5.55 5.55v9.35a2.18 2.18 0 0 1-2.18 2.18H6.85a2.18 2.18 0 0 1-2.18-2.18V5.53a2.18 2.18 0 0 1 2.18-2.18Z" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M13.2 3.35v3.82a1.78 1.78 0 0 0 1.78 1.78h3.77" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M7.55 11.62h8.9v5.38h-8.9v-5.38Z" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="m7.92 11.96 4.08 3.02 4.08-3.02" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8.05 12.1h7.4M8.05 14.7h7.4M8.05 17.3h5.55" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" />
       </svg>
     );
   }
@@ -61,8 +60,11 @@ function DashboardCardIcon({ type }) {
   if (type === "map") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M9 18.65 4.7 20.1V6.1L9 4.65m0 14V4.65m0 14 6 1.8m-6-15.8 6 1.8m0 14V6.45m0 14 4.3-1.45v-14L15 6.45" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 9.15h.01M12 12.15h.01M12 15.15h.01" stroke="currentColor" strokeWidth="2.05" strokeLinecap="round" />
+        <path d="M4.3 14.95 5.9 14.2l-.62-1.1 1.52-.82.68-1.3 1.66-.2.98-1.02 2.08-.2 1.34-.76 1.44.42 1.18-.66 1.38.92 2.22-.1.88 1.02-1.22 1 .68 1.02-.88.88.36 1.18-1.24.68-.46 1.26-1.36.44-.88 1.22-1.76-.26-1.12.78-1.34-.62-1.62.34-.82-1.16-1.42-.3-.58-.92-1.2-.12Z" stroke="currentColor" strokeWidth="1.74" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="m1.8 13.1 1.28-.48M2.35 15.65l1.22-.72M5.35 8.62l1.18-.48" stroke="currentColor" strokeWidth="1.58" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.05 18.2c-.66 0-1.34-.34-1.82-.91-2.32-2.75-3.84-5.6-3.84-7.58a5.66 5.66 0 0 1 11.32 0c0 1.98-1.52 4.83-3.84 7.58-.48.57-1.16.91-1.82.91Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M13.05 9.15v3.35" stroke="currentColor" strokeWidth="1.72" strokeLinecap="round" />
+        <path d="M13.05 7.15h.01" stroke="currentColor" strokeWidth="2.08" strokeLinecap="round" />
       </svg>
     );
   }
@@ -93,6 +95,7 @@ function DashboardCardIcon({ type }) {
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
         <path d="M6.85 3.35h6.35l5.55 5.55v9.35a2.18 2.18 0 0 1-2.18 2.18H6.85a2.18 2.18 0 0 1-2.18-2.18V5.53a2.18 2.18 0 0 1 2.18-2.18Z" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M13.2 3.35v3.82a1.78 1.78 0 0 0 1.78 1.78h3.77" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 15.08v-4.75" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" />
         <path d="m9.25 13.08 2.75-2.75 2.75 2.75" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M7.85 15.28v2.12h8.3v-2.12" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
       </svg>

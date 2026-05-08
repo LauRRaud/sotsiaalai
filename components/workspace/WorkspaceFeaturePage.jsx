@@ -67,6 +67,24 @@ const bodyTextClassName =
 const fieldClassName =
   "documents-field workspace-feature-field min-h-[3rem] rounded-[0.86rem] border px-[0.96rem] py-[0.68rem] text-[1rem] leading-[1.3]";
 
+const fieldEdgeGlowStyle = {
+  "--edge-only-hot-end": "3%",
+  "--edge-only-bright-end": "6%",
+  "--edge-only-soft-end": "11%",
+  "--edge-only-field-top-fade-end": "30%",
+  "--edge-only-fade-end": "30%",
+  "--edge-only-tail-end": "50%",
+  "--edge-only-gap-start": "52%",
+  "--edge-only-return-start": "52%",
+  "--edge-only-return-soft": "70%",
+  "--edge-only-return-bright": "84%",
+  "--edge-only-return-hot": "94%",
+  "--edge-only-bottom-tail-start": "42%",
+  "--edge-only-bottom-tail-end": "100%",
+  "--edge-only-bottom-line-left": "clamp(0.85rem, 3.5%, 1.35rem)",
+  "--edge-only-bottom-line-right": "clamp(0.85rem, 3.5%, 1.35rem)"
+};
+
 const chipClassName =
   "workspace-feature-chip inline-flex min-h-[2.42rem] items-center justify-center rounded-full border px-[0.82rem] py-[0.36rem] text-[0.96rem] font-[600] leading-[1.15]";
 
@@ -841,7 +859,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               backgroundColor="#120F17"
               borderRadius={16}
               glowRadius={46}
-              glowIntensity={1.05}
+              glowIntensity={0.92}
               coneSpread={20}
               colors={["#c084fc", "#f472b6", "#38bdf8"]}
               fillOpacity={0}
@@ -873,7 +891,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 backgroundColor="#120F17"
                 borderRadius={28}
                 glowRadius={46}
-                glowIntensity={1.05}
+                glowIntensity={0.92}
                 coneSpread={20}
                 colors={["#c084fc", "#f472b6", "#38bdf8"]}
                 fillOpacity={0}
@@ -1487,7 +1505,7 @@ function ToggleRow({ checked, onChange, title, body, className }) {
   );
 }
 
-function ServiceProfileGlowField({ children, className }) {
+function ServiceProfileGlowField({ children, className, style }) {
   return (
     <BorderGlow
       as="div"
@@ -1497,11 +1515,12 @@ function ServiceProfileGlowField({ children, className }) {
       backgroundColor="#1E222A"
       borderRadius={14}
       glowRadius={46}
-      glowIntensity={1.05}
+      glowIntensity={0.92}
       coneSpread={20}
       colors={["#c084fc", "#f472b6", "#38bdf8"]}
       fillOpacity={0}
       edgeOnly
+      style={{ ...fieldEdgeGlowStyle, ...style }}
     >
       {children}
     </BorderGlow>
