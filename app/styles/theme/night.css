@@ -246,7 +246,6 @@
 
 :root.theme-night
   :is(
-    .help-listings-panel,
     .invite-list-panel,
     .invite-list-row,
     .materials-admin-panel,
@@ -256,6 +255,18 @@
   background: var(--chat-card-surface-night-standard-bg) !important;
   border: 0 !important;
   box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-night .help-listings-modal-content .help-listings-panel {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
+  border-color: transparent !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.08) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }

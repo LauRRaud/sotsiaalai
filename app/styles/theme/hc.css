@@ -777,7 +777,6 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg [fill]:not([
 }
 html[data-contrast="hc"] :is(
   .materials-upload-panel,
-  .help-listings-panel,
   .invite-list-panel,
   .materials-admin-panel,
   .materials-admin-row,
@@ -1745,7 +1744,11 @@ html[data-contrast="hc"] .invite-modal-content .invite-list-row {
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
   color: var(--hc-accent) !important;
-  border-color: rgba(255, 234, 0, 0.52) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 html[data-contrast="hc"] .help-listings-modal-content .help-listings-item-card {
   color: var(--hc-accent) !important;
