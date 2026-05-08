@@ -215,3 +215,28 @@
   position: relative;
   z-index: 1;
 }
+
+:global(html[data-contrast="hc"]) .card {
+  --card-bg: var(--hc-control-bg, rgba(14, 20, 32, 0.72));
+  --glow-color: rgba(255, 234, 0, 0.64);
+  --glow-color-60: rgba(255, 234, 0, 0.4);
+  --glow-color-50: rgba(255, 234, 0, 0.34);
+  --glow-color-40: rgba(255, 234, 0, 0.27);
+  --glow-color-30: rgba(255, 234, 0, 0.2);
+  --glow-color-20: rgba(255, 234, 0, 0.13);
+  --glow-color-10: rgba(255, 234, 0, 0.08);
+
+  background: var(--hc-control-bg, rgba(14, 20, 32, 0.72)) !important;
+  color: var(--hc-accent, #ffea00) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .edgeOnly::after,
+:global(html[data-contrast="hc"]) .edgeLight,
+:global(html[data-contrast="hc"]) .edgeLight::before,
+:global(html[data-contrast="hc"]) .edgeOnly > .edgeLight,
+:global(html[data-contrast="hc"]) .edgeOnly > .edgeLight::before {
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+}

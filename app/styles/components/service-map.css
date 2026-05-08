@@ -13,14 +13,20 @@
     var(--workspace-feature-text) 12%,
     transparent
   );
-  --workspace-feature-surface: var(--subpage-card-bg, var(--input-flat-bg));
+  --workspace-feature-surface: var(
+    --workspace-elevated-card-bg,
+    var(--subpage-card-bg, var(--input-flat-bg))
+  );
   --workspace-feature-surface-hover: var(
-    --subpage-card-bg-hover,
-    var(--input-flat-bg-hover, var(--workspace-feature-surface))
+    --workspace-elevated-card-bg-hover,
+    var(
+      --subpage-card-bg-hover,
+      var(--input-flat-bg-hover, var(--workspace-feature-surface))
+    )
   );
   --workspace-feature-surface-strong: var(
-    --opaque-panel-bg,
-    var(--workspace-feature-surface)
+    --workspace-elevated-card-bg-strong,
+    var(--opaque-panel-bg, var(--workspace-feature-surface))
   );
   --workspace-feature-border: var(--subpage-card-border, color-mix(in srgb, var(--workspace-feature-text) 14%, transparent));
   --workspace-feature-border-strong: var(
@@ -152,13 +158,20 @@ html[data-contrast="hc"] .service-profile-glow-field > .edgeLight {
   --workspace-feature-border-strong: rgba(97, 111, 132, 0.38);
 }
 
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .workspace-feature-panel,
+:root.theme-night .workspace-feature-panel,
+html[data-contrast="hc"] .workspace-feature-panel {
+  --subpage-card-bg: var(--workspace-elevated-card-bg);
+  --subpage-card-bg-hover: var(--workspace-elevated-card-bg-hover);
+}
+
 html[data-contrast="hc"] .workspace-feature-panel {
   --workspace-feature-text: var(--hc-accent, #ffea00);
   --workspace-feature-muted: var(--hc-accent, #ffea00);
   --workspace-feature-soft: rgba(255, 234, 0, 0.16);
-  --workspace-feature-surface: rgba(0, 0, 0, 0.92);
-  --workspace-feature-surface-hover: rgba(0, 0, 0, 0.98);
-  --workspace-feature-surface-strong: #000;
+  --workspace-feature-surface: var(--workspace-elevated-card-bg, var(--chat-card-surface-night-standard-bg));
+  --workspace-feature-surface-hover: var(--workspace-elevated-card-bg-hover, var(--chat-card-surface-night-standard-flat-bg));
+  --workspace-feature-surface-strong: var(--workspace-elevated-card-bg-strong, #000);
   --workspace-feature-border: var(--hc-accent, #ffea00);
   --workspace-feature-border-strong: var(--hc-accent, #ffea00);
   --workspace-feature-field-bg: #000;
@@ -205,9 +218,19 @@ html[data-contrast="hc"] .workspace-feature-panel :is(
   .workspace-feature-badge
 ) {
   border-color: var(--hc-accent, #ffea00) !important;
-  background: #000 !important;
+  background: var(--workspace-feature-surface) !important;
   color: var(--hc-accent, #ffea00) !important;
   box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .workspace-feature-panel :is(
+  .workspace-feature-card,
+  .workspace-feature-chip,
+  .workspace-feature-admin-role,
+  .workspace-feature-toggle-row,
+  .workspace-feature-list-card
+):is(:hover, :focus-visible, :focus-within) {
+  background: var(--workspace-feature-surface-hover) !important;
 }
 
 .workspace-feature-card {
@@ -516,13 +539,9 @@ select.workspace-feature-field option {
   width: 1.58rem;
   height: 1.58rem;
   border-radius: 0.5rem;
-  background: var(--workspace-feature-field-bg);
-  border-color: var(--workspace-feature-border-strong);
-  box-shadow: var(--workspace-feature-field-shadow);
-}
-
-.workspace-feature-fancy-checkbox .shape {
-  stroke: var(--workspace-feature-border-strong);
+  background: transparent;
+  border-color: color-mix(in srgb, var(--workspace-feature-accent) 76%, transparent);
+  box-shadow: none;
 }
 
 .workspace-feature-fancy-checkbox .tick {
@@ -536,7 +555,7 @@ select.workspace-feature-field option {
 
 .workspace-feature-fancy-checkbox:hover .box,
 .workspace-feature-fancy-checkbox:focus-within .box {
-  background: var(--workspace-feature-field-bg-hover);
+  background: transparent;
   border-color: var(--workspace-feature-accent);
 }
 
@@ -1009,6 +1028,11 @@ select.workspace-feature-field option {
   color: inherit;
 }
 
+.service-map-toolbar__glow-field {
+  min-height: 3.15rem;
+  border-radius: 1.6rem;
+}
+
 .service-map-toolbar__field--keyword {
   width: min(14rem, 100%);
 }
@@ -1038,6 +1062,11 @@ select.workspace-feature-field option {
   width: min(calc(var(--service-map-placeholder-ch, 16ch) + 0.35rem), 100%);
   min-width: 0;
   max-width: 100%;
+}
+
+.service-map-toolbar__glow-field .service-map-toolbar__input {
+  width: 100%;
+  min-height: inherit;
 }
 
 .service-map-toolbar__input--keyword {
@@ -1091,6 +1120,11 @@ select.workspace-feature-field option {
 .service-map-toolbar__type-card:hover::before,
 .service-map-toolbar__type-card:focus-visible::before {
   opacity: 1;
+}
+
+.service-map-toolbar__type-card .service-map-toolbar__type-label {
+  width: 100%;
+  justify-content: center;
 }
 
 .service-map-toolbar__summary {
@@ -1154,7 +1188,7 @@ select.workspace-feature-field option {
   transition: opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.service-map-toolbar__results .workspace-feature-list-card span {
+.service-map-toolbar__results .workspace-feature-list-card :is(.service-map-result-card__title, .service-map-result-card__type) {
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -1162,12 +1196,12 @@ select.workspace-feature-field option {
   color: inherit;
 }
 
-.service-map-toolbar__results .workspace-feature-list-card span:first-child {
+.service-map-toolbar__results .workspace-feature-list-card .service-map-result-card__title {
   font-size: 0.86rem;
   line-height: 1.12;
 }
 
-.service-map-toolbar__results .workspace-feature-list-card span:nth-child(2) {
+.service-map-toolbar__results .workspace-feature-list-card .service-map-result-card__type {
   font-size: 0.72rem;
   line-height: 1.1;
 }
@@ -1472,6 +1506,16 @@ select.workspace-feature-field option {
   isolation: isolate;
 }
 
+:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions a {
+  box-shadow:
+    var(--btn-primary-shadow),
+    inset 0 0 0 1px rgba(255, 122, 126, 0),
+    inset 0 0 7px rgba(255, 122, 126, 0),
+    0 0 2px rgba(255, 122, 126, 0),
+    0 0 12px rgba(255, 122, 126, 0),
+    0 0 26px rgba(255, 122, 126, 0) !important;
+}
+
 .service-map-leaflet__popup .service-map-popup__actions a > span {
   position: relative;
   z-index: 1;
@@ -1485,7 +1529,26 @@ select.workspace-feature-field option {
 .service-map-leaflet__popup .service-map-popup__actions a:is(:hover, :focus-visible) {
   border: var(--btn-primary-border, 0 solid transparent);
   color: var(--btn-primary-text, #fff) !important;
-  box-shadow: var(--btn-primary-shadow-hover, var(--btn-primary-shadow, 0 4px 10px rgba(0, 0, 0, 0.13)));
+  box-shadow: var(--btn-primary-shadow-hover, var(--btn-primary-shadow, 0 4px 10px rgba(0, 0, 0, 0.13))) !important;
+}
+
+:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions a:is(:hover, :focus-visible) {
+  box-shadow:
+    var(--btn-primary-shadow-hover),
+    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
+    inset 0 0 7px rgba(255, 122, 126, 0.09),
+    0 0 2px rgba(255, 122, 126, 0.3),
+    0 0 12px rgba(255, 122, 126, 0.14),
+    0 0 26px rgba(255, 122, 126, 0.07) !important;
+}
+
+html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions a:is(:hover, :focus-visible) {
+  box-shadow:
+    var(--btn-primary-shadow-hover),
+    inset 0 0 0 2px rgba(255, 234, 0, 0.72),
+    0 0 2px rgba(255, 234, 0, 0.28),
+    0 0 12px rgba(255, 234, 0, 0.14),
+    0 0 24px rgba(255, 234, 0, 0.08) !important;
 }
 
 .service-map-leaflet__popup .service-map-popup__actions a:active {
@@ -1646,6 +1709,10 @@ select.workspace-feature-field option {
 }
 
 @media (max-width: 768px) {
+  .service-map-workspace {
+    --service-map-map-radius: 0;
+  }
+
   .service-map-workspace__map {
     inset: 0;
     width: 100%;
@@ -1779,7 +1846,7 @@ select.workspace-feature-field option {
     white-space: normal;
   }
 
-  .service-map-toolbar__type-card span {
+  .service-map-toolbar__type-card .service-map-toolbar__type-label {
     justify-content: center;
     overflow: visible;
     overflow-wrap: normal;
@@ -1878,7 +1945,7 @@ select.workspace-feature-field option {
     padding: 0.5rem 0.66rem;
   }
 
-  .service-map-toolbar__results .workspace-feature-list-card span {
+  .service-map-toolbar__results .workspace-feature-list-card :is(.service-map-result-card__title, .service-map-result-card__type) {
     white-space: normal;
     overflow: visible;
     text-overflow: clip;
@@ -2059,5 +2126,22 @@ select.workspace-feature-field option {
     right: 0.52rem;
     bottom: 0.52rem;
     left: 0.52rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-map-toolbar__back,
+  .service-map-workspace__toggle,
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle,
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:focus-visible,
+  .service-map-workspace__filters--collapsed .service-map-workspace__toggle {
+    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;
+    background: color-mix(in srgb, var(--service-map-panel-glass-bg) 72%, rgba(255, 255, 255, 0.32)) !important;
+    box-shadow:
+      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    backdrop-filter: blur(26px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(160%) !important;
   }
 }

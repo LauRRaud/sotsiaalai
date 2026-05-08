@@ -4,11 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
+import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import Input from "@/components/ui/Input";
 import OptionCard from "@/components/ui/OptionCard";
-import Panel from "@/components/ui/Panel";
 import Textarea from "@/components/ui/Textarea";
 import { cn } from "@/components/ui/cn";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
@@ -220,15 +221,33 @@ function Field({ label, children, className }) {
 
 function SelectField({ value, onChange, options, ariaLabel, className, openDirection }) {
   return (
-    <DocumentsDropdown
-      value={value}
-      onChange={onChange}
-      ariaLabel={ariaLabel}
-      placeholder={ariaLabel}
-      options={dropdownOptions(options)}
-      className={cn("workspace-feature-dropdown", className)}
-      openDirection={openDirection}
-    />
+    <GlowField className={cn("covision-glow-field covision-glow-dropdown", className)}>
+      <DocumentsDropdown
+        value={value}
+        onChange={onChange}
+        ariaLabel={ariaLabel}
+        placeholder={ariaLabel}
+        options={dropdownOptions(options)}
+        className="workspace-feature-dropdown"
+        openDirection={openDirection}
+      />
+    </GlowField>
+  );
+}
+
+function CovisionInput({ className, ...props }) {
+  return (
+    <GlowField className="covision-glow-field">
+      <Input className={cn("ui-glow-control covision-glow-control", className)} {...props} />
+    </GlowField>
+  );
+}
+
+function CovisionTextarea({ className, ...props }) {
+  return (
+    <GlowField className={cn("covision-glow-field covision-glow-field--textarea", className)}>
+      <Textarea className="ui-glow-control covision-glow-control covision-glow-control--textarea" {...props} />
+    </GlowField>
   );
 }
 
@@ -277,13 +296,27 @@ function StatusBadge({ status, type = "case" }) {
 
 function SectionPanel({ title, children, aside }) {
   return (
-    <Panel as="section" variant="subpage" padding="sm" className={cn(styles.sectionPanel, "grid gap-[0.72rem] rounded-[1.02rem]")}>
+    <BorderGlow
+      as="section"
+      className={cn(styles.sectionPanel, "covision-glow-card grid gap-[0.72rem] rounded-[1.02rem] p-[var(--panel-padding,0.85rem)]")}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--covision-panel-bg, #120F17)"
+      borderRadius={16}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
       <div className="flex flex-wrap items-start justify-between gap-[0.75rem]">
         <h2 className={sectionHeadingClassName}>{title}</h2>
         {aside}
       </div>
       {children}
-    </Panel>
+    </BorderGlow>
   );
 }
 
@@ -302,7 +335,20 @@ function CardTags({ tags }) {
 
 function CovisionCard({ item, onOpen, onEdit, locale }) {
   return (
-    <article className={cn(styles.card, "grid gap-[0.62rem] rounded-[0.94rem] border px-[0.82rem] py-[0.78rem]")}>
+    <BorderGlow
+      as="article"
+      className={cn(styles.card, "covision-glow-card grid gap-[0.62rem] rounded-[0.94rem] border px-[0.82rem] py-[0.78rem]")}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--covision-card-bg, #120F17)"
+      borderRadius={15}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
       <div className="flex items-start justify-between gap-[0.65rem]">
         <div className="grid gap-[0.28rem]">
           <h3 className="m-0 text-[1.06rem] font-[680] leading-[1.18]">{item.title}</h3>
@@ -322,13 +368,26 @@ function CovisionCard({ item, onOpen, onEdit, locale }) {
           Ava
         </Button>
       </div>
-    </article>
+    </BorderGlow>
   );
 }
 
 function PracticeCard({ item, onOpen }) {
   return (
-    <article className={cn(styles.card, "grid gap-[0.58rem] rounded-[0.94rem] border px-[0.82rem] py-[0.78rem]")}>
+    <BorderGlow
+      as="article"
+      className={cn(styles.card, "covision-glow-card grid gap-[0.58rem] rounded-[0.94rem] border px-[0.82rem] py-[0.78rem]")}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--covision-card-bg, #120F17)"
+      borderRadius={15}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
       <div className="flex items-start justify-between gap-[0.65rem]">
         <div className="grid gap-[0.28rem]">
           <h3 className="m-0 text-[1.04rem] font-[680] leading-[1.18]">{item.title}</h3>
@@ -344,14 +403,14 @@ function PracticeCard({ item, onOpen }) {
           Ava
         </Button>
       </div>
-    </article>
+    </BorderGlow>
   );
 }
 
 function SummaryField({ label, value, onChange }) {
   return (
     <Field label={label}>
-      <Textarea
+      <CovisionTextarea
         value={value || ""}
         onChange={(event) => onChange(event.target.value)}
         rows={3}
@@ -860,7 +919,20 @@ export default function CovisionPage() {
 
           {view === "overview" ? (
             <>
-              <section className={cn(styles.toolbar, "grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}>
+              <BorderGlow
+                as="section"
+                className={cn(styles.toolbar, "covision-glow-card grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}
+                edgeSensitivity={24}
+                glowColor="358 82 72"
+                backgroundColor="var(--covision-card-bg, #120F17)"
+                borderRadius={17}
+                glowRadius={42}
+                glowIntensity={0.62}
+                coneSpread={20}
+                fillOpacity={0}
+                edgeOnly
+                style={fieldEdgeGlowStyle}
+              >
                 <div className="flex flex-wrap items-center justify-between gap-[0.72rem]">
                   <div className="flex flex-wrap gap-[0.52rem]">
                     <Button type="button" onClick={startCase} className={primaryButtonClassName}>
@@ -871,7 +943,7 @@ export default function CovisionPage() {
                     </Button>
                   </div>
                   <div className="grid w-full max-w-[30rem] gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
-                    <Input
+                    <CovisionInput
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
                       placeholder="Otsi teema, sildi või küsimuse järgi"
@@ -886,7 +958,7 @@ export default function CovisionPage() {
                     />
                   </div>
                 </div>
-              </section>
+              </BorderGlow>
 
               <div className="grid gap-[0.95rem] lg:grid-cols-[1fr_0.82fr]">
                 <SectionPanel title="Minu kovisioonid">
@@ -925,21 +997,21 @@ export default function CovisionPage() {
               <SectionPanel title="1. Pealkiri ja teemad">
                 <div className="grid gap-[0.68rem] md:grid-cols-[1fr_0.82fr]">
                   <Field label="Pealkiri">
-                    <Input value={caseForm.title} onChange={(event) => updateCaseForm("title", event.target.value)} required />
+                    <CovisionInput value={caseForm.title} onChange={(event) => updateCaseForm("title", event.target.value)} required />
                   </Field>
                   <Field label="Staatus">
                     <SelectField value={caseForm.status} onChange={(value) => updateCaseForm("status", value)} ariaLabel="Staatus" options={COVISION_CASE_STATUSES} />
                   </Field>
                 </div>
                 <Field label="Lühikirjeldus">
-                  <Textarea value={caseForm.summary} onChange={(event) => updateCaseForm("summary", event.target.value)} rows={3} />
+                  <CovisionTextarea value={caseForm.summary} onChange={(event) => updateCaseForm("summary", event.target.value)} rows={3} />
                 </Field>
                 <div className="grid gap-[0.5rem]">
                   <p className={sectionHeadingClassName}>Teemavaldkonnad</p>
                   <MultiChoice options={COVISION_TOPICS} value={caseForm.topics} onChange={(value) => updateCaseForm("topics", value)} />
                 </div>
                 <Field label="Oma sildid">
-                  <Input value={caseForm.tagText} onChange={(event) => updateCaseForm("tagText", event.target.value)} placeholder="eralda komaga" />
+                  <CovisionInput value={caseForm.tagText} onChange={(event) => updateCaseForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
               </SectionPanel>
 
@@ -947,7 +1019,7 @@ export default function CovisionPage() {
                 title="2. Olukorra anonüümne kirjeldus"
                 aside={<Button type="button" variant="secondary" onClick={runAnonymityCheck} className={smallButtonClassName}>Kontrolli anonüümsust</Button>}
               >
-                <Textarea
+                <CovisionTextarea
                   value={caseForm.anonymizedDescription}
                   onChange={(event) => updateCaseForm("anonymizedDescription", event.target.value)}
                   rows={8}
@@ -982,13 +1054,13 @@ export default function CovisionPage() {
                       <div key={`step-${index}`} className={cn(styles.subtleCard, "grid gap-[0.52rem] rounded-[0.86rem] border px-[0.72rem] py-[0.68rem]")}>
                         <div className="grid gap-[0.52rem] md:grid-cols-[0.75fr_1fr_0.55fr_auto]">
                           <SelectField value={step.type || COVISION_JOURNEY_STEP_TYPES[0]} onChange={(value) => updateJourneyStep(index, "type", value)} ariaLabel="Sammu tüüp" options={COVISION_JOURNEY_STEP_TYPES} />
-                          <Input value={step.title || ""} onChange={(event) => updateJourneyStep(index, "title", event.target.value)} placeholder="Lühike pealkiri" />
-                          <Input value={step.dateLabel || ""} onChange={(event) => updateJourneyStep(index, "dateLabel", event.target.value)} placeholder="Periood" />
+                          <CovisionInput value={step.title || ""} onChange={(event) => updateJourneyStep(index, "title", event.target.value)} placeholder="Lühike pealkiri" />
+                          <CovisionInput value={step.dateLabel || ""} onChange={(event) => updateJourneyStep(index, "dateLabel", event.target.value)} placeholder="Periood" />
                           <Button type="button" variant="danger" onClick={() => removeJourneyStep(index)} className={dangerButtonClassName}>Eemalda</Button>
                         </div>
-                        <Textarea value={step.description || ""} onChange={(event) => updateJourneyStep(index, "description", event.target.value)} rows={2} placeholder="Lühikirjeldus" />
+                        <CovisionTextarea value={step.description || ""} onChange={(event) => updateJourneyStep(index, "description", event.target.value)} rows={2} placeholder="Lühikirjeldus" />
                         <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.6fr]">
-                          <Input value={step.notes || ""} onChange={(event) => updateJourneyStep(index, "notes", event.target.value)} placeholder="Märkused" />
+                          <CovisionInput value={step.notes || ""} onChange={(event) => updateJourneyStep(index, "notes", event.target.value)} placeholder="Märkused" />
                           <SelectField
                             value={step.status || "needs_clarification"}
                             onChange={(value) => updateJourneyStep(index, "status", value)}
@@ -1021,12 +1093,12 @@ export default function CovisionPage() {
                   <div className="grid gap-[0.52rem] md:grid-cols-2">
                     {caseForm.parties.map((party, index) => (
                       <div key={`party-${index}`} className={cn(styles.subtleCard, "grid gap-[0.45rem] rounded-[0.86rem] border px-[0.72rem] py-[0.68rem]")}>
-                        <Input value={party.label || ""} onChange={(event) => updateParty(index, "label", event.target.value)} />
+                        <CovisionInput value={party.label || ""} onChange={(event) => updateParty(index, "label", event.target.value)} />
                         <div className="grid gap-[0.45rem] sm:grid-cols-2">
                           <SelectField value={party.involvementStatus || "info puudub"} onChange={(value) => updateParty(index, "involvementStatus", value)} ariaLabel="Kaasamise seis" options={COVISION_PARTY_STATUSES} />
                           <SelectField value={party.cooperationStatus || "info puudub"} onChange={(value) => updateParty(index, "cooperationStatus", value)} ariaLabel="Koostöö seis" options={COVISION_PARTY_STATUSES} />
                         </div>
-                        <Textarea value={party.note || ""} onChange={(event) => updateParty(index, "note", event.target.value)} rows={2} placeholder="Lühimärkus" />
+                        <CovisionTextarea value={party.note || ""} onChange={(event) => updateParty(index, "note", event.target.value)} rows={2} placeholder="Lühimärkus" />
                         <Button type="button" variant="danger" onClick={() => updateCaseForm("parties", caseForm.parties.filter((_, partyIndex) => partyIndex !== index))} className={dangerButtonClassName}>Eemalda</Button>
                       </div>
                     ))}
@@ -1068,7 +1140,7 @@ export default function CovisionPage() {
                           <strong className="text-[0.98rem] leading-[1.2]">{factor.label}</strong>
                           <span className={cn(styles.meta, "text-[0.84rem]")}>{factor.type === "protective" ? "kaitsetegur" : "risk"} · {factor.severity}</span>
                         </div>
-                        <Textarea value={factor.note || ""} onChange={(event) => updateRiskFactor(index, "note", event.target.value)} rows={2} placeholder="Märkus" />
+                        <CovisionTextarea value={factor.note || ""} onChange={(event) => updateRiskFactor(index, "note", event.target.value)} rows={2} placeholder="Märkus" />
                         <Button type="button" variant="danger" onClick={() => updateCaseForm("riskFactors", caseForm.riskFactors.filter((_, factorIndex) => factorIndex !== index))} className={dangerButtonClassName}>Eemalda</Button>
                       </div>
                     ))}
@@ -1080,7 +1152,7 @@ export default function CovisionPage() {
                 title="6. Keskne küsimus ja ootus"
                 aside={<Button type="button" variant="secondary" onClick={runQuestionAssist} className={smallButtonClassName}>Paku küsimusi</Button>}
               >
-                <Textarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="Sõnasta üks keskne küsimus kolleegidele." />
+                <CovisionTextarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="Sõnasta üks keskne küsimus kolleegidele." />
                 {questionSuggestions.length ? (
                   <div className="grid gap-[0.42rem]">
                     {questionSuggestions.map((question) => (
@@ -1103,7 +1175,7 @@ export default function CovisionPage() {
 
               <SectionPanel title="7. Keda kutsun arutelusse?">
                 <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.62fr_auto]">
-                  <Input value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="kolleeg@example.ee" type="email" />
+                  <CovisionInput value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="kolleeg@example.ee" type="email" />
                   <SelectField value={participantRole} onChange={setParticipantRole} ariaLabel="Osaleja roll" options={COVISION_PARTICIPANT_ROLES} />
                   <Button type="button" variant="secondary" onClick={addParticipant} className={smallButtonClassName}>Lisa</Button>
                 </div>
@@ -1195,7 +1267,7 @@ export default function CovisionPage() {
                   </div>
                   <form onSubmit={sendMessage} className={cn(styles.discussionForm, "grid gap-[0.52rem] border-t pt-[0.72rem]")}>
                     <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sõnumi tüüp" options={COVISION_MESSAGE_TYPES} />
-                    <Textarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa mõte, küsimus või struktureeritud tähelepanek." />
+                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa mõte, küsimus või struktureeritud tähelepanek." />
                     <div className="flex justify-end">
                       <Button type="submit" disabled={saving || !messageBody.trim()} className={compactPrimaryButtonClassName}>Lisa arutelusse</Button>
                     </div>
@@ -1231,7 +1303,7 @@ export default function CovisionPage() {
               <SectionPanel title="Toimiv praktika">
                 <div className="grid gap-[0.68rem] md:grid-cols-[1fr_0.52fr]">
                   <Field label="Pealkiri">
-                    <Input value={practiceForm.title} onChange={(event) => updatePracticeForm("title", event.target.value)} required />
+                    <CovisionInput value={practiceForm.title} onChange={(event) => updatePracticeForm("title", event.target.value)} required />
                   </Field>
                   <Field label="Staatus">
                     <SelectField value={practiceForm.status} onChange={(value) => updatePracticeForm("status", value)} ariaLabel="Staatus" options={EFFECTIVE_PRACTICE_STATUSES} />
@@ -1242,7 +1314,7 @@ export default function CovisionPage() {
                   <MultiChoice options={COVISION_TOPICS} value={practiceForm.topics} onChange={(value) => updatePracticeForm("topics", value)} />
                 </div>
                 <Field label="Sildid">
-                  <Input value={practiceForm.tagText} onChange={(event) => updatePracticeForm("tagText", event.target.value)} placeholder="eralda komaga" />
+                  <CovisionInput value={practiceForm.tagText} onChange={(event) => updatePracticeForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
                 <div className="grid gap-[0.62rem] md:grid-cols-2">
                   <SummaryField label="Olukorra üldine taust" value={practiceForm.background} onChange={(value) => updatePracticeForm("background", value)} />

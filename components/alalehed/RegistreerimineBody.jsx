@@ -865,8 +865,8 @@ export default function RegistreerimineBody({}) {
                           glowColor="358 82 72"
                           backgroundColor="var(--seg-card-bg)"
                           borderRadius={20}
-                          glowRadius={48}
-                          glowIntensity={0.98}
+                          glowRadius={42}
+                          glowIntensity={0.62}
                           coneSpread={20}
                           fillOpacity={0}
                           edgeOnly

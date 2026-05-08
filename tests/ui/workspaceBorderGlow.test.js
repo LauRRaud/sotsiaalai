@@ -17,7 +17,7 @@ test("workspace dashboard cards render through BorderGlow as buttons", () => {
   assert.match(workspacePanel, /<BorderGlow[\s\S]*?as="button"/);
   assert.match(workspacePanel, /edgeOnly/);
   assert.match(workspacePanel, /glowColor="358 82 72"/);
-  assert.match(workspacePanel, /glowIntensity=\{1\.05\}/);
+  assert.match(workspacePanel, /glowIntensity=\{0\.72\}/);
   assert.match(workspacePanel, /coneSpread=\{20\}/);
   assert.doesNotMatch(workspacePanel, /animated/);
   assert.doesNotMatch(workspacePanel, /animationDurationScale=\{2\}/);

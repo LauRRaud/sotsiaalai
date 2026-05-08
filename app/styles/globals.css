@@ -8,12 +8,12 @@
 @import url("./base/backgrounds.css");
 @import url("./base/layout.css");
 @import url("./base/typography.css");
-@import url("./theme/hc.css");
 @import url("./base/animations.css");
 @import url("./components/glass.css");
 @import url("./components/documents-mode.css");
 @import url("./components/home.css");
 @import url("./components/chat-focus.css");
 @import url("./components/service-map.css");
+@import url("./theme/hc.css");
 @import url("./utilities/helpers.css");
 @import url("./mobile.css");

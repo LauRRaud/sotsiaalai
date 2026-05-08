@@ -13,6 +13,7 @@ import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import GlowField from "@/components/ui/GlowField";
 import OptionCard from "@/components/ui/OptionCard";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
@@ -138,10 +139,24 @@ function workspaceReturn(locale, router) {
 
 function SectionCard({ title, children, className }) {
   return (
-    <section className={cn(cardClassName, "grid gap-[0.76rem]", className)}>
+    <BorderGlow
+      as="section"
+      className={cn(cardClassName, "workspace-feature-glow-card grid gap-[0.76rem]", className)}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--subpage-card-bg, var(--workspace-feature-surface, #120F17))"
+      borderRadius={17}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
       <h2 className={sectionTitleClassName}>{title}</h2>
       {children}
-    </section>
+    </BorderGlow>
   );
 }
 
@@ -858,8 +873,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               glowColor="358 82 72"
               backgroundColor="#120F17"
               borderRadius={16}
-              glowRadius={46}
-              glowIntensity={0.92}
+              glowRadius={42}
+              glowIntensity={0.62}
               coneSpread={20}
               colors={["#c084fc", "#f472b6", "#38bdf8"]}
               fillOpacity={0}
@@ -890,8 +905,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 glowColor="358 82 72"
                 backgroundColor="#120F17"
                 borderRadius={28}
-                glowRadius={46}
-                glowIntensity={0.92}
+                glowRadius={42}
+                glowIntensity={0.62}
                 coneSpread={20}
                 colors={["#c084fc", "#f472b6", "#38bdf8"]}
                 fillOpacity={0}
@@ -1278,23 +1293,31 @@ function ServiceMapSurface({
               <div className="service-map-toolbar__fields">
                 <label className="service-map-toolbar__field service-map-toolbar__field--keyword">
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.keyword", "Keyword")}</span>
-                  <input
-                    className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--keyword")}
+                  <GlowField
+                    className="service-map-toolbar__glow-field service-map-toolbar__glow-field--keyword"
                     style={{ "--service-map-placeholder-ch": `${keywordPlaceholder.length}ch` }}
-                    value={keyword}
-                    onChange={(event) => setKeyword(event.target.value)}
-                    placeholder={keywordPlaceholder}
-                  />
+                  >
+                    <input
+                      className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--keyword ui-glow-control")}
+                      value={keyword}
+                      onChange={(event) => setKeyword(event.target.value)}
+                      placeholder={keywordPlaceholder}
+                    />
+                  </GlowField>
                 </label>
                 <label className="service-map-toolbar__field service-map-toolbar__field--region">
                   <span className="sr-only">{readText(t, "workspace_feature_pages.service_map.fields.region", "Region")}</span>
-                  <input
-                    className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--region")}
+                  <GlowField
+                    className="service-map-toolbar__glow-field service-map-toolbar__glow-field--region"
                     style={{ "--service-map-placeholder-ch": `${regionPlaceholder.length}ch` }}
-                    value={region}
-                    onChange={(event) => setRegion(event.target.value)}
-                    placeholder={regionPlaceholder}
-                  />
+                  >
+                    <input
+                      className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--region ui-glow-control")}
+                      value={region}
+                      onChange={(event) => setRegion(event.target.value)}
+                      placeholder={regionPlaceholder}
+                    />
+                  </GlowField>
                 </label>
               </div>
 
@@ -1314,7 +1337,7 @@ function ServiceMapSurface({
                     className={serviceMapChoiceCardClassName}
                     fitTextLines={2}
                   >
-                    <span className="text-center [text-wrap:balance]">{label}</span>
+                    <span className="service-map-toolbar__type-label text-center [text-wrap:balance]">{label}</span>
                   </OptionCard>
               ))}
               </div>
@@ -1331,20 +1354,31 @@ function ServiceMapSurface({
               {!loading && !error && filteredEntries.length ? (
                 <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
                   {filteredEntries.slice(0, 10).map((entry) => (
-                  <button
+                  <BorderGlow
+                    as="button"
                     key={entry.id}
                     type="button"
                     className={cn(
-                      "workspace-feature-list-card grid gap-[0.16rem] rounded-[0.86rem] border px-[0.74rem] py-[0.56rem] text-left transition",
+                      "workspace-feature-list-card ui-glow-button-frame ui-glow-button-control grid gap-[0.16rem] rounded-[0.86rem] border px-[0.74rem] py-[0.56rem] text-left transition",
                       selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                     )}
+                    edgeSensitivity={22}
+                    glowColor="358 82 72"
+                    backgroundColor="var(--btn-primary-bg)"
+                    borderRadius={14}
+                    glowRadius={42}
+                    glowIntensity={0.62}
+                    coneSpread={20}
+                    fillOpacity={0}
+                    edgeOnly
+                    style={fieldEdgeGlowStyle}
                     onClick={() => handleSelectEntry(entry.id)}
                   >
-                    <span className="text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
-                    <span className="text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
+                    <span className="service-map-result-card__title text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
+                    <span className="service-map-result-card__type text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
                       {serviceMapEntryTypeLabel(t, entry.type)}
                     </span>
-                  </button>
+                  </BorderGlow>
                   ))}
                 </div>
               ) : null}
@@ -1504,8 +1538,8 @@ function ServiceProfileGlowField({ children, className, style }) {
       glowColor="358 82 72"
       backgroundColor="#1E222A"
       borderRadius={14}
-      glowRadius={46}
-      glowIntensity={0.92}
+      glowRadius={42}
+      glowIntensity={0.62}
       coneSpread={20}
       colors={["#c084fc", "#f472b6", "#38bdf8"]}
       fillOpacity={0}

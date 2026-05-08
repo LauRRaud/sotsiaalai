@@ -132,7 +132,7 @@
   color: inherit;
   text-align: center;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
     color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
@@ -150,8 +150,8 @@
 .card:hover,
 .card:focus-visible {
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.055)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent) !important;
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.16),
     0 14px 28px rgba(0, 0, 0, 0.13) !important;

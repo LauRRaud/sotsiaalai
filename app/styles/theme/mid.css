@@ -365,17 +365,15 @@
   color: #2c3340 !important;
 }
 
-:root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp .box {
-  background: rgba(253, 250, 249, 0.58) !important;
-  border-color: rgba(255, 255, 255, 0.48) !important;
+:root.theme-mid .login-modal-box.login-modal--otp .fancy-checkbox--otp {
+  --checkbox-accent: var(--title-color, #7a3a38);
+  --checkbox-border: color-mix(in srgb, var(--checkbox-accent) 76%, transparent);
 }
 
 :root.theme-mid
   .login-modal-box.login-modal--otp
   .login-otp-remember.fancy-checkbox--otp
   .box {
-  background: transparent !important;
-  border-color: transparent !important;
   box-shadow: none !important;
 }
 

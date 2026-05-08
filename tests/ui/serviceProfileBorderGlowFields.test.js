@@ -16,7 +16,7 @@ test("service profile fields use BorderGlow field wrappers", () => {
   );
   assert.match(workspaceFeaturePage, /function\s+ServiceProfileGlowField/);
   assert.match(workspaceFeaturePage, /<BorderGlow[\s\S]*?as="div"[\s\S]*?edgeOnly/);
-  assert.match(workspaceFeaturePage, /glowIntensity=\{0\.92\}/);
+  assert.match(workspaceFeaturePage, /glowIntensity=\{0\.62\}/);
   assert.match(workspaceFeaturePage, /service-profile-glow-field/);
   assert.match(workspaceFeaturePage, /service-profile-glow-control/);
   assert.match(serviceMapCss, /\.service-profile-glow-field/);

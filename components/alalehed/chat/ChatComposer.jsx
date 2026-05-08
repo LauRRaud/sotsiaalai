@@ -810,8 +810,8 @@ export default function ChatComposer({
             glowColor="358 82 72"
             backgroundColor="transparent"
             borderRadius={composerGlowRadius}
-            glowRadius={46}
-            glowIntensity={0.92}
+            glowRadius={42}
+            glowIntensity={0.62}
             coneSpread={20}
             fillOpacity={0}
             edgeOnly

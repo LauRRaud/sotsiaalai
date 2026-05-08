@@ -438,8 +438,8 @@ export default function WorkspacePanel({
                 glowColor="358 82 72"
                 backgroundColor="#120F17"
                 borderRadius={13}
-                glowRadius={46}
-                glowIntensity={1.05}
+                glowRadius={42}
+                glowIntensity={0.72}
                 coneSpread={20}
                 colors={["#c084fc", "#f472b6", "#38bdf8"]}
                 fillOpacity={0}

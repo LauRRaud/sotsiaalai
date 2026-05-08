@@ -18,6 +18,11 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/privaatsustingimused",
   "/hinnastus",
   "/voimalused",
+  "/teenusekaart",
+  "/documents",
+  "/dokreziim"
+]);
+const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([
   "/teenusekaart"
 ]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
@@ -446,6 +451,8 @@ function BackgroundLayer() {
   const effectiveTheme = domTheme || prefs?.theme;
   const effectiveReduceMotion = domReduceMotion ?? !!prefs?.reduceMotion;
   const normalizedPathname = stripLocaleFromPathname(pathname || "/");
+  if (BACKGROUND_LAYER_EXCLUDED_PATHS.has(normalizedPathname)) return null;
+
   const showColorBends = !COLOR_BENDS_EXCLUDED_PATHS.has(normalizedPathname);
   const isLightTheme =
     effectiveTheme === "light" ||

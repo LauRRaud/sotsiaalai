@@ -102,8 +102,8 @@ const Button = forwardRef(function Button({
         glowColor="358 82 72"
         backgroundColor="var(--btn-primary-bg)"
         borderRadius={999}
-        glowRadius={48}
-        glowIntensity={0.98}
+        glowRadius={42}
+        glowIntensity={0.62}
         coneSpread={20}
         fillOpacity={0}
         edgeOnly

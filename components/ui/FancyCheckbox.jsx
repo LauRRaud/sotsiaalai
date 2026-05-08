@@ -10,11 +10,11 @@ const Label = styled.label`
   min-height: 44px; /* target size */
   user-select: none;
   position: relative;
-  /* Focus ring on the visual box when the input gets focus */
-  &:focus-within .box {
-    outline: 3px solid var(--focus-ring, #ffd24d);
-    outline-offset: 3px;
-  }
+  --checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
+  --checkbox-border: color-mix(in srgb, var(--checkbox-accent) 76%, transparent);
+  --checkbox-bg: transparent;
+  --checkbox-checked-bg: color-mix(in srgb, var(--checkbox-accent) 12%, transparent);
+  --checkbox-focus: color-mix(in srgb, var(--checkbox-accent) 46%, transparent);
   .visually-hidden {
     position: absolute;
     opacity: 0;
@@ -28,36 +28,39 @@ const Label = styled.label`
     padding: 0;
   }
   .box {
-    width: 28px;
-    height: 28px;
+    width: 1.72rem;
+    height: 1.72rem;
     display: inline-grid;
     place-items: center;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 0.42rem;
+    background: var(--checkbox-bg);
+    border: 2px solid var(--checkbox-border);
     box-sizing: border-box;
+    box-shadow: none;
+    transition: background 150ms ease, border-color 150ms ease;
   }
   .svg {
-    width: 20px;
-    height: 20px;
+    width: 1.34rem;
+    height: 1.34rem;
     display: block;
-  }
-  .shape {
-    fill: none;
-    stroke: var(--pt-200, #e0e0e0);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
   }
   .tick {
     fill: none;
-    stroke: var(--brand-primary, #ffd24d);
-    stroke-width: 3;
+    stroke: var(--checkbox-accent);
+    stroke-width: 3.25;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-dasharray: 18 40;
     stroke-dashoffset: 40; /* hidden */
     transition: stroke-dashoffset 180ms ease;
+  }
+  input:focus-visible + .box {
+    outline: 2px solid var(--checkbox-focus);
+    outline-offset: 2px;
+  }
+  input:checked + .box {
+    background: var(--checkbox-checked-bg);
+    border-color: var(--checkbox-accent);
   }
   input:checked + .box .tick {
     stroke-dashoffset: 0; /* revealed */
@@ -92,8 +95,6 @@ const Label = styled.label`
   }
 
   &.fancy-checkbox--otp .box {
-    background: transparent;
-    border: 0;
     width: var(--otp-check-box-size, 1.82rem);
     height: var(--otp-check-box-size, 1.82rem);
     border-radius: 0.44rem;
@@ -105,16 +106,13 @@ const Label = styled.label`
     height: calc(var(--otp-check-box-size, 1.82rem) * 0.8);
   }
 
-  &.fancy-checkbox--otp .shape {
-    stroke: var(--otp-check-shape, var(--pt-200, #e0e0e0));
-    stroke-width: 2.2;
+  &.fancy-checkbox--otp {
+    --checkbox-accent: var(--otp-check-tick, var(--title-color, var(--brand-primary, #c57171)));
+    --checkbox-border: var(--otp-check-shape, color-mix(in srgb, var(--checkbox-accent) 76%, transparent));
   }
 
   &.fancy-checkbox--otp .tick {
-    stroke: var(--otp-check-tick, var(--brand-primary, #ffd24d));
-    stroke-width: 2.5;
-    transform: scale(0.86);
-    transform-origin: center;
+    stroke-width: 3;
   }
 
   &.fancy-checkbox--otp .text {
@@ -160,14 +158,7 @@ const Label = styled.label`
     transform: translate(0.08rem, 0);
   }
 
-  &.fancy-checkbox--otp:focus-within .box {
-    outline: none;
-    box-shadow: none;
-  }
-
   &.login-otp-remember .box {
-    background: transparent !important;
-    border-color: transparent !important;
     box-shadow: none !important;
     width: 1.98rem !important;
     height: 1.98rem !important;
@@ -179,7 +170,7 @@ const Label = styled.label`
   }
 
   &.login-otp-remember .tick {
-    transform: scale(0.9);
+    stroke-width: 3.1;
   }
 
   @media (max-width: 768px) {
@@ -220,7 +211,6 @@ const FancyCheckbox = forwardRef(function FancyCheckbox({
     }} disabled={disabled} aria-checked={!!checked} aria-disabled={!!disabled} />
       <span aria-hidden="true" className="box">
         <svg className="svg" viewBox="0 0 24 24" focusable="false">
-          <rect className="shape" x="3" y="3" width="18" height="18" rx="4" ry="4" />
           <polyline className="tick" points="6,12 10,16 18,8" />
         </svg>
       </span>

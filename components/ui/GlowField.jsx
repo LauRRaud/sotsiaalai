@@ -37,8 +37,8 @@ export default function GlowField({
       glowColor="358 82 72"
       backgroundColor={backgroundColor}
       borderRadius={borderRadius}
-      glowRadius={48}
-      glowIntensity={0.98}
+      glowRadius={42}
+      glowIntensity={0.62}
       coneSpread={20}
       colors={["#c084fc", "#f472b6", "#38bdf8"]}
       fillOpacity={0}

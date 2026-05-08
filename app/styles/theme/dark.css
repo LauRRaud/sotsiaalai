@@ -67,6 +67,13 @@
     rgba(36, 40, 47, 0.78) 0%,
     rgba(21, 25, 31, 0.84) 100%
   );
+  --workspace-elevated-card-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
+    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+  --workspace-elevated-card-bg-hover:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
+    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-strong-bg: radial-gradient(
     ellipse at top,
     rgb(40, 46, 54) 0%,
@@ -211,7 +218,7 @@
     .materials-admin-row,
     .materials-comment-box
   ) {
-  background: var(--chat-card-surface-standard-bg) !important;
+  background: var(--workspace-elevated-card-bg) !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
@@ -293,6 +300,8 @@
 
 /* Materials page in dark mode: keep surfaces matte and remove glow artifacts. */
 :root:not(.theme-light):not(.theme-mid):not(.theme-night) .materials-page-shell {
+  --subpage-card-bg: var(--workspace-elevated-card-bg);
+  --subpage-card-bg-hover: var(--workspace-elevated-card-bg-hover);
   --input-bg: rgba(14, 16, 22, 0.78);
   --input-bg-hover: rgba(16, 18, 24, 0.84);
   --input-bg-focus: rgba(16, 18, 24, 0.88);
@@ -300,7 +309,8 @@
   --input-shadow: none;
   --input-shadow-hover: none;
   --materials-panel-shadow: none;
-  --panel-secondary-bg: var(--input-flat-bg);
+  --panel-secondary-bg: var(--workspace-elevated-card-bg, var(--input-flat-bg));
+  --panel-secondary-bg-hover: var(--workspace-elevated-card-bg-hover, var(--input-flat-bg-hover));
   --panel-secondary-border: rgba(148, 163, 184, 0.2);
   --panel-secondary-shadow: none;
 }
@@ -573,17 +583,14 @@
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
-  .fancy-checkbox--otp
-  .box {
-  background: rgba(12, 12, 18, 0.62) !important;
-  border-color: rgba(186, 182, 176, 0.32) !important;
+  .fancy-checkbox--otp {
+  --checkbox-accent: var(--title-color, var(--brand-primary, #c57171));
+  --checkbox-border: color-mix(in srgb, var(--checkbox-accent) 76%, transparent);
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night)
   .login-modal-box.login-modal--otp
   .login-otp-remember.fancy-checkbox--otp
   .box {
-  background: transparent !important;
-  border-color: transparent !important;
   box-shadow: none !important;
 }

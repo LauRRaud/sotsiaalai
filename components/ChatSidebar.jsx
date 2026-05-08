@@ -709,8 +709,8 @@ export default function ChatSidebar() {
           glowColor="358 82 72"
           backgroundColor="var(--subpage-card-bg)"
           borderRadius={8}
-          glowRadius={48}
-          glowIntensity={0.98}
+          glowRadius={42}
+          glowIntensity={0.62}
           coneSpread={20}
           fillOpacity={0}
           edgeOnly
@@ -722,7 +722,7 @@ export default function ChatSidebar() {
           <div className="flex items-center gap-2.5">
             {selectMode && !isRoom ? <label className="flex h-6 w-6 max-[768px]:h-7 max-[768px]:w-7 items-center justify-center">
                 <input type="checkbox" className="peer sr-only" checked={selectedIds.has(item.id)} onChange={() => toggleSelected(item.id)} disabled={isActionBusy} />
-                <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--seg-radio-border)] bg-[color:var(--seg-radio-bg)] shadow-[var(--seg-radio-inner-ring)] text-[color:var(--seg-radio-dot-bg)] transition-[border-color,box-shadow,background] duration-150 ease-out peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
+                <span aria-hidden="true" className="relative flex h-[20px] w-[20px] max-[768px]:h-[26px] max-[768px]:w-[26px] items-center justify-center rounded-[0.4rem] border-[2px] border-[color:var(--checkbox-border,var(--title-color,var(--brand-primary,#c57171)))] bg-[color:var(--checkbox-bg,transparent)] shadow-none text-[color:var(--checkbox-accent,var(--title-color,var(--brand-primary,#c57171)))] transition-[border-color,background] duration-150 ease-out peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[color:var(--checkbox-focus,var(--focus-ring,var(--checkbox-accent,var(--brand-primary,#c57171))))] peer-checked:[&>svg]:opacity-100 peer-checked:[&>svg]:scale-100">
                   <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] max-[768px]:h-[21px] max-[768px]:w-[21px] scale-90 opacity-0 transition-[opacity,transform] duration-150 ease-out" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 12.5l4 4 8-8" />
                   </svg>

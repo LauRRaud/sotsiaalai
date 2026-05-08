@@ -3693,6 +3693,10 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
     .help-listings-modal-content {
     --mobile-glass-card-gap: 0px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
     width: 100vw !important;
     max-width: 100vw !important;
     min-height: var(--glass-mobile-root-vh, 100dvh) !important;
@@ -3706,20 +3710,61 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
+    .help-listings-title-wrap,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
+    .help-listings-title-wrap,
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
+    .help-listings-title-wrap + div,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
+    .help-listings-title-wrap + div {
+    flex: 0 0 auto !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
     .help-listings-body,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
     .help-listings-body {
-    flex: 1 1 auto !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
     min-height: 0 !important;
-    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: clamp(1rem, 2.8vh, 1.55rem) !important;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
     .help-listings-panel,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
     .help-listings-panel {
-    flex: 1 1 auto !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
     min-height: 0 !important;
     height: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .workspace-feature-panel
+    .covision-mobile-title-wrap,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .workspace-feature-panel
+    .covision-mobile-title-wrap {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: clamp(4.35rem, 15vw, 5.15rem) !important;
+    padding-right: clamp(4.35rem, 15vw, 5.15rem) !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .workspace-feature-panel
+    .covision-mobile-title,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .workspace-feature-panel
+    .covision-mobile-title {
+    text-align: center !important;
   }
 }

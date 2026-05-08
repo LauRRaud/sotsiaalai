@@ -17,7 +17,7 @@ test("document agent conversation and composer use edge-only BorderGlow shells",
   assert.match(agentPage, /className="documents-agent-glow-composer"/);
   assert.match(agentPage, /edgeOnly/);
   assert.match(agentPage, /glowColor="358 82 72"/);
-  assert.match(agentPage, /glowIntensity=\{0\.92\}/);
+  assert.match(agentPage, /glowIntensity=\{0\.62\}/);
   assert.match(agentPage, /coneSpread=\{20\}/);
   assert.match(agentPage, /fillOpacity=\{0\}/);
   assert.doesNotMatch(agentPage, /animated/);

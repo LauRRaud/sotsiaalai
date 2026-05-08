@@ -99,6 +99,7 @@ function appendMeta(parent, label, value) {
 function appendActionLink(parent, href, label, options = {}) {
   const link = document.createElement("a");
   link.href = href;
+  link.className = "service-map-popup__action ui-glow-button-frame ui-glow-button-control";
   if (options.target) link.target = options.target;
   if (options.rel) link.rel = options.rel;
 

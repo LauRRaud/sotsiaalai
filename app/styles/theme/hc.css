@@ -107,6 +107,13 @@ html[data-contrast="hc"] {
     rgba(24, 35, 49, 0.52) 0%,
     rgba(18, 22, 30, 0.62) 100%
   );
+  --workspace-elevated-card-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
+    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+  --workspace-elevated-card-bg-hover:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
+    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-night-strong-bg: radial-gradient(
     124% 96% at 50% 6%,
     rgb(27, 39, 53) 0%,
@@ -132,25 +139,29 @@ html[data-contrast="hc"] {
     pointer;
   --hc-bg: #090a0f;
   --hc-surface: rgba(10, 12, 18, 0.46);
-  --hc-text: #eef4ff;
-  --hc-muted: #d7e2f5;
   --hc-accent: #ffea00;
+  --hc-text: var(--hc-accent);
+  --hc-muted: var(--hc-accent);
   --hc-accent-soft: #fff48a;
   --hc-border: rgba(255, 234, 0, 0.66);
   --hc-border-soft: rgba(255, 234, 0, 0.9);
-  --hc-focus-ring: rgba(188, 220, 255, 0.5);
-  --pt-50: #f8fbff;
-  --pt-100: #eef4ff;
-  --pt-150: #e5eefc;
-  --pt-200: #d7e2f5;
-  --pt-300: #f3f8ff;
-  --pt-400: #e5eefc;
-  --pt-500: #10192a;
-  --pt-600: #090f1b;
-  --pt-light: #f2f7ff;
-  --pt: #eef4ff;
-  --pt-mid: #d7e2f5;
-  --pt-dark: #090f1b;
+  --hc-focus-ring: rgba(255, 234, 0, 0.58);
+  --hc-control-bg: rgba(14, 20, 32, 0.72);
+  --hc-control-bg-hover: rgba(14, 20, 32, 0.82);
+  --hc-control-bg-active: rgba(14, 20, 32, 0.88);
+  --hc-control-bg-selected: rgba(255, 234, 0, 0.14);
+  --pt-50: var(--hc-accent);
+  --pt-100: var(--hc-accent);
+  --pt-150: var(--hc-accent);
+  --pt-200: var(--hc-accent);
+  --pt-300: var(--hc-accent);
+  --pt-400: var(--hc-accent);
+  --pt-500: var(--hc-accent);
+  --pt-600: var(--hc-accent);
+  --pt-light: var(--hc-accent);
+  --pt: var(--hc-accent);
+  --pt-mid: var(--hc-accent);
+  --pt-dark: var(--hc-accent);
   --brand-primary: var(--hc-accent);
   --brand-accent: var(--hc-accent);
   --link-gold: var(--hc-accent);
@@ -264,10 +275,11 @@ html[data-contrast="hc"] {
   --drawer-delete-border: var(--opaque-panel-border, var(--subpage-card-border));
   --drawer-delete-bg: var(--opaque-panel-bg);
   --drawer-delete-text: var(--opaque-panel-text, var(--hc-accent));
-  --btn-base-bg-dark: rgba(14, 20, 32, 0.88);
-  --btn-primary-bg: rgba(14, 20, 32, 0.88);
-  --btn-primary-bg-hover: rgba(17, 24, 38, 0.94);
-  --btn-primary-bg-active: rgba(17, 24, 38, 0.98);
+  --btn-base-bg-dark: var(--hc-control-bg);
+  --btn-primary-bg: var(--hc-control-bg);
+  --btn-primary-bg-hover: var(--hc-control-bg-hover);
+  --btn-primary-bg-active: var(--hc-control-bg-active);
+  --btn-primary-text: var(--hc-accent);
   --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
   --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
   --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
@@ -276,11 +288,17 @@ html[data-contrast="hc"] {
   --btn-primary-shadow-active: none;
   --btn-primary-focus-ring-color: var(--hc-focus-ring);
 
-  --form-surface: rgba(14, 20, 32, 0.84);
-  --form-surface-hover: rgba(17, 24, 38, 0.92);
-  --form-surface-active: var(--form-surface-hover);
-  --input-flat-bg: rgba(8, 9, 12, 0.68);
-  --input-flat-bg-hover: rgba(12, 13, 16, 0.76);
+  --form-surface: var(--hc-control-bg);
+  --form-surface-hover: var(--hc-control-bg-hover);
+  --form-surface-active: var(--hc-control-bg-active);
+  --input-bg: var(--hc-control-bg);
+  --input-bg-hover: var(--hc-control-bg-hover);
+  --input-bg-focus: var(--hc-control-bg-active);
+  --input-flat-bg: var(--hc-control-bg);
+  --input-flat-bg-hover: var(--hc-control-bg-hover);
+  --input-text: var(--hc-accent);
+  --input-caret: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
   --input-border: 2px solid rgba(255, 234, 0, 0.68);
   --seg-card-border: rgba(255, 234, 0, 0.66);
   --seg-card-border-width: 2px;
@@ -296,6 +314,8 @@ html[data-contrast="hc"] {
 
 /* Materials page in HC: keep strong contrast, remove decorative glow from large surfaces. */
 html[data-contrast="hc"] .materials-page-shell {
+  --subpage-card-bg: var(--workspace-elevated-card-bg);
+  --subpage-card-bg-hover: var(--workspace-elevated-card-bg-hover);
   --input-bg: rgba(9, 14, 24, 0.84);
   --input-bg-hover: rgba(10, 16, 27, 0.9);
   --input-bg-focus: rgba(10, 16, 27, 0.94);
@@ -304,7 +324,8 @@ html[data-contrast="hc"] .materials-page-shell {
   --input-border: 2px solid rgba(255, 234, 0, 0.72);
   --input-shadow: none;
   --input-shadow-hover: none;
-  --panel-secondary-bg: var(--input-flat-bg);
+  --panel-secondary-bg: var(--workspace-elevated-card-bg, var(--input-flat-bg));
+  --panel-secondary-bg-hover: var(--workspace-elevated-card-bg-hover, var(--input-flat-bg-hover));
   --panel-secondary-border: rgba(255, 234, 0, 0.72);
   --panel-secondary-shadow: none;
 }
@@ -1372,7 +1393,7 @@ html[data-contrast="hc"] :is(.subscription-modal-content, .invite-modal-content,
   box-shadow: none !important;
   outline: none !important;
 }
-html[data-contrast="hc"] .subscription-content :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .shape, .fancy-checkbox--otp .tick) {
+html[data-contrast="hc"] .subscription-content :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
   background: transparent !important;
   border-color: rgba(255, 234, 0, 0.7) !important;
   stroke: var(--hc-accent) !important;
@@ -1951,7 +1972,7 @@ html[data-contrast="hc"] #login-modal .login-help-popover {
   border-color: rgba(255, 234, 0, 0.62) !important;
   box-shadow: none !important;
 }
-html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .shape, .fancy-checkbox--otp .tick) {
+html[data-contrast="hc"] #login-modal :is(.fancy-checkbox--otp .box, .fancy-checkbox--otp .tick) {
   background: transparent !important;
   border-color: rgba(255, 234, 0, 0.7) !important;
   stroke: var(--hc-accent) !important;
@@ -2341,4 +2362,283 @@ html[data-contrast="hc"]
   opacity: 1 !important;
   filter: var(--orbit-mobile-visual-filter, none) !important;
   transform: scale(1) !important;
+}
+
+/* Final desktop HC normalizer: keep interactive chrome yellow and avoid black/white fallbacks. */
+html[data-contrast="hc"] {
+  --hc-text: var(--hc-accent);
+  --hc-muted: var(--hc-accent);
+  --glass-surface-text: var(--hc-accent);
+  --glass-modal-text: var(--hc-accent);
+  --text-strong: var(--hc-accent);
+  --focus-ring: var(--hc-focus-ring);
+  --btn-primary-text: var(--hc-accent);
+  --btn-primary-bg: var(--hc-control-bg);
+  --btn-primary-bg-hover: var(--hc-control-bg-hover);
+  --btn-primary-bg-active: var(--hc-control-bg-active);
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66);
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9);
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95);
+  --input-bg: var(--hc-control-bg);
+  --input-bg-hover: var(--hc-control-bg-hover);
+  --input-bg-focus: var(--hc-control-bg-active);
+  --input-flat-bg: var(--hc-control-bg);
+  --input-flat-bg-hover: var(--hc-control-bg-hover);
+  --input-text: var(--hc-accent);
+  --input-caret: var(--hc-accent);
+  --input-placeholder: rgba(255, 234, 0, 0.92);
+  --subpage-card-border: rgba(255, 234, 0, 0.66);
+  --subpage-card-border-hover: rgba(255, 234, 0, 0.9);
+  --panel-secondary-border: rgba(255, 234, 0, 0.66);
+  --workspace-feature-field-bg: var(--hc-control-bg);
+  --workspace-feature-field-bg-hover: var(--hc-control-bg-hover);
+  --workspace-feature-field-text: var(--hc-accent);
+  --workspace-feature-field-placeholder: rgba(255, 234, 0, 0.92);
+  --workspace-feature-field-border: 2px solid rgba(255, 234, 0, 0.72);
+  --workspace-feature-border: rgba(255, 234, 0, 0.66);
+  --workspace-feature-border-strong: rgba(255, 234, 0, 0.9);
+}
+
+html[data-contrast="hc"] body,
+html[data-contrast="hc"] body :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  label,
+  legend,
+  li,
+  a,
+  strong,
+  em,
+  small
+) {
+  color: var(--hc-accent);
+}
+
+html[data-contrast="hc"] body :is(
+  button,
+  [role="button"],
+  .button,
+  .btn,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"]
+):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button) {
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  button,
+  [role="button"],
+  .button,
+  .btn,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"]
+):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):is(:hover, :focus-visible, :active) {
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg-hover) !important;
+  border-color: rgba(255, 234, 0, 0.9) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(
+  .ui-glow-field,
+  .materials-comment-glow-field,
+  .service-map-toolbar__glow-field,
+  .service-map-toolbar__type-card,
+  .invite-glow-field,
+  .service-profile-glow-field,
+  .workspace-feature-panel .workspace-feature-field,
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+) {
+  background: var(--hc-control-bg) !important;
+  color: var(--hc-accent) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+  caret-color: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(
+  .ui-glow-field,
+  .materials-comment-glow-field,
+  .service-map-toolbar__glow-field,
+  .service-map-toolbar__type-card,
+  .invite-glow-field,
+  .service-profile-glow-field,
+  .workspace-feature-panel .workspace-feature-field,
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+):is(:hover, :focus, :focus-within, :focus-visible, :active) {
+  background: var(--hc-control-bg-hover) !important;
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(
+  .ui-glow-field,
+  .materials-comment-glow-field,
+  .service-map-toolbar__glow-field,
+  .service-map-toolbar__type-card,
+  .invite-glow-field,
+  .service-profile-glow-field,
+  .workspace-feature-panel .workspace-feature-field,
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+)::placeholder {
+  color: rgba(255, 234, 0, 0.92) !important;
+  opacity: 1 !important;
+}
+
+html[data-contrast="hc"] :is(
+  .workspace-feature-card,
+  .workspace-feature-chip,
+  .workspace-feature-admin-role,
+  .workspace-feature-toggle-row,
+  .workspace-feature-list-card,
+  .workspace-feature-badge,
+  .documents-workspace-card,
+  .documents-panel,
+  .documents-subpanel,
+  .documents-card,
+  .documents-notice,
+  .documents-empty-state,
+  .invite-list-panel,
+  .materials-upload-panel,
+  .materials-admin-panel,
+  .materials-admin-row,
+  .help-listings-panel,
+  .selected-listing-panel--inline
+) {
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(
+  .workspace-role-cycle-button,
+  .documents-admin-role-menu .workspace-role-cycle-button
+) {
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .back-button,
+  .chat-back-button,
+  .glass-policy-back,
+  .profile-logout-button,
+  .service-map-toolbar__back,
+  .service-map-workspace__toggle,
+  button:has(.back-icon-arrow)
+) {
+  color: var(--hc-accent) !important;
+  border-color: var(--hc-accent) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body .chat-inputbar,
+html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-inputbar {
+  background: transparent !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body .chat-inputbar:is(:hover, :focus-within) {
+  background: transparent !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .chat-composer-glow-shell,
+html[data-contrast="hc"] .documents-agent-glow-composer,
+html[data-contrast="hc"] .documents-agent-glow-window {
+  --glow-color: rgba(255, 234, 0, 0.64) !important;
+  --glow-color-60: rgba(255, 234, 0, 0.4) !important;
+  --glow-color-50: rgba(255, 234, 0, 0.34) !important;
+  --glow-color-40: rgba(255, 234, 0, 0.27) !important;
+  --glow-color-30: rgba(255, 234, 0, 0.2) !important;
+  --glow-color-20: rgba(255, 234, 0, 0.13) !important;
+  --glow-color-10: rgba(255, 234, 0, 0.08) !important;
+}
+
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
+  --btn-primary-text: var(--hc-accent) !important;
+  --btn-primary-bg: var(--hc-control-bg) !important;
+  --btn-primary-bg-hover: var(--hc-control-bg-hover) !important;
+  --btn-primary-bg-active: var(--hc-control-bg-active) !important;
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.66) !important;
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.9) !important;
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 0.95) !important;
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg) !important;
+  border-color: rgba(255, 234, 0, 0.66) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn:is(:hover, :focus-visible, :active) {
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg-hover) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(
+  .chat-send-btn,
+  .chat-listen-btn,
+  .chat-side-control-btn,
+  .workspace-feature-panel svg,
+  .documents-workspace svg
+) :is(path, circle, line, rect, ellipse, polyline, polygon) {
+  stroke: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] :is(
+  .chat-send-btn,
+  .chat-listen-btn,
+  .chat-side-control-btn,
+  .workspace-feature-panel svg,
+  .documents-workspace svg
+) [fill]:not([fill="none"]) {
+  fill: var(--hc-accent) !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .ui-glow-field,
+  .materials-comment-glow-field,
+  .service-map-toolbar__glow-field,
+  .service-map-toolbar__type-card,
+  .invite-glow-field,
+  .service-profile-glow-field,
+  .workspace-feature-panel .workspace-feature-field,
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+):is([class*="BorderGlow-module"], [class*="ui-glow"]) {
+  background: var(--hc-control-bg) !important;
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  button,
+  [role="button"],
+  label
+):is(
+  [class*="BorderGlow-module"],
+  .ui-glow-button-frame,
+  .ui-glow-option-card-frame,
+  .materials-surface-button,
+  .service-map-toolbar__type-card
+) {
+  background: var(--hc-control-bg) !important;
+  color: var(--hc-accent) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
 }

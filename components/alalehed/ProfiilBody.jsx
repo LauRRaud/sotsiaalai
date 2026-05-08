@@ -407,20 +407,10 @@ function ThemeMidDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <defs>
-        <clipPath id="mid-sun-disc-clip">
-          <circle cx="12" cy="12" r="3.7" />
-        </clipPath>
-        <clipPath id="mid-sun-lower-clip">
-          <circle cx="12" cy="12" r="3.7" />
-          <rect x="8.3" y="12.5" width="7.4" height="3.3" />
-        </clipPath>
-      </defs>
-      <circle cx="12" cy="12" r="3.7" />
-      <rect x="8.3" y="12.5" width="7.4" height="3.3" fill="currentColor" stroke="none" clipPath="url(#mid-sun-disc-clip)" />
-      <path d="M10.45 14.08h3.1" stroke="rgba(255,255,255,0.78)" strokeWidth="0.72" clipPath="url(#mid-sun-lower-clip)" />
-      <path d="M12 2.6v2.1M4.7 12h2.1M17.2 12h2.1M5.8 5.8l1.5 1.5M18.2 5.8l-1.5 1.5" />
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M4.1 12.75h15.8" />
+      <path d="M6.8 12.75a5.2 5.2 0 0 1 10.4 0" />
+      <path d="M5.7 15.5h12.6" opacity="0.58" />
     </svg>;
 }
 function ThemeHighContrastDockIcon({
@@ -839,7 +829,7 @@ export default function ProfiilBody({
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
   const nextModeIcon = useMemo(() =>
     nextMode === "mid"
-      ? <ThemeMidDockIcon width={30} height={30} className="scale-[1.12]" />
+      ? <ThemeMidDockIcon width={33} height={33} />
       : nextMode === "hc"
         ? <ThemeHighContrastDockIcon width={27} height={27} />
       : nextMode === "light"

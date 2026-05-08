@@ -72,3 +72,31 @@ test("help listings panel keeps a dedicated high contrast surface", () => {
   assert.match(chatFocusCss, /box-shadow:\s*inset 0 0 0 1\.5px var\(--hc-accent,\s*#ffea00\) !important/);
   assert.match(mobileCss, /html\[data-contrast="hc"\] \.help-listings-modal-content \.help-listings-panel/);
 });
+
+test("help listings panel leaves room for the inner panel shadow", () => {
+  const helpListingsPanel = read("components/chat/HelpListingsPanel.jsx");
+  const mobileCss = read("app/styles/mobile.css");
+  const standaloneBodyIndex = mobileCss.indexOf('.help-listings-modal-open\n    .help-listings-body');
+  const standalonePanelIndex = mobileCss.indexOf('.help-listings-modal-open\n    .help-listings-panel');
+  assert.notEqual(standaloneBodyIndex, -1);
+  assert.notEqual(standalonePanelIndex, -1);
+  const standaloneBodyRule = mobileCss.slice(standaloneBodyIndex, mobileCss.indexOf("}", standaloneBodyIndex));
+  const standalonePanelRule = mobileCss.slice(standalonePanelIndex, mobileCss.indexOf("}", standalonePanelIndex));
+
+  assert.match(
+    helpListingsPanel,
+    /help-listings-body[\s\S]{0,260}overflow-visible[\s\S]{0,260}pb-\[1\.25rem\]/
+  );
+  assert.doesNotMatch(
+    helpListingsPanel,
+    /help-listings-body[\s\S]{0,260}overflow-x-hidden/
+  );
+  assert.match(
+    standaloneBodyRule,
+    /padding-bottom:\s*clamp\(1rem,\s*2\.8vh,\s*1\.55rem\) !important/
+  );
+  assert.match(
+    standalonePanelRule,
+    /height:\s*auto !important/
+  );
+});

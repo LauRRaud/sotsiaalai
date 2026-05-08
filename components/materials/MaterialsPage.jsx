@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation"
 
 import { useI18n } from "@/components/i18n/I18nProvider"
 import BackButton from "@/components/ui/BackButton"
+import BorderGlow from "@/components/ui/BorderGlow"
 import Button from "@/components/ui/Button"
-import Panel from "@/components/ui/Panel"
+import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField"
 import Textarea from "@/components/ui/Textarea"
 import {
   glassPageBackTopLeftClassName,
@@ -82,6 +83,28 @@ function formatDate(value, locale) {
 function materialStatusLabel(t, status) {
   const normalized = String(status || "pending").toLowerCase()
   return t(`materials_page.admin.status.${normalized}`, normalized)
+}
+
+function MaterialsGlowPanel({ as = "section", className = "", children }) {
+  return (
+    <BorderGlow
+      as={as}
+      className={`materials-glow-card ${className}`.trim()}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--subpage-card-bg, #120F17)"
+      borderRadius={18}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
+      {children}
+    </BorderGlow>
+  )
 }
 
 export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
@@ -286,7 +309,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
         </header>
 
         <div className={`materials-page-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
-          <section className={materialsUploadSectionClassName}>
+          <MaterialsGlowPanel className={materialsUploadSectionClassName}>
             <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
                 {t("materials_page.description")}
@@ -323,13 +346,15 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </p>
               ) : null}
 
-              <Textarea
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-                rows={5}
-                placeholder={t("materials_page.comment_placeholder_multiple")}
-                className={materialsTextareaClassName}
-              />
+              <GlowField className={`materials-comment-glow-field ${materialsMobileInnerWidthClassName}`} borderRadius={17}>
+                <Textarea
+                  value={comment}
+                  onChange={(event) => setComment(event.target.value)}
+                  rows={5}
+                  placeholder={t("materials_page.comment_placeholder_multiple")}
+                  className={`${materialsTextareaClassName} ui-glow-control`}
+                />
+              </GlowField>
 
               {error ? (
                 <p className={`rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[1rem] py-[0.54rem] text-center text-[0.98rem] leading-[1.3] text-[rgba(255,223,218,0.96)] ${materialsDesktopReadableWidthClassName}`}>
@@ -353,13 +378,10 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                 </Button>
               </div>
             </form>
-          </section>
+          </MaterialsGlowPanel>
 
           {isAdmin ? (
-            <Panel
-              as="section"
-              variant="subpage"
-              padding="sm"
+            <MaterialsGlowPanel
               className={`materials-admin-panel ${glassSubpagePanelWideClassName} ${materialsSectionClassName} ${materialsMobilePanelWidthClassName}`}
             >
               <div className={`flex items-start justify-between gap-[0.8rem] max-[768px]:grid max-[768px]:gap-[0.72rem] ${materialsDesktopReadableWidthClassName} ${materialsAdminInnerWidthClassName}`}>
@@ -388,7 +410,8 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
               ) : items.length ? (
                 <div className={`grid gap-[0.72rem] ${materialsDesktopReadableWidthClassName} ${materialsAdminInnerWidthClassName}`}>
                   {items.map((item) => (
-                    <div
+                    <MaterialsGlowPanel
+                      as="div"
                       key={item.id}
                       className={`materials-admin-row grid gap-[0.62rem] rounded-[0.95rem] px-[0.62rem] py-[0.72rem] ${glassSubpageCardClassName}`}
                     >
@@ -456,13 +479,13 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
                           {t("materials_page.admin.delete")}
                         </Button>
                       </div>
-                    </div>
+                    </MaterialsGlowPanel>
                   ))}
                 </div>
               ) : (
                 <p className={`text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82] ${materialsDesktopReadableWidthClassName} ${materialsAdminInnerWidthClassName}`}>{t("materials_page.admin.empty")}</p>
               )}
-            </Panel>
+            </MaterialsGlowPanel>
           ) : null}
         </div>
       </div>

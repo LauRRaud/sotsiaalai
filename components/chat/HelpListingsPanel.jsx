@@ -182,7 +182,7 @@ export default function HelpListingsPanel({
           </p>
         </div>
 
-        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[0.55rem] overflow-x-hidden px-[0.78rem] pt-[0.12rem] pb-[0.4rem] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.2rem] max-[768px]:pt-[0.1rem]`}>
+        <div className={`help-listings-body ${glassSubpageContentWideClassName} flex min-h-0 flex-1 flex-col gap-[0.55rem] overflow-visible px-[0.9rem] pt-[0.12rem] pb-[1.25rem] max-[768px]:gap-[0.5rem] max-[768px]:px-[0.48rem] max-[768px]:pt-[0.1rem] max-[768px]:pb-[1.08rem]`}>
           <Panel
             variant="subpage"
             padding="sm"

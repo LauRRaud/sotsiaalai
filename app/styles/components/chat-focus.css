@@ -682,11 +682,11 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
 :root:not(.theme-light):not(.theme-mid) .chat-page-shell .chat-composer-glow-shell:hover {
   background: transparent !important;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 122, 126, 0.66),
-    inset 0 0 7px rgba(255, 122, 126, 0.15),
-    0 0 2px rgba(255, 122, 126, 0.52),
-    0 0 12px rgba(255, 122, 126, 0.26),
-    0 0 26px rgba(255, 122, 126, 0.13),
+    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
+    inset 0 0 7px rgba(255, 122, 126, 0.09),
+    0 0 2px rgba(255, 122, 126, 0.3),
+    0 0 12px rgba(255, 122, 126, 0.14),
+    0 0 26px rgba(255, 122, 126, 0.07),
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow-strong) !important;
 }
@@ -735,8 +735,29 @@ body .chat-inputbar .chat-send-btn[data-empty-disabled="true"]:disabled {
   display: none !important;
 }
 
-html[data-contrast="hc"] .chat-composer-glow-shell > .edgeLight {
+html[data-contrast="hc"] .chat-composer-glow-shell > .edgeLight,
+html[data-contrast="hc"] .chat-composer-glow-shell > [class*="edgeLight"] {
   display: block !important;
+}
+
+html[data-contrast="hc"] .chat-composer-glow-shell {
+  --glow-color: rgba(255, 234, 0, 0.64) !important;
+  --glow-color-60: rgba(255, 234, 0, 0.4) !important;
+  --glow-color-50: rgba(255, 234, 0, 0.34) !important;
+  --glow-color-40: rgba(255, 234, 0, 0.27) !important;
+  --glow-color-30: rgba(255, 234, 0, 0.2) !important;
+  --glow-color-20: rgba(255, 234, 0, 0.13) !important;
+  --glow-color-10: rgba(255, 234, 0, 0.08) !important;
+}
+
+html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:hover {
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 234, 0, 0.72),
+    0 0 2px rgba(255, 234, 0, 0.28),
+    0 0 12px rgba(255, 234, 0, 0.14),
+    0 0 24px rgba(255, 234, 0, 0.08),
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid) .chat-page-shell .chat-composer-glow-shell .chat-inputbar {
@@ -770,6 +791,45 @@ html[data-contrast="hc"] .chat-composer-glow-shell > .edgeLight {
   box-sizing: border-box !important;
   border-radius: 9999px !important;
   overflow: hidden !important;
+}
+
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame {
+  --edge-sensitivity: 18;
+  --edge-proximity: 0;
+  --cursor-angle: 90deg;
+  --glow-padding: 34px;
+  --glow-color: rgba(197, 113, 113, 0.52);
+  --glow-color-60: rgba(197, 113, 113, 0.34);
+  --glow-color-50: rgba(197, 113, 113, 0.28);
+  --glow-color-40: rgba(197, 113, 113, 0.22);
+  --glow-color-30: rgba(197, 113, 113, 0.16);
+  --glow-color-20: rgba(197, 113, 113, 0.11);
+  --glow-color-10: rgba(197, 113, 113, 0.07);
+  overflow: visible !important;
+  isolation: isolate;
+}
+
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:is(:hover, :focus-visible) {
+  --edge-proximity: 100;
+}
+
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"] {
+  opacity: 0 !important;
+}
+
+:root.theme-light .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"],
+:root.theme-mid .chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame > [class*="edgeLight"] {
+  display: block !important;
+}
+
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:is(:hover, :focus-visible) > [class*="edgeLight"] {
+  opacity: 0.42 !important;
+}
+
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[data-empty-disabled="true"] > [class*="edgeLight"],
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame:disabled > [class*="edgeLight"],
+.chat-page-shell .chat-inputbar .chat-send-btn.ui-glow-button-frame[aria-disabled="true"] > [class*="edgeLight"] {
+  opacity: 0 !important;
 }
 
 .chat-container--input-focus .chat-inputbar > .chat-listen-btn,

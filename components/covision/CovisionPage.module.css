@@ -6,8 +6,8 @@
   --covision-surface-bg: var(--glass-ring-surface-bg, var(--glass-surface-bg));
   --covision-panel-bg: var(--subpage-card-bg);
   --covision-panel-hover-bg: var(--subpage-card-bg-hover, var(--subpage-card-bg));
-  --covision-card-bg: rgba(255, 255, 255, 0.055);
-  --covision-card-hover-bg: rgba(255, 255, 255, 0.075);
+  --covision-card-bg: var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.075));
+  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(255, 255, 255, 0.095));
   --covision-card-border: rgba(248, 253, 255, 0.12);
   --covision-card-border-strong: rgba(248, 253, 255, 0.18);
   --covision-card-border-width: 1px;
@@ -100,8 +100,8 @@
   --covision-text: var(--pt-120, #eef2f8);
   --covision-strong-text: var(--pt-80, #f8fbff);
   --covision-muted: rgba(226, 232, 240, 0.76);
-  --covision-card-bg: var(--input-flat-bg, rgba(27, 31, 37, 0.88));
-  --covision-card-hover-bg: var(--input-flat-bg-hover, rgba(34, 37, 42, 0.9));
+  --covision-card-bg: var(--workspace-elevated-card-bg, rgba(27, 31, 37, 0.88));
+  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(34, 37, 42, 0.9));
   --covision-card-border: rgba(248, 253, 255, 0.11);
   --covision-card-border-strong: rgba(248, 253, 255, 0.18);
   --covision-card-shadow: var(--subpage-card-shadow, none);
@@ -115,8 +115,8 @@
   --covision-text: rgba(234, 238, 245, 0.94);
   --covision-strong-text: #f3f8ff;
   --covision-muted: rgba(215, 226, 245, 0.76);
-  --covision-card-bg: var(--input-flat-bg, rgba(20, 30, 43, 0.86));
-  --covision-card-hover-bg: var(--input-flat-bg-hover, rgba(26, 38, 54, 0.88));
+  --covision-card-bg: var(--workspace-elevated-card-bg, rgba(20, 30, 43, 0.86));
+  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(26, 38, 54, 0.88));
   --covision-card-border: rgba(216, 226, 235, 0.14);
   --covision-card-border-strong: rgba(226, 232, 238, 0.2);
   --covision-card-shadow: var(--subpage-card-shadow, none);
@@ -135,10 +135,10 @@
   --covision-muted: var(--hc-muted, #d7e2f5);
   --covision-accent: var(--hc-accent, #ffea00);
   --covision-surface-bg: var(--hc-bg, #090a0f);
-  --covision-panel-bg: var(--hc-bg, #090a0f);
+  --covision-panel-bg: var(--workspace-elevated-card-bg, var(--hc-bg, #090a0f));
   --covision-panel-hover-bg: rgba(255, 234, 0, 0.08);
-  --covision-card-bg: var(--hc-bg, #090a0f);
-  --covision-card-hover-bg: rgba(255, 234, 0, 0.08);
+  --covision-card-bg: var(--workspace-elevated-card-bg, var(--hc-bg, #090a0f));
+  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(255, 234, 0, 0.08));
   --covision-card-border: var(--hc-accent, #ffea00);
   --covision-card-border-strong: var(--hc-accent, #ffea00);
   --covision-card-border-width: 2px;
@@ -246,6 +246,20 @@
 
 .sectionPanel {
   background: var(--covision-panel-bg) !important;
+}
+
+.page :global(.covision-glow-card),
+.page :global(.covision-glow-field) {
+  overflow: visible !important;
+}
+
+.page :global(.covision-glow-card:focus-within:not(:hover) > .edgeLight),
+.page :global(.covision-glow-card:focus-within:not(:hover) > [class*="edgeLight"]),
+.page :global(.covision-glow-card:focus-within:not(:hover)::after),
+.page :global(.covision-glow-field:focus-within:not(:hover) > .edgeLight),
+.page :global(.covision-glow-field:focus-within:not(:hover) > [class*="edgeLight"]),
+.page :global(.covision-glow-field:focus-within:not(:hover)::after) {
+  opacity: 0 !important;
 }
 
 .toolbar {
@@ -384,6 +398,38 @@
   opacity: 1 !important;
 }
 
+.page :global(.covision-glow-field) {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 999px;
+  color: var(--covision-field-text) !important;
+}
+
+.page :global(.covision-glow-field--textarea) {
+  min-height: 5.6rem;
+  border-radius: 1.05rem;
+}
+
+.page :global(.covision-glow-control),
+.page :global(.covision-glow-field .documents-dropdown-trigger) {
+  width: 100%;
+  min-height: inherit;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  outline: none !important;
+}
+
+.page :global(.covision-glow-control--textarea) {
+  height: 100%;
+  resize: vertical;
+}
+
+.page :global(.covision-glow-dropdown:has(.documents-dropdown.is-open)) {
+  z-index: 160;
+}
+
 .page :global(select option) {
   background: var(--covision-field-bg);
   color: var(--covision-field-text);
@@ -413,17 +459,17 @@
   min-height: 3rem;
   border-color: transparent !important;
   border-radius: 999px !important;
-  background: var(--covision-field-bg) !important;
+  background: transparent !important;
   color: var(--covision-field-text) !important;
-  box-shadow: var(--covision-field-shadow) !important;
+  box-shadow: none !important;
   padding: 0.66rem 1.06rem;
 }
 
 .page :global(.workspace-feature-dropdown .documents-dropdown-trigger:hover),
 .page :global(.workspace-feature-dropdown .documents-dropdown-trigger:focus-visible),
 .page :global(.workspace-feature-dropdown .documents-dropdown-trigger.is-open) {
-  background: var(--covision-field-hover-bg) !important;
-  box-shadow: var(--covision-field-focus-shadow) !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .page :global(.workspace-feature-dropdown .documents-dropdown-icon) {
