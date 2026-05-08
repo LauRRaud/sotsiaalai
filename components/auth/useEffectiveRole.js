@@ -76,6 +76,7 @@ export function useEffectiveRole() {
 
   const effectiveRole = normalizeEffectiveRole(profileMeta?.effectiveRole, actualRole, isAdmin);
   const adminViewRole = normalizePreviewRole(profileMeta?.adminViewRole);
+  const isRoleResolved = status !== "loading" && (!isAdmin || !loading);
 
   return {
     actualRole,
@@ -83,6 +84,7 @@ export function useEffectiveRole() {
     adminViewRole: actualRole === "ADMIN" ? adminViewRole : null,
     isAdmin,
     isRoleViewActive: Boolean(isAdmin && adminViewRole),
+    isRoleResolved,
     isRoleLoading: loading,
     refresh
   };

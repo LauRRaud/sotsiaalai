@@ -20,7 +20,8 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/voimalused",
   "/teenusekaart"
 ]);
-const COLOR_BENDS_MAX_OPACITY = 0.78;
+const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
+const COLOR_BENDS_OPACITY_FULL = 1;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -97,7 +98,8 @@ const BackgroundContent = memo(function BackgroundContent({
   isHomepage = false,
   showColorBends = true,
   showParticles = true,
-  colorBendsColors = ["#7e4442"]
+  colorBendsColors = ["#7e4442"],
+  colorBendsOpacity = COLOR_BENDS_OPACITY_DEFAULT
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -228,7 +230,7 @@ const BackgroundContent = memo(function BackgroundContent({
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
     el.style.setProperty("--saai-parallax-space", "0px");
-    el.style.setProperty("--saai-bends-opacity", String(COLOR_BENDS_MAX_OPACITY));
+    el.style.setProperty("--saai-bends-opacity", String(colorBendsOpacity));
     el.style.setProperty("--saai-parallax-particles", "0px");
     el.style.setProperty("--saai-bg-dim", "0");
     if (!baseParallaxActive) return;
@@ -261,8 +263,8 @@ const BackgroundContent = memo(function BackgroundContent({
       const y = resolveScrollY();
       const spaceY = -clamp(y * 0.07, 0, 160);
       const bendsOpacity = isHomepage
-        ? (1 - clamp((y - 240) / 220, 0, 1)) * COLOR_BENDS_MAX_OPACITY
-        : COLOR_BENDS_MAX_OPACITY;
+        ? (1 - clamp((y - 240) / 220, 0, 1)) * colorBendsOpacity
+        : colorBendsOpacity;
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
       el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
@@ -294,7 +296,7 @@ const BackgroundContent = memo(function BackgroundContent({
       window.visualViewport?.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [reduceMotion, baseParallaxActive, isHomepage]);
+  }, [reduceMotion, baseParallaxActive, isHomepage, colorBendsOpacity]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
@@ -454,12 +456,17 @@ function BackgroundLayer() {
       : effectiveTheme === "mid"
         ? ["#794f4c"]
         : ["#7e4442"];
+  const colorBendsOpacity =
+    effectiveTheme === "light" || effectiveTheme === "mid"
+      ? COLOR_BENDS_OPACITY_FULL
+      : COLOR_BENDS_OPACITY_DEFAULT;
   return <BackgroundContent
     reduceMotion={effectiveReduceMotion}
     isLightTheme={isLightTheme}
     isHomepage={isHomepage}
     showColorBends={showColorBends}
     colorBendsColors={colorBendsColors}
+    colorBendsOpacity={colorBendsOpacity}
   />;
 }
 export default memo(BackgroundLayer);

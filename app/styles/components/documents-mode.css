@@ -1627,6 +1627,90 @@
   padding-bottom: 0.12rem !important;
 }
 
+.documents-agent-glow-window,
+.documents-agent-glow-composer {
+  width: min(100%, 38rem);
+  max-width: min(100%, 38rem);
+  margin-inline: auto;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent) !important;
+  border-color: color-mix(in srgb, var(--documents-agent-thread-border, var(--subpage-card-border)) 82%, transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.16) !important;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.documents-agent-glow-window:hover,
+.documents-agent-glow-window:focus-within,
+.documents-agent-glow-composer:hover,
+.documents-agent-glow-composer:focus-within {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.052)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 14px 28px rgba(0, 0, 0, 0.18) !important;
+}
+
+.documents-agent-glow-window {
+  min-height: clamp(17.5rem, 37vh, 22.5rem);
+}
+
+.documents-agent-glow-window .documents-agent-conversation-main {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  margin: 0;
+}
+
+.documents-agent-glow-window .documents-agent-conversation-window {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: inherit;
+  margin: 0;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+:root:not(.theme-light):not(.theme-mid)
+  .documents-agent-glow-window
+  .documents-agent-conversation-window,
+:root.theme-night
+  .documents-agent-glow-window
+  .documents-agent-conversation-window {
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.documents-agent-glow-window .documents-agent-conversation-window .chat-window__scroll {
+  min-height: 100%;
+}
+
+.documents-agent-glow-composer {
+  border-radius: 1.75rem;
+}
+
+.documents-agent-glow-composer .chat-inputbar {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.documents-agent-glow-composer .chat-inputbar:hover:not(:focus-within),
+.documents-agent-glow-composer .chat-inputbar:focus-within {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .documents-agent-dropdown .documents-dropdown-trigger {
   min-height: 3rem;
 }

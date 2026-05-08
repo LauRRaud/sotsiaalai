@@ -2027,6 +2027,11 @@
     padding: 0 !important;
   }
 
+  .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.34rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
   :is(
       .subscription-modal-content,
       .materials-page-content,

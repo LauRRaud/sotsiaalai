@@ -20,5 +20,27 @@ test("service profile fields use BorderGlow field wrappers", () => {
   assert.match(workspaceFeaturePage, /service-profile-glow-control/);
   assert.match(serviceMapCss, /\.service-profile-glow-field/);
   assert.match(serviceMapCss, /\.service-profile-glow-control/);
+  assert.match(
+    serviceMapCss,
+    /\.service-profile-glow-field\s*\{[\s\S]*?background:[\s\S]*?!important/
+  );
+  assert.match(
+    serviceMapCss,
+    /\.service-profile-glow-field:hover,\s*\n\.service-profile-glow-field:focus-within\s*\{[\s\S]*?background:[\s\S]*?!important/
+  );
   assert.doesNotMatch(workspaceFeaturePage, /<BorderGlow[\s\S]{0,240}<button/);
+});
+
+test("service profile form does not render internal separator lines", () => {
+  const workspaceFeaturePage = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const serviceMapCss = read("app/styles/components/service-map.css");
+
+  assert.match(workspaceFeaturePage, /className="service-profile-form mx-auto grid/);
+  assert.doesNotMatch(workspaceFeaturePage, /className="grid gap-\[0\.72rem\] border-b/);
+  assert.doesNotMatch(workspaceFeaturePage, /className="grid gap-\[0\.22rem\] border-t/);
+  assert.doesNotMatch(workspaceFeaturePage, /className="grid gap-\[0\.64rem\] border-t/);
+  assert.match(
+    serviceMapCss,
+    /\.service-profile-form\s+\.workspace-feature-inline-stat\s*\{[\s\S]*?border-left:\s*0/
+  );
 });

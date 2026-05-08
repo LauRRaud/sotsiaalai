@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/components/ui/cn";
 import styles from "./BorderGlow.module.css";
 
@@ -100,7 +100,7 @@ function animateValue({
   };
 }
 
-export default function BorderGlow({
+const BorderGlow = forwardRef(function BorderGlow({
   children,
   className = "",
   edgeSensitivity = 30,
@@ -118,8 +118,84 @@ export default function BorderGlow({
   as: Component = "div",
   style,
   ...props
-}) {
+}, forwardedRef) {
   const cardRef = useRef(null);
+  const animationFrameRef = useRef(0);
+  const targetProximityRef = useRef(0);
+  const currentProximityRef = useRef(0);
+  const targetAngleRef = useRef(45);
+  const currentAngleRef = useRef(45);
+  const setRefs = useCallback(
+    node => {
+      cardRef.current = node;
+      if (typeof forwardedRef === "function") {
+        forwardedRef(node);
+      } else if (forwardedRef) {
+        forwardedRef.current = node;
+      }
+    },
+    [forwardedRef]
+  );
+
+  const cancelPointerAnimation = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = 0;
+    }
+  }, []);
+
+  const applyPointerState = useCallback((card, edge, angle) => {
+    card.style.setProperty("--edge-proximity", `${edge.toFixed(3)}`);
+    card.style.setProperty("--cursor-angle", `${angle.toFixed(3)}deg`);
+  }, []);
+
+  const normalizeAngleDelta = useCallback((from, to) => {
+    let delta = (to - from) % 360;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    return delta;
+  }, []);
+
+  const animatePointerState = useCallback(() => {
+    const card = cardRef.current;
+    if (!card) {
+      animationFrameRef.current = 0;
+      return;
+    }
+
+    const edgeDelta = targetProximityRef.current - currentProximityRef.current;
+    const angleDelta = normalizeAngleDelta(
+      currentAngleRef.current,
+      targetAngleRef.current
+    );
+
+    currentProximityRef.current += edgeDelta * 0.18;
+    currentAngleRef.current =
+      (currentAngleRef.current + angleDelta * 0.16 + 360) % 360;
+
+    const edgeSettled = Math.abs(edgeDelta) < 0.08;
+    const angleSettled = Math.abs(angleDelta) < 0.35;
+
+    if (edgeSettled && angleSettled) {
+      currentProximityRef.current = targetProximityRef.current;
+      currentAngleRef.current = targetAngleRef.current;
+      applyPointerState(
+        card,
+        currentProximityRef.current,
+        currentAngleRef.current
+      );
+      animationFrameRef.current = 0;
+      return;
+    }
+
+    applyPointerState(card, currentProximityRef.current, currentAngleRef.current);
+    animationFrameRef.current = requestAnimationFrame(animatePointerState);
+  }, [applyPointerState, normalizeAngleDelta]);
+
+  const schedulePointerAnimation = useCallback(() => {
+    if (animationFrameRef.current) return;
+    animationFrameRef.current = requestAnimationFrame(animatePointerState);
+  }, [animatePointerState]);
 
   const getCenterOfElement = useCallback(el => {
     const { width, height } = el.getBoundingClientRect();
@@ -165,11 +241,20 @@ export default function BorderGlow({
       const edge = getEdgeProximity(card, x, y);
       const angle = getCursorAngle(card, x, y);
 
-      card.style.setProperty("--edge-proximity", `${(edge * 100).toFixed(3)}`);
-      card.style.setProperty("--cursor-angle", `${angle.toFixed(3)}deg`);
+      targetProximityRef.current = edge * 100;
+      targetAngleRef.current = angle;
+      schedulePointerAnimation();
     },
-    [getCursorAngle, getEdgeProximity]
+    [getCursorAngle, getEdgeProximity, schedulePointerAnimation]
   );
+
+  const handlePointerLeave = useCallback(() => {
+    cancelPointerAnimation();
+  }, [cancelPointerAnimation]);
+
+  useEffect(() => () => {
+    cancelPointerAnimation();
+  }, [cancelPointerAnimation]);
 
   useEffect(() => {
     if (!animated || !cardRef.current) return undefined;
@@ -237,8 +322,9 @@ export default function BorderGlow({
 
   return (
     <Component
-      ref={cardRef}
+      ref={setRefs}
       onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       className={cn(styles.card, edgeOnly && styles.edgeOnly, className)}
       style={{
         "--card-bg": backgroundColor,
@@ -257,4 +343,6 @@ export default function BorderGlow({
       <span className={styles.inner}>{children}</span>
     </Component>
   );
-}
+});
+
+export default BorderGlow;

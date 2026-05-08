@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
@@ -22,7 +23,6 @@ import Button from "@/components/ui/Button";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
-import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
@@ -354,20 +354,20 @@ function PreferencesDockIcon({
 }
 function SubscriptionDockIcon({
   isHovered: _isHovered,
+  className,
   ...props
 }) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props} shapeRendering="geometricPrecision">
-        <rect x="3.15" y="4.8" width="17.7" height="14.4" rx="2.6" strokeWidth="1.46" />
-        <EuroIcon
-          x="6.95"
-          y="7.65"
-          width="8.7"
-          height="8.7"
-          className="text-current"
-          aria-hidden="true"
-          focusable="false"
-        />
-      </svg>;
+  return <span className={cn("relative block h-[68%] w-[68%]", className)} {...props}>
+      <Image
+        src="/icons/Asset 4.svg"
+        alt=""
+        fill
+        sizes="32px"
+        aria-hidden="true"
+        draggable="false"
+        className="object-contain"
+      />
+    </span>;
 }
 function AccountSettingsDockIcon({
   isHovered: _isHovered,

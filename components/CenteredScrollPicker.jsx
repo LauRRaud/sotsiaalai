@@ -183,26 +183,34 @@ export default function CenteredScrollPicker({
       }
     }
   }, [manageHiddenFocus, inertOk]);
+  const moveFocusOutOfItemBeforeHide = useCallback((itemEl, activeItem) => {
+    if (!manageHiddenFocus || typeof document === "undefined") return;
+    if (!isHTMLElement(itemEl)) return;
+    const activeEl = document.activeElement;
+    if (!isHTMLElement(activeEl) || !itemEl.contains(activeEl)) return;
+    const target = activeItem && activeItem !== itemEl ? activeItem : containerRef?.current;
+    if (target && target !== itemEl) setHiddenStateForItem(target, false);
+    const focusables = target ? Array.from(target.querySelectorAll(FOCUSABLE_SELECTOR)).filter(isHTMLElement) : [];
+    const nextFocus = focusables[0] || containerRef?.current;
+    if (!nextFocus) return;
+    try {
+      nextFocus.focus({
+        preventScroll: true
+      });
+    } catch {
+      nextFocus.focus();
+    }
+  }, [containerRef, manageHiddenFocus, setHiddenStateForItem]);
   const applyHiddenFocusGuards = useCallback(newActiveIdx => {
     if (!applyItemVisibility) return;
     const items = getItems();
     if (!items.length) return;
     for (let i = 0; i < items.length; i += 1) {
       const hidden = Math.abs(i - newActiveIdx) > neighborDistance;
+      if (hidden) moveFocusOutOfItemBeforeHide(items[i], items[newActiveIdx]);
       setHiddenStateForItem(items[i], hidden);
     }
-    if (manageHiddenFocus && typeof document !== "undefined") {
-      const activeEl = document.activeElement;
-      if (isHTMLElement(activeEl)) {
-        const hiddenAncestor = activeEl.closest?.(".csp-hidden");
-        if (hiddenAncestor && isHTMLElement(hiddenAncestor)) {
-          const activeItem = items[newActiveIdx];
-          const focusables = activeItem ? Array.from(activeItem.querySelectorAll(FOCUSABLE_SELECTOR)).filter(isHTMLElement) : [];
-          (focusables[0] || containerRef?.current)?.focus?.();
-        }
-      }
-    }
-  }, [applyItemVisibility, getItems, neighborDistance, setHiddenStateForItem, containerRef, manageHiddenFocus]);
+  }, [applyItemVisibility, getItems, neighborDistance, moveFocusOutOfItemBeforeHide, setHiddenStateForItem]);
   const commitActiveIndex = useCallback((idx, {
     silent = false
   } = {}) => {

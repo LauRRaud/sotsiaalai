@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
+import BorderGlow from "@/components/ui/BorderGlow";
 import {
   glassPageBackTopLeftClassName,
   glassPageTitleClassName
@@ -330,15 +331,7 @@ export default function WorkspacePanel({
                 onClick: () => navigateTo("/dokreziim")
               }, { requiresPaid: true })
             ]]
-          : [[
-              makeCard({
-                key: "document_drafting",
-                icon: "compose",
-                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-                onClick: () => navigateTo("/dokreziim")
-              }, { requiresPaid: true })
-            ]]),
+          : []),
         [
           makeCard({
             key: "pre_inquiries",
@@ -351,16 +344,35 @@ export default function WorkspacePanel({
               : text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
             onClick: () => navigateTo("/eelpoordumised")
           }, { requiresPaid: true }),
-          makeCard({
-            key: "add_person",
-            icon: "invite",
-            title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
-            meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
-            onClick: openInvite
-          }, { requiresPaid: true })
+          isClientView
+            ? makeCard({
+                key: "document_drafting",
+                icon: "compose",
+                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
+                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
+                onClick: () => navigateTo("/dokreziim")
+              }, { requiresPaid: true })
+            : makeCard({
+                key: "add_person",
+                icon: "invite",
+                title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
+                meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
+                onClick: openInvite
+              }, { requiresPaid: true })
         ],
-        ...(!isClientView
+        ...(isClientView
           ? [[
+              makeCard({
+                key: "add_person",
+                icon: "invite",
+                title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
+                meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
+                onClick: openInvite
+              }, { requiresPaid: true }),
+              serviceMapCard
+            ]]
+          : [
+            [
               makeCard({
                 key: "kovision",
                 icon: "room",
@@ -375,9 +387,9 @@ export default function WorkspacePanel({
                 meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
                 onClick: () => navigateTo("/materjalid")
               }, { requiresPaid: true })
-            ]]
-          : []),
-        [serviceMapCard]
+            ],
+            [serviceMapCard]
+          ])
       ];
 
   return (
@@ -415,13 +427,24 @@ export default function WorkspacePanel({
             className={cn(styles.row, row.length === 1 && styles.rowSingle)}
           >
             {row.map(card => (
-              <button
+              <BorderGlow
                 key={card.key}
+                as="button"
                 type="button"
                 className={cn(styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
                 onClick={card.disabled ? undefined : card.onClick}
                 disabled={card.disabled}
                 aria-disabled={card.disabled ? "true" : "false"}
+                edgeSensitivity={30}
+                glowColor="358 82 72"
+                backgroundColor="#120F17"
+                borderRadius={13}
+                glowRadius={46}
+                glowIntensity={1.05}
+                coneSpread={20}
+                colors={["#c084fc", "#f472b6", "#38bdf8"]}
+                fillOpacity={0}
+                edgeOnly
               >
                 <span className={styles.cardIcon} aria-hidden="true">
                   <DashboardCardIcon type={card.icon} />
@@ -429,7 +452,7 @@ export default function WorkspacePanel({
                 <span className={styles.cardCopy}>
                   <span className={styles.cardTitle}>{card.title}</span>
                 </span>
-              </button>
+              </BorderGlow>
             ))}
           </div>
         ))}

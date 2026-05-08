@@ -15,6 +15,12 @@ function wheelDeltaToPx(event, scrollEl) {
   };
 }
 
+function preventDefaultIfCancelable(event) {
+  if (event?.cancelable === false) return false;
+  event?.preventDefault?.();
+  return true;
+}
+
 export default function useSmoothWheelProxy({
   scrollRef,
   disabled = false,
@@ -52,7 +58,7 @@ export default function useSmoothWheelProxy({
     if (disabled || typeof window === "undefined") {
       scrollEl.scrollTop = clamp(scrollEl.scrollTop + top, 0, maxTop);
       scrollEl.scrollLeft = clamp(scrollEl.scrollLeft + left, 0, maxLeft);
-      event.preventDefault();
+      preventDefaultIfCancelable(event);
       return;
     }
 
@@ -88,6 +94,6 @@ export default function useSmoothWheelProxy({
     if (!state.raf) {
       state.raf = window.requestAnimationFrame(tick);
     }
-    event.preventDefault();
+    preventDefaultIfCancelable(event);
   }, [disabled, passthroughNativeTargets, scrollRef]);
 }

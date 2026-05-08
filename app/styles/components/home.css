@@ -332,14 +332,15 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     --home-mobile-quick-icon: clamp(3.25rem, 13vw, 3.72rem);
     --home-mobile-quick-icon-active: clamp(3.75rem, 15.2vw, 4.36rem);
     --home-mobile-quick-gap: clamp(0.12rem, 1.35vw, 0.38rem);
-    --home-mobile-quick-list-pad-top: clamp(0.54rem, 2.5vw, 0.72rem);
+    --home-mobile-quick-list-pad-top: clamp(0.92rem, 4.2vw, 1.25rem);
     --home-mobile-quick-list-pad-bottom: clamp(0.28rem, 1.6vw, 0.44rem);
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(50% - 50vw) !important;
     margin-right: calc(50% - 50vw) !important;
     margin-bottom: -0.85rem !important;
-    overflow: hidden !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
     padding-inline: 0 !important;
     padding-bottom: 0 !important;
   }
@@ -448,9 +449,9 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     flex: 0 0 var(--home-mobile-quick-item) !important;
     width: var(--home-mobile-quick-item) !important;
     min-width: var(--home-mobile-quick-item) !important;
-    min-height: clamp(6.65rem, 27vw, 7.28rem) !important;
+    min-height: calc(var(--home-mobile-quick-icon-active) + clamp(2.6rem, 9vw, 3.05rem)) !important;
     scroll-snap-align: center;
-    padding-bottom: 1.72rem !important;
+    padding-bottom: 1.9rem !important;
     opacity: 1;
     visibility: visible;
     transform: translate3d(0, 0, 0) !important;
@@ -484,6 +485,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   .homepage-root .home-before-link-item .home-quick-link svg {
     width: var(--home-mobile-quick-icon) !important;
     height: var(--home-mobile-quick-icon) !important;
+    overflow: visible !important;
     opacity: 0.68 !important;
     transform: none !important;
     transform-origin: center;

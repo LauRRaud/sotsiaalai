@@ -14,6 +14,7 @@ import { ChatRecordingNotice } from "@/components/alalehed/chat/view/ChatNotices
 import { detectMobileViewport } from "@/components/alalehed/chat/chatLayoutVars"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import BackButton from "@/components/ui/BackButton"
+import BorderGlow from "@/components/ui/BorderGlow"
 import Button from "@/components/ui/Button"
 import FancyCheckbox from "@/components/ui/FancyCheckbox"
 import Input from "@/components/ui/Input"
@@ -1954,57 +1955,85 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                 ) : null}
 
                 <div className="documents-agent-conversation-shell" style={agentConversationVars}>
-                  <ConversationView
-                    t={t}
-                    chatWindowRef={chatWindowRef}
-                    isStreamingAny={isAgentBusy}
-                    hiddenCount={0}
-                    pageSize={0}
-                    onRevealOlder={() => {}}
-                    canHideOlder={false}
-                    onHideOlder={() => {}}
-                    onJumpToBottom={handleJumpToBottom}
-                    messageItems={conversationItems}
-                    mainClassName="documents-agent-conversation-main"
-                    windowClassName="documents-agent-conversation-window"
-                    isMobile={isMobile}
-                    isLightTheme={isLightTheme}
-                  />
+                  <BorderGlow
+                    className="documents-agent-glow-window"
+                    edgeSensitivity={30}
+                    glowColor="358 82 72"
+                    backgroundColor="#120F17"
+                    borderRadius={16}
+                    glowRadius={46}
+                    glowIntensity={1.05}
+                    coneSpread={20}
+                    colors={["#c084fc", "#f472b6", "#38bdf8"]}
+                    fillOpacity={0}
+                    edgeOnly
+                  >
+                    <ConversationView
+                      t={t}
+                      chatWindowRef={chatWindowRef}
+                      isStreamingAny={isAgentBusy}
+                      hiddenCount={0}
+                      pageSize={0}
+                      onRevealOlder={() => {}}
+                      canHideOlder={false}
+                      onHideOlder={() => {}}
+                      onJumpToBottom={handleJumpToBottom}
+                      messageItems={conversationItems}
+                      mainClassName="documents-agent-conversation-main"
+                      windowClassName="documents-agent-conversation-window"
+                      isMobile={isMobile}
+                      isLightTheme={isLightTheme}
+                    />
+                  </BorderGlow>
 
                   <div className="documents-agent-composer-slot">
-                    <ChatComposer
-                      t={t}
-                      locale={locale}
-                      isLightTheme={isLightTheme}
-                      hideTools
-                      embedded
-                      forcePlaceholderVisible
-                      placeholderText={t("chat.input.placeholder")}
-                      acceptAttr=""
-                      ensureAnalysisPanelVisible={() => {}}
-                      fileInputRef={fileInputRef}
-                      onFileChange={() => {}}
-                      inputBarRef={inputBarRef}
-                      inputRef={inputRef}
-                      onFocusInput={() => setInputFocused(true)}
-                      onBlurInput={() => setInputFocused(false)}
-                      isGenerating={isAgentBusy}
-                      isStreamingAny={false}
-                      isRoomMode={false}
-                      roomBlocked={false}
-                      roomAuthRequired={false}
-                      onStop={handleStopAgentRequest}
-                      onSend={handleConversationSend}
-                      speakLatestReply={speakLatestReply}
-                      canSpeakLatest={canSpeakLatest}
-                      isSpeaking={isSpeaking}
-                      recording={recording}
-                      recordingPulse={recordingPulse}
-                      handleMic={handleMic}
-                      draftApiRef={composerDraftApiRef}
-                      inputFocused={inputFocused}
-                      isMobile={isMobile}
-                    />
+                    <BorderGlow
+                      className="documents-agent-glow-composer"
+                      edgeSensitivity={30}
+                      glowColor="358 82 72"
+                      backgroundColor="#120F17"
+                      borderRadius={28}
+                      glowRadius={46}
+                      glowIntensity={1.05}
+                      coneSpread={20}
+                      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+                      fillOpacity={0}
+                      edgeOnly
+                    >
+                      <ChatComposer
+                        t={t}
+                        locale={locale}
+                        isLightTheme={isLightTheme}
+                        hideTools
+                        embedded
+                        forcePlaceholderVisible
+                        placeholderText={t("chat.input.placeholder")}
+                        acceptAttr=""
+                        ensureAnalysisPanelVisible={() => {}}
+                        fileInputRef={fileInputRef}
+                        onFileChange={() => {}}
+                        inputBarRef={inputBarRef}
+                        inputRef={inputRef}
+                        onFocusInput={() => setInputFocused(true)}
+                        onBlurInput={() => setInputFocused(false)}
+                        isGenerating={isAgentBusy}
+                        isStreamingAny={false}
+                        isRoomMode={false}
+                        roomBlocked={false}
+                        roomAuthRequired={false}
+                        onStop={handleStopAgentRequest}
+                        onSend={handleConversationSend}
+                        speakLatestReply={speakLatestReply}
+                        canSpeakLatest={canSpeakLatest}
+                        isSpeaking={isSpeaking}
+                        recording={recording}
+                        recordingPulse={recordingPulse}
+                        handleMic={handleMic}
+                        draftApiRef={composerDraftApiRef}
+                        inputFocused={inputFocused}
+                        isMobile={isMobile}
+                      />
+                    </BorderGlow>
                   </div>
                 </div>
 

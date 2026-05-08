@@ -135,9 +135,9 @@ function Label({ children, className }) {
   );
 }
 
-function AdminRoleSelector({ t, value, onChange }) {
+function AdminRoleSelector({ t, value, onChange, className }) {
   return (
-    <div className="workspace-feature-admin-role">
+    <div className={cn("workspace-feature-admin-role", className)}>
       <WorkspaceRoleCycleButton
         t={t}
         value={value}
@@ -1616,8 +1616,8 @@ function ServiceProfileSurface({ t }) {
     : readText(t, "workspace_feature_pages.service_profile.actions.save", "Save changes");
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto grid w-full max-w-[58rem] gap-[1rem]">
-      <div className="grid gap-[0.72rem] border-b pb-[0.9rem]">
+    <form onSubmit={handleSubmit} className="service-profile-form mx-auto grid w-full max-w-[58rem] gap-[1rem]">
+      <div className="grid gap-[0.72rem] pb-[0.9rem]">
         <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
           <div className="grid max-w-[42rem] gap-[0.3rem]">
             <p className="m-0 text-[1.02rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
@@ -1755,7 +1755,7 @@ function ServiceProfileSurface({ t }) {
             "The service is shown on the map only when the profile is published and the address has a reliable match."
           )}
         />
-        <div className="grid gap-[0.22rem] border-t pt-[0.72rem]">
+        <div className="grid gap-[0.22rem] pt-[0.72rem]">
           <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
             {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Address status")}
           </p>
@@ -1781,7 +1781,7 @@ function ServiceProfileSurface({ t }) {
             <ServiceProfileInput value={form.website} onChange={(event) => updateField("website", event.target.value)} />
           </Label>
         </div>
-        <div className="grid gap-[0.64rem] border-t pt-[0.72rem] sm:grid-cols-2">
+        <div className="grid gap-[0.64rem] pt-[0.72rem] sm:grid-cols-2">
           <ToggleRow
             checked={form.acceptsPlatformPreInquiries}
             onChange={(value) => updateField("acceptsPlatformPreInquiries", value)}
@@ -1800,7 +1800,7 @@ function ServiceProfileSurface({ t }) {
       </SectionCard>
 
       <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.publish", "Publishing")}>
-        <div className="grid gap-[0.72rem] sm:grid-cols-[1fr_0.72fr]">
+        <div className="service-profile-publish-layout">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
             <ServiceProfileTextarea
@@ -1809,7 +1809,7 @@ function ServiceProfileSurface({ t }) {
               onChange={(event) => updateField("accessibilityInfo", event.target.value)}
             />
           </Label>
-          <div className="grid content-start gap-[0.72rem]">
+          <div className="service-profile-publish-side">
             <Label>
               <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}</span>
               <ServiceProfileGlowField>
@@ -1818,18 +1818,19 @@ function ServiceProfileSurface({ t }) {
                   value={form.status}
                   onChange={(nextValue) => updateField("status", nextValue)}
                   options={statusOptions}
+                  openDirection="up"
                   className="workspace-feature-dropdown service-profile-glow-dropdown"
                 />
               </ServiceProfileGlowField>
             </Label>
-            <p className={bodyTextClassName}>
+            <p className={`${bodyTextClassName} service-profile-publish-help`}>
               {readText(
                 t,
                 "workspace_feature_pages.service_profile.publish_help",
                 "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears."
               )}
             </p>
-            <Button type="submit" disabled={loading || saving || !form.organizationName.trim()} className="justify-self-start">
+            <Button type="submit" disabled={loading || saving || !form.organizationName.trim()} className="service-profile-publish-save justify-self-start">
               {saveLabel}
             </Button>
           </div>
@@ -1879,6 +1880,14 @@ export default function WorkspaceFeaturePage({ feature }) {
             className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
           />
         ) : null}
+        {showAdminRoleSelector ? (
+          <AdminRoleSelector
+            t={t}
+            value={activeWorkspaceRole}
+            onChange={setAdminWorkspaceRole}
+            className="workspace-feature-admin-role--floating"
+          />
+        ) : null}
 
         <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
           <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
@@ -1888,13 +1897,6 @@ export default function WorkspaceFeaturePage({ feature }) {
 
         <div className={cn(contentClassName, isServiceMap && "service-map-page-content")}>
           {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.5rem] max-[768px]:text-[1.08rem]">{lead}</p> : null}
-          {showAdminRoleSelector ? (
-            <AdminRoleSelector
-              t={t}
-              value={activeWorkspaceRole}
-              onChange={setAdminWorkspaceRole}
-            />
-          ) : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
           {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} onBack={handleBack} /> : null}

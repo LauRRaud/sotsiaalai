@@ -202,7 +202,7 @@ const documentsInlineMoreLinkClassName =
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
-  const { effectiveRole, isAdmin, refresh: refreshEffectiveRole } = useEffectiveRole()
+  const { effectiveRole, isAdmin, isRoleResolved, refresh: refreshEffectiveRole } = useEffectiveRole()
   const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const artifactPageSize = isArtifactsExpanded ? ARTIFACT_LIST_LIMIT_ALL : initialArtifactLimit
@@ -424,6 +424,11 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     router.push(localizePath("/vestlus", locale))
   }, [locale, router])
 
+  useEffect(() => {
+    if (!isRoleResolved || !isClientRole) return
+    router.replace(localizePath("/dokreziim", locale))
+  }, [isClientRole, isRoleResolved, locale, router])
+
   async function submitUpload(event) {
     event.preventDefault()
     if (!uploadFile || uploading) return
@@ -551,7 +556,13 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     handleUploadFileSelection(nextFile)
   }, [handleUploadFileSelection])
 
-  if (isClientRole) return null
+  if (isClientRole) {
+    return (
+      <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents ${glassPrimaryButtonToneClassName}`}>
+        <div className="documents-workspace-shell documents-workspace-shell--documents" />
+      </section>
+    )
+  }
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents ${glassPrimaryButtonToneClassName}`}>

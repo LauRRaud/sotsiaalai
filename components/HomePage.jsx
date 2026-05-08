@@ -540,7 +540,6 @@ export default function HomePage() {
   useEffect(() => {
     if (
       prefs.reduceMotion ||
-      isMobile ||
       !cardsIntroDone ||
       isLoginOpen ||
       isHomeOverlayOpen ||
@@ -573,7 +572,6 @@ export default function HomePage() {
     clearRegisteredTimeout,
     isHomeOverlayOpen,
     isLoginOpen,
-    isMobile,
     leftFlipping,
     leftPhase,
     prefs.reduceMotion,
