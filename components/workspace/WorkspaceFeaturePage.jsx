@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import ChatComposer from "@/components/alalehed/chat/ChatComposer";
 import ChatMessageItem from "@/components/alalehed/chat/ChatMessageItem";
 import ConversationView from "@/components/alalehed/chat/ConversationView";
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BackButton from "@/components/ui/BackButton";
@@ -29,8 +30,8 @@ import {
 import { localizePath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
-import WorkspaceRoleCycleButton from "./WorkspaceRoleCycleButton";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
@@ -168,13 +169,18 @@ function Label({ children, className }) {
   );
 }
 
-function AdminRoleSelector({ t, value, onChange, className }) {
+function AdminRoleSelector({ t, locale = "et", value, onChange, className }) {
+  const handleRoleChanged = (user = {}) => {
+    onChange(normalizeWorkspaceRole(user?.effectiveRole || user?.adminViewRole));
+  };
+
   return (
     <div className={cn("workspace-feature-admin-role", className)}>
-      <WorkspaceRoleCycleButton
+      <AdminRoleViewCycleButton
         t={t}
+        locale={locale}
         value={value}
-        onChange={(nextValue) => onChange(normalizeWorkspaceRole(nextValue))}
+        onRoleChanged={handleRoleChanged}
         ariaLabel={readText(t, "workspace_feature_pages.admin_role.label", "Admini tööroll")}
       />
     </div>
@@ -1141,6 +1147,7 @@ function hasServiceMapCoordinates(entry) {
 
 function ServiceMapSurface({
   t,
+  locale = "et",
   activeRole = "SOCIAL_WORKER",
   isAdmin = false,
   onRoleChange,
@@ -1406,6 +1413,7 @@ function ServiceMapSurface({
         <div className="service-map-workspace__role">
           <AdminRoleSelector
             t={t}
+            locale={locale}
             value={activeRole}
             onChange={onRoleChange}
           />
@@ -1915,8 +1923,28 @@ export default function WorkspaceFeaturePage({ feature }) {
   const router = useRouter();
   const { t, locale } = useI18n();
   const { data: session } = useSession();
-  const isAdmin = Boolean(session?.user?.isAdmin || String(session?.user?.role || "").toUpperCase() === "ADMIN");
+  const {
+    effectiveRole,
+    isAdmin: effectiveRoleIsAdmin,
+    isRoleResolved,
+    refresh: refreshEffectiveRole
+  } = useEffectiveRole();
+  const isAdmin = Boolean(
+    effectiveRoleIsAdmin ||
+    session?.user?.isAdmin ||
+    String(session?.user?.role || "").toUpperCase() === "ADMIN"
+  );
   const [adminWorkspaceRole, setAdminWorkspaceRole] = useState("SOCIAL_WORKER");
+
+  useEffect(() => {
+    if (!isAdmin || !isRoleResolved) return;
+    setAdminWorkspaceRole(normalizeWorkspaceRole(effectiveRole));
+  }, [effectiveRole, isAdmin, isRoleResolved]);
+
+  const handleAdminWorkspaceRoleChange = useCallback((nextRole) => {
+    setAdminWorkspaceRole(normalizeWorkspaceRole(nextRole));
+    refreshEffectiveRole();
+  }, [refreshEffectiveRole]);
 
   const handleBack = useCallback(() => {
     workspaceReturn(locale, router);
@@ -1954,8 +1982,9 @@ export default function WorkspaceFeaturePage({ feature }) {
         {showAdminRoleSelector ? (
           <AdminRoleSelector
             t={t}
+            locale={locale}
             value={activeWorkspaceRole}
-            onChange={setAdminWorkspaceRole}
+            onChange={handleAdminWorkspaceRoleChange}
             className="workspace-feature-admin-role--floating"
           />
         ) : null}
@@ -1970,7 +1999,7 @@ export default function WorkspaceFeaturePage({ feature }) {
           {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
-          {featureKey === "service_map" ? <ServiceMapSurface t={t} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={setAdminWorkspaceRole} onBack={handleBack} /> : null}
+          {featureKey === "service_map" ? <ServiceMapSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={handleAdminWorkspaceRoleChange} onBack={handleBack} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}
         </div>
       </div>

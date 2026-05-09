@@ -12,7 +12,7 @@ import { cn } from "@/components/ui/cn";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import WorkspaceRoleCycleButton from "@/components/workspace/WorkspaceRoleCycleButton";
+import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
@@ -191,6 +191,10 @@ export default function WorkspacePanel({
   useEffect(() => {
     setDashboardRole(defaultDashboardRole);
   }, [defaultDashboardRole]);
+
+  const handleDashboardRoleChanged = useCallback((user = {}) => {
+    setDashboardRole(normalizeDashboardRole(user?.effectiveRole || user?.adminViewRole));
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -405,10 +409,11 @@ export default function WorkspacePanel({
       />
       {isAdmin ? (
         <div className={styles.roleMenu}>
-          <WorkspaceRoleCycleButton
+          <AdminRoleViewCycleButton
             t={t}
+            locale={locale}
             value={dashboardRole}
-            onChange={nextRole => setDashboardRole(normalizeDashboardRole(nextRole))}
+            onRoleChanged={handleDashboardRoleChanged}
             ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
           />
         </div>

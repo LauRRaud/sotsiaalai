@@ -1230,12 +1230,19 @@
     transition: opacity 120ms ease;
   }
   .profile-orbit-stack-bubble.dock-item {
+    --profile-orbit-stack-bubble-size: clamp(6.6rem, 27.5vw, 8.6rem);
+    --profile-orbit-stack-icon-size: calc(
+      var(--profile-orbit-stack-bubble-size) * 0.62
+    );
+    --profile-orbit-stack-theme-icon-size: calc(
+      var(--profile-orbit-stack-bubble-size) * 0.72
+    );
     position: relative;
     isolation: isolate;
     overflow: hidden;
     background-clip: padding-box;
-    width: clamp(6.6rem, 27.5vw, 8.6rem);
-    height: clamp(6.6rem, 27.5vw, 8.6rem);
+    width: var(--profile-orbit-stack-bubble-size);
+    height: var(--profile-orbit-stack-bubble-size);
     border-radius: 999px;
     display: grid;
     place-items: center;
@@ -1249,12 +1256,17 @@
     color: var(--orbit-accent, #c57171);
   }
   .profile-orbit-stack-bubble .dock-icon svg {
-    width: 78%;
-    height: 78%;
+    width: var(--profile-orbit-stack-icon-size);
+    height: var(--profile-orbit-stack-icon-size);
     max-width: none;
     max-height: none;
+    flex: 0 0 auto;
     stroke: currentColor;
     fill: none;
+  }
+  .profile-orbit-stack-bubble .dock-icon svg.profile-theme-mode-icon {
+    width: var(--profile-orbit-stack-theme-icon-size);
+    height: var(--profile-orbit-stack-theme-icon-size);
   }
   .profile-orbit-stack-bubble .dock-icon .profile-orbit-back-icon {
     display: block;
