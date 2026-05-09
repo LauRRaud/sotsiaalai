@@ -18,13 +18,15 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/privaatsustingimused",
   "/hinnastus",
   "/voimalused",
-  "/teenusekaart",
-  "/documents",
-  "/dokreziim"
+  "/teenusekaart"
 ]);
 const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
 const PARTICLES_EXCLUDED_PATHS = new Set([
   "/teenusekaart"
+]);
+const MOBILE_COLOR_BENDS_READY_PATHS = new Set([
+  "/documents",
+  "/dokreziim"
 ]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
@@ -105,6 +107,7 @@ const BackgroundContent = memo(function BackgroundContent({
   isHomepage = false,
   showColorBends = true,
   showParticles = true,
+  forceMobileBendsVisible = false,
   colorBendsColors = ["#7e4442"],
   colorBendsOpacity = COLOR_BENDS_OPACITY_DEFAULT
 }) {
@@ -444,7 +447,7 @@ const BackgroundContent = memo(function BackgroundContent({
         data-page={isHomepage ? "home" : "subpage"}
         data-parallax={baseParallaxActive ? "on" : "off"}
         data-particles-parallax={particlesParallaxActive ? "on" : "off"}
-        data-mobile-bends={mobileBendsVisible ? "ready" : "pending"}
+        data-mobile-bends={forceMobileBendsVisible || mobileBendsVisible ? "ready" : "pending"}
         aria-hidden="true"
         suppressHydrationWarning
       >
@@ -521,6 +524,7 @@ function BackgroundLayer() {
 
   const showColorBends = !COLOR_BENDS_EXCLUDED_PATHS.has(normalizedPathname);
   const showParticles = !PARTICLES_EXCLUDED_PATHS.has(normalizedPathname);
+  const forceMobileBendsVisible = MOBILE_COLOR_BENDS_READY_PATHS.has(normalizedPathname);
   const isLightTheme =
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
@@ -540,6 +544,7 @@ function BackgroundLayer() {
     isHomepage={isHomepage}
     showColorBends={showColorBends}
     showParticles={showParticles}
+    forceMobileBendsVisible={forceMobileBendsVisible}
     colorBendsColors={colorBendsColors}
     colorBendsOpacity={colorBendsOpacity}
   />;

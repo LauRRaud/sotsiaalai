@@ -371,6 +371,30 @@ select.workspace-feature-field option {
   color: var(--workspace-feature-text);
 }
 
+.workspace-feature-list-card[data-selected="true"] {
+  border-color: color-mix(in srgb, var(--workspace-feature-accent) 48%, transparent);
+  background: color-mix(in srgb, var(--workspace-feature-accent) 16%, var(--workspace-feature-surface));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--workspace-feature-accent) 24%, transparent),
+    0 12px 30px color-mix(in srgb, var(--workspace-feature-accent) 14%, transparent);
+}
+
+.workspace-feature-list-card[data-selected="true"]:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--workspace-feature-accent) 20%, var(--workspace-feature-surface-hover));
+}
+
+.pre-inquiry-recipient-selected-label {
+  color: var(--workspace-feature-accent);
+}
+
+.pre-inquiry-draft-textarea {
+  min-height: clamp(24rem, 54vh, 34rem);
+}
+
+.pre-inquiry-draft-textarea textarea {
+  min-height: inherit;
+}
+
 .workspace-feature-admin-role {
   display: inline-flex;
   align-items: center;
@@ -729,7 +753,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   );
   --service-map-popup-glass-bg: color-mix(
     in srgb,
-    var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 96%,
+    var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 68%,
     transparent
   );
   --service-map-glass-shadow: var(
@@ -830,7 +854,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 .service-map-workspace__filters-shell {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.12rem;
   width: fit-content;
   max-width: 100%;
@@ -841,7 +865,7 @@ html[data-contrast="hc"] body.service-map-page-active {
     var(--glass-ring-sheen, none),
     var(--service-map-panel-glass-bg);
   color: var(--workspace-feature-text);
-  padding: 0.56rem 0.5rem 0.56rem 0.28rem;
+  padding: 0.56rem 0.5rem 0.66rem 0.28rem;
   box-shadow: var(--service-map-glass-shadow);
   backdrop-filter: blur(var(--service-map-glass-blur)) saturate(156%) contrast(0.98) !important;
   -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(156%) contrast(0.98) !important;
@@ -878,9 +902,10 @@ html[data-contrast="hc"] body.service-map-page-active {
   z-index: 1;
   display: flex;
   align-items: center;
-  align-self: center;
+  align-self: flex-start;
   justify-content: flex-start;
   min-width: 0;
+  padding-top: 0.08rem;
   padding-right: 0.08rem;
 }
 
@@ -924,8 +949,8 @@ html[data-contrast="hc"] body.service-map-page-active {
 }
 
 .service-map-toolbar__back svg {
-  width: 5.15rem !important;
-  height: 5.15rem !important;
+  width: 4.72rem !important;
+  height: 4.72rem !important;
   transform-origin: center;
 }
 
@@ -1222,6 +1247,13 @@ html[data-contrast="hc"] body.service-map-page-active {
   box-shadow: var(--service-map-control-shadow) !important;
 }
 
+:root.theme-light:not(.theme-mid) .service-map-toolbar__type-card.ui-glow-option-card-frame,
+:root.theme-light:not(.theme-mid) .service-map-toolbar__results .workspace-feature-list-card,
+:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame,
+:root.theme-mid .service-map-toolbar__results .workspace-feature-list-card {
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+}
+
 :root.theme-mid .service-map-toolbar__glow-field.ui-glow-field,
 :root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame {
   background: var(--mid-pill-surface-bg) !important;
@@ -1374,7 +1406,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   gap: 0.42rem;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 0.34rem 0.12rem 0.42rem;
+  padding: 0.34rem 0.34rem 0.5rem;
   scrollbar-width: thin;
 }
 
@@ -1576,6 +1608,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   border-radius: 0.9rem;
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
   overflow: hidden;
+  background-clip: padding-box;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
@@ -1678,7 +1711,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
   background:
     var(--glass-ring-sheen, none),
-    color-mix(in srgb, var(--service-map-glass-bg, rgba(255, 255, 255, 0.72)) 96%, transparent);
+    color-mix(in srgb, var(--service-map-glass-bg, rgba(255, 255, 255, 0.72)) 70%, transparent);
 }
 
 html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrapper,
@@ -1960,7 +1993,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-workspace__filters-shell {
     grid-template-columns: 1fr;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 0.86rem;
   }
 
@@ -2026,6 +2059,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .service-map-workspace {
     --service-map-panel-glass-bg: rgba(24, 28, 36, 0.72);
     --service-map-panel-glass-overlay-bg: rgba(24, 28, 36, 0.34);
+    --service-map-popup-glass-bg: rgba(24, 28, 36, 0.62);
     --service-map-control-glass-bg: rgba(28, 33, 43, 0.8);
     --service-map-control-glass-bg-hover: rgba(34, 39, 50, 0.86);
     --service-map-glass-border: rgba(235, 245, 255, 0.18);
@@ -2035,6 +2069,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   :root.theme-night .service-map-workspace {
     --service-map-panel-glass-bg: rgba(16, 22, 34, 0.76);
     --service-map-panel-glass-overlay-bg: rgba(16, 22, 34, 0.4);
+    --service-map-popup-glass-bg: rgba(16, 22, 34, 0.66);
     --service-map-control-glass-bg: rgba(18, 25, 38, 0.84);
     --service-map-control-glass-bg-hover: rgba(24, 32, 47, 0.9);
     --service-map-glass-border: rgba(238, 247, 255, 0.18);
@@ -2102,7 +2137,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     gap: 0.72rem;
     border-radius: 1rem;
     width: 100%;
-    padding: var(--service-map-mobile-filters-pad-top) 0.72rem 1rem;
+    padding: var(--service-map-mobile-filters-pad-top) 0.72rem 0.92rem;
     max-height: min(68dvh, 27rem);
     overflow-y: auto;
     overflow-x: hidden;
@@ -2110,7 +2145,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
     gap: 0.5rem;
-    padding-bottom: 0.28rem;
+    padding-bottom: 0.56rem;
   }
 
   .service-map-toolbar__content {
@@ -2372,12 +2407,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__filters-shell {
-    padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.84rem;
+    padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.78rem;
   }
 
   .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
     gap: 0.44rem;
-    padding-bottom: 0.24rem;
+    padding-bottom: 0.48rem;
   }
 
   .service-map-toolbar__type-card {

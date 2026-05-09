@@ -18,3 +18,10 @@ test("service map keeps the shared background but excludes animated overlays", (
   assert.ok(setEntries("PARTICLES_EXCLUDED_PATHS").includes("/teenusekaart"));
   assert.ok(!setEntries("BACKGROUND_LAYER_EXCLUDED_PATHS").includes("/teenusekaart"));
 });
+
+test("documents and agent mode keep mobile color bends available", () => {
+  assert.ok(!setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/documents"));
+  assert.ok(!setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/dokreziim"));
+  assert.ok(setEntries("MOBILE_COLOR_BENDS_READY_PATHS").includes("/documents"));
+  assert.ok(setEntries("MOBILE_COLOR_BENDS_READY_PATHS").includes("/dokreziim"));
+});

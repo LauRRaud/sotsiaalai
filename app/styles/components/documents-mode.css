@@ -322,7 +322,8 @@
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace-page--library {
-  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-glass-surface: rgba(12, 18, 27, 0.58);
+  --documents-dark-panel-sheen: linear-gradient(145deg, rgba(255, 122, 126, 0.065) 0%, rgba(255, 255, 255, 0.018) 42%, rgba(7, 12, 19, 0.24) 100%);
   --documents-panel-bg: var(--documents-glass-surface);
   --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
   --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
@@ -386,14 +387,15 @@
   --input-border: 1px solid rgba(255, 255, 255, 0.06);
   --input-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   --input-shadow-hover: 0 10px 22px rgba(0, 0, 0, 0.16);
-  --documents-surface-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-bg: var(--documents-dark-panel-sheen), var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(255, 255, 255, 0.06);
   --documents-surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
 }
 
 :root.theme-night .documents-workspace-page--library {
-  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-glass-surface: rgba(13, 20, 32, 0.62);
+  --documents-dark-panel-sheen: linear-gradient(145deg, rgba(255, 122, 126, 0.052) 0%, rgba(134, 166, 220, 0.018) 44%, rgba(5, 10, 18, 0.26) 100%);
   --documents-panel-bg: var(--documents-glass-surface);
   --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
   --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);
@@ -433,7 +435,7 @@
   --input-border: 1px solid rgba(133, 164, 216, 0.16);
   --input-shadow: 0 8px 18px rgba(2, 6, 16, 0.12);
   --input-shadow-hover: 0 10px 22px rgba(2, 6, 16, 0.16);
-  --documents-surface-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-bg: var(--documents-dark-panel-sheen), var(--documents-glass-surface);
   --documents-surface-panel-border: rgba(133, 164, 216, 0.16);
   --documents-surface-panel-shadow: 0 10px 24px rgba(2, 6, 16, 0.16);
   --documents-surface-panel-text: var(--documents-page-text);
@@ -2612,9 +2614,9 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
   .documents-workspace-page--documents,
   .documents-workspace-page--agent {
-    --documents-mobile-page-gap: clamp(0.22rem, 0.95vw, 0.34rem);
+    --documents-mobile-page-gap: clamp(0.1rem, 0.55vw, 0.22rem);
     min-height: var(--glass-mobile-root-vh, 100dvh);
-    background: var(--app-chrome-bg);
+    background: transparent;
     padding:
       calc(env(safe-area-inset-top, 0px) + var(--documents-mobile-page-gap))
       max(var(--documents-mobile-page-gap), env(safe-area-inset-right, 0px))
@@ -2640,7 +2642,8 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-workspace-page--documents .documents-page-shell,
   .documents-workspace-page--agent .documents-page-shell {
     width: 100%;
-    max-width: none;
+    max-width: min(100%, 24rem);
+    margin-inline: auto;
   }
 
   .documents-workspace-page--documents .documents-grid,
@@ -2653,7 +2656,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-workspace-page--documents .documents-surface-panel,
   .documents-workspace-page--agent .documents-surface-panel,
   .documents-workspace-page--documents .documents-framework-banner.documents-notice {
-    padding-inline: clamp(0.62rem, 2.25vw, 0.82rem) !important;
+    padding-inline: clamp(0.52rem, 1.85vw, 0.72rem) !important;
   }
 
   .documents-workspace-page--documents :is(
@@ -2689,7 +2692,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   ) {
     box-sizing: border-box;
     width: 100% !important;
-    max-width: none !important;
+    max-width: 100% !important;
     min-width: 0 !important;
     margin-inline: 0 !important;
     justify-self: stretch !important;
@@ -2818,7 +2821,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-panel,
   .documents-subpanel,
   .documents-card {
-    padding-inline: 0.78rem;
+    padding-inline: clamp(0.68rem, 2vw, 0.82rem);
   }
 
   .documents-card-header {

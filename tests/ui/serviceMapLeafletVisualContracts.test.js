@@ -117,7 +117,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
 
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.28rem/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.56rem/
   );
   assert.match(
     css,
@@ -194,11 +194,11 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.34rem 0\.12rem 0\.42rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.34rem 0\.34rem 0\.5rem/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.28rem/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.56rem/
   );
   assert.match(
     css,
@@ -206,7 +206,36 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.24rem/
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
+  );
+});
+
+test("service map popup and two-line toolbar preserve glass and back alignment", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /--service-map-popup-glass-bg:\s*color-mix\([\s\S]*?68%,\s*transparent/
+  );
+  assert.match(
+    css,
+    /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-clip:\s*padding-box[\s\S]*?backdrop-filter:\s*blur/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__identity\s*\{[\s\S]*?align-self:\s*flex-start[\s\S]*?padding-top:\s*0\.08rem/
+  );
+  assert.match(
+    css,
+    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?\.service-map-toolbar__results \.workspace-feature-list-card[\s\S]*?border:\s*1px solid rgba\(148,\s*163,\s*184,\s*0\.16\)\s*!important/
   );
 });
 

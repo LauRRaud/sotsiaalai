@@ -11,7 +11,11 @@ test("documents and agent pages use a compact mobile page gap and wider cards", 
 
   assert.match(
     css,
-    /--documents-mobile-page-gap:\s*clamp\(0\.22rem,\s*0\.95vw,\s*0\.34rem\)/
+    /--documents-mobile-page-gap:\s*clamp\(0\.1rem,\s*0\.55vw,\s*0\.22rem\)/
+  );
+  assert.match(
+    css,
+    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?background:\s*transparent/
   );
   assert.match(
     css,
@@ -19,7 +23,11 @@ test("documents and agent pages use a compact mobile page gap and wider cards", 
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents\s+\.documents-surface-panel,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-surface-panel[\s\S]*?\{[\s\S]*?padding-inline:\s*clamp\(0\.62rem,\s*2\.25vw,\s*0\.82rem\)\s*!important/
+    /\.documents-workspace-page--documents\s+\.documents-surface-panel,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-surface-panel[\s\S]*?\{[\s\S]*?padding-inline:\s*clamp\(0\.52rem,\s*1\.85vw,\s*0\.72rem\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.documents-workspace-page--documents\s+\.documents-workspace-shell,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-workspace-shell[\s\S]*?\{[\s\S]*?max-width:\s*min\(100%,\s*24rem\)[\s\S]*?margin-inline:\s*auto/
   );
   assert.match(
     css,
@@ -69,6 +77,14 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   assert.match(
     css,
     /\.documents-workspace-page--library\s+\.documents-surface-panel\s*\{[\s\S]*?box-shadow:\s*var\(--glass-shell-shadow,\s*none\)\s*!important/
+  );
+  assert.match(
+    css,
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*rgba\(12,\s*18,\s*27,\s*0\.58\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-dark-panel-sheen\),\s*var\(--documents-glass-surface\)/
+  );
+  assert.match(
+    css,
+    /:root\.theme-night \.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*rgba\(13,\s*20,\s*32,\s*0\.62\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-dark-panel-sheen\),\s*var\(--documents-glass-surface\)/
   );
 });
 
