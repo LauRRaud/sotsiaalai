@@ -546,7 +546,7 @@
     "back_to_workspace": "Tagasi töölauale",
     "pre_inquiries": {
       "title": "Eelpöördumine",
-      "lead": "Kirjelda olukorda, leia sobiv KOV kontakt või teenuseosutaja ja koosta kontrollitav pöördumise mustand. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
+      "lead": "Eelpöördumine on vabatahtlik küsimustik või lihtne kirja koostamise töövoog. Eelkaardistuses kirjeldad oma eluolu, KOV-i või piirkonda, vajadusi ja soovitud pöördumise suunda; nende vastuste põhjal saab SotsiaalAI pakkuda KOV sotsiaalvaldkonna kontakti, lastekaitse suunda või teenuseosutajat ning koostada kontrollitava mustandi. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
       "meta": {
         "title": "Eelpöördumine",
         "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."

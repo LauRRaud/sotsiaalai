@@ -11,7 +11,7 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
   const borderGlow = read("components/ui/BorderGlow.module.css");
   const hc = read("app/styles/theme/hc.css");
   const composerShellBlocks = css.match(
-    /:root:not\(\.theme-light\):not\(\.theme-mid\) \.chat-page-shell \.chat-composer-glow-shell(?::hover)?\s*\{[\s\S]*?\n\}/g
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\[data-contrast="hc"\]\) \.chat-page-shell \.chat-composer-glow-shell(?::hover)?\s*\{[\s\S]*?\n\}/g
   ) || [];
 
   assert.match(
@@ -32,8 +32,8 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
   );
   assert.ok(composerShellBlocks.length >= 2, "chat composer should define idle and hover shell glow blocks");
   for (const block of composerShellBlocks) {
-    assert.match(block, /rgba\(255,\s*234,\s*0/);
-    assert.doesNotMatch(block, /rgba\(255,\s*122,\s*126/);
+    assert.match(block, /rgba\(255,\s*122,\s*126/);
+    assert.doesNotMatch(block, /rgba\(255,\s*234,\s*0/);
   }
 });
 

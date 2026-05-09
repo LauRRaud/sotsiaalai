@@ -221,16 +221,16 @@ test("service map mobile map edge does not expose a blue Leaflet fallback seam",
   );
 });
 
-test("service map mobile dark, night, and high contrast panels use opaque dark glass", () => {
+test("service map mobile dark and night panels stay translucent, while high contrast remains black", () => {
   const css = read("app/styles/components/service-map.css");
 
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(5,\s*8,\s*13,\s*0\.82\)/
+    /@media \(max-width:\s*768px\)[\s\S]*?:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(24,\s*28,\s*36,\s*0\.72\)/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?:root\.theme-night \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(4,\s*7,\s*12,\s*0\.86\)/
+    /@media \(max-width:\s*768px\)[\s\S]*?:root\.theme-night \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(16,\s*22,\s*34,\s*0\.76\)/
   );
   assert.match(
     css,

@@ -76,6 +76,8 @@ function applyVhVar() {
   if (appVh) {
     root.style.setProperty("--app-vh", `${appVh}px`);
     root.style.setProperty("--app-height", `${layoutHeight}px`);
+    root.style.setProperty("--glass-mobile-root-vh", `${layoutHeight}px`);
+    root.style.setProperty("--glass-mobile-vh", `${layoutHeight}px`);
   }
   const offsetTop = vv ? vv.offsetTop : 0;
   const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;

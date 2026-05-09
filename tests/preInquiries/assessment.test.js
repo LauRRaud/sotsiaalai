@@ -3,6 +3,21 @@ import assert from "node:assert/strict";
 
 import { buildPreInquiryAssessment } from "../../lib/preInquiriesAssessment.js";
 
+test("pre-inquiry assessment start asks questions before matching contacts", () => {
+  const assessment = buildPreInquiryAssessment({
+    situation: "Soovin alustada abivajaduse eelkaardistust.",
+    assistantMessage: "Soovin alustada abivajaduse eelkaardistust."
+  });
+
+  assert.equal(assessment.assessmentMode, "PRE_ASSESSMENT");
+  assert.equal(assessment.needsMoreInput, true);
+  assert.equal(assessment.suggestedNextSteps, "ASK_DETAILS");
+  assert.deepEqual(assessment.lifeDomains, []);
+  assert.deepEqual(assessment.targetGroups, []);
+  assert.ok(assessment.clarifyingQuestions.some((question) => question.includes("KOV-is")));
+  assert.ok(assessment.clarifyingQuestions.some((question) => question.includes("kirja KOV")));
+});
+
 test("pre-inquiry assessment maps care burden to STAR2-aligned domains", () => {
   const assessment = buildPreInquiryAssessment({
     topic: "Ema hooldusvajadus",

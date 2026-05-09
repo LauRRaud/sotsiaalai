@@ -685,11 +685,14 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     }
   }
 
-  async function handleAskAssistant(event, overrideMessage = "") {
+  async function handleAskAssistant(event, overrideMessage = "", options = {}) {
     event?.preventDefault();
     const message = String(overrideMessage || assistantInput).trim();
     if (assisting || (!message && !situation.trim())) return;
-    const nextSituation = [situation.trim(), message].filter(Boolean).join(situation.trim() && message ? "\n\n" : "");
+    const shouldAppendMessage = options.appendMessage !== false;
+    const nextSituation = shouldAppendMessage
+      ? [situation.trim(), message].filter(Boolean).join(situation.trim() && message ? "\n\n" : "")
+      : situation.trim();
     setAssisting(true);
     setNotice("");
     setError("");
@@ -982,7 +985,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             disabled={assisting}
             onClick={(event) => handleAskAssistant(
               event,
-              "Soovin alustada abivajaduse eelkaardistust."
+              "Soovin alustada abivajaduse eelkaardistust.",
+              { appendMessage: false }
             )}
           >
             {readText(t, "workspace_feature_pages.pre_inquiries.actions.start_assessment", "Alusta eelkaardistust")}
@@ -1061,7 +1065,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
         <p className={bodyTextClassName}>
-          {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
+          {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
         <div className="grid gap-[0.62rem] sm:grid-cols-[auto_1fr] sm:items-end">
           <div className="flex flex-wrap gap-[0.46rem]" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
@@ -1108,7 +1112,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               </span>
             </button>
           )) : (
-            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "Sobivaid kontakte ei leitud veel. Kirjelda olukorda vestluses või täpsusta otsingut.")}</p>
+            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "Kontaktid ilmuvad siia pärast eelkaardistuse vastuseid või otsingusõna sisestamist.")}</p>
           )}
           {recommendedRecipients.length > 3 ? (
             <Button type="button" size="sm" className="justify-self-start" onClick={() => setShowMoreContacts((value) => !value)}>
@@ -1125,7 +1129,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
         </Label>
-        <ServiceProfileTextarea className="min-h-[12rem]" value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+        <ServiceProfileTextarea className="min-h-[20rem] max-[768px]:min-h-[16rem]" value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
           <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving

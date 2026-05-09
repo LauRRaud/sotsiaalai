@@ -2612,7 +2612,9 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
   .documents-workspace-page--documents,
   .documents-workspace-page--agent {
-    --documents-mobile-page-gap: clamp(0.08rem, 0.35vw, 0.14rem);
+    --documents-mobile-page-gap: clamp(0.22rem, 0.95vw, 0.34rem);
+    min-height: var(--glass-mobile-root-vh, 100dvh);
+    background: var(--app-chrome-bg);
     padding:
       calc(env(safe-area-inset-top, 0px) + var(--documents-mobile-page-gap))
       max(var(--documents-mobile-page-gap), env(safe-area-inset-right, 0px))
@@ -2651,7 +2653,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-workspace-page--documents .documents-surface-panel,
   .documents-workspace-page--agent .documents-surface-panel,
   .documents-workspace-page--documents .documents-framework-banner.documents-notice {
-    padding-inline: clamp(0.38rem, 1.5vw, 0.52rem) !important;
+    padding-inline: clamp(0.62rem, 2.25vw, 0.82rem) !important;
   }
 
   .documents-workspace-page--documents :is(
@@ -2755,6 +2757,12 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
     grid-template-columns: 1fr;
   }
 
+  .documents-upload-control--kind {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+  }
+
   .documents-dropdown--kind,
   .documents-dropdown--format {
     width: 100%;
@@ -2794,6 +2802,17 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-upload-submit,
   .documents-report-submit {
     width: 100%;
+  }
+
+  .documents-agent-template-row,
+  .documents-agent-select-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .documents-agent-template-control {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
   }
 
   .documents-panel,

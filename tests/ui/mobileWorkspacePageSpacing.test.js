@@ -11,7 +11,7 @@ test("documents and agent pages use a compact mobile page gap and wider cards", 
 
   assert.match(
     css,
-    /--documents-mobile-page-gap:\s*clamp\(0\.08rem,\s*0\.35vw,\s*0\.14rem\)/
+    /--documents-mobile-page-gap:\s*clamp\(0\.22rem,\s*0\.95vw,\s*0\.34rem\)/
   );
   assert.match(
     css,
@@ -19,7 +19,7 @@ test("documents and agent pages use a compact mobile page gap and wider cards", 
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents\s+\.documents-surface-panel,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-surface-panel[\s\S]*?\{[\s\S]*?padding-inline:\s*clamp\(0\.38rem,\s*1\.5vw,\s*0\.52rem\)\s*!important/
+    /\.documents-workspace-page--documents\s+\.documents-surface-panel,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-surface-panel[\s\S]*?\{[\s\S]*?padding-inline:\s*clamp\(0\.62rem,\s*2\.25vw,\s*0\.82rem\)\s*!important/
   );
   assert.match(
     css,
@@ -29,6 +29,30 @@ test("documents and agent pages use a compact mobile page gap and wider cards", 
     css,
     /\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-library-section[\s\S]*?\.documents-library-intro[\s\S]*?\.documents-library-panel[\s\S]*?\.documents-library-list[\s\S]*?\.documents-empty-state[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-agent-card[\s\S]*?\.documents-agent-documents[\s\S]*?\.documents-agent-result[\s\S]*?\.documents-agent-results-list[\s\S]*?\)\s*\{[\s\S]*?width:\s*100%\s*!important[\s\S]*?justify-self:\s*stretch\s*!important/
   );
+});
+
+test("documents mobile controls stretch instead of keeping desktop fixed widths", () => {
+  const css = read("app/styles/components/documents-mode.css");
+
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-upload-control--kind\s*\{[\s\S]*?width:\s*100%[\s\S]*?max-width:\s*none[\s\S]*?justify-self:\s*stretch/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-agent-template-control\s*\{[\s\S]*?width:\s*100%[\s\S]*?max-width:\s*none[\s\S]*?justify-self:\s*stretch/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-agent-template-row,[\s\S]*?\.documents-agent-select-grid\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/
+  );
+});
+
+test("viewport setter updates the shared mobile glass height variable", () => {
+  const source = read("components/ViewportLayoutSetter.jsx");
+
+  assert.match(source, /root\.style\.setProperty\("--glass-mobile-root-vh",\s*`\$\{layoutHeight\}px`\)/);
+  assert.match(source, /root\.style\.setProperty\("--glass-mobile-vh",\s*`\$\{layoutHeight\}px`\)/);
 });
 
 test("documents and agent glass panels use the shared borderless surface", () => {
