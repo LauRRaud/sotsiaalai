@@ -1235,7 +1235,7 @@
       var(--profile-orbit-stack-bubble-size) * 0.62
     );
     --profile-orbit-stack-theme-icon-size: calc(
-      var(--profile-orbit-stack-bubble-size) * 0.72
+      var(--profile-orbit-stack-bubble-size) * 0.62
     );
     position: relative;
     isolation: isolate;
@@ -1246,7 +1246,9 @@
     border-radius: 999px;
     display: grid;
     place-items: center;
-    transition: transform 180ms ease;
+    --edge-proximity: 0 !important;
+    pointer-events: none;
+    transition: none !important;
   }
   .profile-orbit-stack-bubble .dock-icon {
     width: 100%;
@@ -1275,6 +1277,68 @@
   }
   .profile-orbit-stack-bubble .dock-icon svg [fill]:not([fill="none"]) {
     fill: currentColor;
+  }
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item
+    > .profile-orbit-static-glow,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active)
+    > .profile-orbit-static-glow {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item
+    > [class*="edgeLight"],
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item
+    > [class*="edgeLight"]::before,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item::before,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.profile-orbit-edge-glow.dock-item::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    opacity: 0 !important;
+    transition: none !important;
+  }
+  :root.theme-light:not(.theme-mid)
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 12px 22px rgba(0, 0, 0, 0.14),
+      inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.64),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+  }
+  :root.theme-mid
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow:
+      0 12px 22px rgba(20, 12, 10, 0.14),
+      0 6px 12px -8px rgba(80, 42, 36, 0.24) !important;
+  }
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(
+      [data-contrast="hc"]
+    )
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active),
+  :root.theme-night
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow: var(
+      --orbit-keypad-shadow-item,
+      var(--orbit-keypad-shadow)
+    ) !important;
+  }
+  html[data-contrast="hc"]
+    body
+    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
+    box-shadow: var(
+      --orbit-keypad-shadow-item,
+      var(--orbit-keypad-shadow)
+    ) !important;
   }
   .profile-orbit-stack-label {
     font-size: clamp(1.45rem, 5.6vw, 2.05rem);

@@ -333,8 +333,16 @@ export default function ServiceMapLeaflet({
       markers.clear();
       markerLayerRef.current = null;
       if (mapRef.current) {
+        mapRef.current.closePopup?.();
+        mapRef.current.off?.();
         mapRef.current.remove();
         mapRef.current = null;
+      }
+      if (containerRef.current) {
+        containerRef.current.replaceChildren();
+        containerRef.current.classList.remove("leaflet-container", "leaflet-touch", "leaflet-retina", "leaflet-fade-anim");
+        containerRef.current.removeAttribute("tabindex");
+        containerRef.current.removeAttribute("style");
       }
     };
   }, []);
