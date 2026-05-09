@@ -53,6 +53,7 @@ test("HC panels define actual yellow borders, not only border color", () => {
   assert.match(documents, /\.documents-workspace-card[\s\S]*?\.documents-content[\s\S]*?\{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(documents, /--documents-hc-panel-bg:\s*rgba\(9,\s*14,\s*24,\s*0\.62\)/);
   assert.match(documents, /\.documents-framework-banner\.documents-notice[\s\S]*?background:\s*var\(--documents-hc-panel-bg\)\s*!important/);
+  assert.match(documents, /\.documents-page-shell\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*0\s*!important/);
   assert.match(documents, /\\!border-0[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(covision, /\.sectionPanel,[\s\S]*?\.confirmBox\s*\{[\s\S]*?border-style:\s*solid\s*!important/);
 });

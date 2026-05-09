@@ -1174,41 +1174,11 @@ function ServiceMapSurface({
     if (typeof document === "undefined") return undefined;
     const html = document.documentElement;
     const body = document.body;
-    let themeColorMeta = document.querySelector('meta[name="theme-color"]');
-    const createdThemeColorMeta = !themeColorMeta;
-    const previousThemeColor = themeColorMeta?.getAttribute("content") || "";
-    if (!themeColorMeta) {
-      themeColorMeta = document.createElement("meta");
-      themeColorMeta.setAttribute("name", "theme-color");
-      document.head.appendChild(themeColorMeta);
-    }
-    const syncThemeColor = () => {
-      const nextThemeColor =
-        html.getAttribute("data-contrast") === "hc"
-          ? "#000000"
-          : html.classList.contains("theme-light") && !html.classList.contains("theme-mid")
-            ? "#f4f2ee"
-            : html.classList.contains("theme-mid")
-              ? "#d7c6c0"
-              : html.classList.contains("theme-night")
-                ? "#0e1420"
-                : "#10151d";
-      themeColorMeta?.setAttribute("content", nextThemeColor);
-    };
     html.classList.add("service-map-page-active");
     body?.classList.add("service-map-page-active");
-    syncThemeColor();
-    const observer = new MutationObserver(syncThemeColor);
-    observer.observe(html, { attributes: true, attributeFilter: ["class", "data-contrast"] });
     return () => {
-      observer.disconnect();
       html.classList.remove("service-map-page-active");
       body?.classList.remove("service-map-page-active");
-      if (createdThemeColorMeta) {
-        themeColorMeta?.remove();
-      } else {
-        themeColorMeta?.setAttribute("content", previousThemeColor);
-      }
     };
   }, []);
 

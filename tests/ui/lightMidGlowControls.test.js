@@ -26,7 +26,7 @@ test("light and mid glow controls keep the dynamic edge layer enabled", () => {
   }
 });
 
-test("light and mid hover primes full-edge glow before pointer tracking takes over", () => {
+test("light and mid glow controls do not jump pointer edge state on hover", () => {
   const css = readCss("app/styles/components/glass.css");
 
   for (const control of [
@@ -40,10 +40,48 @@ test("light and mid hover primes full-edge glow before pointer tracking takes ov
       )
     );
 
-    assert.ok(hoverBlock, `${control} should define light/mid hover priming`);
-    assert.match(hoverBlock[0], /--edge-proximity:\s*100/);
-    assert.match(hoverBlock[0], /--cursor-angle:\s*90deg/);
+    assert.ok(hoverBlock, `${control} should define light/mid hover styling`);
+    assert.match(hoverBlock[0], /box-shadow:/);
+    assert.doesNotMatch(hoverBlock[0], /--edge-proximity:\s*100/);
+    assert.doesNotMatch(hoverBlock[0], /--cursor-angle:\s*90deg/);
   }
+});
+
+test("light and mid glow controls define idle transparent glow layers", () => {
+  const css = readCss("app/styles/components/glass.css");
+  const buttonIdleBlock = css.match(
+    /:root\.theme-light \.ui-glow-button-frame,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame\s*\{([\s\S]*?)\n\}/
+  );
+  const optionIdleBlock = css.match(
+    /:root\.theme-light \.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.ui-glow-option-card-frame\s*\{([\s\S]*?)\n\}/
+  );
+  const lightFieldIdleBlock = css.match(
+    /:root\.theme-light \.ui-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+  const midFieldIdleBlock = css.match(
+    /:root\.theme-mid \.ui-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(buttonIdleBlock, "light/mid buttons should define idle shadow shape");
+  assert.ok(optionIdleBlock, "light/mid option cards should define idle shadow shape");
+  assert.ok(lightFieldIdleBlock, "light fields should define idle shadow shape");
+  assert.ok(midFieldIdleBlock, "mid fields should define idle shadow shape");
+  assert.match(buttonIdleBlock[1], /rgba\(197,\s*113,\s*113,\s*0\)/);
+  assert.match(optionIdleBlock[1], /rgba\(197,\s*113,\s*113,\s*0\)/);
+  assert.match(lightFieldIdleBlock[1], /rgba\(197,\s*113,\s*113,\s*0\)/);
+  assert.match(midFieldIdleBlock[1], /rgba\(197,\s*113,\s*113,\s*0\)/);
+});
+
+test("light and mid buttons use an outer glow ring without inset double edges", () => {
+  const css = readCss("app/styles/components/glass.css");
+  const buttonHoverBlock = css.match(
+    /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\),[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\)\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(buttonHoverBlock, "light/mid buttons should define hover glow");
+  assert.match(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.13\)/);
+  assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 0 1px rgba\(122,\s*58,\s*56/);
+  assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 5px rgba\(197,\s*113,\s*113/);
 });
 
 test("option card glow transitions use the same slow easing as other glow controls", () => {

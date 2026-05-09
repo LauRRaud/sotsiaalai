@@ -308,21 +308,25 @@ html[data-contrast="hc"] {
   display: block !important;
 }
 
+:root.theme-light .ui-glow-button-frame,
+:root.theme-mid .ui-glow-button-frame {
+  box-shadow:
+    var(--btn-primary-shadow),
+    0 0 0 1px rgba(122, 58, 56, 0),
+    0 0 2px rgba(122, 58, 56, 0),
+    0 0 9px rgba(197, 113, 113, 0),
+    0 0 18px rgba(197, 113, 113, 0) !important;
+}
+
 :root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
 :root.theme-mid .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) {
-  --edge-proximity: 100;
-  --cursor-angle: 90deg;
   border-color: transparent !important;
   box-shadow:
     var(--btn-primary-shadow-hover),
-    0 0 0 1px rgba(122, 58, 56, 0.22),
-    0 0 10px rgba(197, 113, 113, 0.11),
-    0 0 22px rgba(197, 113, 113, 0.06) !important;
-}
-
-:root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > [class*="edgeLight"],
-:root.theme-mid .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > [class*="edgeLight"] {
-  opacity: calc(0.5 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
+    0 0 0 1px rgba(122, 58, 56, 0.13),
+    0 0 2px rgba(122, 58, 56, 0.1),
+    0 0 9px rgba(197, 113, 113, 0.055),
+    0 0 18px rgba(197, 113, 113, 0.032) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-button-frame > .edgeLight,
@@ -408,10 +412,19 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
   display: block !important;
 }
 
+:root.theme-light .ui-glow-option-card-frame,
+:root.theme-mid .ui-glow-option-card-frame {
+  box-shadow:
+    var(--seg-card-shadow, var(--btn-primary-shadow)),
+    inset 0 0 0 1px rgba(122, 58, 56, 0),
+    inset 0 0 5px rgba(197, 113, 113, 0),
+    0 0 2px rgba(122, 58, 56, 0),
+    0 0 9px rgba(197, 113, 113, 0),
+    0 0 18px rgba(197, 113, 113, 0) !important;
+}
+
 :root.theme-light .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled),
 :root.theme-mid .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) {
-  --edge-proximity: 100;
-  --cursor-angle: 90deg;
   box-shadow:
     var(--seg-card-shadow-hover, var(--btn-primary-shadow-hover)),
     inset 0 0 0 1px rgba(122, 58, 56, 0.16),
@@ -419,11 +432,6 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
     0 0 2px rgba(122, 58, 56, 0.12),
     0 0 9px rgba(197, 113, 113, 0.065),
     0 0 18px rgba(197, 113, 113, 0.038) !important;
-}
-
-:root.theme-light .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) > [class*="edgeLight"],
-:root.theme-mid .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) > [class*="edgeLight"] {
-  opacity: calc(0.42 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-option-card-frame > .edgeLight,
@@ -435,19 +443,25 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
   background: rgba(255, 255, 255, 0.64) !important;
   box-shadow:
     inset 0 0 0 1px rgba(122, 58, 56, 0.05),
-    0 5px 12px rgba(82, 50, 46, 0.045) !important;
+    inset 0 0 6px rgba(197, 113, 113, 0),
+    0 5px 12px rgba(82, 50, 46, 0.045),
+    0 0 2px rgba(122, 58, 56, 0),
+    0 0 10px rgba(197, 113, 113, 0),
+    0 0 22px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-mid .ui-glow-field {
   background: rgba(255, 255, 255, 0.64) !important;
   box-shadow:
     inset 0 0 0 1px rgba(122, 58, 56, 0.08),
-    0 8px 20px rgba(82, 50, 46, 0.08) !important;
+    inset 0 0 6px rgba(197, 113, 113, 0),
+    0 8px 20px rgba(82, 50, 46, 0.08),
+    0 0 2px rgba(122, 58, 56, 0),
+    0 0 11px rgba(197, 113, 113, 0),
+    0 0 24px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-light .ui-glow-field:hover {
-  --edge-proximity: 100;
-  --cursor-angle: 90deg;
   background: rgba(255, 255, 255, 0.74) !important;
   box-shadow:
     inset 0 0 0 1px rgba(122, 58, 56, 0.2),
@@ -459,8 +473,6 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
 }
 
 :root.theme-mid .ui-glow-field:hover {
-  --edge-proximity: 100;
-  --cursor-angle: 90deg;
   background: rgba(255, 255, 255, 0.78) !important;
   box-shadow:
     inset 0 0 0 1px rgba(122, 58, 56, 0.22),
@@ -476,11 +488,6 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
 :root.theme-mid .ui-glow-field > .edgeLight,
 :root.theme-mid .ui-glow-field > [class*="edgeLight"] {
   display: block !important;
-}
-
-:root.theme-light .ui-glow-field:hover > [class*="edgeLight"],
-:root.theme-mid .ui-glow-field:hover > [class*="edgeLight"] {
-  opacity: calc(0.5 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-field {

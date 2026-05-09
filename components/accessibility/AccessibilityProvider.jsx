@@ -21,6 +21,37 @@ const UI_SCALE_STORAGE_KEY = "sotsiaalai.uiScale";
 const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
 let themeSwitchClearTimer = null;
 
+function resolveThemeChromeColor(theme, contrast = "normal") {
+  if (contrast === "hc") return "#000000";
+  if (theme === "light") return "#f4f2ee";
+  if (theme === "mid") return "#d7c6c0";
+  if (theme === "night") return "#0e1420";
+  return "#10151d";
+}
+
+function ensureMetaTag(name) {
+  if (typeof document === "undefined") return null;
+  let meta = document.querySelector(`meta[name="${name}"]`);
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("name", name);
+    document.head.appendChild(meta);
+  }
+  return meta;
+}
+
+function syncThemeChrome(prefs) {
+  if (typeof document === "undefined") return;
+  const contrast = prefs?.contrast || DEFAULT_PREFS.contrast;
+  const theme = contrast === "hc" ? "dark" : normalizeTheme(prefs?.theme);
+  const themeColor = resolveThemeChromeColor(theme, contrast);
+  ensureMetaTag("theme-color")?.setAttribute("content", themeColor);
+  ensureMetaTag("apple-mobile-web-app-status-bar-style")?.setAttribute(
+    "content",
+    theme === "light" || theme === "mid" ? "default" : "black-translucent"
+  );
+}
+
 function parseUIScale(uiScale) {
   if (!uiScale || typeof uiScale !== "string") return null;
   return UI_SCALE_VALUES.has(uiScale) ? uiScale : null;
@@ -223,6 +254,7 @@ function applyPrefsToDom(prefs) {
   html.classList.toggle("theme-light", shouldBeLight);
   html.classList.toggle("theme-mid", shouldBeMid);
   html.classList.toggle("theme-night", shouldBeNight);
+  syncThemeChrome({ ...prefs, theme, contrast: prefs.contrast || DEFAULT_PREFS.contrast });
   if (themeChanged && typeof window !== "undefined") {
     if (themeSwitchClearTimer) window.clearTimeout(themeSwitchClearTimer);
     themeSwitchClearTimer = window.setTimeout(() => {

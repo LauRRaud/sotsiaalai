@@ -1,4 +1,5 @@
 html {
+  --app-chrome-bg: #10151d;
   font-family: var(--font-aino), Arial, sans-serif;
   font-size: calc(var(--base-rem, 16px) * var(--ui-scale, 1));
   --app-height: 100dvh;
@@ -7,8 +8,24 @@ html {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  background-color: transparent;
+  background-color: var(--app-chrome-bg);
   cursor: var(--cursor-default);
+}
+
+html.theme-light {
+  --app-chrome-bg: #f4f2ee;
+}
+
+html.theme-mid {
+  --app-chrome-bg: #d7c6c0;
+}
+
+html.theme-night {
+  --app-chrome-bg: #0e1420;
+}
+
+html[data-contrast="hc"] {
+  --app-chrome-bg: #000000;
 }
 *,
 *::before,
@@ -25,7 +42,7 @@ body {
   align-items: stretch;
   touch-action: pan-y;
   background-image: none;
-  background-color: transparent;
+  background-color: var(--app-chrome-bg);
   cursor: inherit;
 }
 .app-root {

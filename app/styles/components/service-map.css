@@ -711,6 +711,21 @@ html[data-contrast="hc"] body.service-map-page-active {
     --glass-ring-surface-bg,
     var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
   );
+  --service-map-control-glass-bg: color-mix(
+    in srgb,
+    var(--service-map-glass-bg) 78%,
+    transparent
+  );
+  --service-map-control-glass-bg-hover: color-mix(
+    in srgb,
+    var(--service-map-glass-bg) 86%,
+    transparent
+  );
+  --service-map-popup-glass-bg: color-mix(
+    in srgb,
+    var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 96%,
+    transparent
+  );
   --service-map-glass-shadow: var(
     --glass-shell-shadow,
     var(--workspace-feature-shadow, 0 18px 38px rgba(2, 6, 14, 0.24))
@@ -890,7 +905,16 @@ html[data-contrast="hc"] body.service-map-page-active {
   min-width: 3.72rem !important;
   flex: 0 0 auto;
   align-self: center;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   overflow: visible;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.service-map-toolbar__back::before {
+  content: none !important;
 }
 
 .service-map-toolbar__back:hover,
@@ -999,7 +1023,10 @@ html[data-contrast="hc"] body.service-map-page-active {
 }
 
 .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle {
-  background: color-mix(in srgb, var(--service-map-panel-glass-bg) 88%, rgba(255, 255, 255, 0.22));
+  border: 1px solid var(--service-map-glass-border);
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-control-glass-bg);
   box-shadow: 0 0.55rem 1rem rgba(0, 0, 0, 0.13);
   backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
   -webkit-backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
@@ -1007,7 +1034,9 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
 .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:focus-visible {
-  background: color-mix(in srgb, var(--service-map-panel-glass-bg) 72%, rgba(255, 255, 255, 0.3));
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-control-glass-bg-hover);
   box-shadow: 0 0.55rem 1rem rgba(0, 0, 0, 0.13);
 }
 
@@ -1019,12 +1048,10 @@ html[data-contrast="hc"] body.service-map-page-active {
   height: 3.15rem;
   min-height: 3.15rem;
   min-width: 3.15rem;
-  border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 16%, transparent);
-  background: color-mix(
-    in srgb,
-    var(--workspace-feature-surface-strong, var(--workspace-feature-surface)) 88%,
-    transparent
-  );
+  border: 1px solid var(--service-map-glass-border);
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-control-glass-bg);
   box-shadow:
     0 0.72rem 1.35rem rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -1403,6 +1430,11 @@ html[data-contrast="hc"] body.service-map-page-active {
   border-radius: inherit;
 }
 
+.service-map-leaflet .leaflet-div-icon {
+  border: 0 !important;
+  background: transparent !important;
+}
+
 .service-map-leaflet__status {
   position: absolute;
   inset: auto 1rem 1rem 1rem;
@@ -1477,13 +1509,17 @@ html[data-contrast="hc"] body.service-map-page-active {
   border: 1px solid var(--service-map-glass-border, var(--workspace-feature-border));
   position: relative;
   isolation: isolate;
-  background: transparent !important;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-popup-glass-bg) !important;
   color: var(--workspace-feature-text);
   border-radius: 0.9rem;
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
   overflow: hidden;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
+  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
 }
 
 .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
@@ -1494,11 +1530,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   border-radius: inherit;
   background:
     var(--glass-ring-sheen, none),
-    color-mix(
-      in srgb,
-      var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 96%,
-      transparent
-    );
+    var(--service-map-popup-glass-bg);
   backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
   -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
   pointer-events: none;
@@ -1526,6 +1558,11 @@ html[data-contrast="hc"] body.service-map-page-active {
   margin-bottom: 1.2rem;
 }
 
+.service-map-leaflet.leaflet-fade-anim .service-map-leaflet__popup.leaflet-popup {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
 .service-map-leaflet__popup .leaflet-popup-close-button {
   top: 0.42rem !important;
   right: 0.46rem !important;
@@ -1536,7 +1573,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   justify-content: center;
   border: 0 !important;
   background: transparent !important;
-  color: inherit !important;
+  color: var(--workspace-feature-accent, var(--title-color, #c57171)) !important;
   font-family: var(--font-aino), system-ui, sans-serif !important;
   font-size: 2.05rem !important;
   font-weight: 400 !important;
@@ -1552,7 +1589,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-leaflet__popup .leaflet-popup-close-button:hover,
 .service-map-leaflet__popup .leaflet-popup-close-button:focus-visible {
-  color: var(--workspace-feature-accent, var(--title-color, #c57171)) !important;
+  color: color-mix(in srgb, var(--workspace-feature-accent, var(--title-color, #c57171)) 82%, #fff) !important;
   opacity: 1;
   outline: none;
 }
@@ -1570,7 +1607,9 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background: transparent !important;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-popup-glass-bg) !important;
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
@@ -1957,6 +1996,11 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     overflow-x: hidden;
   }
 
+  .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
+    gap: 0.5rem;
+    padding-bottom: 0.52rem;
+  }
+
   .service-map-toolbar__content {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.58rem;
@@ -1980,17 +2024,13 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     width: var(--service-map-mobile-control-size) !important;
     min-height: var(--service-map-mobile-control-size) !important;
     min-width: var(--service-map-mobile-control-size) !important;
-    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;
+    border: 0 !important;
     border-radius: 999px !important;
-    background:
-      var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent) !important;
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
-    overflow: hidden;
-    backdrop-filter: blur(26px) saturate(160%);
-    -webkit-backdrop-filter: blur(26px) saturate(160%);
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
   .service-map-toolbar__back svg {
@@ -2029,10 +2069,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-toolbar__types {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(5.25rem, 1fr) minmax(6.9rem, 1.28fr) minmax(3.35rem, 0.62fr);
     width: 100%;
     justify-content: center;
-    gap: 0.34rem;
+    gap: 0.28rem;
   }
 
   .service-map-toolbar__type-card {
@@ -2040,17 +2080,20 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     width: 100%;
     min-width: 0;
     min-height: 2.64rem;
-    padding: 0.42rem 0.5rem;
-    font-size: 0.9rem;
+    padding: 0.42rem 0.36rem;
+    font-size: 0.82rem;
     line-height: 1.1;
+    letter-spacing: 0;
     white-space: normal;
   }
 
   .service-map-toolbar__type-card .service-map-toolbar__type-label {
     justify-content: center;
-    overflow: visible;
+    overflow: hidden;
     overflow-wrap: normal;
-    text-wrap: balance;
+    text-overflow: clip;
+    text-wrap: nowrap;
+    white-space: nowrap;
   }
 
   .service-map-toolbar__resultsblock {
@@ -2074,7 +2117,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2090,7 +2133,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2111,7 +2154,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2133,12 +2176,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     align-content: start;
     align-items: start;
     justify-items: center;
-    gap: 0.44rem;
+    gap: 0.34rem;
     min-height: 0;
     max-height: min(30dvh, 15.25rem);
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 0.26rem 0.12rem 0.92rem;
+    padding: 0.18rem 0.12rem 0.34rem;
   }
 
   .service-map-toolbar__results .workspace-feature-list-card {
@@ -2242,7 +2285,18 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__filters-shell {
-    padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.96rem;
+    padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.84rem;
+  }
+
+  .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
+    gap: 0.44rem;
+    padding-bottom: 0.48rem;
+  }
+
+  .service-map-toolbar__type-card {
+    padding-right: 0.32rem;
+    padding-left: 0.32rem;
+    font-size: 0.8rem;
   }
 
   .service-map-workspace__filters h2 {
@@ -2277,7 +2331,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2293,7 +2347,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2313,7 +2367,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent);
+      var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
@@ -2349,7 +2403,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 }
 
 @media (max-width: 768px) {
-  .service-map-toolbar__back,
   .service-map-workspace__toggle,
   .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle,
   .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
@@ -2358,11 +2411,21 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;
     background:
       var(--glass-ring-sheen, none),
-      color-mix(in srgb, var(--service-map-glass-bg) 78%, transparent) !important;
+      var(--service-map-control-glass-bg) !important;
     box-shadow:
       0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
       inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
     backdrop-filter: blur(26px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(26px) saturate(160%) !important;
+  }
+
+  .service-map-toolbar__back,
+  .service-map-toolbar__back:is(:hover, :focus-visible, :active) {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
