@@ -420,8 +420,7 @@ html[data-contrast="hc"] .profile-orbit-mobile-chevron,
 html[data-contrast="hc"] .profile-orbit-item-label,
 html[data-contrast="hc"] .profile-orbit-item-icon,
 html[data-contrast="hc"] .profile-orbit-mobile-action__label,
-html[data-contrast="hc"] .profile-orbit-stack-label,
-html[data-contrast="hc"] .profile-orbit-stack-back-label {
+html[data-contrast="hc"] .profile-orbit-stack-label {
   color: var(--hc-accent) !important;
 }
 
@@ -2422,7 +2421,7 @@ html[data-contrast="hc"] body :is(
   input[type="button"],
   input[type="submit"],
   input[type="reset"]
-):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button) {
+):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):not(.profile-orbit-stack-item) {
   color: var(--hc-accent) !important;
   background: var(--hc-control-bg) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
@@ -2437,7 +2436,7 @@ html[data-contrast="hc"] body :is(
   input[type="button"],
   input[type="submit"],
   input[type="reset"]
-):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):is(:hover, :focus-visible, :active) {
+):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.home-card-a11y-button):not(.profile-orbit-stack-item):is(:hover, :focus-visible, :active) {
   color: var(--hc-accent) !important;
   background: var(--hc-control-bg-hover) !important;
   border-color: rgba(255, 234, 0, 0.9) !important;

@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import AppLink from "@/components/ui/Link";
-import BorderGlow from "@/components/ui/BorderGlow";
-import { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles";
 import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
@@ -27,25 +25,6 @@ const homeQuickLabelClassName =
 const homeQuickLabelStyle = {
   backgroundImage:
     "linear-gradient(90deg, transparent 0%, color-mix(in srgb, currentColor 22%, transparent) 32%, currentColor 50%, color-mix(in srgb, currentColor 22%, transparent) 68%, transparent 100%)"
-};
-const HOME_ABOUT_PANEL_GLOW_PROPS = {
-  backgroundColor: "transparent",
-  borderRadius: 36,
-  coneSpread: 20,
-  edgeOnly: true,
-  edgeSensitivity: 18,
-  fillOpacity: 0,
-  glowColor: "358 82 72",
-  glowIntensity: 0.82,
-  glowRadius: 58
-};
-const HOME_ABOUT_PANEL_GLOW_STYLE = {
-  ...fieldEdgeGlowStyle,
-  "--edge-only-bottom-line-left": "clamp(1.35rem, 4.2%, 2.2rem)",
-  "--edge-only-bottom-line-right": "clamp(1.35rem, 4.2%, 2.2rem)",
-  "--edge-only-tail-end": "56%",
-  "--edge-only-gap-start": "58%",
-  "--edge-only-return-start": "58%"
 };
 
 function centerQuickItem(list, target, behavior = "auto") {
@@ -575,27 +554,22 @@ export default function HomeAboutSection({
           "relative z-[1] mx-auto w-[min(92vw,58rem)] flex flex-col gap-[1.5rem]"
         )}
       >
-        <BorderGlow
-          as="div"
-          edgeOnly
-          {...HOME_ABOUT_PANEL_GLOW_PROPS}
+        <div
           data-blur-ready={aboutBlurReady ? "true" : "false"}
           className={cn(
-            "home-glass-panel home-about-panel home-about-edge-glow relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]",
+            "home-glass-panel home-about-panel relative [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] backdrop-blur-[var(--glass-blur-radius,1rem)] [-webkit-backdrop-filter:blur(var(--glass-blur-radius,1rem))] rounded-t-[clamp(1.25rem,2.6vw,2.4rem)] rounded-b-[clamp(0.9rem,1.7vw,1.35rem)] shadow-[var(--glass-shell-shadow,none)] [border:none] px-[clamp(0.86rem,2.05vw,1.72rem)] pt-[clamp(1.4rem,2.4vw,2.15rem)] pb-[clamp(0.2rem,0.5vw,0.5rem)] max-[768px]:px-[clamp(1rem,4.8vw,1.35rem)]",
             shouldFadeAbout ? "is-intro-fading" : null
           )}
           style={
             shouldFadeAbout
               ? {
-                  ...HOME_ABOUT_PANEL_GLOW_STYLE,
                   animationDuration: `${HOME_PANEL_FADE_DURATION_MS}ms`,
                   animationTimingFunction: "cubic-bezier(0.61,0,0.19,1)",
                   animationFillMode: "forwards"
                 }
-              : HOME_ABOUT_PANEL_GLOW_STYLE
+              : undefined
           }
         >
-          <span className="home-about-static-glow" aria-hidden="true" />
           <h2
             id={aboutHeadingId}
             tabIndex={0}
@@ -644,7 +618,7 @@ export default function HomeAboutSection({
               </p>
             </div>
           </div>
-        </BorderGlow>
+        </div>
         <section
           aria-labelledby={beforeHeadingId}
           data-blur-ready={beforeBlurReady ? "true" : "false"}

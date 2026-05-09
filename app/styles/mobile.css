@@ -927,10 +927,13 @@
       ) !important;
   }
 
+  :root.theme-mid .profile-orbit-stack-bubble.dock-item,
   :root.theme-mid
     .profile-orbit-mobile-panel
     .profile-orbit-mobile-action.dock-item {
-    box-shadow: 0 12px 22px rgba(20, 12, 10, 0.12) !important;
+    box-shadow:
+      0 12px 22px rgba(20, 12, 10, 0.14),
+      0 6px 12px -8px rgba(80, 42, 36, 0.24) !important;
   }
 
   :root.theme-mid .profile-orbit-stack-bubble.dock-item,
@@ -1246,8 +1249,8 @@
     color: var(--orbit-accent, #c57171);
   }
   .profile-orbit-stack-bubble .dock-icon svg {
-    width: 66%;
-    height: 66%;
+    width: 78%;
+    height: 78%;
     max-width: none;
     max-height: none;
     stroke: currentColor;
@@ -1261,8 +1264,7 @@
   .profile-orbit-stack-bubble .dock-icon svg [fill]:not([fill="none"]) {
     fill: currentColor;
   }
-  .profile-orbit-stack-label,
-  .profile-orbit-stack-back-label {
+  .profile-orbit-stack-label {
     font-size: clamp(1.45rem, 5.6vw, 2.05rem);
     letter-spacing: 0.06em;
     line-height: 1.12;
@@ -1460,19 +1462,6 @@
     hyphens: auto !important;
   }
 
-  html[data-platform="android"] .profile-container.glass-ring .profile-mobile-role-toggle-link,
-  body[data-platform="android"] .profile-container.glass-ring .profile-mobile-role-toggle-link {
-    max-width: min(16.5rem, 78vw) !important;
-    font-size: 0.94rem !important;
-    line-height: 1.14 !important;
-  }
-
-  html[data-platform="android"] .profile-container.glass-ring .profile-mobile-role-toggle-link > svg,
-  body[data-platform="android"] .profile-container.glass-ring .profile-mobile-role-toggle-link > svg {
-    width: 0.98rem !important;
-    height: 0.98rem !important;
-  }
-
   html[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-button,
   body[data-platform="android"] .profile-container.glass-ring .profile-mobile-action-stack .profile-logout-button {
     height: 5.15rem !important;
@@ -1507,13 +1496,6 @@
     align-self: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
-  }
-
-  .profile-container.glass-ring .profile-nav-overlay .profile-mobile-action-stack .profile-mobile-role-toggle-link {
-    width: auto !important;
-    max-width: min(15.5rem, 76vw) !important;
-    justify-content: center !important;
-    text-align: center !important;
   }
 
   .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
