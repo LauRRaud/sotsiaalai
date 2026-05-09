@@ -325,6 +325,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [assistantMessage, setAssistantMessage] = useState("");
   const [assistantReasoning, setAssistantReasoning] = useState("");
   const [assistantWarnings, setAssistantWarnings] = useState([]);
+  const [assessmentLifeDomains, setAssessmentLifeDomains] = useState([]);
+  const [assessmentTargetGroups, setAssessmentTargetGroups] = useState([]);
+  const [assessmentQuestions, setAssessmentQuestions] = useState([]);
   const [assistantSuggestions, setAssistantSuggestions] = useState([]);
   const [showMoreContacts, setShowMoreContacts] = useState(false);
   const [inquiries, setInquiries] = useState([]);
@@ -502,6 +505,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssistantMessage("");
     setAssistantReasoning("");
     setAssistantWarnings([]);
+    setAssessmentLifeDomains([]);
+    setAssessmentTargetGroups([]);
+    setAssessmentQuestions([]);
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(false);
@@ -521,6 +527,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssistantMessage("");
     setAssistantReasoning("");
     setAssistantWarnings([]);
+    setAssessmentLifeDomains([]);
+    setAssessmentTargetGroups([]);
+    setAssessmentQuestions([]);
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(true);
@@ -712,6 +721,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       setAssistantMessage(payload?.message || "");
       setAssistantReasoning(payload?.reasoningText || payload?.message || "");
       setAssistantWarnings(Array.isArray(payload?.warnings) ? payload.warnings : []);
+      setAssessmentLifeDomains(Array.isArray(payload?.lifeDomains) ? payload.lifeDomains : []);
+      setAssessmentTargetGroups(Array.isArray(payload?.targetGroups) ? payload.targetGroups : []);
+      setAssessmentQuestions(Array.isArray(payload?.clarifyingQuestions) ? payload.clarifyingQuestions : []);
       setAssistantSuggestions(suggestions);
       setShowMoreContacts(false);
       if (payload?.draftBody || payload?.draft) {
@@ -963,7 +975,54 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </div>
         </div>
 
+        <div className="flex flex-wrap gap-[0.46rem]">
+          <Button
+            type="button"
+            size="sm"
+            disabled={assisting}
+            onClick={(event) => handleAskAssistant(
+              event,
+              "Soovin alustada abivajaduse eelkaardistust."
+            )}
+          >
+            {readText(t, "workspace_feature_pages.pre_inquiries.actions.start_assessment", "Alusta eelkaardistust")}
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            disabled={assisting || !situation.trim()}
+            onClick={(event) => handleAskAssistant(event, "Palun koosta sellest lühike eelpöördumise kokkuvõte ja mustand.")}
+          >
+            {readText(t, "workspace_feature_pages.pre_inquiries.actions.prepare_draft", "Koosta mustand")}
+          </Button>
+        </div>
+
         {assistantReasoning ? <p className={bodyTextClassName}>{assistantReasoning}</p> : null}
+        {assessmentLifeDomains.length || assessmentTargetGroups.length || assessmentQuestions.length ? (
+          <div className="workspace-feature-card grid gap-[0.52rem] rounded-[0.95rem] border px-[0.78rem] py-[0.62rem]">
+            {assessmentLifeDomains.length ? (
+              <div className="flex flex-wrap gap-[0.36rem]">
+                {assessmentLifeDomains.map((domain) => (
+                  <span key={`domain-${domain}`} className={chipClassName}>{domain}</span>
+                ))}
+              </div>
+            ) : null}
+            {assessmentTargetGroups.length ? (
+              <div className="flex flex-wrap gap-[0.36rem]">
+                {assessmentTargetGroups.map((group) => (
+                  <span key={`group-${group}`} className={chipClassName}>{group}</span>
+                ))}
+              </div>
+            ) : null}
+            {assessmentQuestions.length ? (
+              <ul className="m-0 grid gap-[0.32rem] pl-[1.1rem] text-[0.94rem] leading-[1.36] opacity-[0.84]">
+                {assessmentQuestions.map((question) => (
+                  <li key={question}>{question}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ) : null}
         {assistantWarnings.length ? (
           <div className="grid gap-[0.34rem]">
             {assistantWarnings.map((warning) => (
