@@ -108,8 +108,8 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
     /className=\{cn\(glassPageBackTopLeftClassName,\s*styles\.backButton\)\}/
   );
   assert.match(css, /\.backButton\s*\{[^}]*z-index:\s*92\s*!important/);
-  assert.doesNotMatch(css, /\.backButton\s*\{[^}]*\bleft:/);
-  assert.doesNotMatch(css, /\.backButton\s*\{[^}]*\btop:/);
+  assert.doesNotMatch(css, /^\.backButton\s*\{[^}]*\bleft:/m);
+  assert.doesNotMatch(css, /^\.backButton\s*\{[^}]*\btop:/m);
 });
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
@@ -207,5 +207,33 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(
     css,
     /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.24rem/
+  );
+});
+
+test("service map mobile map edge does not expose a blue Leaflet fallback seam", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.doesNotMatch(css, /background:\s*#a8d5e0\s*!important/);
+  assert.match(css, /--service-map-map-bg:\s*#eef0ef/);
+  assert.match(
+    css,
+    /\.service-map-leaflet(?:\.leaflet-container)?\s*\{[\s\S]*?background:\s*var\(--service-map-map-bg\)\s*!important/
+  );
+});
+
+test("service map mobile dark, night, and high contrast panels use opaque dark glass", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(5,\s*8,\s*13,\s*0\.82\)/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?:root\.theme-night \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*rgba\(4,\s*7,\s*12,\s*0\.86\)/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?html\[data-contrast="hc"\] \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*#000/
   );
 });

@@ -333,9 +333,11 @@
     margin-bottom: clamp(0.32rem, 0.9vh, 0.52rem) !important;
   }
 
-  .backButtonIcon {
-    margin-top: -0.42rem;
-    margin-left: -0.58rem;
+  .backButton {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 0.2rem - var(--chat-pad-top, 1rem)) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
+    z-index: 124 !important;
   }
 
   .roleMenu {

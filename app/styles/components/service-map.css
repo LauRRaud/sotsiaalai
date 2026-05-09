@@ -631,6 +631,7 @@ html[data-contrast="hc"] .workspace-feature-panel {
 
 .service-map-page-panel.service-map-page-panel {
   --service-map-empty-bg: transparent;
+  --service-map-map-bg: #eef0ef;
   --service-map-map-radius: 1.08rem;
   --service-map-safe-area-bg: #10151d;
   position: fixed !important;
@@ -1447,7 +1448,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   overflow: hidden;
   border: 0;
   border-radius: var(--service-map-map-radius);
-  background: #a8d5e0 !important;
+  background: var(--service-map-map-bg) !important;
   clip-path: inset(0 round var(--service-map-map-radius));
 }
 
@@ -1468,7 +1469,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 .service-map-leaflet {
   min-height: clamp(24rem, 58vh, 36rem);
   width: 100%;
-  background: #a8d5e0 !important;
+  background: var(--service-map-map-bg) !important;
   color: var(--workspace-feature-field-text, #1f2937);
   border-radius: var(--service-map-map-radius) !important;
   overflow: hidden !important;
@@ -1476,7 +1477,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 }
 
 .service-map-leaflet.leaflet-container {
-  background: #a8d5e0 !important;
+  background: var(--service-map-map-bg) !important;
   border-radius: var(--service-map-map-radius) !important;
   overflow: hidden !important;
   clip-path: inset(0 round var(--service-map-map-radius));
@@ -2020,6 +2021,34 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     --service-map-mobile-control-top: 0.34rem;
     --service-map-mobile-filters-pad-top: 3.8rem;
     border-radius: inherit;
+  }
+
+  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .service-map-workspace {
+    --service-map-panel-glass-bg: rgba(5, 8, 13, 0.82);
+    --service-map-panel-glass-overlay-bg: rgba(5, 8, 13, 0.46);
+    --service-map-control-glass-bg: rgba(8, 12, 20, 0.86);
+    --service-map-control-glass-bg-hover: rgba(11, 16, 26, 0.92);
+    --service-map-glass-border: rgba(235, 245, 255, 0.14);
+    --service-map-glass-shadow: 0 18px 34px rgba(0, 0, 0, 0.34);
+  }
+
+  :root.theme-night .service-map-workspace {
+    --service-map-panel-glass-bg: rgba(4, 7, 12, 0.86);
+    --service-map-panel-glass-overlay-bg: rgba(4, 7, 12, 0.54);
+    --service-map-control-glass-bg: rgba(6, 10, 18, 0.9);
+    --service-map-control-glass-bg-hover: rgba(9, 14, 23, 0.95);
+    --service-map-glass-border: rgba(238, 247, 255, 0.14);
+    --service-map-glass-shadow: 0 18px 34px rgba(0, 0, 0, 0.42);
+  }
+
+  html[data-contrast="hc"] .service-map-workspace,
+  :root[data-contrast="hc"] .service-map-workspace {
+    --service-map-panel-glass-bg: #000;
+    --service-map-panel-glass-overlay-bg: #000;
+    --service-map-control-glass-bg: #000;
+    --service-map-control-glass-bg-hover: #000;
+    --service-map-glass-border: var(--hc-accent, #ffea00);
+    --service-map-glass-shadow: none;
   }
 
   .service-map-toolbar__identity {

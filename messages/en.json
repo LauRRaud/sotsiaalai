@@ -722,6 +722,12 @@
         "load_failed": "Service profile could not be loaded.",
         "save_failed": "Service profile could not be saved."
       }
+    },
+    "admin_role_label": "Admin workspace role",
+    "roles": {
+      "client": "Client",
+      "service_provider": "Service provider",
+      "social_worker": "Social worker specialist"
     }
   },
   "chat": {
@@ -865,7 +871,11 @@
         },
         "pre_inquiries": {
           "title": "Pre-inquiry",
-          "meta": "Inquiry draft"
+          "meta": "Inquiry draft",
+          "title_client": "Pre-inquiry",
+          "title_staff": "Inquiries",
+          "meta_client": "Inquiry draft",
+          "meta_staff": "Received and sent"
         },
         "help_requests": {
           "title": "Help requests",
@@ -896,6 +906,9 @@
           "meta": "Profile",
           "meta_provider": "Service provider"
         }
+      },
+      "view_role": {
+        "label": "Workspace view"
       }
     },
     "help": {

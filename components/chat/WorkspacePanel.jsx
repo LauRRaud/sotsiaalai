@@ -16,6 +16,8 @@ import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleB
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
+const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const DASHBOARD_VIEW_ROLES = Object.freeze([
   "CLIENT",
   "SOCIAL_WORKER",
@@ -134,6 +136,24 @@ function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
   return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
 }
 
+function resolveWorkspaceNavigationTiltDirection() {
+  if (typeof window === "undefined") return "right";
+  const isMobileViewport = Boolean(
+    window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ||
+      window.matchMedia?.(COARSE_POINTER_QUERY)?.matches ||
+      window.innerWidth <= 768
+  );
+  return isMobileViewport ? "left" : "right";
+}
+
+function createWorkspaceNavigationTransitionOptions() {
+  return {
+    glassRingTilt: resolveWorkspaceNavigationTiltDirection(),
+    waitForGlassRingTilt: true,
+    persistGlassRingTilt: false
+  };
+}
+
 export default function WorkspacePanel({
   t,
   locale = "et",
@@ -153,15 +173,6 @@ export default function WorkspacePanel({
   }, [userActualRole, userRole]);
   const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
 
-  const transitionOptions = useMemo(
-    () => ({
-      glassRingTilt: "right",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    }),
-    []
-  );
-
   const navigateTo = useCallback(
     path => {
       const shouldRestoreWorkspace = !String(path || "").startsWith("/vestlus");
@@ -174,9 +185,9 @@ export default function WorkspacePanel({
         } catch {}
       }
       onClose?.();
-      pushWithTransition(router, localizePath(path, locale), transitionOptions);
+      pushWithTransition(router, localizePath(path, locale), createWorkspaceNavigationTransitionOptions());
     },
-    [locale, onClose, router, transitionOptions]
+    [locale, onClose, router]
   );
 
   const openHelpPanel = useCallback(
