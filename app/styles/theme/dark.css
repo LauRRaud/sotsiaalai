@@ -414,10 +414,10 @@
   --home-panel-shadow-active:
     0 0 12px rgba(248, 253, 255, 0.2),
     0 0 24px rgba(248, 253, 255, 0.1);
-  --home-card-glow-idle:
+  --home-card-idle-shadow:
     0 0 10px rgba(248, 253, 255, 0.14),
     0 0 20px rgba(248, 253, 255, 0.065);
-  --home-card-glow-active:
+  --home-card-hover-shadow:
     0 0 12px rgba(248, 253, 255, 0.2),
     0 0 24px rgba(248, 253, 255, 0.1);
   --home-scroll-cue-color: #c57171;

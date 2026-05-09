@@ -1347,7 +1347,7 @@ function ServiceMapSurface({
                     style={{ "--service-map-placeholder-ch": `${keywordPlaceholder.length}ch` }}
                   >
                     <input
-                      className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--keyword ui-glow-control")}
+                      className="service-map-toolbar__input service-map-toolbar__input--keyword ui-glow-control"
                       value={keyword}
                       onChange={(event) => setKeyword(event.target.value)}
                       placeholder={keywordPlaceholder}
@@ -1361,7 +1361,7 @@ function ServiceMapSurface({
                     style={{ "--service-map-placeholder-ch": `${regionPlaceholder.length}ch` }}
                   >
                     <input
-                      className={cn(fieldClassName, "service-map-toolbar__input service-map-toolbar__input--region ui-glow-control")}
+                      className="service-map-toolbar__input service-map-toolbar__input--region ui-glow-control"
                       value={region}
                       onChange={(event) => setRegion(event.target.value)}
                       placeholder={regionPlaceholder}

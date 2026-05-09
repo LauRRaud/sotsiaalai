@@ -47,6 +47,7 @@ export default function HelpListingsPanel({
     [items]
   );
   const hasDetail = Boolean(detailNode);
+  const isWorkspaceReturn = Boolean(onBackToWorkspace);
   const tiltAnimationClassName = useMemo(() => {
     const effectiveSide = closeTiltOverride || _side;
     const keyframe = effectiveSide === "right" ? "glassRingTiltFromRight" : "glassRingTiltFromLeft";
@@ -69,6 +70,7 @@ export default function HelpListingsPanel({
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:!min-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
+    `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title help-listings-mobile-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -155,7 +157,7 @@ export default function HelpListingsPanel({
       onClose={onClose}
       closeOnOverlayClick={!isClosing}
       aria-label={title || ui.listingPlural}
-      className="help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
+      className={`help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "help-listings-modal-overlay--workspace" : ""}`}
       contentClassName={helpListingsContentClassName}
     >
       {!hasDetail ? (

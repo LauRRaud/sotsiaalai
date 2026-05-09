@@ -99,9 +99,20 @@ function appendMeta(parent, label, value) {
 function appendActionLink(parent, href, label, options = {}) {
   const link = document.createElement("a");
   link.href = href;
-  link.className = "service-map-popup__action ui-glow-button-frame ui-glow-button-control";
+  link.className = "service-map-popup__action";
   if (options.target) link.target = options.target;
   if (options.rel) link.rel = options.rel;
+  if (options.forceLocation) {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = href;
+    });
+  } else {
+    link.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+  }
 
   const labelElement = document.createElement("span");
   labelElement.textContent = label;
@@ -136,7 +147,8 @@ function createPopupContent(entry, t) {
       appendActionLink(
         actions,
         `mailto:${entry.email}`,
-        readText(t, "workspace_feature_pages.service_map.popup.write", "Kirjuta")
+        readText(t, "workspace_feature_pages.service_map.popup.write", "Kirjuta"),
+        { forceLocation: true }
       );
     }
 
