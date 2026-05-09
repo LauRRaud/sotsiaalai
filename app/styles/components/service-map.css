@@ -217,7 +217,7 @@ html[data-contrast="hc"] .workspace-feature-panel :is(
   .workspace-feature-list-card,
   .workspace-feature-badge
 ) {
-  border-color: var(--hc-accent, #ffea00) !important;
+  border: 2px solid var(--hc-accent, #ffea00) !important;
   background: var(--workspace-feature-surface) !important;
   color: var(--hc-accent, #ffea00) !important;
   box-shadow: none !important;
@@ -231,6 +231,30 @@ html[data-contrast="hc"] .workspace-feature-panel :is(
   .workspace-feature-list-card
 ):is(:hover, :focus-visible, :focus-within) {
   background: var(--workspace-feature-surface-hover) !important;
+}
+
+html[data-contrast="hc"] .workspace-feature-panel :is(
+  .workspace-feature-card,
+  .workspace-feature-list-card,
+  .workspace-feature-chip,
+  .workspace-feature-admin-role,
+  .workspace-feature-toggle-row,
+  .workspace-feature-badge
+).\!border-0 {
+  border: 2px solid var(--hc-accent, #ffea00) !important;
+}
+
+html[data-contrast="hc"] .workspace-feature-panel :is(.workspace-feature-glow-card, .workspace-feature-card) {
+  border: 2px solid var(--hc-accent, #ffea00) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-action-btn,
+html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-action-btn:is(:hover, :focus-visible, :active) {
+  color: var(--hc-accent, #ffea00) !important;
+  background: transparent !important;
+  border: 2px solid rgba(255, 234, 0, 0.78) !important;
+  box-shadow: none !important;
 }
 
 .workspace-feature-card {
@@ -554,6 +578,28 @@ select.workspace-feature-field option {
   min-width: 0;
 }
 
+.workspace-feature-fancy-checkbox .workspace-feature-receiving-checkbox-label {
+  color: var(--workspace-feature-checkbox-text);
+}
+
+.workspace-feature-receiving-checkbox {
+  align-items: center !important;
+}
+
+.workspace-feature-receiving-checkbox.fancy-checkbox--top .box,
+.workspace-feature-receiving-checkbox.fancy-checkbox--multiline .box {
+  margin-top: 0;
+}
+
+.workspace-feature-receiving-checkbox .svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.workspace-feature-receiving-checkbox .tick {
+  stroke-width: 3.45;
+}
+
 :root.theme-light:not(.theme-mid) .workspace-feature-panel {
   --workspace-feature-checkbox-text: #1f2937;
 }
@@ -838,10 +884,10 @@ html[data-contrast="hc"] body.service-map-page-active {
 .service-map-toolbar__back {
   --back-arrow-color: #c57171;
   --back-dot-color: #7a3a38;
-  height: 3.15rem !important;
-  width: 3.15rem !important;
-  min-height: 3.15rem !important;
-  min-width: 3.15rem !important;
+  height: 3.72rem !important;
+  width: 3.72rem !important;
+  min-height: 3.72rem !important;
+  min-width: 3.72rem !important;
   flex: 0 0 auto;
   align-self: center;
   overflow: visible;
@@ -866,8 +912,8 @@ html[data-contrast="hc"] body.service-map-page-active {
 }
 
 .service-map-toolbar__back svg {
-  width: 4.35rem !important;
-  height: 4.35rem !important;
+  width: 5.15rem !important;
+  height: 5.15rem !important;
   transform-origin: center;
 }
 

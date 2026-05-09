@@ -536,6 +536,7 @@ export default function LeftRail({
                 data-key={item.key}
                 data-item-index={itemIndex}
                 className={cn(
+                  "chat-rail-icon-btn",
                   styles.item,
                   styles.iconBtn,
                   styles.mobileItem
@@ -673,6 +674,7 @@ export default function LeftRail({
                 data-key={item.key}
                 data-item-index={itemIndex}
                 className={cn(
+                  "chat-rail-icon-btn",
                   styles.item,
                   item.key === "back" ? styles.itemBack : null,
                   item.key === "back" && !backHoverReady

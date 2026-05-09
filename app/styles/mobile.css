@@ -3705,8 +3705,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       var(--stack-pad, 0px),
       calc(env(safe-area-inset-bottom, 0px) + clamp(1.35rem, 4vh, 2.2rem))
     ) !important;
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).profile-orbit-open

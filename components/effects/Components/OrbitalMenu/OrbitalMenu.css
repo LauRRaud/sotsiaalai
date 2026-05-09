@@ -1733,13 +1733,38 @@ html[data-contrast="hc"]
 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-  .profile-orbit-menu__item.dock-item,
+  .profile-orbit-menu__item.dock-item {
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow)) !important;
+  border: none !important;
+  outline: none !important;
+}
+
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible, :active) {
-  box-shadow: none !important;
+  box-shadow: var(--orbit-keypad-shadow-item-hover, var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow))) !important;
   border: none !important;
   outline: none !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
+  ).dock-item {
+  border: none !important;
+}
+
+html[data-contrast="hc"]
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
+  ).dock-item:is(:hover, :focus-visible, :active, [data-orbit-mobile-active="true"]) {
+  border: none !important;
 }
 
 html[data-contrast="hc"]

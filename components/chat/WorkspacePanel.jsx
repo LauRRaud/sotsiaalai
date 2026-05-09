@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import BackButton from "@/components/ui/BackButton";
 import BorderGlow from "@/components/ui/BorderGlow";
@@ -23,6 +23,10 @@ const DASHBOARD_VIEW_ROLES = Object.freeze([
 ]);
 
 function DashboardCardIcon({ type }) {
+  const serviceMapId = useId().replaceAll(":", "");
+  const serviceMapCutoutMaskId = `${serviceMapId}-service-map-cutout`;
+  const serviceMapLogoMaskId = `${serviceMapId}-service-map-logo`;
+
   if (type === "document") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
@@ -59,7 +63,24 @@ function DashboardCardIcon({ type }) {
   }
   if (type === "map") {
     return (
-      <span className={styles.serviceMapLogoIcon} aria-hidden="true" />
+      <svg className={styles.serviceMapInlineIcon} viewBox="0 0 34.12 32.89" fill="none" aria-hidden="true" focusable="false">
+        <defs>
+          <mask id={serviceMapCutoutMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width="34.12" height="32.89">
+            <rect width="34.12" height="32.89" fill="#fff" />
+            <path d="M19.8,19.68c-.66,0-1.34-.34-1.82-.91-2.32-2.75-3.84-5.6-3.84-7.58,0-3.13,2.54-5.66,5.66-5.66,3.12,0,5.66,2.53,5.66,5.66,0,1.98-1.52,4.83-3.84,7.58-.48.57-1.16.91-1.82.91Z" fill="#000" stroke="#000" strokeWidth="2.35" strokeLinejoin="round" />
+          </mask>
+          <mask id={serviceMapLogoMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width="34.12" height="32.89">
+            <rect width="34.12" height="32.89" fill="#000" />
+            <path mask={`url(#${serviceMapCutoutMaskId})`} d="M25.07,29.15c-.51.01-1.09-.72-1.14-.79-1.3-1.66-2.07-2.01-3.39-2.74-.87-.56-1.65-.45-2.73-.1-1.22.52-2.07,1.02-1.57-.74.13-.5.29-1.31-.02-1.68-.32-.46-1.39.29-2.16-.26-.6-.41-1.12-1.14-1.24-1.87-.12-.33.16-1.01.22-1.42-.01-.39-.47-.66-.39-1.11.15-.61-.13-1.37.15-2.05.51-.82,1.7-.88,2.38-1.46.28-.19.57-.4.89-.53,1.22-.39,2.07-.61,3.32-.62.67-.02,1.19-.36,1.68-.63,2.69-.43,5.69,1.47,8.46,1.2.63,0,1.72-.07,1.1.88-.43.68-.84,1.72-1.58,2.15-1.52.58-2.69.73-1.91,2.72.74,1.84,1.38,3.99,2.24,5.75.49.98-.34,1.57-.75,2.39-.46.78-1.56.07-2.21.45-.46.27-.95.35-1.26.43l-.09.02Z" stroke="#fff" strokeWidth="1.35" strokeMiterlimit="10" />
+            <path d="M19.8,19.68c-.66,0-1.34-.34-1.82-.91-2.32-2.75-3.84-5.6-3.84-7.58,0-3.13,2.54-5.66,5.66-5.66,3.12,0,5.66,2.53,5.66,5.66,0,1.98-1.52,4.83-3.84,7.58-.48.57-1.16.91-1.82.91Z" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M19.85,12.25v2.75" stroke="#fff" strokeWidth="1.72" strokeLinecap="round" />
+            <path d="M19.8,9.15h.01" stroke="#fff" strokeWidth="2.08" strokeLinecap="round" />
+            <path mask={`url(#${serviceMapCutoutMaskId})`} d="M5.34,23.68c-.81.85-.03,2.26.79.86.28-.52.41-1.22.84-1.49.42-.29,1.03-.07,1.45-.22.8-.26,1.36-1.1,2.13-1.45.16-.11.43-.24.29-.48-.47-.71-1.35-1.18-2.24-1.13-.47-.08-.87-.16-1.38.07-.44.14-.91.46-1.3.63-.32.13-.79-.08-.97.06-.23.25.39.96,0,1.25-.27.32-.22.64.15.98.3.26.85.61.29.87l-.06.05Z" stroke="#fff" strokeWidth="1.05" strokeLinecap="round" strokeLinejoin="round" />
+            <path mask={`url(#${serviceMapCutoutMaskId})`} d="M8.52,18.64c-.64-.19-.17-1.53-.97-1.54-.74-.01-1.5-.88-.19-.76.53.05.95-.27,1.22-.67.12-.18.24-.41.44-.39.27,0,.39.43.54.61.14.17.39.2.57.31.32.21.71.8.56,1.14-.04.09-.25.3-.43.41-.18.11-.27.19-.46.21-.19.02-.38.11-.54.29-.18.19-.4.35-.64.41h-.09Z" stroke="#fff" strokeWidth="1.05" strokeLinecap="round" strokeLinejoin="round" />
+          </mask>
+        </defs>
+        <rect width="34.12" height="32.89" fill="currentColor" mask={`url(#${serviceMapLogoMaskId})`} />
+      </svg>
     );
   }
   if (type === "service-profile") {
@@ -435,7 +456,7 @@ export default function WorkspacePanel({
                 key={card.key}
                 as="button"
                 type="button"
-                className={cn(styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
+                className={cn("workspace-dashboard-card", styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
                 onClick={card.disabled ? undefined : card.onClick}
                 disabled={card.disabled}
                 aria-disabled={card.disabled ? "true" : "false"}

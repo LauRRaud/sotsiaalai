@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
@@ -48,6 +48,13 @@ export default function HelpListingsPanel({
   );
   const hasDetail = Boolean(detailNode);
   const isWorkspaceReturn = Boolean(onBackToWorkspace);
+  const [workspaceModalHeight, setWorkspaceModalHeight] = useState(null);
+  const helpListingsDesktopSizeClassName = isWorkspaceReturn
+    ? "min-[769px]:!min-h-0"
+    : "!min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)]";
+  const helpListingsWorkspaceStyle = isWorkspaceReturn && workspaceModalHeight
+    ? { "--help-listings-workspace-measured-height": `${workspaceModalHeight}px` }
+    : undefined;
   const tiltAnimationClassName = useMemo(() => {
     const effectiveSide = closeTiltOverride || _side;
     const keyframe = effectiveSide === "right" ? "glassRingTiltFromRight" : "glassRingTiltFromLeft";
@@ -56,7 +63,7 @@ export default function HelpListingsPanel({
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
     `help-listings-modal-content mx-auto !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
-    `relative !flex min-h-0 !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
@@ -68,7 +75,6 @@ export default function HelpListingsPanel({
     `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
     `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
-    `max-[768px]:!min-h-[calc(100dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
     `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
@@ -112,6 +118,32 @@ export default function HelpListingsPanel({
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isWorkspaceReturn || typeof window === "undefined") return undefined;
+
+    const measureWorkspace = () => {
+      const node = document.querySelector("[data-chat-container]");
+      const rect = node?.getBoundingClientRect?.();
+      const nextHeight = Math.round(rect?.height || 0);
+      if (nextHeight > 0) setWorkspaceModalHeight(nextHeight);
+    };
+
+    measureWorkspace();
+    window.addEventListener("resize", measureWorkspace);
+
+    let resizeObserver;
+    const node = document.querySelector("[data-chat-container]");
+    if (node && typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(measureWorkspace);
+      resizeObserver.observe(node);
+    }
+
+    return () => {
+      window.removeEventListener("resize", measureWorkspace);
+      resizeObserver?.disconnect?.();
+    };
+  }, [isWorkspaceReturn]);
 
   useEffect(() => {
     if (isClosing) return;
@@ -159,6 +191,7 @@ export default function HelpListingsPanel({
       aria-label={title || ui.listingPlural}
       className={`help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "help-listings-modal-overlay--workspace" : ""}`}
       contentClassName={helpListingsContentClassName}
+      style={helpListingsWorkspaceStyle}
     >
       {!hasDetail ? (
         <BackButton

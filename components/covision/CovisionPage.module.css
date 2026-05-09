@@ -238,6 +238,7 @@
 .suggestionCard,
 .confirmBox {
   border-width: var(--covision-card-border-width) !important;
+  border-style: solid !important;
   border-color: var(--covision-card-border) !important;
   background: var(--covision-card-bg) !important;
   color: var(--covision-text) !important;

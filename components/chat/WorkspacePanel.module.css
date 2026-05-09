@@ -193,14 +193,10 @@
   height: 100%;
 }
 
-.serviceMapLogoIcon {
-  display: block;
-  width: 132%;
-  height: 132%;
+.serviceMapInlineIcon {
+  width: 132% !important;
+  height: 132% !important;
   margin: -16%;
-  background: currentColor;
-  mask: url("/icons/eesti_kontuurkaart_logo.svg") center / contain no-repeat;
-  -webkit-mask: url("/icons/eesti_kontuurkaart_logo.svg") center / contain no-repeat;
 }
 
 .cardCopy {

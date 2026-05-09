@@ -240,3 +240,46 @@
   box-shadow: none !important;
   opacity: 0 !important;
 }
+
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell) {
+  --glow-color: rgba(255, 234, 0, 0.86) !important;
+  --glow-color-60: rgba(255, 234, 0, 0.58) !important;
+  --glow-color-50: rgba(255, 234, 0, 0.48) !important;
+  --glow-color-40: rgba(255, 234, 0, 0.38) !important;
+  --glow-color-30: rgba(255, 234, 0, 0.3) !important;
+  --glow-color-20: rgba(255, 234, 0, 0.2) !important;
+  --glow-color-10: rgba(255, 234, 0, 0.12) !important;
+
+  background: transparent !important;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 234, 0, 0.72),
+    0 0 2px rgba(255, 234, 0, 0.3),
+    0 0 12px rgba(255, 234, 0, 0.18),
+    0 0 26px rgba(255, 234, 0, 0.1) !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell).edgeOnly::after {
+  background: conic-gradient(from var(--cursor-angle, 90deg), transparent 0deg, rgba(255, 234, 0, 0.9) 20deg, transparent 45deg) !important;
+  box-shadow:
+    0 0 0 2px rgba(255, 234, 0, 0.62),
+    0 0 16px rgba(255, 234, 0, 0.16) !important;
+  opacity: calc(var(--edge-proximity, 0) / 100) !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell) > .edgeLight,
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell).edgeOnly > .edgeLight {
+  display: block !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: calc(var(--edge-proximity, 0) / 100) !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell) > .edgeLight::before,
+:global(html[data-contrast="hc"]) .card:global(.chat-composer-glow-shell).edgeOnly > .edgeLight::before {
+  background: transparent !important;
+  box-shadow:
+    0 0 2px rgba(255, 234, 0, 0.74),
+    0 0 10px rgba(255, 234, 0, 0.32),
+    0 0 24px rgba(255, 234, 0, 0.16) !important;
+  opacity: 1 !important;
+}

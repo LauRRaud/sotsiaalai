@@ -128,6 +128,19 @@
   pointer-events: auto;
 }
 
+:global(html[data-contrast="hc"] body) .item,
+:global(html[data-contrast="hc"] body) .item:hover,
+:global(html[data-contrast="hc"] body) .item:focus-visible,
+:global(html[data-contrast="hc"] body) .item:active,
+:global(html[data-contrast="hc"] body) .iconBtn,
+:global(html[data-contrast="hc"] body) .iconBtn:hover,
+:global(html[data-contrast="hc"] body) .iconBtn:focus-visible,
+:global(html[data-contrast="hc"] body) .iconBtn:active {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
 .iconBtn:hover svg,
 .iconBtn:focus-visible svg {
   transform: none !important;

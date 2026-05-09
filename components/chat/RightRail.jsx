@@ -660,7 +660,7 @@ export default function RightRail({
               innerStrokeWidth: 1.16
             };
 
-        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn(commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
+        return <button key={`slot-${it.key}`} type="button" {...commonProps} data-key={it?.key} data-item-index={itemIndex} className={cn("chat-rail-icon-btn", commonProps.className, styles.iconBtn, mobileIconButtonClassName)} onClick={onActivate} onMouseEnter={!viewportIsMobile ? () => {
         if (itemIndex !== activeIndex) return;
         showTooltipPersistently(activeIndex);
       } : undefined} onMouseLeave={!viewportIsMobile ? () => {

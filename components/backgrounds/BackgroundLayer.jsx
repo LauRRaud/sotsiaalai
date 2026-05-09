@@ -22,9 +22,7 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/documents",
   "/dokreziim"
 ]);
-const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([
-  "/teenusekaart"
-]);
+const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;

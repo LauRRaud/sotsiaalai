@@ -66,6 +66,9 @@ const sectionTitleClassName =
 const bodyTextClassName =
   "m-0 text-[1.02rem] leading-[1.52] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]";
 
+const receivingCheckboxLabelClassName =
+  "workspace-feature-receiving-checkbox-label text-[1.12rem] font-[400] leading-[1.22]";
+
 const fieldClassName =
   "documents-field workspace-feature-field min-h-[3rem] rounded-[0.86rem] border px-[0.96rem] py-[0.68rem] text-[1rem] leading-[1.3]";
 
@@ -756,9 +759,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               <FancyCheckbox
                 checked={acceptsPreInquiries}
                 onChange={(value) => setAcceptsPreInquiries(Boolean(value))}
-                className="workspace-feature-fancy-checkbox fancy-checkbox--multiline fancy-checkbox--top"
+                className="workspace-feature-fancy-checkbox workspace-feature-receiving-checkbox fancy-checkbox--multiline fancy-checkbox--top"
                 label={
-                  <span className="text-[0.98rem] font-[620] leading-[1.28]">
+                  <span className={receivingCheckboxLabelClassName}>
                     {readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}
                   </span>
                 }
@@ -768,7 +771,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
                   : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
               </p>
-              <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
+              <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
                 {savingPreferences
                   ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                   : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}
@@ -970,9 +973,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             <FancyCheckbox
               checked={acceptsPreInquiries}
               onChange={(value) => setAcceptsPreInquiries(Boolean(value))}
-              className="workspace-feature-fancy-checkbox fancy-checkbox--multiline fancy-checkbox--top"
+              className="workspace-feature-fancy-checkbox workspace-feature-receiving-checkbox fancy-checkbox--multiline fancy-checkbox--top"
               label={
-                <span className="text-[0.98rem] font-[620] leading-[1.28]">
+                <span className={receivingCheckboxLabelClassName}>
                   {readText(t, "workspace_feature_pages.pre_inquiries.receiving.accepts_platform", "Võtan eelpöördumisi platvormil vastu")}
                 </span>
               }
@@ -982,7 +985,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
                 : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
             </p>
-            <Button type="button" size="sm" className="justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
+            <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
               {savingPreferences
                 ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                 : readText(t, "workspace_feature_pages.pre_inquiries.actions.save_preferences", "Salvesta vastuvõtt")}

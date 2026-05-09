@@ -6,10 +6,14 @@ function readCss(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("global light and mid button glow rules hide edgeLight by default", () => {
+test("global light and mid button glow rules keep edgeLight available", () => {
   const css = readCss("app/styles/components/glass.css");
 
   assert.match(
+    css,
+    /:root\.theme-light \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?:root\.theme-mid \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?display:\s*block\s*!important/
+  );
+  assert.doesNotMatch(
     css,
     /:root\.theme-light \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?:root\.theme-mid \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important/
   );

@@ -409,8 +409,8 @@ function ThemeMidDockIcon({
 }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
       <path d="M2.8 14.2h18.4" />
-      <path d="M4.2 14.2a7.8 7.8 0 0 1 15.6 0" />
-      <path d="M4.2 17.35h15.6" opacity="0.58" />
+      <path d="M5.4 14.2a6.6 6.6 0 0 1 13.2 0" />
+      <path d="M6.7 17.35h10.6" opacity="0.58" />
     </svg>;
 }
 function ThemeHighContrastDockIcon({

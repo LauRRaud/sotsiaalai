@@ -184,15 +184,43 @@ html[data-contrast="hc"]
 
   .help-listings-modal-content--workspace {
     --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
-    --help-listings-workspace-inline-size: calc(var(--chat-diameter) + var(--chat-focus-inline-extra));
+    --help-listings-workspace-fit-w: calc(
+      100vw - (2 * var(--ring-fit-pad, calc(1.5 * var(--base-rem))))
+    );
+    --help-listings-workspace-fit-h: calc(
+      100dvh - (2 * var(--ring-fit-pad, calc(1.5 * var(--base-rem)))) -
+        var(--ring-ui-reserve, calc(9 * var(--base-rem)))
+    );
+    --help-listings-workspace-fit: min(
+      var(--help-listings-workspace-fit-w),
+      var(--help-listings-workspace-fit-h)
+    );
+    --help-listings-workspace-max: min(
+      var(--ring-desktop-max, calc(55 * var(--base-rem))),
+      calc(var(--ring-base-max, calc(50 * var(--base-rem))) * var(--ring-scale, 1))
+    );
+    --help-listings-workspace-diameter: var(
+      --ring-diameter,
+      min(
+        var(--help-listings-workspace-max),
+        max(var(--ring-base-min, calc(34 * var(--base-rem))), var(--help-listings-workspace-fit))
+      )
+    );
+    --help-listings-workspace-inline-size: calc(
+      var(--help-listings-workspace-diameter) + var(--chat-focus-inline-extra)
+    );
+    --help-listings-workspace-block-size: var(
+      --help-listings-workspace-measured-height,
+      var(--help-listings-workspace-diameter)
+    );
     width: var(--help-listings-workspace-inline-size) !important;
     inline-size: var(--help-listings-workspace-inline-size) !important;
     min-width: var(--help-listings-workspace-inline-size) !important;
     max-width: var(--help-listings-workspace-inline-size) !important;
-    height: var(--chat-diameter) !important;
-    min-height: var(--chat-diameter) !important;
-    max-height: var(--chat-diameter) !important;
-    block-size: var(--chat-diameter) !important;
+    height: var(--help-listings-workspace-block-size) !important;
+    min-height: var(--help-listings-workspace-block-size) !important;
+    max-height: var(--help-listings-workspace-block-size) !important;
+    block-size: var(--help-listings-workspace-block-size) !important;
     border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
   }
 }
@@ -776,6 +804,13 @@ html[data-contrast="hc"] .chat-composer-glow-shell {
   --glow-color-30: rgba(255, 234, 0, 0.2) !important;
   --glow-color-20: rgba(255, 234, 0, 0.13) !important;
   --glow-color-10: rgba(255, 234, 0, 0.08) !important;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 234, 0, 0.66),
+    0 0 2px rgba(255, 234, 0, 0.24),
+    0 0 12px rgba(255, 234, 0, 0.12),
+    0 0 24px rgba(255, 234, 0, 0.07),
+    0 6px 16px rgba(0, 0, 0, 0.26),
+    var(--chat-under-glow) !important;
 }
 
 html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:hover {
@@ -786,6 +821,12 @@ html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:hover {
     0 0 24px rgba(255, 234, 0, 0.08),
     0 6px 16px rgba(0, 0, 0, 0.26),
     var(--chat-under-glow) !important;
+}
+
+html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell > [class*="edgeLight"],
+html[data-contrast="hc"] .chat-page-shell .chat-composer-glow-shell:focus-within:not(:hover) > [class*="edgeLight"] {
+  display: block !important;
+  opacity: calc(0.58 * (var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity))) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid) .chat-page-shell .chat-composer-glow-shell .chat-inputbar {
@@ -911,6 +952,18 @@ html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn {
   -webkit-backdrop-filter: none !important;
 }
 
+html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn,
+html[data-contrast="hc"] body .chat-input-row .chat-side-control-btn:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"] body .chat-inputbar .chat-dictate-btn,
+html[data-contrast="hc"] body .chat-inputbar .chat-dictate-btn:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn,
+html[data-contrast="hc"] body .chat-inputbar .chat-send-btn:is(:hover, :focus-visible, :active) {
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:hover,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:focus-visible,
 html[data-contrast="hc"] body .chat-inputbar .chat-listen-btn:active {
@@ -986,7 +1039,9 @@ html[data-contrast="hc"] body .chat-inputbar .chat-send-btn.invite-primary-btn {
     0 8px 18px rgba(2, 6, 16, 0.32),
     0 0 0 3px rgba(255, 234, 0, 0.42);
   --btn-primary-focus-ring-color: rgba(255, 234, 0, 0.42);
-  --btn-primary-text: rgba(248, 252, 255, 0.92);
+  --btn-primary-text: var(--hc-accent, #ffea00);
+  background: transparent !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }

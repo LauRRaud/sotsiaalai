@@ -936,9 +936,9 @@
 
 .documents-panel-link {
   padding: 0;
-  border: 0;
+  border: 0 !important;
   background: transparent;
-  box-shadow: none;
+  box-shadow: none !important;
   border-radius: 0;
 }
 
@@ -2805,6 +2805,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
 /* High-contrast overrides for Documents + Agent workspace content. */
 html[data-contrast="hc"] .documents-workspace {
+  --documents-hc-panel-bg: rgba(9, 14, 24, 0.62);
   --documents-page-text: var(--hc-accent);
   --documents-page-muted: rgba(255, 234, 0, 0.82);
   --documents-page-strong: var(--hc-accent);
@@ -2897,14 +2898,39 @@ html[data-contrast="hc"] .documents-workspace :is(
   .documents-panel,
   .documents-subpanel,
   .documents-card,
+  .documents-surface-panel,
+  .documents-framework-banner,
   .documents-agent-goal-group--template,
   .documents-agent-refine,
   .documents-agent-quick-actions,
   .documents-select-card,
   .documents-content
 ) {
-  border-color: rgba(255, 234, 0, 0.54) !important;
+  border: 2px solid rgba(255, 234, 0, 0.54) !important;
+  background: var(--documents-hc-panel-bg) !important;
   box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .documents-workspace :is(
+  .documents-workspace-card,
+  .documents-panel,
+  .documents-subpanel,
+  .documents-card,
+  .documents-surface-panel,
+  .documents-framework-banner,
+  .documents-notice,
+  .documents-content
+).\!border-0 {
+  border: 2px solid rgba(255, 234, 0, 0.54) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace .documents-panel-link,
+html[data-contrast="hc"] .documents-workspace .documents-panel-link:is(:hover, :focus-visible, :active) {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 html[data-contrast="hc"] .documents-workspace :is(
@@ -3055,6 +3081,17 @@ html[data-contrast="hc"] .documents-workspace :is(
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.58) !important;
   background: rgba(14, 20, 32, 0.48) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace-page--library :is(
+  .documents-page-hero-panel,
+  .documents-framework-banner.documents-notice,
+  .documents-library-panel,
+  .documents-shell-surface,
+  .documents-panel.documents-surface-panel,
+  .documents-subsection-stack.documents-panel
+) {
+  background: var(--documents-hc-panel-bg) !important;
 }
 
 html[data-contrast="hc"] .documents-workspace .documents-agent-conversation-window {
