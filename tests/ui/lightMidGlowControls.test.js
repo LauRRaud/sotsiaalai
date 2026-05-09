@@ -104,3 +104,19 @@ test("option card glow transitions use the same slow easing as other glow contro
     /duration-150 ease-out/
   );
 });
+
+test("border glow edge color enters and tracks pointer smoothly across controls", () => {
+  const css = readCss("components/ui/BorderGlow.module.css");
+  const source = readCss("components/ui/BorderGlow.jsx");
+
+  assert.match(
+    css,
+    /transition:\s*opacity var\(--border-glow-enter-duration,\s*0\.78s\) cubic-bezier\(0\.16,\s*1,\s*0\.3,\s*1\)/
+  );
+  assert.match(
+    css,
+    /transition:\s*opacity var\(--border-glow-exit-duration,\s*1\.05s\) cubic-bezier\(0\.16,\s*1,\s*0\.3,\s*1\)/
+  );
+  assert.match(source, /currentProximityRef\.current \+= edgeDelta \* 0\.12/);
+  assert.match(source, /currentAngleRef\.current \+ angleDelta \* 0\.11/);
+});

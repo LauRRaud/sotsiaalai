@@ -723,6 +723,9 @@
         "save_failed": "Service profile could not be saved."
       }
     },
+    "admin_role": {
+      "label": "Admin workspace role"
+    },
     "admin_role_label": "Admin workspace role",
     "roles": {
       "client": "Client",

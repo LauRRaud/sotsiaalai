@@ -6,37 +6,34 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("documents and agent pages use a compact mobile page gap and wider cards", () => {
+test("documents and agent pages use a shared mobile glass-panel system", () => {
   const css = read("app/styles/components/documents-mode.css");
+  const mobileCss = read("app/styles/mobile.css");
 
   assert.match(
     css,
-    /--documents-mobile-page-gap:\s*clamp\(0\.1rem,\s*0\.55vw,\s*0\.22rem\)/
+    /--documents-mobile-panel-gap:\s*var\(--mobile-glass-card-gap,\s*clamp\(0\.32rem,\s*1\.6vw,\s*0\.5rem\)\)/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?background:\s*transparent/
+    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?padding:[\s\S]*?env\(safe-area-inset-top,\s*0px\)[\s\S]*?var\(--documents-mobile-panel-gap\)/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?padding:[\s\S]*?var\(--documents-mobile-page-gap/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-agent-card[\s\S]*?\)\s*\{[\s\S]*?border:\s*0\s*!important[\s\S]*?border-radius:\s*var\(--documents-mobile-panel-radius\)\s*!important[\s\S]*?background:[\s\S]*?var\(--glass-ring-surface-bg[\s\S]*?box-shadow:\s*var\(--glass-shell-shadow,\s*none\)\s*!important[\s\S]*?backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)\s*saturate\(100%\)\s*!important/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents\s+\.documents-surface-panel,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-surface-panel[\s\S]*?\{[\s\S]*?padding-inline:\s*clamp\(0\.52rem,\s*1\.85vw,\s*0\.72rem\)\s*!important/
+    /\.documents-workspace-page--documents\s+\.documents-page-shell,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-page-shell\s*\{[\s\S]*?padding:\s*0\s*!important[\s\S]*?background:\s*transparent\s*!important[\s\S]*?backdrop-filter:\s*none\s*!important/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents\s+\.documents-workspace-shell,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-workspace-shell[\s\S]*?\{[\s\S]*?max-width:\s*min\(100%,\s*24rem\)[\s\S]*?margin-inline:\s*auto/
+    /\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-agent-content-pane[\s\S]*?\)\s*\{[\s\S]*?padding:[\s\S]*?var\(--documents-mobile-panel-pad-y\)[\s\S]*?var\(--documents-mobile-panel-pad-x\)\s*!important/
   );
-  assert.match(
-    css,
-    /\.documents-workspace-page--documents\s+\.documents-grid,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-agent-layout[\s\S]*?\{[\s\S]*?max-width:\s*none/
-  );
-  assert.match(
-    css,
-    /\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-library-section[\s\S]*?\.documents-library-intro[\s\S]*?\.documents-library-panel[\s\S]*?\.documents-library-list[\s\S]*?\.documents-empty-state[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-agent-card[\s\S]*?\.documents-agent-documents[\s\S]*?\.documents-agent-result[\s\S]*?\.documents-agent-results-list[\s\S]*?\)\s*\{[\s\S]*?width:\s*100%\s*!important[\s\S]*?justify-self:\s*stretch\s*!important/
-  );
+  assert.doesNotMatch(mobileCss, /documents-workspace-page--library/);
+  assert.doesNotMatch(mobileCss, /documents-workspace-shell--documents/);
+  assert.doesNotMatch(mobileCss, /documents-workspace-shell--agent/);
+  assert.doesNotMatch(mobileCss, /documents-page-shell/);
 });
 
 test("documents mobile controls stretch instead of keeping desktop fixed widths", () => {

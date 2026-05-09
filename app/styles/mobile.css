@@ -1952,9 +1952,9 @@
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    :is(.subscription-page-shell, .materials-page-shell, .documents-workspace-page--library),
+    :is(.subscription-page-shell, .materials-page-shell),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    :is(.subscription-page-shell, .materials-page-shell, .documents-workspace-page--library) {
+    :is(.subscription-page-shell, .materials-page-shell) {
     --mobile-glass-card-gap: 0px !important;
     width: 100vw !important;
     max-width: 100vw !important;
@@ -1965,25 +1965,13 @@
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    :is(.documents-workspace-shell--documents, .documents-workspace-shell--agent),
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    :is(.documents-workspace-shell--documents, .documents-workspace-shell--agent) {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
-    height: var(--glass-mobile-root-vh, 100dvh) !important;
-    padding: 0 !important;
-  }
-
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
     :is(
       .invite-modal-content,
       .subscription-modal-content,
       .materials-page-content,
       .help-listings-modal-content,
       .selected-listing-modal-content,
-      .workspace-feature-panel,
-      .documents-page-shell
+      .workspace-feature-panel
     ),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
     :is(
@@ -1992,8 +1980,7 @@
       .materials-page-content,
       .help-listings-modal-content,
       .selected-listing-modal-content,
-      .workspace-feature-panel,
-      .documents-page-shell
+      .workspace-feature-panel
     ) {
     --mobile-glass-card-gap: 0px !important;
     --glass-mobile-safe-top: 0px !important;
@@ -2016,8 +2003,7 @@
       .materials-page-content.materials-page-content,
       .help-listings-modal-content.help-listings-modal-content,
       .selected-listing-modal-content.selected-listing-modal-content,
-      .workspace-feature-panel.workspace-feature-panel,
-      .documents-page-shell.documents-page-shell
+      .workspace-feature-panel.workspace-feature-panel
     ),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
     :is(
@@ -2026,8 +2012,7 @@
       .materials-page-content.materials-page-content,
       .help-listings-modal-content.help-listings-modal-content,
       .selected-listing-modal-content.selected-listing-modal-content,
-      .workspace-feature-panel.workspace-feature-panel,
-      .documents-page-shell.documents-page-shell
+      .workspace-feature-panel.workspace-feature-panel
     ) {
     border-radius: 0 !important;
   }
@@ -2187,8 +2172,7 @@
       .subscription-modal-content,
       .materials-page-content,
       .help-listings-modal-content,
-      .selected-listing-modal-content,
-      .documents-workspace-page--library
+      .selected-listing-modal-content
     )
     .policy-mobile-title-wrap {
     padding-top: calc(env(safe-area-inset-top, 0px) + 1.34rem) !important;
@@ -3643,8 +3627,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .materials-page-content,
       .help-listings-modal-content,
       .selected-listing-modal-content,
-      .workspace-feature-panel,
-      .documents-page-shell
+      .workspace-feature-panel
     ),
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
     :is(
@@ -3653,8 +3636,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .materials-page-content,
       .help-listings-modal-content,
       .selected-listing-modal-content,
-      .workspace-feature-panel,
-      .documents-page-shell
+      .workspace-feature-panel
     ) {
     border-radius: 0 !important;
   }

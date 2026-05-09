@@ -39,3 +39,23 @@ test("profile orbital menu restores light and mid edgeLight with darker red glow
   assert.ok(staticGlowBlock, "orbital menu should define a stronger light/mid static glow");
   assert.match(staticGlowBlock[1], /rgba\(122,\s*58,\s*56/);
 });
+
+test("profile orbital menu clears red edge glow when items are not hovered", () => {
+  const css = readCss("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
+  const openStaticBlock = css.match(
+    /\.profile-orbit-menu\.is-open[\s\S]*?\.profile-orbit-menu__item\.profile-orbit-edge-glow\.dock-item[\s\S]*?>\s*\.profile-orbit-static-glow\s*\{([\s\S]*?)\n\}/
+  );
+  const hoverStaticBlock = css.match(
+    /:is\(\.profile-orbit-menu__item,\s*\.profile-orbit-mobile-action,\s*\.profile-orbit-stack-bubble\)\.profile-orbit-edge-glow\.dock-item:is\(:hover,\s*:focus-visible,\s*:active,\s*\[data-orbit-mobile-active="true"\]\)[\s\S]*?>\s*\.profile-orbit-static-glow\s*\{([\s\S]*?)\n\}/
+  );
+  const idleEdgeLightBlock = css.match(
+    /:root:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-edge-glow\.dock-item:not\(:hover\):not\(:focus-visible\):not\(:active\):not\(\[data-orbit-mobile-active="true"\]\)[\s\S]*?>\s*\[class\*="edgeLight"\]\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(openStaticBlock, "open orbital menu items should explicitly clear idle static glow");
+  assert.match(openStaticBlock[1], /opacity:\s*0\s*;/);
+  assert.ok(hoverStaticBlock, "hovered orbital menu items should still show static glow");
+  assert.match(hoverStaticBlock[1], /opacity:\s*0\.66\s*;/);
+  assert.ok(idleEdgeLightBlock, "idle orbital menu items should reset pointer edgeLight");
+  assert.match(idleEdgeLightBlock[1], /opacity:\s*0\s*!important/);
+});

@@ -23,7 +23,7 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  transition: opacity 0.42s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: opacity var(--border-glow-enter-duration, 0.78s) cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 0;
 }
 
@@ -31,7 +31,7 @@
 .card:not(:hover):not(:focus-within):not(.sweepActive)::after,
 .card:not(:hover):not(:focus-within):not(.sweepActive) > .edgeLight {
   opacity: 0;
-  transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: opacity var(--border-glow-exit-duration, 1.05s) cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card::before {

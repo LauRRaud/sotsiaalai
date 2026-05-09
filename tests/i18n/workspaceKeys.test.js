@@ -12,6 +12,7 @@ const requiredWorkspaceKeys = [
   "workspace_feature_pages.roles.client",
   "workspace_feature_pages.roles.service_provider",
   "workspace_feature_pages.roles.social_worker",
+  "workspace_feature_pages.admin_role.label",
   "workspace_feature_pages.admin_role_label"
 ];
 

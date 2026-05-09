@@ -6,6 +6,11 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
+function cssBlock(css, selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return css.match(new RegExp(`(?:^|\\n)${escaped}\\s*\\{([\\s\\S]*?)\\n\\}`))?.[1] || "";
+}
+
 test("service map Leaflet markers do not inherit the default div icon plate", () => {
   const css = read("app/styles/components/service-map.css");
 
@@ -43,8 +48,9 @@ test("service map close button and toolbar controls keep the intended brand/cont
   );
 });
 
-test("service map toolbar pills use compact local shadows instead of wide glow shadows", () => {
+test("service map toolbar controls keep compact shadows without suppressing light and mid edge glow", () => {
   const css = read("app/styles/components/service-map.css");
+  const glassCss = read("app/styles/components/glass.css");
 
   assert.match(
     css,
@@ -52,15 +58,53 @@ test("service map toolbar pills use compact local shadows instead of wide glow s
   );
   assert.match(
     css,
+    /--service-map-control-shadow:[\s\S]*?0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.08\)/
+  );
+  assert.match(
+    css,
     /--service-map-control-shadow-hover:\s*inset 0 1px 0 rgba\(255,\s*255,\s*255,\s*0\.28\),\s*0 3px 7px rgba\(15,\s*23,\s*42,\s*0\.09\)/
   );
   assert.match(
     css,
-    /\.service-map-toolbar__glow-field\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important[\s\S]*?opacity:\s*0\s*!important/
+    /--service-map-control-shadow-hover:[\s\S]*?0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.18\)[\s\S]*?0 0 18px rgba\(197,\s*113,\s*113,\s*0\.09\)/
+  );
+  assert.match(
+    glassCss,
+    /:root\.theme-light \.ui-glow-field > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.ui-glow-field > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
+  );
+  assert.match(
+    glassCss,
+    /:root\.theme-light \.ui-glow-option-card-frame > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.ui-glow-option-card-frame > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
   );
   assert.match(
     css,
-    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important[\s\S]*?opacity:\s*0\s*!important/
+    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.service-map-toolbar__results \.workspace-feature-list-card\.ui-glow-button-frame > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.service-map-toolbar__glow-field\s*>\s*\[class\*="edgeLight"\],[\s\S]*?\.service-map-toolbar__type-card\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important/
+  );
+  assert.doesNotMatch(
+    css,
+    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field\s*>\s*\[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame\s*>\s*\[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.doesNotMatch(
+    css,
+    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field::after,[\s\S]*?:root\.theme-mid \.service-map-toolbar__results \.workspace-feature-list-card::after\s*\{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.doesNotMatch(css, /--edge-proximity:\s*100/);
+  assert.doesNotMatch(css, /--cursor-angle:\s*90deg/);
+  assert.match(
+    css,
+    /\.service-map-toolbar__type-card\s*\{[\s\S]*?transition:[\s\S]*?background 560ms cubic-bezier\(0\.22,\s*0\.61,\s*0\.36,\s*1\)/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.service-map-toolbar__type-card:is?\(:?hover[\s\S]*?background:\s*var\(--btn-primary-bg-hover/
+  );
+  assert.doesNotMatch(
+    css,
+    /:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame:is\(:hover,[\s\S]*?background:\s*var\(--mid-pill-surface-bg-hover\)/
   );
   assert.match(
     css,
@@ -114,6 +158,7 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
   const css = read("app/styles/components/service-map.css");
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
     css,
@@ -133,8 +178,9 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.08rem 0\.12rem 0\.12rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.22rem 0\.34rem 0\.24rem/
   );
+  assert.doesNotMatch(source, /service-map-result-card__type/);
 });
 
 test("service map mobile route removes animated overlays and lets the map fill the panel", () => {
@@ -194,7 +240,11 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.34rem 0\.34rem 0\.5rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.22rem 0\.34rem 0\.24rem/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-workspace__filters-shell\s*\{[\s\S]*?padding-bottom:\s*0\.42rem/
   );
   assert.match(
     css,
@@ -223,19 +273,27 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
-    /\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
+    /\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
+    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
   );
   assert.match(
     css,
-    /\.service-map-toolbar__identity\s*\{[\s\S]*?align-self:\s*flex-start[\s\S]*?padding-top:\s*0\.08rem/
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center/
   );
   assert.match(
     css,
-    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?\.service-map-toolbar__results \.workspace-feature-list-card[\s\S]*?border:\s*1px solid rgba\(148,\s*163,\s*184,\s*0\.16\)\s*!important/
+    /\.service-map-toolbar__identity\s*\{[\s\S]*?align-self:\s*center[\s\S]*?padding-top:\s*0/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*-0\.16rem/
+  );
+  assert.match(
+    css,
+    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?\.service-map-toolbar__results \.workspace-feature-list-card[\s\S]*?border:\s*1px solid rgba\(122,\s*58,\s*56,\s*0\.12\)\s*!important/
   );
 });
 
@@ -248,6 +306,23 @@ test("service map mobile map edge does not expose a blue Leaflet fallback seam",
     css,
     /\.service-map-leaflet(?:\.leaflet-container)?\s*\{[\s\S]*?background:\s*var\(--service-map-map-bg\)\s*!important/
   );
+});
+
+test("service map panel and map canvas do not draw their own edge", () => {
+  const css = read("app/styles/components/service-map.css");
+  const filtersShell = cssBlock(css, ".service-map-workspace__filters-shell");
+  const mapFrame = cssBlock(css, ".service-map-workspace__map");
+  const leafletShell = cssBlock(css, ".service-map-leaflet-shell");
+  const leaflet = cssBlock(css, ".service-map-leaflet");
+
+  assert.match(filtersShell, /border:\s*0\s*!important/);
+  assert.match(filtersShell, /box-shadow:\s*none\s*!important/);
+  assert.match(mapFrame, /border:\s*0\s*!important/);
+  assert.match(mapFrame, /box-shadow:\s*none\s*!important/);
+  assert.match(leafletShell, /border:\s*0\s*!important/);
+  assert.match(leafletShell, /box-shadow:\s*none\s*!important/);
+  assert.match(leaflet, /border:\s*0\s*!important/);
+  assert.match(leaflet, /box-shadow:\s*none\s*!important/);
 });
 
 test("service map mobile dark and night panels stay translucent, while high contrast remains black", () => {

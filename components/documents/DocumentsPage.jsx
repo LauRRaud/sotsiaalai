@@ -773,7 +773,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                         type="button"
                         size="sm"
                         variant="ghost"
-                        className="documents-secondary-button"
+                        className="documents-secondary-button documents-upload-choose-button"
                         onClick={() => uploadInputRef.current?.click()}
                       >
                         {t("documents.form.choose_file")}

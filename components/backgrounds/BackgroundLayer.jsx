@@ -18,16 +18,15 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/privaatsustingimused",
   "/hinnastus",
   "/voimalused",
-  "/teenusekaart"
+  "/teenusekaart",
+  "/documents",
+  "/dokreziim"
 ]);
 const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
 const PARTICLES_EXCLUDED_PATHS = new Set([
   "/teenusekaart"
 ]);
-const MOBILE_COLOR_BENDS_READY_PATHS = new Set([
-  "/documents",
-  "/dokreziim"
-]);
+const MOBILE_COLOR_BENDS_READY_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;

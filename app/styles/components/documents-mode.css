@@ -2470,6 +2470,16 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   min-width: 6.8rem;
   padding-inline: 0.88rem;
   padding-block: 0.5rem;
+  border-color: color-mix(in srgb, var(--documents-accent-border) 54%, transparent) !important;
+  background: color-mix(in srgb, var(--documents-accent-soft) 42%, var(--documents-muted-bg) 58%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 6px 14px rgba(35, 24, 24, 0.08) !important;
+}
+
+.documents-upload-choose-button:is(:hover, :focus-visible) {
+  border-color: color-mix(in srgb, var(--documents-accent-border) 74%, var(--documents-accent) 26%) !important;
+  background: color-mix(in srgb, var(--documents-accent-soft) 56%, var(--documents-muted-bg) 44%) !important;
 }
 
 .documents-danger-button {
@@ -2614,89 +2624,93 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
   .documents-workspace-page--documents,
   .documents-workspace-page--agent {
-    --documents-mobile-page-gap: clamp(0.1rem, 0.55vw, 0.22rem);
-    min-height: var(--glass-mobile-root-vh, 100dvh);
-    background: transparent;
+    --documents-mobile-panel-gap: var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem));
+    --documents-mobile-panel-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem));
+    --documents-mobile-panel-pad-x: clamp(0.78rem, 3vw, 0.94rem);
+    --documents-mobile-panel-pad-y: clamp(0.82rem, 2.8vw, 1rem);
     padding:
-      calc(env(safe-area-inset-top, 0px) + var(--documents-mobile-page-gap))
-      max(var(--documents-mobile-page-gap), env(safe-area-inset-right, 0px))
-      calc(env(safe-area-inset-bottom, 0px) + var(--documents-mobile-page-gap))
-      max(var(--documents-mobile-page-gap), env(safe-area-inset-left, 0px));
+      calc(env(safe-area-inset-top, 0px) + var(--documents-mobile-panel-gap))
+      max(var(--documents-mobile-panel-gap), env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + var(--documents-mobile-panel-gap))
+      max(var(--documents-mobile-panel-gap), env(safe-area-inset-left, 0px));
   }
 
   .documents-workspace-shell {
     width: 100%;
-    padding: 0.72rem 0.56rem 0.88rem;
-  }
-
-  .documents-workspace-shell--agent {
     padding: 0;
   }
 
-  .documents-workspace-shell--documents {
-    padding: 0;
+  .documents-workspace-page--documents :is(
+    .documents-page-hero-panel,
+    .documents-library-panel,
+    .documents-shell-surface,
+    .documents-framework-banner.documents-notice
+  ),
+  .documents-workspace-page--agent :is(
+    .documents-page-hero-panel,
+    .documents-agent-card,
+    .documents-agent-content-pane,
+    .documents-agent-result,
+    .documents-shell-surface
+  ) {
+    border: 0 !important;
+    border-radius: var(--documents-mobile-panel-radius) !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: var(--glass-shell-shadow, none) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
   }
 
-  .documents-workspace-page--documents .documents-workspace-shell,
-  .documents-workspace-page--agent .documents-workspace-shell,
+  .documents-workspace-page--documents.documents-workspace-page--library .documents-framework-banner.documents-notice {
+    border: 0 !important;
+    border-radius: var(--documents-mobile-panel-radius) !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: var(--glass-shell-shadow, none) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
+  }
+
   .documents-workspace-page--documents .documents-page-shell,
   .documents-workspace-page--agent .documents-page-shell {
-    width: 100%;
-    max-width: min(100%, 24rem);
-    margin-inline: auto;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .documents-workspace-page--documents :is(
+    .documents-page-hero-panel,
+    .documents-library-panel,
+    .documents-shell-surface,
+    .documents-framework-banner.documents-notice
+  ),
+  .documents-workspace-page--agent :is(
+    .documents-page-hero-panel,
+    .documents-agent-card,
+    .documents-agent-content-pane,
+    .documents-agent-result,
+    .documents-shell-surface
+  ) {
+    padding:
+      var(--documents-mobile-panel-pad-y)
+      var(--documents-mobile-panel-pad-x) !important;
   }
 
   .documents-workspace-page--documents .documents-grid,
   .documents-workspace-page--agent .documents-grid,
   .documents-workspace-page--agent .documents-agent-layout {
-    width: 100%;
-    max-width: none;
+    gap: var(--documents-mobile-panel-gap);
   }
 
-  .documents-workspace-page--documents .documents-surface-panel,
-  .documents-workspace-page--agent .documents-surface-panel,
-  .documents-workspace-page--documents .documents-framework-banner.documents-notice {
-    padding-inline: clamp(0.52rem, 1.85vw, 0.72rem) !important;
-  }
-
-  .documents-workspace-page--documents :is(
-    .documents-library-section,
-    .documents-library-intro,
-    .documents-section-stack,
-    .documents-section-body,
-    .documents-subsection-stack,
-    .documents-library-panel,
-    .documents-library-list,
-    .documents-shell-surface,
-    .documents-card,
-    .documents-empty-state,
-    .documents-notice
-  ),
-  .documents-workspace-page--agent :is(
-    .documents-agent-layout,
-    .documents-agent-section-shell,
-    .documents-agent-card,
-    .documents-agent-documents,
-    .documents-agent-content-pane,
-    .documents-agent-result,
-    .documents-agent-results-list,
-    .documents-agent-goal-groups,
-    .documents-agent-goal-group,
-    .documents-agent-refine,
-    .documents-agent-quick-actions,
-    .documents-agent-version-list,
-    .documents-agent-source-list,
-    .documents-card,
-    .documents-empty-state,
-    .documents-notice
-  ) {
-    box-sizing: border-box;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin-inline: 0 !important;
-    justify-self: stretch !important;
-    align-self: stretch !important;
+  .documents-workspace-page--agent .documents-agent-layout {
+    margin-top: var(--documents-mobile-panel-gap) !important;
   }
 
   .documents-primary-button,

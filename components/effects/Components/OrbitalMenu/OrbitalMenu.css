@@ -1292,7 +1292,7 @@ html[data-contrast="hc"]
   .profile-orbit-menu.is-open
   .profile-orbit-menu__item.profile-orbit-edge-glow.dock-item
   > .profile-orbit-static-glow {
-  opacity: 0.34;
+  opacity: 0;
 }
 
 .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -1377,7 +1377,7 @@ html[data-contrast="hc"]
   .profile-orbit-menu.is-open
   .profile-orbit-menu__item.profile-orbit-edge-glow.dock-item
   > .profile-orbit-static-glow {
-  opacity: 0.62;
+  opacity: 0;
 }
 
 :root.theme-light:not(.theme-mid):not([data-contrast="hc"])
@@ -1389,6 +1389,13 @@ html[data-contrast="hc"]
   :is(.profile-orbit-menu__item, .profile-orbit-mobile-action, .profile-orbit-stack-bubble).profile-orbit-edge-glow.dock-item:is(:hover, :focus-visible, :active, [data-orbit-mobile-active="true"])
   > .profile-orbit-static-glow {
   opacity: 0.82;
+}
+
+:root:not([data-contrast="hc"])
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-edge-glow.dock-item:not(:hover):not(:focus-visible):not(:active):not([data-orbit-mobile-active="true"])
+  > [class*="edgeLight"] {
+  opacity: 0 !important;
 }
 
 .profile-orbit-mobile-action.dock-item .dock-icon svg {

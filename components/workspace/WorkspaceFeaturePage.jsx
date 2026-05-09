@@ -1214,13 +1214,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   );
 }
 
-function serviceMapEntryTypeLabel(t, type) {
-  if (type === "SERVICE_PROVIDER") {
-    return readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja");
-  }
-  return readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt");
-}
-
 function hasServiceMapCoordinates(entry) {
   const latitude = Number(entry?.latitude);
   const longitude = Number(entry?.longitude);
@@ -1485,9 +1478,6 @@ function ServiceMapSurface({
                     onClick={() => handleSelectEntry(entry.id)}
                   >
                     <span className="service-map-result-card__title text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
-                    <span className="service-map-result-card__type text-[0.82rem] font-[700] leading-[1.1] opacity-[0.74]">
-                      {serviceMapEntryTypeLabel(t, entry.type)}
-                    </span>
                   </BorderGlow>
                   ))}
                 </div>

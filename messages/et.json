@@ -723,6 +723,9 @@
         "save_failed": "Teenuseprofiili salvestamine ebaõnnestus."
       }
     },
+    "admin_role": {
+      "label": "Admini töövaate roll"
+    },
     "admin_role_label": "Admini töövaate roll",
     "roles": {
       "client": "Pöörduja",

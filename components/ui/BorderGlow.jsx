@@ -169,9 +169,9 @@ const BorderGlow = forwardRef(function BorderGlow({
       targetAngleRef.current
     );
 
-    currentProximityRef.current += edgeDelta * 0.18;
+    currentProximityRef.current += edgeDelta * 0.12;
     currentAngleRef.current =
-      (currentAngleRef.current + angleDelta * 0.16 + 360) % 360;
+      (currentAngleRef.current + angleDelta * 0.11 + 360) % 360;
 
     const edgeSettled = Math.abs(edgeDelta) < 0.08;
     const angleSettled = Math.abs(angleDelta) < 0.35;
