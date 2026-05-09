@@ -262,12 +262,27 @@ html[data-contrast="hc"] {
   max-width: 100%;
 }
 
+.ui-glow-button-soft-edge {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0),
+    inset 0 0 5px rgba(197, 113, 113, 0);
+  transition: opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 .ui-glow-button-frame:focus-within:not(:hover) > .edgeLight,
 .ui-glow-button-frame:focus-within:not(:hover) > [class*="edgeLight"],
 .ui-glow-button-frame:focus-within:not(:hover)::after,
+.ui-glow-button-frame:focus-within:not(:hover) > .ui-glow-button-soft-edge,
 .ui-glow-button-frame--disabled > .edgeLight,
 .ui-glow-button-frame--disabled > [class*="edgeLight"],
-.ui-glow-button-frame--disabled::after {
+.ui-glow-button-frame--disabled::after,
+.ui-glow-button-frame--disabled > .ui-glow-button-soft-edge {
   opacity: 0 !important;
 }
 
@@ -327,6 +342,14 @@ html[data-contrast="hc"] {
     0 0 2px rgba(122, 58, 56, 0.08),
     0 0 12px rgba(197, 113, 113, 0.13),
     0 0 26px rgba(197, 113, 113, 0.075) !important;
+}
+
+:root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > .ui-glow-button-soft-edge,
+:root.theme-mid .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > .ui-glow-button-soft-edge {
+  opacity: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.16),
+    inset 0 0 5px rgba(197, 113, 113, 0.055);
 }
 
 html[data-contrast="hc"] .ui-glow-button-frame > .edgeLight,
@@ -536,6 +559,34 @@ html[data-contrast="hc"] .ui-glow-option-card-frame:hover:not(.ui-glow-option-ca
     0 0 24px rgba(255, 234, 0, 0.08) !important;
 }
 
+html[data-contrast="hc"] .ui-glow-option-card-frame[data-checked="true"],
+html[data-contrast="hc"] .ui-glow-option-card-frame[data-checked="true"]:hover,
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"],
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover {
+  --seg-card-bg: rgba(255, 234, 0, 0.1) !important;
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;
+  --card-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
+
+html[data-contrast="hc"] .ui-glow-option-card-frame[data-checked="true"]::before,
+html[data-contrast="hc"] .ui-glow-option-card-frame[data-checked="true"]:hover::before,
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]::before,
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover::before {
+  opacity: 1 !important;
+  background: rgba(255, 234, 0, 0.06) !important;
+}
+
 .glass-box a {
   color: var(--link-gold);
 }
@@ -721,7 +772,7 @@ html[data-contrast="hc"] .ui-glow-option-card-frame:hover:not(.ui-glow-option-ca
 }
 
 .register-role-options .register-role-button.register-option-card[data-checked="true"] {
-  background: var(--seg-card-bg) !important;
+  background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
 }
 
 .register-role-options .register-role-button:hover::before,
@@ -771,11 +822,43 @@ html[data-contrast="hc"] .ui-glow-option-card-frame:hover:not(.ui-glow-option-ca
   padding-bottom: 0.76rem !important;
 }
 
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"],
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover {
+  --seg-card-bg: rgba(255, 234, 0, 0.1) !important;
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;
+  --card-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
+
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]::before,
+html[data-contrast="hc"] .register-role-options .register-role-button.register-option-card[data-checked="true"]:hover::before {
+  opacity: 1 !important;
+  background: rgba(255, 234, 0, 0.06) !important;
+}
+
 .register-agree-card.register-checkbox-card,
 .register-guide-card.register-checkbox-card {
   min-height: 3.72rem;
   padding-top: 0.48rem !important;
   padding-bottom: 0.48rem !important;
+}
+
+html[data-contrast="hc"] .register-input .ui-glow-control,
+html[data-contrast="hc"] .register-input .ui-glow-control:is(:hover, :focus, :focus-visible, :active) {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 .register-checkbox-card .register-policy-link:hover,

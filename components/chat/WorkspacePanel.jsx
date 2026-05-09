@@ -427,6 +427,7 @@ export default function WorkspacePanel({
         ariaLabel={text(t, "buttons.back_previous", "Tagasi")}
         holdPressedVisualDisabled
         className={cn(glassPageBackTopLeftClassName, styles.backButton)}
+        iconClassName={styles.backButtonIcon}
       />
       {isAdmin ? (
         <div className={styles.roleMenu}>

@@ -47,6 +47,10 @@ export default function OptionCard({
           <path d="M6 12.5l4 4 8-8" />
         </svg>
       </span> : null;
+  const textClassName = cn(
+    "flex min-w-0 flex-1 items-center leading-[inherit] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [transform:translateZ(0)]",
+    type === "radio" ? "justify-center text-center" : null
+  );
   const handleKeyDown = e => {
     if (disabled) return;
     if (type === "radio" && (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight") && name) {
@@ -137,7 +141,7 @@ export default function OptionCard({
   const card = <label data-checked={checked ? "true" : "false"} data-control-type={type} data-focus-visible={isFocusVisible ? "true" : "false"} className={cn(baseCard, glow ? "ui-glow-option-card-frame" : null, disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer", className, checked ? selectedCard : null)} style={style} {...props}>
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} onFocus={e => setIsFocusVisible(e.target.matches(":focus-visible"))} onBlur={() => setIsFocusVisible(false)} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
-      <span ref={textRef} className="flex min-w-0 flex-1 items-center leading-[inherit] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [transform:translateZ(0)]">
+      <span ref={textRef} className={textClassName}>
         {children}
       </span>
     </label>;
@@ -169,7 +173,7 @@ export default function OptionCard({
     >
       <input ref={resolvedRef} type={type} name={name} value={value} checked={!!checked} onChange={onChange} onKeyDown={handleKeyDown} onFocus={e => setIsFocusVisible(e.target.matches(":focus-visible"))} onBlur={() => setIsFocusVisible(false)} disabled={disabled} className="peer sr-only" style={visuallyHiddenInputStyle} tabIndex={0} />
       {indicator}
-      <span ref={textRef} className="flex min-w-0 flex-1 items-center leading-[inherit] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [-webkit-font-smoothing:antialiased] [text-rendering:geometricPrecision] [transform:translateZ(0)]">
+      <span ref={textRef} className={textClassName}>
         {children}
       </span>
     </BorderGlow>

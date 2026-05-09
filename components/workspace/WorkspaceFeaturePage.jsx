@@ -1296,6 +1296,12 @@ function ServiceMapSurface({
 
   return (
     <div className="service-map-workspace" ref={workspaceRef}>
+      <BackButton
+        onClick={handleServiceMapBack}
+        ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+        holdPressedVisualDisabled
+        className={cn(glassPageBackTopLeftClassName, "service-map-workspace__back")}
+      />
       <div
         className={cn(
           "service-map-workspace__filters",
@@ -1311,16 +1317,15 @@ function ServiceMapSurface({
             WebkitBackdropFilter: "blur(34px) saturate(176%) contrast(0.98)"
           }}
         >
+          <div className="service-map-toolbar__identity">
+            <BackButton
+              onClick={handleServiceMapBack}
+              ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+              holdPressedVisualDisabled
+              className="service-map-toolbar__back"
+            />
+          </div>
           <div className="service-map-toolbar__content">
-            <div className="service-map-toolbar__identity">
-              <BackButton
-                onClick={handleServiceMapBack}
-                ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-                holdPressedVisualDisabled
-                className="service-map-toolbar__back"
-              />
-            </div>
-
             <div className="service-map-toolbar__body">
               <div className="service-map-toolbar__fields">
                 <label className="service-map-toolbar__field service-map-toolbar__field--keyword">

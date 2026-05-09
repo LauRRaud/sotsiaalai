@@ -92,6 +92,7 @@ export default function HomePage() {
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
   const rightCardWrapRef = useRef(null);
+  const homeRootRef = useRef(null);
   const leftFlipTimeoutRef = useRef(null);
   const rightFlipTimeoutRef = useRef(null);
   const suppressFlipRef = useRef(false);
@@ -177,19 +178,25 @@ export default function HomePage() {
     return () => window.clearInterval(intervalId);
   }, []);
   useEffect(() => {
+    const root = homeRootRef.current;
     const onScroll = () => {
-      if (isMobile) {
-        setShowScrollCue(true);
-        return;
-      }
-      const y = typeof window !== "undefined" ? window.scrollY || document.documentElement.scrollTop || 0 : 0;
-      setShowScrollCue(y < 10);
+      const y = Math.max(
+        typeof window !== "undefined" ? window.scrollY || document.documentElement.scrollTop || 0 : 0,
+        root?.scrollTop || 0
+      );
+      setShowScrollCue(y < (isMobile ? 14 : 10));
     };
     onScroll();
     window.addEventListener("scroll", onScroll, {
       passive: true
     });
-    return () => window.removeEventListener("scroll", onScroll);
+    root?.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      root?.removeEventListener("scroll", onScroll);
+    };
   }, [isMobile]);
   useEffect(() => {
     if (homeA11yReady || typeof window === "undefined") return;
@@ -358,7 +365,8 @@ export default function HomePage() {
   const cardsIntroDone = leftFadeDone && rightFadeDone;
   const scrollCueReady = leftFadeDone && rightFadeDone;
   const showScrollCueNow =
-    (isMobile ? scrollCueReady : showScrollCue && scrollCueEntered) &&
+    showScrollCue &&
+    (isMobile ? scrollCueReady : scrollCueEntered) &&
     !(isHomeOverlayOpen || isLoginOpen);
   const shouldFadeLeft = introStart && !skipIntroAnimations && !leftFadeDone;
   const shouldFadeRight = introStart && !skipIntroAnimations && !rightFadeDone;
@@ -699,7 +707,7 @@ export default function HomePage() {
     });
   }, [pendingExitSide, startExitToChat]);
   return <>
-      <div className={cn("relative flex min-h-[100dvh] max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
+      <div ref={homeRootRef} className={cn("relative flex min-h-[100dvh] max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
         <section onClick={handleBackgroundTap} className="relative touch-pan-y">
           <div className={cn(
             "absolute left-1/2 top-[calc(env(safe-area-inset-top,0px)+clamp(1rem,3.6vh,2.5rem))] z-[60] -translate-x-1/2",

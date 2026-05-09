@@ -41,10 +41,75 @@ test("service map close button and toolbar controls keep the intended brand/cont
     css,
     /\.service-map-workspace__filters:not\(\.service-map-workspace__filters--collapsed\) \.service-map-workspace__toggle\s*\{[\s\S]*?var\(--service-map-control-glass-bg\)/
   );
+});
+
+test("service map toolbar pills use compact local shadows instead of wide glow shadows", () => {
+  const css = read("app/styles/components/service-map.css");
+
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__back,[\s\S]*?\.service-map-toolbar__back:is\(:hover,\s*:focus-visible,\s*:active\)\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?box-shadow:\s*none\s*!important[\s\S]*?backdrop-filter:\s*none\s*!important/
+    /--service-map-control-shadow:\s*inset 0 1px 0 rgba\(255,\s*255,\s*255,\s*0\.22\),\s*0 2px 5px rgba\(15,\s*23,\s*42,\s*0\.075\)/
   );
+  assert.match(
+    css,
+    /--service-map-control-shadow-hover:\s*inset 0 1px 0 rgba\(255,\s*255,\s*255,\s*0\.28\),\s*0 3px 7px rgba\(15,\s*23,\s*42,\s*0\.09\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__glow-field\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important[\s\S]*?opacity:\s*0\s*!important/
+  );
+  assert.match(
+    css,
+    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field\s*>\s*\[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important[\s\S]*?opacity:\s*0\s*!important/
+  );
+  assert.match(
+    css,
+    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field[\s\S]*?box-shadow:\s*var\(--service-map-control-shadow\)\s*!important/
+  );
+  assert.match(
+    css,
+    /:root\.theme-light \.service-map-toolbar__type-card\.ui-glow-option-card-frame[\s\S]*?box-shadow:\s*var\(--service-map-control-shadow\)\s*!important/
+  );
+});
+
+test("service map back button uses desktop toolbar panel and mobile page anchor", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    source,
+    /className=\{cn\(glassPageBackTopLeftClassName,\s*"service-map-workspace__back"\)\}/
+  );
+  assert.match(source, /className="service-map-toolbar__back"/);
+  assert.match(
+    css,
+    /\.service-map-workspace__back\s*\{[\s\S]*?z-index:\s*450\s*!important/
+  );
+  assert.match(
+    css,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__identity\s*\{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__back\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?box-shadow:\s*none\s*!important/
+  );
+});
+
+test("workspace dashboard back button keeps the same shared page anchor", () => {
+  const source = read("components/chat/WorkspacePanel.jsx");
+  const css = read("components/chat/WorkspacePanel.module.css");
+
+  assert.match(
+    source,
+    /className=\{cn\(glassPageBackTopLeftClassName,\s*styles\.backButton\)\}/
+  );
+  assert.match(css, /\.backButton\s*\{[^}]*z-index:\s*92\s*!important/);
+  assert.doesNotMatch(css, /\.backButton\s*\{[^}]*\bleft:/);
+  assert.doesNotMatch(css, /\.backButton\s*\{[^}]*\btop:/);
 });
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
@@ -72,25 +137,29 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
 });
 
-test("service map mobile route keeps animated page background behind a rounded card", () => {
+test("service map mobile route removes animated overlays and lets the map fill the panel", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const css = read("app/styles/components/service-map.css");
 
-  assert.doesNotMatch(
+  assert.match(
     backgroundLayer,
     /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?["']\/teenusekaart["']/
   );
   assert.match(
-    css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-page-panel\.service-map-page-panel\s*\{[\s\S]*?inset:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ var\(--mobile-glass-card-gap[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius[\s\S]*?background:[\s\S]*?var\(--glass-ring-sheen,\s*none\)[\s\S]*?var\(--glass-ring-surface-bg/
+    backgroundLayer,
+    /PARTICLES_EXCLUDED_PATHS[\s\S]*?["']\/teenusekaart["']/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace\s*\{[\s\S]*?--service-map-map-radius:\s*clamp\([\s\S]*?--service-map-mobile-map-inset:/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-page-panel\.service-map-page-panel\s*\{[\s\S]*?inset:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ var\(--mobile-glass-card-gap[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius[\s\S]*?background:\s*var\(--service-map-safe-area-bg,\s*#10151d\)\s*!important[\s\S]*?backdrop-filter:\s*none/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__map\s*\{[\s\S]*?inset:\s*var\(--service-map-mobile-map-inset\)[\s\S]*?border-radius:\s*var\(--service-map-map-radius\)/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace\s*\{[\s\S]*?--service-map-map-radius:\s*clamp\([\s\S]*?--service-map-mobile-map-inset:\s*0px/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__map\s*\{[\s\S]*?inset:\s*var\(--service-map-mobile-map-inset\)[\s\S]*?border-radius:\s*var\(--service-map-map-radius\)[\s\S]*?box-shadow:\s*none/
   );
 });
 

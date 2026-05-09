@@ -231,6 +231,29 @@
   box-shadow: none !important;
 }
 
+:global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]),
+:global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]:hover),
+:global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]:focus-visible),
+:global(html[data-contrast="hc"]) .card:global(.register-role-button[data-checked="true"]),
+:global(html[data-contrast="hc"]) .card:global(.register-role-button[data-checked="true"]:hover),
+:global(html[data-contrast="hc"]) .card:global(.register-role-button[data-checked="true"]:focus-visible) {
+  --card-bg: rgba(255, 234, 0, 0.1) !important;
+  --seg-card-bg: rgba(255, 234, 0, 0.1) !important;
+  --seg-card-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
+
 :global(html[data-contrast="hc"]) .edgeOnly::after,
 :global(html[data-contrast="hc"]) .edgeLight,
 :global(html[data-contrast="hc"]) .edgeLight::before,

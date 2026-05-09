@@ -773,7 +773,7 @@ html[data-contrast="hc"] body .chat-tools-surface-popover {
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:hover,
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
   color: var(--hc-accent) !important;
-  background: transparent !important;
+  background: rgba(255, 234, 0, 0.14) !important;
   border-color: rgba(255, 234, 0, 0.9) !important;
   box-shadow: none !important;
   outline: none !important;
@@ -1707,12 +1707,16 @@ html[data-contrast="hc"] :is(
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"],
 html[data-contrast="hc"] .person-invite-modal-content [data-control-type][data-checked="true"] {
-  background: rgba(255, 234, 0, 0.22) !important;
-  border-color: rgba(255, 234, 0, 1) !important;
-  box-shadow:
-    inset 0 0 0 2px rgba(255, 234, 0, 0.72),
-    0 0 0 2px rgba(255, 234, 0, 0.28),
-    0 0 18px rgba(255, 234, 0, 0.2) !important;
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
 }
 
 html[data-contrast="hc"] .invite-modal-content [data-control-type][data-checked="true"]::before,
@@ -2506,6 +2510,12 @@ html[data-contrast="hc"] :is(
   opacity: 1 !important;
 }
 
+html[data-contrast="hc"] .service-map-workspace .service-map-toolbar__input::placeholder,
+html[data-contrast="hc"] .service-map-page-panel .service-map-toolbar__input::placeholder {
+  color: rgba(255, 234, 0, 0.92) !important;
+  opacity: 1 !important;
+}
+
 html[data-contrast="hc"] :is(
   .workspace-feature-card,
   .workspace-feature-chip,
@@ -2681,6 +2691,22 @@ html[data-contrast="hc"] :is(
   fill: var(--hc-accent) !important;
 }
 
+html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame,
+html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
+  --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  --btn-primary-border-hover: 2px solid rgba(255, 234, 0, 0.94) !important;
+  --btn-primary-border-active: 2px solid rgba(255, 234, 0, 1) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  color: var(--hc-accent) !important;
+  background: var(--hc-control-bg) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .framework-page-shell .ui-glow-button-frame:is(:hover, :focus-visible, :active) {
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  background: rgba(255, 234, 0, 0.14) !important;
+}
+
 html[data-contrast="hc"] body :is(
   .ui-glow-field,
   .materials-comment-glow-field,
@@ -2712,6 +2738,61 @@ html[data-contrast="hc"] body :is(
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.72) !important;
   box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .register-content,
+  .invite-modal-content,
+  .person-invite-modal-content,
+  .a11y-modal-shell
+) [data-control-type][data-checked="true"] {
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .register-content,
+  .invite-modal-content,
+  .person-invite-modal-content,
+  .a11y-modal-shell
+) [data-control-type][data-checked="true"]::before {
+  opacity: 1 !important;
+  background: rgba(255, 234, 0, 0.06) !important;
+}
+
+html[data-contrast="hc"] body :is(button, [role="button"], label).ui-glow-option-card-frame[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn),
+html[data-contrast="hc"] body :is(button, [role="button"], label).register-option-card[data-checked="true"]:not(.profile-orbit-menu__item):not(.profile-orbit-menu__center):not(.profile-orbit-mobile-action):not(.profile-orbit-stack-bubble):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
+  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;
+  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;
+  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;
+  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;
+  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;
+  background: rgba(255, 234, 0, 0.1) !important;
+  background-color: rgba(255, 234, 0, 0.1) !important;
+  border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
+}
+
+html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn,
+html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn:is(:hover, :focus-visible, :active),
+html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn::before,
+html[data-contrast="hc"] body .chat-msg-ai .chat-assistant-action-btn::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 html[data-contrast="hc"] body .workspace-dashboard-card,

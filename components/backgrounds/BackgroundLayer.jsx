@@ -18,10 +18,14 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/privaatsustingimused",
   "/hinnastus",
   "/voimalused",
+  "/teenusekaart",
   "/documents",
   "/dokreziim"
 ]);
 const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
+const PARTICLES_EXCLUDED_PATHS = new Set([
+  "/teenusekaart"
+]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
@@ -516,6 +520,7 @@ function BackgroundLayer() {
   if (BACKGROUND_LAYER_EXCLUDED_PATHS.has(normalizedPathname)) return null;
 
   const showColorBends = !COLOR_BENDS_EXCLUDED_PATHS.has(normalizedPathname);
+  const showParticles = !PARTICLES_EXCLUDED_PATHS.has(normalizedPathname);
   const isLightTheme =
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
@@ -534,6 +539,7 @@ function BackgroundLayer() {
     isLightTheme={isLightTheme}
     isHomepage={isHomepage}
     showColorBends={showColorBends}
+    showParticles={showParticles}
     colorBendsColors={colorBendsColors}
     colorBendsOpacity={colorBendsOpacity}
   />;

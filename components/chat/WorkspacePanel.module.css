@@ -25,7 +25,11 @@
 }
 
 .backButton {
-  z-index: 5 !important;
+  z-index: 92 !important;
+}
+
+.backButtonIcon {
+  margin: 0;
 }
 
 .roleMenu {
@@ -324,14 +328,14 @@
       calc(env(safe-area-inset-bottom, 0px) + clamp(0.55rem, 1.7vh, 0.9rem));
   }
 
-  .backButton {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.2rem - var(--chat-pad-top, var(--glass-ring-pad-top, 0px))) !important;
-  }
-
   .title {
     margin-top: clamp(0.52rem, 1.45vh, 0.72rem) !important;
     margin-bottom: clamp(0.32rem, 0.9vh, 0.52rem) !important;
+  }
+
+  .backButtonIcon {
+    margin-top: -0.42rem;
+    margin-left: -0.58rem;
   }
 
   .roleMenu {

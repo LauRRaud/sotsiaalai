@@ -77,13 +77,21 @@ test("light and mid buttons use an outer glow ring without inset double edges", 
   const buttonHoverBlock = css.match(
     /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\),[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\)\s*\{([\s\S]*?)\n\}/
   );
+  const softEdgeHoverBlock = css.match(
+    /:root\.theme-light \.ui-glow-button-frame:hover:not\([^)]*\) > \.ui-glow-button-soft-edge,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame:hover:not\([^)]*\) > \.ui-glow-button-soft-edge\s*\{([\s\S]*?)\n\}/
+  );
+  const buttonSource = readCss("components/ui/Button.jsx");
 
   assert.ok(buttonHoverBlock, "light/mid buttons should define hover glow");
+  assert.ok(softEdgeHoverBlock, "light/mid buttons should define a soft edge layer");
+  assert.match(buttonSource, /ui-glow-button-soft-edge/);
   assert.match(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.1\)/);
   assert.match(buttonHoverBlock[1], /0 0 12px rgba\(197,\s*113,\s*113,\s*0\.13\)/);
   assert.match(buttonHoverBlock[1], /0 0 26px rgba\(197,\s*113,\s*113,\s*0\.075\)/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 0 1px rgba\(122,\s*58,\s*56/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 5px rgba\(197,\s*113,\s*113/);
+  assert.match(softEdgeHoverBlock[1], /inset 0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.16\)/);
+  assert.match(softEdgeHoverBlock[1], /inset 0 0 5px rgba\(197,\s*113,\s*113,\s*0\.055\)/);
 });
 
 test("option card glow transitions use the same slow easing as other glow controls", () => {

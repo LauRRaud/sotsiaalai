@@ -280,7 +280,7 @@ const ChatMessageItem = memo(function ChatMessageItem({
   const assistantActionsClassName =
     "mt-[0.54rem] flex w-full items-center gap-[0.46rem] text-[color:var(--chat-composer-action-icon-color,#c57171)]";
   const assistantActionButtonClassName =
-    "inline-flex h-[2.15rem] w-[2.15rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
+    "chat-assistant-action-btn inline-flex h-[2.15rem] w-[2.15rem] items-center justify-center rounded-full border-0 bg-transparent p-0 " +
     "text-current shadow-none outline-none transition-opacity duration-150 " +
     "focus-visible:ring-2 focus-visible:ring-current/35 " +
     "disabled:cursor-not-allowed disabled:opacity-45";

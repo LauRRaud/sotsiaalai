@@ -66,15 +66,17 @@ const pinInputClassName =
   "placeholder:text-[#6b7280] light:placeholder:text-[#4b5563]";
 const registerFieldHintClassName =
   "pointer-events-none absolute inset-y-0 left-[1.5rem] right-[1.5rem] flex items-center overflow-hidden whitespace-nowrap text-ellipsis text-[1.25rem] leading-[1.45] tracking-[0.01em] text-[color:var(--subscription-error-color,#fca5a5)] opacity-95 max-[768px]:text-[clamp(1.24rem,4.95vw,1.42rem)] max-[768px]:leading-[1.34]";
+const registerControlWidthClassName =
+  "min-[769px]:!w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:!max-w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto";
 const checkboxCardClassName =
-  "register-checkbox-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]";
+  `register-checkbox-card w-full ${registerControlWidthClassName} gap-[0.72rem] text-[1.04rem] leading-[1.28] px-[1.05rem] py-[0.72rem] text-[color:var(--pt-50)] light:text-[color:var(--input-text)]`;
 const registerControlVarsClassName =
   "[--seg-control-size:24px] [--seg-radio-dot-size:10px] [--seg-check-size:22px] [--seg-control-radius:0.5rem]";
 const registerOptionButtonClassName = primarySegmentedButtonClassName;
 const lockedRoleCardClassName =
   "register-option-card relative overflow-hidden flex items-center rounded-[var(--seg-card-radius)] px-[0.85rem] py-[1.1rem] text-[1.18rem] font-normal tracking-[0.03em] shadow-[var(--seg-card-shadow-selected,var(--btn-primary-shadow-hover))] " +
   "[background:var(--seg-card-bg-selected,var(--btn-primary-bg-hover))] text-[color:var(--seg-card-text-selected,var(--title-color,var(--brand-primary)))] " +
-  "w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34]";
+  `w-full ${registerControlWidthClassName} justify-center text-center max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34]`;
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
 const successButtonClassName =
@@ -86,6 +88,8 @@ const registerChevronStrokeWidthMobile = 1.04;
 const inputBaseClassName =
   `register-input register-input-mid-shell ${pillInputBaseClassName} ` +
   "min-[769px]:w-[calc(100%-clamp(1.45rem,calc(var(--ring-diameter,52rem)/24.8),2.1rem))] min-[769px]:mx-auto py-[0.95rem] px-[1.5rem] min-h-[3.6rem]";
+const registerCredentialFieldClassName =
+  registerControlWidthClassName;
 const isRegistrationOpen = !["false", "0", "off"].includes(
   String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true")
     .trim()
@@ -860,7 +864,7 @@ export default function RegistreerimineBody({}) {
                           data-checked={form.role === role ? "true" : "false"}
                           onClick={() => handleRoleSelect(role)}
                           onKeyDown={(event) => handleRoleKeyDown(event, role)}
-                          className={`ui-glow-option-card-frame register-role-button register-option-card w-full min-[769px]:w-[calc(100%-clamp(1.55rem,calc(var(--ring-diameter,52rem)/22),2.35rem))] min-[769px]:mx-auto ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
+                          className={`ui-glow-option-card-frame register-role-button register-option-card w-full ${registerControlWidthClassName} ${registerTextClassName} max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34] py-[1.1rem] ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                           edgeSensitivity={22}
                           glowColor="358 82 72"
                           backgroundColor="var(--seg-card-bg)"
@@ -875,7 +879,7 @@ export default function RegistreerimineBody({}) {
                             "--border-radius": "var(--seg-card-radius, 1.25rem)"
                           }}
                         >
-                          <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                          <span className="relative z-[1] flex min-w-0 flex-1 items-center justify-center text-center leading-[inherit]">
                             {t(roleLabelKey(role))}
                           </span>
                         </BorderGlow>
@@ -887,7 +891,7 @@ export default function RegistreerimineBody({}) {
                     className={`${lockedRoleCardClassName} ${registerControlVarsClassName} ${registerOptionButtonClassName}`}
                     aria-label={t(roleLabelKey(lockedRole))}
                   >
-                    <span className="relative z-[1] flex min-w-0 flex-1 items-center leading-[inherit]">
+                    <span className="relative z-[1] flex min-w-0 flex-1 items-center justify-center text-center leading-[inherit]">
                       {t(roleLabelKey(lockedRole))}
                     </span>
                   </div>
@@ -898,7 +902,7 @@ export default function RegistreerimineBody({}) {
                 className={`${registerStepClassName} register-step--field register-step--email ${getRegisterStepClassName(emailStepIndex)}`}
               >
                 <div className="register-input-shell register-input-shell--mid relative flex justify-center">
-                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName)}>
+                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName, registerCredentialFieldClassName)}>
                     <input
                       type="email"
                       id="email"
@@ -932,7 +936,7 @@ export default function RegistreerimineBody({}) {
                 className={`${registerStepClassName} register-step--field register-step--pin ${getRegisterStepClassName(pinStepIndex)}`}
               >
                 <div className="register-input-shell register-input-shell--mid relative flex justify-center">
-                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName)}>
+                  <GlowField className={cn(inputBaseClassName, inputClassName, pinInputClassName, registerCredentialFieldClassName)}>
                     <input
                       type="text"
                       id="pin"

@@ -10,6 +10,9 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
   const css = read("app/styles/components/chat-focus.css");
   const borderGlow = read("components/ui/BorderGlow.module.css");
   const hc = read("app/styles/theme/hc.css");
+  const composerShellBlocks = css.match(
+    /:root:not\(\.theme-light\):not\(\.theme-mid\) \.chat-page-shell \.chat-composer-glow-shell(?::hover)?\s*\{[\s\S]*?\n\}/g
+  ) || [];
 
   assert.match(
     css,
@@ -27,6 +30,11 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
     css,
     /html\[data-contrast="hc"\][\s\S]*?\.chat-input-row\s+\.chat-side-control-btn[\s\S]*?\.chat-inputbar\s+\.chat-send-btn:is\(:hover,\s*:focus-visible,\s*:active\)\s*\{[\s\S]*?background:\s*transparent\s*!important/
   );
+  assert.ok(composerShellBlocks.length >= 2, "chat composer should define idle and hover shell glow blocks");
+  for (const block of composerShellBlocks) {
+    assert.match(block, /rgba\(255,\s*234,\s*0/);
+    assert.doesNotMatch(block, /rgba\(255,\s*122,\s*126/);
+  }
 });
 
 test("HC global button reset excludes chat composer icon controls", () => {
@@ -73,7 +81,106 @@ test("HC invite selected payment cards and workspace action buttons have clear o
   const serviceMap = read("app/styles/components/service-map.css");
   const workspace = read("components/workspace/WorkspaceFeaturePage.jsx");
 
-  assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.22\)\s*!important/);
+  assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/);
   assert.match(serviceMap, /\.workspace-feature-action-btn[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(workspace, /workspace-feature-action-btn/);
+});
+
+test("HC selected option cards keep a yellow fill after the generic glow reset", () => {
+  const hc = read("app/styles/theme/hc.css");
+  const glass = read("app/styles/components/glass.css");
+  const borderGlow = read("components/ui/BorderGlow.module.css");
+  const segmented = read("components/ui/primarySegmentedButtonClassName.js");
+  const genericResetIndex = hc.lastIndexOf("html[data-contrast=\"hc\"] body :is(\n  button,\n  [role=\"button\"],\n  label\n):is(");
+  const selectedOverrideIndex = hc.indexOf(
+    "html[data-contrast=\"hc\"] body :is(\n  .register-content,\n  .invite-modal-content,\n  .person-invite-modal-content,\n  .a11y-modal-shell\n) [data-control-type][data-checked=\"true\"] {",
+    genericResetIndex
+  );
+
+  assert.ok(genericResetIndex > -1, "HC generic button/glow reset should exist");
+  assert.ok(selectedOverrideIndex > genericResetIndex, "selected option card override must come after the generic reset");
+  assert.match(
+    hc.slice(selectedOverrideIndex),
+    /background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+  );
+  assert.match(
+    hc.slice(selectedOverrideIndex),
+    /\[data-control-type\]\[data-checked="true"\]::before[\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.06\)\s*!important/
+  );
+  assert.match(
+    hc.slice(selectedOverrideIndex),
+    /:is\(button,\s*\[role="button"\],\s*label\)\.ui-glow-option-card-frame\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+  );
+  assert.match(
+    glass,
+    /html\[data-contrast="hc"\] \.ui-glow-option-card-frame\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+  );
+  assert.match(
+    glass,
+    /html\[data-contrast="hc"\] \.register-role-options \.register-role-button\.register-option-card\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+  );
+  assert.match(segmented, /hc:\[--seg-card-bg-selected:rgba\(255,234,0,0\.10\)\]/);
+  assert.match(glass, /\.register-role-options \.register-role-button\.register-option-card\[data-checked="true"\]\s*\{[\s\S]*?background:\s*var\(--seg-card-bg-selected/);
+  assert.match(
+    borderGlow,
+    /:global\(html\[data-contrast="hc"\]\) \.card:global\(\.ui-glow-option-card-frame\[data-checked="true"\]\)[\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/
+  );
+});
+
+test("HC registration inputs do not draw an inner native input rectangle", () => {
+  const glass = read("app/styles/components/glass.css");
+
+  assert.match(
+    glass,
+    /html\[data-contrast="hc"\] \.register-input \.ui-glow-control,[\s\S]*?border:\s*0\s*!important[\s\S]*?outline:\s*0\s*!important[\s\S]*?background:\s*transparent\s*!important/
+  );
+});
+
+test("HC framework page action buttons keep visible yellow borders", () => {
+  const hc = read("app/styles/theme/hc.css");
+
+  assert.match(
+    hc,
+    /html\[data-contrast="hc"\] \.framework-page-shell \.ui-glow-button-frame,[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+  );
+});
+
+test("registration option cards and credential fields share one desktop width", () => {
+  const source = read("components/alalehed/RegistreerimineBody.jsx");
+
+  assert.match(source, /const registerControlWidthClassName\s*=/);
+  assert.match(source, /const registerCredentialFieldClassName\s*=\s*\n\s*registerControlWidthClassName;/);
+  assert.match(source, /const checkboxCardClassName\s*=[\s\S]*registerControlWidthClassName/);
+  assert.match(source, /register-role-button register-option-card w-full \$\{registerControlWidthClassName\}/);
+  assert.match(source, /register-step--email[\s\S]*?<GlowField className=\{cn\(inputBaseClassName,\s*inputClassName,\s*pinInputClassName,\s*registerCredentialFieldClassName\)\}/);
+  assert.match(source, /register-step--pin[\s\S]*?<GlowField className=\{cn\(inputBaseClassName,\s*inputClassName,\s*pinInputClassName,\s*registerCredentialFieldClassName\)\}/);
+});
+
+test("HC assistant message action buttons stay transparent under replies", () => {
+  const component = read("components/alalehed/chat/ChatMessageItem.jsx");
+  const hc = read("app/styles/theme/hc.css");
+
+  assert.match(component, /chat-assistant-action-btn inline-flex/);
+  assert.match(
+    hc,
+    /\.chat-msg-ai \.chat-assistant-action-btn,[\s\S]*?background:\s*transparent\s*!important[\s\S]*?background-image:\s*none\s*!important[\s\S]*?box-shadow:\s*none\s*!important/
+  );
+});
+
+test("HC chat plus menu items use yellow hover fill", () => {
+  const hc = read("app/styles/theme/hc.css");
+
+  assert.match(
+    hc,
+    /\.chat-tools-menu \.chat-tools-item:hover,[\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.14\)\s*!important/
+  );
+});
+
+test("HC service map toolbar placeholders are yellow", () => {
+  const hc = read("app/styles/theme/hc.css");
+
+  assert.match(
+    hc,
+    /\.service-map-workspace \.service-map-toolbar__input::placeholder,[\s\S]*?color:\s*rgba\(255,\s*234,\s*0,\s*0\.92\)\s*!important/
+  );
 });

@@ -110,6 +110,7 @@ const Button = forwardRef(function Button({
         {...sharedProps}
         style={{ ...fieldEdgeGlowStyle, ...style }}
       >
+        <span className="ui-glow-button-soft-edge" aria-hidden="true" />
         <span className="relative z-[1] inline-flex items-center justify-center gap-[inherit]">
           {children}
         </span>
