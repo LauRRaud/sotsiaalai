@@ -347,7 +347,12 @@ html[data-contrast="hc"]
   }
 
   .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
+    --chat-pad-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    );
     --chat-pad-bottom: 0rem;
+    padding-top: var(--chat-pad-top) !important;
     padding-bottom: 0 !important;
   }
 }

@@ -233,8 +233,7 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 }
 
- .homepage-root .home-about-panel,
- .homepage-root .home-before-panel {
+.homepage-root .home-about-panel {
   border: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -572,21 +571,6 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
   }
 }
 
-.homepage-root .home-before-panel {
-  background: var(
-    --home-panel-bg,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
-  ) !important;
-  box-shadow: var(
-    --home-before-panel-shadow,
-    var(
-      --home-panel-shadow-active,
-      var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))
-    )
-  ) !important;
-}
-
-
 .homepage-root .home-before-contact-button {
   appearance: none;
   -webkit-appearance: none;
@@ -604,8 +588,7 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
 }
 
 @media (min-width: 48.001em) {
-  .homepage-root .home-about-panel,
-  .homepage-root .home-before-panel {
+  .homepage-root .home-about-panel {
     background: var(
       --home-panel-bg,
       var(
@@ -623,10 +606,6 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
       --home-about-panel-shadow,
       var(--glass-shell-shadow, none)
     ) !important;
-  }
-
-  .homepage-root .home-before-panel {
-    box-shadow: var(--glass-shell-shadow, none) !important;
   }
 }
 
@@ -845,132 +824,6 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
   }
 }
 
-.homepage-root .home-card-pattern-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0.33;
-}
-
-.homepage-root .home-card-pattern-layer.pattern-grid {
-  background:
-    repeating-linear-gradient(
-      24deg,
-      rgb(116 116 116 / 0.2) 0 1px,
-      transparent 1px 12px
-    ),
-    repeating-linear-gradient(
-      -64deg,
-      rgb(176 176 176 / 0.14) 0 1px,
-      transparent 1px 15px
-    ),
-    repeating-linear-gradient(
-      92deg,
-      transparent 0 26px,
-      rgb(134 134 134 / 0.12) 26px 27px,
-      transparent 27px 52px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 9px,
-      rgb(200 200 200 / 0.08) 9px 10px,
-      transparent 10px 20px
-    );
-}
-
-.homepage-root .home-card-pattern-layer.pattern-dots {
-  background:
-    radial-gradient(
-      circle at 22% 18%,
-      rgb(110 110 110 / 0.22) 0 1.4px,
-      transparent 1.5px
-    )
-    0 0 / 1.05rem 1.05rem,
-    radial-gradient(
-      circle at 72% 36%,
-      rgb(184 184 184 / 0.16) 0 1.2px,
-      transparent 1.3px
-    )
-    0.2rem 0.5rem / 1.1rem 1.1rem,
-    radial-gradient(
-      circle at 44% 76%,
-      rgb(126 126 126 / 0.2) 0 1.1px,
-      transparent 1.2px
-    )
-    0.1rem 0.2rem / 1.15rem 1.15rem,
-    repeating-linear-gradient(
-      118deg,
-      transparent 0 18px,
-      rgb(172 172 172 / 0.08) 18px 19px,
-      transparent 19px 36px
-    );
-}
-
-.homepage-root .home-card-pattern-layer.pattern-diagonal {
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgb(98 98 98 / 0.21) 0 2px,
-      transparent 2px 17px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgb(184 184 184 / 0.13) 0 1px,
-      transparent 1px 11px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 23px,
-      rgb(114 114 114 / 0.11) 23px 25px,
-      transparent 25px 46px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 29px,
-      rgb(198 198 198 / 0.09) 29px 30px,
-      transparent 30px 58px
-    );
-}
-
-.homepage-root .home-card-pattern-layer.pattern-arcs {
-  background:
-    radial-gradient(
-      circle at 18% 22%,
-      transparent 0 14px,
-      rgb(116 116 116 / 0.2) 14px 15px,
-      transparent 15px
-    )
-    0 0 / 2.2rem 2.2rem,
-    radial-gradient(
-      circle at 78% 28%,
-      transparent 0 10px,
-      rgb(186 186 186 / 0.13) 10px 11px,
-      transparent 11px
-    )
-    0.1rem 0.35rem / 2.3rem 2.3rem,
-    radial-gradient(
-      circle at 42% 74%,
-      transparent 0 12px,
-      rgb(124 124 124 / 0.12) 12px 13px,
-      transparent 13px
-    )
-    0.45rem 0.15rem / 2.35rem 2.35rem,
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 24px,
-      rgb(180 180 180 / 0.08) 24px 25px,
-      transparent 25px 50px
-    );
-}
-
-@media (max-width: 768px) {
-  .homepage-root .home-card-pattern-layer {
-    opacity: 0.32;
-  }
-}
-
 .homepage-root .home-about-scrollbox {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1029,18 +882,18 @@ html[data-contrast="hc"] .homepage-root .home-card-a11y-button:focus-visible::af
 /* Homepage glow rules: keep the ring-like edge glow on dark/night/HC only. */
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .homepage-root
-  :is(.home-about-panel, .home-before-panel),
-:root.theme-night:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel),
-html[data-contrast="hc"]:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel) {
+  .home-about-panel,
+:root.theme-night:not(.theme-mid) .homepage-root .home-about-panel,
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root .home-about-panel {
   box-shadow: var(--home-panel-shadow-idle, var(--glass-shell-shadow, none)) !important;
   transition: box-shadow 320ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .homepage-root
-  :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active),
-:root.theme-night:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active),
-html[data-contrast="hc"]:not(.theme-mid) .homepage-root :is(.home-about-panel, .home-before-panel):is(:hover, :focus-within, :active) {
+  .home-about-panel:is(:hover, :focus-within, :active),
+:root.theme-night:not(.theme-mid) .homepage-root .home-about-panel:is(:hover, :focus-within, :active),
+html[data-contrast="hc"]:not(.theme-mid) .homepage-root .home-about-panel:is(:hover, :focus-within, :active) {
   box-shadow: var(
     --home-panel-shadow-active,
     var(--home-panel-shadow-idle, var(--glass-shell-shadow, none))

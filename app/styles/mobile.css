@@ -493,11 +493,9 @@
     left: 0 !important;
   }
   html[data-display-mode="browser"] .homepage-root .home-about-panel,
-  html[data-display-mode="browser"] .homepage-root .home-before-panel,
   html[data-display-mode="browser"] .homepage-root .home-about-scrollbox,
   html[data-display-mode="browser"] .homepage-root .home-about-scrollbox > *,
   body[data-display-mode="browser"] .homepage-root .home-about-panel,
-  body[data-display-mode="browser"] .homepage-root .home-before-panel,
   body[data-display-mode="browser"] .homepage-root .home-about-scrollbox,
   body[data-display-mode="browser"] .homepage-root .home-about-scrollbox > * {
     contain: none !important;
@@ -1248,8 +1246,8 @@
     color: var(--orbit-accent, #c57171);
   }
   .profile-orbit-stack-bubble .dock-icon svg {
-    width: 78%;
-    height: 78%;
+    width: 66%;
+    height: 66%;
     max-width: none;
     max-height: none;
     stroke: currentColor;

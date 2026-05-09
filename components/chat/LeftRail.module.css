@@ -134,9 +134,9 @@
 }
 
 .iconBtn:hover img:not(.iconBack),
-.iconBtn:hover svg:not(.iconBack):not(.iconSvgSources):not(.iconRooms),
+.iconBtn:hover svg:not(.iconBack):not(.iconRooms),
 .iconBtn:focus-visible img:not(.iconBack),
-.iconBtn:focus-visible svg:not(.iconBack):not(.iconSvgSources):not(.iconRooms) {
+.iconBtn:focus-visible svg:not(.iconBack):not(.iconRooms) {
   transform: none !important;
   filter: none !important;
 }
@@ -189,26 +189,6 @@
   transform: translateY(-0.04rem);
 }
 
-.iconHelp {
-  width: calc(100% * (var(--rail-icon-scale) + 0.03));
-  height: calc(100% * (var(--rail-icon-scale) + 0.03));
-}
-
-.iconSvgSources {
-  width: calc(100% * (var(--rail-icon-scale) - 0.07));
-  height: calc(100% * (var(--rail-icon-scale) - 0.07));
-  transform: translateY(-0.12rem);
-  transform-origin: center;
-  transition: none !important;
-}
-
-.iconBtn:hover .iconSvgSources,
-.iconBtn:focus-visible .iconSvgSources,
-.iconBtn:active .iconSvgSources {
-  transform: translateY(-0.12rem) !important;
-  transition: none !important;
-}
-
 .iconBtn:hover .iconRooms,
 .iconBtn:focus-visible .iconRooms {
   transform: translateY(-0.04rem) !important;
@@ -241,15 +221,6 @@
 .iconBack :global(.back-icon-arrow),
 .iconBack :global(.back-icon-dot) {
   opacity: 1 !important;
-}
-
-.iconBtnActive {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
-}
-
-.isPulse .iconSvg {
-  animation: chat-sources-pulse 1s ease;
 }
 
 .tooltip {
@@ -399,10 +370,6 @@
     height: calc(100% * (var(--rail-icon-scale) + 0.03));
   }
 
-  .item[data-key="sources"] .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) - 0.13));
-    height: calc(100% * (var(--rail-icon-scale) - 0.13));
-  }
 }
 
 @media (max-width: 768px) {
@@ -441,8 +408,6 @@
     --chat-mobile-icon-scale-default: 0.92;
     --chat-mobile-icon-scale-chat: 0.88;
     --chat-mobile-icon-scale-rooms: 0.94;
-    --chat-mobile-icon-scale-sources: 0.8;
-    --chat-mobile-icon-scale-help: 0.96;
     position: relative !important;
     top: 0 !important;
     left: 0 !important;
@@ -487,9 +452,7 @@
 
   .iconSvg,
   .iconChats,
-  .iconRooms,
-  .iconHelp,
-  .iconSvgSources {
+  .iconRooms {
     width: var(--chat-mobile-icon-box) !important;
     height: var(--chat-mobile-icon-box) !important;
     transform: scale(var(--chat-mobile-icon-scale-default)) translateY(0) !important;
@@ -503,20 +466,6 @@
 
   .iconRooms {
     transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
-  }
-
-  .iconSvgSources {
-    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
-  }
-
-  .iconHelp {
-    transform: scale(var(--chat-mobile-icon-scale-help)) translateY(0) !important;
-  }
-
-  .iconBtn:hover .iconSvgSources,
-  .iconBtn:focus-visible .iconSvgSources,
-  .iconBtn:active .iconSvgSources {
-    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
   }
 }
 

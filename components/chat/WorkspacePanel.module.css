@@ -245,16 +245,6 @@
   text-wrap: pretty;
 }
 
-.cardMeta {
-  display: block;
-  color: color-mix(in srgb, currentColor 66%, transparent);
-  font-size: clamp(0.82rem, 1.25vw, 0.92rem);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.08;
-  overflow-wrap: anywhere;
-}
-
 :global(:root.theme-light) .panel,
 :global(:root.theme-mid) .panel {
   color: var(--text-strong, #1f2937);
@@ -327,16 +317,6 @@
 }
 
 @media (max-width: 768px) {
-  :global(.chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open) {
-    --chat-pad-top: var(
-      --glass-ring-pad-top,
-      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
-    );
-    --chat-pad-bottom: 0rem;
-    padding-top: var(--chat-pad-top) !important;
-    padding-bottom: 0 !important;
-  }
-
   .panel {
     width: 100%;
     flex: 1 1 0;
@@ -413,11 +393,6 @@
   .cardTitle {
     font-size: 0.92rem;
     line-height: 1.04;
-  }
-
-  .cardMeta {
-    font-size: 0.76rem;
-    line-height: 1.02;
   }
 
   .rowSingle .card {

@@ -376,10 +376,6 @@ html[data-contrast="hc"] .homepage-root .home-about-panel {
   box-shadow: var(--home-panel-shadow-idle) !important;
 }
 
-html[data-contrast="hc"] .homepage-root .home-before-panel {
-  box-shadow: var(--home-panel-shadow-active) !important;
-}
-
 html[data-contrast="hc"] :is(.register-success-shell, .error-page-shell) {
   --btn-primary-text: var(--hc-accent);
   --btn-primary-border: 2px solid rgba(255, 234, 0, 0.72);
@@ -1267,7 +1263,7 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-dele
   color: var(--hc-accent) !important;
   stroke: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] .homepage-root :is(.home-about-title, .home-before-title) {
+html[data-contrast="hc"] .homepage-root .home-about-title {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .subscription-content {

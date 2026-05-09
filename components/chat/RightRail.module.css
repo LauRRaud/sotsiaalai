@@ -128,9 +128,7 @@
   pointer-events: auto;
 }
 
-.iconBtn:hover img,
 .iconBtn:hover svg,
-.iconBtn:focus-visible img,
 .iconBtn:focus-visible svg {
   transform: none !important;
   filter: none !important;
@@ -141,26 +139,15 @@
   transform: translateY(-0.04rem) !important;
 }
 
-.iconImg,
 .iconSvg {
   width: calc(100% * var(--rail-icon-scale));
   height: calc(100% * var(--rail-icon-scale));
   display: block;
 }
-.iconImg {
-  object-fit: contain;
-  object-position: center;
-}
 
 .iconChats {
   width: calc(100% * (var(--rail-icon-scale) - 0.04));
   height: calc(100% * (var(--rail-icon-scale) - 0.04));
-}
-
-.iconMaterials {
-  width: calc(100% * (var(--rail-icon-scale) + 0.18));
-  height: calc(100% * (var(--rail-icon-scale) + 0.24));
-  aspect-ratio: 28 / 24;
 }
 
 .iconRooms {
@@ -176,23 +163,6 @@
 
 .iconWorkspaceOpen {
   filter: drop-shadow(0 0 0.22rem rgba(197, 113, 113, 0.28));
-}
-
-.iconHelp {
-  width: calc(100% * (var(--rail-icon-scale) + 0.03));
-  height: calc(100% * (var(--rail-icon-scale) + 0.03));
-}
-
-.iconSvgSources {
-  width: calc(100% * (var(--rail-icon-scale) - 0.07));
-  height: calc(100% * (var(--rail-icon-scale) - 0.07));
-}
-
-@media (min-width: 769px) {
-  .item[data-key="sources"] .iconSvgSources {
-    width: calc(100% * (var(--rail-icon-scale) - 0.1));
-    height: calc(100% * (var(--rail-icon-scale) - 0.1));
-  }
 }
 
 .chatIconDesktop {
@@ -217,7 +187,6 @@
   opacity: 1;
 }
 
-.isArmed .iconImg,
 .isArmed .iconSvg,
 .isArmed .profileAvatar {
   transform: scale(1.14) !important;
@@ -231,15 +200,6 @@
   display: block;
   cursor: var(--cursor-pointer);
   opacity: 1;
-}
-
-.iconBtnActive {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
-}
-
-.isPulse .iconSvg {
-  animation: chat-sources-pulse 1s ease;
 }
 
 .tooltip {
@@ -436,20 +396,13 @@
     --chat-mobile-icon-box: calc(var(--rail-item-size) * 0.82);
     --chat-mobile-icon-scale-default: 0.92;
     --chat-mobile-icon-scale-chat: 0.88;
-    --chat-mobile-icon-scale-sources: 0.8;
     --chat-mobile-icon-scale-profile: 0.92;
     --chat-mobile-icon-scale-rooms: 0.94;
     --chat-mobile-icon-scale-workspace: 0.98;
-    --chat-mobile-icon-scale-help: 0.94;
   }
 
   .avatar {
     --avatar-icon-size: var(--chat-mobile-icon-box);
-  }
-
-  .iconBtnActive {
-    background: transparent;
-    box-shadow: none;
   }
 
   .label {
@@ -460,7 +413,6 @@
     background: transparent !important;
   }
 
-  .iconImg,
   .iconSvg {
     width: var(--chat-mobile-icon-box) !important;
     height: var(--chat-mobile-icon-box) !important;
@@ -477,18 +429,14 @@
     transition: transform 160ms ease, opacity 160ms ease;
   }
 
-  .isArmed .iconImg,
   .isArmed .iconSvg,
   .isArmed .profileAvatar {
     transform: none !important;
   }
 
-  .iconSvgSources,
   .iconChats,
   .iconWorkspace,
-  .iconMaterials,
-  .iconRooms,
-  .iconHelp {
+  .iconRooms {
     width: var(--chat-mobile-icon-box) !important;
     height: var(--chat-mobile-icon-box) !important;
     transform: scale(var(--chat-mobile-icon-scale-default)) translateY(0) !important;
@@ -498,25 +446,12 @@
     transform: scale(var(--chat-mobile-icon-scale-chat)) translateY(0) !important;
   }
 
-  .iconSvgSources {
-    transform: scale(var(--chat-mobile-icon-scale-sources)) translateY(0) !important;
-  }
-
   .iconRooms {
     transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
   }
 
   .iconWorkspace {
     transform: scale(var(--chat-mobile-icon-scale-workspace)) translateY(0) !important;
-  }
-
-  .iconMaterials {
-    width: calc(var(--chat-mobile-icon-box) * 0.94) !important;
-    height: calc(var(--chat-mobile-icon-box) * 1.04) !important;
-  }
-
-  .iconHelp {
-    transform: scale(var(--chat-mobile-icon-scale-help)) translateY(0) !important;
   }
 
   .slot {
@@ -576,7 +511,6 @@
     line-height: 0 !important;
   }
 
-  .iconImg,
   .iconSvg,
   .profileAvatar {
     margin: 0 auto !important;
