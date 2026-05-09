@@ -965,6 +965,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 .service-map-toolbar__resultsblock {
   display: grid;
   grid-column: 1 / -1;
+  align-self: start;
   justify-items: center;
   min-width: 0;
   max-width: 100%;
@@ -1309,12 +1310,12 @@ html[data-contrast="hc"] body.service-map-page-active {
   justify-content: center;
   min-width: 0;
   width: 100%;
-  min-height: 4.2rem;
+  min-height: 0;
   max-height: 4.85rem;
   gap: 0.42rem;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 0.54rem 0.12rem 1.02rem;
+  padding: 0.34rem 0.12rem 0.42rem;
   scrollbar-width: thin;
 }
 
@@ -1943,20 +1944,40 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 }
 
 @media (max-width: 768px) {
+  .service-map-page-panel.service-map-page-panel {
+    --service-map-mobile-panel-gap: var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem));
+    inset:
+      calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem)))
+      max(var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem)), env(safe-area-inset-right, 0px))
+      calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem)))
+      max(var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem)), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem));
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: var(--glass-shell-shadow, none);
+    backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(142%);
+    -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(142%);
+    overflow: hidden !important;
+  }
+
   .service-map-workspace {
-    --service-map-map-radius: 0;
+    --service-map-map-radius: clamp(1.05rem, 3.8vw, 1.45rem);
+    --service-map-mobile-map-inset: clamp(0.36rem, 1.55vw, 0.56rem);
     --service-map-mobile-control-size: 2.62rem;
     --service-map-mobile-control-top: 0.34rem;
     --service-map-mobile-filters-pad-top: 3.8rem;
+    border-radius: inherit;
   }
 
   .service-map-workspace__map {
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    border-radius: 0;
+    inset: var(--service-map-mobile-map-inset);
+    width: auto;
+    height: auto;
+    min-height: 0;
+    border-radius: var(--service-map-map-radius);
     transform: none;
+    box-shadow: 0 1.05rem 2.4rem rgba(0, 0, 0, 0.16);
   }
 
   .service-map-workspace__mobile-back {
@@ -1998,7 +2019,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
     gap: 0.5rem;
-    padding-bottom: 0.52rem;
+    padding-bottom: 0.28rem;
   }
 
   .service-map-toolbar__content {
@@ -2059,6 +2080,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-toolbar__field--keyword,
   .service-map-toolbar__field--region {
     width: 100%;
+  }
+
+  .service-map-toolbar__input {
+    font-size: 16px;
   }
 
   .service-map-toolbar__input--keyword,
@@ -2181,7 +2206,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     max-height: min(30dvh, 15.25rem);
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 0.18rem 0.12rem 0.34rem;
+    padding: 0.08rem 0.12rem 0.12rem;
   }
 
   .service-map-toolbar__results .workspace-feature-list-card {
@@ -2290,7 +2315,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
     gap: 0.44rem;
-    padding-bottom: 0.48rem;
+    padding-bottom: 0.24rem;
   }
 
   .service-map-toolbar__type-card {
@@ -2312,7 +2337,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     min-height: 2.9rem;
     border-radius: 1.45rem;
     padding: 0.54rem 0.82rem;
-    font-size: 0.96rem;
+    font-size: 16px !important;
   }
 
   .service-map-toolbar__summary {

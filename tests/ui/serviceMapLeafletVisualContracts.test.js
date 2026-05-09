@@ -52,7 +52,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
 
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.52rem/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.28rem/
   );
   assert.match(
     css,
@@ -68,6 +68,75 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.18rem 0\.12rem 0\.34rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.08rem 0\.12rem 0\.12rem/
+  );
+});
+
+test("service map mobile route keeps animated page background behind a rounded card", () => {
+  const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
+  const css = read("app/styles/components/service-map.css");
+
+  assert.doesNotMatch(
+    backgroundLayer,
+    /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?["']\/teenusekaart["']/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-page-panel\.service-map-page-panel\s*\{[\s\S]*?inset:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ var\(--mobile-glass-card-gap[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius[\s\S]*?background:[\s\S]*?var\(--glass-ring-sheen,\s*none\)[\s\S]*?var\(--glass-ring-surface-bg/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace\s*\{[\s\S]*?--service-map-map-radius:\s*clamp\([\s\S]*?--service-map-mobile-map-inset:/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__map\s*\{[\s\S]*?inset:\s*var\(--service-map-mobile-map-inset\)[\s\S]*?border-radius:\s*var\(--service-map-map-radius\)/
+  );
+});
+
+test("service map clears its global page-active state before delayed back navigation", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(source, /function clearServiceMapPageState\(\)\s*\{[\s\S]*?service-map-page-active/);
+  assert.match(source, /return \(\) => \{\s*clearServiceMapPageState\(\);\s*\};/);
+  assert.match(source, /const handleServiceMapBack = useCallback\(\(\) => \{\s*clearServiceMapPageState\(\);\s*onBack\?\.\(\);/);
+  assert.match(source, /onClick=\{handleServiceMapBack\}/);
+});
+
+test("service map mobile inputs keep 16px text to avoid browser focus zoom", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__input\s*\{[\s\S]*?font-size:\s*16px/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters input\s*\{[\s\S]*?font-size:\s*16px\s*!important/
+  );
+});
+
+test("service map results do not force oversized panel bottom padding", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?align-self:\s*start/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.34rem 0\.12rem 0\.42rem/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.28rem/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.08rem 0\.12rem 0\.12rem/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.24rem/
   );
 });

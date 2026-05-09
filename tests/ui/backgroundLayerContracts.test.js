@@ -13,7 +13,7 @@ function setEntries(name) {
   return [...match[1].matchAll(/"([^"]+)"/g)].map((entry) => entry[1]);
 }
 
-test("service map keeps shared background layer but disables color bends", () => {
-  assert.ok(setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/teenusekaart"));
+test("service map keeps the shared animated background layer visible", () => {
+  assert.ok(!setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/teenusekaart"));
   assert.ok(!setEntries("BACKGROUND_LAYER_EXCLUDED_PATHS").includes("/teenusekaart"));
 });

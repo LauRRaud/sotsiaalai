@@ -141,6 +141,12 @@ function workspaceReturn(locale, router) {
   });
 }
 
+function clearServiceMapPageState() {
+  if (typeof document === "undefined") return;
+  document.documentElement.classList.remove("service-map-page-active");
+  document.body?.classList.remove("service-map-page-active");
+}
+
 function SectionCard({ title, children, className }) {
   return (
     <BorderGlow
@@ -1177,10 +1183,14 @@ function ServiceMapSurface({
     html.classList.add("service-map-page-active");
     body?.classList.add("service-map-page-active");
     return () => {
-      html.classList.remove("service-map-page-active");
-      body?.classList.remove("service-map-page-active");
+      clearServiceMapPageState();
     };
   }, []);
+
+  const handleServiceMapBack = useCallback(() => {
+    clearServiceMapPageState();
+    onBack?.();
+  }, [onBack]);
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") return undefined;
@@ -1304,7 +1314,7 @@ function ServiceMapSurface({
           <div className="service-map-toolbar__content">
             <div className="service-map-toolbar__identity">
               <BackButton
-                onClick={onBack}
+                onClick={handleServiceMapBack}
                 ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
                 holdPressedVisualDisabled
                 className="service-map-toolbar__back"

@@ -79,7 +79,9 @@ test("light and mid buttons use an outer glow ring without inset double edges", 
   );
 
   assert.ok(buttonHoverBlock, "light/mid buttons should define hover glow");
-  assert.match(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.13\)/);
+  assert.match(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.1\)/);
+  assert.match(buttonHoverBlock[1], /0 0 12px rgba\(197,\s*113,\s*113,\s*0\.13\)/);
+  assert.match(buttonHoverBlock[1], /0 0 26px rgba\(197,\s*113,\s*113,\s*0\.075\)/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 0 1px rgba\(122,\s*58,\s*56/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 5px rgba\(197,\s*113,\s*113/);
 });

@@ -314,8 +314,8 @@ html[data-contrast="hc"] {
     var(--btn-primary-shadow),
     0 0 0 1px rgba(122, 58, 56, 0),
     0 0 2px rgba(122, 58, 56, 0),
-    0 0 9px rgba(197, 113, 113, 0),
-    0 0 18px rgba(197, 113, 113, 0) !important;
+    0 0 12px rgba(197, 113, 113, 0),
+    0 0 26px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
@@ -323,10 +323,10 @@ html[data-contrast="hc"] {
   border-color: transparent !important;
   box-shadow:
     var(--btn-primary-shadow-hover),
-    0 0 0 1px rgba(122, 58, 56, 0.13),
-    0 0 2px rgba(122, 58, 56, 0.1),
-    0 0 9px rgba(197, 113, 113, 0.055),
-    0 0 18px rgba(197, 113, 113, 0.032) !important;
+    0 0 0 1px rgba(122, 58, 56, 0.1),
+    0 0 2px rgba(122, 58, 56, 0.08),
+    0 0 12px rgba(197, 113, 113, 0.13),
+    0 0 26px rgba(197, 113, 113, 0.075) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-button-frame > .edgeLight,
