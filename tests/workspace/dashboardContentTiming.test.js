@@ -28,6 +28,11 @@ test("chat workspace waits for the glass surface before showing dashboard conten
     workspaceCss,
     /\.panel\[data-visible="false"\]\s+:is\(\.backButton,\s*\.roleMenu,\s*\.titleWrap,\s*\.grid\)\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?pointer-events:\s*none;/
   );
+  assert.doesNotMatch(chatBodySource, /const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;/);
+  assert.doesNotMatch(
+    chatBodySource,
+    /workspaceOpenDelayTimerRef\.current = window\.setTimeout\(\(\) => \{[\s\S]*?setWorkspaceOpen\(true\);[\s\S]*?\}\s*,\s*WORKSPACE_FOCUS_RESET_OPEN_MS\);/
+  );
 });
 
 test("restored workspace returns already settled without replaying the dashboard reveal", () => {
@@ -94,6 +99,11 @@ test("help listings opened from workspace return to a settled workspace", () => 
   assert.match(backToWorkspaceMatch[1], /setWorkspaceSuppressOpenTransition\(true\);/);
   assert.match(backToWorkspaceMatch[1], /setWorkspaceSurfaceReady\(true\);/);
   assert.match(backToWorkspaceMatch[1], /setWorkspaceOpen\(true\);/);
+  assert.doesNotMatch(chatBodySource, /const PANEL_TILT_CLOSE_MS = 540;/);
+  assert.doesNotMatch(
+    chatBodySource,
+    /listingsPanelCloseTimerRef\.current = window\.setTimeout\([\s\S]*?PANEL_TILT_CLOSE_MS\);/
+  );
 });
 
 test("workspace subpage back controls mark the dashboard for instant restore", () => {

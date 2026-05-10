@@ -2814,3 +2814,7 @@ html[data-contrast="hc"] body .workspace-dashboard-card:is(:hover, :focus-visibl
 html[data-contrast="hc"] body .workspace-dashboard-card:focus-visible {
   border-color: rgba(255, 234, 0, 0.94) !important;
 }
+
+html[data-contrast="hc"] body .workspace-dashboard-card::after {
+  display: none !important;
+}

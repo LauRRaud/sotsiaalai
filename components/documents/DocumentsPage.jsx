@@ -439,10 +439,16 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     if (isClosing) return
     setIsClosing(true)
     markChatWorkspaceRestore()
-    pushWithTransition(router, localizePath("/vestlus", locale), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
+    if (typeof window === "undefined") {
+      pushWithTransition(router, localizePath("/vestlus", locale), {
+        persistGlassRingTilt: false
+      })
+      return
+    }
+    window.requestAnimationFrame(() => {
+      pushWithTransition(router, localizePath("/vestlus", locale), {
+        persistGlassRingTilt: false
+      })
     })
   }, [isClosing, locale, router])
 

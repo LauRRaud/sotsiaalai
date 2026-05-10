@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
@@ -38,6 +38,15 @@ const INVITE_TILT_CLOSE_MS = 540;
 const inviteFieldInputClassName =
   `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
   "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
+const inviteFieldGlowClassName =
+  "invite-glow-field service-map-toolbar__glow-field " +
+  "[--input-bg:var(--workspace-elevated-card-bg)] " +
+  "[--input-bg-hover:var(--workspace-elevated-card-bg)] " +
+  "[--input-bg-focus:var(--workspace-elevated-card-bg)] " +
+  "[--input-flat-bg:var(--workspace-elevated-card-bg)] " +
+  "[--input-flat-bg-hover:var(--workspace-elevated-card-bg)] " +
+  "[--opaque-panel-bg:var(--workspace-elevated-card-bg)] " +
+  "[--opaque-panel-bg-hover:var(--workspace-elevated-card-bg)]";
 
 function InviteGlowPanel({ children, className = "" }) {
   return (
@@ -65,6 +74,7 @@ export default function InviteModal() {
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
+  const [openSource, setOpenSource] = useState("");
   const [roomId, setRoomId] = useState(null);
   const [roomTitle, setRoomTitle] = useState("");
   const [hostDisplayName, setHostDisplayName] = useState("");
@@ -78,6 +88,7 @@ export default function InviteModal() {
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
+  const [workspaceModalHeight, setWorkspaceModalHeight] = useState(null);
   const closeTimerRef = useRef(null);
   const formatSentenceCase = (text) => {
     const raw = typeof text === "string" ? text.trim() : "";
@@ -88,9 +99,18 @@ export default function InviteModal() {
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
   const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
+  const isWorkspaceReturn = openSource === "workspace";
+  const inviteDesktopSizeClassName = isWorkspaceReturn
+    ? "min-[769px]:!min-h-0"
+    : "!min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)]";
+  const inviteWorkspaceStyle = isWorkspaceReturn && workspaceModalHeight
+    ? {
+        "--invite-workspace-measured-height": `${workspaceModalHeight}px`
+      }
+    : undefined;
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] relative !max-h-none !overflow-x-hidden !overflow-y-auto ` +
-    `!flex !min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)] !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
+    `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
     `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -102,10 +122,11 @@ export default function InviteModal() {
     `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
+    `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
     `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
-    `${glassSubpageContentWideClassName} invite-modal-scroll flex flex-none flex-col gap-[1.6rem] overflow-visible px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1.25rem] max-[768px]:px-[0.05rem]`;
+    `${glassSubpageContentWideClassName} invite-modal-scroll flex flex-none flex-col gap-[1rem] overflow-visible px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`;
   const inviteFormClassName = `grid gap-[1rem] max-[768px]:gap-[0.95rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
@@ -187,7 +208,7 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    `${sponsoredSelected ? "mt-[0.55rem] max-[768px]:mt-[0.45rem]" : "mt-[0.55rem]"} rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
+    `${sponsoredSelected ? "mt-[0.1rem] max-[768px]:mt-[0.15rem]" : "mt-[0.1rem]"} rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
     "[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)]";
   const inviteListRowClassName =
     `invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] ` +
@@ -208,6 +229,7 @@ export default function InviteModal() {
   useEffect(() => {
     const handler = (e) => {
       setRoomId(e?.detail?.roomId || null);
+      setOpenSource(String(e?.detail?.source || "").trim().toLowerCase());
       if (closeTimerRef.current && typeof window !== "undefined") {
         window.clearTimeout(closeTimerRef.current);
         closeTimerRef.current = null;
@@ -226,6 +248,7 @@ export default function InviteModal() {
       .toLowerCase();
     if (!invitePayment) return;
     setOpen(true);
+    setOpenSource("");
     setRoomId(params.get("roomId") || null);
     if (invitePayment === "success") {
       setMessage(t("invite.sponsored.payment_success"));
@@ -244,6 +267,38 @@ export default function InviteModal() {
       setHostDisplayName("");
     }
   }, [open, roomId]);
+  useLayoutEffect(() => {
+    if (!isWorkspaceReturn || typeof window === "undefined") return undefined;
+
+    const measureWorkspace = () => {
+      const node = document.querySelector("[data-chat-container]");
+      const rect = node?.getBoundingClientRect?.();
+      const nextHeight = Math.round(rect?.height || 0);
+      if (nextHeight > 0) {
+        setWorkspaceModalHeight(nextHeight);
+      }
+    };
+
+    measureWorkspace();
+    window.addEventListener("resize", measureWorkspace);
+
+    let resizeObserver;
+    const node = document.querySelector("[data-chat-container]");
+    if (node && typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(measureWorkspace);
+      resizeObserver.observe(node);
+    }
+
+    return () => {
+      window.removeEventListener("resize", measureWorkspace);
+      resizeObserver?.disconnect?.();
+    };
+  }, [isWorkspaceReturn]);
+  useEffect(() => {
+    if (!isWorkspaceReturn) {
+      setWorkspaceModalHeight(null);
+    }
+  }, [isWorkspaceReturn]);
   useEffect(() => {
     if (paymentMode !== "SPONSORED_BY_HOST") {
       setTargetRole(null);
@@ -290,12 +345,14 @@ export default function InviteModal() {
     if (shouldReduceMotion()) {
       setClosing(false);
       setOpen(false);
+      setOpenSource("");
       return;
     }
     setClosing(true);
     closeTimerRef.current = window.setTimeout(() => {
       setClosing(false);
       setOpen(false);
+      setOpenSource("");
       closeTimerRef.current = null;
     }, INVITE_TILT_CLOSE_MS);
   }, [shouldReduceMotion]);
@@ -499,9 +556,10 @@ export default function InviteModal() {
       onClose={handleClose}
       closeOnOverlayClick={!closing}
       aria-label={t("invite.title")}
+      style={inviteWorkspaceStyle}
       className={
         open
-          ? "invite-modal-overlay person-invite-modal-overlay z-[140] overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start"
+          ? `invite-modal-overlay person-invite-modal-overlay z-[140] overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "invite-modal-overlay--workspace" : ""}`
           : undefined
       }
       contentClassName={inviteModalContentClassName}
@@ -527,7 +585,7 @@ export default function InviteModal() {
             {!roomId ? (
               <>
                 <div className={inviteFieldWrapClassName}>
-                  <GlowField className="invite-glow-field">
+                  <GlowField className={inviteFieldGlowClassName}>
                     <input
                       id="invite-room-title"
                       value={roomTitle}
@@ -540,7 +598,7 @@ export default function InviteModal() {
                   </GlowField>
                 </div>
                 <div className={inviteFieldWrapClassName}>
-                  <GlowField className="invite-glow-field">
+                  <GlowField className={inviteFieldGlowClassName}>
                     <input
                       id="invite-host-name"
                       value={hostDisplayName}
@@ -555,7 +613,7 @@ export default function InviteModal() {
               </>
             ) : null}
             <div className={inviteFieldWrapClassName}>
-              <GlowField className="invite-glow-field">
+              <GlowField className={inviteFieldGlowClassName}>
                 <input
                   id="invite-emails"
                   value={emails}
@@ -666,7 +724,7 @@ export default function InviteModal() {
             </div>
 
             {((error && !inviteEmailsRequiredError) || message || !sponsoredSelected) ? (
-              <div className="relative mt-[0.95rem] mb-[0.85rem] flex justify-center max-[768px]:mt-[0.82rem]">
+              <div className="relative mt-[0.72rem] mb-[0.2rem] flex justify-center max-[768px]:mt-[0.7rem] max-[768px]:mb-[0.15rem]">
                 {error && !inviteEmailsRequiredError ? (
                   <p className={inviteErrorNoticeClassName} role="alert">
                     {error}

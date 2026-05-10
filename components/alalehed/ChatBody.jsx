@@ -40,8 +40,6 @@ const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
-const PANEL_TILT_CLOSE_MS = 540;
-const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;
 const WORKSPACE_SURFACE_SETTLE_MS = 700;
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
@@ -313,7 +311,6 @@ export default function ChatBody({
   });
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
-  const workspaceOpenDelayTimerRef = useRef(0);
   const workspaceSurfaceReadyTimerRef = useRef(0);
   const workspaceRestoredOpenRef = useRef(false);
   const workspaceRestoreTransitionRafRef = useRef(0);
@@ -743,32 +740,18 @@ export default function ChatBody({
     inputRef,
     waitForComposerCollapse
   });
-  const cancelDelayedWorkspaceOpen = useCallback(() => {
-    if (!workspaceOpenDelayTimerRef.current || typeof window === "undefined") return;
-    window.clearTimeout(workspaceOpenDelayTimerRef.current);
-    workspaceOpenDelayTimerRef.current = 0;
-  }, []);
   const closeWorkspace = useCallback(() => {
-    cancelDelayedWorkspaceOpen();
     setWorkspaceSuppressOpenTransition(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
-  }, [cancelDelayedWorkspaceOpen]);
+  }, []);
   const toggleWorkspace = useCallback(() => {
-    cancelDelayedWorkspaceOpen();
     if (workspaceOpen) {
       setWorkspaceSuppressOpenTransition(false);
       setWorkspaceSurfaceReady(false);
       setWorkspaceOpen(false);
       return;
     }
-
-    const shouldOpenAfterFocusReset =
-      !profileOpen &&
-      !viewportIsMobile &&
-      inputFocused &&
-      !prefs?.reduceMotion &&
-      typeof window !== "undefined";
 
     setShowSourcesPanel(false);
     setInputFocused(false);
@@ -778,45 +761,29 @@ export default function ChatBody({
       inputRef.current?.blur?.();
     } catch {}
 
-    if (shouldOpenAfterFocusReset) {
-      workspaceOpenDelayTimerRef.current = window.setTimeout(() => {
-        workspaceOpenDelayTimerRef.current = 0;
-        setWorkspaceOpen(true);
-      }, WORKSPACE_FOCUS_RESET_OPEN_MS);
-      return;
-    }
-
     setWorkspaceOpen(true);
   }, [
-    cancelDelayedWorkspaceOpen,
-    inputFocused,
-    prefs?.reduceMotion,
-    profileOpen,
     setShowSourcesPanel,
-    viewportIsMobile,
     workspaceOpen
   ]);
   const toggleProfileFromRail = useCallback(() => {
-    cancelDelayedWorkspaceOpen();
     setWorkspaceSuppressOpenTransition(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     toggleProfile?.();
-  }, [cancelDelayedWorkspaceOpen, toggleProfile]);
+  }, [toggleProfile]);
   const openProfileDirectFromRail = useCallback((options) => {
-    cancelDelayedWorkspaceOpen();
     setWorkspaceSuppressOpenTransition(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     return openProfileDirect?.(options);
-  }, [cancelDelayedWorkspaceOpen, openProfileDirect]);
+  }, [openProfileDirect]);
   useEffect(() => {
     if (!profileOpen) return;
-    cancelDelayedWorkspaceOpen();
     setWorkspaceSuppressOpenTransition(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
-  }, [cancelDelayedWorkspaceOpen, profileOpen]);
+  }, [profileOpen]);
   useEffect(() => {
     if (!workspaceSuppressOpenTransition || typeof window === "undefined") return;
 
@@ -864,7 +831,6 @@ export default function ChatBody({
   }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceOpen]);
   useEffect(() => {
     return () => {
-      cancelDelayedWorkspaceOpen();
       if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
         window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
         workspaceSurfaceReadyTimerRef.current = 0;
@@ -874,7 +840,7 @@ export default function ChatBody({
         workspaceRestoreTransitionRafRef.current = 0;
       }
     };
-  }, [cancelDelayedWorkspaceOpen]);
+  }, []);
   useEffect(() => {
     if (!usesInputHoleSurface) return;
     refreshMask({
@@ -1297,18 +1263,8 @@ export default function ChatBody({
     setListingsPanelClosing(false);
     setActiveListingsPanel(panelConfig);
   }, []);
-  const shouldReducePanelMotion = useCallback(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      if (document?.documentElement?.dataset?.reduceMotion === "1") return true;
-      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
-    } catch {
-      return false;
-    }
-  }, []);
   const closeListingsPanel = useCallback((options = {}) => {
     const afterClose = typeof options.afterClose === "function" ? options.afterClose : null;
-    const skipAnimation = options?.skipAnimation === true;
     if (listingsPanelClosing) return;
     if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(listingsPanelCloseTimerRef.current);
@@ -1326,16 +1282,8 @@ export default function ChatBody({
       setSelectedListingState(createEmptySelectedListingState());
       afterClose?.();
     };
-    if (skipAnimation || shouldReducePanelMotion()) {
-      finishClose();
-      return;
-    }
-    setListingsPanelClosing(true);
-    listingsPanelCloseTimerRef.current = window.setTimeout(() => {
-      finishClose();
-      listingsPanelCloseTimerRef.current = null;
-    }, PANEL_TILT_CLOSE_MS);
-  }, [listingsPanelClosing, shouldReducePanelMotion]);
+    finishClose();
+  }, [listingsPanelClosing]);
   const backToProfileFromListingsPanel = useCallback(() => {
     closeListingsPanel({
       afterClose: () => {

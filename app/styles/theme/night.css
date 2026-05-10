@@ -72,11 +72,9 @@
     rgba(15, 19, 28, 0.84) 100%
   );
   --workspace-elevated-card-bg:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
-    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
-  --workspace-elevated-card-bg-hover:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
-    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
+  --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
   --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-night-strong-bg: radial-gradient(
     ellipse at top,
@@ -117,8 +115,8 @@
     0 12px 26px rgba(0, 0, 0, 0.24),
     0 0 26px -16px rgba(226, 232, 238, 0.18);
   --subpage-card-text: rgba(234, 238, 245, 0.94);
-  --opaque-panel-bg: rgb(18, 26, 40);
-  --opaque-panel-bg-hover: rgb(22, 32, 48);
+  --opaque-panel-bg: var(--workspace-elevated-card-bg);
+  --opaque-panel-bg-hover: var(--workspace-elevated-card-bg);
   --opaque-panel-border: rgba(126, 154, 196, 0.13);
   --opaque-panel-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
   --opaque-panel-text: rgba(234, 238, 245, 0.94);
@@ -199,27 +197,11 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
   --btn-primary-focus-ring-color: rgba(140, 180, 235, 0.35);
 
-  --form-surface: radial-gradient(
-      65% 60% at 50% -12%,
-      rgba(220, 236, 255, 0.34) 0%,
-      rgba(220, 236, 255, 0.19) 22%,
-      rgba(220, 236, 255, 0.085) 38%,
-      rgba(220, 236, 255, 0.022) 54%,
-      rgba(220, 236, 255, 0) 72%
-    ),
-    rgba(20, 30, 43, 0.88);
-  --form-surface-hover: radial-gradient(
-      65% 60% at 50% -12%,
-      rgba(220, 236, 255, 0.35) 0%,
-      rgba(220, 236, 255, 0.195) 22%,
-      rgba(220, 236, 255, 0.088) 38%,
-      rgba(220, 236, 255, 0.022) 54%,
-      rgba(220, 236, 255, 0) 72%
-    ),
-    rgba(24, 36, 50, 0.855);
+  --form-surface: var(--workspace-elevated-card-bg);
+  --form-surface-hover: var(--workspace-elevated-card-bg);
   --form-surface-active: var(--form-surface-hover);
-  --input-flat-bg: rgba(20, 30, 43, 0.86);
-  --input-flat-bg-hover: rgba(26, 38, 54, 0.88);
+  --input-flat-bg: var(--workspace-elevated-card-bg);
+  --input-flat-bg-hover: var(--workspace-elevated-card-bg);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
   --input-bg-focus: var(--form-surface-active);
@@ -258,6 +240,10 @@
   box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
+}
+
+:root.theme-night .invite-glow-panel.invite-list-panel {
+  border: 1px solid var(--subpage-card-border) !important;
 }
 
 :root.theme-night .help-listings-modal-content .help-listings-panel {

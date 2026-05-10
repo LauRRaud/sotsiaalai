@@ -45,7 +45,7 @@ const shellClassName =
   "covision-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-start overflow-hidden overscroll-none bg-transparent px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:px-0 max-[768px]:py-0";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel covision-page-surface relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] !w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] !max-w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.65rem] ` +
+  `documents-workspace workspace-feature-panel covision-page-surface relative z-[21] mx-auto mt-[clamp(1.25rem,4vh,2.35rem)] mb-[clamp(0.35rem,1.8vh,1rem)] !w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] !max-w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.65rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
@@ -542,16 +542,21 @@ export default function CovisionPage() {
       setActiveCase(null);
       setNotice("");
       setError("");
-      setIsClosing(false);
       return;
     }
     if (isClosing) return;
     markChatWorkspaceRestore();
     setIsClosing(true);
-    pushWithTransition(router, localizePath("/vestlus", locale), {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
+    if (typeof window === "undefined") {
+      pushWithTransition(router, localizePath("/vestlus", locale), {
+        persistGlassRingTilt: false
+      });
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      pushWithTransition(router, localizePath("/vestlus", locale), {
+        persistGlassRingTilt: false
+      });
     });
   }, [isClosing, locale, router, view]);
 

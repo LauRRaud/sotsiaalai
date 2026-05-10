@@ -549,16 +549,10 @@ html[data-contrast="hc"] {
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
   .workspace-feature-panel.glass-subpage-surface,
 :root.theme-night .workspace-feature-panel.glass-subpage-surface {
-  --subpage-card-bg: color-mix(
-    in srgb,
-    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 74%,
-    rgba(255, 255, 255, 0.1)
-  ) !important;
-  --subpage-card-bg-hover: color-mix(
-    in srgb,
-    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 68%,
-    rgba(255, 255, 255, 0.14)
-  ) !important;
+  --subpage-card-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 64%, transparent) !important;
+  --subpage-card-bg-hover: var(--subpage-card-bg) !important;
   --input-bg: var(--subpage-card-bg) !important;
   --input-bg-hover: var(--subpage-card-bg-hover) !important;
   --input-bg-focus: var(--subpage-card-bg-hover) !important;

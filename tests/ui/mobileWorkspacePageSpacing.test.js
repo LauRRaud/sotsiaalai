@@ -161,13 +161,15 @@ test("covision mobile shell does not double offset the glass panel", () => {
   assert.doesNotMatch(component, /max-\[768px\]:py-\[max\(/);
 });
 
-test("covision overview back tilts the visible glass page before route navigation", () => {
+test("covision overview back tilts the visible page without adding route delay", () => {
   const component = read("components/covision/CovisionPage.jsx");
 
   assert.match(component, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
-  assert.match(component, /setIsClosing\(true\);[\s\S]*?pushWithTransition\(router,\s*localizePath\("\/vestlus",\s*locale\)/);
+  assert.match(component, /setIsClosing\(true\);/);
+  assert.doesNotMatch(component, /waitForGlassRingTilt:\s*true/);
   assert.match(
     component,
     /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/
   );
+  assert.match(component, /pushWithTransition\(router,\s*localizePath\("\/vestlus",\s*locale\),\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/);
 });

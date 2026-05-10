@@ -34,7 +34,7 @@ test("workspace dashboard back button closes the in-chat workspace", () => {
   );
 });
 
-test("workspace subpage back buttons tilt the visible page before returning to the dashboard", () => {
+test("workspace subpage back buttons tilt the visible page but do not delay the dashboard return", () => {
   const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
   const documentsSource = readSource("components/documents/DocumentsPage.jsx");
   const agentSource = readSource("components/agent/AgentModePage.jsx");
@@ -43,22 +43,13 @@ test("workspace subpage back buttons tilt the visible page before returning to t
 
   assert.match(workspaceFeatureSource, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\);/);
   assert.match(workspaceFeatureSource, /const shouldTiltOnBack = featureKey !== "service_map";/);
-  assert.match(workspaceFeatureSource, /if \(shouldTiltOnBack\) setIsClosing\(true\);/);
+  assert.doesNotMatch(workspaceFeatureSource, /waitForGlassRingTilt:\s*true/);
+  assert.doesNotMatch(workspaceFeatureSource, /glassRingTilt:\s*"left"/);
+  assert.match(workspaceFeatureSource, /workspaceBackTiltClassName/);
+  assert.match(workspaceFeatureSource, /if \(shouldTiltOnBack\) \{\s*setIsClosing\(true\);/);
   assert.match(
     workspaceFeatureSource,
-    /workspaceReturn\(locale,\s*router,\s*shouldTiltOnBack\s*\?\s*\{[\s\S]*?glassRingTilt:\s*"left"[\s\S]*?waitForGlassRingTilt:\s*true[\s\S]*?\}\s*:\s*\{\}\s*\);/
-  );
-  assert.match(
-    workspaceFeatureSource,
-    /workspaceReturn\(locale,\s*router,\s*shouldTiltOnBack\s*\?\s*\{[\s\S]*?persistGlassRingTilt:\s*false[\s\S]*?\}\s*:\s*\{\}\s*\);/
-  );
-  assert.match(
-    workspaceFeatureSource,
-    /const workspaceBackTiltClassName =[\s\S]*?"pointer-events-none motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]";/
-  );
-  assert.match(
-    workspaceFeatureSource,
-    /isClosing\s*\?\s*workspaceBackTiltClassName\s*:\s*null/
+    /workspaceReturn\(locale,\s*router,\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/
   );
   assert.match(
     readSource("app/styles/components/documents-mode.css"),
@@ -69,17 +60,15 @@ test("workspace subpage back buttons tilt the visible page before returning to t
     assert.match(source, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
     assert.match(source, /if \(isClosing\) return/);
     assert.match(source, /setIsClosing\(true\)/);
-    assert.match(
-      source,
-      /pushWithTransition\([\s\S]*?\{[\s\S]*?glassRingTilt:\s*"left"[\s\S]*?waitForGlassRingTilt:\s*true[\s\S]*?\}/
-    );
-    assert.match(
-      source,
-      /pushWithTransition\([\s\S]*?\{[\s\S]*?persistGlassRingTilt:\s*false[\s\S]*?\}/
-    );
+    assert.doesNotMatch(source, /waitForGlassRingTilt:\s*true/);
+    assert.doesNotMatch(source, /glassRingTilt:\s*"left"/);
     assert.match(
       source,
       /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/
+    );
+    assert.match(
+      source,
+      /pushWithTransition\([\s\S]*?\{[\s\S]*?persistGlassRingTilt:\s*false[\s\S]*?\}\)/
     );
   }
 });

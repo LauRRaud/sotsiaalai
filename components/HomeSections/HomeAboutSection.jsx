@@ -181,7 +181,7 @@ export default function HomeAboutSection({
   const isRussianLocale = locale === "ru";
   const adminFrameworkLinkLabel =
     locale === "et"
-      ? "Kinnituste audit"
+      ? "Kinnitused"
       : locale === "ru"
         ? "Аудит подтверждений"
         : "Acceptances audit";

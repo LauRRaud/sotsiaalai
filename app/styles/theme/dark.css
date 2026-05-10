@@ -68,11 +68,9 @@
     rgba(21, 25, 31, 0.84) 100%
   );
   --workspace-elevated-card-bg:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
-    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
-  --workspace-elevated-card-bg-hover:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.038)),
-    color-mix(in srgb, rgba(0, 0, 0, 0.25) 64%, transparent);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
+  --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
   --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-strong-bg: radial-gradient(
     ellipse at top,
@@ -84,24 +82,8 @@
     rgb(34, 39, 46) 0%,
     rgb(20, 24, 30) 100%
   );
-  --form-surface: radial-gradient(
-      65% 60% at 50% -12%,
-      rgba(238, 242, 248, 0.29) 0%,
-      rgba(238, 242, 248, 0.165) 22%,
-      rgba(238, 242, 248, 0.072) 38%,
-      rgba(238, 242, 248, 0.018) 54%,
-      rgba(238, 242, 248, 0) 72%
-    ),
-    rgba(27, 31, 38, 0.9);
-  --form-surface-hover: radial-gradient(
-      65% 60% at 50% -12%,
-      rgba(242, 246, 250, 0.305) 0%,
-      rgba(242, 246, 250, 0.175) 22%,
-      rgba(242, 246, 250, 0.078) 38%,
-      rgba(242, 246, 250, 0.019) 54%,
-      rgba(242, 246, 250, 0) 72%
-    ),
-    rgba(30, 34, 41, 0.9);
+  --form-surface: var(--workspace-elevated-card-bg);
+  --form-surface-hover: var(--workspace-elevated-card-bg);
   --form-surface-active: var(--form-surface-hover);
   --input-bg: var(--form-surface);
   --input-bg-hover: var(--form-surface-hover);
@@ -121,8 +103,8 @@
   --input-surface-overlay: inset 0 0 0 999px rgba(255, 255, 255, 0);
   --input-surface-overlay-hover: inset 0 0 0 999px rgba(255, 255, 255, 0.02);
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.04);
-  --input-flat-bg: rgba(27, 31, 37, 0.88);
-  --input-flat-bg-hover: rgba(34, 37, 42, 0.9);
+  --input-flat-bg: var(--workspace-elevated-card-bg);
+  --input-flat-bg-hover: var(--workspace-elevated-card-bg);
   --subpage-card-bg: var(--input-flat-bg);
   --subpage-card-bg-hover: var(--input-flat-bg-hover);
   --subpage-card-border: rgba(248, 253, 255, 0.08);
@@ -136,8 +118,8 @@
     0 10px 22px rgba(0, 0, 0, 0.2),
     0 0 24px -14px rgba(248, 253, 255, 0.28);
   --subpage-card-text: var(--pt-120);
-  --opaque-panel-bg: rgb(26, 29, 34);
-  --opaque-panel-bg-hover: rgb(32, 35, 40);
+  --opaque-panel-bg: var(--workspace-elevated-card-bg);
+  --opaque-panel-bg-hover: var(--workspace-elevated-card-bg);
   --opaque-panel-border: rgba(248, 253, 255, 0.12);
   --opaque-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
   --opaque-panel-text: var(--pt-120);
@@ -221,6 +203,11 @@
   background: var(--workspace-elevated-card-bg) !important;
   box-shadow: none !important;
   border-color: transparent !important;
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .invite-glow-panel.invite-list-panel {
+  border: 1px solid var(--subpage-card-border) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])

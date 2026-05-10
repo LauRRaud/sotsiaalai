@@ -175,14 +175,24 @@ html[data-contrast="hc"]
 }
 
 @media (min-width: 768px) {
-  .help-listings-modal-overlay--workspace {
+  .help-listings-modal-overlay.help-listings-modal-overlay--workspace {
     align-items: center !important;
+    align-content: center !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     overflow: hidden !important;
   }
 
-  .help-listings-modal-content--workspace {
+  .invite-modal-overlay.person-invite-modal-overlay.invite-modal-overlay--workspace {
+    align-items: center !important;
+    align-content: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .help-listings-modal-content--workspace,
+  .invite-modal-content--workspace {
     --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
     --help-listings-workspace-fit-w: calc(
       100vw - (2 * var(--ring-fit-pad, calc(1.5 * var(--base-rem))))
@@ -209,10 +219,6 @@ html[data-contrast="hc"]
     --help-listings-workspace-inline-size: calc(
       var(--help-listings-workspace-diameter) + var(--chat-focus-inline-extra)
     );
-    --help-listings-workspace-block-size: var(
-      --help-listings-workspace-measured-height,
-      var(--help-listings-workspace-diameter)
-    );
     width: var(--help-listings-workspace-inline-size) !important;
     inline-size: var(--help-listings-workspace-inline-size) !important;
     min-width: var(--help-listings-workspace-inline-size) !important;
@@ -222,6 +228,20 @@ html[data-contrast="hc"]
     max-height: var(--help-listings-workspace-block-size) !important;
     block-size: var(--help-listings-workspace-block-size) !important;
     border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+  }
+
+  .help-listings-modal-content--workspace {
+    --help-listings-workspace-block-size: var(
+      --help-listings-workspace-measured-height,
+      var(--help-listings-workspace-diameter)
+    );
+  }
+
+  .invite-modal-content--workspace {
+    --help-listings-workspace-block-size: var(
+      --invite-workspace-measured-height,
+      var(--help-listings-workspace-diameter)
+    );
   }
 }
 

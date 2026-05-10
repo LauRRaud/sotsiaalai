@@ -321,6 +321,10 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
     css,
     /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame\s*\{[\s\S]*?border:\s*1px solid rgba\(122,\s*58,\s*56,\s*0\.12\)\s*!important/
   );
+  assert.match(
+    css,
+    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__results \.workspace-feature-list-card\.ui-glow-button-frame,[\s\S]*?:root\.theme-mid \.service-map-toolbar__results \.workspace-feature-list-card\.ui-glow-button-frame\s*\{[\s\S]*?border:\s*1px solid rgba\(122,\s*58,\s*56,\s*0\.12\)\s*!important/
+  );
 });
 
 test("service map mobile map edge does not expose a blue Leaflet fallback seam", () => {

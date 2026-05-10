@@ -2135,7 +2135,6 @@ export default function WorkspaceFeaturePage({ feature }) {
   );
   const [adminWorkspaceRole, setAdminWorkspaceRole] = useState("SOCIAL_WORKER");
   const [isClosing, setIsClosing] = useState(false);
-
   useEffect(() => {
     if (!isAdmin || !isRoleResolved) return;
     setAdminWorkspaceRole(normalizeWorkspaceRole(effectiveRole));
@@ -2154,12 +2153,16 @@ export default function WorkspaceFeaturePage({ feature }) {
 
   const handleBack = useCallback(() => {
     if (isClosing) return;
-    if (shouldTiltOnBack) setIsClosing(true);
-    workspaceReturn(locale, router, shouldTiltOnBack ? {
-      glassRingTilt: "left",
-      waitForGlassRingTilt: true,
-      persistGlassRingTilt: false
-    } : {});
+    if (shouldTiltOnBack) {
+      setIsClosing(true);
+    }
+    if (typeof window === "undefined") {
+      workspaceReturn(locale, router, { persistGlassRingTilt: false });
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      workspaceReturn(locale, router, { persistGlassRingTilt: false });
+    });
   }, [isClosing, locale, router, shouldTiltOnBack]);
 
   const title = readText(t, `workspace_feature_pages.${featureKey}.title`, "Workspace feature");
