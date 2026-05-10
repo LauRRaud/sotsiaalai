@@ -19,6 +19,7 @@ import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documen
 import { prisma } from "@/lib/prisma"
 import { effectiveRoleFromSession } from "@/lib/authz"
 import { safeError } from "@/lib/privacy/safeError"
+import { evaluateTextPrivacy, privacyConfirmationResponsePayload } from "@/lib/privacy/privacyGuard"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 
 export const runtime = "nodejs"
@@ -76,6 +77,14 @@ export async function POST(request) {
   const tone = normalizeAgentTone(body?.tone)
   const language = normalizeAgentLanguage(body?.language, locale)
   const length = normalizeAgentLength(body?.length)
+  const privacy = evaluateTextPrivacy(refinementInstruction, {
+    workflow: "document_refinement",
+    privacyDecision: body?.privacyDecision
+  })
+  if (privacy.needsPrivacyConfirmation) {
+    return json(privacyConfirmationResponsePayload(privacy), 409)
+  }
+  refinementInstruction = privacy.processedText || refinementInstruction
 
   try {
     if (artifactId) {

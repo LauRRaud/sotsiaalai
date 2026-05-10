@@ -3,6 +3,7 @@ import { authConfig } from "@/auth";
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import { assistPreInquiry } from "@/lib/preInquiries";
 import { safeError } from "@/lib/privacy/safeError";
+import { evaluateTextPrivacy, privacyConfirmationResponsePayload } from "@/lib/privacy/privacyGuard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,7 +35,24 @@ export async function POST(request) {
 
   try {
     const body = await request.json().catch(() => ({}));
-    const result = await assistPreInquiry(body);
+    const privacy = evaluateTextPrivacy([body?.situation, body?.assistantMessage].filter(Boolean).join("\n\n"), {
+      workflow: "pre_inquiry",
+      privacyDecision: body?.privacyDecision
+    });
+    if (privacy.needsPrivacyConfirmation) return json(privacyConfirmationResponsePayload(privacy), 409);
+    const situationPrivacy = evaluateTextPrivacy(body?.situation, {
+      workflow: "pre_inquiry",
+      privacyDecision: body?.privacyDecision
+    });
+    const assistantPrivacy = evaluateTextPrivacy(body?.assistantMessage, {
+      workflow: "pre_inquiry",
+      privacyDecision: body?.privacyDecision
+    });
+    const result = await assistPreInquiry({
+      ...body,
+      situation: situationPrivacy.processedText || body?.situation,
+      assistantMessage: assistantPrivacy.processedText || body?.assistantMessage
+    });
     return json({
       ok: true,
       ...result

@@ -11,6 +11,7 @@ import {
   updateHelpOffer,
   updateHelpRequest
 } from "@/lib/help";
+import { redactPersonalData } from "@/lib/privacy/piiFilter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -100,6 +101,31 @@ async function deleteRecord(kind, id) {
   return null;
 }
 
+const PUBLIC_LISTING_TEXT_FIELDS = [
+  "title",
+  "description",
+  "structuredSummary",
+  "roleLabel",
+  "beneficiaryLabel",
+  "providerScopeOrConditions",
+  "availabilityOrStart",
+  "compensationDetails",
+  "conditions",
+  "skillsOrBackground",
+  "rawPlace"
+];
+
+function redactPublicListingPayload(payload = {}) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return {};
+  const nextPayload = { ...payload };
+  for (const field of PUBLIC_LISTING_TEXT_FIELDS) {
+    if (typeof nextPayload[field] === "string") {
+      nextPayload[field] = redactPersonalData(nextPayload[field]).redactedText;
+    }
+  }
+  return nextPayload;
+}
+
 export async function GET(_request, context) {
   const auth = await requireUser();
   if (!auth) {
@@ -141,7 +167,7 @@ export async function PATCH(request, context) {
     return json({ ok: false, message: "api.common.forbidden" }, 403);
   }
 
-  const payload = await request.json().catch(() => ({}));
+  const payload = redactPublicListingPayload(await request.json().catch(() => ({})));
   let updated = null;
   try {
     updated = await updateRecord(kind, id, payload);

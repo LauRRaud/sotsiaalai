@@ -192,7 +192,7 @@ export function useChatStream(config) {
     setIsGenerating(false);
   }, []);
 
-  const sendMessage = useCallback(async rawText => {
+  const sendMessage = useCallback(async (rawText, options = {}) => {
     const cfg = cfgRef.current;
     const tr = (key, values) => {
       const value = cfg?.t?.(key);
@@ -223,7 +223,8 @@ export function useChatStream(config) {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            content: text
+            content: text,
+            privacyDecision: options?.privacyDecision
           })
         });
         const data = await res.json().catch(() => ({}));
@@ -621,6 +622,7 @@ export function useChatStream(config) {
               ? latestHelpWorkflowState
               : undefined,
             roomId: cfg.isRoomMode ? cfg.roomId : undefined,
+            privacyDecision: options?.privacyDecision,
             ...(cfg.ephemeralChunks?.length
               ? {
                   ephemeralChunks: cfg.ephemeralChunks,

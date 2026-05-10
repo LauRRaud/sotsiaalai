@@ -11,6 +11,9 @@ import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField"
 import Textarea from "@/components/ui/Textarea"
 import {
   glassPageBackTopLeftClassName,
+  glassPageMobileCardClassName,
+  glassPageShellCenteredClassName,
+  glassPrimaryButtonToneClassName,
   glassSubpageMobileReadableWidthClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
@@ -51,6 +54,18 @@ const materialsSectionCopyClassName =
   "text-[0.98rem] leading-[1.52] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.82]"
 const materialsStatusBadgeClassName =
   "inline-flex items-center rounded-full border border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.08)] px-[0.62rem] py-[0.22rem] text-[0.78rem] font-[620] uppercase tracking-[0.04em]"
+const shellClassName =
+  `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
+  "materials-page-shell relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden overscroll-none px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0"
+const surfaceClassName =
+  `materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] ` +
+  `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
+  `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [scrollbar-gutter:stable_both-edges] ` +
+  `${glassSubpageSurfaceScopeClassName} max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
+const pageTitleClassName =
+  `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
+  "w-full max-[768px]:!mt-0 max-[768px]:!mb-0"
 
 function formatFileSize(size) {
   const value = Number(size || 0)
@@ -288,20 +303,21 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   }, [closing, resolvedLocale, router, shouldReduceMotion])
 
   return (
-    <div className="materials-page-shell relative flex h-[100dvh] min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:items-stretch max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]">
+    <div className={shellClassName}>
       <div
-        className={`materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] overflow-x-hidden overflow-y-visible rounded-[var(--glass-modal-radius)] [border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] [--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] max-h-none ${glassSubpageSurfaceScopeClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+        className={`${surfaceClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
         <BackButton
           onClick={handleBack}
           ariaLabel={t("profile.back_to_chat")}
+          holdPressedVisualDisabled
           className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto !bg-transparent hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent !border-0 hover:!border-0 focus-visible:!border-0 active:!border-0 !shadow-none hover:!shadow-none focus-visible:!shadow-none active:!shadow-none`}
         />
 
         <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
           <div className="grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]">
             <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-              <h1 className={`${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`}>
+              <h1 className={pageTitleClassName}>
                 {t("materials_page.title")}
               </h1>
             </div>

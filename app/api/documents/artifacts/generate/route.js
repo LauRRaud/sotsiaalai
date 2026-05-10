@@ -19,6 +19,7 @@ import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 import { safeError } from "@/lib/privacy/safeError"
+import { evaluateTextPrivacy, privacyConfirmationResponsePayload } from "@/lib/privacy/privacyGuard"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -80,6 +81,15 @@ export async function POST(request) {
   } catch (error) {
     return errorJson(error?.message || "documents.errors.invalid_payload", Number(error?.status) || 400, locale)
   }
+
+  const privacy = evaluateTextPrivacy(instruction, {
+    workflow: "document_generation",
+    privacyDecision: body?.privacyDecision
+  })
+  if (privacy.needsPrivacyConfirmation) {
+    return json(privacyConfirmationResponsePayload(privacy), 409)
+  }
+  instruction = privacy.processedText || instruction
 
   try {
     const documents = await prisma.userDocument.findMany({

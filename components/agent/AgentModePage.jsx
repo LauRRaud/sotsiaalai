@@ -1106,7 +1106,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     typeOverride = outputType,
     instructionOverride = instruction,
     historyKind = "generated",
-    feedbackKey = "documents.agent_workspace.result_ready"
+    feedbackKey = "documents.agent_workspace.result_ready",
+    privacyDecision
   } = {}) {
     const effectiveInstruction = String(instructionOverride || "").trim()
     if (!selectedCount || !effectiveInstruction || starting) return null
@@ -1141,7 +1142,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           audience,
           tone,
           language,
-          length
+          length,
+          privacyDecision
         })
       })
       const payload = await response.json().catch(() => ({}))
@@ -1170,7 +1172,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
   }
 
-  async function handleRefine(refinementInstructionOverride = refineInstruction) {
+  async function handleRefine(refinementInstructionOverride = refineInstruction, options = {}) {
     const effectiveRefinement = String(refinementInstructionOverride || "").trim()
     if (
       !hasWorkspaceResult ||
@@ -1212,7 +1214,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           audience,
           tone,
           language,
-          length
+          length,
+          privacyDecision: options.privacyDecision
         })
       })
       const payload = await response.json().catch(() => ({}))
@@ -1266,7 +1269,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
   }
 
-  async function handleConversationSend(message) {
+  async function handleConversationSend(message, options = {}) {
     const trimmed = String(message || "").trim()
     if (!trimmed) return false
     if (!selectedCount) {
@@ -1283,7 +1286,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
 
     if (shouldRefine) {
       setRefineInstruction(trimmed)
-      const nextDraft = await handleRefine(trimmed)
+      const nextDraft = await handleRefine(trimmed, {
+        privacyDecision: options?.privacyDecision
+      })
       if (!nextDraft?.content) {
         removeConversationMessage(userMessage.id)
         return false
@@ -1305,7 +1310,8 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         ? "documents.agent_workspace.client_result_ready"
         : hasWorkspaceResult
           ? "documents.agent_workspace.quick_result_ready"
-          : "documents.agent_workspace.result_ready"
+          : "documents.agent_workspace.result_ready",
+      privacyDecision: options?.privacyDecision
     })
     if (!nextDraft?.content) {
       removeConversationMessage(userMessage.id)
@@ -2032,6 +2038,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                         draftApiRef={composerDraftApiRef}
                         inputFocused={inputFocused}
                         isMobile={isMobile}
+                        activeModeKey="document"
                       />
                     </BorderGlow>
                   </div>

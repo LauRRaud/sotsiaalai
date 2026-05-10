@@ -428,8 +428,16 @@
     "complete_required": "Choose language, contrast, text size, theme, and screen profile before saving.",
     "screen_profile": "Screen profile"
   },
+  "privacy_guard": {
+    "title": "This text contains personal data",
+    "body": "Before sending, choose whether to edit the text, send a redacted version, or continue with the original if this workflow allows it.",
+    "edit": "Edit text",
+    "send_redacted": "Send redacted",
+    "send_original": "Send anyway",
+    "unavailable": "Privacy check failed. Please try again."
+  },
   "privacy": {
-    "title": "Privacy Policy",
+    "title": "Privacy",
     "section1": {
       "heading": "1. General Provisions",
       "paragraph1": "<p>This Privacy Policy explains how <strong>SotsiaalAI OÜ</strong> processes personal data when you use the <strong>SotsiaalAI</strong> web platform. It covers account creation, sign-in, subscriptions, chats, rooms, help requests and offers, documents, deep research, file uploads, logs, and other platform workflows. It also explains what data is stored, for how long, how feature limits and storage quotas can affect retention, and which automated systems are used to generate responses, drafts, classifications, or search results.</p>",

@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import { sendExternalPreInquiry } from "@/lib/preInquiries";
 import { safeError } from "@/lib/privacy/safeError";
@@ -22,8 +21,7 @@ async function requireUser() {
   return {
     ok: true,
     session,
-    userId,
-    isAdmin: isAdmin(session.user)
+    userId
   };
 }
 
@@ -36,9 +34,7 @@ export async function POST(request, context) {
 
   try {
     const params = await context?.params;
-    const inquiry = await sendExternalPreInquiry(auth.userId, String(params?.id || "").trim(), {
-      isAdmin: auth.isAdmin
-    });
+    const inquiry = await sendExternalPreInquiry(auth.userId, String(params?.id || "").trim());
     return json({
       ok: true,
       inquiry

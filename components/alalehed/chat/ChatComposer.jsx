@@ -14,6 +14,30 @@ const MODE_LABEL_SHINE_BACKGROUND_LIGHT =
   "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(72,46,36,0.18) 32%, rgba(56,36,28,0.92) 50%, rgba(72,46,36,0.18) 68%, rgba(0,0,0,0) 100%)";
 const MODE_LABEL_SHINE_BACKGROUND_HC =
   "linear-gradient(90deg, rgba(255,224,44,0) 0%, rgba(255,224,44,0.18) 32%, rgba(255,224,44,0.98) 50%, rgba(255,224,44,0.18) 68%, rgba(255,224,44,0) 100%)";
+
+function resolvePrivacyWorkflow({ activeModeKey, isRoomMode }) {
+  if (isRoomMode) return "room_private";
+  if (activeModeKey === "help_request") return "help_request_public";
+  if (activeModeKey === "help_offer") return "help_offer_public";
+  if (activeModeKey === "pre_inquiry") return "pre_inquiry";
+  if (activeModeKey === "document") return "document_generation";
+  return "chat_private";
+}
+
+function privacyLabels(t) {
+  const read = (key, fallback) => {
+    const value = typeof t === "function" ? t(key) : "";
+    return typeof value === "string" && value && value !== key ? value : fallback;
+  };
+  return {
+    title: read("privacy_guard.title", "Tekst sisaldab isikuandmeid"),
+    body: read("privacy_guard.body", "Enne saatmist vali, kas muudad teksti, saadad maskeeritult või jätkad originaaliga, kui see töövoog seda lubab."),
+    edit: read("privacy_guard.edit", "Muudan teksti"),
+    redacted: read("privacy_guard.send_redacted", "Saada maskeeritult"),
+    original: read("privacy_guard.send_original", "Saada siiski"),
+    unavailable: read("privacy_guard.unavailable", "Privaatsuskontroll ei õnnestunud. Proovi uuesti.")
+  };
+}
 function DocumentModeIcon({
   stroke,
   className,
@@ -130,6 +154,7 @@ export default function ChatComposer({
   const [draft, setDraft] = useState("");
   const [composerExpanded, setComposerExpanded] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [privacyPrompt, setPrivacyPrompt] = useState(null);
   const [toolsMenuPosition, setToolsMenuPosition] = useState(null);
   const [isHighContrast, setIsHighContrast] = useState(false);
   const submitInFlightRef = useRef(false);
@@ -466,27 +491,81 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateHelpOfferMode?.();
   }, [closeToolsMenu, onActivateHelpOfferMode]);
-  const submitSend = useCallback(async () => {
+  const checkPrivacyBeforeSend = useCallback(async (text) => {
+    const workflow = resolvePrivacyWorkflow({ activeModeKey, isRoomMode });
+    try {
+      const response = await fetch("/api/privacy/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text,
+          workflow
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (response.status === 409 && payload?.needsPrivacyConfirmation) {
+        setPrivacyPrompt({
+          ...payload,
+          originalText: text,
+          workflow
+        });
+        return null;
+      }
+      if (!response.ok || payload?.ok === false) {
+        throw new Error("privacy_check_failed");
+      }
+      return {
+        text: String(payload?.text || text),
+        privacyDecision: payload?.appliedDecision
+          ? { action: payload.appliedDecision }
+          : undefined
+      };
+    } catch {
+      setPrivacyPrompt({
+        originalText: text,
+        workflow,
+        warning: privacyLabels(t).unavailable,
+        actions: ["edit"],
+        allowOriginal: false,
+        findings: [],
+        categories: []
+      });
+      return null;
+    }
+  }, [activeModeKey, isRoomMode, t]);
+  const submitSend = useCallback(async (options = {}) => {
     if (submitInFlightRef.current) return false;
-    const originalDraft = draft;
+    const originalDraft = options.textOverride != null ? String(options.textOverride) : draft;
     const trimmed = originalDraft.trim();
     if (!trimmed) return false;
     if (isGenerating) return false;
     submitInFlightRef.current = true;
     try {
+      const privacyResult = options.skipPrivacy
+        ? {
+            text: trimmed,
+            privacyDecision: options.privacyDecision
+          }
+        : await checkPrivacyBeforeSend(trimmed);
+      if (!privacyResult) return false;
+      const nextText = String(privacyResult.text || trimmed).trim();
       setDraft("");
-      const ok = await onSend(trimmed);
+      const ok = await onSend(nextText, {
+        privacyDecision: privacyResult.privacyDecision
+      });
       if (!ok) {
-        setDraft(originalDraft);
+        setDraft(options.restoreDraft ?? originalDraft);
       }
       return ok;
     } catch {
-      setDraft(originalDraft);
+      setDraft(options.restoreDraft ?? originalDraft);
       return false;
     } finally {
       submitInFlightRef.current = false;
     }
-  }, [draft, isGenerating, onSend]);
+  }, [checkPrivacyBeforeSend, draft, isGenerating, onSend]);
   const handleToolsButtonClick = useCallback(() => {
     if (hasActiveWorkflowMode) {
       onActivateInfoMode?.(
@@ -567,6 +646,32 @@ export default function ChatComposer({
     } catch {}
     node.focus?.();
   }, [inputRef, isMobile]);
+  const handlePrivacyEdit = useCallback(() => {
+    setPrivacyPrompt(null);
+    focusComposerField();
+  }, [focusComposerField]);
+  const handlePrivacyRedacted = useCallback(() => {
+    const prompt = privacyPrompt;
+    if (!prompt?.redactedText) return;
+    setPrivacyPrompt(null);
+    void submitSend({
+      skipPrivacy: true,
+      textOverride: prompt.redactedText,
+      restoreDraft: prompt.originalText || draft,
+      privacyDecision: { action: "use_redacted" }
+    });
+  }, [draft, privacyPrompt, submitSend]);
+  const handlePrivacyOriginal = useCallback(() => {
+    const prompt = privacyPrompt;
+    if (!prompt?.allowOriginal) return;
+    setPrivacyPrompt(null);
+    void submitSend({
+      skipPrivacy: true,
+      textOverride: prompt.originalText || draft,
+      restoreDraft: prompt.originalText || draft,
+      privacyDecision: { action: "send_original" }
+    });
+  }, [draft, privacyPrompt, submitSend]);
   const handleInputBarMouseDown = useCallback(e => {
     const target = e?.target;
     if (!(target instanceof Element)) return;
@@ -744,6 +849,36 @@ export default function ChatComposer({
   const inputRowToolsVisibilityClassName = showSideControls
     ? "chat-input-row--tools-visible"
     : "chat-input-row--tools-hidden";
+  const privacyCopy = privacyLabels(t);
+  const privacyFindingLabels = Array.isArray(privacyPrompt?.findings)
+    ? privacyPrompt.findings.map((finding) => finding?.label).filter(Boolean)
+    : [];
+  const privacyPromptNode = privacyPrompt ? (
+    <div className="absolute bottom-[calc(100%+0.55rem)] left-0 right-0 z-[95] mx-auto grid max-w-[min(100%,42rem)] gap-[0.55rem] rounded-[1rem] border border-[rgba(245,158,11,0.34)] bg-[rgba(35,27,17,0.96)] px-[0.9rem] py-[0.78rem] text-[0.92rem] leading-[1.35] text-[rgba(255,248,232,0.96)] shadow-[0_16px_34px_rgba(0,0,0,0.34)] light:bg-[rgba(255,252,244,0.98)] light:text-[#4f3721]">
+      <div className="grid gap-[0.22rem]">
+        <strong className="text-[0.98rem] leading-[1.2]">{privacyCopy.title}</strong>
+        <span>{privacyPrompt.warning || privacyCopy.body}</span>
+        {privacyFindingLabels.length ? (
+          <span className="opacity-[0.78]">{privacyFindingLabels.join(", ")}</span>
+        ) : null}
+      </div>
+      <div className="flex flex-wrap gap-[0.42rem]">
+        <Button as="button" type="button" size="sm" variant="secondary" onClick={handlePrivacyEdit}>
+          {privacyCopy.edit}
+        </Button>
+        {privacyPrompt.redactedText ? (
+          <Button as="button" type="button" size="sm" variant="primary" onClick={handlePrivacyRedacted}>
+            {privacyCopy.redacted}
+          </Button>
+        ) : null}
+        {privacyPrompt.allowOriginal ? (
+          <Button as="button" type="button" size="sm" variant="secondary" onClick={handlePrivacyOriginal}>
+            {privacyCopy.original}
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  ) : null;
   const inputBarChildren = <>
       <div className={inputFieldWrapClassName}>
         <textarea id="chat-input" ref={inputRef} value={draft} placeholder={placeholderText ?? ""} onChange={e => setDraft(e.target.value)} onKeyDown={handleKeyDown} onFocus={e => {
@@ -801,6 +936,7 @@ export default function ChatComposer({
       </label>
 
       <div className={composerMainClassName}>
+        {privacyPromptNode}
         {inputGlow ? (
           <BorderGlow
             as="div"

@@ -98,3 +98,19 @@ test("pre-inquiry assist message uses detected urgency, not only explicit urgenc
   );
   assert.doesNotMatch(source, /detectedUrgencyLevel:\s*normalizedUrgencyLevel/);
 });
+
+test("pre-inquiry visibility is owner or recipient based without admin content bypass", () => {
+  const serviceSource = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
+  const listRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/route.js"), "utf8");
+  const detailRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/route.js"), "utf8");
+  const acceptRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/accept/route.js"), "utf8");
+  const roomRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/room/route.js"), "utf8");
+
+  assert.match(serviceSource, /function visiblePreInquiryWhere\(userId\) \{[\s\S]*?authorId: userId[\s\S]*?recipientOwnerId: userId[\s\S]*?\}/);
+  assert.doesNotMatch(serviceSource, /isAdmin\s*\?\s*\{\}/);
+  assert.doesNotMatch(serviceSource, /!\s*isAdmin\s*&&/);
+  assert.doesNotMatch(listRouteSource, /isAdmin\(session\.user\)/);
+  assert.doesNotMatch(detailRouteSource, /isAdmin\(session\.user\)/);
+  assert.doesNotMatch(acceptRouteSource, /auth\.isAdmin/);
+  assert.doesNotMatch(roomRouteSource, /auth\.isAdmin/);
+});

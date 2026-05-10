@@ -23,9 +23,7 @@ export async function POST(request, context) {
   const locale = covisionLocale(request);
   try {
     const auth = await requireCovisionAuth();
-    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context), {
-      isAdmin: auth.isAdmin
-    });
+    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context));
     if (!inquiry) {
       return covisionErrorResponse({ message: "api.common.not_found", status: 404 }, locale);
     }

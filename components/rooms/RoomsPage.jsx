@@ -8,7 +8,6 @@ import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { localizePath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import Button from "@/components/ui/Button";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import Panel from "@/components/ui/Panel";
 import InviteModal from "@/components/invite/InviteModal";
@@ -29,7 +28,7 @@ const ringClassName =
   `${glassPageRingCenteredClassName} glass-ring--desktop-stable scroll-reactive-shell flex-col gap-0 overflow-hidden md:mt-0 md:mb-0 ` +
   `[--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,4.2vw,3.25rem)] ` +
   `max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] ` +
-  `max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]`;
+  `max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))]`;
 const titleClassName =
   `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const mobileTitleWrapClassName =
@@ -462,6 +461,7 @@ export default function RoomsPage() {
               persistGlassRingTilt: false
             })}
             ariaLabel={t("rooms.back_to_chats")}
+            holdPressedVisualDisabled
             className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`}
           />
 

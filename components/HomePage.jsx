@@ -37,6 +37,7 @@ const CARD_AUTO_PREVIEW_DURATION_MS =
   CARD_FLIP_TO_BACK_MS + CARD_AUTO_PREVIEW_PAUSE_MS + CARD_FLIP_TO_FRONT_MS;
 const CARD_AUTO_PREVIEW_INTERVAL_MS = 15000;
 const LEFT_CARD_TITLE_SWAP_INTERVAL_MS = 2500;
+const LEFT_CARD_TITLE_FADE_MS = 400;
 const homeCardFadeStyle = {
   animationName: "cardFadeIn",
   animationDuration: "2.4s",
@@ -88,6 +89,7 @@ export default function HomePage() {
   const [autoPreviewActive, setAutoPreviewActive] = useState(false);
   const [autoPreviewBackVisible, setAutoPreviewBackVisible] = useState(false);
   const [leftCardTitleIndex, setLeftCardTitleIndex] = useState(0);
+  const [leftCardTitleVisible, setLeftCardTitleVisible] = useState(true);
   const [_leftCardEl, setLeftCardEl] = useState(null);
   const [_rightCardEl, setRightCardEl] = useState(null);
   const leftCardWrapRef = useRef(null);
@@ -172,11 +174,24 @@ export default function HomePage() {
   }, []);
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
+    let swapTimeoutId = null;
     const intervalId = window.setInterval(() => {
-      setLeftCardTitleIndex(index => (index + 1) % 2);
+      if (prefs.reduceMotion) {
+        setLeftCardTitleIndex(index => (index + 1) % 2);
+        return;
+      }
+      setLeftCardTitleVisible(false);
+      swapTimeoutId = window.setTimeout(() => {
+        setLeftCardTitleIndex(index => (index + 1) % 2);
+        setLeftCardTitleVisible(true);
+        swapTimeoutId = null;
+      }, LEFT_CARD_TITLE_FADE_MS);
     }, LEFT_CARD_TITLE_SWAP_INTERVAL_MS);
-    return () => window.clearInterval(intervalId);
-  }, []);
+    return () => {
+      window.clearInterval(intervalId);
+      if (swapTimeoutId != null) window.clearTimeout(swapTimeoutId);
+    };
+  }, [prefs.reduceMotion]);
   useEffect(() => {
     const root = homeRootRef.current;
     const onScroll = () => {
@@ -744,7 +759,7 @@ export default function HomePage() {
                 } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
                     <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={shouldFadeLeft ? homeCardFadeStyle : undefined}>
                       <div className="home-card-face-content relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]">
-                        <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] flex min-h-[3.2em] flex-col items-center justify-center text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
+                        <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] flex min-h-[3.2em] flex-col items-center justify-center text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em] transition-opacity duration-[400ms] ease-in-out", leftCardTitleVisible ? "opacity-100" : "opacity-0")}>
                           {leftCardTitle.line2 ? <>
                               <span>{leftCardTitle.line1}</span>
                               <span>{leftCardTitle.line2}</span>

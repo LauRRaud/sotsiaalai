@@ -1771,10 +1771,10 @@ export default function ChatBody({
     startFreshConversation("help_offer");
     return true;
   }, [startFreshConversation]);
-  const handleSendMessage = useCallback(async (rawText) => {
+  const handleSendMessage = useCallback(async (rawText, options = {}) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
-    return sendMessage(text);
+    return sendMessage(text, options);
   }, [sendMessage]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));

@@ -7,6 +7,7 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
 import { safeError } from "@/lib/privacy/safeError";
+import { evaluateTextPrivacy, privacyConfirmationResponsePayload } from "@/lib/privacy/privacyGuard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -287,7 +288,15 @@ export async function POST(req, { params }) {
   } catch {
     return errorJson("api.common.invalid_json", 400);
   }
-  const content = String(payload?.content || "").trim();
+  const rawContent = String(payload?.content || "").trim();
+  const privacy = evaluateTextPrivacy(rawContent, {
+    workflow: "room_private",
+    privacyDecision: payload?.privacyDecision
+  });
+  if (privacy.needsPrivacyConfirmation) {
+    return json(privacyConfirmationResponsePayload(privacy), 409);
+  }
+  const content = String(privacy.processedText || rawContent).trim();
   if (!content) return errorJson("api.rooms.message_required", 400);
 
   const ip = getRequestIpFromRequest(req);

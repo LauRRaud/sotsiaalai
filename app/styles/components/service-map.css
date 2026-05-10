@@ -1041,6 +1041,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-workspace__toggle {
   --service-map-toggle-color: #c57171;
+  --service-map-toggle-arrow-color: #c57171;
   pointer-events: auto;
   position: absolute;
   top: 50%;
@@ -1067,6 +1068,11 @@ html[data-contrast="hc"] body.service-map-page-active {
     background 120ms ease,
     box-shadow 120ms ease,
     color 120ms ease;
+}
+
+:root.theme-light .service-map-workspace__toggle,
+:root.theme-mid .service-map-workspace__toggle {
+  --service-map-toggle-arrow-color: #7A3A38;
 }
 
 .service-map-workspace__toggle svg {
@@ -2086,9 +2092,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-workspace {
     --service-map-map-radius: 0px;
     --service-map-mobile-map-inset: 0px;
-    --service-map-mobile-control-size: 2.62rem;
+    --service-map-mobile-control-size: 3.12rem;
     --service-map-mobile-control-top: 0.34rem;
     --service-map-mobile-filters-pad-top: 3.8rem;
+    --service-map-mobile-toggle-shadow:
+      0 0.24rem 0.48rem rgba(0, 0, 0, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
     border-radius: inherit;
   }
 
@@ -2127,8 +2136,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__back {
-    top: 0.2rem !important;
-    left: 0.04rem !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.2rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.42rem) !important;
     bottom: auto !important;
   }
 
@@ -2277,9 +2286,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
     transform: translateX(-50%);
@@ -2293,9 +2300,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
     transform: translateX(-50%);
@@ -2314,9 +2319,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
     transform: translateX(-50%);
@@ -2324,8 +2327,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__toggle svg {
-    width: 1.86rem;
-    height: 1.86rem;
+    width: 2.72rem;
+    height: 2.72rem;
   }
 
   .service-map-toolbar__results {
@@ -2406,7 +2409,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
 @media (max-width: 560px) {
   .service-map-workspace {
-    --service-map-mobile-control-size: 2.62rem;
+    --service-map-mobile-control-size: 3.12rem;
     --service-map-mobile-control-top: 0.32rem;
     --service-map-mobile-filters-pad-top: 3.72rem;
   }
@@ -2491,9 +2494,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
     transform: translateX(-50%);
@@ -2507,9 +2508,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
   }
@@ -2527,9 +2526,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg);
     color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    box-shadow: var(--service-map-mobile-toggle-shadow);
     backdrop-filter: blur(26px) saturate(160%);
     -webkit-backdrop-filter: blur(26px) saturate(160%);
     transform: translateX(-50%);
@@ -2537,8 +2534,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__toggle svg {
-    width: 1.82rem;
-    height: 1.82rem;
+    width: 2.72rem;
+    height: 2.72rem;
   }
 
   .service-map-leaflet .leaflet-top.leaflet-left {
@@ -2562,17 +2559,24 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
 @media (max-width: 768px) {
   .service-map-workspace__toggle,
-  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle,
-  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
-  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:focus-visible,
   .service-map-workspace__filters--collapsed .service-map-workspace__toggle {
     border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;
     background:
       var(--glass-ring-sheen, none),
       var(--service-map-control-glass-bg) !important;
-    box-shadow:
-      0 0.55rem 1.05rem rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    box-shadow: var(--service-map-mobile-toggle-shadow) !important;
+    backdrop-filter: blur(26px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(160%) !important;
+  }
+
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle,
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
+  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:focus-visible {
+    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--service-map-control-glass-bg) !important;
+    box-shadow: var(--service-map-mobile-toggle-shadow) !important;
     backdrop-filter: blur(26px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(26px) saturate(160%) !important;
   }

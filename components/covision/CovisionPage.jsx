@@ -40,14 +40,14 @@ import { pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-x-hidden overflow-y-auto px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.18rem,0.8vw,0.32rem)] max-[768px]:px-0 max-[768px]:py-0";
+  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden overscroll-none px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:px-0 max-[768px]:py-0";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel covision-page-surface relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(56rem,calc(100vw-2rem))] overflow-x-hidden overflow-y-visible rounded-[1.65rem] ` +
+  `documents-workspace workspace-feature-panel covision-page-surface relative z-[21] mx-auto my-[clamp(0.35rem,1.8vh,1rem)] w-full !max-w-[min(56rem,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.65rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-  `max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
+  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] [scrollbar-gutter:stable_both-edges] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
 
 const bodyClassName =
   "mx-auto grid w-full max-w-[52rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]";

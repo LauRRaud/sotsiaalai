@@ -37,7 +37,7 @@ const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE_
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.6vw,0.5rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
+  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const panelClassName =
   `workspace-feature-panel relative z-[21] w-full !max-w-[66rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
@@ -206,11 +206,12 @@ function ServiceMapPanelToggleIcon({ open }) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d={open ? "M6 14.5L12 8.5L18 14.5" : "M6 9.5L12 15.5L18 9.5"}
-        stroke="currentColor"
-        strokeWidth="2.2"
+        d={open ? "M5 15L12 8L19 15" : "M5 9L12 16L19 9"}
+        stroke="var(--service-map-toggle-arrow-color, var(--back-arrow-color, #c57171))"
+        strokeWidth="2.1"
         strokeLinecap="round"
         strokeLinejoin="round"
+        opacity="0.9"
       />
     </svg>
   );
@@ -342,6 +343,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [inputFocused, setInputFocused] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const [savePrivacyPrompt, setSavePrivacyPrompt] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -582,13 +584,14 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setError("");
   }
 
-  async function handleSave(event) {
+  async function handleSave(event, options = {}) {
     event?.preventDefault?.();
     if (saving || !situation.trim()) return;
 
     setSaving(true);
     setNotice("");
     setError("");
+    setSavePrivacyPrompt(null);
 
     try {
       const response = await fetch(activeInquiryId ? `/api/pre-inquiries/${activeInquiryId}` : "/api/pre-inquiries", {
@@ -604,10 +607,20 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           selectedRecipientName: selectedRecipient?.title || "",
           selectedRecipientEmail: selectedRecipient?.email || "",
           userEditedDraft: draft,
-          status: "DRAFT"
+          status: "DRAFT",
+          privacyDecision: options?.privacyDecision
         })
       });
       const payload = await response.json().catch(() => ({}));
+      if (response.status === 409 && payload?.needsPrivacyConfirmation) {
+        setSavePrivacyPrompt({
+          warning: payload?.warning,
+          redactedText: payload?.redactedText || "",
+          findings: Array.isArray(payload?.findings) ? payload.findings : [],
+          allowOriginal: Boolean(payload?.allowOriginal)
+        });
+        return;
+      }
       if (!response.ok) {
         throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.save_failed", "Pre-inquiry could not be saved."));
       }
@@ -615,6 +628,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       if (inquiry) {
         setInquiries((current) => [inquiry, ...current.filter((item) => item.id !== inquiry.id)]);
         setActiveInquiryId(inquiry.id || "");
+        setTopic(inquiry.topic || topic);
+        setSituation(inquiry.situation || situation);
         setDraft(inquiry.userEditedDraft || inquiry.generatedDraft || draft);
         setDraftTouched(true);
       }
@@ -624,6 +639,26 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleEditSaveText() {
+    setSavePrivacyPrompt(null);
+  }
+
+  function handleSaveRedacted() {
+    void handleSave(null, {
+      privacyDecision: {
+        action: "use_redacted"
+      }
+    });
+  }
+
+  function handleSaveOriginal() {
+    void handleSave(null, {
+      privacyDecision: {
+        action: "send_original"
+      }
+    });
   }
 
   async function handleCopy() {
@@ -752,7 +787,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           situation: nextSituation,
           assistantMessage: message,
           recipientType: selectedRecipientId ? recipientType : "",
-          activeRole
+          activeRole,
+          privacyDecision: options.privacyDecision
         })
       });
       const payload = await response.json().catch(() => ({}));
@@ -795,11 +831,11 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     }
   }
 
-  async function handleComposerSend(message) {
+  async function handleComposerSend(message, options = {}) {
     setAssistantInput(String(message || ""));
     await handleAskAssistant({
       preventDefault() {}
-    }, String(message || ""));
+    }, String(message || ""), options);
     return true;
   }
 
@@ -1022,6 +1058,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   draftApiRef={composerDraftApiRef}
                   inputFocused={inputFocused}
                   isMobile={false}
+                  activeModeKey="pre_inquiry"
                 />
               </BorderGlow>
             </div>
@@ -1154,6 +1191,37 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
         </Label>
         <ServiceProfileTextarea className="pre-inquiry-draft-textarea" value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+        {savePrivacyPrompt ? (
+          <div className="grid gap-[0.58rem] rounded-[0.9rem] border border-[color:rgba(255,255,255,0.18)] bg-[color:rgba(0,0,0,0.18)] px-[0.82rem] py-[0.72rem] text-[0.94rem] leading-[1.36]">
+            <p className="m-0 font-[650]">
+              {savePrivacyPrompt.warning || readText(t, "privacy.confirmation.warning", "Tekst sisaldab isikuandmeid. Vali enne jatkamist, kuidas neid toodelda.")}
+            </p>
+            {savePrivacyPrompt.findings?.length ? (
+              <p className="m-0 opacity-[0.78]">
+                {readText(t, "privacy.confirmation.detected", "Leitud:")}{" "}
+                {savePrivacyPrompt.findings.map((finding) => finding?.label).filter(Boolean).join(", ")}
+              </p>
+            ) : null}
+            {savePrivacyPrompt.redactedText ? (
+              <p className="m-0 max-h-[7rem] overflow-auto whitespace-pre-wrap rounded-[0.72rem] bg-[color:rgba(255,255,255,0.08)] px-[0.7rem] py-[0.58rem] text-[0.86rem] opacity-[0.86]">
+                {savePrivacyPrompt.redactedText}
+              </p>
+            ) : null}
+            <div className="flex flex-wrap gap-[0.5rem]">
+              <Button type="button" size="sm" variant="ghost" onClick={handleEditSaveText}>
+                {readText(t, "privacy.confirmation.actions.edit", "Muudan teksti")}
+              </Button>
+              <Button type="button" size="sm" onClick={handleSaveRedacted} disabled={saving}>
+                {readText(t, "privacy.confirmation.actions.send_redacted", "Saada maskeeritult")}
+              </Button>
+              {savePrivacyPrompt.allowOriginal ? (
+                <Button type="button" size="sm" variant="ghost" onClick={handleSaveOriginal} disabled={saving}>
+                  {readText(t, "privacy.confirmation.actions.send_original", "Saada siiski")}
+                </Button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
           <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving

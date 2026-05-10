@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import { createPreInquiry, listVisiblePreInquiries } from "@/lib/preInquiries";
 import { safeError } from "@/lib/privacy/safeError";
@@ -22,8 +21,7 @@ async function requireUser() {
   return {
     ok: true,
     session,
-    userId,
-    isAdmin: isAdmin(session.user)
+    userId
   };
 }
 
@@ -35,9 +33,7 @@ export async function GET(request) {
   }
 
   try {
-    const inquiries = await listVisiblePreInquiries(auth.userId, {
-      isAdmin: auth.isAdmin
-    });
+    const inquiries = await listVisiblePreInquiries(auth.userId);
     return json({
       ok: true,
       inquiries
@@ -67,6 +63,11 @@ export async function POST(request) {
     if (status >= 500) {
       console.error("[pre-inquiries] save failed", safeError(error));
     }
-    return errorJson(error?.message || "pre_inquiries.errors.save_failed", status, locale);
+    return errorJson(
+      error?.message || "pre_inquiries.errors.save_failed",
+      status,
+      locale,
+      error?.privacyPayload || {}
+    );
   }
 }

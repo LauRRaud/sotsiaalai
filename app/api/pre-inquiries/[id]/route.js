@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import {
   getVisiblePreInquiry,
@@ -26,8 +25,7 @@ async function requireUser() {
   return {
     ok: true,
     session,
-    userId,
-    isAdmin: isAdmin(session.user)
+    userId
   };
 }
 
@@ -44,9 +42,7 @@ export async function GET(request, context) {
   }
 
   try {
-    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context), {
-      isAdmin: auth.isAdmin
-    });
+    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context));
     if (!inquiry) {
       return errorJson("api.common.not_found", 404, locale);
     }
@@ -69,9 +65,7 @@ export async function PATCH(request, context) {
 
   try {
     const body = await request.json().catch(() => ({}));
-    const inquiry = await updatePreInquiry(auth.userId, await readId(context), body, {
-      isAdmin: auth.isAdmin
-    });
+    const inquiry = await updatePreInquiry(auth.userId, await readId(context), body);
     return json({
       ok: true,
       inquiry
@@ -81,6 +75,11 @@ export async function PATCH(request, context) {
     if (status >= 500) {
       console.error("[pre-inquiries] update failed", safeError(error));
     }
-    return errorJson(error?.message || "pre_inquiries.errors.save_failed", status, locale);
+    return errorJson(
+      error?.message || "pre_inquiries.errors.save_failed",
+      status,
+      locale,
+      error?.privacyPayload || {}
+    );
   }
 }

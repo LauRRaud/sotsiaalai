@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { isAdmin } from "@/lib/authz";
 import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import { getVisiblePreInquiry } from "@/lib/preInquiries";
 import { prisma } from "@/lib/prisma";
@@ -22,8 +21,7 @@ async function requireUser() {
   }
   return {
     ok: true,
-    userId,
-    isAdmin: isAdmin(session.user)
+    userId
   };
 }
 
@@ -46,14 +44,12 @@ export async function POST(request, context) {
   if (!auth.ok) return errorJson(auth.message, auth.status, locale);
 
   try {
-    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context), {
-      isAdmin: auth.isAdmin
-    });
+    const inquiry = await getVisiblePreInquiry(auth.userId, await readId(context));
     if (!inquiry) return errorJson("api.common.not_found", 404, locale);
 
     const isAuthor = inquiry.authorId === auth.userId;
     const isRecipient = inquiry.recipientOwnerId === auth.userId;
-    if (!auth.isAdmin && !isAuthor && !isRecipient) {
+    if (!isAuthor && !isRecipient) {
       return errorJson("api.common.forbidden", 403, locale);
     }
 
