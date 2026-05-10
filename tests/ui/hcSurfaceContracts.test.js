@@ -59,8 +59,8 @@ test("HC panels define actual yellow borders, not only border color", () => {
   assert.match(workspacePanel, /"workspace-dashboard-card"/);
   assert.match(serviceMap, /\.workspace-feature-card[\s\S]*?\{[\s\S]*?border:\s*2px solid var\(--hc-accent/);
   assert.match(documents, /\.documents-workspace-card[\s\S]*?\.documents-content[\s\S]*?\{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
-  assert.match(documents, /--documents-hc-panel-bg:\s*rgba\(9,\s*14,\s*24,\s*0\.62\)/);
-  assert.match(documents, /\.documents-framework-banner\.documents-notice[\s\S]*?background:\s*var\(--documents-hc-panel-bg\)\s*!important/);
+  assert.match(documents, /--documents-hc-panel-bg:\s*var\(--documents-glass-surface\)/);
+  assert.match(documents, /\.documents-framework-banner\.documents-notice[\s\S]*?background:\s*var\(--documents-surface-panel-bg\)\s*!important[\s\S]*?border:\s*none\s*!important[\s\S]*?backdrop-filter:\s*var\(--documents-glass-backdrop-filter/);
   assert.match(documents, /\.documents-page-shell\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*0\s*!important/);
   assert.match(documents, /\\!border-0[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(covision, /\.sectionPanel,[\s\S]*?\.confirmBox\s*\{[\s\S]*?border-style:\s*solid\s*!important/);

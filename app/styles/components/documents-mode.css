@@ -443,6 +443,50 @@
   --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
+.documents-workspace-page--library {
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-glass-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: var(--documents-glass-surface);
+  --documents-subpanel-bg: var(--documents-glass-surface);
+  --documents-content-bg: var(--documents-glass-surface);
+  --documents-muted-bg: var(--documents-glass-surface);
+  --documents-agent-stage-bg: var(--documents-glass-surface);
+  --documents-agent-thread-bg: var(--documents-glass-surface);
+  --documents-agent-composer-bg: var(--documents-glass-surface);
+  --documents-agent-composer-bg-hover: var(--documents-glass-surface);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-shadow: var(--glass-shell-shadow, none);
+  --documents-surface-panel-text: var(--documents-page-text);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: var(--documents-surface-panel-bg);
+}
+
+:root.theme-light .documents-workspace.documents-workspace-page--library,
+:root.theme-mid .documents-workspace.documents-workspace-page--library,
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace.documents-workspace-page--library,
+:root.theme-night .documents-workspace.documents-workspace-page--library,
+html[data-contrast="hc"] .documents-workspace.documents-workspace-page--library {
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  --documents-glass-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  --documents-dark-panel-sheen: none;
+  --documents-panel-bg: var(--documents-glass-surface);
+  --documents-card-bg: var(--documents-glass-surface);
+  --documents-subpanel-bg: var(--documents-glass-surface);
+  --documents-content-bg: var(--documents-glass-surface);
+  --documents-muted-bg: var(--documents-glass-surface);
+  --documents-agent-stage-bg: var(--documents-glass-surface);
+  --documents-agent-thread-bg: var(--documents-glass-surface);
+  --documents-agent-composer-bg: var(--documents-glass-surface);
+  --documents-agent-composer-bg-hover: var(--documents-glass-surface);
+  --documents-hc-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-shadow: var(--glass-shell-shadow, none);
+  --panel-secondary-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: var(--documents-surface-panel-bg);
+}
+
 .documents-workspace-content {
   position: relative;
   z-index: 1;
@@ -638,11 +682,11 @@
 
 .documents-workspace-page--library .documents-framework-banner.documents-notice {
   background: var(--documents-surface-panel-bg) !important;
-  border: 1px solid var(--documents-surface-panel-border) !important;
-  box-shadow: var(--documents-surface-panel-shadow) !important;
+  border: none !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
   color: var(--documents-surface-panel-text) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(140%) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(140%) !important;
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
+  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
 }
 
 .documents-framework-banner-copy {
@@ -1636,7 +1680,7 @@
   border-color: color-mix(in srgb, var(--documents-agent-thread-border, var(--subpage-card-border)) 82%, transparent);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 10px 24px rgba(0, 0, 0, 0.16) !important;
+    0 4px 10px rgba(0, 0, 0, 0.12) !important;
   transition:
     background 160ms ease,
     box-shadow 160ms ease;
@@ -1651,7 +1695,7 @@
     color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent) !important;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 14px 28px rgba(0, 0, 0, 0.18) !important;
+    0 6px 13px rgba(0, 0, 0, 0.14) !important;
 }
 
 :root.theme-light :is(.documents-agent-glow-window, .documents-agent-glow-composer) > .edgeLight,
@@ -1753,6 +1797,64 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   width: 100%;
   border-width: 0;
   border-color: transparent;
+  overflow: hidden;
+}
+
+.documents-page-hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: var(--glass-ring-edge-stroke-width, 0px);
+  background: var(--glass-ring-edge-stroke, none);
+  opacity: var(--glass-ring-edge-stroke-opacity, 0);
+  filter: blur(var(--glass-ring-edge-stroke-blur, 0px));
+  box-sizing: border-box;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@media (min-width: 769px) {
+  .documents-page-hero-panel {
+    --glass-ring-edge-stroke-width: var(
+      --glass-ring-edge-stroke-width-desktop,
+      1.18px
+    );
+    --glass-ring-edge-stroke-opacity: var(
+      --glass-ring-edge-stroke-opacity-desktop,
+      0.72
+    );
+    --glass-ring-edge-stroke-blur: var(
+      --glass-ring-edge-stroke-blur-desktop,
+      0.18px
+    );
+    --glass-ring-edge-stroke: var(
+      --glass-ring-edge-stroke-desktop,
+      conic-gradient(
+        from -104deg at 50% 50%,
+        rgba(255, 255, 255, 0) 0deg,
+        rgba(255, 255, 255, 0) 18deg,
+        rgba(255, 255, 255, 0.01) 30deg,
+        rgba(255, 255, 255, 0.04) 42deg,
+        rgba(255, 255, 255, 0.11) 50deg,
+        rgba(255, 255, 255, 0.22) 58deg,
+        rgba(255, 255, 255, 0.3) 62deg,
+        rgba(255, 255, 255, 0.2) 70deg,
+        rgba(255, 255, 255, 0.08) 80deg,
+        rgba(255, 255, 255, 0.02) 90deg,
+        rgba(255, 255, 255, 0) 102deg,
+        rgba(255, 255, 255, 0) 360deg
+      )
+    );
+  }
 }
 
 .documents-page-hero-panel--agent {
@@ -2116,8 +2218,8 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   background: var(--documents-surface-panel-bg) !important;
   border: none !important;
   box-shadow: var(--glass-shell-shadow, none) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
+  backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
 }
 
 .documents-card {
@@ -2655,9 +2757,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   ) {
     border: 0 !important;
     border-radius: var(--documents-mobile-panel-radius) !important;
-    background:
-      var(--glass-ring-sheen, none),
-      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
     box-shadow: var(--glass-shell-shadow, none) !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
@@ -2666,9 +2766,7 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   .documents-workspace-page--documents.documents-workspace-page--library .documents-framework-banner.documents-notice {
     border: 0 !important;
     border-radius: var(--documents-mobile-panel-radius) !important;
-    background:
-      var(--glass-ring-sheen, none),
-      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
     box-shadow: var(--glass-shell-shadow, none) !important;
     -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
@@ -3214,4 +3312,32 @@ html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .ch
 
 html[data-contrast="hc"] .documents-workspace .documents-agent-composer-slot .chat-input-field::placeholder {
   color: rgba(255, 234, 0, 0.72) !important;
+}
+
+html[data-contrast="hc"] .documents-workspace-page--library {
+  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(15, 14, 17, 0.35)));
+  --documents-glass-backdrop-filter: blur(var(--glass-blur-radius, 1rem));
+  --documents-hc-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-bg: var(--documents-glass-surface);
+  --documents-surface-panel-shadow: var(--glass-shell-shadow, none);
+  --documents-card-bg: var(--documents-glass-surface);
+  --documents-subpanel-bg: var(--documents-glass-surface);
+  --subpage-card-bg: var(--documents-surface-panel-bg);
+  --subpage-card-bg-hover: var(--documents-surface-panel-bg);
+}
+
+html[data-contrast="hc"] .documents-workspace-page--library :is(
+  .documents-page-hero-panel,
+  .documents-framework-banner.documents-notice,
+  .documents-library-panel,
+  .documents-shell-surface,
+  .documents-agent-content-pane,
+  .documents-agent-card,
+  .documents-panel.documents-surface-panel,
+  .documents-subsection-stack.documents-panel
+) {
+  background: var(--documents-surface-panel-bg) !important;
+  box-shadow: var(--documents-surface-panel-shadow) !important;
+  -webkit-backdrop-filter: var(--documents-glass-backdrop-filter) !important;
+  backdrop-filter: var(--documents-glass-backdrop-filter) !important;
 }

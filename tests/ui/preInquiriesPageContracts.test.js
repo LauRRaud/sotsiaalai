@@ -26,3 +26,20 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(css, /\.pre-inquiry-draft-textarea\s*\{[\s\S]*?min-height:\s*clamp\(24rem,\s*54vh,\s*34rem\)/);
   assert.match(css, /\.workspace-feature-list-card\[data-selected="true"\]\s*\{[\s\S]*?background:\s*color-mix\(in srgb,\s*var\(--workspace-feature-accent\) 16%/);
 });
+
+test("pre-inquiry assistant conversation and input shadows stay close to the element", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /\.pre-inquiry-agent-chat \.documents-agent-glow-window,[\s\S]*?\.pre-inquiry-agent-chat \.documents-agent-glow-composer\s*\{[\s\S]*?0 4px 10px rgba\(0,\s*0,\s*0,\s*0\.12\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.pre-inquiry-agent-chat \.documents-agent-glow-window:hover,[\s\S]*?\.pre-inquiry-agent-chat \.documents-agent-glow-composer:focus-within\s*\{[\s\S]*?0 6px 13px rgba\(0,\s*0,\s*0,\s*0\.14\)\s*!important/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.pre-inquiry-agent-chat \.documents-agent-glow-window,[\s\S]*?\.pre-inquiry-agent-chat \.documents-agent-glow-composer\s*\{[\s\S]*?0 10px 24px/
+  );
+});

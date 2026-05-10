@@ -2643,7 +2643,7 @@
       "period_days": "{days} päeva",
       "refreshing": "Värskendan...",
       "load_failed": "Tööalase kasutuse kinnitusi ei saanud laadida.",
-      "table_title": "Kinnituste kirjed",
+      "table_title": "Kinnitused",
       "results_count": "{count} kirjet",
       "empty": "Tööalase kasutuse kinnitusi ei leitud.",
       "stats": {

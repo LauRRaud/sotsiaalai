@@ -77,11 +77,41 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   );
   assert.match(
     css,
-    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*rgba\(12,\s*18,\s*27,\s*0\.58\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-dark-panel-sheen\),\s*var\(--documents-glass-surface\)/
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)[\s\S]*?--documents-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-agent-thread-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
   );
   assert.match(
     css,
-    /:root\.theme-night \.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*rgba\(13,\s*20,\s*32,\s*0\.62\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-dark-panel-sheen\),\s*var\(--documents-glass-surface\)/
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--documents-surface-panel-bg\)[\s\S]*?--subpage-card-bg-hover:\s*var\(--documents-surface-panel-bg\)/
+  );
+  assert.match(
+    css,
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-dark-panel-sheen:\s*none[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
+  );
+  assert.ok(
+    css.indexOf(":root.theme-night .documents-workspace.documents-workspace-page--library") >
+      css.indexOf(":root.theme-night .documents-workspace-page--library"),
+    "final night surface override must come after the original theme-night library tokens"
+  );
+  assert.doesNotMatch(
+    css,
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-surface-panel-bg:\s*[\s\S]*?var\(--glass-ring-sheen/
+  );
+});
+
+test("dokreziim conversation glow shadows stay close to the element", () => {
+  const css = read("app/styles/components/documents-mode.css");
+
+  assert.match(
+    css,
+    /\.documents-agent-glow-window,[\s\S]*?\.documents-agent-glow-composer\s*\{[\s\S]*?0 4px 10px rgba\(0,\s*0,\s*0,\s*0\.12\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.documents-agent-glow-window:hover,[\s\S]*?\.documents-agent-glow-composer:focus-within\s*\{[\s\S]*?0 6px 13px rgba\(0,\s*0,\s*0,\s*0\.14\)\s*!important/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.documents-agent-glow-window,[\s\S]*?\.documents-agent-glow-composer\s*\{[\s\S]*?0 10px 24px/
   );
 });
 

@@ -917,8 +917,8 @@ html[data-contrast="hc"] body.service-map-page-active {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: center;
-  align-self: center;
+  align-items: flex-start;
+  align-self: flex-start;
   justify-content: flex-start;
   min-width: 0;
   padding-top: 0;
@@ -933,7 +933,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   height: 3.72rem !important;
   min-height: 3.72rem !important;
   flex: 0 0 auto;
-  align-self: center;
+  align-self: flex-start;
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -1631,16 +1631,13 @@ html[data-contrast="hc"] body.service-map-page-active {
   border: 1px solid var(--service-map-glass-border, var(--workspace-feature-border));
   position: relative;
   isolation: isolate;
-  background:
-    var(--glass-ring-sheen, none),
-    var(--service-map-popup-glass-bg) !important;
+  background-color: var(--service-map-popup-glass-bg) !important;
+  background-image: var(--glass-ring-sheen, none);
   color: var(--workspace-feature-text);
   border-radius: 0.9rem;
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
   overflow: hidden;
   background-clip: padding-box;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
   -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
 }
@@ -1651,9 +1648,8 @@ html[data-contrast="hc"] body.service-map-page-active {
   inset: 0;
   z-index: 0;
   border-radius: inherit;
-  background:
-    var(--glass-ring-sheen, none),
-    var(--service-map-popup-glass-bg);
+  background-color: var(--service-map-popup-glass-bg);
+  background-image: var(--glass-ring-sheen, none);
   backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
   -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
   pointer-events: none;
@@ -1669,12 +1665,15 @@ html[data-contrast="hc"] body.service-map-page-active {
 }
 
 .service-map-leaflet__popup .leaflet-popup-tip {
-  background: color-mix(
+  background-color: color-mix(
     in srgb,
     var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 92%,
     transparent
   );
+  background-image: var(--glass-ring-sheen, none);
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
+  backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.35)) saturate(160%) contrast(0.98);
+  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.35)) saturate(160%) contrast(0.98);
 }
 
 .service-map-leaflet__popup.leaflet-popup {
@@ -1730,18 +1729,16 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background:
-    var(--glass-ring-sheen, none),
-    var(--service-map-popup-glass-bg) !important;
+  background-color: var(--service-map-popup-glass-bg) !important;
+  background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip,
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
-  background:
-    var(--glass-ring-sheen, none),
-    color-mix(in srgb, var(--service-map-glass-bg, rgba(255, 255, 255, 0.72)) 70%, transparent);
+  background-color: color-mix(in srgb, var(--service-map-glass-bg, rgba(255, 255, 255, 0.72)) 70%, transparent);
+  background-image: var(--glass-ring-sheen, none);
 }
 
 html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrapper,
@@ -1974,6 +1971,14 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 .pre-inquiry-agent-chat .documents-agent-glow-composer {
   width: 100%;
   max-width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12) !important;
+}
+
+.pre-inquiry-agent-chat .documents-agent-glow-window:hover,
+.pre-inquiry-agent-chat .documents-agent-glow-window:focus-within,
+.pre-inquiry-agent-chat .documents-agent-glow-composer:hover,
+.pre-inquiry-agent-chat .documents-agent-glow-composer:focus-within {
+  box-shadow: 0 6px 13px rgba(0, 0, 0, 0.14) !important;
 }
 
 .pre-inquiry-agent-chat .documents-agent-conversation-window {
