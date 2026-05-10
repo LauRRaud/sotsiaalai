@@ -66,6 +66,28 @@ test("pre-inquiry assessment adds crisis warning for immediate danger", () => {
   assert.ok(assessment.warnings.some((warning) => warning.includes("112")));
 });
 
+test("pre-inquiry assessment warns before processing personal data", () => {
+  const assessment = buildPreInquiryAssessment({
+    situation: "Mari Mets, isikukood 48901011234, telefon +372 5123 4567, elab Tamme tn 12."
+  });
+
+  assert.ok(assessment.riskFlags.includes("PERSONAL_DATA"));
+  assert.ok(assessment.personalDataCategories.includes("estonian_personal_code"));
+  assert.ok(assessment.personalDataCategories.includes("phone"));
+  assert.ok(assessment.warnings.some((warning) => warning.includes("isikuandmeid")));
+});
+
+test("pre-inquiry assessment routes child safety concerns to human support channels", () => {
+  const assessment = buildPreInquiryAssessment({
+    situation: "Alaealine noor kirjeldab koduvagivalda ja koolikiusamist ning ei tunne end kodus turvaliselt."
+  });
+
+  assert.equal(assessment.suggestedNextSteps, "CHILD_PROTECTION");
+  assert.ok(assessment.riskFlags.includes("CHILD_SAFETY"));
+  assert.ok(assessment.riskFlags.includes("YOUTH_SAFETY"));
+  assert.ok(assessment.warnings.some((warning) => warning.includes("116 111")));
+});
+
 test("pre-inquiry assist message uses detected urgency, not only explicit urgency input", () => {
   const source = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
 

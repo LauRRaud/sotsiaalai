@@ -24,7 +24,19 @@ const requiredWorkspaceKeys = [
   "workspace_feature_pages.pre_inquiries.recipients_lead",
   "workspace_feature_pages.pre_inquiries.receiving.accepts_platform",
   "workspace_feature_pages.pre_inquiries.delivery.internal",
-  "workspace_feature_pages.pre_inquiries.delivery.external_email"
+  "workspace_feature_pages.pre_inquiries.delivery.external_email",
+  "about.features_page.items.privacy_safety.title",
+  "about.features_page.items.privacy_safety.body",
+  "about.features_page.items.crisis_routing.title",
+  "about.features_page.items.crisis_routing.body",
+  "about.features_page.items.youth_child_safety.title",
+  "about.features_page.items.youth_child_safety.body",
+  "about.features_page.items.trusted_access_security.title",
+  "about.features_page.items.trusted_access_security.body",
+  "about.features_page.items.workflow_orchestration.title",
+  "about.features_page.items.workflow_orchestration.body",
+  "about.features_page.items.domain_knowledge.title",
+  "about.features_page.items.domain_knowledge.body"
 ];
 
 function readMessages(locale) {

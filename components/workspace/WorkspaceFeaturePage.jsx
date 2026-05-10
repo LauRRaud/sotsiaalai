@@ -419,6 +419,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     const urgentWarnings = assistantWarnings.filter((warning) => (
       /112|vahetu|kiire|oht|kriisi/i.test(String(warning || ""))
     ));
+    const otherWarnings = assistantWarnings.filter((warning) => (
+      warning && !urgentWarnings.includes(warning)
+    ));
 
     if (lead) lines.push(lead);
     if (tags.length) {
@@ -435,6 +438,12 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       lines.push(
         "",
         ...urgentWarnings.map((warning) => `Kiire abi: ${warning}`)
+      );
+    }
+    if (otherWarnings.length) {
+      lines.push(
+        "",
+        ...otherWarnings.map((warning) => `Oluline: ${warning}`)
       );
     }
 

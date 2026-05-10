@@ -34,6 +34,22 @@ test("HC orbital menu restores the yellow edge glow suppressed by global HC cont
   assert.match(hcEdgeGlowBeforeBlock[1], /rgba\(255,\s*234,\s*0/);
 });
 
+test("dark orbital menu edge glow stays red while HC edge glow is yellow", () => {
+  const css = readCss();
+  const darkEdgeBeforeBlock = css.match(
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\)[\s\S]*?:root\.theme-night[\s\S]*?\.profile-orbit-menu__item\.dock-item::before\s*\{([\s\S]*?)\n\}/
+  );
+  const hcEdgeGlowBeforeBlock = css.match(
+    /html\[data-contrast="hc"\]\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s+\.profile-orbit-edge-glow\s*>\s*\[class\*="edgeLight"\]::before\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(darkEdgeBeforeBlock, "dark and night orbital item edge pseudo glow should be defined");
+  assert.match(darkEdgeBeforeBlock[1], /rgba\(255,\s*122,\s*126/);
+  assert.doesNotMatch(darkEdgeBeforeBlock[1], /rgba\(255,\s*234,\s*0/);
+  assert.ok(hcEdgeGlowBeforeBlock, "HC orbital edgeLight glow should be defined");
+  assert.match(hcEdgeGlowBeforeBlock[1], /rgba\(255,\s*234,\s*0/);
+});
+
 test("HC orbital edge buttons keep the yellow item glow", () => {
   const css = readCss();
 

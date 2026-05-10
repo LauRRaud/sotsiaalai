@@ -34,6 +34,13 @@ test("pre-inquiry assistant clears stale draft and recipient when no draft or co
   assert.match(source, /if \(firstSuggestion\?\.id\) \{[\s\S]*?setSelectedRecipientId\(firstSuggestion\.id\);[\s\S]*?\} else \{[\s\S]*?setSelectedRecipientId\(""\);[\s\S]*?\}/);
 });
 
+test("pre-inquiry assistant conversation surfaces non-urgent workflow warnings", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(source, /const otherWarnings = assistantWarnings\.filter/);
+  assert.match(source, /otherWarnings\.map\(\(warning\) => `Oluline: \$\{warning\}`\)/);
+});
+
 test("pre-inquiry assistant conversation and input shadows stay close to the element", () => {
   const css = read("app/styles/components/service-map.css");
 
