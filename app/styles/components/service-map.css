@@ -53,8 +53,8 @@
 
 @media (min-width: 769px) {
   .workspace-feature-panel:not(.service-map-page-panel) {
-    width: min(calc(100vw - 2rem), clamp(30rem, 54vw, 38rem)) !important;
-    max-width: min(calc(100vw - 2rem), clamp(30rem, 54vw, 38rem)) !important;
+    width: min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)) !important;
+    max-width: min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)) !important;
     height: min(52rem, calc(100dvh - 2rem));
     max-height: calc(100dvh - 2rem);
   }

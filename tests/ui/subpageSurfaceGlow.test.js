@@ -12,20 +12,37 @@ function cssBlock(source, selector) {
   return match?.[0] || "";
 }
 
-test("workspace subpage surfaces do not build a shell edge-shine layer", () => {
+test("workspace subpage surfaces reuse the shared glass shell edge shine", () => {
   const stylesSource = read("components/ui/glassPageStyles.js");
   const helpersCss = read("app/styles/utilities/helpers.css");
   const glassCss = read("app/styles/components/glass.css");
+  const covisionSource = read("components/covision/CovisionPage.jsx");
+  const inviteSource = read("components/invite/InviteModal.jsx");
   const surfaceBlock = cssBlock(helpersCss, ".glass-subpage-surface");
+  const surfaceBeforeBlock = cssBlock(helpersCss, ".glass-subpage-surface::before");
 
   assert.match(
     stylesSource,
     /glassSubpageSurfaceScopeClassName\s*=[\s\S]*?glass-subpage-surface/
   );
-  assert.doesNotMatch(helpersCss, /\.glass-subpage-surface::before/);
-  assert.doesNotMatch(helpersCss, /--glass-subpage-edge-stroke/);
-  assert.doesNotMatch(helpersCss, /:root:not\(\[data-contrast="hc"\]\) \.glass-subpage-surface/);
-  assert.doesNotMatch(surfaceBlock, /--glass-ring-edge-stroke/);
+  assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
+  assert.match(surfaceBlock, /--glass-subpage-edge-stroke-width:\s*0px/);
+  assert.match(surfaceBeforeBlock, /content:\s*""/);
+  assert.match(surfaceBeforeBlock, /background:\s*var\(--glass-subpage-edge-stroke,\s*none\)/);
+  assert.match(surfaceBeforeBlock, /mask-composite:\s*exclude/);
+  assert.match(
+    helpersCss,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.glass-subpage-surface\s*\{[\s\S]*?--glass-subpage-edge-stroke:\s*var\(\s*--glass-ring-edge-stroke-desktop/
+  );
+  assert.match(
+    helpersCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.glass-subpage-surface::before\s*\{[\s\S]*?display:\s*none/
+  );
+  assert.match(
+    helpersCss,
+    /html\[data-contrast="hc"\]\s+\.glass-subpage-surface::before\s*\{[\s\S]*?display:\s*none\s*!important/
+  );
   assert.match(
     helpersCss,
     /\.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*color-mix\([\s\S]*?var\(--glass-ring-surface-bg/
@@ -40,7 +57,7 @@ test("workspace subpage surfaces do not build a shell edge-shine layer", () => {
   );
   assert.match(
     helpersCss,
-    /\.workspace-feature-panel\.glass-subpage-surface,[\s\S]*?--subpage-card-bg:\s*color-mix\([\s\S]*?!important/
+    /\.workspace-feature-panel\.glass-subpage-surface,[\s\S]*?--subpage-card-bg:[\s\S]*?color-mix\([\s\S]*?!important/
   );
   assert.match(
     glassCss,

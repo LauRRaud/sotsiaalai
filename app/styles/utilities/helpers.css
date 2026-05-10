@@ -509,6 +509,10 @@ html[data-contrast="hc"] {
 
 .glass-subpage-surface {
   position: relative;
+  --glass-subpage-edge-stroke-width: 0px;
+  --glass-subpage-edge-stroke-opacity: 0;
+  --glass-subpage-edge-stroke-blur: 0px;
+  --glass-subpage-edge-stroke: none;
   --subpage-card-bg: color-mix(
     in srgb,
     var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 74%,
@@ -524,6 +528,28 @@ html[data-contrast="hc"] {
   --input-bg-focus: var(--subpage-card-bg-hover);
   --opaque-panel-bg: var(--subpage-card-bg);
   --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+}
+
+.glass-subpage-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: var(--glass-subpage-edge-stroke-width, 0px);
+  background: var(--glass-subpage-edge-stroke, none);
+  opacity: var(--glass-subpage-edge-stroke-opacity, 0);
+  filter: blur(var(--glass-subpage-edge-stroke-blur, 0px));
+  box-sizing: border-box;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 :root.theme-light:not(.theme-mid) .glass-subpage-surface {
@@ -593,8 +619,45 @@ html[data-contrast="hc"] {
       )
     );
   }
+
+  .glass-subpage-surface {
+    --glass-subpage-edge-stroke-width: var(
+      --glass-ring-edge-stroke-width-desktop,
+      1.18px
+    );
+    --glass-subpage-edge-stroke-opacity: var(
+      --glass-ring-edge-stroke-opacity-desktop,
+      0.72
+    );
+    --glass-subpage-edge-stroke-blur: var(
+      --glass-ring-edge-stroke-blur-desktop,
+      0.18px
+    );
+    --glass-subpage-edge-stroke: var(
+      --glass-ring-edge-stroke-desktop,
+      conic-gradient(
+        from -104deg at 50% 50%,
+        rgba(255, 255, 255, 0) 0deg,
+        rgba(255, 255, 255, 0) 18deg,
+        rgba(255, 255, 255, 0.01) 30deg,
+        rgba(255, 255, 255, 0.04) 42deg,
+        rgba(255, 255, 255, 0.11) 50deg,
+        rgba(255, 255, 255, 0.22) 58deg,
+        rgba(255, 255, 255, 0.3) 62deg,
+        rgba(255, 255, 255, 0.2) 70deg,
+        rgba(255, 255, 255, 0.08) 80deg,
+        rgba(255, 255, 255, 0.02) 90deg,
+        rgba(255, 255, 255, 0) 102deg,
+        rgba(255, 255, 255, 0) 360deg
+      )
+    );
+  }
 }
 @media (max-width: 768px) {
+  .glass-subpage-surface::before {
+    display: none;
+  }
+
   .glass-ring {
     --glass-ring-sheen: none;
     --glass-ring-edge-stroke-width: 0px;
@@ -639,6 +702,10 @@ html[data-contrast="hc"] {
       calc(1.1 * var(--base-rem))
     );
   }
+}
+
+html[data-contrast="hc"] .glass-subpage-surface::before {
+  display: none !important;
 }
 
 .glass-ring-expandable {

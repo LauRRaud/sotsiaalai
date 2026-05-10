@@ -14,6 +14,7 @@ test("workspace-launched help listings use workspace-sized desktop modal chrome"
   assert.match(componentSource, /workspaceModalHeight/);
   assert.match(componentSource, /help-listings-workspace-measured-height/);
   assert.match(componentSource, /min-\[769px\]:!min-h-0/);
+  assert.match(componentSource, /!max-w-\[clamp\(36rem,76vw,54rem\)\]/);
   assert.match(componentSource, /help-listings-modal-overlay--workspace/);
   assert.match(componentSource, /help-listings-modal-content--workspace/);
   assert.match(cssSource, /\.help-listings-modal-overlay--workspace/);

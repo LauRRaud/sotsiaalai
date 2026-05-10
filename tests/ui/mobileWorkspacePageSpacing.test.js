@@ -130,11 +130,11 @@ test("covision mobile surface opts into compact full-width glass layout", () => 
   const css = read("components/covision/CovisionPage.module.css");
 
   assert.match(component, /covision-page-surface/);
-  assert.match(component, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
-  assert.match(component, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(component, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.match(component, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
   assert.match(
     css,
-    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
   );
   assert.match(
     css,

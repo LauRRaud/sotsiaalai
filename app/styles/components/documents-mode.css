@@ -249,17 +249,21 @@
   padding: clamp(0.82rem, 1.7vw, 1.2rem);
 }
 
+.documents-workspace-shell--documents {
+  width: min(100%, 48rem);
+}
+
 .documents-workspace-shell--artifacts {
   --glass-ring-tilt-angle-left: -1.1deg;
   --glass-ring-tilt-angle-right: 1.1deg;
-  width: min(100%, 52rem);
+  width: min(100%, 48rem);
 }
 
 .documents-workspace-shell--agent {
   --glass-ring-tilt-perspective: 4200px;
   --glass-ring-tilt-angle-left: -0.85deg;
   --glass-ring-tilt-angle-right: 0.85deg;
-  width: min(100%, 52rem);
+  width: min(100%, 48rem);
 }
 
 .documents-workspace-page {
@@ -2130,7 +2134,13 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 
 @media (min-width: 62rem) {
   .documents-agent-select-grid {
+    gap: 0.74rem 0.9rem;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .documents-agent-select-grid > .documents-agent-goal-group--full {
+    grid-column: 1 / -1;
+    max-width: 40rem;
   }
 }
 

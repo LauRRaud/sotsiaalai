@@ -62,7 +62,7 @@ export default function HelpListingsPanel({
   }, [_side, closeTiltOverride]);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
-    `help-listings-modal-content mx-auto !w-[min(100%,62vw)] !max-w-[clamp(30rem,54vw,38rem)] ` +
+    `help-listings-modal-content mx-auto !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)] ` +
     `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +

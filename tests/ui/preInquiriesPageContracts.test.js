@@ -85,14 +85,14 @@ test("workspace feature panels keep a stable desktop footprint across role views
 
   assert.match(
     css,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
   );
   assert.match(
     css,
     /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?height:\s*min\(52rem,\s*calc\(100dvh - 2rem\)\)/
   );
-  assert.match(source, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
-  assert.match(source, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(source, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.match(source, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
   assert.doesNotMatch(source, /!max-w-\[66rem\]/);
 });
 
@@ -103,16 +103,16 @@ test("workspace feature pages use the same desktop width as help listings", () =
   const covisionCss = read("components/covision/CovisionPage.module.css");
   const helpListingsSource = read("components/chat/HelpListingsPanel.jsx");
 
-  assert.match(helpListingsSource, /!max-w-\[clamp\(30rem,54vw,38rem\)\]/);
+  assert.match(helpListingsSource, /!max-w-\[clamp\(36rem,76vw,54rem\)\]/);
   assert.match(
     css,
-    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
   );
-  assert.match(covisionSource, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
-  assert.match(covisionSource, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(covisionSource, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.match(covisionSource, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
   assert.match(
     covisionCss,
-    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
   );
   assert.doesNotMatch(source, /workspace-feature-panel--pre-inquiries/);
   assert.doesNotMatch(css, /workspace-feature-panel--pre-inquiries/);

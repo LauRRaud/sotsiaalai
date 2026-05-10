@@ -45,14 +45,14 @@ const shellClassName =
   "covision-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-start overflow-hidden overscroll-none bg-transparent px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:px-0 max-[768px]:py-0";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel covision-page-surface relative z-[21] mx-auto mt-[clamp(1.25rem,4vh,2.35rem)] mb-[clamp(0.35rem,1.8vh,1rem)] !w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] !max-w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[1.65rem] ` +
+  `documents-workspace workspace-feature-panel covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] [scrollbar-gutter:stable_both-edges] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
 
 const bodyClassName =
-  "mx-auto grid w-full max-w-[52rem] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]";
+  "mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]";
 
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static covision-mobile-title ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -941,7 +941,7 @@ export default function CovisionPage() {
 
         <div className={bodyClassName}>
           <p className={cn(styles.lead, "mx-auto m-0 max-w-[58rem] text-left text-[1.06rem] leading-[1.54] max-[768px]:text-[1rem]")}>
-            Kovisioon on spetsialistide kinnine tööruum anonüümse juhtumipüstituse ja kolleegide struktureeritud arutelu jaoks. Toimiva praktika osa koondab üldistatud kogemusi lahendustest, mis on päriselus hästi töötanud.
+            Kovisioon on turvaline tööruum, kus spetsialistid saavad anonüümselt sõnastatud juhtumeid arutada, vaatenurki koguda ja järgmisi samme kokku leppida. Praktikanäited koondavad lühikesed üldistatud õppetunnid lahendustest, mis on töös päriselt aidanud.
           </p>
 
           <Notice type="error">{error}</Notice>
@@ -966,13 +966,13 @@ export default function CovisionPage() {
                 <div className="flex flex-wrap items-center justify-between gap-[0.72rem]">
                   <div className="flex flex-wrap gap-[0.52rem]">
                     <Button type="button" onClick={startCase} className={primaryButtonClassName}>
-                      Alusta kovisiooni
+                      Alusta uut kovisiooni
                     </Button>
                     <Button type="button" onClick={() => startPractice()} className={primaryButtonClassName}>
-                      Lisa toimiv praktika
+                      Lisa praktikanäide
                     </Button>
                   </div>
-                  <div className="grid w-full max-w-[30rem] gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
+                  <div className="grid w-full min-w-[min(28rem,100%)] flex-1 gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
                     <CovisionInput
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
@@ -1001,11 +1001,11 @@ export default function CovisionPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className={mutedTextClassName}>Kovisioone ei ole veel või filter ei leidnud vasteid.</p>
+                    <p className={mutedTextClassName}>Ühtegi kovisiooni pole veel loodud või valitud filter ei leidnud vasteid.</p>
                   )}
                 </SectionPanel>
 
-                <SectionPanel title="Toimiv praktika">
+                <SectionPanel title="Praktikanäited">
                   {loading ? (
                     <p className={mutedTextClassName}>Laen praktikakogemusi...</p>
                   ) : filteredPractices.length ? (
@@ -1015,7 +1015,7 @@ export default function CovisionPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className={mutedTextClassName}>Toimiva praktika kirjeid ei ole veel või filter ei leidnud vasteid.</p>
+                    <p className={mutedTextClassName}>Praktikanäiteid pole veel lisatud või valitud filter ei leidnud vasteid.</p>
                   )}
                 </SectionPanel>
               </div>

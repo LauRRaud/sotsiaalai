@@ -50,7 +50,7 @@ const materialsMobilePanelWidthClassName =
 const materialsMobileInnerWidthClassName =
   "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[20rem]"
 const materialsAdminInnerWidthClassName = materialsMobileInnerWidthClassName
-const materialsDesktopReadableWidthClassName = "mx-auto w-full max-w-[32.5rem]"
+const materialsDesktopReadableWidthClassName = "mx-auto w-full max-w-[min(48rem,100%)]"
 const materialsDesktopSurfaceWidthClassName =
   "min-[769px]:[--materials-workspace-fit-w:calc(100vw-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem)))))] " +
   "min-[769px]:[--materials-workspace-fit-h:calc(100dvh-(2*var(--ring-fit-pad,calc(1.5*var(--base-rem))))-var(--ring-ui-reserve,calc(9*var(--base-rem))))] " +

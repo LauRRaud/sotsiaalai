@@ -42,7 +42,7 @@ const shellClassName =
   "workspace-feature-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const panelClassName =
-  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] !max-w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [border:none] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
