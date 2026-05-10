@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ChatComposer from "@/components/alalehed/chat/ChatComposer";
@@ -34,13 +34,15 @@ import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const workspaceBackTiltClassName =
+  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
+  "workspace-feature-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const panelClassName =
-  `workspace-feature-panel relative z-[21] w-full !max-w-[66rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] !max-w-[min(calc(100vw-2rem),clamp(30rem,54vw,38rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [border:none] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
@@ -100,6 +102,13 @@ const serviceMapChoiceCardClassName =
   "shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
   "max-[768px]:min-h-[2.85rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.98rem] max-[768px]:py-[0.66rem] max-[768px]:text-[1.04rem]";
 
+const preInquiryRecipientTypeCardClassName =
+  `${primarySegmentedButtonClassName} pre-inquiry-recipient-type-card inline-flex min-h-[2.72rem] items-center justify-center rounded-[1.6rem] ` +
+  "border-[var(--seg-card-border-width,1px)] border-solid border-[color:var(--seg-card-border)] [background:var(--seg-card-bg)] " +
+  "px-[1.05rem] py-[0.64rem] text-center text-[1.02rem] leading-[1.18] tracking-[0] text-[color:var(--seg-card-text)] " +
+  "shadow-[var(--seg-card-shadow)] transition-[color,border-color,background,box-shadow,transform] duration-[560ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
+  "max-[768px]:min-h-[2.85rem] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.98rem] max-[768px]:py-[0.66rem] max-[768px]:text-[1rem]";
+
 const ADMIN_WORKSPACE_ROLES = Object.freeze([
   "CLIENT",
   "SOCIAL_WORKER",
@@ -125,7 +134,7 @@ function roleLabel(t, role) {
   return readText(t, "workspace_feature_pages.roles.social_worker", "Sotsiaaltöötaja");
 }
 
-function workspaceReturn(locale, router) {
+function workspaceReturn(locale, router, options = {}) {
   if (typeof window !== "undefined") {
     try {
       window.sessionStorage.setItem(
@@ -134,11 +143,7 @@ function workspaceReturn(locale, router) {
       );
     } catch {}
   }
-  pushWithTransition(router, localizePath("/vestlus", locale), {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  });
+  pushWithTransition(router, localizePath("/vestlus", locale), options);
 }
 
 function clearServiceMapPageState() {
@@ -317,7 +322,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [activeInquiryId, setActiveInquiryId] = useState("");
   const [topic, setTopic] = useState("");
   const [situation, setSituation] = useState("");
-  const [recipientType, setRecipientType] = useState("KOV_CONTACT");
+  const [recipientType, setRecipientType] = useState("");
   const [recipientQuery, setRecipientQuery] = useState("");
   const [entries, setEntries] = useState([]);
   const [selectedRecipientId, setSelectedRecipientId] = useState("");
@@ -544,7 +549,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setActiveInquiryId("");
     setTopic("");
     setSituation("");
-    setRecipientType("KOV_CONTACT");
+    setRecipientType("");
     setRecipientQuery("");
     setSelectedRecipientId("");
     setDraft("");
@@ -566,7 +571,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setActiveInquiryId(inquiry.id || "");
     setTopic(inquiry.topic || "");
     setSituation(inquiry.situation || "");
-    setRecipientType(inquiry.recipientType || "KOV_CONTACT");
+    setRecipientType(inquiry.recipientType || "");
     setRecipientQuery("");
     setSelectedRecipientId(inquiry.recipientEntryId || "");
     setDraft(inquiry.userEditedDraft || inquiry.generatedDraft || "");
@@ -875,8 +880,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               />
               <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
                 {isAdmin
-                  ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
-                  : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
+                  ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini testvaade; salvestus käib ainult sinu kontole.")
+                  : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Lubab sinu kontole adresseeritud eelpöördumised platvormis vastu võtta.")}
               </p>
               <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
                 {savingPreferences
@@ -886,7 +891,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             </div>
           ) : (
             <p className={bodyTextClassName}>
-              {readText(t, "workspace_feature_pages.pre_inquiries.receiving.provider_note", "Teenuseosutaja vastuvõtukanalid määratakse teenuseprofiilis. Siin näed sulle platvormisiseselt adresseeritud eelpöördumisi ja saad pöördujaga ruumi avada või vastata e-postiga.")}
+              {readText(t, "workspace_feature_pages.pre_inquiries.receiving.provider_note", "Vastuvõtukanalid on teenuseprofiilis. Siin kuvatakse sulle adresseeritud eelpöördumised.")}
             </p>
           )}
         </SectionCard>
@@ -1102,8 +1107,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             />
             <p className="m-0 text-[0.9rem] leading-[1.36] opacity-[0.76]">
               {isAdmin
-                ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.")
-                : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.")}
+                ? readText(t, "workspace_feature_pages.pre_inquiries.receiving.admin_note", "Admini testvaade; salvestus käib ainult sinu kontole.")
+                : readText(t, "workspace_feature_pages.pre_inquiries.receiving.note", "Lubab sinu kontole adresseeritud eelpöördumised platvormis vastu võtta.")}
             </p>
             <Button type="button" size="sm" className="workspace-feature-action-btn justify-self-start" disabled={savingPreferences} onClick={handleSavePreferences}>
               {savingPreferences
@@ -1118,14 +1123,31 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
-        <div className="grid gap-[0.62rem] sm:grid-cols-[auto_1fr] sm:items-end">
-          <div className="flex flex-wrap gap-[0.46rem]" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
-            <button type="button" className={cn(chipClassName, recipientType === "KOV_CONTACT" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("KOV_CONTACT"); setSelectedRecipientId(""); setShowMoreContacts(false); setDraftTouched(false); }}>
-              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt")}
-            </button>
-            <button type="button" className={cn(chipClassName, recipientType === "SERVICE_PROVIDER" && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]")} onClick={() => { setRecipientType("SERVICE_PROVIDER"); setSelectedRecipientId(""); setShowMoreContacts(false); setDraftTouched(false); }}>
-              {readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja")}
-            </button>
+        <div className="pre-inquiry-recipient-controls">
+          <div className="pre-inquiry-recipient-types flex flex-nowrap gap-[0.46rem]" role="group" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
+            {[
+              ["KOV_CONTACT", readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt")],
+              ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja")]
+            ].map(([value, label]) => (
+              <OptionCard
+                key={value}
+                type="checkbox"
+                name="pre-inquiry-recipient-type"
+                value={value}
+                checked={recipientType === value}
+                showIndicator={false}
+                onChange={() => {
+                  setRecipientType((current) => current === value ? "" : value);
+                  setSelectedRecipientId("");
+                  setShowMoreContacts(false);
+                  setDraftTouched(false);
+                }}
+                className={preInquiryRecipientTypeCardClassName}
+                fitTextLines={2}
+              >
+                <span className="pre-inquiry-recipient-type-card__label text-center [text-wrap:balance]">{label}</span>
+              </OptionCard>
+            ))}
           </div>
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_search", "Otsi adressaati")}</span>
@@ -1324,7 +1346,7 @@ function ServiceMapSurface({
   const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
   const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof document === "undefined") return undefined;
     const html = document.documentElement;
     const body = document.body;
@@ -1543,14 +1565,15 @@ function ServiceMapSurface({
                     as="button"
                     key={entry.id}
                     type="button"
+                    data-variant="primary"
                     data-selected={selectedEntryId === entry.id ? "true" : "false"}
                     className={cn(
-                      "workspace-feature-list-card ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
+                      "workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
                       selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                     )}
                     edgeSensitivity={22}
                     glowColor="358 82 72"
-                    backgroundColor="var(--seg-card-bg)"
+                    backgroundColor="var(--btn-primary-bg)"
                     borderRadius={12}
                     glowRadius={42}
                     glowIntensity={0.62}
@@ -2111,6 +2134,7 @@ export default function WorkspaceFeaturePage({ feature }) {
     String(session?.user?.role || "").toUpperCase() === "ADMIN"
   );
   const [adminWorkspaceRole, setAdminWorkspaceRole] = useState("SOCIAL_WORKER");
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     if (!isAdmin || !isRoleResolved) return;
@@ -2122,14 +2146,22 @@ export default function WorkspaceFeaturePage({ feature }) {
     refreshEffectiveRole();
   }, [refreshEffectiveRole]);
 
-  const handleBack = useCallback(() => {
-    workspaceReturn(locale, router);
-  }, [locale, router]);
-
   const featureKey =
     feature === "service_map" || feature === "service_profile"
       ? feature
       : "pre_inquiries";
+  const shouldTiltOnBack = featureKey !== "service_map";
+
+  const handleBack = useCallback(() => {
+    if (isClosing) return;
+    if (shouldTiltOnBack) setIsClosing(true);
+    workspaceReturn(locale, router, shouldTiltOnBack ? {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    } : {});
+  }, [isClosing, locale, router, shouldTiltOnBack]);
+
   const title = readText(t, `workspace_feature_pages.${featureKey}.title`, "Workspace feature");
   const lead = readText(t, `workspace_feature_pages.${featureKey}.lead`, "");
   const activeWorkspaceRole = isAdmin
@@ -2145,7 +2177,8 @@ export default function WorkspaceFeaturePage({ feature }) {
       <div className={cn(
         isServiceMap
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
-          : panelClassName
+          : panelClassName,
+        isClosing ? workspaceBackTiltClassName : null
       )}>
         {!isServiceMap ? (
           <BackButton
@@ -2172,7 +2205,7 @@ export default function WorkspaceFeaturePage({ feature }) {
         </header>
 
         <div className={cn(contentClassName, isServiceMap && "service-map-page-content")}>
-          {lead && !isServiceMap ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
+          {lead && !isServiceMap && activeWorkspaceRole === "CLIENT" ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
           {featureKey === "service_map" ? <ServiceMapSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={handleAdminWorkspaceRoleChange} onBack={handleBack} /> : null}

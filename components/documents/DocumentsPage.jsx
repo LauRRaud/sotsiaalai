@@ -26,6 +26,7 @@ import {
 } from "@/lib/documents/presentation"
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
+import { pushWithTransition } from "@/lib/routeTransition"
 
 const documentsTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static documents-mobile-title ${glassPageTitleClassName} ` +
@@ -34,6 +35,19 @@ const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-
 const mobileTitleWrapClassName =
   "documents-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
+const pageBackTiltClassName =
+  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
+
+function markChatWorkspaceRestore() {
+  if (typeof window === "undefined") return
+  try {
+    window.sessionStorage.setItem(
+      CHAT_WORKSPACE_RESTORE_STORAGE_KEY,
+      JSON.stringify({ ts: Date.now() })
+    )
+  } catch {}
+}
 
 const WORKER_INTRO_COPY = {
   et: {
@@ -228,6 +242,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const [artifactsError, setArtifactsError] = useState("")
   const [successNotice, setSuccessNotice] = useState(null)
   const [uploading, setUploading] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [editingTitle, setEditingTitle] = useState("")
   const [uploadTitle, setUploadTitle] = useState("")
@@ -421,8 +436,15 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
   const handleBack = useCallback(() => {
-    router.push(localizePath("/vestlus", locale))
-  }, [locale, router])
+    if (isClosing) return
+    setIsClosing(true)
+    markChatWorkspaceRestore()
+    pushWithTransition(router, localizePath("/vestlus", locale), {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
+  }, [isClosing, locale, router])
 
   useEffect(() => {
     if (!isRoleResolved || !isClientRole) return
@@ -558,17 +580,17 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
 
   if (isClientRole) {
     return (
-      <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents ${glassPrimaryButtonToneClassName}`}>
+      <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
         <div className="documents-workspace-shell documents-workspace-shell--documents" />
       </section>
     )
   }
 
   return (
-    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents ${glassPrimaryButtonToneClassName}`}>
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
       <div className={`documents-workspace-shell documents-workspace-shell--documents ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className="documents-grid">
-          <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
+          <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
             <BackButton
               onClick={handleBack}
               ariaLabel={t("buttons.back")}
@@ -653,8 +675,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             {documentsError ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{documentsError}</div> : null}
             {artifactsError ? <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">{artifactsError}</div> : null}
 
-            <div className="documents-section-stack mt-[1.75rem]">
-              <div className="documents-library-section documents-library-intro">
+            <div className="documents-section-stack documents-mobile-panel-stack mt-0 md:mt-[1.75rem]">
+              <div className="documents-library-section documents-library-intro documents-mobile-panel-stack">
                 <div className="documents-framework-banner documents-notice documents-notice--muted !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-framework-banner-copy">
                     <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
@@ -690,7 +712,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                   </div>
                 </div>
 
-                <div className="documents-section-body mt-[0.55rem]">
+                <div className="documents-section-body documents-mobile-panel-stack mt-0 md:mt-[0.55rem]">
                 <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack documents-library-panel documents-library-panel--upload documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
                     <h3 className="documents-subsection-title">{t("documents.library_sections.upload_title")}</h3>
@@ -929,7 +951,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
               <h3 className="documents-subsection-title">{t("documents.outputs_title")}</h3>
               <p className="documents-section-description documents-subsection-description">{t("documents.outputs_description")}</p>
             </div>
-            <div className="mt-[0.42rem] flex flex-wrap items-center justify-between gap-[0.8rem]">
+            <div className="documents-artifact-filter-row mt-0 flex flex-wrap items-center justify-between gap-[0.8rem] md:mt-[0.42rem]">
               <div className="flex flex-wrap gap-[0.4rem]">
                 {[{ key: "ALL", label: t("documents.filters.all"), count: artifactCounts.all }, { key: "DRAFT", label: artifactStatusLabel("draft", t), count: artifactCounts.draft }, { key: "FINAL", label: artifactStatusLabel("final", t), count: artifactCounts.final }].map((item) => (
                   <OptionCard

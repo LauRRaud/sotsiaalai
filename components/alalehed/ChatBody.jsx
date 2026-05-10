@@ -42,6 +42,7 @@ const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 const PANEL_TILT_CLOSE_MS = 540;
 const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;
+const WORKSPACE_SURFACE_SETTLE_MS = 700;
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
@@ -258,6 +259,8 @@ export default function ChatBody({
   const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
   const [inputFocused, setInputFocused] = useState(false);
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [workspaceSurfaceReady, setWorkspaceSurfaceReady] = useState(false);
+  const [workspaceSuppressOpenTransition, setWorkspaceSuppressOpenTransition] = useState(false);
   const {
     isMobile,
     mobileRailVisible,
@@ -311,6 +314,9 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const workspaceOpenDelayTimerRef = useRef(0);
+  const workspaceSurfaceReadyTimerRef = useRef(0);
+  const workspaceRestoredOpenRef = useRef(false);
+  const workspaceRestoreTransitionRafRef = useRef(0);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -359,7 +365,10 @@ export default function ChatBody({
       } catch {}
     }
     if (!shouldRestore) return;
+    workspaceRestoredOpenRef.current = true;
+    setWorkspaceSuppressOpenTransition(true);
     setWorkspaceOpen(true);
+    setWorkspaceSurfaceReady(true);
     setShowSourcesPanel(false);
     setInputFocused(false);
     try {
@@ -741,11 +750,15 @@ export default function ChatBody({
   }, []);
   const closeWorkspace = useCallback(() => {
     cancelDelayedWorkspaceOpen();
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, [cancelDelayedWorkspaceOpen]);
   const toggleWorkspace = useCallback(() => {
     cancelDelayedWorkspaceOpen();
     if (workspaceOpen) {
+      setWorkspaceSuppressOpenTransition(false);
+      setWorkspaceSurfaceReady(false);
       setWorkspaceOpen(false);
       return;
     }
@@ -759,6 +772,8 @@ export default function ChatBody({
 
     setShowSourcesPanel(false);
     setInputFocused(false);
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceSurfaceReady(false);
     try {
       inputRef.current?.blur?.();
     } catch {}
@@ -783,22 +798,81 @@ export default function ChatBody({
   ]);
   const toggleProfileFromRail = useCallback(() => {
     cancelDelayedWorkspaceOpen();
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     toggleProfile?.();
   }, [cancelDelayedWorkspaceOpen, toggleProfile]);
   const openProfileDirectFromRail = useCallback((options) => {
     cancelDelayedWorkspaceOpen();
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     return openProfileDirect?.(options);
   }, [cancelDelayedWorkspaceOpen, openProfileDirect]);
   useEffect(() => {
     if (!profileOpen) return;
     cancelDelayedWorkspaceOpen();
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, [cancelDelayedWorkspaceOpen, profileOpen]);
   useEffect(() => {
+    if (!workspaceSuppressOpenTransition || typeof window === "undefined") return;
+
+    workspaceRestoreTransitionRafRef.current = window.setTimeout(() => {
+      workspaceRestoreTransitionRafRef.current = 0;
+      setWorkspaceSuppressOpenTransition(false);
+    }, WORKSPACE_SURFACE_SETTLE_MS);
+
+    return () => {
+      if (!workspaceRestoreTransitionRafRef.current || typeof window === "undefined") return;
+      window.clearTimeout(workspaceRestoreTransitionRafRef.current);
+      workspaceRestoreTransitionRafRef.current = 0;
+    };
+  }, [workspaceSuppressOpenTransition]);
+  useEffect(() => {
+    if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
+      window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
+      workspaceSurfaceReadyTimerRef.current = 0;
+    }
+
+    setWorkspaceSurfaceReady(false);
+    if (!workspaceOpen) return;
+
+    if (workspaceRestoredOpenRef.current) {
+      workspaceRestoredOpenRef.current = false;
+      setWorkspaceSurfaceReady(true);
+      return;
+    }
+
+    if (prefs?.reduceMotion || !layoutTransitionsReady || typeof window === "undefined") {
+      setWorkspaceSurfaceReady(true);
+      return;
+    }
+
+    workspaceSurfaceReadyTimerRef.current = window.setTimeout(() => {
+      workspaceSurfaceReadyTimerRef.current = 0;
+      setWorkspaceSurfaceReady(true);
+    }, WORKSPACE_SURFACE_SETTLE_MS);
+
+    return () => {
+      if (!workspaceSurfaceReadyTimerRef.current || typeof window === "undefined") return;
+      window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
+      workspaceSurfaceReadyTimerRef.current = 0;
+    };
+  }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceOpen]);
+  useEffect(() => {
     return () => {
       cancelDelayedWorkspaceOpen();
+      if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
+        workspaceSurfaceReadyTimerRef.current = 0;
+      }
+      if (workspaceRestoreTransitionRafRef.current && typeof window !== "undefined") {
+        window.clearTimeout(workspaceRestoreTransitionRafRef.current);
+        workspaceRestoreTransitionRafRef.current = 0;
+      }
     };
   }, [cancelDelayedWorkspaceOpen]);
   useEffect(() => {
@@ -1272,6 +1346,9 @@ export default function ChatBody({
   const backToWorkspaceFromListingsPanel = useCallback(() => {
     closeListingsPanel({
       afterClose: () => {
+        workspaceRestoredOpenRef.current = true;
+        setWorkspaceSuppressOpenTransition(true);
+        setWorkspaceSurfaceReady(true);
         setWorkspaceOpen(true);
         setShowSourcesPanel(false);
         setInputFocused(false);
@@ -2193,6 +2270,9 @@ export default function ChatBody({
       workspaceOpen
         ? "chat-container--workspace-open"
         : null,
+      workspaceSuppressOpenTransition
+        ? "chat-container--workspace-restore-no-transition"
+        : null,
       viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
   return <>
@@ -2203,6 +2283,7 @@ export default function ChatBody({
       profileOpen={profileOpen}
       closeProfile={closeProfile}
       workspaceOpen={workspaceOpen}
+      workspaceSurfaceReady={workspaceSurfaceReady}
       onWorkspaceToggle={toggleWorkspace}
       onWorkspaceClose={closeWorkspace}
       isEntering={isEntering}

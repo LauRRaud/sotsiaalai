@@ -507,6 +507,65 @@ html[data-contrast="hc"] {
   mask-composite: exclude;
 }
 
+.glass-subpage-surface {
+  position: relative;
+  --subpage-card-bg: color-mix(
+    in srgb,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 74%,
+    rgba(255, 255, 255, 0.1)
+  );
+  --subpage-card-bg-hover: color-mix(
+    in srgb,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 68%,
+    rgba(255, 255, 255, 0.14)
+  );
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+}
+
+:root.theme-light:not(.theme-mid) .glass-subpage-surface {
+  --subpage-card-bg: rgba(251, 248, 246, 0.64);
+  --subpage-card-bg-hover: rgba(252, 249, 247, 0.72);
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+}
+
+:root.theme-mid .glass-subpage-surface {
+  --subpage-card-bg: rgba(232, 222, 218, 0.42);
+  --subpage-card-bg-hover: rgba(236, 226, 222, 0.5);
+  --input-bg: var(--subpage-card-bg);
+  --input-bg-hover: var(--subpage-card-bg-hover);
+  --input-bg-focus: var(--subpage-card-bg-hover);
+  --opaque-panel-bg: var(--subpage-card-bg);
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);
+}
+
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+  .workspace-feature-panel.glass-subpage-surface,
+:root.theme-night .workspace-feature-panel.glass-subpage-surface {
+  --subpage-card-bg: color-mix(
+    in srgb,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 74%,
+    rgba(255, 255, 255, 0.1)
+  ) !important;
+  --subpage-card-bg-hover: color-mix(
+    in srgb,
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) 68%,
+    rgba(255, 255, 255, 0.14)
+  ) !important;
+  --input-bg: var(--subpage-card-bg) !important;
+  --input-bg-hover: var(--subpage-card-bg-hover) !important;
+  --input-bg-focus: var(--subpage-card-bg-hover) !important;
+  --opaque-panel-bg: var(--subpage-card-bg) !important;
+  --opaque-panel-bg-hover: var(--subpage-card-bg-hover) !important;
+}
+
 @media (min-width: 769px) {
   .glass-ring {
     --glass-ring-edge-stroke-width: var(

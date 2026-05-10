@@ -1,0 +1,109 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+function readSource(path) {
+  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
+}
+
+test("chat workspace waits for the glass surface before showing dashboard content", () => {
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
+  const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
+  const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
+
+  assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 700;/);
+  assert.match(chatBodySource, /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(false\);/);
+  assert.match(chatBodySource, /setWorkspaceSurfaceReady\(false\);[\s\S]*?if \(!workspaceOpen\) return;/);
+  assert.match(chatBodySource, /setWorkspaceSurfaceReady\(true\);[\s\S]*?WORKSPACE_SURFACE_SETTLE_MS/);
+  assert.match(chatBodySource, /workspaceSurfaceReady=\{workspaceSurfaceReady\}/);
+
+  assert.match(chatBodyViewSource, /workspaceSurfaceReady,/);
+  assert.match(chatBodyViewSource, /<WorkspacePanel[\s\S]*?visible=\{workspaceSurfaceReady\}/);
+
+  assert.match(workspaceSource, /visible = true/);
+  assert.match(workspaceSource, /data-visible=\{visible \? "true" : "false"\}/);
+
+  assert.match(
+    workspaceCss,
+    /\.panel\[data-visible="false"\]\s+:is\(\.backButton,\s*\.roleMenu,\s*\.titleWrap,\s*\.grid\)\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?pointer-events:\s*none;/
+  );
+});
+
+test("restored workspace returns already settled without replaying the dashboard reveal", () => {
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+
+  assert.match(
+    chatBodySource,
+    /const workspaceRestoredOpenRef = useRef\(false\);/
+  );
+  assert.match(
+    chatBodySource,
+    /const \[workspaceSuppressOpenTransition,\s*setWorkspaceSuppressOpenTransition\] = useState\(false\);/
+  );
+  assert.match(
+    chatBodySource,
+    /workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(true\);[\s\S]*?setWorkspaceOpen\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);/
+  );
+  assert.match(
+    chatBodySource,
+    /if \(workspaceRestoredOpenRef\.current\) \{[\s\S]*?workspaceRestoredOpenRef\.current = false;[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?return;[\s\S]*?\}/
+  );
+  assert.match(
+    chatBodySource,
+    /workspaceSuppressOpenTransition[\s\S]*?"chat-container--workspace-restore-no-transition"/
+  );
+  assert.match(
+    readSource("app/styles/components/chat-focus.css"),
+    /\.chat-container\.chat-container--round\.chat-container--workspace-restore-no-transition\s*\{[\s\S]*?transition:\s*none\s*!important;/
+  );
+});
+
+test("workspace card navigation keeps the chat surface in workspace shape until route changes", () => {
+  const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
+  const navigateToMatch = workspaceSource.match(
+    /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
+  );
+
+  assert.ok(navigateToMatch, "navigateTo callback should be present");
+  assert.doesNotMatch(
+    navigateToMatch[1],
+    /onClose\?\.\(\);/,
+    "workspace route navigation must not close the workspace before the new route takes over"
+  );
+  assert.match(
+    navigateToMatch[1],
+    /pushWithTransition\(router,\s*localizePath\(path,\s*locale\)\);/
+  );
+
+  assert.match(
+    workspaceSource,
+    /const openHelpPanel = useCallback\([\s\S]*?onClose\?\.\(\);/,
+    "same-page workspace panels should still close the dashboard"
+  );
+});
+
+test("help listings opened from workspace return to a settled workspace", () => {
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const backToWorkspaceMatch = chatBodySource.match(
+    /const backToWorkspaceFromListingsPanel = useCallback\(\(\) => \{([\s\S]*?)\},\s*\[[^\]]*\]\);/
+  );
+
+  assert.ok(backToWorkspaceMatch, "workspace help-listing return callback should be present");
+  assert.match(backToWorkspaceMatch[1], /workspaceRestoredOpenRef\.current = true;/);
+  assert.match(backToWorkspaceMatch[1], /setWorkspaceSuppressOpenTransition\(true\);/);
+  assert.match(backToWorkspaceMatch[1], /setWorkspaceSurfaceReady\(true\);/);
+  assert.match(backToWorkspaceMatch[1], /setWorkspaceOpen\(true\);/);
+});
+
+test("workspace subpage back controls mark the dashboard for instant restore", () => {
+  const documentsSource = readSource("components/documents/DocumentsPage.jsx");
+  const agentSource = readSource("components/agent/AgentModePage.jsx");
+  const covisionSource = readSource("components/covision/CovisionPage.jsx");
+
+  for (const source of [documentsSource, agentSource, covisionSource]) {
+    assert.match(source, /const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";?/);
+    assert.match(source, /function markChatWorkspaceRestore\(\) \{[\s\S]*?window\.sessionStorage\.setItem\([\s\S]*?CHAT_WORKSPACE_RESTORE_STORAGE_KEY,[\s\S]*?JSON\.stringify\(\{ ts: Date\.now\(\) \}\)[\s\S]*?\);?[\s\S]*?\}/);
+    assert.match(source, /const handleBack = useCallback\(\(\) => \{[\s\S]*?markChatWorkspaceRestore\(\);?[\s\S]*?(?:router\.push|pushWithTransition)\(/);
+  }
+});

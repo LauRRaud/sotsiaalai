@@ -484,10 +484,14 @@
     "section11": {
       "heading": "11. Changes",
       "body": "<p>This Privacy Policy may be updated if platform features, data flows, or legal requirements change. Significant changes will be communicated in the product or by email.</p>"
+    },
+    "privacy_filter": {
+      "heading": "4.10 Privacy pre-check and Privacy Filter",
+      "body": "<p>In sensitive workflows, the platform may use a privacy pre-check to detect and mask possible personal data before AI processing, RAG indexing, document drafting, logging, or saving a public help listing. The check may rely on SotsiaalAI's local pattern-based filter and, where deployed, the locally running OpenAI Privacy Filter model.</p><p>If possible personal data is detected in the user input, the system may offer choices: the user can edit the text, the system can send a masked version, or in a private professional workflow the original text can be sent after the user's explicit choice. Public help requests and help offers use stricter data minimisation, and continuing with the original sensitive text may be restricted.</p><p>The privacy pre-check does not guarantee that every personal-data item or sensitive detail will always be detected. It is an additional safeguard that helps reduce accidental excessive processing; the user and, where relevant, the organisation must still assess the legal basis, necessity of the data, and appropriate workflow.</p>"
     }
   },
   "terms": {
-    "title": "Terms of Use",
+    "title": "Terms",
     "section1": {
       "heading": "1. General Provisions",
       "body": "<p>These Terms of Use govern the use of the <strong>SotsiaalAI</strong> platform operated by <strong>SotsiaalAI OÜ</strong>. By using the platform, you confirm that you have read and accepted these Terms.</p><p>To keep the service stable, secure, and reasonably usable, the platform may apply technical limits and usage rules. These may cover chat volume, deep research usage, repeated document refinement, and limits on file count, file size, and storage. The applicable limits may depend on the feature or package and are described in these Terms or shown in the product UI where needed.</p><p>If you do not agree with these Terms, you must not use the platform. The Privacy Policy and these Terms together form the basis for using the service.</p>"
@@ -548,13 +552,17 @@
     "section14": {
       "heading": "14. Governing Law and Dispute Resolution",
       "body": "<p>These Terms are governed by the laws of the Republic of Estonia.</p><p>The parties will first try to resolve disputes by negotiation. If no agreement is reached, the dispute will be resolved by the courts of the Republic of Estonia or through another competent dispute resolution process under applicable law.</p><p>Nothing in these Terms limits mandatory rights granted to the user under applicable law.</p>"
+    },
+    "privacy_filter": {
+      "heading": "10.1 Privacy pre-check and masking",
+      "body": "<p>Before AI processing, RAG search, document drafting, logging, or saving a public help listing, SotsiaalAI may check whether the input contains personal data or other sensitive information. The check may use the platform's own local rules and, where deployed on the server, the locally running OpenAI Privacy Filter model.</p><p>If the check finds a name, personal identification code, address, phone number, email address, or another identifiable detail, the platform may show a warning and offer choices: edit the text, send a masked version, or continue with the original text in an allowed private workflow. Continuing with the original sensitive text may not be available for public help requests or help offers.</p><p>Masking is a data-minimisation aid, not full anonymisation or a legal guarantee. The user remains responsible for ensuring that the information entered is necessary for the workflow and that there is an appropriate basis for processing it.</p>"
     }
   },
   "workspace_feature_pages": {
     "back_to_workspace": "Back to workspace",
     "pre_inquiries": {
       "title": "Pre-inquiry",
-      "lead": "A pre-inquiry is an optional questionnaire or simple letter-drafting workflow. Describe the situation, municipality or area, needs, and intended direction; based on this, the SotsiaalAI assistant can suggest a municipality social-services contact, child-protection direction, or service provider, and prepare a reviewable draft. A pre-inquiry is not an official needs assessment or decision.",
+      "lead": "Create a reviewable inquiry draft for the right municipality contact or service provider.",
       "meta": {
         "title": "Pre-inquiry",
         "description": "Create and manage inquiry drafts for a municipality contact or service provider."
@@ -593,9 +601,9 @@
       },
       "receiving": {
         "accepts_platform": "Receive pre-inquiries on the platform",
-        "note": "When enabled, a pre-inquiry addressed to the email linked to your account can arrive as an internal platform inquiry.",
-        "admin_note": "The admin role selector only changes the work view; this setting is saved only on the admin's own account.",
-        "provider_note": "Service-provider receiving channels are managed in the service profile. Here you can see internal pre-inquiries addressed to you, open a room with the sender, or reply by email."
+        "note": "Allows pre-inquiries addressed to your account to be received in the platform.",
+        "admin_note": "Admin test view; saving applies only to your account.",
+        "provider_note": "Receiving channels are managed in the service profile. Addressed pre-inquiries appear here."
       },
       "actions": {
         "save": "Save",
@@ -616,13 +624,13 @@
         "show_less_contacts": "Show less"
       },
       "receiver_workspace": "Pre-inquiry receiving",
-      "recipients_lead": "Contacts come from the structured service-map data layer once the situation, area, and intended direction are clear enough. SotsiaalAI is not a pre-inquiry recipient in this list.",
+      "recipients_lead": "Contacts appear once the situation, area, and inquiry direction are clear enough.",
       "loading": "Loading pre-inquiries...",
       "untitled": "Untitled",
       "creating_new": "New pre-inquiry",
       "editing_existing": "Saved pre-inquiry open",
       "empty_recipients": "Contacts appear here after pre-assessment answers or a search term.",
-      "empty_received": "Pre-inquiries addressed to you appear here when receiving is enabled and the recipient is linked to an account.",
+      "empty_received": "Pre-inquiries addressed to you appear here.",
       "empty_saved": "Saved pre-inquiries appear here.",
       "save_success": "Pre-inquiry saved.",
       "copy_success": "Inquiry text copied.",
@@ -2113,8 +2121,12 @@
           "body": "<p>At the end of the guide page there is a separate <strong>Before using</strong> block. It gives quick access to the most important links before you begin.</p><ul><li><strong>User guide.</strong> Opens the guide page where you can learn how to use the platform.</li><li><strong>Terms of Use</strong> and <strong>Privacy Policy.</strong> Open the platform's terms and data-use pages.</li><li><strong>Contact.</strong> Opens a circle with the company's contact details.</li><li><strong>Install on mobile or desktop.</strong> Starts the install action or shows instructions for adding SotsiaalAI as a separate app on your phone or computer.</li></ul>"
         },
         "quickstart": {
-          "title": "10. Quick overview",
+          "title": "12. Quick overview",
           "body": "<p>If you want to get started quickly, follow these steps:</p><ol><li><strong>Choose your role</strong> on the home page and create an account.</li><li><strong>Accept the policies</strong>, confirm that you have read the platform guide, and then verify your email.</li><li><strong>Activate a subscription.</strong> Monthly pricing is 7.99 EUR for a person seeking help and 14.99 EUR for a social work professional.</li><li><strong>Sign in</strong> and open the chat page.</li><li><strong>Write your question</strong> or describe your situation.</li><li>Use the left and right scroll menus to open conversations, rooms, materials, and settings. Sources, read-aloud, and copy actions appear under the assistant's message when available.</li><li>Manage settings, account, and subscription on the <a href=\"/profiil\">Profile</a> page.</li></ol>"
+        },
+        "privacy_safety": {
+          "title": "11. Privacy warnings and masking",
+          "body": "<p>If you write personal data into a chat, pre-inquiry, document drafting instruction, or help listing, SotsiaalAI may show a privacy warning before sending. This means the text may contain a name, personal identification code, address, phone number, email address, or another sensitive detail.</p><ul><li><strong>Edit text</strong> keeps the text in the input field and nothing is sent.</li><li><strong>Send masked</strong> replaces sensitive parts with labels such as [address] or [phone number] and sends the masked version.</li><li><strong>Send anyway</strong> may be available only in private or professional workflows. It may not be available in a public help request or help offer.</li></ul><p>When drafting documents, the system may also mask source material before sending it to AI or RAG search. This helps reduce excessive data processing, but the final draft must always be reviewed by a person.</p>"
         }
       }
     }
@@ -2224,7 +2236,7 @@
       "description": "Learn about SotsiaalAI's mission, values, and team."
     },
     "terms": {
-      "title": "Terms of Use - SotsiaalAI",
+      "title": "Terms - SotsiaalAI",
       "description": "Read the guidelines that govern using the SotsiaalAI platform."
     },
     "privacy": {
@@ -2333,7 +2345,7 @@
     "login_required": "Sign in to send invites.",
     "classic": {
       "emails": "Invite people to the conversation",
-      "emails_ph": "Who are you inviting? (separate emails with commas)",
+      "emails_ph": "Email, separate with commas",
       "emails_help": "Separate with commas",
       "relationship": "Who are you inviting?",
       "payment": "Subscription status"

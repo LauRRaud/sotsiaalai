@@ -9,6 +9,8 @@ function read(path) {
 test("documents and agent pages use a shared mobile glass-panel system", () => {
   const css = read("app/styles/components/documents-mode.css");
   const mobileCss = read("app/styles/mobile.css");
+  const documentsSource = read("components/documents/DocumentsPage.jsx");
+  const agentSource = read("components/agent/AgentModePage.jsx");
 
   assert.match(
     css,
@@ -17,6 +19,10 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.match(
     css,
     /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?padding:[\s\S]*?env\(safe-area-inset-top,\s*0px\)[\s\S]*?var\(--documents-mobile-panel-gap\)/
+  );
+  assert.match(
+    css,
+    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?overflow-x:\s*hidden;[\s\S]*?overflow-y:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;/
   );
   assert.match(
     css,
@@ -34,6 +40,8 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.doesNotMatch(mobileCss, /documents-workspace-shell--documents/);
   assert.doesNotMatch(mobileCss, /documents-workspace-shell--agent/);
   assert.doesNotMatch(mobileCss, /documents-page-shell/);
+  assert.match(documentsSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
+  assert.match(agentSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
 });
 
 test("documents mobile controls stretch instead of keeping desktop fixed widths", () => {
@@ -85,7 +93,7 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   );
   assert.match(
     css,
-    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-dark-panel-sheen:\s*none[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
   );
   assert.ok(
     css.indexOf(":root.theme-night .documents-workspace.documents-workspace-page--library") >
@@ -96,6 +104,8 @@ test("documents and agent glass panels use the shared borderless surface", () =>
     css,
     /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-surface-panel-bg:\s*[\s\S]*?var\(--glass-ring-sheen/
   );
+  assert.doesNotMatch(css, /--documents-dark-panel-sheen/);
+  assert.doesNotMatch(css, /\.documents-page-hero-panel::before/);
 });
 
 test("dokreziim conversation glow shadows stay close to the element", () => {
@@ -120,6 +130,12 @@ test("covision mobile surface opts into compact full-width glass layout", () => 
   const css = read("components/covision/CovisionPage.module.css");
 
   assert.match(component, /covision-page-surface/);
+  assert.match(component, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(component, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(
+    css,
+    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+  );
   assert.match(
     css,
     /--covision-mobile-page-gap:\s*clamp\(0\.18rem,\s*0\.8vw,\s*0\.32rem\)/

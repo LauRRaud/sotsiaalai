@@ -24,6 +24,18 @@ import {
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
+const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
+
+function markChatWorkspaceRestore() {
+  if (typeof window === "undefined") return
+  try {
+    window.sessionStorage.setItem(
+      CHAT_WORKSPACE_RESTORE_STORAGE_KEY,
+      JSON.stringify({ ts: Date.now() })
+    )
+  } catch {}
+}
+
 const materialsPrimaryButtonClassName =
   "materials-surface-button whitespace-normal text-center leading-[1.2] !px-[1.6rem] !py-[1.05rem] !text-[1.18rem] " +
   "!min-h-[3.2rem] max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]"
@@ -56,9 +68,9 @@ const materialsStatusBadgeClassName =
   "inline-flex items-center rounded-full border border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.08)] px-[0.62rem] py-[0.22rem] text-[0.78rem] font-[620] uppercase tracking-[0.04em]"
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "materials-page-shell relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden overscroll-none px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0"
+  "materials-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-start overflow-hidden overscroll-none bg-transparent px-[1rem] py-[clamp(1rem,3vh,1.75rem)] [grid-template-columns:minmax(0,1fr)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0"
 const surfaceClassName =
-  `materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
+  `materials-page-content invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards relative z-[21] mx-auto my-[clamp(0.5rem,2vh,1.25rem)] w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--glass-modal-radius)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
   `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [scrollbar-gutter:stable_both-edges] ` +
@@ -66,6 +78,8 @@ const surfaceClassName =
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   "w-full max-[768px]:!mt-0 max-[768px]:!mb-0"
+const pageBackTiltClassName =
+  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
 
 function formatFileSize(size) {
   const value = Number(size || 0)
@@ -128,7 +142,6 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   const resolvedLocale = activeLocale || locale
 
   const fileInputRef = useRef(null)
-  const [closing, setClosing] = useState(false)
   const [comment, setComment] = useState("")
   const [files, setFiles] = useState([])
   const [submitting, setSubmitting] = useState(false)
@@ -138,6 +151,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   const [loadingItems, setLoadingItems] = useState(isAdmin)
   const [adminError, setAdminError] = useState("")
   const [reviewingId, setReviewingId] = useState("")
+  const [isClosing, setIsClosing] = useState(false)
 
   useEffect(() => {
     if (!notice) return undefined
@@ -280,32 +294,21 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
     }
   }
 
-  const shouldReduceMotion = useCallback(() => {
-    if (typeof window === "undefined") return false
-    try {
-      if (document?.documentElement?.dataset?.reduceMotion === "1") return true
-      return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
-    } catch {
-      return false
-    }
-  }, [])
-
   const handleBack = useCallback(() => {
-    if (closing) return
-    if (!shouldReduceMotion()) {
-      setClosing(true)
-    }
+    if (isClosing) return
+    setIsClosing(true)
+    markChatWorkspaceRestore()
     pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
       glassRingTilt: "left",
       waitForGlassRingTilt: true,
       persistGlassRingTilt: false
     })
-  }, [closing, resolvedLocale, router, shouldReduceMotion])
+  }, [isClosing, resolvedLocale, router])
 
   return (
     <div className={shellClassName}>
       <div
-        className={`${surfaceClassName} ${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
+        className={`${surfaceClassName} ${isClosing ? pageBackTiltClassName : ""}`}
       >
         <BackButton
           onClick={handleBack}

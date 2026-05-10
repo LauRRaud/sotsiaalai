@@ -39,10 +39,20 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
 
 test("HC global button reset excludes chat composer icon controls", () => {
   const css = read("app/styles/theme/hc.css");
-  const chatExclusion =
-    /:not\(\.chat-send-btn\)\s*:not\(\.chat-listen-btn\)\s*:not\(\.chat-dictate-btn\)\s*:not\(\.chat-side-control-btn\)\s*:not\(\.chat-tools-btn\)\s*:not\(\.chat-document-attach-btn\)/g;
+  const chatIconExclusions = [
+    "chat-send-btn",
+    "chat-listen-btn",
+    "chat-assistant-action-btn",
+    "chat-dictate-btn",
+    "chat-side-control-btn",
+    "chat-tools-btn",
+    "chat-document-attach-btn"
+  ];
 
-  assert.ok((css.match(chatExclusion) || []).length >= 3);
+  for (const className of chatIconExclusions) {
+    const matches = css.match(new RegExp(`:not\\(\\.${className}\\)`, "g")) || [];
+    assert.ok(matches.length >= 3, `${className} should be excluded from HC global button resets`);
+  }
   assert.match(css, /:not\(\.chat-rail-icon-btn\)/);
   assert.match(css, /\.chat-rail-icon-btn[\s\S]*?background:\s*transparent\s*!important/);
 });
@@ -58,7 +68,15 @@ test("HC panels define actual yellow borders, not only border color", () => {
   assert.match(hc, /\.workspace-dashboard-card,[\s\S]*?\.workspace-dashboard-card:is\(:hover,\s*:focus-visible,\s*:active\)\s*\{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(workspacePanel, /"workspace-dashboard-card"/);
   assert.match(serviceMap, /\.workspace-feature-card[\s\S]*?\{[\s\S]*?border:\s*2px solid var\(--hc-accent/);
+  assert.match(
+    hc,
+    /\.workspace-feature-card,[\s\S]*?\.selected-listing-panel--inline[\s\S]*?\{[\s\S]*?background:\s*var\(--hc-control-bg\)\s*!important/
+  );
   assert.match(documents, /\.documents-workspace-card[\s\S]*?\.documents-content[\s\S]*?\{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
+  assert.match(
+    documents,
+    /\.documents-workspace \.documents-agent-glow-window[\s\S]*?\{[\s\S]*?box-shadow:\s*inset 0 0 0 2px rgba\(255,\s*234,\s*0,\s*0\.72\)/
+  );
   assert.match(documents, /--documents-hc-panel-bg:\s*var\(--documents-glass-surface\)/);
   assert.match(documents, /\.documents-framework-banner\.documents-notice[\s\S]*?background:\s*var\(--documents-surface-panel-bg\)\s*!important[\s\S]*?border:\s*none\s*!important[\s\S]*?backdrop-filter:\s*var\(--documents-glass-backdrop-filter/);
   assert.match(documents, /\.documents-page-shell\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*0\s*!important/);
@@ -164,6 +182,14 @@ test("HC assistant message action buttons stay transparent under replies", () =>
   assert.match(
     hc,
     /\.chat-msg-ai \.chat-assistant-action-btn,[\s\S]*?background:\s*transparent\s*!important[\s\S]*?background-image:\s*none\s*!important[\s\S]*?box-shadow:\s*none\s*!important/
+  );
+  assert.match(
+    hc,
+    /\.chat-msg-ai \.chat-assistant-action-btn \{[\s\S]*?color:\s*var\(--hc-accent\)\s*!important/
+  );
+  assert.match(
+    hc,
+    /\.chat-msg-ai \.chat-assistant-action-btn svg :is\(path, circle, line, rect, ellipse, polyline, polygon\) \{[\s\S]*?stroke:\s*var\(--hc-accent\)\s*!important/
   );
 });
 

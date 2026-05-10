@@ -92,7 +92,7 @@ export const glassSubpageCardInteractiveClassName =
   "focus-within:[background:var(--subpage-card-bg-hover,var(--subpage-card-bg))] focus-within:border-[color:var(--subpage-card-border-hover,var(--subpage-card-border))] focus-within:shadow-[var(--subpage-card-shadow-hover,var(--subpage-card-shadow))]";
 
 export const glassSubpageSurfaceScopeClassName =
-  "[--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
+  "glass-subpage-surface [--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
 
 export const glassSubpageContentWideClassName =
   "mx-auto w-full max-w-[clamp(31rem,62vw,43rem)] max-[768px]:max-w-none";

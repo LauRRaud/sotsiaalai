@@ -42,6 +42,15 @@
   justify-content: center;
 }
 
+.panel :is(.backButton, .roleMenu, .titleWrap, .grid) {
+  transition: opacity 180ms ease;
+}
+
+.panel[data-visible="false"] :is(.backButton, .roleMenu, .titleWrap, .grid) {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .roleMenu :global(.workspace-role-cycle-button) {
   display: inline-grid;
   width: 2.42rem;

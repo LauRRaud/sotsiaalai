@@ -16,8 +16,6 @@ import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleB
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
-const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
-const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 const DASHBOARD_VIEW_ROLES = Object.freeze([
   "CLIENT",
   "SOCIAL_WORKER",
@@ -136,24 +134,6 @@ function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
   return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
 }
 
-function resolveWorkspaceNavigationTiltDirection() {
-  if (typeof window === "undefined") return "right";
-  const isMobileViewport = Boolean(
-    window.matchMedia?.(MOBILE_VIEWPORT_QUERY)?.matches ||
-      window.matchMedia?.(COARSE_POINTER_QUERY)?.matches ||
-      window.innerWidth <= 768
-  );
-  return isMobileViewport ? "left" : "right";
-}
-
-function createWorkspaceNavigationTransitionOptions() {
-  return {
-    glassRingTilt: resolveWorkspaceNavigationTiltDirection(),
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  };
-}
-
 export default function WorkspacePanel({
   t,
   locale = "et",
@@ -161,7 +141,8 @@ export default function WorkspacePanel({
   userActualRole = "",
   isAdmin = false,
   subActive = false,
-  onClose
+  onClose,
+  visible = true
 }) {
   const router = useRouter();
   const defaultDashboardRole = useMemo(() => {
@@ -184,11 +165,14 @@ export default function WorkspacePanel({
           );
         } catch {}
       }
-      onClose?.();
-      pushWithTransition(router, localizePath(path, locale), createWorkspaceNavigationTransitionOptions());
+      pushWithTransition(router, localizePath(path, locale));
     },
-    [locale, onClose, router]
+    [locale, router]
   );
+
+  const handleWorkspaceBack = useCallback(() => {
+    onClose?.();
+  }, [onClose]);
 
   const openHelpPanel = useCallback(
     panelKey => {
@@ -430,11 +414,12 @@ export default function WorkspacePanel({
   return (
     <section
       className={styles.panel}
+      data-visible={visible ? "true" : "false"}
       role="region"
       aria-labelledby="chat-workspace-title"
     >
       <BackButton
-        onClick={onClose}
+        onClick={handleWorkspaceBack}
         ariaLabel={text(t, "buttons.back_previous", "Tagasi")}
         holdPressedVisualDisabled
         className={cn(glassPageBackTopLeftClassName, styles.backButton)}

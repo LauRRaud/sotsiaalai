@@ -420,7 +420,7 @@ function AccessibilityProvider({
     }, 320);
     return () => window.clearTimeout(timeout);
   }, [pathname]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const domPrefs = readInitialPrefsFromDom();
     const cookiePrefs = readPrefsFromCookie();
     const initial = cookiePrefs ? {

@@ -592,6 +592,11 @@ body[data-reduce-motion="1"] .chat-page-shell .chat-container.chat-container--ro
   transition: none !important;
 }
 
+.chat-page-shell
+  .chat-container.chat-container--round.chat-container--workspace-restore-no-transition {
+  transition: none !important;
+}
+
 .chat-analysis-overlay .chat-analysis-overlay-card {
   position: relative;
   overflow: hidden;

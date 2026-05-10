@@ -100,6 +100,11 @@ export default function KasutustingimusedBody() {
       value: t("terms.section10.paragraph2")
     }]
   }, {
+    heading: t("terms.privacy_filter.heading"),
+    content: [{
+      value: t("terms.privacy_filter.body")
+    }]
+  }, {
     heading: t("terms.section11.heading"),
     content: [{
       value: t("terms.section11.body")

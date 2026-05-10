@@ -71,6 +71,11 @@ export default function PrivaatsusBody() {
       value: t("privacy.section4.body")
     }]
   }, {
+    heading: t("privacy.privacy_filter.heading"),
+    content: [{
+      value: t("privacy.privacy_filter.body")
+    }]
+  }, {
     heading: t("privacy.section5.heading"),
     content: [{
       value: t("privacy.section5.body")

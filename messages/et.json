@@ -484,10 +484,14 @@
     "section11": {
       "heading": "11. Muudatused",
       "body": "<p>Privaatsuspoliitikat võidakse ajakohastada, kui platvormi funktsioonid, andmevood, teenusepakkujad, säilitamisreeglid või õiguslikud nõuded muutuvad. Olulistest muudatustest teavitame platvormis või e-posti teel enne muudatuse jõustumist või mõistliku aja jooksul pärast seda, kui kohaldatav õigus lubab sellist korda.</p>"
+    },
+    "privacy_filter": {
+      "heading": "4.10 Privaatsuse eelkontroll ja Privacy Filter",
+      "body": "<p>Platvorm v?ib tundlikes t??voogudes kasutada privaatsuse eelkontrolli, mis tuvastab ja maskeerib tekstis v?imalikke isikuandmeid enne AI-t??tlust, RAG-indekseerimist, dokumendi koostamist, logimist v?i avaliku abikirje salvestamist. Kontroll v?ib p?hineda SotsiaalAI lokaalsel mustrip?hisel filtril ning serveris lokaalselt t??taval OpenAI Privacy Filteri mudelil, kui see on kasutusele v?etud.</p><p>Kui kasutaja sisendis leitakse v?imalikud isikuandmed, v?ib s?steem pakkuda valikuid: kasutaja muudab teksti, s?steem saadab edasi maskeeritud versiooni v?i privaatses t??alases t??voos saadetakse algne tekst edasi kasutaja selge valiku alusel. Avalikes abisoovides ja abipakkumistes kasutatakse rangemat andmete minimeerimist ning algse tundliku tekstiga j?tkamine v?ib olla piiratud.</p><p>Privaatsuse eelkontroll ei taga, et k?ik isikuandmed v?i tundlikud detailid alati leitakse. See on lisakaitse, mis aitab v?hendada juhuslikku ?lem??rast andmet??tlust; kasutaja ja vajaduse korral organisatsioon peavad endiselt hindama ?iguslikku alust, andmete vajalikkust ja sobivat t??voogu.</p>"
     }
   },
   "terms": {
-    "title": "Kasutustingimused",
+    "title": "Tingimused",
     "section1": {
       "heading": "1. Üldsätted",
       "body": "<p>Käesolevad kasutustingimused reguleerivad <strong>SotsiaalAI OÜ</strong> hallatava platvormi <strong>SotsiaalAI</strong> kasutamist. Registreerudes või platvormi kasutades kinnitad, et oled tingimustega tutvunud ja nõustud nendega.</p><p>Platvormi stabiilse, turvalise ja mõistliku kasutamise tagamiseks võivad teenuses kehtida teatud tehnilised piirangud ja kasutusreeglid. Need võivad puudutada näiteks vestluste mahtu, süvauuringu kasutamist, dokumentide korduvalt täiendamist või parandamist ning failide arvu, mahtu ja säilitamist. Piirangud võivad sõltuda kasutatavast funktsioonist või paketist ning need on kirjeldatud käesolevates tingimustes või kuvatud vajaduse korral kasutajaliideses.</p><p>Platvormi kasutamine eeldab nende tingimustega nõustumist. Kui sa nendega ei nõustu, palume platvormi mitte kasutada. Kasutustingimused ja privaatsuspoliitika moodustavad koos teenuse kasutamise aluse.</p>"
@@ -548,13 +552,17 @@
     "section14": {
       "heading": "14. Kohaldatav õigus ja vaidluste lahendamine",
       "body": "<p>Käesolevatele tingimustele kohaldatakse Eesti Vabariigi õigust.</p><p>Vaidlused püütakse esmalt lahendada läbirääkimiste teel. Kui kokkulepet ei saavutata, lahendatakse vaidlus Eesti Vabariigi kohtus või muus pädevas vaidluste lahendamise korras vastavalt kohaldatavale õigusele.</p><p>Käesolevad tingimused ei piira kasutajale kohaldatavast õigusest tulenevaid kohustuslikke õigusi.</p>"
+    },
+    "privacy_filter": {
+      "heading": "10.1 Privaatsuse eelkontroll ja maskeerimine",
+      "body": "<p>SotsiaalAI v?ib enne AI-t??tlust, RAG-otsingut, dokumendi koostamist, logimist v?i avaliku abikirje salvestamist kontrollida, kas sisend sisaldab isikuandmeid v?i muud tundlikku infot. Kontroll v?ib kasutada nii platvormi enda lokaalseid reegleid kui ka serveris lokaalselt t??tavat OpenAI Privacy Filteri mudelit, kui see on kasutusele v?etud.</p><p>Kui kontroll leiab n?iteks nime, isikukoodi, aadressi, telefoninumbri, e-posti aadressi v?i muu ?ratuntava detaili, v?ib platvorm kuvada hoiatuse ja pakkuda valikuid: muuta teksti, saata tekst maskeeritult v?i lubatud privaatses t??voos j?tkata algse tekstiga. Avalikes abisoovides ja abipakkumistes ei pruugi algse tundliku tekstiga j?tkamine olla lubatud.</p><p>Maskeerimine on andmete minimeerimise abivahend, mitte t?ielik anon??mimine ega ?iguslik garantii. Kasutaja vastutab j?tkuvalt selle eest, et sisestatav info oleks t??voo jaoks vajalik ja et tal oleks selle t??tlemiseks asjakohane alus.</p>"
     }
   },
   "workspace_feature_pages": {
     "back_to_workspace": "Tagasi töölauale",
     "pre_inquiries": {
       "title": "Eelpöördumine",
-      "lead": "Eelpöördumine on vabatahtlik küsimustik või lihtne kirja koostamise töövoog. Eelkaardistuses kirjeldad oma eluolu, KOV-i või piirkonda, vajadusi ja soovitud pöördumise suunda; nende vastuste põhjal saab SotsiaalAI assistent pakkuda KOV sotsiaalvaldkonna kontakti, lastekaitse suunda või teenuseosutajat ning koostada kontrollitava mustandi. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
+      "lead": "Koosta eelkaardistuse põhjal kontrollitav pöördumise mustand sobivale KOV kontaktile või teenuseosutajale.",
       "meta": {
         "title": "Eelpöördumine",
         "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."
@@ -593,9 +601,9 @@
       },
       "receiving": {
         "accepts_platform": "Võtan eelpöördumisi platvormil vastu",
-        "note": "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.",
-        "admin_note": "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.",
-        "provider_note": "Teenuseosutaja vastuvõtukanalid määratakse teenuseprofiilis. Siin näed sulle platvormisiseselt adresseeritud eelpöördumisi ja saad pöördujaga ruumi avada või vastata e-postiga."
+        "note": "Lubab sinu kontole adresseeritud eelpöördumised platvormis vastu võtta.",
+        "admin_note": "Admini testvaade; salvestus käib ainult sinu kontole.",
+        "provider_note": "Vastuvõtukanalid on teenuseprofiilis. Siin kuvatakse sulle adresseeritud eelpöördumised."
       },
       "actions": {
         "save": "Salvesta",
@@ -616,13 +624,13 @@
         "show_less_contacts": "Näita vähem"
       },
       "receiver_workspace": "Eelpöördumiste vastuvõtt",
-      "recipients_lead": "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.",
+      "recipients_lead": "Kontaktid ilmuvad, kui olukord, piirkond ja pöördumise suund on piisavalt selged.",
       "loading": "Laen eelpöördumisi...",
       "untitled": "Pealkirjata",
       "creating_new": "Uus eelpöördumine",
       "editing_existing": "Avatud salvestatud eelpöördumine",
       "empty_recipients": "Kontaktid ilmuvad siia pärast eelkaardistuse vastuseid või otsingusõna sisestamist.",
-      "empty_received": "Sulle adresseeritud eelpöördumised ilmuvad siia, kui vastuvõtt on lubatud ja adressaat on kontoga seotud.",
+      "empty_received": "Sulle adresseeritud eelpöördumised ilmuvad siia.",
       "empty_saved": "Salvestatud eelpöördumised ilmuvad siia.",
       "save_success": "Eelpöördumine salvestati.",
       "copy_success": "Pöördumise tekst kopeeriti.",
@@ -2109,12 +2117,16 @@
           "body": "<p>Jaotis <a href=\"/#meist\">MEIST</a> asub avalehel rollikaartide all. Seal leiad platvormi lühitutvustuse ning sama sektsiooni osaks oleva linkide ringi, kust saad avada kasutusjuhendi, kasutustingimused, privaatsuspoliitika, arvutisse või mobiili paigaldamise juhised, autorilt ja kontaktid.</p>"
         },
         "before_use": {
-          "title": "Olulised lingid",
+          "title": "10. Enne kasutamist",
           "body": "<p>Olulisemad lingid leiad avalehe <a href=\"/#meist\">MEIST</a> sektsioonis olevast linkide ringist.</p><ul><li><strong>Kasutusjuhend.</strong> Avab juhendi lehe.</li><li><strong>Kasutustingimused</strong> ja <strong>privaatsuspoliitika.</strong> Avavad platvormi tingimuste ja andmekasutuse lehed.</li><li><strong>Arvutisse või mobiili paigaldamise juhised</strong>, <strong>autorilt</strong> ja <strong>kontaktid.</strong> Avavad paigaldamise juhised, autori lehe ja kontaktivaate.</li></ul>"
         },
         "quickstart": {
-          "title": "10. Kiire ülevaade",
+          "title": "12. Kiire ?levaade",
           "body": "<p>Kui soovid kiiresti alustada, liigu nii:</p><ol><li><strong>Vali avalehel roll</strong> ja loo konto.</li><li><strong>Nõustu tingimustega</strong>, kinnita, et oled kasutusjuhendiga tutvunud, ja kinnita seejärel oma e-post.</li><li><strong>Aktiveeri tellimus või sponsoreeritud ligipääs.</strong> Kuutasu on pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus. Sponsoreeritud ligipääs kehtib tavaliselt ühe kuu ja pärast seda saad vajadusel oma tellimuse aktiveerida.</li><li><strong>Logi sisse</strong> ja ava vestlusleht.</li><li><strong>Kirjuta küsimus</strong> või kirjelda olukorda.</li><li>Vajadusel ava plussmärgist tööriistad: abisoov, abipakkumine, süvauuring, dokumendi analüüs või dokumendi koostamine.</li><li>Kasuta vasakut ja paremat kerimismenüüd vestluste, ruumide, materjalide ning oma seadete avamiseks. Allikad, ettelugemine ja kopeerimine kuvatakse assistendi sõnumi all, kui need on saadaval.</li><li>Seadeid, kontot ja tellimust saad hallata lehel <a href=\"/profiil\">Profiil</a>.</li></ol>"
+        },
+        "privacy_safety": {
+          "title": "11. Privaatsushoiatused ja maskeerimine",
+          "body": "<p>Kui kirjutad vestlusesse, eelp??rdumisse, dokumendi koostamise juhisesse v?i abikuulutusse isikuandmeid, v?ib SotsiaalAI enne saatmist kuvada privaatsushoiatusse. See t?hendab, et tekstis v?idi tuvastada n?iteks nimi, isikukood, aadress, telefoninumber, e-posti aadress v?i muu tundlik detail.</p><ul><li><strong>Muudan teksti</strong> j?tab teksti sisestusv?ljale alles ja midagi ei saadeta edasi.</li><li><strong>Saada maskeeritult</strong> asendab tundlikud osad m?rgenditega, n?iteks [aadress] v?i [telefoninumber], ning saadab edasi maskeeritud versiooni.</li><li><strong>Saada siiski</strong> v?ib olla n?htav ainult privaatses v?i t??alases t??voos. Avalikus abisoovis v?i abipakkumises ei pruugi seda valikut olla.</li></ul><p>Dokumendi koostamisel v?ib s?steem maskeerida ka allikmaterjali enne AI-le v?i RAG-otsingule edastamist. See aitab v?hendada liigset andmet??tlust, kuid valmis mustand tuleb alati inimesel ?le vaadata.</p>"
         }
       }
     }
@@ -2224,7 +2236,7 @@
       "description": "Tutvu SotsiaalAI missiooni, väärtuste ja meeskonnaga."
     },
     "terms": {
-      "title": "Kasutustingimused – SotsiaalAI",
+      "title": "Tingimused – SotsiaalAI",
       "description": "Tutvu SotsiaalAI platvormi kasutustingimustega."
     },
     "privacy": {
@@ -2333,7 +2345,7 @@
     "login_required": "Kutsumiseks logi sisse.",
     "classic": {
       "emails": "Kutsu inimesi vestlusesse",
-      "emails_ph": "Keda kutsud? (eralda e-postid komaga)",
+      "emails_ph": "E-post, eralda komaga",
       "emails_help": "Eralda komaga",
       "relationship": "Kellega on tegu?",
       "payment": "Tellimuse olemasolu"
@@ -2489,7 +2501,7 @@
   },
   "api": {
     "common": {
-      "unauthorized": "Jatkamiseks logi sisse.",
+      "unauthorized": "Jätkamiseks logi sisse.",
       "forbidden": "Sul puudub selle tegevuse jaoks oigus.",
       "invalid_request": "Vigane paring.",
       "invalid_json": "Vigane JSON payload.",

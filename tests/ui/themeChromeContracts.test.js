@@ -21,9 +21,19 @@ test("accessibility preferences own mobile browser chrome color", () => {
 
 test("service map does not restore stale theme-color on route exit", () => {
   const workspace = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const serviceMapEffect = workspace.match(/useEffect\(\(\) => \{[\s\S]*?service-map-page-active[\s\S]*?\}, \[\]\);/);
+  const serviceMapEffect = workspace.match(/useLayoutEffect\(\(\) => \{[\s\S]*?service-map-page-active[\s\S]*?\}, \[\]\);/);
 
   assert.ok(serviceMapEffect, "service map page-active effect must exist");
   assert.doesNotMatch(serviceMapEffect[0], /theme-color/);
   assert.doesNotMatch(serviceMapEffect[0], /previousThemeColor/);
+});
+
+test("accessibility theme preferences are applied before first paint", () => {
+  const provider = read("components/accessibility/AccessibilityProvider.jsx");
+
+  assert.match(provider, /import \{[\s\S]*useLayoutEffect[\s\S]*\} from "react"/);
+  assert.match(
+    provider,
+    /useLayoutEffect\(\(\) => \{[\s\S]*?const domPrefs = readInitialPrefsFromDom\(\);[\s\S]*?safeApplyPrefsToDom\(initial, "init"\);[\s\S]*?\}, \[safeApplyPrefsToDom, scheduleOpenModal\]\);/
+  );
 });

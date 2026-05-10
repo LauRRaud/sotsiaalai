@@ -37,6 +37,7 @@ import {
   templateForLabel
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
+import { pushWithTransition } from "@/lib/routeTransition"
 
 const agentTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static agent-mobile-title ` +
@@ -45,6 +46,9 @@ const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-
 const mobileTitleWrapClassName =
   "agent-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
 const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
+const pageBackTiltClassName =
+  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
 const heroBodyClassName =
   "grid gap-[1.05rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[0.95rem] max-[768px]:px-[0.05rem]"
 const agentPrimaryButtonClassName =
@@ -60,6 +64,16 @@ const CLIENT_AGENT_TASK_OPTIONS = [
   { value: "LETTER_REPLY", artifactType: "LETTER_DRAFT", labelKey: "documents.agent_workspace.client_tasks.letter_reply" },
   { value: "FILL_FORM", artifactType: "OTHER", labelKey: "documents.agent_workspace.client_tasks.fill_form" }
 ]
+
+function markChatWorkspaceRestore() {
+  if (typeof window === "undefined") return
+  try {
+    window.sessionStorage.setItem(
+      CHAT_WORKSPACE_RESTORE_STORAGE_KEY,
+      JSON.stringify({ ts: Date.now() })
+    )
+  } catch {}
+}
 
 function createWorkspaceMessage({ role, text, attachments = [] }) {
   return {
@@ -191,6 +205,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [conversationMessages, setConversationMessages] = useState([])
   const [inputFocused, setInputFocused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const handledMeetingSummaryJobIdsRef = useRef(new Set())
 
   function createWorkspaceVersion({ kind, title, content, type, templateId = selectedTemplateId }) {
@@ -1538,13 +1553,20 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }
 
   const handleBack = useCallback(() => {
-    router.push(backHref)
-  }, [backHref, router])
+    if (isClosing) return
+    setIsClosing(true)
+    markChatWorkspaceRestore()
+    pushWithTransition(router, backHref, {
+      glassRingTilt: "left",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    })
+  }, [backHref, isClosing, router])
 
   return (
-    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent ${glassPrimaryButtonToneClassName}`}>
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
       <div className="documents-workspace-shell documents-workspace-shell--agent">
-        <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
+        <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
           <BackButton
             onClick={handleBack}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
@@ -1599,7 +1621,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             </div>
           ) : null}
 
-          <div className="documents-agent-layout mt-[2.4rem]">
+          <div className="documents-agent-layout mt-0 md:mt-[2.4rem]">
             <Panel variant="secondary" padding="sm" className="documents-subpanel documents-agent-card documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
               <div className="documents-agent-card-copy">
                 <h2 className="documents-section-title">

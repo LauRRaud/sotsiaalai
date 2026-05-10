@@ -748,6 +748,8 @@ export default function ChatComposer({
     "transition-[background,border-color,box-shadow,color,opacity,transform] duration-[220ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] " +
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
+  const sendGlyphClassName =
+    "chat-send-glyph block -translate-y-[0.01rem] rotate-[-90deg] max-[768px]:translate-x-[0.04rem] max-[768px]:translate-y-0 text-[color:var(--chat-composer-action-icon-color,#c57171)]";
   const inputRowTransformClassName = embedded
     ? "[transform:none]"
     : `${inputFocused
@@ -896,12 +898,12 @@ export default function ChatComposer({
           </Button> : hasInput ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SubmitArrowIcon
               useCurrentColor
-              className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
+              className={sendGlyphClassName}
             />
           </Button> : <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} data-empty-disabled={!hasInput ? "true" : undefined} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
             <SubmitArrowIcon
               useCurrentColor
-              className="chat-send-glyph -translate-y-[0.01rem] rotate-[-90deg] text-[color:var(--chat-composer-action-icon-color,#c57171)]"
+              className={sendGlyphClassName}
             />
           </Button>}
       </div>

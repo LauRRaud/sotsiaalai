@@ -190,8 +190,8 @@
 
 .surface {
   color: var(--covision-text) !important;
-  width: min(56rem, calc(100vw - 2rem)) !important;
-  max-width: calc(100vw - 2rem) !important;
+  width: min(calc(100vw - 2rem), clamp(30rem, 54vw, 38rem)) !important;
+  max-width: min(calc(100vw - 2rem), clamp(30rem, 54vw, 38rem)) !important;
   margin-left: auto !important;
   margin-right: auto !important;
   justify-self: center !important;

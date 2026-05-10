@@ -509,12 +509,6 @@ export default function HomePage() {
     });
     startExitToChat(side);
   };
-  const handleCardBackBlur = side => () => {
-    setMobileFlipReady(prev => ({
-      ...prev,
-      [side]: false
-    }));
-  };
   const handleCardTap = side => event => {
     if (!cardInteractionAllowed) return;
     if (!isMobile) {
@@ -748,13 +742,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (leftPhase === "front" || leftPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} onBlur={handleCardBackBlur("left")} onKeyDown={e => {
-                  if (!leftBackInteractive) return;
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    startExitToChat("left");
-                  }
-                }} style={!leftBackInteractive ? {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (leftPhase === "front" || leftPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} style={!leftBackInteractive ? {
                   pointerEvents: "none"
                 } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
                     <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={shouldFadeLeft ? homeCardFadeStyle : undefined}>
@@ -787,13 +775,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (rightPhase === "front" || rightPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" tabIndex={-1} onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} onBlur={handleCardBackBlur("right")} onKeyDown={e => {
-                  if (!rightBackInteractive) return;
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    startExitToChat("right");
-                  }
-                }} style={!rightBackInteractive ? {
+                  <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (rightPhase === "front" || rightPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} style={!rightBackInteractive ? {
                   pointerEvents: "none"
                 } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
                     <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in" : null)} style={shouldFadeRight ? homeCardFadeStyle : undefined}>

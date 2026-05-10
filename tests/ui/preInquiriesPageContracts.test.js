@@ -27,6 +27,17 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(css, /\.workspace-feature-list-card\[data-selected="true"\]\s*\{[\s\S]*?background:\s*color-mix\(in srgb,\s*var\(--workspace-feature-accent\) 16%/);
 });
 
+test("pre-inquiry recipient type filter is optional and aligned with search", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(source, /const \[recipientType, setRecipientType\] = useState\(""\)/);
+  assert.match(source, /type="checkbox"[\s\S]*?name="pre-inquiry-recipient-type"/);
+  assert.match(source, /setRecipientType\(\(current\) => current === value \? "" : value\)/);
+  assert.match(source, /pre-inquiry-recipient-controls/);
+  assert.match(css, /\.pre-inquiry-recipient-controls\s*\{[\s\S]*?grid-template-columns:\s*auto minmax\(min\(18rem,\s*100%\),\s*1fr\)/);
+});
+
 test("pre-inquiry assistant clears stale draft and recipient when no draft or contact is returned", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
@@ -56,4 +67,53 @@ test("pre-inquiry assistant conversation and input shadows stay close to the ele
     css,
     /\.pre-inquiry-agent-chat \.documents-agent-glow-window,[\s\S]*?\.pre-inquiry-agent-chat \.documents-agent-glow-composer\s*\{[\s\S]*?0 10px 24px/
   );
+});
+
+test("workspace feature pages are anchored to the viewport", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(source, /workspace-feature-page-shell/);
+  assert.match(source, /fixed inset-0 isolate z-\[30\]/);
+  assert.match(source, /w-screen max-w-\[100vw\]/);
+  assert.match(source, /bg-transparent/);
+  assert.match(source, /persistGlassRingTilt:\s*false/);
+});
+
+test("workspace feature panels keep a stable desktop footprint across role views", () => {
+  const css = read("app/styles/components/service-map.css");
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(
+    css,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?height:\s*min\(52rem,\s*calc\(100dvh - 2rem\)\)/
+  );
+  assert.match(source, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(source, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.doesNotMatch(source, /!max-w-\[66rem\]/);
+});
+
+test("workspace feature pages use the same desktop width as help listings", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/components/service-map.css");
+  const covisionSource = read("components/covision/CovisionPage.jsx");
+  const covisionCss = read("components/covision/CovisionPage.module.css");
+  const helpListingsSource = read("components/chat/HelpListingsPanel.jsx");
+
+  assert.match(helpListingsSource, /!max-w-\[clamp\(30rem,54vw,38rem\)\]/);
+  assert.match(
+    css,
+    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+  );
+  assert.match(covisionSource, /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(covisionSource, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/);
+  assert.match(
+    covisionCss,
+    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(30rem,\s*54vw,\s*38rem\)\)\s*!important/
+  );
+  assert.doesNotMatch(source, /workspace-feature-panel--pre-inquiries/);
+  assert.doesNotMatch(css, /workspace-feature-panel--pre-inquiries/);
 });

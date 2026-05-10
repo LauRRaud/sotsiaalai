@@ -36,7 +36,7 @@ function applyGuideLinkClass(html) {
     return `<a${attrs} class="${guideLinkClassName}">`;
   });
 }
-const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "quickstart"];
+const SECTION_KEYS = ["accessibility", "home", "register", "signin", "chat", "documents", "agent_mode", "profile", "about", "before_use", "privacy_safety", "quickstart"];
 export default function KasutusjuhendBody() {
   const [layoutReady, setLayoutReady] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);

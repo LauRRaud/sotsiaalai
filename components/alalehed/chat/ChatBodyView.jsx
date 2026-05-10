@@ -19,6 +19,7 @@ export default function ChatBodyView({
   profileOpen,
   closeProfile,
   workspaceOpen,
+  workspaceSurfaceReady,
   onWorkspaceToggle,
   onWorkspaceClose,
   isEntering,
@@ -169,6 +170,7 @@ export default function ChatBodyView({
                   isAdmin={isAdmin}
                   subActive={subActive}
                   onClose={onWorkspaceClose}
+                  visible={workspaceSurfaceReady}
                 />
               ) : null}
               {showChatInterface ? listingsPanelNode : null}
