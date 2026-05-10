@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 
 import { buildPreInquiryAssessment } from "../../lib/preInquiriesAssessment.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test("pre-inquiry assessment start asks questions before matching contacts", () => {
   const assessment = buildPreInquiryAssessment({
@@ -59,4 +64,15 @@ test("pre-inquiry assessment adds crisis warning for immediate danger", () => {
 
   assert.equal(assessment.urgencyLevel, "URGENT");
   assert.ok(assessment.warnings.some((warning) => warning.includes("112")));
+});
+
+test("pre-inquiry assist message uses detected urgency, not only explicit urgency input", () => {
+  const source = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
+
+  assert.match(source, /const detectedUrgencyLevel = assessment\.urgencyLevel \|\| detectUrgencyLevel\(/);
+  assert.match(
+    source,
+    /buildPreInquiryAssistantMessage\(\{[\s\S]*?detectedUrgencyLevel,\s*[\s\S]*?suggestedNextSteps[\s\S]*?\}\)/
+  );
+  assert.doesNotMatch(source, /detectedUrgencyLevel:\s*normalizedUrgencyLevel/);
 });

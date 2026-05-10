@@ -13,7 +13,18 @@ const requiredWorkspaceKeys = [
   "workspace_feature_pages.roles.service_provider",
   "workspace_feature_pages.roles.social_worker",
   "workspace_feature_pages.admin_role.label",
-  "workspace_feature_pages.admin_role_label"
+  "workspace_feature_pages.admin_role_label",
+  "workspace_feature_pages.pre_inquiries.sections.assistant",
+  "workspace_feature_pages.pre_inquiries.sections.receiving_settings",
+  "workspace_feature_pages.pre_inquiries.sections.received",
+  "workspace_feature_pages.pre_inquiries.sections.selected_received",
+  "workspace_feature_pages.pre_inquiries.sections.saved",
+  "workspace_feature_pages.pre_inquiries.actions.start_assessment",
+  "workspace_feature_pages.pre_inquiries.actions.prepare_draft",
+  "workspace_feature_pages.pre_inquiries.recipients_lead",
+  "workspace_feature_pages.pre_inquiries.receiving.accepts_platform",
+  "workspace_feature_pages.pre_inquiries.delivery.internal",
+  "workspace_feature_pages.pre_inquiries.delivery.external_email"
 ];
 
 function readMessages(locale) {
@@ -40,4 +51,17 @@ test("workspace i18n lookups used by role-specific dashboards exist", () => {
       );
     }
   }
+});
+
+test("pre-inquiry workflow is presented as assistant-led, not agent-led", () => {
+  const messages = readMessages("et");
+  const preInquiries = getMessage(messages, "workspace_feature_pages.pre_inquiries");
+  const serialized = JSON.stringify(preInquiries);
+
+  assert.equal(
+    getMessage(messages, "workspace_feature_pages.pre_inquiries.sections.assistant"),
+    "Vestlus assistendiga"
+  );
+  assert.doesNotMatch(serialized, /\bagent/i);
+  assert.doesNotMatch(serialized, /\bagendi/i);
 });

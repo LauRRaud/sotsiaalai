@@ -27,6 +27,13 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(css, /\.workspace-feature-list-card\[data-selected="true"\]\s*\{[\s\S]*?background:\s*color-mix\(in srgb,\s*var\(--workspace-feature-accent\) 16%/);
 });
 
+test("pre-inquiry assistant clears stale draft and recipient when no draft or contact is returned", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(source, /if \(payload\?\.draftBody \|\| payload\?\.draft\) \{[\s\S]*?setDraft\(payload\.draftBody \|\| payload\.draft\);[\s\S]*?\} else \{[\s\S]*?setDraft\(""\);[\s\S]*?setDraftTouched\(false\);[\s\S]*?\}/);
+  assert.match(source, /if \(firstSuggestion\?\.id\) \{[\s\S]*?setSelectedRecipientId\(firstSuggestion\.id\);[\s\S]*?\} else \{[\s\S]*?setSelectedRecipientId\(""\);[\s\S]*?\}/);
+});
+
 test("pre-inquiry assistant conversation and input shadows stay close to the element", () => {
   const css = read("app/styles/components/service-map.css");
 

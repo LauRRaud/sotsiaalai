@@ -546,15 +546,20 @@
     "back_to_workspace": "Back to workspace",
     "pre_inquiries": {
       "title": "Pre-inquiry",
-      "lead": "Describe the situation, find a suitable municipality contact or service provider, and prepare a reviewable inquiry draft. A pre-inquiry is not an official needs assessment or decision.",
+      "lead": "A pre-inquiry is an optional questionnaire or simple letter-drafting workflow. Describe the situation, municipality or area, needs, and intended direction; based on this, the SotsiaalAI assistant can suggest a municipality social-services contact, child-protection direction, or service provider, and prepare a reviewable draft. A pre-inquiry is not an official needs assessment or decision.",
       "meta": {
         "title": "Pre-inquiry",
         "description": "Create and manage inquiry drafts for a municipality contact or service provider."
       },
       "sections": {
         "input": "Inquiry input",
+        "assistant": "Conversation with the assistant",
         "recipient": "Suitable contacts",
-        "draft": "Inquiry draft"
+        "draft": "Inquiry draft",
+        "receiving_settings": "Receiving",
+        "received": "Received pre-inquiries",
+        "selected_received": "Selected pre-inquiry",
+        "saved": "My pre-inquiries"
       },
       "fields": {
         "topic": "Topic",
@@ -565,16 +570,65 @@
       "placeholders": {
         "topic": "Short subject",
         "situation": "Describe the situation, need, or question.",
-        "recipient": "Municipality contact or service provider",
+        "recipient": "Municipality contact, service provider, or area",
         "draft": "Generated inquiry text"
       },
       "recipient": {
         "kov": "Municipality contact",
-        "provider": "Service provider"
+        "kov_general": "General municipality contact",
+        "provider": "Service provider",
+        "selected": "Selected contact"
+      },
+      "delivery": {
+        "internal": "Inside SotsiaalAI",
+        "external_email": "Email"
+      },
+      "receiving": {
+        "accepts_platform": "Receive pre-inquiries on the platform",
+        "note": "When enabled, a pre-inquiry addressed to the email linked to your account can arrive as an internal platform inquiry.",
+        "admin_note": "The admin role selector only changes the work view; this setting is saved only on the admin's own account.",
+        "provider_note": "Service-provider receiving channels are managed in the service profile. Here you can see internal pre-inquiries addressed to you, open a room with the sender, or reply by email."
       },
       "actions": {
         "save": "Save",
-        "copy": "Copy"
+        "copy": "Copy",
+        "download": "Download",
+        "new": "New",
+        "open": "Open",
+        "accept": "Mark as accepted",
+        "open_room": "Open conversation room",
+        "opening_room": "Opening...",
+        "write_email": "Write email",
+        "save_preferences": "Save receiving settings",
+        "saving": "Saving...",
+        "assisting": "Preparing...",
+        "start_assessment": "Start pre-assessment",
+        "prepare_draft": "Prepare letter draft",
+        "show_more_contacts": "Show more contacts",
+        "show_less_contacts": "Show less"
+      },
+      "receiver_workspace": "Pre-inquiry receiving",
+      "recipients_lead": "Contacts come from the structured service-map data layer once the situation, area, and intended direction are clear enough. SotsiaalAI is not a pre-inquiry recipient in this list.",
+      "loading": "Loading pre-inquiries...",
+      "untitled": "Untitled",
+      "creating_new": "New pre-inquiry",
+      "editing_existing": "Saved pre-inquiry open",
+      "empty_recipients": "Contacts appear here after pre-assessment answers or a search term.",
+      "empty_received": "Pre-inquiries addressed to you appear here when receiving is enabled and the recipient is linked to an account.",
+      "empty_saved": "Saved pre-inquiries appear here.",
+      "save_success": "Pre-inquiry saved.",
+      "copy_success": "Inquiry text copied.",
+      "download_success": "Inquiry text downloaded.",
+      "accept_success": "Pre-inquiry marked as accepted.",
+      "preferences_save_success": "Receiving settings saved.",
+      "errors": {
+        "load_failed": "Pre-inquiries could not be loaded.",
+        "save_failed": "Pre-inquiry could not be saved.",
+        "assist_failed": "The assistant could not prepare the pre-inquiry.",
+        "accept_failed": "Pre-inquiry could not be accepted.",
+        "room_failed": "Conversation room could not be opened.",
+        "preferences_load_failed": "Receiving settings could not be loaded.",
+        "preferences_save_failed": "Receiving settings could not be saved."
       }
     },
     "service_map": {
@@ -1381,7 +1435,7 @@
       "intro_worker": "Keep case materials, templates, and other files here so the agent can prepare specialist-facing drafts.",
       "intro_worker_expand": "Read more",
       "intro_worker_collapse": "Hide",
-      "intro_worker_details": "What this is for\nThis page is meant to make document drafting faster and more organized. Instead of starting from scratch every time, you can:\n- upload the materials you need\n- keep reusable templates ready\n- choose which files the AI assistant is allowed to use\n- open the drafting view based on those files\n- review and download finished drafts or final versions\n\nAdd documents\nUpload the files you need for work here, such as guidance, client-related materials, sample documents, or ready-made templates.\n\nSet the document role\nEach document can be marked, for example, as:\n- a template\n- background material\n- another file type\nThis helps the system understand how the file should be used.\n\nAllow AI to use the document\nFor each file, you can decide whether the system may use it during document drafting. This gives the specialist control over what information becomes input.\n\nChoose documents for drafting\nOnce the needed files are selected, you can send them forward into the drafting view. There the system can use them to create, for example, a draft, summary, letter, or another work text.\n\nManage finished results\nIn the lower part of the page you can see outputs that have already been created. You can:\n- open them\n- copy them\n- download them\n- delete them when needed",
+      "intro_worker_details": "What this is for\nThis page is meant to make document drafting faster and more organized. Instead of starting from scratch every time, you can:\n- upload the materials you need\n- keep reusable templates ready\n- choose which files the document drafting agent is allowed to use\n- open the drafting view based on those files\n- review and download finished drafts or final versions\n\nAdd documents\nUpload the files you need for work here, such as guidance, client-related materials, sample documents, or ready-made templates.\n\nSet the document role\nEach document can be marked, for example, as:\n- a template\n- background material\n- another file type\nThis helps the system understand how the file should be used.\n\nAllow the agent to use the document\nFor each file, you can decide whether the agent may use it during document drafting. This gives the specialist control over what information becomes input.\n\nChoose documents for drafting\nOnce the needed files are selected, you can send them forward into the drafting view. There the agent can use them to create, for example, a draft, summary, letter, or another work text.\n\nManage finished results\nIn the lower part of the page you can see outputs that have already been created. You can:\n- open them\n- copy them\n- download them\n- delete them when needed",
       "intro_client": "Keep your letters, forms, and background documents here so the agent can help turn them into a clear reply or application."
     },
     "outputs_title": "Agent results",
@@ -1595,10 +1649,10 @@
       "instructions_placeholder": "For example: create a concise case summary for a specialist, highlight service needs and risks, and keep the wording neutral and professional.",
       "start": "Start agent",
       "starting": "Starting agent...",
-      "start_stub": "Workspace v1 is ready. Agent execution will be connected in the next step.",
+      "start_stub": "The document drafting workspace is ready. Add instructions and start the agent to create the first draft.",
       "needs_documents": "Bring at least one document from Documents to start the agent.",
       "needs_instruction": "Add an instruction before starting the agent.",
-      "ready_help": "The workspace is ready. The next step will connect generation and draft handling.",
+      "ready_help": "The workspace is ready. Add instructions, choose a template if needed, and create a reviewable draft.",
       "result_title": "Current draft",
       "result_description": "The latest generated draft appears here in the same workspace, so you can review it before moving on.",
       "result_results_link_intro": "Previously saved and approved results are under",

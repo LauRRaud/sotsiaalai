@@ -546,15 +546,20 @@
     "back_to_workspace": "Tagasi töölauale",
     "pre_inquiries": {
       "title": "Eelpöördumine",
-      "lead": "Eelpöördumine on vabatahtlik küsimustik või lihtne kirja koostamise töövoog. Eelkaardistuses kirjeldad oma eluolu, KOV-i või piirkonda, vajadusi ja soovitud pöördumise suunda; nende vastuste põhjal saab SotsiaalAI pakkuda KOV sotsiaalvaldkonna kontakti, lastekaitse suunda või teenuseosutajat ning koostada kontrollitava mustandi. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
+      "lead": "Eelpöördumine on vabatahtlik küsimustik või lihtne kirja koostamise töövoog. Eelkaardistuses kirjeldad oma eluolu, KOV-i või piirkonda, vajadusi ja soovitud pöördumise suunda; nende vastuste põhjal saab SotsiaalAI assistent pakkuda KOV sotsiaalvaldkonna kontakti, lastekaitse suunda või teenuseosutajat ning koostada kontrollitava mustandi. Eelpöördumine ei ole ametlik abivajaduse hindamine ega otsus.",
       "meta": {
         "title": "Eelpöördumine",
         "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."
       },
       "sections": {
         "input": "Pöördumise sisend",
+        "assistant": "Vestlus assistendiga",
         "recipient": "Sobivad kontaktid",
-        "draft": "Pöördumise mustand"
+        "draft": "Pöördumise mustand",
+        "receiving_settings": "Vastuvõtt",
+        "received": "Saabunud eelpöördumised",
+        "selected_received": "Valitud eelpöördumine",
+        "saved": "Minu eelpöördumised"
       },
       "fields": {
         "topic": "Teema",
@@ -565,16 +570,65 @@
       "placeholders": {
         "topic": "Lühike pealkiri",
         "situation": "Kirjelda olukorda, vajadust või küsimust.",
-        "recipient": "KOV kontakt või teenuseosutaja",
+        "recipient": "KOV kontakt, teenuseosutaja või piirkond",
         "draft": "Koostatud pöördumise tekst"
       },
       "recipient": {
         "kov": "KOV kontakt",
-        "provider": "Teenuseosutaja"
+        "kov_general": "KOV üldkontakt",
+        "provider": "Teenuseosutaja",
+        "selected": "Valitud kontakt"
+      },
+      "delivery": {
+        "internal": "SotsiaalAI sisene",
+        "external_email": "E-post"
+      },
+      "receiving": {
+        "accepts_platform": "Võtan eelpöördumisi platvormil vastu",
+        "note": "Kui linnuke on märgitud, saab sinu kontoga seotud e-postile suunatud eelpöördumine tulla platvormisisese pöördumisena.",
+        "admin_note": "Admini rollivalik näitab töövaadet; linnuke salvestub ainult admini enda kasutajakontole.",
+        "provider_note": "Teenuseosutaja vastuvõtukanalid määratakse teenuseprofiilis. Siin näed sulle platvormisiseselt adresseeritud eelpöördumisi ja saad pöördujaga ruumi avada või vastata e-postiga."
       },
       "actions": {
         "save": "Salvesta",
-        "copy": "Kopeeri"
+        "copy": "Kopeeri",
+        "download": "Laadi alla",
+        "new": "Uus",
+        "open": "Ava",
+        "accept": "Märgi vastuvõetuks",
+        "open_room": "Ava vestlusruum",
+        "opening_room": "Avan...",
+        "write_email": "Kirjuta e-kiri",
+        "save_preferences": "Salvesta vastuvõtt",
+        "saving": "Salvestan...",
+        "assisting": "Koostan...",
+        "start_assessment": "Alusta eelkaardistust",
+        "prepare_draft": "Koosta kirja mustand",
+        "show_more_contacts": "Vaata rohkem kontakte",
+        "show_less_contacts": "Näita vähem"
+      },
+      "receiver_workspace": "Eelpöördumiste vastuvõtt",
+      "recipients_lead": "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.",
+      "loading": "Laen eelpöördumisi...",
+      "untitled": "Pealkirjata",
+      "creating_new": "Uus eelpöördumine",
+      "editing_existing": "Avatud salvestatud eelpöördumine",
+      "empty_recipients": "Kontaktid ilmuvad siia pärast eelkaardistuse vastuseid või otsingusõna sisestamist.",
+      "empty_received": "Sulle adresseeritud eelpöördumised ilmuvad siia, kui vastuvõtt on lubatud ja adressaat on kontoga seotud.",
+      "empty_saved": "Salvestatud eelpöördumised ilmuvad siia.",
+      "save_success": "Eelpöördumine salvestati.",
+      "copy_success": "Pöördumise tekst kopeeriti.",
+      "download_success": "Pöördumise tekst laaditi alla.",
+      "accept_success": "Eelpöördumine märgiti vastuvõetuks.",
+      "preferences_save_success": "Vastuvõtu seaded salvestati.",
+      "errors": {
+        "load_failed": "Eelpöördumisi ei saanud laadida.",
+        "save_failed": "Eelpöördumist ei saanud salvestada.",
+        "assist_failed": "Assistent ei saanud eelpöördumist ette valmistada.",
+        "accept_failed": "Eelpöördumist ei saanud vastu võtta.",
+        "room_failed": "Vestlusruumi ei saanud avada.",
+        "preferences_load_failed": "Vastuvõtu seadeid ei saanud laadida.",
+        "preferences_save_failed": "Vastuvõtu seadeid ei saanud salvestada."
       }
     },
     "service_map": {
@@ -1381,7 +1435,7 @@
       "intro_worker": "See on sinu dokumenditöö töölaud. Siin saad hoida ühes kohas tööks vajalikke faile, valida neist sobivad alusmaterjalid ja lasta süsteemil nende põhjal dokumente ette valmistada.",
       "intro_worker_expand": "Loe täpsemalt",
       "intro_worker_collapse": "Peida",
-      "intro_worker_details": "Milleks see mõeldud on\nLehe eesmärk on teha dokumentide koostamine kiiremaks ja korrastatumaks. Selle asemel, et iga kord nullist alustada, saad:\n- laadida üles vajalikud materjalid\n- hoida alles korduvkasutatavad põhjad\n- valida, milliseid faile AI-assistent tohib kasutada\n- avada nende põhjal dokumendi koostamise vaate\n- vaadata ja alla laadida valmis mustandeid või lõppversioone\n\nLisada dokumente\nSiia saab üles laadida tööks vajalikud failid, näiteks juhendid, kliendi kohta käivad materjalid, näidisdokumendid või valmis põhjad.\n\nMäärata dokumendi rolli\nDokumendi saab märkida näiteks:\n- põhjana\n- taustamaterjalina\n- muu tüüpi failina\nSee aitab süsteemil aru saada, kuidas seda faili kasutada.\n\nLubada dokument AI kasutusse\nIga faili juures saab otsustada, kas süsteem võib seda dokumendi koostamisel kasutada. See annab spetsialistile kontrolli, milline info läheb sisendiks.\n\nValida dokumendid koostamiseks\nKui vajalikud failid on välja valitud, saab need saata edasi dokumendi koostamise vaatesse. Seal saab süsteem nende põhjal teha näiteks mustandi, kokkuvõtte, kirja või muu tööteksti.\n\nHallata valmis tulemusi\nLehe alumises osas on näha juba loodud väljundid. Neid saab:\n- avada\n- kopeerida\n- alla laadida\n- vajadusel kustutada",
+      "intro_worker_details": "Milleks see mõeldud on\nLehe eesmärk on teha dokumentide koostamine kiiremaks ja korrastatumaks. Selle asemel, et iga kord nullist alustada, saad:\n- laadida üles vajalikud materjalid\n- hoida alles korduvkasutatavad põhjad\n- valida, milliseid faile dokumendi koostamise agent tohib kasutada\n- avada nende põhjal dokumendi koostamise vaate\n- vaadata ja alla laadida valmis mustandeid või lõppversioone\n\nLisada dokumente\nSiia saab üles laadida tööks vajalikud failid, näiteks juhendid, kliendi kohta käivad materjalid, näidisdokumendid või valmis põhjad.\n\nMäärata dokumendi rolli\nDokumendi saab märkida näiteks:\n- põhjana\n- taustamaterjalina\n- muu tüüpi failina\nSee aitab süsteemil aru saada, kuidas seda faili kasutada.\n\nLubada dokument agenti kasutusse\nIga faili juures saab otsustada, kas agent võib seda dokumendi koostamisel kasutada. See annab spetsialistile kontrolli, milline info läheb sisendiks.\n\nValida dokumendid koostamiseks\nKui vajalikud failid on välja valitud, saab need saata edasi dokumendi koostamise vaatesse. Seal saab agent nende põhjal teha näiteks mustandi, kokkuvõtte, kirja või muu tööteksti.\n\nHallata valmis tulemusi\nLehe alumises osas on näha juba loodud väljundid. Neid saab:\n- avada\n- kopeerida\n- alla laadida\n- vajadusel kustutada",
       "intro_client": "Siin hoiad enda kirju, blankette ja taustadokumente, et agent saaks aidata neist teha selge vastuse või avalduse."
     },
     "outputs_title": "Agendi tulemused",
@@ -1595,10 +1649,10 @@
       "instructions_placeholder": "Näiteks: koosta spetsialistile lühike juhtumikokkuvõte, too esile teenusevajadused ja riskid ning hoia sõnastus neutraalne ja professionaalne.",
       "start": "Käivita agent",
       "starting": "Käivitan agenti...",
-      "start_stub": "Workspace v1 on paigas. Agendi tegelik käivitus ühendatakse järgmises etapis.",
+      "start_stub": "Dokumendi koostamise tööruum on valmis. Lisa juhis ja käivita agent, et luua esimene mustand.",
       "needs_documents": "Agendi käivitamiseks too Dokumentidest kaasa vähemalt üks dokument.",
       "needs_instruction": "Lisa enne käivitamist agendile juhis.",
-      "ready_help": "Töölaud on valmis. Järgmises etapis ühendame siia genereerimise ja mustandi halduse.",
+      "ready_help": "Töölaud on valmis. Lisa juhis, vali vajadusel mall ja koosta kontrollitav mustand.",
       "result_title": "Praegune mustand",
       "result_description": "Viimati loodud mustand ilmub siia samasse tööruumi, et saaksid selle üle vaadata enne järgmist sammu.",
       "result_results_link_intro": "Varem salvestatud ja kinnitatud tulemused leiad",
@@ -1650,7 +1704,7 @@
       "client_task_description": "Vali konkreetne tulemus, mida soovid nende failide põhjal koostada.",
       "client_task_label": "Tulemus",
       "client_needs_documents": "Lisa enne alustamist vähemalt üks fail.",
-      "client_result_description": "Siia ilmub agenti koostatud tulemus. Selle saad üle vaadata, muuta, salvestada ja alla laadida.",
+      "client_result_description": "Siia ilmub agendi koostatud tulemus. Selle saad üle vaadata, muuta, salvestada ja alla laadida.",
       "client_conversation_description": "Kirjuta, mida soovid valmis saada. Agent võib enne tulemuse koostamist küsida lühikesi täpsustusi.",
       "client_result_ready": "Tulemus on valmis. Vaata see üle ja salvesta või märgi valmis.",
       "client_result_unsaved": "See tulemus on praegu ainult tööruumis. Salvesta see, kui soovid selle hiljem uuesti avada.",

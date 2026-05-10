@@ -768,11 +768,16 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       if (payload?.draftBody || payload?.draft) {
         setDraft(payload.draftBody || payload.draft);
         setDraftTouched(true);
+      } else {
+        setDraft("");
+        setDraftTouched(false);
       }
       const firstSuggestion = suggestions[0] || null;
       if (firstSuggestion?.id) {
         setSelectedRecipientId(firstSuggestion.id);
         setRecipientType(firstSuggestion.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
+      } else {
+        setSelectedRecipientId("");
       }
     } catch (assistError) {
       setError(assistError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.assist_failed", "Assistant could not prepare the pre-inquiry."));
@@ -1461,14 +1466,15 @@ function ServiceMapSurface({
                     as="button"
                     key={entry.id}
                     type="button"
+                    data-selected={selectedEntryId === entry.id ? "true" : "false"}
                     className={cn(
-                      "workspace-feature-list-card ui-glow-button-frame ui-glow-button-control grid gap-[0.16rem] rounded-[0.86rem] border px-[0.74rem] py-[0.56rem] text-left transition",
+                      "workspace-feature-list-card ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
                       selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                     )}
                     edgeSensitivity={22}
                     glowColor="358 82 72"
-                    backgroundColor="var(--btn-primary-bg)"
-                    borderRadius={14}
+                    backgroundColor="var(--seg-card-bg)"
+                    borderRadius={12}
                     glowRadius={42}
                     glowIntensity={0.62}
                     coneSpread={20}
