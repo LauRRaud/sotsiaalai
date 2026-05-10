@@ -98,13 +98,13 @@ test("service map toolbar controls keep compact shadows without suppressing ligh
     css,
     /\.service-map-toolbar__type-card\s*\{[\s\S]*?transition:[\s\S]*?background 560ms cubic-bezier\(0\.22,\s*0\.61,\s*0\.36,\s*1\)/
   );
-  assert.doesNotMatch(
+  assert.match(
     css,
-    /\.service-map-toolbar__type-card:is?\(:?hover[\s\S]*?background:\s*var\(--btn-primary-bg-hover/
+    /\.service-map-toolbar__type-card:hover,[\s\S]*?background:\s*var\(--btn-primary-bg-hover/
   );
-  assert.doesNotMatch(
+  assert.match(
     css,
-    /:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame:is\(:hover,[\s\S]*?background:\s*var\(--mid-pill-surface-bg-hover\)/
+    /:root\.theme-mid \.service-map-toolbar__glow-field\.ui-glow-field:hover,[\s\S]*?background:\s*var\(--mid-pill-surface-bg-hover/
   );
   assert.match(
     css,
@@ -259,6 +259,7 @@ test("service map mobile inputs keep 16px text to avoid browser focus zoom", () 
 
 test("service map results do not force oversized panel bottom padding", () => {
   const css = read("app/styles/components/service-map.css");
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
     css,
@@ -284,6 +285,11 @@ test("service map results do not force oversized panel bottom padding", () => {
     css,
     /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
   );
+  assert.doesNotMatch(source, /ResizeObserver/);
+  assert.doesNotMatch(css, /--service-map-panel-height/);
+  assert.match(css, /--service-map-map-top:\s*clamp\(7\.95rem,\s*15vh,\s*8\.6rem\)/);
+  assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*82rem\)/);
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
 });
 
 test("service map popup and two-line toolbar preserve glass and back alignment", () => {

@@ -85,14 +85,18 @@ test("workspace feature panels keep a stable desktop footprint across role views
 
   assert.match(
     css,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?--workspace-glass-inline-size/
+  );
+  assert.match(
+    css,
+    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important/
   );
   assert.match(
     css,
     /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?height:\s*min\(52rem,\s*calc\(100dvh - 2rem\)\)/
   );
-  assert.match(source, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
-  assert.match(source, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.match(source, /workspace-feature-content/);
+  assert.match(source, /overflow-hidden/);
   assert.doesNotMatch(source, /!max-w-\[66rem\]/);
 });
 
@@ -102,11 +106,13 @@ test("workspace feature pages use the same desktop width as help listings", () =
   const covisionSource = read("components/covision/CovisionPage.jsx");
   const covisionCss = read("components/covision/CovisionPage.module.css");
   const helpListingsSource = read("components/chat/HelpListingsPanel.jsx");
+  const chatFocusCss = read("app/styles/components/chat-focus.css");
 
-  assert.match(helpListingsSource, /!max-w-\[clamp\(36rem,76vw,54rem\)\]/);
+  assert.match(helpListingsSource, /help-listings-modal-content--workspace/);
+  assert.match(chatFocusCss, /help-listings-workspace-inline-size/);
   assert.match(
     css,
-    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
+    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*var\(--workspace-glass-inline-size\)\s*!important/
   );
   assert.match(covisionSource, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
   assert.match(covisionSource, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);

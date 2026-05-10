@@ -18,6 +18,9 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   const glassCss = read("app/styles/components/glass.css");
   const covisionSource = read("components/covision/CovisionPage.jsx");
   const inviteSource = read("components/invite/InviteModal.jsx");
+  const materialsSource = read("components/materials/MaterialsPage.jsx");
+  const workspaceFeatureSource = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const serviceMapCss = read("app/styles/components/service-map.css");
   const surfaceBlock = cssBlock(helpersCss, ".glass-subpage-surface");
   const surfaceBeforeBlock = cssBlock(helpersCss, ".glass-subpage-surface::before");
 
@@ -27,6 +30,18 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   );
   assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
   assert.match(inviteSource, /invite-modal-content[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
+  assert.match(workspaceFeatureSource, /workspace-feature-panel[\s\S]*?overflow-hidden/);
+  assert.match(workspaceFeatureSource, /workspace-feature-content/);
+  assert.match(serviceMapCss, /\.workspace-feature-panel:not\(\.service-map-page-panel\) > \.workspace-feature-content\s*\{[\s\S]*?overflow-y:\s*auto/);
+  assert.match(materialsSource, /materials-page-content[\s\S]*?overflow-hidden/);
+  assert.doesNotMatch(
+    materialsSource,
+    /materials-page-content[\s\S]*?\[scrollbar-gutter:stable_both-edges\][\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/
+  );
+  assert.match(materialsSource, /materials-page-body[\s\S]*?overflow-y-auto/);
+  assert.match(materialsSource, /materials-page-body[\s\S]*?\[scrollbar-gutter:stable_both-edges\]/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?!overflow-y-hidden/);
+  assert.match(inviteSource, /invite-modal-scroll[\s\S]*?overflow-y-auto/);
   assert.match(surfaceBlock, /--glass-subpage-edge-stroke-width:\s*0px/);
   assert.match(surfaceBeforeBlock, /content:\s*""/);
   assert.match(surfaceBeforeBlock, /background:\s*var\(--glass-subpage-edge-stroke,\s*none\)/);

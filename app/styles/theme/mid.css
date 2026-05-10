@@ -143,18 +143,7 @@
   --input-surface-overlay-focus: inset 0 0 0 999px rgba(255, 255, 255, 0.1);
   --btn-primary-hover-brightness: 1;
   --btn-primary-bg: var(--mid-unified-surface-bg);
-  --btn-primary-bg-hover:
-    radial-gradient(
-      92% 88% at 50% 16%,
-      rgba(236, 226, 221, 0.46) 0%,
-      rgba(228, 217, 212, 0.4) 42%,
-      rgba(219, 207, 202, 0.34) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(230, 219, 214, 0.27) 0%,
-      rgba(221, 210, 205, 0.21) 100%
-    );
+  --btn-primary-bg-hover: var(--mid-unified-surface-bg-hover);
   --btn-primary-bg-active: var(--mid-unified-surface-bg-active);
   --btn-primary-text: #2f3a4a;
   --btn-primary-border: transparent;
@@ -184,7 +173,7 @@
   --seg-button-bg-selected: var(--seg-card-bg-selected);
   --seg-button-bg-active: var(--seg-card-bg-selected);
   --seg-card-bg: var(--mid-unified-surface-bg);
-  --seg-card-bg-hover: var(--mid-unified-surface-bg);
+  --seg-card-bg-hover: var(--mid-unified-surface-bg-hover);
   --seg-card-bg-selected: var(--mid-unified-surface-bg-hover);
   --seg-card-text: #2f3a4a;
   --seg-card-text-hover: #81504b;

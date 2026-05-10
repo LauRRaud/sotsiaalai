@@ -42,11 +42,11 @@ const shellClassName =
   "workspace-feature-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const panelClassName =
-  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] max-h-[calc(100dvh-2rem)] overflow-hidden rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [border:none] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
-  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
+  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
 
 const titleClassName =
@@ -57,7 +57,7 @@ const titleWrapClassName =
   "workspace-feature-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 
 const contentClassName =
-  `${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
+  `workspace-feature-content ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
 
 const cardClassName =
   `workspace-feature-card ${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.95rem] max-[768px]:px-[0.9rem] max-[768px]:py-[0.82rem]`;
@@ -1341,8 +1341,6 @@ function ServiceMapSurface({
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const workspaceRef = useRef(null);
-  const filtersShellRef = useRef(null);
   const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
   const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
 
@@ -1445,27 +1443,8 @@ function ServiceMapSurface({
 
   const panelCollapsed = isMobilePanel && !panelOpen;
 
-  useEffect(() => {
-    const workspace = workspaceRef.current;
-    const filtersShell = filtersShellRef.current;
-    if (!workspace || !filtersShell || typeof ResizeObserver === "undefined") return undefined;
-
-    const syncPanelHeight = () => {
-      workspace.style.setProperty("--service-map-panel-height", `${filtersShell.getBoundingClientRect().height}px`);
-    };
-
-    syncPanelHeight();
-    const observer = new ResizeObserver(syncPanelHeight);
-    observer.observe(filtersShell);
-    window.addEventListener("resize", syncPanelHeight);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", syncPanelHeight);
-    };
-  }, []);
-
   return (
-    <div className="service-map-workspace" ref={workspaceRef}>
+    <div className="service-map-workspace">
       <BackButton
         onClick={handleServiceMapBack}
         ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -1480,7 +1459,6 @@ function ServiceMapSurface({
         aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
       >
         <div
-          ref={filtersShellRef}
           className="service-map-workspace__filters-shell"
           style={{
             backdropFilter: "blur(34px) saturate(176%) contrast(0.98)",

@@ -41,6 +41,7 @@ test("light and mid glow controls do not jump pointer edge state on hover", () =
     );
 
     assert.ok(hoverBlock, `${control} should define light/mid hover styling`);
+    assert.match(hoverBlock[0], /background:/);
     assert.match(hoverBlock[0], /box-shadow:/);
     assert.doesNotMatch(hoverBlock[0], /--edge-proximity:\s*100/);
     assert.doesNotMatch(hoverBlock[0], /--cursor-angle:\s*90deg/);

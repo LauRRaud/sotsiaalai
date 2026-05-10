@@ -621,6 +621,41 @@ html[data-contrast="hc"] {
   }
 
   .glass-subpage-surface {
+    --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
+    --workspace-glass-fit-w: calc(
+      100vw - (2 * var(--ring-fit-pad, calc(1.3 * var(--base-rem))))
+    );
+    --workspace-glass-fit-h: calc(
+      100dvh - (2 * var(--ring-fit-pad, calc(1.3 * var(--base-rem)))) -
+        var(--ring-ui-reserve, calc(2 * var(--base-rem)))
+    );
+    --workspace-glass-fit: min(
+      var(--workspace-glass-fit-w),
+      var(--workspace-glass-fit-h)
+    );
+    --workspace-glass-max: min(
+      var(--ring-desktop-max, calc(55 * var(--base-rem))),
+      calc(var(--ring-base-max, calc(52 * var(--base-rem))) * var(--ring-scale, 1))
+    );
+    --workspace-glass-diameter-default: min(
+      var(--workspace-glass-max),
+      max(var(--ring-base-min, calc(36 * var(--base-rem))), var(--workspace-glass-fit))
+    );
+    --workspace-glass-diameter: min(
+      var(--workspace-glass-max),
+      max(
+        calc(40 * var(--base-rem)),
+        calc(var(--workspace-glass-diameter-default) * var(--chat-focus-diameter-scale, 1.06))
+      )
+    );
+    --workspace-glass-inline-size: var(
+      --ring-diameter,
+      var(--workspace-glass-diameter)
+    );
+    --workspace-glass-block-size: var(
+      --ring-diameter,
+      var(--workspace-glass-diameter)
+    );
     --glass-subpage-edge-stroke-width: var(
       --glass-ring-edge-stroke-width-desktop,
       1.18px
@@ -652,7 +687,171 @@ html[data-contrast="hc"] {
       )
     );
   }
+
+  .materials-page-shell {
+    justify-content: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .materials-page-content.glass-subpage-surface,
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+    width: var(--workspace-glass-inline-size) !important;
+    inline-size: var(--workspace-glass-inline-size) !important;
+    min-width: var(--workspace-glass-inline-size) !important;
+    max-width: var(--workspace-glass-inline-size) !important;
+    height: var(--workspace-glass-block-size) !important;
+    min-height: var(--workspace-glass-block-size) !important;
+    max-height: var(--workspace-glass-block-size) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-radius: 2rem !important;
+  }
+
+  .materials-page-content.glass-subpage-surface {
+    padding-left: 1.35rem !important;
+    padding-right: 1.35rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .invite-modal-overlay.person-invite-modal-overlay:not(.invite-modal-overlay--workspace) {
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+    padding-left: 1.35rem !important;
+    padding-right: 1.35rem !important;
+    padding-bottom: 1.25rem !important;
+  }
 }
+
+@media (min-width: 769px) {
+  .glass-subpage-surface::before {
+    width: auto;
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .glass-subpage-surface::before {
+    display: none;
+  }
+
+  .glass-ring {
+    --glass-ring-sheen: none;
+    --glass-ring-edge-stroke-width: 0px;
+    --glass-ring-edge-stroke-opacity: 0;
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (2 * var(--mobile-glass-card-gap, 0.35rem))
+    );
+    height: var(
+      --glass-mobile-height,
+      calc(
+        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+          env(safe-area-inset-bottom, 0px) -
+          (2 * var(--mobile-glass-card-gap, 0.35rem))
+      )
+    );
+    max-height: var(
+      --glass-mobile-height,
+      calc(
+        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+          env(safe-area-inset-bottom, 0px) -
+          (2 * var(--mobile-glass-card-gap, 0.35rem))
+      )
+    );
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: auto;
+    --glass-ring-radius: var(
+      --mobile-glass-card-radius,
+      clamp(calc(1.05 * var(--base-rem)), 3.8vw, calc(1.45 * var(--base-rem)))
+    );
+    overflow: hidden;
+    margin-top: var(--mobile-glass-card-gap, calc(0.35 * var(--base-rem)));
+    margin-bottom: var(--mobile-glass-card-gap, calc(0.35 * var(--base-rem)));
+    --ring-pad-top: clamp(
+      calc(0.4 * var(--base-rem)),
+      1.4vh,
+      calc(1.1 * var(--base-rem))
+    );
+  }
+}
+
+html[data-contrast="hc"] .glass-subpage-surface::before {
+  display: none !important;
+}
+
+.glass-ring-expandable {
+  --glass-ring-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --glass-ring-scroll-offset: clamp(4.6rem, 9.5vh, 6.6rem);
+  --glass-ring-scroll-offset-open: clamp(3.8rem, 8.5vh, 6.2rem);
+  transition:
+    border-radius 680ms var(--glass-ring-ease);
+  will-change:
+    border-radius;
+}
+
+.glass-ring-expandable--open {
+  border-bottom-left-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  border-bottom-right-radius: clamp(1.6rem, 3.5vw, 2.4rem);
+  --ring-pad-x: clamp(
+    0.22rem,
+    calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.01),
+      min(
+        var(--workspace-glass-max),
+        max(var(--ring-base-min, calc(34 * var(--base-rem))), var(--workspace-glass-fit))
+      )
+    );
+    --workspace-glass-inline-size: calc(
+      var(--workspace-glass-diameter) + var(--chat-focus-inline-extra)
+    );
+    --glass-subpage-edge-stroke-width: var(
+      --glass-ring-edge-stroke-width-desktop,
+      1.18px
+    );
+    --glass-subpage-edge-stroke-opacity: var(
+      --glass-ring-edge-stroke-opacity-desktop,
+      0.72
+    );
+    --glass-subpage-edge-stroke-blur: var(
+      --glass-ring-edge-stroke-blur-desktop,
+      0.18px
+    );
+    --glass-subpage-edge-stroke: var(
+      --glass-ring-edge-stroke-desktop,
+      conic-gradient(
+        from -104deg at 50% 50%,
+        rgba(255, 255, 255, 0) 0deg,
+        rgba(255, 255, 255, 0) 18deg,
+        rgba(255, 255, 255, 0.01) 30deg,
+        rgba(255, 255, 255, 0.04) 42deg,
+        rgba(255, 255, 255, 0.11) 50deg,
+        rgba(255, 255, 255, 0.22) 58deg,
+        rgba(255, 255, 255, 0.3) 62deg,
+        rgba(255, 255, 255, 0.2) 70deg,
+        rgba(255, 255, 255, 0.08) 80deg,
+        rgba(255, 255, 255, 0.02) 90deg,
+        rgba(255, 255, 255, 0) 102deg,
+        rgba(255, 255, 255, 0) 360deg
+      )
+    );
+  }
+
+  .materials-page-content.glass-subpage-surface,
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+    width: var(--workspace-glass-inline-size) !important;
+    inline-size: var(--workspace-glass-inline-size) !important;
+    min-width: var(--workspace-glass-inline-size) !important;
+    max-width: var(--workspace-glass-inline-size) !important;
+  }
+
 @media (max-width: 768px) {
   .glass-subpage-surface::before {
     display: none;
