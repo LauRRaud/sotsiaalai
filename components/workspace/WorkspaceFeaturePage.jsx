@@ -53,7 +53,7 @@ const panelClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const contentClassName =
-  `workspace-feature-content relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
+  `workspace-feature-content relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid content-start gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
 
 const cardClassName =
   `workspace-feature-card ${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.95rem] max-[768px]:px-[0.9rem] max-[768px]:py-[0.82rem]`;

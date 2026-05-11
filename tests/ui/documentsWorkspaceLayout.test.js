@@ -73,7 +73,11 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   );
   assert.match(
     css,
-    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*-0\.95rem;/
+    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*0;/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*-/
   );
   assert.doesNotMatch(css, /documents-page-shell-title-row|documents-scroll-back-button|documents-mobile-title-wrap|agent-mobile-title-wrap/);
   assert.doesNotMatch(

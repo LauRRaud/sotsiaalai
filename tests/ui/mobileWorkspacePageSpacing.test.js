@@ -44,6 +44,20 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.match(agentSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
 });
 
+test("short workspace feature pages keep content pinned under the header", () => {
+  const workspaceSource = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const materialsSource = read("components/materials/MaterialsPage.jsx");
+
+  assert.match(
+    workspaceSource,
+    /workspace-feature-content[\s\S]*?grid content-start gap-\[1rem\]/
+  );
+  assert.match(
+    materialsSource,
+    /materials-page-body[\s\S]*?grid content-start gap-\[0\.66rem\]/
+  );
+});
+
 test("documents mobile controls stretch instead of keeping desktop fixed widths", () => {
   const css = read("app/styles/components/documents-mode.css");
 

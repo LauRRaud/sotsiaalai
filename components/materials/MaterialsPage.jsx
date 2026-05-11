@@ -316,7 +316,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   return (
     <div className={shellClassName}>
       <div className={`${surfaceClassName} ${isClosing ? `${pageBackTiltClassName} workspace-guide-panel--collapse` : ""}`}>
-        <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
+        <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid content-start gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("profile.back_to_chat")}
