@@ -107,9 +107,6 @@ html[data-contrast="hc"] {
     rgba(24, 35, 49, 0.52) 0%,
     rgba(18, 22, 30, 0.62) 100%
   );
-  --workspace-elevated-card-bg: rgba(6, 9, 15, 0.92);
-  --workspace-elevated-card-bg-hover: rgba(8, 12, 20, 0.96);
-  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --chat-card-surface-night-strong-bg: radial-gradient(
     124% 96% at 50% 6%,
     rgb(27, 39, 53) 0%,
@@ -142,10 +139,22 @@ html[data-contrast="hc"] {
   --hc-border: rgba(255, 234, 0, 0.66);
   --hc-border-soft: rgba(255, 234, 0, 0.9);
   --hc-focus-ring: rgba(255, 234, 0, 0.58);
-  --hc-control-bg: rgba(6, 9, 15, 0.92);
-  --hc-control-bg-hover: rgba(8, 12, 20, 0.96);
-  --hc-control-bg-active: rgba(9, 14, 24, 0.98);
+  --hc-control-bg: var(--chat-card-surface-night-standard-bg);
+  --hc-control-bg-hover:
+    linear-gradient(180deg, rgba(255, 234, 0, 0.08) 0%, rgba(255, 234, 0, 0.035) 100%),
+    var(--chat-card-surface-night-standard-flat-bg);
+  --hc-control-bg-active:
+    linear-gradient(180deg, rgba(255, 234, 0, 0.12) 0%, rgba(255, 234, 0, 0.055) 100%),
+    var(--chat-card-surface-night-standard-flat-bg);
   --hc-control-bg-selected: rgba(255, 234, 0, 0.14);
+  --hc-field-bg: var(--hc-control-bg);
+  --hc-field-bg-hover: var(--hc-field-bg);
+  --hc-field-bg-focus: var(--hc-field-bg);
+  --hc-panel-bg: var(--chat-card-surface-night-standard-bg);
+  --hc-panel-bg-hover: var(--hc-control-bg-hover);
+  --workspace-elevated-card-bg: var(--hc-panel-bg);
+  --workspace-elevated-card-bg-hover: var(--hc-panel-bg-hover);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
   --pt-50: var(--hc-accent);
   --pt-100: var(--hc-accent);
   --pt-150: var(--hc-accent);
@@ -287,11 +296,11 @@ html[data-contrast="hc"] {
   --form-surface: var(--hc-control-bg);
   --form-surface-hover: var(--hc-control-bg-hover);
   --form-surface-active: var(--hc-control-bg-active);
-  --input-bg: var(--hc-control-bg);
-  --input-bg-hover: var(--hc-control-bg-hover);
-  --input-bg-focus: var(--hc-control-bg-active);
-  --input-flat-bg: var(--hc-control-bg);
-  --input-flat-bg-hover: var(--hc-control-bg-hover);
+  --input-bg: var(--hc-field-bg);
+  --input-bg-hover: var(--hc-field-bg-hover);
+  --input-bg-focus: var(--hc-field-bg-focus);
+  --input-flat-bg: var(--hc-field-bg);
+  --input-flat-bg-hover: var(--hc-field-bg-hover);
   --input-text: var(--hc-accent);
   --input-caret: var(--hc-accent);
   --input-placeholder: rgba(255, 234, 0, 0.92);
@@ -2446,8 +2455,8 @@ html[data-contrast="hc"] {
   --subpage-card-border: rgba(255, 234, 0, 0.66);
   --subpage-card-border-hover: rgba(255, 234, 0, 0.9);
   --panel-secondary-border: rgba(255, 234, 0, 0.66);
-  --workspace-feature-field-bg: var(--hc-control-bg);
-  --workspace-feature-field-bg-hover: var(--hc-control-bg-hover);
+  --workspace-feature-field-bg: var(--hc-field-bg);
+  --workspace-feature-field-bg-hover: var(--hc-field-bg-hover);
   --workspace-feature-field-text: var(--hc-accent);
   --workspace-feature-field-placeholder: rgba(255, 234, 0, 0.92);
   --workspace-feature-field-border: 2px solid rgba(255, 234, 0, 0.72);
@@ -2515,7 +2524,7 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
 ) {
-  background: var(--hc-control-bg) !important;
+  background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;
   border: 2px solid rgba(255, 234, 0, 0.72) !important;
   box-shadow: none !important;
@@ -2533,9 +2542,24 @@ html[data-contrast="hc"] :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
 ):is(:hover, :focus, :focus-within, :focus-visible, :active) {
-  background: var(--hc-control-bg-hover) !important;
+  background: var(--hc-field-bg-focus) !important;
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.94) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] :is(
+  .ui-glow-field,
+  .materials-comment-glow-field,
+  .service-map-toolbar__glow-field,
+  .invite-glow-field,
+  .service-profile-glow-field,
+  .workspace-feature-panel .workspace-feature-field,
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+) > :is(.edgeLight, [class*="edgeLight"]) {
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
   box-shadow: none !important;
 }
 
@@ -2580,7 +2604,7 @@ html[data-contrast="hc"] :is(
   .help-listings-panel,
   .selected-listing-panel--inline
 ) {
-  background: var(--hc-control-bg) !important;
+  background: var(--hc-panel-bg) !important;
   color: var(--hc-accent) !important;
   border: 2px solid rgba(255, 234, 0, 0.66) !important;
   box-shadow: none !important;
@@ -2762,7 +2786,7 @@ html[data-contrast="hc"] body :is(
   .workspace-feature-panel .workspace-feature-field,
   .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
 ):is([class*="BorderGlow-module"], [class*="ui-glow"]) {
-  background: var(--hc-control-bg) !important;
+  background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.72) !important;
   box-shadow: none !important;
@@ -2862,4 +2886,45 @@ html[data-contrast="hc"] body .workspace-dashboard-card:focus-visible {
 
 html[data-contrast="hc"] body .workspace-dashboard-card::after {
   display: none !important;
+}
+
+html[data-contrast="hc"] body .invite-list-panel {
+  background: var(--hc-panel-bg) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body .invite-list-panel:is(:hover, :focus-within, :focus-visible, :active) {
+  background: var(--hc-panel-bg) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body .invite-list-panel::before,
+html[data-contrast="hc"] body .invite-list-panel::after,
+html[data-contrast="hc"] body .invite-list-panel > :is(.edgeLight, [class*="edgeLight"]) {
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .invite-modal-content,
+  .person-invite-modal-content
+) .invite-list-panel.invite-glow-panel {
+  background: var(--hc-panel-bg) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] body :is(
+  .invite-modal-content,
+  .person-invite-modal-content
+) .invite-list-panel.invite-glow-panel:is(:hover, :focus-within) {
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  background: var(--hc-panel-bg) !important;
+  box-shadow: none !important;
 }

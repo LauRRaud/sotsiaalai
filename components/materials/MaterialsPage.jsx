@@ -321,24 +321,24 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
   return (
     <div className={shellClassName}>
       <div className={`${surfaceClassName} ${isClosing ? `${pageBackTiltClassName} workspace-guide-panel--collapse` : ""}`}>
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("profile.back_to_chat")}
-          holdPressedVisualDisabled
-          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto !bg-transparent hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent !border-0 hover:!border-0 focus-visible:!border-0 active:!border-0 !shadow-none hover:!shadow-none focus-visible:!shadow-none active:!shadow-none`}
-        />
+        <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
+          <BackButton
+            onClick={handleBack}
+            ariaLabel={t("profile.back_to_chat")}
+            holdPressedVisualDisabled
+            className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto !bg-transparent hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent !border-0 hover:!border-0 focus-visible:!border-0 active:!border-0 !shadow-none hover:!shadow-none focus-visible:!shadow-none active:!shadow-none`}
+          />
 
-        <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <div className="grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]">
-            <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-              <h1 className={pageTitleClassName}>
-                {t("materials_page.title")}
-              </h1>
+          <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
+            <div className="grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]">
+              <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+                <h1 className={pageTitleClassName}>
+                  {t("materials_page.title")}
+                </h1>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
 
-        <div className={`materials-page-body ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <section className={materialsUploadSectionClassName}>
             <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">

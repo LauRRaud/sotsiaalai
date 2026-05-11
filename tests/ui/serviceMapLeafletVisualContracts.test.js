@@ -23,7 +23,7 @@ test("service map Leaflet markers do not inherit the default div icon plate", ()
 test("service map popup glass is applied on the wrapper immediately", () => {
   const css = read("app/styles/components/service-map.css");
 
-  assert.match(css, /--service-map-popup-glass-bg:\s*rgba\(32,\s*36,\s*43,\s*0\.82\)/);
+  assert.match(css, /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/);
   assert.match(
     css,
     /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:[\s\S]*?var\(--service-map-popup-glass-bg\)\s*!important[\s\S]*?backdrop-filter:\s*blur/
@@ -41,7 +41,7 @@ test("service map close button and toolbar controls keep the intended brand/cont
     css,
     /\.service-map-leaflet__popup \.leaflet-popup-close-button\s*\{[\s\S]*?color:\s*var\(--workspace-feature-accent,\s*var\(--title-color,\s*#c57171\)\)\s*!important/
   );
-  assert.match(css, /--service-map-control-glass-bg:\s*color-mix\(/);
+  assert.match(css, /--service-map-control-glass-bg:\s*var\(\s*--subpage-card-bg,/);
   assert.match(
     css,
     /\.service-map-workspace__filters:not\(\.service-map-workspace__filters--collapsed\) \.service-map-workspace__toggle\s*\{[\s\S]*?var\(--service-map-control-glass-bg\)/
@@ -131,7 +131,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
 
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.46rem/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell--toolbar-feedback\s*\{[\s\S]*?gap:\s*0\.5rem[\s\S]*?padding-bottom:\s*0\.46rem/
   );
   assert.match(
     css,
@@ -148,6 +148,10 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   assert.match(
     css,
     /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
+  );
+  assert.doesNotMatch(
+    source,
+    /name="service-map-entry-type"[\s\S]*?fitTextLines/
   );
   assert.doesNotMatch(source, /service-map-result-card__type/);
 });
@@ -251,19 +255,27 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
+    /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?min-height:\s*var\(--service-map-results-row-height\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__resultsblock:empty\s*\{[\s\S]*?visibility:\s*hidden[\s\S]*?pointer-events:\s*none/
+  );
+  assert.match(
+    css,
     /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*translateX\(-1\.9rem\)/
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*var\(--service-map-results-row-height\)[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
   );
   assert.match(
     css,
-    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-workspace__filters-shell\s*\{[\s\S]*?padding-bottom:\s*0\.38rem/
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?padding-bottom:\s*0\.38rem/
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.46rem/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell--toolbar-feedback\s*\{[\s\S]*?padding-bottom:\s*0\.46rem/
   );
   assert.match(
     css,
@@ -271,12 +283,15 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell--toolbar-feedback\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
   );
   assert.match(source, /const workspaceRef = useRef\(null\);/);
   assert.match(source, /const filtersShellRef = useRef\(null\);/);
+  assert.doesNotMatch(source, /hasToolbarFeedback/);
+  assert.match(source, /"service-map-workspace--toolbar-feedback"/);
+  assert.match(source, /"service-map-workspace__filters-shell--toolbar-feedback"/);
   assert.match(source, /new ResizeObserver\(syncPanelHeight\)/);
-  assert.match(css, /--service-map-panel-height:\s*4\.7rem/);
+  assert.match(css, /--service-map-panel-height:\s*7\.83rem/);
   assert.match(css, /--service-map-map-panel-gap:\s*0\.6rem/);
   assert.match(css, /--service-map-map-top:\s*calc\(var\(--service-map-panel-top\) \+ var\(--service-map-panel-height\) \+ var\(--service-map-map-panel-gap\)\)/);
   assert.match(css, /--service-map-map-max-height:\s*48rem/);
@@ -289,10 +304,11 @@ test("service map results do not force oversized panel bottom padding", () => {
 
 test("service map popup and two-line toolbar preserve glass and back alignment", () => {
   const css = read("app/styles/components/service-map.css");
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
     css,
-    /--service-map-popup-glass-bg:\s*rgba\(32,\s*36,\s*43,\s*0\.82\)/
+    /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/
   );
   assert.match(
     css,
@@ -304,7 +320,7 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
-    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*flex-start/
   );
   assert.match(
     css,
@@ -332,8 +348,10 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
-    /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*-0\.34rem/
+    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*-0\.34rem/
   );
+  assert.doesNotMatch(source, /hasToolbarFeedback/);
+  assert.match(source, /"service-map-workspace--toolbar-feedback"/);
   assert.doesNotMatch(
     css,
     /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame\s*\{[\s\S]*?border:/
@@ -363,7 +381,8 @@ test("service map toolbar uses flat glass while map canvas stays edge-free", () 
   const leaflet = cssBlock(css, ".service-map-leaflet");
 
   assert.match(filtersShell, /border:\s*0\s*!important/);
-  assert.match(filtersShell, /background:\s*var\(--service-map-panel-glass-bg\)/);
+  assert.match(filtersShell, /background:\s*[\s\S]*?var\(--glass-ring-sheen,\s*none\)/);
+  assert.match(filtersShell, /background:\s*[\s\S]*?var\(--service-map-panel-glass-bg\)/);
   assert.match(filtersShell, /box-shadow:\s*var\(--service-map-panel-shadow\)\s*!important/);
   assert.doesNotMatch(css, /\.service-map-workspace__filters-shell::after/);
   assert.doesNotMatch(css, /--service-map-panel-edge-stroke/);
@@ -379,31 +398,23 @@ test("service map filter panel uses shared glass background in standard themes, 
   const css = read("app/styles/components/service-map.css");
   const rootBlock = cssBlock(css, ".service-map-workspace");
   const filtersShell = cssBlock(css, ".service-map-workspace__filters-shell");
-  const mobileDarkBlock =
-    css.match(
-      /@media \(max-width:\s*768px\)[\s\S]*?:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.service-map-workspace\s*\{([\s\S]*?)\n  \}/
-    )?.[1] || "";
-  const mobileNightBlock =
-    css.match(
-      /@media \(max-width:\s*768px\)[\s\S]*?:root\.theme-night \.service-map-workspace\s*\{([\s\S]*?)\n  \}/
-    )?.[1] || "";
 
   assert.match(
     rootBlock,
-    /--service-map-glass-bg:\s*var\(\s*--glass-surface-bg,\s*rgba\(0,\s*0,\s*0,\s*0\.25\)\s*\)/
+    /--service-map-glass-bg:\s*var\(\s*--glass-ring-surface-bg,\s*var\(\s*--glass-surface-bg,\s*rgba\(0,\s*0,\s*0,\s*0\.25\)\s*\)\s*\)/
   );
   assert.match(
     rootBlock,
-    /--service-map-panel-glass-bg:\s*var\(--glass-ring-sheen,\s*none\),\s*var\(--service-map-glass-bg\)/
+    /--service-map-panel-glass-bg:\s*var\(\s*--service-map-glass-bg\s*\)/
   );
   assert.match(rootBlock, /--service-map-panel-glass-overlay-bg:\s*transparent/);
-  assert.match(filtersShell, /background:\s*var\(--service-map-panel-glass-bg\)/);
+  assert.match(
+    rootBlock,
+    /--service-map-glass-blur:\s*var\(--glass-modal-blur,\s*var\(--glass-blur-radius,\s*1rem\)\)/
+  );
+  assert.match(filtersShell, /background:\s*[\s\S]*?var\(--service-map-panel-glass-bg\)/);
   assert.match(rootBlock, /--service-map-panel-shadow:\s*var\(--service-map-glass-shadow\)/);
   assert.doesNotMatch(rootBlock, /--service-map-panel-edge-stroke/);
-  assert.doesNotMatch(mobileDarkBlock, /--service-map-panel-glass-bg/);
-  assert.doesNotMatch(mobileDarkBlock, /--service-map-panel-glass-overlay-bg/);
-  assert.doesNotMatch(mobileNightBlock, /--service-map-panel-glass-bg/);
-  assert.doesNotMatch(mobileNightBlock, /--service-map-panel-glass-overlay-bg/);
   assert.match(
     css,
     /@media \(max-width:\s*768px\)[\s\S]*?html\[data-contrast="hc"\] \.service-map-workspace[\s\S]*?--service-map-panel-glass-bg:\s*#000/

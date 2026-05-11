@@ -12,7 +12,10 @@ import { cn } from "@/components/ui/cn";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
+import {
+  markWorkspacePanelMorph,
+  WORKSPACE_PANEL_MORPH_EXPAND_MS
+} from "@/lib/workspacePanelMorph";
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
@@ -170,7 +173,7 @@ export default function WorkspacePanel({
         setMorphingToSubpage(true);
       }
       pushWithTransition(router, localizePath(path, locale), {
-        delayMs: shouldRestoreWorkspace ? WORKSPACE_PANEL_MORPH_DELAY_MS : 0,
+        delayMs: shouldRestoreWorkspace ? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0,
         workspacePanelMorph: shouldRestoreWorkspace ? "expand" : undefined
       });
     },
@@ -195,7 +198,7 @@ export default function WorkspacePanel({
             })
           );
         } catch {}
-      }, WORKSPACE_PANEL_MORPH_DELAY_MS);
+      }, WORKSPACE_PANEL_MORPH_EXPAND_MS);
     },
     [onClose]
   );
@@ -213,7 +216,7 @@ export default function WorkspacePanel({
           })
         );
       } catch {}
-    }, WORKSPACE_PANEL_MORPH_DELAY_MS);
+    }, WORKSPACE_PANEL_MORPH_EXPAND_MS);
   }, [onClose]);
 
   useEffect(() => {

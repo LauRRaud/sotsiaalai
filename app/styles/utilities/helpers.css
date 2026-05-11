@@ -790,6 +790,7 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
 
 .workspace-guide-panel.glass-subpage-surface {
   --ring-scale: 1;
+  --glass-ring-surface-bg: var(--glass-surface-bg, rgba(0, 0, 0, 0.25));
   --ring-fit-pad: calc(1.3 * var(--base-rem));
   --ring-ui-reserve: calc(2 * var(--base-rem));
   --ring-base-min: calc(36 * var(--base-rem));
@@ -812,7 +813,9 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   box-sizing: border-box;
   overflow: hidden !important;
   border: 0;
-  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  background:
+    var(--glass-ring-sheen, none),
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
   color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2));
   box-shadow: var(--glass-shell-shadow, none);
   backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
@@ -896,6 +899,7 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
       .documents-workspace-page--documents,
       .documents-workspace-page--agent,
       .covision-page-shell,
+      .invite-modal-content--workspace,
       .help-listings-modal-content--workspace
     )
     .workspace-guide-panel-scroll {
@@ -905,30 +909,9 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
     scroll-padding-bottom: clamp(1.6rem, 3.4vh, 2.25rem);
   }
 
-  :is(.documents-workspace-page--documents, .documents-workspace-page--agent) {
-    overflow: hidden !important;
-  }
-
-  :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
-    .documents-page-shell.workspace-guide-panel-scroll {
-    padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
-  }
-
   .workspace-guide-panel--collapse {
     animation: workspace-guide-panel-collapse 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
     transform-origin: 50% 50%;
-  }
-
-  .documents-workspace-shell.workspace-guide-panel > .documents-grid {
-    display: flex;
-    width: 100%;
-    min-height: 0;
-    flex: 1 1 auto;
-    flex-direction: column;
-  }
-
-  .documents-workspace-shell.workspace-guide-panel .documents-page-shell {
-    width: 100%;
   }
 }
 

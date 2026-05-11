@@ -14,7 +14,9 @@ test("accessibility preferences own mobile browser chrome color", () => {
   assert.match(provider, /ensureMetaTag\("theme-color"\)\?\.setAttribute\("content", themeColor\)/);
   assert.match(provider, /apple-mobile-web-app-status-bar-style/);
   assert.match(provider, /syncThemeChrome\(\{ \.\.\.prefs, theme, contrast:/);
+  assert.match(provider, /if \(contrast === "hc"\) return "#10151d"/);
   assert.match(core, /html\s*\{[\s\S]*?--app-chrome-bg:\s*#10151d/);
+  assert.match(core, /html\[data-contrast="hc"\]\s*\{[\s\S]*?--app-chrome-bg:\s*#10151d/);
   assert.match(core, /html\.theme-light\s*\{[\s\S]*?--app-chrome-bg:\s*#f4f2ee/);
   assert.match(core, /body\s*\{[\s\S]*?background-color:\s*var\(--app-chrome-bg\)/);
 });

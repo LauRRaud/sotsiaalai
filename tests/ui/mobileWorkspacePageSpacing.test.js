@@ -22,7 +22,7 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?overflow-x:\s*hidden;[\s\S]*?overflow-y:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;/
+    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?overflow-x:\s*hidden;[\s\S]*?overflow-y:\s*hidden;[\s\S]*?overscroll-behavior:\s*contain;/
   );
   assert.match(
     css,
@@ -85,22 +85,22 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   );
   assert.match(
     css,
-    /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)[\s\S]*?--documents-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-agent-thread-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-sheen:\s*var\(--glass-ring-sheen,\s*none\)[\s\S]*?--documents-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-agent-thread-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-sheen\),\s*var\(--documents-glass-surface\)/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--library\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--documents-surface-panel-bg\)[\s\S]*?--subpage-card-bg-hover:\s*var\(--documents-surface-panel-bg\)/
+    /\.documents-workspace-page--library\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--documents-glass-surface\)[\s\S]*?--subpage-card-bg-hover:\s*var\(--documents-glass-surface\)/
   );
   assert.match(
     css,
-    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-surface\)/
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-sheen\),\s*var\(--documents-glass-surface\)/
   );
   assert.ok(
     css.indexOf(":root.theme-night .documents-workspace.documents-workspace-page--library") >
       css.indexOf(":root.theme-night .documents-workspace-page--library"),
     "final night surface override must come after the original theme-night library tokens"
   );
-  assert.doesNotMatch(
+  assert.match(
     css,
     /\.documents-workspace-page--library\s*\{[\s\S]*?--documents-surface-panel-bg:\s*[\s\S]*?var\(--glass-ring-sheen/
   );

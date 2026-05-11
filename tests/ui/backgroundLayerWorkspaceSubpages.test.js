@@ -14,8 +14,9 @@ test("workspace subpages keep the shared app background visible", () => {
   const documents = read("components/documents/DocumentsPage.jsx");
   const agent = read("components/agent/AgentModePage.jsx");
 
-  assert.match(backgroundLayer, /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?"\/documents"/);
-  assert.match(backgroundLayer, /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?"\/dokreziim"/);
+  assert.doesNotMatch(backgroundLayer, /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?"\/documents"/);
+  assert.doesNotMatch(backgroundLayer, /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?"\/dokreziim"/);
+  assert.doesNotMatch(backgroundLayer, /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?"\/kovisioon"/);
 
   for (const source of [workspaceFeature, materials, covision, documents, agent]) {
     assert.match(source, /fixed inset-0 isolate z-\[30\]/);

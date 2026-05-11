@@ -181,11 +181,11 @@
   --covision-strong-text: var(--hc-accent, #ffea00);
   --covision-muted: var(--hc-muted, #d7e2f5);
   --covision-accent: var(--hc-accent, #ffea00);
-  --covision-surface-bg: var(--hc-bg, #090a0f);
-  --covision-panel-bg: var(--workspace-elevated-card-bg, var(--hc-bg, #090a0f));
-  --covision-panel-hover-bg: rgba(255, 234, 0, 0.08);
-  --covision-card-bg: var(--workspace-elevated-card-bg, var(--hc-bg, #090a0f));
-  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(255, 234, 0, 0.08));
+  --covision-surface-bg: var(--glass-ring-surface-bg, var(--glass-surface-bg, var(--hc-panel-bg, rgba(15, 14, 17, 0.35))));
+  --covision-panel-bg: var(--workspace-elevated-card-bg, var(--hc-panel-bg, var(--covision-surface-bg)));
+  --covision-panel-hover-bg: var(--workspace-elevated-card-bg-hover, var(--hc-panel-bg-hover, rgba(255, 234, 0, 0.08)));
+  --covision-card-bg: var(--workspace-elevated-card-bg, var(--hc-panel-bg, var(--covision-surface-bg)));
+  --covision-card-hover-bg: var(--workspace-elevated-card-bg-hover, var(--hc-panel-bg-hover, rgba(255, 234, 0, 0.08)));
   --covision-card-border: var(--hc-accent, #ffea00);
   --covision-card-border-strong: var(--hc-accent, #ffea00);
   --covision-card-border-width: 2px;
@@ -200,13 +200,13 @@
   --covision-danger-bg: var(--hc-bg, #090a0f);
   --covision-danger-border: var(--hc-accent, #ffea00);
   --covision-danger-text: var(--hc-accent, #ffea00);
-  --covision-field-bg: var(--hc-bg, #090a0f);
-  --covision-field-hover-bg: rgba(255, 234, 0, 0.08);
+  --covision-field-bg: var(--hc-field-bg, var(--hc-control-bg, #10151d));
+  --covision-field-hover-bg: var(--hc-field-bg-hover, var(--covision-field-bg));
   --covision-field-text: var(--hc-text, #eef4ff);
   --covision-field-placeholder: var(--hc-muted, #d7e2f5);
   --covision-field-border: 2px solid var(--hc-accent, #ffea00);
   --covision-field-shadow: none;
-  --covision-field-focus-shadow: 0 0 0 3px var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
+  --covision-field-focus-shadow: none;
   --covision-divider: var(--hc-accent, #ffea00);
   --covision-focus-ring: var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
   --covision-secondary-button-bg: var(--hc-bg, #090a0f);
@@ -235,9 +235,32 @@
   --btn-danger-shadow-focus: 0 0 0 3px var(--hc-focus-ring, rgba(188, 220, 255, 0.5));
 }
 
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field),
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field:is(:hover, :focus-within, :focus-visible, :active)) {
+  background: var(--covision-field-bg) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field::before),
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field::after),
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field > .edgeLight),
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field > [class*="edgeLight"]) {
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-control:focus-visible),
+:global(html[data-contrast="hc"]) .page :global(.covision-glow-field .documents-dropdown-trigger:focus-visible) {
+  box-shadow: none !important;
+}
+
 .surface {
   color: var(--covision-text) !important;
-  background: var(--covision-surface-bg) !important;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--covision-surface-bg) !important;
   width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
   max-width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
   margin-left: auto !important;
@@ -278,11 +301,13 @@
 }
 
 :global(html[data-contrast="hc"]) .surface {
-  border: 2px solid var(--hc-accent, #ffea00) !important;
-  background: var(--hc-bg, #090a0f) !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
+  border: 0 !important;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--covision-surface-bg) !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
+  -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(100%) !important;
+  backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem))) saturate(100%) !important;
 }
 
 .lead {

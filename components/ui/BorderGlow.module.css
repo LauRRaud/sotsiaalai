@@ -231,6 +231,50 @@
   box-shadow: none !important;
 }
 
+:global(html[data-contrast="hc"]) .card:global(.ui-glow-field),
+:global(html[data-contrast="hc"]) .card:global(.invite-glow-field),
+:global(html[data-contrast="hc"]) .card:global(.materials-comment-glow-field),
+:global(html[data-contrast="hc"]) .card:global(.covision-glow-field),
+:global(html[data-contrast="hc"]) .card:global(.service-map-toolbar__glow-field),
+:global(html[data-contrast="hc"]) .card:global(.service-profile-glow-field) {
+  --card-bg: var(--hc-field-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
+  background: var(--hc-field-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
+  color: var(--hc-accent, #ffea00) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.ui-glow-field):is(:hover, :focus-within),
+:global(html[data-contrast="hc"]) .card:global(.invite-glow-field):is(:hover, :focus-within),
+:global(html[data-contrast="hc"]) .card:global(.materials-comment-glow-field):is(:hover, :focus-within),
+:global(html[data-contrast="hc"]) .card:global(.covision-glow-field):is(:hover, :focus-within),
+:global(html[data-contrast="hc"]) .card:global(.service-map-toolbar__glow-field):is(:hover, :focus-within),
+:global(html[data-contrast="hc"]) .card:global(.service-profile-glow-field):is(:hover, :focus-within) {
+  --card-bg: var(--hc-field-bg-focus, var(--hc-field-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72)))) !important;
+  background: var(--hc-field-bg-focus, var(--hc-field-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72)))) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.invite-list-panel) {
+  background: var(--hc-panel-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
+  border: 2px solid rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.invite-list-panel):is(:hover, :focus-within) {
+  background: var(--hc-panel-bg, var(--hc-control-bg, rgba(14, 20, 32, 0.72))) !important;
+  border-color: rgba(255, 234, 0, 0.72) !important;
+  box-shadow: none !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.invite-list-panel)::before,
+:global(html[data-contrast="hc"]) .card:global(.invite-list-panel)::after,
+:global(html[data-contrast="hc"]) .card:global(.invite-list-panel) > .edgeLight {
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 :global(html[data-contrast="hc"]) .card:global(.profile-orbit-menu__item),
 :global(html[data-contrast="hc"]) .card:global(.profile-orbit-mobile-action),
 :global(html[data-contrast="hc"]) .card:global(.profile-orbit-stack-bubble) {

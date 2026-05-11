@@ -37,11 +37,10 @@ import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/w
 
 const documentsTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static documents-mobile-title ${glassPageTitleClassName} ` +
-  `w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
-const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]"
+  `w-full !mt-0 !mb-0 max-[768px]:!mt-0 max-[768px]:!mb-0`
 const mobileTitleWrapClassName =
   "documents-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
+const backButtonClassName = `${glassPageBackTopLeftClassName} documents-scroll-back-button !z-[30] pointer-events-auto`
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 const pageBackTiltClassName =
   "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
@@ -607,8 +606,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
       <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
-        <div className="documents-grid">
-          <section className={`documents-panel documents-panel--primary documents-page-shell ${workspaceGuidePanelScrollClassName} !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
+        <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
+          <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
             <BackButton
               onClick={handleBack}
               ariaLabel={t("buttons.back")}
@@ -624,12 +623,12 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
               />
             ) : null}
+            <header className="documents-page-shell-title-row invite-modal-title-wrap mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]">
+              <div className={mobileTitleWrapClassName}>
+                <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
+              </div>
+            </header>
             <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-              <header className={headerClassName}>
-                <div className={mobileTitleWrapClassName}>
-                  <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
-                </div>
-              </header>
               <div className="documents-section-description documents-library-description">
                 <div className="documents-library-copy">
                   <p className="documents-library-summary">

@@ -906,22 +906,28 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-workspace {
   --service-map-glass-bg: var(
-    --glass-surface-bg,
+    --glass-ring-surface-bg,
+    var(
+      --glass-surface-bg,
+      rgba(0, 0, 0, 0.25)
+    )
+  );
+  --service-map-panel-glass-bg: var(
+    --service-map-glass-bg
+  );
+  --service-map-panel-glass-overlay-bg: transparent;
+  --service-map-control-glass-bg: var(
+    --subpage-card-bg,
+    var(--service-map-glass-bg)
+  );
+  --service-map-control-glass-bg-hover: var(
+    --subpage-card-bg-hover,
+    var(--service-map-control-glass-bg)
+  );
+  --service-map-popup-glass-bg: var(
+    --workspace-feature-surface-strong,
     rgba(0, 0, 0, 0.25)
   );
-  --service-map-panel-glass-bg: var(--glass-ring-sheen, none), var(--service-map-glass-bg);
-  --service-map-panel-glass-overlay-bg: transparent;
-  --service-map-control-glass-bg: color-mix(
-    in srgb,
-    var(--service-map-glass-bg) 78%,
-    transparent
-  );
-  --service-map-control-glass-bg-hover: color-mix(
-    in srgb,
-    var(--service-map-glass-bg) 86%,
-    transparent
-  );
-  --service-map-popup-glass-bg: rgba(32, 36, 43, 0.82);
   --service-map-glass-shadow: var(
     --glass-shell-shadow,
     var(--workspace-feature-shadow, 0 18px 38px rgba(2, 6, 14, 0.24))
@@ -932,15 +938,17 @@ html[data-contrast="hc"] body.service-map-page-active {
     var(--workspace-feature-text, #f2f2f2) 14%,
     transparent
   );
-  --service-map-glass-blur: var(--glass-blur-radius, 1rem);
+  --service-map-glass-blur: var(--glass-modal-blur, var(--glass-blur-radius, 1rem));
   --service-map-control-shadow: var(--btn-primary-shadow);
   --service-map-control-shadow-hover: var(--btn-primary-shadow-hover);
   --service-map-panel-top: 0.7rem;
-  --service-map-panel-height: 4.7rem;
+  --service-map-panel-height: 7.83rem;
   --service-map-map-panel-gap: 0.6rem;
   --service-map-map-top: calc(var(--service-map-panel-top) + var(--service-map-panel-height) + var(--service-map-map-panel-gap));
   --service-map-map-bottom-gap: 0.85rem;
   --service-map-map-max-height: 48rem;
+  --service-map-results-row-height: 3.24rem;
+  --service-map-summary-row-height: 3.24rem;
   position: relative;
   min-height: 100%;
   height: 100%;
@@ -956,19 +964,12 @@ html[data-contrast="hc"] body.service-map-page-active {
   background: transparent !important;
 }
 
-:root.theme-mid .service-map-workspace {
-  --service-map-control-glass-bg: var(--mid-pill-surface-bg);
-  --service-map-control-glass-bg-hover: var(--mid-pill-surface-bg-hover);
-  --service-map-glass-border: var(--mid-pill-surface-border, rgba(126, 95, 88, 0.16));
-  --service-map-glass-shadow: var(--mid-shell-soft-shadow, var(--btn-primary-shadow));
-}
-
-.service-map-workspace:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
+.service-map-workspace--toolbar-feedback {
   --service-map-map-bottom-gap: 1.15rem;
   --service-map-map-max-height: 48rem;
 }
 
-.service-map-workspace:has(.service-map-toolbar__results) .service-map-workspace__filters-shell {
+.service-map-workspace--toolbar-feedback .service-map-workspace__filters-shell {
   align-items: flex-start;
   padding-bottom: 0.38rem;
 }
@@ -1011,7 +1012,6 @@ html[data-contrast="hc"] body.service-map-page-active {
   width: fit-content;
   max-width: calc(100vw - 2rem);
   transform: translateX(-50%);
-  transition: opacity 120ms ease;
 }
 
 .service-map-workspace__filters--collapsed {
@@ -1032,12 +1032,14 @@ html[data-contrast="hc"] body.service-map-page-active {
   min-height: 4.25rem;
   border: 0 !important;
   border-radius: 1.18rem;
-  background: var(--service-map-panel-glass-bg);
+  background:
+    var(--glass-ring-sheen, none),
+    var(--service-map-panel-glass-bg);
   color: var(--workspace-feature-text);
   padding: 0.56rem 0.5rem 0.66rem 0.28rem;
   box-shadow: var(--service-map-panel-shadow) !important;
-  backdrop-filter: blur(var(--service-map-glass-blur)) saturate(156%) contrast(0.98) !important;
-  -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(156%) contrast(0.98) !important;
+  backdrop-filter: blur(var(--service-map-glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) !important;
   isolation: isolate;
   overflow: visible;
   transition:
@@ -1050,15 +1052,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-workspace__filters-shell::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background: var(--service-map-panel-glass-overlay-bg);
-  backdrop-filter: blur(calc(var(--service-map-glass-blur) * 1.45)) saturate(156%) contrast(0.98) !important;
-  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur) * 1.45)) saturate(156%) contrast(0.98) !important;
-  pointer-events: none;
+  content: none;
 }
 
 .service-map-workspace__filters--collapsed .service-map-workspace__filters-shell {
@@ -1100,7 +1094,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   margin-top: -0.28rem;
 }
 
-.service-map-workspace:has(.service-map-toolbar__results) .service-map-toolbar__back {
+.service-map-workspace--toolbar-feedback .service-map-toolbar__back {
   margin-top: -0.34rem;
 }
 
@@ -1143,7 +1137,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   max-width: 100%;
   min-width: 0;
   padding-right: 0;
-  transition: opacity 90ms ease;
 }
 
 .service-map-workspace__filters--collapsed .service-map-toolbar__content {
@@ -1191,14 +1184,17 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   grid-column: 1 / -1;
   align-self: start;
   justify-items: center;
+  align-content: start;
   min-width: 0;
+  min-height: var(--service-map-results-row-height);
   max-width: 100%;
   width: 100%;
   transform: translateX(-1.9rem);
 }
 
 .service-map-toolbar__resultsblock:empty {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .service-map-workspace__toggle {
@@ -1258,8 +1254,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   border: 1px solid var(--service-map-glass-border);
   background: var(--service-map-control-glass-bg);
   box-shadow: 0 0.55rem 1rem rgba(0, 0, 0, 0.13);
-  backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
-  -webkit-backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
+  backdrop-filter: blur(var(--service-map-glass-blur));
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur));
 }
 
 .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,
@@ -1281,8 +1277,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   box-shadow:
     0 0.72rem 1.35rem rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
-  -webkit-backdrop-filter: blur(42px) saturate(170%) contrast(0.96);
+  backdrop-filter: blur(var(--service-map-glass-blur));
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur));
   transform: translateY(-50%);
   pointer-events: auto;
 }
@@ -1491,8 +1487,12 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-toolbar__summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   align-self: center;
   min-width: 0;
+  min-height: var(--service-map-summary-row-height);
   max-width: min(38rem, 100%);
   margin: 0;
   text-align: center;
@@ -1511,7 +1511,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   min-width: 0;
   width: 100%;
   min-height: 0;
-  max-height: 3.24rem;
+  height: var(--service-map-results-row-height);
+  max-height: var(--service-map-results-row-height);
   gap: 0.34rem;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1733,8 +1734,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
   overflow: hidden;
   background-clip: padding-box;
-  backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
-  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
+  backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
 }
 
 .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
@@ -1745,8 +1746,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   border-radius: inherit;
   background-color: var(--service-map-popup-glass-bg);
   background-image: var(--glass-ring-sheen, none);
-  backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
-  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.65)) saturate(164%) contrast(0.98);
+  backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
   pointer-events: none;
 }
 
@@ -1767,8 +1768,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   );
   background-image: var(--glass-ring-sheen, none);
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
-  backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.35)) saturate(160%) contrast(0.98);
-  -webkit-backdrop-filter: blur(calc(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)) * 1.35)) saturate(160%) contrast(0.98);
+  backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
 }
 
 .service-map-leaflet__popup.leaflet-popup {
@@ -2114,12 +2115,18 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 }
 
 @media (max-width: 1180px) {
+  .service-map-workspace {
+    --service-map-panel-height: 11.18rem;
+  }
+
   .service-map-workspace__map {
     width: min(calc(100vw - 4rem), 72rem);
   }
 
   .service-map-workspace__filters {
     --service-map-panel-top: 0.72rem;
+    --service-map-results-row-height: 3.1rem;
+    --service-map-summary-row-height: 3.1rem;
     top: var(--service-map-panel-top);
     width: min(calc(100vw - 2rem), 72rem);
     max-width: calc(100vw - 2rem);
@@ -2199,32 +2206,17 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     --service-map-mobile-control-size: 3.12rem;
     --service-map-mobile-control-top: 0.34rem;
     --service-map-mobile-filters-pad-top: 3.8rem;
+    --service-map-results-row-height: min(30dvh, 15.25rem);
+    --service-map-summary-row-height: 3.35rem;
     --service-map-mobile-toggle-shadow:
       0 0.24rem 0.48rem rgba(0, 0, 0, 0.13),
       inset 0 1px 0 rgba(255, 255, 255, 0.16);
     border-radius: inherit;
   }
 
-  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .service-map-workspace {
-    --service-map-popup-glass-bg: rgba(24, 28, 36, 0.84);
-    --service-map-control-glass-bg: rgba(28, 33, 43, 0.8);
-    --service-map-control-glass-bg-hover: rgba(34, 39, 50, 0.86);
-    --service-map-glass-border: rgba(235, 245, 255, 0.18);
-    --service-map-glass-shadow: 0 16px 28px rgba(0, 0, 0, 0.26);
-  }
-
-  :root.theme-night .service-map-workspace {
-    --service-map-popup-glass-bg: rgba(16, 22, 34, 0.86);
-    --service-map-control-glass-bg: rgba(18, 25, 38, 0.84);
-    --service-map-control-glass-bg-hover: rgba(24, 32, 47, 0.9);
-    --service-map-glass-border: rgba(238, 247, 255, 0.18);
-    --service-map-glass-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
-  }
-
   html[data-contrast="hc"] .service-map-workspace,
   :root[data-contrast="hc"] .service-map-workspace {
     --service-map-panel-glass-bg: #000;
-    --service-map-panel-glass-overlay-bg: #000;
     --service-map-control-glass-bg: #000;
     --service-map-control-glass-bg-hover: #000;
     --service-map-glass-border: var(--hc-accent, #ffea00);
@@ -2288,7 +2280,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     overflow-x: hidden;
   }
 
-  .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
+  .service-map-workspace__filters-shell--toolbar-feedback {
     gap: 0.5rem;
     padding-bottom: 0.46rem;
   }
@@ -2433,7 +2425,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     justify-items: center;
     gap: 0.34rem;
     min-height: 0;
-    max-height: min(30dvh, 15.25rem);
+    height: var(--service-map-results-row-height);
+    max-height: var(--service-map-results-row-height);
     overflow-x: hidden;
     overflow-y: auto;
     padding: 0.08rem 0.12rem 0.12rem;
@@ -2543,7 +2536,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.78rem;
   }
 
-  .service-map-workspace__filters-shell:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
+  .service-map-workspace__filters-shell--toolbar-feedback {
     gap: 0.44rem;
     padding-bottom: 0.48rem;
   }

@@ -60,7 +60,7 @@ const titleWrapClassName =
   "workspace-feature-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 
 const contentClassName =
-  `workspace-feature-content ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
+  `workspace-feature-content relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
 
 const cardClassName =
   `workspace-feature-card ${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.95rem] max-[768px]:px-[0.9rem] max-[768px]:py-[0.82rem]`;
@@ -1480,7 +1480,13 @@ function ServiceMapSurface({
   const panelCollapsed = isMobilePanel && !panelOpen;
 
   return (
-    <div ref={workspaceRef} className="service-map-workspace">
+    <div
+      ref={workspaceRef}
+      className={cn(
+        "service-map-workspace",
+        "service-map-workspace--toolbar-feedback"
+      )}
+    >
       <BackButton
         onClick={handleServiceMapBack}
         ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -1496,11 +1502,10 @@ function ServiceMapSurface({
       >
         <div
           ref={filtersShellRef}
-          className="service-map-workspace__filters-shell"
-          style={{
-            backdropFilter: "blur(34px) saturate(176%) contrast(0.98)",
-            WebkitBackdropFilter: "blur(34px) saturate(176%) contrast(0.98)"
-          }}
+          className={cn(
+            "service-map-workspace__filters-shell",
+            "service-map-workspace__filters-shell--toolbar-feedback"
+          )}
         >
           <div className="service-map-toolbar__identity">
             <BackButton
@@ -1557,7 +1562,6 @@ function ServiceMapSurface({
                     checked={entryType === value}
                     onChange={(event) => setEntryType(event.target.value)}
                     className={serviceMapChoiceCardClassName}
-                    fitTextLines={2}
                   >
                     <span className="service-map-toolbar__type-label text-center [text-wrap:balance]">{label}</span>
                   </OptionCard>
@@ -1609,10 +1613,6 @@ function ServiceMapSurface({
         <button
           type="button"
           className="service-map-workspace__toggle"
-          style={{
-            backdropFilter: "blur(26px) saturate(160%)",
-            WebkitBackdropFilter: "blur(26px) saturate(160%)"
-          }}
           aria-expanded={panelOpen}
           aria-label={panelOpen
             ? readText(t, "workspace_feature_pages.service_map.actions.hide_filters", "Peida filtrid")
@@ -2199,31 +2199,31 @@ export default function WorkspaceFeaturePage({ feature }) {
         isClosing && !isServiceMap ? "workspace-guide-panel--collapse" : null,
         isClosing ? workspaceBackTiltClassName : null
       )}>
-        {!isServiceMap ? (
-          <BackButton
-            onClick={handleBack}
-            ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-            holdPressedVisualDisabled
-            className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
-          />
-        ) : null}
-        {showAdminRoleSelector ? (
-          <AdminRoleSelector
-            t={t}
-            locale={locale}
-            value={activeWorkspaceRole}
-            onChange={handleAdminWorkspaceRoleChange}
-            className="workspace-feature-admin-role--floating"
-          />
-        ) : null}
+        <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content relative" : contentClassName)}>
+          {!isServiceMap ? (
+            <BackButton
+              onClick={handleBack}
+              ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+              holdPressedVisualDisabled
+              className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
+            />
+          ) : null}
+          {showAdminRoleSelector ? (
+            <AdminRoleSelector
+              t={t}
+              locale={locale}
+              value={activeWorkspaceRole}
+              onChange={handleAdminWorkspaceRoleChange}
+              className="workspace-feature-admin-role--floating"
+            />
+          ) : null}
 
-        <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
-          <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
-            <h1 className={cn(titleClassName, isServiceMap && "service-map-page-title")}>{title}</h1>
-          </div>
-        </header>
+          <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
+            <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
+              <h1 className={cn(titleClassName, isServiceMap && "service-map-page-title")}>{title}</h1>
+            </div>
+          </header>
 
-        <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content" : contentClassName)}>
           {lead && !isServiceMap && activeWorkspaceRole === "CLIENT" ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}

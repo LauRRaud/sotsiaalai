@@ -54,7 +54,7 @@ const surfaceClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]`;
 
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static covision-mobile-title ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -933,20 +933,20 @@ export default function CovisionPage() {
             : null
         )}
       >
-        <BackButton
-          onClick={handleBack}
-          ariaLabel="Tagasi"
-          holdPressedVisualDisabled
-          className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
-        />
-
-        <header className="mb-[0.25rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <div className="covision-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-            <h1 className={pageTitleClassName}>Kovisioon</h1>
-          </div>
-        </header>
-
         <div className={bodyClassName}>
+          <BackButton
+            onClick={handleBack}
+            ariaLabel="Tagasi"
+            holdPressedVisualDisabled
+            className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
+          />
+
+          <header className="mb-[0.25rem] flex w-full items-start justify-center gap-[0.75rem]">
+            <div className="covision-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+              <h1 className={pageTitleClassName}>Kovisioon</h1>
+            </div>
+          </header>
+
           <p className={cn(styles.lead, "mx-auto m-0 max-w-[58rem] text-left text-[1.06rem] leading-[1.54] max-[768px]:text-[1rem]")}>
             Kovisioon on turvaline tööruum, kus spetsialistid saavad anonüümselt sõnastatud juhtumeid arutada, vaatenurki koguda ja järgmisi samme kokku leppida. Praktikanäited koondavad lühikesed üldistatud õppetunnid lahendustest, mis on töös päriselt aidanud.
           </p>

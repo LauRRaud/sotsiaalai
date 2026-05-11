@@ -82,6 +82,18 @@ test("workspace card navigation keeps the chat surface in workspace shape until 
   );
   assert.match(
     navigateToMatch[1],
+    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0/
+  );
+  assert.match(
+    workspaceSource,
+    /WORKSPACE_PANEL_MORPH_EXPAND_MS/
+  );
+  assert.match(
+    readSource("lib/workspacePanelMorph.js"),
+    /export const WORKSPACE_PANEL_MORPH_EXPAND_MS = 720;/
+  );
+  assert.match(
+    navigateToMatch[1],
     /pushWithTransition\(router,\s*localizePath\(path,\s*locale\),\s*\{[\s\S]*?workspacePanelMorph:\s*shouldRestoreWorkspace \? "expand" : undefined/
   );
 
@@ -105,6 +117,26 @@ test("help listings opened from workspace return to a settled workspace", () => 
   assert.match(chatBodySource, /const restoreWorkspaceFromSharedPanel = useCallback\(\(\) => \{[\s\S]*?workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(false\);[\s\S]*?setWorkspaceReturnMorphing\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?setWorkspaceOpen\(true\);/);
   assert.doesNotMatch(chatBodySource, /const PANEL_TILT_CLOSE_MS = 540;/);
   assert.match(chatBodySource, /listingsPanelCloseTimerRef\.current = window\.setTimeout\(/);
+});
+
+test("workspace return morph keeps border radius out of the transition", () => {
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const cssSource = readSource("app/styles/components/chat-focus.css");
+
+  assert.match(chatBodySource, /chat-container--workspace-return-morph/);
+  assert.match(chatBodySource, /const WORKSPACE_RETURN_MORPH_SETTLE_MS = 760;/);
+  assert.match(
+    chatBodySource,
+    /setWorkspaceReturnTransitioning\(false\);[\s\S]*?WORKSPACE_RETURN_MORPH_SETTLE_MS/
+  );
+  assert.match(
+    cssSource,
+    /\.chat-container\.chat-container--round\.chat-container--workspace-open\.chat-container--workspace-return-morph\s*\{[\s\S]*?transition:[\s\S]*?width 680ms[\s\S]*?transform 680ms[\s\S]*?!important;[\s\S]*?\}/
+  );
+  assert.doesNotMatch(
+    cssSource,
+    /\.chat-container\.chat-container--round\.chat-container--workspace-open\.chat-container--workspace-return-morph\s*\{[\s\S]*?border-top-left-radius/
+  );
 });
 
 test("workspace subpage back controls mark the dashboard for instant restore", () => {

@@ -48,15 +48,14 @@ import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/w
 
 const agentTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static agent-mobile-title ` +
-  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`
-const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]"
-  const mobileTitleWrapClassName =
-    "agent-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-  const backButtonClassName = `${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`
-  const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
-  const pageBackTiltClassName =
-    "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
-  const heroBodyClassName =
+  `${glassPageTitleClassName} w-full !mt-0 !mb-0 max-[768px]:!mt-0 max-[768px]:!mb-0`
+const mobileTitleWrapClassName =
+  "agent-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
+const backButtonClassName = `${glassPageBackTopLeftClassName} documents-scroll-back-button !z-[30] pointer-events-auto`
+const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
+const pageBackTiltClassName =
+  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
+const heroBodyClassName =
   "grid gap-[1.05rem] px-[0.78rem] pt-[0.9rem] pb-[0.4rem] max-[768px]:gap-[0.95rem] max-[768px]:px-[0.05rem]"
 const agentPrimaryButtonClassName =
   "drawer-pill-btn invite-primary-btn documents-primary-button !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
@@ -1584,7 +1583,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
       <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
-        <section className={`documents-panel documents-panel--primary documents-page-shell ${workspaceGuidePanelScrollClassName} !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
+        <section className={`documents-panel documents-panel--primary documents-page-shell documents-page-shell--content ${workspaceGuidePanelScrollClassName} !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
           <BackButton
             onClick={handleBack}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}
@@ -1600,12 +1599,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
               ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
             />
           ) : null}
+          <header className="documents-page-shell-title-row invite-modal-title-wrap mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]">
+            <div className={mobileTitleWrapClassName}>
+              <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
+            </div>
+          </header>
           <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-            <header className={headerClassName}>
-              <div className={mobileTitleWrapClassName}>
-                <h1 className={agentTitleClassName}>{t("chat.tools.agent_mode")}</h1>
-              </div>
-            </header>
             <div className={heroBodyClassName}>
               <p className="documents-page-description documents-agent-page-description">{introText}</p>
             </div>

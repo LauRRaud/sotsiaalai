@@ -18,10 +18,7 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/privaatsustingimused",
   "/hinnastus",
   "/voimalused",
-  "/teenusekaart",
-  "/kovisioon",
-  "/documents",
-  "/dokreziim"
+  "/teenusekaart"
 ]);
 const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
 const PARTICLES_EXCLUDED_PATHS = new Set([
@@ -272,12 +269,8 @@ const BackgroundContent = memo(function BackgroundContent({
       raf = 0;
       const y = resolveScrollY();
       const spaceY = -clamp(y * 0.07, 0, 160);
-      const bendsOpacity = isHomepage
-        ? (1 - clamp((y - 240) / 220, 0, 1)) * colorBendsOpacity
-        : colorBendsOpacity;
       const particlesY = -clamp(y * 0.15, 0, 260);
       el.style.setProperty("--saai-parallax-space", `${spaceY.toFixed(2)}px`);
-      el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
       el.style.setProperty("--saai-parallax-particles", `${particlesY.toFixed(2)}px`);
       el.style.setProperty("--saai-bg-dim", "0");
     };
@@ -310,7 +303,8 @@ const BackgroundContent = memo(function BackgroundContent({
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
-    if (!isHomepage || !mobileBackgroundMode) return;
+    el.style.setProperty("--saai-bends-opacity", String(colorBendsOpacity));
+    if (!isHomepage) return;
     let raf = 0;
     let homepageRoot = null;
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -342,11 +336,15 @@ const BackgroundContent = memo(function BackgroundContent({
         window.innerHeight ||
         document.documentElement.clientHeight ||
         1;
-      const fadeStart = Math.min(120, viewportHeight * 0.16);
-      const fadeDistance = Math.max(220, viewportHeight * 0.48);
-      const progress = clamp((y - fadeStart) / fadeDistance, 0, 1);
-      const floorOpacity = colorBendsOpacity * MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;
-      const bendsOpacity = colorBendsOpacity - progress * (colorBendsOpacity - floorOpacity);
+      const bendsOpacity = mobileBackgroundMode
+        ? (() => {
+            const fadeStart = Math.min(120, viewportHeight * 0.16);
+            const fadeDistance = Math.max(220, viewportHeight * 0.48);
+            const progress = clamp((y - fadeStart) / fadeDistance, 0, 1);
+            const floorOpacity = colorBendsOpacity * MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;
+            return colorBendsOpacity - progress * (colorBendsOpacity - floorOpacity);
+          })()
+        : (1 - clamp((y - 240) / 220, 0, 1)) * colorBendsOpacity;
       el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
     };
     const onScroll = () => {

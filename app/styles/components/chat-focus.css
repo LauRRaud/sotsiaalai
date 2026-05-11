@@ -533,6 +533,21 @@ html[data-contrast="hc"]
   }
 
   .chat-page-shell
+    .chat-container.chat-container--round.chat-container--workspace-open.chat-container--workspace-return-morph {
+    border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+    transition:
+      width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-width 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      min-height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      max-height 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      inline-size 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      block-size 680ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      transform 680ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+
+  .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-window,
   .chat-page-shell

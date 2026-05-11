@@ -70,7 +70,15 @@ test("HC panels define actual yellow borders, not only border color", () => {
   assert.match(serviceMap, /\.workspace-feature-card[\s\S]*?\{[\s\S]*?border:\s*2px solid var\(--hc-accent/);
   assert.match(
     hc,
-    /\.workspace-feature-card,[\s\S]*?\.selected-listing-panel--inline[\s\S]*?\{[\s\S]*?background:\s*var\(--hc-control-bg\)\s*!important/
+    /--hc-control-bg:\s*var\(--chat-card-surface-night-standard-bg\)/
+  );
+  assert.match(
+    hc,
+    /--workspace-elevated-card-bg:\s*var\(--hc-panel-bg\)/
+  );
+  assert.match(
+    hc,
+    /\.workspace-feature-card,[\s\S]*?\.selected-listing-panel--inline[\s\S]*?\{[\s\S]*?background:\s*var\(--hc-panel-bg\)\s*!important/
   );
   assert.match(documents, /\.documents-workspace-card[\s\S]*?\.documents-content[\s\S]*?\{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(
@@ -82,6 +90,70 @@ test("HC panels define actual yellow borders, not only border color", () => {
   assert.match(documents, /\.documents-page-shell\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?border:\s*0\s*!important/);
   assert.match(documents, /\\!border-0[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0/);
   assert.match(covision, /\.sectionPanel,[\s\S]*?\.confirmBox\s*\{[\s\S]*?border-style:\s*solid\s*!important/);
+});
+
+test("HC glow fields stay dark on hover and hide edge light overlays", () => {
+  const hc = read("app/styles/theme/hc.css");
+  const glass = read("app/styles/components/glass.css");
+  const borderGlow = read("components/ui/BorderGlow.module.css");
+  const hoverIndex = hc.indexOf("):is(:hover, :focus, :focus-within, :focus-visible, :active) {");
+  const hoverBlock = hc.slice(hoverIndex, hc.indexOf("\n}", hoverIndex) + 2);
+
+  assert.match(hc, /--hc-field-bg:\s*var\(--hc-control-bg\)/);
+  assert.match(hc, /--input-bg-hover:\s*var\(--hc-field-bg-hover\)/);
+  assert.match(hc, /--input-bg-focus:\s*var\(--hc-field-bg-focus\)/);
+  assert.match(hoverBlock, /background:\s*var\(--hc-field-bg-focus\)\s*!important/);
+  assert.doesNotMatch(hoverBlock, /--hc-control-bg-hover/);
+  assert.match(
+    hc,
+    /\.ui-glow-field,[\s\S]*?\.invite-glow-field,[\s\S]*?\) > :is\(\.edgeLight,\s*\[class\*="edgeLight"\]\) \{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.match(
+    glass,
+    /html\[data-contrast="hc"\] \.ui-glow-field > \.edgeLight,[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.match(
+    glass,
+    /html\[data-contrast="hc"\] \.ui-glow-field:hover \{[\s\S]*?background:\s*var\(--hc-field-bg-hover/
+  );
+  assert.match(
+    borderGlow,
+    /:global\(html\[data-contrast="hc"\]\) \.card:global\(\.ui-glow-field\),[\s\S]*?background:\s*var\(--hc-field-bg/
+  );
+  assert.match(
+    borderGlow,
+    /\.card:global\(\.ui-glow-field\):is\(:hover,\s*:focus-within\),[\s\S]*?background:\s*var\(--hc-field-bg-focus/
+  );
+});
+
+test("HC invite modal list panel keeps a yellow border over glow panel defaults", () => {
+  const hc = read("app/styles/theme/hc.css");
+  const borderGlow = read("components/ui/BorderGlow.module.css");
+
+  assert.match(
+    hc,
+    /html\[data-contrast="hc"\] body \.invite-list-panel \{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+  );
+  assert.match(
+    hc,
+    /\.invite-list-panel:is\(:hover,\s*:focus-within,\s*:focus-visible,\s*:active\) \{[\s\S]*?border-color:\s*rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+  );
+  assert.match(
+    hc,
+    /\.invite-list-panel::before,[\s\S]*?\.invite-list-panel::after,[\s\S]*?\.invite-list-panel > :is\(\.edgeLight,\s*\[class\*="edgeLight"\]\) \{[\s\S]*?display:\s*none\s*!important/
+  );
+  assert.match(
+    hc,
+    /html\[data-contrast="hc"\] body :is\([\s\S]*?\.invite-modal-content,[\s\S]*?\.person-invite-modal-content[\s\S]*?\) \.invite-list-panel\.invite-glow-panel \{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+  );
+  assert.match(
+    borderGlow,
+    /\.card:global\(\.invite-list-panel\) \{[\s\S]*?border:\s*2px solid rgba\(255,\s*234,\s*0,\s*0\.72\)\s*!important/
+  );
+  assert.match(
+    borderGlow,
+    /\.card:global\(\.invite-list-panel\)::before,[\s\S]*?\.card:global\(\.invite-list-panel\)::after,[\s\S]*?display:\s*none\s*!important/
+  );
 });
 
 test("HC left and right rail icon buttons stay transparent", () => {

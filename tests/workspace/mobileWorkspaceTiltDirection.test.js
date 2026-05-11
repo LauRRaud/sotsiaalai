@@ -21,7 +21,7 @@ test("workspace dashboard card navigation does not close or tilt the chat surfac
   );
   assert.match(
     navigateToMatch[1],
-    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_DELAY_MS : 0/
+    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0/
   );
 });
 

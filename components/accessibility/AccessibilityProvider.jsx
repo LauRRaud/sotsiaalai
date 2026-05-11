@@ -22,7 +22,7 @@ const UI_PROFILE_STORAGE_KEY = "sotsiaalai.uiProfile";
 let themeSwitchClearTimer = null;
 
 function resolveThemeChromeColor(theme, contrast = "normal") {
-  if (contrast === "hc") return "#000000";
+  if (contrast === "hc") return "#10151d";
   if (theme === "light") return "#f4f2ee";
   if (theme === "mid") return "#d7c6c0";
   if (theme === "night") return "#0e1420";

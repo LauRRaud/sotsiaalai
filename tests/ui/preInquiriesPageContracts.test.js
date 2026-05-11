@@ -96,6 +96,11 @@ test("workspace feature panels keep a stable desktop footprint across role views
     /workspaceGuidePanelClassName/
   );
   assert.match(source, /workspace-feature-content/);
+  assert.match(source, /workspace-feature-content relative/);
+  assert.match(
+    source,
+    /<div className=\{cn\(isServiceMap \? "workspace-feature-content service-map-page-content relative" : contentClassName\)\}>[\s\S]*?<BackButton[\s\S]*?<header/
+  );
   assert.match(source, /overflow-hidden/);
   assert.doesNotMatch(source, /!max-w-\[66rem\]/);
 });
@@ -105,11 +110,15 @@ test("workspace-launched feature pages keep their scroll content unmasked", () =
 
   assert.match(
     css,
-    /\.workspace-feature-page-shell,[\s\S]*?\.documents-workspace-page--documents,[\s\S]*?\.documents-workspace-page--agent,[\s\S]*?\.covision-page-shell,[\s\S]*?\.help-listings-modal-content--workspace[\s\S]*?\.workspace-guide-panel-scroll\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
+    /\.workspace-feature-page-shell,[\s\S]*?\.covision-page-shell,[\s\S]*?\.invite-modal-content--workspace,[\s\S]*?\.help-listings-modal-content--workspace[\s\S]*?\.workspace-guide-panel-scroll\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
   );
-  assert.match(
+  assert.doesNotMatch(
     css,
     /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s*\{[\s\S]*?overflow:\s*hidden\s*!important;/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.documents-page-shell\.workspace-guide-panel-scroll\s*\{[\s\S]*?overflow-y:\s*auto\s*!important;/
   );
 });
 
@@ -130,6 +139,10 @@ test("workspace feature pages use the same desktop width as help listings", () =
   assert.match(source, /workspaceGuidePanelClassName/);
   assert.match(covisionSource, /workspaceGuidePanelClassName/);
   assert.match(materialsSource, /workspaceGuidePanelClassName/);
+  assert.match(covisionSource, /const bodyClassName =[\s\S]*?`relative \$\{workspaceGuidePanelScrollClassName\}/);
+  assert.match(materialsSource, /materials-page-body relative \$\{workspaceGuidePanelScrollClassName\}/);
+  assert.match(covisionSource, /<div className=\{bodyClassName\}>[\s\S]*?<BackButton[\s\S]*?<header/);
+  assert.match(materialsSource, /materials-page-body relative[\s\S]*?<BackButton[\s\S]*?<header/);
   assert.doesNotMatch(source, /workspace-feature-panel--pre-inquiries/);
   assert.doesNotMatch(css, /workspace-feature-panel--pre-inquiries/);
 });

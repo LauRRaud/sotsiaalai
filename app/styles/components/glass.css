@@ -613,13 +613,16 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
 }
 
 html[data-contrast="hc"] .ui-glow-field {
-  background: #000 !important;
+  background: var(--hc-field-bg, var(--hc-control-bg, #10151d)) !important;
   box-shadow: inset 0 0 0 2px var(--hc-accent, #ffea00) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-field > .edgeLight,
 html[data-contrast="hc"] .ui-glow-field > [class*="edgeLight"] {
-  display: block !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 html[data-contrast="hc"] :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame) {
@@ -633,6 +636,7 @@ html[data-contrast="hc"] :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-opt
 }
 
 html[data-contrast="hc"] .ui-glow-field:hover {
+  background: var(--hc-field-bg-hover, var(--hc-field-bg, var(--hc-control-bg, #10151d))) !important;
   box-shadow:
     inset 0 0 0 2px rgba(255, 234, 0, 0.72),
     0 0 2px rgba(255, 234, 0, 0.28),
