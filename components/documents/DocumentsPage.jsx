@@ -12,7 +12,13 @@ import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
+import {
+  glassPageBackTopLeftClassName,
+  glassPageTitleClassName,
+  glassPrimaryButtonToneClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName
+} from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, DOCUMENT_LIST_LIMIT, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
@@ -27,6 +33,7 @@ import {
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const documentsTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static documents-mobile-title ${glassPageTitleClassName} ` +
@@ -439,15 +446,20 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     if (isClosing) return
     setIsClosing(true)
     markChatWorkspaceRestore()
+    markWorkspacePanelMorph("collapse", "/vestlus")
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
     })
   }, [isClosing, locale, router])
@@ -587,16 +599,16 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) {
     return (
       <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-        <div className="documents-workspace-shell documents-workspace-shell--documents" />
+        <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName}`} />
       </section>
     )
   }
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      <div className={`documents-workspace-shell documents-workspace-shell--documents ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
         <div className="documents-grid">
-          <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
+          <section className={`documents-panel documents-panel--primary documents-page-shell ${workspaceGuidePanelScrollClassName} !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
             <BackButton
               onClick={handleBack}
               ariaLabel={t("buttons.back")}

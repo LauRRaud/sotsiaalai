@@ -94,6 +94,12 @@ export const glassSubpageCardInteractiveClassName =
 export const glassSubpageSurfaceScopeClassName =
   "glass-subpage-surface [--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
 
+export const workspaceGuidePanelClassName =
+  "workspace-guide-panel glass-subpage-surface [--glass-modal-text:var(--subpage-card-text,var(--glass-modal-text,var(--glass-surface-text,#f2f2f2)))]";
+
+export const workspaceGuidePanelScrollClassName =
+  "workspace-guide-panel-scroll min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0";
+
 export const glassSubpageContentWideClassName =
   "mx-auto w-full max-w-[clamp(31rem,62vw,43rem)] max-[768px]:max-w-none";
 

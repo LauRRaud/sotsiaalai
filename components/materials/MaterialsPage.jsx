@@ -18,11 +18,13 @@ import {
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageCardClassName,
-  glassSubpageSurfaceScopeClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 
@@ -51,10 +53,6 @@ const materialsMobileInnerWidthClassName =
   "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[20rem]"
 const materialsAdminInnerWidthClassName = materialsMobileInnerWidthClassName
 const materialsDesktopReadableWidthClassName = "mx-auto w-full max-w-[min(48rem,100%)]"
-const materialsDesktopSurfaceWidthClassName =
-  "min-[769px]:!w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] " +
-  "min-[769px]:!min-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] " +
-  "min-[769px]:!max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"
 const materialsUploadSectionClassName =
   "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
   `${materialsMobilePanelWidthClassName} ` +
@@ -72,13 +70,13 @@ const materialsStatusBadgeClassName =
   "inline-flex items-center rounded-full border border-[rgba(148,163,184,0.24)] bg-[rgba(255,255,255,0.08)] px-[0.62rem] py-[0.22rem] text-[0.78rem] font-[620] uppercase tracking-[0.04em]"
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "materials-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-start overflow-hidden overscroll-none bg-transparent px-[1rem] py-[clamp(1rem,3vh,1.75rem)] min-[769px]:!pt-[clamp(3.25rem,6.4vh,4.35rem)] [grid-template-columns:minmax(0,1fr)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0"
+  "materials-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-0 [grid-template-columns:minmax(0,1fr)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0"
 const surfaceClassName =
-  `materials-page-content mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(0.5rem,2vh,1.25rem)] mb-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 flex-col ${materialsDesktopSurfaceWidthClassName} max-h-[calc(100dvh-2rem)] overflow-hidden rounded-[var(--glass-modal-radius)] ` +
+  `materials-page-content mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(0.5rem,2vh,1.25rem)] mb-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 flex-col max-h-[calc(100dvh-2rem)] overflow-hidden rounded-[var(--glass-modal-radius)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] shadow-[var(--glass-shell-shadow,none)] ` +
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
   `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
-  `${glassSubpageSurfaceScopeClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
+  `${workspaceGuidePanelClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   "w-full max-[768px]:!mt-0 max-[768px]:!mb-0"
@@ -302,22 +300,27 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
     if (isClosing) return
     setIsClosing(true)
     markChatWorkspaceRestore()
+    markWorkspacePanelMorph("collapse", "/vestlus")
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
     })
   }, [isClosing, resolvedLocale, router])
 
   return (
     <div className={shellClassName}>
-      <div className={`${surfaceClassName} ${isClosing ? pageBackTiltClassName : ""}`}>
+      <div className={`${surfaceClassName} ${isClosing ? `${pageBackTiltClassName} workspace-guide-panel--collapse` : ""}`}>
         <BackButton
           onClick={handleBack}
           ariaLabel={t("profile.back_to_chat")}
@@ -335,7 +338,7 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
           </div>
         </header>
 
-        <div className={`materials-page-body ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid min-h-0 flex-1 gap-[0.66rem] overflow-x-hidden overflow-y-auto overscroll-contain px-[0.05rem] pt-[0.26rem] pb-[0.25rem] [scrollbar-gutter:stable_both-edges] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`}>
+        <div className={`materials-page-body ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <section className={materialsUploadSectionClassName}>
             <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
               <p className="text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">

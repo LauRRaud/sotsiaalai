@@ -130,11 +130,11 @@ test("covision mobile surface opts into compact full-width glass layout", () => 
   const css = read("components/covision/CovisionPage.module.css");
 
   assert.match(component, /covision-page-surface/);
-  assert.match(component, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
-  assert.match(component, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.match(component, /workspaceGuidePanelClassName/);
+  assert.doesNotMatch(component, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
   assert.match(
     css,
-    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
+    /\.surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size/
   );
   assert.match(
     css,
@@ -161,7 +161,7 @@ test("covision mobile shell does not double offset the glass panel", () => {
   assert.doesNotMatch(component, /max-\[768px\]:py-\[max\(/);
 });
 
-test("covision overview back tilts the visible page without adding route delay", () => {
+test("covision overview back tilts the visible page and waits for panel collapse", () => {
   const component = read("components/covision/CovisionPage.jsx");
 
   assert.match(component, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
@@ -171,5 +171,6 @@ test("covision overview back tilts the visible page without adding route delay",
     component,
     /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/
   );
-  assert.match(component, /pushWithTransition\(router,\s*localizePath\("\/vestlus",\s*locale\),\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/);
+  assert.match(component, /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\);/);
+  assert.match(component, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
 });

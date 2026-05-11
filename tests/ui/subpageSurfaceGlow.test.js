@@ -28,18 +28,20 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
     stylesSource,
     /glassSubpageSurfaceScopeClassName\s*=[\s\S]*?glass-subpage-surface/
   );
-  assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
+  assert.match(stylesSource, /workspaceGuidePanelClassName\s*=[\s\S]*?workspace-guide-panel[\s\S]*?glass-subpage-surface/);
+  assert.match(stylesSource, /workspaceGuidePanelScrollClassName\s*=[\s\S]*?workspace-guide-panel-scroll[\s\S]*?overflow-y-auto/);
+  assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{workspaceGuidePanelClassName\}/);
   assert.match(inviteSource, /invite-modal-content[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
   assert.match(workspaceFeatureSource, /workspace-feature-panel[\s\S]*?overflow-hidden/);
-  assert.match(workspaceFeatureSource, /workspace-feature-content/);
+  assert.match(workspaceFeatureSource, /workspace-feature-content[\s\S]*?\$\{workspaceGuidePanelScrollClassName\}/);
   assert.match(serviceMapCss, /\.workspace-feature-panel:not\(\.service-map-page-panel\) > \.workspace-feature-content\s*\{[\s\S]*?overflow-y:\s*auto/);
   assert.match(materialsSource, /materials-page-content[\s\S]*?overflow-hidden/);
   assert.doesNotMatch(
     materialsSource,
     /materials-page-content[\s\S]*?\[scrollbar-gutter:stable_both-edges\][\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/
   );
-  assert.match(materialsSource, /materials-page-body[\s\S]*?overflow-y-auto/);
-  assert.match(materialsSource, /materials-page-body[\s\S]*?\[scrollbar-gutter:stable_both-edges\]/);
+  assert.match(materialsSource, /materials-page-content[\s\S]*?\$\{workspaceGuidePanelClassName\}/);
+  assert.match(materialsSource, /materials-page-body[\s\S]*?\$\{workspaceGuidePanelScrollClassName\}/);
   assert.match(inviteSource, /invite-modal-content[\s\S]*?!overflow-y-hidden/);
   assert.match(inviteSource, /invite-modal-scroll[\s\S]*?overflow-y-auto/);
   assert.match(surfaceBlock, /--glass-subpage-edge-stroke-width:\s*0px/);
@@ -73,6 +75,14 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   assert.match(
     helpersCss,
     /\.workspace-feature-panel\.glass-subpage-surface,[\s\S]*?--subpage-card-bg:[\s\S]*?color-mix\([\s\S]*?!important/
+  );
+  assert.match(
+    helpersCss,
+    /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/
+  );
+  assert.match(
+    helpersCss,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important[\s\S]*?height:\s*var\(--workspace-glass-block-size\)\s*!important/
   );
   assert.match(
     glassCss,

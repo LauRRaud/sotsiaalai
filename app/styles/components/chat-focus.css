@@ -531,6 +531,38 @@ html[data-contrast="hc"]
   }
 
   .chat-page-shell
+    .chat-container.chat-container--round.chat-container--workspace-open:has(.workspace-dashboard-panel--morph-expand) {
+    --workspace-guide-morph-fit-w: calc(
+      100vw - (2 * var(--ring-fit-pad, calc(1.3 * var(--base-rem))))
+    );
+    --workspace-guide-morph-fit-h: calc(
+      100dvh - (2 * var(--ring-fit-pad, calc(1.3 * var(--base-rem)))) -
+        calc(2 * var(--base-rem))
+    );
+    --workspace-guide-morph-fit: min(
+      var(--workspace-guide-morph-fit-w),
+      var(--workspace-guide-morph-fit-h)
+    );
+    --workspace-guide-morph-max: min(
+      calc(58 * var(--base-rem)),
+      calc(54 * var(--base-rem))
+    );
+    --workspace-guide-morph-size: min(
+      var(--workspace-guide-morph-max),
+      calc(max(calc(36 * var(--base-rem)), var(--workspace-guide-morph-fit)) * 1.06)
+    );
+    width: var(--workspace-guide-morph-size) !important;
+    inline-size: var(--workspace-guide-morph-size) !important;
+    min-width: var(--workspace-guide-morph-size) !important;
+    max-width: var(--workspace-guide-morph-size) !important;
+    height: var(--workspace-guide-morph-size) !important;
+    min-height: var(--workspace-guide-morph-size) !important;
+    max-height: var(--workspace-guide-morph-size) !important;
+    block-size: var(--workspace-guide-morph-size) !important;
+    border-radius: 2rem !important;
+  }
+
+  .chat-page-shell
     .chat-container.chat-container--round.chat-container--input-focus
     .chat-window,
   .chat-page-shell

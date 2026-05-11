@@ -53,38 +53,42 @@
 
 @media (min-width: 769px) {
   .workspace-feature-panel:not(.service-map-page-panel) {
+    --ring-scale: 1;
+    --ring-fit-pad: calc(1.3 * var(--base-rem));
+    --ring-ui-reserve: calc(2 * var(--base-rem));
+    --ring-base-min: calc(36 * var(--base-rem));
+    --ring-base-max: calc(54 * var(--base-rem));
+    --ring-desktop-max: calc(58 * var(--base-rem));
     --chat-focus-inline-extra: clamp(0.08rem, 0.28vw, 0.24rem);
     --workspace-glass-fit-w: calc(
-      100vw - (2 * var(--ring-fit-pad, calc(1.5 * var(--base-rem))))
+      100vw - (2 * var(--ring-fit-pad))
     );
     --workspace-glass-fit-h: calc(
-      100dvh - (2 * var(--ring-fit-pad, calc(1.5 * var(--base-rem)))) -
-        var(--ring-ui-reserve, calc(9 * var(--base-rem)))
+      100dvh - (2 * var(--ring-fit-pad)) - var(--ring-ui-reserve)
     );
     --workspace-glass-fit: min(
       var(--workspace-glass-fit-w),
       var(--workspace-glass-fit-h)
     );
     --workspace-glass-max: min(
-      var(--ring-desktop-max, calc(55 * var(--base-rem))),
-      calc(var(--ring-base-max, calc(50 * var(--base-rem))) * var(--ring-scale, 1))
+      var(--ring-desktop-max),
+      calc(var(--ring-base-max) * var(--ring-scale))
     );
-    --workspace-glass-diameter: var(
-      --ring-diameter,
-      min(
-        var(--workspace-glass-max),
-        max(var(--ring-base-min, calc(34 * var(--base-rem))), var(--workspace-glass-fit))
-      )
+    --workspace-glass-diameter-default: min(
+      var(--workspace-glass-max),
+      max(var(--ring-base-min), var(--workspace-glass-fit))
     );
-    --workspace-glass-inline-size: calc(
-      var(--workspace-glass-diameter) + var(--chat-focus-inline-extra)
+    --workspace-glass-diameter: min(
+      var(--workspace-glass-max),
+      calc(var(--workspace-glass-diameter-default) * 1.06)
     );
+    --workspace-glass-inline-size: var(--ring-diameter, var(--workspace-glass-diameter));
     display: flex;
     flex-direction: column;
     width: var(--workspace-glass-inline-size) !important;
     max-width: var(--workspace-glass-inline-size) !important;
     min-width: var(--workspace-glass-inline-size) !important;
-    height: min(52rem, calc(100dvh - 2rem));
+    height: var(--ring-diameter, var(--workspace-glass-diameter));
     max-height: calc(100dvh - 2rem);
     overflow: hidden !important;
   }
@@ -1202,6 +1206,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   min-width: 0;
   max-width: 100%;
   width: 100%;
+  transform: translateX(-1.9rem);
 }
 
 .service-map-toolbar__resultsblock:empty {
@@ -1583,7 +1588,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 .service-map-toolbar__results {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   min-width: 0;
   width: 100%;
   min-height: 0;
@@ -1599,15 +1604,15 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__results .service-map-toolbar__result-button {
   position: relative;
   flex: 0 0 clamp(10.75rem, 12vw, 13.5rem);
-  min-height: 2.32rem;
-  max-height: 2.58rem;
+  min-height: 3.15rem;
+  max-height: 3.15rem;
   border: var(--btn-primary-border, 0 solid transparent) !important;
   border-radius: 0.72rem;
   background: var(--btn-primary-bg, var(--workspace-feature-surface)) !important;
   color: var(--btn-primary-text, rgba(248, 252, 255, 0.92)) !important;
-  box-shadow: var(--btn-primary-shadow, var(--service-map-control-shadow)) !important;
+  box-shadow: none !important;
   overflow: hidden;
-  padding: 0.28rem 0.56rem;
+  padding: 0.66rem 0.72rem;
   text-align: center;
   transform: none !important;
   transition:
@@ -1650,10 +1655,10 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__results .service-map-toolbar__result-button:hover,
 .service-map-toolbar__results .service-map-toolbar__result-button:focus-visible,
 .service-map-toolbar__results .service-map-toolbar__result-button[data-selected="true"] {
-  border: var(--btn-primary-border-hover, var(--btn-primary-border, 0 solid transparent)) !important;
+  border: var(--btn-primary-border, 0 solid transparent) !important;
   background: var(--btn-primary-bg-hover, var(--btn-primary-bg, var(--workspace-feature-surface))) !important;
   color: var(--btn-primary-text, rgba(248, 252, 255, 0.92)) !important;
-  box-shadow: var(--btn-primary-shadow-hover, var(--service-map-control-shadow-hover)) !important;
+  box-shadow: none !important;
   transform: none !important;
   outline: none;
 }
@@ -1662,6 +1667,11 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__results .service-map-toolbar__result-button:focus-visible::before,
 .service-map-toolbar__results .service-map-toolbar__result-button[data-selected="true"]::before {
   opacity: 1;
+}
+
+:root .service-map-toolbar__results .service-map-toolbar__result-button.ui-glow-button-frame,
+:root .service-map-toolbar__results .service-map-toolbar__result-button.ui-glow-button-frame:is(:hover, :focus-visible, :active, [data-selected="true"]) {
+  box-shadow: none !important;
 }
 
 .service-map-leaflet-shell {
@@ -2220,6 +2230,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-toolbar__resultsblock {
     grid-column: 1 / -1;
+    transform: none;
   }
 
   .service-map-toolbar__fields,

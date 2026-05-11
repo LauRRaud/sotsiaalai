@@ -238,8 +238,8 @@
 .surface {
   color: var(--covision-text) !important;
   background: var(--covision-surface-bg) !important;
-  width: min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)) !important;
-  max-width: min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)) !important;
+  width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
+  max-width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
   margin-left: auto !important;
   margin-right: auto !important;
   justify-self: center !important;
@@ -247,9 +247,9 @@
 }
 
 .surface.surface {
-  height: min(52rem, calc(100dvh - 2rem)) !important;
+  height: var(--workspace-glass-block-size, min(52rem, calc(100dvh - 2rem))) !important;
   min-height: 0 !important;
-  max-height: calc(100dvh - 2rem) !important;
+  max-height: var(--workspace-glass-block-size, calc(100dvh - 2rem)) !important;
 }
 
 @media (max-width: 768px) {

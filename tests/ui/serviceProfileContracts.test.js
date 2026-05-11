@@ -41,11 +41,10 @@ test("service profile toggle cards keep checkbox text readable across themes", (
 
 test("service profile page keeps the shared workspace feature desktop width", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/utilities/helpers.css");
 
-  assert.match(
-    source,
-    /!w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\] !max-w-\[min\(calc\(100vw-2rem\),clamp\(30rem,54vw,38rem\)\)\]/
-  );
+  assert.match(source, /workspaceGuidePanelClassName/);
+  assert.match(css, /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/);
   assert.doesNotMatch(source, /workspace-feature-panel--service-profile/);
   assert.doesNotMatch(source, /clamp\(38rem,76vw,56rem\)/);
 });

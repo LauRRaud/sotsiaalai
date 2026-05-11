@@ -788,6 +788,152 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   display: none !important;
 }
 
+.workspace-guide-panel.glass-subpage-surface {
+  --ring-scale: 1;
+  --ring-fit-pad: calc(1.3 * var(--base-rem));
+  --ring-ui-reserve: calc(2 * var(--base-rem));
+  --ring-base-min: calc(36 * var(--base-rem));
+  --ring-base-max: calc(54 * var(--base-rem));
+  --ring-desktop-max: calc(58 * var(--base-rem));
+  --chat-focus-diameter-scale: 1.06;
+  --workspace-guide-panel-pad-x: clamp(
+    0.9rem,
+    calc(var(--workspace-glass-inline-size, var(--ring-diameter, calc(48 * var(--base-rem)))) * 0.022),
+    1.3rem
+  );
+  --workspace-guide-panel-pad-top: clamp(
+    calc(0.35 * var(--base-rem)),
+    1.1vh,
+    calc(0.72 * var(--base-rem))
+  );
+  --workspace-guide-panel-pad-bottom: 0rem;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden !important;
+  border: 0;
+  background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));
+  color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2));
+  box-shadow: var(--glass-shell-shadow, none);
+  backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+}
+
+.workspace-guide-panel > header {
+  flex: 0 0 auto;
+}
+
+.workspace-guide-panel-scroll {
+  min-height: 0;
+  flex: 1 1 auto;
+  scrollbar-gutter: stable both-edges;
+}
+
+.workspace-guide-panel-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@media (min-width: 769px) {
+  .workspace-guide-panel.glass-subpage-surface {
+    width: var(--workspace-glass-inline-size) !important;
+    inline-size: var(--workspace-glass-inline-size) !important;
+    min-width: var(--workspace-glass-inline-size) !important;
+    max-width: var(--workspace-glass-inline-size) !important;
+    height: var(--workspace-glass-block-size) !important;
+    min-height: var(--workspace-glass-block-size) !important;
+    max-height: var(--workspace-glass-block-size) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding:
+      var(--workspace-guide-panel-pad-top)
+      var(--workspace-guide-panel-pad-x)
+      var(--workspace-guide-panel-pad-bottom) !important;
+    border-radius: 2rem !important;
+  }
+
+  .workspace-guide-panel-scroll {
+    width: min(100%, clamp(44rem, calc(var(--workspace-glass-inline-size) * 0.975), 66rem));
+    max-width: min(100%, clamp(44rem, calc(var(--workspace-glass-inline-size) * 0.975), 66rem));
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.1rem;
+    padding-bottom: clamp(2.35rem, 4.5vh, 2.7rem);
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.06) 1%,
+      rgba(0, 0, 0, 0.14) 2.3%,
+      rgba(0, 0, 0, 0.26) 4.2%,
+      rgba(0, 0, 0, 0.48) 6.8%,
+      #000 9.2%,
+      #000 79.2%,
+      rgba(0, 0, 0, 0.92) 85.2%,
+      rgba(0, 0, 0, 0.64) 91%,
+      rgba(0, 0, 0, 0.3) 95.4%,
+      rgba(0, 0, 0, 0.08) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.06) 1%,
+      rgba(0, 0, 0, 0.14) 2.3%,
+      rgba(0, 0, 0, 0.26) 4.2%,
+      rgba(0, 0, 0, 0.48) 6.8%,
+      #000 9.2%,
+      #000 79.2%,
+      rgba(0, 0, 0, 0.92) 85.2%,
+      rgba(0, 0, 0, 0.64) 91%,
+      rgba(0, 0, 0, 0.3) 95.4%,
+      rgba(0, 0, 0, 0.08) 98.4%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  .workspace-guide-panel--collapse {
+    animation: workspace-guide-panel-collapse 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    transform-origin: 50% 50%;
+  }
+
+  .documents-workspace-shell.workspace-guide-panel > .documents-grid {
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .documents-workspace-shell.workspace-guide-panel .documents-page-shell {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .workspace-guide-panel.glass-subpage-surface {
+    overflow: hidden !important;
+  }
+
+  .workspace-guide-panel-scroll {
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+    scrollbar-gutter: auto;
+  }
+}
+
+@keyframes workspace-guide-panel-collapse {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0.98;
+    transform: scale(0.93);
+  }
+}
+
 .glass-ring-expandable {
   --glass-ring-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --glass-ring-scroll-offset: clamp(4.6rem, 9.5vh, 6.6rem);

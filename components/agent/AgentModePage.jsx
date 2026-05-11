@@ -22,7 +22,13 @@ import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
 import Textarea from "@/components/ui/Textarea"
 import { useSpeech } from "@/components/chat/hooks/useSpeech"
-import { glassPageBackTopLeftClassName, glassPageTitleClassName, glassPrimaryButtonToneClassName } from "@/components/ui/glassPageStyles"
+import {
+  glassPageBackTopLeftClassName,
+  glassPageTitleClassName,
+  glassPrimaryButtonToneClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName
+} from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
 import { AGENT_ARTIFACT_TYPE_VALUES } from "@/lib/documents/constants"
@@ -38,6 +44,7 @@ import {
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const agentTitleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static agent-mobile-title ` +
@@ -1556,23 +1563,28 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     if (isClosing) return
     setIsClosing(true)
     markChatWorkspaceRestore()
+    markWorkspacePanelMorph("collapse", backHref)
     if (typeof window === "undefined") {
       pushWithTransition(router, backHref, {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, backHref, {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       })
     })
   }, [backHref, isClosing, router])
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      <div className="documents-workspace-shell documents-workspace-shell--agent">
-        <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
+        <section className={`documents-panel documents-panel--primary documents-page-shell ${workspaceGuidePanelScrollClassName} !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
           <BackButton
             onClick={handleBack}
             ariaLabel={t("documents.agent_workspace.back_to_chat")}

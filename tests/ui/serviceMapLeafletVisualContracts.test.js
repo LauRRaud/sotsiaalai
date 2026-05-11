@@ -183,29 +183,44 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   assert.doesNotMatch(source, /service-map-result-card__type/);
 });
 
-test("service map result cards use shared primary button styling", () => {
+test("service map result cards use toolbar control styling without shadows", () => {
   const css = read("app/styles/components/service-map.css");
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const resultButton = cssBlock(css, ".service-map-toolbar__results .service-map-toolbar__result-button");
 
   assert.match(
     source,
     /"workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control/
   );
   assert.match(
-    css,
-    /\.service-map-toolbar__results \.service-map-toolbar__result-button\s*\{[\s\S]*?border:\s*var\(--btn-primary-border/
+    resultButton,
+    /border:\s*var\(--btn-primary-border/
+  );
+  assert.match(
+    resultButton,
+    /background:\s*var\(--btn-primary-bg/
+  );
+  assert.match(resultButton, /min-height:\s*3\.15rem/);
+  assert.match(resultButton, /padding:\s*0\.66rem 0\.72rem/);
+  assert.match(
+    resultButton,
+    /box-shadow:\s*none\s*!important/
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results \.service-map-toolbar__result-button\s*\{[\s\S]*?background:\s*var\(--btn-primary-bg/
+    /\.service-map-toolbar__results \.service-map-toolbar__result-button:hover,[\s\S]*?box-shadow:\s*none\s*!important/
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results \.service-map-toolbar__result-button\s*\{[\s\S]*?box-shadow:\s*var\(--btn-primary-shadow/
+    /:root \.service-map-toolbar__results \.service-map-toolbar__result-button\.ui-glow-button-frame,[\s\S]*?box-shadow:\s*none\s*!important/
   );
   assert.doesNotMatch(
-    css,
-    /\.service-map-toolbar__results \.service-map-toolbar__result-button\s*\{[\s\S]*?var\(--seg-card-bg/
+    resultButton,
+    /var\(--seg-card-bg/
+  );
+  assert.doesNotMatch(
+    resultButton,
+    /box-shadow:\s*var\(--btn-primary-shadow/
   );
 });
 
@@ -267,6 +282,10 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
+    /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*translateX\(-1\.9rem\)/
+  );
+  assert.match(
+    css,
     /\.service-map-toolbar__results\s*\{[\s\S]*?min-height:\s*0[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
   );
   assert.match(
@@ -296,7 +315,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*fit-content/);
   assert.match(css, /\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*auto/);
   assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*max-content/);
-  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*center[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
 });
 
 test("service map popup and two-line toolbar preserve glass and back alignment", () => {
@@ -329,6 +348,10 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   assert.match(
     css,
     /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)[\s\S]*?justify-items:\s*center/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*none/
   );
   assert.match(
     css,

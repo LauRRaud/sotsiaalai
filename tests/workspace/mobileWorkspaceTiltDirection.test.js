@@ -17,7 +17,11 @@ test("workspace dashboard card navigation does not close or tilt the chat surfac
   assert.doesNotMatch(navigateToMatch[1], /glassRingTilt|waitForGlassRingTilt/);
   assert.match(
     navigateToMatch[1],
-    /pushWithTransition\(router,\s*localizePath\(path,\s*locale\)\);/
+    /markWorkspacePanelMorph\("expand",\s*path\);/
+  );
+  assert.match(
+    navigateToMatch[1],
+    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_DELAY_MS : 0/
   );
 });
 
@@ -34,7 +38,7 @@ test("workspace dashboard back button closes the in-chat workspace", () => {
   );
 });
 
-test("workspace subpage back buttons tilt the visible page but do not delay the dashboard return", () => {
+test("workspace subpage back buttons tilt the visible page and delay return for panel collapse", () => {
   const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
   const documentsSource = readSource("components/documents/DocumentsPage.jsx");
   const agentSource = readSource("components/agent/AgentModePage.jsx");
@@ -45,6 +49,8 @@ test("workspace subpage back buttons tilt the visible page but do not delay the 
   assert.match(workspaceFeatureSource, /const shouldTiltOnBack = featureKey !== "service_map";/);
   assert.doesNotMatch(workspaceFeatureSource, /waitForGlassRingTilt:\s*true/);
   assert.doesNotMatch(workspaceFeatureSource, /glassRingTilt:\s*"left"/);
+  assert.match(workspaceFeatureSource, /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\)/);
+  assert.match(workspaceFeatureSource, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
   assert.match(workspaceFeatureSource, /workspaceBackTiltClassName/);
   assert.match(workspaceFeatureSource, /if \(shouldTiltOnBack\) \{\s*setIsClosing\(true\);/);
   assert.match(
@@ -62,6 +68,8 @@ test("workspace subpage back buttons tilt the visible page but do not delay the 
     assert.match(source, /setIsClosing\(true\)/);
     assert.doesNotMatch(source, /waitForGlassRingTilt:\s*true/);
     assert.doesNotMatch(source, /glassRingTilt:\s*"left"/);
+    assert.match(source, /markWorkspacePanelMorph\("collapse",/);
+    assert.match(source, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
     assert.match(
       source,
       /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/

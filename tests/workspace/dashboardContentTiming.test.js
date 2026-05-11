@@ -78,7 +78,11 @@ test("workspace card navigation keeps the chat surface in workspace shape until 
   );
   assert.match(
     navigateToMatch[1],
-    /pushWithTransition\(router,\s*localizePath\(path,\s*locale\)\);/
+    /markWorkspacePanelMorph\("expand",\s*path\);/
+  );
+  assert.match(
+    navigateToMatch[1],
+    /pushWithTransition\(router,\s*localizePath\(path,\s*locale\),\s*\{[\s\S]*?workspacePanelMorph:\s*shouldRestoreWorkspace \? "expand" : undefined/
   );
 
   assert.match(

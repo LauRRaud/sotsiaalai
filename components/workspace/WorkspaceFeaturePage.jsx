@@ -25,11 +25,14 @@ import {
   glassPrimaryButtonToneClassName,
   glassSubpageCardClassName,
   glassSubpageContentWideClassName,
-  glassSubpageSurfaceScopeClassName
+  glassSubpageSurfaceScopeClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
@@ -42,12 +45,12 @@ const shellClassName =
   "workspace-feature-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const panelClassName =
-  `workspace-feature-panel relative z-[21] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] max-h-[calc(100dvh-2rem)] overflow-hidden rounded-[2rem] ` +
+  `workspace-feature-panel relative z-[21] max-h-[calc(100dvh-2rem)] overflow-hidden rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] [border:none] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
-  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
+  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const titleClassName =
   `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static workspace-feature-title ${glassPageTitleClassName} ` +
@@ -57,7 +60,7 @@ const titleWrapClassName =
   "workspace-feature-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 
 const contentClassName =
-  `workspace-feature-content ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
+  `workspace-feature-content ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
 
 const cardClassName =
   `workspace-feature-card ${glassSubpageCardClassName} rounded-[1.05rem] px-[1rem] py-[0.92rem] max-[768px]:rounded-[0.95rem] max-[768px]:px-[0.9rem] max-[768px]:py-[0.82rem]`;
@@ -142,8 +145,13 @@ function workspaceReturn(locale, router, options = {}) {
         JSON.stringify({ ts: Date.now() })
       );
     } catch {}
+    markWorkspacePanelMorph("collapse", "/vestlus");
   }
-  pushWithTransition(router, localizePath("/vestlus", locale), options);
+  pushWithTransition(router, localizePath("/vestlus", locale), {
+    delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+    workspacePanelMorph: "collapse",
+    ...options
+  });
 }
 
 function clearServiceMapPageState() {
@@ -2188,6 +2196,7 @@ export default function WorkspaceFeaturePage({ feature }) {
         isServiceMap
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
           : panelClassName,
+        isClosing && !isServiceMap ? "workspace-guide-panel--collapse" : null,
         isClosing ? workspaceBackTiltClassName : null
       )}>
         {!isServiceMap ? (
@@ -2214,7 +2223,7 @@ export default function WorkspaceFeaturePage({ feature }) {
           </div>
         </header>
 
-        <div className={cn(contentClassName, isServiceMap && "service-map-page-content")}>
+        <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content" : contentClassName)}>
           {lead && !isServiceMap && activeWorkspaceRole === "CLIENT" ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
 
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}

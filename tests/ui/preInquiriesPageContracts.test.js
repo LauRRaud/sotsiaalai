@@ -80,20 +80,20 @@ test("workspace feature pages are anchored to the viewport", () => {
 });
 
 test("workspace feature panels keep a stable desktop footprint across role views", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = read("app/styles/utilities/helpers.css");
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
     css,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?--workspace-glass-inline-size/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important/
   );
   assert.match(
     css,
-    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?height:\s*var\(--workspace-glass-block-size\)\s*!important/
   );
   assert.match(
-    css,
-    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?height:\s*min\(52rem,\s*calc\(100dvh - 2rem\)\)/
+    source,
+    /workspaceGuidePanelClassName/
   );
   assert.match(source, /workspace-feature-content/);
   assert.match(source, /overflow-hidden/);
@@ -102,9 +102,9 @@ test("workspace feature panels keep a stable desktop footprint across role views
 
 test("workspace feature pages use the same desktop width as help listings", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = read("app/styles/utilities/helpers.css");
   const covisionSource = read("components/covision/CovisionPage.jsx");
-  const covisionCss = read("components/covision/CovisionPage.module.css");
+  const materialsSource = read("components/materials/MaterialsPage.jsx");
   const helpListingsSource = read("components/chat/HelpListingsPanel.jsx");
   const chatFocusCss = read("app/styles/components/chat-focus.css");
 
@@ -112,14 +112,11 @@ test("workspace feature pages use the same desktop width as help listings", () =
   assert.match(chatFocusCss, /help-listings-workspace-inline-size/);
   assert.match(
     css,
-    /\.workspace-feature-panel:not\(\.service-map-page-panel\)\s*\{[\s\S]*?max-width:\s*var\(--workspace-glass-inline-size\)\s*!important/
+    /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/
   );
-  assert.match(covisionSource, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
-  assert.match(covisionSource, /!max-w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
-  assert.match(
-    covisionCss,
-    /\.surface\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*clamp\(36rem,\s*76vw,\s*54rem\)\)\s*!important/
-  );
+  assert.match(source, /workspaceGuidePanelClassName/);
+  assert.match(covisionSource, /workspaceGuidePanelClassName/);
+  assert.match(materialsSource, /workspaceGuidePanelClassName/);
   assert.doesNotMatch(source, /workspace-feature-panel--pre-inquiries/);
   assert.doesNotMatch(css, /workspace-feature-panel--pre-inquiries/);
 });

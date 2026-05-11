@@ -20,7 +20,8 @@ import {
   glassPageShellCenteredClassName,
   glassPageTitleClassName,
   glassPrimaryButtonToneClassName,
-  glassSubpageSurfaceScopeClassName
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import {
   COVISION_CASE_STATUSES,
@@ -37,22 +38,23 @@ import {
 } from "@/lib/covisionConstants";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "covision-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-start overflow-hidden overscroll-none bg-transparent px-[1rem] py-[clamp(1rem,3vh,1.75rem)] max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:px-0 max-[768px]:py-0";
+  "covision-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-0 max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] !w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,54rem))] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `documents-workspace workspace-feature-panel covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${glassSubpageSurfaceScopeClassName}`;
+  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  "mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]";
+  `${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]`;
 
 const pageTitleClassName =
   `subpage-mobile-title policy-mobile-title policy-mobile-title--static covision-mobile-title ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
@@ -546,16 +548,21 @@ export default function CovisionPage() {
     }
     if (isClosing) return;
     markChatWorkspaceRestore();
+    markWorkspacePanelMorph("collapse", "/vestlus");
     setIsClosing(true);
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       });
       return;
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false
+        persistGlassRingTilt: false,
+        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
+        workspacePanelMorph: "collapse"
       });
     });
   }, [isClosing, locale, router, view]);
@@ -922,7 +929,7 @@ export default function CovisionPage() {
           surfaceClassName,
           styles.surface,
           isClosing
-            ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
+            ? "pointer-events-none workspace-guide-panel--collapse motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
             : null
         )}
       >

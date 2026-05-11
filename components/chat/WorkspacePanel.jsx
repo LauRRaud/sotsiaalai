@@ -12,6 +12,7 @@ import { cn } from "@/components/ui/cn";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
@@ -153,6 +154,7 @@ export default function WorkspacePanel({
     return "SOCIAL_WORKER";
   }, [userActualRole, userRole]);
   const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
+  const [morphingToSubpage, setMorphingToSubpage] = useState(false);
 
   const navigateTo = useCallback(
     path => {
@@ -164,8 +166,13 @@ export default function WorkspacePanel({
             JSON.stringify({ ts: Date.now() })
           );
         } catch {}
+        markWorkspacePanelMorph("expand", path);
+        setMorphingToSubpage(true);
       }
-      pushWithTransition(router, localizePath(path, locale));
+      pushWithTransition(router, localizePath(path, locale), {
+        delayMs: shouldRestoreWorkspace ? WORKSPACE_PANEL_MORPH_DELAY_MS : 0,
+        workspacePanelMorph: shouldRestoreWorkspace ? "expand" : undefined
+      });
     },
     [locale, router]
   );
@@ -413,7 +420,7 @@ export default function WorkspacePanel({
 
   return (
     <section
-      className={styles.panel}
+      className={cn(styles.panel, morphingToSubpage && "workspace-dashboard-panel--morph-expand")}
       data-visible={visible ? "true" : "false"}
       role="region"
       aria-labelledby="chat-workspace-title"
