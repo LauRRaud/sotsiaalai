@@ -944,9 +944,11 @@ html[data-contrast="hc"] body.service-map-page-active {
     0 0 2px rgba(122, 58, 56, 0.12),
     0 0 18px rgba(197, 113, 113, 0.09);
   --service-map-panel-top: 0.7rem;
-  --service-map-map-top: clamp(7.95rem, 15vh, 8.6rem);
+  --service-map-panel-height: 4.7rem;
+  --service-map-map-panel-gap: 0.6rem;
+  --service-map-map-top: calc(var(--service-map-panel-top) + var(--service-map-panel-height) + var(--service-map-map-panel-gap));
   --service-map-map-bottom-gap: 0.85rem;
-  --service-map-map-max-height: 42rem;
+  --service-map-map-max-height: 48rem;
   position: relative;
   min-height: 100%;
   height: 100%;
@@ -971,7 +973,7 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-workspace:has(.service-map-toolbar__resultsblock :is(.service-map-toolbar__results, .service-map-toolbar__summary)) {
   --service-map-map-bottom-gap: 1.15rem;
-  --service-map-map-max-height: 40rem;
+  --service-map-map-max-height: 48rem;
 }
 
 .service-map-workspace:has(.service-map-toolbar__results) .service-map-workspace__filters-shell {
@@ -984,7 +986,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   top: var(--service-map-map-top);
   left: 50%;
   z-index: 1;
-  width: min(calc(100vw - 9rem), 80rem);
+  width: min(calc(100vw - 4rem), 100rem);
   height: min(
     calc(100dvh - var(--service-map-map-top) - var(--service-map-map-bottom-gap)),
     var(--service-map-map-max-height)
@@ -1014,7 +1016,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   z-index: 430;
   display: grid;
   justify-items: center;
-  width: min(calc(100vw - 2rem), 82rem);
+  width: fit-content;
   max-width: calc(100vw - 2rem);
   transform: translateX(-50%);
   transition: opacity 120ms ease;
@@ -1033,7 +1035,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   display: flex;
   align-items: center;
   gap: 0.12rem;
-  width: 100%;
+  width: auto;
   max-width: 100%;
   min-height: 4.25rem;
   border: 0 !important;
@@ -1145,7 +1147,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 0.5rem 0.2rem;
-  width: 100%;
+  width: max-content;
   max-width: 100%;
   min-width: 0;
   padding-right: 0;
@@ -2197,17 +2199,32 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-workspace__filters-shell {
     grid-template-columns: 1fr;
     align-items: center;
+    justify-content: center;
     gap: 0.86rem;
+    width: min(calc(100vw - 2rem), 30rem);
+  }
+
+  .service-map-toolbar__identity {
+    position: absolute;
+    top: 0.56rem;
+    left: 0.28rem;
   }
 
   .service-map-toolbar__body {
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
     justify-content: center;
+    width: 100%;
   }
 
   .service-map-toolbar__resultsblock {
     grid-column: 1 / -1;
+  }
+
+  .service-map-toolbar__fields,
+  .service-map-toolbar__types {
+    justify-self: center;
   }
 
   .service-map-workspace__role {

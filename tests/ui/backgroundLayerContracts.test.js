@@ -25,3 +25,8 @@ test("documents and agent mode exclude color bends", () => {
   assert.ok(!setEntries("MOBILE_COLOR_BENDS_READY_PATHS").includes("/documents"));
   assert.ok(!setEntries("MOBILE_COLOR_BENDS_READY_PATHS").includes("/dokreziim"));
 });
+
+test("covision excludes color bends so the glass corner glow stays on the surface edge", () => {
+  assert.ok(setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/kovisioon"));
+  assert.ok(!setEntries("BACKGROUND_LAYER_EXCLUDED_PATHS").includes("/kovisioon"));
+});

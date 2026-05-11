@@ -1341,6 +1341,8 @@ function ServiceMapSurface({
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const workspaceRef = useRef(null);
+  const filtersShellRef = useRef(null);
   const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
   const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
 
@@ -1359,6 +1361,32 @@ function ServiceMapSurface({
     clearServiceMapPageState();
     onBack?.();
   }, [onBack]);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const workspace = workspaceRef.current;
+    const filtersShell = filtersShellRef.current;
+    if (!workspace || !filtersShell) return undefined;
+
+    const syncPanelHeight = () => {
+      const height = filtersShell.getBoundingClientRect().height;
+      if (Number.isFinite(height) && height > 0) {
+        workspace.style.setProperty("--service-map-panel-height", `${height.toFixed(2)}px`);
+      }
+    };
+
+    syncPanelHeight();
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(syncPanelHeight) : null;
+    resizeObserver?.observe(filtersShell);
+    window.addEventListener("resize", syncPanelHeight);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", syncPanelHeight);
+      workspace.style.removeProperty("--service-map-panel-height");
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") return undefined;
@@ -1444,7 +1472,7 @@ function ServiceMapSurface({
   const panelCollapsed = isMobilePanel && !panelOpen;
 
   return (
-    <div className="service-map-workspace">
+    <div ref={workspaceRef} className="service-map-workspace">
       <BackButton
         onClick={handleServiceMapBack}
         ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -1459,6 +1487,7 @@ function ServiceMapSurface({
         aria-label={readText(t, "workspace_feature_pages.service_map.sections.filters", "Otsing ja filtrid")}
       >
         <div
+          ref={filtersShellRef}
           className="service-map-workspace__filters-shell"
           style={{
             backdropFilter: "blur(34px) saturate(176%) contrast(0.98)",

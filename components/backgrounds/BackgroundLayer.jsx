@@ -19,6 +19,7 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/hinnastus",
   "/voimalused",
   "/teenusekaart",
+  "/kovisioon",
   "/documents",
   "/dokreziim"
 ]);

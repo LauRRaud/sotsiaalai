@@ -13,8 +13,10 @@ test("covision overview uses the shared workspace feature panel footprint", () =
   assert.match(source, /covision-page-surface/);
   assert.match(source, /mobile-keep-desktop-glass-cards/);
   assert.match(source, /!w-\[min\(calc\(100vw-2rem\),clamp\(36rem,76vw,54rem\)\)\]/);
+  assert.doesNotMatch(source, /\[scrollbar-gutter:stable_both-edges\]/);
   assert.match(css, /\.surface\.surface\s*\{[\s\S]*?height:\s*min\(52rem,\s*calc\(100dvh - 2rem\)\)\s*!important/);
   assert.match(css, /\.surface\.surface\s*\{[\s\S]*?min-height:\s*0\s*!important/);
   assert.match(css, /\.surface\.surface\s*\{[\s\S]*?max-height:\s*calc\(100dvh - 2rem\)\s*!important/);
+  assert.doesNotMatch(css, /\.surface\s*\{[\s\S]*?--glass-subpage-edge-stroke:\s*radial-gradient\(/);
   assert.doesNotMatch(source, /!min-h-\[clamp\(40rem/);
 });

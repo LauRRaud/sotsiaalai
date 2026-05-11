@@ -285,10 +285,17 @@ test("service map results do not force oversized panel bottom padding", () => {
     css,
     /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell:has\(\.service-map-toolbar__resultsblock :is\(\.service-map-toolbar__results,\s*\.service-map-toolbar__summary\)\)\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
   );
-  assert.doesNotMatch(source, /ResizeObserver/);
-  assert.doesNotMatch(css, /--service-map-panel-height/);
-  assert.match(css, /--service-map-map-top:\s*clamp\(7\.95rem,\s*15vh,\s*8\.6rem\)/);
-  assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*82rem\)/);
+  assert.match(source, /const workspaceRef = useRef\(null\);/);
+  assert.match(source, /const filtersShellRef = useRef\(null\);/);
+  assert.match(source, /new ResizeObserver\(syncPanelHeight\)/);
+  assert.match(css, /--service-map-panel-height:\s*4\.7rem/);
+  assert.match(css, /--service-map-map-panel-gap:\s*0\.6rem/);
+  assert.match(css, /--service-map-map-top:\s*calc\(var\(--service-map-panel-top\) \+ var\(--service-map-panel-height\) \+ var\(--service-map-map-panel-gap\)\)/);
+  assert.match(css, /--service-map-map-max-height:\s*48rem/);
+  assert.match(css, /\.service-map-workspace__map\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 4rem\),\s*100rem\)/);
+  assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*fit-content/);
+  assert.match(css, /\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*auto/);
+  assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*max-content/);
   assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
 });
 
@@ -313,7 +320,19 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center/
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center[\s\S]*?justify-content:\s*center[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*30rem\)/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*absolute[\s\S]*?left:\s*0\.28rem/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)[\s\S]*?justify-items:\s*center/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__fields,\s*\n\s*\.service-map-toolbar__types\s*\{[\s\S]*?justify-self:\s*center/
   );
   assert.match(
     css,
