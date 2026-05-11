@@ -1193,8 +1193,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-toolbar__resultsblock:empty {
-  visibility: hidden;
-  pointer-events: none;
+  display: none;
 }
 
 .service-map-workspace__toggle {

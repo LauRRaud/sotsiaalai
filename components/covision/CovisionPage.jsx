@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import BackButton from "@/components/ui/BackButton";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import Input from "@/components/ui/Input";
 import OptionCard from "@/components/ui/OptionCard";
@@ -15,10 +15,8 @@ import { cn } from "@/components/ui/cn";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import styles from "./CovisionPage.module.css";
 import {
-  glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
-  glassPageTitleClassName,
   glassPrimaryButtonToneClassName,
   workspaceGuidePanelClassName,
   workspaceGuidePanelScrollClassName
@@ -55,9 +53,6 @@ const surfaceClassName =
 
 const bodyClassName =
   `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]`;
-
-const pageTitleClassName =
-  `subpage-mobile-title policy-mobile-title policy-mobile-title--static covision-mobile-title ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -436,7 +431,7 @@ function SummaryField({ label, value, onChange }) {
 
 export default function CovisionPage() {
   const router = useRouter();
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const [view, setView] = useState("overview");
   const [cases, setCases] = useState([]);
   const [practices, setPractices] = useState([]);
@@ -934,18 +929,13 @@ export default function CovisionPage() {
         )}
       >
         <div className={bodyClassName}>
-          <BackButton
-            onClick={handleBack}
-            ariaLabel="Tagasi"
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={t("buttons.back")}
             holdPressedVisualDisabled
-            className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
-          />
-
-          <header className="mb-[0.25rem] flex w-full items-start justify-center gap-[0.75rem]">
-            <div className="covision-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-              <h1 className={pageTitleClassName}>Kovisioon</h1>
-            </div>
-          </header>
+          >
+            {t("chat.workspace.cards.kovision.title", "Kovisioon")}
+          </GlassSubpageHeader>
 
           <p className={cn(styles.lead, "mx-auto m-0 max-w-[58rem] text-left text-[1.06rem] leading-[1.54] max-[768px]:text-[1rem]")}>
             Kovisioon on turvaline tööruum, kus spetsialistid saavad anonüümselt sõnastatud juhtumeid arutada, vaatenurki koguda ja järgmisi samme kokku leppida. Praktikanäited koondavad lühikesed üldistatud õppetunnid lahendustest, mis on töös päriselt aidanud.

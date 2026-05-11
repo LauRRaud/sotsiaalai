@@ -3,12 +3,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import BackButton from "@/components/ui/BackButton";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import {
-  glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
-  glassPageTitleClassName,
   glassPrimaryButtonToneClassName
 } from "@/components/ui/glassPageStyles";
 import { policySectionHeadingClassName } from "@/components/alalehed/policySectionStyles";
@@ -27,13 +25,6 @@ const panelClassName =
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.38rem,1.5vw,0.54rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.38rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
 
-const headerClassName =
-  "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
-const titleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const titleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  "w-full max-[768px]:!mt-0 max-[768px]:!mb-0";
 const bodyClassName =
   "mx-auto grid w-full gap-[1.05rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-0 max-[768px]:pb-[0.88rem]";
 const introClassName =
@@ -120,19 +111,13 @@ export default function VoimalusedBody() {
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
       <div ref={panelRef} className={panelClassName}>
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_previous")}
-          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
-        />
-
-        <header className={headerClassName}>
-          <div className={titleWrapClassName}>
-            <h1 id="voimalused-title" className={titleClassName}>
-              {t("about.features_page.title")}
-            </h1>
-          </div>
-        </header>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={t("buttons.back_previous")}
+          titleId="voimalused-title"
+        >
+          {t("about.features_page.title")}
+        </GlassSubpageHeader>
 
         <div className={bodyClassName}>
           <p className={introClassName}>{t("about.features_page.intro")}</p>

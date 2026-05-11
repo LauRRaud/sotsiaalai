@@ -6,11 +6,11 @@ import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import LoginModal from "@/components/LoginModal";
-import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
-import { glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageShellCenteredClassName, glassPageTitleClassName, glassSubpageContentWideClassName, glassSubpageMobileReadableWidthClassName, glassSubpagePanelWideClassName } from "@/components/ui/glassPageStyles";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
+import { glassPageCloseClassName, glassPageShellCenteredClassName, glassSubpageContentWideClassName, glassSubpageMobileReadableWidthClassName, glassSubpagePanelWideClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -25,11 +25,6 @@ const emailReplacement = {
 const pageShellClassName =
   `subscription-page-shell ${glassPageShellCenteredClassName} !flex h-[100dvh] min-h-[100dvh] items-center justify-center overflow-x-hidden overflow-y-auto overscroll-contain px-[1rem] py-[clamp(1rem,3vh,1.75rem)] ` +
   "max-[768px]:items-stretch max-[768px]:px-0 max-[768px]:py-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-top,0px))]";
-const titleClassName =
-  `${glassPageTitleClassName} subscription-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const mobileTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const subscriptionCardBaseClassName =
   `subscription-modal-content relative z-[21] my-[clamp(0.5rem,2vh,1.25rem)] flex w-full shrink-0 !max-w-[clamp(30rem,54vw,38rem)] min-h-[clamp(40rem,86vh,56rem)] max-h-[calc(100dvh-2.5rem)] flex-col overflow-x-hidden overflow-y-hidden rounded-[var(--glass-modal-radius)] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
@@ -390,12 +385,15 @@ export default function TellimusBody() {
     return <section lang={locale} className={pageShellClassName}>
         <div className={subscriptionCardClassName}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
-          <div className={mobileTitleWrapClassName}>
-            <h1 className={titleClassName}>
-              {t("subscription.title")}
-            </h1>
-          </div>
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={backLabel}
+            holdPressedVisualDisabled
+            backClassName="z-[3]"
+            titleClassName="subscription-page-title"
+          >
+            {t("subscription.title")}
+          </GlassSubpageHeader>
           <div className={contentClassName}>
             <p className={subscriptionCopyClassName} aria-live="polite">
               {t("subscription.loading")}
@@ -414,12 +412,15 @@ export default function TellimusBody() {
     return <section lang={locale} className={pageShellClassName}>
         <div className={cn(subscriptionCardClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
           <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
-          <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
-          <div className={mobileTitleWrapClassName}>
-            <h1 className={titleClassName}>
-              {t("subscription.title")}
-            </h1>
-          </div>
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={backLabel}
+            holdPressedVisualDisabled
+            backClassName="z-[3]"
+            titleClassName="subscription-page-title"
+          >
+            {t("subscription.title")}
+          </GlassSubpageHeader>
           <div className={contentClassName}>
             <p className={subscriptionCopyClassName}>
               {reasonText}
@@ -448,12 +449,15 @@ export default function TellimusBody() {
   return <section lang={locale} className={pageShellClassName}>
       <div className={subscriptionCardClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={cn(glassPageBackTopLeftClassName, "z-[3]")} />
-        <div className={mobileTitleWrapClassName}>
-          <h1 className={titleClassName}>
-            {t("subscription.title")}
-          </h1>
-        </div>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={backLabel}
+          holdPressedVisualDisabled
+          backClassName="z-[3]"
+          titleClassName="subscription-page-title"
+        >
+          {t("subscription.title")}
+        </GlassSubpageHeader>
         <div className={contentClassName}>
           {subActive ? <>
               <div className={subscriptionActivePanelClassName} id="cancel-note">

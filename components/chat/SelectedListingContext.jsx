@@ -2,18 +2,16 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
-import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
 import {
-  glassPageBackTopLeftClassName,
   glassPrimaryButtonToneClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
-  glassSubpageSurfaceScopeClassName,
-  glassPageTitleClassName
+  glassSubpageSurfaceScopeClassName
 } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
@@ -285,10 +283,6 @@ export default function SelectedListingContext({
     "!min-h-[2.72rem] !rounded-[1.32rem] !px-[1.15rem] !py-[0.58rem] !text-[1.04rem] !tracking-[0.022em] max-[768px]:!min-h-[2.9rem] max-[768px]:!text-[1.08rem]";
   const actionRowClassName =
     "mt-[-0.05rem] flex flex-wrap justify-center gap-[0.48rem] pt-[0.12rem] pb-[0.72rem] max-[768px]:mt-0 max-[768px]:pb-[0.85rem]";
-  const selectedListingTitleClassName =
-    `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static selected-listing-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
-  const mobileTitleWrapClassName =
-    "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const selectedListingBodyClassName = inline
     ? `selected-listing-body selected-listing-body--inline ${glassSubpageContentWideClassName} flex min-h-0 max-h-[calc(100dvh-12rem)] flex-none touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.4rem] !w-full !max-w-none px-[0.78rem] pt-[0.02rem] pb-[0.25rem] [scrollbar-gutter:auto] max-[768px]:gap-[0.38rem] max-[768px]:px-[0.2rem] max-[768px]:pt-0 max-[768px]:pb-[0.35rem]`
     : `selected-listing-body ${glassSubpageContentWideClassName} flex min-h-0 max-h-full flex-1 touch-pan-y flex-col overflow-y-auto overflow-x-hidden overscroll-contain gap-[0.8rem] px-[0.78rem] pt-[0.8rem] pb-[1.45rem] [scrollbar-gutter:stable_both-edges] max-[768px]:px-[0.2rem] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.3rem)]`;
@@ -299,19 +293,15 @@ export default function SelectedListingContext({
 
   const selectedListingContent = (
     <>
-      <BackButton
-        onClick={onDismiss}
-        ariaLabel={ui.close}
-        className={glassPageBackTopLeftClassName}
-      />
-
-      <header className="selected-listing-title-wrap mb-[0.1rem] flex w-full items-start justify-center gap-[0.75rem]">
-        <div className={mobileTitleWrapClassName}>
-          <h2 className={selectedListingTitleClassName}>
-            {loading ? ui.loading : listing?.title || ui.selectedListing}
-          </h2>
-        </div>
-      </header>
+      <GlassSubpageHeader
+        onBack={onDismiss}
+        backAriaLabel={ui.close}
+        titleAs="h2"
+        headerClassName="selected-listing-title-wrap"
+        titleClassName="selected-listing-title"
+      >
+        {loading ? ui.loading : listing?.title || ui.selectedListing}
+      </GlassSubpageHeader>
 
       {statusRowVisible ? (
         <div className="flex justify-center">

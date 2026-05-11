@@ -4,13 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { useI18n } from "@/components/i18n/I18nProvider"
-import BackButton from "@/components/ui/BackButton"
 import BorderGlow from "@/components/ui/BorderGlow"
 import Button from "@/components/ui/Button"
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader"
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField"
 import Textarea from "@/components/ui/Textarea"
 import {
-  glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
   glassPrimaryButtonToneClassName,
@@ -19,8 +18,7 @@ import {
   glassSubpagePanelWideClassName,
   glassSubpageCardClassName,
   workspaceGuidePanelClassName,
-  workspaceGuidePanelScrollClassName,
-  glassPageTitleClassName
+  workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
@@ -77,9 +75,6 @@ const surfaceClassName =
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
   `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `${workspaceGuidePanelClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
-const pageTitleClassName =
-  `subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  "w-full max-[768px]:!mt-0 max-[768px]:!mb-0"
 const pageBackTiltClassName =
   "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
 
@@ -322,22 +317,13 @@ export default function MaterialsPage({ isAdmin = false, locale = "et" }) {
     <div className={shellClassName}>
       <div className={`${surfaceClassName} ${isClosing ? `${pageBackTiltClassName} workspace-guide-panel--collapse` : ""}`}>
         <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
-          <BackButton
-            onClick={handleBack}
-            ariaLabel={t("profile.back_to_chat")}
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={t("profile.back_to_chat")}
             holdPressedVisualDisabled
-            className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto !bg-transparent hover:!bg-transparent focus-visible:!bg-transparent active:!bg-transparent !border-0 hover:!border-0 focus-visible:!border-0 active:!border-0 !shadow-none hover:!shadow-none focus-visible:!shadow-none active:!shadow-none`}
-          />
-
-          <header className="mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]">
-            <div className="grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]">
-              <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-                <h1 className={pageTitleClassName}>
-                  {t("materials_page.title")}
-                </h1>
-              </div>
-            </div>
-          </header>
+          >
+            {t("materials_page.title")}
+          </GlassSubpageHeader>
 
           <section className={materialsUploadSectionClassName}>
             <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>

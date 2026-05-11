@@ -14,6 +14,7 @@ import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField from "@/components/ui/GlowField";
 import OptionCard from "@/components/ui/OptionCard";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
@@ -21,7 +22,6 @@ import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
-  glassPageTitleClassName,
   glassPrimaryButtonToneClassName,
   glassSubpageCardClassName,
   glassSubpageContentWideClassName,
@@ -51,13 +51,6 @@ const panelClassName =
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.92rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
-
-const titleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static workspace-feature-title ${glassPageTitleClassName} ` +
-  "w-full max-[768px]:!mt-0 max-[768px]:!mb-0";
-
-const titleWrapClassName =
-  "workspace-feature-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 
 const contentClassName =
   `workspace-feature-content relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} mx-auto grid gap-[1rem] px-[0.05rem] pt-[0.48rem] pb-[1.1rem] max-[768px]:gap-[0.82rem] max-[768px]:px-[0.05rem] max-[768px]:pb-[0.88rem]`;
@@ -1478,6 +1471,7 @@ function ServiceMapSurface({
   }, [isMobilePanel]);
 
   const panelCollapsed = isMobilePanel && !panelOpen;
+  const showResults = !loading && !error && filteredEntries.length > 0;
 
   return (
     <div
@@ -1570,14 +1564,7 @@ function ServiceMapSurface({
             </div>
 
             <div className="service-map-toolbar__resultsblock">
-              {loading || error ? (
-                <p className={cn(bodyTextClassName, "service-map-toolbar__summary text-[0.94rem]")}>
-                  {loading
-                    ? readText(t, "workspace_feature_pages.service_map.loading", "Laen kaardikirjeid...")
-                    : error}
-                </p>
-              ) : null}
-              {!loading && !error && filteredEntries.length ? (
+              {showResults ? (
                 <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
                   {filteredEntries.slice(0, 10).map((entry) => (
                   <BorderGlow
@@ -1631,6 +1618,12 @@ function ServiceMapSurface({
             value={activeRole}
             onChange={onRoleChange}
           />
+        </div>
+      ) : null}
+
+      {error ? (
+        <div className="service-map-workspace__status" role="status" aria-live="polite">
+          {error}
         </div>
       ) : null}
 
@@ -2200,14 +2193,6 @@ export default function WorkspaceFeaturePage({ feature }) {
         isClosing ? workspaceBackTiltClassName : null
       )}>
         <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content relative" : contentClassName)}>
-          {!isServiceMap ? (
-            <BackButton
-              onClick={handleBack}
-              ariaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-              holdPressedVisualDisabled
-              className={cn(glassPageBackTopLeftClassName, "!z-[30] pointer-events-auto")}
-            />
-          ) : null}
           {showAdminRoleSelector ? (
             <AdminRoleSelector
               t={t}
@@ -2218,11 +2203,17 @@ export default function WorkspaceFeaturePage({ feature }) {
             />
           ) : null}
 
-          <header className={cn("mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]", isServiceMap && "service-map-page-header")}>
-            <div className={cn(titleWrapClassName, isServiceMap && "service-map-page-title-wrap")}>
-              <h1 className={cn(titleClassName, isServiceMap && "service-map-page-title")}>{title}</h1>
-            </div>
-          </header>
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+            showBack={!isServiceMap}
+            holdPressedVisualDisabled
+            headerClassName={isServiceMap ? "service-map-page-header" : null}
+            titleWrapClassName={isServiceMap ? "service-map-page-title-wrap" : null}
+            titleClassName={isServiceMap ? "service-map-page-title" : null}
+          >
+            {title}
+          </GlassSubpageHeader>
 
           {lead && !isServiceMap && activeWorkspaceRole === "CLIENT" ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
 

@@ -24,14 +24,6 @@
   display: none;
 }
 
-.backButton {
-  z-index: 92 !important;
-}
-
-.backButtonIcon {
-  margin: 0;
-}
-
 .roleMenu {
   position: absolute;
   top: clamp(1rem, 2.2vh, 1.35rem);
@@ -42,16 +34,25 @@
   justify-content: center;
 }
 
-.panel :is(.backButton, .roleMenu, .titleWrap, .grid) {
+.panel :global(.glass-subpage-back-button),
+.panel :global(.glass-subpage-header),
+.panel .roleMenu,
+.panel .grid {
   transition: opacity 180ms ease;
 }
 
-.panel[data-visible="false"] :is(.backButton, .roleMenu, .titleWrap, .grid) {
+.panel[data-visible="false"] :global(.glass-subpage-back-button),
+.panel[data-visible="false"] :global(.glass-subpage-header),
+.panel[data-visible="false"] .roleMenu,
+.panel[data-visible="false"] .grid {
   opacity: 0;
   pointer-events: none;
 }
 
-.panel:global(.workspace-dashboard-panel--morph-expand) :is(.backButton, .roleMenu, .titleWrap, .grid) {
+.panel:global(.workspace-dashboard-panel--morph-expand) :global(.glass-subpage-back-button),
+.panel:global(.workspace-dashboard-panel--morph-expand) :global(.glass-subpage-header),
+.panel:global(.workspace-dashboard-panel--morph-expand) .roleMenu,
+.panel:global(.workspace-dashboard-panel--morph-expand) .grid {
   opacity: 0;
   pointer-events: none;
 }
@@ -85,24 +86,6 @@
 .roleMenu :global(.workspace-role-cycle-button:focus-visible) {
   background: rgba(255, 255, 255, 0.94);
   outline: none;
-}
-
-.titleWrap {
-  position: relative;
-  z-index: 4;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
-.title {
-  width: 100%;
-  max-width: 100%;
-  margin-top: clamp(2.15rem, 5.4vh, 3.25rem) !important;
-  margin-bottom: clamp(0.6rem, 1.9vh, 1.05rem) !important;
-  text-align: center;
-  overflow-wrap: anywhere;
 }
 
 .grid {
@@ -354,7 +337,6 @@
   box-shadow: none;
 }
 
-:global(html[data-contrast="hc"]) .title,
 :global(html[data-contrast="hc"]) .cardTitle {
   color: var(--hc-accent, #ffea00);
 }
@@ -381,18 +363,6 @@
       calc(env(safe-area-inset-top, 0px) + 0.08rem)
       clamp(0.22rem, 1.2vw, 0.38rem)
       calc(env(safe-area-inset-bottom, 0px) + clamp(0.55rem, 1.7vh, 0.9rem));
-  }
-
-  .title {
-    margin-top: clamp(0.52rem, 1.45vh, 0.72rem) !important;
-    margin-bottom: clamp(0.32rem, 0.9vh, 0.52rem) !important;
-  }
-
-  .backButton {
-    position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 0.2rem - var(--chat-pad-top, 1rem)) !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
-    z-index: 124 !important;
   }
 
   .roleMenu {

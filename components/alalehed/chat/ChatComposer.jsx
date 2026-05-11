@@ -5,8 +5,8 @@ import { createPortal } from "react-dom";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import ChatAiForwardToggle from "./view/ChatAiForwardToggle";
-import { SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { HelpOfferIcon, HelpRequestIcon, MicrophoneIcon } from "@/components/ui/icons/ChatIcons";
+import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 
 const MODE_LABEL_SHINE_BACKGROUND_DARK =
   "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 32%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.2) 68%, rgba(255,255,255,0) 100%)";
@@ -749,7 +749,9 @@ export default function ChatComposer({
     "pointer-events-auto data-[recording=true]:text-[var(--chat-icon-color)] " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
   const sendGlyphClassName =
-    "chat-send-glyph block -translate-y-[0.01rem] rotate-[-90deg] max-[768px]:translate-x-[0.04rem] max-[768px]:translate-y-0 text-[color:var(--chat-composer-action-icon-color,#c57171)]";
+    "chat-send-glyph block text-[color:var(--chat-composer-action-icon-color,#c57171)]";
+  const sendIconAnchorClassName =
+    "chat-send-icon-anchor pointer-events-none absolute inset-0 z-[1] grid place-items-center leading-none";
   const inputRowTransformClassName = embedded
     ? "[transform:none]"
     : `${inputFocused
@@ -891,21 +893,29 @@ export default function ChatComposer({
         {!useSimpleRoomActionButtons ? <button type="button" className={`${actionButtonClassName} chat-dictate-btn`} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleDictateClick} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
             <MicrophoneIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
           </button> : null}
-        {isGenerating || isStreamingAny ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+        {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+          <span className={sendIconAnchorClassName} aria-hidden="true">
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="chat-send-stop-glyph h-[calc(var(--chat-composer-send-icon-size)*1.18)] w-[calc(var(--chat-composer-send-icon-size)*1.18)] text-[color:var(--chat-composer-action-icon-color,#c57171)]">
               <rect x="4.75" y="4.75" width="14.5" height="14.5" rx="3" />
             </svg>
-          </Button> : hasInput ? <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-            <SubmitArrowIcon
-              useCurrentColor
+          </span>
+        </button> : hasInput ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={isRoomMode && (roomBlocked || roomAuthRequired)} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+          <span className={sendIconAnchorClassName} aria-hidden="true">
+            <ChevronIcon
+              direction="up"
+              strokeWidth={1.25}
               className={sendGlyphClassName}
             />
-          </Button> : <Button as="button" variant="primary" size="md" type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} data-empty-disabled={!hasInput ? "true" : undefined} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
-            <SubmitArrowIcon
-              useCurrentColor
+          </span>
+        </button> : <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.send")} title={t("chat.send.title_send")} disabled={!hasInput || isRoomMode && (roomBlocked || roomAuthRequired)} data-empty-disabled={!hasInput ? "true" : undefined} onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>
+          <span className={sendIconAnchorClassName} aria-hidden="true">
+            <ChevronIcon
+              direction="up"
+              strokeWidth={1.25}
               className={sendGlyphClassName}
             />
-          </Button>}
+          </span>
+        </button>}
       </div>
     </>;
   const inputBarNode = <div className={inputBarClassName} onMouseDown={handleInputBarMouseDown}>

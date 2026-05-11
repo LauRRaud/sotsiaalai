@@ -3,17 +3,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Panel from "@/components/ui/Panel";
 import {
-  glassPageBackTopLeftClassName,
   glassPageShellCenteredClassName,
   glassPageMobileCardClassName,
   glassPrimaryButtonToneClassName,
-  glassSubpageCardClassName,
-  glassPageTitleClassName
+  glassSubpageCardClassName
 } from "@/components/ui/glassPageStyles";
 import {
   getWorkerFrameworkDocxHref,
@@ -36,12 +34,6 @@ const panelClassName =
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] px-[1.45rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.38rem,1.5vw,0.54rem)] max-[768px]:rounded-[1.2rem] max-[768px]:px-[0.38rem] max-[768px]:pb-[0.76rem] ${glassPageMobileCardClassName}`;
-const headerClassName = "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
-const titleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const titleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  `w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
 const leadClassName =
   "m-0 text-left text-[1.08rem] leading-[1.68] tracking-[0.018em] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem]";
 const bodyClassName =
@@ -523,29 +515,23 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
         ref={panelRef}
         className={`${panelClassName} ${isClosing ? "pointer-events-none [--glass-ring-tilt-angle-left:-3deg] motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`}
       >
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_previous")}
-          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
-        />
-
-        <header className={headerClassName}>
-          <div className={titleWrapClassName}>
-            <h1 id="worker-framework-title" className={titleClassName}>
-              {locale === "et" ? (
-                <>
-                  <span className="max-[768px]:hidden">{frameworkTitle}</span>
-                  <span className="hidden max-[768px]:block">
-                    <span className="block">{frameworkTitleMobileLines?.[0] || frameworkTitle}</span>
-                    {frameworkTitleMobileLines?.[1] ? <span className="block">{frameworkTitleMobileLines[1]}</span> : null}
-                  </span>
-                </>
-              ) : (
-                frameworkTitle
-              )}
-            </h1>
-          </div>
-        </header>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={t("buttons.back_previous")}
+          titleId="worker-framework-title"
+        >
+          {locale === "et" ? (
+            <>
+              <span className="max-[768px]:hidden">{frameworkTitle}</span>
+              <span className="hidden max-[768px]:block">
+                <span className="block">{frameworkTitleMobileLines?.[0] || frameworkTitle}</span>
+                {frameworkTitleMobileLines?.[1] ? <span className="block">{frameworkTitleMobileLines[1]}</span> : null}
+              </span>
+            </>
+          ) : (
+            frameworkTitle
+          )}
+        </GlassSubpageHeader>
 
         <div className={bodyClassName}>
           <section className={introCardClassName} aria-labelledby="framework-intro-title">

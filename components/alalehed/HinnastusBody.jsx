@@ -4,13 +4,11 @@ import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import AppLink from "@/components/ui/Link";
-import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import {
-  glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
-  glassPageTitleClassName,
   glassPrimaryButtonToneClassName
 } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
@@ -30,13 +28,6 @@ const panelClassName =
   `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.72rem] pt-[0.28rem] pb-[0.72rem] ` +
   `max-[768px]:[--glass-ring-pad-x:clamp(0.22rem,0.9vw,0.34rem)] max-[768px]:rounded-[1.05rem] max-[768px]:px-[0.28rem] max-[768px]:pb-[0.48rem] ${glassPageMobileCardClassName}`;
 
-const headerClassName =
-  "invite-modal-title-wrap mb-[0.12rem] flex w-full items-start justify-center gap-[0.5rem]";
-const titleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
-const titleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  "w-full max-[768px]:!mt-0 max-[768px]:!mb-0";
 const bodyClassName =
   "mx-auto grid w-full gap-[0.5rem] px-[1rem] pt-[0.24rem] pb-[0.22rem] max-[768px]:gap-[0.38rem] max-[768px]:px-[0.48rem] max-[768px]:pb-[0.18rem]";
 const introClassName =
@@ -227,19 +218,13 @@ export default function HinnastusBody() {
   return (
     <section className={shellClassName} lang={locale} onWheel={handleShellWheel}>
       <div ref={panelRef} className={panelClassName}>
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_previous")}
-          className={`${glassPageBackTopLeftClassName} !z-[30] pointer-events-auto`}
-        />
-
-        <header className={headerClassName}>
-          <div className={titleWrapClassName}>
-            <h1 id="hinnastus-title" className={titleClassName}>
-              {t("about.pricing.title")}
-            </h1>
-          </div>
-        </header>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={t("buttons.back_previous")}
+          titleId="hinnastus-title"
+        >
+          {t("about.pricing.title")}
+        </GlassSubpageHeader>
 
         <div className={bodyClassName}>
           <p className={introClassName}>

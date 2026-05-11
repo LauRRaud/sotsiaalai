@@ -3475,21 +3475,14 @@
   }
 
   :is(
-      .workspace-feature-title-wrap,
-      .documents-mobile-title-wrap,
-      .agent-mobile-title-wrap,
-      .covision-mobile-title-wrap,
-      .help-listings-mobile-title-wrap
+      .glass-subpage-title-wrap
     ) {
     padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
     padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
   }
 
   :is(
-      .workspace-feature-title,
-      .documents-mobile-title,
-      .agent-mobile-title,
-      .covision-mobile-title,
+      .glass-subpage-title,
       .help-listings-mobile-title
     ) {
     font-size: clamp(1.72rem, 6.15vw, 2.14rem) !important;
@@ -3788,25 +3781,4 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     margin-bottom: 0 !important;
   }
 
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    .workspace-feature-panel
-    .covision-mobile-title-wrap,
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    .workspace-feature-panel
-    .covision-mobile-title-wrap {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: clamp(4.35rem, 15vw, 5.15rem) !important;
-    padding-right: clamp(4.35rem, 15vw, 5.15rem) !important;
-  }
-
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    .workspace-feature-panel
-    .covision-mobile-title,
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
-    .workspace-feature-panel
-    .covision-mobile-title {
-    text-align: center !important;
-  }
 }

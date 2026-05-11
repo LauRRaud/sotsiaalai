@@ -2,17 +2,15 @@
 
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import BackButton from "@/components/ui/BackButton";
 import Button from "@/components/ui/Button";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
 import {
-  glassPageBackTopLeftClassName,
   glassSubpageCardInteractiveClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
-  glassPageTitleClassName,
   workspaceGuidePanelClassName,
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
@@ -80,10 +78,6 @@ export default function HelpListingsPanel({
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
     `${isClosing ? `${isWorkspaceReturn ? "workspace-guide-panel--collapse" : tiltAnimationClassName} pointer-events-none` : ""}`;
-  const helpListingsTitleClassName =
-    `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title help-listings-mobile-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
-  const mobileTitleWrapClassName =
-    "help-listings-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
   const listingsPanelClassName =
     "mt-0";
   const listingsScrollClassName =
@@ -195,23 +189,17 @@ export default function HelpListingsPanel({
       contentClassName={helpListingsContentClassName}
       style={helpListingsWorkspaceStyle}
     >
-      {!hasDetail ? (
-        <BackButton
-          onClick={handleBackClick}
-          ariaLabel={backAriaLabel}
-          className={glassPageBackTopLeftClassName}
-        />
-      ) : null}
-
       {hasDetail ? detailNode : (
         <>
-        <header className="help-listings-title-wrap mb-[0.1rem] flex w-full items-start justify-center gap-[0.75rem]">
-          <div className={mobileTitleWrapClassName}>
-            <h2 className={helpListingsTitleClassName}>
-              {title}
-            </h2>
-          </div>
-        </header>
+        <GlassSubpageHeader
+          onBack={handleBackClick}
+          backAriaLabel={backAriaLabel}
+          titleAs="h2"
+          headerClassName="help-listings-title-wrap"
+          titleClassName="help-listings-title help-listings-mobile-title"
+        >
+          {title}
+        </GlassSubpageHeader>
 
         <div className="flex justify-center">
           <p className="mt-[0.34rem] text-center text-[1.22rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.28rem] max-[768px]:text-[1.18rem] max-[768px]:tracking-[0.01em]">

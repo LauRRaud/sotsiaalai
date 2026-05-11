@@ -894,6 +894,11 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
     );
   }
 
+  .materials-page-body.workspace-guide-panel-scroll {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
   :is(
       .workspace-feature-page-shell,
       .documents-workspace-page--documents,

@@ -37,6 +37,31 @@ test("HC chat composer controls stay transparent and input glow is yellow", () =
   }
 });
 
+test("chat send arrow is centered by the button box, not manual glyph offsets", () => {
+  const css = read("app/styles/components/chat-focus.css");
+  const composer = read("components/alalehed/chat/ChatComposer.jsx");
+
+  assert.match(
+    css,
+    /body \.chat-inputbar \.chat-send-btn\s*\{[\s\S]*?display:\s*inline-grid\s*!important;[\s\S]*?place-items:\s*center\s*!important;/
+  );
+  assert.match(
+    css,
+    /body \.chat-inputbar \.chat-send-btn > \.chat-send-icon-anchor\s*\{[\s\S]*?width:\s*100%\s*!important;[\s\S]*?height:\s*100%\s*!important;[\s\S]*?place-items:\s*center\s*!important;[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?inset:\s*0\s*!important;/
+  );
+  assert.match(
+    css,
+    /body \.chat-inputbar \.chat-send-btn \.chat-send-glyph\s*\{[\s\S]*?display:\s*block\s*!important;[\s\S]*?transform-box:\s*fill-box\s*!important;[\s\S]*?transform-origin:\s*center\s*!important;/
+  );
+  assert.match(composer, /import ChevronIcon from "@\/components\/ui\/icons\/ChevronIcon";/);
+  assert.match(composer, /const sendIconAnchorClassName =\s*\n\s*"chat-send-icon-anchor/);
+  assert.match(composer, /<button type="submit" className=\{sendButtonClassName\}/);
+  assert.match(composer, /<span className=\{sendIconAnchorClassName\} aria-hidden="true">\s*\n\s*<ChevronIcon\s*\n\s*direction="up"\s*\n\s*strokeWidth=\{1\.25\}\s*\n\s*className=\{sendGlyphClassName\}/);
+  assert.doesNotMatch(composer, /chat-send-glyph[^\n"]*translate-/);
+  assert.doesNotMatch(composer, /chat-send-glyph[^\n"]*rotate-/);
+  assert.doesNotMatch(composer, /<Button as="button" variant="primary" size="md" type="submit" className=\{sendButtonClassName\}/);
+});
+
 test("HC global button reset excludes chat composer icon controls", () => {
   const css = read("app/styles/theme/hc.css");
   const chatIconExclusions = [

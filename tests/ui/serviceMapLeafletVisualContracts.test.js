@@ -118,11 +118,11 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
 
   assert.match(
     source,
-    /className=\{cn\(glassPageBackTopLeftClassName,\s*styles\.backButton\)\}/
+    /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}[\s\S]*?backAriaLabel=\{text\(t,\s*"buttons\.back_previous",\s*"Tagasi"\)\}/
   );
-  assert.match(css, /\.backButton\s*\{[^}]*z-index:\s*92\s*!important/);
-  assert.doesNotMatch(css, /^\.backButton\s*\{[^}]*\bleft:/m);
-  assert.doesNotMatch(css, /^\.backButton\s*\{[^}]*\btop:/m);
+  assert.match(css, /\.panel :global\(\.glass-subpage-back-button\),/);
+  assert.doesNotMatch(css, /^\.backButton\s*\{/m);
+  assert.doesNotMatch(source, /styles\.backButton|glassPageBackTopLeftClassName/);
 });
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
@@ -259,7 +259,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__resultsblock:empty\s*\{[\s\S]*?visibility:\s*hidden[\s\S]*?pointer-events:\s*none/
+    /\.service-map-toolbar__resultsblock:empty\s*\{[\s\S]*?display:\s*none/
   );
   assert.match(
     css,
@@ -287,9 +287,18 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(source, /const workspaceRef = useRef\(null\);/);
   assert.match(source, /const filtersShellRef = useRef\(null\);/);
+  assert.match(source, /const showResults = !loading && !error && filteredEntries\.length > 0;/);
   assert.doesNotMatch(source, /hasToolbarFeedback/);
   assert.match(source, /"service-map-workspace--toolbar-feedback"/);
   assert.match(source, /"service-map-workspace__filters-shell--toolbar-feedback"/);
+  assert.doesNotMatch(
+    source,
+    /<div className="service-map-toolbar__resultsblock">[\s\S]*?loading \|\| error/
+  );
+  assert.match(
+    source,
+    /\{error \? \(\s*<div className="service-map-workspace__status" role="status" aria-live="polite">/
+  );
   assert.match(source, /new ResizeObserver\(syncPanelHeight\)/);
   assert.match(css, /--service-map-panel-height:\s*7\.83rem/);
   assert.match(css, /--service-map-map-panel-gap:\s*0\.6rem/);

@@ -6,15 +6,13 @@ import { useRouter } from "next/navigation"
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton"
-import BackButton from "@/components/ui/BackButton"
 import Button from "@/components/ui/Button"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader"
 import Input from "@/components/ui/Input"
 import Panel from "@/components/ui/Panel"
 import OptionCard from "@/components/ui/OptionCard"
 import {
-  glassPageBackTopLeftClassName,
-  glassPageTitleClassName,
   glassPrimaryButtonToneClassName,
   workspaceGuidePanelClassName,
   workspaceGuidePanelScrollClassName
@@ -35,12 +33,6 @@ import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
-const documentsTitleClassName =
-  `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static documents-mobile-title ${glassPageTitleClassName} ` +
-  `w-full !mt-0 !mb-0 max-[768px]:!mt-0 max-[768px]:!mb-0`
-const mobileTitleWrapClassName =
-  "documents-mobile-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]"
-const backButtonClassName = `${glassPageBackTopLeftClassName} documents-scroll-back-button !z-[30] pointer-events-auto`
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 const pageBackTiltClassName =
   "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
@@ -608,26 +600,22 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
       <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
           <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
-            <BackButton
-              onClick={handleBack}
-              ariaLabel={t("buttons.back")}
-              className={backButtonClassName}
-            />
-            {isAdmin ? (
-              <AdminRoleViewCycleButton
-                t={t}
-                locale={locale}
-                value={effectiveRole}
-                onRoleChanged={refreshEffectiveRole}
-                className="documents-admin-role-menu"
-                ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
-              />
-            ) : null}
-            <header className="documents-page-shell-title-row invite-modal-title-wrap mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]">
-              <div className={mobileTitleWrapClassName}>
-                <h1 className={documentsTitleClassName}>{t("documents.page_title")}</h1>
-              </div>
-            </header>
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("buttons.back")}
+              rightSlot={isAdmin ? (
+                <AdminRoleViewCycleButton
+                  t={t}
+                  locale={locale}
+                  value={effectiveRole}
+                  onRoleChanged={refreshEffectiveRole}
+                  className="documents-admin-role-menu"
+                  ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
+                />
+              ) : null}
+            >
+              {t("documents.page_title")}
+            </GlassSubpageHeader>
             <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
               <div className="documents-section-description documents-library-description">
                 <div className="documents-library-copy">

@@ -26,7 +26,7 @@ test("chat workspace waits for the glass surface before showing dashboard conten
 
   assert.match(
     workspaceCss,
-    /\.panel\[data-visible="false"\]\s+:is\(\.backButton,\s*\.roleMenu,\s*\.titleWrap,\s*\.grid\)\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?pointer-events:\s*none;/
+    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?pointer-events:\s*none;/
   );
   assert.doesNotMatch(chatBodySource, /const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;/);
   assert.doesNotMatch(
@@ -136,6 +136,54 @@ test("workspace return morph keeps border radius out of the transition", () => {
   assert.doesNotMatch(
     cssSource,
     /\.chat-container\.chat-container--round\.chat-container--workspace-open\.chat-container--workspace-return-morph\s*\{[\s\S]*?border-top-left-radius/
+  );
+});
+
+test("workspace route return does not replay the dashboard morph after subpage collapse", async () => {
+  const morph = await import("../../lib/workspacePanelMorph.js");
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const added = new Set();
+  const removed = new Set();
+  const classList = {
+    add(value) {
+      added.add(value);
+      removed.delete(value);
+    },
+    remove(value) {
+      removed.add(value);
+      added.delete(value);
+    }
+  };
+  const previousWindow = globalThis.window;
+  const previousDocument = globalThis.document;
+
+  globalThis.window = {
+    sessionStorage: {
+      setItem() {}
+    }
+  };
+  globalThis.document = {
+    documentElement: { classList },
+    body: { classList }
+  };
+
+  try {
+    morph.markWorkspacePanelMorph("collapse", "/vestlus");
+    assert.equal(added.has("chat-workspace-return-pending"), false);
+    assert.equal(removed.has("chat-workspace-return-pending"), false);
+  } finally {
+    globalThis.window = previousWindow;
+    globalThis.document = previousDocument;
+  }
+
+  const routeRestoreBranch = chatBodySource.match(
+    /if \(morphState\?\.direction === "collapse"\) \{([\s\S]*?)\} else \{/
+  );
+  assert.ok(routeRestoreBranch, "route restore collapse branch should be present");
+  assert.doesNotMatch(routeRestoreBranch[1], /setWorkspaceReturnMorphing\(true\);/);
+  assert.match(
+    routeRestoreBranch[1],
+    /setWorkspaceSuppressOpenTransition\(true\);[\s\S]*?setWorkspaceReturnMorphing\(false\);[\s\S]*?setWorkspaceReturnTransitioning\(false\);/
   );
 });
 

@@ -4,22 +4,20 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
-import BackButton from "@/components/ui/BackButton";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 import {
   glassFormInputBaseClassName,
-  glassPageBackTopLeftClassName,
   glassSubpageCardClassName,
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
-  glassPageTitleClassName,
   workspaceGuidePanelClassName,
   workspaceGuidePanelScrollClassName,
 } from "@/components/ui/glassPageStyles";
@@ -127,7 +125,6 @@ export default function InviteModal() {
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "workspace-guide-panel--collapse" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
-  const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
     `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
   const inviteFormClassName = `mx-auto grid w-full max-w-[32.6rem] gap-[0.72rem] max-[768px]:max-w-[22.4rem] max-[768px]:gap-[0.68rem] ${
@@ -581,16 +578,14 @@ export default function InviteModal() {
       }
       contentClassName={inviteModalContentClassName}
     >
-      <BackButton
-        onClick={handleClose}
-        ariaLabel={t("buttons.back")}
-        className={`${glassPageBackTopLeftClassName} !z-[145] pointer-events-auto`}
-      />
-      <header className="invite-modal-title-wrap mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]">
-        <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
-          <h2 className={inviteModalTitleClassName}>{t("invite.eyebrow")}</h2>
-        </div>
-      </header>
+      <GlassSubpageHeader
+        onBack={handleClose}
+        backAriaLabel={t("buttons.back")}
+        titleAs="h2"
+        backClassName="!z-[145]"
+      >
+        {t("invite.eyebrow")}
+      </GlassSubpageHeader>
 
       <div className={inviteModalBodyClassName}>
         {!session?.user?.id ? (

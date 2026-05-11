@@ -716,6 +716,18 @@ body .chat-inputbar .chat-send-btn {
   min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
   min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
   flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size, calc(3.2 * var(--base-rem))))) !important;
+  display: inline-grid !important;
+  place-items: center !important;
+}
+
+body .chat-inputbar .chat-send-btn > .chat-send-icon-anchor {
+  width: 100% !important;
+  height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  position: absolute !important;
+  inset: 0 !important;
+  line-height: 0 !important;
 }
 
 body .chat-input-row .chat-side-control-btn svg {
@@ -730,8 +742,17 @@ body .chat-inputbar .chat-listen-btn svg {
 }
 
 body .chat-inputbar .chat-send-btn .chat-send-glyph {
+  display: block !important;
+  transform-box: fill-box !important;
+  transform-origin: center !important;
   width: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
   height: var(--chat-composer-send-icon-size, var(--chat-composer-mic-icon-size, calc(1.78 * var(--base-rem)))) !important;
+}
+
+body .chat-inputbar .chat-send-btn .chat-send-stop-glyph {
+  display: block !important;
+  transform-box: fill-box !important;
+  transform-origin: center !important;
 }
 
 body .chat-inputbar .chat-send-btn .chat-mic-glyph {

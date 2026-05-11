@@ -5,8 +5,9 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
@@ -16,10 +17,8 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionListClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const titleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const richLinkClassName = `${linkRichTextBase} policy-rich-link`;
 const emailReplacement = {
   aEmail: {
@@ -151,27 +150,19 @@ export default function KasutustingimusedBody() {
         <BackButton
           onClick={handleBack}
           ariaLabel={t("buttons.back_home")}
-          holdPressedVisualDisabled
-          className={cn(glassPageBackTopLeftClassName, "z-[3] max-[768px]:hidden")}
-          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-        />
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_home")}
           className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName, "min-[769px]:hidden")}
           iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
         />
-        <div className={titleWrapClassName}>
-          <h1
-            id="terms-title"
-            className={cn(
-              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
-              titleClassName
-            )}
-          >
-            {termsTitle}
-          </h1>
-        </div>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={t("buttons.back_home")}
+          holdPressedVisualDisabled
+          titleId="terms-title"
+          backClassName="z-[3] max-[768px]:hidden"
+          backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+        >
+          {termsTitle}
+        </GlassSubpageHeader>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}

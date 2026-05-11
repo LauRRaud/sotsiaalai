@@ -6,9 +6,10 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackTopLeftClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
@@ -19,10 +20,8 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import { policySectionBodyClassName, policySectionClassName, policySectionHeadingClassName, policySectionRichTextClassName } from "@/components/alalehed/policySectionStyles";
 import { focusPolicyScrollArea, handlePolicyScrollKeyDown } from "@/components/alalehed/policyScrollKeyboard";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = glassPageTitleClassName;
 const contentClassName = glassPolicyContentClassName;
 const scrollClassName = glassPolicyScrollClassName;
-const titleWrapClassName = "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const guideLinkClassName = `${linkRichTextBase} guide-rich-link`;
 function applyGuideLinkClass(html) {
   if (typeof html !== "string" || !html) return html;
@@ -123,31 +122,22 @@ export default function KasutusjuhendBody() {
           <BackButton
             onClick={handleBack}
             ariaLabel={t("buttons.back_home")}
-            holdPressedVisualDisabled
-            className={cn(glassPageBackTopLeftClassName, "z-[3] max-[768px]:hidden")}
-            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-          />
-        ) : null}
-        {!hideGuideBackButton ? (
-          <BackButton
-            onClick={handleBack}
-            ariaLabel={t("buttons.back_home")}
             className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName, "min-[769px]:hidden")}
             iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
           />
         ) : null}
-        <div className={titleWrapClassName}>
-          <h1
-            id="kasutusjuhend-title"
-            className={cn(
-              "subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0",
-              titleClassName,
-              !layoutReady ? "guide-policy-title--layout-init" : null
-            )}
-          >
-            {t("about.guide.short_title")}
-          </h1>
-        </div>
+        <GlassSubpageHeader
+          onBack={handleBack}
+          backAriaLabel={t("buttons.back_home")}
+          showBack={!hideGuideBackButton}
+          holdPressedVisualDisabled
+          titleId="kasutusjuhend-title"
+          backClassName="z-[3] max-[768px]:hidden"
+          backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+          titleClassName={cn(!layoutReady ? "guide-policy-title--layout-init" : null)}
+        >
+          {t("about.guide.short_title")}
+        </GlassSubpageHeader>
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(

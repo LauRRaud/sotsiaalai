@@ -12,6 +12,16 @@ export const glassPageTitleMobileHeaderClassName =
 export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
 
+export const glassSubpageHeaderClassName =
+  "glass-subpage-header mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]";
+
+export const glassSubpageTitleWrapClassName =
+  "glass-subpage-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+
+export const glassSubpageTitleClassName =
+  `glass-subpage-title invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
+  "w-full min-[769px]:!mt-[clamp(2.15rem,5.4vh,3.25rem)] min-[769px]:!mb-[clamp(0.35rem,1.4vh,0.8rem)] max-[768px]:!mt-0 max-[768px]:!mb-0";
+
 export const glassPrimaryButtonToneClassName =
   "[--btn-primary-border:0_solid_transparent] " +
   "[--btn-primary-border-hover:0_solid_transparent] " +
@@ -52,6 +62,9 @@ export const glassPageBackTopLeftClassName =
   "min-[769px]:top-[0.55rem] min-[769px]:left-[0.55rem] min-[769px]:bottom-auto " +
   "min-[769px]:ml-0 min-[769px]:!h-[5rem] min-[769px]:!w-[5rem] " +
   "min-[769px]:[&>svg]:!h-[5rem] min-[769px]:[&>svg]:!w-[5rem]";
+
+export const glassSubpageBackButtonClassName =
+  `${glassPageBackTopLeftClassName} glass-subpage-back-button !z-[30] pointer-events-auto`;
 
 export const glassPageBackRightClassName =
   "absolute z-[8] right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)]";

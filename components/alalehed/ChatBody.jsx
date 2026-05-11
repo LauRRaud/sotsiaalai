@@ -371,9 +371,9 @@ export default function ChatBody({
     const morphState = consumeWorkspacePanelMorph();
     workspaceRestoredOpenRef.current = true;
     if (morphState?.direction === "collapse") {
-      setWorkspaceSuppressOpenTransition(false);
-      setWorkspaceReturnMorphing(true);
-      setWorkspaceReturnTransitioning(true);
+      setWorkspaceSuppressOpenTransition(true);
+      setWorkspaceReturnMorphing(false);
+      setWorkspaceReturnTransitioning(false);
     } else {
       setWorkspaceSuppressOpenTransition(true);
       setWorkspaceReturnMorphing(false);

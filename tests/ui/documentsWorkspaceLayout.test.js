@@ -14,6 +14,10 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
     documentsCss,
     /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?overflow-x:\s*hidden;[\s\S]*?overflow-y:\s*hidden;[\s\S]*?overscroll-behavior:\s*contain;/
   );
+  assert.match(
+    documentsCss,
+    /\.documents-workspace-page--documents,\s*\n\s*\.documents-workspace-page--agent\s*\{[\s\S]*?display:\s*flex;[\s\S]*?height:\s*100dvh;[\s\S]*?align-items:\s*center;[\s\S]*?justify-content:\s*center;/
+  );
   assert.doesNotMatch(
     css,
     /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s*\{[\s\S]*?overflow:\s*hidden\s*!important;/
@@ -32,52 +36,53 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
+    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?width:\s*calc\(100% \+ var\(--workspace-guide-panel-pad-x[\s\S]*?margin-top:\s*calc\(0px - var\(--workspace-guide-panel-pad-top[\s\S]*?padding-right:\s*var\(--workspace-guide-panel-pad-x[\s\S]*?padding-left:\s*var\(--workspace-guide-panel-pad-x[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
   );
 });
 
-test("documents and dokreziim hero controls follow the invite modal header pattern", () => {
+test("documents and dokreziim hero controls use the shared glass subpage header", () => {
   const documentsSource = read("components/documents/DocumentsPage.jsx");
   const agentSource = read("components/agent/AgentModePage.jsx");
   const css = read("app/styles/components/documents-mode.css");
 
-  assert.match(documentsSource, /<BackButton[\s\S]*?className=\{backButtonClassName\}/);
-  assert.match(agentSource, /<BackButton[\s\S]*?className=\{backButtonClassName\}/);
+  assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("buttons\.back"\)\}/);
+  assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("documents\.agent_workspace\.back_to_chat"\)\}/);
   assert.match(documentsSource, /className="documents-admin-role-menu"/);
   assert.match(agentSource, /className="documents-admin-role-menu"/);
-  assert.match(documentsSource, /documents-scroll-back-button/);
-  assert.match(agentSource, /documents-scroll-back-button/);
+  assert.doesNotMatch(documentsSource, /documents-scroll-back-button|documents-page-shell-title-row|documents-mobile-title/);
+  assert.doesNotMatch(agentSource, /documents-scroll-back-button|documents-page-shell-title-row|agent-mobile-title/);
   assert.match(
     css,
     /\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?> \.documents-admin-role-menu\s*\{[\s\S]*?position:\s*absolute;/
   );
   assert.match(
     documentsSource,
-    /documents-page-shell--content[\s\S]*?<BackButton[\s\S]*?documents-page-shell-title-row/
+    /documents-page-shell--content[\s\S]*?<GlassSubpageHeader[\s\S]*?rightSlot=\{isAdmin \? \(/
   );
   assert.match(
     agentSource,
-    /documents-page-shell--content[\s\S]*?<BackButton[\s\S]*?documents-page-shell-title-row/
-  );
-  assert.match(
-    documentsSource,
-    /documents-page-shell-title-row[\s\S]*?<h1 className=\{documentsTitleClassName\}>/
+    /documents-page-shell--content[\s\S]*?<GlassSubpageHeader[\s\S]*?rightSlot=\{isAdmin \? \(/
   );
   assert.match(
     agentSource,
-    /documents-page-shell-title-row[\s\S]*?<h1 className=\{agentTitleClassName\}>/
+    /const heroBodyClassName =\s*\n\s*"grid gap-\[1\.05rem\] px-0 py-0/
   );
-  assert.match(
-    documentsSource,
-    /documentsTitleClassName\s*=\s*[\s\S]*?!mt-0[\s\S]*?!mb-0/
-  );
-  assert.match(
+  assert.doesNotMatch(
     agentSource,
-    /agentTitleClassName\s*=\s*[\s\S]*?!mt-0[\s\S]*?!mb-0/
+    /heroBodyClassName\s*=[\s\S]*?pt-\[0\.9rem\]/
   );
   assert.match(
     css,
-    /\.documents-page-shell-title-row\s*\{[\s\S]*?min-height:\s*clamp\(4\.2rem,\s*8\.2vh,\s*5\.4rem\);[\s\S]*?align-items:\s*center;[\s\S]*?position:\s*relative;/
+    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*-0\.95rem;/
+  );
+  assert.doesNotMatch(css, /documents-page-shell-title-row|documents-scroll-back-button|documents-mobile-title-wrap|agent-mobile-title-wrap/);
+  assert.doesNotMatch(
+    documentsSource,
+    /`w-full !mt-0 !mb-0/
+  );
+  assert.doesNotMatch(
+    agentSource,
+    /`w-full !mt-0 !mb-0/
   );
   assert.doesNotMatch(css, /documents-admin-role-menu--hero/);
 });

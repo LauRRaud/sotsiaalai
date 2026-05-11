@@ -2,13 +2,9 @@
 
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import BackButton from "@/components/ui/BackButton";
 import BorderGlow from "@/components/ui/BorderGlow";
-import {
-  glassPageBackTopLeftClassName,
-  glassPageTitleClassName
-} from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
+import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -438,29 +434,25 @@ export default function WorkspacePanel({
       role="region"
       aria-labelledby="chat-workspace-title"
     >
-      <BackButton
-        onClick={handleWorkspaceBack}
-        ariaLabel={text(t, "buttons.back_previous", "Tagasi")}
+      <GlassSubpageHeader
+        onBack={handleWorkspaceBack}
+        backAriaLabel={text(t, "buttons.back_previous", "Tagasi")}
         holdPressedVisualDisabled
-        className={cn(glassPageBackTopLeftClassName, styles.backButton)}
-        iconClassName={styles.backButtonIcon}
-      />
-      {isAdmin ? (
-        <div className={styles.roleMenu}>
-          <AdminRoleViewCycleButton
-            t={t}
-            locale={locale}
-            value={dashboardRole}
-            onRoleChanged={handleDashboardRoleChanged}
-            ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
-          />
-        </div>
-      ) : null}
-      <header className={styles.titleWrap}>
-        <h1 id="chat-workspace-title" className={cn(glassPageTitleClassName, styles.title)}>
-          {text(t, "chat.workspace.title", "Töölaud")}
-        </h1>
-      </header>
+        titleId="chat-workspace-title"
+        rightSlot={isAdmin ? (
+          <div className={styles.roleMenu}>
+            <AdminRoleViewCycleButton
+              t={t}
+              locale={locale}
+              value={dashboardRole}
+              onRoleChanged={handleDashboardRoleChanged}
+              ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
+            />
+          </div>
+        ) : null}
+      >
+        {text(t, "chat.workspace.title", "Töölaud")}
+      </GlassSubpageHeader>
 
       <div className={styles.grid}>
         {cardRows.map((row, index) => (
