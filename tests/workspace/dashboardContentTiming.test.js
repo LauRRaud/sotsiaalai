@@ -99,15 +99,12 @@ test("help listings opened from workspace return to a settled workspace", () => 
   );
 
   assert.ok(backToWorkspaceMatch, "workspace help-listing return callback should be present");
-  assert.match(backToWorkspaceMatch[1], /workspaceRestoredOpenRef\.current = true;/);
-  assert.match(backToWorkspaceMatch[1], /setWorkspaceSuppressOpenTransition\(true\);/);
-  assert.match(backToWorkspaceMatch[1], /setWorkspaceSurfaceReady\(true\);/);
-  assert.match(backToWorkspaceMatch[1], /setWorkspaceOpen\(true\);/);
+  assert.match(backToWorkspaceMatch[1], /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\);/);
+  assert.match(backToWorkspaceMatch[1], /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
+  assert.match(backToWorkspaceMatch[1], /restoreWorkspaceFromSharedPanel\(\);/);
+  assert.match(chatBodySource, /const restoreWorkspaceFromSharedPanel = useCallback\(\(\) => \{[\s\S]*?workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(false\);[\s\S]*?setWorkspaceReturnMorphing\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?setWorkspaceOpen\(true\);/);
   assert.doesNotMatch(chatBodySource, /const PANEL_TILT_CLOSE_MS = 540;/);
-  assert.doesNotMatch(
-    chatBodySource,
-    /listingsPanelCloseTimerRef\.current = window\.setTimeout\([\s\S]*?PANEL_TILT_CLOSE_MS\);/
-  );
+  assert.match(chatBodySource, /listingsPanelCloseTimerRef\.current = window\.setTimeout\(/);
 });
 
 test("workspace subpage back controls mark the dashboard for instant restore", () => {

@@ -20,9 +20,12 @@ import {
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
   glassPageTitleClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName,
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
+import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 const inviteLinkClassName =
   "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
 
@@ -109,13 +112,13 @@ export default function InviteModal() {
       }
     : undefined;
   const inviteModalContentClassName =
-    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] relative !max-h-none !overflow-x-hidden !overflow-y-hidden ` +
+    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-x-hidden !overflow-y-hidden ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
-    `pt-[0.35rem] !pb-[1rem] text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
+    `${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
-    `${glassSubpageSurfaceScopeClassName} ` +
+    `${isWorkspaceReturn ? "" : glassSubpageSurfaceScopeClassName} ` +
     `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
     `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
     `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
@@ -123,10 +126,10 @@ export default function InviteModal() {
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
-    `${closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : ""}`;
+    `${closing ? `pointer-events-none ${isWorkspaceReturn ? "workspace-guide-panel--collapse" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalTitleClassName = `invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const inviteModalBodyClassName =
-    `${glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges] max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
+    `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
   const inviteFormClassName = `mx-auto grid w-full max-w-[32.6rem] gap-[0.72rem] max-[768px]:max-w-[22.4rem] max-[768px]:gap-[0.68rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
@@ -338,6 +341,15 @@ export default function InviteModal() {
     }
   }, []);
   const handleClose = useCallback(() => {
+    const shouldReturnToWorkspace = isWorkspaceReturn;
+    const restoreWorkspace = () => {
+      if (!shouldReturnToWorkspace || typeof window === "undefined") return;
+      try {
+        window.dispatchEvent(new CustomEvent("sotsiaalai:restore-workspace-from-modal", {
+          detail: { source: "invite" }
+        }));
+      } catch {}
+    };
     if (closeTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
@@ -346,7 +358,11 @@ export default function InviteModal() {
       setClosing(false);
       setOpen(false);
       setOpenSource("");
+      restoreWorkspace();
       return;
+    }
+    if (shouldReturnToWorkspace) {
+      markWorkspacePanelMorph("collapse", "/vestlus");
     }
     setClosing(true);
     closeTimerRef.current = window.setTimeout(() => {
@@ -354,8 +370,9 @@ export default function InviteModal() {
       setOpen(false);
       setOpenSource("");
       closeTimerRef.current = null;
-    }, INVITE_TILT_CLOSE_MS);
-  }, [shouldReduceMotion]);
+      restoreWorkspace();
+    }, shouldReturnToWorkspace ? WORKSPACE_PANEL_MORPH_DELAY_MS : INVITE_TILT_CLOSE_MS);
+  }, [isWorkspaceReturn, shouldReduceMotion]);
   const loadInvites = useCallback(async () => {
     if (!roomId) {
       setInvites([]);

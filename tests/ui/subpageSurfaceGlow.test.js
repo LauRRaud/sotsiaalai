@@ -31,7 +31,9 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   assert.match(stylesSource, /workspaceGuidePanelClassName\s*=[\s\S]*?workspace-guide-panel[\s\S]*?glass-subpage-surface/);
   assert.match(stylesSource, /workspaceGuidePanelScrollClassName\s*=[\s\S]*?workspace-guide-panel-scroll[\s\S]*?overflow-y-auto/);
   assert.match(covisionSource, /covision-page-surface[\s\S]*?\$\{workspaceGuidePanelClassName\}/);
-  assert.match(inviteSource, /invite-modal-content[\s\S]*?\$\{glassSubpageSurfaceScopeClassName\}/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?workspaceGuidePanelClassName/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?glassSubpageSurfaceScopeClassName/);
+  assert.match(inviteSource, /workspaceGuidePanelScrollClassName[\s\S]*?invite-modal-scroll/);
   assert.match(workspaceFeatureSource, /workspace-feature-panel[\s\S]*?overflow-hidden/);
   assert.match(workspaceFeatureSource, /workspace-feature-content[\s\S]*?\$\{workspaceGuidePanelScrollClassName\}/);
   assert.match(serviceMapCss, /\.workspace-feature-panel:not\(\.service-map-page-panel\) > \.workspace-feature-content\s*\{[\s\S]*?overflow-y:\s*auto/);

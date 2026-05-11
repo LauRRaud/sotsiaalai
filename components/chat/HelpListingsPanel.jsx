@@ -12,7 +12,9 @@ import {
   glassSubpageContentWideClassName,
   glassSubpagePanelWideClassName,
   glassSubpageSurfaceScopeClassName,
-  glassPageTitleClassName
+  glassPageTitleClassName,
+  workspaceGuidePanelClassName,
+  workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { getHelpUiText } from "./helpUiText";
@@ -62,12 +64,12 @@ export default function HelpListingsPanel({
   }, [_side, closeTiltOverride]);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
   const helpListingsContentClassName =
-    `help-listings-modal-content mx-auto !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)] ` +
-    `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden pt-[0.35rem] !pb-[1rem] text-[1.08rem] ` +
+    `help-listings-modal-content mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)]"} ` +
+    `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden ${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.08rem] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
-    `${glassSubpageSurfaceScopeClassName} ` +
+    `${isWorkspaceReturn ? "" : glassSubpageSurfaceScopeClassName} ` +
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
     `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] ` +
     `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
@@ -77,7 +79,7 @@ export default function HelpListingsPanel({
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
-    `${isClosing ? `${tiltAnimationClassName} pointer-events-none` : ""}`;
+    `${isClosing ? `${isWorkspaceReturn ? "workspace-guide-panel--collapse" : tiltAnimationClassName} pointer-events-none` : ""}`;
   const helpListingsTitleClassName =
     `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static help-listings-title help-listings-mobile-title max-[768px]:!mt-0 max-[768px]:!mb-0`;
   const mobileTitleWrapClassName =
@@ -85,7 +87,7 @@ export default function HelpListingsPanel({
   const listingsPanelClassName =
     "mt-0";
   const listingsScrollClassName =
-    "help-listings-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain px-[0.16rem] pt-[0.92rem] pb-[0.62rem] pr-[0.32rem] [scrollbar-width:thin] max-[768px]:px-[0.24rem] max-[768px]:pt-[0.82rem] max-[768px]:pb-[0.58rem] max-[768px]:pr-[0.24rem]";
+    `help-listings-scroll ${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : "min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-contain [scrollbar-width:thin] px-[0.16rem] pt-[0.92rem] pb-[0.62rem] pr-[0.32rem] max-[768px]:px-[0.24rem] max-[768px]:pt-[0.82rem] max-[768px]:pb-[0.58rem] max-[768px]:pr-[0.24rem]"}`;
 
   const renderListingCard = (item) => (
     <button

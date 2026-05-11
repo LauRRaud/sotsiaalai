@@ -906,13 +906,10 @@ html[data-contrast="hc"] body.service-map-page-active {
 
 .service-map-workspace {
   --service-map-glass-bg: var(
-    --glass-ring-surface-bg,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
+    --glass-surface-bg,
+    rgba(0, 0, 0, 0.25)
   );
-  --service-map-panel-glass-bg: var(
-    --glass-ring-surface-bg,
-    var(--glass-surface-bg, rgba(0, 0, 0, 0.25))
-  );
+  --service-map-panel-glass-bg: var(--glass-ring-sheen, none), var(--service-map-glass-bg);
   --service-map-panel-glass-overlay-bg: transparent;
   --service-map-control-glass-bg: color-mix(
     in srgb,
@@ -936,17 +933,8 @@ html[data-contrast="hc"] body.service-map-page-active {
     transparent
   );
   --service-map-glass-blur: var(--glass-blur-radius, 1rem);
-  --service-map-control-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 2px 5px rgba(15, 23, 42, 0.075),
-    0 0 0 1px rgba(122, 58, 56, 0.08),
-    0 0 10px rgba(197, 113, 113, 0.035);
-  --service-map-control-shadow-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 3px 7px rgba(15, 23, 42, 0.09),
-    0 0 0 1px rgba(122, 58, 56, 0.18),
-    0 0 2px rgba(122, 58, 56, 0.12),
-    0 0 18px rgba(197, 113, 113, 0.09);
+  --service-map-control-shadow: var(--btn-primary-shadow);
+  --service-map-control-shadow-hover: var(--btn-primary-shadow-hover);
   --service-map-panel-top: 0.7rem;
   --service-map-panel-height: 4.7rem;
   --service-map-map-panel-gap: 0.6rem;
@@ -1416,53 +1404,9 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   transform: none !important;
 }
 
-:root.theme-light .service-map-toolbar__glow-field.ui-glow-field,
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field,
-:root.theme-light .service-map-toolbar__type-card.ui-glow-option-card-frame,
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame {
-  box-shadow: var(--service-map-control-shadow) !important;
-}
-
-:root.theme-light .service-map-toolbar__glow-field.ui-glow-field > [class*="edgeLight"],
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field > [class*="edgeLight"],
-:root.theme-light .service-map-toolbar__type-card.ui-glow-option-card-frame > [class*="edgeLight"],
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame > [class*="edgeLight"],
-:root.theme-light .service-map-toolbar__results .workspace-feature-list-card.ui-glow-button-frame > [class*="edgeLight"],
-:root.theme-mid .service-map-toolbar__results .workspace-feature-list-card.ui-glow-button-frame > [class*="edgeLight"] {
-  display: block !important;
-}
-
-:root.theme-light:not(.theme-mid) .service-map-toolbar__type-card.ui-glow-option-card-frame,
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame {
-  border: 1px solid rgba(122, 58, 56, 0.12) !important;
-}
-
 :root.theme-light:not(.theme-mid) .service-map-toolbar__results .workspace-feature-list-card.ui-glow-button-frame,
 :root.theme-mid .service-map-toolbar__results .workspace-feature-list-card.ui-glow-button-frame {
   border: 1px solid rgba(122, 58, 56, 0.12) !important;
-}
-
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field,
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame {
-  background: var(--mid-pill-surface-bg) !important;
-  color: var(--seg-card-text, var(--input-text, #2f3a4a)) !important;
-}
-
-:root.theme-light .service-map-toolbar__glow-field.ui-glow-field:hover,
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field:hover,
-:root.theme-light .service-map-toolbar__glow-field.ui-glow-field:focus-within,
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field:focus-within,
-:root.theme-light .service-map-toolbar__type-card.ui-glow-option-card-frame:is(:hover, :focus-visible, [data-focus-visible="true"], [data-checked="true"]),
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame:is(:hover, :focus-visible, [data-focus-visible="true"], [data-checked="true"]) {
-  background: var(--btn-primary-bg-hover, var(--service-map-control-glass-bg-hover, rgba(255, 255, 255, 0.78))) !important;
-  box-shadow: var(--service-map-control-shadow-hover) !important;
-}
-
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field:hover,
-:root.theme-mid .service-map-toolbar__glow-field.ui-glow-field:focus-within,
-:root.theme-mid .service-map-toolbar__type-card.ui-glow-option-card-frame:is(:hover, :focus-visible, [data-focus-visible="true"], [data-checked="true"]) {
-  background: var(--mid-pill-surface-bg-hover, var(--btn-primary-bg-hover)) !important;
-  color: var(--seg-card-text-selected, var(--title-color, #7a3a38)) !important;
 }
 
 .service-map-toolbar__field--keyword {
@@ -1538,32 +1482,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   line-height: 1.2;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  background: var(--btn-primary-bg, var(--workspace-feature-surface)) !important;
-  color: var(--btn-primary-text, rgba(248, 252, 255, 0.92)) !important;
-  box-shadow: var(--service-map-control-shadow) !important;
   transform: none !important;
-  transition:
-    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-
-.service-map-toolbar__type-card:hover,
-.service-map-toolbar__type-card:focus-visible,
-.service-map-toolbar__type-card[data-checked="true"] {
-  border: var(--btn-primary-border, 0 solid transparent) !important;
-  background: var(--btn-primary-bg-hover, var(--workspace-feature-surface-hover, var(--workspace-feature-surface))) !important;
-  color: var(--btn-primary-text, rgba(248, 252, 255, 0.92)) !important;
-  box-shadow: var(--service-map-control-shadow-hover) !important;
-  transform: none !important;
-}
-
-.service-map-toolbar__type-card[data-checked="true"]::before,
-.service-map-toolbar__type-card:hover::before,
-.service-map-toolbar__type-card:focus-visible::before {
-  opacity: 1;
 }
 
 .service-map-toolbar__type-card .service-map-toolbar__type-label {

@@ -183,9 +183,11 @@ export default function WorkspacePanel({
 
   const openHelpPanel = useCallback(
     panelKey => {
-      onClose?.();
       if (typeof window === "undefined") return;
-      window.requestAnimationFrame(() => {
+      markWorkspacePanelMorph("expand", panelKey);
+      setMorphingToSubpage(true);
+      window.setTimeout(() => {
+        onClose?.();
         try {
           window.dispatchEvent(
             new CustomEvent("sotsiaalai:open-help-listings", {
@@ -193,14 +195,17 @@ export default function WorkspacePanel({
             })
           );
         } catch {}
-      });
+      }, WORKSPACE_PANEL_MORPH_DELAY_MS);
     },
     [onClose]
   );
 
   const openInvite = useCallback(() => {
     if (typeof window === "undefined") return;
-    window.requestAnimationFrame(() => {
+    markWorkspacePanelMorph("expand", "invite");
+    setMorphingToSubpage(true);
+    window.setTimeout(() => {
+      onClose?.();
       try {
         window.dispatchEvent(
           new CustomEvent("sotsiaalai:open-invite", {
@@ -208,12 +213,17 @@ export default function WorkspacePanel({
           })
         );
       } catch {}
-    });
-  }, []);
+    }, WORKSPACE_PANEL_MORPH_DELAY_MS);
+  }, [onClose]);
 
   useEffect(() => {
     setDashboardRole(defaultDashboardRole);
   }, [defaultDashboardRole]);
+
+  useEffect(() => {
+    if (visible) return;
+    setMorphingToSubpage(false);
+  }, [visible]);
 
   const handleDashboardRoleChanged = useCallback((user = {}) => {
     setDashboardRole(normalizeDashboardRole(user?.effectiveRole || user?.adminViewRole));

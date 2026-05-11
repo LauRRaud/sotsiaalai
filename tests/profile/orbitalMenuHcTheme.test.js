@@ -19,6 +19,66 @@ test("HC orbital menu buttons keep the night-mode surface over global HC control
   assert.match(hcNightSurfaceBlock[1], /background:[\s\S]*!important/);
 });
 
+test("HC orbital menu defines night keypad fills for center and edge buttons", () => {
+  const css = readCss();
+  const hcVarsBlock = css.match(
+    /html\[data-contrast="hc"\]\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s*\{([\s\S]*?)\n\}/
+  );
+  const hcCenterBlock = css.match(
+    /html\[data-contrast="hc"\]\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s+\.profile-orbit-menu__center\.dock-item\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(hcVarsBlock, "HC orbital wrapper should define keypad fill variables");
+  assert.match(hcVarsBlock[1], /--orbit-keypad-fill-center:/);
+  assert.match(hcVarsBlock[1], /--orbit-keypad-fill:/);
+  assert.match(hcVarsBlock[1], /--orbit-keypad-fill-item:/);
+  assert.ok(hcCenterBlock, "HC center button should use the center keypad fill");
+  assert.match(hcCenterBlock[1], /background:\s*var\(--orbit-keypad-fill-center,\s*var\(--orbit-keypad-fill\)\)/);
+});
+
+test("HC orbital item pseudo glow selector targets descendants", () => {
+  const css = readCss();
+
+  assert.doesNotMatch(
+    css,
+    /html\[data-contrast="hc"\]\s*\n\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper/
+  );
+  assert.match(
+    css,
+    /html\[data-contrast="hc"\]\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s+\.profile-orbit-menu__item\.dock-item::before/
+  );
+});
+
+test("BorderGlow HC reset preserves profile orbital night surfaces", () => {
+  const css = readCss("../../components/ui/BorderGlow.module.css");
+
+  assert.match(
+    css,
+    /:global\(html\[data-contrast="hc"\]\)\s+\.card:global\(\.profile-orbit-menu__item\),[\s\S]*?:global\(html\[data-contrast="hc"\]\)\s+\.card:global\(\.profile-orbit-mobile-action\),[\s\S]*?:global\(html\[data-contrast="hc"\]\)\s+\.card:global\(\.profile-orbit-stack-bubble\)\s*\{[\s\S]*?background:\s*var\(--orbit-keypad-fill-item,\s*var\(--orbit-keypad-fill,\s*transparent\)\)\s*!important/
+  );
+  assert.match(
+    css,
+    /:global\(html\[data-contrast="hc"\]\)\s+\.card:global\(\.profile-orbit-menu__center\)\s*\{[\s\S]*?background:\s*var\(--orbit-keypad-fill-center,\s*var\(--orbit-keypad-fill,\s*transparent\)\)\s*!important/
+  );
+});
+
+test("global HC profile orbital rules expose night keypad fills", () => {
+  const css = readCss("../../app/styles/theme/hc.css");
+  const hcProfileWrapperBlock = css.match(
+    /html\[data-contrast="hc"\]\s+body\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s*\{([\s\S]*?)\n\}/
+  );
+  const hcProfileCenterBlock = css.match(
+    /html\[data-contrast="hc"\]\s+body\s+\.profile-email-dock-wrapper\.profile-orbit-menu-wrapper\s+\.profile-orbit-menu__center\.dock-item\s*\{([\s\S]*?)\n\}/
+  );
+
+  assert.ok(hcProfileWrapperBlock, "global HC profile orbital wrapper should define theme variables");
+  assert.match(hcProfileWrapperBlock[1], /--orbit-keypad-fill-center:/);
+  assert.match(hcProfileWrapperBlock[1], /--orbit-keypad-fill:/);
+  assert.match(hcProfileWrapperBlock[1], /--orbit-keypad-fill-item:/);
+  assert.ok(hcProfileCenterBlock, "global HC profile center rule should exist");
+  assert.match(hcProfileCenterBlock[1], /background:\s*var\(--orbit-keypad-fill-center,\s*var\(--orbit-keypad-fill\)\)\s*!important/);
+});
+
 test("HC orbital menu restores the yellow edge glow suppressed by global HC controls", () => {
   const css = readCss();
   const hcEdgeGlowBlock = css.match(

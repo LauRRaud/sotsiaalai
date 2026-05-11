@@ -48,26 +48,13 @@ test("service map close button and toolbar controls keep the intended brand/cont
   );
 });
 
-test("service map toolbar controls keep compact shadows without suppressing light and mid edge glow", () => {
+test("service map toolbar controls inherit shared glow and option-card interaction contracts", () => {
   const css = read("app/styles/components/service-map.css");
   const glassCss = read("app/styles/components/glass.css");
+  const typeCardBlock = cssBlock(css, ".service-map-toolbar__type-card");
 
-  assert.match(
-    css,
-    /--service-map-control-shadow:\s*inset 0 1px 0 rgba\(255,\s*255,\s*255,\s*0\.22\),\s*0 2px 5px rgba\(15,\s*23,\s*42,\s*0\.075\)/
-  );
-  assert.match(
-    css,
-    /--service-map-control-shadow:[\s\S]*?0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.08\)/
-  );
-  assert.match(
-    css,
-    /--service-map-control-shadow-hover:\s*inset 0 1px 0 rgba\(255,\s*255,\s*255,\s*0\.28\),\s*0 3px 7px rgba\(15,\s*23,\s*42,\s*0\.09\)/
-  );
-  assert.match(
-    css,
-    /--service-map-control-shadow-hover:[\s\S]*?0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.18\)[\s\S]*?0 0 18px rgba\(197,\s*113,\s*113,\s*0\.09\)/
-  );
+  assert.match(css, /--service-map-control-shadow:\s*var\(--btn-primary-shadow\)/);
+  assert.match(css, /--service-map-control-shadow-hover:\s*var\(--btn-primary-shadow-hover\)/);
   assert.match(
     glassCss,
     /:root\.theme-light \.ui-glow-field > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.ui-glow-field > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
@@ -75,10 +62,6 @@ test("service map toolbar controls keep compact shadows without suppressing ligh
   assert.match(
     glassCss,
     /:root\.theme-light \.ui-glow-option-card-frame > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.ui-glow-option-card-frame > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
-  );
-  assert.match(
-    css,
-    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field > \[class\*="edgeLight"\],[\s\S]*?:root\.theme-mid \.service-map-toolbar__results \.workspace-feature-list-card\.ui-glow-button-frame > \[class\*="edgeLight"\]\s*\{[\s\S]*?display:\s*block\s*!important/
   );
   assert.doesNotMatch(
     css,
@@ -94,26 +77,12 @@ test("service map toolbar controls keep compact shadows without suppressing ligh
   );
   assert.doesNotMatch(css, /--edge-proximity:\s*100/);
   assert.doesNotMatch(css, /--cursor-angle:\s*90deg/);
-  assert.match(
-    css,
-    /\.service-map-toolbar__type-card\s*\{[\s\S]*?transition:[\s\S]*?background 560ms cubic-bezier\(0\.22,\s*0\.61,\s*0\.36,\s*1\)/
-  );
-  assert.match(
-    css,
-    /\.service-map-toolbar__type-card:hover,[\s\S]*?background:\s*var\(--btn-primary-bg-hover/
-  );
-  assert.match(
-    css,
-    /:root\.theme-mid \.service-map-toolbar__glow-field\.ui-glow-field:hover,[\s\S]*?background:\s*var\(--mid-pill-surface-bg-hover/
-  );
-  assert.match(
-    css,
-    /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field[\s\S]*?box-shadow:\s*var\(--service-map-control-shadow\)\s*!important/
-  );
-  assert.match(
-    css,
-    /:root\.theme-light \.service-map-toolbar__type-card\.ui-glow-option-card-frame[\s\S]*?box-shadow:\s*var\(--service-map-control-shadow\)\s*!important/
-  );
+  assert.doesNotMatch(typeCardBlock, /background:/);
+  assert.doesNotMatch(typeCardBlock, /box-shadow:/);
+  assert.doesNotMatch(typeCardBlock, /transition:/);
+  assert.doesNotMatch(css, /\.service-map-toolbar__type-card:hover,[\s\S]*?background:/);
+  assert.doesNotMatch(css, /:root\.theme-mid \.service-map-toolbar__glow-field\.ui-glow-field:hover/);
+  assert.doesNotMatch(css, /:root\.theme-light \.service-map-toolbar__glow-field\.ui-glow-field[\s\S]*?box-shadow:\s*var\(--service-map-control-shadow\)\s*!important/);
 });
 
 test("service map back button uses desktop toolbar panel and mobile page anchor", () => {
@@ -365,9 +334,9 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
     css,
     /\.service-map-workspace:has\(\.service-map-toolbar__results\) \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*-0\.34rem/
   );
-  assert.match(
+  assert.doesNotMatch(
     css,
-    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame\s*\{[\s\S]*?border:\s*1px solid rgba\(122,\s*58,\s*56,\s*0\.12\)\s*!important/
+    /:root\.theme-light:not\(\.theme-mid\) \.service-map-toolbar__type-card\.ui-glow-option-card-frame,[\s\S]*?:root\.theme-mid \.service-map-toolbar__type-card\.ui-glow-option-card-frame\s*\{[\s\S]*?border:/
   );
   assert.match(
     css,
@@ -421,7 +390,11 @@ test("service map filter panel uses shared glass background in standard themes, 
 
   assert.match(
     rootBlock,
-    /--service-map-panel-glass-bg:\s*var\(\s*--glass-ring-surface-bg,\s*var\(\s*--glass-surface-bg/
+    /--service-map-glass-bg:\s*var\(\s*--glass-surface-bg,\s*rgba\(0,\s*0,\s*0,\s*0\.25\)\s*\)/
+  );
+  assert.match(
+    rootBlock,
+    /--service-map-panel-glass-bg:\s*var\(--glass-ring-sheen,\s*none\),\s*var\(--service-map-glass-bg\)/
   );
   assert.match(rootBlock, /--service-map-panel-glass-overlay-bg:\s*transparent/);
   assert.match(filtersShell, /background:\s*var\(--service-map-panel-glass-bg\)/);

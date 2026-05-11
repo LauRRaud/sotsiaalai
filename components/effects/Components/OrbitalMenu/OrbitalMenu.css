@@ -916,21 +916,36 @@ html[data-contrast="hc"]
 }
 
 html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
-  --orbit-keypad-fill:
+  --orbit-keypad-fill-center:
     radial-gradient(
       124% 124% at 24% 18%,
-      rgba(228, 239, 255, 0.084) 0%,
-      rgba(228, 239, 255, 0.036) 22%,
-      rgba(228, 239, 255, 0.012) 38%,
+      rgba(228, 239, 255, 0.074) 0%,
+      rgba(228, 239, 255, 0.031) 22%,
+      rgba(228, 239, 255, 0.01) 38%,
       rgba(228, 239, 255, 0) 54%
     ),
     linear-gradient(
       160deg,
-      rgba(45, 53, 68, 0.51) 0%,
-      rgba(28, 35, 47, 0.47) 48%,
-      rgba(16, 22, 31, 0.41) 100%
+      rgba(45, 53, 68, 0.47) 0%,
+      rgba(28, 35, 47, 0.43) 48%,
+      rgba(16, 22, 31, 0.37) 100%
     ),
-    rgba(18, 24, 34, 0.39);
+    rgba(18, 24, 34, 0.35);
+  --orbit-keypad-fill:
+    radial-gradient(
+      124% 124% at 24% 18%,
+      rgba(228, 239, 255, 0.074) 0%,
+      rgba(228, 239, 255, 0.031) 22%,
+      rgba(228, 239, 255, 0.01) 38%,
+      rgba(228, 239, 255, 0) 54%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(45, 53, 68, 0.47) 0%,
+      rgba(28, 35, 47, 0.43) 48%,
+      rgba(16, 22, 31, 0.37) 100%
+    ),
+    rgba(18, 24, 34, 0.35);
   --orbit-keypad-fill-item:
     radial-gradient(
       158% 140% at 50% 14%,
@@ -1113,7 +1128,7 @@ html[data-contrast="hc"] .profile-email-dock-wrapper.profile-orbit-menu-wrapper 
 html[data-contrast="hc"]
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__center.dock-item {
-  background: var(--orbit-keypad-fill);
+  background: var(--orbit-keypad-fill-center, var(--orbit-keypad-fill));
   border: none;
   outline: none;
   box-shadow: var(--orbit-button-shadow-center) !important;
@@ -1649,7 +1664,7 @@ html[data-contrast="hc"]
 }
 
 html[data-contrast="hc"]
-.profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item::before {
   content: "" !important;
   box-shadow: 0 0 20px rgba(255, 234, 0, 0.24) !important;

@@ -100,6 +100,19 @@ test("workspace feature panels keep a stable desktop footprint across role views
   assert.doesNotMatch(source, /!max-w-\[66rem\]/);
 });
 
+test("workspace-launched feature pages keep their scroll content unmasked", () => {
+  const css = read("app/styles/utilities/helpers.css");
+
+  assert.match(
+    css,
+    /\.workspace-feature-page-shell,[\s\S]*?\.documents-workspace-page--documents,[\s\S]*?\.documents-workspace-page--agent,[\s\S]*?\.covision-page-shell,[\s\S]*?\.help-listings-modal-content--workspace[\s\S]*?\.workspace-guide-panel-scroll\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
+  );
+  assert.match(
+    css,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s*\{[\s\S]*?overflow:\s*hidden\s*!important;/
+  );
+});
+
 test("workspace feature pages use the same desktop width as help listings", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
   const css = read("app/styles/utilities/helpers.css");

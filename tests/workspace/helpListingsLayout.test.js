@@ -11,19 +11,15 @@ test("workspace-launched help listings use workspace-sized desktop modal chrome"
   const cssSource = readSource("app/styles/components/chat-focus.css");
 
   assert.match(componentSource, /isWorkspaceReturn/);
-  assert.match(componentSource, /workspaceModalHeight/);
-  assert.match(componentSource, /help-listings-workspace-measured-height/);
+  assert.match(componentSource, /workspaceGuidePanelClassName/);
+  assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /min-\[769px\]:!min-h-0/);
-  assert.match(componentSource, /!max-w-\[clamp\(36rem,76vw,54rem\)\]/);
   assert.match(componentSource, /help-listings-modal-overlay--workspace/);
   assert.match(componentSource, /help-listings-modal-content--workspace/);
   assert.match(cssSource, /\.help-listings-modal-overlay--workspace/);
   assert.match(cssSource, /\.help-listings-modal-content--workspace/);
-  assert.match(cssSource, /--help-listings-workspace-diameter/);
-  assert.match(cssSource, /--help-listings-workspace-fit/);
-  assert.match(cssSource, /--help-listings-workspace-block-size/);
-  assert.match(cssSource, /--help-listings-workspace-measured-height/);
-  assert.match(cssSource, /height:\s*var\(--help-listings-workspace-block-size\)/);
+  assert.match(cssSource, /--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/);
+  assert.match(cssSource, /height:\s*var\(--workspace-glass-block-size\)/);
   assert.doesNotMatch(cssSource, /height:\s*var\(--chat-diameter\)\s*!important/);
 });
 
@@ -32,8 +28,8 @@ test("workspace-launched invite modal aligns with workspace desktop chrome", () 
   const cssSource = readSource("app/styles/components/chat-focus.css");
 
   assert.match(componentSource, /isWorkspaceReturn/);
-  assert.match(componentSource, /workspaceModalHeight/);
-  assert.match(componentSource, /invite-workspace-measured-height/);
+  assert.match(componentSource, /workspaceGuidePanelClassName/);
+  assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /invite-modal-overlay--workspace/);
   assert.match(componentSource, /invite-modal-content--workspace/);
   assert.match(
@@ -48,7 +44,8 @@ test("workspace-launched invite modal aligns with workspace desktop chrome", () 
     cssSource,
     /\.invite-modal-content--workspace\s*\{[^}]*top:\s*0\s*!important;/
   );
-  assert.match(cssSource, /--invite-workspace-measured-height/);
+  assert.match(cssSource, /height:\s*var\(--workspace-glass-block-size\)/);
+  assert.doesNotMatch(cssSource, /--invite-workspace-measured-height/);
 });
 
 test("PWA help listings fill the mobile viewport without artificial extra height", () => {

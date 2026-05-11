@@ -231,6 +231,20 @@
   box-shadow: none !important;
 }
 
+:global(html[data-contrast="hc"]) .card:global(.profile-orbit-menu__item),
+:global(html[data-contrast="hc"]) .card:global(.profile-orbit-mobile-action),
+:global(html[data-contrast="hc"]) .card:global(.profile-orbit-stack-bubble) {
+  --card-bg: var(--orbit-keypad-fill-item, var(--orbit-keypad-fill, transparent)) !important;
+  background: var(--orbit-keypad-fill-item, var(--orbit-keypad-fill, transparent)) !important;
+  box-shadow: var(--orbit-keypad-shadow-item, var(--orbit-keypad-shadow, none)) !important;
+}
+
+:global(html[data-contrast="hc"]) .card:global(.profile-orbit-menu__center) {
+  --card-bg: var(--orbit-keypad-fill-center, var(--orbit-keypad-fill, transparent)) !important;
+  background: var(--orbit-keypad-fill-center, var(--orbit-keypad-fill, transparent)) !important;
+  box-shadow: var(--orbit-button-shadow-center, var(--orbit-keypad-shadow, none)) !important;
+}
+
 :global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]),
 :global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]:hover),
 :global(html[data-contrast="hc"]) .card:global(.ui-glow-option-card-frame[data-checked="true"]:focus-visible),

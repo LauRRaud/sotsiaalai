@@ -891,6 +891,29 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
     );
   }
 
+  :is(
+      .workspace-feature-page-shell,
+      .documents-workspace-page--documents,
+      .documents-workspace-page--agent,
+      .covision-page-shell,
+      .help-listings-modal-content--workspace
+    )
+    .workspace-guide-panel-scroll {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    scroll-padding-top: clamp(0.4rem, 1.2vh, 0.8rem);
+    scroll-padding-bottom: clamp(1.6rem, 3.4vh, 2.25rem);
+  }
+
+  :is(.documents-workspace-page--documents, .documents-workspace-page--agent) {
+    overflow: hidden !important;
+  }
+
+  :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
+    .documents-page-shell.workspace-guide-panel-scroll {
+    padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
+  }
+
   .workspace-guide-panel--collapse {
     animation: workspace-guide-panel-collapse 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
     transform-origin: 50% 50%;

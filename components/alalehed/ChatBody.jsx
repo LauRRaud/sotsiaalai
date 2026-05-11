@@ -33,6 +33,7 @@ import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState"
 import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
+import { consumeWorkspacePanelMorph, markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
@@ -259,6 +260,7 @@ export default function ChatBody({
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [workspaceSurfaceReady, setWorkspaceSurfaceReady] = useState(false);
   const [workspaceSuppressOpenTransition, setWorkspaceSuppressOpenTransition] = useState(false);
+  const [workspaceReturnMorphing, setWorkspaceReturnMorphing] = useState(false);
   const {
     isMobile,
     mobileRailVisible,
@@ -314,6 +316,7 @@ export default function ChatBody({
   const workspaceSurfaceReadyTimerRef = useRef(0);
   const workspaceRestoredOpenRef = useRef(false);
   const workspaceRestoreTransitionRafRef = useRef(0);
+  const workspaceReturnMorphTimerRef = useRef(0);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -362,8 +365,15 @@ export default function ChatBody({
       } catch {}
     }
     if (!shouldRestore) return;
+    const morphState = consumeWorkspacePanelMorph();
     workspaceRestoredOpenRef.current = true;
-    setWorkspaceSuppressOpenTransition(true);
+    if (morphState?.direction === "collapse") {
+      setWorkspaceSuppressOpenTransition(false);
+      setWorkspaceReturnMorphing(true);
+    } else {
+      setWorkspaceSuppressOpenTransition(true);
+      setWorkspaceReturnMorphing(false);
+    }
     setWorkspaceOpen(true);
     setWorkspaceSurfaceReady(true);
     setShowSourcesPanel(false);
@@ -437,6 +447,10 @@ export default function ChatBody({
       if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
         window.clearTimeout(listingsPanelCloseTimerRef.current);
         listingsPanelCloseTimerRef.current = null;
+      }
+      if (workspaceReturnMorphTimerRef.current && typeof window !== "undefined") {
+        window.clearTimeout(workspaceReturnMorphTimerRef.current);
+        workspaceReturnMorphTimerRef.current = 0;
       }
     };
   }, []);
@@ -742,12 +756,14 @@ export default function ChatBody({
   });
   const closeWorkspace = useCallback(() => {
     setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, []);
   const toggleWorkspace = useCallback(() => {
     if (workspaceOpen) {
       setWorkspaceSuppressOpenTransition(false);
+      setWorkspaceReturnMorphing(false);
       setWorkspaceSurfaceReady(false);
       setWorkspaceOpen(false);
       return;
@@ -756,6 +772,7 @@ export default function ChatBody({
     setShowSourcesPanel(false);
     setInputFocused(false);
     setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(false);
     setWorkspaceSurfaceReady(false);
     try {
       inputRef.current?.blur?.();
@@ -768,12 +785,14 @@ export default function ChatBody({
   ]);
   const toggleProfileFromRail = useCallback(() => {
     setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     toggleProfile?.();
   }, [toggleProfile]);
   const openProfileDirectFromRail = useCallback((options) => {
     setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     return openProfileDirect?.(options);
@@ -781,6 +800,7 @@ export default function ChatBody({
   useEffect(() => {
     if (!profileOpen) return;
     setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, [profileOpen]);
@@ -798,6 +818,27 @@ export default function ChatBody({
       workspaceRestoreTransitionRafRef.current = 0;
     };
   }, [workspaceSuppressOpenTransition]);
+  useEffect(() => {
+    if (!workspaceReturnMorphing || typeof window === "undefined") return;
+
+    if (prefs?.reduceMotion) {
+      setWorkspaceReturnMorphing(false);
+      return;
+    }
+
+    if (!layoutTransitionsReady) return;
+
+    workspaceReturnMorphTimerRef.current = window.setTimeout(() => {
+      workspaceReturnMorphTimerRef.current = 0;
+      setWorkspaceReturnMorphing(false);
+    }, 40);
+
+    return () => {
+      if (!workspaceReturnMorphTimerRef.current || typeof window === "undefined") return;
+      window.clearTimeout(workspaceReturnMorphTimerRef.current);
+      workspaceReturnMorphTimerRef.current = 0;
+    };
+  }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceReturnMorphing]);
   useEffect(() => {
     if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
@@ -1265,6 +1306,7 @@ export default function ChatBody({
   }, []);
   const closeListingsPanel = useCallback((options = {}) => {
     const afterClose = typeof options.afterClose === "function" ? options.afterClose : null;
+    const delayMs = Number.isFinite(options.delayMs) && options.delayMs > 0 ? options.delayMs : 0;
     if (listingsPanelClosing) return;
     if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(listingsPanelCloseTimerRef.current);
@@ -1282,8 +1324,16 @@ export default function ChatBody({
       setSelectedListingState(createEmptySelectedListingState());
       afterClose?.();
     };
-    finishClose();
-  }, [listingsPanelClosing]);
+    if (!delayMs || typeof window === "undefined" || prefs?.reduceMotion) {
+      finishClose();
+      return;
+    }
+    setListingsPanelClosing(true);
+    listingsPanelCloseTimerRef.current = window.setTimeout(() => {
+      listingsPanelCloseTimerRef.current = null;
+      finishClose();
+    }, delayMs);
+  }, [listingsPanelClosing, prefs?.reduceMotion]);
   const backToProfileFromListingsPanel = useCallback(() => {
     closeListingsPanel({
       afterClose: () => {
@@ -1291,21 +1341,27 @@ export default function ChatBody({
       }
     });
   }, [closeListingsPanel, openProfileDirect]);
+  const restoreWorkspaceFromSharedPanel = useCallback(() => {
+    workspaceRestoredOpenRef.current = true;
+    setWorkspaceSuppressOpenTransition(false);
+    setWorkspaceReturnMorphing(true);
+    setWorkspaceSurfaceReady(true);
+    setWorkspaceOpen(true);
+    setShowSourcesPanel(false);
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+  }, [setShowSourcesPanel]);
   const backToWorkspaceFromListingsPanel = useCallback(() => {
+    markWorkspacePanelMorph("collapse", "/vestlus");
     closeListingsPanel({
+      delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
       afterClose: () => {
-        workspaceRestoredOpenRef.current = true;
-        setWorkspaceSuppressOpenTransition(true);
-        setWorkspaceSurfaceReady(true);
-        setWorkspaceOpen(true);
-        setShowSourcesPanel(false);
-        setInputFocused(false);
-        try {
-          inputRef.current?.blur?.();
-        } catch {}
+        restoreWorkspaceFromSharedPanel();
       }
     });
-  }, [closeListingsPanel, setShowSourcesPanel]);
+  }, [closeListingsPanel, restoreWorkspaceFromSharedPanel]);
   const openSelectedListing = useCallback(async (item) => {
     const kind = String(item?.kind || "").trim().toLowerCase();
     const id = String(item?.id || "").trim();
@@ -1622,6 +1678,15 @@ export default function ChatBody({
       window.removeEventListener("sotsiaalai:open-help-listings", onOpenHelpListings);
     };
   }, [openHelpPanelByKey]);
+  useEffect(() => {
+    const onRestoreWorkspace = () => {
+      restoreWorkspaceFromSharedPanel();
+    };
+    window.addEventListener("sotsiaalai:restore-workspace-from-modal", onRestoreWorkspace);
+    return () => {
+      window.removeEventListener("sotsiaalai:restore-workspace-from-modal", onRestoreWorkspace);
+    };
+  }, [restoreWorkspaceFromSharedPanel]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     let panelKey = "";
@@ -2220,6 +2285,9 @@ export default function ChatBody({
         : null,
       workspaceSuppressOpenTransition
         ? "chat-container--workspace-restore-no-transition"
+        : null,
+      workspaceReturnMorphing
+        ? "chat-container--workspace-return-morph"
         : null,
       viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );
