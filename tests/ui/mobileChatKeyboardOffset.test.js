@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import {
@@ -6,6 +7,10 @@ import {
   resolveStableDisplayMode,
   resolveStableMobileAppHeight
 } from "../../components/alalehed/chat/mobileViewportUtils.js";
+
+function read(path) {
+  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
+}
 
 test("mobile chat keyboard offset uses visible viewport overlap even when container height changes", () => {
   const offset = resolveMobileChatKeyboardOffset({
@@ -66,4 +71,17 @@ test("mobile app height follows the measured viewport outside keyboard stabiliza
   });
 
   assert.equal(height, 520);
+});
+
+test("PWA display mode remains sticky for mobile chat input anchoring", () => {
+  const viewportSetter = read("components/ViewportLayoutSetter.jsx");
+  const mobileCss = read("app/styles/mobile.css");
+
+  assert.match(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
+  assert.match(viewportSetter, /data-display-mode-sticky/);
+  assert.doesNotMatch(viewportSetter, /removeAttribute\("data-display-mode"\)/);
+  assert.match(
+    mobileCss,
+    /data-display-mode-sticky="standalone"[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.5rem\s*!important/
+  );
 });

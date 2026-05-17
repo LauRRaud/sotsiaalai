@@ -2274,7 +2274,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border-radius: 1rem;
     width: 100%;
     padding: var(--service-map-mobile-filters-pad-top) 0.72rem 0.92rem;
-    max-height: min(68dvh, 27rem);
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.12rem);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -2357,6 +2357,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-toolbar__resultsblock {
     grid-template-columns: 1fr;
     gap: 0.48rem;
+    min-height: 0;
   }
 
   .service-map-toolbar__summary {
@@ -2424,10 +2425,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     justify-items: center;
     gap: 0.34rem;
     min-height: 0;
-    height: var(--service-map-results-row-height);
-    max-height: var(--service-map-results-row-height);
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: auto;
+    max-height: none;
+    overflow-x: visible;
+    overflow-y: visible;
     padding: 0.08rem 0.12rem 0.12rem;
   }
 
@@ -2436,7 +2437,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     align-self: start;
     width: min(100%, 21rem);
     min-height: 3.35rem;
-    max-height: 4.35rem;
+    max-height: none;
     align-content: center;
     justify-items: center;
     padding: 0.5rem 0.66rem;

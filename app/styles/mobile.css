@@ -1923,22 +1923,22 @@
     margin-bottom: auto !important;
   }
 
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell,
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .chat-page-shell {
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) .chat-page-shell,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) .chat-page-shell {
     min-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
     height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
   }
 
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]),
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) {
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]),
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) {
     --glass-mobile-root-vh: var(--app-height, calc(var(--app-vh, var(--vh, 1vh)) * 100));
     --glass-mobile-vh: var(--glass-mobile-root-vh);
     --glass-mobile-safe-top: 0px;
     --glass-mobile-safe-bottom: 0px;
   }
 
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring,
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]) .glass-ring {
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) .glass-ring,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) .glass-ring {
     --glass-mobile-safe-top: 0px !important;
     --glass-mobile-safe-bottom: 0px !important;
     --glass-mobile-height: var(
@@ -2024,10 +2024,10 @@
     padding-bottom: 0 !important;
   }
 
-  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"])
     .chat-page-shell
     .chat-container.chat-container--round,
-  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"])
     .chat-page-shell
     .chat-container.chat-container--round {
     --chat-window-pad-bottom: calc(env(safe-area-inset-bottom, 0px) + 2.7rem) !important;
@@ -2607,13 +2607,13 @@
     align-self: flex-end !important;
   }
 
-  html[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded),
-  body[data-display-mode="standalone"] .chat-input-row:not(.chat-input-row--embedded) {
+  html:is([data-display-mode="standalone"], [data-display-mode-sticky="standalone"]) .chat-input-row:not(.chat-input-row--embedded),
+  body:is([data-display-mode="standalone"], [data-display-mode-sticky="standalone"]) .chat-input-row:not(.chat-input-row--embedded) {
     --chat-composer-mobile-bottom-base: 0.5rem !important;
   }
 
-  html[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded),
-  body[data-display-mode="fullscreen"] .chat-input-row:not(.chat-input-row--embedded) {
+  html:is([data-display-mode="fullscreen"], [data-display-mode-sticky="fullscreen"]) .chat-input-row:not(.chat-input-row--embedded),
+  body:is([data-display-mode="fullscreen"], [data-display-mode-sticky="fullscreen"]) .chat-input-row:not(.chat-input-row--embedded) {
     --chat-composer-mobile-bottom-base: 0.5rem !important;
   }
 

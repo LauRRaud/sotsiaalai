@@ -7,6 +7,8 @@ import {
   resolveStableMobileAppHeight
 } from "@/components/alalehed/chat/mobileViewportUtils";
 const MOBILE_QUERY = "(max-width: 768px)";
+const DISPLAY_MODE_STORAGE_KEY = "sotsiaalai:display-mode";
+const STICKY_DISPLAY_MODES = new Set(["standalone", "fullscreen"]);
 
 function detectDisplayMode() {
   if (typeof window === "undefined") return "browser";
@@ -15,6 +17,29 @@ function detectDisplayMode() {
     window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
     window.navigator?.standalone === true;
   return isStandalone ? "standalone" : "browser";
+}
+
+function normalizeDisplayMode(value) {
+  const mode = String(value || "").trim();
+  return mode === "standalone" || mode === "fullscreen" || mode === "browser"
+    ? mode
+    : "";
+}
+
+function readStoredDisplayMode() {
+  if (typeof window === "undefined") return "";
+  try {
+    return normalizeDisplayMode(window.sessionStorage.getItem(DISPLAY_MODE_STORAGE_KEY));
+  } catch {
+    return "";
+  }
+}
+
+function writeStickyDisplayMode(mode) {
+  if (typeof window === "undefined" || !STICKY_DISPLAY_MODES.has(mode)) return;
+  try {
+    window.sessionStorage.setItem(DISPLAY_MODE_STORAGE_KEY, mode);
+  } catch {}
 }
 
 function resolvePlatform() {
@@ -44,7 +69,18 @@ function applyDisplayModeFlag(previousMode) {
   const root = document.documentElement;
   const body = document.body;
   if (!root || !body) return previousMode || "browser";
-  const mode = resolveStableDisplayMode(previousMode, detectDisplayMode());
+  const storedMode = readStoredDisplayMode();
+  const currentMode =
+    normalizeDisplayMode(previousMode) ||
+    normalizeDisplayMode(root.getAttribute("data-display-mode")) ||
+    normalizeDisplayMode(body.getAttribute("data-display-mode")) ||
+    storedMode;
+  const mode = resolveStableDisplayMode(currentMode, detectDisplayMode());
+  if (STICKY_DISPLAY_MODES.has(mode)) {
+    writeStickyDisplayMode(mode);
+    root.setAttribute("data-display-mode-sticky", mode);
+    body.setAttribute("data-display-mode-sticky", mode);
+  }
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
   return mode;
@@ -156,11 +192,6 @@ export default function ViewportLayoutSetter() {
       window.visualViewport?.removeEventListener("resize", onResize);
       window.removeEventListener("focusin", onFocusChange);
       window.removeEventListener("focusout", onFocusChange);
-      applyLayoutFlag(false);
-      document.documentElement.removeAttribute("data-display-mode");
-      document.body.removeAttribute("data-display-mode");
-      document.documentElement.removeAttribute("data-platform");
-      document.body.removeAttribute("data-platform");
     };
   }, []);
   useEffect(() => {

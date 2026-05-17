@@ -283,6 +283,18 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*none[\s\S]*?overflow-x:\s*visible[\s\S]*?overflow-y:\s*visible/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__results \.workspace-feature-list-card\s*\{[\s\S]*?max-height:\s*none/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?max-height:\s*calc\(100dvh - env\(safe-area-inset-top,\s*0px\) - env\(safe-area-inset-bottom,\s*0px\) - 1\.12rem\)/
+  );
+  assert.match(
+    css,
     /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace__filters-shell--toolbar-feedback\s*\{[\s\S]*?padding-bottom:\s*0\.48rem/
   );
   assert.match(source, /const workspaceRef = useRef\(null\);/);
