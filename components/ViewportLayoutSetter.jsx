@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { resolveStableDisplayMode } from "@/components/alalehed/chat/mobileViewportUtils";
+import {
+  resolveStableDisplayMode,
+  resolveStableMobileAppHeight
+} from "@/components/alalehed/chat/mobileViewportUtils";
 const MOBILE_QUERY = "(max-width: 768px)";
 
 function detectDisplayMode() {
@@ -61,16 +64,27 @@ function applyPlatformFlag() {
   body.removeAttribute("data-platform");
 }
 
-function applyVhVar() {
+function applyVhVar(previousStableLayoutHeight = 0) {
   if (typeof window === "undefined") return;
   const root = document.documentElement;
-  if (!root) return;
+  if (!root) return previousStableLayoutHeight || 0;
   const vv = window.visualViewport;
-  const layoutHeight = Math.max(
-    window.innerHeight || 0,
-    document.documentElement?.clientHeight || 0,
-    vv ? vv.height + vv.offsetTop : 0
-  );
+  const offsetTop = vv ? vv.offsetTop : 0;
+  const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
+  const active = document.activeElement;
+  const isEditable = !!active && (active.tagName === "TEXTAREA" || active.tagName === "INPUT" || active.isContentEditable);
+  const displayMode = root.getAttribute("data-display-mode") || detectDisplayMode();
+  const stabilizeForKeyboard = displayMode === "standalone" || displayMode === "fullscreen";
+  const layoutHeight = resolveStableMobileAppHeight({
+    windowInnerHeight: window.innerHeight || 0,
+    documentElementClientHeight: document.documentElement?.clientHeight || 0,
+    visualViewportHeight: vv?.height,
+    visualViewportOffsetTop: vv?.offsetTop,
+    rawKeyboardOffset: rawKeyboard,
+    isEditable,
+    stabilizeForKeyboard,
+    previousStableLayoutHeight
+  });
   const height = vv ? vv.height : layoutHeight;
   const vh = height * 0.01;
   if (vh) root.style.setProperty("--vh", `${vh}px`);
@@ -81,17 +95,15 @@ function applyVhVar() {
     root.style.setProperty("--glass-mobile-root-vh", `${layoutHeight}px`);
     root.style.setProperty("--glass-mobile-vh", `${layoutHeight}px`);
   }
-  const offsetTop = vv ? vv.offsetTop : 0;
-  const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
-  const active = document.activeElement;
-  const isEditable = !!active && (active.tagName === "TEXTAREA" || active.tagName === "INPUT" || active.isContentEditable);
   const keyboardOffset = isEditable ? Math.max(0, rawKeyboard) : 0;
   root.style.setProperty("--keyboard-offset", `${keyboardOffset}px`);
+  return layoutHeight || previousStableLayoutHeight || 0;
 }
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
   const lastFocusedPathRef = useRef(null);
   const hasFocusedOnceRef = useRef(false);
+  const stableLayoutHeightRef = useRef(0);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mql = window.matchMedia(MOBILE_QUERY);
@@ -101,23 +113,25 @@ export default function ViewportLayoutSetter() {
     applyLayoutFlag(mql.matches);
     displayMode = applyDisplayModeFlag(displayMode);
     applyPlatformFlag();
-    applyVhVar();
+    stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
         displayMode = applyDisplayModeFlag(displayMode);
         applyPlatformFlag();
-        applyVhVar();
+        stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
       });
     };
     const onFocusChange = () => {
-      window.requestAnimationFrame(() => applyVhVar());
+      window.requestAnimationFrame(() => {
+        stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+      });
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
       displayMode = applyDisplayModeFlag(displayMode);
       applyPlatformFlag();
-      applyVhVar();
+      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     };
     const onDisplayModeChange = () => {
       displayMode = applyDisplayModeFlag(displayMode);

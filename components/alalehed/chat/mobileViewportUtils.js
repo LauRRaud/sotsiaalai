@@ -7,6 +7,8 @@ function toNonNegativePixel(value) {
   return Math.max(0, Math.round(toFiniteNumber(value, 0)));
 }
 
+const MOBILE_KEYBOARD_ACTIVE_THRESHOLD = 56;
+
 function resolveViewportExtent({
   currentViewportExtent,
   visualViewportHeight,
@@ -80,4 +82,29 @@ export function resolveStableDisplayMode(previousMode, detectedMode) {
     return previous;
   }
   return detected;
+}
+
+export function resolveStableMobileAppHeight(metrics = {}) {
+  const visualExtent = resolveViewportExtent({
+    visualViewportHeight: metrics.visualViewportHeight,
+    visualViewportOffsetTop: metrics.visualViewportOffsetTop,
+    layoutViewportHeight: 0
+  });
+  const measuredLayoutHeight = Math.max(
+    toNonNegativePixel(metrics.windowInnerHeight),
+    toNonNegativePixel(metrics.documentElementClientHeight),
+    visualExtent
+  );
+  const previousStableLayoutHeight = toNonNegativePixel(
+    metrics.previousStableLayoutHeight
+  );
+  const rawKeyboardOffset = toNonNegativePixel(metrics.rawKeyboardOffset);
+  const stabilizeForKeyboard = metrics.stabilizeForKeyboard === true;
+  const keyboardActive =
+    stabilizeForKeyboard &&
+    Boolean(metrics.isEditable) &&
+    rawKeyboardOffset > MOBILE_KEYBOARD_ACTIVE_THRESHOLD;
+
+  if (!keyboardActive) return measuredLayoutHeight;
+  return Math.max(measuredLayoutHeight, previousStableLayoutHeight);
 }

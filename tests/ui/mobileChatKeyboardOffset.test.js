@@ -3,7 +3,8 @@ import test from "node:test";
 
 import {
   resolveMobileChatKeyboardOffset,
-  resolveStableDisplayMode
+  resolveStableDisplayMode,
+  resolveStableMobileAppHeight
 } from "../../components/alalehed/chat/mobileViewportUtils.js";
 
 test("mobile chat keyboard offset uses visible viewport overlap even when container height changes", () => {
@@ -35,4 +36,34 @@ test("mobile chat keyboard offset stays zero when layout already fits above the 
 test("standalone display mode is sticky across transient viewport resize reports", () => {
   assert.equal(resolveStableDisplayMode("standalone", "browser"), "standalone");
   assert.equal(resolveStableDisplayMode("browser", "standalone"), "standalone");
+});
+
+test("PWA app height stays stable while the software keyboard resizes the viewport", () => {
+  const height = resolveStableMobileAppHeight({
+    windowInnerHeight: 520,
+    documentElementClientHeight: 520,
+    visualViewportHeight: 500,
+    visualViewportOffsetTop: 0,
+    rawKeyboardOffset: 320,
+    isEditable: true,
+    stabilizeForKeyboard: true,
+    previousStableLayoutHeight: 820
+  });
+
+  assert.equal(height, 820);
+});
+
+test("mobile app height follows the measured viewport outside keyboard stabilization", () => {
+  const height = resolveStableMobileAppHeight({
+    windowInnerHeight: 520,
+    documentElementClientHeight: 520,
+    visualViewportHeight: 500,
+    visualViewportOffsetTop: 0,
+    rawKeyboardOffset: 320,
+    isEditable: true,
+    stabilizeForKeyboard: false,
+    previousStableLayoutHeight: 820
+  });
+
+  assert.equal(height, 520);
 });
