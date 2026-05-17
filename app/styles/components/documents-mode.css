@@ -246,7 +246,7 @@
   --glass-ring-tilt-angle-right: 1.4deg;
   width: min(100%, 52rem);
   margin: 0 auto;
-  padding: clamp(0.82rem, 1.7vw, 1.2rem);
+  padding: 0;
 }
 
 .documents-workspace-shell--documents {
@@ -2263,6 +2263,20 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   box-shadow: none;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
+}
+
+@media (min-width: 769px) {
+  .documents-scroll-back-button {
+    position: absolute !important;
+    left: calc(0.55rem - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+    top: calc(
+      0.55rem - var(--workspace-guide-panel-pad-top, 0.6rem) -
+        clamp(0.18rem, 0.65vh, 0.42rem)
+    ) !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
 }
 
 .documents-page-shell--content {

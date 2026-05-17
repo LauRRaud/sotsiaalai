@@ -32,6 +32,11 @@ test("workspace-launched invite modal aligns with workspace desktop chrome", () 
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /invite-modal-overlay--workspace/);
   assert.match(componentSource, /invite-modal-content--workspace/);
+  assert.match(componentSource, /inviteListCardClassName[\s\S]*?mt-\[1\.45rem\]/);
+  assert.match(componentSource, /inviteListCardClassName[\s\S]*?mx-auto w-full max-w-\[36rem\]/);
+  assert.match(componentSource, /inviteListCardClassName[\s\S]*?max-\[768px\]:max-w-\[23rem\]/);
+  assert.match(componentSource, /invites\.length === 0[\s\S]*?min-h-\[12rem\]/);
+  assert.match(componentSource, /invites\.length === 0[\s\S]*?max-\[768px\]:min-h-\[10\.5rem\]/);
   assert.match(
     cssSource,
     /\.invite-modal-overlay\.person-invite-modal-overlay\.invite-modal-overlay--workspace\s*\{[\s\S]*?align-items:\s*center\s*!important;[\s\S]*?align-content:\s*center\s*!important;[\s\S]*?padding-top:\s*0\s*!important;[\s\S]*?padding-bottom:\s*0\s*!important;/

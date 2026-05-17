@@ -3782,3 +3782,159 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
 }
+
+.policy-scroll-page-ring::before {
+  display: none !important;
+}
+
+.policy-scroll-page-ring .glass-policy-content,
+.policy-scroll-page-ring .glass-policy-content--expanded,
+.policy-scroll-page-ring .guide-policy-content,
+.policy-scroll-page-ring .policy-page-content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+
+.policy-scroll-page-scroller.glass-policy-scroll,
+.policy-scroll-page-scroller.glass-ring-scroll,
+.policy-scroll-page-scroller.glass-ring-scroll--open,
+.policy-scroll-page-scroller.glass-policy-scroll--expanded,
+.policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
+.policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+.policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
+.policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+  --policy-scroll-edge-pad-x: var(--ring-pad-x, var(--glass-ring-pad-x, 1rem));
+  --policy-scroll-edge-pad-top: var(--ring-pad-top, var(--glass-ring-pad-top, 0.6rem));
+  box-sizing: border-box !important;
+  position: relative !important;
+  width: calc(
+    100% + var(--policy-scroll-edge-pad-x) + var(--policy-scroll-edge-pad-x)
+  ) !important;
+  max-width: none !important;
+  height: calc(100% + var(--policy-scroll-edge-pad-top)) !important;
+  max-height: calc(100% + var(--policy-scroll-edge-pad-top)) !important;
+  margin-top: calc(0px - var(--policy-scroll-edge-pad-top)) !important;
+  margin-right: calc(0px - var(--policy-scroll-edge-pad-x)) !important;
+  margin-left: calc(0px - var(--policy-scroll-edge-pad-x)) !important;
+  padding: calc(var(--policy-scroll-edge-pad-top) + clamp(0.35rem, 1.1vh, 0.72rem))
+    calc(var(--policy-scroll-edge-pad-x) + clamp(1rem, 2.4vw, 1.55rem))
+    clamp(1.45rem, 3.2vh, 2.2rem) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  transform: none !important;
+  scrollbar-gutter: auto !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.policy-scroll-back-button {
+  position: absolute !important;
+  left: 0.55rem !important;
+  top: 0.55rem !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
+}
+
+@media (min-width: 769px) {
+  .framework-surface-panel .policy-scroll-back-button {
+    left: calc(0.55rem - 0.9375rem) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .policy-scroll-page-scroller.glass-policy-scroll,
+  .policy-scroll-page-scroller.glass-ring-scroll,
+  .policy-scroll-page-scroller.glass-ring-scroll--open,
+  .policy-scroll-page-scroller.glass-policy-scroll--expanded,
+  .policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
+  .policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+  .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
+  .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+    padding: calc(var(--policy-scroll-edge-pad-top) + clamp(0.02rem, 0.35vh, 0.18rem))
+      calc(var(--policy-scroll-edge-pad-x) + clamp(0.58rem, 2.4vw, 0.82rem))
+      clamp(1.1rem, 2.8vh, 1.65rem) !important;
+  }
+
+  .policy-scroll-back-button {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.2rem) !important;
+  }
+}
+
+.workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+  box-sizing: border-box !important;
+  position: relative !important;
+  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  max-width: none !important;
+  height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  max-height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  margin-top: calc(0px - var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;
+  padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;
+  padding-top: calc(var(--workspace-guide-panel-pad-top, 0.6rem) + clamp(0.18rem, 0.65vh, 0.42rem)) !important;
+  padding-bottom: clamp(2.45rem, 4.8vh, 3rem) !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  scrollbar-gutter: auto !important;
+}
+
+.workspace-scroll-surface .workspace-scroll-back-button {
+  position: absolute !important;
+  left: 0.55rem !important;
+  top: 0.55rem !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
+}
+
+@media (max-width: 768px) {
+  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
+    height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
+    max-height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
+    margin-top: calc(0px - var(--glass-ring-pad-top, 0.6rem)) !important;
+    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    padding-right: var(--glass-ring-pad-x, 1rem) !important;
+    padding-left: var(--glass-ring-pad-x, 1rem) !important;
+    padding-top: calc(var(--glass-ring-pad-top, 0.6rem) + clamp(0.02rem, 0.35vh, 0.18rem)) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .workspace-scroll-surface .workspace-scroll-back-button {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: calc(
+      env(safe-area-inset-top, 0px) + 0.22rem -
+        clamp(calc(0.4 * var(--base-rem, 16px)), 1.4vh, calc(1.1 * var(--base-rem, 16px))) +
+        var(--workspace-guide-panel-pad-top, var(--glass-ring-pad-top, 0.6rem))
+    ) !important;
+  }
+
+  .documents-workspace-page--library .documents-scroll-back-button {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: calc(
+      env(safe-area-inset-top, 0px) + 0.22rem -
+        clamp(calc(0.4 * var(--base-rem, 16px)), 1.4vh, calc(1.1 * var(--base-rem, 16px))) +
+        var(--workspace-guide-panel-pad-top, var(--glass-ring-pad-top, 0.6rem))
+    ) !important;
+  }
+
+  .workspace-dashboard-panel .glass-subpage-back-button--anchored {
+    top: calc(var(--glass-subpage-back-top) - 1.05rem) !important;
+  }
+
+  .workspace-dashboard-panel .glass-subpage-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.08rem) !important;
+  }
+}

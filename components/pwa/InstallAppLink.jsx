@@ -82,7 +82,13 @@ export default function InstallAppLink({
   variant = "list",
   heading,
   className,
-  mobilePopoverPreferAbove = false
+  mobilePopoverPreferAbove = false,
+  installTarget = "auto",
+  ariaLabel,
+  tabIndex,
+  showWhenUnavailable = false,
+  allowDesktopInstructions = true,
+  children
 }) {
   const [canInstall, setCanInstall] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -278,12 +284,15 @@ export default function InstallAppLink({
       );
     } catch {}
 
-    const existing =
-      typeof window !== "undefined" ? window.__deferredPWAInstallPrompt : undefined;
-    if (existing) {
-      setDeferredPrompt(existing);
-      setCanInstall(true);
-    }
+    const syncStoredPrompt = () => {
+      const existing =
+        typeof window !== "undefined" ? window.__deferredPWAInstallPrompt : undefined;
+      if (existing) {
+        setDeferredPrompt(existing);
+        setCanInstall(true);
+      }
+    };
+    syncStoredPrompt();
 
     const onBeforeInstall = e => {
       if (!e.defaultPrevented) e.preventDefault();
@@ -303,9 +312,11 @@ export default function InstallAppLink({
     };
 
     window.addEventListener("beforeinstallprompt", onBeforeInstall);
+    window.addEventListener("pwa-install-prompt-ready", syncStoredPrompt);
     window.addEventListener("appinstalled", onInstalled);
     return () => {
       window.removeEventListener("beforeinstallprompt", onBeforeInstall);
+      window.removeEventListener("pwa-install-prompt-ready", syncStoredPrompt);
       window.removeEventListener("appinstalled", onInstalled);
     };
   }, []);
@@ -313,7 +324,12 @@ export default function InstallAppLink({
   const handleClick = useCallback(
     async e => {
       e.preventDefault();
-      const isMobile = isMobileViewport || isIOS;
+      const isMobile =
+        installTarget === "mobile"
+          ? true
+          : installTarget === "desktop"
+            ? false
+            : isMobileViewport || isIOS;
 
       if (isMobile) {
         setHelpOpen((current) => !current);
@@ -334,6 +350,8 @@ export default function InstallAppLink({
         }
         return;
       }
+
+      if (!allowDesktopInstructions) return;
 
       const message = isMobile
         ? isIOS
@@ -356,17 +374,29 @@ export default function InstallAppLink({
       isIOS,
       isMobileViewport,
       isMacSafari,
+      installTarget,
+      allowDesktopInstructions,
       macHint
     ]
   );
 
   if (isStandalone) return null;
 
-  const shouldHideDesktopInstall = !isMobileViewport && !isIOS && !canInstall;
+  const shouldHideDesktopInstall =
+    !showWhenUnavailable &&
+    installTarget === "auto" &&
+    !isMobileViewport &&
+    !isIOS &&
+    !canInstall;
   if (shouldHideDesktopInstall) return null;
 
-  const installCta =
-    isMobileViewport || isIOS ? installCtaMobile : installCtaDesktop;
+  const isMobileInstallTarget =
+    installTarget === "mobile"
+      ? true
+      : installTarget === "desktop"
+        ? false
+        : isMobileViewport || isIOS;
+  const installCta = isMobileInstallTarget ? installCtaMobile : installCtaDesktop;
 
   const helpPopover =
     helpOpen && typeof document !== "undefined"
@@ -375,7 +405,7 @@ export default function InstallAppLink({
             ref={helpPopoverRef}
             role="dialog"
             aria-modal="false"
-            aria-label={isMobileViewport || isIOS ? t("pwa.cta_mobile") : t("pwa.cta_desktop")}
+            aria-label={isMobileInstallTarget ? t("pwa.cta_mobile") : t("pwa.cta_desktop")}
             className={helpPopoverClassName}
             style={
               helpPopoverPlacement
@@ -403,13 +433,31 @@ export default function InstallAppLink({
             </button>
             <div className="flex max-w-[inherit] flex-col pr-[1.38rem]">
               <div className="mt-[0.02rem] text-left text-[1.02rem] leading-[1.42] text-inherit opacity-95 max-[480px]:text-[1.08rem] max-[480px]:leading-[1.48]">
-                {isMobileViewport || isIOS ? mobileHintNode : desktopHintNode}
+                {isMobileInstallTarget ? mobileHintNode : desktopHintNode}
               </div>
             </div>
           </div>,
           document.body
         )
       : null;
+
+  if (variant === "quickIcon") {
+    return (
+      <>
+        <button
+          type="button"
+          ref={triggerRef}
+          className={className}
+          onClick={handleClick}
+          aria-label={ariaLabel || installCta}
+          tabIndex={tabIndex}
+        >
+          {children || installCta}
+        </button>
+        {helpPopover}
+      </>
+    );
+  }
 
   if (variant === "section") {
     return (

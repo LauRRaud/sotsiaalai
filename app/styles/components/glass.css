@@ -104,6 +104,15 @@ html[data-contrast="hc"] {
   z-index: 1;
 }
 
+.glass-subpage-back-button--anchored {
+  position: fixed !important;
+  left: var(--glass-subpage-back-left) !important;
+  top: var(--glass-subpage-back-top) !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
+}
+
 .ui-checkbox-glass,
 .documents-checkbox {
   appearance: none;
@@ -475,8 +484,20 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
 }
 
 .materials-comment-glow-field {
-  min-height: 7.4rem;
+  min-height: 12rem;
   border-radius: 1.05rem;
+}
+
+.glass-subpage-title {
+  --glass-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
+  --glass-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
+}
+
+@media (min-width: 769px) {
+  .compact-workspace-subpage-title.glass-subpage-title {
+    --glass-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
+    --glass-subpage-title-margin-bottom: 0;
+  }
 }
 
 :root:not(.theme-light):not(.theme-mid) .materials-comment-glow-field.ui-glow-field {

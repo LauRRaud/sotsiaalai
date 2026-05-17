@@ -6,18 +6,18 @@ export function getRagAdminCopy(locale) {
   if (isEstonian(locale)) {
     return {
       heading: "RAG",
-      subtitle: "Halda teadmistebaasi dokumente, ingest-vooge, KOV-e ja organisatsioone uhes admin-keskkonnas.",
+      subtitle: "Halda teadmistebaasi dokumente, sisestusvooge, KOV-e ja organisatsioone ühes admin-keskkonnas.",
       nav: {
-        home: "Toolaud",
+        home: "Töölaud",
         documents: "Dokumendid",
-        ingest: "Ingest",
+        ingest: "Sisestus",
         kov: "KOV",
         organizations: "Organisatsioonid",
-        sourcePackages: "Source packages"
+        sourcePackages: "Lähtepaketid"
       },
       landing: {
-        title: "Toolaud",
-        subtitle: "Halda RAG teadmistebaasi nelja pohisuuna kaudu: dokumentide haldus, kaesitsi ingest, kohalike omavalitsuste erihaldus ja organisatsioonide erihaldus.",
+        title: "Töölaud",
+        subtitle: "Halda RAG teadmistebaasi nelja põhisuuna kaudu: dokumentide haldus, käsitsi sisestus, kohalike omavalitsuste erihaldus ja organisatsioonide erihaldus.",
         cards: [
           {
             href: "/admin/rag/documents",
@@ -27,60 +27,60 @@ export function getRagAdminCopy(locale) {
           },
           {
             href: "/admin/rag/ingest",
-            title: "Ingest",
-            body: "Kaesitsi ingest toolaud URL-ide, PDF + metadata, artiklite ja muude sisestusvahendite jaoks.",
-            cta: "Ava ingest"
+            title: "Sisestus",
+            body: "Käsitsi sisestuse töölaud URL-ide, PDF-ide, metaandmete, artiklite ja muude allikavoogude jaoks.",
+            cta: "Ava sisestus"
           },
           {
             href: "/admin/rag/kov",
             title: "KOV haldus",
-            body: "Halda kohalike omavalitsuste linke, failide seisu ja valmisolekut jargmisteks sammudeks. Korje toimub praegu valjaspool platvormi.",
+            body: "Halda kohalike omavalitsuste linke, failide seisu ja valmisolekut järgmisteks sammudeks. Korje toimub praegu väljaspool platvormi.",
             cta: "Ava KOV admin"
           },
           {
             href: "/admin/rag/organizations",
             title: "Organisatsioonid",
-            body: "Halda MTU-sid, sihtasutusi, teenuseosutajaid, partnereid ja olulisi teemaveebe eraldi admin-vaates.",
+            body: "Halda MTÜ-sid, sihtasutusi, teenuseosutajaid, partnereid ja olulisi teemaveebe eraldi admin-vaates.",
             cta: "Ava organisatsioonid"
           },
           {
             href: "/admin/rag/source-packages",
-            title: "Source packages",
-            body: "Vaata SourcePackage snapshotte, missing sectione ja review seisu.",
-            cta: "Ava source packages"
+            title: "Lähtepaketid",
+            body: "Vaata SourcePackage'i hetktõmmiseid, puuduvaid jaotisi ja ülevaatuse seisu.",
+            cta: "Ava lähtepaketid"
           }
         ],
-        notesTitle: "Markused",
+        notesTitle: "Märkused",
         notes: [
-          "Backend endpointid jaavad samaks ja koik route'id kasutavad olemasolevat /api/rag proxy kihti.",
+          "Backend endpointid jäävad samaks ja kõik route'id kasutavad olemasolevat /api/rag proxy kihti.",
           "Documents vaade keskendub registrile ja detailvaatele.",
-          "Ingest vaade koondab koik sisestusvood ja metadata mallid uhte kohta."
+          "Sisestuse vaade koondab kõik allikavood ja metaandmete mallid ühte kohta."
         ]
       },
       pages: {
         documents: {
           title: "Dokumentide haldus",
-          subtitle: "Dokumentide register, allikaloogika ja dokumendihalduse seaded peavad siia mahtuma uhe laiema haldusala osadena."
+          subtitle: "Dokumentide register, allikaloogika ja dokumendihalduse seaded peavad siia mahtuma ühe laiema haldusala osadena."
         },
         ingest: {
-          title: "Ingest toolaud",
-          subtitle: "Kaesitsi ingest toolaud URL-ide, PDF-de, artiklite ja muude sisestusvoogude jaoks."
+          title: "Sisestuse töölaud",
+          subtitle: "Käsitsi sisestuse töölaud URL-ide, PDF-ide, artiklite ja muude allikavoogude jaoks."
         },
         kov: {
           title: "KOV haldus",
-          subtitle: "Halda kasitsi kogutud KOV andmeid, linke, failide seisu ja valmisolekut jargmisteks sammudeks."
+          subtitle: "Halda käsitsi kogutud KOV andmeid, linke, failide seisu ja valmisolekut järgmisteks sammudeks."
         },
         organizations: {
           title: "Organisatsioonide haldus",
-          subtitle: "Halda organisatsioone, teenuseosutajaid, partnereid ja olulisi veebiallikaid eraldi RAG admini pohiosana."
+          subtitle: "Halda organisatsioone, teenuseosutajaid, partnereid ja olulisi veebiallikaid eraldi RAG admini põhiosana."
         },
         sourcePackages: {
-          title: "SourcePackage review",
-          subtitle: "Vaata persisted SourcePackage snapshotte, review flags seisu ja minimaalseid review tegevusi."
+          title: "Lähtepakettide ülevaatus",
+          subtitle: "Vaata salvestatud SourcePackage'i hetktõmmiseid, ülevaatuse märke ja vajalikke toiminguid."
         }
       },
       kov: {
-        searchPlaceholder: "Otsi KOV nime, slugi voi marksona jargi"
+        searchPlaceholder: "Otsi KOV nime, slugi või märksõna järgi"
       }
     };
   }

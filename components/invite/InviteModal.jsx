@@ -208,7 +208,7 @@ export default function InviteModal() {
     "light:border-[rgba(88,148,118,0.18)] light:bg-[rgba(247,252,249,0.94)] light:text-[#4d7b67] " +
     "[.theme-mid_&]:border-[rgba(100,136,114,0.2)] [.theme-mid_&]:bg-[rgba(246,250,247,0.9)] [.theme-mid_&]:text-[#537563]";
   const inviteListCardClassName =
-    `${sponsoredSelected ? "mt-[0.1rem] max-[768px]:mt-[0.15rem]" : "mt-[0.1rem]"} rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
+    `${sponsoredSelected ? "mt-[1.25rem] max-[768px]:mt-[0.9rem]" : "mt-[1.45rem] max-[768px]:mt-[1rem]"} mx-auto w-full max-w-[36rem] max-[768px]:max-w-[23rem] rounded-[1rem] px-[0.92rem] py-[0.82rem] max-[768px]:px-[0.86rem] max-[768px]:py-[0.78rem] text-[color:var(--pt-120)] ` +
     "[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)]";
   const inviteListRowClassName =
     `invite-list-row grid grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_auto] items-center gap-[0.75rem] ` +
@@ -766,8 +766,8 @@ export default function InviteModal() {
         <InviteGlowPanel
           className={`invite-list-panel ${inviteListCardClassName} ${
             invites.length === 0
-              ? "min-h-[9rem] max-h-none max-[768px]:min-h-[8.6rem] max-[768px]:max-h-none overflow-visible"
-              : "min-h-[9.6rem] max-h-[min(40dvh,19rem)] max-[768px]:min-h-[8.2rem] max-[768px]:max-h-[min(26dvh,14.5rem)] overflow-y-auto"
+              ? "min-h-[12rem] max-h-none max-[768px]:min-h-[10.5rem] max-[768px]:max-h-none overflow-visible"
+              : "min-h-[12rem] max-h-[min(40dvh,21rem)] max-[768px]:min-h-[10.5rem] max-[768px]:max-h-[min(28dvh,15.5rem)] overflow-y-auto"
           } [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0`}
         >
           <div className="flex items-center justify-between gap-[0.75rem] max-[768px]:grid max-[768px]:grid-cols-[minmax(0,1fr)_auto] max-[768px]:items-center max-[768px]:gap-[0.5rem]">

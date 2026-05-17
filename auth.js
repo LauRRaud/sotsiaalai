@@ -2,6 +2,7 @@ import CredentialsProviderImport from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "./lib/prisma";
 import { compare } from "bcrypt";
+import { isExpectedSessionInvalidationError } from "./lib/auth/session-errors";
 import {
   hashOpaqueToken,
   normalizeEmail,
@@ -157,6 +158,7 @@ export const authConfig = {
   logger: {
     error(code, metadata) {
       if (isIgnorableJwtDecryptError(code, metadata)) return;
+      if (isExpectedSessionInvalidationError(code, metadata)) return;
       console.error(`[next-auth][error][${code}]`, metadata ?? {});
     }
   },

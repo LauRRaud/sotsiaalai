@@ -8,6 +8,7 @@ import { cn } from "@/components/ui/cn";
 import useT from "@/components/i18n/useT";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
+import InstallAppLink from "@/components/pwa/InstallAppLink";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -19,9 +20,9 @@ const HOME_PANEL_STAGGER_MS = 120;
 const homeQuickLinkClassName =
   "home-quick-link peer group home-link pointer-events-auto !inline-flex !h-auto !min-h-0 appearance-none items-center justify-center !bg-transparent !p-0 text-center !leading-none [line-height:0] !no-underline !rounded-none !border-0 !shadow-none !text-[color:var(--brand-primary,#c57171)] transition-transform duration-200 ease-out hover:!border-transparent hover:!shadow-none hover:!text-[color:var(--brand-primary,#c57171)] focus-visible:!border-transparent focus-visible:!shadow-none focus-visible:!text-[color:var(--brand-primary,#c57171)] focus-visible:outline-none active:scale-[0.985] active:!border-transparent active:!shadow-none light:!text-[#7a3a38] hc:!text-[color:var(--hc-accent)]";
 const homeQuickIconClassName =
-  "block h-[clamp(3.12rem,4.25vw,3.72rem)] w-[clamp(3.12rem,4.25vw,3.72rem)] shrink-0 text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.1] group-focus-visible:scale-[1.1] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top] max-[768px]:h-[clamp(4.25rem,17vw,5.35rem)] max-[768px]:w-[clamp(4.25rem,17vw,5.35rem)]";
+  "block h-[clamp(3.78rem,5vw,4.42rem)] w-[clamp(3.78rem,5vw,4.42rem)] shrink-0 overflow-visible text-[#c57171] stroke-current opacity-95 transform-gpu will-change-transform transition-transform duration-[340ms] ease-out group-hover:scale-[1.06] group-focus-visible:scale-[1.06] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)] [vertical-align:top] max-[768px]:h-[clamp(4.78rem,19vw,5.9rem)] max-[768px]:w-[clamp(4.78rem,19vw,5.9rem)]";
 const homeQuickLabelClassName =
-  "home-quick-label relative mt-[0.58rem] block w-[11.2rem] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-transparent opacity-100 pointer-events-none transform-gpu [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] motion-reduce:animate-pulse after:content-[attr(data-label)] after:absolute after:inset-0 after:text-center after:text-[color:var(--home-link-color,var(--brand-primary,#c57171))] after:opacity-0 after:transition-opacity after:duration-[750ms] after:ease-[cubic-bezier(0.16,1,0.3,1)] after:[-webkit-text-fill-color:currentColor] after:[animation:none] max-[768px]:mt-[0.48rem] max-[768px]:min-h-[2.25em] max-[768px]:w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance]";
+  "home-quick-label relative mt-[0.12rem] block w-[11.2rem] max-w-none translate-y-0 whitespace-nowrap text-center text-[clamp(1.18rem,1.52vw,1.36rem)] font-medium leading-[1.18] tracking-[0.04em] text-transparent opacity-100 pointer-events-none transform-gpu [-webkit-background-clip:text] [background-clip:text] [-webkit-text-fill-color:transparent] [background-repeat:no-repeat] [background-size:220%_100%] [background-position:200%_center] [animation:profile-footer-shine_12000ms_linear_infinite] [animation-delay:100ms] [animation-fill-mode:both] motion-reduce:animate-pulse after:content-[attr(data-label)] after:absolute after:inset-0 after:text-center after:text-[color:var(--home-link-color,var(--brand-primary,#c57171))] after:opacity-0 after:transition-opacity after:duration-[750ms] after:ease-[cubic-bezier(0.16,1,0.3,1)] after:[-webkit-text-fill-color:currentColor] after:[animation:none] max-[768px]:mt-[0.08rem] max-[768px]:min-h-[2.25em] max-[768px]:w-[9.8rem] max-[768px]:whitespace-normal max-[768px]:text-center max-[768px]:text-[clamp(1.08rem,4.45vw,1.26rem)] max-[768px]:tracking-[0.03em] max-[768px]:[text-wrap:balance]";
 const homeQuickLabelStyle = {
   backgroundImage:
     "linear-gradient(90deg, transparent 0%, color-mix(in srgb, currentColor 22%, transparent) 32%, currentColor 50%, color-mix(in srgb, currentColor 22%, transparent) 68%, transparent 100%)"
@@ -44,23 +45,27 @@ function centerQuickItem(list, target, behavior = "auto") {
 
 function HomeQuickLinkIcon({ name, className }) {
   const commonProps = {
-    viewBox: "3 3 18 18",
+    viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 0.86,
+    strokeWidth: 1.18,
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": "true",
     focusable: "false",
-    className
+    className: cn("overflow-visible", className)
+  };
+  const installIconProps = {
+    ...commonProps,
+    strokeWidth: 1.02
   };
 
   if (name === "book") {
     return (
       <svg {...commonProps}>
-        <path d="M12 6.65v12.7" />
-        <path d="M4.65 6.05c2.18-.56 4.6-.08 7.35 1.43v11.87c-2.75-1.51-5.17-1.99-7.35-1.43V6.05Z" />
-        <path d="M19.35 6.05c-2.18-.56-4.6-.08-7.35 1.43v11.87c2.75-1.51 5.17-1.99 7.35-1.43V6.05Z" />
+        <path d="M12 4.25v15.5" />
+        <path d="M3.95 4.55c2.48-.64 5.18-.1 8.05 1.62v13.58c-2.87-1.72-5.57-2.26-8.05-1.62V4.55Z" />
+        <path d="M20.05 4.55c-2.48-.64-5.18-.1-8.05 1.62v13.58c2.87-1.72 5.57-2.26 8.05-1.62V4.55Z" />
       </svg>
     );
   }
@@ -68,11 +73,11 @@ function HomeQuickLinkIcon({ name, className }) {
   if (name === "file") {
     return (
       <svg {...commonProps}>
-        <path d="M7.25 4.05h5.92c.32 0 .62.13.85.35l3.43 3.43c.22.23.35.53.35.85V19.2c0 .47-.38.85-.85.85h-9.7a.85.85 0 0 1-.85-.85V4.9c0-.47.38-.85.85-.85Z" />
-        <path d="M13.35 4.25v3.72c0 .32.26.58.58.58h3.68" />
-        <path d="M9.65 12.1h4.65" />
-        <path d="M9.65 15.2h4.65" />
-        <path d="M9.65 9h1.55" />
+        <path d="M6.35 3.65h6.55c.38 0 .74.15 1.01.42l3.72 3.72c.27.27.42.63.42 1.01v11.05c0 .55-.45 1-1 1H6.35c-.55 0-1-.45-1-1V4.65c0-.55.45-1 1-1Z" />
+        <path d="M13.15 3.85v4.02c0 .38.3.68.68.68h4" />
+        <path d="M8.65 12.1h5.8" />
+        <path d="M8.65 15.55h5.8" />
+        <path d="M8.65 8.7h2.05" />
       </svg>
     );
   }
@@ -80,9 +85,9 @@ function HomeQuickLinkIcon({ name, className }) {
   if (name === "shield") {
     return (
       <svg {...commonProps}>
-        <path d="M12 3.92 6.1 6.17v5.05c0 3.9 2.42 7.12 5.9 8.48 3.48-1.36 5.9-4.58 5.9-8.48V6.17L12 3.92Z" />
-        <circle cx="12" cy="10.15" r="1.62" />
-        <path d="M8.95 15.55c.7-1.62 1.72-2.42 3.05-2.42s2.35.8 3.05 2.42" />
+        <path d="M12 3.55 5.2 6.12v5.6c0 4.38 2.77 8 6.8 9.46 4.03-1.46 6.8-5.08 6.8-9.46v-5.6L12 3.55Z" />
+        <circle cx="12" cy="10.35" r="1.72" />
+        <path d="M8.5 16.18c.8-1.78 1.96-2.66 3.5-2.66s2.7.88 3.5 2.66" />
       </svg>
     );
   }
@@ -90,8 +95,8 @@ function HomeQuickLinkIcon({ name, className }) {
   if (name === "tag") {
     return (
       <svg {...commonProps}>
-        <path d="M5.45 5.35h5.28c.42 0 .82.17 1.12.47l7 7c.4.4.4 1.06 0 1.46l-4.57 4.57c-.4.4-1.06.4-1.46 0l-7-7a1.58 1.58 0 0 1-.47-1.12V5.98c0-.35.28-.63.63-.63Z" />
-        <circle cx="8.85" cy="8.78" r="0.42" fill="currentColor" stroke="none" />
+        <path d="M4.15 4.5h6.05c.48 0 .94.19 1.28.53l7.75 7.75c.47.47.47 1.21 0 1.68l-4.77 4.77c-.47.47-1.21.47-1.68 0l-7.75-7.75a1.81 1.81 0 0 1-.53-1.28V5.2c0-.39.31-.7.7-.7Z" />
+        <circle cx="8.45" cy="8.25" r="0.5" fill="currentColor" stroke="none" />
       </svg>
     );
   }
@@ -99,21 +104,21 @@ function HomeQuickLinkIcon({ name, className }) {
   if (name === "chart") {
     return (
       <svg {...commonProps}>
-        <path d="M5.2 19.2V5.4" />
-        <path d="M5.2 19.2h13.6" />
-        <path d="M8.15 15.6v-4.2" />
-        <path d="M12 15.6V8.2" />
-        <path d="M15.85 15.6v-6" />
+        <path d="M4.65 19.45V4.15" />
+        <path d="M4.65 19.45h15.2" />
+        <path d="M8.15 15.95v-4.7" />
+        <path d="M12.35 15.95V7.65" />
+        <path d="M16.55 15.95V9.1" />
       </svg>
     );
   }
 
   if (name === "database") {
     return (
-      <svg {...commonProps} viewBox="2.5 2.5 19 19">
-        <ellipse cx="12" cy="5.7" rx="6.4" ry="2.55" />
-        <path d="M5.6 5.7v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55V5.7" />
-        <path d="M5.6 10.75v5.05c0 1.4 2.86 2.55 6.4 2.55s6.4-1.15 6.4-2.55v-5.05" />
+      <svg {...commonProps}>
+        <ellipse cx="12" cy="5.05" rx="7.05" ry="2.72" />
+        <path d="M4.95 5.05v5.55c0 1.5 3.16 2.72 7.05 2.72s7.05-1.22 7.05-2.72V5.05" />
+        <path d="M4.95 10.6v5.5c0 1.5 3.16 2.72 7.05 2.72s7.05-1.22 7.05-2.72v-5.5" />
       </svg>
     );
   }
@@ -121,16 +126,39 @@ function HomeQuickLinkIcon({ name, className }) {
   if (name === "audit") {
     return (
       <svg {...commonProps}>
-        <path d="M12 3.65 5.55 6.1v5.1c0 4.18 2.7 7.65 6.45 8.95 3.75-1.3 6.45-4.77 6.45-8.95V6.1L12 3.65Z" />
-        <path d="m9.2 12.2 1.9 1.9 3.95-4.35" />
+        <path d="M12 3.35 4.95 6.02v5.62c0 4.48 2.92 8.18 7.05 9.02 4.13-.84 7.05-4.54 7.05-9.02V6.02L12 3.35Z" />
+        <path d="m8.85 12.5 2.1 2.1 4.34-4.75" />
+      </svg>
+    );
+  }
+
+  if (name === "install-desktop") {
+    return (
+      <svg {...installIconProps}>
+        <rect x="5.7" y="4.55" width="12.6" height="8.75" rx="1.12" />
+        <path d="M9.2 15.8h5.6" />
+        <path d="m4.05 18.85 1.2-3.05h13.5l1.2 3.05H4.05Z" />
+        <path d="M12 6.7v4.42" />
+        <path d="m9.9 9.35 2.1 2.1 2.1-2.1" />
+      </svg>
+    );
+  }
+
+  if (name === "install-mobile") {
+    return (
+      <svg {...installIconProps}>
+        <rect x="7.25" y="3.65" width="9.5" height="16.7" rx="1.55" />
+        <path d="M10.7 18.12h2.6" />
+        <path d="M12 6.8v5" />
+        <path d="m9.9 10.05 2.1 2.1 2.1-2.1" />
       </svg>
     );
   }
 
   return (
     <svg {...commonProps}>
-      <rect x="4.35" y="6.35" width="15.3" height="11.3" rx="1.15" />
-      <path d="m5.25 7.25 6.75 5.52 6.75-5.52" />
+      <rect x="3.85" y="5.85" width="16.3" height="12.1" rx="1.18" />
+      <path d="m4.85 6.8 7.15 5.72 7.15-5.72" />
     </svg>
   );
 }
@@ -170,6 +198,7 @@ export default function HomeAboutSection({
   const quickListInitialCenterRef = useRef(false);
   const activeQuickKeyRef = useRef("privacy");
   const [activeQuickKey, setActiveQuickKey] = useState("privacy");
+  const [quickInstallTarget, setQuickInstallTarget] = useState("desktop");
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -183,8 +212,10 @@ export default function HomeAboutSection({
     locale === "et"
       ? "Kinnitused"
       : locale === "ru"
-        ? "Аудит подтверждений"
-        : "Acceptances audit";
+        ? "Подтверждения"
+        : "Confirmations";
+  const installLabel =
+    locale === "et" ? "Paigalda" : locale === "ru" ? "Установить" : "Install";
   const homeCircleLinkResponsiveClassName = cn(
     homeCircleLinkClassName,
     "w-auto max-w-full whitespace-normal break-words [text-wrap:balance] px-[0.16em] py-[0.03em]",
@@ -204,6 +235,20 @@ export default function HomeAboutSection({
     "light:!text-[color:var(--home-link-color,var(--brand-primary))]",
     "hc:!text-[color:var(--hc-accent)]"
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mobileQuery = window.matchMedia?.("(max-width: 768px)");
+    const updateInstallTarget = () => {
+      setQuickInstallTarget(mobileQuery?.matches ? "mobile" : "desktop");
+    };
+
+    updateInstallTarget();
+    mobileQuery?.addEventListener?.("change", updateInstallTarget);
+    return () => {
+      mobileQuery?.removeEventListener?.("change", updateInstallTarget);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
@@ -344,6 +389,27 @@ export default function HomeAboutSection({
       icon: "tag",
       onClick: (event) => openGlassPage(event, "/hinnastus")
     },
+    ...(quickInstallTarget === "desktop"
+      ? [
+          {
+            key: "install-desktop",
+            label: installLabel,
+            ariaLabel: t("pwa.cta_desktop"),
+            icon: "install-desktop",
+            type: "install",
+            installTarget: "desktop"
+          }
+        ]
+      : [
+          {
+            key: "install-mobile",
+            label: installLabel,
+            ariaLabel: t("pwa.cta_mobile"),
+            icon: "install-mobile",
+            type: "install",
+            installTarget: "mobile"
+          }
+        ]),
     {
       key: "contact",
       label: t("about.contact.title"),
@@ -682,7 +748,7 @@ export default function HomeAboutSection({
                   data-quick-visibility={quickVisibility}
                   aria-hidden={isVisibleQuickItem ? undefined : true}
                   className={cn(
-                    "home-before-link-item pointer-events-none relative flex min-h-[clamp(5.7rem,7.3vw,6.45rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start max-[768px]:min-h-0 max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
+                    "home-before-link-item pointer-events-none relative flex min-h-[clamp(6.5rem,7.9vw,7.15rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start pt-[0.26rem] max-[768px]:min-h-[clamp(7rem,25.5vw,8.4rem)] max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
                     isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
                     isContactItem && beforeView === "contact" && "max-[768px]:hidden"
                   )}
@@ -699,6 +765,19 @@ export default function HomeAboutSection({
                     >
                       <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
                     </button>
+                  ) : item.type === "install" ? (
+                    <InstallAppLink
+                      variant="quickIcon"
+                      installTarget={item.installTarget}
+                      showWhenUnavailable
+                      mobilePopoverPreferAbove
+                      allowDesktopInstructions={item.installTarget !== "desktop"}
+                      ariaLabel={item.ariaLabel || item.label}
+                      tabIndex={isVisibleQuickItem ? undefined : -1}
+                      className={homeQuickLinkClassName}
+                    >
+                      <HomeQuickLinkIcon name={item.icon} className={homeQuickIconClassName} />
+                    </InstallAppLink>
                   ) : (
                     <AppLink
                       href={item.href}

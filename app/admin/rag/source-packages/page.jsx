@@ -31,7 +31,7 @@ export default async function AdminRagSourcePackagesPage() {
       title={copy.pages.sourcePackages.title}
       subtitle={copy.pages.sourcePackages.subtitle}
     >
-      <RagAdminSourcePackagesScreen />
+      <RagAdminSourcePackagesScreen locale={locale} />
     </RagAdminPageFrame>
   );
 }

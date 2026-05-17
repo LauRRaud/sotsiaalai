@@ -1875,13 +1875,13 @@
       "title": "SotsiaalAI"
     },
     "links": {
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Use",
+      "privacy": "Privacy",
+      "terms": "Terms",
       "pricing": "Pricing",
       "features": "Explore features",
       "author": "From the author",
       "analytics": "Analytics",
-      "admin": "RAG knowledge base management",
+      "admin": "RAG",
       "back_home": "Back to homepage"
     },
     "footer": {

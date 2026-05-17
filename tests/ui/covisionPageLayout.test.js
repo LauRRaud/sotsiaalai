@@ -27,6 +27,41 @@ test("covision overview uses the shared workspace feature panel footprint", () =
   assert.doesNotMatch(source, /!min-h-\[clamp\(40rem/);
 });
 
+test("covision page keeps the title close to the intro copy", () => {
+  const source = read("components/covision/CovisionPage.jsx");
+  const glassCss = read("app/styles/components/glass.css");
+  const glassPageStyles = read("components/ui/glassPageStyles.js");
+
+  assert.match(source, /const compactSubpageTitleClassName =\s*"compact-workspace-subpage-title"/);
+  assert.match(
+    glassPageStyles,
+    /min-\[769px\]:!mt-\[var\(--glass-subpage-title-margin-top\)\][\s\S]*min-\[769px\]:!mb-\[var\(--glass-subpage-title-margin-bottom\)\]/
+  );
+  assert.match(
+    source,
+    /<GlassSubpageHeader[\s\S]*?headerClassName="!mb-0"[\s\S]*?titleClassName=\{compactSubpageTitleClassName\}/
+  );
+  assert.match(
+    glassCss,
+    /\.glass-subpage-title\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?--glass-subpage-title-margin-bottom:\s*clamp\(0\.35rem,\s*1\.4vh,\s*0\.8rem\);/
+  );
+  assert.match(
+    glassCss,
+    /@media\s*\(min-width:\s*769px\)\s*\{[\s\S]*?\.compact-workspace-subpage-title\.glass-subpage-title\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?--glass-subpage-title-margin-bottom:\s*0;/
+  );
+});
+
+test("covision overview keeps the intro close to the action panel", () => {
+  const source = read("components/covision/CovisionPage.jsx");
+
+  assert.match(source, /const bodyClassName =[\s\S]*?gap-\[0\.48rem\]/);
+  assert.match(
+    source,
+    /<p className=\{cn\(styles\.lead, "mx-auto m-0 mt-\[-2rem\] mb-\[-2rem\] max-w-\[58rem\][\s\S]*?leading-\[1\.5\]/
+  );
+  assert.doesNotMatch(source, /styles\.lead,[\s\S]*?pb-\[0\.18rem\]/);
+});
+
 test("covision HC surface keeps the shared blurred glass shell", () => {
   const css = read("components/covision/CovisionPage.module.css");
   const hcPageBlock = cssBlock(css, ':global(html[data-contrast="hc"]) .page');

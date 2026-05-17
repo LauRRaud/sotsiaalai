@@ -2188,7 +2188,7 @@ export default function WorkspaceFeaturePage({ feature }) {
       <div className={cn(
         isServiceMap
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
-          : panelClassName,
+          : cn(panelClassName, "workspace-scroll-surface"),
         isClosing && !isServiceMap ? "workspace-guide-panel--collapse" : null,
         isClosing ? workspaceBackTiltClassName : null
       )}>
@@ -2208,6 +2208,8 @@ export default function WorkspaceFeaturePage({ feature }) {
             backAriaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
             showBack={!isServiceMap}
             holdPressedVisualDisabled
+            anchorBack={isServiceMap}
+            backClassName={!isServiceMap ? "workspace-scroll-back-button" : null}
             headerClassName={isServiceMap ? "service-map-page-header" : null}
             titleWrapClassName={isServiceMap ? "service-map-page-title-wrap" : null}
             titleClassName={isServiceMap ? "service-map-page-title" : null}

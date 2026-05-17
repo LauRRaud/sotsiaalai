@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { resolveStableDisplayMode } from "@/components/alalehed/chat/mobileViewportUtils";
 const MOBILE_QUERY = "(max-width: 768px)";
 
-function resolveDisplayMode() {
+function detectDisplayMode() {
   if (typeof window === "undefined") return "browser";
   const isStandalone =
     window.matchMedia?.("(display-mode: standalone)")?.matches ||
@@ -36,13 +37,14 @@ function applyLayoutFlag(matches) {
   }
 }
 
-function applyDisplayModeFlag() {
+function applyDisplayModeFlag(previousMode) {
   const root = document.documentElement;
   const body = document.body;
-  if (!root || !body) return;
-  const mode = resolveDisplayMode();
+  if (!root || !body) return previousMode || "browser";
+  const mode = resolveStableDisplayMode(previousMode, detectDisplayMode());
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
+  return mode;
 }
 
 function applyPlatformFlag() {
@@ -95,14 +97,15 @@ export default function ViewportLayoutSetter() {
     const mql = window.matchMedia(MOBILE_QUERY);
     const standaloneMql = window.matchMedia("(display-mode: standalone)");
     const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
+    let displayMode = "browser";
     applyLayoutFlag(mql.matches);
-    applyDisplayModeFlag();
+    displayMode = applyDisplayModeFlag(displayMode);
     applyPlatformFlag();
     applyVhVar();
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
-        applyDisplayModeFlag();
+        displayMode = applyDisplayModeFlag(displayMode);
         applyPlatformFlag();
         applyVhVar();
       });
@@ -112,12 +115,12 @@ export default function ViewportLayoutSetter() {
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
-      applyDisplayModeFlag();
+      displayMode = applyDisplayModeFlag(displayMode);
       applyPlatformFlag();
       applyVhVar();
     };
     const onDisplayModeChange = () => {
-      applyDisplayModeFlag();
+      displayMode = applyDisplayModeFlag(displayMode);
       applyPlatformFlag();
     };
     mql.addEventListener?.("change", onMqChange);

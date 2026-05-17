@@ -9,32 +9,57 @@ function readSource(path) {
 test("workspace dashboard mobile back icon is not offset from the shared chat back anchor", () => {
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const chatTopNavSource = readSource("components/alalehed/chat/view/ChatMobileTopNav.jsx");
-  const stylesSource = readSource("components/chat/WorkspacePanel.module.css");
+  const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
+  const mobileCss = readSource("app/styles/mobile.css");
 
   assert.match(
     workspaceSource,
-    /className=\{cn\(glassPageBackTopLeftClassName,\s*styles\.backButton\)\}/
+    /className=\{cn\("workspace-dashboard-panel",\s*styles\.panel/
+  );
+  assert.match(
+    workspaceSource,
+    /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}/
   );
   assert.match(
     chatTopNavSource,
     /className=\{cn\(\s*glassPageBackMobileBottomCenterClassName,[\s\S]*?"pointer-events-auto !z-\[123\] rounded-full"/
   );
   assert.match(
-    stylesSource,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?position:\s*fixed/
+    headerSource,
+    /\.workspace-dashboard-panel/
   );
   assert.match(
-    stylesSource,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important/
+    mobileCss,
+    /\.workspace-dashboard-panel \.glass-subpage-back-button--anchored\s*\{[\s\S]*?top:\s*calc\(var\(--glass-subpage-back-top\) - 1\.05rem\)\s*!important;/
   );
   assert.match(
-    stylesSource,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.2rem - var\(--chat-pad-top,\s*1rem\)\)\s*!important/
+    mobileCss,
+    /\.workspace-dashboard-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 1\.08rem\)\s*!important;/
   );
+});
 
-  assert.doesNotMatch(
-    stylesSource,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButtonIcon\s*\{[\s\S]*?margin-(?:top|left):/
+test("shared subpage header anchors the back icon to the visible glass surface", () => {
+  const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
+  const glassStyles = readSource("app/styles/components/glass.css");
+
+  assert.match(headerSource, /const BACK_ANCHOR_SELECTOR = \[/);
+  assert.match(headerSource, /\.materials-page-content/);
+  assert.match(headerSource, /\.covision-page-surface/);
+  assert.match(headerSource, /\.workspace-dashboard-panel/);
+  assert.match(headerSource, /\.workspace-feature-panel/);
+  assert.match(headerSource, /\.documents-workspace-shell/);
+  assert.match(headerSource, /button\?\.closest\?\.\(BACK_ANCHOR_SELECTOR\)/);
+  assert.match(headerSource, /function getFixedContainingBlockRect\(element\)/);
+  assert.match(headerSource, /rect\.left - containingBlock\.left \+ insets\.left/);
+  assert.match(headerSource, /const targetLeft = anchorRect\.left \+ insets\.left/);
+  assert.match(headerSource, /currentLeft \+ deltaLeft/);
+  assert.match(headerSource, /anchorBack = true/);
+  assert.match(headerSource, /const shouldAnchorBack = Boolean\(hasBack && anchorBack\)/);
+  assert.match(headerSource, /className=\{cn\([\s\S]*glassSubpageBackButtonClassName,[\s\S]*backAnchorStyle \? "glass-subpage-back-button--anchored" : null/);
+
+  assert.match(
+    glassStyles,
+    /\.glass-subpage-back-button--anchored\s*\{[\s\S]*?position:\s*fixed\s*!important[\s\S]*?left:\s*var\(--glass-subpage-back-left\)\s*!important[\s\S]*?top:\s*var\(--glass-subpage-back-top\)\s*!important/
   );
 });
 

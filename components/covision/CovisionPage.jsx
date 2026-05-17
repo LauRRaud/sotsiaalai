@@ -45,14 +45,16 @@ const shellClassName =
   "covision-page-shell fixed inset-0 isolate z-[30] flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-screen max-w-[100vw] flex-col items-center justify-center overflow-hidden overscroll-none bg-transparent px-[1rem] py-0 max-[768px]:[--mobile-glass-card-gap:clamp(0.32rem,1.35vw,0.4rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-0";
 
 const surfaceClassName =
-  `documents-workspace workspace-feature-panel covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
+  `documents-workspace workspace-feature-panel workspace-scroll-surface covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
   `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.95rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.74rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.48rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+
+const compactSubpageTitleClassName = "compact-workspace-subpage-title";
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -933,11 +935,15 @@ export default function CovisionPage() {
             onBack={handleBack}
             backAriaLabel={t("buttons.back")}
             holdPressedVisualDisabled
+            anchorBack={false}
+            backClassName="workspace-scroll-back-button"
+            headerClassName="!mb-0"
+            titleClassName={compactSubpageTitleClassName}
           >
             {t("chat.workspace.cards.kovision.title", "Kovisioon")}
           </GlassSubpageHeader>
 
-          <p className={cn(styles.lead, "mx-auto m-0 max-w-[58rem] text-left text-[1.06rem] leading-[1.54] max-[768px]:text-[1rem]")}>
+          <p className={cn(styles.lead, "mx-auto m-0 mt-[-2rem] mb-[-2rem] max-w-[58rem] text-left text-[1.06rem] leading-[1.5] max-[768px]:mt-[-1.25rem] max-[768px]:mb-[-1.25rem] max-[768px]:text-[1rem]")}>
             Kovisioon on turvaline tööruum, kus spetsialistid saavad anonüümselt sõnastatud juhtumeid arutada, vaatenurki koguda ja järgmisi samme kokku leppida. Praktikanäited koondavad lühikesed üldistatud õppetunnid lahendustest, mis on töös päriselt aidanud.
           </p>
 

@@ -837,6 +837,34 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   height: 0;
 }
 
+.workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+  box-sizing: border-box;
+  position: relative;
+  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  max-width: none !important;
+  height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  max-height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  margin-top: calc(0px - var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+  padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;
+  padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;
+  padding-top: calc(var(--workspace-guide-panel-pad-top, 0.6rem) + clamp(0.18rem, 0.65vh, 0.42rem)) !important;
+  padding-bottom: clamp(2.45rem, 4.8vh, 3rem) !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  scrollbar-gutter: auto !important;
+}
+
+.workspace-scroll-surface .workspace-scroll-back-button {
+  position: absolute !important;
+  left: 0.55rem !important;
+  top: 0.55rem !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
+}
+
 @media (min-width: 769px) {
   .workspace-guide-panel.glass-subpage-surface {
     width: var(--workspace-glass-inline-size) !important;
@@ -923,6 +951,25 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
 @media (max-width: 768px) {
   .workspace-guide-panel.glass-subpage-surface {
     overflow: hidden !important;
+  }
+
+  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
+    height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
+    max-height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
+    margin-top: calc(0px - var(--glass-ring-pad-top, 0.6rem)) !important;
+    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    padding-right: var(--glass-ring-pad-x, 1rem) !important;
+    padding-left: var(--glass-ring-pad-x, 1rem) !important;
+    padding-top: calc(var(--glass-ring-pad-top, 0.6rem) + clamp(0.02rem, 0.35vh, 0.18rem)) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .workspace-scroll-surface .workspace-scroll-back-button {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - var(--glass-ring-pad-x, 1rem)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.22rem - var(--glass-ring-pad-top, 0.6rem)) !important;
   }
 
   .workspace-guide-panel-scroll {

@@ -45,8 +45,6 @@ import { pushWithTransition } from "@/lib/routeTransition"
 import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
-const pageBackTiltClassName =
-  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
 const heroBodyClassName =
   "grid gap-[1.05rem] px-0 py-0 max-[768px]:gap-[0.95rem]"
 const agentPrimaryButtonClassName =
@@ -1574,12 +1572,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
-        <section className={`documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem] ${isClosing ? pageBackTiltClassName : ""}`}>
+        <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("documents.agent_workspace.back_to_chat")}
+            anchorBack={false}
+            backClassName="documents-scroll-back-button"
             rightSlot={isAdmin ? (
               <AdminRoleViewCycleButton
                 t={t}

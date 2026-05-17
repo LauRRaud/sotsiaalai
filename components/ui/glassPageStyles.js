@@ -20,7 +20,7 @@ export const glassSubpageTitleWrapClassName =
 
 export const glassSubpageTitleClassName =
   `glass-subpage-title invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  "w-full min-[769px]:!mt-[clamp(2.15rem,5.4vh,3.25rem)] min-[769px]:!mb-[clamp(0.35rem,1.4vh,0.8rem)] max-[768px]:!mt-0 max-[768px]:!mb-0";
+  "w-full min-[769px]:!mt-[var(--glass-subpage-title-margin-top)] min-[769px]:!mb-[var(--glass-subpage-title-margin-bottom)] max-[768px]:!mt-0 max-[768px]:!mb-0";
 
 export const glassPrimaryButtonToneClassName =
   "[--btn-primary-border:0_solid_transparent] " +

@@ -9,6 +9,7 @@ import CardTitle from "@/components/ui/CardTitle";
 import Input from "@/components/ui/Input";
 import ModalConfirm from "@/components/ui/ModalConfirm";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import MaterialsAdminSubmissionsPanel from "@/components/materials/MaterialsAdminSubmissionsPanel";
 import { localizePath } from "@/lib/localizePath";
 
 import RagAdminAlert from "./RagAdminAlert";
@@ -1020,6 +1021,8 @@ export default function RagAdminDocumentsView({ controller, showMessage = true }
             </div>
           </div>
         </div>
+
+        <MaterialsAdminSubmissionsPanel variant="ragAdmin" locale={locale} />
       </div>
 
       {deleteConfirmDocId ? (

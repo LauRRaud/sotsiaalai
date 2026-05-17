@@ -518,7 +518,10 @@ export default function TooalaseRaamistikuBody({ frameworkDocument }) {
         <GlassSubpageHeader
           onBack={handleBack}
           backAriaLabel={t("buttons.back_previous")}
+          holdPressedVisualDisabled
+          anchorBack={false}
           titleId="worker-framework-title"
+          backClassName="policy-scroll-back-button"
         >
           {locale === "et" ? (
             <>

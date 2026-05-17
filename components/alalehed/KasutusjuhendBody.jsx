@@ -4,13 +4,12 @@ import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
-import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -112,37 +111,13 @@ export default function KasutusjuhendBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-mobile-lower", "policy-mobile-tall", "guide-policy-ring", !layoutReady ? "guide-policy-ring--layout-init" : null, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
-        <CloseButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.close")}
-          className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
-        />
-        {!hideGuideBackButton ? (
-          <BackButton
-            onClick={handleBack}
-            ariaLabel={t("buttons.back_home")}
-            className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName, "min-[769px]:hidden")}
-            iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-          />
-        ) : null}
-        <GlassSubpageHeader
-          onBack={handleBack}
-          backAriaLabel={t("buttons.back_home")}
-          showBack={!hideGuideBackButton}
-          holdPressedVisualDisabled
-          titleId="kasutusjuhend-title"
-          backClassName="z-[3] max-[768px]:hidden"
-          backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-          titleClassName={cn(!layoutReady ? "guide-policy-title--layout-init" : null)}
-        >
-          {t("about.guide.short_title")}
-        </GlassSubpageHeader>
+        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", "guide-policy-ring", !layoutReady ? "guide-policy-ring--layout-init" : null, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(
               scrollClassName,
               "guide-policy-scroll",
+              "policy-scroll-page-scroller",
               !layoutReady ? "guide-policy-scroll--layout-init" : null,
               !isExpandedLayout ? "pb-[4.2rem] max-[768px]:pb-[4.8rem]" : null,
               isExpandedLayout ? "glass-ring-scroll--open" : null,
@@ -155,6 +130,19 @@ export default function KasutusjuhendBody() {
             onMouseDown={focusPolicyScrollArea}
             onClick={handleContactClick}
           >
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("buttons.back_home")}
+              showBack={!hideGuideBackButton}
+              holdPressedVisualDisabled
+              anchorBack={false}
+              titleId="kasutusjuhend-title"
+              backClassName="policy-scroll-back-button"
+              backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+              titleClassName={cn(!layoutReady ? "guide-policy-title--layout-init" : null)}
+            >
+              {t("about.guide.short_title")}
+            </GlassSubpageHeader>
             <p className={cn(policySectionBodyClassName, "mb-[0.58rem] max-[768px]:mb-[0.54rem]")}>
               {guideContent.intro}
             </p>

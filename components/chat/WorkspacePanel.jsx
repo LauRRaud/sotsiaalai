@@ -429,7 +429,7 @@ export default function WorkspacePanel({
 
   return (
     <section
-      className={cn(styles.panel, morphingToSubpage && "workspace-dashboard-panel--morph-expand")}
+      className={cn("workspace-dashboard-panel", styles.panel, morphingToSubpage && "workspace-dashboard-panel--morph-expand")}
       data-visible={visible ? "true" : "false"}
       role="region"
       aria-labelledby="chat-workspace-title"

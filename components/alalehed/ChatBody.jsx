@@ -33,6 +33,7 @@ import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState"
 import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
+import { resolveMobileChatKeyboardOffset } from "./chat/mobileViewportUtils";
 import { consumeWorkspacePanelMorph, markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -470,8 +471,9 @@ export default function ChatBody({
     let rafId = 0;
     const readViewportExtent = () =>
       vv ? Math.max(0, vv.height + vv.offsetTop) : Math.max(0, window.innerHeight);
-    const readContainerHeight = () => {
-      const h = node.getBoundingClientRect().height;
+    const readContainerRect = () => node.getBoundingClientRect();
+    const readContainerHeight = rect => {
+      const h = (rect || readContainerRect()).height;
       return Math.max(0, Math.round(h || 0));
     };
     const captureBaseline = () => {
@@ -525,8 +527,9 @@ export default function ChatBody({
       typeof performance !== "undefined" ? performance.now() : Date.now();
     const readViewportExtent = () =>
       vv ? Math.max(0, vv.height + vv.offsetTop) : Math.max(0, window.innerHeight);
-    const readContainerHeight = () => {
-      const h = node.getBoundingClientRect().height;
+    const readContainerRect = () => node.getBoundingClientRect();
+    const readContainerHeight = rect => {
+      const h = (rect || readContainerRect()).height;
       return Math.max(0, Math.round(h || 0));
     };
     const storedBaseline = mobileKeyboardBaselineRef.current || {};
@@ -557,25 +560,17 @@ export default function ChatBody({
       if (currentContainerHeight > baselineContainerHeight) {
         baselineContainerHeight = currentContainerHeight;
       }
-      const layoutViewportOffset = vv
-        ? Math.max(
-            0,
-            Math.round((window.innerHeight || baselineViewportExtent) - vv.height - vv.offsetTop)
-          )
-        : 0;
-      const rawOffset = Math.max(
-        layoutViewportOffset,
-        Math.max(0, Math.round(baselineViewportExtent - currentExtent))
-      );
-      const layoutHandledOffset =
-        baselineContainerHeight > 0 && currentContainerHeight > 0
-          ? Math.max(0, baselineContainerHeight - currentContainerHeight)
-          : 0;
-      const compensatedOffset = Math.max(0, rawOffset - layoutHandledOffset);
-      const maxReasonable = Math.round(
-        Math.max(baselineViewportExtent, window.innerHeight || 0) * 0.55
-      );
-      return Math.min(compensatedOffset, Math.max(0, maxReasonable));
+      const containerRect = readContainerRect();
+      return resolveMobileChatKeyboardOffset({
+        baselineViewportExtent,
+        baselineContainerHeight,
+        currentViewportExtent: currentExtent,
+        currentContainerHeight,
+        currentContainerBottom: containerRect.bottom,
+        layoutViewportHeight: window.innerHeight || baselineViewportExtent,
+        visualViewportHeight: vv?.height,
+        visualViewportOffsetTop: vv?.offsetTop
+      });
     };
     const resolveKeyboardOffset = () => {
       const rawOffset = readKeyboardOffset();

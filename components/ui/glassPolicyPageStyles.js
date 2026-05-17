@@ -26,7 +26,7 @@ export const glassPolicyScrollClassName =
   "glass-ring-scroll glass-policy-scroll glass-policy-scroll-bottom-arc relative w-full max-w-[var(--policy-scroll-max-width,clamp(18.8rem,48.5vw,33rem))] overflow-y-auto pr-[0.1rem] pt-[clamp(0.7rem,1.8vh,1.2rem)] text-left [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:[--policy-scroll-inline-gap:clamp(0.16rem,0.7vw,0.34rem)] max-[768px]:max-h-[calc(100%-0.1rem)] max-[768px]:translate-x-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.62rem,1.6vh,1.02rem)] max-[768px]:pb-[clamp(0.66rem,1.75vh,1.08rem)]";
 
 export const glassPolicyScrollExpandedClassName =
-  "glass-policy-scroll--expanded min-[769px]:!w-[calc(100%-0.35rem)] min-[769px]:!max-w-none";
+  "glass-policy-scroll--expanded";
 
 export const glassPolicyExpandToggleClassName =
   "glass-ring-expand-toggle glass-ring-expand-toggle--overlay max-[768px]:hidden";

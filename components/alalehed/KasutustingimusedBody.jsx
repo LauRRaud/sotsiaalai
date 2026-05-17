@@ -3,12 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
-import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
-import { glassPolicyBackButtonClassName, glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
+import { glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -141,37 +139,27 @@ export default function KasutustingimusedBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-mobile-lower", "policy-mobile-tall", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="terms-title">
-        <CloseButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.close")}
-          className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
-        />
-        <BackButton
-          onClick={handleBack}
-          ariaLabel={t("buttons.back_home")}
-          className={cn(glassPolicyBackButtonClassName, glassPageBackMobileBottomCenterClassName, "min-[769px]:hidden")}
-          iconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-        />
-        <GlassSubpageHeader
-          onBack={handleBack}
-          backAriaLabel={t("buttons.back_home")}
-          holdPressedVisualDisabled
-          titleId="terms-title"
-          backClassName="z-[3] max-[768px]:hidden"
-          backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-        >
-          {termsTitle}
-        </GlassSubpageHeader>
+        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="terms-title">
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
-            className={cn(scrollClassName, "policy-page-scroll", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
+            className={cn(scrollClassName, "policy-page-scroll", "policy-scroll-page-scroller", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
             style={{ zIndex: 0 }}
             tabIndex={0}
             aria-labelledby="terms-title"
             onKeyDown={handlePolicyScrollKeyDown}
             onMouseDown={focusPolicyScrollArea}
           >
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("buttons.back_home")}
+              holdPressedVisualDisabled
+              anchorBack={false}
+              titleId="terms-title"
+              backClassName="policy-scroll-back-button"
+              backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
+            >
+              {termsTitle}
+            </GlassSubpageHeader>
             {sections.map(section => <div key={section.heading} className={policySectionClassName}>
                 <h2 className={policySectionHeadingClassName}>{section.heading}</h2>
                 <div className={cn(policySectionBodyClassName, "space-y-[0.9rem]")}>
