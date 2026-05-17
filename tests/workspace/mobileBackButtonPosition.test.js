@@ -10,6 +10,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const chatTopNavSource = readSource("components/alalehed/chat/view/ChatMobileTopNav.jsx");
   const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
+  const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
   const mobileCss = readSource("app/styles/mobile.css");
 
   assert.match(
@@ -26,11 +27,19 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     headerSource,
+    /\.glass-ring/
+  );
+  assert.doesNotMatch(
+    anchorSelectorSource,
     /\.workspace-dashboard-panel/
   );
   assert.match(
+    headerSource,
+    /button\.closest\?\.\("\.workspace-dashboard-panel"\)/
+  );
+  assert.doesNotMatch(
     mobileCss,
-    /\.workspace-dashboard-panel \.glass-subpage-back-button--anchored\s*\{[\s\S]*?top:\s*calc\(var\(--glass-subpage-back-top\) - 1\.05rem\)\s*!important;/
+    /\.workspace-dashboard-panel \.glass-subpage-back-button--anchored/
   );
   assert.match(
     mobileCss,
@@ -40,12 +49,16 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
 
 test("shared subpage header anchors the back icon to the visible glass surface", () => {
   const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
+  const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
   const glassStyles = readSource("app/styles/components/glass.css");
 
   assert.match(headerSource, /const BACK_ANCHOR_SELECTOR = \[/);
   assert.match(headerSource, /\.materials-page-content/);
   assert.match(headerSource, /\.covision-page-surface/);
-  assert.match(headerSource, /\.workspace-dashboard-panel/);
+  assert.doesNotMatch(
+    anchorSelectorSource,
+    /\.workspace-dashboard-panel/
+  );
   assert.match(headerSource, /\.workspace-feature-panel/);
   assert.match(headerSource, /\.documents-workspace-shell/);
   assert.match(headerSource, /button\?\.closest\?\.\(BACK_ANCHOR_SELECTOR\)/);

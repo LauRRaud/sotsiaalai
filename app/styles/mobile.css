@@ -3930,10 +3930,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     ) !important;
   }
 
-  .workspace-dashboard-panel .glass-subpage-back-button--anchored {
-    top: calc(var(--glass-subpage-back-top) - 1.05rem) !important;
-  }
-
   .workspace-dashboard-panel .glass-subpage-title-wrap {
     padding-top: calc(env(safe-area-inset-top, 0px) + 1.08rem) !important;
   }

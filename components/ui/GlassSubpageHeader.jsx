@@ -14,7 +14,6 @@ const BACK_ANCHOR_SELECTOR = [
   "[data-glass-back-anchor]",
   ".materials-page-content",
   ".covision-page-surface",
-  ".workspace-dashboard-panel",
   ".workspace-feature-panel",
   ".documents-workspace-shell",
   ".subscription-modal-content",
@@ -110,9 +109,14 @@ export function GlassSubpageHeader({
     const rect = anchor.getBoundingClientRect();
     const containingBlock = getFixedContainingBlockRect(button);
     const insets = getBackInsetsPx();
+    const workspaceRingTopInset =
+      anchor.classList?.contains("chat-container--workspace-open") &&
+      button.closest?.(".workspace-dashboard-panel")
+        ? getRootRemPx() * 0.28
+        : 0;
     const next = {
-      "--glass-subpage-back-left": `${Math.max(0, rect.left - containingBlock.left + insets.left)}px`,
-      "--glass-subpage-back-top": `${Math.max(0, rect.top - containingBlock.top + insets.top)}px`
+      "--glass-subpage-back-left": `${rect.left - containingBlock.left + insets.left}px`,
+      "--glass-subpage-back-top": `${rect.top - containingBlock.top + insets.top + workspaceRingTopInset}px`
     };
 
     setBackAnchorStyle((current) => (
@@ -169,8 +173,13 @@ export function GlassSubpageHeader({
     const anchorRect = anchor.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
     const insets = getBackInsetsPx();
+    const workspaceRingTopInset =
+      anchor.classList?.contains("chat-container--workspace-open") &&
+      button.closest?.(".workspace-dashboard-panel")
+        ? getRootRemPx() * 0.28
+        : 0;
     const targetLeft = anchorRect.left + insets.left;
-    const targetTop = anchorRect.top + insets.top;
+    const targetTop = anchorRect.top + insets.top + workspaceRingTopInset;
     const deltaLeft = targetLeft - buttonRect.left;
     const deltaTop = targetTop - buttonRect.top;
     if (Math.abs(deltaLeft) < 0.5 && Math.abs(deltaTop) < 0.5) return;
@@ -178,8 +187,8 @@ export function GlassSubpageHeader({
     const currentLeft = Number.parseFloat(backAnchorStyle["--glass-subpage-back-left"] || "0");
     const currentTop = Number.parseFloat(backAnchorStyle["--glass-subpage-back-top"] || "0");
     const next = {
-      "--glass-subpage-back-left": `${Math.max(0, currentLeft + deltaLeft)}px`,
-      "--glass-subpage-back-top": `${Math.max(0, currentTop + deltaTop)}px`
+      "--glass-subpage-back-left": `${currentLeft + deltaLeft}px`,
+      "--glass-subpage-back-top": `${currentTop + deltaTop}px`
     };
 
     setBackAnchorStyle((current) => (
