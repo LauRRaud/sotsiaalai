@@ -64,7 +64,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   );
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--library \.glass-subpage-title-wrap\s*\{[\s\S]*?--policy-title-inline-start:\s*clamp\(3\.15rem,\s*9\.2vw,\s*3\.7rem\)\s*!important;[\s\S]*?--policy-title-inline-end:\s*clamp\(2\.72rem,\s*8vw,\s*3\.25rem\)\s*!important;[\s\S]*?padding-top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 1\.82rem\)\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--library \.glass-subpage-title-wrap\s*\{[\s\S]*?--policy-title-inline-start:\s*clamp\(3\.15rem,\s*9\.2vw,\s*3\.7rem\)\s*!important;[\s\S]*?--policy-title-inline-end:\s*clamp\(2\.72rem,\s*8vw,\s*3\.25rem\)\s*!important;[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.82rem\)\s*!important;/
   );
   assert.match(css, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);
   assert.doesNotMatch(documentsSource, /documents-page-shell-title-row|documents-mobile-title/);

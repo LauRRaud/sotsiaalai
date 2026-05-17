@@ -108,6 +108,8 @@
 @media (max-width: 768px) {
   :root {
     --bg-overscan: clamp(96px, 14svh, 180px);
+    --mobile-safe-top: env(safe-area-inset-top, 0px);
+    --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 
@@ -1933,8 +1935,17 @@
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) {
     --glass-mobile-root-vh: var(--app-height, calc(var(--app-vh, var(--vh, 1vh)) * 100));
     --glass-mobile-vh: var(--glass-mobile-root-vh);
-    --glass-mobile-safe-top: 0px;
-    --glass-mobile-safe-bottom: 0px;
+    --glass-mobile-safe-top: var(--mobile-safe-top, env(safe-area-inset-top, 0px));
+    --glass-mobile-safe-bottom: var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px));
+  }
+
+  html[data-platform="ios"]:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]),
+  body[data-platform="ios"]:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) {
+    --mobile-pwa-safe-top: max(env(safe-area-inset-top, 0px), clamp(2.35rem, 7vh, 3.05rem));
+    --mobile-safe-top: var(--mobile-pwa-safe-top, env(safe-area-inset-top, 0px));
+    --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --glass-mobile-safe-top: var(--mobile-safe-top);
+    --glass-mobile-safe-bottom: var(--mobile-safe-bottom);
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) .glass-ring,
@@ -2637,12 +2648,12 @@
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-window__scroll {
     padding-bottom: max(
-      calc(var(--chat-vk-offset, 0px) - 0.28rem),
-      calc(var(--chat-vk-offset, 0px) + (var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
     ) !important;
     scroll-padding-bottom: max(
-      calc(var(--chat-vk-offset, 0px) - 0.28rem),
-      calc(var(--chat-vk-offset, 0px) + (var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
     ) !important;
   }
 
@@ -3477,7 +3488,7 @@
   :is(
       .glass-subpage-title-wrap
     ) {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.18rem) !important;
     padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
   }
 
@@ -3738,7 +3749,10 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     max-height: var(--glass-mobile-root-vh, 100dvh) !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    padding-top: var(--glass-ring-pad-top, clamp(0.4rem, 1.4vh, 1.1rem)) !important;
+    padding-top: calc(
+      var(--mobile-safe-top, env(safe-area-inset-top, 0px)) +
+        var(--glass-ring-pad-top, clamp(0.4rem, 1.4vh, 1.1rem))
+    ) !important;
     padding-bottom: 0 !important;
     overflow-x: hidden !important;
     overflow-y: hidden !important;
@@ -3898,6 +3912,15 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 }
 
 @media (max-width: 768px) {
+  html[data-platform="ios"]:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]),
+  body[data-platform="ios"]:is([data-display-mode="standalone"], [data-display-mode="fullscreen"], [data-display-mode-sticky="standalone"], [data-display-mode-sticky="fullscreen"]) {
+    --mobile-pwa-safe-top: max(env(safe-area-inset-top, 0px), clamp(2.35rem, 7vh, 3.05rem));
+    --mobile-safe-top: var(--mobile-pwa-safe-top, env(safe-area-inset-top, 0px));
+    --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --glass-mobile-safe-top: var(--mobile-safe-top);
+    --glass-mobile-safe-bottom: var(--mobile-safe-bottom);
+  }
+
   .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
     width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
     height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
@@ -3933,10 +3956,27 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   .documents-workspace-page--library .glass-subpage-title-wrap {
     --policy-title-inline-start: clamp(3.15rem, 9.2vw, 3.7rem) !important;
     --policy-title-inline-end: clamp(2.72rem, 8vw, 3.25rem) !important;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.82rem) !important;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.82rem) !important;
   }
 
   .workspace-dashboard-panel .glass-subpage-title-wrap {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.08rem) !important;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.08rem) !important;
+  }
+
+  .workspace-scroll-surface.workspace-guide-panel.workspace-feature-panel {
+    overflow-y: hidden !important;
+  }
+
+  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + var(--glass-ring-pad-top, 0.6rem) + clamp(0.02rem, 0.35vh, 0.18rem)) !important;
+    padding-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(1.15rem, 2.8vh, 1.75rem)) !important;
+  }
+
+  .workspace-scroll-surface .workspace-scroll-back-button {
+    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem) !important;
+  }
+
+  .workspace-feature-panel .glass-subpage-title-wrap {
+    padding-top: 1.18rem !important;
   }
 }

@@ -258,9 +258,9 @@ const ConversationView = memo(function ConversationView({
     "[&::-webkit-scrollbar-thumb]:bg-[linear-gradient(135deg,var(--pt-400),var(--pt-200))] [&::-webkit-scrollbar-thumb]:rounded-[0.625rem] [&::-webkit-scrollbar-thumb]:border-[0.1875rem] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent " +
     "[&::-webkit-scrollbar-track]:bg-transparent " +
     "transition-[padding] duration-[520ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-[padding] " +
-    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] " +
+    "[padding:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))_var(--chat-window-pad-x)_calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-composer-dynamic-extra,0px))] " +
     "[scroll-padding-top:calc(var(--chat-window-pad-top)+var(--chat-window-top-safe)+var(--chat-window-fade-top-active)*0.28+var(--chat-content-top-offset,0rem))] " +
-    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-vk-offset,0px)+var(--chat-composer-dynamic-extra,0px))] max-[768px]:transition-none";
+    "[scroll-padding-bottom:calc(var(--chat-window-pad-bottom)+var(--chat-window-bottom-safe)+var(--chat-window-fade-bottom-active)+var(--chat-composer-dynamic-extra,0px))] max-[768px]:transition-none";
   const mergedWindowClassName = `${windowClassName} ${windowClassNameProp || ""}`.trim();
   const scrollButtonClassName =
     "chat-scroll-down-btn absolute left-1/2 -translate-x-1/2 translate-y-[var(--chat-window-shift-y,0rem)] bottom-[calc(0.85rem+var(--chat-scroll-down-offset,0rem))] max-[768px]:translate-y-0 max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+var(--chat-window-bottom-gap,0rem)-var(--chat-window-mobile-extra-height,0rem)-2.15rem+var(--chat-vk-offset,0px))] " +

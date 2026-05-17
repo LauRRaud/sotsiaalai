@@ -85,3 +85,19 @@ test("PWA display mode remains sticky for mobile chat input anchoring", () => {
     /data-display-mode-sticky="standalone"[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.5rem\s*!important/
   );
 });
+
+test("mobile chat keyboard lift does not double-apply to scroll padding", () => {
+  const mobileCss = read("app/styles/mobile.css");
+  const conversationView = read("components/alalehed/chat/ConversationView.jsx");
+  const scrollRule = mobileCss.match(
+    /\.chat-page-shell \.chat-container\[data-chat-layout="mobile"\] \.chat-window__scroll\s*\{[\s\S]*?\n\s*\}/
+  )?.[0] || "";
+  const scrollPaddingClasses = conversationView.match(
+    /\[padding:calc\([\s\S]*?\[scroll-padding-bottom:calc\([^\n]+/
+  )?.[0] || "";
+
+  assert.ok(scrollRule, "expected a mobile chat scroll rule");
+  assert.doesNotMatch(scrollRule, /--chat-vk-offset/);
+  assert.ok(scrollPaddingClasses, "expected chat scroll padding classes");
+  assert.doesNotMatch(scrollPaddingClasses, /--chat-vk-offset/);
+});
