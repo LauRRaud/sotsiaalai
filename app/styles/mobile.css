@@ -2223,7 +2223,7 @@
   .help-listings-modal-content
     :is(.help-listings-panel, .help-listings-item-card, .help-listings-empty),
   .selected-listing-body,
-  .selected-listing-modal-content :is(.selected-listing-title-wrap + div, .panel) {
+  .selected-listing-modal-content :is(.glass-subpage-header + div, .panel) {
     max-width: none !important;
   }
 
@@ -3759,13 +3759,13 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
-    .help-listings-title-wrap,
+    .help-listings-modal-content .glass-subpage-header,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
-    .help-listings-title-wrap,
+    .help-listings-modal-content .glass-subpage-header,
   html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
-    .help-listings-title-wrap + div,
+    .help-listings-modal-content .glass-subpage-header + div,
   body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"]).help-listings-modal-open
-    .help-listings-title-wrap + div {
+    .help-listings-modal-content .glass-subpage-header + div {
     flex: 0 0 auto !important;
   }
 
@@ -3923,8 +3923,14 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
   .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
     width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
-    height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
-    max-height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
+    height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px))
+    ) !important;
+    max-height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px))
+    ) !important;
     margin-top: calc(0px - var(--glass-ring-pad-top, 0.6rem)) !important;
     margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
     margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
@@ -3936,7 +3942,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .workspace-scroll-surface .workspace-scroll-back-button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
     top: calc(
       env(safe-area-inset-top, 0px) + 0.22rem -
         clamp(calc(0.4 * var(--base-rem, 16px)), 1.4vh, calc(1.1 * var(--base-rem, 16px))) +
@@ -3945,18 +3951,16 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .documents-workspace-page--library .documents-scroll-back-button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: calc(
-      env(safe-area-inset-top, 0px) + 0.22rem -
-        clamp(calc(0.4 * var(--base-rem, 16px)), 1.4vh, calc(1.1 * var(--base-rem, 16px))) +
-        var(--workspace-guide-panel-pad-top, var(--glass-ring-pad-top, 0.6rem))
-    ) !important;
+    left: calc(var(--glass-ring-pad-x, 1rem) + env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: calc(var(--glass-ring-pad-top, 0.6rem) + var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem) !important;
   }
 
   .documents-workspace-page--library .glass-subpage-title-wrap {
-    --policy-title-inline-start: clamp(3.15rem, 9.2vw, 3.7rem) !important;
-    --policy-title-inline-end: clamp(2.72rem, 8vw, 3.25rem) !important;
-    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.82rem) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.755rem) !important;
   }
 
   .workspace-dashboard-panel .glass-subpage-title-wrap {
@@ -3973,10 +3977,10 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .workspace-scroll-surface .workspace-scroll-back-button {
-    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem) !important;
+    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.0825rem) !important;
   }
 
   .workspace-feature-panel .glass-subpage-title-wrap {
-    padding-top: 1.18rem !important;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.18rem) !important;
   }
 }

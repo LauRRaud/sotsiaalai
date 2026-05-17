@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import {
+  glassFullPanelMobileHeaderClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
   glassPrimaryButtonToneClassName
@@ -14,8 +15,8 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
-  `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.14rem]";
+  `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ${glassFullPanelMobileHeaderClassName} ` +
+  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:justify-start max-[768px]:px-0";
 
 const panelClassName =
   `relative z-[21] w-full !max-w-[62rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +

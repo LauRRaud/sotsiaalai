@@ -48,7 +48,7 @@ test("restored workspace returns already settled without replaying the dashboard
   );
   assert.match(
     chatBodySource,
-    /workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(true\);[\s\S]*?setWorkspaceOpen\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);/
+    /workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(restoreTransition\.suppressOpenTransition\);[\s\S]*?setWorkspaceOpen\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);/
   );
   assert.match(
     chatBodySource,
@@ -90,7 +90,7 @@ test("workspace card navigation keeps the chat surface in workspace shape until 
   );
   assert.match(
     readSource("lib/workspacePanelMorph.js"),
-    /export const WORKSPACE_PANEL_MORPH_EXPAND_MS = 720;/
+    /export const WORKSPACE_PANEL_MORPH_EXPAND_MS = WORKSPACE_PANEL_MORPH_MS;/
   );
   assert.match(
     navigateToMatch[1],
@@ -139,7 +139,7 @@ test("workspace return morph keeps border radius out of the transition", () => {
   );
 });
 
-test("workspace route return does not replay the dashboard morph after subpage collapse", async () => {
+test("workspace route return marks plain session restores without setting global pending classes", async () => {
   const morph = await import("../../lib/workspacePanelMorph.js");
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const added = new Set();
@@ -176,14 +176,54 @@ test("workspace route return does not replay the dashboard morph after subpage c
     globalThis.document = previousDocument;
   }
 
-  const routeRestoreBranch = chatBodySource.match(
-    /if \(morphState\?\.direction === "collapse"\) \{([\s\S]*?)\} else \{/
-  );
-  assert.ok(routeRestoreBranch, "route restore collapse branch should be present");
-  assert.doesNotMatch(routeRestoreBranch[1], /setWorkspaceReturnMorphing\(true\);/);
   assert.match(
-    routeRestoreBranch[1],
-    /setWorkspaceSuppressOpenTransition\(true\);[\s\S]*?setWorkspaceReturnMorphing\(false\);[\s\S]*?setWorkspaceReturnTransitioning\(false\);/
+    chatBodySource,
+    /resolveWorkspaceRestoreTransition\(morphState,\s*\{[\s\S]*?reduceMotion:\s*prefs\?\.reduceMotion[\s\S]*?\}\)/
+  );
+  assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
+});
+
+test("workspace route return uses the collapse marker to replay the physical return morph", async () => {
+  const {
+    resolveWorkspaceRestoreTransition,
+    WORKSPACE_PANEL_MORPH_DELAY_MS,
+    WORKSPACE_PANEL_MORPH_EXPAND_MS
+  } = await import("../../lib/workspacePanelMorph.js");
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
+
+  assert.equal(
+    WORKSPACE_PANEL_MORPH_DELAY_MS,
+    WORKSPACE_PANEL_MORPH_EXPAND_MS,
+    "forward and backward workspace route morphs should use one physical duration"
+  );
+
+  assert.deepEqual(resolveWorkspaceRestoreTransition({ direction: "collapse" }), {
+    suppressOpenTransition: false,
+    returnMorphing: true,
+    returnTransitioning: true
+  });
+  assert.deepEqual(resolveWorkspaceRestoreTransition({ direction: "expand" }), {
+    suppressOpenTransition: true,
+    returnMorphing: false,
+    returnTransitioning: false
+  });
+
+  assert.match(chatBodySource, /setWorkspaceSuppressOpenTransition\(restoreTransition\.suppressOpenTransition\);/);
+  assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
+  assert.match(chatBodySource, /setWorkspaceReturnTransitioning\(restoreTransition\.returnTransitioning\);/);
+
+  assert.match(
+    workspaceCss,
+    /\.panel:global\(\.workspace-dashboard-panel--morph-expand\)::after\s*\{[\s\S]*?animation:\s*workspace-morph-surface-breathe/
+  );
+  assert.match(
+    workspaceCss,
+    /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
+  );
+  assert.match(
+    workspaceCss,
+    /@keyframes workspace-dashboard-content-release\s*\{[\s\S]*?filter:\s*blur/
   );
 });
 

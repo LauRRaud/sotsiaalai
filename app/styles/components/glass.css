@@ -493,13 +493,6 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
   --glass-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
 }
 
-@media (min-width: 769px) {
-  .compact-workspace-subpage-title.glass-subpage-title {
-    --glass-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
-    --glass-subpage-title-margin-bottom: 0;
-  }
-}
-
 :root:not(.theme-light):not(.theme-mid) .materials-comment-glow-field.ui-glow-field {
   background:
     linear-gradient(180deg, rgba(21, 24, 31, 0.82) 0%, rgba(14, 17, 23, 0.88) 100%),

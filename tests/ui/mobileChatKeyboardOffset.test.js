@@ -101,3 +101,17 @@ test("mobile chat keyboard lift does not double-apply to scroll padding", () => 
   assert.ok(scrollPaddingClasses, "expected chat scroll padding classes");
   assert.doesNotMatch(scrollPaddingClasses, /--chat-vk-offset/);
 });
+
+test("mobile chat keyboard offset is monotonic while the keyboard is open", () => {
+  const chatBody = read("components/alalehed/ChatBody.jsx");
+
+  assert.match(chatBody, /const MOBILE_KEYBOARD_OFFSET_JITTER_PX = 10;/);
+  assert.match(
+    chatBody,
+    /if \(lastResolvedOffset > 0\) \{[\s\S]*?if \(rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD\) \{[\s\S]*?lastResolvedOffset = Math\.max\(lastResolvedOffset,\s*rawOffset\);/
+  );
+  assert.match(
+    chatBody,
+    /offset > 0 &&[\s\S]*?lastAppliedOffset > 0 &&[\s\S]*?Math\.abs\(offset - lastAppliedOffset\) < MOBILE_KEYBOARD_OFFSET_JITTER_PX/
+  );
+});

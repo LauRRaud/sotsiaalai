@@ -27,27 +27,26 @@ test("covision overview uses the shared workspace feature panel footprint", () =
   assert.doesNotMatch(source, /!min-h-\[clamp\(40rem/);
 });
 
-test("covision page keeps the title close to the intro copy", () => {
+test("covision page uses the shared workspace subpage header spacing", () => {
   const source = read("components/covision/CovisionPage.jsx");
-  const glassCss = read("app/styles/components/glass.css");
   const glassPageStyles = read("components/ui/glassPageStyles.js");
+  const helpersCss = read("app/styles/utilities/helpers.css");
 
-  assert.match(source, /const compactSubpageTitleClassName =\s*"compact-workspace-subpage-title"/);
+  assert.doesNotMatch(source, /compact-workspace-subpage-title/);
   assert.match(
     glassPageStyles,
     /min-\[769px\]:!mt-\[var\(--glass-subpage-title-margin-top\)\][\s\S]*min-\[769px\]:!mb-\[var\(--glass-subpage-title-margin-bottom\)\]/
   );
+  assert.match(source, /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button"/);
+  assert.doesNotMatch(source, /<GlassSubpageHeader[\s\S]*?headerClassName="!mb-0"/);
+  assert.doesNotMatch(source, /<GlassSubpageHeader[\s\S]*?titleClassName=/);
   assert.match(
-    source,
-    /<GlassSubpageHeader[\s\S]*?headerClassName="!mb-0"[\s\S]*?titleClassName=\{compactSubpageTitleClassName\}/
+    helpersCss,
+    /\.workspace-guide-panel\.glass-subpage-surface \.glass-subpage-header\s*\{[\s\S]*?margin-bottom:\s*var\(--workspace-subpage-header-margin-bottom,\s*0\.35rem\)\s*!important;/
   );
   assert.match(
-    glassCss,
-    /\.glass-subpage-title\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?--glass-subpage-title-margin-bottom:\s*clamp\(0\.35rem,\s*1\.4vh,\s*0\.8rem\);/
-  );
-  assert.match(
-    glassCss,
-    /@media\s*\(min-width:\s*769px\)\s*\{[\s\S]*?\.compact-workspace-subpage-title\.glass-subpage-title\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?--glass-subpage-title-margin-bottom:\s*0;/
+    helpersCss,
+    /\.workspace-guide-panel\.glass-subpage-surface \.glass-subpage-title\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*var\(--workspace-subpage-title-margin-top,[\s\S]*?--glass-subpage-title-margin-bottom:\s*var\(--workspace-subpage-title-margin-bottom,/
   );
 });
 

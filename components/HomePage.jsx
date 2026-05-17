@@ -26,7 +26,6 @@ const HomeFooter = dynamic(
 let homeIntroSeen = false;
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const INTRO_ANIMATION_DELAY_MS = 1500;
-const BLUR_REVEAL_DELAY_MS = 1850;
 const CARD_FADE_DURATION_MS = 2400;
 const CARD_FADE_DELAY_MS = 500;
 const HOME_FOOTER_STAGGER_MS = 220;
@@ -77,8 +76,6 @@ export default function HomePage() {
   const [pendingExitSide, setPendingExitSide] = useState(null);
   const [leftPhase, setLeftPhase] = useState("front");
   const [rightPhase, setRightPhase] = useState("front");
-  const [leftBlurRevealReady, setLeftBlurRevealReady] = useState(false);
-  const [rightBlurRevealReady, setRightBlurRevealReady] = useState(false);
   const [showScrollCue, setShowScrollCue] = useState(true);
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
@@ -249,8 +246,6 @@ export default function HomePage() {
     setLeftFadeDone(true);
     setRightFadeDone(true);
     setIntroStart(true);
-    setLeftBlurRevealReady(true);
-    setRightBlurRevealReady(true);
     setHomeA11yReady(true);
     setShowHomeBottomSections(true);
     setShowHomeFooter(true);
@@ -272,8 +267,6 @@ export default function HomePage() {
     setLeftFadeDone(true);
     setRightFadeDone(true);
     setIntroStart(true);
-    setLeftBlurRevealReady(true);
-    setRightBlurRevealReady(true);
     setHomeA11yReady(true);
     setShowHomeBottomSections(true);
     setShowHomeFooter(true);
@@ -289,13 +282,6 @@ export default function HomePage() {
   }, []);
   useEffect(() => {
     if (!introStart || initialSkipIntro) return;
-    const leftBlurTimer = registerTimeout(() => {
-      setLeftBlurRevealReady(true);
-    }, BLUR_REVEAL_DELAY_MS);
-    const rightBlurTimer = registerTimeout(
-      () => setRightBlurRevealReady(true),
-      BLUR_REVEAL_DELAY_MS
-    );
     const leftDoneTimer = registerTimeout(
       () => setLeftFadeDone(true),
       CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
@@ -305,8 +291,6 @@ export default function HomePage() {
       CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
     );
     return () => {
-      clearRegisteredTimeout(leftBlurTimer);
-      clearRegisteredTimeout(rightBlurTimer);
       clearRegisteredTimeout(leftDoneTimer);
       clearRegisteredTimeout(rightDoneTimer);
     };
@@ -315,8 +299,6 @@ export default function HomePage() {
     if (prefs.reduceMotion) {
       setLeftFadeDone(true);
       setRightFadeDone(true);
-      setLeftBlurRevealReady(true);
-      setRightBlurRevealReady(true);
       setIntroStart(true);
     }
   }, [prefs.reduceMotion]);
@@ -673,37 +655,33 @@ export default function HomePage() {
     mobileFlipReady.right ? "mobile-flipped-right" : null
   );
   const rotatingBackdropBaseClassName = "home-card-rotating-backdrop";
-  const getBackdropClassName = (shouldFade, blurRevealReady, fadeDone, side) =>
+  const getBackdropClassName = (shouldFade, fadeDone, side) =>
     cn(
       rotatingBackdropBaseClassName,
       side === "front" ?
         "home-card-rotating-backdrop-front" :
         "home-card-rotating-backdrop-back",
-      introPending || shouldFade && !blurRevealReady ? "home-card-rotating-backdrop-hidden" : null,
-      shouldFade && blurRevealReady && !fadeDone ? "home-card-rotating-backdrop-reveal" : null,
+      introPending ? "home-card-rotating-backdrop-hidden" : null,
+      shouldFade && !fadeDone ? "home-card-rotating-backdrop-reveal" : null,
       fadeDone ? "home-card-rotating-backdrop-ready" : null
     );
   const leftFrontBackdropClassName = getBackdropClassName(
     shouldFadeLeft,
-    leftBlurRevealReady,
     leftFadeDone,
     "front"
   );
   const leftBackBackdropClassName = getBackdropClassName(
     shouldFadeLeft,
-    leftBlurRevealReady,
     leftFadeDone,
     "back"
   );
   const rightFrontBackdropClassName = getBackdropClassName(
     shouldFadeRight,
-    rightBlurRevealReady,
     rightFadeDone,
     "front"
   );
   const rightBackBackdropClassName = getBackdropClassName(
     shouldFadeRight,
-    rightBlurRevealReady,
     rightFadeDone,
     "back"
   );

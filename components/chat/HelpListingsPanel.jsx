@@ -195,8 +195,6 @@ export default function HelpListingsPanel({
           onBack={handleBackClick}
           backAriaLabel={backAriaLabel}
           titleAs="h2"
-          headerClassName="help-listings-title-wrap"
-          titleClassName="help-listings-title help-listings-mobile-title"
         >
           {title}
         </GlassSubpageHeader>

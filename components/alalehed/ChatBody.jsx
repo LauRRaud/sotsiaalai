@@ -34,7 +34,12 @@ import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
 import { resolveMobileChatKeyboardOffset } from "./chat/mobileViewportUtils";
-import { consumeWorkspacePanelMorph, markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
+import {
+  consumeWorkspacePanelMorph,
+  markWorkspacePanelMorph,
+  resolveWorkspaceRestoreTransition,
+  WORKSPACE_PANEL_MORPH_DELAY_MS
+} from "@/lib/workspacePanelMorph";
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const MOBILE_KEYBOARD_OPEN_THRESHOLD = 88;
@@ -42,6 +47,7 @@ const MOBILE_KEYBOARD_CLOSE_THRESHOLD = 56;
 const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
+const MOBILE_KEYBOARD_OFFSET_JITTER_PX = 10;
 const WORKSPACE_SURFACE_SETTLE_MS = 700;
 const WORKSPACE_RETURN_MORPH_SETTLE_MS = 760;
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
@@ -370,16 +376,13 @@ export default function ChatBody({
     }
     if (!shouldRestore) return;
     const morphState = consumeWorkspacePanelMorph();
+    const restoreTransition = resolveWorkspaceRestoreTransition(morphState, {
+      reduceMotion: prefs?.reduceMotion
+    });
     workspaceRestoredOpenRef.current = true;
-    if (morphState?.direction === "collapse") {
-      setWorkspaceSuppressOpenTransition(true);
-      setWorkspaceReturnMorphing(false);
-      setWorkspaceReturnTransitioning(false);
-    } else {
-      setWorkspaceSuppressOpenTransition(true);
-      setWorkspaceReturnMorphing(false);
-      setWorkspaceReturnTransitioning(false);
-    }
+    setWorkspaceSuppressOpenTransition(restoreTransition.suppressOpenTransition);
+    setWorkspaceReturnMorphing(restoreTransition.returnMorphing);
+    setWorkspaceReturnTransitioning(restoreTransition.returnTransitioning);
     setWorkspaceOpen(true);
     setWorkspaceSurfaceReady(true);
     setShowSourcesPanel(false);
@@ -576,7 +579,7 @@ export default function ChatBody({
       const rawOffset = readKeyboardOffset();
       if (lastResolvedOffset > 0) {
         if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) {
-          lastResolvedOffset = rawOffset;
+          lastResolvedOffset = Math.max(lastResolvedOffset, rawOffset);
           return lastResolvedOffset;
         }
         lastResolvedOffset = 0;
@@ -606,6 +609,13 @@ export default function ChatBody({
     };
     const applyKeyboardOffset = offset => {
       if (offset === lastAppliedOffset) return;
+      if (
+        offset > 0 &&
+        lastAppliedOffset > 0 &&
+        Math.abs(offset - lastAppliedOffset) < MOBILE_KEYBOARD_OFFSET_JITTER_PX
+      ) {
+        return;
+      }
       lastAppliedOffset = offset;
       node.style.setProperty("--chat-vk-offset", `${offset}px`);
       refreshMask({

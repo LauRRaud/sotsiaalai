@@ -458,8 +458,6 @@ html[data-contrast="hc"] :is(
     .chat-room-title,
     .invite-modal-title,
     .rooms-page-title,
-    .selected-listing-title,
-    .help-listings-title,
     .drawer-title,
     .documents-section-title
   ) {

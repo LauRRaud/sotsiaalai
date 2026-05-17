@@ -54,8 +54,6 @@ const surfaceClassName =
 const bodyClassName =
   `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.48rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
-const compactSubpageTitleClassName = "compact-workspace-subpage-title";
-
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
 
@@ -937,8 +935,6 @@ export default function CovisionPage() {
             holdPressedVisualDisabled
             anchorBack={false}
             backClassName="workspace-scroll-back-button"
-            headerClassName="!mb-0"
-            titleClassName={compactSubpageTitleClassName}
           >
             {t("chat.workspace.cards.kovision.title", "Kovisioon")}
           </GlassSubpageHeader>

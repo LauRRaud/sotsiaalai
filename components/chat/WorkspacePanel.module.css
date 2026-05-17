@@ -24,6 +24,27 @@
   display: none;
 }
 
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: clamp(0.14rem, 0.5vw, 0.32rem);
+  z-index: 0;
+  border-radius: clamp(1.1rem, 2.4vw, 1.85rem);
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.018)),
+    var(--glass-ring-sheen, none),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 84%, transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.11),
+    inset 0 1px 20px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+  -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
+  transform: scale(0.985);
+}
+
 .roleMenu {
   position: absolute;
   top: clamp(1rem, 2.2vh, 1.35rem);
@@ -38,6 +59,8 @@
 .panel :global(.glass-subpage-header),
 .panel .roleMenu,
 .panel .grid {
+  position: relative;
+  z-index: 1;
   transition: opacity 180ms ease;
 }
 
@@ -53,8 +76,19 @@
 .panel:global(.workspace-dashboard-panel--morph-expand) :global(.glass-subpage-header),
 .panel:global(.workspace-dashboard-panel--morph-expand) .roleMenu,
 .panel:global(.workspace-dashboard-panel--morph-expand) .grid {
-  opacity: 0;
   pointer-events: none;
+  animation: workspace-dashboard-content-release 680ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  will-change: opacity, filter, transform;
+}
+
+.panel:global(.workspace-dashboard-panel--morph-expand)::after {
+  animation: workspace-morph-surface-breathe 680ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+.panel:global(.workspace-dashboard-panel--morph-expand) .card {
+  animation: workspace-dashboard-card-release 680ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  will-change: opacity, filter, transform;
 }
 
 .roleMenu :global(.workspace-role-cycle-button) {
@@ -353,6 +387,70 @@
   }
 }
 
+@keyframes workspace-morph-surface-breathe {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+    transform: scale(0.982);
+  }
+
+  22% {
+    opacity: 0.56;
+  }
+
+  64% {
+    opacity: 0.74;
+    filter: blur(0.2px);
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.28;
+    filter: blur(0);
+    transform: scale(1.015);
+  }
+}
+
+@keyframes workspace-dashboard-content-release {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+
+  52% {
+    opacity: 0.64;
+    filter: blur(1.4px);
+    transform: translateY(-0.08rem) scale(0.992);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-0.22rem) scale(0.982);
+  }
+}
+
+@keyframes workspace-dashboard-card-release {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+
+  56% {
+    opacity: 0.7;
+    filter: blur(1px);
+    transform: translateY(-0.04rem) scale(0.988);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-0.18rem) scale(0.972);
+  }
+}
+
 @media (max-width: 768px) {
   .panel {
     width: 100%;
@@ -360,13 +458,13 @@
     height: 100%;
     min-height: 0;
     padding:
-      calc(env(safe-area-inset-top, 0px) + 0.08rem)
+      calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.08rem)
       clamp(0.22rem, 1.2vw, 0.38rem)
-      calc(env(safe-area-inset-bottom, 0px) + clamp(0.55rem, 1.7vh, 0.9rem));
+      calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(0.55rem, 1.7vh, 0.9rem));
   }
 
   .roleMenu {
-    top: calc(env(safe-area-inset-top, 0px) + 0.44rem);
+    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.44rem);
     right: clamp(0.58rem, 2vw, 0.82rem);
   }
 

@@ -867,6 +867,11 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
 
 @media (min-width: 769px) {
   .workspace-guide-panel.glass-subpage-surface {
+    --workspace-subpage-back-left: 0.55rem;
+    --workspace-subpage-back-top: 0.55rem;
+    --workspace-subpage-header-margin-bottom: 0.35rem;
+    --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
+    --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
     width: var(--workspace-glass-inline-size) !important;
     inline-size: var(--workspace-glass-inline-size) !important;
     min-width: var(--workspace-glass-inline-size) !important;
@@ -881,6 +886,35 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
       var(--workspace-guide-panel-pad-x)
       var(--workspace-guide-panel-pad-bottom) !important;
     border-radius: 2rem !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface .glass-subpage-header {
+    margin-bottom: var(--workspace-subpage-header-margin-bottom, 0.35rem) !important;
+  }
+
+  :is(
+      .invite-modal-content--workspace,
+      .help-listings-modal-content--workspace
+    ).workspace-guide-panel.glass-subpage-surface
+    > .glass-subpage-header {
+    margin-top: clamp(0.18rem, 0.65vh, 0.42rem) !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
+    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
+    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
+  }
+
+  .workspace-guide-panel.glass-subpage-surface :is(
+    .workspace-scroll-back-button,
+    .documents-scroll-back-button
+  ) {
+    position: absolute !important;
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: var(--workspace-subpage-back-top, 0.55rem) !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
   }
 
   .workspace-guide-panel-scroll {

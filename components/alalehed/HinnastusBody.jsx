@@ -7,6 +7,7 @@ import AppLink from "@/components/ui/Link";
 import Button from "@/components/ui/Button";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import {
+  glassFullPanelMobileHeaderClassName,
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
   glassPrimaryButtonToneClassName
@@ -17,15 +18,15 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 
 const shellClassName =
-  `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
-  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[0.5rem] py-[0.5rem] max-[768px]:[--mobile-glass-card-gap:clamp(0.14rem,0.8vw,0.22rem)] max-[768px]:justify-start max-[768px]:px-0 max-[768px]:py-[0.08rem]";
+  `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ${glassFullPanelMobileHeaderClassName} ` +
+  "relative flex h-[100dvh] min-h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center overflow-hidden overscroll-none px-[1rem] py-[1rem] max-[768px]:justify-start max-[768px]:px-0";
 
 const panelClassName =
-  `hinnastus-panel relative z-[21] w-full !max-w-[64rem] max-h-[calc(100dvh-1rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
+  `hinnastus-panel relative z-[21] w-full !max-w-[62rem] max-h-[calc(100dvh-2rem)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[2rem] ` +
   `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-surface-text,#f2f2f2)] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] ` +
-  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[0.72rem] pt-[0.28rem] pb-[0.72rem] ` +
+  `[-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] [scrollbar-gutter:stable_both-edges] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 px-[1.35rem] pt-[0.35rem] pb-[1.25rem] ` +
   `max-[768px]:[--glass-ring-pad-x:clamp(0.22rem,0.9vw,0.34rem)] max-[768px]:rounded-[1.05rem] max-[768px]:px-[0.28rem] max-[768px]:pb-[0.48rem] ${glassPageMobileCardClassName}`;
 
 const bodyClassName =

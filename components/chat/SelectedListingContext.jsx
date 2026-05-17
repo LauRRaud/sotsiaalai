@@ -297,8 +297,6 @@ export default function SelectedListingContext({
         onBack={onDismiss}
         backAriaLabel={ui.close}
         titleAs="h2"
-        headerClassName="selected-listing-title-wrap"
-        titleClassName="selected-listing-title"
       >
         {loading ? ui.loading : listing?.title || ui.selectedListing}
       </GlassSubpageHeader>

@@ -11,6 +11,8 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const chatTopNavSource = readSource("components/alalehed/chat/view/ChatMobileTopNav.jsx");
   const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
   const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
+  const glassPageStylesSource = readSource("components/ui/glassPageStyles.js");
+  const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   const mobileCss = readSource("app/styles/mobile.css");
 
   assert.match(
@@ -44,6 +46,18 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   assert.match(
     mobileCss,
     /\.workspace-dashboard-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.08rem\)\s*!important;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /padding:[\s\S]*?calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.08rem\)[\s\S]*?calc\(var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\) \+ clamp\(0\.55rem,\s*1\.7vh,\s*0\.9rem\)\)/
+  );
+  assert.match(
+    workspacePanelCss,
+    /\.roleMenu\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.44rem\);/
+  );
+  assert.match(
+    glassPageStylesSource,
+    /glassPageBackMobileBottomCenterClassName[\s\S]*?top-\[calc\(var\(--mobile-safe-top,env\(safe-area-inset-top,0px\)\)\+0\.2rem\)\]/
   );
 });
 
@@ -86,7 +100,7 @@ test("service map mobile back icon matches the workspace visual inset", () => {
   );
   assert.match(
     serviceMapCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.2rem\)\s*!important[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.42rem\)\s*!important/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.55rem\)\s*!important[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.39rem\)\s*!important/
   );
   assert.doesNotMatch(
     serviceMapCss,

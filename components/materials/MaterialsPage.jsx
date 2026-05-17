@@ -42,7 +42,6 @@ const materialsMobilePanelWidthClassName =
 const materialsMobileInnerWidthClassName =
   "max-[768px]:mx-auto max-[768px]:w-full max-[768px]:max-w-[20rem]"
 const materialsDesktopReadableWidthClassName = "mx-auto w-full max-w-[min(48rem,100%)]"
-const compactSubpageTitleClassName = "compact-workspace-subpage-title"
 const materialsUploadSectionClassName =
   "materials-upload-panel grid gap-[0.82rem] rounded-[1.18rem] px-[0.45rem] py-[0.75rem] " +
   `${materialsMobilePanelWidthClassName} ` +
@@ -150,8 +149,6 @@ export default function MaterialsPage({ locale = "et" }) {
             holdPressedVisualDisabled
             anchorBack={false}
             backClassName="workspace-scroll-back-button"
-            headerClassName="!mb-0"
-            titleClassName={compactSubpageTitleClassName}
           >
             {t("materials_page.title")}
           </GlassSubpageHeader>

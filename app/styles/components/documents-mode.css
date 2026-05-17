@@ -2265,20 +2265,6 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   backdrop-filter: none;
 }
 
-@media (min-width: 769px) {
-  .documents-scroll-back-button {
-    position: absolute !important;
-    left: calc(0.55rem - var(--workspace-guide-panel-pad-x, 1rem)) !important;
-    top: calc(
-      0.55rem - var(--workspace-guide-panel-pad-top, 0.6rem) -
-        clamp(0.18rem, 0.65vh, 0.42rem)
-    ) !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
-  }
-}
-
 .documents-page-shell--content {
   display: grid;
   gap: 0.95rem;
@@ -2301,8 +2287,8 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   z-index: 1;
 }
 
-.documents-workspace-page--library
-  .documents-page-shell.workspace-guide-panel-scroll
+.documents-workspace-shell.workspace-guide-panel
+  > .documents-grid.workspace-guide-panel-scroll
   > .documents-admin-role-menu {
   position: absolute;
   z-index: 40;

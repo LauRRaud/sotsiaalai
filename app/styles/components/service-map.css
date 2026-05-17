@@ -2227,8 +2227,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__back {
-    top: calc(env(safe-area-inset-top, 0px) + 0.2rem) !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.42rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.55rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.39rem) !important;
     bottom: auto !important;
   }
 

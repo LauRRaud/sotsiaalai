@@ -1574,7 +1574,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
       <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
-        <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("documents.agent_workspace.back_to_chat")}
@@ -1593,11 +1592,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           >
             {t("chat.tools.agent_mode")}
           </GlassSubpageHeader>
-          <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-            <div className={heroBodyClassName}>
-              <p className="documents-page-description documents-agent-page-description">{introText}</p>
-            </div>
-          </Panel>
+          <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
+            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
+              <div className={heroBodyClassName}>
+                <p className="documents-page-description documents-agent-page-description">{introText}</p>
+              </div>
+            </Panel>
 
           {documentsError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{documentsError}</div> : null}
           {runError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{runError}</div> : null}
