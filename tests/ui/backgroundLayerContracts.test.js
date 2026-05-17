@@ -37,3 +37,10 @@ test("homepage color bends still fade on scroll when motion is reduced", () => {
     /el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*if \(!isHomepage\) return;[\s\S]*const bendsOpacity = mobileBackgroundMode[\s\S]*: \(1 - clamp\(\(y - 240\) \/ 220, 0, 1\)\) \* colorBendsOpacity;/
   );
 });
+
+test("workspace route morph pauses animated color bends instead of repainting behind the panel", () => {
+  assert.match(source, /WORKSPACE_MORPH_BACKGROUND_PAUSE_MS\s*=\s*WORKSPACE_PANEL_MORPH_MS \+ 240/);
+  assert.match(source, /event\?\.detail\?\.workspacePanelMorph/);
+  assert.match(source, /setColorBendsPaused\(true\)/);
+  assert.match(source, /paused=\{colorBendsPaused\}/);
+});

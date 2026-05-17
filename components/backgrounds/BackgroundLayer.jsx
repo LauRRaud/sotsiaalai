@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState, memo } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
+import { WORKSPACE_PANEL_MORPH_MS } from "@/lib/workspacePanelMorph";
 import dynamic from "next/dynamic";
 import ColorBends from "./ColorBends";
 const Particles = dynamic(() => import("./Particles"), {
@@ -27,6 +28,7 @@ const PARTICLES_EXCLUDED_PATHS = new Set([
 const MOBILE_COLOR_BENDS_READY_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
+const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
@@ -114,6 +116,7 @@ const BackgroundContent = memo(function BackgroundContent({
   const [cursorReady, setCursorReady] = useState(false);
   const [mobileBendsVisible, setMobileBendsVisible] = useState(false);
   const [mobileParticlesVisible, setMobileParticlesVisible] = useState(false);
+  const [colorBendsPaused, setColorBendsPaused] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
@@ -129,6 +132,25 @@ const BackgroundContent = memo(function BackgroundContent({
   // parallax feel unstable, so keep particles static there.
   const particlesParallaxActive = false;
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let timer = 0;
+    const release = () => {
+      timer = 0;
+      setColorBendsPaused(false);
+    };
+    const handleRouteTransition = event => {
+      if (!event?.detail?.workspacePanelMorph) return;
+      setColorBendsPaused(true);
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(release, WORKSPACE_MORPH_BACKGROUND_PAUSE_MS);
+    };
+    window.addEventListener("sotsiaalai:route-transition", handleRouteTransition);
+    return () => {
+      window.removeEventListener("sotsiaalai:route-transition", handleRouteTransition);
+      if (timer) window.clearTimeout(timer);
+    };
+  }, []);
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const mql = q => typeof window.matchMedia === "function" ? window.matchMedia(q) : null;
@@ -473,6 +495,7 @@ const BackgroundContent = memo(function BackgroundContent({
               noise={0}
               transparent
               autoRotate={0}
+              paused={colorBendsPaused}
             />
           </div>}
 

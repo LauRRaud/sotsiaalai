@@ -147,7 +147,8 @@ export default function ColorBends({
   scrollContainerSelector = "",
   noise = 0.1,
   maxDpr = 2,
-  powerPreference = "high-performance"
+  powerPreference = "high-performance",
+  paused = false
 }) {
   const containerRef = useRef(null);
   const rendererRef = useRef(null);
@@ -171,7 +172,9 @@ export default function ColorBends({
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const animationEnabledRef = useRef(true);
   const visibleRef = useRef(true);
+  const pausedRef = useRef(paused);
   const interactiveRef = useRef(false);
+  const elapsedRef = useRef(0);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -239,6 +242,7 @@ export default function ColorBends({
     };
 
     const renderFrame = elapsed => {
+      elapsedRef.current = elapsed;
       material.uniforms.uTime.value = elapsed;
       updateRotation(elapsed);
 
@@ -252,7 +256,7 @@ export default function ColorBends({
 
     renderStillRef.current = () => {
       if (document.hidden) return;
-      renderFrame(0);
+      renderFrame(elapsedRef.current);
     };
 
     const handleResize = () => {
@@ -277,6 +281,11 @@ export default function ColorBends({
     let lastTime = 0;
     let elapsed = 0;
     const loop = now => {
+      if (pausedRef.current || !visibleRef.current) {
+        rafRef.current = null;
+        lastTime = 0;
+        return;
+      }
       const last = lastTime || now;
       const dt = Math.max(0, (now - last) / 1000);
       lastTime = now;
@@ -305,7 +314,9 @@ export default function ColorBends({
     syncPlaybackRef.current = () => {
       updatePlaybackMode();
 
-      if (animationEnabledRef.current && visibleRef.current) {
+      if (pausedRef.current) {
+        stopLoop();
+      } else if (animationEnabledRef.current && visibleRef.current) {
         startLoop();
       } else {
         stopLoop();
@@ -371,6 +382,11 @@ export default function ColorBends({
       }
     };
   }, [maxDpr, mouseInfluence, parallax, powerPreference, transparent]);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+    syncPlaybackRef.current();
+  }, [paused]);
 
   useEffect(() => {
     const material = materialRef.current;

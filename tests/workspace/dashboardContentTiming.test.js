@@ -12,7 +12,7 @@ test("chat workspace waits for the glass surface before showing dashboard conten
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
 
-  assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 700;/);
+  assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 220;/);
   assert.match(chatBodySource, /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(false\);/);
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(false\);[\s\S]*?if \(!workspaceOpen\) return;/);
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(true\);[\s\S]*?WORKSPACE_SURFACE_SETTLE_MS/);
@@ -26,7 +26,7 @@ test("chat workspace waits for the glass surface before showing dashboard conten
 
   assert.match(
     workspaceCss,
-    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?pointer-events:\s*none;/
+    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?opacity:\s*0\.72;[\s\S]*?pointer-events:\s*none;/
   );
   assert.doesNotMatch(chatBodySource, /const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;/);
   assert.doesNotMatch(
@@ -219,11 +219,19 @@ test("workspace route return uses the collapse marker to replay the physical ret
   );
   assert.match(
     workspaceCss,
-    /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
+    /\.panel::after\s*\{[\s\S]*?backdrop-filter:\s*none;[\s\S]*?-webkit-backdrop-filter:\s*none;/
   );
   assert.match(
     workspaceCss,
+    /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
+  );
+  assert.doesNotMatch(
+    workspaceCss,
     /@keyframes workspace-dashboard-content-release\s*\{[\s\S]*?filter:\s*blur/
+  );
+  assert.match(
+    workspaceCss,
+    /@keyframes workspace-dashboard-content-release\s*\{[\s\S]*?100%\s*\{[\s\S]*?opacity:\s*0\.48;/
   );
 });
 
