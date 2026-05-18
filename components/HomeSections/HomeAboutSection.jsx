@@ -329,6 +329,9 @@ export default function HomeAboutSection({
       persistGlassRingTilt: false
     });
   };
+  const aboutTopFade = aboutFade.top ? "clamp(3.25rem, 6vw, 4.8rem)" : "0px";
+  const aboutBottomFade = aboutFade.bottom ? "clamp(3.25rem, 6vw, 4.8rem)" : "0px";
+  const aboutMaskImage = `linear-gradient(to bottom, transparent 0, #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), transparent 100%)`;
   const shouldFadeAbout = animateIntro && !aboutIntroDone;
   const shouldFadeBefore = animateIntro && !beforeIntroDone;
   const openBeforeContact = (event) => {
@@ -641,7 +644,9 @@ export default function HomeAboutSection({
               style={{
                 maxHeight: "var(--about-scroll-max-height, min(71vh, 41rem))",
                 scrollbarWidth: "none",
-                msOverflowStyle: "none"
+                msOverflowStyle: "none",
+                WebkitMaskImage: aboutMaskImage,
+                maskImage: aboutMaskImage
               }}
             >
               <h2
@@ -680,16 +685,6 @@ export default function HomeAboutSection({
                 </p>
               </div>
             </div>
-            <div
-              aria-hidden="true"
-              data-visible={aboutFade.top ? "true" : "false"}
-              className="home-about-edge-fade home-about-edge-fade--top"
-            />
-            <div
-              aria-hidden="true"
-              data-visible={aboutFade.bottom ? "true" : "false"}
-              className="home-about-edge-fade home-about-edge-fade--bottom"
-            />
           </div>
         </div>
         <section

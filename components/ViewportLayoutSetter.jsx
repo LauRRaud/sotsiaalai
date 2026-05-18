@@ -79,7 +79,7 @@ function applyVhVar(previousStableLayoutHeight = 0) {
     visualViewportOffsetTop: vv?.offsetTop,
     rawKeyboardOffset: rawKeyboard,
     isEditable,
-    stabilizeForKeyboard: false,
+    stabilizeForKeyboard: true,
     previousStableLayoutHeight
   });
   const height = vv ? vv.height : layoutHeight;

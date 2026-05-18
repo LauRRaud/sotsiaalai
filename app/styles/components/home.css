@@ -248,7 +248,6 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 .homepage-root .home-about-panel {
   --home-panel-bg: rgba(16, 19, 24, 0.34);
-  --home-panel-fade-solid: rgb(16 19 24);
   background: var(
     --home-panel-bg,
     var(
@@ -264,7 +263,6 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 :root.theme-light:not(.theme-mid) .homepage-root .home-about-panel {
   --home-panel-bg: rgba(244, 241, 237, 0.86);
-  --home-panel-fade-solid: rgb(244 241 237);
 }
 
 @media (min-width: 48.001em) {
@@ -285,7 +283,6 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 :root.theme-mid .homepage-root .home-about-panel {
   --home-panel-bg: rgba(203, 190, 186, 0.68);
-  --home-panel-fade-solid: rgb(203 190 186);
 }
 
 @media (min-width: 48.001em) {
@@ -546,12 +543,10 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
 
 html[data-contrast="hc"] .homepage-root .home-about-panel {
   --home-panel-bg: rgba(9, 18, 30, 0.38);
-  --home-panel-fade-solid: rgb(9 18 30);
 }
 
 :root.theme-night:not(.theme-mid) .homepage-root .home-about-panel {
   --home-panel-bg: rgba(12, 17, 27, 0.36);
-  --home-panel-fade-solid: rgb(12 17 27);
 }
 
 @media (max-width: 768px) {
@@ -889,42 +884,6 @@ html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card:not(.is-au
   margin-bottom: clamp(-0.5rem, -0.5vw, -0.2rem);
   padding-top: clamp(1.45rem, 2.45vw, 2.2rem) !important;
   padding-bottom: clamp(0.5rem, 0.8vw, 0.8rem) !important;
-}
-
-.homepage-root .home-about-edge-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 4;
-  height: clamp(3.8rem, 7vw, 5.2rem);
-  pointer-events: none;
-  opacity: 0;
-}
-
-.homepage-root .home-about-edge-fade[data-visible="true"] {
-  opacity: 1;
-}
-
-.homepage-root .home-about-edge-fade--top {
-  top: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--home-panel-fade-solid, rgb(16 19 24)) 0%,
-    color-mix(in srgb, var(--home-panel-fade-solid, rgb(16 19 24)) 82%, transparent) 26%,
-    color-mix(in srgb, var(--home-panel-fade-solid, rgb(16 19 24)) 42%, transparent) 62%,
-    transparent 100%
-  );
-}
-
-.homepage-root .home-about-edge-fade--bottom {
-  bottom: 0;
-  background: linear-gradient(
-    to top,
-    var(--home-panel-fade-solid, rgb(16 19 24)) 0%,
-    color-mix(in srgb, var(--home-panel-fade-solid, rgb(16 19 24)) 82%, transparent) 26%,
-    color-mix(in srgb, var(--home-panel-fade-solid, rgb(16 19 24)) 42%, transparent) 62%,
-    transparent 100%
-  );
 }
 
 .homepage-root .home-about-scrollbox > * {

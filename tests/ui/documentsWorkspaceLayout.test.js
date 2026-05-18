@@ -87,15 +87,23 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
     mobileCss,
     /:is\(\s*\.glass-subpage-title-wrap\s*\)\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.18rem\)\s*!important;/
   );
+  assert.doesNotMatch(
+    mobileCss,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel\s*\{[\s\S]*?--mobile-glass-card-radius/
+  );
   assert.match(
     mobileCss,
-    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel\s*\{[\s\S]*?--mobile-glass-card-radius:\s*clamp\(1\.05rem,\s*3\.8vw,\s*1\.45rem\);[\s\S]*?height:\s*100%\s*!important;[\s\S]*?padding:[\s\S]*?var\(--glass-ring-pad-top\)[\s\S]*?var\(--glass-ring-pad-x\)[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius/
+    /:is\([\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\{[\s\S]*?--workspace-mobile-panel-gap:\s*var\(--mobile-glass-card-gap\);/
   );
   assert.doesNotMatch(mobileCss, /data-display-mode="standalone"[\s\S]*?documents-workspace-shell/);
   assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[\s\S]*?documents-workspace-shell/);
+  assert.doesNotMatch(
+    mobileCss,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell[\s\S]*?\.workspace-scroll-back-button/
+  );
   assert.match(
     mobileCss,
-    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell[\s\S]*?\.workspace-scroll-back-button\s*\{[\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2025rem/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.0825rem/
   );
   assert.match(mobileCss, /\.policy-mobile-title--static\s*\{[\s\S]*?white-space:\s*normal\s*!important;[\s\S]*?text-wrap:\s*balance\s*!important;/);
   assert.match(documentsCss, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);

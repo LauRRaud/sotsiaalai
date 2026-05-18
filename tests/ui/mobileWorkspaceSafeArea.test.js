@@ -38,6 +38,14 @@ test("workspace feature pages keep mobile safe areas without activating PWA layo
     mobileCss,
     /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
   );
+  assert.doesNotMatch(
+    mobileCss,
+    /data-display-mode="browser"[\s\S]{0,240}(?:profile-container|workspace|documents|materials|covision|glass-ring)/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /(?:profile-container|workspace|documents|materials|covision|glass-ring)[\s\S]{0,240}data-display-mode="browser"/
+  );
   assert.match(
     mobileCss,
     /\.workspace-scroll-surface\.workspace-guide-panel\.workspace-feature-panel\s*\{[\s\S]*?overflow-y:\s*hidden\s*!important;/

@@ -69,7 +69,11 @@ test("workspace and framework scroll pages keep the back button inside the scrol
 
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.06rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\)[\s\S]*?env\(safe-area-inset-top,\s*0px\) \+ 0\.22rem[\s\S]*?clamp\(calc\(0\.4 \* var\(--base-rem,\s*16px\)\),\s*1\.4vh,\s*calc\(1\.1 \* var\(--base-rem,\s*16px\)\)\)[\s\S]*?var\(--workspace-guide-panel-pad-top/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.06rem\)\s*!important;[\s\S]*?\}/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?env\(safe-area-inset-top,\s*0px\) \+ 0\.22rem[\s\S]*?workspace-guide-panel-pad-top/
   );
   assert.match(
     mobileCss,

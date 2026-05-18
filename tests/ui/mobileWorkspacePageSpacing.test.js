@@ -41,6 +41,14 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.doesNotMatch(mobileCss, /documents-workspace-shell--documents/);
   assert.doesNotMatch(mobileCss, /documents-workspace-shell--agent/);
   assert.doesNotMatch(mobileCss, /documents-page-shell/);
+  assert.match(
+    mobileCss,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s*\{[\s\S]*?align-items:\s*flex-start\s*!important;[\s\S]*?justify-content:\s*flex-start\s*!important;[\s\S]*?padding:\s*0\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /:is\([\s\S]*?\.workspace-guide-panel\.glass-subpage-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.materials-page-content\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\{[\s\S]*?--workspace-mobile-panel-gap:\s*var\(--mobile-glass-card-gap\);[\s\S]*?margin-top:\s*calc\(var\(--mobile-safe-top,/
+  );
   assert.match(documentsSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
   assert.match(agentSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
   assert.doesNotMatch(css, /documents-workspace-shell--route-enter/);
