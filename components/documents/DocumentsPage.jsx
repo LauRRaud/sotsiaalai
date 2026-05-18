@@ -588,30 +588,30 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) {
     return (
       <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-        <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName}`} />
+        <div className={`documents-workspace-shell documents-workspace-shell--documents documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`} />
       </section>
     )
   }
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      <div className={`documents-workspace-shell documents-workspace-shell--documents ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
+      {isAdmin ? (
+        <AdminRoleViewCycleButton
+          t={t}
+          locale={locale}
+          value={effectiveRole}
+          onRoleChanged={refreshEffectiveRole}
+          className="documents-admin-role-menu documents-admin-role-menu--viewport"
+          ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
+        />
+      ) : null}
+      <div className={`documents-workspace-shell documents-workspace-shell--documents documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("buttons.back")}
             anchorBack={false}
             backClassName="documents-scroll-back-button"
-            rightSlot={isAdmin ? (
-              <AdminRoleViewCycleButton
-                t={t}
-                locale={locale}
-                value={effectiveRole}
-                onRoleChanged={refreshEffectiveRole}
-                className="documents-admin-role-menu"
-                ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
-              />
-            ) : null}
           >
             {t("documents.page_title")}
           </GlassSubpageHeader>

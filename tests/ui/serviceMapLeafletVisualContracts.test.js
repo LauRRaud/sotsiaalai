@@ -197,13 +197,16 @@ test("service map result cards use toolbar control styling without shadows", () 
   );
 });
 
-test("service map mobile route removes animated overlays and lets the map fill the panel", () => {
+test("service map mobile route keeps the shared color background, removes particles, and lets the map fill the panel", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const css = read("app/styles/components/service-map.css");
+  const colorBendsExcludedPaths = backgroundLayer.match(
+    /const COLOR_BENDS_EXCLUDED_PATHS = new Set\(\[([\s\S]*?)\]\);/
+  )?.[1] || "";
 
-  assert.match(
-    backgroundLayer,
-    /COLOR_BENDS_EXCLUDED_PATHS[\s\S]*?["']\/teenusekaart["']/
+  assert.doesNotMatch(
+    colorBendsExcludedPaths,
+    /["']\/teenusekaart["']/
   );
   assert.match(
     backgroundLayer,

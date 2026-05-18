@@ -980,6 +980,16 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
     animation: workspace-guide-panel-collapse 360ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
     transform-origin: 50% 50%;
   }
+
+  .workspace-guide-panel--route-enter:not(.workspace-guide-panel--collapse) {
+    animation: workspace-guide-panel-route-enter 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    transform-origin: 50% 50%;
+  }
+}
+
+html[data-reduce-motion="1"] .workspace-guide-panel--route-enter,
+body[data-reduce-motion="1"] .workspace-guide-panel--route-enter {
+  animation: none !important;
 }
 
 @media (max-width: 768px) {
@@ -1023,6 +1033,18 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   to {
     opacity: 0.98;
     transform: scale(0.93);
+  }
+}
+
+@keyframes workspace-guide-panel-route-enter {
+  from {
+    opacity: 0.94;
+    transform: translateY(0.18rem) scale(0.982);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 

@@ -2185,24 +2185,24 @@ export default function WorkspaceFeaturePage({ feature }) {
 
   return (
     <section className={shellClassName} lang={locale}>
+      {showAdminRoleSelector ? (
+        <AdminRoleSelector
+          t={t}
+          locale={locale}
+          value={activeWorkspaceRole}
+          onChange={handleAdminWorkspaceRoleChange}
+          className="workspace-feature-admin-role--floating workspace-feature-admin-role--viewport"
+        />
+      ) : null}
       <div className={cn(
         isServiceMap
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
           : cn(panelClassName, "workspace-scroll-surface"),
+        !isServiceMap ? "workspace-guide-panel--route-enter" : null,
         isClosing && !isServiceMap ? "workspace-guide-panel--collapse" : null,
         isClosing ? workspaceBackTiltClassName : null
       )}>
         <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content relative" : contentClassName)}>
-          {showAdminRoleSelector ? (
-            <AdminRoleSelector
-              t={t}
-              locale={locale}
-              value={activeWorkspaceRole}
-              onChange={handleAdminWorkspaceRoleChange}
-              className="workspace-feature-admin-role--floating"
-            />
-          ) : null}
-
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}

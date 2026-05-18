@@ -64,7 +64,7 @@ test("restored workspace returns already settled without replaying the dashboard
   );
 });
 
-test("workspace card navigation keeps the chat surface in workspace shape until route changes", () => {
+test("workspace card navigation prefetches routes and navigates without a masking delay", () => {
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const navigateToMatch = workspaceSource.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
@@ -81,20 +81,28 @@ test("workspace card navigation keeps the chat surface in workspace shape until 
     /markWorkspacePanelMorph\("expand",\s*path\);/
   );
   assert.match(
-    navigateToMatch[1],
-    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0/
+    workspaceSource,
+    /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
   );
   assert.match(
     workspaceSource,
-    /WORKSPACE_PANEL_MORPH_EXPAND_MS/
+    /router\.prefetch\?\.\(href\)/
   );
   assert.match(
-    readSource("lib/workspacePanelMorph.js"),
-    /export const WORKSPACE_PANEL_MORPH_EXPAND_MS = WORKSPACE_PANEL_MORPH_MS;/
+    workspaceSource,
+    /for \(const path of WORKSPACE_ROUTE_PREFETCH_PATHS\) \{[\s\S]*?router\.prefetch\(localizePath\(path,\s*locale\)\);/
   );
   assert.match(
     navigateToMatch[1],
-    /pushWithTransition\(router,\s*localizePath\(path,\s*locale\),\s*\{[\s\S]*?workspacePanelMorph:\s*shouldRestoreWorkspace \? "expand" : undefined/
+    /delayMs:\s*0/
+  );
+  assert.doesNotMatch(
+    navigateToMatch[1],
+    /setHandoffPending/
+  );
+  assert.match(
+    navigateToMatch[1],
+    /pushWithTransition\(router,\s*href,\s*\{[\s\S]*?workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/
   );
 
   assert.match(
@@ -119,7 +127,7 @@ test("help listings opened from workspace return to a settled workspace", () => 
   assert.match(chatBodySource, /listingsPanelCloseTimerRef\.current = window\.setTimeout\(/);
 });
 
-test("workspace return morph keeps border radius out of the transition", () => {
+test("workspace route handoff does not resize the desktop chat container", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const cssSource = readSource("app/styles/components/chat-focus.css");
 
@@ -129,13 +137,13 @@ test("workspace return morph keeps border radius out of the transition", () => {
     chatBodySource,
     /setWorkspaceReturnTransitioning\(false\);[\s\S]*?WORKSPACE_RETURN_MORPH_SETTLE_MS/
   );
-  assert.match(
+  assert.doesNotMatch(
     cssSource,
-    /\.chat-container\.chat-container--round\.chat-container--workspace-open\.chat-container--workspace-return-morph\s*\{[\s\S]*?transition:[\s\S]*?width 680ms[\s\S]*?transform 680ms[\s\S]*?!important;[\s\S]*?\}/
+    /workspace-guide-morph-size/
   );
   assert.doesNotMatch(
     cssSource,
-    /\.chat-container\.chat-container--round\.chat-container--workspace-open\.chat-container--workspace-return-morph\s*\{[\s\S]*?border-top-left-radius/
+    /chat-container--workspace-open:has\(\.workspace-dashboard-panel--route-handoff\)/
   );
 });
 
@@ -183,25 +191,24 @@ test("workspace route return marks plain session restores without setting global
   assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
 });
 
-test("workspace route return uses the collapse marker to replay the physical return morph", async () => {
+test("workspace route return uses the collapse marker for a settled restore without physical morph", async () => {
   const {
     resolveWorkspaceRestoreTransition,
     WORKSPACE_PANEL_MORPH_DELAY_MS,
-    WORKSPACE_PANEL_MORPH_EXPAND_MS
+    WORKSPACE_PANEL_MORPH_MS
   } = await import("../../lib/workspacePanelMorph.js");
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
 
-  assert.equal(
-    WORKSPACE_PANEL_MORPH_DELAY_MS,
-    WORKSPACE_PANEL_MORPH_EXPAND_MS,
-    "forward and backward workspace route morphs should use one physical duration"
+  assert.ok(
+    WORKSPACE_PANEL_MORPH_MS === WORKSPACE_PANEL_MORPH_DELAY_MS,
+    "workspace return timing should stay aligned with the collapse marker"
   );
 
   assert.deepEqual(resolveWorkspaceRestoreTransition({ direction: "collapse" }), {
-    suppressOpenTransition: false,
-    returnMorphing: true,
-    returnTransitioning: true
+    suppressOpenTransition: true,
+    returnMorphing: false,
+    returnTransitioning: false
   });
   assert.deepEqual(resolveWorkspaceRestoreTransition({ direction: "expand" }), {
     suppressOpenTransition: true,
@@ -215,7 +222,7 @@ test("workspace route return uses the collapse marker to replay the physical ret
 
   assert.match(
     workspaceCss,
-    /\.panel:global\(\.workspace-dashboard-panel--morph-expand\)::after\s*\{[\s\S]*?animation:\s*workspace-morph-surface-breathe/
+    /\.panel:global\(\.workspace-dashboard-panel--route-handoff\)::after\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?transform:\s*scale\(0\.985\);[\s\S]*?\}/
   );
   assert.match(
     workspaceCss,
@@ -227,12 +234,9 @@ test("workspace route return uses the collapse marker to replay the physical ret
   );
   assert.doesNotMatch(
     workspaceCss,
-    /@keyframes workspace-dashboard-content-release\s*\{[\s\S]*?filter:\s*blur/
+    /workspace-dashboard-content-release|workspace-dashboard-card-release|workspace-morph-surface-breathe/
   );
-  assert.match(
-    workspaceCss,
-    /@keyframes workspace-dashboard-content-release\s*\{[\s\S]*?100%\s*\{[\s\S]*?opacity:\s*0\.48;/
-  );
+  assert.doesNotMatch(workspaceCss, /workspace-dashboard-panel--morph-expand/);
 });
 
 test("workspace subpage back controls mark the dashboard for instant restore", () => {

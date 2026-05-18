@@ -53,7 +53,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /\.roleMenu\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.44rem\);/
+    /\.roleMenu\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.42rem\);/
   );
   assert.match(
     glassPageStylesSource,
@@ -77,8 +77,14 @@ test("shared subpage header anchors the back icon to the visible glass surface",
   assert.match(headerSource, /\.documents-workspace-shell/);
   assert.match(headerSource, /button\?\.closest\?\.\(BACK_ANCHOR_SELECTOR\)/);
   assert.match(headerSource, /function getFixedContainingBlockRect\(element\)/);
+  assert.match(headerSource, /function getPwaSafeTopPx\(\)/);
+  assert.match(headerSource, /function getAnchorSafeTopDeficit\(anchorRect\)/);
+  assert.match(headerSource, /new MutationObserver\(scheduleUpdate\)/);
+  assert.match(headerSource, /attributeFilter:\s*\["data-display-mode",\s*"data-display-mode-sticky",\s*"data-platform",\s*"style"\]/);
   assert.match(headerSource, /rect\.left - containingBlock\.left \+ insets\.left/);
+  assert.match(headerSource, /rect\.top - containingBlock\.top \+ insets\.top \+ safeTopDeficit \+ workspaceRingTopInset/);
   assert.match(headerSource, /const targetLeft = anchorRect\.left \+ insets\.left/);
+  assert.match(headerSource, /const targetTop = anchorRect\.top \+ insets\.top \+ safeTopDeficit \+ workspaceRingTopInset/);
   assert.match(headerSource, /currentLeft \+ deltaLeft/);
   assert.match(headerSource, /anchorBack = true/);
   assert.match(headerSource, /const shouldAnchorBack = Boolean\(hasBack && anchorBack\)/);

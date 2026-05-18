@@ -604,6 +604,13 @@ select.workspace-feature-field option {
   -webkit-backdrop-filter: none;
 }
 
+.workspace-feature-admin-role--viewport {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + clamp(0.72rem, 2.2vh, 1.15rem));
+  right: calc(env(safe-area-inset-right, 0px) + clamp(0.72rem, 2vw, 1.15rem));
+  z-index: 92;
+}
+
 .workspace-feature-admin-role--floating .workspace-role-cycle-button {
   width: 2.42rem;
   height: 2.42rem;
@@ -2171,8 +2178,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .workspace-feature-admin-role--floating {
-    top: calc(env(safe-area-inset-top, 0px) + 0.44rem);
-    right: clamp(0.58rem, 2vw, 0.82rem);
+    top: calc(env(safe-area-inset-top, 0px) + 0.42rem);
+    right: calc(env(safe-area-inset-right, 0px) + clamp(0.52rem, 2vw, 0.72rem));
   }
 
   .workspace-feature-admin-role--floating .workspace-role-cycle-button {

@@ -77,6 +77,7 @@ export default function HelpListingsPanel({
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
+    `${isWorkspaceReturn && !isClosing ? "workspace-guide-panel--route-enter " : ""}` +
     `${isClosing ? `${isWorkspaceReturn ? "workspace-guide-panel--collapse" : tiltAnimationClassName} pointer-events-none` : ""}`;
   const listingsPanelClassName =
     "mt-0";

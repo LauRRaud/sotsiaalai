@@ -5,7 +5,6 @@ import fs from "node:fs/promises";
 
 import prisma from "../lib/prisma.js";
 import {
-  arrayValue,
   buildKovAdminStatusResetPlan,
   clean,
   collectKovRuntimeFiles,

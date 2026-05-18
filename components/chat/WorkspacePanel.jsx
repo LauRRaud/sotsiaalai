@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import BorderGlow from "@/components/ui/BorderGlow";
 import { cn } from "@/components/ui/cn";
@@ -20,6 +21,15 @@ const DASHBOARD_VIEW_ROLES = Object.freeze([
   "CLIENT",
   "SOCIAL_WORKER",
   "SERVICE_PROVIDER"
+]);
+const WORKSPACE_ROUTE_PREFETCH_PATHS = Object.freeze([
+  "/documents",
+  "/dokreziim",
+  "/eelpoordumised",
+  "/kovisioon",
+  "/materjalid",
+  "/teenusekaart",
+  "/teenuseprofiil"
 ]);
 
 function DashboardCardIcon({ type }) {
@@ -153,11 +163,13 @@ export default function WorkspacePanel({
     return "SOCIAL_WORKER";
   }, [userActualRole, userRole]);
   const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
-  const [morphingToSubpage, setMorphingToSubpage] = useState(false);
+  const [handoffPending, setHandoffPending] = useState(false);
+  const [roleMenuPortalTarget, setRoleMenuPortalTarget] = useState(null);
 
   const navigateTo = useCallback(
     path => {
       const shouldRestoreWorkspace = !String(path || "").startsWith("/vestlus");
+      const href = localizePath(path, locale);
       if (shouldRestoreWorkspace && typeof window !== "undefined") {
         try {
           window.sessionStorage.setItem(
@@ -166,11 +178,13 @@ export default function WorkspacePanel({
           );
         } catch {}
         markWorkspacePanelMorph("expand", path);
-        setMorphingToSubpage(true);
       }
-      pushWithTransition(router, localizePath(path, locale), {
-        delayMs: shouldRestoreWorkspace ? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0,
-        workspacePanelMorph: shouldRestoreWorkspace ? "expand" : undefined
+      try {
+        router.prefetch?.(href);
+      } catch {}
+      pushWithTransition(router, href, {
+        delayMs: 0,
+        workspacePanelMorph: shouldRestoreWorkspace ? "route-fade" : undefined
       });
     },
     [locale, router]
@@ -184,7 +198,7 @@ export default function WorkspacePanel({
     panelKey => {
       if (typeof window === "undefined") return;
       markWorkspacePanelMorph("expand", panelKey);
-      setMorphingToSubpage(true);
+      setHandoffPending(true);
       window.setTimeout(() => {
         onClose?.();
         try {
@@ -202,7 +216,7 @@ export default function WorkspacePanel({
   const openInvite = useCallback(() => {
     if (typeof window === "undefined") return;
     markWorkspacePanelMorph("expand", "invite");
-    setMorphingToSubpage(true);
+    setHandoffPending(true);
     window.setTimeout(() => {
       onClose?.();
       try {
@@ -220,9 +234,23 @@ export default function WorkspacePanel({
   }, [defaultDashboardRole]);
 
   useEffect(() => {
+    setRoleMenuPortalTarget(document.body);
+    return () => setRoleMenuPortalTarget(null);
+  }, []);
+
+  useEffect(() => {
     if (visible) return;
-    setMorphingToSubpage(false);
+    setHandoffPending(false);
   }, [visible]);
+
+  useEffect(() => {
+    if (!visible || typeof router.prefetch !== "function") return;
+    for (const path of WORKSPACE_ROUTE_PREFETCH_PATHS) {
+      try {
+        router.prefetch(localizePath(path, locale));
+      } catch {}
+    }
+  }, [locale, router, visible]);
 
   const handleDashboardRoleChanged = useCallback((user = {}) => {
     setDashboardRole(normalizeDashboardRole(user?.effectiveRole || user?.adminViewRole));
@@ -427,29 +455,32 @@ export default function WorkspacePanel({
           ])
       ];
 
+  const roleMenu = isAdmin ? (
+    <div className={styles.roleMenu}>
+      <AdminRoleViewCycleButton
+        t={t}
+        locale={locale}
+        value={dashboardRole}
+        onRoleChanged={handleDashboardRoleChanged}
+        ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
+      />
+    </div>
+  ) : null;
+
   return (
-    <section
-      className={cn("workspace-dashboard-panel", styles.panel, morphingToSubpage && "workspace-dashboard-panel--morph-expand")}
-      data-visible={visible ? "true" : "false"}
-      role="region"
-      aria-labelledby="chat-workspace-title"
-    >
+    <>
+      {roleMenuPortalTarget && roleMenu ? createPortal(roleMenu, roleMenuPortalTarget) : null}
+      <section
+        className={cn("workspace-dashboard-panel", styles.panel, handoffPending && "workspace-dashboard-panel--route-handoff")}
+        data-visible={visible ? "true" : "false"}
+        role="region"
+        aria-labelledby="chat-workspace-title"
+      >
       <GlassSubpageHeader
         onBack={handleWorkspaceBack}
         backAriaLabel={text(t, "buttons.back_previous", "Tagasi")}
         holdPressedVisualDisabled
         titleId="chat-workspace-title"
-        rightSlot={isAdmin ? (
-          <div className={styles.roleMenu}>
-            <AdminRoleViewCycleButton
-              t={t}
-              locale={locale}
-              value={dashboardRole}
-              onRoleChanged={handleDashboardRoleChanged}
-              ariaLabel={text(t, "chat.workspace.view_role.label", "Töölaua vaade")}
-            />
-          </div>
-        ) : null}
       >
         {text(t, "chat.workspace.title", "Töölaud")}
       </GlassSubpageHeader>
@@ -491,6 +522,7 @@ export default function WorkspacePanel({
           </div>
         ))}
       </div>
-    </section>
+      </section>
+    </>
   );
 }

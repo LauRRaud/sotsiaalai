@@ -1572,23 +1572,23 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      <div className={`documents-workspace-shell documents-workspace-shell--agent ${workspaceGuidePanelClassName}`}>
+      {isAdmin ? (
+        <AdminRoleViewCycleButton
+          t={t}
+          locale={locale}
+          value={effectiveRole}
+          onRoleChanged={refreshEffectiveRole}
+          className="documents-admin-role-menu documents-admin-role-menu--viewport"
+          ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
+        />
+      ) : null}
+      <div className={`documents-workspace-shell documents-workspace-shell--agent documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("documents.agent_workspace.back_to_chat")}
             anchorBack={false}
             backClassName="documents-scroll-back-button"
-            rightSlot={isAdmin ? (
-              <AdminRoleViewCycleButton
-                t={t}
-                locale={locale}
-                value={effectiveRole}
-                onRoleChanged={refreshEffectiveRole}
-                className="documents-admin-role-menu"
-                ariaLabel={t("chat.workspace.view_role.label", "Toolaua vaade")}
-              />
-            ) : null}
           >
             {t("chat.tools.agent_mode")}
           </GlassSubpageHeader>

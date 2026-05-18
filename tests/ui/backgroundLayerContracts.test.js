@@ -13,8 +13,8 @@ function setEntries(name) {
   return [...match[1].matchAll(/"([^"]+)"/g)].map((entry) => entry[1]);
 }
 
-test("service map keeps the shared background but excludes animated overlays", () => {
-  assert.ok(setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/teenusekaart"));
+test("service map keeps the shared color background while excluding particles", () => {
+  assert.ok(!setEntries("COLOR_BENDS_EXCLUDED_PATHS").includes("/teenusekaart"));
   assert.ok(setEntries("PARTICLES_EXCLUDED_PATHS").includes("/teenusekaart"));
   assert.ok(!setEntries("BACKGROUND_LAYER_EXCLUDED_PATHS").includes("/teenusekaart"));
 });

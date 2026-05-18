@@ -75,6 +75,27 @@ export function resolveMobileChatKeyboardOffset(metrics = {}) {
   return Math.min(offset, maxReasonable);
 }
 
+export function resolveMobileChatKeyboardVisibilityOffset(metrics = {}) {
+  const visualHeight = toNonNegativePixel(metrics.visualViewportHeight);
+  if (visualHeight <= 0) return 0;
+
+  const layoutViewportHeight = Math.max(
+    toNonNegativePixel(metrics.baselineViewportExtent),
+    toNonNegativePixel(metrics.layoutViewportHeight),
+    toNonNegativePixel(metrics.windowInnerHeight)
+  );
+  const maxReasonable = resolveMaxKeyboardOffset({
+    baselineViewportExtent: layoutViewportHeight,
+    layoutViewportHeight
+  });
+  if (layoutViewportHeight <= 0 || maxReasonable <= 0) return 0;
+
+  return Math.min(
+    toNonNegativePixel(layoutViewportHeight - visualHeight),
+    maxReasonable
+  );
+}
+
 export function resolveStableDisplayMode(previousMode, detectedMode) {
   const previous = String(previousMode || "").trim();
   const detected = String(detectedMode || "browser").trim() || "browser";

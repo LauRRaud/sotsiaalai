@@ -33,7 +33,10 @@ import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState"
 import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget";
 import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
-import { resolveMobileChatKeyboardOffset } from "./chat/mobileViewportUtils";
+import {
+  resolveMobileChatKeyboardOffset,
+  resolveMobileChatKeyboardVisibilityOffset
+} from "./chat/mobileViewportUtils";
 import {
   consumeWorkspacePanelMorph,
   markWorkspacePanelMorph,
@@ -545,7 +548,7 @@ export default function ChatBody({
       storedBaseline.containerHeight || 0
     );
     const baselineCaptureUntil = now() + MOBILE_KEYBOARD_BASELINE_CAPTURE_MS;
-    const readKeyboardOffset = () => {
+    const readKeyboardMetrics = () => {
       const currentExtent = readViewportExtent();
       const currentContainerHeight = readContainerHeight();
       if (now() <= baselineCaptureUntil) {
@@ -564,25 +567,46 @@ export default function ChatBody({
         baselineContainerHeight = currentContainerHeight;
       }
       const containerRect = readContainerRect();
-      return resolveMobileChatKeyboardOffset({
+      const metrics = {
         baselineViewportExtent,
         baselineContainerHeight,
         currentViewportExtent: currentExtent,
         currentContainerHeight,
         currentContainerBottom: containerRect.bottom,
         layoutViewportHeight: window.innerHeight || baselineViewportExtent,
+        windowInnerHeight: window.innerHeight || 0,
         visualViewportHeight: vv?.height,
         visualViewportOffsetTop: vv?.offsetTop
-      });
+      };
+      return {
+        offset: resolveMobileChatKeyboardOffset(metrics),
+        keyboardVisibleOffset: resolveMobileChatKeyboardVisibilityOffset(metrics),
+        viewportPanned: Math.max(0, Math.round(vv?.offsetTop || 0)) > MOBILE_KEYBOARD_OFFSET_JITTER_PX
+      };
     };
     const resolveKeyboardOffset = () => {
-      const rawOffset = readKeyboardOffset();
+      const {
+        offset: rawOffset,
+        keyboardVisibleOffset,
+        viewportPanned
+      } = readKeyboardMetrics();
+      const keyboardStillOpen =
+        rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD ||
+        keyboardVisibleOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD;
       if (lastResolvedOffset > 0) {
-        if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) {
-          lastResolvedOffset = Math.max(lastResolvedOffset, rawOffset);
+        if (keyboardStillOpen) {
+          lastResolvedOffset = viewportPanned
+            ? rawOffset
+            : Math.max(lastResolvedOffset, rawOffset);
           return lastResolvedOffset;
         }
         lastResolvedOffset = 0;
+        pendingOpenSince = 0;
+        pendingOpenOffset = 0;
+        return lastResolvedOffset;
+      }
+      if (viewportPanned && keyboardVisibleOffset > MOBILE_KEYBOARD_OPEN_THRESHOLD) {
+        lastResolvedOffset = rawOffset;
         pendingOpenSince = 0;
         pendingOpenOffset = 0;
         return lastResolvedOffset;

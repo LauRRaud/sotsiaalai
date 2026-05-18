@@ -652,10 +652,14 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Mobile cards stay readable without the glass blur by using denser coin surfaces. */
+  /* Mobile keeps a cheaper static surface so the intro matches the final card. */
   .homepage-root .home-card-rotating-backdrop {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  .homepage-root .home-card-rotating-backdrop-reveal {
+    animation: homeCardBackdropIntroMobile 2400ms cubic-bezier(0.61, 0, 0.19, 1) 500ms both !important;
   }
 
   .homepage-root .three-d-card.left .home-card-rotating-backdrop {
@@ -676,6 +680,30 @@
         rgba(24, 19, 21, 0.28) 58%,
         rgba(10, 8, 9, 0.22) 100%
       ) !important;
+  }
+
+  @keyframes homeCardBackdropIntroMobile {
+    0% {
+      opacity: 0;
+      filter: blur(0.16rem);
+      transform: scale(0.965);
+    }
+
+    42% {
+      filter: blur(0);
+    }
+
+    70% {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
   }
 
   .home-hero-shell {
@@ -3948,19 +3976,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
         clamp(calc(0.4 * var(--base-rem, 16px)), 1.4vh, calc(1.1 * var(--base-rem, 16px))) +
         var(--workspace-guide-panel-pad-top, var(--glass-ring-pad-top, 0.6rem))
     ) !important;
-  }
-
-  .documents-workspace-page--library .documents-scroll-back-button {
-    left: calc(var(--glass-ring-pad-x, 1rem) + env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: calc(var(--glass-ring-pad-top, 0.6rem) + var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem) !important;
-  }
-
-  .documents-workspace-page--library .glass-subpage-title-wrap {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.755rem) !important;
   }
 
   .workspace-dashboard-panel .glass-subpage-title-wrap {

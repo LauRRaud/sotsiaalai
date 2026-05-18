@@ -71,12 +71,18 @@ test("pre-inquiry assistant conversation and input shadows stay close to the ele
 
 test("workspace feature pages are anchored to the viewport", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/components/service-map.css");
 
   assert.match(source, /workspace-feature-page-shell/);
   assert.match(source, /fixed inset-0 isolate z-\[30\]/);
   assert.match(source, /w-screen max-w-\[100vw\]/);
   assert.match(source, /bg-transparent/);
   assert.match(source, /persistGlassRingTilt:\s*false/);
+  assert.match(source, /workspace-feature-admin-role--viewport/);
+  assert.match(
+    css,
+    /\.workspace-feature-admin-role--viewport\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ clamp\(0\.72rem,\s*2\.2vh,\s*1\.15rem\)\);[\s\S]*?right:\s*calc\(env\(safe-area-inset-right,\s*0px\) \+ clamp\(0\.72rem,\s*2vw,\s*1\.15rem\)\);/
+  );
 });
 
 test("workspace feature panels keep a stable desktop footprint across role views", () => {
@@ -99,7 +105,7 @@ test("workspace feature panels keep a stable desktop footprint across role views
   assert.match(source, /workspace-feature-content relative/);
   assert.match(
     source,
-    /<div className=\{cn\(isServiceMap \? "workspace-feature-content service-map-page-content relative" : contentClassName\)\}>[\s\S]*?<BackButton[\s\S]*?<header/
+    /<div className=\{cn\(isServiceMap \? "workspace-feature-content service-map-page-content relative" : contentClassName\)\}>[\s\S]*?<GlassSubpageHeader/
   );
   assert.match(source, /overflow-hidden/);
   assert.doesNotMatch(source, /!max-w-\[66rem\]/);
@@ -137,12 +143,13 @@ test("workspace feature pages use the same desktop width as help listings", () =
     /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/
   );
   assert.match(source, /workspaceGuidePanelClassName/);
+  assert.match(source, /!isServiceMap \? "workspace-guide-panel--route-enter" : null/);
   assert.match(covisionSource, /workspaceGuidePanelClassName/);
   assert.match(materialsSource, /workspaceGuidePanelClassName/);
   assert.match(covisionSource, /const bodyClassName =[\s\S]*?`relative \$\{workspaceGuidePanelScrollClassName\}/);
   assert.match(materialsSource, /materials-page-body relative \$\{workspaceGuidePanelScrollClassName\}/);
-  assert.match(covisionSource, /<div className=\{bodyClassName\}>[\s\S]*?<BackButton[\s\S]*?<header/);
-  assert.match(materialsSource, /materials-page-body relative[\s\S]*?<BackButton[\s\S]*?<header/);
+  assert.match(covisionSource, /<div className=\{bodyClassName\}>[\s\S]*?<GlassSubpageHeader/);
+  assert.match(materialsSource, /materials-page-body relative[\s\S]*?<GlassSubpageHeader/);
   assert.doesNotMatch(source, /workspace-feature-panel--pre-inquiries/);
   assert.doesNotMatch(css, /workspace-feature-panel--pre-inquiries/);
 });

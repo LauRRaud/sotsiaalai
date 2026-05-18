@@ -8,6 +8,7 @@ function readSource(path) {
 
 test("workspace dashboard card navigation does not close or tilt the chat surface before route change", () => {
   const source = readSource("components/chat/WorkspacePanel.jsx");
+  const routeTransitionSource = readSource("lib/routeTransition.js");
   const navigateToMatch = source.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
   );
@@ -20,9 +21,24 @@ test("workspace dashboard card navigation does not close or tilt the chat surfac
     /markWorkspacePanelMorph\("expand",\s*path\);/
   );
   assert.match(
-    navigateToMatch[1],
-    /delayMs:\s*shouldRestoreWorkspace \? WORKSPACE_PANEL_MORPH_EXPAND_MS : 0/
+    source,
+    /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
   );
+  assert.match(
+    source,
+    /router\.prefetch\?\.\(href\)/
+  );
+  assert.match(
+    navigateToMatch[1],
+    /delayMs:\s*0/
+  );
+  assert.match(
+    navigateToMatch[1],
+    /workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/
+  );
+  assert.match(routeTransitionSource, /options\?\.workspacePanelMorph/);
+  assert.match(routeTransitionSource, /max-width:\s*768px/);
+  assert.match(routeTransitionSource, /if \(mobileWorkspace\) return 0;/);
 });
 
 test("workspace dashboard back button closes the in-chat workspace", () => {
@@ -34,11 +50,11 @@ test("workspace dashboard back button closes the in-chat workspace", () => {
   assert.doesNotMatch(source, /runWithTransition|resolveWorkspaceNavigationTiltDirection/);
   assert.match(
     source,
-    /<BackButton[\s\S]*?onClick=\{handleWorkspaceBack\}/
+    /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}/
   );
 });
 
-test("workspace subpage back buttons tilt the visible page and delay return for panel collapse", () => {
+test("workspace subpage back buttons mark return without global route tilt", () => {
   const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
   const documentsSource = readSource("components/documents/DocumentsPage.jsx");
   const agentSource = readSource("components/agent/AgentModePage.jsx");
@@ -70,10 +86,6 @@ test("workspace subpage back buttons tilt the visible page and delay return for 
     assert.doesNotMatch(source, /glassRingTilt:\s*"left"/);
     assert.match(source, /markWorkspacePanelMorph\("collapse",/);
     assert.match(source, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
-    assert.match(
-      source,
-      /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/
-    );
     assert.match(
       source,
       /pushWithTransition\([\s\S]*?\{[\s\S]*?persistGlassRingTilt:\s*false[\s\S]*?\}\)/

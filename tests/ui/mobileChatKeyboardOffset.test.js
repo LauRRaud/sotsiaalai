@@ -4,6 +4,7 @@ import test from "node:test";
 
 import {
   resolveMobileChatKeyboardOffset,
+  resolveMobileChatKeyboardVisibilityOffset,
   resolveStableDisplayMode,
   resolveStableMobileAppHeight
 } from "../../components/alalehed/chat/mobileViewportUtils.js";
@@ -36,6 +37,28 @@ test("mobile chat keyboard offset stays zero when layout already fits above the 
   });
 
   assert.equal(offset, 0);
+});
+
+test("mobile keyboard visibility stays active when visual viewport is panned", () => {
+  const offset = resolveMobileChatKeyboardOffset({
+    baselineViewportExtent: 820,
+    baselineContainerHeight: 820,
+    currentViewportExtent: 820,
+    currentContainerHeight: 820,
+    currentContainerBottom: 820,
+    layoutViewportHeight: 820,
+    visualViewportHeight: 500,
+    visualViewportOffsetTop: 320
+  });
+  const visibleOffset = resolveMobileChatKeyboardVisibilityOffset({
+    baselineViewportExtent: 820,
+    layoutViewportHeight: 820,
+    visualViewportHeight: 500,
+    visualViewportOffsetTop: 320
+  });
+
+  assert.equal(offset, 0);
+  assert.equal(visibleOffset, 320);
 });
 
 test("standalone display mode is sticky across transient viewport resize reports", () => {
@@ -108,7 +131,11 @@ test("mobile chat keyboard offset is monotonic while the keyboard is open", () =
   assert.match(chatBody, /const MOBILE_KEYBOARD_OFFSET_JITTER_PX = 10;/);
   assert.match(
     chatBody,
-    /if \(lastResolvedOffset > 0\) \{[\s\S]*?if \(rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD\) \{[\s\S]*?lastResolvedOffset = Math\.max\(lastResolvedOffset,\s*rawOffset\);/
+    /const keyboardStillOpen =[\s\S]*?rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD \|\|[\s\S]*?keyboardVisibleOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD;/
+  );
+  assert.match(
+    chatBody,
+    /if \(lastResolvedOffset > 0\) \{[\s\S]*?if \(keyboardStillOpen\) \{[\s\S]*?lastResolvedOffset = viewportPanned[\s\S]*?\? rawOffset[\s\S]*?: Math\.max\(lastResolvedOffset,\s*rawOffset\);/
   );
   assert.match(
     chatBody,
