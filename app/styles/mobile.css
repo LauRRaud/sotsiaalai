@@ -2877,7 +2877,7 @@
   }
 
   .policy-mobile-tall .policy-mobile-title-wrap {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.5rem) !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.36rem) !important;
     padding-bottom: clamp(0.08rem, 0.42vh, 0.22rem) !important;
   }
 
@@ -3829,6 +3829,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   --policy-scroll-edge-pad-x: var(--ring-pad-x, var(--glass-ring-pad-x, 1rem));
   --policy-scroll-edge-pad-top: var(--ring-pad-top, var(--glass-ring-pad-top, 0.6rem));
   --policy-scroll-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
+  --policy-scroll-overscan-bottom: clamp(1.05rem, 2.4vh, 1.45rem);
   box-sizing: border-box !important;
   position: relative !important;
   width: calc(
@@ -3837,11 +3838,13 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   max-width: none !important;
   height: calc(
     100% + var(--policy-scroll-edge-pad-top) +
-      var(--policy-scroll-overscan-top)
+      var(--policy-scroll-overscan-top) +
+      var(--policy-scroll-overscan-bottom)
   ) !important;
   max-height: calc(
     100% + var(--policy-scroll-edge-pad-top) +
-      var(--policy-scroll-overscan-top)
+      var(--policy-scroll-overscan-top) +
+      var(--policy-scroll-overscan-bottom)
   ) !important;
   margin-top: calc(
     0px - var(--policy-scroll-edge-pad-top) -
@@ -3854,7 +3857,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
         clamp(0.35rem, 1.1vh, 0.72rem)
     )
     calc(var(--policy-scroll-edge-pad-x) + clamp(1rem, 2.4vw, 1.55rem))
-    clamp(1.45rem, 3.2vh, 2.2rem) !important;
+    var(--policy-scroll-overscan-bottom) !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
   transform: none !important;
@@ -3901,12 +3904,15 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
   .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
     --policy-scroll-overscan-top: clamp(2.2rem, 8vh, 3rem);
+    --policy-scroll-overscan-bottom: calc(
+      env(safe-area-inset-bottom, 0px) + clamp(0.9rem, 2.2vh, 1.35rem)
+    );
     padding: calc(
         var(--policy-scroll-edge-pad-top) + var(--policy-scroll-overscan-top) +
           clamp(0.02rem, 0.35vh, 0.18rem)
       )
       calc(var(--policy-scroll-edge-pad-x) + clamp(0.58rem, 2.4vw, 0.82rem))
-      clamp(1.1rem, 2.8vh, 1.65rem) !important;
+      0 !important;
   }
 
   .policy-scroll-back-button {
@@ -3920,17 +3926,20 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
 .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
   --workspace-guide-panel-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
+  --workspace-guide-panel-overscan-bottom: clamp(1.05rem, 2.4vh, 1.45rem);
   box-sizing: border-box !important;
   position: relative !important;
   width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
   max-width: none !important;
   height: calc(
     100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
-      var(--workspace-guide-panel-overscan-top)
+      var(--workspace-guide-panel-overscan-top) +
+      var(--workspace-guide-panel-overscan-bottom)
   ) !important;
   max-height: calc(
     100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
-      var(--workspace-guide-panel-overscan-top)
+      var(--workspace-guide-panel-overscan-top) +
+      var(--workspace-guide-panel-overscan-bottom)
   ) !important;
   margin-top: calc(
     0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
@@ -3944,7 +3953,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     var(--workspace-guide-panel-pad-top, 0.6rem) +
       var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)
   ) !important;
-  padding-bottom: clamp(2.45rem, 4.8vh, 3rem) !important;
+  padding-bottom: var(--workspace-guide-panel-overscan-bottom) !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
   scrollbar-gutter: auto !important;
@@ -3985,16 +3994,20 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
   .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
     --workspace-guide-panel-overscan-top: clamp(2.2rem, 8vh, 3rem);
+    --workspace-guide-panel-overscan-bottom: calc(
+      var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) +
+        clamp(0.9rem, 2.2vh, 1.35rem)
+    );
     width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
     height: calc(
       100% + var(--glass-ring-pad-top, 0.6rem) +
         var(--workspace-guide-panel-overscan-top) +
-        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px))
+        var(--workspace-guide-panel-overscan-bottom)
     ) !important;
     max-height: calc(
       100% + var(--glass-ring-pad-top, 0.6rem) +
         var(--workspace-guide-panel-overscan-top) +
-        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px))
+        var(--workspace-guide-panel-overscan-bottom)
     ) !important;
     margin-top: calc(
       0px - var(--glass-ring-pad-top, 0.6rem) -
@@ -4036,7 +4049,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
         var(--workspace-guide-panel-overscan-top, 0px) +
         clamp(0.02rem, 0.35vh, 0.18rem)
     ) !important;
-    padding-bottom: calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(1.15rem, 2.8vh, 1.75rem)) !important;
+    padding-bottom: 0 !important;
   }
 
   .workspace-scroll-surface .workspace-scroll-back-button {
@@ -4047,11 +4060,17 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .workspace-feature-panel .glass-subpage-title-wrap {
-    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.18rem) !important;
+    padding-top: clamp(0.95rem, 2.8vh, 1.25rem) !important;
+  }
+
+  .workspace-guide-panel .glass-subpage-title-wrap {
+    padding-top: clamp(0.95rem, 2.8vh, 1.25rem) !important;
   }
 
   :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
     .documents-workspace-shell.workspace-guide-panel {
+    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem);
+    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
     --glass-ring-pad-x: clamp(0.78rem, 3vw, 0.94rem);
     --glass-ring-pad-top: clamp(
       calc(0.4 * var(--base-rem, 16px)),
@@ -4072,6 +4091,16 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     overflow: hidden !important;
   }
 
+  :is(
+      .workspace-feature-panel.workspace-scroll-surface,
+      .materials-page-content.workspace-scroll-surface
+    ) {
+    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem);
+    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
+    border-radius: var(--mobile-glass-card-radius) !important;
+    overflow: hidden !important;
+  }
+
   :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
     .documents-workspace-shell
     .workspace-scroll-back-button {
@@ -4079,5 +4108,96 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       var(--workspace-guide-panel-overscan-top, 0px) +
         var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2025rem
     ) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
+    .documents-workspace-shell.documents-workspace-shell.workspace-guide-panel,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    :is(.documents-workspace-page--documents, .documents-workspace-page--agent)
+    .documents-workspace-shell.documents-workspace-shell.workspace-guide-panel,
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .invite-modal-content--workspace.invite-modal-content,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .invite-modal-content--workspace.invite-modal-content,
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    :is(
+      .workspace-feature-panel.workspace-feature-panel,
+      .materials-page-content.materials-page-content
+    ).workspace-scroll-surface,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    :is(
+      .workspace-feature-panel.workspace-feature-panel,
+      .materials-page-content.materials-page-content
+    ).workspace-scroll-surface {
+    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem) !important;
+    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem) !important;
+    box-sizing: border-box !important;
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius) !important;
+    overflow: hidden !important;
+  }
+
+  .invite-modal-content--workspace.workspace-guide-panel .glass-subpage-title-wrap {
+    padding-top: clamp(0.88rem, 2.4vh, 1rem) !important;
+  }
+
+  html:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .policy-scroll-page-ring.glass-ring,
+  body:is([data-display-mode="standalone"], [data-display-mode="fullscreen"])
+    .policy-scroll-page-ring.glass-ring {
+    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem) !important;
+    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem) !important;
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px) - (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius) !important;
+    overflow: hidden !important;
   }
 }

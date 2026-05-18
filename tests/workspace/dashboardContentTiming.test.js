@@ -33,6 +33,10 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
     workspaceCss,
     /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/
   );
+  assert.match(
+    workspaceCss,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
+  );
   assert.doesNotMatch(
     workspaceCss,
     /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?position:\s*relative;/
@@ -273,6 +277,10 @@ test("workspace route return restores the dashboard without collapse markers", a
     /\.panel\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
   );
   assert.match(workspaceCss, /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;/);
+  assert.match(
+    workspaceCss,
+    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s+:global\(\.glass-subpage-title\)\s*\{[\s\S]*?--glass-subpage-title-margin-top:\s*var\(--workspace-subpage-title-margin-top,[\s\S]*?--glass-subpage-title-margin-bottom:\s*var\(--workspace-subpage-title-margin-bottom,/
+  );
   assert.doesNotMatch(
     workspaceCss,
     /workspace-dashboard-content-release|workspace-dashboard-card-release|workspace-morph-surface-breathe/

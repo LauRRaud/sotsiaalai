@@ -86,8 +86,27 @@
 }
 
 @media (min-width: 769px) {
+  .panel {
+    --workspace-subpage-back-left: 0.55rem;
+    --workspace-subpage-back-top: 0.55rem;
+    --workspace-subpage-header-margin-bottom: 0.35rem;
+    --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
+    --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
+  }
+
   .panel :global(.glass-subpage-header) {
-    margin-top: 0.025rem;
+    margin-top: 0;
+    margin-bottom: var(--workspace-subpage-header-margin-bottom, 0.35rem) !important;
+  }
+
+  .panel :global(.glass-subpage-title) {
+    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
+    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
+  }
+
+  .backButton {
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: var(--workspace-subpage-back-top, 0.55rem) !important;
   }
 }
 

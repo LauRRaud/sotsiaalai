@@ -36,11 +36,11 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
+    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?--workspace-guide-panel-overscan-bottom:\s*clamp\(1\.05rem,\s*2\.4vh,\s*1\.45rem\);[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+    /\.documents-workspace-page--library :is\([\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-bottom\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     documentsCss,
@@ -49,6 +49,10 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   assert.match(
     documentsCss,
     /\.documents-workspace-page--library :is\([\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    documentsCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--library :is\([\s\S]*?padding-bottom:\s*0\s*!important;/
   );
 });
 
@@ -85,7 +89,11 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   );
   assert.match(
     mobileCss,
-    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel\s*\{[\s\S]*?height:\s*100%\s*!important;[\s\S]*?padding:[\s\S]*?var\(--glass-ring-pad-top\)[\s\S]*?var\(--glass-ring-pad-x\)[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius/
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel\s*\{[\s\S]*?--mobile-glass-card-radius:\s*clamp\(1\.05rem,\s*3\.8vw,\s*1\.45rem\);[\s\S]*?height:\s*100%\s*!important;[\s\S]*?padding:[\s\S]*?var\(--glass-ring-pad-top\)[\s\S]*?var\(--glass-ring-pad-x\)[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius/
+  );
+  assert.match(
+    mobileCss,
+    /html:is\(\[data-display-mode="standalone"\],[\s\S]*?\.documents-workspace-shell\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?body:is\(\[data-display-mode="standalone"\],[\s\S]*?\.documents-workspace-shell\.documents-workspace-shell\.workspace-guide-panel[\s\S]*?\{[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius\)\s*!important;[\s\S]*?overflow:\s*hidden\s*!important;/
   );
   assert.match(
     mobileCss,

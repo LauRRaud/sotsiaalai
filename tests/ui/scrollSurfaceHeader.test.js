@@ -35,6 +35,12 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   for (const css of [helpersCss, mobileCss]) {
     assert.match(css, /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{/);
     assert.match(css, /--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\)/);
+    assert.match(css, /--workspace-guide-panel-overscan-bottom:\s*clamp\(1\.05rem,\s*2\.4vh,\s*1\.45rem\)/);
+    assert.match(
+      css,
+      /height:\s*calc\([\s\S]*?100% \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-bottom\)[\s\S]*?\)\s*!important;/
+    );
+    assert.match(css, /padding-bottom:\s*var\(--workspace-guide-panel-overscan-bottom\)\s*!important;/);
     assert.match(css, /mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/);
     assert.match(css, /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*calc\(var\(--workspace-guide-panel-overscan-top,\s*0px\) \+ 0\.55rem\)\s*!important;/);
   }

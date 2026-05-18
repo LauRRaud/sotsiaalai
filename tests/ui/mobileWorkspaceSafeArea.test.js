@@ -31,11 +31,19 @@ test("workspace feature pages reserve iOS standalone status bar and bottom edge"
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-bottom:\s*calc\(var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\) \+ clamp\(1\.15rem/
+    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?--workspace-guide-panel-overscan-bottom:\s*calc\([\s\S]*?var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)[\s\S]*?clamp\(0\.9rem,\s*2\.2vh,\s*1\.35rem\)[\s\S]*?\);/
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--glass-ring-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)[\s\S]*?\)\s*!important;/
+    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--glass-ring-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-bottom\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-bottom:\s*0\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /html:is\(\[data-display-mode="standalone"\],[\s\S]*?\.workspace-feature-panel\.workspace-feature-panel[\s\S]*?body:is\(\[data-display-mode="standalone"\],[\s\S]*?\.workspace-feature-panel\.workspace-feature-panel[\s\S]*?\{[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius\)\s*!important;/
   );
   assert.match(
     mobileCss,
@@ -43,6 +51,6 @@ test("workspace feature pages reserve iOS standalone status bar and bottom edge"
   );
   assert.match(
     mobileCss,
-    /\.workspace-feature-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.18rem\)\s*!important;/
+    /\.workspace-feature-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*clamp\(0\.95rem,\s*2\.8vh,\s*1\.25rem\)\s*!important;/
   );
 });
