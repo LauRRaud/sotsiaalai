@@ -35,7 +35,7 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   );
   assert.match(
     workspaceCss,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?padding-top:\s*clamp\(0\.18rem,\s*0\.65vh,\s*0\.42rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*calc\(\s*var\(--workspace-subpage-back-top,\s*0\.55rem\) - var\(--chat-pad-top,\s*0rem\)\s*\)\s*!important;/
   );
   assert.doesNotMatch(
     workspaceCss,

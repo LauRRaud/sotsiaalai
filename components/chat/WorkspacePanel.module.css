@@ -92,6 +92,7 @@
     --workspace-subpage-header-margin-bottom: 0.35rem;
     --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
     --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
+    padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
   }
 
   .panel :global(.glass-subpage-header) {
@@ -106,7 +107,9 @@
 
   .backButton {
     left: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: var(--workspace-subpage-back-top, 0.55rem) !important;
+    top: calc(
+      var(--workspace-subpage-back-top, 0.55rem) - var(--chat-pad-top, 0rem)
+    ) !important;
   }
 }
 
