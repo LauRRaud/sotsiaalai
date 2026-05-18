@@ -993,6 +993,13 @@ body[data-reduce-motion="1"] .workspace-guide-panel--route-enter {
 }
 
 @media (max-width: 768px) {
+  .workspace-guide-panel--route-enter,
+  .workspace-guide-panel--route-enter:not(.workspace-guide-panel--collapse),
+  .workspace-guide-panel--collapse {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .workspace-guide-panel.glass-subpage-surface {
     overflow: hidden !important;
   }

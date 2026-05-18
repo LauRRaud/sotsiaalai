@@ -466,8 +466,16 @@ export default function LeftRail({
   }, []);
 
   const openRooms = useCallback(() => {
-    pushWithTransition(router, localizePath("/ruum", locale));
-  }, [locale, router]);
+    if (isMobile) {
+      pushWithTransition(router, localizePath("/ruum", locale));
+      return;
+    }
+    pushWithTransition(router, localizePath("/ruum", locale), {
+      glassRingTilt: "right",
+      waitForGlassRingTilt: true,
+      persistGlassRingTilt: false
+    });
+  }, [isMobile, locale, router]);
 
   const onKeyDown = event => {
     if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;

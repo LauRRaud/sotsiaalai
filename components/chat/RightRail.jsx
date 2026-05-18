@@ -333,6 +333,10 @@ export default function RightRail({
   };
 
   const openRooms = () => {
+    if (isMobile) {
+      pushWithTransition(router, localizePath("/ruum", locale));
+      return;
+    }
     pushWithTransition(router, localizePath("/ruum", locale), {
       glassRingTilt: "right",
       waitForGlassRingTilt: true,

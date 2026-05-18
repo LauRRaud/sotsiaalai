@@ -6,9 +6,8 @@ function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("workspace dashboard card navigation does not close or tilt the chat surface before route change", () => {
+test("workspace dashboard card navigation opens routes immediately without handoff morph", () => {
   const source = readSource("components/chat/WorkspacePanel.jsx");
-  const routeTransitionSource = readSource("lib/routeTransition.js");
   const navigateToMatch = source.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
   );
@@ -16,10 +15,10 @@ test("workspace dashboard card navigation does not close or tilt the chat surfac
   assert.ok(navigateToMatch, "navigateTo callback should be present");
   assert.doesNotMatch(navigateToMatch[1], /onClose\?\.\(\);/);
   assert.doesNotMatch(navigateToMatch[1], /glassRingTilt|waitForGlassRingTilt/);
-  assert.match(
-    navigateToMatch[1],
-    /markWorkspacePanelMorph\("expand",\s*path\);/
-  );
+  assert.doesNotMatch(source, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
+  assert.doesNotMatch(source, /setHandoffPending/);
+  assert.doesNotMatch(source, /workspace-dashboard-panel--route-handoff/);
+  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph\("expand"/);
   assert.match(
     source,
     /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
@@ -28,17 +27,9 @@ test("workspace dashboard card navigation does not close or tilt the chat surfac
     source,
     /router\.prefetch\?\.\(href\)/
   );
-  assert.match(
-    navigateToMatch[1],
-    /delayMs:\s*0/
-  );
-  assert.match(
-    navigateToMatch[1],
-    /workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/
-  );
-  assert.match(routeTransitionSource, /options\?\.workspacePanelMorph/);
-  assert.match(routeTransitionSource, /max-width:\s*768px/);
-  assert.match(routeTransitionSource, /if \(mobileWorkspace\) return 0;/);
+  assert.match(navigateToMatch[1], /pushWithTransition\(router,\s*href\);/);
+  assert.doesNotMatch(navigateToMatch[1], /delayMs:/);
+  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph:/);
 });
 
 test("workspace dashboard back button closes the in-chat workspace", () => {

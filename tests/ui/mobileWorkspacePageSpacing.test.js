@@ -9,6 +9,7 @@ function read(path) {
 test("documents and agent pages use a shared mobile glass-panel system", () => {
   const css = read("app/styles/components/documents-mode.css");
   const mobileCss = read("app/styles/mobile.css");
+  const helpersCss = read("app/styles/utilities/helpers.css");
   const documentsSource = read("components/documents/DocumentsPage.jsx");
   const agentSource = read("components/agent/AgentModePage.jsx");
 
@@ -42,6 +43,14 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.doesNotMatch(mobileCss, /documents-page-shell/);
   assert.match(documentsSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
   assert.match(agentSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-shell--route-enter,[\s\S]*?\.documents-workspace-shell--route-enter:not\(\.workspace-guide-panel--collapse\),[\s\S]*?\.documents-workspace-shell--route-enter\.workspace-guide-panel--collapse\s*\{[\s\S]*?animation:\s*none\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+  );
+  assert.match(
+    helpersCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-guide-panel--route-enter,[\s\S]*?\.workspace-guide-panel--route-enter:not\(\.workspace-guide-panel--collapse\),[\s\S]*?\.workspace-guide-panel--collapse\s*\{[\s\S]*?animation:\s*none\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+  );
 });
 
 test("short workspace feature pages keep content pinned under the header", () => {

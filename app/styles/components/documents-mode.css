@@ -2407,6 +2407,29 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
   backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
 }
 
+.documents-workspace-page--library:is(
+  .documents-workspace-page--documents,
+  .documents-workspace-page--agent
+) .documents-workspace-shell.workspace-guide-panel {
+  background:
+    var(--glass-ring-sheen, none),
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+}
+
+.documents-workspace-page--library:is(
+  .documents-workspace-page--documents,
+  .documents-workspace-page--agent
+) .documents-surface-panel {
+  --panel-secondary-bg: transparent;
+  --panel-secondary-shadow: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 .documents-card {
   background: var(--documents-elevated-bg, var(--documents-card-bg));
   border-color: var(--documents-elevated-border, var(--documents-card-border));
@@ -2918,6 +2941,13 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 }
 
 @media (max-width: 768px) {
+  .documents-workspace-shell--route-enter,
+  .documents-workspace-shell--route-enter:not(.workspace-guide-panel--collapse),
+  .documents-workspace-shell--route-enter.workspace-guide-panel--collapse {
+    animation: none !important;
+    transform: none !important;
+  }
+
   .documents-workspace-page {
     padding:
       calc(env(safe-area-inset-top, 0px) + 0.45rem)

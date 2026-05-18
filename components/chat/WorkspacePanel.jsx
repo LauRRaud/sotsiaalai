@@ -9,10 +9,6 @@ import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import {
-  markWorkspacePanelMorph,
-  WORKSPACE_PANEL_MORPH_EXPAND_MS
-} from "@/lib/workspacePanelMorph";
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
@@ -163,7 +159,6 @@ export default function WorkspacePanel({
     return "SOCIAL_WORKER";
   }, [userActualRole, userRole]);
   const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
-  const [handoffPending, setHandoffPending] = useState(false);
   const [roleMenuPortalTarget, setRoleMenuPortalTarget] = useState(null);
 
   const navigateTo = useCallback(
@@ -177,15 +172,11 @@ export default function WorkspacePanel({
             JSON.stringify({ ts: Date.now() })
           );
         } catch {}
-        markWorkspacePanelMorph("expand", path);
       }
       try {
         router.prefetch?.(href);
       } catch {}
-      pushWithTransition(router, href, {
-        delayMs: 0,
-        workspacePanelMorph: shouldRestoreWorkspace ? "route-fade" : undefined
-      });
+      pushWithTransition(router, href);
     },
     [locale, router]
   );
@@ -197,36 +188,28 @@ export default function WorkspacePanel({
   const openHelpPanel = useCallback(
     panelKey => {
       if (typeof window === "undefined") return;
-      markWorkspacePanelMorph("expand", panelKey);
-      setHandoffPending(true);
-      window.setTimeout(() => {
-        onClose?.();
-        try {
-          window.dispatchEvent(
-            new CustomEvent("sotsiaalai:open-help-listings", {
-              detail: { panelKey, source: "workspace" }
-            })
-          );
-        } catch {}
-      }, WORKSPACE_PANEL_MORPH_EXPAND_MS);
+      onClose?.();
+      try {
+        window.dispatchEvent(
+          new CustomEvent("sotsiaalai:open-help-listings", {
+            detail: { panelKey, source: "workspace" }
+          })
+        );
+      } catch {}
     },
     [onClose]
   );
 
   const openInvite = useCallback(() => {
     if (typeof window === "undefined") return;
-    markWorkspacePanelMorph("expand", "invite");
-    setHandoffPending(true);
-    window.setTimeout(() => {
-      onClose?.();
-      try {
-        window.dispatchEvent(
-          new CustomEvent("sotsiaalai:open-invite", {
-            detail: { source: "workspace" }
-          })
-        );
-      } catch {}
-    }, WORKSPACE_PANEL_MORPH_EXPAND_MS);
+    onClose?.();
+    try {
+      window.dispatchEvent(
+        new CustomEvent("sotsiaalai:open-invite", {
+          detail: { source: "workspace" }
+        })
+      );
+    } catch {}
   }, [onClose]);
 
   useEffect(() => {
@@ -237,11 +220,6 @@ export default function WorkspacePanel({
     setRoleMenuPortalTarget(document.body);
     return () => setRoleMenuPortalTarget(null);
   }, []);
-
-  useEffect(() => {
-    if (visible) return;
-    setHandoffPending(false);
-  }, [visible]);
 
   useEffect(() => {
     if (!visible || typeof router.prefetch !== "function") return;
@@ -471,7 +449,7 @@ export default function WorkspacePanel({
     <>
       {roleMenuPortalTarget && roleMenu ? createPortal(roleMenu, roleMenuPortalTarget) : null}
       <section
-        className={cn("workspace-dashboard-panel", styles.panel, handoffPending && "workspace-dashboard-panel--route-handoff")}
+        className={cn("workspace-dashboard-panel", styles.panel)}
         data-visible={visible ? "true" : "false"}
         role="region"
         aria-labelledby="chat-workspace-title"

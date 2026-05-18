@@ -64,7 +64,7 @@ test("restored workspace returns already settled without replaying the dashboard
   );
 });
 
-test("workspace card navigation prefetches routes and navigates without a masking delay", () => {
+test("workspace card navigation prefetches routes and opens subpages immediately", () => {
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const navigateToMatch = workspaceSource.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
@@ -76,10 +76,10 @@ test("workspace card navigation prefetches routes and navigates without a maskin
     /onClose\?\.\(\);/,
     "workspace route navigation must not close the workspace before the new route takes over"
   );
-  assert.match(
-    navigateToMatch[1],
-    /markWorkspacePanelMorph\("expand",\s*path\);/
-  );
+  assert.doesNotMatch(workspaceSource, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
+  assert.doesNotMatch(workspaceSource, /setHandoffPending/);
+  assert.doesNotMatch(workspaceSource, /workspace-dashboard-panel--route-handoff/);
+  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph\("expand"/);
   assert.match(
     workspaceSource,
     /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
@@ -92,18 +92,9 @@ test("workspace card navigation prefetches routes and navigates without a maskin
     workspaceSource,
     /for \(const path of WORKSPACE_ROUTE_PREFETCH_PATHS\) \{[\s\S]*?router\.prefetch\(localizePath\(path,\s*locale\)\);/
   );
-  assert.match(
-    navigateToMatch[1],
-    /delayMs:\s*0/
-  );
-  assert.doesNotMatch(
-    navigateToMatch[1],
-    /setHandoffPending/
-  );
-  assert.match(
-    navigateToMatch[1],
-    /pushWithTransition\(router,\s*href,\s*\{[\s\S]*?workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/
-  );
+  assert.match(navigateToMatch[1], /pushWithTransition\(router,\s*href\);/);
+  assert.doesNotMatch(navigateToMatch[1], /delayMs:/);
+  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/);
 
   assert.match(
     workspaceSource,
@@ -220,10 +211,8 @@ test("workspace route return uses the collapse marker for a settled restore with
   assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
   assert.match(chatBodySource, /setWorkspaceReturnTransitioning\(restoreTransition\.returnTransitioning\);/);
 
-  assert.match(
-    workspaceCss,
-    /\.panel:global\(\.workspace-dashboard-panel--route-handoff\)::after\s*\{[\s\S]*?opacity:\s*0;[\s\S]*?transform:\s*scale\(0\.985\);[\s\S]*?\}/
-  );
+  assert.doesNotMatch(workspaceCss, /workspace-dashboard-panel--route-handoff/);
+  assert.doesNotMatch(workspaceCss, /opacity:\s*0\.86/);
   assert.match(
     workspaceCss,
     /\.panel::after\s*\{[\s\S]*?backdrop-filter:\s*none;[\s\S]*?-webkit-backdrop-filter:\s*none;/
