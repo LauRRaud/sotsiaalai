@@ -5,7 +5,6 @@ import test from "node:test";
 import {
   resolveMobileChatKeyboardOffset,
   resolveMobileChatKeyboardVisibilityOffset,
-  resolveStableDisplayMode,
   resolveStableMobileAppHeight
 } from "../../components/alalehed/chat/mobileViewportUtils.js";
 
@@ -61,12 +60,7 @@ test("mobile keyboard visibility stays active when visual viewport is panned", (
   assert.equal(visibleOffset, 320);
 });
 
-test("standalone display mode is sticky across transient viewport resize reports", () => {
-  assert.equal(resolveStableDisplayMode("standalone", "browser"), "standalone");
-  assert.equal(resolveStableDisplayMode("browser", "standalone"), "standalone");
-});
-
-test("PWA app height stays stable while the software keyboard resizes the viewport", () => {
+test("mobile app height can stay stable only when keyboard stabilization is explicitly enabled", () => {
   const height = resolveStableMobileAppHeight({
     windowInnerHeight: 520,
     documentElementClientHeight: 520,
@@ -96,16 +90,18 @@ test("mobile app height follows the measured viewport outside keyboard stabiliza
   assert.equal(height, 520);
 });
 
-test("PWA display mode remains sticky for mobile chat input anchoring", () => {
+test("mobile layout no longer applies PWA-specific display mode anchoring", () => {
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const mobileCss = read("app/styles/mobile.css");
 
-  assert.match(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
-  assert.match(viewportSetter, /data-display-mode-sticky/);
-  assert.doesNotMatch(viewportSetter, /removeAttribute\("data-display-mode"\)/);
-  assert.match(
+  assert.match(viewportSetter, /function detectDisplayMode\(\)/);
+  assert.match(viewportSetter, /matchMedia\?\.\("\(display-mode:\s*standalone\)"\)/);
+  assert.match(viewportSetter, /setAttribute\("data-display-mode",\s*mode\)/);
+  assert.match(viewportSetter, /removeAttribute\("data-display-mode-sticky"\)/);
+  assert.doesNotMatch(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
+  assert.doesNotMatch(
     mobileCss,
-    /data-display-mode-sticky="standalone"[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.5rem\s*!important/
+    /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
   );
 });
 

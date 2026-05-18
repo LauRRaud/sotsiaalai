@@ -44,43 +44,6 @@ function getBackInsetsPx() {
   };
 }
 
-function getPwaSafeTopPx() {
-  if (typeof window === "undefined" || typeof document === "undefined") return 0;
-  const isMobile = window.matchMedia?.("(max-width: 768px)")?.matches;
-  if (!isMobile) return 0;
-  const root = document.documentElement;
-  const body = document.body;
-  const displayMode =
-    root?.getAttribute("data-display-mode-sticky") ||
-    body?.getAttribute("data-display-mode-sticky") ||
-    root?.getAttribute("data-display-mode") ||
-    body?.getAttribute("data-display-mode") ||
-    "";
-  if (displayMode !== "standalone" && displayMode !== "fullscreen") return 0;
-
-  const probe = document.createElement("div");
-  probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = [
-    "position:fixed",
-    "top:var(--mobile-safe-top,env(safe-area-inset-top,0px))",
-    "left:-9999px",
-    "width:0",
-    "height:0",
-    "visibility:hidden",
-    "pointer-events:none"
-  ].join(";");
-  document.body?.appendChild(probe);
-  const top = probe.getBoundingClientRect().top;
-  probe.remove();
-  return Number.isFinite(top) && top > 0 ? top : 0;
-}
-
-function getAnchorSafeTopDeficit(anchorRect) {
-  const safeTop = getPwaSafeTopPx();
-  if (safeTop <= 0) return 0;
-  return Math.max(0, safeTop - Math.max(0, anchorRect?.top || 0));
-}
-
 function createsFixedContainingBlock(style) {
   if (!style) return false;
   const contain = style.contain || "";
@@ -146,7 +109,6 @@ export function GlassSubpageHeader({
     const rect = anchor.getBoundingClientRect();
     const containingBlock = getFixedContainingBlockRect(button);
     const insets = getBackInsetsPx();
-    const safeTopDeficit = getAnchorSafeTopDeficit(rect);
     const workspaceRingTopInset =
       anchor.classList?.contains("chat-container--workspace-open") &&
       button.closest?.(".workspace-dashboard-panel")
@@ -154,7 +116,7 @@ export function GlassSubpageHeader({
         : 0;
     const next = {
       "--glass-subpage-back-left": `${rect.left - containingBlock.left + insets.left}px`,
-      "--glass-subpage-back-top": `${rect.top - containingBlock.top + insets.top + safeTopDeficit + workspaceRingTopInset}px`
+      "--glass-subpage-back-top": `${rect.top - containingBlock.top + insets.top + workspaceRingTopInset}px`
     };
 
     setBackAnchorStyle((current) => (
@@ -190,12 +152,12 @@ export function GlassSubpageHeader({
     observer?.observe(anchor);
     attributeObserver?.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-display-mode", "data-display-mode-sticky", "data-platform", "style"]
+      attributeFilter: ["data-platform", "style"]
     });
     if (document.body) {
       attributeObserver?.observe(document.body, {
         attributes: true,
-        attributeFilter: ["data-display-mode", "data-display-mode-sticky", "data-platform"]
+        attributeFilter: ["data-platform"]
       });
     }
     window.addEventListener("resize", scheduleUpdate);
@@ -223,14 +185,13 @@ export function GlassSubpageHeader({
     const anchorRect = anchor.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
     const insets = getBackInsetsPx();
-    const safeTopDeficit = getAnchorSafeTopDeficit(anchorRect);
     const workspaceRingTopInset =
       anchor.classList?.contains("chat-container--workspace-open") &&
       button.closest?.(".workspace-dashboard-panel")
         ? getRootRemPx() * 0.28
         : 0;
     const targetLeft = anchorRect.left + insets.left;
-    const targetTop = anchorRect.top + insets.top + safeTopDeficit + workspaceRingTopInset;
+    const targetTop = anchorRect.top + insets.top + workspaceRingTopInset;
     const deltaLeft = targetLeft - buttonRect.left;
     const deltaTop = targetTop - buttonRect.top;
     if (Math.abs(deltaLeft) < 0.5 && Math.abs(deltaTop) < 0.5) return;

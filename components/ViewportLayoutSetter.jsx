@@ -2,44 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import {
-  resolveStableDisplayMode,
-  resolveStableMobileAppHeight
-} from "@/components/alalehed/chat/mobileViewportUtils";
+import { resolveStableMobileAppHeight } from "@/components/alalehed/chat/mobileViewportUtils";
 const MOBILE_QUERY = "(max-width: 768px)";
-const DISPLAY_MODE_STORAGE_KEY = "sotsiaalai:display-mode";
-const STICKY_DISPLAY_MODES = new Set(["standalone", "fullscreen"]);
 
 function detectDisplayMode() {
   if (typeof window === "undefined") return "browser";
+  if (window.matchMedia?.("(display-mode: fullscreen)")?.matches) return "fullscreen";
   const isStandalone =
     window.matchMedia?.("(display-mode: standalone)")?.matches ||
-    window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
     window.navigator?.standalone === true;
   return isStandalone ? "standalone" : "browser";
-}
-
-function normalizeDisplayMode(value) {
-  const mode = String(value || "").trim();
-  return mode === "standalone" || mode === "fullscreen" || mode === "browser"
-    ? mode
-    : "";
-}
-
-function readStoredDisplayMode() {
-  if (typeof window === "undefined") return "";
-  try {
-    return normalizeDisplayMode(window.sessionStorage.getItem(DISPLAY_MODE_STORAGE_KEY));
-  } catch {
-    return "";
-  }
-}
-
-function writeStickyDisplayMode(mode) {
-  if (typeof window === "undefined" || !STICKY_DISPLAY_MODES.has(mode)) return;
-  try {
-    window.sessionStorage.setItem(DISPLAY_MODE_STORAGE_KEY, mode);
-  } catch {}
 }
 
 function resolvePlatform() {
@@ -65,24 +37,15 @@ function applyLayoutFlag(matches) {
   }
 }
 
-function applyDisplayModeFlag(previousMode) {
+function applyDisplayModeFlag() {
   const root = document.documentElement;
   const body = document.body;
-  if (!root || !body) return previousMode || "browser";
-  const storedMode = readStoredDisplayMode();
-  const currentMode =
-    normalizeDisplayMode(previousMode) ||
-    normalizeDisplayMode(root.getAttribute("data-display-mode")) ||
-    normalizeDisplayMode(body.getAttribute("data-display-mode")) ||
-    storedMode;
-  const mode = resolveStableDisplayMode(currentMode, detectDisplayMode());
-  if (STICKY_DISPLAY_MODES.has(mode)) {
-    writeStickyDisplayMode(mode);
-    root.setAttribute("data-display-mode-sticky", mode);
-    body.setAttribute("data-display-mode-sticky", mode);
-  }
+  if (!root || !body) return "browser";
+  const mode = detectDisplayMode();
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
+  root.removeAttribute("data-display-mode-sticky");
+  body.removeAttribute("data-display-mode-sticky");
   return mode;
 }
 
@@ -109,8 +72,6 @@ function applyVhVar(previousStableLayoutHeight = 0) {
   const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
   const active = document.activeElement;
   const isEditable = !!active && (active.tagName === "TEXTAREA" || active.tagName === "INPUT" || active.isContentEditable);
-  const displayMode = root.getAttribute("data-display-mode") || detectDisplayMode();
-  const stabilizeForKeyboard = displayMode === "standalone" || displayMode === "fullscreen";
   const layoutHeight = resolveStableMobileAppHeight({
     windowInnerHeight: window.innerHeight || 0,
     documentElementClientHeight: document.documentElement?.clientHeight || 0,
@@ -118,7 +79,7 @@ function applyVhVar(previousStableLayoutHeight = 0) {
     visualViewportOffsetTop: vv?.offsetTop,
     rawKeyboardOffset: rawKeyboard,
     isEditable,
-    stabilizeForKeyboard,
+    stabilizeForKeyboard: false,
     previousStableLayoutHeight
   });
   const height = vv ? vv.height : layoutHeight;
@@ -145,15 +106,14 @@ export default function ViewportLayoutSetter() {
     const mql = window.matchMedia(MOBILE_QUERY);
     const standaloneMql = window.matchMedia("(display-mode: standalone)");
     const fullscreenMql = window.matchMedia("(display-mode: fullscreen)");
-    let displayMode = "browser";
     applyLayoutFlag(mql.matches);
-    displayMode = applyDisplayModeFlag(displayMode);
+    applyDisplayModeFlag();
     applyPlatformFlag();
     stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     const onMqChange = e => applyLayoutFlag(e.matches);
     const onResize = () => {
       window.requestAnimationFrame(() => {
-        displayMode = applyDisplayModeFlag(displayMode);
+        applyDisplayModeFlag();
         applyPlatformFlag();
         stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
       });
@@ -165,13 +125,14 @@ export default function ViewportLayoutSetter() {
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
-      displayMode = applyDisplayModeFlag(displayMode);
+      applyDisplayModeFlag();
       applyPlatformFlag();
       stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     };
     const onDisplayModeChange = () => {
-      displayMode = applyDisplayModeFlag(displayMode);
+      applyDisplayModeFlag();
       applyPlatformFlag();
+      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     };
     mql.addEventListener?.("change", onMqChange);
     standaloneMql.addEventListener?.("change", onDisplayModeChange);

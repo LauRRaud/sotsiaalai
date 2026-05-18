@@ -6,20 +6,37 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("workspace feature pages reserve iOS standalone status bar and bottom edge", () => {
+test("workspace feature pages keep mobile safe areas without activating PWA layout mode", () => {
   const mobileCss = read("app/styles/mobile.css");
+  const viewportSetter = read("components/ViewportLayoutSetter.jsx");
 
   assert.match(
     mobileCss,
-    /--mobile-pwa-safe-top:\s*max\(env\(safe-area-inset-top,\s*0px\),\s*clamp\(2\.35rem,\s*7vh,\s*3\.05rem\)\)/
+    /--mobile-safe-top:\s*env\(safe-area-inset-top,\s*0px\)/
   );
   assert.match(
     mobileCss,
-    /--mobile-safe-top:\s*var\(--mobile-pwa-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\)/
+    /--mobile-safe-bottom:\s*env\(safe-area-inset-bottom,\s*0px\)/
   );
   assert.match(
+    viewportSetter,
+    /function detectDisplayMode\(\)/
+  );
+  assert.match(
+    viewportSetter,
+    /matchMedia\?\.\("\(display-mode:\s*standalone\)"\)/
+  );
+  assert.match(
+    viewportSetter,
+    /setAttribute\("data-display-mode",\s*mode\)/
+  );
+  assert.match(
+    viewportSetter,
+    /removeAttribute\("data-display-mode-sticky"\)/
+  );
+  assert.doesNotMatch(
     mobileCss,
-    /html:is\(\[data-display-mode="standalone"\][\s\S]*?\.glass-ring,[\s\S]*?body:is\(\[data-display-mode="standalone"\][\s\S]*?\.glass-ring\s*\{[\s\S]*?--glass-mobile-gap:\s*0px\s*!important;[\s\S]*?width:\s*100vw\s*!important;[\s\S]*?margin-left:\s*0\s*!important;/
+    /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
   );
   assert.match(
     mobileCss,
@@ -40,10 +57,6 @@ test("workspace feature pages reserve iOS standalone status bar and bottom edge"
   assert.match(
     mobileCss,
     /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-bottom:\s*0\s*!important;/
-  );
-  assert.match(
-    mobileCss,
-    /html:is\(\[data-display-mode="standalone"\],[\s\S]*?\.workspace-feature-panel\.workspace-feature-panel[\s\S]*?body:is\(\[data-display-mode="standalone"\],[\s\S]*?\.workspace-feature-panel\.workspace-feature-panel[\s\S]*?\{[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius\)\s*!important;/
   );
   assert.match(
     mobileCss,

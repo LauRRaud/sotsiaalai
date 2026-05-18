@@ -96,15 +96,6 @@ export function resolveMobileChatKeyboardVisibilityOffset(metrics = {}) {
   );
 }
 
-export function resolveStableDisplayMode(previousMode, detectedMode) {
-  const previous = String(previousMode || "").trim();
-  const detected = String(detectedMode || "browser").trim() || "browser";
-  if ((previous === "standalone" || previous === "fullscreen") && detected === "browser") {
-    return previous;
-  }
-  return detected;
-}
-
 export function resolveStableMobileAppHeight(metrics = {}) {
   const visualExtent = resolveViewportExtent({
     visualViewportHeight: metrics.visualViewportHeight,

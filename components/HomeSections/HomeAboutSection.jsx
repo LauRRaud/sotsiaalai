@@ -329,11 +329,8 @@ export default function HomeAboutSection({
       persistGlassRingTilt: false
     });
   };
-  const aboutTopFade = aboutFade.top ? "2.2rem" : "0px";
-  const aboutBottomFade = aboutFade.bottom ? "5rem" : "0px";
   const shouldFadeAbout = animateIntro && !aboutIntroDone;
   const shouldFadeBefore = animateIntro && !beforeIntroDone;
-  const aboutMaskImage = `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) calc(${aboutTopFade} * 0.16), rgba(0,0,0,0.28) calc(${aboutTopFade} * 0.38), rgba(0,0,0,0.62) calc(${aboutTopFade} * 0.68), rgba(0,0,0,0.9) calc(${aboutTopFade} * 0.9), #000 ${aboutTopFade}, #000 calc(100% - ${aboutBottomFade}), rgba(0,0,0,0.92) calc(100% - calc(${aboutBottomFade} * 0.86)), rgba(0,0,0,0.68) calc(100% - calc(${aboutBottomFade} * 0.62)), rgba(0,0,0,0.34) calc(100% - calc(${aboutBottomFade} * 0.34)), rgba(0,0,0,0.1) calc(100% - calc(${aboutBottomFade} * 0.12)), rgba(0,0,0,0) 100%)`;
   const openBeforeContact = (event) => {
     event.preventDefault();
     setBeforeView((currentView) => (currentView === "contact" ? "links" : "contact"));
@@ -636,53 +633,63 @@ export default function HomeAboutSection({
               : undefined
           }
         >
-          <h2
-            id={aboutHeadingId}
-            tabIndex={0}
-            className={cn(
-              "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
-            )}
-          >
-            {t("about.title")}
-          </h2>
           <div className="relative mx-auto w-full max-w-[54.5rem] max-[768px]:max-w-[52rem]">
             <div
               ref={aboutScrollRef}
               lang={locale}
-              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-left text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.12rem,4.25vw,1.32rem)] leading-[1.7] max-[768px]:leading-[1.58] tracking-[0.03em] max-[768px]:tracking-[0.006em] space-y-[0.95rem] [color:var(--home-prose-color)] break-words hyphens-auto max-[768px]:hyphens-none max-[768px]:[--about-scroll-max-height:min(76vh,44.5rem)]"
+              className="home-about-scrollbox relative overflow-y-auto px-[clamp(0.14rem,0.38vw,0.34rem)] pt-[0.05rem] pb-[0.3rem] max-[768px]:px-[0.1rem] max-[768px]:pt-[0rem] max-[768px]:pb-[0.45rem] text-left text-[clamp(1.1rem,1.6vw,1.28rem)] max-[768px]:text-[clamp(1.12rem,4.25vw,1.32rem)] leading-[1.7] max-[768px]:leading-[1.58] tracking-[0.03em] max-[768px]:tracking-[0.006em] [color:var(--home-prose-color)] break-words hyphens-auto max-[768px]:hyphens-none max-[768px]:[--about-scroll-max-height:min(76vh,44.5rem)]"
               style={{
                 maxHeight: "var(--about-scroll-max-height, min(71vh, 41rem))",
                 scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                WebkitMaskImage: aboutMaskImage,
-                maskImage: aboutMaskImage
+                msOverflowStyle: "none"
               }}
             >
-              {aboutParagraphs.map(({ key, value }) => (
-                <div key={key}>
-                  <RichText
-                    as="div"
-                    className="[&>p]:m-0"
-                    value={value}
-                    replacements={{
-                      oska: {
-                        open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
-                        close: "</a>"
-                      }
-                    }}
-                  />
-                </div>
-              ))}
-              <p className="home-about-features-link-row m-0 !mt-[0.42rem] pb-[clamp(0.82rem,1.8vw,1.2rem)] text-center max-[768px]:!mt-[0.36rem] max-[768px]:flex max-[768px]:justify-center max-[768px]:pb-[clamp(1rem,4vw,1.35rem)] max-[768px]:text-center">
-                <AppLink
-                  href="/voimalused"
-                  onClick={(event) => openGlassPage(event, "/voimalused")}
-                  className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
-                >
-                  {t("about.links.features")}
-                </AppLink>
-              </p>
+              <h2
+                id={aboutHeadingId}
+                tabIndex={0}
+                className={cn(
+                  "home-about-title text-center text-[clamp(1.9rem,3.9vw,2.6rem)] font-headline tracking-[0.02em] mt-0 mb-[0.45rem] max-[768px]:mb-[0.3rem] text-[color:var(--home-title-color)]"
+                )}
+              >
+                {t("about.title")}
+              </h2>
+              <div className="space-y-[0.95rem]">
+                {aboutParagraphs.map(({ key, value }) => (
+                  <div key={key}>
+                    <RichText
+                      as="div"
+                      className="[&>p]:m-0"
+                      value={value}
+                      replacements={{
+                        oska: {
+                          open: `<a href="https://uuringud.oska.kutsekoda.ee/uuringud/sotsiaaltoo-seirearuande" target="_blank" rel="noreferrer" class="${oskaLinkClassName}">`,
+                          close: "</a>"
+                        }
+                      }}
+                    />
+                  </div>
+                ))}
+                <p className="home-about-features-link-row m-0 !mt-[0.42rem] pb-[clamp(0.82rem,1.8vw,1.2rem)] text-center max-[768px]:!mt-[0.36rem] max-[768px]:flex max-[768px]:justify-center max-[768px]:pb-[clamp(1rem,4vw,1.35rem)] max-[768px]:text-center">
+                  <AppLink
+                    href="/voimalused"
+                    onClick={(event) => openGlassPage(event, "/voimalused")}
+                    className={cn(homeCircleLinkResponsiveClassName, linkBrandInlineClass)}
+                  >
+                    {t("about.links.features")}
+                  </AppLink>
+                </p>
+              </div>
             </div>
+            <div
+              aria-hidden="true"
+              data-visible={aboutFade.top ? "true" : "false"}
+              className="home-about-edge-fade home-about-edge-fade--top"
+            />
+            <div
+              aria-hidden="true"
+              data-visible={aboutFade.bottom ? "true" : "false"}
+              className="home-about-edge-fade home-about-edge-fade--bottom"
+            />
           </div>
         </div>
         <section
