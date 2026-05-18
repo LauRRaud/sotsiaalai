@@ -14,10 +14,8 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   transform-origin: calc(100% - clamp(2.2rem, 5vw, 3.4rem)) 50%;
-  transition:
-    opacity 180ms ease,
-    transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  animation: workspace-panel-enter 260ms ease-out both;
+  transition: none;
+  animation: none;
   isolation: isolate;
   padding: clamp(0.15rem, 0.6vh, 0.4rem) clamp(0.2rem, 0.8vw, 0.45rem)
     clamp(0.55rem, 1.6vh, 0.9rem);
@@ -62,23 +60,35 @@
   pointer-events: auto;
 }
 
-.panel :global(.glass-subpage-back-button),
 .panel :global(.glass-subpage-header),
 .panel .roleMenu,
 .panel .grid {
   position: relative;
   z-index: 1;
-  transition:
-    opacity 120ms ease,
-    transform 120ms ease;
+  transition: none;
+}
+
+.backButton {
+  position: absolute !important;
+  left: 0.55rem !important;
+  top: 0.05rem !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
 }
 
 .panel[data-visible="false"] :global(.glass-subpage-back-button),
 .panel[data-visible="false"] :global(.glass-subpage-header),
 .panel[data-visible="false"] .roleMenu,
 .panel[data-visible="false"] .grid {
-  opacity: 0.72;
+  visibility: hidden;
   pointer-events: none;
+}
+
+@media (min-width: 769px) {
+  .panel :global(.glass-subpage-header) {
+    margin-top: 0.025rem;
+  }
 }
 
 .roleMenu :global(.workspace-role-cycle-button) {
@@ -365,18 +375,6 @@
   color: var(--hc-accent, #ffea00);
 }
 
-@keyframes workspace-panel-enter {
-  from {
-    opacity: 0;
-    transform: translateY(0.28rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 768px) {
   .panel {
     width: 100%;
@@ -387,6 +385,14 @@
       calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.08rem)
       clamp(0.22rem, 1.2vw, 0.38rem)
       calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(0.55rem, 1.7vh, 0.9rem));
+  }
+
+  .backButton {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
+    top: calc(
+      var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem -
+        var(--chat-pad-top, 1rem)
+    ) !important;
   }
 
   .roleMenu {

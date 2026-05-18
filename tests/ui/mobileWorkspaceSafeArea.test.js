@@ -19,11 +19,15 @@ test("workspace feature pages reserve iOS standalone status bar and bottom edge"
   );
   assert.match(
     mobileCss,
+    /html:is\(\[data-display-mode="standalone"\][\s\S]*?\.glass-ring,[\s\S]*?body:is\(\[data-display-mode="standalone"\][\s\S]*?\.glass-ring\s*\{[\s\S]*?--glass-mobile-gap:\s*0px\s*!important;[\s\S]*?width:\s*100vw\s*!important;[\s\S]*?margin-left:\s*0\s*!important;/
+  );
+  assert.match(
+    mobileCss,
     /\.workspace-scroll-surface\.workspace-guide-panel\.workspace-feature-panel\s*\{[\s\S]*?overflow-y:\s*hidden\s*!important;/
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ var\(--glass-ring-pad-top/
+    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\)[\s\S]*?var\(--glass-ring-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\)/
   );
   assert.match(
     mobileCss,
@@ -31,7 +35,7 @@ test("workspace feature pages reserve iOS standalone status bar and bottom edge"
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--glass-ring-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)[\s\S]*?\)\s*!important;/
+    /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{[\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--glass-ring-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\) \+[\s\S]*?var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     mobileCss,

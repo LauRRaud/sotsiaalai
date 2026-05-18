@@ -200,7 +200,7 @@ html[data-contrast="hc"]
     --ring-base-max: calc(54 * var(--base-rem));
     --ring-desktop-max: calc(58 * var(--base-rem));
     --chat-focus-diameter-scale: 1.06;
-    --help-listings-workspace-inline-size: var(--workspace-glass-inline-size);
+    --help-listings-workspace-inline-size: var(--workspace-glass-shell-inline-size);
     width: var(--help-listings-workspace-inline-size) !important;
     inline-size: var(--help-listings-workspace-inline-size) !important;
     min-width: var(--help-listings-workspace-inline-size) !important;
@@ -209,7 +209,7 @@ html[data-contrast="hc"]
     min-height: var(--workspace-glass-block-size) !important;
     max-height: var(--workspace-glass-block-size) !important;
     block-size: var(--workspace-glass-block-size) !important;
-    border-radius: 2rem !important;
+    border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
   }
 }
 

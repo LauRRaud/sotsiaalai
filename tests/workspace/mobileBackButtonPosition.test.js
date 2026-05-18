@@ -24,6 +24,14 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
     /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}/
   );
   assert.match(
+    workspaceSource,
+    /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}/
+  );
+  assert.match(
+    workspaceSource,
+    /<GlassSubpageHeader[\s\S]*?backClassName=\{styles\.backButton\}/
+  );
+  assert.match(
     chatTopNavSource,
     /className=\{cn\(\s*glassPageBackMobileBottomCenterClassName,[\s\S]*?"pointer-events-auto !z-\[123\] rounded-full"/
   );
@@ -45,11 +53,19 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     mobileCss,
-    /\.workspace-dashboard-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.08rem\)\s*!important;/
+    /\.workspace-dashboard-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.94rem\)\s*!important;/
   );
   assert.match(
     workspacePanelCss,
     /padding:[\s\S]*?calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.08rem\)[\s\S]*?calc\(var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\) \+ clamp\(0\.55rem,\s*1\.7vh,\s*0\.9rem\)\)/
+  );
+  assert.match(
+    workspacePanelCss,
+    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2rem -[\s\S]*?var\(--chat-pad-top,\s*1rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     workspacePanelCss,

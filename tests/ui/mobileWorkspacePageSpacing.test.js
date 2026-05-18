@@ -43,14 +43,10 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   assert.doesNotMatch(mobileCss, /documents-page-shell/);
   assert.match(documentsSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
   assert.match(agentSource, /fixed inset-0 isolate z-\[30\] bg-transparent/);
-  assert.match(
-    css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-shell--route-enter,[\s\S]*?\.documents-workspace-shell--route-enter:not\(\.workspace-guide-panel--collapse\),[\s\S]*?\.documents-workspace-shell--route-enter\.workspace-guide-panel--collapse\s*\{[\s\S]*?animation:\s*none\s*!important;[\s\S]*?transform:\s*none\s*!important;/
-  );
-  assert.match(
-    helpersCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-guide-panel--route-enter,[\s\S]*?\.workspace-guide-panel--route-enter:not\(\.workspace-guide-panel--collapse\),[\s\S]*?\.workspace-guide-panel--collapse\s*\{[\s\S]*?animation:\s*none\s*!important;[\s\S]*?transform:\s*none\s*!important;/
-  );
+  assert.doesNotMatch(css, /documents-workspace-shell--route-enter/);
+  assert.doesNotMatch(css, /workspace-guide-panel--collapse/);
+  assert.doesNotMatch(helpersCss, /workspace-guide-panel--route-enter/);
+  assert.doesNotMatch(helpersCss, /workspace-guide-panel--collapse/);
 });
 
 test("short workspace feature pages keep content pinned under the header", () => {
@@ -184,16 +180,17 @@ test("covision mobile shell does not double offset the glass panel", () => {
   assert.doesNotMatch(component, /max-\[768px\]:py-\[max\(/);
 });
 
-test("covision overview back tilts the visible page and waits for panel collapse", () => {
+test("covision overview back restores the workspace without panel collapse morphs", () => {
   const component = read("components/covision/CovisionPage.jsx");
 
-  assert.match(component, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
-  assert.match(component, /setIsClosing\(true\);/);
+  assert.doesNotMatch(component, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
+  assert.doesNotMatch(component, /setIsClosing\(true\);/);
   assert.doesNotMatch(component, /waitForGlassRingTilt:\s*true/);
-  assert.match(
+  assert.doesNotMatch(
     component,
     /motion-safe:animate-\[glassRingTiltFromLeft_540ms_cubic-bezier\(0\.42,0,0\.58,1\)_both\]/
   );
-  assert.match(component, /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\);/);
-  assert.match(component, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
+  assert.doesNotMatch(component, /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\);/);
+  assert.doesNotMatch(component, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
+  assert.match(component, /persistGlassRingTilt:\s*false/);
 });

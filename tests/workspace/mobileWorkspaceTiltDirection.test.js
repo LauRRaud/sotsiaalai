@@ -18,7 +18,7 @@ test("workspace dashboard card navigation opens routes immediately without hando
   assert.doesNotMatch(source, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
   assert.doesNotMatch(source, /setHandoffPending/);
   assert.doesNotMatch(source, /workspace-dashboard-panel--route-handoff/);
-  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph\("expand"/);
+  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph/);
   assert.match(
     source,
     /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
@@ -45,21 +45,21 @@ test("workspace dashboard back button closes the in-chat workspace", () => {
   );
 });
 
-test("workspace subpage back buttons mark return without global route tilt", () => {
+test("workspace subpage back buttons return instantly without collapse morphs", () => {
   const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
   const documentsSource = readSource("components/documents/DocumentsPage.jsx");
   const agentSource = readSource("components/agent/AgentModePage.jsx");
   const covisionSource = readSource("components/covision/CovisionPage.jsx");
   const materialsSource = readSource("components/materials/MaterialsPage.jsx");
 
-  assert.match(workspaceFeatureSource, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\);/);
-  assert.match(workspaceFeatureSource, /const shouldTiltOnBack = featureKey !== "service_map";/);
+  assert.doesNotMatch(workspaceFeatureSource, /const \[isClosing,\s*setIsClosing\]/);
+  assert.doesNotMatch(workspaceFeatureSource, /shouldTiltOnBack/);
   assert.doesNotMatch(workspaceFeatureSource, /waitForGlassRingTilt:\s*true/);
   assert.doesNotMatch(workspaceFeatureSource, /glassRingTilt:\s*"left"/);
-  assert.match(workspaceFeatureSource, /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\)/);
-  assert.match(workspaceFeatureSource, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
-  assert.match(workspaceFeatureSource, /workspaceBackTiltClassName/);
-  assert.match(workspaceFeatureSource, /if \(shouldTiltOnBack\) \{\s*setIsClosing\(true\);/);
+  assert.doesNotMatch(workspaceFeatureSource, /markWorkspacePanelMorph\("collapse"/);
+  assert.doesNotMatch(workspaceFeatureSource, /WORKSPACE_PANEL_MORPH_DELAY_MS/);
+  assert.doesNotMatch(workspaceFeatureSource, /workspaceBackTiltClassName/);
+  assert.doesNotMatch(workspaceFeatureSource, /workspace-guide-panel--collapse/);
   assert.match(
     workspaceFeatureSource,
     /workspaceReturn\(locale,\s*router,\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/
@@ -70,13 +70,14 @@ test("workspace subpage back buttons mark return without global route tilt", () 
   );
 
   for (const source of [documentsSource, agentSource, covisionSource, materialsSource]) {
-    assert.match(source, /const \[isClosing,\s*setIsClosing\]\s*=\s*useState\(false\)/);
-    assert.match(source, /if \(isClosing\) return/);
-    assert.match(source, /setIsClosing\(true\)/);
+    assert.doesNotMatch(source, /const \[isClosing,\s*setIsClosing\]/);
+    assert.doesNotMatch(source, /setIsClosing\(true\)/);
     assert.doesNotMatch(source, /waitForGlassRingTilt:\s*true/);
     assert.doesNotMatch(source, /glassRingTilt:\s*"left"/);
-    assert.match(source, /markWorkspacePanelMorph\("collapse",/);
-    assert.match(source, /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
+    assert.doesNotMatch(source, /markWorkspacePanelMorph\("collapse"/);
+    assert.doesNotMatch(source, /WORKSPACE_PANEL_MORPH_DELAY_MS/);
+    assert.doesNotMatch(source, /workspacePanelMorph:\s*"collapse"/);
+    assert.doesNotMatch(source, /workspace-guide-panel--collapse/);
     assert.match(
       source,
       /pushWithTransition\([\s\S]*?\{[\s\S]*?persistGlassRingTilt:\s*false[\s\S]*?\}\)/

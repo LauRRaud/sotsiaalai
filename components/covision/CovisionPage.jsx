@@ -36,7 +36,6 @@ import {
 } from "@/lib/covisionConstants";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
@@ -456,7 +455,6 @@ export default function CovisionPage() {
   const [riskKind, setRiskKind] = useState("risk");
   const [riskLabel, setRiskLabel] = useState(COVISION_RISK_OPTIONS[0] || "");
   const [riskSeverity, setRiskSeverity] = useState("medium");
-  const [isClosing, setIsClosing] = useState(false);
 
   const covisionFetch = useCallback((url, options = {}) => {
     return fetch(url, {
@@ -541,26 +539,19 @@ export default function CovisionPage() {
       setError("");
       return;
     }
-    if (isClosing) return;
     markChatWorkspaceRestore();
-    markWorkspacePanelMorph("collapse", "/vestlus");
-    setIsClosing(true);
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       });
       return;
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       });
     });
-  }, [isClosing, locale, router, view]);
+  }, [locale, router, view]);
 
   function startCase() {
     setCaseForm(emptyCaseForm());
@@ -923,10 +914,7 @@ export default function CovisionPage() {
         className={cn(
           surfaceClassName,
           styles.surface,
-          isClosing
-            ? "pointer-events-none workspace-guide-panel--collapse motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
-            : null
-        )}
+      )}
       >
         <div className={bodyClassName}>
           <GlassSubpageHeader

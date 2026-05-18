@@ -266,30 +266,6 @@
   width: min(100%, 48rem);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .documents-workspace-shell--route-enter:not(.workspace-guide-panel--collapse) {
-    animation: documents-workspace-panel-enter 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-    transform-origin: 50% 50%;
-  }
-}
-
-html[data-reduce-motion="1"] .documents-workspace-shell--route-enter,
-body[data-reduce-motion="1"] .documents-workspace-shell--route-enter {
-  animation: none !important;
-}
-
-@keyframes documents-workspace-panel-enter {
-  from {
-    opacity: 0.92;
-    transform: translateY(0.28rem) scale(0.965);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 .documents-workspace-shell.workspace-guide-panel > .documents-grid {
   display: flex;
   width: 100%;
@@ -312,17 +288,30 @@ body[data-reduce-motion="1"] .documents-workspace-shell--route-enter {
   .documents-grid.workspace-guide-panel-scroll,
   .documents-page-shell.workspace-guide-panel-scroll
 ) {
+  --workspace-guide-panel-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
   box-sizing: border-box;
   width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
   max-width: none !important;
-  height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
-  max-height: calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
-  margin-top: calc(0px - var(--workspace-guide-panel-pad-top, 0.6rem)) !important;
+  height: calc(
+    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
+      var(--workspace-guide-panel-overscan-top)
+  ) !important;
+  max-height: calc(
+    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
+      var(--workspace-guide-panel-overscan-top)
+  ) !important;
+  margin-top: calc(
+    0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
+      var(--workspace-guide-panel-overscan-top)
+  ) !important;
   margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
   margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
   padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;
   padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;
-  padding-top: calc(var(--workspace-guide-panel-pad-top, 0.6rem) + clamp(0.18rem, 0.65vh, 0.42rem)) !important;
+  padding-top: calc(
+    var(--workspace-guide-panel-pad-top, 0.6rem) +
+      var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)
+  ) !important;
   padding-bottom: clamp(2.45rem, 4.8vh, 3rem) !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
@@ -330,7 +319,10 @@ body[data-reduce-motion="1"] .documents-workspace-shell--route-enter {
 }
 
 .documents-workspace-page--library .documents-grid.workspace-guide-panel-scroll {
-  flex: 0 0 calc(100% + var(--workspace-guide-panel-pad-top, 0.6rem));
+  flex: 0 0 calc(
+    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
+      var(--workspace-guide-panel-overscan-top, 0px)
+  );
 }
 
 @media (max-width: 768px) {
@@ -338,19 +330,35 @@ body[data-reduce-motion="1"] .documents-workspace-shell--route-enter {
     .documents-grid.workspace-guide-panel-scroll,
     .documents-page-shell.workspace-guide-panel-scroll
   ) {
+    --workspace-guide-panel-overscan-top: clamp(2.2rem, 8vh, 3rem);
     width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
-    height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
-    max-height: calc(100% + var(--glass-ring-pad-top, 0.6rem)) !important;
-    margin-top: calc(0px - var(--glass-ring-pad-top, 0.6rem)) !important;
+    height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top)
+    ) !important;
+    max-height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top)
+    ) !important;
+    margin-top: calc(
+      0px - var(--glass-ring-pad-top, 0.6rem) -
+        var(--workspace-guide-panel-overscan-top)
+    ) !important;
     margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
     margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
     padding-right: var(--glass-ring-pad-x, 1rem) !important;
     padding-left: var(--glass-ring-pad-x, 1rem) !important;
-    padding-top: calc(var(--glass-ring-pad-top, 0.6rem) + clamp(0.18rem, 0.65vh, 0.42rem)) !important;
+    padding-top: calc(
+      var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)
+    ) !important;
   }
 
   .documents-workspace-page--library .documents-grid.workspace-guide-panel-scroll {
-    flex-basis: calc(100% + var(--glass-ring-pad-top, 0.6rem));
+    flex-basis: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top, 0px)
+    );
   }
 }
 
@@ -2941,13 +2949,6 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 }
 
 @media (max-width: 768px) {
-  .documents-workspace-shell--route-enter,
-  .documents-workspace-shell--route-enter:not(.workspace-guide-panel--collapse),
-  .documents-workspace-shell--route-enter.workspace-guide-panel--collapse {
-    animation: none !important;
-    transform: none !important;
-  }
-
   .documents-workspace-page {
     padding:
       calc(env(safe-area-inset-top, 0px) + 0.45rem)

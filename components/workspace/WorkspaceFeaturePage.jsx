@@ -32,13 +32,10 @@ import {
 import { localizePath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph";
 import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
-const workspaceBackTiltClassName =
-  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
@@ -138,11 +135,8 @@ function workspaceReturn(locale, router, options = {}) {
         JSON.stringify({ ts: Date.now() })
       );
     } catch {}
-    markWorkspacePanelMorph("collapse", "/vestlus");
   }
   pushWithTransition(router, localizePath("/vestlus", locale), {
-    delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-    workspacePanelMorph: "collapse",
     ...options
   });
 }
@@ -2142,7 +2136,6 @@ export default function WorkspaceFeaturePage({ feature }) {
     String(session?.user?.role || "").toUpperCase() === "ADMIN"
   );
   const [adminWorkspaceRole, setAdminWorkspaceRole] = useState("SOCIAL_WORKER");
-  const [isClosing, setIsClosing] = useState(false);
   useEffect(() => {
     if (!isAdmin || !isRoleResolved) return;
     setAdminWorkspaceRole(normalizeWorkspaceRole(effectiveRole));
@@ -2157,13 +2150,8 @@ export default function WorkspaceFeaturePage({ feature }) {
     feature === "service_map" || feature === "service_profile"
       ? feature
       : "pre_inquiries";
-  const shouldTiltOnBack = featureKey !== "service_map";
 
   const handleBack = useCallback(() => {
-    if (isClosing) return;
-    if (shouldTiltOnBack) {
-      setIsClosing(true);
-    }
     if (typeof window === "undefined") {
       workspaceReturn(locale, router, { persistGlassRingTilt: false });
       return;
@@ -2171,7 +2159,7 @@ export default function WorkspaceFeaturePage({ feature }) {
     window.requestAnimationFrame(() => {
       workspaceReturn(locale, router, { persistGlassRingTilt: false });
     });
-  }, [isClosing, locale, router, shouldTiltOnBack]);
+  }, [locale, router]);
 
   const title = readText(t, `workspace_feature_pages.${featureKey}.title`, "Workspace feature");
   const lead = readText(t, `workspace_feature_pages.${featureKey}.lead`, "");
@@ -2198,9 +2186,6 @@ export default function WorkspaceFeaturePage({ feature }) {
         isServiceMap
           ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
           : cn(panelClassName, "workspace-scroll-surface"),
-        !isServiceMap ? "workspace-guide-panel--route-enter" : null,
-        isClosing && !isServiceMap ? "workspace-guide-panel--collapse" : null,
-        isClosing ? workspaceBackTiltClassName : null
       )}>
         <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content relative" : contentClassName)}>
           <GlassSubpageHeader

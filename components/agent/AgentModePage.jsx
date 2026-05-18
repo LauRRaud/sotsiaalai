@@ -42,7 +42,6 @@ import {
 } from "@/lib/documents/presentation"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 const heroBodyClassName =
@@ -201,7 +200,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [conversationMessages, setConversationMessages] = useState([])
   const [inputFocused, setInputFocused] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const [isClosing, setIsClosing] = useState(false)
   const handledMeetingSummaryJobIdsRef = useRef(new Set())
 
   function createWorkspaceVersion({ kind, title, content, type, templateId = selectedTemplateId }) {
@@ -1549,26 +1547,19 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }
 
   const handleBack = useCallback(() => {
-    if (isClosing) return
-    setIsClosing(true)
     markChatWorkspaceRestore()
-    markWorkspacePanelMorph("collapse", backHref)
     if (typeof window === "undefined") {
       pushWithTransition(router, backHref, {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, backHref, {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
     })
-  }, [backHref, isClosing, router])
+  }, [backHref, router])
 
   return (
     <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
@@ -1582,13 +1573,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
         />
       ) : null}
-      <div className={`documents-workspace-shell documents-workspace-shell--agent documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--agent workspace-scroll-surface ${workspaceGuidePanelClassName}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("documents.agent_workspace.back_to_chat")}
             anchorBack={false}
-            backClassName="documents-scroll-back-button"
+            backClassName="workspace-scroll-back-button documents-scroll-back-button"
           >
             {t("chat.tools.agent_mode")}
           </GlassSubpageHeader>

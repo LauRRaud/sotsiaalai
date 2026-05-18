@@ -457,6 +457,8 @@ export default function WorkspacePanel({
       <GlassSubpageHeader
         onBack={handleWorkspaceBack}
         backAriaLabel={text(t, "buttons.back_previous", "Tagasi")}
+        anchorBack={false}
+        backClassName={styles.backButton}
         holdPressedVisualDisabled
         titleId="chat-workspace-title"
       >

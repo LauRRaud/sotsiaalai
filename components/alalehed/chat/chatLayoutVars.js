@@ -177,6 +177,11 @@ const CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES = Object.freeze({
   "--hud-icon": "clamp(3.16rem, calc(var(--chat-diameter) * 0.063), 3.45rem)"
 });
 
+const CHAT_LAYOUT_DESKTOP_WORKSPACE_OVERRIDES = Object.freeze({
+  "--chat-pad-top": "clamp(0.35rem, 1.1vh, 0.72rem)",
+  "--chat-pad-bottom": "0rem"
+});
+
 const MOBILE_VIEWPORT_QUERY = "(max-width: 768px)";
 const COARSE_POINTER_QUERY = "(hover: none) and (pointer: coarse)";
 
@@ -199,13 +204,17 @@ function detectMobileViewport() {
 
 function resolveChatLayoutVars({
   isMobile,
-  focusActive
+  focusActive,
+  workspaceOpen = false
 }) {
+  const useDesktopExpandedRing = !isMobile && (focusActive || workspaceOpen);
+
   return {
     ...CHAT_LAYOUT_BASE_VARS,
     ...(isMobile ? CHAT_LAYOUT_MOBILE_VARS : null),
     ...(isMobile ? CHAT_LAYOUT_MOBILE_OVERRIDES : null),
-    ...(!isMobile && focusActive ? CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES : null)
+    ...(useDesktopExpandedRing ? CHAT_LAYOUT_DESKTOP_FOCUS_OVERRIDES : null),
+    ...(!isMobile && workspaceOpen ? CHAT_LAYOUT_DESKTOP_WORKSPACE_OVERRIDES : null)
   };
 }
 

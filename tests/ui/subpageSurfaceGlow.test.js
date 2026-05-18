@@ -84,7 +84,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   );
   assert.match(
     helpersCss,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important[\s\S]*?height:\s*var\(--workspace-glass-block-size\)\s*!important/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-shell-inline-size\)\s*!important[\s\S]*?height:\s*var\(--workspace-glass-block-size\)\s*!important/
   );
   assert.match(
     glassCss,

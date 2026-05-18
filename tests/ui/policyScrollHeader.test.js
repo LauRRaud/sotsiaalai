@@ -33,18 +33,27 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileCss,
+    /\.policy-scroll-page-ring \.glass-policy-content,[\s\S]*?overflow:\s*visible\s*!important;/
+  );
+  assert.match(
+    mobileCss,
     /\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?width:\s*calc\([\s\S]*?100% \+ var\(--policy-scroll-edge-pad-x\) \+ var\(--policy-scroll-edge-pad-x\)[\s\S]*?margin-left:\s*calc\(0px - var\(--policy-scroll-edge-pad-x\)\)\s*!important;/
   );
   assert.match(
     mobileCss,
-    /\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?height:\s*calc\(100% \+ var\(--policy-scroll-edge-pad-top\)\)\s*!important;[\s\S]*?margin-top:\s*calc\(0px - var\(--policy-scroll-edge-pad-top\)\)\s*!important;/
+    /\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?--policy-scroll-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--policy-scroll-edge-pad-top\) \+[\s\S]*?var\(--policy-scroll-overscan-top\)[\s\S]*?\)\s*!important;[\s\S]*?margin-top:\s*calc\([\s\S]*?0px - var\(--policy-scroll-edge-pad-top\) -[\s\S]*?var\(--policy-scroll-overscan-top\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     mobileCss,
-    /\.policy-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.55rem\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?--policy-scroll-overscan-top:\s*clamp\(2\.2rem,\s*8vh,\s*3rem\);/
+  );
+  assert.doesNotMatch(mobileCss, /scroll-snap-type:\s*y mandatory\s*!important;/);
+  assert.match(
+    mobileCss,
+    /\.policy-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*calc\(var\(--policy-scroll-overscan-top,\s*0px\) \+ 0\.55rem\)\s*!important;/
   );
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.2rem\)\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\)[\s\S]*?env\(safe-area-inset-top,\s*0px\)[\s\S]*?0\.2rem[\s\S]*?\)\s*!important;/
   );
 });

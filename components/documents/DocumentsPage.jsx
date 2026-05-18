@@ -31,7 +31,6 @@ import {
 import { WORKER_FRAMEWORK_SIGNED_HREF, WORKER_FRAMEWORK_VERSION } from "@/lib/frameworkAcceptances"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 
@@ -238,7 +237,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const [artifactsError, setArtifactsError] = useState("")
   const [successNotice, setSuccessNotice] = useState(null)
   const [uploading, setUploading] = useState(false)
-  const [isClosing, setIsClosing] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [editingTitle, setEditingTitle] = useState("")
   const [uploadTitle, setUploadTitle] = useState("")
@@ -432,26 +430,19 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
 
   const handleBack = useCallback(() => {
-    if (isClosing) return
-    setIsClosing(true)
     markChatWorkspaceRestore()
-    markWorkspacePanelMorph("collapse", "/vestlus")
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", locale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
     })
-  }, [isClosing, locale, router])
+  }, [locale, router])
 
   useEffect(() => {
     if (!isRoleResolved || !isClientRole) return
@@ -588,7 +579,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   if (isClientRole) {
     return (
       <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-        <div className={`documents-workspace-shell documents-workspace-shell--documents documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isClosing ? "workspace-guide-panel--collapse" : ""}`} />
+        <div className={`documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${workspaceGuidePanelClassName}`} />
       </section>
     )
   }
@@ -605,13 +596,13 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
           ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
         />
       ) : null}
-      <div className={`documents-workspace-shell documents-workspace-shell--documents documents-workspace-shell--route-enter ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""} ${isClosing ? "workspace-guide-panel--collapse" : ""}`}>
+      <div className={`documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("buttons.back")}
             anchorBack={false}
-            backClassName="documents-scroll-back-button"
+            backClassName="workspace-scroll-back-button documents-scroll-back-button"
           >
             {t("documents.page_title")}
           </GlassSubpageHeader>

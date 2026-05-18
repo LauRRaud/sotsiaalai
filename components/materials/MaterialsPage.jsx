@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/glassPageStyles"
 import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
-import { markWorkspacePanelMorph, WORKSPACE_PANEL_MORPH_DELAY_MS } from "@/lib/workspacePanelMorph"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
 
@@ -60,9 +59,6 @@ const surfaceClassName =
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
   `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `${workspaceGuidePanelClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
-const pageBackTiltClassName =
-  "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"
-
 export default function MaterialsPage({ locale = "et" }) {
   const router = useRouter()
   const { t, locale: activeLocale } = useI18n()
@@ -74,7 +70,6 @@ export default function MaterialsPage({ locale = "et" }) {
   const [submitting, setSubmitting] = useState(false)
   const [notice, setNotice] = useState("")
   const [error, setError] = useState("")
-  const [isClosing, setIsClosing] = useState(false)
 
   useEffect(() => {
     if (!notice) return undefined
@@ -118,30 +113,23 @@ export default function MaterialsPage({ locale = "et" }) {
   }
 
   const handleBack = useCallback(() => {
-    if (isClosing) return
-    setIsClosing(true)
     markChatWorkspaceRestore()
-    markWorkspacePanelMorph("collapse", "/vestlus")
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
       return
     }
     window.requestAnimationFrame(() => {
       pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
-        persistGlassRingTilt: false,
-        delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
-        workspacePanelMorph: "collapse"
+        persistGlassRingTilt: false
       })
     })
-  }, [isClosing, resolvedLocale, router])
+  }, [resolvedLocale, router])
 
   return (
     <div className={shellClassName}>
-      <div className={`${surfaceClassName} ${isClosing ? `${pageBackTiltClassName} workspace-guide-panel--collapse` : ""}`}>
+      <div className={surfaceClassName}>
         <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid content-start gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
           <GlassSubpageHeader
             onBack={handleBack}

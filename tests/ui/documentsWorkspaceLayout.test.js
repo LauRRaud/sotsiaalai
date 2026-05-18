@@ -36,7 +36,19 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   );
   assert.match(
     documentsCss,
-    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?width:\s*calc\(100% \+ var\(--workspace-guide-panel-pad-x[\s\S]*?margin-top:\s*calc\(0px - var\(--workspace-guide-panel-pad-top[\s\S]*?padding-right:\s*var\(--workspace-guide-panel-pad-x[\s\S]*?padding-left:\s*var\(--workspace-guide-panel-pad-x[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
+    /\.documents-workspace-page--library :is\([\s\S]*?\.documents-grid\.workspace-guide-panel-scroll,[\s\S]*?\.documents-page-shell\.workspace-guide-panel-scroll[\s\S]*?\)\s*\{[\s\S]*?--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?scrollbar-gutter:\s*auto\s*!important;/
+  );
+  assert.match(
+    documentsCss,
+    /\.documents-workspace-page--library :is\([\s\S]*?height:\s*calc\([\s\S]*?100% \+ var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    documentsCss,
+    /\.documents-workspace-page--library :is\([\s\S]*?margin-top:\s*calc\([\s\S]*?0px - var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) -[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    documentsCss,
+    /\.documents-workspace-page--library :is\([\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\) \+[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
   );
 });
 
@@ -52,8 +64,10 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("documents\.agent_workspace\.back_to_chat"\)\}/);
   assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}/);
   assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}/);
-  assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?backClassName="documents-scroll-back-button"/);
-  assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?backClassName="documents-scroll-back-button"/);
+  assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button documents-scroll-back-button"/);
+  assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button documents-scroll-back-button"/);
+  assert.match(documentsSource, /documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface/);
+  assert.match(agentSource, /documents-workspace-shell documents-workspace-shell--agent workspace-scroll-surface/);
   assert.match(documentsSource, /className="documents-admin-role-menu documents-admin-role-menu--viewport"/);
   assert.match(agentSource, /className="documents-admin-role-menu documents-admin-role-menu--viewport"/);
   assert.match(documentsSource, /<section className=\{`documents-workspace[\s\S]*?isAdmin \? \([\s\S]*?className="documents-admin-role-menu documents-admin-role-menu--viewport"[\s\S]*?<div className=\{`documents-workspace-shell/);
@@ -62,12 +76,20 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.doesNotMatch(agentSource, /rightSlot=\{isAdmin \? \(/);
   assert.match(
     css,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface :is\(\s*\.workspace-scroll-back-button,\s*\.documents-scroll-back-button\s*\)\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface :is\(\s*\.workspace-scroll-back-button,\s*\.documents-scroll-back-button\s*\)\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\)[\s\S]*?var\(--workspace-subpage-back-top,\s*0\.55rem\)[\s\S]*?\)\s*!important;/
   );
   assert.doesNotMatch(mobileCss, /documents-workspace-page--library/);
   assert.match(
     mobileCss,
     /:is\(\s*\.glass-subpage-title-wrap\s*\)\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 1\.18rem\)\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel\s*\{[\s\S]*?height:\s*100%\s*!important;[\s\S]*?padding:[\s\S]*?var\(--glass-ring-pad-top\)[\s\S]*?var\(--glass-ring-pad-x\)[\s\S]*?border-radius:\s*var\(--mobile-glass-card-radius/
+  );
+  assert.match(
+    mobileCss,
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell[\s\S]*?\.workspace-scroll-back-button\s*\{[\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2025rem/
   );
   assert.match(mobileCss, /\.policy-mobile-title--static\s*\{[\s\S]*?white-space:\s*normal\s*!important;[\s\S]*?text-wrap:\s*balance\s*!important;/);
   assert.match(documentsCss, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);
@@ -76,16 +98,11 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.doesNotMatch(glassCss, /compact-workspace-subpage-title/);
   assert.doesNotMatch(documentsSource, /glassRingTiltFromLeft/);
   assert.doesNotMatch(agentSource, /glassRingTiltFromLeft/);
-  assert.match(documentsSource, /documents-workspace-shell--route-enter[\s\S]*?\$\{isClosing \? "workspace-guide-panel--collapse" : ""\}/);
-  assert.match(agentSource, /documents-workspace-shell--route-enter[\s\S]*?\$\{isClosing \? "workspace-guide-panel--collapse" : ""\}/);
-  assert.match(
-    documentsCss,
-    /\.documents-workspace-shell--route-enter:not\(\.workspace-guide-panel--collapse\)\s*\{[\s\S]*?animation:\s*documents-workspace-panel-enter 420ms cubic-bezier\(0\.22, 0\.61, 0\.36, 1\) both;/
-  );
-  assert.match(
-    documentsCss,
-    /@keyframes documents-workspace-panel-enter\s*\{[\s\S]*?transform:\s*translateY\(0\.28rem\) scale\(0\.965\);[\s\S]*?transform:\s*translateY\(0\) scale\(1\);/
-  );
+  assert.doesNotMatch(documentsSource, /documents-workspace-shell--route-enter/);
+  assert.doesNotMatch(agentSource, /documents-workspace-shell--route-enter/);
+  assert.doesNotMatch(documentsSource, /workspace-guide-panel--collapse/);
+  assert.doesNotMatch(agentSource, /workspace-guide-panel--collapse/);
+  assert.doesNotMatch(documentsCss, /documents-workspace-panel-enter/);
   assert.doesNotMatch(
     documentsSource,
     /documents-page-shell--content[\s\S]*?className="documents-admin-role-menu"/

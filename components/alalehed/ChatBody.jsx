@@ -39,9 +39,7 @@ import {
 } from "./chat/mobileViewportUtils";
 import {
   consumeWorkspacePanelMorph,
-  markWorkspacePanelMorph,
-  resolveWorkspaceRestoreTransition,
-  WORKSPACE_PANEL_MORPH_DELAY_MS
+  resolveWorkspaceRestoreTransition
 } from "@/lib/workspacePanelMorph";
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -51,8 +49,7 @@ const MOBILE_KEYBOARD_BLUR_SETTLE_MS = 220;
 const MOBILE_KEYBOARD_BASELINE_CAPTURE_MS = 320;
 const MOBILE_KEYBOARD_OPEN_STABLE_MS = 96;
 const MOBILE_KEYBOARD_OFFSET_JITTER_PX = 10;
-const WORKSPACE_SURFACE_SETTLE_MS = 220;
-const WORKSPACE_RETURN_MORPH_SETTLE_MS = 760;
+const WORKSPACE_SURFACE_SETTLE_MS = 680;
 const CHAT_HELP_PANEL_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL__";
 const CHAT_HELP_PANEL_SOURCE_STORAGE_KEY = "__SOTSIAALAI_CHAT_HELP_PANEL_SOURCE__";
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
@@ -271,8 +268,6 @@ export default function ChatBody({
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [workspaceSurfaceReady, setWorkspaceSurfaceReady] = useState(false);
   const [workspaceSuppressOpenTransition, setWorkspaceSuppressOpenTransition] = useState(false);
-  const [workspaceReturnMorphing, setWorkspaceReturnMorphing] = useState(false);
-  const [workspaceReturnTransitioning, setWorkspaceReturnTransitioning] = useState(false);
   const {
     isMobile,
     mobileRailVisible,
@@ -328,8 +323,6 @@ export default function ChatBody({
   const workspaceSurfaceReadyTimerRef = useRef(0);
   const workspaceRestoredOpenRef = useRef(false);
   const workspaceRestoreTransitionRafRef = useRef(0);
-  const workspaceReturnMorphTimerRef = useRef(0);
-  const workspaceReturnTransitionTimerRef = useRef(0);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
     const mobileImmediate = options.mobileImmediate === true;
@@ -384,8 +377,6 @@ export default function ChatBody({
     });
     workspaceRestoredOpenRef.current = true;
     setWorkspaceSuppressOpenTransition(restoreTransition.suppressOpenTransition);
-    setWorkspaceReturnMorphing(restoreTransition.returnMorphing);
-    setWorkspaceReturnTransitioning(restoreTransition.returnTransitioning);
     setWorkspaceOpen(true);
     setWorkspaceSurfaceReady(true);
     setShowSourcesPanel(false);
@@ -459,14 +450,6 @@ export default function ChatBody({
       if (listingsPanelCloseTimerRef.current && typeof window !== "undefined") {
         window.clearTimeout(listingsPanelCloseTimerRef.current);
         listingsPanelCloseTimerRef.current = null;
-      }
-      if (workspaceReturnMorphTimerRef.current && typeof window !== "undefined") {
-        window.clearTimeout(workspaceReturnMorphTimerRef.current);
-        workspaceReturnMorphTimerRef.current = 0;
-      }
-      if (workspaceReturnTransitionTimerRef.current && typeof window !== "undefined") {
-        window.clearTimeout(workspaceReturnTransitionTimerRef.current);
-        workspaceReturnTransitionTimerRef.current = 0;
       }
     };
   }, []);
@@ -794,16 +777,12 @@ export default function ChatBody({
   });
   const closeWorkspace = useCallback(() => {
     setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(false);
-    setWorkspaceReturnTransitioning(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, []);
   const toggleWorkspace = useCallback(() => {
     if (workspaceOpen) {
       setWorkspaceSuppressOpenTransition(false);
-      setWorkspaceReturnMorphing(false);
-      setWorkspaceReturnTransitioning(false);
       setWorkspaceSurfaceReady(false);
       setWorkspaceOpen(false);
       return;
@@ -812,8 +791,6 @@ export default function ChatBody({
     setShowSourcesPanel(false);
     setInputFocused(false);
     setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(false);
-    setWorkspaceReturnTransitioning(false);
     setWorkspaceSurfaceReady(false);
     try {
       inputRef.current?.blur?.();
@@ -826,16 +803,12 @@ export default function ChatBody({
   ]);
   const toggleProfileFromRail = useCallback(() => {
     setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(false);
-    setWorkspaceReturnTransitioning(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     toggleProfile?.();
   }, [toggleProfile]);
   const openProfileDirectFromRail = useCallback((options) => {
     setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(false);
-    setWorkspaceReturnTransitioning(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
     return openProfileDirect?.(options);
@@ -843,8 +816,6 @@ export default function ChatBody({
   useEffect(() => {
     if (!profileOpen) return;
     setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(false);
-    setWorkspaceReturnTransitioning(false);
     setWorkspaceSurfaceReady(false);
     setWorkspaceOpen(false);
   }, [profileOpen]);
@@ -862,47 +833,6 @@ export default function ChatBody({
       workspaceRestoreTransitionRafRef.current = 0;
     };
   }, [workspaceSuppressOpenTransition]);
-  useEffect(() => {
-    if (!workspaceReturnMorphing || typeof window === "undefined") return;
-
-    if (prefs?.reduceMotion) {
-      setWorkspaceReturnMorphing(false);
-      setWorkspaceReturnTransitioning(false);
-      return;
-    }
-
-    if (!layoutTransitionsReady) return;
-
-    workspaceReturnMorphTimerRef.current = window.setTimeout(() => {
-      workspaceReturnMorphTimerRef.current = 0;
-      setWorkspaceReturnMorphing(false);
-    }, 40);
-
-    return () => {
-      if (!workspaceReturnMorphTimerRef.current || typeof window === "undefined") return;
-      window.clearTimeout(workspaceReturnMorphTimerRef.current);
-      workspaceReturnMorphTimerRef.current = 0;
-    };
-  }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceReturnMorphing]);
-  useEffect(() => {
-    if (!workspaceReturnTransitioning || typeof window === "undefined") return;
-
-    if (prefs?.reduceMotion) {
-      setWorkspaceReturnTransitioning(false);
-      return;
-    }
-
-    workspaceReturnTransitionTimerRef.current = window.setTimeout(() => {
-      workspaceReturnTransitionTimerRef.current = 0;
-      setWorkspaceReturnTransitioning(false);
-    }, WORKSPACE_RETURN_MORPH_SETTLE_MS);
-
-    return () => {
-      if (!workspaceReturnTransitionTimerRef.current || typeof window === "undefined") return;
-      window.clearTimeout(workspaceReturnTransitionTimerRef.current);
-      workspaceReturnTransitionTimerRef.current = 0;
-    };
-  }, [prefs?.reduceMotion, workspaceReturnTransitioning]);
   useEffect(() => {
     if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
@@ -1407,9 +1337,7 @@ export default function ChatBody({
   }, [closeListingsPanel, openProfileDirect]);
   const restoreWorkspaceFromSharedPanel = useCallback(() => {
     workspaceRestoredOpenRef.current = true;
-    setWorkspaceSuppressOpenTransition(false);
-    setWorkspaceReturnMorphing(true);
-    setWorkspaceReturnTransitioning(true);
+    setWorkspaceSuppressOpenTransition(true);
     setWorkspaceSurfaceReady(true);
     setWorkspaceOpen(true);
     setShowSourcesPanel(false);
@@ -1419,9 +1347,7 @@ export default function ChatBody({
     } catch {}
   }, [setShowSourcesPanel]);
   const backToWorkspaceFromListingsPanel = useCallback(() => {
-    markWorkspacePanelMorph("collapse", "/vestlus");
     closeListingsPanel({
-      delayMs: WORKSPACE_PANEL_MORPH_DELAY_MS,
       afterClose: () => {
         restoreWorkspaceFromSharedPanel();
       }
@@ -2272,7 +2198,8 @@ export default function ChatBody({
   }, []);
   const chatVars = resolveChatLayoutVars({
     isMobile: viewportIsMobile,
-    focusActive
+    focusActive,
+    workspaceOpen
   });
   const chatAnalysisPanelProps = {
     t,
@@ -2315,17 +2242,16 @@ export default function ChatBody({
         WebkitBackdropFilter: "none"
       }
     : null;
-  const workspaceReturnTransitionStyle =
-    workspaceReturnTransitioning && layoutTransitionsReady && !prefs?.reduceMotion
+  const workspaceOpenRingPaddingStyle =
+    workspaceOpen && !viewportIsMobile
       ? {
-          borderRadius: "clamp(1.6rem, 3.5vw, 2.4rem)",
-          transition:
-            "width 680ms cubic-bezier(0.22,0.61,0.36,1), min-width 680ms cubic-bezier(0.22,0.61,0.36,1), max-width 680ms cubic-bezier(0.22,0.61,0.36,1), height 680ms cubic-bezier(0.22,0.61,0.36,1), min-height 680ms cubic-bezier(0.22,0.61,0.36,1), max-height 680ms cubic-bezier(0.22,0.61,0.36,1), inline-size 680ms cubic-bezier(0.22,0.61,0.36,1), block-size 680ms cubic-bezier(0.22,0.61,0.36,1), transform 680ms cubic-bezier(0.22,0.61,0.36,1)"
+          paddingTop: "var(--chat-pad-top)",
+          paddingBottom: 0
         }
       : null;
   const chatRingStyle = chatRingSurfaceStyle
-    ? { ...chatVars, ...chatRingSurfaceStyle, ...workspaceReturnTransitionStyle }
-    : { ...chatVars, ...workspaceReturnTransitionStyle };
+    ? { ...chatVars, ...workspaceOpenRingPaddingStyle, ...chatRingSurfaceStyle }
+    : { ...chatVars, ...workspaceOpenRingPaddingStyle };
   const chatContainerClassName = cn(
         "main-content glass-ring chat-container chat-container--round " +
         "glass-ring--desktop-stable " +
@@ -2358,9 +2284,6 @@ export default function ChatBody({
         : null,
       workspaceSuppressOpenTransition
         ? "chat-container--workspace-restore-no-transition"
-        : null,
-      workspaceReturnMorphing
-        ? "chat-container--workspace-return-morph"
         : null,
       viewportIsMobile ? "chat-layout-mobile" : "chat-layout-desktop"
     );

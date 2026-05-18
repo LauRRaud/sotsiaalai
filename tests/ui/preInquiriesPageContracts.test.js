@@ -91,7 +91,7 @@ test("workspace feature panels keep a stable desktop footprint across role views
 
   assert.match(
     css,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-inline-size\)\s*!important/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-shell-inline-size\)\s*!important/
   );
   assert.match(
     css,
@@ -143,7 +143,8 @@ test("workspace feature pages use the same desktop width as help listings", () =
     /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/
   );
   assert.match(source, /workspaceGuidePanelClassName/);
-  assert.match(source, /!isServiceMap \? "workspace-guide-panel--route-enter" : null/);
+  assert.doesNotMatch(source, /workspace-guide-panel--route-enter/);
+  assert.doesNotMatch(source, /workspace-guide-panel--collapse/);
   assert.match(covisionSource, /workspaceGuidePanelClassName/);
   assert.match(materialsSource, /workspaceGuidePanelClassName/);
   assert.match(covisionSource, /const bodyClassName =[\s\S]*?`relative \$\{workspaceGuidePanelScrollClassName\}/);

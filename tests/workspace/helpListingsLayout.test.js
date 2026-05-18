@@ -16,7 +16,8 @@ test("workspace-launched help listings use workspace-sized desktop modal chrome"
   assert.match(componentSource, /min-\[769px\]:!min-h-0/);
   assert.match(componentSource, /help-listings-modal-overlay--workspace/);
   assert.match(componentSource, /help-listings-modal-content--workspace/);
-  assert.match(componentSource, /isWorkspaceReturn && !isClosing \? "workspace-guide-panel--route-enter "/);
+  assert.doesNotMatch(componentSource, /workspace-guide-panel--route-enter/);
+  assert.doesNotMatch(componentSource, /workspace-guide-panel--collapse/);
   assert.match(cssSource, /\.help-listings-modal-overlay--workspace/);
   assert.match(cssSource, /\.help-listings-modal-content--workspace/);
   assert.match(cssSource, /--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/);

@@ -6,13 +6,13 @@ function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("chat workspace waits for the glass surface before showing dashboard content", () => {
+test("chat workspace keeps dashboard content visually stable while the glass surface settles", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
 
-  assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 220;/);
+  assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 680;/);
   assert.match(chatBodySource, /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(false\);/);
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(false\);[\s\S]*?if \(!workspaceOpen\) return;/);
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(true\);[\s\S]*?WORKSPACE_SURFACE_SETTLE_MS/);
@@ -23,15 +23,94 @@ test("chat workspace waits for the glass surface before showing dashboard conten
 
   assert.match(workspaceSource, /visible = true/);
   assert.match(workspaceSource, /data-visible=\{visible \? "true" : "false"\}/);
+  assert.match(workspaceSource, /backClassName=\{styles\.backButton\}/);
 
   assert.match(
     workspaceCss,
-    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?opacity:\s*0\.72;[\s\S]*?pointer-events:\s*none;/
+    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/
   );
+  assert.match(
+    workspaceCss,
+    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/
+  );
+  assert.doesNotMatch(
+    workspaceCss,
+    /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?position:\s*relative;/
+  );
+  assert.doesNotMatch(workspaceCss, /workspace-panel-enter/);
+  assert.doesNotMatch(workspaceCss, /translateY\(0\.28rem\)/);
+  assert.doesNotMatch(workspaceCss, /\.panel\[data-visible="false"\][^{]*\{[^}]*opacity/);
   assert.doesNotMatch(chatBodySource, /const WORKSPACE_FOCUS_RESET_OPEN_MS = 720;/);
   assert.doesNotMatch(
     chatBodySource,
     /workspaceOpenDelayTimerRef\.current = window\.setTimeout\(\(\) => \{[\s\S]*?setWorkspaceOpen\(true\);[\s\S]*?\}\s*,\s*WORKSPACE_FOCUS_RESET_OPEN_MS\);/
+  );
+});
+
+test("workspace dashboard uses the same desktop glass sizing as workspace subpages", async () => {
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const { resolveChatLayoutVars } = await import("../../components/alalehed/chat/chatLayoutVars.js");
+
+  assert.match(
+    chatBodySource,
+    /resolveChatLayoutVars\(\{[\s\S]*?isMobile:\s*viewportIsMobile,[\s\S]*?focusActive,[\s\S]*?workspaceOpen[\s\S]*?\}\)/
+  );
+  assert.match(
+    chatBodySource,
+    /const workspaceOpenRingPaddingStyle =[\s\S]*?workspaceOpen && !viewportIsMobile[\s\S]*?paddingTop:\s*"var\(--chat-pad-top\)"[\s\S]*?paddingBottom:\s*0/
+  );
+  assert.match(
+    chatBodySource,
+    /\{ \.\.\.chatVars,\s*\.\.\.workspaceOpenRingPaddingStyle,[\s\S]*?\}/
+  );
+
+  const defaultDesktopVars = resolveChatLayoutVars({
+    isMobile: false,
+    focusActive: false
+  });
+  const workspaceDesktopVars = resolveChatLayoutVars({
+    isMobile: false,
+    focusActive: false,
+    workspaceOpen: true
+  });
+  const workspaceMobileVars = resolveChatLayoutVars({
+    isMobile: true,
+    focusActive: false,
+    workspaceOpen: true
+  });
+
+  assert.equal(defaultDesktopVars["--chat-diameter"], "var(--profile-diameter)");
+  assert.equal(workspaceDesktopVars["--chat-diameter"], "var(--ring-diameter, var(--ring-diameter-default))");
+  assert.equal(workspaceDesktopVars["--chat-pad-top"], "clamp(0.35rem, 1.1vh, 0.72rem)");
+  assert.equal(workspaceDesktopVars["--ring-ui-reserve"], "calc(2 * var(--base-rem))");
+  assert.equal(workspaceDesktopVars["--ring-fit-pad"], "calc(1.3 * var(--base-rem))");
+  assert.equal(workspaceDesktopVars["--chat-pad-bottom"], "0rem");
+  assert.equal(workspaceMobileVars["--chat-diameter"], "var(--profile-diameter)");
+});
+
+test("workspace subpage surfaces match the dashboard outer glass width and radius", () => {
+  const helpersCss = readSource("app/styles/utilities/helpers.css");
+  const chatFocusCss = readSource("app/styles/components/chat-focus.css");
+
+  assert.match(
+    helpersCss,
+    /--workspace-glass-shell-inline-size:\s*calc\(\s*var\(--workspace-glass-inline-size\)\s*\+\s*var\(--chat-focus-inline-extra,\s*0px\)\s*\);/
+  );
+  assert.match(
+    helpersCss,
+    /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--chat-focus-diameter-scale:\s*1\.06;/
+  );
+  assert.match(
+    helpersCss,
+    /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?width:\s*var\(--workspace-glass-shell-inline-size\)\s*!important;[\s\S]*?border-radius:\s*clamp\(1\.6rem,\s*3\.5vw,\s*2\.4rem\)\s*!important;/
+  );
+  assert.match(
+    helpersCss,
+    /\.materials-page-content\.glass-subpage-surface,[\s\S]*?width:\s*var\(--workspace-glass-shell-inline-size\)\s*!important;[\s\S]*?border-radius:\s*clamp\(1\.6rem,\s*3\.5vw,\s*2\.4rem\)\s*!important;/
+  );
+  assert.match(
+    chatFocusCss,
+    /--help-listings-workspace-inline-size:\s*var\(--workspace-glass-shell-inline-size\);/
   );
 });
 
@@ -64,7 +143,7 @@ test("restored workspace returns already settled without replaying the dashboard
   );
 });
 
-test("workspace card navigation prefetches routes and opens subpages immediately", () => {
+test("workspace card navigation prefetches routes and opens subpages without route morph markers", () => {
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const navigateToMatch = workspaceSource.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
@@ -79,7 +158,7 @@ test("workspace card navigation prefetches routes and opens subpages immediately
   assert.doesNotMatch(workspaceSource, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
   assert.doesNotMatch(workspaceSource, /setHandoffPending/);
   assert.doesNotMatch(workspaceSource, /workspace-dashboard-panel--route-handoff/);
-  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph\("expand"/);
+  assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph/);
   assert.match(
     workspaceSource,
     /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
@@ -94,7 +173,7 @@ test("workspace card navigation prefetches routes and opens subpages immediately
   );
   assert.match(navigateToMatch[1], /pushWithTransition\(router,\s*href\);/);
   assert.doesNotMatch(navigateToMatch[1], /delayMs:/);
-  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph:\s*shouldRestoreWorkspace \? "route-fade" : undefined/);
+  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph/);
 
   assert.match(
     workspaceSource,
@@ -103,31 +182,45 @@ test("workspace card navigation prefetches routes and opens subpages immediately
   );
 });
 
-test("help listings opened from workspace return to a settled workspace", () => {
+test("workspace subpage routes do not use panel enter or collapse morph classes", () => {
+  const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
+  const documentsSource = readSource("components/documents/DocumentsPage.jsx");
+  const agentSource = readSource("components/agent/AgentModePage.jsx");
+  const materialsSource = readSource("components/materials/MaterialsPage.jsx");
+  const covisionSource = readSource("components/covision/CovisionPage.jsx");
+
+  for (const source of [workspaceFeatureSource, documentsSource, agentSource, materialsSource, covisionSource]) {
+    assert.doesNotMatch(source, /workspace-guide-panel--route-enter/);
+    assert.doesNotMatch(source, /documents-workspace-shell--route-enter/);
+    assert.doesNotMatch(source, /workspace-guide-panel--collapse/);
+    assert.doesNotMatch(source, /glassRingTiltFromLeft/);
+  }
+});
+
+test("help listings opened from workspace return immediately without collapse morph", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const helpListingsSource = readSource("components/chat/HelpListingsPanel.jsx");
   const backToWorkspaceMatch = chatBodySource.match(
     /const backToWorkspaceFromListingsPanel = useCallback\(\(\) => \{([\s\S]*?)\},\s*\[[^\]]*\]\);/
   );
 
   assert.ok(backToWorkspaceMatch, "workspace help-listing return callback should be present");
-  assert.match(backToWorkspaceMatch[1], /markWorkspacePanelMorph\("collapse",\s*"\/vestlus"\);/);
-  assert.match(backToWorkspaceMatch[1], /delayMs:\s*WORKSPACE_PANEL_MORPH_DELAY_MS/);
+  assert.doesNotMatch(backToWorkspaceMatch[1], /markWorkspacePanelMorph/);
+  assert.doesNotMatch(backToWorkspaceMatch[1], /delayMs:/);
   assert.match(backToWorkspaceMatch[1], /restoreWorkspaceFromSharedPanel\(\);/);
-  assert.match(chatBodySource, /const restoreWorkspaceFromSharedPanel = useCallback\(\(\) => \{[\s\S]*?workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(false\);[\s\S]*?setWorkspaceReturnMorphing\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?setWorkspaceOpen\(true\);/);
-  assert.doesNotMatch(chatBodySource, /const PANEL_TILT_CLOSE_MS = 540;/);
-  assert.match(chatBodySource, /listingsPanelCloseTimerRef\.current = window\.setTimeout\(/);
+  assert.match(chatBodySource, /const restoreWorkspaceFromSharedPanel = useCallback\(\(\) => \{[\s\S]*?workspaceRestoredOpenRef\.current = true;[\s\S]*?setWorkspaceSuppressOpenTransition\(true\);[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?setWorkspaceOpen\(true\);/);
+  assert.doesNotMatch(helpListingsSource, /workspace-guide-panel--route-enter/);
+  assert.doesNotMatch(helpListingsSource, /workspace-guide-panel--collapse/);
 });
 
 test("workspace route handoff does not resize the desktop chat container", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const cssSource = readSource("app/styles/components/chat-focus.css");
 
-  assert.match(chatBodySource, /chat-container--workspace-return-morph/);
-  assert.match(chatBodySource, /const WORKSPACE_RETURN_MORPH_SETTLE_MS = 760;/);
-  assert.match(
-    chatBodySource,
-    /setWorkspaceReturnTransitioning\(false\);[\s\S]*?WORKSPACE_RETURN_MORPH_SETTLE_MS/
-  );
+  assert.doesNotMatch(chatBodySource, /chat-container--workspace-return-morph/);
+  assert.doesNotMatch(chatBodySource, /WORKSPACE_RETURN_MORPH_SETTLE_MS/);
+  assert.doesNotMatch(chatBodySource, /workspaceReturnMorphing/);
+  assert.doesNotMatch(chatBodySource, /workspaceReturnTransitioning/);
   assert.doesNotMatch(
     cssSource,
     /workspace-guide-morph-size/
@@ -138,63 +231,21 @@ test("workspace route handoff does not resize the desktop chat container", () =>
   );
 });
 
-test("workspace route return marks plain session restores without setting global pending classes", async () => {
-  const morph = await import("../../lib/workspacePanelMorph.js");
+test("workspace route return keeps restores local to the chat page", async () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
-  const added = new Set();
-  const removed = new Set();
-  const classList = {
-    add(value) {
-      added.add(value);
-      removed.delete(value);
-    },
-    remove(value) {
-      removed.add(value);
-      added.delete(value);
-    }
-  };
-  const previousWindow = globalThis.window;
-  const previousDocument = globalThis.document;
-
-  globalThis.window = {
-    sessionStorage: {
-      setItem() {}
-    }
-  };
-  globalThis.document = {
-    documentElement: { classList },
-    body: { classList }
-  };
-
-  try {
-    morph.markWorkspacePanelMorph("collapse", "/vestlus");
-    assert.equal(added.has("chat-workspace-return-pending"), false);
-    assert.equal(removed.has("chat-workspace-return-pending"), false);
-  } finally {
-    globalThis.window = previousWindow;
-    globalThis.document = previousDocument;
-  }
 
   assert.match(
     chatBodySource,
     /resolveWorkspaceRestoreTransition\(morphState,\s*\{[\s\S]*?reduceMotion:\s*prefs\?\.reduceMotion[\s\S]*?\}\)/
   );
-  assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
+  assert.doesNotMatch(chatBodySource, /setWorkspaceReturnMorphing/);
+  assert.doesNotMatch(chatBodySource, /setWorkspaceReturnTransitioning/);
 });
 
-test("workspace route return uses the collapse marker for a settled restore without physical morph", async () => {
-  const {
-    resolveWorkspaceRestoreTransition,
-    WORKSPACE_PANEL_MORPH_DELAY_MS,
-    WORKSPACE_PANEL_MORPH_MS
-  } = await import("../../lib/workspacePanelMorph.js");
+test("workspace route return restores the dashboard without collapse markers", async () => {
+  const { resolveWorkspaceRestoreTransition } = await import("../../lib/workspacePanelMorph.js");
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
-
-  assert.ok(
-    WORKSPACE_PANEL_MORPH_MS === WORKSPACE_PANEL_MORPH_DELAY_MS,
-    "workspace return timing should stay aligned with the collapse marker"
-  );
 
   assert.deepEqual(resolveWorkspaceRestoreTransition({ direction: "collapse" }), {
     suppressOpenTransition: true,
@@ -208,8 +259,8 @@ test("workspace route return uses the collapse marker for a settled restore with
   });
 
   assert.match(chatBodySource, /setWorkspaceSuppressOpenTransition\(restoreTransition\.suppressOpenTransition\);/);
-  assert.match(chatBodySource, /setWorkspaceReturnMorphing\(restoreTransition\.returnMorphing\);/);
-  assert.match(chatBodySource, /setWorkspaceReturnTransitioning\(restoreTransition\.returnTransitioning\);/);
+  assert.doesNotMatch(chatBodySource, /setWorkspaceReturnMorphing/);
+  assert.doesNotMatch(chatBodySource, /setWorkspaceReturnTransitioning/);
 
   assert.doesNotMatch(workspaceCss, /workspace-dashboard-panel--route-handoff/);
   assert.doesNotMatch(workspaceCss, /opacity:\s*0\.86/);
@@ -219,8 +270,9 @@ test("workspace route return uses the collapse marker for a settled restore with
   );
   assert.match(
     workspaceCss,
-    /\.panel\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
+    /\.panel\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
   );
+  assert.match(workspaceCss, /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;/);
   assert.doesNotMatch(
     workspaceCss,
     /workspace-dashboard-content-release|workspace-dashboard-card-release|workspace-morph-surface-breathe/

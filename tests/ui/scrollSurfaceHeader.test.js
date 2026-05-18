@@ -11,6 +11,10 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   const covision = read("components/covision/CovisionPage.jsx");
   const workspaceFeature = read("components/workspace/WorkspaceFeaturePage.jsx");
   const framework = read("components/alalehed/TooalaseRaamistikuBody.jsx");
+  const features = read("components/alalehed/VoimalusedBody.jsx");
+  const pricing = read("components/alalehed/HinnastusBody.jsx");
+  const author = read("components/alalehed/AutoriltBody.jsx");
+  const invite = read("components/invite/InviteModal.jsx");
   const helpersCss = read("app/styles/utilities/helpers.css");
   const mobileCss = read("app/styles/mobile.css");
 
@@ -24,19 +28,45 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   assert.match(workspaceFeature, /backClassName=\{!isServiceMap \? "workspace-scroll-back-button" : null\}/);
 
   assert.match(framework, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}[\s\S]*?backClassName="policy-scroll-back-button"/);
+  for (const source of [framework, features, pricing, author]) {
+    assert.match(source, /direct-scroll-surface/);
+  }
 
   for (const css of [helpersCss, mobileCss]) {
     assert.match(css, /\.workspace-scroll-surface\.workspace-guide-panel > \.workspace-guide-panel-scroll\s*\{/);
+    assert.match(css, /--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\)/);
     assert.match(css, /mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/);
-    assert.match(css, /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.55rem\s*!important;/);
+    assert.match(css, /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*calc\(var\(--workspace-guide-panel-overscan-top,\s*0px\) \+ 0\.55rem\)\s*!important;/);
   }
 
+  assert.match(invite, /invite-modal-content--workspace/);
+  assert.doesNotMatch(invite, /invite-modal-content--workspace workspace-scroll-surface/);
+  assert.match(invite, /isWorkspaceReturn \? "!overflow-y-auto" : "!overflow-y-hidden"/);
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.06rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?env\(safe-area-inset-top,\s*0px\) \+ 0\.22rem[\s\S]*?clamp\(calc\(0\.4 \* var\(--base-rem,\s*16px\)\),\s*1\.4vh,\s*calc\(1\.1 \* var\(--base-rem,\s*16px\)\)\)[\s\S]*?var\(--workspace-guide-panel-pad-top/
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?overflow-y:\s*auto\s*!important;/
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.0825rem\)\s*!important;/
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.invite-modal-scroll\.workspace-guide-panel-scroll\s*\{[\s\S]*?overflow:\s*visible\s*!important;/
+  );
+
+  assert.match(mobileCss, /\.direct-scroll-surface\s*\{[\s\S]*?padding-top:\s*0\s*!important;/);
+  assert.match(
+    mobileCss,
+    /\.direct-scroll-surface > \.glass-subpage-header:first-child\s*\{[\s\S]*?margin-top:\s*var\(--direct-scroll-surface-header-offset\)\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /\.direct-scroll-surface > \.glass-subpage-back-button:first-child \+ \.glass-subpage-header\s*\{[\s\S]*?margin-top:\s*var\(--direct-scroll-surface-header-offset\)\s*!important;/
+  );
+
+  assert.match(
+    mobileCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.06rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\)[\s\S]*?env\(safe-area-inset-top,\s*0px\) \+ 0\.22rem[\s\S]*?clamp\(calc\(0\.4 \* var\(--base-rem,\s*16px\)\),\s*1\.4vh,\s*calc\(1\.1 \* var\(--base-rem,\s*16px\)\)\)[\s\S]*?var\(--workspace-guide-panel-pad-top/
+  );
+  assert.match(
+    mobileCss,
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\)[\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.0825rem[\s\S]*?\)\s*!important;/
   );
 });
