@@ -39,7 +39,7 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 import chromadb
 
 # OpenAI embeddings
-from openai import OpenAI
+from openai import OpenAI, OpenAIError, RateLimitError
 
 # Optional tiktoken for token-aware chunking
 try:
@@ -1092,7 +1092,20 @@ def _embed_batch_with_usage(texts: List[str]) -> Dict[str, object]:
             "cost_read_directly": False,
         }
     started = perf_counter()
-    resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
+    try:
+        resp = oa.embeddings.create(model=EMBED_MODEL, input=texts)
+    except RateLimitError as exc:
+        logger.warning("OpenAI embeddings quota/rate limit error: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="OpenAI embeddings quota/rate limit error. Check OPENAI_API_KEY billing/quota for the RAG service.",
+        ) from exc
+    except OpenAIError as exc:
+        logger.exception("OpenAI embeddings request failed")
+        raise HTTPException(
+            status_code=502,
+            detail=f"OpenAI embeddings request failed: {exc.__class__.__name__}",
+        ) from exc
     latency_ms = (perf_counter() - started) * 1000
     usage = getattr(resp, "usage", None)
     return {
