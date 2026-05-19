@@ -15,8 +15,11 @@ test("policy pages use the scroll-surface back header pattern", () => {
   for (const source of [guide, terms, privacy]) {
     assert.match(source, /policy-scroll-page-ring/);
     assert.match(source, /policy-scroll-page-scroller/);
-    assert.match(source, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}[\s\S]*?backClassName="policy-scroll-back-button"/);
+    assert.match(source, /workspace-scroll-surface/);
+    assert.match(source, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}[\s\S]*?backClassName="workspace-scroll-back-button"/);
+    assert.doesNotMatch(source, /backClassName="policy-scroll-back-button"/);
     assert.doesNotMatch(source, /glassPageBackMobileBottomCenterClassName|glassPolicyBackButtonClassName/);
+    assert.doesNotMatch(source, /titleClassName=/);
   }
 
   assert.doesNotMatch(terms, /import CloseButton|import BackButton/);
@@ -45,6 +48,10 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileCss,
+    /\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?--workspace-guide-panel-overscan-top:\s*var\(--policy-scroll-overscan-top\);[\s\S]*?--workspace-guide-panel-overscan-bottom:\s*var\(--policy-scroll-overscan-bottom\);/
+  );
+  assert.match(
+    mobileCss,
     /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?--policy-scroll-overscan-top:\s*clamp\(2\.2rem,\s*8vh,\s*3rem\);/
   );
   assert.doesNotMatch(mobileCss, /scroll-snap-type:\s*y mandatory\s*!important;/);
@@ -54,6 +61,11 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\)[\s\S]*?env\(safe-area-inset-top,\s*0px\)[\s\S]*?0\.2rem[\s\S]*?\)\s*!important;/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.06rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\) \+[\s\S]*?0\.0825rem[\s\S]*?\)\s*!important;/
   );
+  assert.equal(mobileCss.includes('--mobile-common-title-top: 2.18rem;'), true);
+  assert.doesNotMatch(mobileCss, /\.policy-mobile-tall \.policy-mobile-title-wrap/);
+  assert.equal(mobileCss.includes('html:not([data-platform="android"]) .policy-mobile-title-wrap'), false);
+  assert.equal(mobileCss.includes('html[data-platform="android"] .policy-mobile-title-wrap'), false);
+  assert.equal(mobileCss.includes('body[data-platform="android"] .policy-mobile-title-wrap'), false);
 });

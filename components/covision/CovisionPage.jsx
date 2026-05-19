@@ -10,6 +10,7 @@ import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import Input from "@/components/ui/Input";
 import OptionCard from "@/components/ui/OptionCard";
+import PageInfoButton from "@/components/ui/PageInfoButton";
 import Textarea from "@/components/ui/Textarea";
 import { cn } from "@/components/ui/cn";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
@@ -47,11 +48,11 @@ const surfaceClassName =
   `documents-workspace workspace-feature-panel workspace-scroll-surface covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
-  `px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.58rem,2.2vw,0.78rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
+  `[--workspace-subpage-header-margin-bottom:0.04rem] [--workspace-subpage-title-margin-top:clamp(1rem,2.2vh,1.35rem)] [--workspace-subpage-title-margin-bottom:0.04rem] px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+  `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.48rem] px-[0.05rem] pt-[0.36rem] pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -227,7 +228,7 @@ function Field({ label, children, className }) {
   );
 }
 
-function SelectField({ value, onChange, options, ariaLabel, className, openDirection }) {
+function SelectField({ value, onChange, options, ariaLabel, className, openDirection = "down" }) {
   return (
     <GlowField className={cn("covision-glow-field covision-glow-dropdown", className)}>
       <DocumentsDropdown
@@ -916,6 +917,32 @@ export default function CovisionPage() {
           styles.surface,
       )}
       >
+        <PageInfoButton
+          title="Kuidas kovisioon ja praktikanäited toimivad"
+          label="Ava kovisiooni lehe info"
+          className="absolute right-[0.55rem] top-[0.55rem] z-[35] max-[768px]:right-[0.2rem] max-[768px]:top-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+0.2rem)]"
+        >
+          <p className="m-0">
+            <strong>Kovisioon</strong> on spetsialistide tööruum keerulisest juhtumist õppimiseks ja järgmiste sammude kokkuleppimiseks. Juhtum tuleb kirjeldada nii, et inimest ei oleks võimalik ära tunda: ära lisa nime, isikukoodi, täpset aadressi, haruldasi äratuntavaid asjaolusid ega muud otseselt tuvastavat infot.
+          </p>
+          <ul>
+            <li><strong>Alusta uut kovisiooni</strong> avab juhtumipüstituse vormi.</li>
+            <li>Kirjuta lühike pealkiri, anonüümne olukorra kirjeldus ja keskne küsimus, millele soovid kolleegide vaadet.</li>
+            <li>Vali teemad, oodatav abi, osapooled, riskid, kaitsetegurid ja vajadusel osalejad.</li>
+            <li>AI-abiga saad teksti korrastada, küsimust täpsustada ja hiljem arutelust kokkuvõtte vormistada.</li>
+            <li>Salvestatud kovisioonid jäävad jaotisse <strong>Minu kovisioonid</strong>, kust saad neid avada, täiendada ja otsingu või teemafiltri abil leida.</li>
+          </ul>
+          <p className="m-0">
+            <strong>Praktikanäited</strong> on üldistatud õppetunnid lahendustest, mis on töös aidanud. Need ei ole konkreetse inimese toimikud, vaid lühikesed teadmuskirjed, mida saab hiljem sarnaste olukordade lahendamisel kasutada.
+          </p>
+          <ul>
+            <li><strong>Lisa praktikanäide</strong> avab vormi toimiva lahenduse kirjeldamiseks.</li>
+            <li>Kirjelda tausta, peamist väljakutset, mis aitas, teenuse või võrgustiku rolli, tulemust, õppetunde ja piiranguid.</li>
+            <li>Seo näide vajadusel kovisiooniga, lisa teemad ja sildid ning salvesta see jaotisse <strong>Praktikanäited</strong>.</li>
+            <li>Otsing ja teemafilter töötavad nii kovisioonide kui praktikanäidete pealkirjade, küsimuste, teemade ja siltide pealt.</li>
+          </ul>
+        </PageInfoButton>
+
         <div className={bodyClassName}>
           <GlassSubpageHeader
             onBack={handleBack}
@@ -926,10 +953,6 @@ export default function CovisionPage() {
           >
             {t("chat.workspace.cards.kovision.title", "Kovisioon")}
           </GlassSubpageHeader>
-
-          <p className={cn(styles.lead, "mx-auto m-0 mt-[-2rem] mb-[-2rem] max-w-[58rem] text-left text-[1.06rem] leading-[1.5] max-[768px]:mt-[-1.25rem] max-[768px]:mb-[-1.25rem] max-[768px]:text-[1rem]")}>
-            Kovisioon on turvaline tööruum, kus spetsialistid saavad anonüümselt sõnastatud juhtumeid arutada, vaatenurki koguda ja järgmisi samme kokku leppida. Praktikanäited koondavad lühikesed üldistatud õppetunnid lahendustest, mis on töös päriselt aidanud.
-          </p>
 
           <Notice type="error">{error}</Notice>
           <Notice>{notice}</Notice>
@@ -970,7 +993,7 @@ export default function CovisionPage() {
                       value={topicFilter}
                       onChange={setTopicFilter}
                       ariaLabel="Teemafilter"
-                      openDirection="up"
+                      openDirection="down"
                       options={[{ value: "", label: "Kõik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
                     />
                   </div>

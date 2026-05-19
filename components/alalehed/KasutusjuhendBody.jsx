@@ -118,6 +118,7 @@ export default function KasutusjuhendBody() {
               scrollClassName,
               "guide-policy-scroll",
               "policy-scroll-page-scroller",
+              "workspace-scroll-surface",
               !layoutReady ? "guide-policy-scroll--layout-init" : null,
               !isExpandedLayout ? "pb-[4.2rem] max-[768px]:pb-[4.8rem]" : null,
               isExpandedLayout ? "glass-ring-scroll--open" : null,
@@ -137,9 +138,8 @@ export default function KasutusjuhendBody() {
               holdPressedVisualDisabled
               anchorBack={false}
               titleId="kasutusjuhend-title"
-              backClassName="policy-scroll-back-button"
+              backClassName="workspace-scroll-back-button"
               backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
-              titleClassName={cn(!layoutReady ? "guide-policy-title--layout-init" : null)}
             >
               {t("about.guide.short_title")}
             </GlassSubpageHeader>

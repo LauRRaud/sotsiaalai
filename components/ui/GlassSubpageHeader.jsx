@@ -90,7 +90,7 @@ export function GlassSubpageHeader({
   backClassName,
   backIconClassName,
   rightSlot,
-  anchorBack = true
+  anchorBack = false
 }) {
   const backButtonRef = useRef(null);
   const [backAnchorStyle, setBackAnchorStyle] = useState(null);

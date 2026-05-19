@@ -181,7 +181,7 @@ export default function UuendaPinBody() {
           onClick={handleBack}
           ariaLabel={backLabel}
           holdPressedVisualDisabled
-          className={glassPageBackMobileBottomCenterClassName}
+          className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`}
         />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>

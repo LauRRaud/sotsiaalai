@@ -85,7 +85,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
 });
 
-test("shared subpage header anchors the back icon to the visible glass surface", () => {
+test("shared subpage header keeps back icons in the scroll flow by default", () => {
   const headerSource = readSource("components/ui/GlassSubpageHeader.jsx");
   const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
   const glassStyles = readSource("app/styles/components/glass.css");
@@ -110,7 +110,7 @@ test("shared subpage header anchors the back icon to the visible glass surface",
   assert.match(headerSource, /const targetLeft = anchorRect\.left \+ insets\.left/);
   assert.match(headerSource, /const targetTop = anchorRect\.top \+ insets\.top \+ workspaceRingTopInset/);
   assert.match(headerSource, /currentLeft \+ deltaLeft/);
-  assert.match(headerSource, /anchorBack = true/);
+  assert.match(headerSource, /anchorBack = false/);
   assert.match(headerSource, /const shouldAnchorBack = Boolean\(hasBack && anchorBack\)/);
   assert.match(headerSource, /className=\{cn\([\s\S]*glassSubpageBackButtonClassName,[\s\S]*backAnchorStyle \? "glass-subpage-back-button--anchored" : null/);
 

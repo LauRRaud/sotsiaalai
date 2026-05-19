@@ -103,7 +103,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.0825rem/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\) \+[\s\S]*?0\.0825rem/
   );
   assert.match(mobileCss, /\.policy-mobile-title--static\s*\{[\s\S]*?white-space:\s*normal\s*!important;[\s\S]*?text-wrap:\s*balance\s*!important;/);
   assert.match(documentsCss, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);

@@ -167,7 +167,7 @@ export default function UuendaEpostiBody() {
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={glassPageBackMobileBottomCenterClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`} />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>
             {t("profile.email_update.title")}

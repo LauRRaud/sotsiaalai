@@ -2132,7 +2132,6 @@ html[data-ui-scale="lg"] .glass-ring-expand-toggle .glass-ring-expand-icon--lg {
 
 .guide-policy-ring--layout-init,
 .guide-policy-ring--layout-init::before,
-.guide-policy-title--layout-init,
 .guide-policy-content--layout-init,
 .guide-policy-scroll--layout-init {
   transition: none !important;

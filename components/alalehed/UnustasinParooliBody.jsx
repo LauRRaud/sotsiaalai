@@ -106,7 +106,7 @@ export default function UnustasinParooliBody() {
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
-        <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackMobileBottomCenterClassName} />
+        <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`} />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>
             {title}

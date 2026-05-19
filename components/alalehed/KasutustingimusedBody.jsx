@@ -142,7 +142,7 @@ export default function KasutustingimusedBody() {
         <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="terms-title">
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
-            className={cn(scrollClassName, "policy-page-scroll", "policy-scroll-page-scroller", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
+            className={cn(scrollClassName, "policy-page-scroll", "policy-scroll-page-scroller", "workspace-scroll-surface", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
             style={{ zIndex: 0 }}
             tabIndex={0}
             aria-labelledby="terms-title"
@@ -155,7 +155,7 @@ export default function KasutustingimusedBody() {
               holdPressedVisualDisabled
               anchorBack={false}
               titleId="terms-title"
-              backClassName="policy-scroll-back-button"
+              backClassName="workspace-scroll-back-button"
               backIconClassName="group-hover:!scale-[1.12] group-focus-visible:!scale-[1.12]"
             >
               {termsTitle}

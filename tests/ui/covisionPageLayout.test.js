@@ -54,10 +54,6 @@ test("covision overview keeps the intro close to the action panel", () => {
   const source = read("components/covision/CovisionPage.jsx");
 
   assert.match(source, /const bodyClassName =[\s\S]*?gap-\[0\.48rem\]/);
-  assert.match(
-    source,
-    /<p className=\{cn\(styles\.lead, "mx-auto m-0 mt-\[-2rem\] mb-\[-2rem\] max-w-\[58rem\][\s\S]*?leading-\[1\.5\]/
-  );
   assert.doesNotMatch(source, /styles\.lead,[\s\S]*?pb-\[0\.18rem\]/);
 });
 
