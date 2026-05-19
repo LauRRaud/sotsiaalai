@@ -9,6 +9,8 @@ function read(path) {
 test("workspace feature pages keep mobile safe areas without activating PWA layout mode", () => {
   const mobileCss = read("app/styles/mobile.css");
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
+  const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
+  const particles = read("components/backgrounds/Particles.jsx");
 
   assert.match(
     mobileCss,
@@ -37,6 +39,18 @@ test("workspace feature pages keep mobile safe areas without activating PWA layo
   assert.doesNotMatch(
     mobileCss,
     /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /data-display-mode="browser"/
+  );
+  assert.doesNotMatch(
+    backgroundLayer,
+    /data-display-mode|display-mode:\s*(?:standalone|fullscreen)|browserMobileMode/
+  );
+  assert.doesNotMatch(
+    particles,
+    /display-mode:\s*(?:standalone|fullscreen)|navigator\?\.standalone|isStandaloneDisplay/
   );
   assert.doesNotMatch(
     mobileCss,
@@ -72,6 +86,6 @@ test("workspace feature pages keep mobile safe areas without activating PWA layo
   );
   assert.match(
     mobileCss,
-    /\.workspace-feature-panel \.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*clamp\(0\.95rem,\s*2\.8vh,\s*1\.25rem\)\s*!important;/
+    /:is\([\s\S]*?\.policy-mobile-title-wrap,[\s\S]*?\.glass-subpage-title-wrap,[\s\S]*?\.workspace-guide-panel \.glass-subpage-title-wrap,[\s\S]*?\.workspace-feature-panel \.glass-subpage-title-wrap[\s\S]*?\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-common-title-top\)\s*!important;/
   );
 });

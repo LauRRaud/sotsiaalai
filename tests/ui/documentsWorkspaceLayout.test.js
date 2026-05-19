@@ -99,7 +99,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[\s\S]*?documents-workspace-shell/);
   assert.doesNotMatch(
     mobileCss,
-    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)[\s\S]*?\.documents-workspace-shell[\s\S]*?\.workspace-scroll-back-button/
+    /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s+\.documents-workspace-shell[^{]*\.workspace-scroll-back-button\s*\{/
   );
   assert.match(
     mobileCss,

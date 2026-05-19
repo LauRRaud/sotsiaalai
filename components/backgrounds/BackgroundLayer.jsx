@@ -83,14 +83,6 @@ function resolveThemeFromDom() {
   if (html.classList.contains("theme-light")) return "light";
   return "dark";
 }
-function resolveDisplayModeFromDom() {
-  if (typeof document === "undefined") return "browser";
-  return (
-    document.documentElement?.getAttribute("data-display-mode") ||
-    document.body?.getAttribute("data-display-mode") ||
-    "browser"
-  );
-}
 function resolvePlatformFromDom() {
   if (typeof document === "undefined") return "";
   return (
@@ -119,11 +111,8 @@ const BackgroundContent = memo(function BackgroundContent({
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);
-  const [displayMode, setDisplayMode] = useState("browser");
   const [platform, setPlatform] = useState("");
-  const browserMobileMode =
-    displayMode === "browser" && (mobileLike || platform === "android" || platform === "ios");
-  const mobileBackgroundMode = mobileLike || browserMobileMode;
+  const mobileBackgroundMode = mobileLike || platform === "android" || platform === "ios";
   const mobileColorBendsPhase = 14;
   const allowParticles = showParticles && deviceProfileReady;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
@@ -160,7 +149,6 @@ const BackgroundContent = memo(function BackgroundContent({
     const body = document.body;
     const compute = () => {
       setMobileLike(detectMobileLikeDevice());
-      setDisplayMode(resolveDisplayModeFromDom());
       setPlatform(resolvePlatformFromDom());
       setDeviceProfileReady(true);
     };
@@ -168,13 +156,13 @@ const BackgroundContent = memo(function BackgroundContent({
     if (html) {
       layoutObserver.observe(html, {
         attributes: true,
-        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
+        attributeFilter: ["data-layout", "data-platform"]
       });
     }
     if (body) {
       layoutObserver.observe(body, {
         attributes: true,
-        attributeFilter: ["data-layout", "data-display-mode", "data-platform"]
+        attributeFilter: ["data-layout", "data-platform"]
       });
     }
     compute();
@@ -409,10 +397,7 @@ const BackgroundContent = memo(function BackgroundContent({
       const rootIsScrollable =
         isUsableElement(homepageRoot) &&
         homepageRoot.scrollHeight > homepageRoot.clientHeight + 1;
-      if (
-        resolveDisplayModeFromDom() === "browser" &&
-        rootIsScrollable
-      ) {
+      if (rootIsScrollable) {
         return homepageRoot.scrollTop;
       }
       return (

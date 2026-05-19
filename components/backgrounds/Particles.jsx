@@ -88,10 +88,6 @@ const Particles = ({
     if (!container) return;
     const isMobile = window.matchMedia && window.matchMedia("(max-width: 768px)").matches || document.body?.getAttribute("data-layout") === "mobile";
     const isMobileLike = isMobile || window.matchMedia?.("(pointer: coarse)")?.matches || window.matchMedia?.("(hover: none)")?.matches;
-    const isStandaloneDisplay =
-      window.matchMedia?.("(display-mode: standalone)")?.matches ||
-      window.matchMedia?.("(display-mode: fullscreen)")?.matches ||
-      window.navigator?.standalone === true;
     const viewportWidth = Math.max(
       window.innerWidth || 0,
       window.visualViewport?.width || 0
@@ -113,10 +109,10 @@ const Particles = ({
     const cfg = {
       count: isMobile
         ? Math.max(
-            isStandaloneDisplay ? 128 : 116,
+            116,
             Math.round(
               particleCount *
-                (isStandaloneDisplay ? 1.08 : 0.98) *
+                0.98 *
                 mobileAreaFactor
             )
           )

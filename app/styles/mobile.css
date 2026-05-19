@@ -50,10 +50,6 @@
   }
 
   body.homepage {
-    background: transparent;
-  }
-
-  html[data-display-mode="browser"] body.homepage {
     position: relative;
     isolation: isolate;
     background: var(--home-browser-base-bg, #0d111b);
@@ -64,7 +60,7 @@
     overscroll-behavior: none;
   }
 
-  html[data-display-mode="browser"] .homepage-root {
+  .homepage-root {
     height: 100dvh;
     min-height: 100dvh;
     overflow-y: auto;
@@ -76,7 +72,7 @@
     scrollbar-width: none;
   }
 
-  html[data-display-mode="browser"] .homepage-root::-webkit-scrollbar {
+  .homepage-root::-webkit-scrollbar {
     width: 0;
     height: 0;
   }
@@ -398,8 +394,7 @@
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"],
-  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] {
+  [data-bg-layer][data-page="home"] {
     top: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
@@ -408,10 +403,10 @@
     height: auto !important;
     min-height: 0 !important;
   }
-  html.theme-light[data-display-mode="browser"] {
+  html.theme-light {
     --home-browser-base-bg: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
   }
-  html.theme-mid[data-display-mode="browser"] {
+  html.theme-mid {
     --home-browser-base-bg: linear-gradient(
       180deg,
       var(--mid-bg-top) 0%,
@@ -419,14 +414,14 @@
       var(--mid-bg-bottom) 100%
     );
   }
-  html.theme-night[data-display-mode="browser"] {
+  html.theme-night {
     --home-browser-base-bg: radial-gradient(
       ellipse at top,
       #1b2735 0%,
       #090a0f 100%
     );
   }
-  html:not(.theme-light):not(.theme-mid):not(.theme-night)[data-display-mode="browser"] {
+  html:not(.theme-light):not(.theme-mid):not(.theme-night) {
     --home-browser-base-bg: radial-gradient(
       ellipse at top,
       #2b3037 0%,
@@ -434,54 +429,51 @@
     );
   }
   @supports selector(html:has([data-bg-layer][data-page="home"])) {
-    html.theme-light[data-display-mode="browser"]:has(
+    html.theme-light:has(
         [data-bg-layer][data-page="home"]
       ),
-    html.theme-light[data-display-mode="browser"]:has(
+    html.theme-light:has(
         [data-bg-layer][data-page="home"]
       )
       body.app-root {
       background: var(--home-browser-base-bg);
     }
-    html.theme-mid[data-display-mode="browser"]:has(
+    html.theme-mid:has(
         [data-bg-layer][data-page="home"]
       ),
-    html.theme-mid[data-display-mode="browser"]:has(
+    html.theme-mid:has(
         [data-bg-layer][data-page="home"]
       )
       body.app-root {
       background: var(--home-browser-base-bg);
     }
-    html.theme-night[data-display-mode="browser"]:has(
+    html.theme-night:has(
         [data-bg-layer][data-page="home"]
       ),
-    html.theme-night[data-display-mode="browser"]:has(
+    html.theme-night:has(
         [data-bg-layer][data-page="home"]
       )
       body.app-root {
       background: var(--home-browser-base-bg);
     }
-    html:not(.theme-light):not(.theme-mid):not(.theme-night)[data-display-mode="browser"]:has(
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):has(
         [data-bg-layer][data-page="home"]
       ),
-    html:not(.theme-light):not(.theme-mid):not(.theme-night)[data-display-mode="browser"]:has(
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):has(
         [data-bg-layer][data-page="home"]
       )
       body.app-root {
       background: var(--home-browser-base-bg);
     }
   }
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop,
-  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .bg-space-layer,
-  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .space-backdrop {
+  [data-bg-layer][data-page="home"] .bg-space-layer,
+  [data-bg-layer][data-page="home"] .space-backdrop {
     top: 0 !important;
     bottom: auto !important;
     height: 100% !important;
     min-height: 100% !important;
   }
-  html[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container,
-  body[data-display-mode="browser"] [data-bg-layer][data-page="home"] .particles-container {
+  [data-bg-layer][data-page="home"] .particles-container {
     top: calc(var(--bg-overscan, 0px) * -1) !important;
     bottom: auto !important;
     height: 100% !important;
@@ -494,12 +486,9 @@
     bottom: 0 !important;
     left: 0 !important;
   }
-  html[data-display-mode="browser"] .homepage-root .home-about-panel,
-  html[data-display-mode="browser"] .homepage-root .home-about-scrollbox,
-  html[data-display-mode="browser"] .homepage-root .home-about-scrollbox > *,
-  body[data-display-mode="browser"] .homepage-root .home-about-panel,
-  body[data-display-mode="browser"] .homepage-root .home-about-scrollbox,
-  body[data-display-mode="browser"] .homepage-root .home-about-scrollbox > * {
+  .homepage-root .home-about-panel,
+  .homepage-root .home-about-scrollbox,
+  .homepage-root .home-about-scrollbox > * {
     contain: none !important;
     will-change: auto !important;
     transform: none !important;
@@ -3420,89 +3409,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 }
 
 @media (max-width: 768px) {
-  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
-    --workspace-guide-panel-overscan-top: clamp(2.2rem, 8vh, 3rem);
-    --workspace-guide-panel-overscan-bottom: calc(
-      var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) +
-        clamp(0.9rem, 2.2vh, 1.35rem)
-    );
-    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
-    height: calc(
-      100% + var(--glass-ring-pad-top, 0.6rem) +
-        var(--workspace-guide-panel-overscan-top) +
-        var(--workspace-guide-panel-overscan-bottom)
-    ) !important;
-    max-height: calc(
-      100% + var(--glass-ring-pad-top, 0.6rem) +
-        var(--workspace-guide-panel-overscan-top) +
-        var(--workspace-guide-panel-overscan-bottom)
-    ) !important;
-    margin-top: calc(
-      0px - var(--glass-ring-pad-top, 0.6rem) -
-        var(--workspace-guide-panel-overscan-top)
-    ) !important;
-    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
-    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
-    padding-right: var(--glass-ring-pad-x, 1rem) !important;
-    padding-left: var(--glass-ring-pad-x, 1rem) !important;
-    padding-top: calc(
-      var(--glass-ring-pad-top, 0.6rem) +
-        var(--workspace-guide-panel-overscan-top) + clamp(0.02rem, 0.35vh, 0.18rem)
-    ) !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-  }
-
-  .workspace-scroll-surface .workspace-scroll-back-button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
-  }
-
-  .workspace-dashboard-panel .glass-subpage-title-wrap {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 0.94rem) !important;
-  }
-
-  .workspace-scroll-surface.workspace-guide-panel.workspace-feature-panel {
-    overflow-y: hidden !important;
-  }
-
-  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
-    padding-top: calc(
-      var(--mobile-safe-top, env(safe-area-inset-top, 0px)) +
-        var(--glass-ring-pad-top, 0.6rem) +
-        var(--workspace-guide-panel-overscan-top, 0px) +
-        clamp(0.02rem, 0.35vh, 0.18rem)
-    ) !important;
-    padding-bottom: 0 !important;
-  }
-
-  .workspace-scroll-surface .workspace-scroll-back-button {
-    top: calc(
-      var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.0825rem
-    ) !important;
-  }
-
-  .workspace-feature-panel .glass-subpage-title-wrap {
-    padding-top: clamp(0.95rem, 2.8vh, 1.25rem) !important;
-  }
-
-  .workspace-guide-panel .glass-subpage-title-wrap {
-    padding-top: clamp(0.95rem, 2.8vh, 1.25rem) !important;
-  }
-
-  :is(
-      .workspace-feature-panel.workspace-scroll-surface,
-      .materials-page-content.workspace-scroll-surface
-    ) {
-    --mobile-glass-card-gap: clamp(0.32rem, 1.35vw, 0.4rem);
-    --mobile-glass-card-radius: clamp(1.05rem, 3.8vw, 1.45rem);
-    border-radius: var(--mobile-glass-card-radius) !important;
-    overflow: hidden !important;
-  }
-
-}
-
-@media (max-width: 768px) {
   :root {
     --mobile-common-glass-surface-bg: var(
       --glass-surface-bg,
@@ -3693,6 +3599,62 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       var(--glass-ring-pad-top)
       var(--glass-ring-pad-x)
       calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + 0.9rem) !important;
+  }
+
+  .workspace-scroll-surface.workspace-guide-panel.workspace-feature-panel {
+    overflow-y: hidden !important;
+  }
+
+  .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
+    --workspace-guide-panel-overscan-top: clamp(2.2rem, 8vh, 3rem);
+    --workspace-guide-panel-overscan-bottom: calc(
+      var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) +
+        clamp(0.9rem, 2.2vh, 1.35rem)
+    );
+    box-sizing: border-box !important;
+    position: relative !important;
+    width: calc(100% + var(--glass-ring-pad-x, 1rem) + var(--glass-ring-pad-x, 1rem)) !important;
+    max-width: none !important;
+    height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    ) !important;
+    max-height: calc(
+      100% + var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    ) !important;
+    margin-top: calc(
+      0px - var(--glass-ring-pad-top, 0.6rem) -
+        var(--workspace-guide-panel-overscan-top)
+    ) !important;
+    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;
+    padding-right: var(--glass-ring-pad-x, 1rem) !important;
+    padding-left: var(--glass-ring-pad-x, 1rem) !important;
+    padding-top: calc(
+      var(--mobile-safe-top, env(safe-area-inset-top, 0px)) +
+        var(--glass-ring-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        clamp(0.02rem, 0.35vh, 0.18rem)
+    ) !important;
+    padding-bottom: 0 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    scrollbar-gutter: auto !important;
+  }
+
+  .workspace-scroll-surface .workspace-scroll-back-button {
+    position: absolute !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
+    top: calc(
+      var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.0825rem
+    ) !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)
