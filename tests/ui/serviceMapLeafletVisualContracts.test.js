@@ -131,6 +131,10 @@ test("service map back button uses desktop toolbar panel and mobile page anchor"
   );
   assert.match(
     css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.53rem\)\s*!important[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.37rem\)\s*!important[\s\S]*?display:\s*flex\s*!important/
+  );
+  assert.match(
+    css,
     /\.service-map-toolbar__back\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?box-shadow:\s*none\s*!important/
   );
 });
@@ -163,6 +167,10 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   assert.match(
     css,
     /\.service-map-toolbar__types\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1\.5fr\) minmax\(0,\s*1\.18fr\) minmax\(0,\s*0\.58fr\)/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/
   );
   assert.match(
     css,
@@ -357,7 +365,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*center[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
 });
 
-test("service map popup and two-line toolbar preserve glass and back alignment", () => {
+test("service map popup and desktop one-line toolbar preserve glass and back alignment", () => {
   const css = read("app/styles/components/service-map.css");
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
@@ -379,6 +387,10 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*relative[\s\S]*?top:\s*auto[\s\S]*?left:\s*auto/
+  );
+  assert.match(
+    css,
     /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center[\s\S]*?justify-content:\s*center[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*30rem\)/
   );
   assert.match(
@@ -387,7 +399,7 @@ test("service map popup and two-line toolbar preserve glass and back alignment",
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)[\s\S]*?justify-items:\s*center/
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?display:\s*flex[\s\S]*?flex-wrap:\s*nowrap[\s\S]*?justify-content:\s*center/
   );
   assert.match(
     css,

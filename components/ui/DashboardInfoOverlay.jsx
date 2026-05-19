@@ -213,6 +213,13 @@ function captureSurfaceStyle(source) {
     next.height = `${rect.height}px`;
     next.maxHeight = `${rect.height}px`;
     next["--dashboard-info-panel-height"] = `${rect.height}px`;
+    if (window.matchMedia?.("(min-width: 769px)")?.matches) {
+      const centeredTop = Math.max(0, (window.innerHeight - rect.height) / 2);
+      const centeredOffset = rect.top - centeredTop;
+      if (Math.abs(centeredOffset) > 0.5) {
+        next.marginTop = `${centeredOffset}px`;
+      }
+    }
   }
   if (computed.borderRadius && computed.borderRadius !== "0px") {
     next.borderRadius = computed.borderRadius;
@@ -224,8 +231,12 @@ function captureSurfaceStyle(source) {
   const sourceTitleWrap = surface.querySelector?.(".glass-subpage-title-wrap");
   if (sourceTitleWrap instanceof HTMLElement) {
     const titleWrapStyle = window.getComputedStyle(sourceTitleWrap);
+    const titleWrapRect = sourceTitleWrap.getBoundingClientRect();
+    const surfacePaddingTop = parseFloat(computed.paddingTop || "0") || 0;
+    const titleWrapExtraTop = Math.max(0, titleWrapRect.top - rect.top - surfacePaddingTop);
     next["--dashboard-info-title-wrap-padding-top"] = titleWrapStyle.paddingTop || "0px";
     next["--dashboard-info-title-wrap-padding-bottom"] = titleWrapStyle.paddingBottom || "0px";
+    next["--dashboard-info-title-wrap-extra-top"] = `${titleWrapExtraTop}px`;
   }
   const sourceTitle = surface.querySelector?.(".glass-subpage-title");
   if (sourceTitle instanceof HTMLElement) {

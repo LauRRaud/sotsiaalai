@@ -842,6 +842,11 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   > .dashboard-info-content.workspace-guide-panel-scroll {
   padding-left: clamp(1.4rem, 3vw, 2rem) !important;
   padding-right: clamp(1.4rem, 3vw, 2rem) !important;
+  padding-top: calc(
+    var(--workspace-guide-panel-pad-top, 0.6rem) +
+      var(--workspace-guide-panel-overscan-top) +
+      var(--dashboard-info-title-wrap-extra-top, 0px)
+  ) !important;
 }
 
 .dashboard-info-panel--with-title-metrics
