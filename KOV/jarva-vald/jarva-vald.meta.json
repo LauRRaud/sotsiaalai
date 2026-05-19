@@ -1,12 +1,12 @@
 {
-  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "schemaVersion": "v2.5-sourcepackage",
   "docId": "kov-jarva-vald",
   "document_id": "kov-jarva-vald",
   "municipality": "Järva vald",
   "municipality_id": "jarva_vald",
   "county": "Järvamaa",
   "checkedAt": "2026-04-29",
-  "status": "needs_review",
+  "status": "ingest_ready",
   "collection_id": "kov_services",
   "source_type": "kov_service_info",
   "source_format": "rag_md",
@@ -15,18 +15,31 @@
   "rt_layer_separate": true,
   "expected_rt_docId": "kov-rt-jarva-vald",
   "coverage": {
-    "services": 9,
+    "services": 8,
     "benefits": 10,
     "resources": 9,
     "contacts": 1,
-    "forms": 8
+    "forms": 8,
+    "regulations": 0
   },
   "sourcePackageReadiness": {
+    "ok": true,
+    "collection_id": "kov_services",
+    "municipality_id": "jarva_vald",
+    "source_register_file": "jarva-vald.sources.json",
+    "service_benefit_resource_items": 27,
+    "items_with_source_keys": 27,
+    "items_missing_source_keys": [],
+    "items_with_related_forms": 0,
+    "items_without_related_forms": 27,
+    "items_with_related_contacts": 0,
+    "items_without_related_contacts": 27,
+    "form_sources": 1,
+    "contact_sources": 0,
     "regulation_sources": 0,
-    "has_web_sources": true,
-    "has_rag_markdown": true,
-    "has_structured_json": true,
-    "needs_review": true
+    "warnings": [
+      "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
+    ]
   },
   "notes": [],
   "unresolvedIssues": [
@@ -36,5 +49,24 @@
     "Hoolekandeasutuste lehel viidatakse mitmele välisele hooldekodule (Ahula Pansionaat, Järva‑Jaani Hooldekodu, Koeru Hooldekeskus ja Villa Alfred Peetri), kuid nende teenuste sisu kontrollimiseks tuleks pöörduda väliste saitide poole; pakett sisaldab neid ainult ressursina.",
     "Päevakeskuste lehel kirjeldatakse ka igapäevaelu toetamise teenust, toetatud elamist ja töötamise toetamise teenust, kuid kuna teenuseid osutavad MTÜd koos Sotsiaalkindlustusametiga, liigitati need ressursse alla.",
     "Osade teenuste puhul ei ole täpset taotlusvormi või otsest seost vormi ja teenuse vahel võimalik kinnitada; vormid on lisatud üldise e-taotluste lehe põhjal."
+  ],
+  "municipality_name": "Järva vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29",
+  "ingestReady": true,
+  "country": "EE",
+  "language": "et",
+  "sourceRegisterFile": "jarva-vald.sources.json",
+  "sourceCount": 8,
+  "counts": {
+    "services": 8,
+    "benefits": 10,
+    "resources": 9,
+    "contacts": 1,
+    "forms": 8,
+    "regulations": 0
+  },
+  "warnings": [
+    "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
   ]
 }

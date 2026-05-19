@@ -24,7 +24,37 @@
       "sourceKeys": [
         "voru_linn_contact_page",
         "voru_linn_eluaseme_kohandamine"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page",
+        "voru_linn_eluaseme_kohandamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_terje_kanger",
+      "document_id": "voru_linn_contact_terje_kanger",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "00444ada14d957cd23b31f86af4533c67b055f1af0590493b16843714e9adeb9",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_larisa_bokova",
@@ -39,7 +69,36 @@
       "address": "Tartu 23, kab 3, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_larisa_bokova",
+      "document_id": "voru_linn_contact_larisa_bokova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "683c825cf773f8709bd6dc8cd0af7754fbbeecfef212dec28be71688a702cb77",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_egle_niilus",
@@ -54,7 +113,36 @@
       "address": "Tartu 23, kab 5, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_egle_niilus",
+      "document_id": "voru_linn_contact_egle_niilus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "2621c3a29dbd922972e7abe6ea1c7b82b581057890d5189e07b34e24fe255160",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_marve_koiv",
@@ -69,7 +157,36 @@
       "address": "Tartu 23, kab 9, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_marve_koiv",
+      "document_id": "voru_linn_contact_marve_koiv",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bbfed9ecacb5abbe2df78de1d33d4dde15f4e96540c6280c8615ce7c08cf300b",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_reneth_viirok",
@@ -84,7 +201,36 @@
       "address": "Tartu 23, kab 9, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_reneth_viirok",
+      "document_id": "voru_linn_contact_reneth_viirok",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "86d746829792f9f955a15fb10e3aac04ab1cc44b4a66f2afc4b7b8b48fbab0ac",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_paivi_kahusk",
@@ -99,7 +245,36 @@
       "address": "Tartu 23, kab 7, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_paivi_kahusk",
+      "document_id": "voru_linn_contact_paivi_kahusk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "05aae52f71a232667ed39784bf6257a7b47c60e3a0be4f4770bdd7e7c3a562f0",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_liia_laats",
@@ -114,7 +289,36 @@
       "address": "Tartu 23, 65608 Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_liia_laats",
+      "document_id": "voru_linn_contact_liia_laats",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "87b609a2d3ec944ebee0ce8726a58b69f9a996635f8439021a0f7c375a54720a",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_contact_ulle_lehtna",
@@ -129,7 +333,36 @@
       "address": "F. R. Kreutzwaldi 55, Võru",
       "sourceKeys": [
         "voru_linn_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_contact_ulle_lehtna",
+      "document_id": "voru_linn_contact_ulle_lehtna",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "299303f5cdcda2e3954a131eaff3766fbb202f479f8426ced3f1bc088578bee0",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_koduteenus",
@@ -164,7 +397,36 @@
       ],
       "sourceKeys": [
         "voru_linn_koduteenus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_koduteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_koduteenus",
+      "document_id": "voru_linn_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/koduteenus",
+      "content_hash": "28d69757f130d23fef2119c5c4541103fad40f44a703e310f4f6fb00485d21d0",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_sotsiaaltransport",
@@ -197,7 +459,36 @@
       ],
       "sourceKeys": [
         "voru_linn_sotsiaaltransport"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_sotsiaaltransport"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_sotsiaaltransport",
+      "document_id": "voru_linn_service_sotsiaaltransport",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/sotsiaaltransporditeenus",
+      "content_hash": "f3944fd806735f0816af019daf0121d4effd8887cfa463d22eac999f0160fbc3",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_volanoustamine",
@@ -227,7 +518,36 @@
       ],
       "sourceKeys": [
         "voru_linn_volanoustamine"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_volanoustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_volanoustamine",
+      "document_id": "voru_linn_service_volanoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/volanoustamisteenus",
+      "content_hash": "a187c82ad084944d03a26c93c7cf029940bec6a648635328eac2551928ae1ff0",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_eluruumiteenus",
@@ -255,8 +575,39 @@
         "voru_linn_contact_larisa_bokova"
       ],
       "sourceKeys": [
-        "voru_linn_eluaseme_kohandamine"
-      ]
+        "voru_linn_eluaseme_kohandamine",
+        "voru_linn_service_eluruumiteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_eluaseme_kohandamine",
+        "voru_linn_service_eluruumiteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_eluruumiteenus",
+      "document_id": "voru_linn_service_eluruumiteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/eluruumi-tagamise-teenus",
+      "content_hash": "b59499b4f3b4eaf86d226647114dd4a9825d7eb7a802eb3604e6f46a7cfaf8de",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_turvakoduteenus",
@@ -284,8 +635,39 @@
         "voru_linn_contact_reneth_viirok"
       ],
       "sourceKeys": [
-        "voru_linn_home"
-      ]
+        "voru_linn_home",
+        "voru_linn_service_turvakoduteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_home",
+        "voru_linn_service_turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_turvakoduteenus",
+      "document_id": "voru_linn_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/turvakoduteenus",
+      "content_hash": "bb00ce07731b2d51249fd605f19a00c78ca46554b447cca8f602878eed98d8b7",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_taisealise_hooldus",
@@ -313,8 +695,39 @@
         "voru_linn_contact_larisa_bokova"
       ],
       "sourceKeys": [
-        "voru_linn_home"
-      ]
+        "voru_linn_home",
+        "voru_linn_service_taisealise_hooldus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_home",
+        "voru_linn_service_taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_taisealise_hooldus",
+      "document_id": "voru_linn_service_taisealise_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/taisealise-isiku-hooldus",
+      "content_hash": "35b76a64b94987fc1bf2ad9ca2d8f4888d795550dc8b5301834ad0c73f0197f7",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_varjupaik",
@@ -340,8 +753,39 @@
         "voru_linn_contact_larisa_bokova"
       ],
       "sourceKeys": [
-        "voru_linn_home"
-      ]
+        "voru_linn_home",
+        "voru_linn_service_varjupaik_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_home",
+        "voru_linn_service_varjupaik_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_varjupaik",
+      "document_id": "voru_linn_service_varjupaik",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/varjupaigateenus",
+      "content_hash": "fe5b274743d6b1a37c172e53c41dd7f3af3f2740c18f6cb5722e48210ae92a69",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_valtimatu_abi",
@@ -367,8 +811,39 @@
         "voru_linn_contact_terje_kanger"
       ],
       "sourceKeys": [
-        "voru_linn_home"
-      ]
+        "voru_linn_home",
+        "voru_linn_service_valtimatu_abi_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_home",
+        "voru_linn_service_valtimatu_abi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_valtimatu_abi",
+      "document_id": "voru_linn_service_valtimatu_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/valtimatu-sotsiaalabi",
+      "content_hash": "78579f78c540acdc66ef7822c71c8694675bb7ecf205a3cfb5a14bce8eb46280",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_benefit_matusetoetus",
@@ -398,7 +873,36 @@
       ],
       "sourceKeys": [
         "voru_linn_matusetoetus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_matusetoetus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_benefit_matusetoetus",
+      "document_id": "voru_linn_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/matusetoetus",
+      "content_hash": "8939ffb09fb9b3ad74ef7b5cfe6f5caacecf997263e662f8c5121e1d0c269625",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_benefit_toimetulekutoetus",
@@ -427,7 +931,36 @@
       ],
       "sourceKeys": [
         "voru_linn_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_toimetulekutoetus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_benefit_toimetulekutoetus",
+      "document_id": "voru_linn_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/toimetulekutoetus",
+      "content_hash": "f3e4ad04b51a66e6f6d9c41b0aea5d21efcb765aa637e27e49dd252f58a681c7",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_parkimiskaart",
@@ -452,7 +985,36 @@
       ],
       "sourceKeys": [
         "voru_linn_parkimiskaart"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_parkimiskaart"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_parkimiskaart",
+      "document_id": "voru_linn_service_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/parkimiskaart",
+      "content_hash": "d70449c88cf90ad01630d492cb92d1812806d8312979f45e4d7d34b8a6dc9182",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_service_eluaseme_kohandamine",
@@ -478,7 +1040,36 @@
       ],
       "sourceKeys": [
         "voru_linn_eluaseme_kohandamine"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_eluaseme_kohandamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_service_eluaseme_kohandamine",
+      "document_id": "voru_linn_service_eluaseme_kohandamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/puudega-isiku-eluaseme-kohandamine",
+      "content_hash": "a0d425b058726fefffbb229a4add87518589390f582460020466068d50daf4cf",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_resource_linnasaun",
@@ -492,7 +1083,36 @@
         "voru_linn_linnasaun"
       ],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_linnasaun"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_resource_linnasaun",
+      "document_id": "voru_linn_resource_linnasaun",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/linnasaun",
+      "content_hash": "c539c89fa7356afe925ab5a364c52ca2e7981146e8e9b5e130b86b45ae7af73b",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_resource_noorimaa_tugikodu",
@@ -506,7 +1126,36 @@
         "voru_linn_noorimaa_tugikodu"
       ],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_noorimaa_tugikodu"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_resource_noorimaa_tugikodu",
+      "document_id": "voru_linn_resource_noorimaa_tugikodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/noorimaa-tugikodu",
+      "content_hash": "87f7069ed8118184fe17955eaa7596816b838f3ba8ea8541e0b6ff7ca285de4c",
+      "evidence_allowed": true
     },
     {
       "id": "voru_linn_form_sotsiaaltoetuste_taotlus",
@@ -542,7 +1191,39 @@
       ],
       "sourceKeys": [
         "voru_linn_forms_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "voru_linn",
+      "municipality_name": "Võru linn",
+      "county": "Võrumaa",
+      "source_keys": [
+        "voru_linn_forms_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_linn_form_sotsiaaltoetuste_taotlus",
+      "document_id": "voru_linn_form_sotsiaaltoetuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voru.ee/sites/default/files/documents/2025-05/sotstoetuste_taotlus_2021_0.pdf",
+      "content_hash": "160ca08e94f62ab7b0ce56450a17068063c5c50992b32ba68bd72ef2137cb407",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Võru linn",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

@@ -18,8 +18,8 @@
       "status": "active",
       "summary": "Rõuge vallavalitsuse üldkontakt, kuhu saab saata avaldusi ning pöörduda sotsiaalteenuste ja -toetuste küsimustes. Üldkontakt võtab pöördumised vastu ning suunab need valdkonna ametnikule.",
       "sourceKeys": [
-        "home",
-        "contacts_page"
+        "contacts_page",
+        "home"
       ],
       "name": "Rõuge vallavalitsus",
       "role": "Üldkontakt",
@@ -27,7 +27,37 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_general",
+      "document_id": "rouge_vald_contact_general",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "eac8b48ef61f6af8ba1c5700661d6a544ffad3d895538f00ce9ea04e2e981c3b",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_maivi_liiskmann",
@@ -45,7 +75,36 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_maivi_liiskmann",
+      "document_id": "rouge_vald_contact_maivi_liiskmann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "26ba0791089742e7abc19a8f0a6ee0a498d81be2baa625a3f46019a7f1094932",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_anneli_apitius",
@@ -64,7 +123,37 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_anneli_apitius",
+      "document_id": "rouge_vald_contact_anneli_apitius",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "941e0237c530656b79b5a87123c6bfd6c74c01631e485185212994370ded73e5",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_maire_grosmann",
@@ -82,7 +171,36 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_maire_grosmann",
+      "document_id": "rouge_vald_contact_maire_grosmann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "b493b6e37c0edc2f04d30a48d6916a3a921f8bce106728b2a1168ee67eccd210",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_maie_kalnapenkis",
@@ -100,7 +218,36 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_maie_kalnapenkis",
+      "document_id": "rouge_vald_contact_maie_kalnapenkis",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "998c415c070795a80736b816f293ae3b6ca143ab662033105971e4da189c9039",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_signe_arumae",
@@ -118,7 +265,36 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_signe_arumae",
+      "document_id": "rouge_vald_contact_signe_arumae",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "8857eb1143ba4762ae8f2329122fdc6073e25924ea5e54b215d37d7837cc58d4",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_ilze_koemets",
@@ -137,7 +313,37 @@
       "address": "Tsiistre tee 3, Misso alevik, Rõuge vald",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page",
+        "misso_sotsiaalkeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_ilze_koemets",
+      "document_id": "rouge_vald_contact_ilze_koemets",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "66b9d7d508199297bd0b821e54f60296a939675b8d08ce6b71b249c696399a7a",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_triinu_ulper",
@@ -157,7 +363,38 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page",
+        "lapsehoiu_tugiisik_page",
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_triinu_ulper",
+      "document_id": "rouge_vald_contact_triinu_ulper",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "92b9ad8c4f78226b7514f7e71e45906d031b98a8e1e6c93ab553779e1657eb42",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_marge_valb",
@@ -175,7 +412,36 @@
       "address": "Ööbikuoru 4, Rõuge alevik, Rõuge vald, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_marge_valb",
+      "document_id": "rouge_vald_contact_marge_valb",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "d99bfb96c36e62344e0572082367c9375cacbb583ec6eb34e2b531301fcd4b76",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_sotsiaaltransport",
@@ -193,7 +459,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_sotsiaaltransport",
+      "document_id": "rouge_vald_contact_sotsiaaltransport",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "fb29e8175cfdfec9e7870b384ed969c40dfc401537e73bd3c904dda21f72e288",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_misso_sauna",
@@ -203,8 +498,8 @@
       "status": "active",
       "summary": "Misso sotsiaalmaja saunateenuse kasutamiseks tuleb registreeruda telefonil",
       "sourceKeys": [
-        "saunateenus_page",
-        "misso_sotsiaalkeskus_page"
+        "misso_sotsiaalkeskus_page",
+        "saunateenus_page"
       ],
       "name": "Misso Sotsiaalkeskuse saunateenus",
       "role": "Saunateenuse broneerimine",
@@ -212,7 +507,37 @@
       "address": "Tsiistre tee 3, Misso alevik, Rõuge vald",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "misso_sotsiaalkeskus_page",
+        "saunateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_misso_sauna",
+      "document_id": "rouge_vald_contact_misso_sauna",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "eb1fb7e29a93c284318a3ed4204b048b13568391c4dd3af2d941b51b4535d66f",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_siiri_kuus",
@@ -230,7 +555,36 @@
       "address": "Sänna mnt 4, Rõuge alevik, Võrumaa 66201",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "rouge_hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_siiri_kuus",
+      "document_id": "rouge_vald_contact_siiri_kuus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "077ccd0f59794e06a2f56218f393b5f358885bca99806b9f2669926dbe1fe020",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_contact_ulvi_trahv",
@@ -248,7 +602,36 @@
       "address": "Mendise, Mõniste küla, Rõuge vald, Võrumaa 66002",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "moniste_hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_contact_ulvi_trahv",
+      "document_id": "rouge_vald_contact_ulvi_trahv",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "b3f4ffeee2446165a1c7dda6a0b641882ed7ffa7dedd9d86f19b9eba30d32014",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_sissetulekust_soltumatu_toetuse_taotlus",
@@ -258,9 +641,9 @@
       "status": "active",
       "summary": "Sissetulekust sõltumatu sotsiaaltoetuse taotlus on vorm sünnitoetuse, I klassi astuja toetuse, laste ja noorte prillitoetuse, lapse abivahendite toetuse ning matusetoetuse taotlemiseks. Täidetav PDF kinnitab toetuse valikud ja märgib, et korrektse taotluse korral määratakse toetus hiljemalt 10 tööpäeva jooksul.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "format": "pdf_form",
       "submissionChannels": [
@@ -272,7 +655,38 @@
         "rouge_vald_contact_anneli_apitius"
       ],
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_sissetulekust_soltumatu_toetuse_taotlus",
+      "document_id": "rouge_vald_form_sissetulekust_soltumatu_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2026/03/Taidetav-Lisa-1_Sissetulekust-soltumatu-toetuse-taotlus.pdf",
+      "content_hash": "485f5f7d6395c984d9ba6c92bb4d904b0859cd37adc141469710dc3b8accc215",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_sissetulekust_soltuva_toetuse_taotlus",
@@ -282,9 +696,9 @@
       "status": "active",
       "summary": "Sissetulekust sõltuva sotsiaaltoetuse taotluse vormi kasutatakse täiskasvanu abivahendi toetuse, lasteaiatoidu ja kooli täiendava toidukorra toetuse ning täiendava sotsiaaltoetuse taotlemiseks. Vorm nõuab põhjendust, sissetuleku ja kulude andmeid ning toetust tõendavaid dokumente.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltuva_pdf"
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
       ],
       "format": "pdf_form",
       "submissionChannels": [
@@ -296,7 +710,38 @@
         "rouge_vald_contact_anneli_apitius"
       ],
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_sissetulekust_soltuva_toetuse_taotlus",
+      "document_id": "rouge_vald_form_sissetulekust_soltuva_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2026/03/Taidetav-Lisa-2_Sissetulekust-soltuva-toetuse-taotlus.pdf",
+      "content_hash": "fc1dbaaf44803e315e097ccbe8f80304bcbd34453059b0dca0eed8a28c291284",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_lapsevanema_taotlus_teenuse_saamiseks",
@@ -322,7 +767,37 @@
       "relatedContacts": [
         "rouge_vald_contact_triinu_ulper"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lapsehoiu_tugiisik_page",
+        "lapsevanema_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_lapsevanema_taotlus_teenuse_saamiseks",
+      "document_id": "rouge_vald_form_lapsevanema_taotlus_teenuse_saamiseks",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2025/07/Lapsevanema-taotlus-teenuse-saamiseks.pdf",
+      "content_hash": "203d0791d7d8c0a0ba9ed44262e0b3031e0366c1f92456dc4d3eabbc8cb97715",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_puudega_lapse_hooldajatoetus",
@@ -350,7 +825,37 @@
       "unresolvedIssues": [
         "Faili URL tuvastati KOV lehelt, kuid faili sisu ei olnud tehniliselt avatav."
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "puudega_lapse_hooldajatoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_puudega_lapse_hooldajatoetus",
+      "document_id": "rouge_vald_form_puudega_lapse_hooldajatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2025/07/Puudega-lapse-hooldajatoetuse-taotlus.DOCX.docx",
+      "content_hash": "9e412c61b86aa6da3366b4016667ca136ce216b1b65d41078acd81e35dfaada2",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_taisealise_hooldaja_hooldajatoetus",
@@ -379,7 +884,37 @@
       "unresolvedIssues": [
         "Faili URL tuvastati KOV lehelt, kuid faili sisu ei olnud tehniliselt avatav."
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "taisealise_hooldaja_hooldajatoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_taisealise_hooldaja_hooldajatoetus",
+      "document_id": "rouge_vald_form_taisealise_hooldaja_hooldajatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2025/07/Taisealisele-hooldaja-ja-hooldajatoetuse-maaramise-taotlus.DOCX.docx",
+      "content_hash": "f424d720f4bc584daf058c303b869958964119601dfe5c7b5cf53c5300b609e9",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_sotsiaalteenuste_taotlus",
@@ -405,7 +940,37 @@
       "unresolvedIssues": [
         "Faili URL tuvastati KOV lehelt, kuid faili sisu ei olnud tehniliselt avatav."
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sotsiaalteenuste_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_sotsiaalteenuste_taotlus",
+      "document_id": "rouge_vald_form_sotsiaalteenuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2025/07/sotsiaalteenuste-taotluse-vorm.DOCX.docx",
+      "content_hash": "837faca3e9c0f189eff88bbfc4385520090766702aec620ca4b3d99dc347eff7",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_form_parkimiskaardi_avaldus",
@@ -433,7 +998,37 @@
       "unresolvedIssues": [
         "Faili URL tuvastati KOV lehelt, kuid faili sisu ei olnud tehniliselt avatav."
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "form",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "parkimiskaardi_avaldus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_form_parkimiskaardi_avaldus",
+      "document_id": "rouge_vald_form_parkimiskaardi_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/wp-content/uploads/2025/07/invakaardi_avalduse_vorm_uus-2.doc",
+      "content_hash": "68d81632ce37fe9fac8fa3b144d139363c49e1fcfd69cdf441d8863a669ae751",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_koduteenus",
@@ -470,7 +1065,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_koduteenus",
+      "document_id": "rouge_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduteenus/",
+      "content_hash": "6cda385488591f00f40c7cc22060c4a20c73d71dec85eeb06ac6ebdc501857da",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_asendushooldusteenus",
@@ -503,7 +1127,36 @@
       "relatedContacts": [
         "rouge_vald_contact_triinu_ulper"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "asendushooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_asendushooldusteenus",
+      "document_id": "rouge_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/asendushooldusteenus/",
+      "content_hash": "d8fb7ca52ad5663ca330aba0b5efc2e35564e710715c9909499377a07ea341e4",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_eluruumi_tagamise_teenus",
@@ -540,7 +1193,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "eluruumi_tagamise_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "rouge_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/eluruumi-tagamise-teenus/",
+      "content_hash": "0d231aedffe756fc756702abca84df54e35e0b0d066dfe63f042cb2334b2a3bc",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_isikliku_abistaja_teenus",
@@ -577,7 +1259,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "isikliku_abistaja_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_isikliku_abistaja_teenus",
+      "document_id": "rouge_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "content_hash": "f5ca919a9203bc2257fee52bd3cccdfe36a78aa55418e6effd1b2fb611c77446",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_jarelhooldusteenus",
@@ -612,7 +1323,36 @@
         "rouge_vald_contact_triinu_ulper",
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "jarelhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_jarelhooldusteenus",
+      "document_id": "rouge_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/jarelhooldusteenus/",
+      "content_hash": "637934a852bd9f97d83560a9dde2c6138ad142be57a68d383bd4c06353000d15",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_lapsehoiuteenus",
@@ -647,7 +1387,36 @@
       "relatedContacts": [
         "rouge_vald_contact_triinu_ulper"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lapsehoiu_tugiisik_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_lapsehoiuteenus",
+      "document_id": "rouge_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/lapsehoiu-ja-tugiisikuteenus/",
+      "content_hash": "36221fbcaa267509e17ed4d1fb31f242f070ed8ef226d684b623b3a86faf05b5",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_lapse_tugiisikuteenus",
@@ -682,7 +1451,36 @@
       "relatedContacts": [
         "rouge_vald_contact_triinu_ulper"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lapsehoiu_tugiisik_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_lapse_tugiisikuteenus",
+      "document_id": "rouge_vald_service_lapse_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/lapsehoiu-ja-tugiisikuteenus/",
+      "content_hash": "884c0537420e661829911ac67608f815dacf134cad86bae1c14088083c3d39ce",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_saunateenus",
@@ -692,8 +1490,8 @@
       "status": "active",
       "summary": "Rõuge vald pakub saunateenust Misso Sotsiaalkeskuses. Teenuse hinnad on avaldatud Misso Sotsiaalkeskuse ja saunateenuse lehel: täiskasvanu 5 eurot tund, pensionär või puudega inimene 4 eurot tund, laps või õpilane 3 eurot tund, peresaun 8 eurot tund ning duši kasutamine ilma saunata 3 eurot kord. Teenuse kasutamiseks tuleb registreeruda telefonil.",
       "sourceKeys": [
-        "saunateenus_page",
-        "misso_sotsiaalkeskus_page"
+        "misso_sotsiaalkeskus_page",
+        "saunateenus_page"
       ],
       "targetGroup": "Rõuge valla elanikud, kes vajavad pesemisvõimalust või soovivad kasutada Misso Sotsiaalkeskuse sauna.",
       "conditions": "Teenust kasutatakse ettetellimisel; teenusele tuleb registreeruda.",
@@ -714,7 +1512,37 @@
       "relatedContacts": [
         "rouge_vald_contact_misso_sauna"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "misso_sotsiaalkeskus_page",
+        "saunateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_saunateenus",
+      "document_id": "rouge_vald_service_saunateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/saunateenus/",
+      "content_hash": "998903bb85caf55db92e4a7955f3fd801d660e2e781b305e3141419aaa93fe15",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_sotsiaaltransport",
@@ -747,7 +1575,36 @@
       "relatedContacts": [
         "rouge_vald_contact_sotsiaaltransport"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_sotsiaaltransport",
+      "document_id": "rouge_vald_service_sotsiaaltransport",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/sotsiaaltransport/",
+      "content_hash": "933736ba31dbfe502be8fe296387937fe4ee395063f61ac0a7c2a36fe208c784",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_tugiisikuteenus",
@@ -784,7 +1641,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_tugiisikuteenus",
+      "document_id": "rouge_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/tugiisikuteenus/",
+      "content_hash": "da922d65f88f71c4a590af4405d1eb01833966d07c7f634009f31d307891147c",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_turvakoduteenus",
@@ -819,7 +1705,36 @@
       "relatedContacts": [
         "rouge_vald_contact_general"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_turvakoduteenus",
+      "document_id": "rouge_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/turvakoduteenus/",
+      "content_hash": "fd9e71bd00b896dcf1da8fb53c34c7869f148b2b3d5d1b65554f93ddfde2e3c6",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_taisealise_isiku_hooldus",
@@ -857,7 +1772,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_taisealise_isiku_hooldus",
+      "document_id": "rouge_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "990205e009cad5614962489a0f18199a0796a3bdcfce27294e301b4b3538e6fd",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_varjupaigateenus",
@@ -891,7 +1835,36 @@
       "relatedContacts": [
         "rouge_vald_contact_general"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_varjupaigateenus",
+      "document_id": "rouge_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/varjupaigateenus/",
+      "content_hash": "05a5e905b6f2f12c2457806f5656d6ca6894ff8567319462de6b85f75c85bb4d",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_volanoustamisteenus",
@@ -927,7 +1900,36 @@
         "rouge_vald_contact_maie_kalnapenkis",
         "rouge_vald_contact_signe_arumae"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_volanoustamisteenus",
+      "document_id": "rouge_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/volanoustamisteenus/",
+      "content_hash": "450237988460c6d6d15cb1935506946745130ece8591ad96715f7dac865ddf44",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_service_uldhooldusteenus",
@@ -937,8 +1939,8 @@
       "status": "active",
       "summary": "Väljaspool kodu osutatav üldhooldusteenus on mõeldud inimesele, kellel on ajutine või püsiv hooldusvajadus, mida ei ole võimalik kodustes tingimustes tagada. Rõuge valla leht kirjeldab, et sotsiaaltöötaja hindab abivajadust ja otsustab, kas üldhooldusteenus on vajalik või kas piisavad kodus elamist toetavad teenused. Valla poolt tasutava teenuskomponendi maksumus on lehel toodud 600 eurot.",
       "sourceKeys": [
-        "uldhooldusteenus_page",
-        "hooldekodud_overview"
+        "hooldekodud_overview",
+        "uldhooldusteenus_page"
       ],
       "targetGroup": "Inimesed, kes vajavad ööpäevaringset hooldust ja kelle toimetulekut ei saa kodus tagada.",
       "conditions": "Abivajadust hindab elukohajärgne omavalitsus; otsus tehakse eelneva hindamise alusel.",
@@ -970,7 +1972,37 @@
         "rouge_vald_resource_rouge_hooldekodu",
         "rouge_vald_resource_moniste_hooldekodu",
         "rouge_vald_resource_misso_sotsiaalkeskus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "hooldekodud_overview",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_service_uldhooldusteenus",
+      "document_id": "rouge_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "content_hash": "2b20e5159bf1f2dc12b8ad3860485a1810dda1e2c51ee44fc251095a2e22e204",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_sunnitoetus",
@@ -980,9 +2012,9 @@
       "status": "active",
       "summary": "Sünnitoetus on sissetulekust sõltumatu sotsiaaltoetus lapse sünni puhul. Rõuge valla sotsiaaltoetuste leht ja taotlusvorm nimetavad toetuse kaheosalisena: sünnitoetuse I osa 200 eurot ja sünnitoetuse II osa 200 eurot. Taotlusvormi järgi kuulub see sissetulekust sõltumatu toetuse taotluse alla.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla lapsevanemad lapse sünni korral.",
       "conditions": "Valla lehel on toetuse seos sissetulekust sõltumatu toetuse taotlusega; täpsemad tingimused on praktilisel veebilehel piiratud.",
@@ -1006,7 +2038,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_sunnitoetus",
+      "document_id": "rouge_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "16347158f2f5ebcff40b4f7b3b6e177ba49cc1e1f7458b69869aa3aee5f6c846",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_i_klassi_astuja_toetus",
@@ -1016,9 +2079,9 @@
       "status": "active",
       "summary": "I klassi astuja toetus on sissetulekust sõltumatu sotsiaaltoetus kooliteed alustavale lapsele. Rõuge valla toetuste leht ja taotlusvorm nimetavad toetuse summaks 100 eurot. Sama vormi kasutatakse koos teiste sissetulekust sõltumatute toetustega.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla lapsed, kes alustavad I klassi, ja nende vanemad.",
       "conditions": "Vormi järgi tuleb märkida I klassi astuja nimi ja isikukood.",
@@ -1042,7 +2105,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_i_klassi_astuja_toetus",
+      "document_id": "rouge_vald_benefit_i_klassi_astuja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "350d738cdcff265446cd1226984cd08df60b6bde8af5f4bb7ce6a971b3d0c706",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_laste_ja_noorte_prillitoetus",
@@ -1052,9 +2146,9 @@
       "status": "active",
       "summary": "Laste ja noorte prillitoetus on sissetulekust sõltumatu toetus prillide või prilliklaaside kulu hüvitamiseks. Rõuge valla toetuste leht nimetab toetuseks 100 eurot üks kord kolme aasta jooksul. Taotlusvormis tuleb märkida prillitoetuse saaja andmed ja vajadusel lisada kuludokument.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla lapsed ja noored, kes vajavad prille või prilliklaase.",
       "conditions": "Toetust saab taotleda üks kord kolme aasta jooksul; taotlusele lisatakse kuludokument, kui see on asjakohane.",
@@ -1078,7 +2172,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_laste_ja_noorte_prillitoetus",
+      "document_id": "rouge_vald_benefit_laste_ja_noorte_prillitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "7094561b4b4b07072efb538a40495a308be91058e53f3ebc148c51aea8e97c05",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_laste_abivahendi_toetus",
@@ -1088,9 +2213,9 @@
       "status": "active",
       "summary": "Laste abivahendite toetus on sissetulekust sõltumatu toetus lapsele vajaliku abivahendi kulude hüvitamiseks. Rõuge valla toetuste leht nimetab hüvitiseks 100% abivahendi maksumusest kuludokumentide alusel. Taotlusvormis tuleb märkida abivahendi saaja andmed ja lisada kuludokument.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla lapsed, kes vajavad abivahendit.",
       "conditions": "Hüvitatakse kuludokumentide alusel.",
@@ -1114,7 +2239,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_laste_abivahendi_toetus",
+      "document_id": "rouge_vald_benefit_laste_abivahendi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "bed12de6eed5641ad3cf160435e357a4150d916449bae3d95f2ecc958dd677af",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_matusetoetus",
@@ -1124,9 +2280,9 @@
       "status": "active",
       "summary": "Matusetoetus on sissetulekust sõltumatu toetus matusekulude katmiseks. Rõuge valla toetuste leht nimetab matusetoetuse summaks 250 eurot. Taotlusvormis tuleb märkida surnud isiku nimi ja isikukood ning vajadusel muu lisainfo.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltumatu_pdf"
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Isik, kes taotleb toetust matuse korraldamise kulude katmiseks.",
       "conditions": "Taotluses märgitakse surnud isiku andmed ja vajadusel lisainfo.",
@@ -1150,7 +2306,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltumatu_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_matusetoetus",
+      "document_id": "rouge_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "a408c463af68d74c7759eacde0fa548341f21431877330a832efc8e3f640939a",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_taiskasvanu_abivahendi_toetus",
@@ -1160,9 +2347,9 @@
       "status": "active",
       "summary": "Täiskasvanu abivahendi toetus on sissetulekust sõltuv toetus abivahendi kulude katmiseks. Rõuge valla toetuste leht nimetab selle sissetulekust sõltuva toetuse vormi ühe valikuna. Toetuse taotlemisel tuleb põhjendada vajadust ning esitada perekonna sissetulekud, väljaminekud ja kulusid tõendavad dokumendid.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltuva_pdf"
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Täiskasvanud Rõuge valla elanikud, kes vajavad abivahendit ja kelle toetus sõltub sissetulekust.",
       "conditions": "Toetuse määramisel arvestatakse sissetulekut, väljaminekuid ja kuludokumente.",
@@ -1186,7 +2373,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_taiskasvanu_abivahendi_toetus",
+      "document_id": "rouge_vald_benefit_taiskasvanu_abivahendi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "62271a196849a2bfd9d22e064187a6d340ea78fab46efca7d455e887293fa4c8",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_lasteaiatoidu_ja_kooli_toidukorra_toetus",
@@ -1196,9 +2414,9 @@
       "status": "active",
       "summary": "Lasteaiatoidu ja kooli täiendava toidukorra toetus on sissetulekust sõltuv toetus lapse toidukulude katmiseks. Rõuge valla toetuste leht nimetab selle ühe sissetulekust sõltuva toetuse liigina. Taotlemisel tuleb esitada sissetulekut ja kulusid tõendavad dokumendid.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltuva_pdf"
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla pered, kes vajavad abi lasteaiatoidu või kooli täiendava toidukorra eest tasumisel.",
       "conditions": "Toetuse määramisel arvestatakse perekonna sissetulekuid, väljaminekuid ja kulusid tõendavaid dokumente.",
@@ -1222,7 +2440,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_lasteaiatoidu_ja_kooli_toidukorra_toetus",
+      "document_id": "rouge_vald_benefit_lasteaiatoidu_ja_kooli_toidukorra_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "f819791a2960bf4c179023fc03302402fa3569bd41e97da8d8490dda661bbfb3",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_taiendav_sotsiaaltoetus",
@@ -1232,9 +2481,9 @@
       "status": "active",
       "summary": "Täiendav sotsiaaltoetus on sissetulekust sõltuv toetus mitmesuguste toimetulekut toetavate kulude katmiseks. Rõuge valla leht nimetab näiteks tervishoiuteenustega seotud transpordikulu, eriarstiabi ja õendusabi voodipäevatasu, kütteks tarbitud soojusenergia või küttematerjali ostu, õppimisega seotud õppevara, majutuse ja transpordi ning muud toimetulekut toetavad kulud. Toetust taotletakse sissetulekust sõltuva sotsiaaltoetuse vormiga.",
       "sourceKeys": [
-        "sotsiaaltoetused_page",
         "blanketid_page",
-        "sissetulekust_soltuva_pdf"
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
       ],
       "targetGroup": "Rõuge valla elanikud, kelle sissetulek ei võimalda katta vältimatuid toimetulekukulusid.",
       "conditions": "Vajadust tuleb põhjendada ja esitada sissetulekut, varalist seisu ning kulusid tõendavad dokumendid.",
@@ -1258,7 +2507,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "sissetulekust_soltuva_pdf",
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_taiendav_sotsiaaltoetus",
+      "document_id": "rouge_vald_benefit_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "3a293c037c6ee34d03968b15b7e7677b43e13121fb322a12570bf38a5f89f163",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -1297,7 +2577,37 @@
       "unresolvedIssues": [
         "KOV veebileht ei avalda toetuse summat ega täpseid praktilisi tingimusi; leitud on eraldi taotlusvorm."
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "puudega_lapse_hooldajatoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "rouge_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/juhtimine-ja-majandus/asjaajamine/asjaajamisjuhised-ja-blanketid/",
+      "content_hash": "ac5b04953a4ba256cba6ba7305ef70c7b3fb836c2a3cd1c8245737ffd69b91af",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -1307,9 +2617,9 @@
       "status": "active",
       "summary": "Täisealise isiku hooldajatoetus on seotud täisealisele hooldaja määramisega. Rõuge valla täisealise isiku hoolduse lehel on avaldatud hooldajatoetuse määrad: sügava puudega inimese hooldajale 50 eurot kuus ning raske puudega inimese hooldajale 25 eurot kuus. Taotlemiseks kasutatakse täisealisele hooldaja ja hooldajatoetuse määramise taotlust.",
       "sourceKeys": [
-        "taisealise_hooldus_page",
         "blanketid_page",
-        "taisealise_hooldaja_hooldajatoetus_form"
+        "taisealise_hooldaja_hooldajatoetus_form",
+        "taisealise_hooldus_page"
       ],
       "targetGroup": "Isikud, kes hooldavad täisealist raske või sügava puudega inimest Rõuge vallas.",
       "conditions": "Hooldatavale määratakse hooldus abivajaduse hindamise alusel.",
@@ -1333,7 +2643,38 @@
       "relatedContacts": [
         "rouge_vald_contact_anneli_apitius"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "taisealise_hooldaja_hooldajatoetus_form",
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "rouge_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "a3a88ea39ffcb902ae0f16c82fbacd24943a2ad639c6de1a6c262d03d06b8c7a",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_sotsiaalosakond",
@@ -1356,7 +2697,36 @@
         "rouge_vald_contact_triinu_ulper"
       ],
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_info_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_sotsiaalosakond",
+      "document_id": "rouge_vald_resource_sotsiaalosakond",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/kasulik-info/info-ja-teated/",
+      "content_hash": "7cfcdd10b02a3ba1a837b5fd57e1544ce70adc859437526445712024f70bbd5b",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_lastekaitse",
@@ -1375,7 +2745,36 @@
         "rouge_vald_contact_triinu_ulper"
       ],
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_lastekaitse",
+      "document_id": "rouge_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "content_hash": "02bce254696f7bf70883403ae2b3576bd263244ea504501a0a477979eeae78c4",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_kriisi_ja_abitelefonid",
@@ -1393,7 +2792,37 @@
       "officialUrl": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "home",
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_kriisi_ja_abitelefonid",
+      "document_id": "rouge_vald_resource_kriisi_ja_abitelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "content_hash": "3c152c6bc2617802ed89edf0c83fbce10aa9a8c22672ba56ef9a5444a4a04a29",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_oigusnoustamine",
@@ -1410,7 +2839,36 @@
       "officialUrl": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tasuta-ja-soodustingimustel-oigusnoustamine/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "oigusnoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_oigusnoustamine",
+      "document_id": "rouge_vald_resource_oigusnoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tasuta-ja-soodustingimustel-oigusnoustamine/",
+      "content_hash": "2f666010c57bc22bd348e9c4e00ff9bb57502b0056866cbb5abc533de8b270ef",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_ohvriabi",
@@ -1430,7 +2888,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_ohvriabi",
+      "document_id": "rouge_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/kasulik-info/ohvriabi/",
+      "content_hash": "8a3fbe3ea194f197c17bcd40fc0f20517a54b3146005140c414912ad7b3ab3b0",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_koduandur",
@@ -1449,7 +2936,36 @@
         "rouge_vald_contact_general"
       ],
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "koduandur_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_koduandur",
+      "document_id": "rouge_vald_resource_koduandur",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduandur/",
+      "content_hash": "562516dbccb70cd87e08b31129f53b018b9a279b2c9c9a922095eab2510924e8",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_rouge_hooldekodu",
@@ -1470,7 +2986,36 @@
       "relatedContacts": [
         "rouge_vald_contact_siiri_kuus"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "rouge_hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_rouge_hooldekodu",
+      "document_id": "rouge_vald_resource_rouge_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/tervishoid/hooldekodud/rouge-hooldekodu/",
+      "content_hash": "02c07284d533620d727feff785025e94b64fc63e7f037689c1b19b789af66e1a",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_moniste_hooldekodu",
@@ -1491,7 +3036,36 @@
       "relatedContacts": [
         "rouge_vald_contact_ulvi_trahv"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "moniste_hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_moniste_hooldekodu",
+      "document_id": "rouge_vald_resource_moniste_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/tervishoid/hooldekodud/moniste-hooldekodu/",
+      "content_hash": "f77f21a6b7a4a4ab211114775d17891af794c76bcc0268b38b26e29cedca6868",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_misso_sotsiaalkeskus",
@@ -1515,7 +3089,36 @@
         "rouge_vald_contact_ilze_koemets",
         "rouge_vald_contact_misso_sauna"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "misso_sotsiaalkeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_misso_sotsiaalkeskus",
+      "document_id": "rouge_vald_resource_misso_sotsiaalkeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/pere-sotsiaal-ja-tervishoid/tervishoid/hooldekodud/misso-sotsiaalkeskus/",
+      "content_hash": "7969603f725ccf0eafd9e9013599d3fa2308a4d8ae1dcff26ce827cae3cb9750",
+      "evidence_allowed": true
     },
     {
       "id": "rouge_vald_resource_parkimiskaart",
@@ -1538,7 +3141,40 @@
         "KOV lehel on avaldatud parkimiskaardi avaldus, kuid eraldi praktiline juhend ja tingimused ei olnud lehe põhisisus avaldatud."
       ],
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rouge_vald",
+      "municipality_name": "Rõuge vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "blanketid_page",
+        "parkimiskaardi_avaldus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rouge_vald_resource_parkimiskaart",
+      "document_id": "rouge_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rougevald.ee/juhtimine-ja-majandus/asjaajamine/asjaajamisjuhised-ja-blanketid/",
+      "content_hash": "0ee43abd968fc8a117fdcdbfad8f689edca54ff07ff3ccc804e2c308186f378e",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Rõuge vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

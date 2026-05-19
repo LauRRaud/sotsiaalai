@@ -343,8 +343,9 @@
       "application": "Isik esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaalkomisjon otsustab teenuse ja suunab kliendi koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
-        "social_services_overview"
+        "psuhholoogiline_noustamine_page",
+        "social_services_overview",
+        "soltuvusnoustamine_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -357,8 +358,9 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
-        "social_services_overview"
+        "psuhholoogiline_noustamine_page",
+        "social_services_overview",
+        "soltuvusnoustamine_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_psuhholoogiline_noustamine",
@@ -448,8 +450,9 @@
       "application": "Teenuse saamiseks tasub pöörduda vallavalitsuse sotsiaaltöötaja poole ja esitada põhjendatud taotlus. Klient suunatakse teenust saama vallavalitsuse koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
-        "social_services_overview"
+        "psuhholoogiline_noustamine_page",
+        "social_services_overview",
+        "soltuvusnoustamine_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -465,8 +468,9 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "muud_vajaduspohised_sotsiaalteenused_page",
-        "social_services_overview"
+        "psuhholoogiline_noustamine_page",
+        "social_services_overview",
+        "soltuvusnoustamine_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_soltuvusnoustamine",
@@ -831,7 +835,7 @@
       "officialUrl": "https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
       "sourceKeys": [
         "social_services_overview",
-        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
+        "yldhooldusteenus_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -848,7 +852,7 @@
       "county": "Ida-Virumaa",
       "source_keys": [
         "social_services_overview",
-        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
+        "yldhooldusteenus_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_uldhooldusteenus",
@@ -1579,6 +1583,7 @@
       "application": "Taotlus koos piletite või sõidukulu dokumentidega tuleb esitada iga kuu 10. kuupäevaks. Üle kahe kuu vanu pileteid ei hüvitata.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "sourceKeys": [
+        "form_soidupiletite_huvitamise_avaldus_pdf",
         "soidukulude_huvitamine_page"
       ],
       "relatedForms": [
@@ -1595,6 +1600,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
+        "form_soidupiletite_huvitamise_avaldus_pdf",
         "soidukulude_huvitamine_page"
       ],
       "metadata_schema_version": "v2.5",
@@ -2658,7 +2664,8 @@
       "officialUrl": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "sourceKeys": [
         "form_soidupiletite_huvitamise_avaldus_pdf",
-        "social_rules_page"
+        "social_rules_page",
+        "soidukulude_huvitamine_page"
       ],
       "relatedTo": [
         "alutaguse_vald_benefit_opilaste_soidukulude_huvitamine"
@@ -2669,7 +2676,8 @@
       "county": "Ida-Virumaa",
       "source_keys": [
         "form_soidupiletite_huvitamise_avaldus_pdf",
-        "social_rules_page"
+        "social_rules_page",
+        "soidukulude_huvitamine_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_form_soidupiletite_huvitamise_avaldus",

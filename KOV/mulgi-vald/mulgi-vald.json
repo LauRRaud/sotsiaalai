@@ -43,7 +43,37 @@
       "sourceKeys": [
         "koduteenus_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "koduteenus_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_koduteenus",
+      "document_id": "mulgi_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/koduteenus/",
+      "content_hash": "223a7b03c479ef9d5fc51a818c2a1e01a879cf7c6664fbb5ee82f5eec6a190eb",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_uldhooldusteenus",
@@ -76,9 +106,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "uldhooldusteenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "uldhooldusteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_uldhooldusteenus",
+      "document_id": "mulgi_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "content_hash": "f8615afef685bf0f93cba78399082586b7388a2c1138c47760a46b8cc73f42a9",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_tugiisikuteenus",
@@ -111,9 +171,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "tugiisikuteenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "tugiisikuteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_tugiisikuteenus",
+      "document_id": "mulgi_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/tugiisikuteenus/",
+      "content_hash": "a5b45c92783a050833f1e35fb407cdc2263ec4b347e7dc3ac53883ec60dfd6ec",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_taisealise_isiku_hooldus",
@@ -146,9 +236,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "taisealise_isiku_hooldus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "taisealise_isiku_hooldus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "taisealise_isiku_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_taisealise_isiku_hooldus",
+      "document_id": "mulgi_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "47d003db827f0ee104c99dd5b694ce6f9bb5c359e56572e301dd3e844637a541",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_isikliku_abistaja_teenus",
@@ -183,7 +303,37 @@
       "sourceKeys": [
         "isikliku_abistaja_teenus_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "isikliku_abistaja_teenus_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_isikliku_abistaja_teenus",
+      "document_id": "mulgi_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "content_hash": "f89bc143e1bb660bd9a2b7c8957800e4c1c0341f0b1dfdc72b65298f2ad3f8ae",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_varjupaigateenus",
@@ -216,9 +366,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "varjupaigateenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "varjupaigateenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_varjupaigateenus",
+      "document_id": "mulgi_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/varjupaigateenus/",
+      "content_hash": "3f7f2fb2d429ba7fd1e1169da09d0a4c07123fca7f17ad10321e12cb047941be",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_turvakoduteenus",
@@ -251,9 +431,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "turvakoduteenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "turvakoduteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_turvakoduteenus",
+      "document_id": "mulgi_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/turvakoduteenus/",
+      "content_hash": "f6abbb471a04cbf71dc8b2b5c406a076454e34906effb22280adde2bda90828f",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_sotsiaaltransporditeenus",
@@ -286,9 +496,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "sotsiaaltransporditeenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "sotsiaaltransporditeenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_sotsiaaltransporditeenus",
+      "document_id": "mulgi_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/sotsiaaltransporditeenus/",
+      "content_hash": "d0b8db36713cedc25699299bb125d2c39e6493bab362d46f3226737aead32ab8",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_eluruumi_tagamine",
@@ -323,7 +563,37 @@
       "sourceKeys": [
         "eluruumi_tagamine_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eluruumi_tagamine_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_eluruumi_tagamine",
+      "document_id": "mulgi_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/eluruumi-tagamine/",
+      "content_hash": "a078c577856d5240224b781abc391a4a4c48e585cfd195e7118a058f17836019",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_volanoustamisteenus",
@@ -356,9 +626,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "volanoustamisteenus_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "volanoustamisteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_volanoustamisteenus",
+      "document_id": "mulgi_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/volanoustamisteenus/",
+      "content_hash": "6aad52d40b58c5e8d2f85e52b74cff9850d86859a146fb612f6d4b8ed12e42e5",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_lapsehoiuteenus",
@@ -393,7 +693,37 @@
       "sourceKeys": [
         "lapsehoiuteenus_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lapsehoiuteenus_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_lapsehoiuteenus",
+      "document_id": "mulgi_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/lapsehoiuteenus/",
+      "content_hash": "1e02ac9edafdf231df2e22a578bf4ec64d7d142747d66a14ee15a5d17c0b0377",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_asendushooldusteenus",
@@ -428,7 +758,37 @@
       "sourceKeys": [
         "asendushooldusteenus_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "asendushooldusteenus_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_asendushooldusteenus",
+      "document_id": "mulgi_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/asendushooldusteenus/",
+      "content_hash": "31aa5b1794f020b0d3ec1fa4b77fa7cd135e4fb886c0a2e9ea9d0dd9f5263958",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_jarelhooldusteenus",
@@ -463,7 +823,37 @@
       "sourceKeys": [
         "jarelhooldusteenus_page",
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "jarelhooldusteenus_page",
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_jarelhooldusteenus",
+      "document_id": "mulgi_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/jarelhooldusteenus/",
+      "content_hash": "7a4df5f3b1f1fe55ca827eb4d2ae3f1d8201c166cc56bf9d945e608d10574c38",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_valtimatu_sotsiaalabi",
@@ -496,9 +886,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "valtimatu_sotsiaalabi_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "mulgi_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/valtimatu-sotsiaalabi/",
+      "content_hash": "0f42d169cb220248e87529c42cf98be6858265fd7037eea9715729c952b2ddd8",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_service_taiendavad_vajaduspohised_teenused",
@@ -531,9 +951,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "taiendavad_vajaduspohised_teenused_page",
-        "sotsiaalteenuse_avaldus_docx"
-      ]
+        "sotsiaalteenuse_avaldus_docx",
+        "taiendavad_vajaduspohised_teenused_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx",
+        "taiendavad_vajaduspohised_teenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_service_taiendavad_vajaduspohised_teenused",
+      "document_id": "mulgi_vald_service_taiendavad_vajaduspohised_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/taiendavad-vajaduspohised-ja-vaimset-tervist-toetavad-teenused/",
+      "content_hash": "f2531b1cfb2f11e562dc76d25ae1bef08be1b3c5ed4ec4f19770053d3274b7e7",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_synnitoetus",
@@ -566,12 +1016,45 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "synnitoetus_page",
         "sunnitoetuse_i_osa_doc",
         "sunnitoetuse_i_osa_pdf",
         "sunnitoetuse_ii_osa_doc",
-        "sunnitoetuse_ii_osa_pdf"
-      ]
+        "sunnitoetuse_ii_osa_pdf",
+        "synnitoetus_page"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sunnitoetuse_i_osa_doc",
+        "sunnitoetuse_i_osa_pdf",
+        "sunnitoetuse_ii_osa_doc",
+        "sunnitoetuse_ii_osa_pdf",
+        "synnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_synnitoetus",
+      "document_id": "mulgi_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/sunnitoetus/",
+      "content_hash": "44999a39e89028ebdce523b40e0baa4e06bb540e6a90de3e0d98aacca9249968",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_ranitsatoetus",
@@ -605,7 +1088,37 @@
       "sourceKeys": [
         "ranitsatoetus_page",
         "ranitsatoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "ranitsatoetus_page",
+        "ranitsatoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_ranitsatoetus",
+      "document_id": "mulgi_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/ranitsatoetus/",
+      "content_hash": "cadf4519765c07311b4cea2ed8c925cb7194c9809dc51676d67ecbfaa94c71ed",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_eakate_sunnipaevatoetus",
@@ -633,7 +1146,36 @@
       ],
       "sourceKeys": [
         "eakate_sunnipaevatoetus_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eakate_sunnipaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_eakate_sunnipaevatoetus",
+      "document_id": "mulgi_vald_benefit_eakate_sunnipaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/eakate-sunnipaevatoetus/",
+      "content_hash": "f22f47ad10191953c9960a862c40712d67c48e5718f7445c94e3caa7094555bf",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_joulutoetus",
@@ -661,7 +1203,36 @@
       ],
       "sourceKeys": [
         "joulutoetus_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "joulutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_joulutoetus",
+      "document_id": "mulgi_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/joulutoetus/",
+      "content_hash": "4225c2a94ab4a1fc232d488614386a9f273be8dde8eae96ce943387b1a2632de",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_hooldajatoetus",
@@ -696,7 +1267,38 @@
         "hooldajatoetus_page",
         "hooldajatoetuse_avaldus_doc",
         "hooldajatoetuse_avaldus_pdf"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hooldajatoetus_page",
+        "hooldajatoetuse_avaldus_doc",
+        "hooldajatoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_hooldajatoetus",
+      "document_id": "mulgi_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/hooldajatoetus/",
+      "content_hash": "31909aa008c3c66693cb58e10ba54ed9641631cccf94de06b5dc706170f52df9",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_matusetoetus",
@@ -731,7 +1333,38 @@
         "matusetoetus_page",
         "matusetoetuse_avaldus_doc",
         "matusetoetuse_avaldus_pdf"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "matusetoetus_page",
+        "matusetoetuse_avaldus_doc",
+        "matusetoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_matusetoetus",
+      "document_id": "mulgi_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/matusetoetus/",
+      "content_hash": "02f12510a52feadcd12bda6ced0a870a419dab3ae2fe504b20b2796336aa891a",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_lapse_toimetuleku_toetus",
@@ -765,7 +1398,37 @@
       "sourceKeys": [
         "lapse_toimetuleku_toetus_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lapse_toimetuleku_toetus_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_lapse_toimetuleku_toetus",
+      "document_id": "mulgi_vald_benefit_lapse_toimetuleku_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/lapse-toimetuleku-tagamise-toetus/",
+      "content_hash": "d018010b1849f2219a5019329c2af4dd44bce7a497502642a6b64909b2f5e1e7",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_transporditoetus",
@@ -797,9 +1460,39 @@
         "mulgi_vald_contact_sotsiaalosakond"
       ],
       "sourceKeys": [
-        "transporditoetus_page",
-        "sotsiaaltoetuse_avaldus_doc"
-      ]
+        "sotsiaaltoetuse_avaldus_doc",
+        "transporditoetus_page"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaaltoetuse_avaldus_doc",
+        "transporditoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_transporditoetus",
+      "document_id": "mulgi_vald_benefit_transporditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/transporditoetus/",
+      "content_hash": "046e12f1be33096291a22e78db3e01a94a0d683288cf9e447485a798786edd67",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_ravitoetus",
@@ -833,7 +1526,37 @@
       "sourceKeys": [
         "ravitoetus_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "ravitoetus_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_ravitoetus",
+      "document_id": "mulgi_vald_benefit_ravitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/ravitoetus/",
+      "content_hash": "e5012b36349d2e18447ca8cb2da43eb64c32f65b0e0c5d4da275942932c30117",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_abivahenditoetus",
@@ -867,7 +1590,37 @@
       "sourceKeys": [
         "abivahenditoetus_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "abivahenditoetus_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_abivahenditoetus",
+      "document_id": "mulgi_vald_benefit_abivahenditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/abivahenditoetus/",
+      "content_hash": "66f666baac530f2769acbe17476ca963086558d5cbd64057fe36e221a0b655ba",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_kuttetoetus",
@@ -901,7 +1654,37 @@
       "sourceKeys": [
         "kuttetoetus_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "kuttetoetus_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_kuttetoetus",
+      "document_id": "mulgi_vald_benefit_kuttetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/kuttetoetus/",
+      "content_hash": "a360fbdb9a8fd3056cbb86fb0c1838a30032c79c66a19c6ca580cb076ae76872",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_erakorraline_toetus",
@@ -935,7 +1718,37 @@
       "sourceKeys": [
         "erakorraline_toetus_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "erakorraline_toetus_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_erakorraline_toetus",
+      "document_id": "mulgi_vald_benefit_erakorraline_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/erakorraline-toetus/",
+      "content_hash": "951d862f122a65731ef3700f3df339b2831387e24e3a06ae80ed15b09d7cc0a2",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_toimetulekutoetus",
@@ -969,11 +1782,44 @@
       ],
       "sourceKeys": [
         "toimetulekutoetus_page",
-        "toimetulekutoetuse_taotlus_doc",
-        "toimetulekutoetuse_taotlus_pdf",
         "toimetulekutoetuse_pere_andmed_doc",
-        "toimetulekutoetuse_pere_andmed_pdf"
-      ]
+        "toimetulekutoetuse_pere_andmed_pdf",
+        "toimetulekutoetuse_taotlus_doc",
+        "toimetulekutoetuse_taotlus_pdf"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_pere_andmed_doc",
+        "toimetulekutoetuse_pere_andmed_pdf",
+        "toimetulekutoetuse_taotlus_doc",
+        "toimetulekutoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_toimetulekutoetus",
+      "document_id": "mulgi_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/toimetulekutoetus/",
+      "content_hash": "d12f96b9eaa014f781ad0f62f3db3f2adf44a38f1e3497c204f4aac802c95636",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_benefit_muud_nimetamata_toetused",
@@ -1007,7 +1853,37 @@
       "sourceKeys": [
         "muud_nimetamata_toetused_page",
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "muud_nimetamata_toetused_page",
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_benefit_muud_nimetamata_toetused",
+      "document_id": "mulgi_vald_benefit_muud_nimetamata_toetused",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/muud-nimetamata-toetused/",
+      "content_hash": "845d2fa00519a750b5717f2af2619051dadba68a4742ae38cec3f34d765e766d",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_sotsiaalosakond",
@@ -1023,7 +1899,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_sotsiaalosakond",
+      "document_id": "mulgi_vald_contact_sotsiaalosakond",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "1c9d4d680409b815a1f855aa28f6d81ba7ca610ed818e4ed11f1f1d8dec5a7bf",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_margus_talimaa",
@@ -1039,7 +1944,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_margus_talimaa",
+      "document_id": "mulgi_vald_contact_margus_talimaa",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "66aa3daef0228ae58c4443ea850b5a6a86979cdf2f7df872bfea66f1834bd59a",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_liivi_loi",
@@ -1055,7 +1989,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_liivi_loi",
+      "document_id": "mulgi_vald_contact_liivi_loi",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "d0366ff1391948bb617a7aee54fa47b8752bd50bb51ada5cb1fb089262edc888",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_monika_erreline",
@@ -1071,7 +2034,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_monika_erreline",
+      "document_id": "mulgi_vald_contact_monika_erreline",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "04daf18a77ab13f04090f7b0b24a20e4640dcbe3c991641761ff8a1a7fb44815",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_merily_toevalja",
@@ -1087,7 +2079,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_merily_toevalja",
+      "document_id": "mulgi_vald_contact_merily_toevalja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "7e1b5fa372beeedea8badc31f2505ecaba1281f7dca052eae9e72ecf23ce601d",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_agu_eichenbaum",
@@ -1103,7 +2124,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_agu_eichenbaum",
+      "document_id": "mulgi_vald_contact_agu_eichenbaum",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "294e556f480e849769cf8691bac76493f3ecf6ed8af3d0cfa9996672da799585",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_lota_orav",
@@ -1119,7 +2169,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_lota_orav",
+      "document_id": "mulgi_vald_contact_lota_orav",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "c46bdcf72028a2ba2a2fcf9e2766306e2b8e09f827fd988f58303c92a2b1d3bd",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_contact_liana_andrusko",
@@ -1135,7 +2214,36 @@
       "officialUrl": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_contact_liana_andrusko",
+      "document_id": "mulgi_vald_contact_liana_andrusko",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "9f73615d8fe004e8c5b987d47018ea93de2c79426528fbe67acbb1ff0c196e5b",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
@@ -1151,7 +2259,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "sotsiaalse_rehabilitatsiooni_teenus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalse_rehabilitatsiooni_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
+      "document_id": "mulgi_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalse-rehabilitatsiooni-teenus/",
+      "content_hash": "c85e8dcd8ae9b7367abe4f7a772f48b2a1b0060c25520bc1ffd43f4c52913b0e",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_erihoolekandeteenused",
@@ -1167,7 +2304,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "erihoolekandeteenused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "erihoolekandeteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_erihoolekandeteenused",
+      "document_id": "mulgi_vald_resource_erihoolekandeteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/erihoolekandeteenused/",
+      "content_hash": "4a15d94f6ab9531ed4a303e5563d4bd60e7bf6f20307838f126761aece80484a",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_lepitusteenus",
@@ -1183,7 +2349,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "lepitusteenus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lepitusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_lepitusteenus",
+      "document_id": "mulgi_vald_resource_lepitusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/lepitusteenus/",
+      "content_hash": "d534270fc1dfd2ffa5884d159228584013e0ee409f6096417b4ba2b955960c7a",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_ohvriabi",
@@ -1201,7 +2396,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "ohvriabi_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_ohvriabi",
+      "document_id": "mulgi_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/ohvriabi/",
+      "content_hash": "c5d87be52b836e8c4d64f6815e27f37fb49c81c10ddc2306d1090052fcb23e1a",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_perelepitusteenus",
@@ -1217,7 +2441,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "perelepitusteenus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "perelepitusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_perelepitusteenus",
+      "document_id": "mulgi_vald_resource_perelepitusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/perelepitusteenus/",
+      "content_hash": "97f28a3b0f213f2f4a7401b8651fd90750c517f563b92dbc51c8362cf53337bc",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_teavita_abivajajast",
@@ -1235,7 +2488,36 @@
       ],
       "sourceKeys": [
         "teavita_abivajajast_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "teavita_abivajajast_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_teavita_abivajajast",
+      "document_id": "mulgi_vald_resource_teavita_abivajajast",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/teavita-abivajajast/",
+      "content_hash": "482a8214d055a28e08a79d98b057026e30941a74e0421dc6fe33ca84b2af0247",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_lastekaitse",
@@ -1253,7 +2535,36 @@
       ],
       "sourceKeys": [
         "lastekaitse_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_lastekaitse",
+      "document_id": "mulgi_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/lastekaitse/",
+      "content_hash": "1843b3c05a69dfface8f4c78d95ac29b851cc4f7a14b8c9407c99c1a58b44dca",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_lasteabi_telefon",
@@ -1271,7 +2582,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "lastekaitse_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_lasteabi_telefon",
+      "document_id": "mulgi_vald_resource_lasteabi_telefon",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/lastekaitse/",
+      "content_hash": "a9981b3d8880d2a5faaa64ee80c3246a583f0d47d48680572c6f6425c6686b97",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_hairenuputeenus",
@@ -1289,7 +2629,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "hairenuputeenus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hairenuputeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_hairenuputeenus",
+      "document_id": "mulgi_vald_resource_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/hairenuputeenus/",
+      "content_hash": "fdfd09ffb7ce919bc1eedc493e754a144c4836a0cc7a3a71ff89e98f4cf612df",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_hooldereform",
@@ -1307,7 +2676,36 @@
       ],
       "sourceKeys": [
         "hooldereform_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hooldereform_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_hooldereform",
+      "document_id": "mulgi_vald_resource_hooldereform",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/hooldereform/",
+      "content_hash": "feadfbc42af4d7f0b374561a647ca7cc26d37cf6103f36dd73f3105833108df4",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_abja_saun",
@@ -1325,7 +2723,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "avalikud_saunad_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "avalikud_saunad_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_abja_saun",
+      "document_id": "mulgi_vald_resource_abja_saun",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/avalikud-saunad/",
+      "content_hash": "3d272b6a9d45b568bcf9eeb8a43fff73ae54a032134763a83e4c623e293f8e20",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_moisakula_saun",
@@ -1343,7 +2770,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "avalikud_saunad_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "avalikud_saunad_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_moisakula_saun",
+      "document_id": "mulgi_vald_resource_moisakula_saun",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/avalikud-saunad/",
+      "content_hash": "9afeb88d976681998cf3e9f1190a288935a7daf72543243df8b76916cdee29e3",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_abja_haigla_sa",
@@ -1363,7 +2819,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_abja_haigla_sa",
+      "document_id": "mulgi_vald_resource_abja_haigla_sa",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/tervishoiuasutused/hoolekandeasutused/",
+      "content_hash": "c763c48d0e410532f55b0f62d4e0d470377ad9d307c02a669913c4dd1220b492",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_mulgi_hoolekandekeskus",
@@ -1383,7 +2868,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_mulgi_hoolekandekeskus",
+      "document_id": "mulgi_vald_resource_mulgi_hoolekandekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/tervishoiuasutused/hoolekandeasutused/",
+      "content_hash": "665c02418eac5c8af5d1fbf0bc1139c75e78983bed87e738d112b0bd2c3de99b",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_eakatekodu_mulgi_haarber",
@@ -1402,7 +2916,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_eakatekodu_mulgi_haarber",
+      "document_id": "mulgi_vald_resource_eakatekodu_mulgi_haarber",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/tervishoiuasutused/hoolekandeasutused/",
+      "content_hash": "b53a48748aceaa831f3709ba4ad55859e7accdf3606a91d7631549d25ebfa829",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_karksi_kodu",
@@ -1422,7 +2965,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_karksi_kodu",
+      "document_id": "mulgi_vald_resource_karksi_kodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/tervishoiuasutused/hoolekandeasutused/",
+      "content_hash": "0eed6270d9472e7bfb8fc3d5c6b956198de4913f9d400e99bdaae9178f804a0c",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_abja_paevakeskus",
@@ -1441,7 +3013,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "abja_paevakeskus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "abja_paevakeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_abja_paevakeskus",
+      "document_id": "mulgi_vald_resource_abja_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/pere-sotsiaal-ja-tervishoid/tervishoiuasutused/abja-paevakeskus/",
+      "content_hash": "310af708f62414b2ec473e344dc208bcc2bab89e4730922fdff07d579c4444f2",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_resource_riigi_infotelefonid",
@@ -1457,7 +3058,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "home"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_resource_riigi_infotelefonid",
+      "document_id": "mulgi_vald_resource_riigi_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee",
+      "content_hash": "55d1968afc9a09d2b06fe0965a220f3c37540a3f6541e80dd68ad83d38f63c99",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_sotsiaalteenuse_avaldus",
@@ -1500,7 +3130,36 @@
       ],
       "sourceKeys": [
         "sotsiaalteenuse_avaldus_docx"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_sotsiaalteenuse_avaldus",
+      "document_id": "mulgi_vald_form_sotsiaalteenuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Lisa-1-Sotsiaalteenuse-avaldus.docx",
+      "content_hash": "6e36b9d430328ddbc3a68416a681a20604837fb94d51ff7c4550514fdaa564f7",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_sotsiaaltoetuse_avaldus",
@@ -1535,7 +3194,36 @@
       ],
       "sourceKeys": [
         "sotsiaaltoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaaltoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_sotsiaaltoetuse_avaldus",
+      "document_id": "mulgi_vald_form_sotsiaaltoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Sotsiaaltoetuse-avaldus.doc",
+      "content_hash": "4bb38c6a956bad42a343a0465316a47b4280887fc8d39f9745799784b7ca79e8",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_sunnitoetuse_i_osa_avaldus",
@@ -1567,7 +3255,37 @@
       "sourceKeys": [
         "sunnitoetuse_i_osa_doc",
         "sunnitoetuse_i_osa_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sunnitoetuse_i_osa_doc",
+        "sunnitoetuse_i_osa_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_sunnitoetuse_i_osa_avaldus",
+      "document_id": "mulgi_vald_form_sunnitoetuse_i_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Sunnitoetuse-I-osa-avaldus.doc",
+      "content_hash": "f69510c922d5f15061743435d3fdf48cec42ecb716fa8ec9521671266f8a6c5f",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_sunnitoetuse_ii_osa_avaldus",
@@ -1599,7 +3317,37 @@
       "sourceKeys": [
         "sunnitoetuse_ii_osa_doc",
         "sunnitoetuse_ii_osa_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sunnitoetuse_ii_osa_doc",
+        "sunnitoetuse_ii_osa_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_sunnitoetuse_ii_osa_avaldus",
+      "document_id": "mulgi_vald_form_sunnitoetuse_ii_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Sunnitoetuse-II-osa-avaldus.doc",
+      "content_hash": "d5c93260862de5bdd9f4ae99e26699311fc5c4dba40b608eab751ac350cb3188",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_ranitsatoetuse_avaldus",
@@ -1628,7 +3376,36 @@
       ],
       "sourceKeys": [
         "ranitsatoetuse_avaldus_doc"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "ranitsatoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_ranitsatoetuse_avaldus",
+      "document_id": "mulgi_vald_form_ranitsatoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/07/Ranitsatoetuse-avaldus.doc",
+      "content_hash": "a0f548aed15d0d83ba36d5f50ff2564ac16b7cc51381948c0b11bdd3b459f4a1",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_hooldajatoetuse_avaldus",
@@ -1660,7 +3437,37 @@
       "sourceKeys": [
         "hooldajatoetuse_avaldus_doc",
         "hooldajatoetuse_avaldus_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hooldajatoetuse_avaldus_doc",
+        "hooldajatoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_hooldajatoetuse_avaldus",
+      "document_id": "mulgi_vald_form_hooldajatoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Avaldus-hooldaja-hooldajatoetuse-taotlemiseks.doc",
+      "content_hash": "862243fe8d243ef52f8c2f8c95876b9d6298a64bb5d137c789c61e5bb86d6660",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_matusetoetuse_avaldus",
@@ -1692,7 +3499,37 @@
       "sourceKeys": [
         "matusetoetuse_avaldus_doc",
         "matusetoetuse_avaldus_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "matusetoetuse_avaldus_doc",
+        "matusetoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_matusetoetuse_avaldus",
+      "document_id": "mulgi_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Matusetoetuse-avaldus.doc",
+      "content_hash": "0656dfa8e9f0b80ce6d8e6b26650733137a6c6da9cc23719a6616a6f7a3cfa28",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_toimetulekutoetuse_taotlus",
@@ -1724,7 +3561,37 @@
       "sourceKeys": [
         "toimetulekutoetuse_taotlus_doc",
         "toimetulekutoetuse_taotlus_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "toimetulekutoetuse_taotlus_doc",
+        "toimetulekutoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "mulgi_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Toimetulekutoetuse-taotlemise-avaldus.doc",
+      "content_hash": "d42b592ea6ebd84ae6789a4da5f6f32cdabbcaddf7f3bc0e417856e9ba821d90",
+      "evidence_allowed": true
     },
     {
       "id": "mulgi_vald_form_toimetulekutoetuse_pere_andmed",
@@ -1756,7 +3623,40 @@
       "sourceKeys": [
         "toimetulekutoetuse_pere_andmed_doc",
         "toimetulekutoetuse_pere_andmed_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "mulgi_vald",
+      "municipality_name": "Mulgi vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "toimetulekutoetuse_pere_andmed_doc",
+        "toimetulekutoetuse_pere_andmed_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "mulgi_vald_form_toimetulekutoetuse_pere_andmed",
+      "document_id": "mulgi_vald_form_toimetulekutoetuse_pere_andmed",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://mulgivald.ee/wp-content/uploads/2025/03/Toimetulekutoetuse-taotleja-ja-tema-pere-andmed.doc",
+      "content_hash": "678a7855220fed46392a1d6a2180edad2a466ceef4e78273acda3606c21ae168",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Mulgi vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

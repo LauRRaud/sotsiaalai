@@ -40,7 +40,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "vormsi_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "7c882413609b9c56c844f1297d425911dd6fc4d5bd0b1425f8377b562b57f7eb",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_koduteenus",
@@ -72,7 +101,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_koduteenus",
+      "document_id": "vormsi_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "608950f715a13d507fc7fb8664c7d50534856a85e9568bfa085e9d71d6b27e1f",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_sotsiaaltransporditeenus",
@@ -104,7 +162,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_sotsiaaltransporditeenus",
+      "document_id": "vormsi_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "f0ee2815ea4cd6ce3b351825d397c2ae0de0661f1df238e05bc2278c88aa63c8",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_eluruumi_tagamise_teenus",
@@ -136,7 +223,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "vormsi_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "c078137ca93b34a295f71944352b9257e25018700a823250864f26106e7a5169",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_uldhooldusteenus",
@@ -168,7 +284,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_uldhooldusteenus",
+      "document_id": "vormsi_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "4b24545f8d6947118f0d03aae65a617ce0583c6db1c69ea684d6da395ac3c119",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_tugiisikuteenus",
@@ -200,7 +345,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_tugiisikuteenus",
+      "document_id": "vormsi_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "b2284f472d9a9814b678d6ae2041a97223899b04a1943becf1981c1d1e930ec5",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_taisealise_isiku_hooldus",
@@ -232,7 +406,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_taisealise_isiku_hooldus",
+      "document_id": "vormsi_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "3e931626349e7012d933d97e8b0ea7ecd6ab1475bada15ed7f416802c1121b3d",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_isikliku_abistaja_teenus",
@@ -264,7 +467,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_isikliku_abistaja_teenus",
+      "document_id": "vormsi_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "18c1a32d0c00f1fd2fdfe68ce6ada4ee03e31fe2af18a64c586f5397184a4b1a",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_varjupaigateenus",
@@ -296,7 +528,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_varjupaigateenus",
+      "document_id": "vormsi_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "a522d613a2dbe5c9802b9154d71e0cab72bfa2af958a053b614ce56c9cb2dc9a",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_turvakoduteenus",
@@ -328,7 +589,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_turvakoduteenus",
+      "document_id": "vormsi_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "3c9077f71c56533c2167a96cfd315f27be1e667aec2b151ba73c252f5d914473",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_asendushooldusteenus",
@@ -360,7 +650,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_asendushooldusteenus",
+      "document_id": "vormsi_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "79e81a5f29366f3b1ff0a894dc522bb82c710e8d9d1e38acfd2b3412eca695bc",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_jarelhooldusteenus",
@@ -392,7 +711,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_jarelhooldusteenus",
+      "document_id": "vormsi_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "90f2ff5785f4259bfbca67914a44898813e4a27139f95e01b5b50776732323bf",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_lapsehoiuteenus",
@@ -424,7 +772,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_lapsehoiuteenus",
+      "document_id": "vormsi_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "a32612795873a6df51c3234c9842be42293b5750b553a10a1fd00fb34b4d8111",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_volanoustamisteenus",
@@ -456,7 +833,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_volanoustamisteenus",
+      "document_id": "vormsi_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "64e47adb28c91a8687820962bd6d14a352b625332884a4a0acace523ee183949",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_vaimse_tervise_teenus",
@@ -488,7 +894,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_vaimse_tervise_teenus",
+      "document_id": "vormsi_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "d4a686b14d96782f22b407f07eb266ec274ae3993e01b8d19b2c47a2b2029657",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_service_muud_vajaduspohised_teenused",
@@ -520,7 +955,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_service_muud_vajaduspohised_teenused",
+      "document_id": "vormsi_vald_service_muud_vajaduspohised_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "ca0dbfe75288f343557883ac3e146b87903eadc3a15f5cd3d20abdcb81356b3b",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_sunnitoetus",
@@ -553,7 +1017,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_sunnitoetus",
+      "document_id": "vormsi_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "9461e2ac5e8bc97f7f41abb02b4ffc8f64dc119c99ef8a3f25d37b0338994209",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_esimesse_klassi_mineva_opilase_toetus",
@@ -586,7 +1079,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_esimesse_klassi_mineva_opilase_toetus",
+      "document_id": "vormsi_vald_benefit_esimesse_klassi_mineva_opilase_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "33e50caec2283f77741978e05f75e2a85f10e9e09ebc5d7c5ddf4d2a4f5913dd",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_uheksandat_klassi_lopetava_opilase_toetus",
@@ -619,7 +1141,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_uheksandat_klassi_lopetava_opilase_toetus",
+      "document_id": "vormsi_vald_benefit_uheksandat_klassi_lopetava_opilase_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "de3a0e621a46c9ffe978d0134e36c68a92747eb6785a3c52512366457e5a386c",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_uld_voi_kutseharidust_omandava_opilase_toetus",
@@ -652,7 +1203,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_uld_voi_kutseharidust_omandava_opilase_toetus",
+      "document_id": "vormsi_vald_benefit_uld_voi_kutseharidust_omandava_opilase_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "3a0aacb3a40d4cc0e225fd5b41e9816bc881e90a4f32d6a5336a31cbbc0739b7",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_lasteaia_osalustasu_toetus",
@@ -683,7 +1263,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_lasteaia_osalustasu_toetus",
+      "document_id": "vormsi_vald_benefit_lasteaia_osalustasu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "8e2288749e33d9e27c6bd84e5910dc788c5a5d9dca178e587d8fe68a6afc5223",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_lasteaia_paevatoidu_toetus",
@@ -716,7 +1325,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_lasteaia_paevatoidu_toetus",
+      "document_id": "vormsi_vald_benefit_lasteaia_paevatoidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "2a848e02c631a972a545b22b7c50ebb9675f16be87d4a6d9dc221d7ca5478cae",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_joulutoetus",
@@ -747,7 +1385,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_joulutoetus",
+      "document_id": "vormsi_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "ca34d220c4063e22458d295955c93fa9c9475f2aed4b9d875117650fe058df4d",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_juubelitoetus",
@@ -778,7 +1445,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_juubelitoetus",
+      "document_id": "vormsi_vald_benefit_juubelitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "cc9ccdc198dfcce878db312400594061433504c7fdc10a8a7e89e6bc44e257f6",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_matusetoetus",
@@ -811,7 +1507,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_matusetoetus",
+      "document_id": "vormsi_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "acd6829e980c89dedd628fbf54d8558765ed233920ff154ae901b19a5eb32a10",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -842,7 +1567,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "vormsi_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "81676c2fd703a8b08072174de1b9424bd86d2f39aa32431193c8c5cc4d6723e6",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_peretoetus",
@@ -875,7 +1629,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_peretoetus",
+      "document_id": "vormsi_vald_benefit_peretoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "e70cb337d7a4907ca3272a251812f644d5daf6f61f2e7e5df85d12d766b59c9c",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_tervisetoetus",
@@ -908,7 +1691,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_tervisetoetus",
+      "document_id": "vormsi_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "33b4cf9a0ccd48873ae6ad6c1f5b633e8056383f470bca781a284c46fa8808aa",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_erakorraliste_kulutuste_huvitamine",
@@ -941,7 +1753,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_erakorraliste_kulutuste_huvitamine",
+      "document_id": "vormsi_vald_benefit_erakorraliste_kulutuste_huvitamine",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "53babf16c8929575b99d778df92c8506d0fcb419392cec5ee13dfa3db8563e37",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_taisealise_isiku_hooldaja_toetus",
@@ -974,7 +1815,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_taisealise_isiku_hooldaja_toetus",
+      "document_id": "vormsi_vald_benefit_taisealise_isiku_hooldaja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "47c7f2b9149633908b2c387b7c50958de129100ec61464881d28994175839efa",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_toimetulekutoetus",
@@ -1005,7 +1875,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_toimetulekutoetus",
+      "document_id": "vormsi_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "7d15c1c16e630ba19c0b9719077ad01f021d64890e66a40400a19a5bd26de27d",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_benefit_vormsi_valla_uliopilasstipendium",
@@ -1036,7 +1935,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_benefit_vormsi_valla_uliopilasstipendium",
+      "document_id": "vormsi_vald_benefit_vormsi_valla_uliopilasstipendium",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaaltoetused/",
+      "content_hash": "3bc49702d3e52547c21475725e017c79040e30d8b4be40bc01b24e67ae9fc864",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_contact_oivi_boyers",
@@ -1046,8 +1974,8 @@
       "status": "active",
       "summary": "Oivi Boyers on Vormsi vallavalitsuse sotsiaaltöö- ja haridusspetsialist. Tema poole pöördutakse sotsiaalteenuste ja sotsiaaltoetuste taotlemisel ning abivajaduse hindamisel.",
       "sourceKeys": [
-        "social_overview",
-        "contacts_page"
+        "contacts_page",
+        "social_overview"
       ],
       "name": "Oivi Boyers",
       "role": "Sotsiaaltöö- ja haridusspetsialist",
@@ -1086,7 +2014,37 @@
         "vormsi_vald_benefit_taisealise_isiku_hooldaja_toetus",
         "vormsi_vald_benefit_toimetulekutoetus",
         "vormsi_vald_benefit_vormsi_valla_uliopilasstipendium"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contacts_page",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_contact_oivi_boyers",
+      "document_id": "vormsi_vald_contact_oivi_boyers",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "1e270363df5286d9fca40f4e974acace872c4a02d7b5e8aecc5cdbd77df53ffb",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_contact_hooldustootaja",
@@ -1104,7 +2062,36 @@
       "address": null,
       "relatedTo": [
         "vormsi_vald_service_koduteenus"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_contact_hooldustootaja",
+      "document_id": "vormsi_vald_contact_hooldustootaja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "d59020d881d5311b12b9d3abe70077b029b6e0463116a8513ec9ffef6d4266da",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_contact_kairi_aavere",
@@ -1120,7 +2107,36 @@
       "role": "Noorte heaolu spetsialist (0,2)",
       "department": "Vormsi vallavalitsus",
       "address": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_contact_kairi_aavere",
+      "document_id": "vormsi_vald_contact_kairi_aavere",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "003e5500a6062411c9b99704f6e96fe98fdb62dfc9874cca28f0e5ba633b86cf",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_contact_erki_savisaar_kriisikontakt",
@@ -1130,14 +2146,44 @@
       "status": "active",
       "summary": "Erki Savisaar on Vormsi vallavanem ja valla kriisikontakt kriisiolukordades. KOV kriisileht nimetab ta valla kontaktiks kriisiolukorras.",
       "sourceKeys": [
-        "crisis_page",
-        "contacts_page"
+        "contacts_page",
+        "crisis_page"
       ],
       "name": "Erki Savisaar",
       "role": "Vallavanem; kriisikontakt",
       "department": "Vormsi vallavalitsus",
       "address": "Hullo, Vormsi vald, Läänemaa",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contacts_page",
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_contact_erki_savisaar_kriisikontakt",
+      "document_id": "vormsi_vald_contact_erki_savisaar_kriisikontakt",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "dc5d0988328578c81917798e1a1a328a1ffcabe5595c40f975d50a245b1f69c1",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_hairenuputeenus",
@@ -1153,7 +2199,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_hairenuputeenus",
+      "document_id": "vormsi_vald_resource_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "e040875d603b735a093af63a0d045b0a97fb7f71b1309742bfcd7d83c7cda7f8",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_perelepitus",
@@ -1169,7 +2244,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_perelepitus",
+      "document_id": "vormsi_vald_resource_perelepitus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "7dcc3bbd58a77bddecee50e036643e82fcc122316a7f95f38955e3466a1807d6",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_leinanoustamine",
@@ -1185,7 +2289,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_leinanoustamine",
+      "document_id": "vormsi_vald_resource_leinanoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "8cf75401b48730e848a3f75417574e1de18d713f965e6bc8dbfffad1a120b933",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_toidupank_toiduabi",
@@ -1201,7 +2334,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_toidupank_toiduabi",
+      "document_id": "vormsi_vald_resource_toidupank_toiduabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "91867917e755b30e54da2c714215af9016a11637a7bd23c66bfcd94de73015c9",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_parkimiskaart",
@@ -1217,7 +2379,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_parkimiskaart",
+      "document_id": "vormsi_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "0ecdd0d554c78e04beadd6827eaf412d425cbb3097da27ba07cd8271932d7f75",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_ohvriabi",
@@ -1233,7 +2424,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_ohvriabi",
+      "document_id": "vormsi_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "0bf00c9bb9042461278c5c4a5822f82158727d67c1d2ca17fedc159411045860",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_kuriteoohvri_huvitis",
@@ -1249,7 +2469,36 @@
       "officialUrl": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_kuriteoohvri_huvitis",
+      "document_id": "vormsi_vald_resource_kuriteoohvri_huvitis",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/elu-vormsil/sotsiaalhoolekanne/sotsiaalteenused/",
+      "content_hash": "c6bfcc93df8c518117f530b3b124668ca7ba1114d6a31d8a3a453feb0bc1c033",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_kriisikontaktid",
@@ -1265,7 +2514,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_kriisikontaktid",
+      "document_id": "vormsi_vald_resource_kriisikontaktid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "dec3ef559a65bc45b496256eaa5dc6d4977225af32c94e55876dbc5518a92974",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_kerksuskeskus_vormsi_koolimaja",
@@ -1281,7 +2559,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_kerksuskeskus_vormsi_koolimaja",
+      "document_id": "vormsi_vald_resource_kerksuskeskus_vormsi_koolimaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "61584b9fa3140d12c52943ff909690883f26f47a2f4501557fb4b042e3cb830c",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_kerksuskeskus_vormsi_lasteaed",
@@ -1297,7 +2604,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_kerksuskeskus_vormsi_lasteaed",
+      "document_id": "vormsi_vald_resource_kerksuskeskus_vormsi_lasteaed",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "7aea0069fe95e49d72a55f261b4c666327d09bc97dd8f812657b167f1ed791e0",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_naiste_tugiliin",
@@ -1313,7 +2649,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_naiste_tugiliin",
+      "document_id": "vormsi_vald_resource_naiste_tugiliin",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "8d130c2f63cfac37e206d2b8e927849da4fa4ce9b622d5ab2baced0e80aec4a8",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_murgistusinfo",
@@ -1329,7 +2694,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_murgistusinfo",
+      "document_id": "vormsi_vald_resource_murgistusinfo",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "9e73c4d2f2241b6f7d7230e830402f6c35e10eab7f799bfdbe1674635448726f",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_resource_perearsti_nouandeliin",
@@ -1345,7 +2739,36 @@
       "officialUrl": "https://vormsi.ee/kriisideks-valmisolek/",
       "relatedTo": [],
       "relatedContacts": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "resource",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "crisis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_resource_perearsti_nouandeliin",
+      "document_id": "vormsi_vald_resource_perearsti_nouandeliin",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://vormsi.ee/kriisideks-valmisolek/",
+      "content_hash": "563c765d76a7812ce7bbcf30af9909c98ebcea9b00d2ebc4599eec7709391f2b",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_sotsiaalteenuse_taotlus",
@@ -1384,7 +2807,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaalteenuse_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_sotsiaalteenuse_taotlus",
+      "document_id": "vormsi_vald_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0147002f74b6ba95e3a3c10576e08a0e0b4b99129b4af1a5cead0fe58f23d46a",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_sunnitoetus",
@@ -1408,7 +2860,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sunnitoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_sunnitoetus",
+      "document_id": "vormsi_vald_form_sunnitoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "488272e821bac4fff52193a3bc6640ae1e95dcf60ad65baf856d626647134e22",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_esimese_klassi_toetus",
@@ -1432,7 +2913,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "esimese_klassi_toetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_esimese_klassi_toetus",
+      "document_id": "vormsi_vald_form_esimese_klassi_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "10330685c56463b32d0cc88c315ebf13a64c2800bcaeeba503df29a4a360fa19",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_uheksanda_klassi_toetus",
@@ -1456,7 +2966,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "uheksanda_klassi_toetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_uheksanda_klassi_toetus",
+      "document_id": "vormsi_vald_form_uheksanda_klassi_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a95b676aaf869a77c1ff16558628096cac3f0afca69e399e1833a4bc4f2adbe5",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_uld_kutsehariduse_toetus",
@@ -1480,7 +3019,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "uld_kutsehariduse_toetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_uld_kutsehariduse_toetus",
+      "document_id": "vormsi_vald_form_uld_kutsehariduse_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "6c274d9913f187dd712a2ab15fd6ab7767ce07b8ca764bf0ceee7d073d4c20ad",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_matusetoetus",
@@ -1504,7 +3072,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "matusetoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_matusetoetus",
+      "document_id": "vormsi_vald_form_matusetoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "4e04d15bc3e8e69811971ade5d08842f78efc98e21079d5ac2d4a34811bee83d",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_sotsiaaltoetuse_taotlus",
@@ -1528,7 +3125,36 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sotsiaaltoetuse_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_sotsiaaltoetuse_taotlus",
+      "document_id": "vormsi_vald_form_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3d3346dfba3e7d12eb1cf187df085d2d42fe2e46bca118d5c367995b2ce1d57e",
+      "evidence_allowed": true
     },
     {
       "id": "vormsi_vald_form_sissetulekust_soltuva_toetuse_taotlus",
@@ -1555,7 +3181,39 @@
       "relatedContacts": [
         "vormsi_vald_contact_oivi_boyers"
       ],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "form",
+      "municipality_id": "vormsi_vald",
+      "municipality_name": "Vormsi vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sissetulekust_soltuva_toetuse_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "vormsi_vald_form_sissetulekust_soltuva_toetuse_taotlus",
+      "document_id": "vormsi_vald_form_sissetulekust_soltuva_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "848dffae46e82e05ce1e505c44247fe20da025a402cf2597a189174eee2120d3",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Vormsi vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

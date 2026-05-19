@@ -1,12 +1,12 @@
 {
-  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "schemaVersion": "v2.5-sourcepackage",
   "docId": "kov-poltsamaa-vald",
   "document_id": "kov-poltsamaa-vald",
   "municipality": "Põltsamaa vald",
   "municipality_id": "poltsamaa_vald",
   "county": "Jõgevamaa",
   "checkedAt": "2026-04-29",
-  "status": "needs_review",
+  "status": "ingest_ready",
   "collection_id": "kov_services",
   "source_type": "kov_service_info",
   "source_format": "rag_md",
@@ -19,14 +19,27 @@
     "benefits": 14,
     "resources": 16,
     "contacts": 10,
-    "forms": 16
+    "forms": 16,
+    "regulations": 0
   },
   "sourcePackageReadiness": {
+    "ok": true,
+    "collection_id": "kov_services",
+    "municipality_id": "poltsamaa_vald",
+    "source_register_file": "poltsamaa-vald.sources.json",
+    "service_benefit_resource_items": 53,
+    "items_with_source_keys": 53,
+    "items_missing_source_keys": [],
+    "items_with_related_forms": 34,
+    "items_without_related_forms": 19,
+    "items_with_related_contacts": 37,
+    "items_without_related_contacts": 16,
+    "form_sources": 1,
+    "contact_sources": 0,
     "regulation_sources": 0,
-    "has_web_sources": true,
-    "has_rag_markdown": true,
-    "has_structured_json": true,
-    "needs_review": true
+    "warnings": [
+      "3 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
+    ]
   },
   "notes": [
     "Korje aluseks on Põltsamaa valla ametlik veeb, mis suunab ajalooliselt poltsamaavv.kovtp.ee domeenilt kanonilisele aadressile www.poltsamaa.ee.",
@@ -46,5 +59,24 @@
     "Sotsiaalseadustiku üldosa seadus",
     "Haldusmenetluse seadus",
     "Liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaardi vorm ja väljaandmise tingimused"
+  ],
+  "municipality_name": "Põltsamaa vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29",
+  "ingestReady": true,
+  "country": "EE",
+  "language": "et",
+  "sourceRegisterFile": "poltsamaa-vald.sources.json",
+  "sourceCount": 48,
+  "counts": {
+    "services": 23,
+    "benefits": 14,
+    "resources": 16,
+    "contacts": 10,
+    "forms": 16,
+    "regulations": 0
+  },
+  "warnings": [
+    "3 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
   ]
 }

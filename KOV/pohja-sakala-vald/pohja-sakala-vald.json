@@ -29,7 +29,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_pohja_sakala_vallavalitsus",
+      "document_id": "pohja_sakala_vald_contact_pohja_sakala_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "715c8b38b66ef8373fa0b5ae9ac8c3abcb959479c43bfc3eebe76c67868eb627",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_vohma_teenuskeskus",
@@ -50,7 +79,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_vohma_teenuskeskus",
+      "document_id": "pohja_sakala_vald_contact_vohma_teenuskeskus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "c2aa94868eb04f2000caeeca4402a9be6f63af288314e5dc5cd6281b8c7bef33",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_kristi_liivson",
@@ -71,7 +129,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_kristi_liivson",
+      "document_id": "pohja_sakala_vald_contact_kristi_liivson",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "f6a8343fc54d7f49ef912a244a15eb66c2d324efb9461ea94e3af8a7c0f43e1f",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_olga_laanepuu",
@@ -94,7 +181,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_olga_laanepuu",
+      "document_id": "pohja_sakala_vald_contact_olga_laanepuu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "23845a0d11f5150f58a8eab4cf8d0813e0f81e9995eaac1c627d0c73f6012748",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_maie_kaba",
@@ -117,7 +233,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_maie_kaba",
+      "document_id": "pohja_sakala_vald_contact_maie_kaba",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "1d9bece6aa648b96fd7798201224d4b26d93c6ab0a0b058da362eefe15e88ced",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_ylle_udras",
@@ -140,7 +285,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_ylle_udras",
+      "document_id": "pohja_sakala_vald_contact_ylle_udras",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "fb16f3e6bcef0ae7b697e25d9bb5b6936ac6a5ed1229a831e29e5f41d27aa0ef",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_laura_leiten",
@@ -161,7 +335,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_laura_leiten",
+      "document_id": "pohja_sakala_vald_contact_laura_leiten",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "bf6c0c69984bf9287c4b4a2951863e2dee22468b9250074dd94e9df6fedb5a19",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_maarja_palu",
@@ -182,7 +385,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_maarja_palu",
+      "document_id": "pohja_sakala_vald_contact_maarja_palu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "content_hash": "ff2d9f256080637c684c60c190bb0139a1a7d6ed4ceb27403306d5f98f67574c",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_annely_starkopf",
@@ -205,7 +437,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "psuhholoogiline_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_annely_starkopf",
+      "document_id": "pohja_sakala_vald_contact_annely_starkopf",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "content_hash": "4a7957c773b2021c092d9388e182e57cb9ab4719f6aa23d3779cd8816316d805",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_contact_triinu_tints",
@@ -228,7 +489,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "raseduskriisi_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_contact_triinu_tints",
+      "document_id": "pohja_sakala_vald_contact_triinu_tints",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/raseduskriisi-noustamine",
+      "content_hash": "4e10ac7f664eed043ee632c34a9c1df3026a33827ddab9f2acf4109b9177db05",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_koduteenus",
@@ -270,7 +560,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_koduteenus",
+      "document_id": "pohja_sakala_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/koduteenus",
+      "content_hash": "9a28a31310001cf337115d9466d931fb1d3fe9290c7287ef29589fc2728b029d",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_uldhooldusteenus",
@@ -309,7 +628,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_uldhooldusteenus",
+      "document_id": "pohja_sakala_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/uldhooldusteenus",
+      "content_hash": "621fdf2d5c1a21eadea16ba449a7c812dbd16c6f700cb16610a57916ebe5ece0",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_taisealise_isiku_hooldus",
@@ -348,7 +696,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_taisealise_isiku_hooldus",
+      "document_id": "pohja_sakala_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/taisealise-isiku-hooldus",
+      "content_hash": "62eefaa0dcc374deb51fba94d1ddbf2a6d9a418d535b8ee57d6c292af750bb9c",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_isikliku_abistaja_teenus",
@@ -385,7 +762,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "isikliku_abistaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_isikliku_abistaja_teenus",
+      "document_id": "pohja_sakala_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/isikliku-abistaja-teenus",
+      "content_hash": "0b2038251e722263a56c4af7cb104c815aa42011ecafdef187b341ba973acad9",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_tugiisikuteenus",
@@ -422,7 +828,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_tugiisikuteenus",
+      "document_id": "pohja_sakala_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/tugiisikuteenus",
+      "content_hash": "2d3180607409d119ceb849d3fb98bf47ba0c6f92b6db855851acea05232a8a99",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_lapsehoiuteenus",
@@ -459,7 +894,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_lapsehoiuteenus",
+      "document_id": "pohja_sakala_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/lapsehoiuteenus",
+      "content_hash": "740a3d0e070bf0df9d889a6ea694b92573e91ba70a6d88dc9ecec01905c79b7a",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_eluruumi_tagamise_teenus",
@@ -502,7 +966,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eluruumi_tagamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "pohja_sakala_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/eluruumi-tagamine",
+      "content_hash": "fb0c827a80715af014b0e2d8c5688d3417c22b9381d84a9689b397da5edcd333",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_sotsiaaltransporditeenus",
@@ -539,7 +1032,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_sotsiaaltransporditeenus",
+      "document_id": "pohja_sakala_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltransport",
+      "content_hash": "3946ddae0ee4f35c44207ea78d532051ba179ec7e09e687678d369d11d81d9a8",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_psuhholoogiline_noustamine",
@@ -576,7 +1098,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "psuhholoogiline_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_psuhholoogiline_noustamine",
+      "document_id": "pohja_sakala_vald_service_psuhholoogiline_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "content_hash": "175ee92d5df2045b4d5b6dc64868fd928ee8a5822938790e262a676f11d03820",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_volanoustamisteenus",
@@ -613,7 +1164,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "volanoustamine_oigusabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_volanoustamisteenus",
+      "document_id": "pohja_sakala_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/volanoustamine-oigusabi",
+      "content_hash": "8c34ef59ef7ee2a66e3887f121281d1d44b4552a129065a17915423041fccd93",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_asendushooldusteenus",
@@ -650,7 +1230,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "asendushooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_asendushooldusteenus",
+      "document_id": "pohja_sakala_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/peres-hooldamine-ja-asendushooldusteenus",
+      "content_hash": "d8c1b5a75f7155d434f2574d693e2142b3667b7e55c0a00dc44ac665997d1dcd",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_jarelhooldusteenus",
@@ -687,7 +1296,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_jarelhooldusteenus",
+      "document_id": "pohja_sakala_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/jarelhooldusteenus",
+      "content_hash": "22cafccbbf8bd2e038b6d11460d2f934db19b3061c33a9aadd670cfc4d8dea86",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_varjupaigateenus",
@@ -723,7 +1361,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_varjupaigateenus",
+      "document_id": "pohja_sakala_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/varjupaigateenus",
+      "content_hash": "fff649f90031a0c1cf8603854baeeef632ed0fb8c056e5a7bb6e5ff7fd8f737c",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_turvakoduteenus",
@@ -762,7 +1429,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_turvakoduteenus",
+      "document_id": "pohja_sakala_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/turvakoduteenus",
+      "content_hash": "54bde537c104964a00652cf321c2edde8b6abe6919fdb078da0b828a866079b0",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
@@ -800,7 +1496,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
+      "document_id": "pohja_sakala_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/uldteave1",
+      "content_hash": "ec5949910dff0126bf95dc21887d8e4c10f6924fa6f4038aa7a93f1247fd3622",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_igapaevaelu_toetamise_teenus",
@@ -834,7 +1559,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "igapaevaelu_toetamise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_igapaevaelu_toetamise_teenus",
+      "document_id": "pohja_sakala_vald_service_igapaevaelu_toetamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/iet",
+      "content_hash": "e95910868ac71f686c2503c1c5d0a8838d3f0b45f7d5297465d6bbaa93915e96",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_toetatud_elamise_teenus",
@@ -868,7 +1622,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "toetatud_elamise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_toetatud_elamise_teenus",
+      "document_id": "pohja_sakala_vald_service_toetatud_elamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/te",
+      "content_hash": "2b1ffec4a392a67b4471a3eea274fb6a4d67a8ce703553ec30bf7809195277ff",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_service_sotsiaalteenuste_keskuse_avalikud_teenused",
@@ -904,7 +1687,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "stk_avalikud_teenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_service_sotsiaalteenuste_keskuse_avalikud_teenused",
+      "document_id": "pohja_sakala_vald_service_sotsiaalteenuste_keskuse_avalikud_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/stk-avalikud-teenused",
+      "content_hash": "1172be8b4926c3577ff9eadff71689f378bd1faddf670e2261ab8e69c62c65c7",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_riiklik_toimetulekutoetus",
@@ -943,7 +1755,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "toimetulek_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_riiklik_toimetulekutoetus",
+      "document_id": "pohja_sakala_vald_benefit_riiklik_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/riiklik-toimetulek",
+      "content_hash": "371805d9fd7e8968ba1403f856bfee18490c35b7e472146b19459e25019e68f2",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_laste_toitlustamise_toetus",
@@ -983,7 +1824,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_laste_toitlustamise_toetus",
+      "document_id": "pohja_sakala_vald_benefit_laste_toitlustamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "6a461c209fb516b7557f154bb9f1ba0a5d6cab2da147fec0bc7505be123e1441",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_taiendav_sotsiaaltoetus",
@@ -1020,7 +1890,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_taiendav_sotsiaaltoetus",
+      "document_id": "pohja_sakala_vald_benefit_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "d2b8a983b312071822cc2c75353589aa03328a26c375aa1b43ec409f33b4d82d",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_onnetusjuhtumi_toetus",
@@ -1056,7 +1955,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_onnetusjuhtumi_toetus",
+      "document_id": "pohja_sakala_vald_benefit_onnetusjuhtumi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "32f4b175a39edd1f416c93e5f0f204a7098769a4ad5d4a21069e015e94a63b6a",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_valtimatu_abi_toetus",
@@ -1093,7 +2021,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_valtimatu_abi_toetus",
+      "document_id": "pohja_sakala_vald_benefit_valtimatu_abi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "63f4188200e5a3814a1f8ebb6cc69959c97a03834788da88447cefffbb82d144",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_sunnitoetus",
@@ -1130,7 +2087,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_sunnitoetus",
+      "document_id": "pohja_sakala_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "bcfecb564f7d14faf41b0e0b5650fcb43d13acb4f769ad139882fac221f493a8",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_ranitsatoetus",
@@ -1166,7 +2152,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_ranitsatoetus",
+      "document_id": "pohja_sakala_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "c05dcf96745fbac6369ab0573220544943e90b554e1325824a98d5bff7b50039",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_laste_prillitoetus",
@@ -1204,7 +2219,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_laste_prillitoetus",
+      "document_id": "pohja_sakala_vald_benefit_laste_prillitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "709e89a833ecdc10c8f4705a404770d25b185b2d2ed428a1a3087b3c8a41c06e",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_matusetoetus",
@@ -1240,7 +2284,36 @@
       "status": "active",
       "relatedTo": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_matusetoetus",
+      "document_id": "pohja_sakala_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "content_hash": "ba1faece4c3541014a3bfa2e081c193c5b28b38c13b9615fd55f6ef42476f725",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -1280,7 +2353,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "pohja_sakala_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/taisealise-isiku-hooldus",
+      "content_hash": "a98173fa76e3f9d35368628d409a1d0d4ffe92b64ec7cc1168dbdac7b644a2f6",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -1321,7 +2423,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "pohja_sakala_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/eeskirjad-ja-korrad1",
+      "content_hash": "42f75ff5a6ab2e508927f637a61a31921c71334f8c25b54b84aa1ea43366fd65",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_benefit_eluaseme_kohandamise_toetus",
@@ -1360,7 +2491,36 @@
       ],
       "status": "active",
       "relatedTo": [],
-      "sections_present": []
+      "sections_present": [],
+      "item_type": "benefit",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_benefit_eluaseme_kohandamise_toetus",
+      "document_id": "pohja_sakala_vald_benefit_eluaseme_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/eeskirjad-ja-korrad1",
+      "content_hash": "b4a04895e4ba74f85e713f888a2939b70048cf73d1ef1d669f1369ebd16675d5",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_lohavere_ravi_ja_hooldekeskus",
@@ -1383,7 +2543,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_lohavere_ravi_ja_hooldekeskus",
+      "document_id": "pohja_sakala_vald_resource_lohavere_ravi_ja_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/hoolekandeasutused",
+      "content_hash": "4d3ed72e0cb58c7d721fc09536beba898d0e2258b02685c30e57e7a4a16511eb",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_pilistvere_hooldekodu",
@@ -1406,7 +2595,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_pilistvere_hooldekodu",
+      "document_id": "pohja_sakala_vald_resource_pilistvere_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/hoolekandeasutused",
+      "content_hash": "79f3387372623b1daed80d9ea536126cba16274f97416f76351bc88afbb90e8f",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_ohvriabi",
@@ -1428,7 +2646,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_ohvriabi",
+      "document_id": "pohja_sakala_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/ohvriabi",
+      "content_hash": "a14c79aff699e4853ec77456745b547e5259e32542b3b20cec9775710d0e34b8",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_medi_hairenuputeenus",
@@ -1450,7 +2697,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "medi_hairenuputeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_medi_hairenuputeenus",
+      "document_id": "pohja_sakala_vald_resource_medi_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/medi-hairenuputeenus",
+      "content_hash": "2c2c8dcc7ec970f144eecaba698bb881736310132ce9e5a8047e524598df0669",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_koduanduri_teenus",
@@ -1473,7 +2749,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "koduanduri_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_koduanduri_teenus",
+      "document_id": "pohja_sakala_vald_resource_koduanduri_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/koduanduri-teenus",
+      "content_hash": "1aeaab3684423f26ced6eae082292ff7a813cdacdb4911c714d3e0f57123c308",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_juriidiline_noustamine_lapsevanematele",
@@ -1495,7 +2800,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "juriidiline_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_juriidiline_noustamine_lapsevanematele",
+      "document_id": "pohja_sakala_vald_resource_juriidiline_noustamine_lapsevanematele",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/juriidiline-noustamine",
+      "content_hash": "390d3b349995eba9b0decc797bd258f1050cdd8c1238bb489c77426d6bd012d1",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_perelepitus",
@@ -1516,7 +2850,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "perelepitus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_perelepitus",
+      "document_id": "pohja_sakala_vald_resource_perelepitus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/perelepitus",
+      "content_hash": "3a2c01d243350225d9120ca64c773afd2ab7aba1dfaf36cb3bf46619d47ea464",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_raseduskriisi_noustamine",
@@ -1541,7 +2904,36 @@
       "status": "active",
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "raseduskriisi_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_raseduskriisi_noustamine",
+      "document_id": "pohja_sakala_vald_resource_raseduskriisi_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/raseduskriisi-noustamine",
+      "content_hash": "2fe5059a800fdf7a8ed8e7aecd24eac6ba3d73a247fba99776afab4657cfb4d2",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_puudega_lapse_kasiraamat",
@@ -1563,7 +2955,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "puudega_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_puudega_lapse_kasiraamat",
+      "document_id": "pohja_sakala_vald_resource_puudega_lapse_kasiraamat",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/puudega-laps",
+      "content_hash": "6887a3b37d7b21477a6afb25fe8fc644f3d3f2f9fe14c84ad8857f2a0941bbd2",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_lastekaitse_abi",
@@ -1592,7 +3013,36 @@
       "status": "active",
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_lastekaitse_abi",
+      "document_id": "pohja_sakala_vald_resource_lastekaitse_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/lastekaitse",
+      "content_hash": "910fb6c40d46677e4923ac8481c4028fe293265199d352b11fd6015c0a720def",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_hugo_tasuta_oigusabi",
@@ -1613,7 +3063,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "volanoustamine_oigusabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_hugo_tasuta_oigusabi",
+      "document_id": "pohja_sakala_vald_resource_hugo_tasuta_oigusabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/volanoustamine-oigusabi",
+      "content_hash": "3b2807b54c21b0b5599760fbeb233599b9575878a0763bb8203325be2f0c3133",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_resource_tootukassa_psuhholoogiline_noustamine",
@@ -1635,7 +3114,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "psuhholoogiline_noustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_resource_tootukassa_psuhholoogiline_noustamine",
+      "document_id": "pohja_sakala_vald_resource_tootukassa_psuhholoogiline_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "content_hash": "cdde89612d82edc27bde7a973e92928191451d23bc93b3253559ff2d0e14d543",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_sotsiaaltoetuse_taotlus",
@@ -1658,14 +3166,44 @@
         "pohja_sakala_vald_benefit_onnetusjuhtumi_toetus"
       ],
       "sourceKeys": [
-        "sotsiaaltoetuse_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "sotsiaaltoetuse_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_sotsiaaltoetuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/Sotsiaaltoetus_2019.pdf/ac7dbe5c-c4c5-4101-87e3-347eed9cc2db",
+      "content_hash": "d437be7c5770c7132cc922b9666d867475cddd2b8b9cb968ef89a6dab28d6cf7",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_sunnitoetuse_taotlus",
@@ -1683,14 +3221,44 @@
         "pohja_sakala_vald_benefit_sunnitoetus"
       ],
       "sourceKeys": [
-        "sunnitoetuse_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "sunnitoetuse_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "sunnitoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_sunnitoetuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_synnitoetus.pdf/5d9b9ab0-30fa-46b3-8ecb-333a4e471ed2",
+      "content_hash": "5e0c3951072c5f4b150ee712f478381818f132e0f93b5bc3a08db5980442479a",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_matusetoetuse_taotlus",
@@ -1708,14 +3276,44 @@
         "pohja_sakala_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
-        "matusetoetuse_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "matusetoetuse_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "matusetoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_matusetoetuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_matusetoetus.pdf/280ae940-09a5-4844-9d66-59e3f975e897",
+      "content_hash": "13680e317a56503cb6e37d6ebb2566b062d16f523bc9185d88ba5e8e0c94d160",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_sotsiaalteenuse_taotlus",
@@ -1737,14 +3335,44 @@
         "pohja_sakala_vald_service_taiendavad_vajaduspohised_sotsiaalteenused"
       ],
       "sourceKeys": [
-        "sotsiaalteenuse_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "sotsiaalteenuse_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "sotsiaalteenuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_sotsiaalteenuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa4_sotsiaalteenuse_taotlus.pdf/d261c219-d779-4878-a15b-292b59853361",
+      "content_hash": "4784c79456e5022d1612faced0a8177a97703c96c4642d39b6c553a2904a04b3",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_toimetulekutoetuse_taotlus",
@@ -1762,14 +3390,44 @@
         "pohja_sakala_vald_benefit_riiklik_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "toimetulekutoetuse_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "toimetulekutoetuse_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "toimetulekutoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotlus.pdf/e0b2d756-a1a7-4464-85ce-fafc2fa8e7a0",
+      "content_hash": "a1e96b31fa01021241344133788b47eaa03aaf4df845fb163bb82bcd186405c7",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_toimetulek_pere_vara_andmed",
@@ -1787,14 +3445,44 @@
         "pohja_sakala_vald_benefit_riiklik_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "toimetulek_pere_vara_file",
-        "forms_page"
+        "forms_page",
+        "toimetulek_pere_vara_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "toimetulek_pere_vara_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_toimetulek_pere_vara_andmed",
+      "document_id": "pohja_sakala_vald_form_toimetulek_pere_vara_andmed",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotleja_pere_andmed.pdf/adeb1ed9-7272-42dc-848c-d2704faa7f3a",
+      "content_hash": "019260bc2114894a792d6b68064f3598e8b8708c84b09763ecbf53a633f3fcc7",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_hoolekandeteenuse_rahastamise_taotlus",
@@ -1812,14 +3500,44 @@
         "pohja_sakala_vald_service_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "hoolekandeteenuse_rahastamise_file",
-        "forms_page"
+        "forms_page",
+        "hoolekandeteenuse_rahastamise_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "hoolekandeteenuse_rahastamise_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_hoolekandeteenuse_rahastamise_taotlus",
+      "document_id": "pohja_sakala_vald_form_hoolekandeteenuse_rahastamise_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/153_lisa_taotlus_260522.pdf/df7180f9-5360-4b8e-87a3-ade989b27a98",
+      "content_hash": "daac7be1ddde0a7dff768d7ac4b799eacde362217878727739b20d5a58ee5208",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_taiskasvanu_hoolduse_taotlus",
@@ -1838,14 +3556,44 @@
         "pohja_sakala_vald_benefit_taisealise_isiku_hooldajatoetus"
       ],
       "sourceKeys": [
-        "taiskasvanu_hoolduse_file",
-        "forms_page"
+        "forms_page",
+        "taiskasvanu_hoolduse_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "taiskasvanu_hoolduse_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_taiskasvanu_hoolduse_taotlus",
+      "document_id": "pohja_sakala_vald_form_taiskasvanu_hoolduse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa1_hoolduse%2Bvorm_taiskasvanu.pdf/91fcc652-170d-43eb-aa4a-f146c5b20055",
+      "content_hash": "bec64289daf8587d2f1a938cc65fcfdd15e3b3255c6d5d18d0ba3d76f5a2d3d3",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_puudega_lapse_hooldajatoetus_taotlus",
@@ -1863,14 +3611,44 @@
         "pohja_sakala_vald_benefit_puudega_lapse_hooldajatoetus"
       ],
       "sourceKeys": [
-        "puudega_lapse_hooldajatoetus_file",
-        "forms_page"
+        "forms_page",
+        "puudega_lapse_hooldajatoetus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "puudega_lapse_hooldajatoetus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_puudega_lapse_hooldajatoetus_taotlus",
+      "document_id": "pohja_sakala_vald_form_puudega_lapse_hooldajatoetus_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa2_HT_laps.pdf/86de6b12-b735-49e8-9af7-9a14b5e71d47",
+      "content_hash": "44945a4268dc92806d618fd3607210c5c13e6bf13168a3896d0c39a9a272ff16",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_eluaseme_kohandamise_toetus_taotlus",
@@ -1895,7 +3673,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eluaseme_kohandamise_toetus_file",
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_eluaseme_kohandamise_toetus_taotlus",
+      "document_id": "pohja_sakala_vald_form_eluaseme_kohandamise_toetus_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa1.pdf/c80370c4-ef76-4637-82dc-b7218a0abbde",
+      "content_hash": "274a59f771b5689c732c37f8017de854e3089ca60f590ddf7a78d685ceacc843",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_eluruumi_omaniku_nousolek",
@@ -1920,7 +3728,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eluruumi_omaniku_nousolek_file",
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_eluruumi_omaniku_nousolek",
+      "document_id": "pohja_sakala_vald_form_eluruumi_omaniku_nousolek",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa2.pdf/e9f55a0f-736c-4b11-825e-8fc78f2c2ee5",
+      "content_hash": "de177c391cd375f961579bda8c784b3b7b29cf85f102921a3342c9eb0aff3692",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_raske_sugava_puudega_lapse_teenuse_taotlus",
@@ -1936,14 +3774,44 @@
       "officialUrl": "https://www.pohja-sakala.ee/documents/17894261/19980876/867_lisa.pdf/8155ae11-2789-4ec9-94cd-27f3c4f8e051",
       "relatedTo": [],
       "sourceKeys": [
-        "raske_sugava_puudega_lapse_teenus_file",
-        "forms_page"
+        "forms_page",
+        "raske_sugava_puudega_lapse_teenus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "raske_sugava_puudega_lapse_teenus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_raske_sugava_puudega_lapse_teenuse_taotlus",
+      "document_id": "pohja_sakala_vald_form_raske_sugava_puudega_lapse_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/867_lisa.pdf/8155ae11-2789-4ec9-94cd-27f3c4f8e051",
+      "content_hash": "620f219b10b375bc50ebe149f53df6df5b7122bdd55b8d36a688f6c257d5c497",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_eluruumi_tagamise_taotlus",
@@ -1968,7 +3836,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "eluruumi_tagamise_taotlus_file",
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_eluruumi_tagamise_taotlus",
+      "document_id": "pohja_sakala_vald_form_eluruumi_tagamise_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa3_eluruumi_tagamise_teenuse_taotlus.pdf/491b53d4-1ac7-4613-a86f-106fc4971b76",
+      "content_hash": "9f8b27926b7bf7dc81a846210a914bc9425e5cd881ca52337ba77746e9d9995f",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_koduteenuse_hoolduskava",
@@ -1986,14 +3884,44 @@
         "pohja_sakala_vald_service_koduteenus"
       ],
       "sourceKeys": [
-        "koduteenuse_hoolduskava_file",
-        "forms_page"
+        "forms_page",
+        "koduteenuse_hoolduskava_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "koduteenuse_hoolduskava_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_koduteenuse_hoolduskava",
+      "document_id": "pohja_sakala_vald_form_koduteenuse_hoolduskava",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa1_koduteenuse_hoolduskava.pdf/be3327c2-adc1-4894-b0ba-639ef9b5a2fa",
+      "content_hash": "a0b05fffff2afc675be9108471138334adce5b7a1a670b726dd8661c81b96e80",
+      "evidence_allowed": true
     },
     {
       "id": "pohja_sakala_vald_form_koduteenuse_kliendikaart",
@@ -2011,14 +3939,47 @@
         "pohja_sakala_vald_service_koduteenus"
       ],
       "sourceKeys": [
-        "koduteenuse_kliendikaart_file",
-        "forms_page"
+        "forms_page",
+        "koduteenuse_kliendikaart_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "pohja_sakala_vald",
+      "municipality_name": "Põhja-Sakala vald",
+      "county": "Viljandimaa",
+      "source_keys": [
+        "forms_page",
+        "koduteenuse_kliendikaart_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "pohja_sakala_vald_form_koduteenuse_kliendikaart",
+      "document_id": "pohja_sakala_vald_form_koduteenuse_kliendikaart",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa2_koduteenuse_kliendikaart.pdf/516a84ff-9ac5-4d5f-bca4-2dc762a73114",
+      "content_hash": "558e4e6d71d8ae566dcb8d222d6d14f119c2503f3e0b159cfd7c6808ce2b0f18",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Põhja-Sakala vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

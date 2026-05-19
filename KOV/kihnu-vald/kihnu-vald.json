@@ -27,7 +27,37 @@
       "sourceKeys": [
         "contact_page",
         "home"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_kihnu_vallavalitsus",
+      "document_id": "kihnu_vald_contact_kihnu_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "c088c4345a072d1c90d008474a6d50eb268a18853c3d61ee29145fd4f2727f9b",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_aive_sepp",
@@ -44,10 +74,41 @@
       "officialUrl": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
       "relatedTo": [],
       "sourceKeys": [
-        "contact_page",
         "child_help_page",
+        "contact_page",
         "social_services_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "child_help_page",
+        "contact_page",
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_aive_sepp",
+      "document_id": "kihnu_vald_contact_aive_sepp",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "def8383de4509d1fe436201c3578b79359f1f3d3a5503bac27dacfbb5334d73b",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_ene_ly_juganson",
@@ -65,7 +126,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_ene_ly_juganson",
+      "document_id": "kihnu_vald_contact_ene_ly_juganson",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "c72c44f06e553ccccb212f781cea5882776cde80cd47a3e2b496aa1e37d04707",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_malve_laus",
@@ -83,7 +173,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_malve_laus",
+      "document_id": "kihnu_vald_contact_malve_laus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "3d6010437574065107c941f19ccc7bbd39adf9a1f41adb33940c616793590dfb",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_lea_lang",
@@ -101,7 +220,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_lea_lang",
+      "document_id": "kihnu_vald_contact_lea_lang",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "4c930077d0828e9eb3685aa2254653c7385535a3d5033028389eeaa421c2e957",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_jaanika_vahkel",
@@ -119,7 +267,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_jaanika_vahkel",
+      "document_id": "kihnu_vald_contact_jaanika_vahkel",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "a858d3a92e074dfcc3aa7e5dfb875e06598db6214cabf454800c47fdf265d983",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_contact_kaie_lehtpuu",
@@ -137,7 +314,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_contact_kaie_lehtpuu",
+      "document_id": "kihnu_vald_contact_kaie_lehtpuu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/juhtimine/vallavalitsus/kontaktid/",
+      "content_hash": "380a26de64ea71c7ae98868339c2f0c4da4806c77a5b4ad5769274bb2262eb18",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_koduteenus",
@@ -174,7 +380,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_koduteenus",
+      "document_id": "kihnu_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "24bf2d553e3ba1fec882f2d3938fe11b07572790b526f88afb93a859650e7571",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_sotsiaaltransporditeenus",
@@ -209,7 +444,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_sotsiaaltransporditeenus",
+      "document_id": "kihnu_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "70fb6e6bb16e4b793e7d48fdc2d8d96005776a7b19af58dde3f354dec87c2b78",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_eluruumi_tagamine",
@@ -244,7 +508,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_eluruumi_tagamine",
+      "document_id": "kihnu_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "786405a9e84f3010bb77fb15e975874e9341a60b6702ff081aae7886b3ce6056",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_taisealise_isiku_hooldus",
@@ -278,7 +571,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_taisealise_isiku_hooldus",
+      "document_id": "kihnu_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "ffb9184a99dfdb959874120df1995775b51a08cbb9dd817eae69d1bd03819488",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_tugiisikuteenus",
@@ -315,7 +637,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_tugiisikuteenus",
+      "document_id": "kihnu_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "7da168504709f3925d9412aff3291a8ae99c51eb6a218c7433a0e652a5ed4224",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -350,10 +701,40 @@
         "kihnu_vald_contact_aive_sepp"
       ],
       "sourceKeys": [
-        "social_services_page",
-        "hooldekodu_page"
+        "hooldekodu_page",
+        "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "hooldekodu_page",
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "kihnu_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "deab8e3ba34db3b94e8aee6d9113b04aac66dd3b8031d997e33a3bbef4b7d283",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_isikliku_abistaja_teenus",
@@ -386,7 +767,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_isikliku_abistaja_teenus",
+      "document_id": "kihnu_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "276f56cc67a986881863b475bb2497d9c56b391914cd3cae50900dfacf4398b8",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_varjupaigateenus",
@@ -422,7 +832,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_varjupaigateenus",
+      "document_id": "kihnu_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "a8494b486b639a6802376441b46bfdb16ef2a6de467e245ac61c7c974da06e22",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_turvakoduteenus",
@@ -459,7 +898,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_turvakoduteenus",
+      "document_id": "kihnu_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "3ee63529569c35ef7534fc26cf3308377a09b02bec37762749ff2d29216bb99b",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_volanoustamisteenus",
@@ -495,7 +963,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_volanoustamisteenus",
+      "document_id": "kihnu_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "86c6f4a7b9a51ad600a6b1095449d4309a4e5890bd361346c41098cf0baa85fe",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_lapsehoiuteenus",
@@ -528,7 +1025,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_lapsehoiuteenus",
+      "document_id": "kihnu_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "6e285b0888ee6b2cc93ce50cce04f786686dcd9c72e8c82d11e8476d9d26adf3",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_asendushooldusteenus",
@@ -561,7 +1087,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_asendushooldusteenus",
+      "document_id": "kihnu_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "4c4b5e3893d27a31e5335f6a6ef1df986181a7aecc7922114f659e19b71da900",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_jarelhooldusteenus",
@@ -594,7 +1149,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_jarelhooldusteenus",
+      "document_id": "kihnu_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "62e830be705f43895450f69ed732a9bfd16a2feccaa8c5b061ad00a818a559f4",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_hairekella_teenus",
@@ -632,7 +1216,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_hairekella_teenus",
+      "document_id": "kihnu_vald_service_hairekella_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "e06f12cc8d7f5b94d399c6209fd1778345ddb9625c8be3df5c32fb2ee79b0cb7",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_vaimse_tervise_teenus",
@@ -668,7 +1281,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_vaimse_tervise_teenus",
+      "document_id": "kihnu_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "bf6e46339ebed85a7312020ed333a29351d99d8f1a99efdc8c11d27e8ee71281",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_dusi_kasutamine_tervisekeskuses",
@@ -692,7 +1334,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_dusi_kasutamine_tervisekeskuses",
+      "document_id": "kihnu_vald_service_dusi_kasutamine_tervisekeskuses",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "40cfcc81dcae84e64c48cbf1e44ba37d44651a542ea81419688719072aa1b613",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_pesupesemine_tervisekeskuses",
@@ -716,7 +1387,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_pesupesemine_tervisekeskuses",
+      "document_id": "kihnu_vald_service_pesupesemine_tervisekeskuses",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "4ee030fb396cd0e9500902d8c4808a7d1b89904a425855e6b28aaf688f1019e7",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_ravimite_kojuvedu",
@@ -740,7 +1440,36 @@
       "sourceKeys": [
         "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_ravimite_kojuvedu",
+      "document_id": "kihnu_vald_service_ravimite_kojuvedu",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "325059ff404c0a36bf5f2e3bc543814b76282e2f9e061501288c77bbfcc7979d",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_service_puudega_inimese_parkimiskaart",
@@ -774,7 +1503,36 @@
       "sourceKeys": [
         "disability_aid_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "disability_aid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_service_puudega_inimese_parkimiskaart",
+      "document_id": "kihnu_vald_service_puudega_inimese_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puuetega-inimestele-abi/",
+      "content_hash": "956493a9dcdcc008cfb170acffc6e4d3ff954dc59e0231f17826d39b41ffbf78",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_toimetulekutoetus",
@@ -815,7 +1573,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_toimetulekutoetus",
+      "document_id": "kihnu_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "12964dd7c2c03f330122f8fc7d73071ec3a476e91a09aef5e477dd70857e2028",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_taiendav_sotsiaaltoetus_alalaealiste_perele",
@@ -845,7 +1632,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_taiendav_sotsiaaltoetus_alalaealiste_perele",
+      "document_id": "kihnu_vald_benefit_taiendav_sotsiaaltoetus_alalaealiste_perele",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "af01658732b7ba6c7fc207f5c622709b71cde4017f685a585249044c65adb3c8",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_sunnitoetus",
@@ -885,7 +1701,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_sunnitoetus",
+      "document_id": "kihnu_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "d20d40d74d3fd6ff0cc2e1a1efdb3a1e5bb43e77d9b4e8f2c726e0fb0b775fc4",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_matusetoetus",
@@ -924,7 +1769,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_matusetoetus",
+      "document_id": "kihnu_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "b8c266bdd5717aee851cbd227097c08ca3f5b62fc3878a8143dfb3822b0abb57",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_koolitoetus_oppetoetus",
@@ -951,7 +1825,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_koolitoetus_oppetoetus",
+      "document_id": "kihnu_vald_benefit_koolitoetus_oppetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "a8ff36b9eb6b47e8403043690656dbabeb4d78ca74688dc112b2345ceea98be7",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_kooli_lopetamise_toetus",
@@ -977,7 +1880,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_kooli_lopetamise_toetus",
+      "document_id": "kihnu_vald_benefit_kooli_lopetamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "0fc5261a2298bfb33c096bb782e903e0d2ca1971a3b79befe87856621ce35280",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_lastetoetus",
@@ -1002,7 +1934,36 @@
       ],
       "unresolvedIssues": [
         "KOV veebileht ei täpsusta lastetoetuse asjalist sisu, taotlemise korda ega väärtust."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_lastetoetus",
+      "document_id": "kihnu_vald_benefit_lastetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "a3e1bbb0134f187f986041e9206f283314c8169ca14e4aad3a9dd23d574086f4",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_toitjakaotustoetus",
@@ -1040,7 +2001,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_toitjakaotustoetus",
+      "document_id": "kihnu_vald_benefit_toitjakaotustoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "d286799d1cfdc7294ad0785ef2bee18b039b71b55f035829da1094646fc88e95",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_tahtpaeva_toetus",
@@ -1066,7 +2056,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_tahtpaeva_toetus",
+      "document_id": "kihnu_vald_benefit_tahtpaeva_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "9adcc07332db9620ed89e43f7e9ac9b53be913a14062d7bfa7e59edd3961788a",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_uhekordne_toetus",
@@ -1091,7 +2110,36 @@
       ],
       "unresolvedIssues": [
         "KOV veebileht ei nimeta ühekordse toetuse juures konkreetset taotlusvormi ega tähtaega."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_uhekordne_toetus",
+      "document_id": "kihnu_vald_benefit_uhekordne_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "a5949f97e62d3d15c30cf9608d4b279c0cba9c4e6a4773271a0de8e013a2c208",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_valtimatu_abi_toetus",
@@ -1114,7 +2162,36 @@
       "sourceKeys": [
         "social_benefits_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_valtimatu_abi_toetus",
+      "document_id": "kihnu_vald_benefit_valtimatu_abi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "6145ba9b9a54b425421262a3e6f54d66b19809ccc9b07703cdb3f985b19503c0",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_benefit_hooldajatoetus",
@@ -1154,7 +2231,36 @@
       ],
       "unresolvedIssues": [
         "KOV veebileht ei nimeta hooldajatoetuse juures eraldi taotlusblanketti."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_benefit_hooldajatoetus",
+      "document_id": "kihnu_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaaltoetused/",
+      "content_hash": "f8e87527cdad60dbc0674691a2f147eaffd5a97ce14598a057efe70e98923162",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_kihnu_hooldekodu",
@@ -1175,7 +2281,36 @@
       "sourceKeys": [
         "hooldekodu_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_kihnu_hooldekodu",
+      "document_id": "kihnu_vald_resource_kihnu_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/kihnu-hooldekodu/",
+      "content_hash": "bd5a296e6ba9a099501eb99f32bdca1f7a3775ff5ee8e2dd14c6d1dc934690a1",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_lastekaitse_lapsele_abi",
@@ -1194,7 +2329,36 @@
       "sourceKeys": [
         "child_help_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "child_help_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_lastekaitse_lapsele_abi",
+      "document_id": "kihnu_vald_resource_lastekaitse_lapsele_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "content_hash": "3b80dd902543c4b87e26d1e8ac64a67d10763b16a66a387d6442017656e27de7",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_lapsevanemale_abi",
@@ -1213,7 +2377,36 @@
       "sourceKeys": [
         "parent_help_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "parent_help_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_lapsevanemale_abi",
+      "document_id": "kihnu_vald_resource_lapsevanemale_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsevanemale-abi/",
+      "content_hash": "b72a4f66063a087b3f02ebf6c80cba9f4e0af63fa1ff5b29acb637de06121ad5",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_lasteabi_telefon_",
@@ -1231,7 +2424,37 @@
         "child_help_page",
         "parent_help_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "child_help_page",
+        "parent_help_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_lasteabi_telefon_",
+      "document_id": "kihnu_vald_resource_lasteabi_telefon_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "content_hash": "e82c0443bfe5302c3f8113e737863489f7f67029180423fdb4be0323899720f9",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_ohvriabi",
@@ -1249,7 +2472,37 @@
         "child_help_page",
         "parent_help_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "child_help_page",
+        "parent_help_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_ohvriabi",
+      "document_id": "kihnu_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/laste-ja-perede-heaolu/lastekaitse/lapsele-abi/",
+      "content_hash": "3091a39e71118f4973dcd2befb50e6876eeadd64585a5480dd7c0bd3ec1a9f08",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_puude_taotlemine_ja_toovoime_hindamine",
@@ -1266,7 +2519,36 @@
       "sourceKeys": [
         "disability_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "disability_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_puude_taotlemine_ja_toovoime_hindamine",
+      "document_id": "kihnu_vald_resource_puude_taotlemine_ja_toovoime_hindamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puude-taotlemine-ja-toovoime-hindamine/",
+      "content_hash": "fb67371fae46fc46ac535cf1d01ffdd29ff78fa3cc24feeca71d7d2baf137abb",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_erivajadustega_inimeste_ligipaas_kihnus",
@@ -1283,7 +2565,36 @@
       "sourceKeys": [
         "disability_aid_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "disability_aid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_erivajadustega_inimeste_ligipaas_kihnus",
+      "document_id": "kihnu_vald_resource_erivajadustega_inimeste_ligipaas_kihnus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/puuetega-inimestele-abi/",
+      "content_hash": "9eb598beae4482fa469f97edf8b76c6e35578f55bc03151c1b0cc4f15f36211a",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_medi_hairekella_lisainfo",
@@ -1304,7 +2615,36 @@
       ],
       "unresolvedIssues": [
         "Välise teenusepakkuja täpsem sisu jäi allikapiirangu tõttu kontrollimata."
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_medi_hairekella_lisainfo",
+      "document_id": "kihnu_vald_resource_medi_hairekella_lisainfo",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "1662eb6eabec433a04905f5418e568e36bcd5c69bc46e8fcf563a1adfb5dc31e",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_resource_riigi_infotelefonid",
@@ -1319,11 +2659,42 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "social_services_page",
+        "child_help_page",
         "social_benefits_page",
-        "child_help_page"
+        "social_services_page"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "child_help_page",
+        "social_benefits_page",
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_resource_riigi_infotelefonid",
+      "document_id": "kihnu_vald_resource_riigi_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/pere-sotsiaal-tervishoid/sotsiaalabi/sotsiaalteenused/",
+      "content_hash": "8631dd60c82bfcc119aa8673a5eef828ae850323e7607f0f4863d88974984436",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_koduteenuste_taotlus",
@@ -1354,7 +2725,36 @@
         "tervislik seisund",
         "soovitud teenused"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "koduteenuste_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_koduteenuste_taotlus",
+      "document_id": "kihnu_vald_form_koduteenuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Koduteenuste-taotlus.pdf",
+      "content_hash": "f42f913b48f7a148d56822a35175e237e6c0a48b5c21f93ee7208d353ffc26be",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_sotsiaalkorteri_taotlus",
@@ -1378,7 +2778,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "sotsiaalkorteri_taotlus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_sotsiaalkorteri_taotlus",
+      "document_id": "kihnu_vald_form_sotsiaalkorteri_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sotsiaalkorteri-taotlemiseks.doc",
+      "content_hash": "7b77ef211c02c652662798fdafd6d1490ab07d59f8f0d0f5e1d994400de9a9ee",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_toimetulekutoetuse_avaldus",
@@ -1402,7 +2831,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "toimetulekutoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "kihnu_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Toimetulekutoetuse-avaldus.doc",
+      "content_hash": "7bec00f7a6cac63cbbf8ef0f573f43ba911efc97c02236b971876505b836c270",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_varade_leht",
@@ -1426,7 +2884,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "varade_leht_rtf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_varade_leht",
+      "document_id": "kihnu_vald_form_varade_leht",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Varade_leht.rtf",
+      "content_hash": "79ab30f68a9a827f59dbfcbe208330205fbf69fec41faddc703dddaa64b21d90",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_sunnitoetuse_esimese_osa_avaldus",
@@ -1450,7 +2937,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "sunnitoetuse_esimese_osa_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "document_id": "kihnu_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sunnitoetuse-esimese-osa-saamiseks-juhul-kui-lapse-sund-ei-ole-registreeritud-Kihnu-vallas.doc",
+      "content_hash": "394104ccd20386705d2a4c3f6d6e01c8e1c482034f70bf0f3e1b9d37b0c74d65",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus",
@@ -1474,7 +2990,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus",
+      "document_id": "kihnu_vald_form_sunnitoetuse_teise_kolmanda_neljanda_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Avaldus-sunnitoetuse-teise-kolmanda-ja-neljanda-osa-saamiseks.doc",
+      "content_hash": "88ab00580e77b0b82145d5dfa45d41a08382d92ba17049e3218deb322ae3fb47",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_matusetoetuse_avaldus",
@@ -1498,7 +3043,36 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "matusetoetuse_avaldus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_matusetoetuse_avaldus",
+      "document_id": "kihnu_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Matusetoetuse-avaldus.docx",
+      "content_hash": "f52ab9196bcd648d9f331311a8e609034548036b45a7bb4951a0e7ee84494f33",
+      "evidence_allowed": true
     },
     {
       "id": "kihnu_vald_form_toitjakaotustoetuse_avaldus",
@@ -1522,7 +3096,39 @@
       "sections_present": [],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud veebitööriistas parsida, kuid ametlik faililink on KOV lehelt tuvastatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kihnu_vald",
+      "municipality_name": "Kihnu vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "toitjakaotustoetuse_avaldus_doc"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kihnu_vald_form_toitjakaotustoetuse_avaldus",
+      "document_id": "kihnu_vald_form_toitjakaotustoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kihnu.ee/wp-content/uploads/2026/04/Toitjakaotusetoetuse-avaldus.doc",
+      "content_hash": "0b4ba8fb7ff35b8dacd7ae6ed42bffa36e2839cd55fdab7b20c8e146cd8419d5",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Kihnu vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

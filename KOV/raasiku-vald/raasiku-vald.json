@@ -39,7 +39,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "pricing": null
+      "pricing": null,
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eluruumi_tagamise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "raasiku_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/eluruumi-tagamise-teenus",
+      "content_hash": "bf1c46d1f8d59146ace5dcd18a072898b87bc3b4018a719428fc3d84c1a491e0",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_turvakoduteenus",
@@ -68,7 +97,36 @@
       ],
       "pricing": {
         "amount": "Tasuta"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_turvakoduteenus",
+      "document_id": "raasiku_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/turvakoduteenus",
+      "content_hash": "f4d27a2665a0d2e6185e7444fa0ad22f5ac4d620dbbbbd07c57f85cee162efff",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_varjupaigateenus",
@@ -97,7 +155,36 @@
       ],
       "pricing": {
         "amount": "Tasuta"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_varjupaigateenus",
+      "document_id": "raasiku_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/varjupaigateenus",
+      "content_hash": "fc2ade102ebb90746749a495fdea27f494292278f2392e58f39ec60d1c367c37",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_valtimatu_sotsiaalabi",
@@ -130,7 +217,36 @@
       ],
       "pricing": {
         "amount": "Tasuta"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "raasiku_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/valtimatu-sotsiaalabi",
+      "content_hash": "a17f399638ab3d43de360ae52114ce7a8ab864c53299b95b824b6ebd4ba592b4",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_volanoustamisteenus",
@@ -159,7 +275,36 @@
       ],
       "pricing": {
         "amount": "Tasuta"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_volanoustamisteenus",
+      "document_id": "raasiku_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/volanoustamisteenus",
+      "content_hash": "1d9ded5dad578a20a61e12493977c6cd7486598cc2aab59460b220c531fe227d",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_sotsiaaltransporditeenus",
@@ -194,7 +339,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_sotsiaaltransporditeenus",
+      "document_id": "raasiku_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/sotsiaaltransporditeenus",
+      "content_hash": "d40c97d5a2358e0b784d76c50dd774c20a5256afb3c50f06c9a7c488ca94e202",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_isikliku_abistaja_teenus",
@@ -227,7 +401,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "isikliku_abistaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_isikliku_abistaja_teenus",
+      "document_id": "raasiku_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/isikliku-abistaja-teenus",
+      "content_hash": "fcc0ada2958115d7615189b2f34eaa4175192d1fb3ff6adf046361abab2f92b2",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_koduteenus",
@@ -260,7 +463,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_koduteenus",
+      "document_id": "raasiku_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/koduteenus-0",
+      "content_hash": "899502b69857438f088a7fd1f0c7a3a1e88ff1f8c660cbb280dab58fd860224e",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_uldhooldusteenus",
@@ -293,7 +525,36 @@
       ],
       "pricing": {
         "amount": "Tasuline; valla hoolduskulu piirmäär 650 eurot"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_uldhooldusteenus",
+      "document_id": "raasiku_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/valjaspool-kodu-osutatav-oopaevaringne-uldhooldusteenus",
+      "content_hash": "38c148304d930595e42d004dd641a425afd8feea7a8a1114a82697d1383cb66f",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_paevahoiuteenus_taisealisele",
@@ -322,7 +583,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "paevahoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_paevahoiuteenus_taisealisele",
+      "document_id": "raasiku_vald_service_paevahoiuteenus_taisealisele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/valjaspool-kodu-osutatav-paevahoiuteenus-taisealisele",
+      "content_hash": "75a27c31deadeb948fc4f8a01d95cad963c81c99c17bc98406f095040188483c",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_tugiisikuteenus",
@@ -352,7 +642,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_tugiisikuteenus",
+      "document_id": "raasiku_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/tugiisikuteenus",
+      "content_hash": "595c39c88da26b958277085b60b345db255fc3b226875d01fb29fda36df81e34",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_taisealise_isiku_hooldus",
@@ -381,7 +700,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "pricing": null
+      "pricing": null,
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_taisealise_isiku_hooldus",
+      "document_id": "raasiku_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/taisealise-isiku-hooldus",
+      "content_hash": "e4163258f0e4af2319f07e16a3c133b7f4ba0a9585157e3f00859e0df021369e",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_viipekeele_tolketeenus",
@@ -410,7 +758,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "viipekeele_tolketeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_viipekeele_tolketeenus",
+      "document_id": "raasiku_vald_service_viipekeele_tolketeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/viipekeele-tolketeenus",
+      "content_hash": "2266e7f82ed8923e106374daf0e9f65a03745be54867fe0e6f14c24fec1e9fbb",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_vaimse_tervise_teenus",
@@ -439,7 +816,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "vaimse_tervise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_vaimse_tervise_teenus",
+      "document_id": "raasiku_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/vaimse-tervise-teenus",
+      "content_hash": "fa1d3ee8b0d049361c30315c659268ec2937dd53394cb97fb791e918b6b556a4",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_asendushooldusteenus",
@@ -466,7 +872,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_anu_nolve"
       ],
-      "pricing": null
+      "pricing": null,
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_asendushooldusteenus",
+      "document_id": "raasiku_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/asendus-ja-jarelhooldusteenus",
+      "content_hash": "77bb31d3fea0b5f8d353b96d3cf1ec5b91a1441cd1840f9a3188bd3e854af75d",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_jarelhooldusteenus",
@@ -493,7 +928,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_anu_nolve"
       ],
-      "pricing": null
+      "pricing": null,
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_jarelhooldusteenus",
+      "document_id": "raasiku_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/asendus-ja-jarelhooldusteenus",
+      "content_hash": "28f78776600b01596b7eafe3fc5ce0649c1b5a5f1bd999ce17d7d785d31f843c",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_service_lapsehoiuteenus_suure_hooldus_ja_abivajadusega_lapsele",
@@ -522,7 +986,36 @@
       ],
       "pricing": {
         "amount": "Osaliselt tasuline"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_service_lapsehoiuteenus_suure_hooldus_ja_abivajadusega_lapsele",
+      "document_id": "raasiku_vald_service_lapsehoiuteenus_suure_hooldus_ja_abivajadusega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/lapsehoiuteenus-suure-hooldus-ja-abjvajadusega-lapsele",
+      "content_hash": "8eaff6b8097496159acd4df08cc172f7a510fe8a134fa55a64faba16dd80ff5b",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_suurenenud_hooldusvajadusega_lapse_hooldajatoetus",
@@ -549,7 +1042,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "suurenenud_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_suurenenud_hooldusvajadusega_lapse_hooldajatoetus",
+      "document_id": "raasiku_vald_benefit_suurenenud_hooldusvajadusega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/suurenenud-hooldus-ja-abivajadusega-lapse-hooldus",
+      "content_hash": "44d0b2f42fedf6b6e494c624b94a9b1f48d5eb30a405aa872a1837aa317297b3",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -578,7 +1100,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "raasiku_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/taisealise-isiku-hooldus",
+      "content_hash": "fc4ccfbd88720be8ea103c150a84cd2f730c2aa552a2061e704f2acad7fef6f7",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_toimetulekutoetus",
@@ -609,7 +1160,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_toimetulekutoetus",
+      "document_id": "raasiku_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toimetulekutoetus",
+      "content_hash": "896c6ad7e9dffd8a0ead460000ad8de854a71bcc17a8d1cce8ed14be9a54553e",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_tervisetoetus",
@@ -640,7 +1220,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tervisetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_tervisetoetus",
+      "document_id": "raasiku_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/tervisetoetus",
+      "content_hash": "cc4f3e387665ae75aa16ed1cc6ab89825bc30698cfdbf879de987b257ab4b084",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_lastega_perede_toetus",
@@ -671,7 +1280,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastega_perede_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_lastega_perede_toetus",
+      "document_id": "raasiku_vald_benefit_lastega_perede_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/lastega-perede-toetus",
+      "content_hash": "2310071208b00aed288789a210431e82e7b96600c4ae208f4b1e712a1df8627a",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_erakorraline_toetus",
@@ -702,7 +1340,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "erakorraline_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_erakorraline_toetus",
+      "document_id": "raasiku_vald_benefit_erakorraline_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/erakorraline-toetus",
+      "content_hash": "e6e2ce4b80f5b99ef670e30b8bd3e04306e1e404527de7d2fe434a06c769acb0",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_eluruumi_kohandamise_toetus",
@@ -733,7 +1400,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eluruumi_kohandamise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_eluruumi_kohandamise_toetus",
+      "document_id": "raasiku_vald_benefit_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/eluruumi-kohandamise-toetus",
+      "content_hash": "e9594fe6c4001101dd242eb241ee681f73aa0e8ff31d97823e71452a31493723",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_synnitoetus",
@@ -763,7 +1459,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_raasiku_vallavalitsus"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "synnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_synnitoetus",
+      "document_id": "raasiku_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sunnitoetus",
+      "content_hash": "fa1e3b5ca895c61dfe05c8de85cddc996db370536b6915e71c68f70017bf8287",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_matusetoetus",
@@ -793,7 +1518,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_raasiku_vallavalitsus"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_matusetoetus",
+      "document_id": "raasiku_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/matusetoetuse-taotlemine",
+      "content_hash": "94db02bc2572fb008f6e013153e99922f62d6b1f8781a941cf4473d7d10cae47",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_hooldusperetoetus",
@@ -820,7 +1574,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hooldusperetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_hooldusperetoetus",
+      "document_id": "raasiku_vald_benefit_hooldusperetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/hooldusperetoetus",
+      "content_hash": "e5649d53888a62fba8bdbe708c5fa3a94603c78233321aa594b9f8298fd3e4ae",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_tahtpaevatoetus",
@@ -852,7 +1635,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
       ],
-      "amount": "Jõulutoetus 70 eurot pere kohta; eaka sünnipäevatoetus 50 eurot"
+      "amount": "Jõulutoetus 70 eurot pere kohta; eaka sünnipäevatoetus 50 eurot",
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtpaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_tahtpaevatoetus",
+      "document_id": "raasiku_vald_benefit_tahtpaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/tahtpaevatoetus",
+      "content_hash": "25bf5b75d275114a1ab88fc122f233ca043795dc2bb4faaad4fd463c73fe8a36",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_benefit_esimese_klassi_toetus",
@@ -883,7 +1695,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_raasiku_vallavalitsus"
       ],
-      "amount": null
+      "amount": null,
+      "item_type": "benefit",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "esimese_klassi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_benefit_esimese_klassi_toetus",
+      "document_id": "raasiku_vald_benefit_esimese_klassi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/esimesse-klassi-mineva-lapse-toetus",
+      "content_hash": "88c24ab2795170b4e58b7c6aa69b300c62518bc9028b20436eb8c72a25445922",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_parkimiskaart",
@@ -907,7 +1748,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "raasiku_vald_contact_karin_mollits"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_parkimiskaart",
+      "document_id": "raasiku_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/toiming/puudega-inimese-soiduki-parkimiskaart",
+      "content_hash": "29fbece1a275aca84d69a2eae2c4ce098adc65ef0129821152b68f47e1c11410",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_lastekaitse",
@@ -931,7 +1801,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "raasiku_vald_contact_anu_nolve"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_lastekaitse",
+      "document_id": "raasiku_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
+      "content_hash": "5eaf31273ccd7062f271d81f7320ec241ca6a3f57bb9b58fbc5adf5662dafaa2",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_hadaohus_ja_abivajav_laps",
@@ -955,7 +1854,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "raasiku_vald_contact_anu_nolve"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_hadaohus_ja_abivajav_laps",
+      "document_id": "raasiku_vald_resource_hadaohus_ja_abivajav_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "content_hash": "a13baf41b27fffbcc7c6184c9b0f97e8e4833837a809b50d624338db0337f8a9",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_erivajadusega_laps",
@@ -979,7 +1907,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "raasiku_vald_contact_anu_nolve"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "erivajadusega_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_erivajadusega_laps",
+      "document_id": "raasiku_vald_resource_erivajadusega_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/abi-lapsele-ja-perele/erivajadusega-laps",
+      "content_hash": "f870c92143ef4f599a3ea6a00d8c208138598fbe9cd93c87c3ad3b8b8fc22bf5",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_perekeskus_mannikabi",
@@ -1001,7 +1958,36 @@
       },
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "perekeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_perekeskus_mannikabi",
+      "document_id": "raasiku_vald_resource_perekeskus_mannikabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/abi-lapsele-ja-perele/perekeskus-mannikabi",
+      "content_hash": "69c611d36ca8ed8301928b390ae37996e4ca649bef5ba4d117866949776bc2d1",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_ohvriabi",
@@ -1023,7 +2009,36 @@
       },
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_ohvriabi",
+      "document_id": "raasiku_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/ohvriabi/ohvriabi-info",
+      "content_hash": "9422d63fd7590828296dc15acdd766097ae3a49cb2d89e0c0d6038bd21e7addf",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_muud_abivoimalused",
@@ -1045,7 +2060,36 @@
       },
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "muud_abivoimalused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_muud_abivoimalused",
+      "document_id": "raasiku_vald_resource_muud_abivoimalused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/pere-sotsiaalabi-ja-tervishoid/tervishoid/muud-abivoimalused",
+      "content_hash": "08cb76d1076a152b203ee98d196e67906226f79dee79e73502ddfaa6676608aa",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_isikukeskne_erihoolekande_teenusmudel",
@@ -1070,7 +2114,36 @@
       "relatedContacts": [
         "raasiku_vald_contact_anna_karula",
         "raasiku_vald_contact_karin_mollits"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "projektid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_isikukeskne_erihoolekande_teenusmudel",
+      "document_id": "raasiku_vald_resource_isikukeskne_erihoolekande_teenusmudel",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/projektid",
+      "content_hash": "10d34145b241bfe9c5118a8f785be981e74731d4d600e9b894bab8005aa62b8a",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_resource_abi_ja_infotelefonid",
@@ -1094,7 +2167,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "raasiku_vald_contact_raasiku_vallavalitsus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "abi_infotelefonid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_resource_abi_ja_infotelefonid",
+      "document_id": "raasiku_vald_resource_abi_ja_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/vald-uudised-kontaktandmed/kontaktid-info/abi-ja-infotelefonid",
+      "content_hash": "c1f385672acefd916a50f587acbbbf8d34a5258ea3953304dd55593b880c7284",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_raasiku_vallavalitsus",
@@ -1112,7 +2214,36 @@
       "address": "Tallinna mnt 24, Aruküla alevik, 75201, Harju maakond",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_raasiku_vallavalitsus",
+      "document_id": "raasiku_vald_contact_raasiku_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "9bddd5aacbbeb2d892d63f4499bd183a1f69c0cae9c65756cd354c0c67aecdd3",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_tauno_pruli",
@@ -1130,7 +2261,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_tauno_pruli",
+      "document_id": "raasiku_vald_contact_tauno_pruli",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f215d1fc4fea502b4c157bfa3951c755b7bee182cdb1e44cba32692d68fa03ff",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_anu_nolve",
@@ -1148,7 +2308,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_anu_nolve",
+      "document_id": "raasiku_vald_contact_anu_nolve",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "d096b9e0931d561a384b5601537189ce42f1e1d7a9bc1161d881429011db6297",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_karin_mollits",
@@ -1166,7 +2355,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_karin_mollits",
+      "document_id": "raasiku_vald_contact_karin_mollits",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e07f94b14322db3c2528a376ec2b2ba72002b54a9570a655e56d6834ee52866e",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_anna_karula",
@@ -1184,7 +2402,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_anna_karula",
+      "document_id": "raasiku_vald_contact_anna_karula",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a05460824a74f8e071dfbd2e930c85f9d75ea5be65e57465f2c9881b382d91fe",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_maarika_grau",
@@ -1202,7 +2449,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_maarika_grau",
+      "document_id": "raasiku_vald_contact_maarika_grau",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3ca010acfa8aa5b8bbaea7c70b38ac3a6dec49c007c6bdc48ff631ae6a34238c",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_helen_palberg",
@@ -1220,7 +2496,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_helen_palberg",
+      "document_id": "raasiku_vald_contact_helen_palberg",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "db23f93425950f28518c815859096c283f6ab944a59cc5f79eb6103015f08a80",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_contact_aide_lember",
@@ -1238,7 +2543,36 @@
       "address": null,
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_contact_aide_lember",
+      "document_id": "raasiku_vald_contact_aide_lember",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f82c09a39af28f459608bf7a3661716090944e90ad835109cd097b8a437b4a70",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_sotsiaalteenuse_taotlus",
@@ -1269,7 +2603,36 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_sotsiaalteenuse_taotlus",
+      "document_id": "raasiku_vald_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-11/Sotsiaalteenuse%20taotlemise%20avaldus.doc",
+      "content_hash": "ded0b041da5cd327c8e182920c9731ee52bb751b5694da995225cdef5631ed9d",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_sotsiaaltoetuse_taotlus",
@@ -1299,7 +2662,36 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_sotsiaaltoetuse_taotlus",
+      "document_id": "raasiku_vald_form_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-11/Sotsiaaltoetuse%20taotlemise%20avaldus_1.doc",
+      "content_hash": "7749a630bbf3100f8cbf5c056cb6c37d1ccad6f95c9b15f41a89cfe34b1e4a05",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_synnitoetuse_avaldus",
@@ -1324,7 +2716,36 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "synnitoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_synnitoetuse_avaldus",
+      "document_id": "raasiku_vald_form_synnitoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-10/Avaldus%20s%C3%BCnnitoetuse%20taotlemiseks.rtf",
+      "content_hash": "4565ea666a311948c848f58dc5dbbb5f4c667eb8fce50f7965f1f432f7358c8a",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_matusetoetuse_avaldus",
@@ -1349,7 +2770,36 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "matusetoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_matusetoetuse_avaldus",
+      "document_id": "raasiku_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-10/Avaldus%20matusetoetuse%20taotlemiseks.rtf",
+      "content_hash": "8d044ae7cd964c83369853276394b19b5b87cafd689c2eebd4b5ab4dec1c5fa6",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_esimese_klassi_toetuse_avaldus",
@@ -1374,7 +2824,36 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "esimese_klassi_toetus_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_esimese_klassi_toetuse_avaldus",
+      "document_id": "raasiku_vald_form_esimese_klassi_toetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-11/Avaldus%20esimesse%20klassi%20mineva%20lapse%20toetuse%20taotlemiseks.rtf",
+      "content_hash": "588787cab917ca1ac1ecbe699ae40136b5275487cf67422c90190e93ab964e19",
+      "evidence_allowed": true
     },
     {
       "id": "raasiku_vald_form_tahtpaevatoetuse_avaldus",
@@ -1399,7 +2878,39 @@
       "relatedContacts": [],
       "sections_present": [
         "application_form"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "raasiku_vald",
+      "municipality_name": "Raasiku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtpaevatoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "raasiku_vald_form_tahtpaevatoetuse_avaldus",
+      "document_id": "raasiku_vald_form_tahtpaevatoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://raasiku.ee/sites/default/files/documents/2025-11/Avaldus%20t%C3%A4htp%C3%A4evatoetuse%20taotlemiseks.rtf",
+      "content_hash": "fda4b2aa58c3b77f5a395666b86845b52af5dac10510446f9ffdecebc89632fa",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Raasiku vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

@@ -1,12 +1,12 @@
 {
-  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "schemaVersion": "v2.5-sourcepackage",
   "docId": "kov-vinni-vald",
   "document_id": "kov-vinni-vald",
   "municipality": "Vinni vald",
   "municipality_id": "vinni_vald",
   "county": "Lääne Virumaa",
   "checkedAt": "2026-04-30",
-  "status": "needs_review",
+  "status": "ingest_ready",
   "collection_id": "kov_services",
   "source_type": "kov_service_info",
   "source_format": "rag_md",
@@ -19,14 +19,27 @@
     "benefits": 17,
     "resources": 18,
     "contacts": 14,
-    "forms": 13
+    "forms": 13,
+    "regulations": 0
   },
   "sourcePackageReadiness": {
+    "ok": true,
+    "collection_id": "kov_services",
+    "municipality_id": "vinni_vald",
+    "source_register_file": "vinni-vald.sources.json",
+    "service_benefit_resource_items": 48,
+    "items_with_source_keys": 48,
+    "items_missing_source_keys": [],
+    "items_with_related_forms": 20,
+    "items_without_related_forms": 28,
+    "items_with_related_contacts": 10,
+    "items_without_related_contacts": 38,
+    "form_sources": 12,
+    "contact_sources": 0,
     "regulation_sources": 0,
-    "has_web_sources": true,
-    "has_rag_markdown": true,
-    "has_structured_json": true,
-    "needs_review": true
+    "warnings": [
+      "3 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
+    ]
   },
   "notes": [
     "Pakett on parandatud Vinni valla ametliku kodulehe avalehe, sotsiaalteenuste, sotsiaaltoetuste, üldhooldusteenuse, sotsiaalasutuste, kontaktide, vormide, kaartide ja abi alamlehtede põhjal.",
@@ -43,5 +56,24 @@
     "Parkimiskaardi ja puudega inimeste tasuta sõiduõiguse info on KOV kodulehel kirjeldatud ressursina; parkimiskaardi eraldi blanketi otselinki ei tuvastatud vormide lehelt.",
     "Vajaduspõhist sotsiaaltoetust eraldi KOV toetusena ei leitud; KOV leht viitab vajaduspõhisele toetusele toidukaardi aluse selgituses.",
     "Puudega lapse hooldajatoetus ja täisealise isiku hooldajatoetus on KOV veebis koondatud hooldajatoetuse alla ning eraldi toetusekirjeid ei dubleeritud."
+  ],
+  "municipality_name": "Vinni vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29",
+  "ingestReady": true,
+  "country": "EE",
+  "language": "et",
+  "sourceRegisterFile": "vinni-vald.sources.json",
+  "sourceCount": 32,
+  "counts": {
+    "services": 13,
+    "benefits": 17,
+    "resources": 18,
+    "contacts": 14,
+    "forms": 13,
+    "regulations": 0
+  },
+  "warnings": [
+    "3 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
   ]
 }

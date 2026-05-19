@@ -25,7 +25,37 @@
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_saku_vallavalitsus",
+      "document_id": "saku_vald_contact_saku_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "11cff2138a95a06cee8c70f51069d8878dffdf3e6f90cbb4665741d14fe98d79",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_eike_hunt",
@@ -41,7 +71,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_eike_hunt",
+      "document_id": "saku_vald_contact_eike_hunt",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "550acb9dd888eafeb8156ca9007eb80e02b08da61a410b755c2235175d0dd0e8",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_maarika_tikman",
@@ -57,7 +116,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_maarika_tikman",
+      "document_id": "saku_vald_contact_maarika_tikman",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "9f6285791077185b1df8c92f554cf59bf845bf2086f8fee83c9c13218b07e1c9",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_kaire_kopli",
@@ -73,7 +161,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_kaire_kopli",
+      "document_id": "saku_vald_contact_kaire_kopli",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "020b00415d4b857f53b8eeda9b3276d6100d34a49072011525b63f21e173d22e",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_anne_rannaveski_poola",
@@ -89,7 +206,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_anne_rannaveski_poola",
+      "document_id": "saku_vald_contact_anne_rannaveski_poola",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "d23534aa0a44b7595e89bbe488f35b574ff875b9399dd909d3a39245bec63e1f",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_anu_mesila",
@@ -105,7 +251,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_anu_mesila",
+      "document_id": "saku_vald_contact_anu_mesila",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "f1ef47425302e02eea91f4c20329ca2e0e2edb83c2ff1695a25c081f29fbb6fb",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_annika_saar",
@@ -121,7 +296,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_annika_saar",
+      "document_id": "saku_vald_contact_annika_saar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "7276b859ad41c1e8397f9f7c3cbff5214409b84883965004eaec4916685a9fd2",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_jelizaveta_lauri",
@@ -137,7 +341,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_jelizaveta_lauri",
+      "document_id": "saku_vald_contact_jelizaveta_lauri",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "8048ac63caff8517cf697f0da0808556598b2daf12591701257647edd46f0f4a",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_contact_kairiin_nuudi",
@@ -153,7 +386,36 @@
         "contacts"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
-      "status": "active"
+      "status": "active",
+      "item_type": "contact",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_contact_kairiin_nuudi",
+      "document_id": "saku_vald_contact_kairiin_nuudi",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/kontakt-uudised-ja-teated/kontakt",
+      "content_hash": "c486be4e834d079623bccd94ebc155642e468361271da9b025f3e6f758605426",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_sotsiaalteenuste_avaldus",
@@ -180,10 +442,41 @@
         "saku_vald_service_varjupaigateenus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_sotsiaalteenuste_avaldus",
+      "document_id": "saku_vald_form_sotsiaalteenuste_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "53925eadbf636c11c110d72d36f6b93fd643227db30e80ab1099edee7262142b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_uldhooldusteenuse_taotlus",
@@ -201,10 +494,41 @@
         "saku_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_uldhooldusteenuse_taotlus",
+      "document_id": "saku_vald_form_uldhooldusteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "b01afb58c626c7779211c7ab6f087b09df6b315e3df95186c357789144bc1f4c",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_taisealise_isiku_hoolduse_avaldus",
@@ -222,10 +546,41 @@
         "saku_vald_service_taisealise_isiku_hooldus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_taisealise_isiku_hoolduse_avaldus",
+      "document_id": "saku_vald_form_taisealise_isiku_hoolduse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "2f1620fb15d6ea7961259e7cd3e97aa27d1a07c40eac5d07eae0c8081305a73b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_taisealise_isiku_hooldaja_aruanne",
@@ -243,10 +598,41 @@
         "saku_vald_service_taisealise_isiku_hooldus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_taisealise_isiku_hooldaja_aruanne",
+      "document_id": "saku_vald_form_taisealise_isiku_hooldaja_aruanne",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "3fa0f25fe6d2bd9ac3f57304d677c87d35c6fc327f55ccefd12ed7207a242776",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_sunnitoetuse_taotlus",
@@ -262,10 +648,41 @@
         "saku_vald_benefit_sunnitoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_sunnitoetuse_taotlus",
+      "document_id": "saku_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "21ae4988ace3bda198828107cb00542f06ae57beb14a809309cb21fe0091b591",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_koduse_lapse_toetuse_avaldus",
@@ -281,10 +698,41 @@
         "saku_vald_benefit_koduse_lapse_toetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_koduse_lapse_toetuse_avaldus",
+      "document_id": "saku_vald_form_koduse_lapse_toetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "51c5d859ce1b71e26a349f904c8f8301baa084828dc8246295e13a361888c6cb",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_kolme_ja_enamalapselise_pere_koolitoetuse_avaldus",
@@ -300,10 +748,41 @@
         "saku_vald_benefit_kolme_ja_enamalapselise_pere_koolitoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_kolme_ja_enamalapselise_pere_koolitoetuse_avaldus",
+      "document_id": "saku_vald_form_kolme_ja_enamalapselise_pere_koolitoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "394d7d0a7f375516b3ec61da58779b2b06c484e280cb24faa23f6426d1de0b92",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_eaka_tahtpaevatoetus",
@@ -319,10 +798,41 @@
         "saku_vald_benefit_eaka_tahtpaevatoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_eaka_tahtpaevatoetus",
+      "document_id": "saku_vald_form_eaka_tahtpaevatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "56322cb917ab0d3e1e7d3c80de98ceb4e8ed50dc4db748198e5a2ff599273622",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_eaka_tahtpaevatoetuse_andmete_muutmine",
@@ -338,10 +848,41 @@
         "saku_vald_benefit_eaka_tahtpaevatoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_eaka_tahtpaevatoetuse_andmete_muutmine",
+      "document_id": "saku_vald_form_eaka_tahtpaevatoetuse_andmete_muutmine",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "1da5d913790b16f14d1b416bc352e783186af5936f4afacfd77c98edd1d2110e",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_matusetoetuse_taotlus",
@@ -357,10 +898,41 @@
         "saku_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_matusetoetuse_taotlus",
+      "document_id": "saku_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "d1e9c7d5414f7fe1397f5217f84ab75a860e0fedbd6d4b67594b49df25395f6f",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_matusetoetuse_avaldus",
@@ -378,10 +950,41 @@
         "saku_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_matusetoetuse_avaldus",
+      "document_id": "saku_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "6fe225257ca92f3c46231aa3e06207c09b05d86221c721983eff04b09b5a4286",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_toidu_ja_kohatasu_avaldus",
@@ -400,10 +1003,41 @@
         "saku_vald_benefit_puudega_lapse_toiduraha_ja_kohatasu_toetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_toidu_ja_kohatasu_avaldus",
+      "document_id": "saku_vald_form_toidu_ja_kohatasu_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "7fab6184b083f526fa27d5fd1369e360fb1d641c72dbd177ede2a531852a3413",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_toimetuleku_soodustamise_toetuste_avaldus",
@@ -427,10 +1061,41 @@
         "saku_vald_benefit_muudel_pohjendatud_juhtudel_makstav_toetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_toimetuleku_soodustamise_toetuste_avaldus",
+      "document_id": "saku_vald_form_toimetuleku_soodustamise_toetuste_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "ff7953326fda6e27ff151ad498c2041f285a567e1fe22cc338b26c6f335c67f2",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_toimetulekutoetuse_avaldus",
@@ -450,10 +1115,41 @@
         "saku_vald_benefit_taiendav_sotsiaaltoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "saku_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "cd561c415a6f61e760e4d5c7a16c5c54c18f04cc2597076944a719f0f8b4ed39",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_puudega_lapse_sotsiaaltoetuse_avaldus",
@@ -471,10 +1167,41 @@
         "saku_vald_benefit_puudega_lapse_hooldajatoetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_puudega_lapse_sotsiaaltoetuse_avaldus",
+      "document_id": "saku_vald_form_puudega_lapse_sotsiaaltoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "ff1bbdc821a5a6e5ff3e75b742fa907f38ceded9fb72f2e3471dd3a3ed14c302",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_puudega_isiku_kulude_katmise_toetuse_avaldus",
@@ -491,10 +1218,41 @@
         "saku_vald_benefit_puudega_voi_toovoimekaotusega_isiku_ravimi_ja_tervisega_seotud_kulude_toetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_puudega_isiku_kulude_katmise_toetuse_avaldus",
+      "document_id": "saku_vald_form_puudega_isiku_kulude_katmise_toetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "1dbbd612d7a3dfdc786bdc5500650885941b0502063330938bd358228b37611e",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_form_soiduaruanne",
@@ -511,10 +1269,41 @@
         "saku_vald_benefit_puudega_isiku_haridusasutusse_soidu_toetus"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "form",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_form_soiduaruanne",
+      "document_id": "saku_vald_form_soiduaruanne",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "4e6aedde46ef488f793093f2f12f116d05a77517fd956d1a1b41deba6b76a269",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_koduteenus",
@@ -546,10 +1335,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_koduteenus",
+      "document_id": "saku_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "fce6b979cfb3a67bc24a03a945a0035b08ed3791de4dd77a4d8744b7fe75dd8f",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_sotsiaaltransporditeenus",
@@ -581,10 +1401,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_sotsiaaltransporditeenus",
+      "document_id": "saku_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "c42fe32f45e505ed45c1881f42a4ec256ac2e7c9da8437690e647545268a8c65",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_eluruumi_tagamise_teenus",
@@ -614,10 +1465,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "saku_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "408ff4c73ffbd74fdfcfdb644cb7f82e25db45bc0810231ecdf09d3341172474",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -652,10 +1534,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "saku_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "81dfba1d4edfa9cf6329b037031345d638425fb0e3c1cfdeeba12b832e498d6c",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_taisealise_isiku_hooldus",
@@ -685,10 +1598,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_taisealise_isiku_hooldus",
+      "document_id": "saku_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "ff9c9265f287180491a2c39562499456fa9878477a56bdd229320756276b6b1e",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_isikliku_abistaja_teenus",
@@ -717,10 +1661,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_isikliku_abistaja_teenus",
+      "document_id": "saku_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "861824a86666a29484d358fc096056b2876140cbbb81b09046308deade2d7f83",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_tugiisikuteenus",
@@ -758,10 +1733,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_tugiisikuteenus",
+      "document_id": "saku_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "f2a1f6e878bdd02990eefb97f975224a15587f16df905cfc7ec15d264480bacb",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiuteenus",
@@ -792,10 +1798,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiuteenus",
+      "document_id": "saku_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "30eb1d783daf55c78c022d6eebb7c8fe8d8f6f8f3ed737766d734c6f9f1a0fe0",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_asendushooldusteenus",
@@ -824,10 +1861,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_asendushooldusteenus",
+      "document_id": "saku_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "e0cee57a5b549dcd8a411e23517b0c4be311da448f89b3a4102380be2148b333",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_jarelhooldusteenus",
@@ -856,10 +1924,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_jarelhooldusteenus",
+      "document_id": "saku_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "1e5d383f8045e0f276d854839b2000f285f37bc3f9971d8201d6182a316442f1",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_turvakoduteenus",
@@ -892,10 +1991,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_turvakoduteenus",
+      "document_id": "saku_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "e9162cebe2e8bb2e2ce1252f6b3202ed4b517ecda7e544a9c4f3c64951e6b9ac",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_volanoustamisteenus",
@@ -924,10 +2054,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_volanoustamisteenus",
+      "document_id": "saku_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "877c4483835290506e78abcec661cf4cfba35c93331c067501f8c956bbb40da0",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_varjupaigateenus",
@@ -956,10 +2117,41 @@
         "saku_vald_contact_kaire_kopli"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_varjupaigateenus",
+      "document_id": "saku_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "9745e0b0ad320d3d3b2c0990cabc5051c6db462e19557513c89d9ef458e99f4a",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_dusi_kasutamise_teenus",
@@ -984,11 +2176,43 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "services_forms",
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_dusi_kasutamise_teenus",
+      "document_id": "saku_vald_service_dusi_kasutamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "c40ba0e905d668a9721d163e5deb2bcc52e213c0b5365df239515645af0851b8",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_pesu_pesemise_ja_kuivatamise_teenus",
@@ -1013,11 +2237,43 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "services_forms",
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_pesu_pesemise_ja_kuivatamise_teenus",
+      "document_id": "saku_vald_service_pesu_pesemise_ja_kuivatamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "4e99ccd551f0ddefcd585e59bcc92525bd8846275d7c657a2436a17d83c0885b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_toidu_vahendamise_teenus",
@@ -1042,11 +2298,43 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "services_forms",
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_toidu_vahendamise_teenus",
+      "document_id": "saku_vald_service_toidu_vahendamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "bb08b0b65f5e495f34c8b1607c1304390f1880023e9c18509ff9d98ae2f62289",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele",
@@ -1079,10 +2367,41 @@
         "saku_vald_contact_kairiin_nuudi"
       ],
       "sourceKeys": [
-        "eakale_page"
+        "eakale_page",
+        "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/eakatele",
-      "status": "active"
+      "status": "active",
+      "item_type": "service",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eakale_page",
+        "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele",
+      "document_id": "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/eakatele",
+      "content_hash": "f0bea98f4c8ba60d42ab9d5aa6285763b8b8d8c43c8b92d1211c59837295230b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_sunnitoetus",
@@ -1117,10 +2436,41 @@
         "saku_vald_contact_eike_hunt"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_sunnitoetus",
+      "document_id": "saku_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "f1ce09862802776192e066ebd59194b8e18bbe46d5d6117aee9e1ff183017dcf",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_koduse_lapse_toetus",
@@ -1154,10 +2504,41 @@
         "saku_vald_contact_jelizaveta_lauri"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_koduse_lapse_toetus",
+      "document_id": "saku_vald_benefit_koduse_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "5904c6acb1349a388264ec273991cdc12081094363885fa083aed9a0decc7b37",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_kolme_ja_enamalapselise_pere_koolitoetus",
@@ -1188,10 +2569,41 @@
         "saku_vald_contact_eike_hunt"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_kolme_ja_enamalapselise_pere_koolitoetus",
+      "document_id": "saku_vald_benefit_kolme_ja_enamalapselise_pere_koolitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "92ffd2d57d5940588b3c16e5b6ba5d836fb73ef628875c642d0da1eb097d491d",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_eaka_tahtpaevatoetus",
@@ -1223,10 +2635,41 @@
         "saku_vald_contact_eike_hunt"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_eaka_tahtpaevatoetus",
+      "document_id": "saku_vald_benefit_eaka_tahtpaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "7a683632900b30dad26a1d34881aa0d7face644c5794dbf77c98b7a55b53d27e",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_matusetoetus",
@@ -1257,10 +2700,41 @@
         "saku_vald_contact_eike_hunt"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_matusetoetus",
+      "document_id": "saku_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "9dccd0c6f5bd29fb4c8cd704d3952bced499b86806f9c930f365d694b4e88eaf",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_kooli_lasteaia_lapsehoiu_toiduraha_ja_kohatasu_toetus",
@@ -1290,10 +2764,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_kooli_lasteaia_lapsehoiu_toiduraha_ja_kohatasu_toetus",
+      "document_id": "saku_vald_benefit_kooli_lasteaia_lapsehoiu_toiduraha_ja_kohatasu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "159e0f9d4f2a26ed6e9378cb892c2d79d9a872e86d526d4919674f510373b28c",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_koolitoetus",
@@ -1327,10 +2832,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_koolitoetus",
+      "document_id": "saku_vald_benefit_koolitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "74604bf8ebe274fdae776eb49b591263554e8dd21e06a3aae66adbc1f250fe4f",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_koolisoidu_toetus",
@@ -1360,10 +2896,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_koolisoidu_toetus",
+      "document_id": "saku_vald_benefit_koolisoidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "0272df52dc56d2f856ffafd82bd72a5fd8a30829508a73dcfafa6318f0a26dc2",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_opilase_vaba_aja_tegevuse_kulude_toetus",
@@ -1393,10 +2960,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_opilase_vaba_aja_tegevuse_kulude_toetus",
+      "document_id": "saku_vald_benefit_opilase_vaba_aja_tegevuse_kulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "7e1c075154f08cf6c89838c21687e0c7e15f77376b09003eb6fa4eb5a08b67df",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_eluasemekulude_katmise_toetus",
@@ -1426,10 +3024,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_eluasemekulude_katmise_toetus",
+      "document_id": "saku_vald_benefit_eluasemekulude_katmise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "906de147a71a49d121ff34266b1b79c2c060f966bd9386e3098d5d305a7c9993",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_hoolekandeasutuse_ulalpidamiskulude_toetus",
@@ -1459,10 +3088,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_hoolekandeasutuse_ulalpidamiskulude_toetus",
+      "document_id": "saku_vald_benefit_hoolekandeasutuse_ulalpidamiskulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "33b3acd15174b961f29843cabdc86226fe44e76ff87b40c4bd8a18aff8c5292b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_muudel_pohjendatud_juhtudel_makstav_toetus",
@@ -1492,10 +3152,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_muudel_pohjendatud_juhtudel_makstav_toetus",
+      "document_id": "saku_vald_benefit_muudel_pohjendatud_juhtudel_makstav_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "25d5cc5943518fa6a4bede686f27ff9af3c8358651f1a0ad53baed282b89014a",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_toimetulekutoetus",
@@ -1525,10 +3216,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_toimetulekutoetus",
+      "document_id": "saku_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "365cfa9944b7ea1adb4346d389c2c61bda5c60221c0b3a70b2b05d8d9ea02f78",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_taiendav_sotsiaaltoetus",
@@ -1561,10 +3283,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_taiendav_sotsiaaltoetus",
+      "document_id": "saku_vald_benefit_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "1290c573a5727b49b9b1ce8437d23c3d426f688180c0b7c0e7f518dcc5e4b3d0",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_eestkostel_voi_perekonnas_hooldamisel_oleva_lapse_toetus",
@@ -1597,10 +3350,41 @@
         "saku_vald_contact_annika_saar"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_eestkostel_voi_perekonnas_hooldamisel_oleva_lapse_toetus",
+      "document_id": "saku_vald_benefit_eestkostel_voi_perekonnas_hooldamisel_oleva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "06717abd5317d7175e9605cdc30f31c5e7c1770087d7ace1a76b7f1f4fe4cac1",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_lapse_toiduraha_ja_kohatasu_toetus",
@@ -1632,10 +3416,41 @@
         "saku_vald_contact_anne_rannaveski_poola"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_lapse_toiduraha_ja_kohatasu_toetus",
+      "document_id": "saku_vald_benefit_puudega_lapse_toiduraha_ja_kohatasu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "b12c0d73eaa30338eb40d89bdd395583f06ce1f65703d7cbe28a1434808dee3b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_lapse_vaba_aja_tegevuse_toetus",
@@ -1666,10 +3481,41 @@
         "saku_vald_contact_anne_rannaveski_poola"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_lapse_vaba_aja_tegevuse_toetus",
+      "document_id": "saku_vald_benefit_puudega_lapse_vaba_aja_tegevuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "d1facc8fef832cfc31595b6353d9e05b4a5bc9a764425c7d20dfa15ea6db73d1",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_lapse_haridusasutusse_soidu_toetus",
@@ -1704,10 +3550,41 @@
         "saku_vald_contact_anne_rannaveski_poola"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_lapse_haridusasutusse_soidu_toetus",
+      "document_id": "saku_vald_benefit_puudega_lapse_haridusasutusse_soidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "e685f0f0cc7933933afa262518637aa155e18581ef55c62d488165481778be20",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_lapse_ravimi_ja_tervisega_seotud_kulude_toetus",
@@ -1738,10 +3615,41 @@
         "saku_vald_contact_anne_rannaveski_poola"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_lapse_ravimi_ja_tervisega_seotud_kulude_toetus",
+      "document_id": "saku_vald_benefit_puudega_lapse_ravimi_ja_tervisega_seotud_kulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "b1b79ff99eafe34eb6e28856b96135a597b175989fa6e4dfebfdbf146bd7d904",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -1776,10 +3684,41 @@
         "saku_vald_contact_anne_rannaveski_poola"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "saku_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "9650b9013c6c9c809809656d8346c358040ac32ebfac07fbc19e4fb9175dd0af",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_isiku_haridusasutusse_soidu_toetus",
@@ -1813,10 +3752,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_isiku_haridusasutusse_soidu_toetus",
+      "document_id": "saku_vald_benefit_puudega_isiku_haridusasutusse_soidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "cc6991eeb30082a8a47ceb77491f506ef10908c237c2bab179d8cc2de3ed5896",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_voi_toovoimekaotusega_isiku_ravimi_ja_tervisega_seotud_kulude_toetus",
@@ -1846,10 +3816,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_voi_toovoimekaotusega_isiku_ravimi_ja_tervisega_seotud_kulude_toetus",
+      "document_id": "saku_vald_benefit_puudega_voi_toovoimekaotusega_isiku_ravimi_ja_tervisega_seotud_kulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "3d45abbb75429ef463e2c18b56077a6208b9020b344f9467513055ef8954dfe9",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_benefit_puudega_isiku_hooldajatoetus",
@@ -1883,10 +3884,41 @@
         "saku_vald_contact_maarika_tikman"
       ],
       "sourceKeys": [
+        "saku_vald_service_koduteenus_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "benefit",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_service_koduteenus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_benefit_puudega_isiku_hooldajatoetus",
+      "document_id": "saku_vald_benefit_puudega_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/vald-uudised-ja-kontakt/dokumendid-ja-teenused/teenused-ja-toetused",
+      "content_hash": "ac3624cd3ed053bfea5f8778fe3040921331772cbee7879c0f9a76951380ecc6",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_saku_paevakeskus",
@@ -1897,11 +3929,43 @@
       "targetGroup": [],
       "address": "Juubelitammede tee 6, Saku",
       "sourceKeys": [
-        "services_forms",
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page",
+        "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_saku_paevakeskus",
+      "document_id": "saku_vald_resource_saku_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
+      "content_hash": "5b2c9130649ad82e59285068a1cd6d88c61b98bcf647ac837abcdd683d037902",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_joesilla_maja",
@@ -1912,10 +3976,41 @@
       "targetGroup": [],
       "address": "Tallinna mnt 1A, Saku",
       "sourceKeys": [
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_joesilla_maja",
+      "document_id": "saku_vald_resource_joesilla_maja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
+      "content_hash": "e0752a79cfffb8f29000bc332f67c8504f02ba6b21df23b48219d10abc6851b7",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_saku_valla_eakate_noukogu",
@@ -1926,10 +4021,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "eakale_page"
+        "eakale_page",
+        "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/eakatele",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eakale_page",
+        "saku_vald_service_turvalisust_toetavad_abiseadmed_eakatele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_saku_valla_eakate_noukogu",
+      "document_id": "saku_vald_resource_saku_valla_eakate_noukogu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/eakatele",
+      "content_hash": "288b606781430d8365b4f64ded2d7e5edc2cda1b8f024b93a536e506fc9b50e9",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_saku_diabeetikute_selts",
@@ -1941,10 +4067,42 @@
       "address": null,
       "sourceKeys": [
         "eakale_page",
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eakale_page",
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_saku_diabeetikute_selts",
+      "document_id": "saku_vald_resource_saku_diabeetikute_selts",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
+      "content_hash": "4d2cdb29eb6b7e9bd347d35e0a94469b400abc6d13ca9ddc4e82ea397155d5cb",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_saku_valla_invauhing",
@@ -1955,10 +4113,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "institutions_page"
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "institutions_page",
+        "saku_vald_resource_saku_paevakeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_saku_valla_invauhing",
+      "document_id": "saku_vald_resource_saku_valla_invauhing",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/hoolekanne/hoolekandeasutused",
+      "content_hash": "2238a87fcb3411fa5ab7542de579801e3e94ae43779716caaeea7965244a3d90",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_lasteabitelefon_",
@@ -1969,10 +4158,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_lasteabitelefon_",
+      "document_id": "saku_vald_resource_lasteabitelefon_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
+      "content_hash": "63e43cc094f176388c8e2e4a351ff701bc8cce4f66712838d271fae81cddc899",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_kadunud_laste_telefon_116000",
@@ -1983,10 +4203,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_kadunud_laste_telefon_116000",
+      "document_id": "saku_vald_resource_kadunud_laste_telefon_116000",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
+      "content_hash": "f51098c2429e58d5c611fa9bbfc3843ec3e1ad37934689566f7bb8bc4dd79036",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_lastemaja",
@@ -1997,10 +4248,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_lastemaja",
+      "document_id": "saku_vald_resource_lastemaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
+      "content_hash": "5d499838bc7dba97430835e743e0f71719b5a8e9171e252d5e89cdaa4db2a543",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_veebinoustamine_lastele_ja_noortele",
@@ -2011,10 +4293,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "saku_vald_resource_lasteabitelefon_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_veebinoustamine_lastele_ja_noortele",
+      "document_id": "saku_vald_resource_veebinoustamine_lastele_ja_noortele",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/tervis-ja-lastekaitse/lastekaitse",
+      "content_hash": "d93ea3adb760dd1a6bfe34e5004b3ec10aeafe8a0977e9ad1816a7f66b815171",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_abivahendid",
@@ -2025,10 +4338,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "national_services_page"
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_abivahendid",
+      "document_id": "saku_vald_resource_abivahendid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "bf8ca48beb00bbe8e0e76c8af2eb0599f84fd1c6c550a776bf4db10a48c84daa",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_erihoolekandeteenused",
@@ -2040,10 +4384,42 @@
       "address": null,
       "sourceKeys": [
         "national_services_page",
+        "saku_vald_resource_abivahendid_page",
         "services_forms"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page",
+        "services_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_erihoolekandeteenused",
+      "document_id": "saku_vald_resource_erihoolekandeteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "a4750d4397353bccb8c8de6ae5e8279f23a449f82ca8e4f187a6084ef42ee44f",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_naiste_tugikeskuse_teenus",
@@ -2054,10 +4430,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "national_services_page"
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_naiste_tugikeskuse_teenus",
+      "document_id": "saku_vald_resource_naiste_tugikeskuse_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "55adf3c2d9145a6439bd104231ca057be1609e282a191b5bb64e71ad1c6aebb7",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_ohvriabi",
@@ -2068,10 +4475,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "national_services_page"
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_ohvriabi",
+      "document_id": "saku_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "22b63e56e198f195c97639b42db4c707aaa9ee03f57dba4ae1532e8e90ebfe87",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_puudega_inimese_parkimiskaart",
@@ -2082,10 +4520,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "national_services_page"
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_puudega_inimese_parkimiskaart",
+      "document_id": "saku_vald_resource_puudega_inimese_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "6cf7a7b937a0f0d4a2cfb4798497864c570b598f6f0407e87586dd1bf63fdc26",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
@@ -2096,10 +4565,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
-        "national_services_page"
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "national_services_page",
+        "saku_vald_resource_abivahendid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
+      "document_id": "saku_vald_resource_sotsiaalse_rehabilitatsiooni_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/riigi-sotsiaalteenused",
+      "content_hash": "0359cb6abde01af631e0ca864d1c3a74e94620cec022f5b8b275807492355143",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_lepingulised_teenusepartnerid",
@@ -2110,10 +4610,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
         "social_overview"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_lepingulised_teenusepartnerid",
+      "document_id": "saku_vald_resource_lepingulised_teenusepartnerid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
+      "content_hash": "35115bb96049a805fa826f02b1898d3f699f23debe5c39ac61df130aeaa2b93b",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_leinakool",
@@ -2124,10 +4655,41 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
         "social_overview"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_leinakool",
+      "document_id": "saku_vald_resource_leinakool",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
+      "content_hash": "796cfd08ddd5a61ee5f944d82eff82caf494db92d35d98ca24b6eaa941fa922d",
+      "evidence_allowed": true
     },
     {
       "id": "saku_vald_resource_hasartmangusoltuvuse_noustamiskeskus",
@@ -2138,10 +4700,44 @@
       "targetGroup": [],
       "address": null,
       "sourceKeys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
         "social_overview"
       ],
       "officialUrl": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
-      "status": "active"
+      "status": "active",
+      "item_type": "resource",
+      "municipality_id": "saku_vald",
+      "municipality_name": "Saku vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "saku_vald_resource_lepingulised_teenusepartnerid_page",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saku_vald_resource_hasartmangusoltuvuse_noustamiskeskus",
+      "document_id": "saku_vald_resource_hasartmangusoltuvuse_noustamiskeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://sakuvald.ee/hoolekanne-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused-ja-toetused",
+      "content_hash": "79a979d2eb7e31bd976af63b399f75685d53eed3850f55cd416721424fe3e9e8",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Saku vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

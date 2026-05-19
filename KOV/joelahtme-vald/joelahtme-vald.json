@@ -28,7 +28,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_rita_hanni",
+      "document_id": "joelahtme_vald_contact_rita_hanni",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "cee6caf75e3c1d25724dc398343c5207ff7964678ce976d130a84dc141812389",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_carmen_ridalaan",
@@ -48,7 +77,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_carmen_ridalaan",
+      "document_id": "joelahtme_vald_contact_carmen_ridalaan",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5df5854c0565a6ca45204a8355bd59cb7ebfeff966317697f1de2958583b473c",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_hannes_vetik",
@@ -68,7 +126,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_hannes_vetik",
+      "document_id": "joelahtme_vald_contact_hannes_vetik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "4a3a88a642f4196e4ca9ff1abee889de03782a8adf97a4104d5b05b73285c3e1",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_kati_narusberg",
@@ -88,7 +175,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_kati_narusberg",
+      "document_id": "joelahtme_vald_contact_kati_narusberg",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e9c0a90a5079d647833a19e0fd390a1032844ad904369a766142c6c4b4a74b33",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_onnela_metsaorg",
@@ -108,7 +224,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_onnela_metsaorg",
+      "document_id": "joelahtme_vald_contact_onnela_metsaorg",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f0435bc5389c17e97828d8d008fd9dc384b1e408eb58300059c7866e385026d9",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_rita_pirje_reede",
@@ -128,7 +273,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_rita_pirje_reede",
+      "document_id": "joelahtme_vald_contact_rita_pirje_reede",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "be6f1f006985e450972ecdeed8037ba08a055644ab3b33f57b569fa913c85d4a",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_elen_kaur",
@@ -148,7 +322,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_elen_kaur",
+      "document_id": "joelahtme_vald_contact_elen_kaur",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0a5eb6d99cf6031dd0a9b594799e965272daec2ee29ec66d75e73b5863f91b94",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_contact_kantselei",
@@ -168,7 +371,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_contact_kantselei",
+      "document_id": "joelahtme_vald_contact_kantselei",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0cb84868cefef84112fa12f6f89c184d714b25182555a8f875933bbc2f357ad4",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_eluasemeteenus",
@@ -211,7 +443,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eluasemeteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_eluasemeteenus",
+      "document_id": "joelahtme_vald_service_eluasemeteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/eluasemeteenus",
+      "content_hash": "fc0a31033ba621aad53d48f55891da78edad7071e5933889e1f1e8c2ca7f1b9e",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_koduteenus",
@@ -254,7 +515,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_koduteenus",
+      "document_id": "joelahtme_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/koduteenus",
+      "content_hash": "e845602b0322a950d4ed38ee9d7b4ebfc1e1c86293cd8563890635e79025bd2a",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_lapsehoiuteenus",
@@ -300,7 +590,37 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lapsehoiuteenus_page",
+        "lapsehoiuteenuse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_lapsehoiuteenus",
+      "document_id": "joelahtme_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/lapsehoiuteenus",
+      "content_hash": "c63e4dc6b72d43e02bedc5e9bd811dca0e661e8854729786de6e685b202749a6",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_sotsiaaltransporditeenus",
@@ -345,7 +665,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_sotsiaaltransporditeenus",
+      "document_id": "joelahtme_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/sotsiaaltransporditeenus",
+      "content_hash": "5f55f93f72b4c9a52bb80102bfa8867b78088b1a2c7274affb62c348ecdacbae",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_tugiisikuteenus",
@@ -388,7 +737,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_tugiisikuteenus",
+      "document_id": "joelahtme_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/tugiisikuteenus",
+      "content_hash": "551a4c639a26b6a3931d4157d1797e4a1c71242abc8a9dffa5036e61f1bad9c5",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_varjupaigateenus",
@@ -426,7 +804,36 @@
         "application",
         "pricing"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_varjupaigateenus",
+      "document_id": "joelahtme_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/varjupaigateenus",
+      "content_hash": "efcced489a73cb2ce2efb19f98d031aa45ef89526cb1a97461b0979867a1abda",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_isikliku_abistaja_teenus",
@@ -470,7 +877,37 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "isikliku_abistaja_teenus_page",
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_isikliku_abistaja_teenus",
+      "document_id": "joelahtme_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/isikliku-abistaja-teenus",
+      "content_hash": "28db0ab19faaa67ca39d806f8442a82bee3587203fb08b2bf10c394c89f6590e",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_hoolduse_seadmine",
@@ -513,7 +950,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hoolduse_seadmine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_hoolduse_seadmine",
+      "document_id": "joelahtme_vald_service_hoolduse_seadmine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/hoolduse-seadmine",
+      "content_hash": "5d28bf3430672dcff2058c40389faf7db12ed37cc207b58919dc3e6f91ee8fd9",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_toetavad_teenused_puudega_lastele",
@@ -546,8 +1012,8 @@
         "joelahtme_vald_contact_rita_hanni"
       ],
       "sourceKeys": [
-        "toetavad_teenused_puudega_lastele_page",
-        "lapsehoiuteenuse_toetus_page"
+        "lapsehoiuteenuse_toetus_page",
+        "toetavad_teenused_puudega_lastele_page"
       ],
       "status": "active",
       "relatedTo": [],
@@ -557,7 +1023,37 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lapsehoiuteenuse_toetus_page",
+        "toetavad_teenused_puudega_lastele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_toetavad_teenused_puudega_lastele",
+      "document_id": "joelahtme_vald_service_toetavad_teenused_puudega_lastele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toetavad-teenused-raske-ja-sugava-puudega-lastele",
+      "content_hash": "373c4ebb0a7326559efa63b2250efc8f1d4354b5fc5705f87105afe14eb1792a",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_turvakoduteenus",
@@ -600,7 +1096,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_turvakoduteenus",
+      "document_id": "joelahtme_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/turvakoduteenusele",
+      "content_hash": "cfb52a720643600f2dffc9cc4a1b579d46d5450fbb897fa69f78e58323fed26d",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_volanoustamisteenus",
@@ -643,7 +1168,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_volanoustamisteenus",
+      "document_id": "joelahtme_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/volanoustamisteenus",
+      "content_hash": "63ec7e82c6d6d668d4a378d524f0f57f049684cc6aff84fc1c4c83eafa942eaa",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_uldhooldusteenus",
@@ -683,7 +1237,36 @@
         "pricing",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_uldhooldusteenus",
+      "document_id": "joelahtme_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/uldhooldusteenus",
+      "content_hash": "623349970e0366568df56a4d27113871a6fe0ca8432e55dfc03308cd9d615c50",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_service_integreeritud_hoolekandeteenus",
@@ -726,7 +1309,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "integreeritud_hoolekandeteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_service_integreeritud_hoolekandeteenus",
+      "document_id": "joelahtme_vald_service_integreeritud_hoolekandeteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/integreeritud-hoolekandeteenus",
+      "content_hash": "6a4c3db574191077bd259d0d9bc2e9ec046ad62d065dceb64eeeb95738c5a73b",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_toimetulekutoetus",
@@ -771,7 +1383,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_toimetulekutoetus",
+      "document_id": "joelahtme_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toimetulekutoetus",
+      "content_hash": "551733c8a0be073ecf95477c905a8ae7b9eb4b971a15c33ceec6da9d1bbdcb09",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_sunnitoetus",
@@ -812,7 +1453,36 @@
         "amount",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_sunnitoetus",
+      "document_id": "joelahtme_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/sunnitoetus",
+      "content_hash": "f6d38d884400be67616d4737010f597eca262bdfae71fabe2be91d2f5dc1749b",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_ranitsatoetus",
@@ -853,7 +1523,36 @@
         "amount",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "ranitsatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_ranitsatoetus",
+      "document_id": "joelahtme_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/ranitsatoetus",
+      "content_hash": "d1839d53d90e93587dc23276e42b06c704594dbeba6a1180f577c5fcbed4d0ae",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_koolitoetus",
@@ -894,7 +1593,36 @@
         "amount",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "koolitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_koolitoetus",
+      "document_id": "joelahtme_vald_benefit_koolitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/koolitoetus",
+      "content_hash": "3ca16dcbf5235c269986f66b744533cf6feb642a36edef4678f0ebcc2caef029",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_medaliga_kiitusega_lopetanu_toetus",
@@ -935,7 +1663,36 @@
         "amount",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "medaliga_kiitusega_lopetanu_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_medaliga_kiitusega_lopetanu_toetus",
+      "document_id": "joelahtme_vald_benefit_medaliga_kiitusega_lopetanu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/medaliga-ning-kiitusega-lopetanu-toetus",
+      "content_hash": "266cfc43be17bc08c2106aee88d72c0933f8076dfef9d78c272bca78d39d48c7",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_matusetoetus",
@@ -976,7 +1733,36 @@
         "amount",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_matusetoetus",
+      "document_id": "joelahtme_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/matusetoetus",
+      "content_hash": "3fde4305553e1048acfe052a957805224728257113d5114dfc40eb1bcfee5432",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_lapsehoiuteenuse_toetus",
@@ -1020,7 +1806,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lapsehoiuteenuse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_lapsehoiuteenuse_toetus",
+      "document_id": "joelahtme_vald_benefit_lapsehoiuteenuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/lapsehoiuteenuse-toetus",
+      "content_hash": "9cc129603fd55157ca69098793c96f6ba182f25f133155d7178fa31f7c7e0afe",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_hooldajatoetus",
@@ -1064,7 +1879,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hoolduse_seadmine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_hooldajatoetus",
+      "document_id": "joelahtme_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/hoolduse-seadmine",
+      "content_hash": "f4c373d6fc5974d44651e8d7ef3bdac9416df9aca90d516a59c545c01015e4f9",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_joulutoetus",
@@ -1102,7 +1946,36 @@
         "application",
         "amount"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "joulutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_joulutoetus",
+      "document_id": "joelahtme_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/joulutoetus",
+      "content_hash": "330f9e211d2554a175bd20cf153c4ff7a3b9520c7065f708938514e6475d8470",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_opilaste_soidukulude_huvitamine",
@@ -1141,7 +2014,36 @@
         "application",
         "relatedForms"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "opilaste_soit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_opilaste_soidukulude_huvitamine",
+      "document_id": "joelahtme_vald_benefit_opilaste_soidukulude_huvitamine",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/opilaste-soit",
+      "content_hash": "c083a71fca33a8f1e1d615f7e20a4ae3c37e8731fc72227e2a00dbe0bc169745",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_tervisetoetus",
@@ -1185,7 +2087,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekut_soodustavad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_tervisetoetus",
+      "document_id": "joelahtme_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toimetulekut-soodustavad-sotsiaaltoetused",
+      "content_hash": "033c0dd181df335e71d6e61d0cf580b8835f294ebad851230060961d522c3020",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_lastega_perede_toetus",
@@ -1230,7 +2161,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekut_soodustavad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_lastega_perede_toetus",
+      "document_id": "joelahtme_vald_benefit_lastega_perede_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toimetulekut-soodustavad-sotsiaaltoetused",
+      "content_hash": "b1e25dd299a706830f60bf3277d6719b82a5a68014cb5eff3d8ccc50095105cb",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_kuttetoetus",
@@ -1274,7 +2234,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekut_soodustavad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_kuttetoetus",
+      "document_id": "joelahtme_vald_benefit_kuttetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toimetulekut-soodustavad-sotsiaaltoetused",
+      "content_hash": "3ec0a10f42120ce5957f30694dde4f9ce8e891e767be655f4cd6caf022a585c2",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_erakorraline_toetus_ja_valtimatu_sotsiaalabi",
@@ -1318,7 +2307,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekut_soodustavad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_erakorraline_toetus_ja_valtimatu_sotsiaalabi",
+      "document_id": "joelahtme_vald_benefit_erakorraline_toetus_ja_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/toimetulekut-soodustavad-sotsiaaltoetused",
+      "content_hash": "85b62cc3ec7699ebf1be76d4427040158469c6225ad0c93290fb9c7b11404fb8",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_benefit_eluruumide_kohandamise_toetus",
@@ -1360,7 +2378,36 @@
         "relatedForms",
         "relatedContacts"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_benefit_eluruumide_kohandamise_toetus",
+      "document_id": "joelahtme_vald_benefit_eluruumide_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/blanketid",
+      "content_hash": "9e8da2703a511217e9035d92e8742d8e636ccd2e0f3f934ae2f5371d70abc58e",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_sotsiaalkaitse_korraldus",
@@ -1377,7 +2424,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_protection_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_sotsiaalkaitse_korraldus",
+      "document_id": "joelahtme_vald_resource_sotsiaalkaitse_korraldus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/sotsiaalkaitse-korraldus1",
+      "content_hash": "f54dd0b07b9d37b2d8be7f015c8f364b16219e7a148c8b1dad1e26cd3fb85feb",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_eestkoste_taisealisele",
@@ -1394,7 +2470,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eestkoste_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_eestkoste_taisealisele",
+      "document_id": "joelahtme_vald_resource_eestkoste_taisealisele",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/eestkoste-seadmine",
+      "content_hash": "4528762e305384e1d8d003502cb1a3024c43319ddc3eb86c829b5fc03b942b15",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_erihoolekandeteenused_ja_iste",
@@ -1413,7 +2518,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "erihoolekandeteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_erihoolekandeteenused_ja_iste",
+      "document_id": "joelahtme_vald_resource_erihoolekandeteenused_ja_iste",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/erihoolekandeteenused",
+      "content_hash": "d263e30fa32e8cbb3781a204a23e571d369f11207e3cd3730a59ef8c71f5e382",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_hairenuputeenus",
@@ -1430,7 +2564,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hairenuputeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_hairenuputeenus",
+      "document_id": "joelahtme_vald_resource_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/hairenuputeenus",
+      "content_hash": "ce9969fc4b00e1d0ee2a09664f18f474dcc6ca4dff61a64161bfe18f32276195",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_sotsiaaltootaja_vastuvotud",
@@ -1449,7 +2612,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltootaja_vastuvotud_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_sotsiaaltootaja_vastuvotud",
+      "document_id": "joelahtme_vald_resource_sotsiaaltootaja_vastuvotud",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/sotsiaaltootaja-vastuvotud",
+      "content_hash": "4970df47427b5ac4ebdbc1cfddd9f6851a5bcfb837a8ac08866410fe6a158730",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_parkimiskaart",
@@ -1468,7 +2660,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_parkimiskaart",
+      "document_id": "joelahtme_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/liikumispuudega-voi-pimedat-inimest-teenindava-soiduki-parkimiskaardi-taotlemine",
+      "content_hash": "6624757c21dfd748128d0d256fe6fc56de9ab3b8119555cd2f3cf3d7ef8a97e4",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_ihasalu_pansionaat",
@@ -1485,7 +2706,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hoolekande_asutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_ihasalu_pansionaat",
+      "document_id": "joelahtme_vald_resource_ihasalu_pansionaat",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/hoolekande-asutused",
+      "content_hash": "f18a6abe26042c7c4021bdc9096b88124c4d510a27be3b1095647ed67b3795cd",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_oigusabi_vahekindlustatule",
@@ -1502,7 +2752,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "oigusabi_vahekindlustatule_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_oigusabi_vahekindlustatule",
+      "document_id": "joelahtme_vald_resource_oigusabi_vahekindlustatule",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/oigusabi-vahekindlustatule",
+      "content_hash": "bd70b582a205bf07a2c39816bbf0e51ffc5e07754b5656a0c12c5804b81d3df4",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_resource_tallinna_naiste_kriisikodu",
@@ -1519,7 +2798,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_resource_tallinna_naiste_kriisikodu",
+      "document_id": "joelahtme_vald_resource_tallinna_naiste_kriisikodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/turvakoduteenusele",
+      "content_hash": "ece4c4ef205e5ad0dcfa52de9e852527edfcb581d7364cf219100d74b0be6d7e",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_eluruumide_kohandamise_toetuse_avaldus",
@@ -1544,7 +2852,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eluruumide_kohandamise_toetuse_avaldus_file",
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_eluruumide_kohandamise_toetuse_avaldus",
+      "document_id": "joelahtme_vald_form_eluruumide_kohandamise_toetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Puuetega%2Binimestele%2Beluruumide%2Bkohandamise%2Btoetuse%2Bavaldus.RTF/4554ed95-3bbb-4632-b294-da8fc598a462?version=1.0",
+      "content_hash": "fc8d0190f2dc52bf8f812b5e06f2ed87a15ed8375feadb2f1237a180c40bbaf7",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_opilase_soidutoetuse_avaldus",
@@ -1562,14 +2900,44 @@
         "joelahtme_vald_benefit_opilaste_soidukulude_huvitamine"
       ],
       "sourceKeys": [
-        "opilase_soidutoetuse_avaldus_file",
-        "forms_page"
+        "forms_page",
+        "opilase_soidutoetuse_avaldus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "opilase_soidutoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_opilase_soidutoetuse_avaldus",
+      "document_id": "joelahtme_vald_form_opilase_soidutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Avaldus%2B%C3%B5pilase%2Bs%C3%B5idutoetuse%2Btaotlemiseks.RTF/b1883e79-e03a-444a-86a8-80f0bccb3a5e?version=1.0",
+      "content_hash": "7e86efb79452da9cd5d43e751e09c08377c8dec9d53b7b99ffe0710882d08341",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
@@ -1588,14 +2956,44 @@
         "joelahtme_vald_service_hoolduse_seadmine"
       ],
       "sourceKeys": [
-        "puudega_lapse_hooldajatoetuse_avaldus_file",
-        "forms_page"
+        "forms_page",
+        "puudega_lapse_hooldajatoetuse_avaldus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "puudega_lapse_hooldajatoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
+      "document_id": "joelahtme_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Puudega%2Blapse%2Bhooldajatoetuse%2Btaotlemise%2Bavaldus.RTF/b0c86842-edf3-4093-8ef0-79353b5a5153?version=1.0",
+      "content_hash": "338ae11cb98e6f42ed4ef05dc81c6ec6916e9e1b1d4eca6e837d6f5ec158c0f0",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_lapsehoiuteenuse_toetuse_avaldus",
@@ -1615,14 +3013,44 @@
         "joelahtme_vald_service_toetavad_teenused_puudega_lastele"
       ],
       "sourceKeys": [
-        "lapsehoiuteenuse_toetuse_avaldus_file",
-        "forms_page"
+        "forms_page",
+        "lapsehoiuteenuse_toetuse_avaldus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "lapsehoiuteenuse_toetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_lapsehoiuteenuse_toetuse_avaldus",
+      "document_id": "joelahtme_vald_form_lapsehoiuteenuse_toetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Avaldus%2Blapsehoiuteenuse%2Btoetuse%2Btaotlemiseks.RTF/dd27469e-c6f7-4c97-ba5a-582872a3c48c?version=1.0",
+      "content_hash": "f176009a36b2e8b9840690129de106308f52d6d929bbe677fbf16d069579df43",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_toimetulekutoetuse_avaldus",
@@ -1640,14 +3068,44 @@
         "joelahtme_vald_benefit_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "toimetulekutoetuse_avaldus_file",
-        "forms_page"
+        "forms_page",
+        "toimetulekutoetuse_avaldus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "toimetulekutoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "joelahtme_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Toimetulekutoetuse%2Btaotlemise%2Bavaldus.RTF/c3b5cbef-dfb3-413a-8546-7467ea640167?version=1.0",
+      "content_hash": "5884f2f2db3355fc20c8fd1cda1945bb42b0e491e0a97d87092a59a1926abc59",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_taotleja_varade_loetelu",
@@ -1665,14 +3123,44 @@
         "joelahtme_vald_benefit_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "taotleja_varade_loetelu_file",
-        "forms_page"
+        "forms_page",
+        "taotleja_varade_loetelu_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "taotleja_varade_loetelu_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_taotleja_varade_loetelu",
+      "document_id": "joelahtme_vald_form_taotleja_varade_loetelu",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Taotleja%2Bvarade%2Bloetelu%2Bvorm.RTF/303f8e12-75ca-429b-8198-223ac1b7b0a5?version=1.0",
+      "content_hash": "910bd2b4dcfb8a07c5d3d8d487a78b39027803f41c464b36b8cd77e6be0b83a2",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_sotsiaaltoetuse_avaldus",
@@ -1693,14 +3181,44 @@
         "joelahtme_vald_benefit_erakorraline_toetus_ja_valtimatu_sotsiaalabi"
       ],
       "sourceKeys": [
-        "sotsiaaltoetuse_avaldus_pdf_file",
-        "forms_page"
+        "forms_page",
+        "sotsiaaltoetuse_avaldus_pdf_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "sotsiaaltoetuse_avaldus_pdf_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_sotsiaaltoetuse_avaldus",
+      "document_id": "joelahtme_vald_form_sotsiaaltoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Sotsiaaltoetuse%2Bavaldus.RTF.pdf/535c3a6d-fbd2-426d-b75a-ba0cda33ba75?version=1.0",
+      "content_hash": "9b820426d4949f8998e4e6a0a555b28f0e5eb29914d46a03d15f6e94d1ea31c7",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_sotsiaalhoolekandelise_abi_taotlus",
@@ -1726,14 +3244,44 @@
         "joelahtme_vald_service_integreeritud_hoolekandeteenus"
       ],
       "sourceKeys": [
-        "sotsiaalhoolekandelise_abi_taotlus_file",
-        "forms_page"
+        "forms_page",
+        "sotsiaalhoolekandelise_abi_taotlus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "sotsiaalhoolekandelise_abi_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_sotsiaalhoolekandelise_abi_taotlus",
+      "document_id": "joelahtme_vald_form_sotsiaalhoolekandelise_abi_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Sotsiaalhoolekandelise%2Babi%2Btaotlus.RTF/75c05bec-9878-4165-b7fd-ec5eb08440ce?version=1.0",
+      "content_hash": "6c1437c0c806f2e3532c845dda82f93d8f9431617936934889be5cd23303622e",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_lasteaiatoidu_vabastuse_avaldus",
@@ -1751,14 +3299,44 @@
         "joelahtme_vald_benefit_lastega_perede_toetus"
       ],
       "sourceKeys": [
-        "lasteaiatoidu_vabastuse_avaldus_file",
-        "forms_page"
+        "forms_page",
+        "lasteaiatoidu_vabastuse_avaldus_file"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "lasteaiatoidu_vabastuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_lasteaiatoidu_vabastuse_avaldus",
+      "document_id": "joelahtme_vald_form_lasteaiatoidu_vabastuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://joelahtme.ee/documents///Avaldus%2Blasteaiatoidu%2Bmaksmisest%2Bvabastamiseks.RTF/826b1147-c3fb-4c21-937a-8a02c88fc018?version=1.0",
+      "content_hash": "3e86630352e5d58bc5d7a07455120953c38848bde628e7f5257bb321eae9505a",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_sunnitoetus_spoku",
@@ -1775,14 +3353,44 @@
         "joelahtme_vald_benefit_sunnitoetus"
       ],
       "sourceKeys": [
-        "spoku_web_form",
-        "forms_page"
+        "forms_page",
+        "spoku_web_form"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "spoku_web_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_sunnitoetus_spoku",
+      "document_id": "joelahtme_vald_form_sunnitoetus_spoku",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://spoku.joelahtme.ee",
+      "content_hash": "ac0aacbbe3cbda5388bc74a836f4d46a0411acee6a0c3e7945de24d1f9435cfe",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_koolitoetus_spoku",
@@ -1799,14 +3407,44 @@
         "joelahtme_vald_benefit_koolitoetus"
       ],
       "sourceKeys": [
-        "spoku_web_form",
-        "forms_page"
+        "forms_page",
+        "spoku_web_form"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "spoku_web_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_koolitoetus_spoku",
+      "document_id": "joelahtme_vald_form_koolitoetus_spoku",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://spoku.joelahtme.ee",
+      "content_hash": "b616e57a37a96b6fd277ba76fd1e545a310fe7e4a0697d0c015f7ba2c65762dc",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_medaliga_kiitusega_spoku",
@@ -1823,14 +3461,44 @@
         "joelahtme_vald_benefit_medaliga_kiitusega_lopetanu_toetus"
       ],
       "sourceKeys": [
-        "spoku_web_form",
-        "forms_page"
+        "forms_page",
+        "spoku_web_form"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "spoku_web_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_medaliga_kiitusega_spoku",
+      "document_id": "joelahtme_vald_form_medaliga_kiitusega_spoku",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://spoku.joelahtme.ee",
+      "content_hash": "70cc1d21944c036eccb6047c7233c8f80e8823b3be97717283b8f1e00971d3c5",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_matusetoetus_spoku",
@@ -1847,14 +3515,44 @@
         "joelahtme_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
-        "spoku_web_form",
-        "forms_page"
+        "forms_page",
+        "spoku_web_form"
       ],
       "status": "active",
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "forms_page",
+        "spoku_web_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_matusetoetus_spoku",
+      "document_id": "joelahtme_vald_form_matusetoetus_spoku",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://spoku.joelahtme.ee",
+      "content_hash": "3105aeaf03e8a02feb08d662ee206e934592dec104734e9ae6dc019626738bbf",
+      "evidence_allowed": true
     },
     {
       "id": "joelahtme_vald_form_ranitsatoetus_arno",
@@ -1878,7 +3576,40 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "joelahtme_vald",
+      "municipality_name": "Jõelähtme vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "arno_web_form",
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "joelahtme_vald_form_ranitsatoetus_arno",
+      "document_id": "joelahtme_vald_form_ranitsatoetus_arno",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://arno.joelahtme.ee/",
+      "content_hash": "77047f97ed74cef312bc26c4465d274bd61f0ce9d3fb660222e5d38d1258ae24",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Jõelähtme vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

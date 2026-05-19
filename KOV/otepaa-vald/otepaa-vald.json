@@ -24,12 +24,42 @@
       "officialUrl": "https://otepaa.ee/",
       "relatedTo": [],
       "sourceKeys": [
-        "home",
-        "forms_overview"
+        "forms_overview",
+        "home"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "forms_overview",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_yldkontakt",
+      "document_id": "otepaa_vald_contact_yldkontakt",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/",
+      "content_hash": "eeaaafd204cd0c67da88aae7877c906475f1caa0ab57bfde130c1e5449a18f6f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_marika_paris",
@@ -49,7 +79,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_marika_paris",
+      "document_id": "otepaa_vald_contact_marika_paris",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "f5a76a77ca932713311a1a9a90377fcf1af0da8786cd4a1e12dd26d20e8585bd",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_pille_sikk",
@@ -69,7 +128,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_pille_sikk",
+      "document_id": "otepaa_vald_contact_pille_sikk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "f675db40191ce5f540b644ee60f301b23a372abf66504e2902d7561d1f6f5326",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_kelli_ann_kovljasenko",
@@ -89,7 +177,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_kelli_ann_kovljasenko",
+      "document_id": "otepaa_vald_contact_kelli_ann_kovljasenko",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "c4eb9d1fbcc187ed51da83dd11dcfe0b1545ea6c651dfa5445fe21fefda6eaaf",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_carmen_mets",
@@ -109,7 +226,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_carmen_mets",
+      "document_id": "otepaa_vald_contact_carmen_mets",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "bae711a15859fb90871cc93e4b215acbfca7a299c6c835b321482f3c71627d63",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_terje_lille",
@@ -125,12 +271,42 @@
       "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
       "relatedTo": [],
       "sourceKeys": [
-        "sotsiaalteenistus_contacts_page",
-        "lastekaitse_general_page"
+        "lastekaitse_general_page",
+        "sotsiaalteenistus_contacts_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_general_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_terje_lille",
+      "document_id": "otepaa_vald_contact_terje_lille",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "15679e9efe3768ef2c4abe9b64cb5806ac547387237503013bd48bbbccf7483c",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_pille_vihmann",
@@ -146,12 +322,42 @@
       "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
       "relatedTo": [],
       "sourceKeys": [
-        "sotsiaalteenistus_contacts_page",
-        "lastekaitse_general_page"
+        "lastekaitse_general_page",
+        "sotsiaalteenistus_contacts_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_general_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_pille_vihmann",
+      "document_id": "otepaa_vald_contact_pille_vihmann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "9212867b4758904eb27b4f454017aecad06e37f3abc8c34111fcc342410b6fb5",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_marju_karavin",
@@ -167,12 +373,42 @@
       "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
       "relatedTo": [],
       "sourceKeys": [
-        "sotsiaalteenistus_contacts_page",
-        "perenoustamine_page"
+        "perenoustamine_page",
+        "sotsiaalteenistus_contacts_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "perenoustamine_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_marju_karavin",
+      "document_id": "otepaa_vald_contact_marju_karavin",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "e20a26c2304b23077af539aa7c9fc147a7325d8cf4450e81f4c7aafff3000fe4",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_airin_hermann",
@@ -192,7 +428,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_airin_hermann",
+      "document_id": "otepaa_vald_contact_airin_hermann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "3e7830453a285eb59183f2b0761097d4bfb7612aeab2bba29ba49094af8da2d4",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_rita_parnik",
@@ -212,7 +477,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_rita_parnik",
+      "document_id": "otepaa_vald_contact_rita_parnik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "48d691f503c45d552238b3fe2d85f782ee1b67fe3cb089d18a6255d06d0bca5e",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_contact_pille_visnapuu",
@@ -228,12 +522,42 @@
       "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
       "relatedTo": [],
       "sourceKeys": [
-        "sotsiaalteenistus_contacts_page",
-        "erihoolekanne_page"
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_contact_pille_visnapuu",
+      "document_id": "otepaa_vald_contact_pille_visnapuu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "content_hash": "1cfba977a9b3d4425dd5edd5382e4734e7c1f77e8413f21ab8af6045f679af7e",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_sunnitoetuse_esimese_osa_avaldus",
@@ -252,12 +576,42 @@
         "otepaa_vald_benefit_sunnitoetus"
       ],
       "sourceKeys": [
-        "sunnitoetus_page",
-        "file_sunnitoetus_esimene_osa"
+        "file_sunnitoetus_esimene_osa",
+        "sunnitoetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_sunnitoetus_esimene_osa",
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "document_id": "otepaa_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/S%C3%BCnnitoetus_UUS.docx",
+      "content_hash": "7b8060506e47c4289516d26e69958a8900c7483286cca5542fd07c85e693cf4a",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_sunnitoetuse_teise_osa_avaldus",
@@ -276,12 +630,42 @@
         "otepaa_vald_benefit_sunnitoetus"
       ],
       "sourceKeys": [
-        "sunnitoetus_page",
-        "file_sunnitoetus_teine_osa"
+        "file_sunnitoetus_teine_osa",
+        "sunnitoetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_sunnitoetus_teine_osa",
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_sunnitoetuse_teise_osa_avaldus",
+      "document_id": "otepaa_vald_form_sunnitoetuse_teise_osa_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-10/synnitoetus_II_osa.docx",
+      "content_hash": "f83f6aa73ee4d22c9af44d15d8ba36c5088d45877270d60dba17b76ac0196339",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_esmakordselt_kooli_mineva_lapse_toetuse_taotlus",
@@ -300,12 +684,42 @@
         "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus"
       ],
       "sourceKeys": [
-        "kooli_mineva_lapse_toetus_page",
-        "file_kooli_mineva_lapse_toetus"
+        "file_kooli_mineva_lapse_toetus",
+        "kooli_mineva_lapse_toetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_kooli_mineva_lapse_toetus",
+        "kooli_mineva_lapse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_esmakordselt_kooli_mineva_lapse_toetuse_taotlus",
+      "document_id": "otepaa_vald_form_esmakordselt_kooli_mineva_lapse_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/1klass_taotlus.docx",
+      "content_hash": "cf0af277ce2f5112c505f58bd7cb4a24a73b72dae6cc48a1f5574bf4491ed7a1",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_koolilopetaja_toetus",
@@ -324,12 +738,42 @@
         "otepaa_vald_benefit_koolilopetaja_toetus"
       ],
       "sourceKeys": [
-        "koolilopetaja_toetus_page",
-        "file_koolilopetaja_toetus"
+        "file_koolilopetaja_toetus",
+        "koolilopetaja_toetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_koolilopetaja_toetus",
+        "koolilopetaja_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_koolilopetaja_toetus",
+      "document_id": "otepaa_vald_form_koolilopetaja_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Koolil%C3%B5petaja%20toetus.rtf",
+      "content_hash": "1d79dce860c6486be74c4092652a8fd173251f2c1bd3ee3265dd1151bf43d0aa",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_hooldajatoetuse_maaramine",
@@ -349,12 +793,42 @@
         "otepaa_vald_service_taisealise_isiku_hooldus"
       ],
       "sourceKeys": [
-        "hooldajatoetus_page",
-        "file_hooldajatoetuse_maaramine"
+        "file_hooldajatoetuse_maaramine",
+        "hooldajatoetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_hooldajatoetuse_maaramine",
+        "hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_hooldajatoetuse_maaramine",
+      "document_id": "otepaa_vald_form_hooldajatoetuse_maaramine",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Hooldajatoetuse_maaramine.doc",
+      "content_hash": "1d1be731f9bac05907d7c0327d2a860aabd5e90e5046b5a477129e0c3741903d",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_hooldaja_maaramine",
@@ -374,12 +848,42 @@
         "otepaa_vald_service_taisealise_isiku_hooldus"
       ],
       "sourceKeys": [
-        "hooldajatoetus_page",
-        "file_hooldaja_maaramine"
+        "file_hooldaja_maaramine",
+        "hooldajatoetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_hooldaja_maaramine",
+        "hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_hooldaja_maaramine",
+      "document_id": "otepaa_vald_form_hooldaja_maaramine",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Hooldaja_maaramine.doc",
+      "content_hash": "89e8ad204f3b9c49c1ba461478c491bc1af299485e754a1bad46f0435ce0ce33",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_matusetoetuse_avaldus",
@@ -398,12 +902,42 @@
         "otepaa_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
-        "matusetoetus_page",
-        "file_matusetoetus"
+        "file_matusetoetus",
+        "matusetoetus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_matusetoetus",
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_matusetoetuse_avaldus",
+      "document_id": "otepaa_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Matusetoetus.rtf",
+      "content_hash": "b7305b66035192e9fff5de371919b8520f0309fb9ce16e6eb984620d009e0d38",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_tervisetoetus",
@@ -422,12 +956,42 @@
         "otepaa_vald_benefit_tervisetoetus"
       ],
       "sourceKeys": [
-        "income_based_benefits_page",
-        "file_tervisetoetus"
+        "file_tervisetoetus",
+        "income_based_benefits_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_tervisetoetus",
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_tervisetoetus",
+      "document_id": "otepaa_vald_form_tervisetoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Tervisetoetus.docx",
+      "content_hash": "ed4f1db8ad610f781b9261341316820c58a1af2db89615a4e64ad4cf630eba98",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_sotsiaalteenuste_toetus",
@@ -447,12 +1011,42 @@
         "otepaa_vald_service_sotsiaaltransporditeenus"
       ],
       "sourceKeys": [
-        "income_based_benefits_page",
-        "file_sotsiaalteenuste_toetus"
+        "file_sotsiaalteenuste_toetus",
+        "income_based_benefits_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_sotsiaalteenuste_toetus",
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_sotsiaalteenuste_toetus",
+      "document_id": "otepaa_vald_form_sotsiaalteenuste_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Sotsiaalteenuste%20toetus.docx",
+      "content_hash": "201140d41cdef119fe409dde48d0e2d134c4c4270f7866eefa1447afce5d0c6a",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_raske_majandusliku_olukorra_toetus",
@@ -471,12 +1065,42 @@
         "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus"
       ],
       "sourceKeys": [
-        "income_based_benefits_page",
-        "file_raske_majandusliku_olukorra_toetus"
+        "file_raske_majandusliku_olukorra_toetus",
+        "income_based_benefits_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_raske_majandusliku_olukorra_toetus",
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_raske_majandusliku_olukorra_toetus",
+      "document_id": "otepaa_vald_form_raske_majandusliku_olukorra_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Raske%20majandusliku%20olukorra%20toetuse%20taotlus%20%283%29.rtf",
+      "content_hash": "8ba3c801546d36fbf9dac4d7b8e4214e7b221c23fee82e8767ddcd044dd6190f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_toimetulekutoetuse_avaldus",
@@ -495,12 +1119,42 @@
         "otepaa_vald_benefit_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "income_based_benefits_page",
-        "file_toimetulekutoetus_avaldus"
+        "file_toimetulekutoetus_avaldus",
+        "income_based_benefits_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_toimetulekutoetus_avaldus",
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "otepaa_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/Toimetulekutoetuse_avaldus.doc",
+      "content_hash": "112aede8d4eb1323c27714670166010f9196769a7ac61a8cb692f9be8614c579",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_koduteenuse_taotlus",
@@ -519,12 +1173,42 @@
         "otepaa_vald_service_koduteenus"
       ],
       "sourceKeys": [
-        "koduteenus_page",
-        "file_koduteenus_taotlus"
+        "file_koduteenus_taotlus",
+        "koduteenus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_koduteenus_taotlus",
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_koduteenuse_taotlus",
+      "document_id": "otepaa_vald_form_koduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2026-02/koduteenus_taotlus.docx",
+      "content_hash": "00611e8aab4a0727f239532ce7fc90dd66f5a5e6566fec2921b20e1dc2e7f6a7",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_koduteenuse_vajadusest_teavitamise_avaldus",
@@ -543,12 +1227,42 @@
         "otepaa_vald_service_koduteenus"
       ],
       "sourceKeys": [
-        "koduteenus_page",
-        "file_koduteenuse_vajadusest_teavitamine"
+        "file_koduteenuse_vajadusest_teavitamine",
+        "koduteenus_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_koduteenuse_vajadusest_teavitamine",
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_koduteenuse_vajadusest_teavitamise_avaldus",
+      "document_id": "otepaa_vald_form_koduteenuse_vajadusest_teavitamise_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2026-02/koduteenus_vajadus_akt.docx",
+      "content_hash": "131b23ab09241f66d093ccc21f8beb78460038567140b99d20c6e4ad653daec7",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_hooldekoduteenuse_taotlus",
@@ -568,12 +1282,42 @@
         "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "hooldekoduteenuse_page",
-        "file_hooldekoduteenuse_taotlus"
+        "file_hooldekoduteenuse_taotlus",
+        "hooldekoduteenuse_page"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_hooldekoduteenuse_taotlus",
+        "hooldekoduteenuse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_hooldekoduteenuse_taotlus",
+      "document_id": "otepaa_vald_form_hooldekoduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-08/hooldekoduteenuse%20taotlus.doc",
+      "content_hash": "2024b4633546d373324114becada7fe42553f908c8f4403ce9c5cb75c7763653",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks",
@@ -594,12 +1338,42 @@
         "otepaa_vald_benefit_hooldekodus_hooldamise_toetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "file_hindamisinstrument_hooldusvajadus"
+        "file_hindamisinstrument_hooldusvajadus",
+        "forms_overview"
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_hindamisinstrument_hooldusvajadus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks",
+      "document_id": "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-10/Hindamisinstrument%20hooldusvajaduse%20ja%20sotsiaalteenuse%20m%C3%A4%C3%A4ramiseks.docx",
+      "content_hash": "c76d12871a31ffe8e1208ba37ac8bc2b6d96c35effb0c5915bdd4a4d12f4c163",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_koduteenus",
@@ -639,13 +1413,43 @@
         "otepaa_vald_contact_carmen_mets"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "koduteenus_page"
+        "koduteenus_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "koduteenus_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_koduteenus",
+      "document_id": "otepaa_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/koduteenus-0",
+      "content_hash": "fe2ccf1bfb260c6646567d6089248fa1d975741ef7c839e9279fc81c83f2263c",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -682,13 +1486,43 @@
         "otepaa_vald_contact_kelli_ann_kovljasenko"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "hooldekoduteenuse_page"
+        "hooldekoduteenuse_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "hooldekoduteenuse_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "057af9bd7998071d469cd211679a9e034f04ea4edfff878478bd67d3535ef894",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_tugiisikuteenus",
@@ -722,14 +1556,45 @@
         "otepaa_vald_contact_pille_vihmann"
       ],
       "sourceKeys": [
-        "service_descriptions",
         "lastekaitse_general_page",
+        "service_descriptions",
         "sotsiaalteenistus_contacts_page"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_general_page",
+        "service_descriptions",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_tugiisikuteenus",
+      "document_id": "otepaa_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "57e46bd3d401cbd03aad4fa4b2cb43c96e3a348a319743c112c23efcf4ddec2f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_taisealise_isiku_hooldus",
@@ -763,13 +1628,43 @@
         "otepaa_vald_contact_kelli_ann_kovljasenko"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "hooldajatoetus_page"
+        "hooldajatoetus_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "hooldajatoetus_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_taisealise_isiku_hooldus",
+      "document_id": "otepaa_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "8f47b26aa3d48ec5e95325d5faee6c5424cf5b7e457d73be6b238431fc54353a",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_isikliku_abistaja_teenus",
@@ -805,7 +1700,37 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_isikliku_abistaja_teenus",
+      "document_id": "otepaa_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "7e94974b5d6fd588895731bd5da2a5c1447d550859658dcf26a1bd0358372154",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_varjupaigateenus",
@@ -840,7 +1765,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_varjupaigateenus",
+      "document_id": "otepaa_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "f99e4695fbd1a814aa161f8bd3f1d3897df607b567b3f3d9d5c5debf1a54558c",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_turvakoduteenus",
@@ -872,13 +1826,43 @@
         "otepaa_vald_contact_pille_vihmann"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "abivajav_laps_page"
+        "abivajav_laps_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "abivajav_laps_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_turvakoduteenus",
+      "document_id": "otepaa_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "aac0dcbac65911017052de0e05c599dbe1cc9c43078d34e90740f76bab1bc958",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_sotsiaaltransporditeenus",
@@ -916,13 +1900,43 @@
         "otepaa_vald_contact_marika_paris"
       ],
       "sourceKeys": [
-        "sotsiaaltransport_page",
-        "service_descriptions"
+        "service_descriptions",
+        "sotsiaaltransport_page"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions",
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_sotsiaaltransporditeenus",
+      "document_id": "otepaa_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
+      "content_hash": "2fa84a555c35aa33d0f8e04105e5dba95caec6158bee7fa178cb4d29cad5ac7a",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_eluruumi_tagamine",
@@ -957,7 +1971,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_eluruumi_tagamine",
+      "document_id": "otepaa_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "7c2394508681cffc65822d40e2e289889f599e209cf3c6a25a7a34c2885fcdf3",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_volanoustamisteenus",
@@ -993,7 +2036,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_volanoustamisteenus",
+      "document_id": "otepaa_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "3c4ed1565e4fc5002ba571189c2e6c04191c1c751dd09cfa17f6680459c27b7a",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_lapsehoiuteenus",
@@ -1025,13 +2097,43 @@
         "otepaa_vald_contact_pille_vihmann"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "lastekaitse_general_page"
+        "lastekaitse_general_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_general_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_lapsehoiuteenus",
+      "document_id": "otepaa_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "b2f3ec6a56509faccbdadd7e92bc30b2deb23dd2a0c0bee27a76abfe9d87e970",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_asendushooldusteenus",
@@ -1062,13 +2164,43 @@
         "otepaa_vald_contact_pille_vihmann"
       ],
       "sourceKeys": [
-        "service_descriptions",
-        "lastekaitse_general_page"
+        "lastekaitse_general_page",
+        "service_descriptions"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_general_page",
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_asendushooldusteenus",
+      "document_id": "otepaa_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "a96805fde72708cc3b011a6c930ccc4e6d22e802edb3bb074b6d77ad33fe2b1c",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_jarelhooldusteenus",
@@ -1103,7 +2235,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "service_descriptions"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_jarelhooldusteenus",
+      "document_id": "otepaa_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "content_hash": "50f57e82442f6a145d804cf75e1ab214ea039705e453043e537c1e8450031595",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_perenoustamine_ja_manguteraapia",
@@ -1142,7 +2303,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "perenoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_perenoustamine_ja_manguteraapia",
+      "document_id": "otepaa_vald_service_perenoustamine_ja_manguteraapia",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/perenoustamine",
+      "content_hash": "c86a5b938dbcccd44a1dbf7048e78b0439bfde9e46acd9543d7863a342688c07",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_lastekaitse_ja_lapse_heaolu",
@@ -1179,13 +2369,43 @@
         "otepaa_vald_contact_rita_parnik"
       ],
       "sourceKeys": [
-        "lastekaitse_general_page",
-        "abivajav_laps_page"
+        "abivajav_laps_page",
+        "lastekaitse_general_page"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "abivajav_laps_page",
+        "lastekaitse_general_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_lastekaitse_ja_lapse_heaolu",
+      "document_id": "otepaa_vald_service_lastekaitse_ja_lapse_heaolu",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse-uldteave",
+      "content_hash": "65e92823fc5199408cd6ad71d2f460ba16d289e6156f44cb340f61491fa4d3e8",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_eestkoste_korraldamine",
@@ -1224,7 +2444,37 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "eestkoste_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_eestkoste_korraldamine",
+      "document_id": "otepaa_vald_service_eestkoste_korraldamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eestkoste",
+      "content_hash": "541afa21dacc927731b37600b24547c07a6331758c5315c6ef942d9e576039dd",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_igapaevaelu_toetamise_teenus",
@@ -1260,7 +2510,37 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_igapaevaelu_toetamise_teenus",
+      "document_id": "otepaa_vald_service_igapaevaelu_toetamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/erihoolekanne",
+      "content_hash": "26b1149a0aafba006bec355a453d742f1b92cb9770f364dbeeb5e4850d02fb7c",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_service_toetatud_elamise_teenus",
@@ -1296,7 +2576,37 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_service_toetatud_elamise_teenus",
+      "document_id": "otepaa_vald_service_toetatud_elamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/erihoolekanne",
+      "content_hash": "e160c4a39bc75b06ce8155de46a95a1fd553ebdfb004591081c1a05d1ff01a1e",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_sunnitoetus",
@@ -1341,7 +2651,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_sunnitoetus",
+      "document_id": "otepaa_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/toiming/sunnitoetus",
+      "content_hash": "7d39797e03af0782a894eec5a28d533f8eff88f17a949613de0b363de1deefa4",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
@@ -1382,7 +2721,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "kooli_mineva_lapse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "document_id": "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus",
+      "content_hash": "43555b2e677f4acfc27e60b56600414cf1a70d74890c611d5c8da37a4d43f497",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_koolilopetaja_toetus",
@@ -1426,7 +2794,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "koolilopetaja_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_koolilopetaja_toetus",
+      "document_id": "otepaa_vald_benefit_koolilopetaja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/koolilopetaja-toetus",
+      "content_hash": "e9eb018728a5e0713003afafed2be9ee2240599bd8937b732b2f0558d9c6db3f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_hooldajatoetus",
@@ -1473,7 +2870,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_hooldajatoetus",
+      "document_id": "otepaa_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/hooldajatoetus",
+      "content_hash": "603a41f22f5f38367a5610a8a7dabda530e9b2511b92afe36bea33be7c8d5ed7",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_matusetoetus",
@@ -1517,7 +2943,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_matusetoetus",
+      "document_id": "otepaa_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/matusetoetuse-taotlus",
+      "content_hash": "c5051903ae60b2691a36cc49ab3c64d7f6d2394f5bb1e6e59b2c5e86aa14a83f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_tervisetoetus",
@@ -1559,7 +3014,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_tervisetoetus",
+      "document_id": "otepaa_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "content_hash": "d569ab7f1f1b53b4999c5a7c3a9ee635537163acbc2cd261cb8205406f2bb2a9",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_sotsiaalteenuste_toetus",
@@ -1601,7 +3085,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_sotsiaalteenuste_toetus",
+      "document_id": "otepaa_vald_benefit_sotsiaalteenuste_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "content_hash": "9c6400891fa30bb4b773b3f27946e99448c0d3cbe936e94807ad6c338d1adb16",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus",
@@ -1643,7 +3156,36 @@
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus",
+      "document_id": "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "content_hash": "da48a6bbf44f443b2688ef5dab8aeb30f6fa82915ac66ff22fe413844a4f30ea",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_toimetulekutoetus",
@@ -1680,13 +3222,43 @@
         "otepaa_vald_contact_yldkontakt"
       ],
       "sourceKeys": [
-        "income_based_benefits_page",
-        "file_toimetulekutaotluse_info"
+        "file_toimetulekutaotluse_info",
+        "income_based_benefits_page"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_toimetulekutaotluse_info",
+        "income_based_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_toimetulekutoetus",
+      "document_id": "otepaa_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "content_hash": "667841602ea530d95a5d28328fe9d328d9d344469aca7a81f6b0959bfa9d6916",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_benefit_hooldekodus_hooldamise_toetus",
@@ -1724,13 +3296,43 @@
         "otepaa_vald_contact_yldkontakt"
       ],
       "sourceKeys": [
-        "hooldekoduteenuse_page",
-        "forms_overview"
+        "forms_overview",
+        "hooldekoduteenuse_page"
       ],
       "sections_present": [
         "description"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "forms_overview",
+        "hooldekoduteenuse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_benefit_hooldekodus_hooldamise_toetus",
+      "document_id": "otepaa_vald_benefit_hooldekodus_hooldamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/toiming/hooldekoduteenuse-taotlus",
+      "content_hash": "a72bed1eec9cf1130172153156c6b814156258b661c92c0bae05f41af89c7406",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_rehabilitatsiooniteenus_info",
@@ -1749,7 +3351,36 @@
         "rehabilitatsiooniteenus_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "rehabilitatsiooniteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_rehabilitatsiooniteenus_info",
+      "document_id": "otepaa_vald_resource_rehabilitatsiooniteenus_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/rehabilitatsiooniteenus",
+      "content_hash": "2c81c2e663e3ff771f22ad7c03a119b57eb329b471764724aa2244c5fb463b8d",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_hoolekandeasutus_sa_otepaa_tervisekeskus",
@@ -1766,7 +3397,36 @@
         "hoolekandeasutused_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_hoolekandeasutus_sa_otepaa_tervisekeskus",
+      "document_id": "otepaa_vald_resource_hoolekandeasutus_sa_otepaa_tervisekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "d044b80e1c8f1928620fc872993dbd1f9a257d8c1643f37fd60915435462cf54",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_hoolekandeasutus_sangaste_kodu",
@@ -1783,7 +3443,36 @@
         "hoolekandeasutused_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_hoolekandeasutus_sangaste_kodu",
+      "document_id": "otepaa_vald_resource_hoolekandeasutus_sangaste_kodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "f9fb5745730d282dc5cba57f74d8b0db11ebe1a5a93813d467b77c1014f3bebc",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_seenioride_koda",
@@ -1802,7 +3491,36 @@
         "seenioride_koda_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "seenioride_koda_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_seenioride_koda",
+      "document_id": "otepaa_vald_resource_seenioride_koda",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/seenioride-koda",
+      "content_hash": "8d9622ce07f43cd9a41fb597f58b392fca8108ab38c0ca96858e7ab920e4fca5",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_seenioride_koda_kodukord",
@@ -1816,11 +3534,41 @@
       "relatedTo": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "seenioride_koda_page",
-        "file_seenioride_koda_kodukord"
+        "file_seenioride_koda_kodukord",
+        "seenioride_koda_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_seenioride_koda_kodukord",
+        "seenioride_koda_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_seenioride_koda_kodukord",
+      "document_id": "otepaa_vald_resource_seenioride_koda_kodukord",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-10/Otep%C3%A4%C3%A4%20valla%20seenioride%20koja%20kodukord2024.pdf",
+      "content_hash": "5c4512f554a9907f611a1e08915f032d7a09ad343742077293cf8367421a4338",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_seenioride_koda_tegevuskava",
@@ -1834,11 +3582,41 @@
       "relatedTo": [],
       "relatedContacts": [],
       "sourceKeys": [
-        "seenioride_koda_page",
-        "file_seenioride_koda_tegevuskava"
+        "file_seenioride_koda_tegevuskava",
+        "seenioride_koda_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_seenioride_koda_tegevuskava",
+        "seenioride_koda_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_seenioride_koda_tegevuskava",
+      "document_id": "otepaa_vald_resource_seenioride_koda_tegevuskava",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-10/Seenioride%20koja%20tegevuskava.pdf",
+      "content_hash": "99d1706afdf436f59ef7bc42e1ef1bd2fdca19db2a3d523269524d049e66fe33",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_lasteabi_",
@@ -1859,7 +3637,36 @@
         "abivajav_laps_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_lasteabi_",
+      "document_id": "otepaa_vald_resource_lasteabi_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/abivajav-laps",
+      "content_hash": "da235adfe87c1f2467a5ecfb748e4816611528b8666230bf0d055df15448468f",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_louna_lastemaja",
@@ -1878,7 +3685,36 @@
         "abivajav_laps_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_louna_lastemaja",
+      "document_id": "otepaa_vald_resource_louna_lastemaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/abivajav-laps",
+      "content_hash": "da6bdd568654f7e4f0b364f8cca7ff82c7a50867e3e865bfcbbf3eb11c3f44e9",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_puudega_lapse_vanemale_info",
@@ -1897,7 +3733,36 @@
         "puudega_lapse_vanemale_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "puudega_lapse_vanemale_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_puudega_lapse_vanemale_info",
+      "document_id": "otepaa_vald_resource_puudega_lapse_vanemale_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-lapse-vanemale",
+      "content_hash": "b0960f5a5bb9aac47a67718d4a1dd2f23a1e3be43ee73951c18f01dcab11694b",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_lasteombudsman",
@@ -1914,7 +3779,36 @@
         "lasteombudsman_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lasteombudsman_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_lasteombudsman",
+      "document_id": "otepaa_vald_resource_lasteombudsman",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lasteombudsman",
+      "content_hash": "bb3f21dcbd526d77633c9cfd806bd7ba4607df5e1187a07b8ed0141ef596ece2",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_lastekaitse_lisainfo_tugikanalid",
@@ -1931,7 +3825,36 @@
         "lastekaitse_lisainfo_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "lastekaitse_lisainfo_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_lastekaitse_lisainfo_tugikanalid",
+      "document_id": "otepaa_vald_resource_lastekaitse_lisainfo_tugikanalid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse-lisainfo",
+      "content_hash": "cf66e4ee9a031f79ef4c713d23e207ea56728a2c31da25dbc5f9ba4d63c00691",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_vaimse_tervise_abi",
@@ -1950,7 +3873,36 @@
         "vaimse_tervise_abi_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "vaimse_tervise_abi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_vaimse_tervise_abi",
+      "document_id": "otepaa_vald_resource_vaimse_tervise_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/vaimse-tervise-abi",
+      "content_hash": "29217359c147a80c248add7cc899ad5e1bc94c6cd9d030e9164add6c866aebc2",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_ohvriabi",
@@ -1969,7 +3921,36 @@
         "ohvriabi_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_ohvriabi",
+      "document_id": "otepaa_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/ohvriabi",
+      "content_hash": "02e3a496c2857dbd323162e04dc27360cc01fdb3fa104eeaa51b24bfe6cd4f31",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_soltuvusprobleemide_abi",
@@ -1988,7 +3969,36 @@
         "soltuvusprobleemid_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "soltuvusprobleemid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_soltuvusprobleemide_abi",
+      "document_id": "otepaa_vald_resource_soltuvusprobleemide_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/soltuvusprobleemid",
+      "content_hash": "062de66dd63cf7a06011c06d524c02decf24caf301bda7c37841e495b3d27435",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_kriisi_abitelefonid",
@@ -2005,7 +4015,36 @@
         "kriisi_abitelefonid_page"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "kriisi_abitelefonid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_kriisi_abitelefonid",
+      "document_id": "otepaa_vald_resource_kriisi_abitelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/kriisideks-valmisolek/uldised-abitelefonid-kriisi-ajal",
+      "content_hash": "832cb119e55489cb20fa461aafbe5c52b93430942db9fd3752dc19950eace222",
+      "evidence_allowed": true
     },
     {
       "id": "otepaa_vald_resource_toimetulekutaotluse_info",
@@ -2021,11 +4060,44 @@
       ],
       "relatedContacts": [],
       "sourceKeys": [
-        "forms_overview",
-        "file_toimetulekutaotluse_info"
+        "file_toimetulekutaotluse_info",
+        "forms_overview"
       ],
       "relatedForms": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "otepaa_vald",
+      "municipality_name": "Otepää vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "file_toimetulekutaotluse_info",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "otepaa_vald_resource_toimetulekutaotluse_info",
+      "document_id": "otepaa_vald_resource_toimetulekutaotluse_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://otepaa.ee/sites/default/files/documents/2025-10/Toimetulekutaotluse%20info.pdf",
+      "content_hash": "6f930068991671a2b5fc176433bd3679314c5d4642ba3118ecf014f15ac5fb8d",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Otepää vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

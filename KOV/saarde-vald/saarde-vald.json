@@ -46,7 +46,36 @@
       ],
       "sourceKeys": [
         "service_asendus_ja_jarelhooldusteenus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_asendus_ja_jarelhooldusteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_asendus_ja_jarelhooldusteenus",
+      "document_id": "saarde_vald_service_asendus_ja_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/asendus-ja-jarelhooldusteenus",
+      "content_hash": "7cb60a3f1789d1b3f9af90e1a71e4a594fefe6b7dedebdfa4996754d04a0513b",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_eluruumi_tagamise_teenus",
@@ -83,9 +112,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_eluruumi_tagamise_teenus"
-      ]
+        "service_eluruumi_tagamise_teenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_eluruumi_tagamise_teenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "saarde_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/eluruumi-tagamise-teenus",
+      "content_hash": "a2f4187912ce242e596fc5fe4c0c175e753bf3181cb74a2f00748906aad2094a",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_isikliku_abistaja_teenus",
@@ -123,9 +182,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_isikliku_abistaja_teenus"
-      ]
+        "service_isikliku_abistaja_teenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_isikliku_abistaja_teenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_isikliku_abistaja_teenus",
+      "document_id": "saarde_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/isikliku-abistaja-teenus",
+      "content_hash": "b8d4f3b86e0c573186615b8a786d1d7e715b8bf619669d1f5db4cbd96eb442a7",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_koduteenus",
@@ -163,9 +252,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_koduteenus"
-      ]
+        "service_koduteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_koduteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_koduteenus",
+      "document_id": "saarde_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/koduteenus",
+      "content_hash": "fc505695b549e6071960d07aaf8c8e580a5e5bc67c5618f2a6f4f8db32a67a50",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_lapsehoiuteenus",
@@ -202,9 +321,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_lapsehoiuteenus"
-      ]
+        "service_lapsehoiuteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_lapsehoiuteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_lapsehoiuteenus",
+      "document_id": "saarde_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/lapsehoiuteenus",
+      "content_hash": "40dd0b0d63b464a83054af150090ab61a4486d56a8b2540a2e26dc5175b30731",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_matuseteenus",
@@ -238,9 +387,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_matuseteenus"
-      ]
+        "service_matuseteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_matuseteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_matuseteenus",
+      "document_id": "saarde_vald_service_matuseteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/matuseteenus",
+      "content_hash": "061bccaa78e5231dcbdedaa6188ad0925e691d0367f7cc3132bdaaeb90bca9f8",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_psuhholoogiline_noustamine",
@@ -273,9 +452,39 @@
         "saarde_vald_contact_evelyn_eichhorst"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_psuhholoogiline_noustamine"
-      ]
+        "service_psuhholoogiline_noustamine",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_psuhholoogiline_noustamine",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_psuhholoogiline_noustamine",
+      "document_id": "saarde_vald_service_psuhholoogiline_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/psuhholoogiline-noustamine",
+      "content_hash": "f2f7dbd093146392165b39b1c023e542b830dd643eb47cf9a361fd739636942a",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_sotsiaaltransporditeenus",
@@ -311,13 +520,44 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_services_overview",
+        "file_sotsiaaltranspordi_infovoldik_et",
         "service_sotsiaaltransporditeenus",
-        "file_sotsiaaltranspordi_infovoldik_et"
+        "social_services_overview"
       ],
       "unresolvedIssues": [
         "Täpsed sõiduhinnad on avaldatud eraldi infovoldikus; käesolevas paketis on teenuse kulu kirjeldatud üldiselt."
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "file_sotsiaaltranspordi_infovoldik_et",
+        "service_sotsiaaltransporditeenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_sotsiaaltransporditeenus",
+      "document_id": "saarde_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/sotsiaaltransporditeenus",
+      "content_hash": "06d1bdfde7a714731a869e805c5e138b68ee0d3a9273a84a7aa222f3c27ca252",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_tugiisikuteenus",
@@ -352,9 +592,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_tugiisikuteenus"
-      ]
+        "service_tugiisikuteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_tugiisikuteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_tugiisikuteenus",
+      "document_id": "saarde_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/tugiisikuteenus-0",
+      "content_hash": "8ccdcf3b99fb634bf8174aa55563ceb478af342a6f449ac0e03cdc03261a1de9",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_turvakoduteenus",
@@ -390,9 +660,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_turvakoduteenus"
-      ]
+        "service_turvakoduteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_turvakoduteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_turvakoduteenus",
+      "document_id": "saarde_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/turvakoduteenus",
+      "content_hash": "5f4b966434d5f42705fb7e50122e12782c7c97b88f0dedf75dc7775a0558e416",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_taisealise_isiku_hooldus",
@@ -433,9 +733,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_taisealise_isiku_hooldus"
-      ]
+        "service_taisealise_isiku_hooldus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_taisealise_isiku_hooldus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_taisealise_isiku_hooldus",
+      "document_id": "saarde_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/taisealise-isiku-hooldus",
+      "content_hash": "374ebcb2ceeb885f45fab932a50f8054658bd0559f47376a6adfd1ef0c4730fe",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_varjupaigateenus",
@@ -471,9 +801,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_varjupaigateenus"
-      ]
+        "service_varjupaigateenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_varjupaigateenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_varjupaigateenus",
+      "document_id": "saarde_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/varjupaigateenus",
+      "content_hash": "8942870d0fb26d1fed0d74239908436ebe703e6b9f592bec63d7ac6655911707",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_volanoustamisteenus",
@@ -511,9 +871,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_volanoustamisteenus"
-      ]
+        "service_volanoustamisteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_volanoustamisteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_volanoustamisteenus",
+      "document_id": "saarde_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/volanoustamisteenus",
+      "content_hash": "3e3473b74047e22494a5f1f5cf084b790ad4b03dc38d9aa6c968c6c9dd10e5f5",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -556,9 +946,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_services_overview",
-        "service_valjaspool_kodu_osutatav_uldhooldusteenus"
-      ]
+        "service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "social_services_overview"
+      ],
+      "item_type": "service",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "content_hash": "5e220501455cd558b9fa2f26fd5053d438633b464ef4848a01952471b387e11f",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_hooldajatoetus",
@@ -595,9 +1015,39 @@
         "saarde_vald_contact_marko_truu"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_hooldajatoetus"
-      ]
+        "benefit_hooldajatoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_hooldajatoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_hooldajatoetus",
+      "document_id": "saarde_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/hooldajatoetus",
+      "content_hash": "bb3ec1007bb64dd05e8146da7a853312e5d20ad7047040350617c29a2af778eb",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_juubelitoetus",
@@ -626,9 +1076,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_juubelitoetus"
-      ]
+        "benefit_juubelitoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_juubelitoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_juubelitoetus",
+      "document_id": "saarde_vald_benefit_juubelitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/juubelitoetus",
+      "content_hash": "7160131e605b09210ad38d8c8b884985c768cf36c5f149d19483dfdb46edb1f5",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_joulupakk",
@@ -658,9 +1138,39 @@
         "saarde_vald_contact_ardo_agasild"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_joulupakk"
-      ]
+        "benefit_joulupakk",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_joulupakk",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_joulupakk",
+      "document_id": "saarde_vald_benefit_joulupakk",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/joulupakk",
+      "content_hash": "a8be675488d96e7746d9bcd6714b0343a4f60c59225e66e3aeb4ebf718b6b86b",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_koolitee_alustamise_toetus",
@@ -692,9 +1202,39 @@
         "saarde_vald_contact_ardo_agasild"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_koolitee_alustamise_toetus"
-      ]
+        "benefit_koolitee_alustamise_toetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_koolitee_alustamise_toetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_koolitee_alustamise_toetus",
+      "document_id": "saarde_vald_benefit_koolitee_alustamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/haridus-noored/taotlused-ja-toetused/koolitee-alustamise-toetus",
+      "content_hash": "62aeee52768e63a735468a78140abbba3ff8e9e143bef781d4bafc52aa297ea8",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_lasteaiatoetus",
@@ -734,9 +1274,39 @@
         "saarde_vald_contact_katlin_irene_rubin"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_lasteaiatoetus"
-      ]
+        "benefit_lasteaiatoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_lasteaiatoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_lasteaiatoetus",
+      "document_id": "saarde_vald_benefit_lasteaiatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/haridus-noored/taotlused-ja-toetused/lasteaiatoetus",
+      "content_hash": "6d102bb0b72c9666d6d0d1e79ccfc51eabe33e3b868252e156dd381bc3d6e112",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_lisatoetus",
@@ -777,9 +1347,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_lisatoetus"
-      ]
+        "benefit_lisatoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_lisatoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_lisatoetus",
+      "document_id": "saarde_vald_benefit_lisatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/lisatoetus",
+      "content_hash": "1fdb1ac48aeee193ced8cba41510cd94201db67996d5c7394d837c7c3b7111c1",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_matusetoetus",
@@ -818,9 +1418,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_matusetoetus"
-      ]
+        "benefit_matusetoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_matusetoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_matusetoetus",
+      "document_id": "saarde_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/matusetoetus",
+      "content_hash": "bb26a5e1e653cbbe573b5f741c7b911086c7e35599174b6aecf503940f540bf1",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_eluruumi_kohandamise_toetus",
@@ -861,9 +1491,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_eluruumi_kohandamise_toetus"
-      ]
+        "benefit_eluruumi_kohandamise_toetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_eluruumi_kohandamise_toetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_eluruumi_kohandamise_toetus",
+      "document_id": "saarde_vald_benefit_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/puudega-isiku-eluruumi-kohandamise-toetus",
+      "content_hash": "b1eac114eaf7dea1a202096c98e43452787f68fb11b2e7f316981d7a587a780b",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_synnitoetus",
@@ -903,9 +1563,39 @@
         "saarde_vald_contact_mari_treial"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_synnitoetus"
-      ]
+        "benefit_synnitoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_synnitoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_synnitoetus",
+      "document_id": "saarde_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/taotlused-ja-toetused/sunnitoetus",
+      "content_hash": "f51837eb615ebb35ed1a74c7c1eb5c92097041e2ee210209174a96942ea36042",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_toimetulekutoetus",
@@ -948,9 +1638,39 @@
         "saarde_vald_contact_kaja_kapsta"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_toimetulekutoetus"
-      ]
+        "benefit_toimetulekutoetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_toimetulekutoetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_toimetulekutoetus",
+      "document_id": "saarde_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/toimetulekutoetus-0",
+      "content_hash": "a5d014f2a1c3a8e6e1b9e14cd3cea9b4b404c03600b56cb951a569aec5959be1",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_benefit_uldhariduskooli_lopetamise_toetus",
@@ -979,9 +1699,39 @@
         "saarde_vald_contact_ardo_agasild"
       ],
       "sourceKeys": [
-        "social_benefits_overview",
-        "benefit_uldhariduskooli_lopetamise_toetus"
-      ]
+        "benefit_uldhariduskooli_lopetamise_toetus",
+        "social_benefits_overview"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "benefit_uldhariduskooli_lopetamise_toetus",
+        "social_benefits_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_benefit_uldhariduskooli_lopetamise_toetus",
+      "document_id": "saarde_vald_benefit_uldhariduskooli_lopetamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/uldhariduskooli-lopetamise-toetus",
+      "content_hash": "9dde6ee9f5e7134f432c9012d505027e1ae8b5789a1aa8e955e7928c1e757cd7",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_perelepitusteenus",
@@ -997,7 +1747,36 @@
       ],
       "sourceKeys": [
         "resource_perelepitusteenus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_perelepitusteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_perelepitusteenus",
+      "document_id": "saarde_vald_resource_perelepitusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/perelepitusteenus",
+      "content_hash": "53ddb6d782386634279b890c48a41b493aa8e9da60f166cf9cf589740b839280",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_ohvriabi",
@@ -1015,7 +1794,36 @@
       ],
       "sourceKeys": [
         "resource_ohvriabi"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_ohvriabi"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_ohvriabi",
+      "document_id": "saarde_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/kust-leida-abi/ohvriabi",
+      "content_hash": "8dff699d0ae992fd3b2ff763a9173978a1b8081d2fe8df4e10284479008890ac",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_tasuta_oigusnoustamine",
@@ -1028,7 +1836,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "resource_tasuta_oigusnoustamine"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_tasuta_oigusnoustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_tasuta_oigusnoustamine",
+      "document_id": "saarde_vald_resource_tasuta_oigusnoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/kust-leida-abi/tasuta-oigusnoustamine",
+      "content_hash": "49b77ea428ea579b7a44b45e4ac08fa4673b0122a1a0e37b22a25e2262030211",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_hoolekandeasutused",
@@ -1043,7 +1880,36 @@
       ],
       "sourceKeys": [
         "resource_hoolekandeasutused"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_hoolekandeasutused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_hoolekandeasutused",
+      "document_id": "saarde_vald_resource_hoolekandeasutused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/tervise-ja-hoolekandeasutused/hoolekandeasutused",
+      "content_hash": "97f4e224b1ab439e897bff8797e9e2f503a31913beaeba5ce51ab4b1097808d1",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_abivajav_laps",
@@ -1058,7 +1924,36 @@
       ],
       "sourceKeys": [
         "resource_abivajav_laps"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_abivajav_laps"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_abivajav_laps",
+      "document_id": "saarde_vald_resource_abivajav_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/laps-ja-pere/abivajav-laps",
+      "content_hash": "ae0f62fa477781414a1f1d10052cef36809a1b214afbc29a168427419e9f9c43",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_vanemlus_ja_tugi_lapsele",
@@ -1073,7 +1968,36 @@
       ],
       "sourceKeys": [
         "resource_vanemlus_ja_tugi_lapsele"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_vanemlus_ja_tugi_lapsele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_vanemlus_ja_tugi_lapsele",
+      "document_id": "saarde_vald_resource_vanemlus_ja_tugi_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/pere-sotsiaal-tervishoid/laps-ja-pere/vanemlus-ja-tugi-lapsele",
+      "content_hash": "c60ede92df9aa1079cec604363abb4245ae4024af9ac3d2ee30342abd3900231",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_kriisikontaktid",
@@ -1088,7 +2012,36 @@
       ],
       "sourceKeys": [
         "resource_kriisikontaktid"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_kriisikontaktid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_kriisikontaktid",
+      "document_id": "saarde_vald_resource_kriisikontaktid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid",
+      "content_hash": "5a59276c8a497937a33a28f758116d15bc7a14cfee8feff1e58aa77d7d719f2a",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_resource_kriisiabi_ja_juhised",
@@ -1103,7 +2056,36 @@
       ],
       "sourceKeys": [
         "resource_kriisiabi_ja_juhised"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "resource_kriisiabi_ja_juhised"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_resource_kriisiabi_ja_juhised",
+      "document_id": "saarde_vald_resource_kriisiabi_ja_juhised",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/elanikkonnakaitse/kriisideks-valmisolek/kriisiabi-ja-juhised",
+      "content_hash": "49bb6e21f26fb617983b451fc50cc48e84b56dfe4197d45c2a1aef4fac744e94",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_saarde_vallavalitsus",
@@ -1120,7 +2102,37 @@
       "sourceKeys": [
         "contacts_page",
         "home"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_saarde_vallavalitsus",
+      "document_id": "saarde_vald_contact_saarde_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "39272d7fed194d16352887aead04d65946d39b24bd7bb52db7f8293f55e01c08",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_marko_truu",
@@ -1136,7 +2148,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_marko_truu",
+      "document_id": "saarde_vald_contact_marko_truu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "13de42305f388b9ab8349b4eac52619e295971bb8b39b46132f174041093ae35",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_merike_maidle",
@@ -1152,7 +2193,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_merike_maidle",
+      "document_id": "saarde_vald_contact_merike_maidle",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "ade520a59d2f1f6cdf139e2de42dd268d2bd0e2e0a2b26b2fededd34c501a5c0",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_kaja_kapsta",
@@ -1168,7 +2238,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_kaja_kapsta",
+      "document_id": "saarde_vald_contact_kaja_kapsta",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "318b5f379ef308c1c5ec75109a99a8169cf4a853a05a63c3648c0b3fc37888bf",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_katlin_irene_rubin",
@@ -1184,7 +2283,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_katlin_irene_rubin",
+      "document_id": "saarde_vald_contact_katlin_irene_rubin",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "e3803a8afe4e604209e91e940278684253ca661ab8b92e14a3b3f2770c2034ab",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_evelyn_eichhorst",
@@ -1201,7 +2329,37 @@
       "sourceKeys": [
         "contacts_page",
         "service_psuhholoogiline_noustamine"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page",
+        "service_psuhholoogiline_noustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_evelyn_eichhorst",
+      "document_id": "saarde_vald_contact_evelyn_eichhorst",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "36fec56ca59288d9f6eca9651f727401689e041e1d044171e7bc9869061e9087",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_kairi_tilsen",
@@ -1217,7 +2375,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_kairi_tilsen",
+      "document_id": "saarde_vald_contact_kairi_tilsen",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "3e73a664361b4e12c9701904a2595491eaee54f130851439aeb81ddff64d9c3d",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_ardo_agasild",
@@ -1233,7 +2420,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_ardo_agasild",
+      "document_id": "saarde_vald_contact_ardo_agasild",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "6848922e6ea6da4bbf6de54cccb96d34575f11514e67244601182f3941e94a14",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_contact_mari_treial",
@@ -1249,7 +2465,36 @@
       "officialUrl": "https://saarde.ee/kontakt",
       "sourceKeys": [
         "contacts_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_contact_mari_treial",
+      "document_id": "saarde_vald_contact_mari_treial",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/kontakt",
+      "content_hash": "9cefa7a89e7df030990ce3d3d1ac8bbce64a0a35f6cfa9b5a2a889d85c7b9691",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_toimetulekutoetuse_taotlus_et",
@@ -1269,9 +2514,39 @@
         "saarde_vald_benefit_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_toimetulekutoetuse_taotlus_et"
-      ]
+        "form_toimetulekutoetuse_taotlus_et",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_toimetulekutoetuse_taotlus_et",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_toimetulekutoetuse_taotlus_et",
+      "document_id": "saarde_vald_form_toimetulekutoetuse_taotlus_et",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Toimetulekutoetuse_avaldus%2B%2B160721.rtf/2b42a128-2db4-4281-9d1a-e3243356fd5a",
+      "content_hash": "ca11dda8f5a2335c9514eee792f2fc0e87ea6c8af5a0dd8d0214cf7f9f36c972",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_toimetulekutoetuse_taotlus_ru",
@@ -1291,9 +2566,39 @@
         "saarde_vald_benefit_toimetulekutoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_toimetulekutoetuse_taotlus_ru"
-      ]
+        "form_toimetulekutoetuse_taotlus_ru",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_toimetulekutoetuse_taotlus_ru",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_toimetulekutoetuse_taotlus_ru",
+      "document_id": "saarde_vald_form_toimetulekutoetuse_taotlus_ru",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Toimetulekutoetuse_avaldus%2B%2B160721%2B_VENE.rtf/d35dbd82-0559-43eb-b3eb-4873623b3b49",
+      "content_hash": "dafc5b9d260c872614cf540c1ced30b1a24873d1b8f2149dd25279255ac541ce",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_hooldaja_maaramine_hooldajatoetus",
@@ -1314,9 +2619,39 @@
         "saarde_vald_benefit_hooldajatoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_hooldaja_maaramine_hooldajatoetus"
-      ]
+        "form_hooldaja_maaramine_hooldajatoetus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_hooldaja_maaramine_hooldajatoetus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_hooldaja_maaramine_hooldajatoetus",
+      "document_id": "saarde_vald_form_hooldaja_maaramine_hooldajatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119314//LisaTaotlus%2Bhooldaja%2Bm%C3%A4%C3%A4ramiseks%2Bja%2Bhooldajatoetuse%2Bmaksmiseks%2Bvallaeelarvest.doc/39b6c557-d057-4927-b756-edc729970b86",
+      "content_hash": "0d70af62b1bb7c00e0c00a1c2f8ccf0334fd00489276895f71e8ed39f071873d",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_synnitoetus_i_osa",
@@ -1336,9 +2671,39 @@
         "saarde_vald_benefit_synnitoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_synnitoetus_i_osa"
-      ]
+        "form_synnitoetus_i_osa",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_synnitoetus_i_osa",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_synnitoetus_i_osa",
+      "document_id": "saarde_vald_form_synnitoetus_i_osa",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//synnitoetus_I_osa_avaldus.rtf/6532f753-4e40-40d4-becf-8df86a4842a4",
+      "content_hash": "619f00f8ea853335e2de431bb077a08a07248ee13b211ef01ebfca193908207e",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_synnitoetus_ii_osa",
@@ -1358,9 +2723,39 @@
         "saarde_vald_benefit_synnitoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_synnitoetus_ii_osa"
-      ]
+        "form_synnitoetus_ii_osa",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_synnitoetus_ii_osa",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_synnitoetus_ii_osa",
+      "document_id": "saarde_vald_form_synnitoetus_ii_osa",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//synnitoetus_II_osa_avaldus.rtf/e1eadf80-a441-4172-bc21-e1d75a3917f6",
+      "content_hash": "62f6142d2e7117a77ab2f40858bcbac108df5e0c59aaa6279515ebee4725400d",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_synnitoetus_iii_osa",
@@ -1380,9 +2775,39 @@
         "saarde_vald_benefit_synnitoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_synnitoetus_iii_osa"
-      ]
+        "form_synnitoetus_iii_osa",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_synnitoetus_iii_osa",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_synnitoetus_iii_osa",
+      "document_id": "saarde_vald_form_synnitoetus_iii_osa",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//synnitoetus_III_osa_avaldus.rtf/09b0ad0b-22ae-436c-b543-e33f796b8a4f",
+      "content_hash": "23654c035f93eea505f631fed761fd0945f0aa6eb474f5f0094dda7c099eaf53",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_matusetoetuse_taotlus",
@@ -1402,9 +2827,39 @@
         "saarde_vald_benefit_matusetoetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_matusetoetuse_taotlus"
-      ]
+        "form_matusetoetuse_taotlus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_matusetoetuse_taotlus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_matusetoetuse_taotlus",
+      "document_id": "saarde_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//Avaldus_matusetoetuse_saamiseks.rtf/19104301-5258-463c-b5bc-95d1ca5ed2eb",
+      "content_hash": "476dfe8f6f9aa11688cdd1ade3a9a32ad45f9a52541a1202c153b3ffef09e5a5",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_koduteenuse_taotlus",
@@ -1424,9 +2879,39 @@
         "saarde_vald_service_koduteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_koduteenuse_taotlus"
-      ]
+        "form_koduteenuse_taotlus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_koduteenuse_taotlus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_koduteenuse_taotlus",
+      "document_id": "saarde_vald_form_koduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//Koduteenuse_taotlus.rtf/d68cc1c9-e391-48ff-be33-7356cac838f8",
+      "content_hash": "e9c6b3adb2f73e698a46a5e03c609a1d72024ae366d2fcc5044dc40a02183b8b",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_sissetulekust_soltuv_toetus",
@@ -1448,9 +2933,39 @@
         "saarde_vald_benefit_eluruumi_kohandamise_toetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_sissetulekust_soltuv_toetus"
-      ]
+        "form_sissetulekust_soltuv_toetus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_sissetulekust_soltuv_toetus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_sissetulekust_soltuv_toetus",
+      "document_id": "saarde_vald_form_sissetulekust_soltuv_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//Sissetulekust%2Bs%C3%B5ltuv_vorm.rtf/f29b5ba9-f490-4a1b-a597-629b11cd5175",
+      "content_hash": "b9a82f7b91d1975db1eda33d4f2e27407e69647d9fdbef0f7404cfd294799bf7",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_sissetulekust_soltuv_toetus_ru",
@@ -1472,9 +2987,39 @@
         "saarde_vald_benefit_eluruumi_kohandamise_toetus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_sissetulekust_soltuv_toetus_ru"
-      ]
+        "form_sissetulekust_soltuv_toetus_ru",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_sissetulekust_soltuv_toetus_ru",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_sissetulekust_soltuv_toetus_ru",
+      "document_id": "saarde_vald_form_sissetulekust_soltuv_toetus_ru",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//Lisa_3_Sissetulekust%2Bs%C3%B5ltuv_vene_keelne.pdf/ecbac3b8-f817-4db7-90b8-fe5ffa362c10",
+      "content_hash": "e724290043ff813a99f1a0d038142a07f9400838b99f1b3ed19c5b37ff548bc7",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_puudega_lapse_sotsiaalteenused",
@@ -1492,9 +3037,39 @@
       "officialUrl": "https://saarde.ee/documents/119303/27779480/M_2_Lisa.rtf/1edb6e88-d3fd-4944-8f45-36d398dab595",
       "relatedTo": [],
       "sourceKeys": [
-        "forms_overview",
-        "form_puudega_lapse_sotsiaalteenused"
-      ]
+        "form_puudega_lapse_sotsiaalteenused",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_puudega_lapse_sotsiaalteenused",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_puudega_lapse_sotsiaalteenused",
+      "document_id": "saarde_vald_form_puudega_lapse_sotsiaalteenused",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/M_2_Lisa.rtf/1edb6e88-d3fd-4944-8f45-36d398dab595",
+      "content_hash": "1a9ec74b11e5db38f05f0bfeb93c38c503434f4b4d587a90e5605a5a1cd615ee",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_isikliku_abistaja_teenus",
@@ -1514,9 +3089,39 @@
         "saarde_vald_service_isikliku_abistaja_teenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_isikliku_abistaja_teenus"
-      ]
+        "form_isikliku_abistaja_teenus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_isikliku_abistaja_teenus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_isikliku_abistaja_teenus",
+      "document_id": "saarde_vald_form_isikliku_abistaja_teenus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Isikliku%2Babistaja%2Bteenuse%2Btaotlus%2BLisa%2B1.rtf/62cb2e58-b989-46a6-99ea-9c3a5d6b529a",
+      "content_hash": "77fe5871f6ceb33a7214196edf4a2fdb2d4174e6f47222c890d6bd65ec14d602",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_ulpidamiskohustuslase_kinnitus",
@@ -1536,9 +3141,39 @@
         "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_ulpidamiskohustuslase_kinnitus"
-      ]
+        "form_ulpidamiskohustuslase_kinnitus",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_ulpidamiskohustuslase_kinnitus",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_ulpidamiskohustuslase_kinnitus",
+      "document_id": "saarde_vald_form_ulpidamiskohustuslase_kinnitus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Seadusj%C3%A4rgse%2B%C3%BClalpidamiskohustuslase%2Bkinnitus.rtf/0406c4b6-227b-4f45-93cb-a9c059c6946b",
+      "content_hash": "7d698a9301a054b59a4be2b194b4411c8c91bba8d13b3a3cb5e583ca36fa0e02",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_hoolekandeteenuse_rahastamine",
@@ -1558,9 +3193,39 @@
         "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_hoolekandeteenuse_rahastamine"
-      ]
+        "form_hoolekandeteenuse_rahastamine",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_hoolekandeteenuse_rahastamine",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_hoolekandeteenuse_rahastamine",
+      "document_id": "saarde_vald_form_hoolekandeteenuse_rahastamine",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303//Taotlus%2Bhoolekandeteenuse%2Brahastamiseks%2BSaarde%2Bvalla%2Beelarvest.rtf/bc8690ab-2f24-46c7-ab16-970ccf2649e1",
+      "content_hash": "f4d14e62a19aae629027fde08a959661e8e1ed9823efaca75b0d1b4c73f2ec76",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_hooldekodu_tasu_surju",
@@ -1580,9 +3245,39 @@
         "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_hooldekodu_tasu_surju"
-      ]
+        "form_hooldekodu_tasu_surju",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_hooldekodu_tasu_surju",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_hooldekodu_tasu_surju",
+      "document_id": "saarde_vald_form_hooldekodu_tasu_surju",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Blankett_Surju%2BHK.docx/472ea051-56ba-440c-b965-5f964fe90f73",
+      "content_hash": "ff9d1ceaabd41a3b89722e0d3aaa3e58f0d959e9706167565d3d4bbfd533ed57",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_hooldekodu_tasu_kilingi_villa",
@@ -1602,9 +3297,39 @@
         "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_hooldekodu_tasu_kilingi_villa"
-      ]
+        "form_hooldekodu_tasu_kilingi_villa",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_hooldekodu_tasu_kilingi_villa",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_hooldekodu_tasu_kilingi_villa",
+      "document_id": "saarde_vald_form_hooldekodu_tasu_kilingi_villa",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Blankett_Kilingi%2BVilla.docx/e6be2760-7e24-4c13-8ba7-8b54e4b2ee7c",
+      "content_hash": "9797a6fa3447d826545c87d4734bf4656d85947768d95cc768f6529c187b2b03",
+      "evidence_allowed": true
     },
     {
       "id": "saarde_vald_form_hooldekodu_tasu_kilingi_nomme_thk",
@@ -1624,9 +3349,42 @@
         "saarde_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "sourceKeys": [
-        "forms_overview",
-        "form_hooldekodu_tasu_kilingi_nomme_thk"
-      ]
+        "form_hooldekodu_tasu_kilingi_nomme_thk",
+        "forms_overview"
+      ],
+      "item_type": "form",
+      "municipality_id": "saarde_vald",
+      "municipality_name": "Saarde vald",
+      "county": "Pärnumaa",
+      "source_keys": [
+        "form_hooldekodu_tasu_kilingi_nomme_thk",
+        "forms_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "saarde_vald_form_hooldekodu_tasu_kilingi_nomme_thk",
+      "document_id": "saarde_vald_form_hooldekodu_tasu_kilingi_nomme_thk",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-05-01",
+      "last_checked": "2026-05-01",
+      "retrieved_at": "2026-05-01",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://saarde.ee/documents/119303/27779480/Blankett_KilingiN%C3%B5mme%2BTHK.docx/b169d153-d36d-40d4-8ed8-de355510ff8d",
+      "content_hash": "9f3a46482ef5e2ae669c2c6d235635ea86dbd370581ac57380c32f24201afe31",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Saarde vald",
+  "checked_at": "2026-05-01",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

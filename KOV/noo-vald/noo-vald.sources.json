@@ -16,13 +16,43 @@
       "url": "https://nvv.ee",
       "url_canonical": "https://nvv.ee",
       "normalized_url": "https://nvv.ee",
-      "source_type": "kov_homepage",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "structure"
+      "used_for": "structure",
+      "document_id": "home",
+      "source_key": "home",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_tahtsad_abinumbrid"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "a7afb75d7a4eb10eb04e08e636b21de96128a6188053443174bd1d53d03c7650",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "home"
     },
     {
       "source_id": "all_services",
@@ -30,13 +60,41 @@
       "url": "https://nvv.ee/teenused",
       "url_canonical": "https://nvv.ee/teenused",
       "normalized_url": "https://nvv.ee/teenused",
-      "source_type": "kov_social_overview",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "structure"
+      "used_for": "structure",
+      "document_id": "all_services",
+      "source_key": "all_services",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "934daf7ef2c2b0b73baed9e8e5bdbd5c91b95dbc4a5c0689086bf9e2746c3f59",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "all_services"
     },
     {
       "source_id": "social_overview",
@@ -44,13 +102,41 @@
       "url": "https://nvv.ee/teenused/sotsiaalabi",
       "url_canonical": "https://nvv.ee/teenused/sotsiaalabi",
       "normalized_url": "https://nvv.ee/teenused/sotsiaalabi",
-      "source_type": "kov_social_overview",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "structure"
+      "used_for": "structure",
+      "document_id": "social_overview",
+      "source_key": "social_overview",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "501f75f3aafed83a6b0f61ca7142b81e12b7e23c0d4c2405f9fbf60080d00833",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "social_overview"
     },
     {
       "source_id": "social_services_overview",
@@ -58,13 +144,41 @@
       "url": "https://nvv.ee/sotsiaalteenused1",
       "url_canonical": "https://nvv.ee/sotsiaalteenused1",
       "normalized_url": "https://nvv.ee/sotsiaalteenused1",
-      "source_type": "kov_social_overview",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "structure"
+      "used_for": "structure",
+      "document_id": "social_services_overview",
+      "source_key": "social_services_overview",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "0c4fa0e9db906cce099d324cd40b9251f077c322c0883caed76975e636b4f9c3",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "social_services_overview"
     },
     {
       "source_id": "social_benefits_overview",
@@ -72,13 +186,55 @@
       "url": "https://nvv.ee/sotsiaaltoetused1",
       "url_canonical": "https://nvv.ee/sotsiaaltoetused1",
       "normalized_url": "https://nvv.ee/sotsiaaltoetused1",
-      "source_type": "kov_benefit_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "benefits"
+      "used_for": "benefits",
+      "document_id": "social_benefits_overview",
+      "source_key": "social_benefits_overview",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_benefit_gumnaasiumi_lopetamise_toetus",
+        "noo_vald_benefit_koolitoetus",
+        "noo_vald_benefit_kriisiabi",
+        "noo_vald_benefit_kuttetoetus",
+        "noo_vald_benefit_lapsetoetus",
+        "noo_vald_benefit_matusetoetus",
+        "noo_vald_benefit_pohikooli_lopetamise_toetus",
+        "noo_vald_benefit_puudega_lapse_hooldajatoetus",
+        "noo_vald_benefit_puudest_tingitud_lisakulude_toetus",
+        "noo_vald_benefit_represseeritute_maamaksutoetus",
+        "noo_vald_benefit_taisealise_isiku_hooldajatoetus",
+        "noo_vald_benefit_toetus_lastega_peredele",
+        "noo_vald_benefit_toetus_majandusliku_olukorra_leevendamiseks"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "4991cb5bd2b0be5b6cd8971d81efa9bbb66a8ef66f69ef76d0b474fda10a8e83",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "social_benefits_overview"
     },
     {
       "source_id": "forms_page",
@@ -86,13 +242,41 @@
       "url": "https://nvv.ee/avalduste-vormid",
       "url_canonical": "https://nvv.ee/avalduste-vormid",
       "normalized_url": "https://nvv.ee/avalduste-vormid",
-      "source_type": "kov_social_overview",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "forms_page",
+      "source_key": "forms_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "2e0440031dde9ebf5f0bcb79fc623fda20f657e2d15b833af4e65c8e16833817",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "forms_page"
     },
     {
       "source_id": "e_services_page",
@@ -106,7 +290,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "e_services_page",
+      "source_key": "e_services_page",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_e_teenused"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "2021b55a7b341dfba1d9589ed27eca48f255f5e9fa8e585e348a0ba7141857e6",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "e_services_page"
     },
     {
       "source_id": "contacts_page",
@@ -114,13 +326,37 @@
       "url": "https://nvv.ee/kontakt",
       "url_canonical": "https://nvv.ee/kontakt",
       "normalized_url": "https://nvv.ee/kontakt",
-      "source_type": "kov_contact_page",
+      "source_type": "contact_page",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "contacts"
+      "used_for": "contacts",
+      "document_id": "contacts_page",
+      "source_key": "contacts_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [],
+      "sections_present": [],
+      "content_hash": "4d9ea81d8209754ed73e195d22606af94ba8f33508e052174ffd4902ea016751",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "contacts_page"
     },
     {
       "source_id": "toimetulekutoetus_page",
@@ -128,13 +364,43 @@
       "url": "https://nvv.ee/toimetulekutoetus",
       "url_canonical": "https://nvv.ee/toimetulekutoetus",
       "normalized_url": "https://nvv.ee/toimetulekutoetus",
-      "source_type": "kov_benefit_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "toimetulekutoetus_page",
+      "source_key": "toimetulekutoetus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_benefit_toimetulekutoetus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "feea1fbc8c37b2b1ab8982e93fb4e20f696b56dd728a7a435386555f04ca2dcb",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "toimetulekutoetus_page"
     },
     {
       "source_id": "volanoustamisteenus_page",
@@ -142,13 +408,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "volanoustamisteenus_page",
+      "source_key": "volanoustamisteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_volanoustamisteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "415f8c98fc4013147f9ce6e56956858330dbe6797ffc1f255e29e4424517e169",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "volanoustamisteenus_page"
     },
     {
       "source_id": "tugiisikuteenus_page",
@@ -156,13 +452,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "tugiisikuteenus_page",
+      "source_key": "tugiisikuteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_tugiisikuteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "921e200a548baf62542b3d5a4914364871b6fe09d7b296062fb6dcd16453287b",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "tugiisikuteenus_page"
     },
     {
       "source_id": "sotsiaaltransporditeenus_page",
@@ -170,13 +496,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "sotsiaaltransporditeenus_page",
+      "source_key": "sotsiaaltransporditeenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_sotsiaaltransporditeenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "3cf46529c105aabe39cdadb6abfcf7946e5a7e5adc7b33e262dfed669d81e7b3",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "sotsiaaltransporditeenus_page"
     },
     {
       "source_id": "taisealise_isiku_hooldus_page",
@@ -184,13 +540,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealise-isiku-hooldus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealise-isiku-hooldus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealise-isiku-hooldus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "taisealise_isiku_hooldus_page",
+      "source_key": "taisealise_isiku_hooldus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_taisealise_isiku_hooldus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "1099968f913432fc989ac5194ae2e2373f792880b8e3c78d0b3574eccea04419",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "taisealise_isiku_hooldus_page"
     },
     {
       "source_id": "uldhooldusteenus_page",
@@ -198,13 +584,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/uldhooldusteenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/uldhooldusteenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/uldhooldusteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "uldhooldusteenus_page",
+      "source_key": "uldhooldusteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_uldhooldusteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "ef23ee575605d74bee50b79c52a7285cbb8ecdfedf208fe7bd00ee31059f21cc",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "uldhooldusteenus_page"
     },
     {
       "source_id": "turvakoduteenus_page",
@@ -212,13 +628,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/turvakoduteenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/turvakoduteenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/turvakoduteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "turvakoduteenus_page",
+      "source_key": "turvakoduteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_turvakoduteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "c6b3b295951ab6173502e8534651aa285434a41d3c6a9a46d2f4b897a7122075",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "turvakoduteenus_page"
     },
     {
       "source_id": "varjupaigateenus_page",
@@ -226,13 +672,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/varjupaigateenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/varjupaigateenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/varjupaigateenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "varjupaigateenus_page",
+      "source_key": "varjupaigateenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_varjupaigateenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "7fa70dd5a8ae75c0e8c4f3a861772867a6ebde6775f52b883700c7c5c1108278",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "varjupaigateenus_page"
     },
     {
       "source_id": "asendushooldusteenus_page",
@@ -240,13 +716,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/asendushooldusteenus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/asendushooldusteenus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/asendushooldusteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "asendushooldusteenus_page",
+      "source_key": "asendushooldusteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_asendushooldusteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "eeffa5ce6fb2445571adb04d4d04c671f6341163c508ce04a1d498bd8f816d9f",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "asendushooldusteenus_page"
     },
     {
       "source_id": "lastekaitse_page",
@@ -254,13 +760,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "lastekaitse_page",
+      "source_key": "lastekaitse_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_lastekaitse"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "0fba6672db156034a9389a0697b1f4e1f5dbbd66e5c11a364167a92eaab1a7bb",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "lastekaitse_page"
     },
     {
       "source_id": "haedaohus_laps_page",
@@ -268,13 +804,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "haedaohus_laps_page",
+      "source_key": "haedaohus_laps_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_haedaohus_ja_abivajav_laps"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "c9f8482ca9f847eb700467e121c4c4eb41a0f5cae5c4080a7852e82d39a324aa",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "haedaohus_laps_page"
     },
     {
       "source_id": "paevakeskus_page",
@@ -282,13 +848,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/noo-paevakeskus",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/noo-paevakeskus",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/noo-paevakeskus",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "paevakeskus_page",
+      "source_key": "paevakeskus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_noo_paevakeskus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "a9795c12378a0146dee97457e5bbc0a529247bec665c1107a6c648151475eb7e",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "paevakeskus_page"
     },
     {
       "source_id": "hooldekodu_page",
@@ -296,13 +892,43 @@
       "url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sa-noo-hooldekodu",
       "url_canonical": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sa-noo-hooldekodu",
       "normalized_url": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sa-noo-hooldekodu",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "hooldekodu_page",
+      "source_key": "hooldekodu_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_sa_noo_hooldekodu"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "29a01a402a92a6b04ffa8f2db7e6a6ce62d09d3cb25b6a9edef1056e19d96c48",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "hooldekodu_page"
     },
     {
       "source_id": "koduteenus_page",
@@ -310,13 +936,43 @@
       "url": "https://nvv.ee/koduteenused",
       "url_canonical": "https://nvv.ee/koduteenused",
       "normalized_url": "https://nvv.ee/koduteenused",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "koduteenus_page",
+      "source_key": "koduteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_koduteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "326637481acd6f97098eba4ca176d52a0a7827ef028795d24cc3bbb4b3f1ead8",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "koduteenus_page"
     },
     {
       "source_id": "isikliku_abistaja_teenus_page",
@@ -324,13 +980,43 @@
       "url": "https://nvv.ee/isikliku-abistaja-teenus",
       "url_canonical": "https://nvv.ee/isikliku-abistaja-teenus",
       "normalized_url": "https://nvv.ee/isikliku-abistaja-teenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "isikliku_abistaja_teenus_page",
+      "source_key": "isikliku_abistaja_teenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_isikliku_abistaja_teenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "bb2bbb0185c67710cc35654119202e2cc962e96892856ecf6dc8d89acab1105d",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "isikliku_abistaja_teenus_page"
     },
     {
       "source_id": "eluruumi_tagamine_page",
@@ -338,13 +1024,43 @@
       "url": "https://nvv.ee/eluruumi-tagamine",
       "url_canonical": "https://nvv.ee/eluruumi-tagamine",
       "normalized_url": "https://nvv.ee/eluruumi-tagamine",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "eluruumi_tagamine_page",
+      "source_key": "eluruumi_tagamine_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_eluruumi_tagamine"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "6abb431ad692ec7699b0047c1b876cd6d72b4706afdab0461a95c56cbba3ffb3",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "eluruumi_tagamine_page"
     },
     {
       "source_id": "lapsehoiuteenus_page",
@@ -352,13 +1068,43 @@
       "url": "https://nvv.ee/lapsehoiuteenus",
       "url_canonical": "https://nvv.ee/lapsehoiuteenus",
       "normalized_url": "https://nvv.ee/lapsehoiuteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "lapsehoiuteenus_page",
+      "source_key": "lapsehoiuteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_lapsehoiuteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "66aab3f0ad59a3acf63a72a6c782e2d537432cf1f67c96e25f2636ecc73b09af",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "lapsehoiuteenus_page"
     },
     {
       "source_id": "jarelhooldusteenus_page",
@@ -366,13 +1112,43 @@
       "url": "https://nvv.ee/jarelhooldusteenus",
       "url_canonical": "https://nvv.ee/jarelhooldusteenus",
       "normalized_url": "https://nvv.ee/jarelhooldusteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "jarelhooldusteenus_page",
+      "source_key": "jarelhooldusteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_jarelhooldusteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "cfe415a9d16e8ac453fa4cc0a413280d5d69fd10528b5192600ad76ec1710181",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "jarelhooldusteenus_page"
     },
     {
       "source_id": "pesupesemisteenus_page",
@@ -380,13 +1156,43 @@
       "url": "https://nvv.ee/pesupesemisteenus",
       "url_canonical": "https://nvv.ee/pesupesemisteenus",
       "normalized_url": "https://nvv.ee/pesupesemisteenus",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "pesupesemisteenus_page",
+      "source_key": "pesupesemisteenus_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_pesupesemisteenus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "58f7eb8bd5e1614e9241d05abd26cd78a1461b8908604f6d538dc2085693328f",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "pesupesemisteenus_page"
     },
     {
       "source_id": "taiendavad_vajaduspohised_teenused_page",
@@ -394,13 +1200,43 @@
       "url": "https://nvv.ee/taiendavad-vajaduspohised-teenused",
       "url_canonical": "https://nvv.ee/taiendavad-vajaduspohised-teenused",
       "normalized_url": "https://nvv.ee/taiendavad-vajaduspohised-teenused",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "taiendavad_vajaduspohised_teenused_page",
+      "source_key": "taiendavad_vajaduspohised_teenused_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_taiendavad_vajaduspohised_teenused"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "c30154499f4fdefb9d39831a2b7f67f7c0d54143a4342bef4266d8dda8af2c1f",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "taiendavad_vajaduspohised_teenused_page"
     },
     {
       "source_id": "puudega_lapse_hooldamine_page",
@@ -408,13 +1244,43 @@
       "url": "https://nvv.ee/puudega-lapse-hooldamine",
       "url_canonical": "https://nvv.ee/puudega-lapse-hooldamine",
       "normalized_url": "https://nvv.ee/puudega-lapse-hooldamine",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "puudega_lapse_hooldamine_page",
+      "source_key": "puudega_lapse_hooldamine_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_puudega_lapse_hooldamine"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "e80bfc189022c88b008c8d8e7fc257a294f7994763aebd36b0e36e40651c479f",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "puudega_lapse_hooldamine_page"
     },
     {
       "source_id": "puudega_laste_tugiteenused_page",
@@ -422,13 +1288,43 @@
       "url": "https://nvv.ee/puudega-laste-tugiteenused",
       "url_canonical": "https://nvv.ee/puudega-laste-tugiteenused",
       "normalized_url": "https://nvv.ee/puudega-laste-tugiteenused",
-      "source_type": "kov_service_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "puudega_laste_tugiteenused_page",
+      "source_key": "puudega_laste_tugiteenused_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_service_puudega_laste_tugiteenused"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "f37f4d601d0420a0919bcd63ce7caffdeb7d479d7235291fefa70cbd0abe25a3",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "puudega_laste_tugiteenused_page"
     },
     {
       "source_id": "eluaseme_kohandamine_page",
@@ -436,13 +1332,43 @@
       "url": "https://nvv.ee/puuetega-inimeste-eluaseme-fuusiline-kohandamine",
       "url_canonical": "https://nvv.ee/puuetega-inimeste-eluaseme-fuusiline-kohandamine",
       "normalized_url": "https://nvv.ee/puuetega-inimeste-eluaseme-fuusiline-kohandamine",
-      "source_type": "kov_benefit_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "eluaseme_kohandamine_page",
+      "source_key": "eluaseme_kohandamine_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_benefit_eluruumi_kohandamise_toetus"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "70c0b59308f942d4c0d00cc53bced293d272ba018f8b692345a9c968f0225513",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "eluaseme_kohandamine_page"
     },
     {
       "source_id": "parkimiskaart_page",
@@ -450,13 +1376,43 @@
       "url": "https://nvv.ee/puudega-isiku-parkimiskaart1",
       "url_canonical": "https://nvv.ee/puudega-isiku-parkimiskaart1",
       "normalized_url": "https://nvv.ee/puudega-isiku-parkimiskaart1",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "parkimiskaart_page",
+      "source_key": "parkimiskaart_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_puudega_isiku_parkimiskaart"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "6fe4e831a95c952f6776f8ed4cb7a9668f02f9d47cc5fdd1e8be1ee70e412518",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "parkimiskaart_page"
     },
     {
       "source_id": "abivahendi_kaart_page",
@@ -464,13 +1420,43 @@
       "url": "https://nvv.ee/invaabivahendite-laenutamine-ja-ostmine1",
       "url_canonical": "https://nvv.ee/invaabivahendite-laenutamine-ja-ostmine1",
       "normalized_url": "https://nvv.ee/invaabivahendite-laenutamine-ja-ostmine1",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "abivahendi_kaart_page",
+      "source_key": "abivahendi_kaart_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_isikliku_abivahendi_kaart"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "a6ac48bf0bcd916be30cec2d1f9abc3600ca3c499a2ea244322f98d0435e6d9b",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "abivahendi_kaart_page"
     },
     {
       "source_id": "ohvriabi_page",
@@ -478,13 +1464,43 @@
       "url": "https://nvv.ee/ohvriabi",
       "url_canonical": "https://nvv.ee/ohvriabi",
       "normalized_url": "https://nvv.ee/ohvriabi",
-      "source_type": "kov_resource_page",
+      "source_type": "kov_service_info",
       "source_format": "html",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "content"
+      "used_for": "content",
+      "document_id": "ohvriabi_page",
+      "source_key": "ohvriabi_page",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_resource_ohvriabi"
+      ],
+      "sections_present": [
+        "description",
+        "eligibility",
+        "application"
+      ],
+      "content_hash": "253bda6c55cfe530e131de684f859c45207a9d27ea53d812bd902455087a5929",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "ohvriabi_page"
     },
     {
       "source_id": "form_sotsiaaltransport_puudega_laps",
@@ -492,13 +1508,39 @@
       "url": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20puudega%20lapsele.docx",
       "url_canonical": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20puudega%20lapsele.docx",
       "normalized_url": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20puudega%20lapsele.docx",
-      "source_type": "docx_form",
+      "source_type": "application_form",
       "source_format": "docx",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_sotsiaaltransport_puudega_laps",
+      "source_key": "form_sotsiaaltransport_puudega_laps",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_sotsiaaltransport_puudega_laps"
+      ],
+      "sections_present": [],
+      "content_hash": "c17a7b8fb5f631678a89a6e43a4f73ea5f01af370b75b628d95e398065f03fb0",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_sotsiaaltransport_puudega_laps"
     },
     {
       "source_id": "form_sotsiaaltransport_taisealine",
@@ -506,13 +1548,39 @@
       "url": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20t%C3%A4iesealisele.docx",
       "url_canonical": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20t%C3%A4iesealisele.docx",
       "normalized_url": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20t%C3%A4iesealisele.docx",
-      "source_type": "docx_form",
+      "source_type": "application_form",
       "source_format": "docx",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_sotsiaaltransport_taisealine",
+      "source_key": "form_sotsiaaltransport_taisealine",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_sotsiaaltransport_taisealine"
+      ],
+      "sections_present": [],
+      "content_hash": "b6bbbcf2e3a91e10872758a3f7ea84e1c8349e2bd92a4e81ad3c98774c9c89c3",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_sotsiaaltransport_taisealine"
     },
     {
       "source_id": "form_toimetulekutoetuse_avaldus",
@@ -526,7 +1594,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_toimetulekutoetuse_avaldus",
+      "source_key": "form_toimetulekutoetuse_avaldus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_toimetulekutoetuse_avaldus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "5bcf8a9bf3f717bad455c643e594667a8d0080bb8be136a80e4e6f67fa193117",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_toimetulekutoetuse_avaldus"
     },
     {
       "source_id": "form_hooldajatoetus_taiskasvanu",
@@ -540,7 +1636,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_hooldajatoetus_taiskasvanu",
+      "source_key": "form_hooldajatoetus_taiskasvanu",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_hooldajatoetus_taiskasvanu"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "02d443edbc3ada8e4ae046e3fa08fc69baf968655e0c38a9f0ed41497c4b6186",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_hooldajatoetus_taiskasvanu"
     },
     {
       "source_id": "form_hooldajatoetus_puudega_laps",
@@ -548,13 +1672,39 @@
       "url": "https://nvv.ee/documents/1432271//Avaldus%2Bhooldajatoetuse%2Bmaksmiseks%2Bpuudega%2Blapse%2Bhooldajale.docx/090c2d6f-f219-49e9-9c7d-dfd00450e916",
       "url_canonical": "https://nvv.ee/documents/1432271//Avaldus%2Bhooldajatoetuse%2Bmaksmiseks%2Bpuudega%2Blapse%2Bhooldajale.docx/090c2d6f-f219-49e9-9c7d-dfd00450e916",
       "normalized_url": "https://nvv.ee/documents/1432271//Avaldus%2Bhooldajatoetuse%2Bmaksmiseks%2Bpuudega%2Blapse%2Bhooldajale.docx/090c2d6f-f219-49e9-9c7d-dfd00450e916",
-      "source_type": "docx_form",
+      "source_type": "application_form",
       "source_format": "docx",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_hooldajatoetus_puudega_laps",
+      "source_key": "form_hooldajatoetus_puudega_laps",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_hooldajatoetus_puudega_laps"
+      ],
+      "sections_present": [],
+      "content_hash": "337898cadd5a53349e647dd736f645356339292444deb07ca529bf3f33d90b49",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_hooldajatoetus_puudega_laps"
     },
     {
       "source_id": "form_matusetoetus",
@@ -568,7 +1718,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_matusetoetus",
+      "source_key": "form_matusetoetus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_matusetoetus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "8f0bc3c680d62579692b01a81e5cdffd01db47e9e210444499d889e4a7006d45",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_matusetoetus"
     },
     {
       "source_id": "form_lapsetoetus",
@@ -582,7 +1760,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_lapsetoetus",
+      "source_key": "form_lapsetoetus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_lapsetoetus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "e525a244df4ba75e3d472b2a6a31fcdcf9beeaa6657d621e7816adf0c699022e",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_lapsetoetus"
     },
     {
       "source_id": "form_lopetaja_toetus",
@@ -596,7 +1802,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_lopetaja_toetus",
+      "source_key": "form_lopetaja_toetus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_lopetaja_toetus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "35f03bc373e853cd239c76711269f04549065f4c03a43edd2d13134f03d7083b",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_lopetaja_toetus"
     },
     {
       "source_id": "form_puudega_lapse_tugiteenus",
@@ -610,7 +1844,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_puudega_lapse_tugiteenus",
+      "source_key": "form_puudega_lapse_tugiteenus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_puudega_lapse_tugiteenus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "cad0563f6bd5c6b53381cb9804d93f7e5757ae6bb7179fb6db9de7fa357ffee1",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_puudega_lapse_tugiteenus"
     },
     {
       "source_id": "form_koolitoetus",
@@ -624,7 +1886,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_koolitoetus",
+      "source_key": "form_koolitoetus",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_koolitoetus"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "145386699c25b288c71cd5d6e753482e2cbb911a2a555dac7a599a94ec43e1d6",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_koolitoetus"
     },
     {
       "source_id": "form_puudega_lapse_lisakulud",
@@ -632,13 +1922,39 @@
       "url": "https://nvv.ee/documents/1432271/22623507/Puudega%2Blapse%2Btoetus_taotlus.docx/47b8da68-f013-49ca-9226-7b9bf9e6697d",
       "url_canonical": "https://nvv.ee/documents/1432271/22623507/Puudega%2Blapse%2Btoetus_taotlus.docx/47b8da68-f013-49ca-9226-7b9bf9e6697d",
       "normalized_url": "https://nvv.ee/documents/1432271/22623507/Puudega%2Blapse%2Btoetus_taotlus.docx/47b8da68-f013-49ca-9226-7b9bf9e6697d",
-      "source_type": "docx_form",
+      "source_type": "application_form",
       "source_format": "docx",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_puudega_lapse_lisakulud",
+      "source_key": "form_puudega_lapse_lisakulud",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_puudega_lapse_lisakulud"
+      ],
+      "sections_present": [],
+      "content_hash": "ce7b25e1d8e4822d8d9638633a51a64f4e30f1e083762ee7cd9a12c177e8c7f8",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_puudega_lapse_lisakulud"
     },
     {
       "source_id": "form_eluaseme_kohandamine",
@@ -652,7 +1968,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_eluaseme_kohandamine",
+      "source_key": "form_eluaseme_kohandamine",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_eluaseme_kohandamine"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "ce45a1ed651e332d74dad7f5dc7666d22b3c858fd1573efd37fb5974d1cded18",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_eluaseme_kohandamine"
     },
     {
       "source_id": "form_eluruumi_omaniku_nousolek",
@@ -666,7 +2010,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_eluruumi_omaniku_nousolek",
+      "source_key": "form_eluruumi_omaniku_nousolek",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_eluruumi_omaniku_nousolek"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "c8c9ab4609546ca7ea544307da26969aa46ccb43eb0c8d71b1ecef6bb1e267fa",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_eluruumi_omaniku_nousolek"
     },
     {
       "source_id": "form_korteriuhistu_nousolek",
@@ -680,7 +2052,35 @@
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_korteriuhistu_nousolek",
+      "source_key": "form_korteriuhistu_nousolek",
+      "resource_type": "form",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_korteriuhistu_nousolek"
+      ],
+      "sections_present": [
+        "forms"
+      ],
+      "content_hash": "c9fea9b8ff2fd58c02a87e5809e396b19b0174971e601ad16926536da1fe147e",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_korteriuhistu_nousolek"
     },
     {
       "source_id": "form_lapsehoiuteenuse_taotlus",
@@ -688,13 +2088,42 @@
       "url": "https://nvv.ee/documents/1432271//lapsehoiuteenuse%2Btaotlus.docx/796e2efe-4cb8-42eb-93f4-a8d172256a00",
       "url_canonical": "https://nvv.ee/documents/1432271//lapsehoiuteenuse%2Btaotlus.docx/796e2efe-4cb8-42eb-93f4-a8d172256a00",
       "normalized_url": "https://nvv.ee/documents/1432271//lapsehoiuteenuse%2Btaotlus.docx/796e2efe-4cb8-42eb-93f4-a8d172256a00",
-      "source_type": "docx_form",
+      "source_type": "application_form",
       "source_format": "docx",
       "collection_id": "kov_services",
       "authority": "official",
       "language": "et",
       "source_status": "active",
-      "used_for": "forms"
+      "used_for": "forms",
+      "document_id": "form_lapsehoiuteenuse_taotlus",
+      "source_key": "form_lapsehoiuteenuse_taotlus",
+      "resource_type": "service_page",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "municipality": "Nõo vald",
+      "municipality_id": "noo_vald",
+      "municipality_name": "Nõo vald",
+      "county": "Tartumaa",
+      "jurisdiction_level": "MUNICIPALITY",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "evidence_allowed": true,
+      "relatedCanonicalItemIds": [
+        "noo_vald_form_lapsehoiuteenuse_taotlus"
+      ],
+      "sections_present": [],
+      "content_hash": "b6f04fc41c81a7c2441d3fdda90199066847e42efa3b3219c14a8242d28af589",
+      "metadata_schema_version": "v2.5",
+      "canonical_source_id": "form_lapsehoiuteenuse_taotlus"
     }
-  ]
+  ],
+  "municipality_name": "Nõo vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

@@ -41,7 +41,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_koduteenus",
+      "document_id": "rapla_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduteenus/",
+      "content_hash": "c3c48ec1f0e935844d66cb9149dd47e9c34e2bc643263e82dde7ca4329659238",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_tugiisikuteenus",
@@ -74,7 +103,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_tugiisikuteenus",
+      "document_id": "rapla_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/tugiisikuteenus/",
+      "content_hash": "87ab93c65b9186e8e71889e4870b70983e0674b4953204900fdfcc1241bf236d",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_isikliku_abistaja_teenus",
@@ -106,7 +164,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "isikliku_abistaja_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_isikliku_abistaja_teenus",
+      "document_id": "rapla_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "content_hash": "d8688e40c18481a0c1b3a1cec6a14f09ad0f916a401226cddd5e6b5c4debbde4",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_taisealise_isiku_hooldus",
@@ -139,7 +226,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "taisealise_isiku_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_taisealise_isiku_hooldus",
+      "document_id": "rapla_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "a52770c71cebd10f560945f6bafc17400b6ce9538c0232ae15a8e35d0743e1c1",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_eluruumi_tagamise_teenus",
@@ -172,7 +288,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "eluruumi_tagamise_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "rapla_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/eluruumi-tagamise-teenus/",
+      "content_hash": "cc880ca238f5fb8d54520a7111a71631ced54150d991f0891c0d784bc928bef5",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -204,7 +349,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "rapla_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "content_hash": "ff6fab174359ae2b78319ee53875c498506d280f4aed647ff130cf0921494b0d",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_varjupaigateenus",
@@ -235,7 +409,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_varjupaigateenus",
+      "document_id": "rapla_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/varjupaigateenus/",
+      "content_hash": "fa16e5ed7d2033c8aa8dc866f9589b0a668db929e7ce2b1c5117a5c1f5f64740",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_turvakoduteenus",
@@ -267,7 +470,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_turvakoduteenus",
+      "document_id": "rapla_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/turvakoduteenus/",
+      "content_hash": "5839ad7eb073af89da0b582f870413e70d1bb016305d17b84b7ebbf68955329f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_volanoustamisteenus",
@@ -299,7 +531,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_volanoustamisteenus",
+      "document_id": "rapla_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/volanoustamisteenus/",
+      "content_hash": "e0801389927da438bef80b7e4b53526d3f60d491deca5ba0cc96315895edb847",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_sotsiaaltransporditeenus",
@@ -329,7 +590,36 @@
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond",
         "rapla_vald_contact_sotsiaaltranspordi_tellimine"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_sotsiaaltransporditeenus",
+      "document_id": "rapla_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/sotsiaaltransporditeenus/",
+      "content_hash": "9d33bbe6dbd5db5fa67cb3e36c53ca1ea6287f819d31ab8d1898cb48ebbab237",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_lapsehoiuteenus",
@@ -362,7 +652,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_lapsehoiuteenus",
+      "document_id": "rapla_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/lapsehoiuteenus/",
+      "content_hash": "1dc25574a692f7277d75b8165367dfad4382e5f54d9fb75151a034cd47dbc169",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_asendushooldusteenus",
@@ -390,7 +709,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "asendushooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_asendushooldusteenus",
+      "document_id": "rapla_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/asendushooldusteenus/",
+      "content_hash": "5b4e062e2a917aa0d5ac777f3d32f15fc83ec7132db37536ac63f1216a6ed2ed",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_jarelhooldusteenus",
@@ -423,7 +771,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "jarelhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_jarelhooldusteenus",
+      "document_id": "rapla_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/jarelhooldusteenus/",
+      "content_hash": "79508e71e67b77c8cf5446edd2eda11c7504ddf16579884f3796ab1a52c51ccb",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_erihoolekandeteenused",
@@ -451,7 +828,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "erihoolekandeteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_erihoolekandeteenused",
+      "document_id": "rapla_vald_service_erihoolekandeteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/erihoolekandeteenused/",
+      "content_hash": "7854f9ef7adc1b3e743d71866bb4990463d454d5cd0e2971a607a09dc1927952",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_paevahoiuteenus_maluprobleemidega_inimestele",
@@ -481,7 +887,36 @@
         "rapla_vald_contact_eleri_jansen",
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "paevahoid_maluprobleemidega_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_paevahoiuteenus_maluprobleemidega_inimestele",
+      "document_id": "rapla_vald_service_paevahoiuteenus_maluprobleemidega_inimestele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/paevahoiuteenus-maluprobleemidega-inimestele/",
+      "content_hash": "b3708b79bf2097cbfa559ca27b00dfa2b02931c531f42e121ebc26fb08053969",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_service_muud_taiendavad_vajaduspohised_sotsiaalteenused",
@@ -512,7 +947,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "service",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_service_muud_taiendavad_vajaduspohised_sotsiaalteenused",
+      "document_id": "rapla_vald_service_muud_taiendavad_vajaduspohised_sotsiaalteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "7d14a4e6bd10735e74336714bb2b158d3ebb8780eb7e15aabaedbef03fcbba9f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_toimetulekutoetus",
@@ -544,7 +1008,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_toimetulekutoetus",
+      "document_id": "rapla_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/toimetulekutoetus/",
+      "content_hash": "67e25a36d87de21c6edc9c3ef9553ee3d25c5c5e6709204090a9f59c48a638f2",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_valtimatu_sotsiaalabi",
@@ -577,7 +1070,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_valtimatu_sotsiaalabi",
+      "document_id": "rapla_vald_benefit_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "content_hash": "849c623744d971ed6298c50336bfc633021270cf0161a22535bde8d17fd21e02",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_laste_lapsega_pere_toimetuleku_toetus",
@@ -610,7 +1132,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_laste_lapsega_pere_toimetuleku_toetus",
+      "document_id": "rapla_vald_benefit_laste_lapsega_pere_toimetuleku_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "content_hash": "5a716a4c54e2db91d289041981ccba7be76d0dabf11667a2912d1394a7b0e4c6",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_taisealise_isiku_toimetuleku_tagamise_toetus",
@@ -643,7 +1194,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_soltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_taisealise_isiku_toimetuleku_tagamise_toetus",
+      "document_id": "rapla_vald_benefit_taisealise_isiku_toimetuleku_tagamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-soltuvad-toetused/",
+      "content_hash": "56b0290836b77aeb26c1290d8b8c1f434ed59015e8a8c81e37244acf79d6ea1f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_sunnitoetus",
@@ -676,7 +1256,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_sunnitoetus",
+      "document_id": "rapla_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "3b9baede006a59dce6b2b7021f468413d84b065ee04e4d19f535e52a0494d506",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_esimesse_klassi_astuja_toetus",
@@ -709,7 +1318,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_esimesse_klassi_astuja_toetus",
+      "document_id": "rapla_vald_benefit_esimesse_klassi_astuja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "f27fdf5ef56a94b1162674bf0ad2d93718913b2b2a1b6efde53e53cde8af0587",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_hoolduspere_vanema_toetus",
@@ -741,7 +1379,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_hoolduspere_vanema_toetus",
+      "document_id": "rapla_vald_benefit_hoolduspere_vanema_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "4b16c9e7a2409244019e146348c730c0b836fc4fe9953ec3c080aabf80e1e953",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
@@ -773,7 +1440,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "document_id": "rapla_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "adf6a6889479c60880a66efd1f2cc34db2d01d2735287554aedcfc38b7deb5d0",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
@@ -806,7 +1502,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "document_id": "rapla_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "bcc74a2005573498ab7aeedd92400c69df7c640b25c1bccbce4ada338cf28299",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_matusetoetus",
@@ -839,7 +1564,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_matusetoetus",
+      "document_id": "rapla_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "b9228bd8f291cdd33b5c88ab91a51fb62a6cb2da1f9eb4f7b75e660c6ef8401f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_puuetega_inimeste_kodukohanduse_toetus",
@@ -870,7 +1624,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sissetulekust_mittesoltuvad_toetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_puuetega_inimeste_kodukohanduse_toetus",
+      "document_id": "rapla_vald_benefit_puuetega_inimeste_kodukohanduse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/sissetulekust-mittesoltuvad-toetused/",
+      "content_hash": "7175a09f7b7494537f21118203ded20ca1e20e30583f90adff786b4b8cb2b4f0",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
@@ -900,7 +1683,36 @@
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "benefit",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "document_id": "rapla_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/toimetulekutoetus/",
+      "content_hash": "ec1dd3e82b8eaf34e45f29f72acc377ab262152cdb90fe871e7ca3eb485b3365",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_parkimiskaart",
@@ -919,7 +1731,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_parkimiskaart",
+      "document_id": "rapla_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/parkimiskaart/",
+      "content_hash": "7dcab248e7c983299bd45c65811998ea2b05494e5579d3be13583f3254ebd836",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_hooldereform",
@@ -940,7 +1781,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hooldereform_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_hooldereform",
+      "document_id": "rapla_vald_resource_hooldereform",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/hooldereform/",
+      "content_hash": "6b82cba52ab210b68404b8c96057e38518c93286f27389c1ae48275ab8705bf8",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_iste_projekt",
@@ -961,7 +1831,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "iste_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_iste_projekt",
+      "document_id": "rapla_vald_resource_iste_projekt",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/isikukeskse-erihoolekande-teenusmudeli-jatkurakendamine-kohalikus-omavalitsuses-2025-2026/",
+      "content_hash": "e6f519fff32025b88990ac19c71387c5efc1124c65b10fd48fd45f62255f2023",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_vabatahtlikud_seltsilised",
@@ -978,7 +1877,36 @@
       "officialUrl": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/vabatahtlikud-seltsilised/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "vabatahtlikud_seltsilised_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_vabatahtlikud_seltsilised",
+      "document_id": "rapla_vald_resource_vabatahtlikud_seltsilised",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/vabatahtlikud-seltsilised/",
+      "content_hash": "76aa0589ce1906f5aaf6ae7fef5854c1b0216f870695fc94dfad969cf44b847c",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_toetatud_eluase",
@@ -999,7 +1927,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "toetatud_eluase_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_toetatud_eluase",
+      "document_id": "rapla_vald_resource_toetatud_eluase",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/toetatud-eluase-rapla-linnas-01-04-2025-01-12-2027/",
+      "content_hash": "27bf3c803bba2523c72e06bf6a9df167a5d5ea7031c25426e54f2bcc3408f6f1",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_hoolekandeteenuste_arendamine",
@@ -1021,7 +1978,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_eleri_jansen"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeteenuste_arendamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_hoolekandeteenuste_arendamine",
+      "document_id": "rapla_vald_resource_hoolekandeteenuste_arendamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/hoolekandeteenuste-arendamine/",
+      "content_hash": "6fea9d73ed0105155c28307e4c230be5a3adc48da425a32e67279db8bbfcdd25",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_teopesa_tegevuskeskus",
@@ -1038,7 +2024,36 @@
       "officialUrl": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/teopesa-abi-ja-toetusvajadusega-inimeste-tegevuskeskus-raplas/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "teopesa_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_teopesa_tegevuskeskus",
+      "document_id": "rapla_vald_resource_teopesa_tegevuskeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalvaldkonna-info/teopesa-abi-ja-toetusvajadusega-inimeste-tegevuskeskus-raplas/",
+      "content_hash": "2b8e11724e66d35f8847a5e412e841cc863a8962a187d529e54c0e201f478879",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_rapla_hooldekeskus",
@@ -1060,7 +2075,36 @@
         "rapla_vald_service_erihoolekandeteenused"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_rapla_hooldekeskus",
+      "document_id": "rapla_vald_resource_rapla_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/asutused/hoolekandeasutused/",
+      "content_hash": "510dd745ff14431a7d75aeb5ea6952d29498241a9dd7899a3e476da9b1dbb53a",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_juuru_kaiu_hooldekodu",
@@ -1079,7 +2123,36 @@
         "rapla_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_juuru_kaiu_hooldekodu",
+      "document_id": "rapla_vald_resource_juuru_kaiu_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/asutused/hoolekandeasutused/",
+      "content_hash": "598b7a0f5f0dc4d56e643493433d08a7689681a397b87dc701323640cdc3346e",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_pihlamari_paevakeskus",
@@ -1098,7 +2171,36 @@
         "rapla_vald_service_paevahoiuteenus_maluprobleemidega_inimestele"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_pihlamari_paevakeskus",
+      "document_id": "rapla_vald_resource_pihlamari_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/asutused/hoolekandeasutused/",
+      "content_hash": "433952e0e97a6f979645d6eba81bc084da81e14705054a48034c4fe72e11ea44",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_alu_sotsiaalmaja_ja_tugikeskus",
@@ -1118,7 +2220,36 @@
         "rapla_vald_service_eluruumi_tagamise_teenus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_alu_sotsiaalmaja_ja_tugikeskus",
+      "document_id": "rapla_vald_resource_alu_sotsiaalmaja_ja_tugikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/asutused/hoolekandeasutused/",
+      "content_hash": "fcaedc4231df86347ec900fb059e71b8fce9c773dad785b493e165232e0c86fc",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_vahtra_tugikeskus",
@@ -1137,7 +2268,36 @@
         "rapla_vald_service_erihoolekandeteenused"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_vahtra_tugikeskus",
+      "document_id": "rapla_vald_resource_vahtra_tugikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/asutused/hoolekandeasutused/",
+      "content_hash": "c98a3e8d3f7773dc6f973d7abe8d6728ec69ab8e45fde4f5f65682c5b8eb9e33",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_resource_kriisi_ja_ohvriabi_telefonid",
@@ -1154,7 +2314,36 @@
       "officialUrl": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitsetoo/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_resource_kriisi_ja_ohvriabi_telefonid",
+      "document_id": "rapla_vald_resource_kriisi_ja_ohvriabi_telefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitsetoo/",
+      "content_hash": "1616b5da8285069ee90b291c77c36c44bbcc4c1d106e13bb1e3d012f88c2d926",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond",
@@ -1173,7 +2362,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond",
+      "document_id": "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "c34d530dddd25f2b15c8519b39b1babfded66d87905cc965490c643a61dbac0c",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_maarika_leenurm",
@@ -1192,7 +2410,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_maarika_leenurm",
+      "document_id": "rapla_vald_contact_maarika_leenurm",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "35c4eb09c1815a5be1b34b88c4b155fed5330a12ab1515c27522ba330eb9d3c1",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_maris_elli",
@@ -1211,7 +2458,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_maris_elli",
+      "document_id": "rapla_vald_contact_maris_elli",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "cd5f040eb45c927ba3e6fb9a9a62f3898db9ade80ad0783300b10fa608ee453d",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_kadri_puusepp",
@@ -1230,7 +2506,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_kadri_puusepp",
+      "document_id": "rapla_vald_contact_kadri_puusepp",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "776a500be6f22a342eca7bb78817cb528e15987200b1b2c068fda032e0d65df3",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_katrin_loodis",
@@ -1249,7 +2554,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_katrin_loodis",
+      "document_id": "rapla_vald_contact_katrin_loodis",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "bfb64a4f150f27e1cd903deed8a90fdcdf8255911cf7073d60420649c2100d32",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_kai_kipper",
@@ -1268,7 +2602,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_kai_kipper",
+      "document_id": "rapla_vald_contact_kai_kipper",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "6a6fe317ea1cb94452c5b1daf0f666923813ac62f75adf082997e246722d5e05",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_sirje_praks",
@@ -1287,7 +2650,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_sirje_praks",
+      "document_id": "rapla_vald_contact_sirje_praks",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "48bc37c42c5cf54b1ddc7f5477cc53bb5ef45a668ca3f712cebdf21eb11e9dd4",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_liina_vesso",
@@ -1306,7 +2698,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_liina_vesso",
+      "document_id": "rapla_vald_contact_liina_vesso",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "f5d4604da04ed03ad8d1b7e81de93c3cc706cd51b1e366afa48c85a9eed794a0",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_taidi_bluum",
@@ -1325,7 +2746,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_taidi_bluum",
+      "document_id": "rapla_vald_contact_taidi_bluum",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "a0d770059d568330ee8d3cd10bb7008fa1f70690e471282c641b96f3039ab521",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_eleri_jansen",
@@ -1344,7 +2794,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_eleri_jansen",
+      "document_id": "rapla_vald_contact_eleri_jansen",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "dc5cc6343ed4c93dbb4e820af3857f0a2f1159301c2d8c2773e7229cd4be2c94",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_anne_ly_pedaja",
@@ -1363,7 +2842,36 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_anne_ly_pedaja",
+      "document_id": "rapla_vald_contact_anne_ly_pedaja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "d359f8967eaefe9d4c58ecd240b1d3925f11921293b70233a694f03d455822c7",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_contact_sotsiaaltranspordi_tellimine",
@@ -1373,6 +2881,7 @@
       "status": "active",
       "summary": "Sotsiaaltransporditeenuse tellimise kontakt.",
       "sourceKeys": [
+        "contacts_page",
         "sotsiaaltransporditeenus_page"
       ],
       "name": "Rapla Hooldekeskus / sotsiaaltransport",
@@ -1382,7 +2891,37 @@
       "officialUrl": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "contacts_page",
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_contact_sotsiaaltranspordi_tellimine",
+      "document_id": "rapla_vald_contact_sotsiaaltranspordi_tellimine",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "3e68abcaac82622c03b92164c607cae388ccdb718a693ca601b8b1f19e76a2d0",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_sotsiaalabi_taotlus",
@@ -1422,7 +2961,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_sotsiaalabi_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_sotsiaalabi_taotlus",
+      "document_id": "rapla_vald_form_sotsiaalabi_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "3938c861b868a3d4f586b43dac216816e130f64e9faad1a1d229bb5659033941",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_esimesse_klassi_astuja_toetus",
@@ -1450,7 +3019,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_1_klass_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_esimesse_klassi_astuja_toetus",
+      "document_id": "rapla_vald_form_esimesse_klassi_astuja_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "56606d7e3d6d697c5b7e2183f91c7f6f3b3ba79f7c3ad27cea5e372cc604e920",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_hooldekodu_teenuse_osalise_tasu_taotlus",
@@ -1478,7 +3077,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_hooldekodu_osaline_rtf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_hooldekodu_teenuse_osalise_tasu_taotlus",
+      "document_id": "rapla_vald_form_hooldekodu_teenuse_osalise_tasu_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "5960b35e70bee51529fd3358ce09e678f08ecdb00d367c3db5950d24ee09ce8f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_taisealise_isiku_hooldaja_taotlus",
@@ -1507,7 +3136,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_taisealise_hooldaja_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_taisealise_isiku_hooldaja_taotlus",
+      "document_id": "rapla_vald_form_taisealise_isiku_hooldaja_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "4a59a39603067014977a648c156d8092d00decd4cab4a7bf1f185477d8a34a1f",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_matusetoetuse_taotlus",
@@ -1535,7 +3194,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_matusetoetus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_matusetoetuse_taotlus",
+      "document_id": "rapla_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "47540639a35c1bdd0100c0eea03e844ab14b9ec3df5e5a13d7a8b4a0d0b4044d",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
@@ -1562,7 +3251,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "document_id": "rapla_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "b4c2a80aaf3924c3c7bd4d28482423df0ff4dd7d7dc8af99ba6b906c87e60e16",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_lapse_tugiisikuteenuse_taotlus",
@@ -1589,7 +3307,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_lapse_tugiisikuteenuse_taotlus",
+      "document_id": "rapla_vald_form_lapse_tugiisikuteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "dccdcfa0207fa7533857bdc7cd9f4ea3f25defd3ffe5744cc96c38d26bdea62a",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_sunnitoetuse_taotlus",
@@ -1617,7 +3364,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_synnitoetus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_sunnitoetuse_taotlus",
+      "document_id": "rapla_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "4041034f7d6ab7afce71a91dce90d7a7aa01647510c357ec030f0c0e5ee9665a",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_lapsehoiuteenuse_taotlus",
@@ -1644,7 +3421,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_lapsehoiuteenuse_taotlus",
+      "document_id": "rapla_vald_form_lapsehoiuteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "69282744371530f709728f0de148daebc6c592adf31e46c2c97c17e9d3de8e2d",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_puuetega_inimeste_eluaseme_kohandamise_taotlus",
@@ -1672,7 +3478,37 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_kodukohandus_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_puuetega_inimeste_eluaseme_kohandamise_taotlus",
+      "document_id": "rapla_vald_form_puuetega_inimeste_eluaseme_kohandamise_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "acd11f86f982cdcae1bb9bb3de542f25a507fc7b3f578791dbe14711c3e472f5",
+      "evidence_allowed": true
     },
     {
       "id": "rapla_vald_form_toimetulekutoetuse_taotlus_esmakordsele_taotlejale",
@@ -1701,7 +3537,40 @@
       "relatedForms": [],
       "relatedContacts": [
         "rapla_vald_contact_rapla_vallavalitsus_sotsiaalosakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "rapla_vald",
+      "municipality_name": "Rapla vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "blanketid_page",
+        "form_toimetulek_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "rapla_vald_form_toimetulekutoetuse_taotlus_esmakordsele_taotlejale",
+      "document_id": "rapla_vald_form_toimetulekutoetuse_taotlus_esmakordsele_taotlejale",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://rapla.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/blanketid/",
+      "content_hash": "2b543014fe7ea60fbfff675cb6fa6407549bc4dfe59f3c404376c3fe5b983fbb",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Rapla vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

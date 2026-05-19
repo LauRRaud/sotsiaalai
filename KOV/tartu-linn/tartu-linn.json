@@ -42,9 +42,39 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "sunnitoetus_page",
-        "linnaportaal"
-      ]
+        "linnaportaal",
+        "sunnitoetus_page"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_sunnitoetus",
+      "document_id": "tartu_linn_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/tartu-linna-taiendav-sunnitoetus",
+      "content_hash": "ba6bad2aa68ae9e4e3ff36c24f6b78a3687a53fa8adb6febececec478bc9c498",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_lasteaia_osalustasu_ja_toidukulu_toetus",
@@ -79,9 +109,40 @@
       ],
       "sourceKeys": [
         "lasteaia_toetus_page",
-        "taiendavad_sotsiaaltoetused_page",
-        "linnaportaal"
-      ]
+        "linnaportaal",
+        "taiendavad_sotsiaaltoetused_page"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "lasteaia_toetus_page",
+        "linnaportaal",
+        "taiendavad_sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_lasteaia_osalustasu_ja_toidukulu_toetus",
+      "document_id": "tartu_linn_benefit_lasteaia_osalustasu_ja_toidukulu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/kohamaksu-toetus-lasteaias",
+      "content_hash": "44095f2eb8bf33ec4f38948b7d08212c5ffe736131192b98f756e804a29ebdde",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_lapse_hooldaja_toetus",
@@ -117,7 +178,37 @@
       "sourceKeys": [
         "lapse_hooldaja_toetus_page",
         "linnaportaal"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "lapse_hooldaja_toetus_page",
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_lapse_hooldaja_toetus",
+      "document_id": "tartu_linn_benefit_lapse_hooldaja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hooldeajatoetus-puudega-lapse-hooldajale",
+      "content_hash": "d83f2154f27392419a4bd9bc634ca9dbd6436290f10dbdc8c21525ed6ea9fdab",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_hooldajatoetus_taisealise_isiku_hooldamise_eest",
@@ -155,7 +246,38 @@
         "hooldaja_maaramine_page",
         "hooldaja_maaramise_application_pdf",
         "linnaportaal"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hooldaja_maaramine_page",
+        "hooldaja_maaramise_application_pdf",
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_hooldajatoetus_taisealise_isiku_hooldamise_eest",
+      "document_id": "tartu_linn_benefit_hooldajatoetus_taisealise_isiku_hooldamise_eest",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hooldaja-maaramine",
+      "content_hash": "a4c4e7f6ab7f9843b2926a51174ae9211d9b666d6a9ae0a3da114b3534ed6c2d",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_erakorraline_toetus",
@@ -190,7 +312,36 @@
       ],
       "sourceKeys": [
         "taiendavad_sotsiaaltoetused_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "taiendavad_sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_erakorraline_toetus",
+      "document_id": "tartu_linn_benefit_erakorraline_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/taiendavate-sotsiaaltoetuste-taotlemine",
+      "content_hash": "961ca03a785dc91aad6493de57ff2edf6d261646289ec2b8f0d06ed8b06f6ad7",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_erakorraline_tervisetoetus",
@@ -225,7 +376,36 @@
       ],
       "sourceKeys": [
         "taiendavad_sotsiaaltoetused_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "taiendavad_sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_erakorraline_tervisetoetus",
+      "document_id": "tartu_linn_benefit_erakorraline_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/taiendavate-sotsiaaltoetuste-taotlemine",
+      "content_hash": "0a7b1f499de1a065b3b552abec63f60f38b7dbd258cb3dca4e06705621769a1f",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_toimetulekutoetus",
@@ -259,10 +439,41 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "toimetulekutoetus_page",
+        "linnaportaal",
         "toimetulekutoetus_application_pdf",
-        "linnaportaal"
-      ]
+        "toimetulekutoetus_page"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "toimetulekutoetus_application_pdf",
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_toimetulekutoetus",
+      "document_id": "tartu_linn_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/toimetulekutoetus",
+      "content_hash": "4a47eaeb9b37db710d6164a6de6d4fff594eee2fb3507a5c818011fb32596f39",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_eluruumi_kohandamise_toetus",
@@ -298,7 +509,37 @@
       "sourceKeys": [
         "eluruumi_kohandamine_page",
         "linnaportaal"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "eluruumi_kohandamine_page",
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_eluruumi_kohandamise_toetus",
+      "document_id": "tartu_linn_benefit_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/eluruumi-kohandamine",
+      "content_hash": "b0da295b6675ea095a615d1afa25646b4d31a2c956bc4793a8a6ce0aeb0a4cfa",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_matusetoetus",
@@ -329,10 +570,41 @@
         "tartu_linn_contact_sotsiaal_ja_tervishoiuosakond"
       ],
       "sourceKeys": [
+        "linnaportaal",
         "matusetoetus_page",
-        "matusetoetuse_application_pdf",
-        "linnaportaal"
-      ]
+        "matusetoetuse_application_pdf"
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "matusetoetus_page",
+        "matusetoetuse_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_matusetoetus",
+      "document_id": "tartu_linn_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/matusetoetus",
+      "content_hash": "93b418a7a88e48bb05ccc07bd249742f73813ba9caa63160ac2a12dd64d71882",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_benefit_ukraina_sojapogenike_uurihuvitis",
@@ -355,7 +627,36 @@
       "relatedContacts": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_benefit_ukraina_sojapogenike_uurihuvitis",
+      "document_id": "tartu_linn_benefit_ukraina_sojapogenike_uurihuvitis",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "inactive",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "888f6f0026574f5b0991527cb350774d16984d78ca75a673a32b21dd6208df67",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_tugiisikuteenus_puudega_lapsele",
@@ -389,9 +690,39 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "tugiisik_laps_page",
-        "linnaportaal"
-      ]
+        "linnaportaal",
+        "tugiisik_laps_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "tugiisik_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_tugiisikuteenus_puudega_lapsele",
+      "document_id": "tartu_linn_service_tugiisikuteenus_puudega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/tugiisikuteenus-puudega-lapsele",
+      "content_hash": "f68904d9e524213e998bc538ccaad69ad72fd53e7c17c75a060fa74d9de3653b",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_lapsehoiuteenus_puudega_lapsele",
@@ -427,7 +758,37 @@
       "sourceKeys": [
         "lapsehoiuteenus_page",
         "linnaportaal"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "lapsehoiuteenus_page",
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_lapsehoiuteenus_puudega_lapsele",
+      "document_id": "tartu_linn_service_lapsehoiuteenus_puudega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/lapsehoiuteenus-puudega-lapsele",
+      "content_hash": "cdb53b7015bf02feeba13f873e44f1885cd831b27b42d8780c8bd9687ec0b04d",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_sotsiaaltransporditeenus_puudega_lapsele",
@@ -461,10 +822,41 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "sotsiaaltransport_laps_page",
+        "linnaportaal",
         "sotsiaaltranspordi_application_pdf",
-        "linnaportaal"
-      ]
+        "sotsiaaltransport_laps_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "sotsiaaltranspordi_application_pdf",
+        "sotsiaaltransport_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_sotsiaaltransporditeenus_puudega_lapsele",
+      "document_id": "tartu_linn_service_sotsiaaltransporditeenus_puudega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/sotsiaaltransporditeenus-puudega-lapsele",
+      "content_hash": "d5c3dbea4a8036906084cb313668a49335db762f5aebd58bf4af09833cc054d3",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_asendus_ja_jarelhooldusteenus",
@@ -495,7 +887,36 @@
       ],
       "sourceKeys": [
         "asendus_jarelhooldus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_asendus_ja_jarelhooldusteenus",
+      "document_id": "tartu_linn_service_asendus_ja_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/asendus-ja-jarelhooldusteenus",
+      "content_hash": "b245aaad3820630d1e4c64f2df20952f69f920282a42338e11fe4e88251279b9",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_turvakoduteenus_lastele_ja_peredele",
@@ -527,7 +948,36 @@
       ],
       "sourceKeys": [
         "turvakoduteenus_laps_pere_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "turvakoduteenus_laps_pere_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_turvakoduteenus_lastele_ja_peredele",
+      "document_id": "tartu_linn_service_turvakoduteenus_lastele_ja_peredele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/turvakoduteenus",
+      "content_hash": "dc96482abf57bbfdb558306081093fd2d691a5927edfe0d49e0d560baa7c1a52",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_eluruumi_tagamise_teenus",
@@ -563,7 +1013,37 @@
       "sourceKeys": [
         "eluruumi_tagamine_page",
         "linnaportaal"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "eluruumi_tagamine_page",
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_eluruumi_tagamise_teenus",
+      "document_id": "tartu_linn_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/eluruumi-tagamise-teenus",
+      "content_hash": "cbf4e5758be4cecca0a48a6061801c3603923f32877b46fe02938a31a48059cb",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_sotsiaalmajutusteenus",
@@ -596,9 +1076,39 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "sotsiaalmajutusteenus_page",
-        "social_overview"
-      ]
+        "social_overview",
+        "sotsiaalmajutusteenus_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview",
+        "sotsiaalmajutusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_sotsiaalmajutusteenus",
+      "document_id": "tartu_linn_service_sotsiaalmajutusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/sotsiaalmajutusteenus",
+      "content_hash": "9e95ef134742e0a47e26aa93722c5ec47246a6adcfedc48a2ed2b1423dd4e135",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_taisealise_isiku_turvakoduteenus",
@@ -626,7 +1136,36 @@
       ],
       "sourceKeys": [
         "turvakoduteenus_taisealisele_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "turvakoduteenus_taisealisele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_taisealise_isiku_turvakoduteenus",
+      "document_id": "tartu_linn_service_taisealise_isiku_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/taisealise-isiku-turvakoduteenus",
+      "content_hash": "543778c4ab81871eb8c8b305933711059465d4fd9de2f8b57662e03c3c01e9ea",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_varjupaigateenus_ja_kodutute_paevakeskus",
@@ -654,7 +1193,36 @@
       ],
       "sourceKeys": [
         "varjupaigateenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_varjupaigateenus_ja_kodutute_paevakeskus",
+      "document_id": "tartu_linn_service_varjupaigateenus_ja_kodutute_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/varjupaigateenus-ja-kodutute-paevakeskus",
+      "content_hash": "78f798fb7d2515f6fa3cb1941d4def86d0b1a9d2c0cbbe95c417e5eca9d68da3",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_valtimatu_sotsiaalabi_toidu_ja_riideabi",
@@ -687,7 +1255,36 @@
       ],
       "sourceKeys": [
         "valtimatu_sotsiaalabi_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_valtimatu_sotsiaalabi_toidu_ja_riideabi",
+      "document_id": "tartu_linn_service_valtimatu_sotsiaalabi_toidu_ja_riideabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/toidu-ja-riideabi-valtimatu-sotsiaalabi",
+      "content_hash": "2912e1e39f88c43b760e60243af2af33046393290aa126c9e3d620747fec4b44",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_isikliku_abistaja_teenus",
@@ -722,7 +1319,36 @@
       ],
       "sourceKeys": [
         "isiklik_abistaja_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "isiklik_abistaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_isikliku_abistaja_teenus",
+      "document_id": "tartu_linn_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/isikliku-abistaja-teenus",
+      "content_hash": "841838a7befb3ba36379f81d27e99515d33706108b3e8843212c7acf6ae6317a",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_vaimse_tervise_teenus",
@@ -758,7 +1384,36 @@
       ],
       "sourceKeys": [
         "vaimse_tervise_teenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "vaimse_tervise_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_vaimse_tervise_teenus",
+      "document_id": "tartu_linn_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/psuhholoogiline-ja-psuhhosotsiaalne-abi-tartu-linna-elanikele",
+      "content_hash": "198c22be97c287cd1b2aad3e1cf7983095834d5708279fa6a0bad746e2760e1e",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_sotsiaaltransporditeenus_taisealistele",
@@ -792,10 +1447,41 @@
         "tartu_linn_contact_vaksali_14_piirkonnakeskus"
       ],
       "sourceKeys": [
-        "sotsiaaltransport_taisealised_page",
+        "linnaportaal",
         "sotsiaaltranspordi_application_pdf",
-        "linnaportaal"
-      ]
+        "sotsiaaltransport_taisealised_page"
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal",
+        "sotsiaaltranspordi_application_pdf",
+        "sotsiaaltransport_taisealised_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_sotsiaaltransporditeenus_taisealistele",
+      "document_id": "tartu_linn_service_sotsiaaltransporditeenus_taisealistele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/sotsiaaltransporditeenus-taisealistele",
+      "content_hash": "04ed168dd0226f7f68fb945290f848edf2af6f90b7781690e05dfcb2903a0969",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_tugiisikuteenus_taisealistele",
@@ -830,7 +1516,36 @@
       ],
       "sourceKeys": [
         "tugiisik_taisealised_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tugiisik_taisealised_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_tugiisikuteenus_taisealistele",
+      "document_id": "tartu_linn_service_tugiisikuteenus_taisealistele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/tugiisikuteenus",
+      "content_hash": "55770f2c9cd804bc42d6c14ff862fa1032e95e3c2706ac46524fbceb6d7b1861",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_viipekeele_tolketeenus",
@@ -865,7 +1580,36 @@
       ],
       "sourceKeys": [
         "viipekeele_tolketeenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "viipekeele_tolketeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_viipekeele_tolketeenus",
+      "document_id": "tartu_linn_service_viipekeele_tolketeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/viipekeele-tolketeenus",
+      "content_hash": "da9abb3a97554602be606b1d3aaca483a87612ad993fefebc8331cfa885f1c6e",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_volanoustamisteenus",
@@ -900,7 +1644,36 @@
       ],
       "sourceKeys": [
         "volanoustamine_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "volanoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_volanoustamisteenus",
+      "document_id": "tartu_linn_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/volanoustamine",
+      "content_hash": "6ebdee372994c73d23d0e2de2a58ec224a4ef93c125516fb7ca0f761138723e7",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_paevahoiuteenus_maluprobleemiga_eakatele",
@@ -936,7 +1709,37 @@
       "sourceKeys": [
         "paevahoiuteenus_page",
         "paevakeskused_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "paevahoiuteenus_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_paevahoiuteenus_maluprobleemiga_eakatele",
+      "document_id": "tartu_linn_service_paevahoiuteenus_maluprobleemiga_eakatele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/paevahoiuteenus",
+      "content_hash": "b28f8b0850bd4284532122454c911307ccb100819d5edbd735d63dffff37fd2e",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_koduteenus",
@@ -971,7 +1774,36 @@
       ],
       "sourceKeys": [
         "koduteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_koduteenus",
+      "document_id": "tartu_linn_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/koduhooldusteenus",
+      "content_hash": "06329143a537591857d954ff3d82b5b9f1a6a17b2e5021a14042833f30a62afb",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_heaolumeistri_teenus",
@@ -1003,7 +1835,36 @@
       ],
       "sourceKeys": [
         "heaolumeister_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "heaolumeister_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_heaolumeistri_teenus",
+      "document_id": "tartu_linn_service_heaolumeistri_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/heaolumeistri-teenus",
+      "content_hash": "63ba8d6a0bed5943899cbcb9951401522ed19cec6ab4a2ac97ea995687b5f3af",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_hoolduskoordinaatorite_teenus",
@@ -1034,7 +1895,36 @@
       ],
       "sourceKeys": [
         "hoolduskoordinaatorid_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolduskoordinaatorid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_hoolduskoordinaatorite_teenus",
+      "document_id": "tartu_linn_service_hoolduskoordinaatorite_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolduskoordinaatorid",
+      "content_hash": "ac4bd7bfbe285832d3ec6c51a45fbe9e7cc32221ba3b69abf5cea54bde44da1d",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -1069,7 +1959,36 @@
       ],
       "sourceKeys": [
         "uldhooldusteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "tartu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hooldusteenus-hooldekodus",
+      "content_hash": "a5ce9a7b668e881ea32a980d864d09a413193ac980a6fe89f093e9fcb0080f2e",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_service_ajutine_hooldusteenus_hoolekandeasutuses",
@@ -1105,7 +2024,37 @@
       "sourceKeys": [
         "social_overview",
         "uldhooldusteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_service_ajutine_hooldusteenus_hoolekandeasutuses",
+      "document_id": "tartu_linn_service_ajutine_hooldusteenus_hoolekandeasutuses",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "056a3418930589b9ce57cdec4623ac31c42c73ff9cfe47833ae22feee7d54e02",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tartu_vaimse_tervise_hooldekeskus",
@@ -1123,7 +2072,38 @@
         "hoolekandeasutused_page",
         "paevahoiuteenus_page",
         "paevakeskused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "paevahoiuteenus_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tartu_vaimse_tervise_hooldekeskus",
+      "document_id": "tartu_linn_resource_tartu_vaimse_tervise_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolekandeasutused-ja-allasutused",
+      "content_hash": "89a68b8a638af35f40c99260a3e282274f80bedd0ac0ab2f2ab08d19afff27d2",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tartu_hooldekodu",
@@ -1140,7 +2120,37 @@
       "sourceKeys": [
         "hoolekandeasutused_page",
         "uldhooldusteenus_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tartu_hooldekodu",
+      "document_id": "tartu_linn_resource_tartu_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolekandeasutused-ja-allasutused",
+      "content_hash": "cb843ce5f2a60c406605cefd09009a1faae4293c2cc07e12959fd4ead2df2217",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tartu_varjupaik",
@@ -1158,10 +2168,42 @@
       ],
       "sourceKeys": [
         "hoolekandeasutused_page",
-        "varjupaigateenus_page",
         "sotsiaalmajutusteenus_page",
-        "valtimatu_sotsiaalabi_page"
-      ]
+        "valtimatu_sotsiaalabi_page",
+        "varjupaigateenus_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "sotsiaalmajutusteenus_page",
+        "valtimatu_sotsiaalabi_page",
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tartu_varjupaik",
+      "document_id": "tartu_linn_resource_tartu_varjupaik",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolekandeasutused-ja-allasutused",
+      "content_hash": "3012392b7c44318089c97b1882e49ca96d82faa6db4318f5cabea53ef02747ec",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tartu_perekeskus",
@@ -1177,7 +2219,36 @@
       ],
       "sourceKeys": [
         "turvakoduteenus_laps_pere_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "turvakoduteenus_laps_pere_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tartu_perekeskus",
+      "document_id": "tartu_linn_resource_tartu_perekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/turvakoduteenus",
+      "content_hash": "9ddac44dc5d2e01b92b38a053259aa4c10f7a097d4b52f23a1de0327a776f4bc",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_naiste_tugi_ja_teabekeskus",
@@ -1192,9 +2263,39 @@
         "tartu_linn_service_taisealise_isiku_turvakoduteenus"
       ],
       "sourceKeys": [
-        "turvakoduteenus_taisealisele_page",
-        "hoolekandeasutused_page"
-      ]
+        "hoolekandeasutused_page",
+        "turvakoduteenus_taisealisele_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "turvakoduteenus_taisealisele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_naiste_tugi_ja_teabekeskus",
+      "document_id": "tartu_linn_resource_naiste_tugi_ja_teabekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/taisealise-isiku-turvakoduteenus",
+      "content_hash": "296467200e13e844f4658e339eb218773d42ad2e6d0e07664a32a72e4e8d73a3",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tahtvere_avatud_naistekeskus",
@@ -1210,7 +2311,36 @@
       ],
       "sourceKeys": [
         "turvakoduteenus_taisealisele_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "turvakoduteenus_taisealisele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tahtvere_avatud_naistekeskus",
+      "document_id": "tartu_linn_resource_tahtvere_avatud_naistekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/taisealise-isiku-turvakoduteenus",
+      "content_hash": "319d81781a4a7822b520dc68bd86f2199f899a14768009e935fb011354cd1c53",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_paevakeskus_kalda",
@@ -1223,9 +2353,39 @@
       "officialUrl": "https://www.tartu.ee/et/paevakeskused",
       "relatedTo": [],
       "sourceKeys": [
-        "paevakeskused_page",
-        "hoolekandeasutused_page"
-      ]
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_paevakeskus_kalda",
+      "document_id": "tartu_linn_resource_paevakeskus_kalda",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/paevakeskused",
+      "content_hash": "1a926bfc25090b9e71b817c980c30fe742cd226dc7d9195b7f67b069708a904a",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_paevakeskus_tahtvere",
@@ -1238,9 +2398,39 @@
       "officialUrl": "https://www.tartu.ee/et/paevakeskused",
       "relatedTo": [],
       "sourceKeys": [
-        "paevakeskused_page",
-        "hoolekandeasutused_page"
-      ]
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_paevakeskus_tahtvere",
+      "document_id": "tartu_linn_resource_paevakeskus_tahtvere",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/paevakeskused",
+      "content_hash": "8fc4694306d5bd2ae58bc498b291610bdabb526b907e1c221b3654195df4cd2f",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_ropka_karlova_paevakeskus",
@@ -1253,9 +2443,39 @@
       "officialUrl": "https://www.tartu.ee/et/paevakeskused",
       "relatedTo": [],
       "sourceKeys": [
-        "paevakeskused_page",
-        "hoolekandeasutused_page"
-      ]
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_ropka_karlova_paevakeskus",
+      "document_id": "tartu_linn_resource_ropka_karlova_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/paevakeskused",
+      "content_hash": "1fa0140507ae42f3cc5b1fe8c02a77798b4432c8867f3bf2a1bae801f5c80349",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_kodukotus",
@@ -1268,9 +2488,39 @@
       "officialUrl": "https://www.tartu.ee/et/paevakeskused",
       "relatedTo": [],
       "sourceKeys": [
-        "paevakeskused_page",
-        "hoolekandeasutused_page"
-      ]
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_kodukotus",
+      "document_id": "tartu_linn_resource_kodukotus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/paevakeskused",
+      "content_hash": "d76e76ccfaaeffec2ec4e09701f3ff2b1bf9e32b95ec7d359eaad16ade02a652",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_tartu_toidupank",
@@ -1286,7 +2536,36 @@
       ],
       "sourceKeys": [
         "toiduabi_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "toiduabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_tartu_toidupank",
+      "document_id": "tartu_linn_resource_tartu_toidupank",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/euroopa-abifondi-toiduabi-jagamine-tartus",
+      "content_hash": "b1501d6b945a6442f7a58208f9fe6bb5dba1c646a0359088d608a903725d81ce",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_lasteabi_telefon",
@@ -1300,7 +2579,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_lasteabi_telefon",
+      "document_id": "tartu_linn_resource_lasteabi_telefon",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "47f8cd57aac97309bf52d1b6ee1362ab58726e5da178b270df601c4e9db43327",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_ohvriabi_kriisitelefon",
@@ -1314,7 +2622,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_ohvriabi_kriisitelefon",
+      "document_id": "tartu_linn_resource_ohvriabi_kriisitelefon",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "6d476c9d87bfe26d3a3b150ef22dae705b9e65375ac25d922b6e1fd22f4f6bcf",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_parkimiskaart_puudega_inimesele",
@@ -1328,7 +2665,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_parkimiskaart_puudega_inimesele",
+      "document_id": "tartu_linn_resource_parkimiskaart_puudega_inimesele",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "8ebadfdb434ac075c672f1a9db225675d954a8989493dcb2c402e050986489f3",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_abivahendid",
@@ -1342,7 +2708,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_abivahendid",
+      "document_id": "tartu_linn_resource_abivahendid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "21a355acec79c91e83508bbe6d1962f01b29b3d756268b6ec0fcbe01d4b66d8d",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_resource_hairenupp_ja_koduandur",
@@ -1356,7 +2751,36 @@
       "relatedTo": [],
       "sourceKeys": [
         "social_overview"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_resource_hairenupp_ja_koduandur",
+      "document_id": "tartu_linn_resource_hairenupp_ja_koduandur",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "6d9b3a15cabd4a08a50c984572b46f5c44c83d81f1d448137e4c627dc02c5bf3",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_sotsiaal_ja_tervishoiuosakond",
@@ -1371,9 +2795,39 @@
       "address": "Raekoja plats 3, 51003 Tartu",
       "officialUrl": "https://www.tartu.ee/et/ToetusedTeenused",
       "sourceKeys": [
-        "social_overview",
-        "piirkonnakeskused_page"
-      ]
+        "piirkonnakeskused_page",
+        "social_overview"
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "piirkonnakeskused_page",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_sotsiaal_ja_tervishoiuosakond",
+      "document_id": "tartu_linn_contact_sotsiaal_ja_tervishoiuosakond",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/ToetusedTeenused",
+      "content_hash": "44c628c2f3e8a77d51665f03d43b8694f030daa15b8dc6d42b923f29c920b8db",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_anne_44_piirkonnakeskus",
@@ -1389,7 +2843,36 @@
       "officialUrl": "https://www.tartu.ee/et/piirkonnakeskused",
       "sourceKeys": [
         "piirkonnakeskused_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "piirkonnakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_anne_44_piirkonnakeskus",
+      "document_id": "tartu_linn_contact_anne_44_piirkonnakeskus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/piirkonnakeskused",
+      "content_hash": "cd5c131d9286a5846f512bbd4feb055abdcbd94511ad4b62be605f80215df685",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_kaunase_22_piirkonnakeskus",
@@ -1404,9 +2887,39 @@
       "address": "Kaunase pst 22, Tartu",
       "officialUrl": "https://www.tartu.ee/et/piirkonnakeskused",
       "sourceKeys": [
-        "piirkonnakeskused_page",
-        "paevahoiuteenus_page"
-      ]
+        "paevahoiuteenus_page",
+        "piirkonnakeskused_page"
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "paevahoiuteenus_page",
+        "piirkonnakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_kaunase_22_piirkonnakeskus",
+      "document_id": "tartu_linn_contact_kaunase_22_piirkonnakeskus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/piirkonnakeskused",
+      "content_hash": "976007ceddfe7e60277223a8cfcff31926400053ab544ad6f95d66b585de5784",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_rahu_15_piirkonnakeskus",
@@ -1422,7 +2935,36 @@
       "officialUrl": "https://www.tartu.ee/et/piirkonnakeskused",
       "sourceKeys": [
         "piirkonnakeskused_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "piirkonnakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_rahu_15_piirkonnakeskus",
+      "document_id": "tartu_linn_contact_rahu_15_piirkonnakeskus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/piirkonnakeskused",
+      "content_hash": "fb114360324a992f771a16c02963403454339c7d735bcc27387aa70b957c7cfb",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_vaksali_14_piirkonnakeskus",
@@ -1438,7 +2980,36 @@
       "officialUrl": "https://www.tartu.ee/et/piirkonnakeskused",
       "sourceKeys": [
         "piirkonnakeskused_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "piirkonnakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_vaksali_14_piirkonnakeskus",
+      "document_id": "tartu_linn_contact_vaksali_14_piirkonnakeskus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/piirkonnakeskused",
+      "content_hash": "1cd5b4ec547409a2a9e4149ee6af94c028cf0dac2700473b6e7789347a7d7a74",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_ave_tooming",
@@ -1454,7 +3025,36 @@
       "officialUrl": "https://www.tartu.ee/et/hoolduskoordinaatorid",
       "sourceKeys": [
         "hoolduskoordinaatorid_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolduskoordinaatorid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_ave_tooming",
+      "document_id": "tartu_linn_contact_ave_tooming",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolduskoordinaatorid",
+      "content_hash": "63b7b50c9e241b118598598b7bc8d92341be1a2844adb4b76344df17d6c1163b",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_aigi_puusepp",
@@ -1470,7 +3070,36 @@
       "officialUrl": "https://www.tartu.ee/et/hoolduskoordinaatorid",
       "sourceKeys": [
         "hoolduskoordinaatorid_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolduskoordinaatorid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_aigi_puusepp",
+      "document_id": "tartu_linn_contact_aigi_puusepp",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolduskoordinaatorid",
+      "content_hash": "1b2ea834c57df29dc422bc03a76155a29626a1b73320d098a71a62198b251098",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_contact_merle_pahk",
@@ -1486,7 +3115,36 @@
       "officialUrl": "https://www.tartu.ee/et/hoolduskoordinaatorid",
       "sourceKeys": [
         "hoolduskoordinaatorid_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hoolduskoordinaatorid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_contact_merle_pahk",
+      "document_id": "tartu_linn_contact_merle_pahk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/et/hoolduskoordinaatorid",
+      "content_hash": "6638b5ca32e8fad0ed259bd67a82e1581482664e071493ee92b6cea47371050c",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_uldtaotlus",
@@ -1543,7 +3201,36 @@
       ],
       "sourceKeys": [
         "general_application_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "general_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_uldtaotlus",
+      "document_id": "tartu_linn_form_uldtaotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/sites/default/files/uploads/Sotsiaalabi-ja-tervishoid/avaldused/%C3%9Cldine%20avaldus_t%C3%A4idetav.pdf",
+      "content_hash": "b9a89cb95e25c4a5919113b1cd1bb53dcbb94db2b80656be719add38e76b0c73",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_toimetulekutoetuse_avaldus",
@@ -1573,7 +3260,36 @@
       ],
       "sourceKeys": [
         "toimetulekutoetus_application_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "toimetulekutoetus_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_toimetulekutoetuse_avaldus",
+      "document_id": "tartu_linn_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/sites/default/files/uploads/Sotsiaalabi-ja-tervishoid/avaldused/TTT%20avaldus%202016.pdf",
+      "content_hash": "7da7b6756ced9f6ba5244a52728d4b94544c7181568b355936ed92864b580261",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_hooldaja_maaramise_avaldus",
@@ -1601,7 +3317,36 @@
       ],
       "sourceKeys": [
         "hooldaja_maaramise_application_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hooldaja_maaramise_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_hooldaja_maaramise_avaldus",
+      "document_id": "tartu_linn_form_hooldaja_maaramise_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/sites/default/files/uploads/Sotsiaalabi-ja-tervishoid/avaldused/Hooldaja%20m%C3%A4%C3%A4ramise%20avaldus.%20doc.pdf",
+      "content_hash": "4a8c98f6e16a6664410901e86f07b764fc191ff1d162a8feb5ecb1707c7c5167",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_matusetoetuse_taotlus",
@@ -1630,7 +3375,36 @@
       ],
       "sourceKeys": [
         "matusetoetuse_application_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "matusetoetuse_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_matusetoetuse_taotlus",
+      "document_id": "tartu_linn_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/sites/default/files/uploads/Sotsiaalabi-ja-tervishoid/avaldused/Matusetoetuse%20taotlus.pdf",
+      "content_hash": "83c27685f16d4c2d140bf0d6f866f20d5963a74630690b156a928a8563dd64ee",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_sotsiaaltranspordi_taotlus",
@@ -1659,7 +3433,36 @@
       ],
       "sourceKeys": [
         "sotsiaaltranspordi_application_pdf"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "sotsiaaltranspordi_application_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_sotsiaaltranspordi_taotlus",
+      "document_id": "tartu_linn_form_sotsiaaltranspordi_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.tartu.ee/sites/default/files/uploads/Sotsiaalabi-ja-tervishoid/avaldused/Sotsiaaltranspordi%20taotluse%20vorm%20%202016.pdf",
+      "content_hash": "6a1d4d62084aed13e5aeb4e11a6405c7c47a01a9973390a1edc63b1b64c293a2",
+      "evidence_allowed": true
     },
     {
       "id": "tartu_linn_form_linnaportaal_sotsiaalteenused",
@@ -1709,7 +3512,39 @@
       ],
       "sourceKeys": [
         "linnaportaal"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "tartu_linn",
+      "municipality_name": "Tartu linn",
+      "county": "Tartumaa",
+      "source_keys": [
+        "linnaportaal"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "tartu_linn_form_linnaportaal_sotsiaalteenused",
+      "document_id": "tartu_linn_form_linnaportaal_sotsiaalteenused",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://linnaportaal.tartu.ee",
+      "content_hash": "eff0ef59ffd404273a1663117edc0078ae354d1dec52ab3b18ba9adbc2095230",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Tartu linn",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

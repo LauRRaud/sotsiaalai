@@ -25,7 +25,37 @@
       "role": "üldkontakt",
       "department": "vallavalitsus",
       "address": "Puiestee 14, Luunja alevik, Luunja vald, Tartu maakond 62222",
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "home",
+        "kontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_vallavalitsus",
+      "document_id": "luunja_vald_contact_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "94263995e586d862c9c6dbe6603fc395bcc754e7f95343a8fe7e7e5ccfe1e0f6",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_maarika_kits",
@@ -42,7 +72,37 @@
       "role": "sotsiaalnõunik-osakonnajuhataja",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "kriisikontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_maarika_kits",
+      "document_id": "luunja_vald_contact_maarika_kits",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "e183621c3bb7dcfdda68d78dacdf47c4e3c48a645483c07dd0a2461c7024a47e",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_henrik_puija",
@@ -53,14 +113,45 @@
       "summary": "Henrik Puija on Luunja valla lastekaitsespetsialist. KOV veeb seostab tema ülesanded lastekaitse, lapse õiguste ja heaolu tagamisega.",
       "sourceKeys": [
         "kontaktid_page",
-        "laps_pere_teenused_toetused",
-        "laps_pere_noustamine"
+        "laps_pere_noustamine",
+        "laps_pere_teenused_toetused"
       ],
       "name": "Henrik Puija",
       "role": "lastekaitsespetsialist",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "laps_pere_noustamine",
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_henrik_puija",
+      "document_id": "luunja_vald_contact_henrik_puija",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "66c85dec30d2da06be1df686a43256eb69613242146701c98526482b980d94f5",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_maret_sildala",
@@ -76,7 +167,36 @@
       "role": "peretöötaja",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_maret_sildala",
+      "document_id": "luunja_vald_contact_maret_sildala",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "42b04b5d24d957a728707f434b1615a47eef0fb697d60e41a11e536bf184c7e2",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_ainika_zilinski",
@@ -93,7 +213,37 @@
       "role": "sotsiaaltööspetsialist",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_ainika_zilinski",
+      "document_id": "luunja_vald_contact_ainika_zilinski",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "5d53b00932cc5ea7385a440c3a8b21c7a83c972296ae58035b5234c44473cc2b",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_siivi_lubi",
@@ -109,7 +259,36 @@
       "role": "koduhooldustöötaja",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_siivi_lubi",
+      "document_id": "luunja_vald_contact_siivi_lubi",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "3886c5e22993dd770236d32daa8b1e2bc8f9e816667cc8459549cffb4a552c43",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_triin_tokman",
@@ -126,7 +305,37 @@
       "role": "noorte heaolu spetsialist",
       "department": "Sotsiaalosakond",
       "address": null,
-      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/"
+      "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "laps_pere_noustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_triin_tokman",
+      "document_id": "luunja_vald_contact_triin_tokman",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "content_hash": "d880516b9dd6d529576b875870d0da815f1a38716c7d7a7f7149047bf5762090",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_kairi_kolk",
@@ -143,7 +352,37 @@
       "role": "tugikeskuse juht / juhtumikorraldaja",
       "department": "Haridus- ja kultuuriosakond / tugikeskus",
       "address": null,
-      "officialUrl": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/"
+      "officialUrl": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "laste_toetamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_kairi_kolk",
+      "document_id": "luunja_vald_contact_kairi_kolk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "content_hash": "194474e9fed2aaf7fba5475d5048cf35ea476897e9a2c3a6712da46ae096d7d1",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_anni_paal",
@@ -159,7 +398,36 @@
       "role": "registripidaja-sekretär",
       "department": "vallavalitsus",
       "address": null,
-      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/"
+      "officialUrl": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "lapse_sund_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_anni_paal",
+      "document_id": "luunja_vald_contact_anni_paal",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "content_hash": "988940af2c33511cc611a7757ce5e37ed6a7254d0746cd871fdc27111782001b",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_contact_marko_tiirmaa",
@@ -175,7 +443,36 @@
       "role": "kriisiennetuse spetsialist",
       "department": "vallavalitsus",
       "address": null,
-      "officialUrl": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/"
+      "officialUrl": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "item_type": "contact",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kriisikontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_contact_marko_tiirmaa",
+      "document_id": "luunja_vald_contact_marko_tiirmaa",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "content_hash": "f0c318ed8f1a8e47a531bcc21cf9ba740df28dc2a89c7e5bca08b1c6f26e480a",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_sotsiaalnoustamine",
@@ -201,7 +498,36 @@
         "luunja_vald_contact_ainika_zilinski",
         "luunja_vald_contact_maarika_kits"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_noustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_sotsiaalnoustamine",
+      "document_id": "luunja_vald_service_sotsiaalnoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/noustamine-tooealistele-ja-eakatele/",
+      "content_hash": "a819833e4118dd23ad0edb77cd982f68457aa895723604487a9bfd5d86d37c5e",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_laste_ja_perede_noustamine",
@@ -227,7 +553,36 @@
         "luunja_vald_contact_henrik_puija",
         "luunja_vald_contact_maret_sildala"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_noustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_laste_ja_perede_noustamine",
+      "document_id": "luunja_vald_service_laste_ja_perede_noustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "content_hash": "f4fa6e7c6537cb7c4bba883278528e973c8137c3f024cd86868fc9003b87e3b5",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_noorte_heaolu_spetsialisti_tugi",
@@ -237,8 +592,8 @@
       "status": "active",
       "summary": "Noorte heaolu spetsialisti tugi on mõeldud eelkõige 16–29-aastastele noortele, kes ei tööta ega õpi ning vajavad tuge õppimise, töötamise või tööturule jõudmise eesmärgil. KOV veebis on kirjeldatud ka ennetavat kaasamist 13–15-aastaste noorte toetamiseks.",
       "sourceKeys": [
-        "laps_pere_noustamine",
-        "kontaktid_page"
+        "kontaktid_page",
+        "laps_pere_noustamine"
       ],
       "targetGroup": "13–29-aastased noored, eriti mittetöötavad ja mitteõppivad noored",
       "conditions": null,
@@ -253,7 +608,37 @@
       "relatedContacts": [
         "luunja_vald_contact_triin_tokman"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kontaktid_page",
+        "laps_pere_noustamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_noorte_heaolu_spetsialisti_tugi",
+      "document_id": "luunja_vald_service_noorte_heaolu_spetsialisti_tugi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "content_hash": "57a4c575f8ba2524e42c77e1fafcc95136d546aa7b96b13ff2be31ab6a035ec6",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_koduteenuse_taotlus",
@@ -263,6 +648,7 @@
       "status": "active",
       "summary": "Koduteenuse taotlus on SPOKU e-vorm, mille kaudu saab taotleda koduteenust. KOV leht nimetab teenuse juures koduteenuse taotlemise linki. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -274,7 +660,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_koduteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_koduteenuse_taotlus",
+      "document_id": "luunja_vald_form_koduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "fd760f342a683b480fd52d311c3854429d29b127d08d7080f7c571176d1c387c",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_uldhooldusteenuse_taotlus",
@@ -284,6 +700,7 @@
       "status": "active",
       "summary": "Üldhooldusteenuse taotlus on SPOKU e-vorm üldhooldusteenuse saamiseks. KOV leht nimetab vormi teenuse juures. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -295,7 +712,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_uldhooldusteenuse_taotlus",
+      "document_id": "luunja_vald_form_uldhooldusteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "ee659c9c73b08f850da5c41cc7712f2fd1cfe0829c75b94afe5f21d861a507ce",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_taisealise_isiku_hoolduse_taotlus",
@@ -305,6 +752,7 @@
       "status": "active",
       "summary": "Täisealise isiku hoolduse taotlus on SPOKU e-vorm hoolduse seadmiseks ja hooldaja määramiseks. Sama taotlus on seotud nii teenuse kui hooldajatoetuse käsitlusega. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -317,7 +765,37 @@
       "relatedTo": [
         "luunja_vald_service_taisealise_isiku_hooldus",
         "luunja_vald_benefit_taisealise_isiku_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_taisealise_isiku_hoolduse_taotlus",
+      "document_id": "luunja_vald_form_taisealise_isiku_hoolduse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "ca46d1df8a40899449a5d16d38439b71e2640e01ef5f82dfad9f6578e6600b80",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_isikliku_abistaja_teenuse_taotlus",
@@ -327,6 +805,7 @@
       "status": "active",
       "summary": "Isikliku abistaja teenuse taotlus on SPOKU e-vorm füüsilist kõrvalabi vajava inimese teenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -338,7 +817,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_isikliku_abistaja_teenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_isikliku_abistaja_teenuse_taotlus",
+      "document_id": "luunja_vald_form_isikliku_abistaja_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "213ab13815bae2c071605fcc6616004ab28bdc6d42f77cf367dde7fbce8ee322",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_varjupaigateenuse_taotlus",
@@ -348,6 +857,7 @@
       "status": "active",
       "summary": "Varjupaigateenuse taotlus on SPOKU e-vorm ajutise ööbimis- ja varjupaigateenuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -359,7 +869,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_varjupaigateenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_varjupaigateenuse_taotlus",
+      "document_id": "luunja_vald_form_varjupaigateenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "6c1c3847ac9b5aaf0550a956875544f109fcd2789af7b63cfae2a872c1f1c2ef",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_sotsiaaltransporditeenuse_taotlus",
@@ -369,6 +909,7 @@
       "status": "active",
       "summary": "Sotsiaaltransporditeenuse taotlus on SPOKU e-vorm sotsiaaltranspordi kasutamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -380,7 +921,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_sotsiaaltransporditeenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_sotsiaaltransporditeenuse_taotlus",
+      "document_id": "luunja_vald_form_sotsiaaltransporditeenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "3c5dd8a7b4a1134080c424682f4a3cc7929b0d3c40265c1ab6db2dae52fedfca",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus",
@@ -390,6 +961,7 @@
       "status": "active",
       "summary": "Eluruumi tagamise teenuse taotlus on SPOKU e-vorm eluruumi kasutamise võimaluse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -401,7 +973,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_eluruumi_tagamise_teenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus",
+      "document_id": "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "db35fb97e04f2ba0bd3c63e59c5a080d45b06ed760638d1dd754f3b0acfb99cc",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_volanoustamisteenuse_taotlus",
@@ -411,6 +1013,7 @@
       "status": "active",
       "summary": "Võlanõustamisteenuse taotlus on SPOKU e-vorm võlanõustamisteenusele pöördumiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -422,7 +1025,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_volanoustamisteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_volanoustamisteenuse_taotlus",
+      "document_id": "luunja_vald_form_volanoustamisteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "f3eae862d0c0e4e15bfeaa94e066b206a4460a4a02ae2ae7c15ab498ce5e4e76",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_valtimatu_abi_taotlus",
@@ -432,6 +1065,7 @@
       "status": "active",
       "summary": "Vältimatu abi taotlus on SPOKU e-vorm vältimatu sotsiaalabi saamiseks elatusvahendite kaotuse või puudumise korral. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -443,7 +1077,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_valtimatu_abi"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_valtimatu_abi_taotlus",
+      "document_id": "luunja_vald_form_valtimatu_abi_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "4de8301fe637ad85960276a8c0348731e9a6e5df8efd5badf6e65be4d6369edc",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_koduteenus",
@@ -472,7 +1136,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_koduteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_koduteenus",
+      "document_id": "luunja_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "b2317c4ee89b1bc5d838965e7968bdbf0e8f753b7d0c68a0b90b9d5ce46e1d77",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -502,7 +1195,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_uldhooldusteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "luunja_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "4a6a3343b0588063f88af63aec9074992f66a2b0fdbb1fe18ddc1abad5d36558",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_taisealise_isiku_hooldus",
@@ -531,7 +1253,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_taisealise_isiku_hoolduse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_taisealise_isiku_hooldus",
+      "document_id": "luunja_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "3851056557178afef41a56b568c2d7acbc58e3cd75cf2c4782903df3e1639a09",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_isikliku_abistaja_teenus",
@@ -559,7 +1310,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_isikliku_abistaja_teenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_isikliku_abistaja_teenus",
+      "document_id": "luunja_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "11a5b1920c653fa55691a1f2e432fadabbc8a97f8cf9776b87480d63ff9e0293",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_varjupaigateenus",
@@ -588,7 +1368,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_varjupaigateenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_varjupaigateenus",
+      "document_id": "luunja_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "ea4d0b595f845f92e781753fa26f18fe12ed93e4510777fce04a0225ec7d44f9",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_sotsiaaltransporditeenus",
@@ -615,7 +1424,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_sotsiaaltransporditeenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_sotsiaaltransporditeenus",
+      "document_id": "luunja_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "208274a95c9bb49e8bf7e961730da073e7fe42d90862e0d7b0a9df0ca4506b72",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_eluruumi_tagamise_teenus",
@@ -644,7 +1482,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_eluruumi_tagamise_teenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "luunja_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "e669bee3ef234c3e30b41f0883d633c0e025088629d16509d4ef51e45bd30fab",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_volanoustamisteenus",
@@ -673,7 +1540,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_volanoustamisteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_volanoustamisteenus",
+      "document_id": "luunja_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "b594c39ae8fa741373200f06fdd48f460d45a7e2cfa3e3ef00be2a3e43a6d3ba",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_valtimatu_abi",
@@ -702,7 +1598,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_valtimatu_abi_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_valtimatu_abi",
+      "document_id": "luunja_vald_service_valtimatu_abi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "51c724c22f49e4b1963b7263ca70b09156aa9d4df72eedc4f3bef55caeaaa584",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_tugiisikuteenuse_taotlus",
@@ -723,7 +1648,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_tugiisikuteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_tugiisikuteenuse_taotlus",
+      "document_id": "luunja_vald_form_tugiisikuteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "7adeddf12b0e0c761082413383fd8bde82e1eafed0a789e0962bfcb6de31a242",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_turvakoduteenuse_taotlus",
@@ -744,7 +1698,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_turvakoduteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_turvakoduteenuse_taotlus",
+      "document_id": "luunja_vald_form_turvakoduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "87e0edc55b625008507d39a633f1f7c1a4ef20ab1cdb6df793ba3f47f022404e",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_lapsehoiuteenuse_taotlus",
@@ -765,7 +1748,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_lapsehoiuteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_lapsehoiuteenuse_taotlus",
+      "document_id": "luunja_vald_form_lapsehoiuteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "33be6a725724674c7864968bacf449a1da826e0661e516a441aa03e950f098bb",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_asendushooldusteenuse_taotlus",
@@ -786,7 +1798,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_asendushooldusteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_asendushooldusteenuse_taotlus",
+      "document_id": "luunja_vald_form_asendushooldusteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "59e8b87115427150ca74710581b46cc61acf01881358c24a36dfd913da0b19b1",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_jarelhooldusteenuse_taotlus",
@@ -807,7 +1848,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_service_jarelhooldusteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_jarelhooldusteenuse_taotlus",
+      "document_id": "luunja_vald_form_jarelhooldusteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "39c3d1d760603d61796894b67441cb2bce8037a72670ef3105a8052444db58d8",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_tugiisikuteenus",
@@ -837,7 +1907,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_tugiisikuteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_tugiisikuteenus",
+      "document_id": "luunja_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "dcaf0bbc477af1d4d9cd272a91fed653b6ea654e66134e11c7ec41fc50a66953",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_turvakoduteenus",
@@ -867,7 +1966,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_turvakoduteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_turvakoduteenus",
+      "document_id": "luunja_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "d3f78f1652b7ba914cf0d936c44dc58a533f0b18e3223798461d874ea1d4b8f8",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_lapsehoiuteenus",
@@ -896,7 +2024,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_lapsehoiuteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_lapsehoiuteenus",
+      "document_id": "luunja_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "27e434eefc39ea5804e1518edb3c884c320c238ebac36a0c1fb08775e35ed2c9",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_asendushooldusteenus",
@@ -924,7 +2081,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_asendushooldusteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_asendushooldusteenus",
+      "document_id": "luunja_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "636f102ac39d772830d3cb7254e6b641b99e42009ef6a7da036cf3b809f8db08",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_service_jarelhooldusteenus",
@@ -952,7 +2138,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_jarelhooldusteenuse_taotlus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_service_jarelhooldusteenus",
+      "document_id": "luunja_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "64448775e735d7d86c5db3a883ea8c69f32e24ff488b3b16e8c249ddcedd66b4",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_matusetoetuse_taotlus",
@@ -962,6 +2177,7 @@
       "status": "active",
       "summary": "Matusetoetuse taotlus on SPOKU e-vorm Luunja valla elaniku matusega seotud toetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -973,7 +2189,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_matusetoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_matusetoetuse_taotlus",
+      "document_id": "luunja_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "4d0b75dbd8f6af37efd01c858dbcaa3bfccf4f5666b132ed1d54a787b055d350",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu",
@@ -983,6 +2229,7 @@
       "status": "active",
       "summary": "Täiskasvanu tervisetoetuse taotlus on SPOKU e-vorm tervisega seotud kulude hüvitamiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -994,7 +2241,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_tervisetoetus_taiskasvanu"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu",
+      "document_id": "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "20435a304fec1d449bbe9d0ff2a8d9393b0a54d27f4fffdb9b5c73af17a97010",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_kuttepuude_toetuse_taotlus",
@@ -1004,6 +2281,7 @@
       "status": "active",
       "summary": "Küttepuude toetuse taotlus on SPOKU e-vorm ahiküttega eluruumi küttekulude kompenseerimiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -1015,7 +2293,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_kuttepuude_toetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_kuttepuude_toetuse_taotlus",
+      "document_id": "luunja_vald_form_kuttepuude_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "0491dbfb713228726baf44bb38cb36cf304fbc87ef6daff5228d7a3e6dc43980",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_yhekordse_toetuse_taotlus",
@@ -1025,6 +2333,7 @@
       "status": "active",
       "summary": "Ühekordse toetuse taotlus on SPOKU e-vorm kriisiolukorra või õnnetusjuhtumi toetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -1036,7 +2345,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_yhekordse_toetuse_taotlus",
+      "document_id": "luunja_vald_form_yhekordse_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "cd308d70ed2a837e521775e9ce672cfe8525db2f3cda04a60cb2c376192f2770",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_toimetulekutoetuse_taotlus",
@@ -1046,6 +2385,7 @@
       "status": "active",
       "summary": "Toimetulekutoetuse taotlus on SPOKU e-vorm toimetulekutoetuse taotlemiseks. Vormi allikaks on Luunja valla ametlik teenuse või toetuse leht ning esitamine toimub SPOKU keskkonnas.",
       "sourceKeys": [
+        "laps_pere_teenused_toetused",
         "tooealised_teenused_toetused"
       ],
       "format": "web_form",
@@ -1057,7 +2397,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "luunja_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "ae1b8582b5cee0afb8b002be48c81113465001877c8030ec9a59a1e3fd063e61",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_matusetoetus",
@@ -1086,7 +2456,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_matusetoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_matusetoetus",
+      "document_id": "luunja_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "8db23a1cbd8f308444fdfc0f112d9f25a236717951ed6f839ccf85ef14987c43",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_tervisetoetus_taiskasvanu",
@@ -1115,7 +2514,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_tervisetoetuse_taotlus_taiskasvanu"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_tervisetoetus_taiskasvanu",
+      "document_id": "luunja_vald_benefit_tervisetoetus_taiskasvanu",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "095bd912a100a4cb8677a0ba4f22718787a429afe679bc5b8d2dbcef920c70ef",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_kuttepuude_toetus",
@@ -1144,7 +2572,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_kuttepuude_toetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_kuttepuude_toetus",
+      "document_id": "luunja_vald_benefit_kuttepuude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "2c3a291285e886eff448bc15f5f8ced51591f5dc257f42f2e4b53c39bd4c123d",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_eakate_juubelitoetus",
@@ -1171,7 +2628,36 @@
         "luunja_vald_contact_ainika_zilinski",
         "luunja_vald_contact_maarika_kits"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_eakate_juubelitoetus",
+      "document_id": "luunja_vald_benefit_eakate_juubelitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "2f47dfd6b2c2f6e82a7feae5453ee5188e9cd78cf3e3171508c375fa3e46f449",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -1203,7 +2689,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_taisealise_isiku_hoolduse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "luunja_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "516c4f160ebc4508f6ffef11abd20aaa3fedc8b92c4c945b8ae3e885d9520dd6",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral",
@@ -1232,7 +2747,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_yhekordse_toetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral",
+      "document_id": "luunja_vald_benefit_toetus_kriisiolukorra_voi_onnetusjuhtumi_korral",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "c51ee5a1aaede259e55c3915d722da5c9823385fa06a31ae1c274f81c632b207",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_toimetulekutoetus",
@@ -1262,7 +2806,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_toimetulekutoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_toimetulekutoetus",
+      "document_id": "luunja_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "d0351c78de253e69eb9335cbd35afb4c7941fad8afcfcb87f71a7a509553d168",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_sunnitoetuse_taotlus",
@@ -1284,7 +2857,37 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_sunnitoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "lapse_sund_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_sunnitoetuse_taotlus",
+      "document_id": "luunja_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "cfb815c395cebd6ae1263a1046bd34d0058914995458f4030c07fdea0adef73f",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_aabitsatoetuse_taotlus",
@@ -1305,7 +2908,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_aabitsatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_aabitsatoetuse_taotlus",
+      "document_id": "luunja_vald_form_aabitsatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "89f7da102aa5c27ee69ef5c98b2b171a6551cce9bc1486b87039ebe49ac9089c",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_koolilouna_toetuse_taotlus",
@@ -1326,7 +2958,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_koolilouna_toetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_koolilouna_toetuse_taotlus",
+      "document_id": "luunja_vald_form_koolilouna_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "737e4c5aa7ba2d39bebc2971b988f2f9ca0aeda47dd192d8d80a8381c5720984",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus",
@@ -1347,7 +3008,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus",
+      "document_id": "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "93fa3aa3e06d157b6b55bae07360f2f7b4d40b233538ed2f64a48b432864877a",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_soidukompensatsiooni_taotlus",
@@ -1368,7 +3058,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_soidukompensatsioon"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_soidukompensatsiooni_taotlus",
+      "document_id": "luunja_vald_form_soidukompensatsiooni_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "e0241fdee0eb6ab0ccc53fbfe764f784de183c43a268186993310bf4f4b2ef67",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
@@ -1389,7 +3108,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_puudega_lapse_hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "document_id": "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "9b85060992fba117a5823cb069cc0470e981434cdedf90bdc0377262104c8708",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_form_lapse_tervisetoetuse_taotlus",
@@ -1410,7 +3158,36 @@
       "webFormUrl": "https://piksel.ee/spoku/luunja/index.php?module=208&op=1",
       "relatedTo": [
         "luunja_vald_benefit_tervisetoetus_laps"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_form_lapse_tervisetoetuse_taotlus",
+      "document_id": "luunja_vald_form_lapse_tervisetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "5d54d917e203efc3e321e3b688036e3dbab4690215093f407a59c83a94380c6c",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_sunnitoetus",
@@ -1440,7 +3217,37 @@
       ],
       "relatedForms": [
         "luunja_vald_form_sunnitoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused",
+        "lapse_sund_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_sunnitoetus",
+      "document_id": "luunja_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "6890ab7c1c476f49ec43b6e78953710b93c077b91e54d2116b541786ebd409ee",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_suure_pere_toetus",
@@ -1466,7 +3273,36 @@
       "relatedContacts": [
         "luunja_vald_contact_maret_sildala"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_suure_pere_toetus",
+      "document_id": "luunja_vald_benefit_suure_pere_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "13b320aa3507bb9158860ab7fe001720bb85c1e41da97ae6c690bf0205cc68b4",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_aabitsatoetus",
@@ -1494,7 +3330,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_aabitsatoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_aabitsatoetus",
+      "document_id": "luunja_vald_benefit_aabitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "572c5bc90bc6efa13c303f3032bd013813a445858238df189226649e4886321f",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_koolilouna_toetus",
@@ -1522,7 +3387,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_koolilouna_toetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_koolilouna_toetus",
+      "document_id": "luunja_vald_benefit_koolilouna_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "165b0df3f81cc66129fb02109171345568a72861148f91247293024936796ca4",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine",
@@ -1550,7 +3444,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_toovihikute_maksumuse_kompenseerimise_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine",
+      "document_id": "luunja_vald_benefit_toovihikute_maksumuse_kompenseerimine",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "dff2d545e1dd370b536ea97299ca88eb2fd8cc0da66656881c2ecb47f5e1a32e",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_soidukompensatsioon",
@@ -1578,7 +3501,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_soidukompensatsiooni_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_soidukompensatsioon",
+      "document_id": "luunja_vald_benefit_soidukompensatsioon",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "1bcf851a818188e42bd20ba72de1bb1b04ab094540e56b295b9ef77aab387ed0",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_lastelaagri_toetus",
@@ -1604,7 +3556,36 @@
       "relatedContacts": [
         "luunja_vald_contact_maret_sildala"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_lastelaagri_toetus",
+      "document_id": "luunja_vald_benefit_lastelaagri_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "8a446eae1835a28d0d5a6779b4234f39701777beaf1dff270adc60b70f21ca3b",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_hobelusikas",
@@ -1631,7 +3612,36 @@
         "luunja_vald_contact_maret_sildala",
         "luunja_vald_contact_anni_paal"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_hobelusikas",
+      "document_id": "luunja_vald_benefit_hobelusikas",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "e3dae88ae79ee4749625562b4117dc501467951f2fd80e6c9ac30f47fe53a812",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_laste_joulupakid",
@@ -1657,7 +3667,36 @@
       "relatedContacts": [
         "luunja_vald_contact_maret_sildala"
       ],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_laste_joulupakid",
+      "document_id": "luunja_vald_benefit_laste_joulupakid",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "86fc9aa2dd8ff34f46ba2df0fe54710f7bfedbfdb59d437888a5ec4483eb8154",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -1686,7 +3725,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "luunja_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "9593bc3fd996b11003a7768d03a1138a9c712881508861b24fc9186da7662c7c",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_benefit_tervisetoetus_laps",
@@ -1715,7 +3783,36 @@
       ],
       "relatedForms": [
         "luunja_vald_form_lapse_tervisetoetuse_taotlus"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laps_pere_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_benefit_tervisetoetus_laps",
+      "document_id": "luunja_vald_benefit_tervisetoetus_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "content_hash": "ef28cb4817df73e0c9c9d7f6e6c5a0843aa300e1fdc5820dd5ead9d6478879db",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_spoku_taotluskeskkond",
@@ -1761,7 +3858,37 @@
         "luunja_vald_form_soidukompensatsiooni_taotlus",
         "luunja_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
         "luunja_vald_form_lapse_tervisetoetuse_taotlus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "home",
+        "tooealised_teenused_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_spoku_taotluskeskkond",
+      "document_id": "luunja_vald_resource_spoku_taotluskeskkond",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "content_hash": "3b0f87dd36708e3325612259177cd279c746f06c20053fd555fe63c8cb55ecfa",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_olulised_abi_ja_infotelefonid",
@@ -1778,7 +3905,36 @@
       "relatedContacts": [
         "luunja_vald_contact_marko_tiirmaa",
         "luunja_vald_contact_maarika_kits"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "kriisikontaktid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_olulised_abi_ja_infotelefonid",
+      "document_id": "luunja_vald_resource_olulised_abi_ja_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "content_hash": "45c63a263fa1bb5d7f02b64fb5b38ebb950d881a17fdd28ba732d6e9ec670765",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_laste_toetamine_ja_tugikeskus",
@@ -1797,7 +3953,36 @@
       ],
       "relatedContacts": [
         "luunja_vald_contact_kairi_kolk"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laste_toetamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_laste_toetamine_ja_tugikeskus",
+      "document_id": "luunja_vald_resource_laste_toetamine_ja_tugikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "content_hash": "a086f423c1bd4a27f63cff0d572bf0faf2bd2cfa400ca6e3c67689009b84188d",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_koolipsuhholoogide_nouandeliin",
@@ -1813,7 +3998,36 @@
       "relatedTo": [
         "luunja_vald_service_laste_ja_perede_noustamine"
       ],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "laste_toetamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_koolipsuhholoogide_nouandeliin",
+      "document_id": "luunja_vald_resource_koolipsuhholoogide_nouandeliin",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "content_hash": "7d52d16dc97668182bca6dc922cc9bfb3112e2190f644d4179e1a57961f2fd10",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_lapse_sunni_registreerimine",
@@ -1831,7 +4045,36 @@
       ],
       "relatedContacts": [
         "luunja_vald_contact_anni_paal"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "lapse_sund_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_lapse_sunni_registreerimine",
+      "document_id": "luunja_vald_resource_lapse_sunni_registreerimine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "content_hash": "a7c0f7619f3802a3a7175c789deb789bdd07348190edac7388ded5100ce16a13",
+      "evidence_allowed": true
     },
     {
       "id": "luunja_vald_resource_hallatavad_asutused_sotsiaalvaldkonna_kontroll",
@@ -1845,7 +4088,39 @@
       ],
       "officialUrl": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "luunja_vald",
+      "municipality_name": "Luunja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "hallatavad_asutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "luunja_vald_resource_hallatavad_asutused_sotsiaalvaldkonna_kontroll",
+      "document_id": "luunja_vald_resource_hallatavad_asutused_sotsiaalvaldkonna_kontroll",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
+      "content_hash": "68bb678926f00b2627b3242ef54f251f790c563e11d4915f3e9d8946c340e87f",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Luunja vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

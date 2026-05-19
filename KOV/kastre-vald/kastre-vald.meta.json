@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "schemaVersion": "v2.5-sourcepackage",
   "docId": "kov-kastre-vald",
   "document_id": "kov-kastre-vald",
   "municipality": "Kastre vald",
@@ -2062,5 +2062,54 @@
       "relatedForms": [],
       "relatedContacts": []
     }
+  ],
+  "municipality_name": "Kastre vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29",
+  "ingestReady": true,
+  "status": "ingest_ready",
+  "country": "EE",
+  "language": "et",
+  "jurisdiction_level": "MUNICIPALITY",
+  "sourceRegisterFile": "kastre-vald.sources.json",
+  "sourceCount": 31,
+  "counts": {
+    "services": 6,
+    "benefits": 10,
+    "resources": 6,
+    "contacts": 7,
+    "forms": 1,
+    "regulations": 0
+  },
+  "coverage": {
+    "services": 6,
+    "benefits": 10,
+    "resources": 6,
+    "contacts": 7,
+    "forms": 1,
+    "regulations": 0
+  },
+  "sourcePackageReadiness": {
+    "ok": true,
+    "collection_id": "kov_services",
+    "municipality_id": "kastre_vald",
+    "source_register_file": "kastre-vald.sources.json",
+    "service_benefit_resource_items": 22,
+    "items_with_source_keys": 22,
+    "items_missing_source_keys": [],
+    "items_with_related_forms": 8,
+    "items_without_related_forms": 14,
+    "items_with_related_contacts": 16,
+    "items_without_related_contacts": 6,
+    "form_sources": 17,
+    "contact_sources": 0,
+    "regulation_sources": 0,
+    "warnings": [
+      "10 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
+    ]
+  },
+  "warnings": [
+    "10 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta.",
+    "31 sourceKeys/source_keys viidet ei lahene."
   ]
 }

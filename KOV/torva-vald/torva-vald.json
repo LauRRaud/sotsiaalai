@@ -23,7 +23,36 @@
       "name": "Kersti Jürise",
       "role": "sotsiaaltööspetsialist",
       "department": "Tõrva valla sotsiaalosakond",
-      "address": "Tartu 4, Tõrva"
+      "address": "Tartu 4, Tõrva",
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_kersti_jurise",
+      "document_id": "torva_vald_contact_kersti_jurise",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5dcbdb8dd353d6114e22874769ad414a7384980ffd65e020ec2680e0ed85892e",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_contact_olga_meltsas",
@@ -38,7 +67,36 @@
       "name": "Olga Meltsas",
       "role": "sotsiaaltööspetsialist",
       "department": "Tõrva valla sotsiaalosakond",
-      "address": "Tartu 4, Tõrva"
+      "address": "Tartu 4, Tõrva",
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_olga_meltsas",
+      "document_id": "torva_vald_contact_olga_meltsas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "77adac894b7913c42c7016ed7da65fbf5e2639365abc831d57f555d3cf961efd",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_contact_ragne_margus",
@@ -53,7 +111,36 @@
       "name": "Ragne Margus",
       "role": "lastekaitsespetsialist",
       "department": "Tõrva valla sotsiaalosakond",
-      "address": "Tartu 4, Tõrva"
+      "address": "Tartu 4, Tõrva",
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_ragne_margus",
+      "document_id": "torva_vald_contact_ragne_margus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "557806d4c8fbe3d35aae1edf37f8657a76c87dbabb67a1b18e5f0e33e6dbb718",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_contact_jaanika_duvin",
@@ -68,7 +155,36 @@
       "name": "Jaanika Duvin",
       "role": "lastekaitsespetsialist",
       "department": "Tõrva valla sotsiaalosakond",
-      "address": "Tartu 4, Tõrva"
+      "address": "Tartu 4, Tõrva",
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_jaanika_duvin",
+      "document_id": "torva_vald_contact_jaanika_duvin",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "1f97f17f884a49e51bd59fe163b0e086d4fddbd29b2b8e637b47a5c024f277bc",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_contact_nadezda_selivjorstova",
@@ -83,7 +199,36 @@
       "name": "Nadežda Selivjorstova",
       "role": "psühholoog",
       "department": "Nõustamisteenused",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_nadezda_selivjorstova",
+      "document_id": "torva_vald_contact_nadezda_selivjorstova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "552dbf66789dcb296ba9a3b2b21f74fbd9ef3d9498558e75fc9b07b10434cb9e",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_contact_oie_kiis",
@@ -98,7 +243,36 @@
       "name": "Õie Kiis",
       "role": "nõustaja",
       "department": "Nõustamisteenused",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_contact_oie_kiis",
+      "document_id": "torva_vald_contact_oie_kiis",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "36d17d34e9fe4ae779e675464c137235748dcb9351ce441876259fa104edd352",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_koduteenus",
@@ -132,7 +306,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_koduteenus",
+      "document_id": "torva_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/koduteenus-0",
+      "content_hash": "d6f5491c8a78a6b766ab057b590d9b800f1e396a552eea905c57b550ea5b8038",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_tugiisikuteenus",
@@ -168,7 +371,36 @@
         "torva_vald_contact_olga_meltsas",
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "tugiisik_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_tugiisikuteenus",
+      "document_id": "torva_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/tugiisikuteenus",
+      "content_hash": "a4dae8d7985ef395f335e78f9975e326305afa165ddfa028f613137dcdc79227",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_taisealise_isiku_hooldus",
@@ -202,7 +434,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "adult_care_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_taisealise_isiku_hooldus",
+      "document_id": "torva_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/taisealise-isiku-hooldus",
+      "content_hash": "cef980cb729d99fb2cd7166d4e3d9cca4051bc803099040b0ba3f390ae791345",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_isikliku_abistaja_teenus",
@@ -236,7 +497,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "personal_assistant_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_isikliku_abistaja_teenus",
+      "document_id": "torva_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/isikliku-abistaja-teenus",
+      "content_hash": "9f136f9dc37d77ba802f521a78b10c19da10f7b5da97c4fd064e8d51846dad07",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_sotsiaaltransporditeenus",
@@ -270,7 +560,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "social_transport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_sotsiaaltransporditeenus",
+      "document_id": "torva_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/sotsiaaltransport",
+      "content_hash": "651c074a33e43b935b90a469643d5e1e5309025c5fb6f1158d1fb499cac5f479",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_eluruumi_tagamise_teenus",
@@ -304,7 +623,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "housing_service_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "torva_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/eluruumi-tagamise-teenus",
+      "content_hash": "24d6ed58cf36bfdd444ab5f3594cb374e48274c57377fa9d438ed33bc879bab3",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_puudega_lapse_sotsiaalteenus",
@@ -338,7 +686,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "disabled_child_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_puudega_lapse_sotsiaalteenus",
+      "document_id": "torva_vald_service_puudega_lapse_sotsiaalteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/lapsehoiu-ja-muu-sotsiaalteenus-puudega-lapsele",
+      "content_hash": "46364b83a3bc1125e6fe808908f6111ae73ce91f6e6219cc7471265a05d69b99",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_dusi_kasutamise_ja_pesu_pesemise_teenus",
@@ -369,7 +746,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "shower_laundry_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_dusi_kasutamise_ja_pesu_pesemise_teenus",
+      "document_id": "torva_vald_service_dusi_kasutamise_ja_pesu_pesemise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/dusi-kasutamise-ja-pesu-pesemise-teenus",
+      "content_hash": "a0ea286411a74cca3af74bd1cf3b23c9e8c738dc184f0ba97bf62ba4cf1c97c6",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_hairenuputeenus",
@@ -403,7 +809,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "alarm_button_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_hairenuputeenus",
+      "document_id": "torva_vald_service_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/hairenuputeenus",
+      "content_hash": "78d88f7709bd1bee2804ef2765044a281f345065689d93af22bbc42aa14b5c0b",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_varjupaigateenus",
@@ -434,7 +869,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "shelter_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_varjupaigateenus",
+      "document_id": "torva_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/varjupaigateenus",
+      "content_hash": "64115ab7368583abbcf3cefc17d5438139d4c98d303f7765c81f88dbc68f7372",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_turvakoduteenus",
@@ -465,7 +929,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "safe_house_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_turvakoduteenus",
+      "document_id": "torva_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/turvakoduteenus",
+      "content_hash": "fb2142d7eac78a64b1279eaa001f86f69fcfaa68722eba0e6985455c73e32eca",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -499,7 +992,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "general_care_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "torva_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "content_hash": "8cf9fde028c0a53846ebc1d7c36cad669c45ee5a6c95846a93b650cb7cb7bfca",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_volanoustamisteenus",
@@ -530,7 +1052,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "debt_counselling_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_volanoustamisteenus",
+      "document_id": "torva_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/volanoustamisteenus",
+      "content_hash": "d04513bb8b7a32bd1fc4b77361f4621deeb635c93c8cf862d72d3dd1b095a2a9",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_asendushooldusteenus",
@@ -561,7 +1112,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "substitute_care_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_asendushooldusteenus",
+      "document_id": "torva_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/asendushooldusteenus",
+      "content_hash": "13483bcb2314d2febee80c6c19d2e59964825247fa9a6d87d821ab1886e4d037",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_noustamisteenused",
@@ -594,7 +1174,36 @@
         "torva_vald_contact_olga_meltsas",
         "torva_vald_contact_nadezda_selivjorstova",
         "torva_vald_contact_oie_kiis"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "counselling_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_noustamisteenused",
+      "document_id": "torva_vald_service_noustamisteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/noustamisteenused",
+      "content_hash": "9d710a46bfd748f5a495cb8c68bf4710ae7d52d3de9606077cc430af661185e8",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_jarelhooldusteenus",
@@ -625,7 +1234,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "aftercare_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_jarelhooldusteenus",
+      "document_id": "torva_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/jarelhooldusteenus",
+      "content_hash": "8457a812cbe82f45115a19689622ff8b1f7ae923524f342c41b5cb074c1b4596",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_perelepitus",
@@ -656,7 +1294,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "family_mediation_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_perelepitus",
+      "document_id": "torva_vald_service_perelepitus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/perelepitus",
+      "content_hash": "51139e1080279fd9eb44e83845c19a2f4020b87e947c3de1fa232fac7a2d4451",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_service_vaimse_tervise_parendamise_teenus",
@@ -692,7 +1359,36 @@
         "torva_vald_contact_olga_meltsas",
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "mental_health_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_service_vaimse_tervise_parendamise_teenus",
+      "document_id": "torva_vald_service_vaimse_tervise_parendamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/vaimse-tervise-parendamise-teenus-torva-vallas",
+      "content_hash": "7449f042abcfd3ebd9e93c37effde9e67d03405c8156a56c698959a5b5ab1931",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_toetus_vahekindlustatud_leibkondadele",
@@ -726,7 +1422,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "low_income_support_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_toetus_vahekindlustatud_leibkondadele",
+      "document_id": "torva_vald_benefit_toetus_vahekindlustatud_leibkondadele",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/toetus-vahekindlustatud-leibkondadele",
+      "content_hash": "a264dad88d72e63a03f42dd3ff5559ab8b3eb4f63e826df747a36352f04a2fb3",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_sunnitoetus",
@@ -760,7 +1485,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "birth_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_sunnitoetus",
+      "document_id": "torva_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/sunnitoetus",
+      "content_hash": "54bb434dcc05055c05517ad36ce2bf19e8681f100ddfd7dbb20d28693e80e326",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
@@ -794,7 +1548,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "school_start_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "document_id": "torva_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus",
+      "content_hash": "a10d96bc5b4de7f2f018b964615ae7321d0117ee3c8808767276d85e3545c2b8",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_joulutoetus",
@@ -828,7 +1611,36 @@
       "relatedContacts": [
         "torva_vald_contact_ragne_margus",
         "torva_vald_contact_jaanika_duvin"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "christmas_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_joulutoetus",
+      "document_id": "torva_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/joulutoetus",
+      "content_hash": "1ac4dbf5ab04582179e5ec29c0223e85833df9bb24b7ecfaabed050a0dad3820",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_transporditoetus",
@@ -862,7 +1674,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "transport_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_transporditoetus",
+      "document_id": "torva_vald_benefit_transporditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/transporditoetus",
+      "content_hash": "94e55b6bf5a1bd56e6ffe853c39b336ce6dc13473bb8d233d53465071628b125",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_matusetoetus",
@@ -896,7 +1737,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "funeral_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_matusetoetus",
+      "document_id": "torva_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/matusetoetus-0",
+      "content_hash": "23cf69e1cf58c6e26176aba81ce1e2e4bf7b2f793f5b697129d217c40b130f0e",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_kriisitoetus",
@@ -930,7 +1800,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "crisis_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_kriisitoetus",
+      "document_id": "torva_vald_benefit_kriisitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/kriisitoetus",
+      "content_hash": "b9a3d509502879b0e31f7f31dc010a7f7f4f05322e6f7ae5737fa2fa9e83fcef",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_valtimatu_sotsiaalabi",
@@ -964,7 +1863,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "urgent_social_aid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_valtimatu_sotsiaalabi",
+      "document_id": "torva_vald_benefit_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/valtimatu-sotsiaalabi",
+      "content_hash": "b5cbe17dd2a96d458f32416493a63ba81908b5dbf9d5b1ab88299adadfca4ea1",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -998,7 +1926,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "disabled_child_caregiver_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "torva_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/puudega-lapse-hooldajatoetus",
+      "content_hash": "00dea0375e46a2e7133986389d0b4d61877a932e88bce6a6ad6b8cfa3829d897",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -1032,7 +1989,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "adult_caregiver_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "torva_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/taisealise-isiku-hooldajatoetus",
+      "content_hash": "bdf21e93c617e53442f729f54bb62f682a4a129bfc8278745f15640402cb7bcd",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_joulupakitoetus",
@@ -1060,7 +2046,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "christmas_package_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_joulupakitoetus",
+      "document_id": "torva_vald_benefit_joulupakitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/joulupakitoetus",
+      "content_hash": "305d1224e5e140b700008e06f867cd6f07f3768205c999d55b25aa65e56f102a",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_benefit_eakate_sunnipaevatoetus",
@@ -1088,7 +2103,36 @@
       "relatedContacts": [
         "torva_vald_contact_kersti_jurise",
         "torva_vald_contact_olga_meltsas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "elderly_birthday_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_benefit_eakate_sunnipaevatoetus",
+      "document_id": "torva_vald_benefit_eakate_sunnipaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/eakate-sunnipaevatoetus",
+      "content_hash": "f36568fc947837c4141167e0a23daeef6743c53c9c29691ed247d1c5157b48b4",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_resource_ohvriabi",
@@ -1103,7 +2147,36 @@
       "officialUrl": "https://kov.torva.ee/pere-sotsiaal-ja-tervishoid/pere-ja-laps/ohvriabi",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "victim_support_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_resource_ohvriabi",
+      "document_id": "torva_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/pere-sotsiaal-ja-tervishoid/pere-ja-laps/ohvriabi",
+      "content_hash": "b920e33bfe06992853cd5cc98ce5349ef3ffe6066cd4816a517e76b7d65e911f",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_resource_psuhhosotsiaalne_kriisiabi",
@@ -1118,7 +2191,36 @@
       "officialUrl": "https://kov.torva.ee/kriisideks-valmisolek/psuhhosotsiaalne-kriisiabi",
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "psychosocial_crisis_aid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_resource_psuhhosotsiaalne_kriisiabi",
+      "document_id": "torva_vald_resource_psuhhosotsiaalne_kriisiabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/kriisideks-valmisolek/psuhhosotsiaalne-kriisiabi",
+      "content_hash": "0509d4e4be594f68096c1be587c9f263c0f56b2206eb646c640135e35bbf3ec8",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_resource_perelepituse_abc_pdf",
@@ -1135,7 +2237,36 @@
         "torva_vald_service_perelepitus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "family_mediation_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_resource_perelepituse_abc_pdf",
+      "document_id": "torva_vald_resource_perelepituse_abc_pdf",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/sites/default/files/documents/2025-10/Perelepituse_ABC.pdf",
+      "content_hash": "a6def6ddd7c1c8f373cd13f4cd7be235f25ee38d266d5a6e87cda06a176a16dc",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_resource_vaimse_tervise_valgusfoor_pdf",
@@ -1152,7 +2283,36 @@
         "torva_vald_resource_psuhhosotsiaalne_kriisiabi"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "mental_health_traffic_light_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_resource_vaimse_tervise_valgusfoor_pdf",
+      "document_id": "torva_vald_resource_vaimse_tervise_valgusfoor_pdf",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/sites/default/files/documents/2025-10/Vaimse%20tervise%20valgusfoor.pdf",
+      "content_hash": "5efb2f20ecfc4e75d8d67efd6eb4e7211946f67760f640913b40285d37028b51",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_form_sotsiaalteenuste_taotlus",
@@ -1183,7 +2343,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "sections_present": null
+      "sections_present": null,
+      "item_type": "form",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "services_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_form_sotsiaalteenuste_taotlus",
+      "document_id": "torva_vald_form_sotsiaalteenuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/sites/default/files/documents/2025-10/Lisa%203.%20Teenused.docx",
+      "content_hash": "78cab69a795b438ed10cd9d0b74d67ae7428e3090938fadb4c8a29bbd04b5d2d",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_form_sissetulekust_soltumatud_toetused",
@@ -1214,7 +2403,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "sections_present": null
+      "sections_present": null,
+      "item_type": "form",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "income_independent_benefits_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_form_sissetulekust_soltumatud_toetused",
+      "document_id": "torva_vald_form_sissetulekust_soltumatud_toetused",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/sites/default/files/documents/2025-10/Lisa%201.%20Sissetulekust%20s%C3%B5ltumatud%20toetused.docx",
+      "content_hash": "19258f4bf731648ab588e6008cc670e20bd09367daab201cdd50d99cdabccabf",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_form_vahekindlustatud_leibkonna_toetus",
@@ -1237,7 +2455,36 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "sections_present": null
+      "sections_present": null,
+      "item_type": "form",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "low_income_support_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_form_vahekindlustatud_leibkonna_toetus",
+      "document_id": "torva_vald_form_vahekindlustatud_leibkonna_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/sites/default/files/documents/2025-10/Lisa%202.%20V%C3%A4hekindlustatud%20leibkondade%20toetus%20%281%29.docx",
+      "content_hash": "fa1a297b70e5a363d4da5c46653bdfd3d2a77bcbf23a4bd3a271d720c1a2720a",
+      "evidence_allowed": true
     },
     {
       "id": "torva_vald_form_taisealise_isiku_hooldaja",
@@ -1262,7 +2509,39 @@
       ],
       "relatedForms": [],
       "relatedContacts": [],
-      "sections_present": null
+      "sections_present": null,
+      "item_type": "form",
+      "municipality_id": "torva_vald",
+      "municipality_name": "Tõrva vald",
+      "county": "Valgamaa",
+      "source_keys": [
+        "adult_caregiver_benefit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "torva_vald_form_taisealise_isiku_hooldaja",
+      "document_id": "torva_vald_form_taisealise_isiku_hooldaja",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kov.torva.ee/toiming/taisealise-isiku-hooldajatoetus",
+      "content_hash": "081f4a45ea6d5cbf7ec79022397a6da2ee5b7a555a4c64cd20bc0811b68a3340",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Tõrva vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

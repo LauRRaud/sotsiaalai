@@ -30,7 +30,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_kanepi_vallavalitsus",
+      "document_id": "kanepi_vald_contact_kanepi_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "9ce443e54062944116c1cb0342ed935fe672d393e9985478ffb36313ee1a6812",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_terje_lihtsa",
@@ -52,7 +81,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_terje_lihtsa",
+      "document_id": "kanepi_vald_contact_terje_lihtsa",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "ddd6af835694a73f754d9c056ebe35acd55d07fe4ecbbc31f4135b3029a2b2d3",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_tiia_urm",
@@ -74,7 +132,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_tiia_urm",
+      "document_id": "kanepi_vald_contact_tiia_urm",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "c5abdc956263b0228127925d778c76531c842758a39d9007316bcd58d83be7a4",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_riina_marran",
@@ -96,7 +183,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_riina_marran",
+      "document_id": "kanepi_vald_contact_riina_marran",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "8b55e29a5db351da29c9822be7a62447bdbc2cb126705b0c450b1a57e946cf3f",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_kullike_kaldoja",
@@ -118,7 +234,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_kullike_kaldoja",
+      "document_id": "kanepi_vald_contact_kullike_kaldoja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "090613a5a2c0656580ec717838ebfa4989e510277e4131619f79d9f5a40922e9",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_kadi_nigol",
@@ -140,7 +285,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_kadi_nigol",
+      "document_id": "kanepi_vald_contact_kadi_nigol",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "1616c7cf5e66529e0bf8665812008381301b9fea85ecae6ff62df1d14c639bb4",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_helju_kuppar",
@@ -162,7 +336,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_helju_kuppar",
+      "document_id": "kanepi_vald_contact_helju_kuppar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "23966881d5484ab1d525dc0a1711fe785935b338032efad3ad6497d79d65d67e",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_pilleriin_aalde",
@@ -185,7 +388,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page",
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_pilleriin_aalde",
+      "document_id": "kanepi_vald_contact_pilleriin_aalde",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a6a91e44d38e660766159efb7efd9d706ecd8a0b23a49bf0d94773f1242d9f0e",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_kylli_oja",
@@ -208,7 +441,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page",
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_kylli_oja",
+      "document_id": "kanepi_vald_contact_kylli_oja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5f4f73bdecbce9c8f085546113bf2041f8d1805d106ec1540e03c2aa7972bbec",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_kaisa_potter",
@@ -230,7 +493,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_kaisa_potter",
+      "document_id": "kanepi_vald_contact_kaisa_potter",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "30adae57ae7ef1b0cc63bf52ea313eabc455de20b7ed9428f0eb50e33920f055",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_katrin_slungin",
@@ -253,7 +545,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page",
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_katrin_slungin",
+      "document_id": "kanepi_vald_contact_katrin_slungin",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a802d88e4bce510111fd1ed8d2138cf4755a403ec17e36e080ececcb4c868750",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_ly_vatson",
@@ -276,7 +598,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page",
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_ly_vatson",
+      "document_id": "kanepi_vald_contact_ly_vatson",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f7866d9490c3632c44d195fbb187efaf63c8849ca8821e1dd0df600258fb8787",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_contact_eda_tarend",
@@ -300,7 +652,38 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "contact_page",
+        "esimesse_klassi_toetus_page",
+        "lasteaia_osalustasu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_contact_eda_tarend",
+      "document_id": "kanepi_vald_contact_eda_tarend",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a5e4a2ef40d559632aa6f3cf1d13735eaf37aa3c05dcf65d8533615df37bad58",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_sotsiaalteenuste_taotlus",
@@ -310,8 +693,8 @@
       "status": "active",
       "summary": "Sotsiaalteenuste taotlust kasutatakse Kanepi valla sotsiaalteenuste, sealhulgas koduteenuse ja väljaspool kodu osutatava üldhooldusteenuse taotlemiseks. Taotluses kirjeldatakse kõrvalabi vajadus ja lisatakse vajaduse korral tõendavad dokumendid.",
       "sourceKeys": [
-        "sotsiaalteenuste_taotlus_file",
         "koduteenus_page",
+        "sotsiaalteenuste_taotlus_file",
         "uldhooldusteenus_page"
       ],
       "format": "docx",
@@ -329,7 +712,38 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "koduteenus_page",
+        "sotsiaalteenuste_taotlus_file",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_sotsiaalteenuste_taotlus",
+      "document_id": "kanepi_vald_form_sotsiaalteenuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-09/Sotsiaalteenuste%20taotlus.docx",
+      "content_hash": "bee26b61c3eb1246fee7f99a523b169682440206d69ee2e735c5070fce2cf10d",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_sotsiaaltoetuse_taotlus",
@@ -361,7 +775,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_sotsiaaltoetuse_taotlus",
+      "document_id": "kanepi_vald_form_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-07/Sotsiaaltoetuse%20taotlus.docx",
+      "content_hash": "cf81423a661a0aa12c03ede05f32905bf3c1757e5c5660cc22a2d031f57b9406",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_toimetulekutoetuse_esmane_avaldus",
@@ -371,8 +814,8 @@
       "status": "active",
       "summary": "Esmase toimetulekutoetuse taotluse vormi kasutatakse esmakordsel toimetulekutoetuse taotlemisel. Taotlusele lisatakse sissetulekuid ja eluasemekulusid tõendavad dokumendid.",
       "sourceKeys": [
-        "toimetulekutoetuse_esmane_file",
-        "toimetulekutoetus_page"
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_esmane_file"
       ],
       "format": "doc",
       "officialUrl": "https://kanepi.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse_avaldus_-_esmane.doc",
@@ -389,7 +832,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_esmane_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_toimetulekutoetuse_esmane_avaldus",
+      "document_id": "kanepi_vald_form_toimetulekutoetuse_esmane_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-09/Toimetulekutoetuse_avaldus_-_esmane.doc",
+      "content_hash": "27cc3aa8a23fa94379d0964c48f17d1e84236b1a378aa59a0cbbe6b521e17295",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_toimetulekutoetuse_korduv_avaldus",
@@ -399,8 +872,8 @@
       "status": "active",
       "summary": "Korduva toimetulekutoetuse taotluse vormi kasutatakse pärast esmast taotlemist järgmistel kuudel toetuse taotlemiseks.",
       "sourceKeys": [
-        "toimetulekutoetuse_korduv_file",
-        "toimetulekutoetus_page"
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_korduv_file"
       ],
       "format": "doc",
       "officialUrl": "https://kanepi.ee/sites/default/files/documents/2025-09/Toimetulekutroetuse_avaldus-_korduv.doc",
@@ -417,7 +890,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_korduv_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_toimetulekutoetuse_korduv_avaldus",
+      "document_id": "kanepi_vald_form_toimetulekutoetuse_korduv_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-09/Toimetulekutroetuse_avaldus-_korduv.doc",
+      "content_hash": "915eb40a124cb24015567bc311b5b87d9a3e975571fc03c8300c73ab2cc8daa4",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_sunnitoetuse_avaldus",
@@ -427,8 +930,8 @@
       "status": "active",
       "summary": "Sünnitoetuse avaldus on vorm sünnitoetuse taotlemiseks paberil või digiallkirjastatult. Sünnitoetust saab taotleda ka haridusteenuste iseteeninduses.",
       "sourceKeys": [
-        "synnitoetuse_avaldus_file",
-        "sunnitoetus_page"
+        "sunnitoetus_page",
+        "synnitoetuse_avaldus_file"
       ],
       "format": "docx",
       "officialUrl": "https://kanepi.ee/sites/default/files/documents/2025-07/S%C3%BCnnitoetuse%20avaldus%202021.docx",
@@ -444,7 +947,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sunnitoetus_page",
+        "synnitoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_sunnitoetuse_avaldus",
+      "document_id": "kanepi_vald_form_sunnitoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-07/S%C3%BCnnitoetuse%20avaldus%202021.docx",
+      "content_hash": "5262ec5ccc59008323a50c0adf8457027f0631d0b37b60ff70e1896d09bf27fe",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_matusetoetuse_avaldus",
@@ -454,8 +987,8 @@
       "status": "active",
       "summary": "Matusetoetuse avaldus on vorm matusetoetuse taotlemiseks paberil või digiallkirjastatult. Matusetoetust saab taotleda ka haridusteenuste haldamise infosüsteemis.",
       "sourceKeys": [
-        "matusetoetuse_avaldus_file",
-        "matusetoetus_page"
+        "matusetoetus_page",
+        "matusetoetuse_avaldus_file"
       ],
       "format": "docx",
       "officialUrl": "https://kanepi.ee/sites/default/files/documents/2025-08/1Matusetoetuse%20avaldus.docx",
@@ -471,7 +1004,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "matusetoetus_page",
+        "matusetoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_matusetoetuse_avaldus",
+      "document_id": "kanepi_vald_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sites/default/files/documents/2025-08/1Matusetoetuse%20avaldus.docx",
+      "content_hash": "4b265f7c4ca1d064f557b7092475489534b2c559626dc9db312cba96cb27f93a",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_form_lasteaia_osalustasu_kompenseerimine",
@@ -497,7 +1060,37 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "lasteaia_osalustasu_file",
+        "lasteaia_osalustasu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_form_lasteaia_osalustasu_kompenseerimine",
+      "document_id": "kanepi_vald_form_lasteaia_osalustasu_kompenseerimine",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.prelive.vportal.ee/sites/default/files/documents/2025-07/Koolieelsete%20lasteasutuste%20lapsevanema%20osalustasu%20kompenseerimine.pdf",
+      "content_hash": "2b594f62165e55f0e28f4fb0576937da17619ba4a8a445ceda3f13ffd29fe220",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_koduteenus",
@@ -548,7 +1141,37 @@
         "application",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "koduteenus_page",
+        "sotsiaalteenuste_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_koduteenus",
+      "document_id": "kanepi_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/koduteenus",
+      "content_hash": "2b7adfb4b169b68e1be897ae947998f5dfd44722a3313bdc4efe98eef86601a4",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_sotsiaaltransport",
@@ -597,7 +1220,36 @@
         "application",
         "pricing",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_sotsiaaltransport",
+      "document_id": "kanepi_vald_service_sotsiaaltransport",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
+      "content_hash": "66a33dadb37b2ddc48dfcdd95cbcdf8dcc7bbd47f60f0ac344d0b636d26f443a",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -607,9 +1259,9 @@
       "status": "active",
       "summary": "Väljaspool kodu osutatav üldhooldusteenus on mõeldud inimesele, kes vajab püsivalt või ajutiselt kõrvalabi igapäevaelu toimingutes sellisel määral, et kodu kohandamisest või koduteenusest ei piisa. Teenuse taotleja või seaduslik esindaja esitab taotluse vallavalitsusele; sotsiaalvaldkonna ametnik hindab abivajadust. Kui vajatakse valla osalist rahastamist, võib vallavalitsus leida sobiva madalaima kohamaksumusega teenusepakkuja.",
       "sourceKeys": [
-        "uldhooldusteenus_page",
+        "hoolekandeasutused_page",
         "sotsiaalteenuste_taotlus_file",
-        "hoolekandeasutused_page"
+        "uldhooldusteenus_page"
       ],
       "targetGroup": "Isikud, kes vajavad püsivalt või ajutiselt kõrvalabi ja kellele koduteenusest ei piisa.",
       "application": {
@@ -644,7 +1296,38 @@
         "pricing",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "sotsiaalteenuste_taotlus_file",
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "kanepi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/valjaspool-kodu-osutatav",
+      "content_hash": "45a4e891cd005b73a0cdc698264a437897c9bd903fdba683e2ad5452fdd72bf3",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_eluruumi_tagamine",
@@ -684,7 +1367,37 @@
         "application",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "eluruumi_tagamine_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_eluruumi_tagamine",
+      "document_id": "kanepi_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/eluruumi-tagamine",
+      "content_hash": "6045d0527471eb201f449e6cb2a67f9d7bcbfecf7c88fff1ddcf0b832713e3b8",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_volanoustamisteenus",
@@ -720,7 +1433,36 @@
         "targetGroup",
         "application",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_volanoustamisteenus",
+      "document_id": "kanepi_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/volanoustamisteenus",
+      "content_hash": "69afe5d1c346eff590786fa6f776fe88eca2d702e388aaecc7d18d037e08ed7f",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_toiduabi_jagamine",
@@ -761,7 +1503,36 @@
         "conditions",
         "application",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "toiduabi_jagamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_toiduabi_jagamine",
+      "document_id": "kanepi_vald_service_toiduabi_jagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/toiduabi-jagamine",
+      "content_hash": "6f1d17c337162431d61eba5f881eab15ff9d49d7e1ede44dab7ded979d8e951b",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_puudega_isiku_parkimiskaart",
@@ -807,7 +1578,36 @@
         "application",
         "pricing",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_puudega_isiku_parkimiskaart",
+      "document_id": "kanepi_vald_service_puudega_isiku_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/puudega-isiku-parkimiskaart",
+      "content_hash": "58fea0e59cd61980e9bc6761034c8bf3be69dc22b09a5cb35849a4c78df1fe8b",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_lapsehoiuteenus_raske_ja_sugava_puudega_lapsele",
@@ -845,7 +1645,36 @@
         "targetGroup",
         "application",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "erivajadusega_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_lapsehoiuteenus_raske_ja_sugava_puudega_lapsele",
+      "document_id": "kanepi_vald_service_lapsehoiuteenus_raske_ja_sugava_puudega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps",
+      "content_hash": "8a30b8714fc41c3956f299cb4a24604f5addbea0150492186781fbcec70debd7",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_asendushooldusteenus",
@@ -885,7 +1714,36 @@
         "application",
         "pricing",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_asendushooldusteenus",
+      "document_id": "kanepi_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/asendus-ja-jarelhooldusteenus",
+      "content_hash": "53459e61bab21a079f27da1037d7a1979fc4ca1be74be1222b37f040dbec7994",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_jarelhooldusteenus",
@@ -925,7 +1783,36 @@
         "application",
         "pricing",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_jarelhooldusteenus",
+      "document_id": "kanepi_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/asendus-ja-jarelhooldusteenus",
+      "content_hash": "7e7743aa67f271b590fbdf6032df7bfeb277c2d759d52d8f1c94101c7497b2e7",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_service_turvakoduteenuse_kulude_tasumine",
@@ -961,7 +1848,36 @@
         "targetGroup",
         "application",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_service_turvakoduteenuse_kulude_tasumine",
+      "document_id": "kanepi_vald_service_turvakoduteenuse_kulude_tasumine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lahisuhtevagivald",
+      "content_hash": "b2cccfc3fe5ec22d8acd982dc36e078937ed365c4bbecd6ed7ac2a83e0724fb0",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_toimetulekutoetus",
@@ -1011,7 +1927,38 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_esmane_file",
+        "toimetulekutoetuse_korduv_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_toimetulekutoetus",
+      "document_id": "kanepi_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/toimetulekutoetus",
+      "content_hash": "b60a4907f7d029e00641312de38630cab3b6422dbb75d26525d21c7c33e38bd3",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
@@ -1053,7 +2000,36 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "document_id": "kanepi_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/toimetulekutoetus",
+      "content_hash": "f1f9d63441f00ffbb0d3b57636ab1fcf414745b81916d7337b49c5d7a86770ff",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_uhekordne_sotsiaaltoetus",
@@ -1063,8 +2039,8 @@
       "status": "active",
       "summary": "Ühekordset sotsiaaltoetust makstakse ettenägemata vajalike kulutuste osaliseks või täielikuks katmiseks või raskesse majanduslikku seisu sattunud isiku või pere abistamiseks. Üldjuhul määratakse toetus taotlejale, kelle kuu sissetulek pereliikme kohta jääb alla riigi kehtestatud 2,5-kordse toimetulekupiiri; erandkorras võib taotleda ka suurema sissetuleku korral.",
       "sourceKeys": [
-        "uhekordne_sotsiaaltoetus_page",
-        "sotsiaaltoetuse_taotlus_file"
+        "sotsiaaltoetuse_taotlus_file",
+        "uhekordne_sotsiaaltoetus_page"
       ],
       "targetGroup": "Majanduslikesse raskustesse sattunud isik või pere",
       "conditions": [
@@ -1098,7 +2074,37 @@
         "application",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sotsiaaltoetuse_taotlus_file",
+        "uhekordne_sotsiaaltoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_uhekordne_sotsiaaltoetus",
+      "document_id": "kanepi_vald_benefit_uhekordne_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/uhekordne-sotsiaaltoetus",
+      "content_hash": "4e1e1d7d965516573ec0bc99c571b9acbc229344380882ae3f454d0c6901b009",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_erakorraline_sotsiaaltoetus",
@@ -1139,7 +2145,37 @@
         "application",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "erakorraline_sotsiaaltoetus_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_erakorraline_sotsiaaltoetus",
+      "document_id": "kanepi_vald_benefit_erakorraline_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/erakorraline-sotsiaaltoetus",
+      "content_hash": "1a5066561eb3add7582c1e2ab534ef2e47906984dc7b4046308f4e20c207f432",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_kuttetoetus",
@@ -1186,7 +2222,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "kuttetoetus_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_kuttetoetus",
+      "document_id": "kanepi_vald_benefit_kuttetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/abi-majandusliku-raskuse-korral/kuttetoetus",
+      "content_hash": "0fcc006c73d887e132d992e8e33d6dea02ab79fe2ea124dc6d3fc25c8a5153ab",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_transporditoetus",
@@ -1196,8 +2262,8 @@
       "status": "active",
       "summary": "Transporditoetust makstakse ravi-, meditsiini-, rehabilitatsiooni-, hooldus-, haridusasutusse, abivahendit väljastavasse asutusse või muusse asutusse sõiduga seotud kulude osaliseks või täielikuks kompenseerimiseks inimesele, kes tervisliku seisundi või puude tõttu ei saa kasutada ühistransporti või ei saa transporti ise korraldada. Taotleja esitab kirjaliku avalduse ning lisab kuludokumendi või külastatud asutuse tõendi.",
       "sourceKeys": [
-        "transporditoetus_page",
-        "sotsiaaltoetuse_taotlus_file"
+        "sotsiaaltoetuse_taotlus_file",
+        "transporditoetus_page"
       ],
       "targetGroup": "Isikud, kes tervisliku seisundi või puude tõttu ei saa kasutada ühistransporti või korraldada transporti ise",
       "application": {
@@ -1227,7 +2293,37 @@
         "application",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sotsiaaltoetuse_taotlus_file",
+        "transporditoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_transporditoetus",
+      "document_id": "kanepi_vald_benefit_transporditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/transporditoetus",
+      "content_hash": "420f3b1b4954e17a1b4df1a2d402772264adcb93e58449bb2b888242f4ded04d",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_hooldajatoetus",
@@ -1271,7 +2367,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hooldajatoetus_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_hooldajatoetus",
+      "document_id": "kanepi_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hooldajatoetus",
+      "content_hash": "b6b8d29ea51b6b36b267d00e3711a4d54532f2b5d450cf9f06b14c97275dd7c2",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_eluruumi_kohandamise_toetus",
@@ -1314,7 +2440,36 @@
         "conditions",
         "application",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "eluruumi_kohandamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_eluruumi_kohandamise_toetus",
+      "document_id": "kanepi_vald_benefit_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eluruumi-kohandamine",
+      "content_hash": "2d2cbd88e54af36f2681ee872b745243fdfcca4768efffbb41f3ed3f75c474a4",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_sunnitoetus",
@@ -1362,7 +2517,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "sunnitoetus_page",
+        "synnitoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_sunnitoetus",
+      "document_id": "kanepi_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/sunnitoetus",
+      "content_hash": "70bc473547866198df9bd06b2938e107d27ba4547ed2b9c676a2ed78248af7d9",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_matusetoetus",
@@ -1410,7 +2595,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "matusetoetus_page",
+        "matusetoetuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_matusetoetus",
+      "document_id": "kanepi_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/elukoha-ja-peretoimingud/matusetoetus",
+      "content_hash": "eb5e2626a1ff95252bacbcc1b9da43b8d9609f45132e3beeeff637d44e2f725b",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_esimesse_klassi_astuja_toetus",
@@ -1446,7 +2661,36 @@
         "application",
         "amount",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "esimesse_klassi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_esimesse_klassi_astuja_toetus",
+      "document_id": "kanepi_vald_benefit_esimesse_klassi_astuja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/haridus-ja-noored/haridus-ja-noortevaldkonna-toetused-ja-teenused/esimesse-klassi-astuja-toetus",
+      "content_hash": "3d54c14b564e531c84b152b0cf848f33691be9bf7773bf953d4a9d7810c76356",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_lasteaia_osalustasu_kompenseerimine",
@@ -1456,8 +2700,8 @@
       "status": "active",
       "summary": "Kanepi valla lasteaedades on osalustasu 10 eurot kuus ühe lapse kohta. Osalustasu ei pea tasuma, kui lapse ja vähemalt ühe vanema elukoht on Kanepi vald. Väljaspool Kanepi valda lasteaias käiva lapse osaluskuludest hüvitatakse kuni 10 eurot, kui lapse ja vähemalt ühe vanema elukoht on Kanepi vald. Kanepi valla lasteaias käivate laste puhul eraldi taotlust vaja ei ole; väljaspool valda lasteaias käiva lapse puhul tuleb võtta ühendust haridus- ja noorsootöö spetsialistiga.",
       "sourceKeys": [
-        "lasteaia_osalustasu_page",
-        "lasteaia_osalustasu_file"
+        "lasteaia_osalustasu_file",
+        "lasteaia_osalustasu_page"
       ],
       "amount": "kuni 10 eurot kuus",
       "targetGroup": "Kanepi vallas registreeritud laps ja vähemalt üks vanem",
@@ -1487,7 +2731,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "lasteaia_osalustasu_file",
+        "lasteaia_osalustasu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_lasteaia_osalustasu_kompenseerimine",
+      "document_id": "kanepi_vald_benefit_lasteaia_osalustasu_kompenseerimine",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/haridus-ja-noored/haridus-ja-noortevaldkonna-toetused-ja-teenused/lasteaia-osalustasu",
+      "content_hash": "f1f9de5ce60a2c4ce950f4d07bb8aa6cce011bb21ffbed55387aaa858c5fa3e0",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_benefit_opilaste_prilliklaaside_toetus",
@@ -1531,7 +2805,37 @@
         "amount",
         "relatedForms",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "opilaste_prilliklaaside_toetus_page",
+        "sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_benefit_opilaste_prilliklaaside_toetus",
+      "document_id": "kanepi_vald_benefit_opilaste_prilliklaaside_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/haridus-ja-noored/haridus-ja-noortevaldkonna-toetused-ja-teenused/opilaste-prilliklaaside-toetus",
+      "content_hash": "b37f036141c3cc7c2db0f7365464f9a1c830b14de0ecd25de42eb42324e42cbb",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_abivajav_laps",
@@ -1554,7 +2858,36 @@
       "sections_present": [
         "summary",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_abivajav_laps",
+      "document_id": "kanepi_vald_resource_abivajav_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastekaitse-kanepi-vallas",
+      "content_hash": "a99afc0a5a12ab2a8de79947e068b46c0dfa001c360291a6c8bc821a7de8c029",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_perelepitusteenus",
@@ -1572,7 +2905,36 @@
       "relatedForms": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "perelepitusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_perelepitusteenus",
+      "document_id": "kanepi_vald_resource_perelepitusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/perelepitusteenus",
+      "content_hash": "63952ad7735a5852ef0fcda5be8042717f2d92cab4edce39b88a82a9e1191284",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_lahisuhtevagivalla_info",
@@ -1595,7 +2957,36 @@
       "sections_present": [
         "summary",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_lahisuhtevagivalla_info",
+      "document_id": "kanepi_vald_resource_lahisuhtevagivalla_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lahisuhtevagivald",
+      "content_hash": "b78d3544e7a56925268717d29bddb60572ba7acfe4f405c14a660d8afd15a73b",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_ohvriabi",
@@ -1605,8 +2996,8 @@
       "status": "active",
       "summary": "Ohvriabi on mõeldud inimestele, kes ise või kelle lähedane on kannatanud kuriteo, vägivalla või kriisijuhtumi tõttu. KOV leht selgitab, et ohvriabisse võib pöörduda ka siis, kui inimene on näinud halba kohtlemist või muretseb lähedase pärast. Muude abivõimaluste lehel on ohvriabi kriisitelefon.",
       "sourceKeys": [
-        "ohvriabi_page",
-        "muud_abivoimalused_page"
+        "muud_abivoimalused_page",
+        "ohvriabi_page"
       ],
       "officialUrl": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/ohvriabi",
       "relatedContacts": [],
@@ -1614,7 +3005,37 @@
       "relatedForms": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "muud_abivoimalused_page",
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_ohvriabi",
+      "document_id": "kanepi_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/ohvriabi",
+      "content_hash": "bc6527b6459d550676683562e9c0191ae09b451c144d0bc239bcbfa0c588dafa",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_kriisi_ja_tugiliinid",
@@ -1632,7 +3053,36 @@
       "relatedForms": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "muud_abivoimalused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_kriisi_ja_tugiliinid",
+      "document_id": "kanepi_vald_resource_kriisi_ja_tugiliinid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/muud-abivoimalused",
+      "content_hash": "134b72e12281ac5e5ca5e266efa0da12aa72f3f4afcec99dfcd2703b59832658",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_hairenuputeenus",
@@ -1654,7 +3104,36 @@
       "sections_present": [
         "summary",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "muud_abivoimalused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_hairenuputeenus",
+      "document_id": "kanepi_vald_resource_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/muud-abivoimalused",
+      "content_hash": "bf48895e9802a97d907a5c1f4cc844515704f92193e073a75e7cc1679772eed8",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_tasuta_oigusabi",
@@ -1672,7 +3151,36 @@
       "relatedForms": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "muud_abivoimalused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_tasuta_oigusabi",
+      "document_id": "kanepi_vald_resource_tasuta_oigusabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/muud-abivoimalused",
+      "content_hash": "51e85095dcbf049c193812cc2008ee96a582d91766cc16cd080ff8cc3c0642d9",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_kodud_tuleohutuks_programm",
@@ -1695,7 +3203,36 @@
       "sections_present": [
         "summary",
         "relatedContacts"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "muud_abivoimalused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_kodud_tuleohutuks_programm",
+      "document_id": "kanepi_vald_resource_kodud_tuleohutuks_programm",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/muud-abivoimalused",
+      "content_hash": "5c233d2acca874ef9b1a9d0d4f132c85162f04d3af2dfeeb936959955b043495",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_kanepi_valla_hooldekeskus",
@@ -1714,7 +3251,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_kanepi_valla_hooldekeskus",
+      "document_id": "kanepi_vald_resource_kanepi_valla_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "2767bbd577548ec5e239e151adeaf0c929a0d0a8e656a4e2ca90efeabd78c847",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_piigaste_sudamekodu",
@@ -1733,7 +3299,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_piigaste_sudamekodu",
+      "document_id": "kanepi_vald_resource_piigaste_sudamekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "1dcccedc6b6251f273aa96462848503dd5fe9ba6b3a6d8bf8ab7cf707aaa663f",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_karaski_pansionaat",
@@ -1752,7 +3347,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_karaski_pansionaat",
+      "document_id": "kanepi_vald_resource_karaski_pansionaat",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "2493f60c5f9f8797c1eff0e11339a5b16eae6d47dec543a9e56a646f6156809c",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_kanepi_kodu",
@@ -1771,7 +3395,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_kanepi_kodu",
+      "document_id": "kanepi_vald_resource_kanepi_kodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "content_hash": "e31c6789506f689f3d43ba8b11602b10aaa146c9c265fb692b0be22416dac574",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_kanepi_perearstikeskus_ja_apteek",
@@ -1790,7 +3443,36 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "perearstikeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_kanepi_perearstikeskus_ja_apteek",
+      "document_id": "kanepi_vald_resource_kanepi_perearstikeskus_ja_apteek",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/perearstikeskus-ja-apteek",
+      "content_hash": "5f6ba48e1b89e6d95800ca74f8ebf223cbdaab0bc56044d57b74d2f641731171",
+      "evidence_allowed": true
     },
     {
       "id": "kanepi_vald_resource_saverna_perearstikeskus",
@@ -1809,7 +3491,39 @@
       "relatedContacts": [],
       "sections_present": [
         "summary"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kanepi_vald",
+      "municipality_name": "Kanepi vald",
+      "county": "Põlvamaa",
+      "source_keys": [
+        "perearstikeskus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kanepi_vald_resource_saverna_perearstikeskus",
+      "document_id": "kanepi_vald_resource_saverna_perearstikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://kanepi.ee/pere-sotsiaal-ja-tervishoid/tervis/perearstikeskus-ja-apteek",
+      "content_hash": "bbe7ee7977ef051608a2036f172d5601d826d64b636a19e0884c077b81aa3fcc",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Kanepi vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

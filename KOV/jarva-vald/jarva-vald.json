@@ -34,7 +34,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_koduteenus",
+      "document_id": "jarva_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "ec1bef321e2b9b4876b4d4da597726dd5007d751a555cef1510e0427884424c2",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_sotsiaaltransporditeenus",
@@ -59,7 +88,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_sotsiaaltransporditeenus",
+      "document_id": "jarva_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "b217b9294461a75784f491ba24b66e1db315dee1b7fd22153a36aa5597c3e4da",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_vaimse_tervise_teenus",
@@ -84,7 +142,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_vaimse_tervise_teenus",
+      "document_id": "jarva_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "d85946da1840f482750140ecc62a609f8838ed82af4fe43e0e17a491a1cb8bf0",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_tugiisiku_teenus",
@@ -109,7 +196,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_tugiisiku_teenus",
+      "document_id": "jarva_vald_service_tugiisiku_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "f9d69f9e1848bb9f1084e21d143b7395c4eccae5609e8c7c48db65ce2fe4fd10",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_isikliku_abistaja_teenus",
@@ -134,7 +250,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_isikliku_abistaja_teenus",
+      "document_id": "jarva_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "6dbd4ae23611c849333d355d1dbaf3c9f575f20d1c9c0d8bdebd387eb46577b8",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_eluruumi_tagamise_teenus",
@@ -158,7 +303,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "jarva_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "2a5506ac2450166a8f088616468be9a98de2b7b9c5ba11b783044d5a0a2e5581",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_taisealise_isiku_hooldus",
@@ -182,7 +356,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_taisealise_isiku_hooldus",
+      "document_id": "jarva_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "1a3fad89cd6b042526ad93ade845f5a4ab93debcdd28a1bbb72d74365d3bcdd8",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_service_volanoustamisteenus",
@@ -206,7 +409,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
       "sourceKeys": [
         "social_services_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_service_volanoustamisteenus",
+      "document_id": "jarva_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalteenused",
+      "content_hash": "3247c0270765133586e27394ecb2ea3e07627cbc8bb43b379b1002e2c9689382",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_koolieelse_lasteasutuse_toetus",
@@ -231,7 +463,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_koolieelse_lasteasutuse_toetus",
+      "document_id": "jarva_vald_benefit_koolieelse_lasteasutuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "6ae42bc24bc1d1c6cc76afada93e267997bc6505acafd0cc6672c2037acfb44e",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_taiendav_sotsiaaltoetus",
@@ -256,7 +517,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_taiendav_sotsiaaltoetus",
+      "document_id": "jarva_vald_benefit_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "46ff70d088a9fbc49477a2058dc8e5b5bbd7e4ce281d4ec954c116631dfadb10",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_synnitoetus",
@@ -281,7 +571,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_synnitoetus",
+      "document_id": "jarva_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "17d356f1258096f01682ba4f53f1f2c0be276743904b6b571c0504830531ad0b",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_esimest_korda_kooli_mineva_lapse_toetus",
@@ -306,7 +625,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_esimest_korda_kooli_mineva_lapse_toetus",
+      "document_id": "jarva_vald_benefit_esimest_korda_kooli_mineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "16966296de41de849736ae9fde950ea752d441e00d7f2316a1b8d694f5ff99f6",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_matusetoetus",
@@ -331,7 +679,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_matusetoetus",
+      "document_id": "jarva_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "d9030e1b8f05c905844f32ca6bba37e5d36eb8d142c1048f8dea706dbdb3c4aa",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_erakorraline_toetus",
@@ -355,7 +732,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_erakorraline_toetus",
+      "document_id": "jarva_vald_benefit_erakorraline_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "20d3bc92cf2539320ce43ed0d70c6e0700d8c3ccb6a203161e964894e07fe6a0",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -380,7 +786,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "jarva_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "b49234e66855b4d5247c43bb74bc4973fff2a64039545c2c091809a361db4f85",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_taisealise_isiku_hooldajatoetus",
@@ -405,7 +840,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "document_id": "jarva_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "bb4c97ded0080b86d71f01472399aa8e27be09e8b43156c7b64663f13362f47b",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_eluruumi_kohandamise_toetus",
@@ -430,7 +894,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_eluruumi_kohandamise_toetus",
+      "document_id": "jarva_vald_benefit_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "68ceaceee26cc1fa2ea1d4899562ae1b89426b3347ab15c074cd4f19f213fd22",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_benefit_toimetulekutoetus",
@@ -455,7 +948,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_benefit_toimetulekutoetus",
+      "document_id": "jarva_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaaltoetused",
+      "content_hash": "6f90814ddfd75d2572d5188acdecd873ee8cc645b7ec05e4fc652029786f5119",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_ahula_sotsiaalkeskus",
@@ -470,7 +992,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_ahula_sotsiaalkeskus",
+      "document_id": "jarva_vald_resource_ahula_sotsiaalkeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
+      "content_hash": "eb99b7f561cde7bed745e2a54a537d08e879ba738c6e1be538b1c811cdfc6c6e",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_ahula_pansionaat",
@@ -484,7 +1035,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_ahula_pansionaat",
+      "document_id": "jarva_vald_resource_ahula_pansionaat",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
+      "content_hash": "e8281776ba3529326591c0c4663fa818dbe9bd438d4d1d4eda34ff00b4fe15c0",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_jarva_jaani_hooldekodu",
@@ -498,7 +1078,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_jarva_jaani_hooldekodu",
+      "document_id": "jarva_vald_resource_jarva_jaani_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
+      "content_hash": "80f87f86d291841e0930314b97d0c1b4377dc9774207a47bdb0d3b227442145c",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_koeru_hooldekeskus",
@@ -512,7 +1121,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_koeru_hooldekeskus",
+      "document_id": "jarva_vald_resource_koeru_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
+      "content_hash": "915aa2ce370833f7c3d0f1eb40aa6ff0f99860427b37eefb1df257116d2147f6",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_villa_alfred_peetri",
@@ -526,7 +1164,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_villa_alfred_peetri",
+      "document_id": "jarva_vald_resource_villa_alfred_peetri",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/hoolekandeasutused",
+      "content_hash": "f7b1f618b5fa28e39d6f8209a681f39a24e95bc8bb329e726afb92a6a54a994a",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_imavere_paevakeskus",
@@ -541,7 +1208,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
       "sourceKeys": [
         "paevakeskused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_imavere_paevakeskus",
+      "document_id": "jarva_vald_resource_imavere_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
+      "content_hash": "7c1a0bcf1011506e3c7987ecb0134eeb3c7fe02a761540d5b744a65231eb2df7",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_mtu_jaanilaia",
@@ -556,7 +1252,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
       "sourceKeys": [
         "paevakeskused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_mtu_jaanilaia",
+      "document_id": "jarva_vald_resource_mtu_jaanilaia",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
+      "content_hash": "04920568ab198b55a4ce266a7959f09c261bccabd5f746d4d5471466cc0c18fa",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_mtu_meie",
@@ -571,7 +1296,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
       "sourceKeys": [
         "paevakeskused_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_mtu_meie",
+      "document_id": "jarva_vald_resource_mtu_meie",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/paevakeskused",
+      "content_hash": "94dbe94b97338e4091adf066773b1c78a6fd9fc38dddb881509c8175cd7eeb0c",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_resource_medi_hairenuputeenus",
@@ -585,7 +1339,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/medi-hairenuputeenus",
       "sourceKeys": [
         "medi_page"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "medi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_resource_medi_hairenuputeenus",
+      "document_id": "jarva_vald_resource_medi_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/medi-hairenuputeenus",
+      "content_hash": "a626f32fa8795924b238b1e28a4b731ef914f97dda90211e877ca3187de65219",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_contact_sotsiaalosakond",
@@ -600,7 +1383,36 @@
       "officialUrl": "https://jarvavald.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
       "sourceKeys": [
         "general_contact_page"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "general_contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_contact_sotsiaalosakond",
+      "document_id": "jarva_vald_contact_sotsiaalosakond",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "content_hash": "38833d40683c2b4c422ec37a2d266b447bdb509203ec21805e4f2ab38613bcfa",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_eluruumi_tagamise_teenuse_blankett",
@@ -619,7 +1431,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_eluruumi_tagamise_teenuse_blankett",
+      "document_id": "jarva_vald_form_eluruumi_tagamise_teenuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "e0f220a6cb0aca8999f87be6bbcd14ca787046254ccb9de175ea8b502502bccf",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_uldhooldusteenuse_blankett",
@@ -636,7 +1477,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_uldhooldusteenuse_blankett",
+      "document_id": "jarva_vald_form_uldhooldusteenuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "bb6693a48117cba2967f1aa5b58fc771478f55d363f8686d1fd05d6a0d078e90",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_taisealise_isiku_hooldusteenuse_blankett",
@@ -655,7 +1525,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_taisealise_isiku_hooldusteenuse_blankett",
+      "document_id": "jarva_vald_form_taisealise_isiku_hooldusteenuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "ec8a83cfa1956f7174661999cc2f27b6f7f068e649e9d63b4028f3d64bad49e1",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_taisealise_isiku_hooldajatoetuse_blankett",
@@ -674,7 +1573,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_taisealise_isiku_hooldajatoetuse_blankett",
+      "document_id": "jarva_vald_form_taisealise_isiku_hooldajatoetuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "ba7083a33c543598d9e26ee471e73c4c8333ee81d8b8b335d209197a89805bb6",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_lapsele_sotsiaalteenuse_blankett",
@@ -691,7 +1619,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_lapsele_sotsiaalteenuse_blankett",
+      "document_id": "jarva_vald_form_lapsele_sotsiaalteenuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "b48824b8ba75bcf3a69ae4a9c444833af04fbfc80838e530d92aa2e00e0e033d",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_puudega_lapse_teenuse_blankett",
@@ -708,7 +1665,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_puudega_lapse_teenuse_blankett",
+      "document_id": "jarva_vald_form_puudega_lapse_teenuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "14eddd2066e6346b80717f8c3293434e56fa78969cccb26af19ce37b65f5437f",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_puudega_lapse_hooldajatoetuse_blankett",
@@ -727,7 +1713,36 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_puudega_lapse_hooldajatoetuse_blankett",
+      "document_id": "jarva_vald_form_puudega_lapse_hooldajatoetuse_blankett",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "06c22f95efad2b73931e588ac1b516a08a5d24f5f7d373fc6392b71d2c2fd861",
+      "evidence_allowed": true
     },
     {
       "id": "jarva_vald_form_sotsiaaltoetuse_avaldus",
@@ -744,7 +1759,39 @@
       "officialUrl": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
       "sourceKeys": [
         "forms_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "jarva_vald",
+      "municipality_name": "Järva vald",
+      "county": "Järvamaa",
+      "source_keys": [
+        "forms_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "jarva_vald_form_sotsiaaltoetuse_avaldus",
+      "document_id": "jarva_vald_form_sotsiaaltoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://jarvavald.ee/pere-sotsiaal-ja-tervishoid/sotsiaaltoetused-ja-hoolekanne/sotsiaalhoolekande-e-taotlused-ja-blanketid",
+      "content_hash": "d2704cac0afa9ba4008ec806f6027e6e1a9c59806cfd78c3e0ada3a406b35517",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Järva vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

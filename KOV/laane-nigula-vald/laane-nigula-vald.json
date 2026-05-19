@@ -51,7 +51,36 @@
         "taotlemine",
         "vorm",
         "tasulisus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_koduteenus",
+      "document_id": "laane_nigula_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "f280215b0c295dfeb4827c9fd304ceec3fd87d04631b6c13c0a053f90b36c0e7",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_tugiisikuteenus",
@@ -61,8 +90,8 @@
       "status": "active",
       "summary": "Tugiisikuteenus toetab isiku iseseisvat toimetulekut olukordades, kus ta vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu olulist kõrvalabi. Teenus hõlmab juhendamist, motiveerimist ning iseseisvuse ja omavastutuse arendamist. Lapse puhul on eesmärk toetada lapse hooldamist, turvalist kasvukeskkonda ja arengut, vajadusel ka puudega lapse hooldustoiminguid.",
       "sourceKeys": [
-        "social_services_page",
-        "erivajadusega_laps_page"
+        "erivajadusega_laps_page",
+        "social_services_page"
       ],
       "targetGroup": "Lapsed ja täiskasvanud, kes vajavad juhendamist või kõrvalabi iseseisvaks toimetulekuks.",
       "conditions": "Kõrvalabi vajaduse määra hinnatakse ja täpsustatakse iga inimese puhul eraldi; teenust ei tohi vahetult osutada seaduses nimetatud lähedased või sobimatu karistatusega isikud.",
@@ -95,7 +124,37 @@
         "tingimused",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "erivajadusega_laps_page",
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_tugiisikuteenus",
+      "document_id": "laane_nigula_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "9e7b405323a975e48cbbe67f1aa581741434dac68458eb351a37d7f17bb8eaf4",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_isikliku_abistaja_teenus",
@@ -137,7 +196,36 @@
         "sihtrühm",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_isikliku_abistaja_teenus",
+      "document_id": "laane_nigula_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "2cc45b7b98ed39061668bfecb3d8978808e91078fb0ba601359a7131235935f4",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_taisealise_isiku_hoolduse_teenus",
@@ -180,7 +268,36 @@
         "tingimused",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_taisealise_isiku_hoolduse_teenus",
+      "document_id": "laane_nigula_vald_service_taisealise_isiku_hoolduse_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "c1ddcc2a56f5a933de0980f6f93c7210d22fe5ecd47922186d9c1833fa03857f",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_sotsiaaltransporditeenus",
@@ -222,7 +339,36 @@
         "sihtrühm",
         "taotlemine",
         "tähtaeg"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_sotsiaaltransporditeenus",
+      "document_id": "laane_nigula_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "de4c7c51246e510f3070e3ee64f57ebc71fc1ea69205fda70a53b8a8bfae8ebc",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_volanoustamisteenus",
@@ -264,7 +410,36 @@
         "tingimused",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_volanoustamisteenus",
+      "document_id": "laane_nigula_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "8551ad054b482c0559d711e3509a98e4f15b8f28ec76e80e61774a57f0f77ef3",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -274,9 +449,9 @@
       "status": "active",
       "summary": "Väljaspool kodu osutatav üldhooldusteenus tagab turvalise keskkonna ja toimetuleku täisealisele inimesele, kes terviseseisundist, tegevusvõimest või elukeskkonnast tulenevatel põhjustel ei suuda ajutiselt või püsivalt kodus iseseisvalt toime tulla. Ööpäevaringse üldhooldusteenuse puhul tagatakse hooldusplaanis määratud hooldustoimingud ja teenused, sh majutus ja toitlustamine. Lääne-Nigula vald katab alates 1. märtsist 2026 valla elanike hooldekodu hoolduskulu kuni 645 euro ulatuses kuus.",
       "sourceKeys": [
+        "hoolekandeasutused_page",
         "social_services_page",
-        "uldhooldusteenus_valjaspool_kodu_page",
-        "hoolekandeasutused_page"
+        "uldhooldusteenus_valjaspool_kodu_page"
       ],
       "targetGroup": "Täisealine inimene, kelle toimetulekut ei saa kodus tagada muude sotsiaalteenuste või muu abi osutamisega.",
       "conditions": "Sotsiaaltöö spetsialist hindab hooldusvajadust; kui inimene ei soovi omavalitsuse hinnangut ega toetust, võib ta pöörduda otse hooldekodu poole ja tasuda teenuse eest ise.",
@@ -308,7 +483,38 @@
         "taotlemine",
         "pricing",
         "asutused"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hoolekandeasutused_page",
+        "social_services_page",
+        "uldhooldusteenus_valjaspool_kodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "laane_nigula_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/uldhooldusteenus-valjaspool-kodu",
+      "content_hash": "f1f889bc8b39a8b37a06d579ea9ec4fef5bceed0876874e52eb8f30ab30c8b19",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_lapsehoiuteenus",
@@ -350,7 +556,36 @@
         "sihtrühm",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_lapsehoiuteenus",
+      "document_id": "laane_nigula_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "f61b15f21b9d2b1e7e28a447355ee92abace535cec77b1fddbb7eeaaf85b99f0",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_eluruumi_tagamise_teenus",
@@ -394,7 +629,36 @@
         "taotlemine",
         "vorm",
         "pricing"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "laane_nigula_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "2bb9e4396f3f5926fed652f5866870f5bd4c6b527f11f4bf7605836f3cd80a4a",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_turvakoduteenus",
@@ -429,7 +693,36 @@
       "sections_present": [
         "kirjeldus",
         "sihtrühm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_turvakoduteenus",
+      "document_id": "laane_nigula_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "60f140d9a20a1f2514a1c13ea1c3b5c0a846de6175888f3a34cb808bc36edfc4",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_varjupaigateenus",
@@ -463,7 +756,36 @@
       "sections_present": [
         "nimetus",
         "taotlemine"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_varjupaigateenus",
+      "document_id": "laane_nigula_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "12d82957d829014cad64181df54635862e1ab328e53ae3cfd1ec5bb2ee1e2f10",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_asendushooldusteenus",
@@ -473,8 +795,8 @@
       "status": "active",
       "summary": "Asendushooldusteenus on sotsiaalteenus, mille eesmärk on tagada lapse heaolu ja õigused pika- või lühiajaliselt siis, kui laps ei saa oma vanemate juures elada või vanemad ei tule lapse heaolu tagamisega toime. Teenuse eesmärk on võimaldada lapsele peresarnased elutingimused, turvaline ja arenguks soodne elukeskkond ning ettevalmistus võimetekohaseks toimetulekuks täisealisena. Lastekaitse lehel selgitatakse teenust lapse heaolu kaitse kontekstis.",
       "sourceKeys": [
-        "social_services_page",
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "social_services_page"
       ],
       "targetGroup": "Lapsed, kelle heaolu või õiguste tagamiseks on vaja asendushooldust.",
       "conditions": "Teenuse korraldamine toimub lapse heaolu ja huvide hindamise alusel lastekaitsetöö raames.",
@@ -502,7 +824,37 @@
         "kirjeldus",
         "sihtrühm",
         "kontakt"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_asendushooldusteenus",
+      "document_id": "laane_nigula_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
+      "content_hash": "b1b24df45a9bb28586f1acd276eced8032c1ddb7234c6aca6bb8c4698eceade4",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_jarelhooldusteenus",
@@ -539,7 +891,36 @@
       ],
       "unresolvedIssues": [
         "KOV koondlehel on järelhooldusteenus eraldi nimetatud, kuid avalikul lehel oli praktiline detailkirjeldus napim kui mitmel muul teenusel."
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_jarelhooldusteenus",
+      "document_id": "laane_nigula_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "a8d674682aa535e64ddda944a76b0dc9e0c3ba4b6f557ae1731d2e3addc7fec8",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_hairenuputeenus",
@@ -581,7 +962,36 @@
         "sihtrühm",
         "taotlemine",
         "vorm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_hairenuputeenus",
+      "document_id": "laane_nigula_vald_service_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "f69b35997532d769f32d2eada00869b962f3e90cfd2b57f50f0273717ad75894",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_vaimse_tervise_teenus",
@@ -624,7 +1034,36 @@
         "tingimused",
         "taotlemine",
         "omaosalus"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_vaimse_tervise_teenus",
+      "document_id": "laane_nigula_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "e0297a2492511867fab11e5164721039bdc047e1bdb4fca450d74874aafa5cf4",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_service_valtimatu_sotsiaalabi",
@@ -667,7 +1106,36 @@
         "tingimused",
         "taotlemine",
         "otsustamise aeg"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "laane_nigula_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused",
+      "content_hash": "4b9872766adb9cad357b7e9d9a3eaca975dea4b2ec0f2b22094f28bb6aa0c761",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_benefit_toimetulekutoetus",
@@ -713,7 +1181,36 @@
         "vorm",
         "tähtaeg",
         "summa"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_benefit_toimetulekutoetus",
+      "document_id": "laane_nigula_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/toimetulekutoetus",
+      "content_hash": "9ab666ec9df9dbd3122496c41ec22a85a5b2970874a236aa5876ebcc0a0feb43",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
@@ -757,7 +1254,36 @@
         "taotlemine",
         "vorm",
         "summa"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "uhekordne_sotsiaaltoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
+      "document_id": "laane_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/uhekordne-sotsiaaltoetus",
+      "content_hash": "bcc668424de89c8c79a7dba0773f9792eba11fec41c4f59c91eb223d95907705",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
@@ -802,7 +1328,36 @@
         "tähtaeg",
         "summa",
         "otsustamise aeg"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "esmakordselt_koolimineva_lapse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
+      "document_id": "laane_nigula_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/toiming/esmakordselt-koolimineva-lapse-toetus",
+      "content_hash": "3b68023cbcaa4327a7f459b694a6e5517fe5cd6c2f0469eea2acf0fb7b2054f2",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_benefit_sunnitoetus",
@@ -845,7 +1400,36 @@
         "vorm",
         "tähtaeg",
         "summa"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_benefit_sunnitoetus",
+      "document_id": "laane_nigula_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sunnitoetus",
+      "content_hash": "33e045d06eedb36a108da2828aad8573c391ae16523d6f7410784106d45a13bd",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_benefit_matusetoetus",
@@ -855,8 +1439,8 @@
       "status": "active",
       "summary": "Matusetoetus on 250-eurone toetus matuse korraldajale. Kui lahkunu elas rahvastikuregistri järgi Lääne-Nigula vallas, on toetust õigus saada matusekorraldajal; kui lahkunul ei olnud rahvastikuregistris elukohta, saab toetust taotleda inimene, kes elab ise Lääne-Nigula vallas. Taotlus tuleb esitada kuue kuu jooksul pärast surma ning seda saab esitada SPOKU iseteeninduses, paberkandjal vallamajas või e-postiga digiallkirjastatult.",
       "sourceKeys": [
-        "matusetoetus_page",
-        "lahedase_kaotus_page"
+        "lahedase_kaotus_page",
+        "matusetoetus_page"
       ],
       "targetGroup": "Matuseid korraldav inimene.",
       "conditions": "Lahkunu rahvastikuregistri järgne elukoht peab olema Lääne-Nigula vald või rahvastikuregistri elukohata lahkunu korral peab taotleja elama Lääne-Nigula vallas.",
@@ -889,7 +1473,37 @@
         "vorm",
         "tähtaeg",
         "summa"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahedase_kaotus_page",
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_benefit_matusetoetus",
+      "document_id": "laane_nigula_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/toiming/matusetoetus",
+      "content_hash": "69f1cc1740495862a5bff58f3e0eb89f2be595b2b8d384fea1a2c00ed2424a55",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_parkimiskaart",
@@ -923,7 +1537,36 @@
         "sihtrühm",
         "taotlemine",
         "kasutustingimused"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_parkimiskaart",
+      "document_id": "laane_nigula_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/parkimiskaart",
+      "content_hash": "502db8f6d0f6121f94b1685a2fd71a0d491375a095dd8a86b59a9bcf33eaac3c",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_lastekaitse",
@@ -933,8 +1576,8 @@
       "status": "active",
       "summary": "Lastekaitse eesmärk on lapse õiguste ja heaolu igakülgne tagamine. Lastekaitse lähtub lapse huvist ning hindab iga last puudutava otsuse puhul, milline lahendus on lapse jaoks parim. Lastekaitsespetsialisti poole võib pöörduda lapsevanem, laps ise või iga inimene, kes on lapse heaolu pärast mures.",
       "sourceKeys": [
-        "lastekaitse_page",
-        "contact_page"
+        "contact_page",
+        "lastekaitse_page"
       ],
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
       "relatedTo": [],
@@ -948,7 +1591,37 @@
         "kirjeldus",
         "kontakt",
         "abivajavast lapsest teatamine"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page",
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_lastekaitse",
+      "document_id": "laane_nigula_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
+      "content_hash": "96ac5541966869b57aef933acb8139357aee546b92cea34393d32819194da52f",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_hadaohus_ja_abivajav_laps",
@@ -972,7 +1645,36 @@
         "kirjeldus",
         "kriisitelefonid",
         "teatamiskohustus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hadaohus_abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_hadaohus_ja_abivajav_laps",
+      "document_id": "laane_nigula_vald_resource_hadaohus_ja_abivajav_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "content_hash": "fed0ce2fbfdd2a2ef86fe054852ea4bf83fcebd3b74999988d06f9541c06604c",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_erivajadusega_laps",
@@ -999,7 +1701,36 @@
         "kirjeldus",
         "teenuseviited",
         "kontakt"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "erivajadusega_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_erivajadusega_laps",
+      "document_id": "laane_nigula_vald_resource_erivajadusega_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/erivajadusega-laps",
+      "content_hash": "ce5e0622864050ef9b068aeca43b5d10877610cfaa42f72704ab43c42b03ecc3",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_lahisuhtevagivalla_abikanalid",
@@ -1018,7 +1749,36 @@
       "sections_present": [
         "kirjeldus",
         "abitelefonid"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_lahisuhtevagivalla_abikanalid",
+      "document_id": "laane_nigula_vald_resource_lahisuhtevagivalla_abikanalid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lahisuhtevagivald",
+      "content_hash": "47532e8b374000cbb86a5d4e249596ddf784241c9feb8f77ca3ef62fb887dd2f",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_haedaabinumber_",
@@ -1037,7 +1797,36 @@
       "sections_present": [
         "",
         "kriisiinfo"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hadaohus_abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_haedaabinumber_",
+      "document_id": "laane_nigula_vald_resource_haedaabinumber_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "content_hash": "b4b7828c77523b9f3cb8d4420819d5fab788c6ba4a5b878869e9b338493a71d6",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_lasteabi_",
@@ -1057,7 +1846,37 @@
       "sections_present": [
         "",
         "lasteabi"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hadaohus_abivajav_laps_page",
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_lasteabi_",
+      "document_id": "laane_nigula_vald_resource_lasteabi_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "content_hash": "c4a45044e36b2086aadcf1760d24ba3c64665f96116ee3a106faf683687e7772",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_kadunud_laste_telefon_116000",
@@ -1076,7 +1895,36 @@
       "sections_present": [
         "",
         "kadunud laps"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hadaohus_abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_kadunud_laste_telefon_116000",
+      "document_id": "laane_nigula_vald_resource_kadunud_laste_telefon_116000",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "content_hash": "884efe110700707b13b628aba4f6a3de52efb8df457344a529e2f9f94c819ec2",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_ohvriabi_kriisitelefon_",
@@ -1095,7 +1943,36 @@
       "sections_present": [
         "",
         "ohvriabi"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_ohvriabi_kriisitelefon_",
+      "document_id": "laane_nigula_vald_resource_ohvriabi_kriisitelefon_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lahisuhtevagivald",
+      "content_hash": "17c2f812f698d72a52b0fbae0a4db98ace1062aa0c2e2540b877dfd2f0560503",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_naiste_tugitelefon_1492",
@@ -1114,7 +1991,36 @@
       "sections_present": [
         "",
         "lähisuhtevägivald"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_naiste_tugitelefon_1492",
+      "document_id": "laane_nigula_vald_resource_naiste_tugitelefon_1492",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lahisuhtevagivald",
+      "content_hash": "9f62ee730f3ab258ef9a58a5d7f2cb98e9e575a722edd7a24534b268dd94bcc6",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_laanemaa_ohvriabi",
@@ -1134,7 +2040,36 @@
         "",
         "ohvriabi",
         "vastuvõtuaeg"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_laanemaa_ohvriabi",
+      "document_id": "laane_nigula_vald_resource_laanemaa_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lahisuhtevagivald",
+      "content_hash": "480e1c7c5cba449f5eee5b9931b6f25bf5d1e54fb7e63b9fe4158e1322b7c4b1",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_emotsionaalse_toe_ja_hingehoiu_telefon_116123",
@@ -1153,7 +2088,36 @@
       "sections_present": [
         "",
         "emotsionaalne tugi"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahisuhtevagivald_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_emotsionaalse_toe_ja_hingehoiu_telefon_116123",
+      "document_id": "laane_nigula_vald_resource_emotsionaalse_toe_ja_hingehoiu_telefon_116123",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lahisuhtevagivald",
+      "content_hash": "d8851f0b11ec9ab57a9c046225f8508530dd858e080e5ee7d71c1ebb7a4af2fd",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_lahedase_kaotus",
@@ -1179,7 +2143,36 @@
         "taotlemine",
         "vormid",
         "abikanalid"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahedase_kaotus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_lahedase_kaotus",
+      "document_id": "laane_nigula_vald_resource_lahedase_kaotus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/lahedase-kaotus",
+      "content_hash": "c758757442b3fe9700528b5b0a4ee7f317f642c879daee9f536cbf2ed6090eb9",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_kalmistud",
@@ -1201,7 +2194,36 @@
         "kirjeldus",
         "vorm",
         "kontaktid"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "kalmistud_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_kalmistud",
+      "document_id": "laane_nigula_vald_resource_kalmistud",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/kalmistud",
+      "content_hash": "7efde18c56e4ce85ea86f795672f9c902552d40d0f9c0cce6abb3b25203a090d",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_oru_hooldekodu",
@@ -1230,7 +2252,36 @@
       ],
       "unresolvedIssues": [
         "KOV veebilehel kuvatud e-posti aadressi ei õnnestunud tekstikorjes üheselt kinnitada; e-posti väli jäeti tühjaks."
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_oru_hooldekodu",
+      "document_id": "laane_nigula_vald_resource_oru_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolekandeasutused",
+      "content_hash": "95a53eba906f5864d734974d6f7bec8ca8e7cb60d75c5e32ae1b081d1787199b",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_risti_hooldekodu",
@@ -1259,7 +2310,36 @@
       ],
       "unresolvedIssues": [
         "KOV veebilehel kuvatud e-posti aadressi ei õnnestunud tekstikorjes üheselt kinnitada; e-posti väli jäeti tühjaks."
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_risti_hooldekodu",
+      "document_id": "laane_nigula_vald_resource_risti_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolekandeasutused",
+      "content_hash": "d907388d87fcb3e9a19863c9d8c042107615651d29baf0d6295facd5e158c49b",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_resource_matuse_korraldamise_abiviited",
@@ -1269,8 +2349,8 @@
       "status": "active",
       "summary": "Matusetoetuse ja lähedase kaotuse lehtedel nimetab vald abiks matuse korraldamisel Läänemaa matusebürood Hingeviiul ning lehte surmast.ee. Neid väliseid kanaleid ei kasutatud põhiallikana; kirje kajastab ainult KOV lehel avaldatud suunamist.",
       "sourceKeys": [
-        "matusetoetus_page",
-        "lahedase_kaotus_page"
+        "lahedase_kaotus_page",
+        "matusetoetus_page"
       ],
       "officialUrl": "https://www.laanenigula.ee/toiming/matusetoetus",
       "relatedTo": [
@@ -1280,7 +2360,37 @@
       "relatedContacts": [],
       "sections_present": [
         "suunamisinfo"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahedase_kaotus_page",
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_resource_matuse_korraldamise_abiviited",
+      "document_id": "laane_nigula_vald_resource_matuse_korraldamise_abiviited",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/toiming/matusetoetus",
+      "content_hash": "7a9788d5ca24ff02cdb50b6bf88444f45599798446205f9c4b34b8b3eeba1ad5",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_sotsiaalhoolekande_osakond",
@@ -1298,7 +2408,36 @@
       "address": "Haapsalu mnt 6, Taebla alevik, Lääne-Nigula vald 90801, Lääne maakond",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_sotsiaalhoolekande_osakond",
+      "document_id": "laane_nigula_vald_contact_sotsiaalhoolekande_osakond",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "dc82249491ac3c8f646334bdb827118d195404be5cfa78b8c3389004eb8ef7a5",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_mariel_korgemagi",
@@ -1316,7 +2455,36 @@
       "address": null,
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_mariel_korgemagi",
+      "document_id": "laane_nigula_vald_contact_mariel_korgemagi",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "dfd04bcf9aae711a8dcd2847add4bef4d78aebd728da05b0a4b426cee7060d63",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_anu_janes",
@@ -1334,7 +2502,36 @@
       "address": "Palivere, Risti, Martna, Kullamaa",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_anu_janes",
+      "document_id": "laane_nigula_vald_contact_anu_janes",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "a7e90816258e27c4125d41e0f19928cb14f7c3adedd1977a3ad5bd8556b4ab92",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_anette_seiton",
@@ -1352,7 +2549,36 @@
       "address": "Taebla, Oru, Noarootsi, Nõva",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_anette_seiton",
+      "document_id": "laane_nigula_vald_contact_anette_seiton",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "8028e823ba8dcbbefd7b00b7f7fd020744545159c531f59bfdef63384616a27f",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_helina_meister",
@@ -1370,7 +2596,36 @@
       "address": null,
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_helina_meister",
+      "document_id": "laane_nigula_vald_contact_helina_meister",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "0617215589f8e42f22f5c05ac7398661c478137da38c9825c883045cf04f4a3c",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_heidy_koch",
@@ -1388,7 +2643,36 @@
       "address": "Kullamaa osavallamaja",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_heidy_koch",
+      "document_id": "laane_nigula_vald_contact_heidy_koch",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "b07157b9ad45ab46c4af1de2ee1205d47c4133234824a8ee9b36c001444503a8",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_maia_korvemaa",
@@ -1406,7 +2690,36 @@
       "address": "Palivere, Taebla",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_maia_korvemaa",
+      "document_id": "laane_nigula_vald_contact_maia_korvemaa",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "32171707c2368967aef3b0871737ca4d0d182c44800ee9c3099d9c72eed93398",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_tiina_valdmees",
@@ -1424,7 +2737,36 @@
       "address": "Risti, Martna, Kullamaa",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_tiina_valdmees",
+      "document_id": "laane_nigula_vald_contact_tiina_valdmees",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "e9c69180cd1486bc6c1453ae357a2ff7ecd278460e4298dd9a83790b468c109b",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_maire_koppelmaa",
@@ -1442,7 +2784,36 @@
       "address": "Oru, Noarootsi, Nõva",
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_maire_koppelmaa",
+      "document_id": "laane_nigula_vald_contact_maire_koppelmaa",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "73f47a97e4b42f317a5e167a9a895039e924a7d2934f04dedddf74cc641ee46b",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_riine_tomingas",
@@ -1460,7 +2831,36 @@
       "address": null,
       "officialUrl": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_riine_tomingas",
+      "document_id": "laane_nigula_vald_contact_riine_tomingas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekande-osakond/kontaktid",
+      "content_hash": "af1f3cd3cccdd54f2026508049b9e59116c9a0025e114b3548515f78a509269d",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_contact_vallavalitsuse_yldkontakt",
@@ -1470,8 +2870,8 @@
       "status": "active",
       "summary": "Lääne-Nigula Vallavalitsuse üldkontakt on avaldatud valla lehtede jaluses ja kontaktiplokkides. Üldkontakt sobib vallamaja, dokumentide ja üldiste pöördumiste jaoks, kui konkreetset sotsiaaltöötajat ei ole teada.",
       "sourceKeys": [
-        "home",
-        "contact_page"
+        "contact_page",
+        "home"
       ],
       "name": "Lääne-Nigula Vallavalitsus",
       "role": "üldkontakt",
@@ -1479,7 +2879,37 @@
       "address": "Haapsalu mnt 6, Taebla alevik, Lääne-Nigula vald 90801, Lääne maakond",
       "officialUrl": "https://www.laanenigula.ee/",
       "relatedTo": [],
-      "relatedForms": []
+      "relatedForms": [],
+      "item_type": "contact",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "contact_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_contact_vallavalitsuse_yldkontakt",
+      "document_id": "laane_nigula_vald_contact_vallavalitsuse_yldkontakt",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/",
+      "content_hash": "64aa7b827b29e1d86b97e5192ef45c4043b0dd328cb464ab184ec0b9dbc65f76",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_sotsiaalteenuse_taotlus",
@@ -1514,7 +2944,37 @@
         "laane_nigula_vald_service_valtimatu_sotsiaalabi"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "social_services_page",
+        "sotsiaalteenuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_sotsiaalteenuse_taotlus",
+      "document_id": "laane_nigula_vald_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/Sotsiaalteenuse%20taotlus.docx",
+      "content_hash": "c5e321ec86282b65a6a72ae174cad0656c48bea5fa970a745c5658ccb8815759",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_toimetulekutoetuse_taotlus",
@@ -1536,7 +2996,37 @@
         "laane_nigula_vald_benefit_toimetulekutoetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "toimetulekutoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "laane_nigula_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/Toimetulekuttoetuse%20taotlus.docx",
+      "content_hash": "eb11d722d4ccbff125e639f0550b26a5e79bc79d90630934b67cd1ed75bbdf7f",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_varade_loetelu_toimetulekutoetuseks",
@@ -1558,7 +3048,37 @@
         "laane_nigula_vald_benefit_toimetulekutoetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "toimetulekutoetus_page",
+        "varade_loetelu_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_varade_loetelu_toimetulekutoetuseks",
+      "document_id": "laane_nigula_vald_form_varade_loetelu_toimetulekutoetuseks",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/Varade%20loetelu_toimetulekutoetuseks.docx",
+      "content_hash": "23f1aca64e3a0ffbc59a7620ebffaa54a1be8912f057bf296b17ce34ca7d07d9",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
@@ -1581,7 +3101,37 @@
         "laane_nigula_vald_benefit_uhekordne_sotsiaaltoetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "uhekordne_sotsiaaltoetus_page",
+        "uhekordse_sotsiaaltoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
+      "document_id": "laane_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/%C3%9Chekordse%20sotsiaaltoetuse%20taotlus.docx",
+      "content_hash": "e32e3d1266d2a8ff3c8d8e1c83e72ef67ef4553635c437c6db7fceb337f4d205",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_esmakordselt_koolimineva_lapse_toetus",
@@ -1591,8 +3141,8 @@
       "status": "active",
       "summary": "DOCX-vorm esmakordselt koolimineva lapse 250-eurose toetuse taotlemiseks. KOV lehel saab avaldust esitada 1. septembrist 15. oktoobrini, samuti on viidatud SPOKU iseteenindusele.",
       "sourceKeys": [
-        "esmakordselt_koolimineva_lapse_toetus_page",
-        "esmakordselt_koolimineva_lapse_toetus_file"
+        "esmakordselt_koolimineva_lapse_toetus_file",
+        "esmakordselt_koolimineva_lapse_toetus_page"
       ],
       "format": "docx",
       "submissionChannels": [
@@ -1605,7 +3155,37 @@
         "laane_nigula_vald_benefit_esmakordselt_koolimineva_lapse_toetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "esmakordselt_koolimineva_lapse_toetus_file",
+        "esmakordselt_koolimineva_lapse_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_esmakordselt_koolimineva_lapse_toetus",
+      "document_id": "laane_nigula_vald_form_esmakordselt_koolimineva_lapse_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-06/Esmakordselt%20koolimineva%20lapse%20toetus.docx",
+      "content_hash": "0f40b0ab4a524282086c61592ee2c4fb5ea4b12bb78ed1d31a53ad76b3488dbd",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_sunnitoetuse_taotlus",
@@ -1629,7 +3209,37 @@
         "laane_nigula_vald_benefit_sunnitoetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "sunnitoetus_page",
+        "sunnitoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_sunnitoetuse_taotlus",
+      "document_id": "laane_nigula_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/S%C3%BCnnitoetuse%20taotlus.docx",
+      "content_hash": "bd1ccfefabc4f74faa4ddd6ff3772a3a44620569f76a21ff0a734675d0513969",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_matusetoetuse_taotlus",
@@ -1639,8 +3249,8 @@
       "status": "active",
       "summary": "Matusetoetuse taotlus on DOCX-vorm 250-eurose matusetoetuse taotlemiseks. KOV lehel saab taotlust esitada SPOKU iseteeninduses, paberkandjal vallamajas või e-postiga digiallkirjastatult.",
       "sourceKeys": [
-        "matusetoetus_page",
         "lahedase_kaotus_page",
+        "matusetoetus_page",
         "matusetoetuse_taotlus_file"
       ],
       "format": "docx",
@@ -1655,7 +3265,38 @@
         "laane_nigula_vald_benefit_matusetoetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "lahedase_kaotus_page",
+        "matusetoetus_page",
+        "matusetoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_matusetoetuse_taotlus",
+      "document_id": "laane_nigula_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/Matusetoetuse%20taotlus.docx",
+      "content_hash": "0f900096e4ea4524b58da0f9e07843d2b0b9a160f6c25a11341016fdebe8d29a",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_matmise_teatis",
@@ -1681,7 +3322,38 @@
         "laane_nigula_vald_resource_lahedase_kaotus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "kalmistud_page",
+        "lahedase_kaotus_page",
+        "matmise_teatis_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_matmise_teatis",
+      "document_id": "laane_nigula_vald_form_matmise_teatis",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.laanenigula.ee/sites/default/files/documents/2025-05/Matmise%20teatis.doc",
+      "content_hash": "d01431fdecd308372c17dc48857bdc7e647918aba5819ccc9c845daced468249",
+      "evidence_allowed": true
     },
     {
       "id": "laane_nigula_vald_form_spoku_iseteenindus",
@@ -1691,10 +3363,10 @@
       "status": "active",
       "summary": "KOV lehtedel on matusetoetuse, sünnitoetuse ja esmakordselt koolimineva lapse toetuse juures viidatud Lääne-Nigula valla SPOKU iseteenindusele. SPOKU toetuste info leht koondab sotsiaal- ja tervishoiu valdkonna e-taotluste sisenemise ning nimetab matusetoetust ja sünnitoetust. Täpsed vormid võivad avaneda pärast iseteenindusse sisenemist.",
       "sourceKeys": [
-        "spoku_info",
+        "esmakordselt_koolimineva_lapse_toetus_page",
         "matusetoetus_page",
-        "sunnitoetus_page",
-        "esmakordselt_koolimineva_lapse_toetus_page"
+        "spoku_info",
+        "sunnitoetus_page"
       ],
       "format": "web_form",
       "submissionChannels": [
@@ -1707,7 +3379,42 @@
         "laane_nigula_vald_benefit_esmakordselt_koolimineva_lapse_toetus"
       ],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "form",
+      "municipality_id": "laane_nigula_vald",
+      "municipality_name": "Lääne-Nigula vald",
+      "county": "Läänemaa",
+      "source_keys": [
+        "esmakordselt_koolimineva_lapse_toetus_page",
+        "matusetoetus_page",
+        "spoku_info",
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "laane_nigula_vald_form_spoku_iseteenindus",
+      "document_id": "laane_nigula_vald_form_spoku_iseteenindus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://iseteenindus.laanenigula.ee/index.php?module=208&op=1",
+      "content_hash": "e3f142b65bebaf4ac37d23a5b99a1184e2ee6d76b485fcca78d57a0bf5a4a4d3",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Lääne-Nigula vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

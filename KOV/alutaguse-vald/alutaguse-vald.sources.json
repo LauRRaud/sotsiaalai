@@ -511,6 +511,7 @@
       "evidence_allowed": true,
       "url_canonical": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "relatedCanonicalItemIds": [
+        "alutaguse_vald_benefit_opilaste_soidukulude_huvitamine",
         "alutaguse_vald_form_soidupiletite_huvitamise_avaldus"
       ],
       "sections_present": [
@@ -1339,7 +1340,8 @@
       "evidence_allowed": true,
       "url_canonical": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "relatedCanonicalItemIds": [
-        "alutaguse_vald_service_psuhholoogiline_noustamine"
+        "alutaguse_vald_service_psuhholoogiline_noustamine",
+        "alutaguse_vald_service_soltuvusnoustamine"
       ],
       "sections_present": [
         "description",
@@ -1649,7 +1651,8 @@
       "evidence_allowed": true,
       "url_canonical": "https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus",
       "relatedCanonicalItemIds": [
-        "alutaguse_vald_benefit_opilaste_soidukulude_huvitamine"
+        "alutaguse_vald_benefit_opilaste_soidukulude_huvitamine",
+        "alutaguse_vald_form_soidupiletite_huvitamise_avaldus"
       ],
       "sections_present": [
         "description",
@@ -1693,6 +1696,7 @@
       "evidence_allowed": true,
       "url_canonical": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "relatedCanonicalItemIds": [
+        "alutaguse_vald_service_psuhholoogiline_noustamine",
         "alutaguse_vald_service_soltuvusnoustamine"
       ],
       "sections_present": [

@@ -25,7 +25,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_maile_kubjas",
+      "document_id": "viru_nigula_vald_contact_maile_kubjas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0fbdb1d1c51face6e635111ee3ebbb3a05084f3fb3c68d067b0033b452eff165",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_piret_saul_gorodilov",
@@ -42,7 +71,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_piret_saul_gorodilov",
+      "document_id": "viru_nigula_vald_contact_piret_saul_gorodilov",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3ccc9167b34be801de9caf6ae7a9cc90e1f8e42485255f48456d1b9097395233",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_liivi_vares",
@@ -59,7 +117,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_liivi_vares",
+      "document_id": "viru_nigula_vald_contact_liivi_vares",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a7153e9cdb4afd15dc3405f5df8c4aa3d7670eedaac2bf05ca0529873bb14661",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_gerly_tauer",
@@ -76,7 +163,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_gerly_tauer",
+      "document_id": "viru_nigula_vald_contact_gerly_tauer",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "72eed7738baeb940cbe8fc9f47d543fee712d51ca037e0867c978f811bd22fab",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_mall_lillioja",
@@ -93,7 +209,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_mall_lillioja",
+      "document_id": "viru_nigula_vald_contact_mall_lillioja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "a5ea5aafcf2c7e9d5fa3383bb4f1173a9218838d7a7dcb62b787a7dc0fc4fff4",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_helgi_luik",
@@ -110,7 +255,36 @@
       "department": "Sotsiaalosakond",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_helgi_luik",
+      "document_id": "viru_nigula_vald_contact_helgi_luik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "42e82946e642f8aa1bb66396e5c50bd7ff26f8f4c57706c7f5214cda0f4b0323",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_contact_vallavalitsus",
@@ -120,15 +294,45 @@
       "status": "active",
       "summary": "Vallavalitsuse üldkontakt: Kasemäe 19, Kunda 44107; üldtelefonid ja üldine on avaldatud kodulehe jaluses.",
       "sourceKeys": [
-        "home",
-        "contacts_page"
+        "contacts_page",
+        "home"
       ],
       "name": "Viru-Nigula Vallavalitsus",
       "role": "üldkontakt",
       "department": "Vallavalitsus",
       "address": "Kasemäe 19, Kunda 44107",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "contacts_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_contact_vallavalitsus",
+      "document_id": "viru_nigula_vald_contact_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0c7785b74c6ab4d2a445f8a90b29b3352bee256cca388c5bca0fd27967ded17c",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_koduteenuse_taotlus",
@@ -153,7 +357,36 @@
       "sections_present": [
         "taotleja_andmed",
         "teenuse_vajadus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "koduteenuse_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_koduteenuse_taotlus",
+      "document_id": "viru_nigula_vald_form_koduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2025-12/Koduteenuse%20taotlus_03.02.2022.docx",
+      "content_hash": "b302a651b84fc0360a76af1d58a2dac56494e5454b78973131b165c48c836d41",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_hooldusvajaduse_hindamise_akt",
@@ -179,7 +412,36 @@
         "teenuse_saaja_andmed",
         "abivajaduse_kirjeldus",
         "abivajaduse_hindamine"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldusvajaduse_hindamise_akt_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_hooldusvajaduse_hindamise_akt",
+      "document_id": "viru_nigula_vald_form_hooldusvajaduse_hindamise_akt",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2025-12/Hooldusvajaduse%20hindamise%20akt.pdf",
+      "content_hash": "4fe73fb8d9d37bb883ff3d92ce5b597d8c8de818a5928ab5bf257a384481a711",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_pdf",
@@ -206,7 +468,36 @@
         "teenuse_saaja_andmed",
         "teenuse_vajaduse_pohjendus",
         "abistaja_andmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "tugiisik_isiklik_abistaja_form_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_pdf",
+      "document_id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_pdf",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7943/download",
+      "content_hash": "95a47cb31d4f7fe06a192425169d707f68ac367e6c8fd729444d5fdfaace59bf",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_docx",
@@ -232,7 +523,36 @@
         "taotleja_andmed",
         "teenuse_saaja_andmed",
         "teenuse_vajaduse_pohjendus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "tugiisik_isiklik_abistaja_form_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_docx",
+      "document_id": "viru_nigula_vald_form_tugiisiku_isikliku_abistaja_taotlus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7940/download",
+      "content_hash": "28a8a08d0e0bfbd6c1103e0cd325cbb82c0a98709d04d8c4ac9a392d3c04a5a4",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
@@ -261,7 +581,36 @@
         "sissetulekud",
         "kulud",
         "lisad"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "uhekordne_sotsiaaltoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
+      "document_id": "viru_nigula_vald_form_uhekordse_sotsiaaltoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2025-12/vvm_nr_2_Lisa%204.pdf",
+      "content_hash": "0d35050c3b2103f8886be3bdc990498659ff2641a22badf9230fb2d6e3478bdc",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_sunnitoetuse_taotlus",
@@ -285,7 +634,36 @@
       "sections_present": [
         "lapse_andmed",
         "taotleja_andmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "sunnitoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_sunnitoetuse_taotlus",
+      "document_id": "viru_nigula_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2025-12/S%C3%BCnnitoetuse%20taotlus_03.02.2022.docx",
+      "content_hash": "a8f45ec6038aaea3cbce5aeef8073e0ae8b133a1c9a3befce5478b49b9689b46",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_ranitsatoetuse_taotlus",
@@ -309,7 +687,36 @@
       "sections_present": [
         "lapse_andmed",
         "taotleja_andmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "ranitsatoetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_ranitsatoetuse_taotlus",
+      "document_id": "viru_nigula_vald_form_ranitsatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2025-12/Ranitsatoetuse%20taotlus_03.02.2022.docx",
+      "content_hash": "2e606c1a180df2ace4df7cdba8e25d7c54cbeb31aacd33bc52403452af964b6e",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_matusetoetuse_taotlus_pdf",
@@ -335,7 +742,36 @@
         "taotleja_andmed",
         "lahkunu_andmed",
         "makseandmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "matusetoetus_form_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_matusetoetuse_taotlus_pdf",
+      "document_id": "viru_nigula_vald_form_matusetoetuse_taotlus_pdf",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7967/download",
+      "content_hash": "129319b520b491b27ae5d20d81ba2f4ce21cd692e0ddeeb11cc29c5a7e684906",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_matusetoetuse_taotlus_docx",
@@ -361,7 +797,36 @@
         "taotleja_andmed",
         "lahkunu_andmed",
         "makseandmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "matusetoetus_form_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_matusetoetuse_taotlus_docx",
+      "document_id": "viru_nigula_vald_form_matusetoetuse_taotlus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7964/download",
+      "content_hash": "27bad97af70a28c48ff0f5d6084209478729c62332d9648fb8cf2b7e7b82139c",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_tsernoboli_toetuse_taotlus",
@@ -385,7 +850,36 @@
       "sections_present": [
         "taotleja_andmed",
         "toetuse_andmed"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "tsernoboli_toetus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_tsernoboli_toetuse_taotlus",
+      "document_id": "viru_nigula_vald_form_tsernoboli_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7970/download",
+      "content_hash": "5ad74f27ebd0c85ee4d95f3f2a29006727bc62ed954c5441c4fb4a6ad110d4bd",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_pdf",
@@ -410,7 +904,36 @@
         "taotleja_andmed",
         "hooldusvajadus",
         "lisad"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldekodu_toetuse_form_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_pdf",
+      "document_id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_pdf",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7961/download",
+      "content_hash": "605fee54b458f933a264003496c4cd2f6df57e0a3e9ef48870d20a9d97aee973",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_docx",
@@ -435,7 +958,36 @@
         "taotleja_andmed",
         "hooldusvajadus",
         "lisad"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldekodu_toetuse_form_docx"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_docx",
+      "document_id": "viru_nigula_vald_form_hooldekodu_teenuse_toetuse_taotlus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/media/7958/download",
+      "content_hash": "9d78068698096498013c151c7b7b142c0f96c9c03605b3787c7cb99ce85d5aaf",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
@@ -462,7 +1014,36 @@
         "hooldatava_andmed",
         "hooldaja_andmed",
         "hooldajatoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "taisealise_hooldaja_taotlus_form"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
+      "document_id": "viru_nigula_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/sites/default/files/documents/2026-01/T%C3%84ISEALISELE%20ISIKULE%20HOOLDAJA%20M%C3%84%C3%84RAMISE%20JA%20HOOLDAJALE.pdf",
+      "content_hash": "1fce70772e6189cd766db2d29e0d5249a02f80406eb05eaf3c199db56940c17b",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_koduteenus",
@@ -495,7 +1076,36 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_koduteenus",
+      "document_id": "viru_nigula_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/koduteenus-0",
+      "content_hash": "fb8a996dd929b7c76290ad569f766bd9b96e225b9a7c057550942c1c6b976b43",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_tugiisikuteenus",
@@ -530,7 +1140,36 @@
         "viru_nigula_vald_contact_maile_kubjas",
         "viru_nigula_vald_contact_liivi_vares",
         "viru_nigula_vald_contact_piret_saul_gorodilov"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_tugiisikuteenus",
+      "document_id": "viru_nigula_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/tugiisikuteenus",
+      "content_hash": "c19dd2e071a92fcf4c2d19775a8b1aea0e93c8445e0111fc4fc476c313106a0b",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_isikliku_abistaja_teenus",
@@ -565,7 +1204,38 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "paevakeskused_page",
+        "tugiisik_isiklik_abistaja_form_pdf",
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_isikliku_abistaja_teenus",
+      "document_id": "viru_nigula_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/paevakeskus",
+      "content_hash": "358a4f12b5fbcf4fe0633d3f646d9390633bf72ef44554d60f2e7ac1322998d9",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_volanoustamisteenus",
@@ -575,8 +1245,8 @@
       "status": "active",
       "summary": "Võlanõustamisteenus aitab kindlaks teha inimese varalise olukorra, pidada läbirääkimisi võlausaldajatega, rahuldada nõudeid ja vältida uute võlgnevuste tekkimist. Teenus hõlmab nõustamist, juhendamist ja edasiste võlgade ennetamist. Muude sotsiaalteenuste lehel on täpsustatud, et teenus on kliendile tasuta.",
       "sourceKeys": [
-        "volanoustamine_page",
-        "muud_sotsiaalteenused_page"
+        "muud_sotsiaalteenused_page",
+        "volanoustamine_page"
       ],
       "targetGroup": "Isikud ja pered, kellel on võlgnevused või kellel on tekkimas finantsmajandusliku raskuse tõttu sotsiaalsed probleemid.",
       "conditions": null,
@@ -597,7 +1267,37 @@
         "viru_nigula_vald_contact_maile_kubjas",
         "viru_nigula_vald_contact_mall_lillioja",
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "muud_sotsiaalteenused_page",
+        "volanoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_volanoustamisteenus",
+      "document_id": "viru_nigula_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/toimetulekuraskusega-inimesed/volanoustamisteenus",
+      "content_hash": "fab1dca6d204e62f4e76ac86399774adc996857a0e7610373cc0e65494696b06",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_vaimse_tervise_teenus",
@@ -628,7 +1328,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "vaimse_tervise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_vaimse_tervise_teenus",
+      "document_id": "viru_nigula_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/toimetulekuraskusega-inimesed/vaimse-tervise-teenus",
+      "content_hash": "012ef7ab6be5c9af000926418a0eb2922b1334ebe984394a922c1dac8a42318f",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_toimetulekutoetus",
@@ -660,7 +1389,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja",
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_toimetulekutoetus",
+      "document_id": "viru_nigula_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toimetulekutoetus",
+      "content_hash": "15240c12a23e70fffe02aace98f0e256c2392f9b105bc621af3698e1eef5dae2",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
@@ -693,7 +1451,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja",
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "uhekordne_sotsiaaltoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
+      "document_id": "viru_nigula_vald_benefit_uhekordne_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/uhekordse-sotsiaaltoetuse-taotlus",
+      "content_hash": "738f05f8628a8113fb365d33666c96ef6726f160fbf2ae13b6f7ad302c679e58",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_sunnitoetus",
@@ -725,7 +1512,36 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_sunnitoetus",
+      "document_id": "viru_nigula_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/sunnitoetus",
+      "content_hash": "96429cffefba84275583b5e25a9936b27950d9ed1a062a404fd5f4a19a140974",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_ranitsatoetus",
@@ -757,7 +1573,36 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "ranitsatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_ranitsatoetus",
+      "document_id": "viru_nigula_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/ranitsatoetus",
+      "content_hash": "e50b3f89d413f788f186f9bef21a9a8ccdeb218f01e7886ce198e5e7619d6e9c",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_matusetoetus",
@@ -791,7 +1636,36 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_matusetoetus",
+      "document_id": "viru_nigula_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/matusetoetus",
+      "content_hash": "9cfe59946e873bc28eda85c6c1c7d051d480a5a33af1fbbcb484537cc19d33ee",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_tsernoboli_katastroofi_likvideerimisel_osalenu_toetus",
@@ -823,7 +1697,36 @@
       ],
       "relatedContacts": [
         "viru_nigula_vald_contact_mall_lillioja"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "tsernoboli_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_tsernoboli_katastroofi_likvideerimisel_osalenu_toetus",
+      "document_id": "viru_nigula_vald_benefit_tsernoboli_katastroofi_likvideerimisel_osalenu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/tsernoboli-katastroofi-likvideerimisel-osalenu-toetuse-taotlus",
+      "content_hash": "8aa0f15397bb0bbd541bfe40b5a589f3e81b513890cfa5a0bbfaaaea7e51aba4",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_uldhooldusteenus",
@@ -858,7 +1761,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas",
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldekodu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_uldhooldusteenus",
+      "document_id": "viru_nigula_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/hooldekodu-teenus",
+      "content_hash": "037d2402dd46d916a810d2ec3def6cacb21a0873b0a73450c743afd67abda00c",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_taisealise_isiku_hooldus",
@@ -891,7 +1823,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas",
         "viru_nigula_vald_contact_liivi_vares"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldus_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_taisealise_isiku_hooldus",
+      "document_id": "viru_nigula_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/hooldus-ja-hooldajatoetus",
+      "content_hash": "a8cc2d2b3db69bfba648f58a12b2714519dba6d40208d1b6223e3d5e5372ad3a",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_taisealise_isiku_hooldaja_toetus",
@@ -924,7 +1885,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_maile_kubjas",
         "viru_nigula_vald_contact_liivi_vares"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldus_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_taisealise_isiku_hooldaja_toetus",
+      "document_id": "viru_nigula_vald_benefit_taisealise_isiku_hooldaja_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/hooldus-ja-hooldajatoetus",
+      "content_hash": "4946bc40c82c600baee5b598cd0129d684808900ced36a1547d2cf6969cbcde6",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -955,7 +1945,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_liivi_vares",
         "viru_nigula_vald_contact_piret_saul_gorodilov"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hooldus_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "viru_nigula_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/toiming/hooldus-ja-hooldajatoetus",
+      "content_hash": "ba7f255dc94e8223dbe3eca9e88046b1c213dcf627071bf2ced6afb8a93f3a04",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_sotsiaaltransporditeenus",
@@ -987,7 +2006,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_sotsiaaltransporditeenus",
+      "document_id": "viru_nigula_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransporditeenus",
+      "content_hash": "75005aa375af84e4b3668d9e39b0d9780d3577011d0c63aaac11d1895cc87878",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_turvakoduteenus",
@@ -1017,7 +2065,36 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_piret_saul_gorodilov",
         "viru_nigula_vald_contact_maile_kubjas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "muud_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_turvakoduteenus",
+      "document_id": "viru_nigula_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
+      "content_hash": "0f2b2386374601a1052b61a4669294d07abc476459ad0cc747ffb7a381acdeb0",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_eluruumi_tagamise_teenus",
@@ -1047,7 +2124,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viru_nigula_vald_contact_gerly_tauer"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "muud_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "viru_nigula_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
+      "content_hash": "f910d790cf4e768576c7934aaa7a7c47b01bc1d418be2a779e1e8bd8db4db34f",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_service_puudega_lapse_lapsehoiuteenus",
@@ -1078,7 +2184,37 @@
       "relatedContacts": [
         "viru_nigula_vald_contact_liivi_vares",
         "viru_nigula_vald_contact_piret_saul_gorodilov"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "erivajadusega_laps_page",
+        "muud_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_service_puudega_lapse_lapsehoiuteenus",
+      "document_id": "viru_nigula_vald_service_puudega_lapse_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps",
+      "content_hash": "50a22288109493a39c2c5deaddfce8046490db3e666b60f3155ede3239bf15e9",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_meelerahu_mtu",
@@ -1097,7 +2233,36 @@
       "officialUrl": null,
       "relatedTo": [
         "viru_nigula_vald_service_vaimse_tervise_teenus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "vaimse_tervise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_meelerahu_mtu",
+      "document_id": "viru_nigula_vald_resource_meelerahu_mtu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "9a467aca914085c18c86d019f793e2cdab1edc288d2e0ef7f2f36cf20acd8708",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_eesti_vaimse_tervise_uhing",
@@ -1116,7 +2281,36 @@
       "officialUrl": null,
       "relatedTo": [
         "viru_nigula_vald_service_vaimse_tervise_teenus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "vaimse_tervise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_eesti_vaimse_tervise_uhing",
+      "document_id": "viru_nigula_vald_resource_eesti_vaimse_tervise_uhing",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e924609fc6a9eca0eca46d809b26d914b9ff71153bbb510928445f2882758010",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_hadaohus_ja_abivajav_laps",
@@ -1133,7 +2327,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hadaohus_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_hadaohus_ja_abivajav_laps",
+      "document_id": "viru_nigula_vald_resource_hadaohus_ja_abivajav_laps",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps",
+      "content_hash": "59c9c854be5272e3dfb9de8e2bd483a7a05328fca354ef623969a05963088e93",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_ohvriabi",
@@ -1150,7 +2373,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/ohvriabi",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_ohvriabi",
+      "document_id": "viru_nigula_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/ohvriabi",
+      "content_hash": "f23e5995c8502624928dcea3c169b66bb6e7679455ecd49d2d70d6be8e40d5ce",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_as_hoolekandeteenused_kunda_mere",
@@ -1167,7 +2419,36 @@
       "department": null,
       "address": "Mere 2, Kunda, Viru-Nigula vald",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_as_hoolekandeteenused_kunda_mere",
+      "document_id": "viru_nigula_vald_resource_as_hoolekandeteenused_kunda_mere",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e361916588e92cd31e7a8b19d34d5edd7c5bd7b0d5cddf0b242e77c02f1d1b2a",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_naiste_tugikeskus",
@@ -1184,7 +2465,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolekandeasutused",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_naiste_tugikeskus",
+      "document_id": "viru_nigula_vald_resource_naiste_tugikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/hoolekandeasutused",
+      "content_hash": "3f0cccf4092f7513e12afd38df7fc9f8742817fb1634003552601fef2419555b",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_kunda_sudamekodu",
@@ -1201,7 +2511,36 @@
       "department": null,
       "address": "Ehitajate tn 3, Kunda linn, Viru-Nigula vald, Lääne-Virumaa",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_kunda_sudamekodu",
+      "document_id": "viru_nigula_vald_resource_kunda_sudamekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "ccb434a3f0ba309bff923a906f342bed9abeee7910dd8931ccea9dd40cb95cf1",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_eakate_kodu_villa_alfred",
@@ -1218,7 +2557,36 @@
       "department": null,
       "address": "Kasemäe 7, Kunda linn, Viru-Nigula vald, Lääne-Virumaa",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_eakate_kodu_villa_alfred",
+      "document_id": "viru_nigula_vald_resource_eakate_kodu_villa_alfred",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bb2a12e110c188a2d27ed688dc3c77c85195935899811ffff16a41f96d552d06",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_eakate_kodu_west_wind",
@@ -1235,7 +2603,36 @@
       "department": null,
       "address": "Ehitajate 2a, Kunda linn, Viru-Nigula vald, Lääne-Virumaa",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_eakate_kodu_west_wind",
+      "document_id": "viru_nigula_vald_resource_eakate_kodu_west_wind",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "ef7d5dfcef82c2ac1015d27718d3b3061ac136363a0ce6e9052344e6204dbd16",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_mtu_lille_turvakodu",
@@ -1252,7 +2649,36 @@
       "department": null,
       "address": "Tehase 6, Aseri, Viru-Nigula vald",
       "officialUrl": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_mtu_lille_turvakodu",
+      "document_id": "viru_nigula_vald_resource_mtu_lille_turvakodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "c947e2b1e153c393c7d6ffe90f17229a427e7e786ada20c0aca5cca2a4936724",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_viru_nigula_sotsiaalhoolekande_keskus",
@@ -1269,7 +2695,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/paevakeskus",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_viru_nigula_sotsiaalhoolekande_keskus",
+      "document_id": "viru_nigula_vald_resource_viru_nigula_sotsiaalhoolekande_keskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/paevakeskus",
+      "content_hash": "d917bb710d6b39fcd9dcb69c8880c0bff5ee2461af536cda4ba6bb0d39478b7b",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_kunda_paevakeskus",
@@ -1286,7 +2741,36 @@
       "department": null,
       "address": "Mäe tn 11, Kunda linn",
       "officialUrl": "https://viru-nigula.ee/paevakeskus",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_kunda_paevakeskus",
+      "document_id": "viru_nigula_vald_resource_kunda_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/paevakeskus",
+      "content_hash": "5c4b2653467336feed66aeb40231f6534331b329a1e9978f49c13b7659f1d8ec",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_sotsiaalmajutusuksus",
@@ -1303,7 +2787,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/paevakeskus",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_sotsiaalmajutusuksus",
+      "document_id": "viru_nigula_vald_resource_sotsiaalmajutusuksus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/paevakeskus",
+      "content_hash": "c5fa284c4fa3256f0f9bf942999a59853bc79d48d54cf4e43fadcaa243dfd07a",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_ostetud_toiduabi",
@@ -1320,7 +2833,36 @@
       "department": null,
       "address": "Mäe tn 11, Kunda linn",
       "officialUrl": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "muud_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_ostetud_toiduabi",
+      "document_id": "viru_nigula_vald_resource_ostetud_toiduabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
+      "content_hash": "cb91c979ebad5bc4602e1b8b83f0bec42c1b04632115008d367e2d7c38751d46",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_annetatud_toiduabi",
@@ -1337,7 +2879,36 @@
       "department": null,
       "address": null,
       "officialUrl": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "muud_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_annetatud_toiduabi",
+      "document_id": "viru_nigula_vald_resource_annetatud_toiduabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viru-nigula.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/muud-sotsiaalteenused",
+      "content_hash": "3cf0fcfff4a002067ea78def624e36e121dfd7dc21cad5a68df5d687df42c4c7",
+      "evidence_allowed": true
     },
     {
       "id": "viru_nigula_vald_resource_iseteenindus",
@@ -1354,7 +2925,39 @@
       "department": null,
       "address": null,
       "officialUrl": "https://piksel.ee/spoku/virunigula/",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "viru_nigula_vald",
+      "municipality_name": "Viru-Nigula vald",
+      "county": "Lääne-Virumaa",
+      "source_keys": [
+        "self_service"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viru_nigula_vald_resource_iseteenindus",
+      "document_id": "viru_nigula_vald_resource_iseteenindus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://piksel.ee/spoku/virunigula/",
+      "content_hash": "8b2b00ad618e4669dbed3ea7621a55687f338be99a3c24c71619934ac4c7e4d8",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Viru-Nigula vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

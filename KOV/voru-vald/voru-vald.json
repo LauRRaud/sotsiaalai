@@ -23,7 +23,36 @@
       "address": "Võrumõisa tee 4a, Võru",
       "sourceKeys": [
         "kontakt"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_angela_jarvpold",
+      "document_id": "voru_vald_contact_angela_jarvpold",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f7679be90a1d70ed136661dc540c7922ca2218db600d4cace9111dc22a5b20d7",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_riina_mandel",
@@ -39,7 +68,37 @@
       "sourceKeys": [
         "kontakt",
         "toetused_lastega_peredele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_riina_mandel",
+      "document_id": "voru_vald_contact_riina_mandel",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "cda35382578c32b8250fe69718e6f117a06f9799e1f86b011a9c5ac89e65d257",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_kristina_tobreluts",
@@ -55,7 +114,37 @@
       "sourceKeys": [
         "kontakt",
         "toetused_lastega_peredele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_kristina_tobreluts",
+      "document_id": "voru_vald_contact_kristina_tobreluts",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "9889a4b4c0b846682a91afc4715c28a2c015a0a54c854022fca5295b025ba4de",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_kadri_truija",
@@ -71,7 +160,37 @@
       "sourceKeys": [
         "kontakt",
         "sotsiaalteenused"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_kadri_truija",
+      "document_id": "voru_vald_contact_kadri_truija",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "7b8c8f378d653820271ef4605a77ba34fd6079e23dd58423a58d4e98405e185f",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_maria_saarme",
@@ -88,7 +207,38 @@
         "kontakt",
         "muud_toetused",
         "toetused_lastega_peredele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "muud_toetused",
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_maria_saarme",
+      "document_id": "voru_vald_contact_maria_saarme",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "abfba98e0c3b289124190578348c6ea049066685c9f77a2aea95bb20720f5dc4",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_ene_andrejev",
@@ -103,10 +253,42 @@
       "address": "Võrumõisa tee 4a, Võru",
       "sourceKeys": [
         "kontakt",
-        "sotsiaalteenused",
         "muud_toetused",
+        "sotsiaalteenused",
         "toetused_lastega_peredele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "muud_toetused",
+        "sotsiaalteenused",
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_ene_andrejev",
+      "document_id": "voru_vald_contact_ene_andrejev",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "d75373d923ba53d3948c342904ac1e2fdb6628b1e0047cd62eb29d56f81dacb2",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_helli_kalda",
@@ -122,7 +304,37 @@
       "sourceKeys": [
         "kontakt",
         "toetused_taiskasvanutele_eakatele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "toetused_taiskasvanutele_eakatele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_helli_kalda",
+      "document_id": "voru_vald_contact_helli_kalda",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "2d406e34509bc1488f6f9812b12bcb9e35131398c093b356531932fcc9286e66",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_ly_pihkanen",
@@ -139,7 +351,38 @@
         "kontakt",
         "sotsiaalteenused",
         "toetused_taiskasvanutele_eakatele"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "sotsiaalteenused",
+        "toetused_taiskasvanutele_eakatele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_ly_pihkanen",
+      "document_id": "voru_vald_contact_ly_pihkanen",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0222521d889c88d1b0978dfcbacb6d729eb648532bd26d27661d51d1e8070be3",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_aino_kaurson",
@@ -155,7 +398,37 @@
       "sourceKeys": [
         "kontakt",
         "sotsiaalteenused"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt",
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_aino_kaurson",
+      "document_id": "voru_vald_contact_aino_kaurson",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "fddffb33cfc13db4161c115ed9fda0b4e01758f37fd3cf06331561a51f934c9d",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_riina_nassar",
@@ -170,7 +443,36 @@
       "address": "Võrumõisa tee 4a, Võru",
       "sourceKeys": [
         "kontakt"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_riina_nassar",
+      "document_id": "voru_vald_contact_riina_nassar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "839fdbe68d7d444c2e9c5b6046a8afd4b27b0fc6db3493144dafe53489ea3604",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_contact_marianne_hermann",
@@ -185,7 +487,36 @@
       "address": "Võrumõisa tee 4a, Võru",
       "sourceKeys": [
         "kontakt"
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kontakt"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_contact_marianne_hermann",
+      "document_id": "voru_vald_contact_marianne_hermann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bf906f609411d74d0ed2d87520356b117692e0967c884fc4ada4562b0a91fa82",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_koduteenus",
@@ -210,7 +541,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_aino_kaurson"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_koduteenus",
+      "document_id": "voru_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/sotsiaalteenused",
+      "content_hash": "f992e60344a371ab60bdb54c8aeb5683721ce42610f34f80b0afa36b6843200b",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_sotsiaaleluruumi_tagamise_teenus",
@@ -235,7 +595,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_kadri_truija"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_sotsiaaleluruumi_tagamise_teenus",
+      "document_id": "voru_vald_service_sotsiaaleluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/sotsiaalteenused",
+      "content_hash": "c235658795dba4cb77860f3e0526160191242c5a27e3b5bcc53d171272a26cc4",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_sotsiaaltransporditeenus",
@@ -264,7 +653,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_ene_andrejev"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_sotsiaaltransporditeenus",
+      "document_id": "voru_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/sotsiaalteenused",
+      "content_hash": "5db3e056839200cc85c7889f1a8343f7bb87974521657d225fe943ca7e18da48",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_uldhooldusteenus",
@@ -295,7 +713,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_ly_pihkanen"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaalteenused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_uldhooldusteenus",
+      "document_id": "voru_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/sotsiaalteenused",
+      "content_hash": "f1ace53aaa9a79808404cab1839ac91942756370861e1bc2be266d98555070c1",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_taisealise_isiku_hooldus",
@@ -320,7 +767,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_ly_pihkanen"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_taiskasvanutele_eakatele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_taisealise_isiku_hooldus",
+      "document_id": "voru_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-taiskasvanutele-ja-eakatele",
+      "content_hash": "510ad4719a4a8f0eea6d5b1d08fa49cec0734537d71ddc4583b19e05e4c5646d",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_service_puudega_lapse_toetavad_teenused",
@@ -345,7 +821,36 @@
       "relatedContacts": [
         "voru_vald_contact_riina_mandel",
         "voru_vald_contact_kristina_tobreluts"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_service_puudega_lapse_toetavad_teenused",
+      "document_id": "voru_vald_service_puudega_lapse_toetavad_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-lastega-peredele",
+      "content_hash": "537017f6d74bfad40d0c7f19dcb8f351e7653bcb420deb954030bede4245ec4e",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_matusetoetus",
@@ -377,7 +882,36 @@
       ],
       "relatedContacts": [
         "voru_vald_contact_maria_saarme"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "muud_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_matusetoetus",
+      "document_id": "voru_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/muud-sotsiaaltoetused",
+      "content_hash": "17c73ef163e2640c1845cadac6a1cfc3d6ce33174d11316ce95d5ba9a6b102bb",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_muud_sotsiaaltoetused",
@@ -403,7 +937,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_maria_saarme"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "muud_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_muud_sotsiaaltoetused",
+      "document_id": "voru_vald_benefit_muud_sotsiaaltoetused",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/muud-sotsiaaltoetused",
+      "content_hash": "71dd8a3a8428fb94b952c018bd1c23430f14bb19b9da012d15b981dbae35a9d6",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_tervisega_seotud_kulude_toetus",
@@ -429,7 +992,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_maria_saarme"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "muud_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_tervisega_seotud_kulude_toetus",
+      "document_id": "voru_vald_benefit_tervisega_seotud_kulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/muud-sotsiaaltoetused",
+      "content_hash": "ddbb4fcb217718481c00d7d4adb47546b7f378b4f14fd4ad3f2eb6a6d3a7b0da",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_toimetulekutoetus",
@@ -456,7 +1048,36 @@
         "voru_vald_contact_maria_saarme",
         "voru_vald_contact_ene_andrejev",
         "voru_vald_contact_helli_kalda"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "muud_toetused"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_toimetulekutoetus",
+      "document_id": "voru_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/muud-sotsiaaltoetused",
+      "content_hash": "01523839a0f2127da75b02cdacadd722cdbdb8364889ad4e3da90719e779a114",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_eakate_juubelitoetus",
@@ -479,7 +1100,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_helli_kalda"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_taiskasvanutele_eakatele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_eakate_juubelitoetus",
+      "document_id": "voru_vald_benefit_eakate_juubelitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-taiskasvanutele-ja-eakatele",
+      "content_hash": "43b10a44f42cfd3573135f9bfd6a0dea81956f7a99d655f69d4b28cebe84cec8",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -512,7 +1162,36 @@
         "voru_vald_contact_riina_mandel",
         "voru_vald_contact_kristina_tobreluts",
         "voru_vald_contact_ene_andrejev"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "voru_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-lastega-peredele",
+      "content_hash": "3bd21daff8ac2340e291ea670c9431e09568b96dc99d893b769eb48314700177",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_lasteaia_ja_koolitoidu_toetus",
@@ -537,7 +1216,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "voru_vald_contact_ene_andrejev"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_lasteaia_ja_koolitoidu_toetus",
+      "document_id": "voru_vald_benefit_lasteaia_ja_koolitoidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-lastega-peredele",
+      "content_hash": "039b74299506f8d7bc0e89a90909c7c09b310503ad100b43ac7d04ead43479c3",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_kooli_mineva_lapse_toetus",
@@ -569,7 +1277,36 @@
       ],
       "relatedContacts": [
         "voru_vald_contact_maria_saarme"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_kooli_mineva_lapse_toetus",
+      "document_id": "voru_vald_benefit_kooli_mineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-lastega-peredele",
+      "content_hash": "fbf6bf25df9aca48706f3d0bd60388d8c4fb77963736e9897d16ecbe1867224c",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_benefit_sunnitoetus",
@@ -602,7 +1339,36 @@
       ],
       "relatedContacts": [
         "voru_vald_contact_maria_saarme"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "toetused_lastega_peredele"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_benefit_sunnitoetus",
+      "document_id": "voru_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/toetused-lastega-peredele",
+      "content_hash": "d7dd3e03e7e1bcfa20e56603a3ec1714ff1a4d8cf7b38d5f1bb6591cd200b0ae",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_resource_lastekaitse_voru_vallas",
@@ -619,7 +1385,36 @@
       "relatedContacts": [
         "voru_vald_contact_riina_mandel",
         "voru_vald_contact_kristina_tobreluts"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lastekaitse"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_resource_lastekaitse_voru_vallas",
+      "document_id": "voru_vald_resource_lastekaitse_voru_vallas",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/lastekaitse-voru-vallas",
+      "content_hash": "1667b4e76128a4cf2f37ac0dd8c13493d60f9b99a6a95cf43aeebcf695d95c8a",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_resource_ohvriabi",
@@ -633,7 +1428,36 @@
       ],
       "officialUrl": "https://www.voruvald.ee/",
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_resource_ohvriabi",
+      "document_id": "voru_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/",
+      "content_hash": "d34a03f3fa76602cf8d842f602e3876c4d080be9dba539f3f36f3d8e880ce371",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_resource_hoolekandeasutused",
@@ -647,7 +1471,36 @@
       ],
       "officialUrl": "https://www.voruvald.ee/",
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_resource_hoolekandeasutused",
+      "document_id": "voru_vald_resource_hoolekandeasutused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.voruvald.ee/",
+      "content_hash": "f59b09df27e12b94446edc64653a63f423e639c00a473bbed97672953c0546a6",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_form_matusetoetuse_taotlus",
@@ -672,7 +1525,36 @@
       ],
       "relatedTo": [
         "voru_vald_benefit_matusetoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "matusetoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_form_matusetoetuse_taotlus",
+      "document_id": "voru_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://atp.amphora.ee/voruvv2017/index.aspx?af=188284&itm=244995",
+      "content_hash": "95ba61db42b02602a0f279ff3833d86f977520eaad67fd345247a0ec3a7cf58a",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_form_kooli_mineva_lapse_toetuse_taotlus",
@@ -698,7 +1580,36 @@
       ],
       "relatedTo": [
         "voru_vald_benefit_kooli_mineva_lapse_toetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "kooli_mineva_lapse_toetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_form_kooli_mineva_lapse_toetuse_taotlus",
+      "document_id": "voru_vald_form_kooli_mineva_lapse_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://atp.amphora.ee/voruvv2017/index.aspx?af=188285&itm=244995",
+      "content_hash": "339bc36667655fd98d34717ea928e36ef6b8753f5dfa9a37a1fe6a513fabeb88",
+      "evidence_allowed": true
     },
     {
       "id": "voru_vald_form_synnitoetuse_taotlus",
@@ -723,7 +1634,39 @@
       ],
       "relatedTo": [
         "voru_vald_benefit_sunnitoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "voru_vald",
+      "municipality_name": "Võru vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "synnitoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "voru_vald_form_synnitoetuse_taotlus",
+      "document_id": "voru_vald_form_synnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://atp.amphora.ee/voruvv2017/index.aspx?af=251454&itm=",
+      "content_hash": "40e5580008e7cb952d0073c3fa1402e56bf2b524fc3f107d2166881a2e469549",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Võru vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

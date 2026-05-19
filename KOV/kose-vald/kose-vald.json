@@ -19,9 +19,9 @@
       "summary": "Merje Villems on Kose valla sotsiaaltöö vanemspetsialist, kelle kontakt on avaldatud mitme sotsiaaltoetuse ja lapsehoiu või parkimiskaardi teemalise lehe juures.",
       "sourceKeys": [
         "contact_page",
+        "parkimiskaart_page",
         "toetused_laps_pere",
-        "toetused_toimetulek",
-        "parkimiskaart_page"
+        "toetused_toimetulek"
       ],
       "officialUrl": "https://www.kosevald.ee/kontakt",
       "name": "Merje Villems",
@@ -31,7 +31,39 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "parkimiskaart_page",
+        "toetused_laps_pere",
+        "toetused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_merje_villems",
+      "document_id": "kose_vald_contact_merje_villems",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/kontakt",
+      "content_hash": "ba7f1f28fe180c726c70cc35c6197a37f4d6cfcf9195baf43f0e4056162f6396",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_jaanika_kender",
@@ -42,8 +74,8 @@
       "summary": "Jaanika Kender on Kose valla sotsiaaltöö vanemspetsialist, kelle kontakt on avaldatud koduteenuse, üldhooldusteenuse, parkimiskaardi ja hooldajatoetuse teemaliste lehtede juures.",
       "sourceKeys": [
         "contact_page",
-        "sotsiaalteenused_eakad_taiskasvanud",
-        "parkimiskaart_page"
+        "parkimiskaart_page",
+        "sotsiaalteenused_eakad_taiskasvanud"
       ],
       "officialUrl": "https://www.kosevald.ee/kontakt",
       "name": "Jaanika Kender",
@@ -53,7 +85,38 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "parkimiskaart_page",
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_jaanika_kender",
+      "document_id": "kose_vald_contact_jaanika_kender",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/kontakt",
+      "content_hash": "64f4d4efc7eeb0d8a3ea268c3e875aeb03076b6cc42ff7fc2769a0fae881ec4b",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_merike_pihla",
@@ -75,7 +138,38 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "sotsiaalteenused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_merike_pihla",
+      "document_id": "kose_vald_contact_merike_pihla",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/kontakt",
+      "content_hash": "81a5b5c2e6d1652c16d756ee8a01e429f43a7650a1920e1710c5a3a4215dfe1c",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_kaie_nurmsalu",
@@ -86,8 +180,8 @@
       "summary": "Kaie Nurmsalu on Kose valla lastekaitse vanemspetsialist. KOV veebis on ta seotud lapsele suunatud teenuste ja lastekaitse piirkondliku kontaktina.",
       "sourceKeys": [
         "contact_page",
-        "sotsiaalteenused_laps_pere",
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "sotsiaalteenused_laps_pere"
       ],
       "officialUrl": "https://www.kosevald.ee/kontakt",
       "name": "Kaie Nurmsalu",
@@ -97,7 +191,38 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "lastekaitse_page",
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_kaie_nurmsalu",
+      "document_id": "kose_vald_contact_kaie_nurmsalu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/kontakt",
+      "content_hash": "8f090a846c195c9e83240fc25bf1d9e83100c2d2bd177af75e950ef7910063b8",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_kristel_kadapik",
@@ -108,8 +233,8 @@
       "summary": "Kristel Kadapik on Kose valla lastekaitse vanemspetsialist. Tema kontakt on avaldatud lapsele suunatud sotsiaalteenuste ja lastekaitse kontaktina.",
       "sourceKeys": [
         "contact_page",
-        "sotsiaalteenused_laps_pere",
-        "lastekaitse_page"
+        "lastekaitse_page",
+        "sotsiaalteenused_laps_pere"
       ],
       "officialUrl": "https://www.kosevald.ee/kontakt",
       "name": "Kristel Kadapik",
@@ -119,7 +244,38 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "lastekaitse_page",
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_kristel_kadapik",
+      "document_id": "kose_vald_contact_kristel_kadapik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/kontakt",
+      "content_hash": "71e3124b22aafb0ea79e2f1b46e2b63abe9e7e44e03b63e634a13467fff0d70f",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_claire_miljukova",
@@ -140,7 +296,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hallatavad_asutused",
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_claire_miljukova",
+      "document_id": "kose_vald_contact_claire_miljukova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/hallatavad-asutused",
+      "content_hash": "008a2332d5003998f2f99fe361318c49238c4f007f2cd03c8e21879689383884",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_elerin_sagar",
@@ -160,7 +346,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_elerin_sagar",
+      "document_id": "kose_vald_contact_elerin_sagar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "bb2d03135e6f537ad72f7aca966a206548239d0d59e74527165cc24ad9f02534",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_alliken_korsunov",
@@ -180,7 +395,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "noortegarantii_tugisusteem"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_alliken_korsunov",
+      "document_id": "kose_vald_contact_alliken_korsunov",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/noortegarantii-tugisusteem",
+      "content_hash": "751cd8c7a86977b91e9aec6f0e40165375f58ca3cd500e5aba38fe44f045324d",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_contact_kose_vallavalitsus",
@@ -190,8 +434,8 @@
       "status": "active",
       "summary": "Kose Vallavalitsuse üldkontakt on KOV veebis avaldatud aadressi, telefoni ja e-postiga. Seda kasutatakse üldise asjaajamise ning kohapeal esitatavate taotluste puhul.",
       "sourceKeys": [
-        "home",
-        "contact_page"
+        "contact_page",
+        "home"
       ],
       "officialUrl": "https://www.kosevald.ee/",
       "name": "Kose Vallavalitsus",
@@ -202,7 +446,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "contact",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "contact_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_contact_kose_vallavalitsus",
+      "document_id": "kose_vald_contact_kose_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/",
+      "content_hash": "1b4fb07371cabf631fc6f4c793a16b70b2302a324420240989f0f477e9c8b999",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_kose_sotsiaal_ja_hariduse_tugiteenuste_keskus",
@@ -223,7 +497,37 @@
         "kose_vald_contact_claire_miljukova"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hallatavad_asutused",
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_kose_sotsiaal_ja_hariduse_tugiteenuste_keskus",
+      "document_id": "kose_vald_resource_kose_sotsiaal_ja_hariduse_tugiteenuste_keskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/hallatavad-asutused",
+      "content_hash": "ff9465338583e1e705d78a5a68eeef9353bee985e9f9e64b29f0f345a9663790",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_puudega_inimese_soiduki_parkimiskaart",
@@ -250,7 +554,36 @@
         "kose_vald_contact_jaanika_kender"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_puudega_inimese_soiduki_parkimiskaart",
+      "document_id": "kose_vald_resource_puudega_inimese_soiduki_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/parkimiskaart",
+      "content_hash": "7c21b5c02301824c95f37fdb6a5cb34c4afca44a70f91e8f031529b804c4b189",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_lasteabi_telefon_",
@@ -268,7 +601,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "tahtsad_numbrid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_lasteabi_telefon_",
+      "document_id": "kose_vald_resource_lasteabi_telefon_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/lastekaitse",
+      "content_hash": "e9a0b5c3d931359284029462be87bc3fa1d394261857370031eaa5e3c4ab0849",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_haedaabi_",
@@ -286,7 +649,37 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "tahtsad_numbrid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_haedaabi_",
+      "document_id": "kose_vald_resource_haedaabi_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/tahtsad-numbrid-ja-lisainfo",
+      "content_hash": "825b1e8db3463c9b9db420d891c21e054bf460dce54f91ac12a0351fad9068f7",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_ohvriabi_",
@@ -303,7 +696,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtsad_numbrid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_ohvriabi_",
+      "document_id": "kose_vald_resource_ohvriabi_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/tahtsad-numbrid-ja-lisainfo",
+      "content_hash": "87e670f39c6960c1e6d3a13fea5d3619cb095790d4dd7a75210d83c9bb376d46",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_naiste_tugiliin_1492",
@@ -320,7 +742,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtsad_numbrid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_naiste_tugiliin_1492",
+      "document_id": "kose_vald_resource_naiste_tugiliin_1492",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/tahtsad-numbrid-ja-lisainfo",
+      "content_hash": "bee359bab33f8b8200254d8459065a04ac920380eeee49320d87e44a4283cb53",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_perearsti_nouandeliin_1220",
@@ -337,7 +788,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtsad_numbrid"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_perearsti_nouandeliin_1220",
+      "document_id": "kose_vald_resource_perearsti_nouandeliin_1220",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/tahtsad-numbrid-ja-lisainfo",
+      "content_hash": "96e6ebe78b635b99fae5e199055dc97001b93ebe80bcddd298693e7bf4cef94f",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_omastehoolduse_infopunkt",
@@ -354,7 +834,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_omastehoolduse_infopunkt",
+      "document_id": "kose_vald_resource_omastehoolduse_infopunkt",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "d1e20cf5672bc53382b2a7f088d10f71031501d65ce2455a6de44c4a78413d99",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_noortegarantii_tugisusteem",
@@ -384,7 +893,36 @@
         "kose_vald_contact_alliken_korsunov"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "noortegarantii_tugisusteem"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_noortegarantii_tugisusteem",
+      "document_id": "kose_vald_service_noortegarantii_tugisusteem",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/noortegarantii-tugisusteem",
+      "content_hash": "7cd4d3ffbf44107aa813a9e933e041c212e8de8ffe61b708ba84dc84fc4e2ae1",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_spoku_e_taotlused",
@@ -394,9 +932,9 @@
       "status": "active",
       "summary": "Kose valla veebileht suunab mitme sotsiaaltoetuse ja teenuse taotlemisel SPOKU iseteenindusse. SPOKU kaudu saab esitada elektroonilisi taotlusi, kui vastava teenuse või toetuse juures on KOV lehel selline kanal nimetatud.",
       "sourceKeys": [
+        "toetused_eakad_taiskasvanud",
         "toetused_laps_pere",
-        "toetused_toimetulek",
-        "toetused_eakad_taiskasvanud"
+        "toetused_toimetulek"
       ],
       "officialUrl": "https://piksel.ee/spoku/kose/",
       "format": "web_form",
@@ -425,7 +963,38 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_eakad_taiskasvanud",
+        "toetused_laps_pere",
+        "toetused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_spoku_e_taotlused",
+      "document_id": "kose_vald_form_spoku_e_taotlused",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://piksel.ee/spoku/kose/",
+      "content_hash": "490a8217ff62290bf79bce5de66733ab91ea862f5987a0443020b3b68280f33e",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_koduteenuse_avaldus",
@@ -449,7 +1018,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "koduteenuse_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_koduteenuse_avaldus",
+      "document_id": "kose_vald_form_koduteenuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-10/Avaldus_koduteenuse_taotlemiseks.docx",
+      "content_hash": "96cc8c09cc5cbb448e5b6cebd431d6b17fbc639f12f9b931d049a672e8042a3b",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_yldhooldusteenus_taotlus",
@@ -473,7 +1071,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "yldhooldusteenus_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_yldhooldusteenus_taotlus",
+      "document_id": "kose_vald_form_yldhooldusteenus_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-10/V%C3%A4ljaspool%20kodu%20osutatava%20%C3%BCldhooldusteenuse%20taotlus.docx",
+      "content_hash": "705c5da5f889dacc4a8428be4e6438e10c40842ed9ebfdce1c22eefbb606d8d0",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_hooldaja_toetus_taisealise_isiku_hooldajale",
@@ -498,7 +1125,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "hooldaja_toetus_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_hooldaja_toetus_taisealise_isiku_hooldajale",
+      "document_id": "kose_vald_form_hooldaja_toetus_taisealise_isiku_hooldajale",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/T%C3%A4isealise-isiku-hooldaja-m%C3%A4%C3%A4ramise-ja-hooldajatoetuse-taotlemise-avaldus.DOC",
+      "content_hash": "70463df575c04616472b7006d2b41332e3be05b9f3d21fcd5342a677dd5b759a",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_isikliku_abistaja_teenuse_taotlus",
@@ -522,7 +1178,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "isikliku_abistaja_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_isikliku_abistaja_teenuse_taotlus",
+      "document_id": "kose_vald_form_isikliku_abistaja_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/Isikliku%20abistaja%20teenuse%20taotlus.DOC",
+      "content_hash": "e7cb9e26d8f2f8a451a30f657dca2bc2d9d4be28bd5c6e9cdb8902d1d9abb1d8",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_sotsiaalkorteri_taotlemise_avaldus",
@@ -546,7 +1231,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalkorteri_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_sotsiaalkorteri_taotlemise_avaldus",
+      "document_id": "kose_vald_form_sotsiaalkorteri_taotlemise_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/Sotsiaalkorteri-taotlemise-avaldus.DOC",
+      "content_hash": "2ea458d56970af5e68242d18e08c03e3d956d1ff8d5d4b1209972f20187f8e96",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_toimetulekutoetuse_taotlus",
@@ -570,7 +1284,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetulekutoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_toimetulekutoetuse_taotlus",
+      "document_id": "kose_vald_form_toimetulekutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/Toimetulekutoetuse-taotlus-12-20.DOC",
+      "content_hash": "f049cc85f1cc5861022dfe12635acdc864cfcd33920824923d8d587beb3772a3",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_sotsiaalhoolekandelise_abi_taotlemise_avaldus",
@@ -602,7 +1345,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalhoolekandelise_abi_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_sotsiaalhoolekandelise_abi_taotlemise_avaldus",
+      "document_id": "kose_vald_form_sotsiaalhoolekandelise_abi_taotlemise_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/Sotsiaalhoolekandelise-abi-taotlemise-avaldus-2022.DOC",
+      "content_hash": "58946d728e2a9d0db3d803184cd3a485fcf6eb97f36911ba0680b86185413dfc",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
@@ -626,7 +1398,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "puudega_lapse_hooldajatoetus_form_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
+      "document_id": "kose_vald_form_puudega_lapse_hooldajatoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2024-03/Puudega%20lapse%20hooldajatoetuse%20taotlemise%20avaldus.DOC",
+      "content_hash": "02dbbfd7c9d1e0813cdb1db1d3f523de7461495ed4ce284e4dbd39eb9b840569",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_form_matusetoetuse_avaldus_2026",
@@ -650,7 +1451,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "form",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "matusetoetus_avaldus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_form_matusetoetuse_avaldus_2026",
+      "document_id": "kose_vald_form_matusetoetuse_avaldus_2026",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sites/default/files/documents/2026-04/Matusetoetuse%20avalduse%20vorm2026.docx",
+      "content_hash": "efac9d69e66ccc4d9ac828a7059824960e3be00f52bf3401c8d0eebe9be6a413",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_tugiisikuteenus_lapsele",
@@ -680,7 +1510,36 @@
         "kose_vald_contact_kristel_kadapik"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_tugiisikuteenus_lapsele",
+      "document_id": "kose_vald_service_tugiisikuteenus_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "27387bea2178d19f8172128cba91018dd33050076985c354427fb192f3d213b3",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_lapsehoiuteenus",
@@ -710,7 +1569,36 @@
         "kose_vald_contact_kristel_kadapik"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_lapsehoiuteenus",
+      "document_id": "kose_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "386227b9bea32bc4a298e297b84e03880264cc6717821a7fe51042a7d6617852",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_sotsiaaltransporditeenus",
@@ -720,8 +1608,8 @@
       "status": "active",
       "summary": "Sotsiaaltransporditeenuse eesmärk on võimaldada puudega inimesel, kelle puue takistab isikliku või ühissõiduki kasutamist, kasutada sobivat transpordivahendit tööle, õppeasutusse või avalike teenuste kasutamiseks sõitmisel. Taotlusele vastatakse hiljemalt viie tööpäeva jooksul. Teenusele kehtib omaosalus, kuid vähekindlustatud isikud ja erivajadusega lapsed on teatud sõitudel tasust vabastatud.",
       "sourceKeys": [
-        "sotsiaalteenused_laps_pere",
-        "sotsiaalteenused_eakad_taiskasvanud"
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "sotsiaalteenused_laps_pere"
       ],
       "officialUrl": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
       "targetGroup": "Puuetega inimesed ja erivajadusega lapsed",
@@ -743,7 +1631,37 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_sotsiaaltransporditeenus",
+      "document_id": "kose_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "550391dea1f26d4d2de4abd254a496c903dade72a65efbf0832aee5125669225",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_turvakoduteenus",
@@ -753,8 +1671,8 @@
       "status": "active",
       "summary": "Turvakoduteenuse eesmärk on tagada abivajajale ajutine eluase, turvaline keskkond ja esmane abi. Esmase abi hulka kuulub vajaduse korral kriisiabi ning nõustamine muude abi saamise võimaluste kohta. Teenust saavad lapsed, kelle elu, tervis või areng on ohus, ja täisealised isikud, kes vajavad turvalist keskkonda.",
       "sourceKeys": [
-        "sotsiaalteenused_laps_pere",
-        "sotsiaalteenused_eakad_taiskasvanud"
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "sotsiaalteenused_laps_pere"
       ],
       "officialUrl": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
       "targetGroup": "Lapsed ja täisealised inimesed, kes vajavad turvalist keskkonda",
@@ -774,7 +1692,37 @@
         "kose_vald_contact_kristel_kadapik"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_turvakoduteenus",
+      "document_id": "kose_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "999119a3048354f9da38067d4d49fac98f371f69ca11402f5beeaff428f1f276",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_asendushooldusteenus",
@@ -802,7 +1750,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_asendushooldusteenus",
+      "document_id": "kose_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "2bd97c5f6b04e1089ee0d2c7b61c8cb590803727fe9090507563ff110b4d4964",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_jarelhooldusteenus",
@@ -831,7 +1808,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_jarelhooldusteenus",
+      "document_id": "kose_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-laps-ja-pere",
+      "content_hash": "8f61b32855dfbb4caf32847dc0af64f73b835c10ee0b2c10b77b7e31d2164071",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_volanoustamisteenus",
@@ -861,7 +1867,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_volanoustamisteenus",
+      "document_id": "kose_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-toimetulekuraskustes-inimesed",
+      "content_hash": "e3d097f08518f8d94a116adbc121a0a66743839dc063d3e6d93b442a4953d2f4",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_varjupaigateenus",
@@ -890,7 +1925,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_varjupaigateenus",
+      "document_id": "kose_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-toimetulekuraskustes-inimesed",
+      "content_hash": "38a6cb58b0d6c1f5e23da0ab218d8be6da0aaa05745b6222b9853fe6dce22f56",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_eluruumi_tagamine",
@@ -924,7 +1988,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_eluruumi_tagamine",
+      "document_id": "kose_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-toimetulekuraskustes-inimesed",
+      "content_hash": "42d5409ff3176d5986d7848539004f650530a69a56ea265bccafa5f5e34589bc",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_isikukeskne_hoolekandeteenus",
@@ -954,7 +2047,36 @@
         "kose_vald_contact_claire_miljukova"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_isikukeskne_hoolekandeteenus",
+      "document_id": "kose_vald_service_isikukeskne_hoolekandeteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-toimetulekuraskustes-inimesed",
+      "content_hash": "c2bf78203a1e134bc45cc20b1f31cb7facbb44db692cd77a7fbc3d57025dbc55",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_koduteenus",
@@ -988,7 +2110,36 @@
         "kose_vald_contact_jaanika_kender"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_koduteenus",
+      "document_id": "kose_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "287ff65c6f48f8f7751b0c848312db4d84574edaae56af131b74fe0e55de4997",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_tugiisikuteenus_tooealisele_isikule",
@@ -1018,7 +2169,36 @@
         "kose_vald_contact_claire_miljukova"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_tugiisikuteenus_tooealisele_isikule",
+      "document_id": "kose_vald_service_tugiisikuteenus_tooealisele_isikule",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "f0f140bc7eea5f930297e6440f0b6a952b52bfaad3c2de3e6f78bbcbc232709f",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_noustamisteenused_omastehooldajatele",
@@ -1048,7 +2228,36 @@
         "kose_vald_contact_claire_miljukova"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_noustamisteenused_omastehooldajatele",
+      "document_id": "kose_vald_service_noustamisteenused_omastehooldajatele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "8ff886068ece1feeb6ca17cdfe6b028aeaa69ce186535f81420256905232ff64",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_paevakeskuse_teenus",
@@ -1075,7 +2284,36 @@
         "kose_vald_contact_claire_miljukova"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_paevakeskuse_teenus",
+      "document_id": "kose_vald_service_paevakeskuse_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "60d32f590957835064c99a98d8669f072aaec42a409cb8e861b022b00f4cbe8f",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -1111,7 +2349,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "kose_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "d734ac5fd8592cdf203bf7e49e8e6b7e66121adf0d48f0132018d56270139bbb",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_taisealise_isiku_hooldus",
@@ -1144,7 +2411,36 @@
         "kose_vald_contact_jaanika_kender"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_taisealise_isiku_hooldus",
+      "document_id": "kose_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "5cda56e04c837f806f1880c468bd9bff697ea10b6216b47aa4a22a4b3dc8e18e",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_isikliku_abistaja_teenus",
@@ -1177,7 +2473,36 @@
         "kose_vald_contact_merike_pihla"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_isikliku_abistaja_teenus",
+      "document_id": "kose_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "656599a0fa832861a1798a360e9be3e60b21adeac119fe1777fcafb0419685a9",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_kodunupp",
@@ -1205,7 +2530,36 @@
         "kose_vald_contact_elerin_sagar"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_kodunupp",
+      "document_id": "kose_vald_service_kodunupp",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "e6f8ddc4be8429e45dc74b483372af9885973feb7f11c7d565584b945ad6e770",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_resource_automaatne_ravimikarp_helialarmiga",
@@ -1232,7 +2586,36 @@
         "kose_vald_contact_elerin_sagar"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_resource_automaatne_ravimikarp_helialarmiga",
+      "document_id": "kose_vald_resource_automaatne_ravimikarp_helialarmiga",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "3dc3e3ba63ac4d1ea555cdd0cc5126ef694574cfcf6a2ff9291f1b205d76ee47",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_koduandur",
@@ -1260,7 +2643,36 @@
         "kose_vald_contact_elerin_sagar"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_koduandur",
+      "document_id": "kose_vald_service_koduandur",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "a6b8daa616b36ff78c45e36bd8f5feb7b9ca6076287e5882af7d97d77b2573d6",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_service_trepironija_teenus",
@@ -1290,7 +2702,36 @@
         "kose_vald_contact_elerin_sagar"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_service_trepironija_teenus",
+      "document_id": "kose_vald_service_trepironija_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "0304d18caccf4618725936e2160056cdf9b908b2e9be18d811a99a075beab966",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_synnitoetus",
@@ -1324,7 +2765,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_synnitoetus",
+      "document_id": "kose_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "29ecf53e7d328bcad31a7567f8f4b338ef5c4c78ebf751018df7ed6ae2c26de3",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_lasteaia_toidutoetus_suurele_perele",
@@ -1356,7 +2826,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_lasteaia_toidutoetus_suurele_perele",
+      "document_id": "kose_vald_benefit_lasteaia_toidutoetus_suurele_perele",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "03ab0ce90818613b53645e2b18cf1a77c87dafe86efd4c57d29b9fb8bb5f6441",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_koduse_lapse_toetus",
@@ -1389,7 +2888,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_koduse_lapse_toetus",
+      "document_id": "kose_vald_benefit_koduse_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "31527e227421425694f1feb47dcebb728e8bddea04261f8404bc0aeb19234682",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_lapsehoiuteenuse_toetus",
@@ -1424,7 +2952,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_lapsehoiuteenuse_toetus",
+      "document_id": "kose_vald_benefit_lapsehoiuteenuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "93a5712503dd9f9d16e1bd4fb1fa1874dd6221713b1b25e8e426f41a91d353ff",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
@@ -1458,7 +3015,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "document_id": "kose_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "61b46a095cb950c26b9cb87535f846c8f9c178542299270998dee3094974e61c",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_huvihariduse_ja_huvitegevuse_toetus",
@@ -1488,7 +3074,36 @@
       ],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_huvihariduse_ja_huvitegevuse_toetus",
+      "document_id": "kose_vald_benefit_huvihariduse_ja_huvitegevuse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "f83c8dc451a5de18f3cb4d7954806fded3b47a8c7ecc50e3fd636b48ef482c35",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_vanemliku_hoolitsuseta_jaanud_lapse_toetus",
@@ -1520,7 +3135,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_vanemliku_hoolitsuseta_jaanud_lapse_toetus",
+      "document_id": "kose_vald_benefit_vanemliku_hoolitsuseta_jaanud_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "9fb4fe38fa465fb70eda09589d74fce418d5cb19cc96e6156aabfec04357f9ea",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
@@ -1554,7 +3198,36 @@
         "kose_vald_contact_jaanika_kender"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "document_id": "kose_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "18ed94a922e16575c91e1c69c2b31090754a41dde7c3c5fb2b0dd4042d9af2ca",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_lasteaia_toiduraha_ja_kohamaksutoetus",
@@ -1591,7 +3264,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_lasteaia_toiduraha_ja_kohamaksutoetus",
+      "document_id": "kose_vald_benefit_lasteaia_toiduraha_ja_kohamaksutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "a4626eb5c1452099b9fd62eea31a5c0c8d227e308dd8cec328b3ec4c4beedb66",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_uldhariduskooli_toiduraha_toetus",
@@ -1628,7 +3330,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_uldhariduskooli_toiduraha_toetus",
+      "document_id": "kose_vald_benefit_uldhariduskooli_toiduraha_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "a64b63d90130839143cc9bd1af83798854e5202c5d6058ebfb2b7789c5c851d8",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
@@ -1665,7 +3396,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
+      "document_id": "kose_vald_benefit_vahekindlustatud_pere_lapse_koolitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "60091c2db310e77303c9d2ec8825b1b4915f5ab96d6b79aa3ac3be42679f6fcf",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_lastelaagri_toetus",
@@ -1702,7 +3462,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_lastelaagri_toetus",
+      "document_id": "kose_vald_benefit_lastelaagri_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "4c75e75a8d944fd83a383386d84c1c0a829aab1b395e493629a3814fe13518a6",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_laste_prillitoetus",
@@ -1739,7 +3528,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_laste_prillitoetus",
+      "document_id": "kose_vald_benefit_laste_prillitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "f6764c8e86e270955ecd6f27fd70f1ae2f5710a328875bbda3195366f711fc91",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_kutseoppeasutuses_oppiva_opilase_toetus",
@@ -1775,7 +3593,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_kutseoppeasutuses_oppiva_opilase_toetus",
+      "document_id": "kose_vald_benefit_kutseoppeasutuses_oppiva_opilase_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-laps-ja-pere",
+      "content_hash": "28450cc7f9dbcb7ac3fca0f2118e7c46de4fd3bfd07c34a2cac31e298dca0a8c",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_toimetulekutoetus",
@@ -1810,7 +3657,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_toimetulekutoetus",
+      "document_id": "kose_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-toimetulekuraskustes-inimesed",
+      "content_hash": "b6101250dc14598f84f0507309e581f0e90262eec0c4942f081227489347e527",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_eluasemekulude_toetus",
@@ -1847,7 +3723,36 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_eluasemekulude_toetus",
+      "document_id": "kose_vald_benefit_eluasemekulude_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-toimetulekuraskustes-inimesed",
+      "content_hash": "d1b1c3f702e5a751d1363781874c9f0a3a8f2e56016ec409c2b84fe19ae713f9",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_tervisetoetus",
@@ -1885,7 +3790,37 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_eakad_taiskasvanud",
+        "toetused_laps_pere"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_tervisetoetus",
+      "document_id": "kose_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-eakad-ja-taiskasvanud",
+      "content_hash": "5a41fb4e1e2ded7695e4bd40d6be6e4b09bddd8934cb0eb75aa61ba3c55bf980",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_erakorraline_sotsiaalabi_toetus",
@@ -1895,9 +3830,9 @@
       "status": "active",
       "summary": "Erakorralist sotsiaalabi toetust makstakse Kose vallas elavale vähekindlustatud isikule või perele, kes on ajutiselt sattunud majanduslikult raskesse olukorda. Toetuse taotlemisel lisatakse kulutusi tõendavad dokumendid või kirjeldatakse, milliste kulude katmiseks toetust taotletakse. Toetuse suurus sõltub abivajadusest.",
       "sourceKeys": [
-        "toetused_toimetulek",
         "toetused_eakad_taiskasvanud",
-        "toetused_laps_pere"
+        "toetused_laps_pere",
+        "toetused_toimetulek"
       ],
       "officialUrl": "https://www.kosevald.ee/toetused-toimetulekuraskustes-inimesed",
       "targetGroup": "Ajutiselt majanduslikult raskesse olukorda sattunud Kose valla isikud ja pered",
@@ -1924,7 +3859,38 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_eakad_taiskasvanud",
+        "toetused_laps_pere",
+        "toetused_toimetulek"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_erakorraline_sotsiaalabi_toetus",
+      "document_id": "kose_vald_benefit_erakorraline_sotsiaalabi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-toimetulekuraskustes-inimesed",
+      "content_hash": "fb1a7018fe015a331267f8d2b8c604fa78cf642aa0d2a0eda69345d7a7f135ae",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
@@ -1960,7 +3926,37 @@
         "kose_vald_contact_jaanika_kender"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenused_eakad_taiskasvanud",
+        "toetused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "document_id": "kose_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/sotsiaalteenused-eakad-ja-taiskasvanud",
+      "content_hash": "05997ea5b5be9c034c72ddd578f4d1b827a180fccf0636c31d61d0597033c732",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_eakate_tahtpaeva_toetus",
@@ -1985,7 +3981,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toetused_eakad_taiskasvanud"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_eakate_tahtpaeva_toetus",
+      "document_id": "kose_vald_benefit_eakate_tahtpaeva_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/toetused-eakad-ja-taiskasvanud",
+      "content_hash": "1beb53471927b94bbeed9f5620b93a2e3d4417bc2b4ce00ca01194843f78c679",
+      "evidence_allowed": true
     },
     {
       "id": "kose_vald_benefit_matusetoetus",
@@ -2022,7 +4047,39 @@
         "kose_vald_contact_merje_villems"
       ],
       "sections_present": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "kose_vald",
+      "municipality_name": "Kose vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lahedase_kaotus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kose_vald_benefit_matusetoetus",
+      "document_id": "kose_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kosevald.ee/lahedase-kaotus",
+      "content_hash": "dfcfe74448b75d32442418d4dccf6150ae0dec66a224623e9996629b6337d91f",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Kose vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

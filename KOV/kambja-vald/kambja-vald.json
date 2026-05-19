@@ -25,7 +25,37 @@
       "role": "üldkontakt",
       "department": "Kambja Vallavalitsus",
       "address": "Pargi 2, Ülenurme alevik, Kambja vald, 61714 Tartumaa",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "home",
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_vallavalitsus",
+      "document_id": "kambja_vald_contact_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0a38cab1186536cad7273ebefc98a674c5ce8ea4f916ec1b129d721e4d39ac3c",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_contact_rahel_tamm",
@@ -41,7 +71,36 @@
       "role": "sotsiaalosakonna juhataja",
       "department": "Sotsiaalosakond",
       "address": null,
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_rahel_tamm",
+      "document_id": "kambja_vald_contact_rahel_tamm",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "48e50d18939aa1a8670b483db0bd2d4209cdd05d52fc43ac80be7549db9da744",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_contact_marge_maidla",
@@ -57,7 +116,36 @@
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaalosakond",
       "address": "Pargi 2, Ülenurme",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_marge_maidla",
+      "document_id": "kambja_vald_contact_marge_maidla",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bdf8dd1935b6f88666aac80b2336ac59c83414543e292f6576d0f452003012a1",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_contact_meriliis_kuuslap",
@@ -73,7 +161,36 @@
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaalosakond",
       "address": "Kesk 2, Kambja",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_meriliis_kuuslap",
+      "document_id": "kambja_vald_contact_meriliis_kuuslap",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "51b5121ac91d856bead118cff6dadf3e524fd7de08d8bcd8f7c3b699f22bc6ed",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_contact_aare_laak",
@@ -89,7 +206,36 @@
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaalosakond",
       "address": "Pargi 2, Ülenurme",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_aare_laak",
+      "document_id": "kambja_vald_contact_aare_laak",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "55845dc1156b1fb7c173a0fa49a3ee24f8903766d2642626edf3ade77d4c8a50",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_contact_tiina_lobjakas",
@@ -105,7 +251,36 @@
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaalosakond",
       "address": "Kesk 2, Kambja",
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "contact",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_contact_tiina_lobjakas",
+      "document_id": "kambja_vald_contact_tiina_lobjakas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "1988ff88d860554ba4110bf8ea8be1863fa9a88e52734de3596d39cb6edd3771",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_toimetulekutoetus",
@@ -138,7 +313,36 @@
       "relatedContacts": [
         "kambja_vald_contact_aare_laak",
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_toimetulekutoetus",
+      "document_id": "kambja_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toimetulekutoetus",
+      "content_hash": "6f4ceff38a41bd94c77c7f715cb9f7b829ee0e44924d6291955d7a8db232fe4e",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_kriisi_toetus",
@@ -176,7 +380,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_aare_laak"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kriisi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_kriisi_toetus",
+      "document_id": "kambja_vald_benefit_kriisi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toetus-kriisiolukorra-voi-onnetusjuhtumi-korral",
+      "content_hash": "b1ecc0e8245e09798a703a3f7b74c074d6f986d354b49886adb4a469cd77f0b0",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_eakate_sunnipaevatoetus",
@@ -213,7 +446,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_eakate_sunnipaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_eakate_sunnipaevatoetus",
+      "document_id": "kambja_vald_benefit_eakate_sunnipaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/eakate-sunnipaevatoetus",
+      "content_hash": "9f9a165162bec959c6781d3460edf5439996d779c0606c4c0697c154c04cc9b3",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_hooldajatoetus",
@@ -251,7 +513,36 @@
       "relatedContacts": [
         "kambja_vald_contact_marge_maidla",
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_hooldajatoetus",
+      "document_id": "kambja_vald_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/hooldajatoetus",
+      "content_hash": "f04387c1c276e38d2f849de6ac72648bf7922cad94710f018bca36ef9a2667ca",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_koolilounatoetus",
@@ -289,7 +580,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_aare_laak"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_koolilounatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_koolilounatoetus",
+      "document_id": "kambja_vald_benefit_koolilounatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/koolilounatoetus",
+      "content_hash": "bf397888118d035bc64f04f3e64a69cf2e70e043a826144481b298e3905862b6",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_kuttetoetus",
@@ -326,7 +646,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kuttetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_kuttetoetus",
+      "document_id": "kambja_vald_benefit_kuttetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/kuttetoetus",
+      "content_hash": "45fcf660c6ab537695e1c0ad9893ab28733dc0c375008e6cef5fe03c587a8c59",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_laagritoetus",
@@ -363,7 +712,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_laagritoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_laagritoetus",
+      "document_id": "kambja_vald_benefit_laagritoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/laagritoetus",
+      "content_hash": "4b62f5b8614f91317a55095838e19384d1bfa55f414d3b62936172a60421291f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_matusetoetus",
@@ -397,7 +775,36 @@
         "kambja_vald_form_matusetoetus_docx",
         "kambja_vald_form_spoku_matusetoetus"
       ],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_matusetoetus",
+      "document_id": "kambja_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/matusetoetus",
+      "content_hash": "b30bb8099c68a45edb8f0e538cb1de79b3e7756ab4ae6db18d4df0386ba4ef32",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_ranitsatoetus",
@@ -431,7 +838,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_ranitsatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_ranitsatoetus",
+      "document_id": "kambja_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/ranitsatoetus",
+      "content_hash": "53d6241bc56aee0add9fac2c3dcc4cc4bed961ebc85a95ee35a4967ac62d3bce",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_sunnitoetus",
@@ -466,7 +902,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_sunnitoetus",
+      "document_id": "kambja_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/sunnitoetus",
+      "content_hash": "d0ba7a21297d0e4a29db1863cf630ebbffd2b2c08dbfccf904aad0e01cffb6d4",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_teise_omavalitsuse_lasteaia_toetus",
@@ -503,7 +968,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_marge_maidla"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_teise_omavalitsuse_lasteaia_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_teise_omavalitsuse_lasteaia_toetus",
+      "document_id": "kambja_vald_benefit_teise_omavalitsuse_lasteaia_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/teise-omavalitsuse-munitsipaallasteaia-koha-kasutamise-toetus",
+      "content_hash": "60354eccc837f7224be6a3b63c0f19c0b9b2220a14a36c383d79b20c80471052",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_tervisetoetus",
@@ -540,7 +1034,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_tervisetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_tervisetoetus",
+      "document_id": "kambja_vald_benefit_tervisetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/tervisetoetus",
+      "content_hash": "cc99dc47d348ba76fb61bc8d0f32961a8e848afb248ce2665f2ea8ef2e7d287b",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_oppetoetus",
@@ -577,7 +1100,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_aare_laak"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_oppetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_oppetoetus",
+      "document_id": "kambja_vald_benefit_oppetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/oppetoetus",
+      "content_hash": "56b6c427d571c5e463ab55577a9d5b63896919baec66ee0888187796a4c10ad4",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_benefit_uhekordne_toetus",
@@ -612,7 +1164,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_aare_laak"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_uhekordne_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_benefit_uhekordne_toetus",
+      "document_id": "kambja_vald_benefit_uhekordne_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/uhekordne-toetus",
+      "content_hash": "3fefc0c1d0f17cc259d31238ae270bbb7da7dbc14c77103536e0a7a1546c7894",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_uldhooldusteenus",
@@ -648,7 +1229,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_meriliis_kuuslap"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_uldhooldusteenus",
+      "document_id": "kambja_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/uldhooldusteenus",
+      "content_hash": "fa002af068e87e564852edda9e5b6844ca9be9a6dd6d7003940559da1c776878",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_asendushooldusteenus",
@@ -680,7 +1290,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_rahel_tamm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_asendushooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_asendushooldusteenus",
+      "document_id": "kambja_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/asendushooldusteenus",
+      "content_hash": "f23d5f83d7358cb490bdc9569d3b27d5e0cd6f6d7978213c843294acdf4c2547",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_eluruumi_tagamine",
@@ -712,7 +1351,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_eluruumi_tagamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_eluruumi_tagamine",
+      "document_id": "kambja_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/eluruumi-tagamine",
+      "content_hash": "b89ba31610fd2fc58bdca12a7ae20db66b38104d5a52d4349dd6aca45ef3aa3d",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_isikliku_abistaja_teenus",
@@ -744,7 +1412,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_isikliku_abistaja_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_isikliku_abistaja_teenus",
+      "document_id": "kambja_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/isikliku-abistaja-teenus",
+      "content_hash": "b12c163278d53d11bcdd117024ee91358c79c541ab97ee8d6ec71c568d97d4d1",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_jarelhooldusteenus",
@@ -776,7 +1473,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_rahel_tamm"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_jarelhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_jarelhooldusteenus",
+      "document_id": "kambja_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/jarelhooldusteenus",
+      "content_hash": "74b4f46e63f497fc066cf861c482104909548b74f5900ada0688fd42fa53eb90",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_koduteenus",
@@ -811,7 +1537,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_koduteenus",
+      "document_id": "kambja_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/toiming/koduteenus",
+      "content_hash": "497f01d6db0c87ce3a9c5bf5bd726bba90b93f2df88036e45e097e58c8ad9213",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_lapsehoiuteenus",
@@ -843,7 +1598,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_marge_maidla"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_lapsehoiuteenus",
+      "document_id": "kambja_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/lapsehoiuteenus",
+      "content_hash": "9a022df7aef4f67c2ce06734559ca0081a83d9d4902b4e2ce9c52aac1be6a585",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_sotsiaalkiirabi",
@@ -874,7 +1658,36 @@
       "amount": null,
       "officialUrl": "https://www.kambja.ee/sotsiaalkiirabi",
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_sotsiaalkiirabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_sotsiaalkiirabi",
+      "document_id": "kambja_vald_service_sotsiaalkiirabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/sotsiaalkiirabi",
+      "content_hash": "ba6ca24b51144171d197e799bc103f180ea2f8d7f656ff58e20462af6c6b477e",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_raske_puudega_lapse_teenus",
@@ -910,7 +1723,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_marge_maidla"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_raske_puudega_lapse_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_raske_puudega_lapse_teenus",
+      "document_id": "kambja_vald_service_raske_puudega_lapse_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/sotsiaalteenus-raske-voi-sugava-puudega-lapsele",
+      "content_hash": "98b416bd1fc22a440a060b1d6fb338b622bf19652119673a97720f6c45cad544",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_sotsiaaltransporditeenus",
@@ -943,7 +1785,36 @@
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas",
         "kambja_vald_contact_marge_maidla"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_sotsiaaltransporditeenus",
+      "document_id": "kambja_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/sotsiaaltransporditeenus",
+      "content_hash": "e42617c1d52c20349909556a7c20dcb2ba2d6e0c306b2ad74d2a7a90d4411202",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_tugiisikuteenus",
@@ -976,7 +1847,36 @@
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas",
         "kambja_vald_contact_marge_maidla"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_tugiisikuteenus",
+      "document_id": "kambja_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/tugiisikuteenus",
+      "content_hash": "6efea772b6b414cc597e7166253b76bd23565d5342b6e68a7ad16156f07839d4",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_turvakoduteenus",
@@ -1008,7 +1908,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_turvakoduteenus",
+      "document_id": "kambja_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/turvakoduteenus",
+      "content_hash": "8c98fc4a3ac4889e2d74a06774ce9089b8a715ea57c3bebefaa5d7979c469a71",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_taisealise_isiku_hooldus",
@@ -1042,7 +1971,36 @@
       ],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_taisealise_isiku_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_taisealise_isiku_hooldus",
+      "document_id": "kambja_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/taisealise-isiku-hooldus",
+      "content_hash": "f8104a7de8d8fe7aa01f39190b39274c2d81bf3d4ceb67ed8be0ea7b723aeae6",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_varjupaigateenus",
@@ -1074,7 +2032,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_varjupaigateenus",
+      "document_id": "kambja_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/varjupaigateenus",
+      "content_hash": "17d83caba3f48722cd80a1b9804003589342f5677bcd65cf0848523ff314a6eb",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_service_volanoustamisteenus",
@@ -1106,7 +2093,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "kambja_vald_contact_tiina_lobjakas"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_service_volanoustamisteenus",
+      "document_id": "kambja_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/volanoustamisteenus",
+      "content_hash": "0da46df70973797e10377b7321c46fe53f14d96a2433dc3f49b523e1c6bf217f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_hoolekandeasutused",
@@ -1129,7 +2145,36 @@
       "relatedContacts": [],
       "relatedTo": [
         "kambja_vald_service_uldhooldusteenus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_hoolekandeasutused",
+      "document_id": "kambja_vald_resource_hoolekandeasutused",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/pere-sotsiaal-ja-tervishoid/sotsiaalteenused/hooldusteenus-valjaspool-kodu",
+      "content_hash": "bea42d7bf5fddf6ef19f1be49f26fbf649ee7f9b200500aa53de302c81fde0fc",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_lastekaitse",
@@ -1153,7 +2198,36 @@
         "kambja_vald_contact_marge_maidla",
         "kambja_vald_contact_rahel_tamm"
       ],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_lastekaitse",
+      "document_id": "kambja_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/lastekaitse",
+      "content_hash": "3c84598e0135c1ea2f56b9f0c2e6e91a2c775f3d7554c95326557b96e545f050",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_ohvriabi",
@@ -1174,7 +2248,36 @@
       "officialUrl": "https://www.kambja.ee/ohvriabi",
       "relatedForms": [],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_ohvriabi",
+      "document_id": "kambja_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/ohvriabi",
+      "content_hash": "3b310c2e17aa36f21271488cb8549541a2b7275827a6703f6e8861bef699cf56",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_lapse_sund",
@@ -1199,7 +2302,36 @@
       ],
       "relatedTo": [
         "kambja_vald_benefit_sunnitoetus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_lapse_sund_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_lapse_sund",
+      "document_id": "kambja_vald_resource_lapse_sund",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/lapse-sund",
+      "content_hash": "1773499c7f63fff8c62a6fad58936acf09f61c590b5b61dfe8e398e159f0b070",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_lahedase_surm",
@@ -1222,7 +2354,36 @@
       "relatedContacts": [],
       "relatedTo": [
         "kambja_vald_benefit_matusetoetus"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_lahedase_surm_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_lahedase_surm",
+      "document_id": "kambja_vald_resource_lahedase_surm",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/lahedase-surm",
+      "content_hash": "53b8bcd0922636d52e0d0329d8032d7811945307b8e44cd5f8bc9cd68eeeeaef",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_erakorraline_arstiabi",
@@ -1243,7 +2404,36 @@
       "officialUrl": "https://www.kambja.ee/erakorraline-arstiabi",
       "relatedForms": [],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_erakorraline_arstiabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_erakorraline_arstiabi",
+      "document_id": "kambja_vald_resource_erakorraline_arstiabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/erakorraline-arstiabi",
+      "content_hash": "8d3d2d155221f1901b712f84ae88ecfa5a44335687317acfa1be21c2c88e17f9",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_perearstid",
@@ -1264,7 +2454,36 @@
       "officialUrl": "https://www.kambja.ee/perearstid",
       "relatedForms": [],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_perearstid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_perearstid",
+      "document_id": "kambja_vald_resource_perearstid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/perearstid",
+      "content_hash": "2ceb5722096f41bacfc8bbe669c59b6d3b7f21afe3e82dfddb5a476bcba19785",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_hambaravi",
@@ -1285,7 +2504,36 @@
       "officialUrl": "https://www.kambja.ee/hambaravi",
       "relatedForms": [],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_hambaravi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_hambaravi",
+      "document_id": "kambja_vald_resource_hambaravi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/hambaravi",
+      "content_hash": "6f27faa7b9c3aeb13153ebb57770267f75c669cd937b76800370391285dd36d6",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_resource_apteegid",
@@ -1306,7 +2554,36 @@
       "officialUrl": "https://www.kambja.ee/apteegid",
       "relatedForms": [],
       "relatedContacts": [],
-      "relatedTo": []
+      "relatedTo": [],
+      "item_type": "resource",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "resource_apteegid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_resource_apteegid",
+      "document_id": "kambja_vald_resource_apteegid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.kambja.ee/apteegid",
+      "content_hash": "5b7b347842a8f61360f263aa7ae580aca76caa072ff41c616b77e8535f329755",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_kriisi_toetus_docx",
@@ -1332,7 +2609,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kriisi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_kriisi_toetus_docx",
+      "document_id": "kambja_vald_form_kriisi_toetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "76dd5e88142eeb03b034cec3a72be7dd8ac0e416985b51ec2d172da6f1bde73f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_eakate_sunnipaevatoetus_docx",
@@ -1358,7 +2664,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_eakate_sunnipaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_eakate_sunnipaevatoetus_docx",
+      "document_id": "kambja_vald_form_eakate_sunnipaevatoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "34aa0bfc6cc79513c6f9b941427cb0c740f8fc2b3b5e9d99c44ba5f3eea89ab3",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_hooldajatoetus_taisealine_docx",
@@ -1386,7 +2721,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_hooldajatoetus_taisealine_docx",
+      "document_id": "kambja_vald_form_hooldajatoetus_taisealine_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "573c797299f1c8dc2644e68903ee9ac4594e8cd7164069615de965153e44da77",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_hooldajatoetus_laps_docx",
@@ -1413,7 +2777,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_hooldajatoetus_laps_docx",
+      "document_id": "kambja_vald_form_hooldajatoetus_laps_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "df72dd75adca348bcb38a1afddb835b95ba78426eddfbed3a94f7c9517e0d4be",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_koolilounatoetus_docx",
@@ -1439,7 +2832,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_koolilounatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_koolilounatoetus_docx",
+      "document_id": "kambja_vald_form_koolilounatoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "897b7f692de93b52830a658d74a51d8255e6cf1686ff9518e2d5963af6503b29",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_kuttetoetus_docx",
@@ -1465,7 +2887,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kuttetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_kuttetoetus_docx",
+      "document_id": "kambja_vald_form_kuttetoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "4e94b0f97e47950d2d27f139460e7cd779cce077578368e7ab78892c2e9defec",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_oppetoetus_ja_laagritoetus_docx",
@@ -1493,7 +2944,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_oppetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_oppetoetus_ja_laagritoetus_docx",
+      "document_id": "kambja_vald_form_oppetoetus_ja_laagritoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "97dd811ff7381788b3705f22a7b4266f9b04e3fb2544025c0c59c34676a02147",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_matusetoetus_docx",
@@ -1516,7 +2996,36 @@
       "relatedContacts": [],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_matusetoetus_docx",
+      "document_id": "kambja_vald_form_matusetoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5f9d44c44b85c5187c9f91e095d2b5d24025286c1556ef6780dfbdc251cf47aa",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_teise_omavalitsuse_lasteaia_toetus_doc",
@@ -1542,7 +3051,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_teise_omavalitsuse_lasteaia_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_teise_omavalitsuse_lasteaia_toetus_doc",
+      "document_id": "kambja_vald_form_teise_omavalitsuse_lasteaia_toetus_doc",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "23a7309eefc9a30312f263dff8b86de02e5dddde162b15938025cf51953b3404",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_tervisetoetus_docx",
@@ -1568,7 +3106,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_tervisetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_tervisetoetus_docx",
+      "document_id": "kambja_vald_form_tervisetoetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "147e1c4ebf5f644d3f7e655946c4037bf6a4bee6436778cb962272d0dcab4128",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_uhekordne_toetus_docx",
@@ -1594,7 +3161,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_uhekordne_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_uhekordne_toetus_docx",
+      "document_id": "kambja_vald_form_uhekordne_toetus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "91b2539ce79421b9e5b086d4baa40c736b00533f53d302bcbb76afc36f8481d0",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_sotsiaalabi_uldtaotlus_docx",
@@ -1620,7 +3216,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_sotsiaalabi_uldtaotlus_docx",
+      "document_id": "kambja_vald_form_sotsiaalabi_uldtaotlus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "13a47bfe5b05cc2ec64ca5be89ed1f79027db331965afe2618e95d07fcfb569f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_puudega_lapse_sotsiaalteenus_doc",
@@ -1646,7 +3271,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_raske_puudega_lapse_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_puudega_lapse_sotsiaalteenus_doc",
+      "document_id": "kambja_vald_form_puudega_lapse_sotsiaalteenus_doc",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "beff774eda9400327be009279785e334eb1845a7574b29b7f88466e764e34bf8",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_uldhooldusteenus_docx",
@@ -1672,7 +3326,36 @@
       ],
       "unresolvedIssues": [
         "KOV lehel on vormi fail nimetatud, kuid otsest faili URL-i ei õnnestunud kontrollitavalt eraldada; sourceKeys viitab ametlikule detaillehele, millel vorm on avaldatud."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "service_uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_uldhooldusteenus_docx",
+      "document_id": "kambja_vald_form_uldhooldusteenus_docx",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "74176bd5be876cef5b44b689e34afe82f02c13b224697c987d3c492a41f68f5f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_kriisi_toetus",
@@ -1697,7 +3380,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kriisi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_kriisi_toetus",
+      "document_id": "kambja_vald_form_spoku_kriisi_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "915441f488dd7d2c906701c35a665bf5084a359d702281c70e235cf2ba3b10b0",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_eakate_sunnipaevatoetus",
@@ -1722,7 +3434,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_eakate_sunnipaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_eakate_sunnipaevatoetus",
+      "document_id": "kambja_vald_form_spoku_eakate_sunnipaevatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bf4d78506609013d1512584dfb8471f80fffc245b79a99cfb14b757f84135ac4",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_koolilounatoetus",
@@ -1747,7 +3488,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_koolilounatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_koolilounatoetus",
+      "document_id": "kambja_vald_form_spoku_koolilounatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5af005e4a49e5668870fe03eea5a7b5b526d315524f5c0c010dfa0f44caa601c",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_kuttetoetus",
@@ -1772,7 +3542,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_kuttetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_kuttetoetus",
+      "document_id": "kambja_vald_form_spoku_kuttetoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "47bd11e413cf8f0a8ad81679c3ce5b974bbea22953c488f36bdf9776728e1fcd",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_oppetoetus_ja_laagritoetus",
@@ -1799,7 +3598,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_oppetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_oppetoetus_ja_laagritoetus",
+      "document_id": "kambja_vald_form_spoku_oppetoetus_ja_laagritoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "732e0c37cf5db0ddf4753076bb419a259340556c8467361f4011286592fa3ddb",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_matusetoetus",
@@ -1822,7 +3650,36 @@
       "relatedContacts": [],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_matusetoetus",
+      "document_id": "kambja_vald_form_spoku_matusetoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0a8548be6265e4e624fac7a7390765fcd80cd4b57319338dfcd11864dc9484ee",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_ranitsatoetus",
@@ -1847,7 +3704,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_ranitsatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_ranitsatoetus",
+      "document_id": "kambja_vald_form_spoku_ranitsatoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "59318aaeb081e2345ea4578040721b1a89fd455ec4a2e6ab7b2914496683b3a0",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_sunnitoetus",
@@ -1872,7 +3758,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_sunnitoetus",
+      "document_id": "kambja_vald_form_spoku_sunnitoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "9fcb509e2e4c9ac01fe223e5b7037b7c46d25567a956b327bd268c0fcb99585f",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_teise_omavalitsuse_lasteaia_toetus",
@@ -1897,7 +3812,36 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_teise_omavalitsuse_lasteaia_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_teise_omavalitsuse_lasteaia_toetus",
+      "document_id": "kambja_vald_form_spoku_teise_omavalitsuse_lasteaia_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "1e07736fce05ed84a47c14c9116a5c18dc97cbe0e813f646bf05eacb27c483a9",
+      "evidence_allowed": true
     },
     {
       "id": "kambja_vald_form_spoku_tervisetoetus",
@@ -1922,7 +3866,39 @@
       ],
       "unresolvedIssues": [
         "KOV leht kinnitab iseteeninduses taotlemise võimalust, kuid välise SPOKU otselinki ei kasutatud andmepaketi allikana."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "kambja_vald",
+      "municipality_name": "Kambja vald",
+      "county": "Tartumaa",
+      "source_keys": [
+        "benefit_tervisetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "kambja_vald_form_spoku_tervisetoetus",
+      "document_id": "kambja_vald_form_spoku_tervisetoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e48c0d00a28d1a9083785eb3781d3a402b0d10d33df638d0119f37b509248a1e",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Kambja vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

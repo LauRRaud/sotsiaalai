@@ -46,7 +46,36 @@
       ],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_koduteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_koduteenus",
+      "document_id": "ruhnu_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/koduteenus/",
+      "content_hash": "1cb7b8a41c0cb0e54a153417868ccd6cb897d3ed485087661f21eb9c8efe650c",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_uldhooldusteenus",
@@ -81,7 +110,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_uldhooldusteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_uldhooldusteenus",
+      "document_id": "ruhnu_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "content_hash": "0a756110b82f74c633604ad5847149748e34ecf2994f17fb4eb9c880ecc747f7",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_tugiisikuteenus",
@@ -111,7 +169,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_tugiisikuteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_tugiisikuteenus",
+      "document_id": "ruhnu_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/tugiisikuteenus/",
+      "content_hash": "8c9404088b23ba293db2f063816f43465bb6190a442af749cba15966ab11408e",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_taisealise_isiku_hooldus",
@@ -141,7 +228,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_taisealise_isiku_hooldus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_taisealise_isiku_hooldus",
+      "document_id": "ruhnu_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "8b4a8b1ca5ba05a1a89aa7421b5a97278dababbe29c4bd92193e15e7e005f428",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_isikliku_abistaja_teenus",
@@ -171,7 +287,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_isikliku_abistaja_teenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_isikliku_abistaja_teenus",
+      "document_id": "ruhnu_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "content_hash": "a2ae7ac5c9e8e8fa96258d013b41023cf53a988ae859c0d2914a925b8ea2559a",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_lapsehoiuteenus",
@@ -201,7 +346,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_lapsehoiuteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_lapsehoiuteenus",
+      "document_id": "ruhnu_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/lapsehoiuteenus/",
+      "content_hash": "bfa773f7178fd7815c43b8e5fde173351914e078b537a300332b180dbb59f181",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_asendushooldusteenus",
@@ -232,7 +406,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_asendushooldusteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_asendushooldusteenus",
+      "document_id": "ruhnu_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/asendushooldusteenus/",
+      "content_hash": "3aa48912d18abcfb7f14104c5e1b98ea89a9f87f72d87ebff5b0a34511963f4f",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_jarelhooldusteenus",
@@ -263,7 +466,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_jarelhooldusteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_jarelhooldusteenus",
+      "document_id": "ruhnu_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/jarelhooldusteenus/",
+      "content_hash": "7cf78d30e85a20369cd53166f55a68297ca0249f5464b6c45cb86a0964a9573c",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_varjupaigateenus",
@@ -294,7 +526,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_varjupaigateenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_varjupaigateenus",
+      "document_id": "ruhnu_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/varjupaigateenus/",
+      "content_hash": "09740d3b57e693a2094080920919f79c5a2b97c9f210be3d5eac1f28122d57ff",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_turvakoduteenus",
@@ -322,7 +583,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_turvakoduteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_turvakoduteenus",
+      "document_id": "ruhnu_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/turvakoduteenus/",
+      "content_hash": "14d22661c3b7493a2dd9e4242690576686e796ec34e4956109957f3d2dda5e7b",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_sotsiaaltransporditeenus",
@@ -357,7 +647,36 @@
       ],
       "unresolvedIssues": [
         "Teenuse lehel olev sotsiaaltöötaja e-posti aadress on veebis varjestatud; aadress säilitati varjestatuna."
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_sotsiaaltransporditeenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_sotsiaaltransporditeenus",
+      "document_id": "ruhnu_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/sotsiaaltransporditeenus/",
+      "content_hash": "32ff06f128c18b7c58c55799aa6b32816c92275e19eeb9307284adb155bec08a",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_eluruumi_tagamise_teenus",
@@ -387,7 +706,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_eluruumi_tagamise_teenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "ruhnu_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/eluruumi-tagamise-teenus/",
+      "content_hash": "100e4e66750a3a82c0a7823d7727e949fc427e775add067f52136347f5a84423",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_volanoustamisteenus",
@@ -418,7 +766,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_volanoustamisteenus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_volanoustamisteenus",
+      "document_id": "ruhnu_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/volanoustamisteenus/",
+      "content_hash": "a3bcbe6a79cd4510a18905dabad4fe88bd13132e6847c4be5896ed2b0de2697f",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_service_vaimse_tervise_toetamine",
@@ -439,7 +816,36 @@
       "relatedContacts": [],
       "unresolvedIssues": [
         "Lehel puudub praktiline teenuse kirjeldus; avaldatud on üksnes viide vaimse tervise teenuste osutamise ja rahastamise korrale."
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "service_vaimse_tervise_toetamine"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_service_vaimse_tervise_toetamine",
+      "document_id": "ruhnu_vald_service_vaimse_tervise_toetamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/vaimse-tervise-toetamine/",
+      "content_hash": "0baa5677cbe1197175958825952445f2f3c38633cad88b23524bfec1d7b549e7",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_synnitoetus",
@@ -473,7 +879,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_synnitoetus",
+      "document_id": "ruhnu_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "dab6e46cd421d9b27d09cb07d9aa3568bf836495536836c4e05a1cc77da53c77",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_matusetoetus",
@@ -511,7 +946,36 @@
       ],
       "unresolvedIssues": [
         "Toimetuslikult on valla lehel mõned kirjavead; sisu säilitati sisuliselt, mitte täpse kirjapildina."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_matusetoetus",
+      "document_id": "ruhnu_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "d0564906418d2d199395528787cebf03c703b26dfa0f7aba604253d2610cd437",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_toimetulekutoetus",
@@ -553,7 +1017,36 @@
       ],
       "unresolvedIssues": [
         "Toimetulekupiiride kohta on valla lehel avaldatud 01.06.2022 seisuga andmed; praktiline info vajab perioodilist kontrolli."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_toimetulekutoetus",
+      "document_id": "ruhnu_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "c1fe1a526205b70cdc56a5eff0f30b016df0219cd96e3ab936286372feb3b340",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
@@ -589,7 +1082,36 @@
       ],
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "document_id": "ruhnu_vald_benefit_taiendav_sotsiaaltoetus_toimetulekutoetuse_saajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "cce737cbf08a326c9ff0d8609689a1d712ea8ac49e2e201b8e3e277822a6908e",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_koolitoetus_gumnaasiumi_opilastele",
@@ -616,7 +1138,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_koolitoetus_gumnaasiumi_opilastele",
+      "document_id": "ruhnu_vald_benefit_koolitoetus_gumnaasiumi_opilastele",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "2c4ea5387b1a109f12e33a23dd581a7ca2b1a9cf19d425733fc285a5ff8c4159",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_koolitoetus_uliopilastele",
@@ -643,7 +1194,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_koolitoetus_uliopilastele",
+      "document_id": "ruhnu_vald_benefit_koolitoetus_uliopilastele",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "329406ba594b1aca54d2076a195cd6054b3ec2c87411bc19ae133aa9c67c0edd",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_ranitsatoetus",
@@ -670,7 +1250,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_ranitsatoetus",
+      "document_id": "ruhnu_vald_benefit_ranitsatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "d356572344a7f426930d5995d3cadc7308dd686344c15dcedf9e9b214115cf29",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_lastehoiutoetus",
@@ -697,7 +1306,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_lastehoiutoetus",
+      "document_id": "ruhnu_vald_benefit_lastehoiutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "581aef74215ad0c07b30eddebbcf3c1ad228ccdc72dc3f1f306ddc0ef4965ab4",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_kooli_lopetamise_toetus",
@@ -724,7 +1362,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_kooli_lopetamise_toetus",
+      "document_id": "ruhnu_vald_benefit_kooli_lopetamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "8363ca4e573f280fc3bcffa9af8e7d1cf681240f887eae7d978a040ad6720392",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_benefit_kolimistoetus",
@@ -751,7 +1418,36 @@
       ],
       "unresolvedIssues": [
         "Täpne taotlemise kord ja tingimused ei ole valla sotsiaaltoetuste lehel avaldatud."
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_benefit_kolimistoetus",
+      "document_id": "ruhnu_vald_benefit_kolimistoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "cc6d229e7b9b2d69042a7cf6f9c672c92e56ccb45a3887226534cb901b04cd36",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_hooldereform",
@@ -764,7 +1460,36 @@
         "resource_hooldereform"
       ],
       "officialUrl": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/hooldereform/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_hooldereform"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_hooldereform",
+      "document_id": "ruhnu_vald_resource_hooldereform",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/hooldereform/",
+      "content_hash": "83ce17f833e78e75ecd24d0762ccf919e92ec2fbbe11878bc4408be44d2e98fd",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_arstiabi",
@@ -777,7 +1502,36 @@
         "resource_arstiabi"
       ],
       "officialUrl": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/arstiabi/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_arstiabi"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_arstiabi",
+      "document_id": "ruhnu_vald_resource_arstiabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/arstiabi/",
+      "content_hash": "734739fb5e86edffb678fc1f8e3d31360a09db63d66423b72473097ecfd62174",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_lasteabi",
@@ -790,7 +1544,36 @@
         "resource_lasteabi"
       ],
       "officialUrl": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/lasteabi/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_lasteabi"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_lasteabi",
+      "document_id": "ruhnu_vald_resource_lasteabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/lasteabi/",
+      "content_hash": "4c67fe5aab2d089f7a64e4a14b55028b82c68d688f21b6aaee8097758d5287eb",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_medi_hairenupp",
@@ -805,7 +1588,36 @@
       "officialUrl": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/medi-hairenupp/",
       "relatedContacts": [
         "ruhnu_vald_contact_tiina_allik"
-      ]
+      ],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_medi_hairenupp"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_medi_hairenupp",
+      "document_id": "ruhnu_vald_resource_medi_hairenupp",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/medi-hairenupp/",
+      "content_hash": "004f53cfa5a8d8063e6fc9bec308792c36bf39da474df8bc8d0b08e06b9b2911",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_ohvriabi",
@@ -818,7 +1630,36 @@
         "resource_ohvriabi"
       ],
       "officialUrl": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/ohvriabi/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_ohvriabi"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_ohvriabi",
+      "document_id": "ruhnu_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/pere-sotsiaal-ja-tervishoid/abi-ja-tugiteenused/ohvriabi/",
+      "content_hash": "968d8926abddcf48b0b565f48134e414d470c072ae38c4b6e8a9dc5436b90e3e",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_kriisivalmidus",
@@ -831,7 +1672,36 @@
         "resource_kriisivalmidus"
       ],
       "officialUrl": "https://ruhnu.ee/vald-uudised-ja-kontakt/kogukond/kriisivalmidus/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_kriisivalmidus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_kriisivalmidus",
+      "document_id": "ruhnu_vald_resource_kriisivalmidus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/vald-uudised-ja-kontakt/kogukond/kriisivalmidus/",
+      "content_hash": "b8321846acd8bcd292420728d4b3440c9361c74f604a555aa59247d08979e13c",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_kodanikukaitse",
@@ -844,7 +1714,36 @@
         "resource_kodanikukaitse"
       ],
       "officialUrl": "https://ruhnu.ee/vald-uudised-ja-kontakt/kogukond/kodanikukaitse/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "resource_kodanikukaitse"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_kodanikukaitse",
+      "document_id": "ruhnu_vald_resource_kodanikukaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/vald-uudised-ja-kontakt/kogukond/kodanikukaitse/",
+      "content_hash": "99a867793d40dab89e659a52bfe56b1507fee292407c03a2f630442655f12d80",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_resource_riigi_infotelefonid",
@@ -857,7 +1756,36 @@
         "home"
       ],
       "officialUrl": "https://ruhnu.ee/",
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_resource_riigi_infotelefonid",
+      "document_id": "ruhnu_vald_resource_riigi_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/",
+      "content_hash": "478452d4a7978073a2db5fe4e39d7a78ffb412c49e4b87632bf9660fd9df6355",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_contact_tiina_allik",
@@ -877,7 +1805,36 @@
       ],
       "unresolvedIssues": [
         "E-posti aadress on valla veebis varjestatud ja säilitati kujul **."
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_contact_tiina_allik",
+      "document_id": "ruhnu_vald_contact_tiina_allik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "content_hash": "003cb0d7052e723e506cf6d2f87e61cb53d575736dc02136280fa19c98f9cdfb",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_contact_ruhnu_vallavalitsus",
@@ -898,7 +1855,37 @@
       ],
       "unresolvedIssues": [
         "Üldine e-posti aadress on valla veebis varjestatud ja säilitati kujul **."
-      ]
+      ],
+      "item_type": "contact",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "contact_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_contact_ruhnu_vallavalitsus",
+      "document_id": "ruhnu_vald_contact_ruhnu_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontakt/",
+      "content_hash": "b8d12785697dcf8797492ba80101b9323662b5be65952476a8979d1f0c660ce3",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_form_koduteenuste_taotlus",
@@ -919,7 +1906,36 @@
       ],
       "relatedTo": [
         "ruhnu_vald_service_koduteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "form_koduteenuste_taotlus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_form_koduteenuste_taotlus",
+      "document_id": "ruhnu_vald_form_koduteenuste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/wp-content/uploads/2025/11/koduteenustetaotlus.pdf",
+      "content_hash": "ab62489d9348a07174f9ce1303654bfefcf94bc6958863b3546b60f4a93583b6",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_form_koduteenuste_nimekiri",
@@ -940,7 +1956,36 @@
       ],
       "relatedTo": [
         "ruhnu_vald_service_koduteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "form_koduteenuste_nimekiri"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_form_koduteenuste_nimekiri",
+      "document_id": "ruhnu_vald_form_koduteenuste_nimekiri",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/wp-content/uploads/2025/11/koduteenustenimekiri.pdf",
+      "content_hash": "a4a3c06e1e42b3f902c7fcc3bfd64d47e04e63c0d2dcb9fd58beff27702ec2b3",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_form_toimetulekutoetuse_avaldus",
@@ -965,7 +2010,36 @@
       ],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud automaatselt tekstiks avada, kuid link pärineb valla ametlikult toimetulekutoetuse lehelt."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "form_toimetulekutoetuse_avaldus"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "ruhnu_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/wp-content/uploads/2025/11/Toimetulekutoetuse-avaldus.doc",
+      "content_hash": "26d35f3ad511b5b4d8afdcdb581e45d1dd3e0dc3f93949b7ca29d990504a70ee",
+      "evidence_allowed": true
     },
     {
       "id": "ruhnu_vald_form_varade_leht",
@@ -990,7 +2064,39 @@
       ],
       "unresolvedIssues": [
         "Faili sisu ei õnnestunud automaatselt tekstiks avada, kuid link pärineb valla ametlikult toimetulekutoetuse lehelt."
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "ruhnu_vald",
+      "municipality_name": "Ruhnu vald",
+      "county": "Saaremaa",
+      "source_keys": [
+        "form_varade_leht"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "ruhnu_vald_form_varade_leht",
+      "document_id": "ruhnu_vald_form_varade_leht",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://ruhnu.ee/wp-content/uploads/2025/11/Varade_leht.rtf",
+      "content_hash": "ad5e400c6fbee68a09f898fa15d7f63aef935e52b8214f91d76dfe460feee9f1",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Ruhnu vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

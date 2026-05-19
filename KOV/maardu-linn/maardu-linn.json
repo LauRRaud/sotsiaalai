@@ -2,9 +2,9 @@
   "schemaVersion": "kov-data-v2.5-sourcepackage",
   "docId": "kov-maardu-linn",
   "document_id": "kov-maardu-linn",
-  "municipality": "Maardu linn",
-  "municipality_id": "maardu_linn",
-  "county": "Harjumaa",
+  "municipality": "Märjamaa vald",
+  "municipality_id": "marjamaa_vald",
+  "county": "Raplamaa",
   "checkedAt": "2026-04-29",
   "collection_id": "kov_services",
   "legal_basis": false,
@@ -18,6 +18,7 @@
       "status": "active",
       "summary": "Sotsiaalnõustamine on Maardu linnas elavatele inimestele ja peredele mõeldud teenus, mis toetab toimetulekut psühholoogiliste, sotsiaalsete või majanduslike raskuste korral. Teenust osutavad Maardu Linnavalitsuse sotsiaalabi osakonna töötajad ning nõustamise käigus antakse infot linna sotsiaalteenuste, toetuste ja riiklike abimeetmete kohta.",
       "sourceKeys": [
+        "social_overview",
         "sotsiaalnoustamine_page"
       ],
       "officialUrl": "https://maardu.ee/sotsiaalnoustamine",
@@ -33,7 +34,37 @@
         "maardu_linn_contact_tatjana_chaus",
         "maardu_linn_contact_viktoria_danilova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_overview",
+        "sotsiaalnoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_sotsiaalnoustamine",
+      "document_id": "maardu_linn_service_sotsiaalnoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/sotsiaalnoustamine",
+      "content_hash": "16a5ead0ef0a4a3c6f4ce43b634fe5c0b15b3635748c4d8cfcfdad124106663b",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_uldhooldusteenus",
@@ -65,7 +96,36 @@
       "relatedContacts": [
         "maardu_linn_contact_natalja_tuulik"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_uldhooldusteenus",
+      "document_id": "maardu_linn_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/uldhooldusteenus",
+      "content_hash": "bd6ebaea07c8e1ae8010a66787bce5359930cec53fc2398ce3761e9d9fa13e75",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_sotsiaaleluasemeteenus",
@@ -100,7 +160,36 @@
       "relatedContacts": [
         "maardu_linn_contact_karina_neimla_nikiforova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sotsiaaleluasemeteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_sotsiaaleluasemeteenus",
+      "document_id": "maardu_linn_service_sotsiaaleluasemeteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/sotsiaaleluasemeteenus",
+      "content_hash": "374eec52517a9659db3f0fcee734555518f0a50bc71d1b9204180ac06be9980b",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_eestkoste_seadmine",
@@ -137,7 +226,36 @@
         "maardu_linn_contact_jelena_afonova",
         "maardu_linn_contact_jekaterina_djomina"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "eestkoste_seadmine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_eestkoste_seadmine",
+      "document_id": "maardu_linn_service_eestkoste_seadmine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/eestkoste-seadmine",
+      "content_hash": "74ab141c927be820301095ff6e3bd1979d4770a54f832930703474814b86b4cd",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_sotsiaaltransporditeenus",
@@ -169,7 +287,36 @@
         "maardu_linn_form_sotsiaalteenuse_taotlus"
       ],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_sotsiaaltransporditeenus",
+      "document_id": "maardu_linn_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/sotsiaaltransporditeenus",
+      "content_hash": "8b51113943776842b753a7827e56e9793a13ea65ac2aa1b845da4c13eac1c498",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_koduteenus",
@@ -204,7 +351,36 @@
       "relatedContacts": [
         "maardu_linn_contact_natalja_tuulik"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_koduteenus",
+      "document_id": "maardu_linn_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/koduteenus",
+      "content_hash": "c5ba4f973044910a670e1da0dd43f901d02cb44db803db51682bee7f95a8efc4",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_tugiisikuteenus",
@@ -240,7 +416,36 @@
         "maardu_linn_contact_jelena_afonova",
         "maardu_linn_contact_jekaterina_djomina"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_tugiisikuteenus",
+      "document_id": "maardu_linn_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/tugiisikuteenus",
+      "content_hash": "adba7bf79295fdeb4698d995318db1512066eec99168922399285de4df44f57f",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_hoolduse_seadmine",
@@ -265,7 +470,36 @@
         "maardu_linn_contact_karina_neimla_nikiforova",
         "maardu_linn_contact_natalja_tuulik"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hoolduse_seadmine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_hoolduse_seadmine",
+      "document_id": "maardu_linn_service_hoolduse_seadmine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/hoolduse-seadmine",
+      "content_hash": "f48113d7ea5e9ed8f11a1a0c32dd6a12257f5b426169d7dc59a4b24880b6641b",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_isikliku_abistaja_teenus",
@@ -299,7 +533,36 @@
       "relatedContacts": [
         "maardu_linn_contact_natalja_tuulik"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "isiklik_abistaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_isikliku_abistaja_teenus",
+      "document_id": "maardu_linn_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/isikliku-abistaja-teenus",
+      "content_hash": "e34e533f874e0710f07154cc3a8447372112f1112dbfc77fd91fc66f8c2bd988",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_parkimiskaardi_valjastamine",
@@ -330,7 +593,36 @@
       "relatedContacts": [
         "maardu_linn_contact_natalja_fjodorova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_parkimiskaardi_valjastamine",
+      "document_id": "maardu_linn_service_parkimiskaardi_valjastamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/puudega-inimese-soiduki-parkimiskaardi-valjastamine",
+      "content_hash": "4a2fee976439b04a9d969a6f1ee47b71ce5f06a926d2ca5920c3b5fd6f1018cb",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_supikoogiteenus",
@@ -359,7 +651,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "supikoogiteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_supikoogiteenus",
+      "document_id": "maardu_linn_service_supikoogiteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/supikoogiteenus",
+      "content_hash": "4ab41a93b98cd3e607abbbdd12f10ff7e2fbdb3ad2a11311bdd8b3f70e0f0514",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_asendushooldusteenus",
@@ -383,7 +704,36 @@
       "relatedContacts": [
         "maardu_linn_contact_jelena_afonova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_asendushooldusteenus",
+      "document_id": "maardu_linn_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/asendus-ja-jarelhooldusteenus",
+      "content_hash": "580e620acc2e446a7551ebd51629187683d85b4278330f2468b7ed11f33cc0d8",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_jarelhooldusteenus",
@@ -407,7 +757,36 @@
       "relatedContacts": [
         "maardu_linn_contact_jelena_afonova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_jarelhooldusteenus",
+      "document_id": "maardu_linn_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/asendus-ja-jarelhooldusteenus",
+      "content_hash": "bb8773a87cfe2fced9a9af3137033e95fc0fba69ed3bd698c7cb7e0827c97c62",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_service_volanoustamine",
@@ -442,7 +821,36 @@
         "maardu_linn_contact_tatjana_chaus",
         "maardu_linn_contact_viktoria_danilova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "service",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "volanoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_service_volanoustamine",
+      "document_id": "maardu_linn_service_volanoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/volanoustamine",
+      "content_hash": "7bdb6797937f4be18971d6f9f1aa4109e4a98e1b193b5b0ac0637d7d4d216708",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_toimetulekutoetus",
@@ -475,7 +883,36 @@
         "maardu_linn_contact_tatjana_chaus",
         "maardu_linn_contact_viktoria_danilova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_toimetulekutoetus",
+      "document_id": "maardu_linn_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/toimetulekutoetus",
+      "content_hash": "86e25dcd1f7e281b08bfe5058370f8291e93bf45502b04b3443d81c4d9fd9855",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_raske_ja_sugava_puudega_laste_teenuste_toetus",
@@ -510,7 +947,36 @@
         "maardu_linn_contact_jelena_afonova",
         "maardu_linn_contact_jekaterina_djomina"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "puudega_lapse_lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_raske_ja_sugava_puudega_laste_teenuste_toetus",
+      "document_id": "maardu_linn_benefit_raske_ja_sugava_puudega_laste_teenuste_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/puudega-lapse-lapsehoiuteenus",
+      "content_hash": "626c317a75e9c37c63c7afa705a0d09e9db59ce45c934f9342e29e97b4accaf5",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_hooldajatoetus",
@@ -536,7 +1002,37 @@
         "maardu_linn_contact_karina_neimla_nikiforova",
         "maardu_linn_contact_natalja_tuulik"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "hooldajatoetus_page",
+        "hoolduse_seadmine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_hooldajatoetus",
+      "document_id": "maardu_linn_benefit_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/hooldajatoetus",
+      "content_hash": "9041893c912c80c91b07c487bc1d97035c899a7a3032ab00dc128eb092cb6307",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_puudega_lapse_hooldajatoetus",
@@ -565,7 +1061,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "puudega_lapse_hooldajatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "maardu_linn_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/hooldajatoetus-puudega-lapse-hooldajale",
+      "content_hash": "1fd174849857ee79e101d50f23d3f785ae9db4a2efd06a757dcde7b47907910a",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_lapsehoiutoetus",
@@ -599,7 +1124,36 @@
       "relatedContacts": [
         "maardu_linn_contact_viktoria_danilova"
       ],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "lapsehoiutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_lapsehoiutoetus",
+      "document_id": "maardu_linn_benefit_lapsehoiutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/lapsehoiutoetus",
+      "content_hash": "b2b9091317bd0f32c258d5add26a42efbf61e1351672073b48f74729408d7a24",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_benefit_uksi_elava_pensionari_toetus",
@@ -628,7 +1182,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "benefit",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "uksi_elava_pensionari_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_benefit_uksi_elava_pensionari_toetus",
+      "document_id": "maardu_linn_benefit_uksi_elava_pensionari_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/uksi-elava-pensionari-toetus",
+      "content_hash": "53b70f0f4acd6cf946366c94af9d0d78e803a6de2e0a1b4db248f718120d60c9",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_resource_sotsiaalmaja",
@@ -651,7 +1234,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "unresolvedIssues": [],
-      "address": "Kallasmaa tn 9 ja Kallasmaa tn 12, Maardu"
+      "address": "Kallasmaa tn 9 ja Kallasmaa tn 12, Maardu",
+      "item_type": "resource",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sotsiaalmaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_resource_sotsiaalmaja",
+      "document_id": "maardu_linn_resource_sotsiaalmaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/sotsiaalmaja",
+      "content_hash": "7533c5d70243cee06ed9ac767d44567e0b6af1fe06c41a71ceb5ebc2dc38dc81",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_resource_toidupank",
@@ -674,7 +1286,36 @@
       "relatedForms": [],
       "relatedContacts": [],
       "unresolvedIssues": [],
-      "address": "Langu tn 4, Maardu"
+      "address": "Langu tn 4, Maardu",
+      "item_type": "resource",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "toidupank_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_resource_toidupank",
+      "document_id": "maardu_linn_resource_toidupank",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/toidupank",
+      "content_hash": "69c075ac0cd3c6b6e4251e84c51e55c785fe824ef21a7a57234fd58ce47ea279",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_resource_abivahendite_info",
@@ -696,7 +1337,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "abivahend_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_resource_abivahendite_info",
+      "document_id": "maardu_linn_resource_abivahendite_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/abivahendi-taotlemine",
+      "content_hash": "cf8b584b24012dc5861d972864775f3539cd78deb2bcc025af407333a7f7b38f",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_resource_ohvriabi",
@@ -718,7 +1388,36 @@
       "relatedTo": [],
       "relatedForms": [],
       "relatedContacts": [],
-      "unresolvedIssues": []
+      "unresolvedIssues": [],
+      "item_type": "resource",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_resource_ohvriabi",
+      "document_id": "maardu_linn_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/ohvriabi",
+      "content_hash": "1b319fbc3065ccea9d53d9a085b072b40f81ff1ce15d04908678bc46ca450e21",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_olga_jevdokimova",
@@ -744,7 +1443,36 @@
       "name": "Olga Jevdokimova",
       "role": "Sotsiaalabi osakonna juhataja",
       "department": "Sotsiaalabi osakond",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_olga_jevdokimova",
+      "document_id": "maardu_linn_contact_olga_jevdokimova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3cd5fe3072f24a358707e72832e8c93c876e25ba11dd7b359f3011ac66644255",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_karina_neimla_nikiforova",
@@ -770,7 +1498,36 @@
       "name": "Karina Neimla-Nikiforova",
       "role": "Sotsiaalabi osakonna juhataja asetäitja",
       "department": "Sotsiaalabi osakond",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_karina_neimla_nikiforova",
+      "document_id": "maardu_linn_contact_karina_neimla_nikiforova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "67969a7169ee21bc7e6b7a0fdcbc828f880e0ca75a864cc5d0e28e356bfd88d8",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_natalja_fjodorova",
@@ -796,7 +1553,36 @@
       "name": "Natalja Fjodorova",
       "role": "Spetsialist",
       "department": "Sotsiaalabi osakond",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_natalja_fjodorova",
+      "document_id": "maardu_linn_contact_natalja_fjodorova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "2d7d4f0c1526a9eeabc85ee4c1cf7df014ac5dadde8dfbee827e1fd2dc827892",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_marina_keizo",
@@ -822,7 +1608,36 @@
       "name": "Marina Keizo",
       "role": "Lastekaitse peaspetsialist",
       "department": "Lastekaitse",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_marina_keizo",
+      "document_id": "maardu_linn_contact_marina_keizo",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "bb89631d47eea947296e3f3ac92b23ab54533fcec58c08bcaa2d28ec95147dea",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_jelena_afonova",
@@ -848,7 +1663,36 @@
       "name": "Jelena Afonova",
       "role": "Lastekaitse peaspetsialist",
       "department": "Lastekaitse",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_jelena_afonova",
+      "document_id": "maardu_linn_contact_jelena_afonova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "96a6637614fe35c81f09b248e0628bf5d5714821b06d7438f5ea36bed5cd49b9",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_jekaterina_djomina",
@@ -874,7 +1718,36 @@
       "name": "Jekaterina Djomina",
       "role": "Lastekaitse peaspetsialist",
       "department": "Lastekaitse",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_jekaterina_djomina",
+      "document_id": "maardu_linn_contact_jekaterina_djomina",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "21805e883ba159d6762ac3693a47f06bb988488ce7242d417d128717d8f0fd10",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_tatjana_chaus",
@@ -900,7 +1773,36 @@
       "name": "Tatjana Chaus",
       "role": "Sotsiaaltöö peaspetsialist",
       "department": "Sotsiaaltoetused",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_tatjana_chaus",
+      "document_id": "maardu_linn_contact_tatjana_chaus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "684a6fd82b59d97e5375f43454120d8ba89a1ada124e7fde6c0d13004053b144",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_viktoria_danilova",
@@ -926,7 +1828,36 @@
       "name": "Viktoria Danilova",
       "role": "Sotsiaaltöö peaspetsialist",
       "department": "Sotsiaaltoetused",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_viktoria_danilova",
+      "document_id": "maardu_linn_contact_viktoria_danilova",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "000711529334ee6ef2a0d43b15e3012303b1a59b5a6b0a01c9cc7a0edb5aa82f",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_contact_natalja_tuulik",
@@ -952,7 +1883,36 @@
       "name": "Natalja Tuulik",
       "role": "Sotsiaaltöö peaspetsialist",
       "department": "Sotsiaalteenused",
-      "address": null
+      "address": null,
+      "item_type": "contact",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_contact_natalja_tuulik",
+      "document_id": "maardu_linn_contact_natalja_tuulik",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "b1fa77f4c3814cc2416e4bc00202deacd66fc1490c1988cf1d40be9fb97ac6e6",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_toimetulekutoetuse_avaldus",
@@ -962,8 +1922,8 @@
       "status": "active",
       "summary": "Toimetulekutoetuse avaldus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
       "sourceKeys": [
-        "toimetulekutoetus_page",
-        "social_forms"
+        "social_forms",
+        "toimetulekutoetus_page"
       ],
       "officialUrl": "https://maardu.ee/toimetulekutoetus",
       "targetGroup": null,
@@ -982,7 +1942,37 @@
       "submissionChannels": [
         "kohapeal",
         "digiallkirjastatult e-postiga"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_forms",
+        "toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_toimetulekutoetuse_avaldus",
+      "document_id": "maardu_linn_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/toimetulekutoetus",
+      "content_hash": "6bd647739717db03ee5e7dfce05b4c834040597a6d4712b0afcb96bfa534a114",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_sotsiaalteenuse_taotlus",
@@ -992,11 +1982,11 @@
       "status": "active",
       "summary": "Sotsiaalteenuse taotlus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
       "sourceKeys": [
-        "social_forms",
+        "isiklik_abistaja_page",
         "koduteenus_page",
+        "social_forms",
         "sotsiaaltransport_page",
-        "tugiisikuteenus_page",
-        "isiklik_abistaja_page"
+        "tugiisikuteenus_page"
       ],
       "officialUrl": "https://maardu.ee/valdkonna-blanketid",
       "targetGroup": null,
@@ -1018,7 +2008,40 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "isiklik_abistaja_page",
+        "koduteenus_page",
+        "social_forms",
+        "sotsiaaltransport_page",
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_sotsiaalteenuse_taotlus",
+      "document_id": "maardu_linn_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/valdkonna-blanketid",
+      "content_hash": "3189096ea9d1dde01c8d533c7382f7e00f85cceca21c3a5aaaaf1749c3036faf",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_koduteenuse_taotlus",
@@ -1047,7 +2070,36 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_koduteenuse_taotlus",
+      "document_id": "maardu_linn_form_koduteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/koduteenus",
+      "content_hash": "e6939c7d9dcc08190bc18fafbd8d8b65e2d77b3e180643419b1be4162563a6d9",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_eluruumi_teenuse_taotlus",
@@ -1076,7 +2128,36 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "sotsiaaleluasemeteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_eluruumi_teenuse_taotlus",
+      "document_id": "maardu_linn_form_eluruumi_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/sotsiaaleluasemeteenus",
+      "content_hash": "9ae4c02e3503d0ddce2cbda1a86a2ca6b255e250e45a0ed1e343193ea7e1e77c",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_eestkoste_taotlus",
@@ -1106,7 +2187,37 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "eestkoste_seadmine_page",
+        "social_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_eestkoste_taotlus",
+      "document_id": "maardu_linn_form_eestkoste_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/eestkoste-seadmine",
+      "content_hash": "73b7dfff901bc0bf833bdecccc09119681fd2bb86ee6c7a0bc41cc9ec513022d",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_raske_sugava_puudega_lapse_teenuse_taotlus",
@@ -1135,7 +2246,37 @@
       "format": "blankett",
       "submissionChannels": [
         "sotsiaalabi osakond"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "puudega_lapse_lapsehoiuteenus_page",
+        "social_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_raske_sugava_puudega_lapse_teenuse_taotlus",
+      "document_id": "maardu_linn_form_raske_sugava_puudega_lapse_teenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/puudega-lapse-lapsehoiuteenus",
+      "content_hash": "41ae1ee7f02b01c1e7fca8a33afb2ee8d9a255f244b9fd50048626be93d116b0",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_sunnitoetuse_avaldus",
@@ -1162,7 +2303,36 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_sunnitoetuse_avaldus",
+      "document_id": "maardu_linn_form_sunnitoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/valdkonna-blanketid",
+      "content_hash": "e51ab890bf48f6e1233a0fbcde024362513034cd074ab812401027f1f595c8c7",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_matusetoetuse_avaldus",
@@ -1189,7 +2359,36 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "social_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_matusetoetuse_avaldus",
+      "document_id": "maardu_linn_form_matusetoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/valdkonna-blanketid",
+      "content_hash": "683883013cbdbc08352bd71cfdb9b5cdc98b98e578edbfccf2c50c0d1ae69128",
+      "evidence_allowed": true
     },
     {
       "id": "maardu_linn_form_lapsehoiutoetuse_taotlus",
@@ -1219,7 +2418,40 @@
       "submissionChannels": [
         "e-vorm",
         "pabervorm"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "marjamaa_vald",
+      "municipality_name": "Märjamaa vald",
+      "county": "Raplamaa",
+      "source_keys": [
+        "lapsehoiutoetus_page",
+        "social_forms"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "maardu_linn_form_lapsehoiutoetuse_taotlus",
+      "document_id": "maardu_linn_form_lapsehoiutoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://maardu.ee/lapsehoiutoetus",
+      "content_hash": "f1d5ae038dab87d93ad12fa2feb4654efb58ef9be76cc9277e95daeea4ce17d9",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Märjamaa vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

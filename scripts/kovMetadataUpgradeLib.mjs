@@ -26,7 +26,7 @@ export const VALID_RESOURCE_TYPES = new Set([
   "fee_schedule",
   "regulation"
 ]);
-export const VALID_SOURCE_FORMATS = new Set(["html", "pdf", "doc", "docx", "xls", "xlsx", "xml", "json"]);
+export const VALID_SOURCE_FORMATS = new Set(["html", "pdf", "doc", "docx", "rtf", "odt", "xls", "xlsx", "xml", "json"]);
 
 const LEGACY_KOV_WEB_SOURCE_TYPES = new Set([
   "kov_service_page",
@@ -40,6 +40,9 @@ const LEGACY_KOV_WEB_SOURCE_TYPES = new Set([
 
 function normalizeSourceType(value) {
   const type = String(value || "").trim();
+  if (type === "kov_contact_page") return "contact_page";
+  if (type === "file_attachment") return "kov_service_info";
+  if (type === "docx_form" || type === "doc_form" || type === "rtf_form") return "application_form";
   if (LEGACY_KOV_WEB_SOURCE_TYPES.has(type)) return "kov_service_info";
   return type;
 }
@@ -84,12 +87,36 @@ export function sourceIdForKey(municipalityId, key) {
 }
 
 export function sourceFormatFor(source = {}) {
-  if (source.source_format) return String(source.source_format);
+  const explicitFormat = String(source.source_format || "").trim().toLowerCase();
+  if (explicitFormat) {
+    if (explicitFormat === "web_page" || explicitFormat === "webpage") return "html";
+    if (explicitFormat === "pdf_form") return "pdf";
+    if (explicitFormat === "doc_form") return "doc";
+    if (explicitFormat === "docx_form") return "docx";
+    if (explicitFormat === "rtf_form") return "rtf";
+    if (explicitFormat === "odt_form") return "odt";
+    if (explicitFormat === "text/html") return "html";
+    if (explicitFormat === "application/pdf") return "pdf";
+    if (explicitFormat === "application/msword") return "doc";
+    if (explicitFormat === "application/rtf" || explicitFormat === "text/rtf") return "rtf";
+    if (explicitFormat === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") return "docx";
+    if (explicitFormat === "application/vnd.ms-excel") return "xls";
+    if (explicitFormat === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") return "xlsx";
+    if (explicitFormat === "application/xml" || explicitFormat === "text/xml") return "xml";
+    if (explicitFormat === "application/json") return "json";
+    const tagLikeFormat = explicitFormat.split(",").map(part => part.trim()).filter(Boolean);
+    if (tagLikeFormat.length > 0 && tagLikeFormat.every(part => ["service", "benefit", "resource", "contact", "form"].includes(part))) {
+      return "html";
+    }
+    return explicitFormat;
+  }
   const url = String(source.url || source.url_canonical || "").toLowerCase().split("?")[0];
   const type = String(source.type || "").toLowerCase();
   if (url.endsWith(".pdf") || type === "pdf") return "pdf";
   if (url.endsWith(".doc") || type === "doc") return "doc";
   if (url.endsWith(".docx") || type === "docx") return "docx";
+  if (url.endsWith(".rtf") || type === "rtf") return "rtf";
+  if (url.endsWith(".odt") || type === "odt") return "odt";
   if (url.endsWith(".xls") || type === "xls") return "xls";
   if (url.endsWith(".xlsx") || type === "xlsx") return "xlsx";
   if (url.endsWith(".xml") || type === "xml") return "xml";
@@ -122,7 +149,7 @@ function looksLikeContact(source = {}) {
 function looksLikeForm(source = {}) {
   const format = sourceFormatFor(source);
   const text = `${source.key || ""} ${source.source_key || ""} ${source.type || ""} ${source.title || ""} ${source.url || ""}`.toLowerCase();
-  return ["pdf", "doc", "docx", "xls", "xlsx"].includes(format) ||
+  return ["pdf", "doc", "docx", "rtf", "odt", "xls", "xlsx"].includes(format) ||
     text.includes("taotlus") ||
     text.includes("vorm") ||
     text.includes("blankett") ||

@@ -23,7 +23,36 @@
       "name": "Tõnu Troon",
       "role": "sotsiaal- ja tervishoiuosakonna juhataja",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_tonu_troon",
+      "document_id": "viimsi_vald_contact_tonu_troon",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "b057df0e5131bca008cad8de7879f8d0530e431bb3aae48ed7535ccfc1ae8eed",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_lauren_sirp",
@@ -38,7 +67,36 @@
       "name": "Lauren Sirp",
       "role": "rahvatervise spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_lauren_sirp",
+      "document_id": "viimsi_vald_contact_lauren_sirp",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3765bbe10edefc7df8c7739867b86249514bcae8d0f90b74e1bc6d38f98f01a3",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_ave_kivinukk",
@@ -53,7 +111,36 @@
       "name": "Ave Kivinukk",
       "role": "sotsiaaltöö peaspetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_ave_kivinukk",
+      "document_id": "viimsi_vald_contact_ave_kivinukk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "d5a4be3f8fa66b2450b9554caa443ccfa6a90a2b676646b9a920832bb2392c64",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_sandra_hommuk",
@@ -68,7 +155,36 @@
       "name": "Sandra Hommuk",
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_sandra_hommuk",
+      "document_id": "viimsi_vald_contact_sandra_hommuk",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "b86e2edf41635057d2c1c8207f4a59480b3209780754fef300c317c5624a7dbe",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_signe_teigar",
@@ -83,7 +199,36 @@
       "name": "Signe Teigar",
       "role": "sotsiaalregistri spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_signe_teigar",
+      "document_id": "viimsi_vald_contact_signe_teigar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3115eac741d7781d0b227c05f3194e51ad5aaf0a2a009cbfd5f8496aff5f67d7",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_erivajadusega_laste_spetsialist",
@@ -98,7 +243,36 @@
       "name": "Sotsiaaltöö spetsialist (ametikoht täitmata)",
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_erivajadusega_laste_spetsialist",
+      "document_id": "viimsi_vald_contact_erivajadusega_laste_spetsialist",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "f5b1812d70f9834d361eb7d15377884e55ccab7d3320904ce905f9fbcc6d0b3f",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_margit_stern",
@@ -113,7 +287,36 @@
       "name": "Margit Stern",
       "role": "sotsiaaltöö spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_margit_stern",
+      "document_id": "viimsi_vald_contact_margit_stern",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "6568827703e1aee98b0c76c30b155d42bff8b365881ee5f9adab7a6cdda7f9df",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_haldi_palang",
@@ -128,7 +331,36 @@
       "name": "Haldi Palang",
       "role": "lastekaitse spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_haldi_palang",
+      "document_id": "viimsi_vald_contact_haldi_palang",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "07bacd6e5eb41679d642c5a25738754b150b332ac6983f9fcdeb826ff503ec5a",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_dei_stein",
@@ -143,7 +375,36 @@
       "name": "Dei Stein",
       "role": "lastekaitse spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_dei_stein",
+      "document_id": "viimsi_vald_contact_dei_stein",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "aa77e85f0190465eb43badc541d302194fe4fe6fe594ed57ba64ee2f64ad0ee3",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_kati_kytt",
@@ -158,7 +419,36 @@
       "name": "Kati Kütt",
       "role": "lastekaitse spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_kati_kytt",
+      "document_id": "viimsi_vald_contact_kati_kytt",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "939fd8823de82372e59f0c46fe308d7cc0eeeaf6c9a5566c8cc6322780a2e61c",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_airi_peenoja",
@@ -173,7 +463,36 @@
       "name": "Airi Peenoja",
       "role": "lastekaitse spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_airi_peenoja",
+      "document_id": "viimsi_vald_contact_airi_peenoja",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "0b3c6903fcba41da01ad01a33c9a87e38da91300816a8ea7235bea85d7149f5f",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_kaisa_kerner",
@@ -188,7 +507,36 @@
       "name": "Kaisa Kerner",
       "role": "noorte heaolu spetsialist",
       "department": "Sotsiaal- ja tervishoiuosakond",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "social_health_contacts"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_kaisa_kerner",
+      "document_id": "viimsi_vald_contact_kaisa_kerner",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "063a4a858b37372e1e4e88c6e3fbd942cdd3fccb3f3192247e85f10a5187ea81",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_contact_viimsi_vallavalitsus",
@@ -203,7 +551,36 @@
       "name": "Viimsi Vallavalitsus",
       "role": "üldkontakt",
       "department": "Viimsi Vallavalitsus",
-      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa"
+      "address": "Nelgi tee 1, Viimsi alevik, 74001 Harjumaa",
+      "item_type": "contact",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_contact_viimsi_vallavalitsus",
+      "document_id": "viimsi_vald_contact_viimsi_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "989c47bb20f662a5559121f35f6689be7caeacb52490d8cfa43d48b2f070026b",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_form_sotsiaalteenuste_yhistaotlus",
@@ -234,7 +611,36 @@
         "viimsi_vald_service_turvakoduteenus",
         "viimsi_vald_service_valtimatu_sotsiaalabi",
         "viimsi_vald_service_volanoustamisteenus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalteenuste_yhistaotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_form_sotsiaalteenuste_yhistaotlus",
+      "document_id": "viimsi_vald_form_sotsiaalteenuste_yhistaotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/sites/default/files/documents/2026-04/Viimsi%20valla%20sotsiaalteenuste%20%C3%BChistaotlus.docx",
+      "content_hash": "8b8f9a6cb26280aeadfc9dfb2c6aa33c9ea551d1b84e67041cbb46d09fc8207a",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_form_sissetulekust_soltuv_toetus",
@@ -257,7 +663,36 @@
         "viimsi_vald_benefit_ravimitoetus",
         "viimsi_vald_benefit_lasteaia_lastehoiu_kohatasu_toetus",
         "viimsi_vald_benefit_toidu_eest_tasumise_toetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sissetulekust_soltuv_toetus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_form_sissetulekust_soltuv_toetus",
+      "document_id": "viimsi_vald_form_sissetulekust_soltuv_toetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://viimsi.ee/sites/default/files/documents/2025-09/Sissetulekust%20s%C3%B5ltuva%20toetuse%20taotlus.docx",
+      "content_hash": "d8bebc5e755641961b2498f228e1b24e4f91c05a36de2872d90ab8f0f5412532",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_form_riiklik_toimetulekutoetus",
@@ -277,7 +712,36 @@
       ],
       "relatedTo": [
         "viimsi_vald_benefit_riiklik_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "riiklik_toimetulekutoetus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_form_riiklik_toimetulekutoetus",
+      "document_id": "viimsi_vald_form_riiklik_toimetulekutoetus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/sites/default/files/documents/2026-04/Riikliku%20toimetulekutoetuse%20taotlus.docx",
+      "content_hash": "9374031c0b39cccd163cc94cffb9d36e830ab0c102e4fe5ccd6b0545cc2336af",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_form_rahaliste_vahendite_ulevaade",
@@ -297,7 +761,36 @@
       ],
       "relatedTo": [
         "viimsi_vald_benefit_riiklik_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "rahalised_vahendid_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_form_rahaliste_vahendite_ulevaade",
+      "document_id": "viimsi_vald_form_rahaliste_vahendite_ulevaade",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/sites/default/files/documents/2026-04/Rahalised%20vahendid.docx",
+      "content_hash": "3deb98ae8ff5bf29f0ea195f80883349bcbac21ddcd084a9ff9059d845311928",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_form_muu_vara_ulevaade",
@@ -317,7 +810,36 @@
       ],
       "relatedTo": [
         "viimsi_vald_benefit_riiklik_toimetulekutoetus"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "muu_vara_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_form_muu_vara_ulevaade",
+      "document_id": "viimsi_vald_form_muu_vara_ulevaade",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/sites/default/files/documents/2026-04/Muu%20vara.docx",
+      "content_hash": "3c7fe033c12ac856640202100b5213c58d779fcf4eea6fe853fd85d91565c8e5",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_sotsiaalnoustamine",
@@ -347,7 +869,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk",
         "viimsi_vald_contact_ave_kivinukk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaalnoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_sotsiaalnoustamine",
+      "document_id": "viimsi_vald_service_sotsiaalnoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/toimetulekuraskustes-inimene/sotsiaalnoustamine",
+      "content_hash": "7316f4cf8df9bdbcb8c7b8c882ee04f323aad7c78be920fede943bbb01959abf",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_koduteenus",
@@ -379,7 +930,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_koduteenus",
+      "document_id": "viimsi_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/koduteenuse-taotlus-eakatele",
+      "content_hash": "7b5724031061e4e30aab91df11c2099986b276696fe3e064d165d70422732952",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_uldhooldusteenus",
@@ -412,7 +992,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_uldhooldusteenus",
+      "document_id": "viimsi_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus-eakatele",
+      "content_hash": "309ab4151e852ca6e453af76fc7ef7ae31774939630db6d71e051eb2c9ae678d",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_taisealise_isiku_hooldus",
@@ -445,7 +1054,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "taisealise_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_taisealise_isiku_hooldus",
+      "document_id": "viimsi_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/taisealise-isiku-hoolduse-taotlus",
+      "content_hash": "a18073fd98a595500bd4435da3f2c98ac9275fd52aed351ed1ee460e6200391d",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_taiskasvanud_eestkoste",
@@ -477,7 +1115,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "taiskasvanud_eestkoste_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_taiskasvanud_eestkoste",
+      "document_id": "viimsi_vald_service_taiskasvanud_eestkoste",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/taiskasvanud-isikute-eestkoste-taotlus",
+      "content_hash": "5bd274f5177b04f139e7348ea7c9a9f9dfbdbf0dd91694270c0fc61b68f784de",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_tugiisik_lapsele",
@@ -511,7 +1178,36 @@
         "viimsi_vald_contact_dei_stein",
         "viimsi_vald_contact_kati_kytt",
         "viimsi_vald_contact_airi_peenoja"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tugiisik_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_tugiisik_lapsele",
+      "document_id": "viimsi_vald_service_tugiisik_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/puudega-laste-toimetuleku-toetamise-taotlus-tugiisikuteenuse-taotlus",
+      "content_hash": "c3ef6213361099fcfb61059fcfab716760aa8f18124f8ab47c42aeb0394aeba8",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_tugiisik_taiskasvanule",
@@ -541,7 +1237,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern",
         "viimsi_vald_contact_ave_kivinukk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tugiisik_taiskasvanu_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_tugiisik_taiskasvanule",
+      "document_id": "viimsi_vald_service_tugiisik_taiskasvanule",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/puudega-taiskasvanute-toimetuleku-toetamise-taotlus-tugiisikuteenuse-taotlus",
+      "content_hash": "7a85c12ecbaa7bbeca9f3f43c6bd3021bbf9394c8afc8e13338509ca1ed0b72d",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_lapsehoiuteenus",
@@ -574,7 +1299,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_erivajadusega_laste_spetsialist"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_lapsehoiuteenus",
+      "document_id": "viimsi_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/lapsehoiuteenuse-taotlus",
+      "content_hash": "79e2accc0d8422155026ed63f175b53bc2f9121a8462aea51d7e3e24cc1bb659",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_isiklik_abistaja",
@@ -608,7 +1362,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "isiklik_abistaja_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_isiklik_abistaja",
+      "document_id": "viimsi_vald_service_isiklik_abistaja",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/isikliku-abistaja-teenus",
+      "content_hash": "d5a5240f1315d314183c9a8fd67ce5748f565a0101b0ae0274fd775c4d3227c1",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_sotsiaaltransport",
@@ -642,7 +1425,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_tonu_troon",
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sotsiaaltransport_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_sotsiaaltransport",
+      "document_id": "viimsi_vald_service_sotsiaaltransport",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/sotsiaaltranspordi-teenuse-taotlus",
+      "content_hash": "77c09cd9e9c62ad41e67de226b6c2992b736105e78a25bdf9f2dffcc5cfaa9a2",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_muud_taiendavad_sotsiaalteenused",
@@ -675,7 +1487,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_tonu_troon",
         "viimsi_vald_contact_ave_kivinukk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "muud_taiendavad_teenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_muud_taiendavad_sotsiaalteenused",
+      "document_id": "viimsi_vald_service_muud_taiendavad_sotsiaalteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/muud-taiendavad-sotsiaalteenused",
+      "content_hash": "8eb220cfe8deb0e9e8110727708ba15a72241f91495afffe1bdbe82db662523d",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_eluruumi_tagamine",
@@ -708,7 +1549,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern",
         "viimsi_vald_contact_ave_kivinukk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eluruumi_tagamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_eluruumi_tagamine",
+      "document_id": "viimsi_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/eluruumi-tagamise-teenuse-taotlus",
+      "content_hash": "03d1c9e0700aceaced5740be73a8f5529c8ebc1ca6a5ea7d36d9fd1567ef17d2",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_varjupaigateenus",
@@ -740,7 +1610,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_varjupaigateenus",
+      "document_id": "viimsi_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/varjupaigateenuse-taotlus",
+      "content_hash": "3e457d047d83ccb58fac664ecb066cd04d5ec7070f7ca086c37fa057274f007e",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_turvakoduteenus",
@@ -775,7 +1674,36 @@
         "viimsi_vald_contact_tonu_troon",
         "viimsi_vald_contact_margit_stern",
         "viimsi_vald_contact_haldi_palang"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_turvakoduteenus",
+      "document_id": "viimsi_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/turvakoduteenuse-taotlus",
+      "content_hash": "2984f852c4bfef83b0ca48c8b7755d1934d3e53a77abacd1181f4f181affbda0",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_valtimatu_sotsiaalabi",
@@ -808,7 +1736,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "valtimatu_sotsiaalabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "viimsi_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/valtimatu-sotsiaalabi-teenuse-taotlus",
+      "content_hash": "316f918f4f68fa754b62a207cf56d2a5fda5dda683121529a0c4179a8c159b4e",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_volanoustamisteenus",
@@ -841,7 +1798,36 @@
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk",
         "viimsi_vald_contact_ave_kivinukk"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "volanoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_volanoustamisteenus",
+      "document_id": "viimsi_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/volanoustamisteenuse-taotlus",
+      "content_hash": "333f69941b70bde72a8d73113653b55718cd2ebe9726aaa2e1e1cf047a835ccb",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_asendushooldusteenus",
@@ -873,7 +1859,36 @@
         "viimsi_vald_contact_dei_stein",
         "viimsi_vald_contact_kati_kytt",
         "viimsi_vald_contact_airi_peenoja"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "vanemliku_hoolitsuseta_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_asendushooldusteenus",
+      "document_id": "viimsi_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/vanemliku-hoolitsuseta-jaanud-laps",
+      "content_hash": "be5c7267c96c9f926e313bbc969953b594654c7b44127dd453666869ddd199d1",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_jarelhooldusteenus",
@@ -905,7 +1920,36 @@
         "viimsi_vald_contact_dei_stein",
         "viimsi_vald_contact_kati_kytt",
         "viimsi_vald_contact_airi_peenoja"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "vanemliku_hoolitsuseta_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_jarelhooldusteenus",
+      "document_id": "viimsi_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/vanemliku-hoolitsuseta-jaanud-laps",
+      "content_hash": "aacbc07fe1b9199d72f6747aa00de117d3613ca6d9d7384d1573097a107f3095",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_service_vaimse_tervise_teenused",
@@ -941,7 +1985,36 @@
         "viimsi_vald_contact_dei_stein",
         "viimsi_vald_contact_kati_kytt",
         "viimsi_vald_contact_airi_peenoja"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "vaimne_tervis_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_service_vaimse_tervise_teenused",
+      "document_id": "viimsi_vald_service_vaimse_tervise_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/vaimne-tervis",
+      "content_hash": "bd7134bd5f0a930f9556a852e3aa97d76c1e4a0ebbc98781e05b8ae8ad043ecd",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_sunnitoetus",
@@ -970,7 +2043,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "sunnitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_sunnitoetus",
+      "document_id": "viimsi_vald_benefit_sunnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/sunnitoetuse-taotlus",
+      "content_hash": "ef2bb5588c2e721e2e7b977749991bc0760dfe3768e4db4a5c1971368d53e006",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_suurpere_toetus",
@@ -999,7 +2101,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "suurpere_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_suurpere_toetus",
+      "document_id": "viimsi_vald_benefit_suurpere_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/suurpere-toetus",
+      "content_hash": "ddae5027226902c4c2377c1ce2a46372d58785695f0957ec70b392a946e554b5",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_i_klassi_toetus",
@@ -1028,7 +2159,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "i_klassi_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_i_klassi_toetus",
+      "document_id": "viimsi_vald_benefit_i_klassi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/i-klassi-mineva-lapse-toetus",
+      "content_hash": "a477a6d34adf6e973d485fdeb2c0bd325b050a989c9c8fb6aa1a2ba6048d1a5e",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_matusetoetus",
@@ -1058,7 +2218,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "matusetoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_matusetoetus",
+      "document_id": "viimsi_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/matusetoetus",
+      "content_hash": "788325bd324d90cf8f80f44ab6869860b3a4a945b86b06343363d67cd8782db9",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_tahtpaevatoetus",
@@ -1088,7 +2277,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tahtpaevatoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_tahtpaevatoetus",
+      "document_id": "viimsi_vald_benefit_tahtpaevatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/tahtpaevatoetus",
+      "content_hash": "788e4faf87cc0ac433c2c37845d8c73f8d9a0fff0c792fb419159370e0db61ab",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_eakate_yhekordne_toetus",
@@ -1118,7 +2336,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "eakate_yhekordne_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_eakate_yhekordne_toetus",
+      "document_id": "viimsi_vald_benefit_eakate_yhekordne_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/uhekordse-toetuse-taotlus-eakatele",
+      "content_hash": "b4aff8b4641dec945a4d1fe428bb30caf94a2628ff5d9cd43c16e8f94c1e7c12",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_tsernoboli_toetus",
@@ -1147,7 +2394,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "tsernoboli_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_tsernoboli_toetus",
+      "document_id": "viimsi_vald_benefit_tsernoboli_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/tsernoboli-aej-avarii-likvideerimisel-osalenu-toetuse-taotlus",
+      "content_hash": "c06d0081d6ed58d603eeb5278a26e78bc934bbb48fad000de7d3ccfa255dfd57",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_puudega_isiku_transporditoetus",
@@ -1177,7 +2453,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "puudega_transporditoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_puudega_isiku_transporditoetus",
+      "document_id": "viimsi_vald_benefit_puudega_isiku_transporditoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/puudega-isiku-transporditoetuse-taotlus",
+      "content_hash": "52bbe5dec9209982cc02e13d90df43b1335224bc1120109985002678d77f6b05",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_puudega_isiku_tasuta_soidu_oigus",
@@ -1207,7 +2512,36 @@
       "relatedForms": [],
       "relatedContacts": [
         "viimsi_vald_contact_margit_stern"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "puudega_tasuta_soit_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_puudega_isiku_tasuta_soidu_oigus",
+      "document_id": "viimsi_vald_benefit_puudega_isiku_tasuta_soidu_oigus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/puudega-isiku-tasuta-soidu-oigus",
+      "content_hash": "20cc6c7b172b227933901209b5172111873f481ad94a14ddffc8334359c1c7c0",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_riiklik_toimetulekutoetus",
@@ -1241,7 +2575,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_signe_teigar"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "riiklik_toimetulekutoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_riiklik_toimetulekutoetus",
+      "document_id": "viimsi_vald_benefit_riiklik_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/riikliku-toimetulekutoetuse-taotlus",
+      "content_hash": "e35c727304c5fa94301e878f7e32fa9a8baad6907296fd0e4666073cc496f3b5",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_toimetuleku_tagamise_toetus",
@@ -1273,7 +2636,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toimetuleku_tagamise_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_toimetuleku_tagamise_toetus",
+      "document_id": "viimsi_vald_benefit_toimetuleku_tagamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/toimetuleku-tagamise-toetuse-taotlus",
+      "content_hash": "7bdbb38ef45d6ae7aadebe40656b839a400f3963cd2a3d24da67742f1accf05f",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_ravimitoetus",
@@ -1305,7 +2697,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "ravimitoetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_ravimitoetus",
+      "document_id": "viimsi_vald_benefit_ravimitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/ravimitoetuse-taotlus",
+      "content_hash": "afdab9a4643aef51bc2acb37e5797b8493310f4572000b58354e79a5778a7f1c",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_lasteaia_lastehoiu_kohatasu_toetus",
@@ -1338,7 +2759,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "lasteaia_lastehoiu_kohatasu_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_lasteaia_lastehoiu_kohatasu_toetus",
+      "document_id": "viimsi_vald_benefit_lasteaia_lastehoiu_kohatasu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/lasteaia-ja-lastehoiu-kohatasu-toetuse-taotlus",
+      "content_hash": "d6aa92d68a421407466380ba3f51cc5b812496d2a2185e2cba9359dd0eecdff8",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_benefit_toidu_eest_tasumise_toetus",
@@ -1371,7 +2821,36 @@
       ],
       "relatedContacts": [
         "viimsi_vald_contact_sandra_hommuk"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "toidu_eest_tasumise_toetus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_benefit_toidu_eest_tasumise_toetus",
+      "document_id": "viimsi_vald_benefit_toidu_eest_tasumise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/lasteaias-lastehoius-ja-koolis-toidu-eest-tasumise-toetuse-taotlus",
+      "content_hash": "aed447a37e6a88ddc1a7b4c08c3e4a6a0ed1868f125e40ab007cdcb1914f53da",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_haabneeme_paevakeskus",
@@ -1388,7 +2867,36 @@
       "role": null,
       "address": "Kesk tee 1, Haabneeme, 74001 Viimsi vald",
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_haabneeme_paevakeskus",
+      "document_id": "viimsi_vald_resource_haabneeme_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/eakas/paevakeskused",
+      "content_hash": "624e3e1a46a17a7c6e5d39fc95cdb54397017309357bba8cacf71a171b0fffb7",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_randvere_paevakeskus",
@@ -1405,7 +2913,36 @@
       "role": null,
       "address": "Kibuvitsa tee 1, Randvere, 74016 Viimsi vald",
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_randvere_paevakeskus",
+      "document_id": "viimsi_vald_resource_randvere_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/eakas/paevakeskused",
+      "content_hash": "42e5b98b287512f036fb7745fe4953341155c7fb6037170deda3fe7255ad9fb0",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_viimsi_hoolekandekeskus",
@@ -1426,7 +2963,36 @@
         "viimsi_vald_service_tugiisik_lapsele",
         "viimsi_vald_service_tugiisik_taiskasvanule"
       ],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "paevakeskused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_viimsi_hoolekandekeskus",
+      "document_id": "viimsi_vald_resource_viimsi_hoolekandekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/eakas/paevakeskused",
+      "content_hash": "a23d86c32ca59f3d9c6e4e81fb5ca03f092ebff9b4163bcb18de0bf032358905",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_parkimiskaart",
@@ -1443,7 +3009,36 @@
       "role": null,
       "address": null,
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "parkimiskaart_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_parkimiskaart",
+      "document_id": "viimsi_vald_resource_parkimiskaart",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/toiming/parkimiskaardi-taotlus",
+      "content_hash": "6c8e269a3445c3207f2797b79f8ec4acdfe9621905468bc39470ec2f71f8f16b",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_ohvriabi",
@@ -1460,7 +3055,36 @@
       "role": null,
       "address": null,
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_ohvriabi",
+      "document_id": "viimsi_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/ohvriabi",
+      "content_hash": "65a8e8d5016e298091633c70ba9cbecf09658fd7810f04d0790f4124d8381563",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_lasteabi_telefon",
@@ -1477,7 +3101,36 @@
       "role": null,
       "address": null,
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "perenoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_lasteabi_telefon",
+      "document_id": "viimsi_vald_resource_lasteabi_telefon",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/perenoustamine",
+      "content_hash": "94bcb072163dcbea19af7ef76abaf280732826ef66489baa7202c50ba72bc99e",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_perelepitusteenus",
@@ -1494,7 +3147,36 @@
       "role": null,
       "address": null,
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "perenoustamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_perelepitusteenus",
+      "document_id": "viimsi_vald_resource_perelepitusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/perenoustamine",
+      "content_hash": "4a00b759da7a93f03dcf8086ad1fd7c5931a3f9ee4364d57c7d5f718c5c923a6",
+      "evidence_allowed": true
     },
     {
       "id": "viimsi_vald_resource_abivajav_laps_info",
@@ -1511,7 +3193,39 @@
       "role": null,
       "address": null,
       "relatedTo": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "viimsi_vald",
+      "municipality_name": "Viimsi vald",
+      "county": "Harjumaa",
+      "source_keys": [
+        "abivajav_laps_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "viimsi_vald_resource_abivajav_laps_info",
+      "document_id": "viimsi_vald_resource_abivajav_laps_info",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.viimsi.ee/tervishoid-ja-sotsiaalteenused/abivajav-laps-ja-pere/abivajav-laps",
+      "content_hash": "48e4b354f965e6d85f3a0c0e5939412aff2c69da0e7f0b890a74b58605883ed3",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Viimsi vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

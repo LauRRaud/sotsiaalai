@@ -47,7 +47,36 @@
       ],
       "sourceKeys": [
         "koduteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "koduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_koduteenus",
+      "document_id": "setomaa_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/koduteenus/",
+      "content_hash": "121eda1da98a5e4030c1e19abf46c74cb8b185b25472c19755f1a0b183cd0657",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_uldhooldusteenus",
@@ -83,7 +112,36 @@
       ],
       "sourceKeys": [
         "uldhooldusteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "uldhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_uldhooldusteenus",
+      "document_id": "setomaa_vald_service_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/valjaspool-kodu-osutatav-uldhooldusteenus/",
+      "content_hash": "f1639877841793b2cc772306448522389c831a5cf9f7f5356f382169b2f4067b",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_tugiisikuteenus",
@@ -119,7 +177,36 @@
       ],
       "sourceKeys": [
         "tugiisikuteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "tugiisikuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_tugiisikuteenus",
+      "document_id": "setomaa_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/tugiisikuteenus/",
+      "content_hash": "f932d46cf725de5560621bd2ef5ddf40bdf1b46c3f57f9bae5d178dd5caa8d9c",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_taisealise_isiku_hooldus",
@@ -159,7 +246,36 @@
       ],
       "sourceKeys": [
         "taisealise_isiku_hooldus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "taisealise_isiku_hooldus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_taisealise_isiku_hooldus",
+      "document_id": "setomaa_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/taisealise-isiku-hooldus/",
+      "content_hash": "b2d0040ba2a4975b750e173eca8043021a649d7d5f7ce52a13eb2c21a153dfdd",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_isikliku_abistaja_teenus",
@@ -194,7 +310,36 @@
       ],
       "sourceKeys": [
         "isikliku_abistaja_teenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "isikliku_abistaja_teenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_isikliku_abistaja_teenus",
+      "document_id": "setomaa_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/isikliku-abistaja-teenus/",
+      "content_hash": "2af8e6a8b47530d4fbb3159f5f16f137c96b6e1d371d5911056c6da549e4c663",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_varjupaigateenus",
@@ -229,7 +374,36 @@
       ],
       "sourceKeys": [
         "varjupaigateenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "varjupaigateenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_varjupaigateenus",
+      "document_id": "setomaa_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/varjupaigateenus/",
+      "content_hash": "b5d8006c1df218900261a467c7938d1832f8668e35fafcfa3f86f8ad097148db",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_turvakoduteenus",
@@ -265,7 +439,36 @@
       ],
       "sourceKeys": [
         "turvakoduteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "turvakoduteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_turvakoduteenus",
+      "document_id": "setomaa_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/turvakoduteenus/",
+      "content_hash": "c976e40dd1495a9a9c288ea7302d8116e341704ae4dababcd3d209825373fc07",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_sotsiaaltransporditeenus",
@@ -300,7 +503,36 @@
       ],
       "sourceKeys": [
         "sotsiaaltransporditeenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_sotsiaaltransporditeenus",
+      "document_id": "setomaa_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/sotsiaaltransporditeenus/",
+      "content_hash": "dab2084c68c17c9e35389facb0ae1a9fd614e5081d64405c9f548543b3515f64",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_eluruumi_tagamine",
@@ -335,7 +567,36 @@
       ],
       "sourceKeys": [
         "eluruumi_tagamine_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "eluruumi_tagamine_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_eluruumi_tagamine",
+      "document_id": "setomaa_vald_service_eluruumi_tagamine",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/eluruumi-tagamine/",
+      "content_hash": "ab4c99b1c3be250f0800384c81102682c23bcf3efb2334e563886eda212f39d7",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_volanoustamisteenus",
@@ -370,7 +631,36 @@
       ],
       "sourceKeys": [
         "volanoustamisteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "volanoustamisteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_volanoustamisteenus",
+      "document_id": "setomaa_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/volanoustamisteenus/",
+      "content_hash": "990d36621dae29b1ab5efa2b45bc5f7528e2b10558bda806df4a4ded52bc7b63",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_lapsehoiuteenus",
@@ -404,7 +694,36 @@
       ],
       "sourceKeys": [
         "lapsehoiuteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lapsehoiuteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_lapsehoiuteenus",
+      "document_id": "setomaa_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/lapsehoiuteenus/",
+      "content_hash": "798f72d61a37b3d1e11ee8d6664b0cb89374756e8ba51f9fef3a9b8757a47fd0",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_asendushooldusteenus",
@@ -437,7 +756,36 @@
       ],
       "sourceKeys": [
         "asendushooldusteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "asendushooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_asendushooldusteenus",
+      "document_id": "setomaa_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/asendushooldusteenus/",
+      "content_hash": "4e4047941f2f39d7a209649798bfbdac6be52b68033e092081b0a26552f60fa9",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_jarelhooldusteenus",
@@ -471,7 +819,36 @@
       ],
       "sourceKeys": [
         "jarelhooldusteenus_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "jarelhooldusteenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_jarelhooldusteenus",
+      "document_id": "setomaa_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/jarelhooldusteenus/",
+      "content_hash": "41576d9510f257c65199c0f1d13a25388a22e484b7556e85bf6e5a66c7a3c10d",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_raske_ja_sugava_puudega_laste_teenused",
@@ -505,7 +882,36 @@
       ],
       "sourceKeys": [
         "raske_ja_sugava_puudega_laste_teenused_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "raske_ja_sugava_puudega_laste_teenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_raske_ja_sugava_puudega_laste_teenused",
+      "document_id": "setomaa_vald_service_raske_ja_sugava_puudega_laste_teenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/sotsiaalteenused-raske-ja-sugava-puudega-lastele/",
+      "content_hash": "e70c598218dae10efe462b00a148356593c2a6be15498cebf7dbdac3d6de82da",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
@@ -541,7 +947,36 @@
       ],
       "sourceKeys": [
         "taiendavad_vajaduspohised_sotsiaalteenused_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "taiendavad_vajaduspohised_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
+      "document_id": "setomaa_vald_service_taiendavad_vajaduspohised_sotsiaalteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/taiendavad-vajaduspohised-sotsiaalteenused/",
+      "content_hash": "2c05d94908cc757eeb4c916b1ce9683fbcfd5b0983a8282251772f6c747e132d",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_pesupesemise_ja_kuivatamise_teenus",
@@ -576,7 +1011,36 @@
       ],
       "sourceKeys": [
         "taiendavad_vajaduspohised_sotsiaalteenused_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "taiendavad_vajaduspohised_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_pesupesemise_ja_kuivatamise_teenus",
+      "document_id": "setomaa_vald_service_pesupesemise_ja_kuivatamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/taiendavad-vajaduspohised-sotsiaalteenused/",
+      "content_hash": "0a9c744bb63c896a134e9bfdf80e56d104fe4a0907246d3a3411a8004382b922",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_saatjateenus_koos_transpordiga",
@@ -615,7 +1079,36 @@
       ],
       "sourceKeys": [
         "saatjateenus_koos_transpordiga_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "saatjateenus_koos_transpordiga_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_saatjateenus_koos_transpordiga",
+      "document_id": "setomaa_vald_service_saatjateenus_koos_transpordiga",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/saatjateenus-koos-transpordiga/",
+      "content_hash": "d2b6b5605c47cd805bd4398103509dcffd3677738a3aff0f7ed750d3288c24e2",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_service_vaimse_tervise_teenus",
@@ -651,7 +1144,36 @@
       ],
       "sourceKeys": [
         "taiendavad_vajaduspohised_sotsiaalteenused_page"
-      ]
+      ],
+      "item_type": "service",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "taiendavad_vajaduspohised_sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_service_vaimse_tervise_teenus",
+      "document_id": "setomaa_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/taiendavad-vajaduspohised-sotsiaalteenused/",
+      "content_hash": "39e947e22339c631785b6ae6b62fa4172c6b856bb222f84aa6de34665d8b2831",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_synnitoetus",
@@ -685,7 +1207,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_synnitoetus",
+      "document_id": "setomaa_vald_benefit_synnitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "5061c3894210d089ee3031f82ffc59408a1cf059bab14ea876c90635eeab34d1",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_esimese_klassi_toetus",
@@ -719,7 +1270,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_esimese_klassi_toetus",
+      "document_id": "setomaa_vald_benefit_esimese_klassi_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "948eeb8d862770b881c900437278f683f5062d81e7eb08cd25201e7b4e720375",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_joulutoetus",
@@ -750,7 +1330,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_joulutoetus",
+      "document_id": "setomaa_vald_benefit_joulutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "b0cbbfcd1273f585f81f7f5133ee1a28a6cd9fcb875fe97ce8024ed63eb8f411",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_matusetoetus",
@@ -784,7 +1393,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_matusetoetus",
+      "document_id": "setomaa_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "c2e042f798bd12a3c7639af9a30dc4db628a0491fe675013d5f0357ae77d8717",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_prillitoetus",
@@ -818,7 +1456,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_prillitoetus",
+      "document_id": "setomaa_vald_benefit_prillitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "2697e8cab8c940b09e2e2acf62958af0f242d82af3222bb5936138cd0d5bd3fd",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
@@ -851,7 +1518,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "document_id": "setomaa_vald_benefit_hooldajatoetus_puudega_lapse_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "fc77849e90297b18f7ce236c3223dd267b83b45aca4ff48529c725057845100b",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
@@ -884,7 +1580,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "document_id": "setomaa_vald_benefit_hooldajatoetus_taisealise_isiku_hooldajale",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "549d5426fa7440f17b23e468181d2f33436371a13c2efa9511a28181a6e4cb0a",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_uhekordne_sotsiaaltoetus",
@@ -917,7 +1642,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_uhekordne_sotsiaaltoetus",
+      "document_id": "setomaa_vald_benefit_uhekordne_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "07fbef7031be0d3d92700f70e96f4d83cb188854caa1c3e211d08670c4b5bacc",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_erakorraline_toetus",
@@ -950,7 +1704,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_erakorraline_toetus",
+      "document_id": "setomaa_vald_benefit_erakorraline_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "b369a18c3942a2b4694a446c5b07f7b08cd65cff575af986a21d2ba3f2c3eb24",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_benefit_toimetulekutoetus",
@@ -985,7 +1768,36 @@
       ],
       "sourceKeys": [
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "benefit",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_benefit_toimetulekutoetus",
+      "document_id": "setomaa_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "15be483249ec99dc9d21e3e016b3b3f30090e38f6185281e022322d6d6bee7b9",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_setomaa_hooldekodu",
@@ -1001,7 +1813,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_setomaa_hooldekodu",
+      "document_id": "setomaa_vald_resource_setomaa_hooldekodu",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/hoolekandeasutused/",
+      "content_hash": "55889756978ab12b92efe8f11464ccc5def9070fe998b7062effe969bb14c8bc",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_lastekaitse",
@@ -1017,7 +1858,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_lastekaitse",
+      "document_id": "setomaa_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/lastekaitse/",
+      "content_hash": "25f2295c18799cb2b794ce9a247145119a84bc13db5afe45b1bd3a0a718c8cd8",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_laste_ja_noorte_leinanoustamine",
@@ -1033,7 +1903,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_laste_ja_noorte_leinanoustamine",
+      "document_id": "setomaa_vald_resource_laste_ja_noorte_leinanoustamine",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/lastekaitse/",
+      "content_hash": "47902cdc1488201becea9635de33605ceb60ca09ebc3c9e8c041b1ed4120454e",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_ohvriabi",
@@ -1049,7 +1948,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_ohvriabi",
+      "document_id": "setomaa_vald_resource_ohvriabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/ohvriabi/",
+      "content_hash": "937096198d3e8ae80c64e377c44b0ca21e39d485374c554e15b90deb639b4301",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_tasuta_oigusabi",
@@ -1065,7 +1993,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "tasuta_oigusabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_tasuta_oigusabi",
+      "document_id": "setomaa_vald_resource_tasuta_oigusabi",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/toetus-ja-kaitse-peredele/tasuta-oigusabi/",
+      "content_hash": "20ef114692ad4db47ad0523a5e35e7f31c7dd0cd6b57d160dd94c4a677509d89",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_medi_hairenuputeenus",
@@ -1081,7 +2038,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "medi_hairenuputeenus_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_medi_hairenuputeenus",
+      "document_id": "setomaa_vald_resource_medi_hairenuputeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/tervishoid-ja-ravi/medi-hairenuputeenus/",
+      "content_hash": "13238fd4a18e10762b854fda96f999d3799969a702c701f699b2a5a7b9cd13f6",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_riigi_infotelefonid",
@@ -1097,7 +2083,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_services_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_riigi_infotelefonid",
+      "document_id": "setomaa_vald_resource_riigi_infotelefonid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/pere-sotsiaal-ja-tervishoid/sotsiaalhoolekanne-ja-toetused/sotsiaalteenused/",
+      "content_hash": "8ed83b5e4e502430785fa0cf0fda916fc74a9134b0252b022b8964681c907fa0",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_resource_teeninduspunktid",
@@ -1113,7 +2128,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "resource",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_resource_teeninduspunktid",
+      "document_id": "setomaa_vald_resource_teeninduspunktid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "content_hash": "7120ea68eadb699598ddec0265091b6d3e6f8f24ffd780de9dc77194ac668208",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_vallavalitsus",
@@ -1131,7 +2175,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_vallavalitsus",
+      "document_id": "setomaa_vald_contact_vallavalitsus",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "863618ca01718a50b8abbcd9697e325f7934563d699912970621b4e020f06466",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_elen_kokla",
@@ -1149,7 +2222,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_elen_kokla",
+      "document_id": "setomaa_vald_contact_elen_kokla",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3ad4af2692d6a77c3f4e319820b259d705522881ec6a146a65bf144e62c7e6de",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_kaja_rozikov",
@@ -1167,7 +2269,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_kaja_rozikov",
+      "document_id": "setomaa_vald_contact_kaja_rozikov",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "e5c258c2eb3fd2b141ba9a5edf468a9f5c67409f7bfd9397b38d7b50d1062e77",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_katre_pinnar",
@@ -1185,7 +2316,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_katre_pinnar",
+      "document_id": "setomaa_vald_contact_katre_pinnar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "dc7222dc45ece7f3add793588407cb5a815c2dcc32b1e2c21c4b531dfd4753ee",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_triinu_limbak",
@@ -1203,7 +2363,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_triinu_limbak",
+      "document_id": "setomaa_vald_contact_triinu_limbak",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "cf0faf7c00bf9933569ae9d4475d51693933e13596017bb61bce57cb527b02e3",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_ulve_kala",
@@ -1221,7 +2410,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_ulve_kala",
+      "document_id": "setomaa_vald_contact_ulve_kala",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "43f9989d0ee9b0f9135c6aaec83ead806900e3276521ee3406765294ea317d8e",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_liina_oinak",
@@ -1239,7 +2457,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_liina_oinak",
+      "document_id": "setomaa_vald_contact_liina_oinak",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "3274b771502abe2f2128ebaef3f5b2125a21adacdad6b27d48eb1e9894ec8312",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_valdu_solovjev",
@@ -1257,7 +2504,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_valdu_solovjev",
+      "document_id": "setomaa_vald_contact_valdu_solovjev",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "5dd73ee7c09dd95b9da2601865d7bf13be7d3e94cff05122c32f878b183e9a8d",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_georg_kuningas",
@@ -1275,7 +2551,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "contact_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_georg_kuningas",
+      "document_id": "setomaa_vald_contact_georg_kuningas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "11b638cbf7c8e77c35ecd9d40e7765a3922d2773eadd9c51d109f9c9a5a8dfa1",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_contact_setomaa_hooldekodu_kristina_nurmetalu",
@@ -1293,7 +2598,36 @@
       ],
       "relatedTo": [],
       "relatedForms": [],
-      "relatedContacts": []
+      "relatedContacts": [],
+      "item_type": "contact",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_contact_setomaa_hooldekodu_kristina_nurmetalu",
+      "document_id": "setomaa_vald_contact_setomaa_hooldekodu_kristina_nurmetalu",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": null,
+      "content_hash": "c7d705641f9e21b993cd9898837c4ec9c64414d07f2975592d217c38e46126fd",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_sotsiaalteenuse_taotlus",
@@ -1339,9 +2673,39 @@
         "setomaa_vald_contact_vallavalitsus"
       ],
       "sourceKeys": [
-        "sotsiaalteenuse_taotlus_file",
-        "social_services_overview"
-      ]
+        "social_services_overview",
+        "sotsiaalteenuse_taotlus_file"
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_services_overview",
+        "sotsiaalteenuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_sotsiaalteenuse_taotlus",
+      "document_id": "setomaa_vald_form_sotsiaalteenuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Avaldus-sotsiaalteenuse-taotlemiseks1.doc",
+      "content_hash": "0c4cc73e3fc1b200ebbce4016ba255ea98ce4cbbd80a4171f7a4b84854778b5e",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_hooldekodu_taotlus",
@@ -1375,7 +2739,37 @@
       "sourceKeys": [
         "hooldekodu_taotlus_file",
         "hoolekandeasutused_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "hooldekodu_taotlus_file",
+        "hoolekandeasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_hooldekodu_taotlus",
+      "document_id": "setomaa_vald_form_hooldekodu_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Hooldekodu-taotlus.docx",
+      "content_hash": "0a12d6f04a08416d6a6d28fac1f6ec20e1c3bbe2d7df9bdcf66925969d30a4a5",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_sunnitoetuse_taotlus",
@@ -1406,9 +2800,39 @@
         "setomaa_vald_contact_vallavalitsus"
       ],
       "sourceKeys": [
-        "sunnitoetuse_taotlus_file",
-        "social_benefits_page"
-      ]
+        "social_benefits_page",
+        "sunnitoetuse_taotlus_file"
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page",
+        "sunnitoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_sunnitoetuse_taotlus",
+      "document_id": "setomaa_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Sunnitoetuse-taotlus.rtf",
+      "content_hash": "9f5ab02c3ad098eb454677de0c10bcca4830b749f478c4a39cdc5a5467f35b41",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_esimesse_klassi_toetus_taotlus",
@@ -1441,7 +2865,37 @@
       "sourceKeys": [
         "esimesse_klassi_toetus_taotlus_file",
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "esimesse_klassi_toetus_taotlus_file",
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_esimesse_klassi_toetus_taotlus",
+      "document_id": "setomaa_vald_form_esimesse_klassi_toetus_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/09/Esimesse-klassi-astuja-toetuse-taotlus.rtf",
+      "content_hash": "b1b8b8fbc691d987c92eb74f1b7f323cb3c883a2f0c1e9738e3e312b2490d13b",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_matusetoetuse_taotlus",
@@ -1474,7 +2928,37 @@
       "sourceKeys": [
         "matusetoetuse_taotlus_file",
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "matusetoetuse_taotlus_file",
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_matusetoetuse_taotlus",
+      "document_id": "setomaa_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Matusetoetuse-taotlus.rtf",
+      "content_hash": "0d2f5d6838414130ab003fb8886761e8a66be148be662e89922ebb3440cb6cc2",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_prillitoetuse_taotlus",
@@ -1507,7 +2991,37 @@
       "sourceKeys": [
         "prillitoetuse_taotlus_file",
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "prillitoetuse_taotlus_file",
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_prillitoetuse_taotlus",
+      "document_id": "setomaa_vald_form_prillitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Prillitoetuse-taotlus.rtf",
+      "content_hash": "c79652251527aa4e8d6955bd695f4263b8776bf4d072441ba323dd19f5cc5688",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
@@ -1540,7 +3054,37 @@
       "sourceKeys": [
         "puudega_lapse_hooldajatoetuse_taotlus_file",
         "social_benefits_page"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "puudega_lapse_hooldajatoetuse_taotlus_file",
+        "social_benefits_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "document_id": "setomaa_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Avaldus-puudega-lapse-hooldamise-eest-hooldajatoetuse-taotlemiseks.doc",
+      "content_hash": "48c34e9bd5bef1c13dac485619307faae53e6a0908d2deafb6d8d64cd76e8cd1",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
@@ -1572,9 +3116,39 @@
         "setomaa_vald_contact_vallavalitsus"
       ],
       "sourceKeys": [
-        "taisealise_hooldaja_ja_hooldajatoetuse_taotlus_file",
-        "social_benefits_page"
-      ]
+        "social_benefits_page",
+        "taisealise_hooldaja_ja_hooldajatoetuse_taotlus_file"
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page",
+        "taisealise_hooldaja_ja_hooldajatoetuse_taotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
+      "document_id": "setomaa_vald_form_taisealise_hooldaja_ja_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2025/05/Avaldus-hooldaja-maaramiseks-ja-hooldajatoetuse-taotlemiseks-taisealisele.doc",
+      "content_hash": "f95caca52d63e128ac29cf852300d19113cd286077d324e6c49d7e7b6f1aad7a",
+      "evidence_allowed": true
     },
     {
       "id": "setomaa_vald_form_sotsiaaltoetuste_koondtaotlus",
@@ -1607,9 +3181,42 @@
         "setomaa_vald_contact_vallavalitsus"
       ],
       "sourceKeys": [
-        "sotsiaaltoetuste_koondtaotlus_file",
-        "social_benefits_page"
-      ]
+        "social_benefits_page",
+        "sotsiaaltoetuste_koondtaotlus_file"
+      ],
+      "item_type": "form",
+      "municipality_id": "setomaa_vald",
+      "municipality_name": "Setomaa vald",
+      "county": "Võrumaa",
+      "source_keys": [
+        "social_benefits_page",
+        "sotsiaaltoetuste_koondtaotlus_file"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "setomaa_vald_form_sotsiaaltoetuste_koondtaotlus",
+      "document_id": "setomaa_vald_form_sotsiaaltoetuste_koondtaotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-30",
+      "last_checked": "2026-04-30",
+      "retrieved_at": "2026-04-30",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://setomaa.ee/wp-content/uploads/2026/02/Avaldus-uhekordse-sotsiaaltoetuse-erakorralise-sotsiaaltoetuse-ja-toimetulekutoetuse-taotlemiseks-3.docx",
+      "content_hash": "c928e6c519ad1038da58bfbea29b890f19e867c1530ea6587772528132a877df",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Setomaa vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

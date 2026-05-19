@@ -27,7 +27,36 @@
       "name": "Sirli Tammiste",
       "role": "Sotsiaalteenistuse juht",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_sirli_tammiste",
+      "document_id": "johvi_vald_contact_sirli_tammiste",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "0b62c6a0836000dc4977834cf8cfe2ca54aaa04ad231b7e6f3f102b8733d68b0",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_kaire_polgaste",
@@ -46,7 +75,36 @@
       "name": "Kaire Põlgaste",
       "role": "Sotsiaalteenistuse juhi asetäitja",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_kaire_polgaste",
+      "document_id": "johvi_vald_contact_kaire_polgaste",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "cb7cc3b5f811d824968002caecabc904f19aa2b738c5604bb9716839c1ab3352",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_kersti_vihmann",
@@ -65,7 +123,36 @@
       "name": "Kersti Vihmann",
       "role": "Eakate ja puuetega inimeste spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_kersti_vihmann",
+      "document_id": "johvi_vald_contact_kersti_vihmann",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "f51997ab45f78f61cf03ab085a6e9ad352eb325c41d7c67cce10375c8320e385",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_marika_freiberg",
@@ -84,7 +171,36 @@
       "name": "Marika Freiberg",
       "role": "Eakate ja puuetega inimeste spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_marika_freiberg",
+      "document_id": "johvi_vald_contact_marika_freiberg",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "cb1e9a50b05c3363e907c8af7265e02c8a953a7ca58ffc3c6c4aa79a764c48fe",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_krista_kool",
@@ -103,7 +219,36 @@
       "name": "Krista Kool",
       "role": "Sotsiaaltöö assistent",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_krista_kool",
+      "document_id": "johvi_vald_contact_krista_kool",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "bc760266740a382112dd5dd96751be7616e8a0208600389d15e429df21ea95ea",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_kristiina_nommiste",
@@ -122,7 +267,36 @@
       "name": "Kristiina Nõmmiste",
       "role": "Sotsiaalkaitse spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_kristiina_nommiste",
+      "document_id": "johvi_vald_contact_kristiina_nommiste",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "39c57dc5fcbfd29ecfc1a7b31991ef62adbdfd2f0880880e7cd6a90e91364e6a",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_moonika_raitsak",
@@ -141,7 +315,36 @@
       "name": "Moonika Räitsak",
       "role": "Sotsiaaltoetuste spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_moonika_raitsak",
+      "document_id": "johvi_vald_contact_moonika_raitsak",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "6b4fbef73f52d3299a1feea1ad995f7b32b6e6302f084e84b22b6d4ce466c443",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_sirle_lumiste",
@@ -160,7 +363,36 @@
       "name": "Sirle Lumiste",
       "role": "Sotsiaaltoetuste spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_sirle_lumiste",
+      "document_id": "johvi_vald_contact_sirle_lumiste",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "5730125ff3ce542e0e16f993971a3bed744751055a51f268effaff4ce57b4be7",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_kersti_tammesaar",
@@ -179,7 +411,36 @@
       "name": "Kersti Tammesaar",
       "role": "Sotsiaaltöö spetsialist (toetused)",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_kersti_tammesaar",
+      "document_id": "johvi_vald_contact_kersti_tammesaar",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "e7420767e6f264af2d7a7abed85d19687d26e50be5311baa46153143f76d08cd",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_marju_paas",
@@ -198,7 +459,36 @@
       "name": "Marju Paas",
       "role": "Laste heaolu spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_marju_paas",
+      "document_id": "johvi_vald_contact_marju_paas",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "0a477f7e27a118b9c1f25bce98fee58ce36b19e52a390afd7ba031610469b436",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_nadezda_andrejeva",
@@ -217,7 +507,36 @@
       "name": "Nadežda Andrejeva",
       "role": "Laste heaolu spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_nadezda_andrejeva",
+      "document_id": "johvi_vald_contact_nadezda_andrejeva",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "7573868e23af8df72af8ce0287c2812b748f3faa40fe33bf0ebab235005b847f",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_pille_ruutel",
@@ -236,7 +555,36 @@
       "name": "Pille Rüü",
       "role": "Laste ja perede heaoluspetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_pille_ruutel",
+      "document_id": "johvi_vald_contact_pille_ruutel",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "863bf7850cc595b7fa45d79fe4f800bae8880a083a668ded98ebc6291eee1682",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_anu_liis_podra",
@@ -255,7 +603,36 @@
       "name": "Anu-Liis Põdra",
       "role": "Noorte heaolu spetsialist",
       "department": "Sotsiaalteenistus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_anu_liis_podra",
+      "document_id": "johvi_vald_contact_anu_liis_podra",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/vald-uudised-ja-kontakt/uudised-ja-kontakt/kontaktid/",
+      "content_hash": "7e86923bf330e6bb5dd5b423f76ad82e6616a1bc466cfb71080d790f6123b8c2",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_vallavalitsuse_uldinfo",
@@ -265,8 +642,8 @@
       "status": "active",
       "summary": "Jõhvi Vallavalitsuse üldkontakt on avaldatud veebilehe jaluses ja sobib esmaseks pöördumiseks, kui konkreetne sotsiaalteenistuse kontakt ei ole teada.",
       "sourceKeys": [
-        "home",
-        "contacts_page"
+        "contacts_page",
+        "home"
       ],
       "officialUrl": "https://www.johvi.ee/",
       "relatedTo": [],
@@ -275,7 +652,37 @@
       "name": "Jõhvi Vallavalitsus",
       "role": "Üldkontakt",
       "department": "Jõhvi Vallavalitsus",
-      "address": "Kooli 2, 41595 Jõhvi"
+      "address": "Kooli 2, 41595 Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "contacts_page",
+        "home"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_vallavalitsuse_uldinfo",
+      "document_id": "johvi_vald_contact_vallavalitsuse_uldinfo",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/",
+      "content_hash": "9dd3dd4bf84691c334db0dc96ba05c01357b09afd63a2f305267b6637c4804a6",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_contact_eha_samra",
@@ -295,7 +702,37 @@
       "name": "Eha Samra",
       "role": "Eakate päevakeskuse teenuste juht",
       "department": "Jõhvi Eakate Päevakeskus",
-      "address": "Kaare 3, Jõhvi"
+      "address": "Kaare 3, Jõhvi",
+      "item_type": "contact",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "eakate_paevakeskus_page",
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_contact_eha_samra",
+      "document_id": "johvi_vald_contact_eha_samra",
+      "source_type": "official_contact",
+      "resource_type": "contact",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/eakate-paevakeskus/",
+      "content_hash": "239a2db11f5eaf601f07b1a465da4aba795848c475eefea425ea7c32e4b044a5",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_sotsiaalteenuse_avaldus",
@@ -328,7 +765,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel, kui KOV aktsepteerib"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_sotsiaalteenuse_avaldus",
+      "document_id": "johvi_vald_form_sotsiaalteenuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/08/2024-teenuse-avaldus-.pdf",
+      "content_hash": "f28b3681f8ce7a9221540c966eb60f79de74c5edf232ba6bfc5e8f8dd216db25",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_sotsiaaltoetuse_avaldus",
@@ -357,7 +823,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_sotsiaaltoetuse_avaldus",
+      "document_id": "johvi_vald_form_sotsiaaltoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/sotsiaaltoetuse_avaldus.pdf",
+      "content_hash": "72b4f552aca6444353e34817b4b09581a0b6c75c24159ca0d701134c0a5af39a",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_toimetulekutoetuse_avaldus",
@@ -379,7 +874,36 @@
       "submissionChannels": [
         "isiklikult sotsiaalteenistuses",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "toimetulekutoetuse_avaldus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_toimetulekutoetuse_avaldus",
+      "document_id": "johvi_vald_form_toimetulekutoetuse_avaldus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/toimetulekutoetuse_avaldus.pdf",
+      "content_hash": "162a2e9581068aeee88133bf24d5c64735d7a0bacd8ba60c4848deb18c05cc29",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_isikliku_tahtpaeva_toetuse_taotlus",
@@ -401,7 +925,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "isikliku_tahtpaeva_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_isikliku_tahtpaeva_toetuse_taotlus",
+      "document_id": "johvi_vald_form_isikliku_tahtpaeva_toetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/isiklik-tahtpaev_taotlus.pdf",
+      "content_hash": "3c33eb9771dacc9d1cd5954a7d9e8706c7942c403d565a10bc08d56bcb5878a5",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_sunnitoetuse_taotlus",
@@ -423,7 +976,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "synnitoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_sunnitoetuse_taotlus",
+      "document_id": "johvi_vald_form_sunnitoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/sunnitoetuse_taotlus.pdf",
+      "content_hash": "74fd7d9b7cdfc594cadaffcf759d89853c3c1a228ae2d535f317e68973b890f4",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_matusetoetuse_taotlus",
@@ -445,7 +1027,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "matusetoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_matusetoetuse_taotlus",
+      "document_id": "johvi_vald_form_matusetoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2026/01/Matusetoetuse-taotlus-2026.pdf",
+      "content_hash": "2b0be87eba76fe9aa075c424881529d77d8171a3fe28fcd8bba1eac792b30540",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
@@ -467,7 +1078,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "puudega_lapse_hooldajatoetuse_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "document_id": "johvi_vald_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/puudega-lapse-hooldajale-hooldajatoetuse_taotlus.pdf",
+      "content_hash": "099fe5b75f7cfb55a7ea837d22317920175f729f17b27f96685b8e434327af31",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_logopeed_psuhholoog_tugiisik_lapsehoid_taotlus",
@@ -494,7 +1134,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "logopeed_psuhh_tugi_lapsehoid_taotlus_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_logopeed_psuhholoog_tugiisik_lapsehoid_taotlus",
+      "document_id": "johvi_vald_form_logopeed_psuhholoog_tugiisik_lapsehoid_taotlus",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/Taotlus_logopeediline_psuhhol_tugiisikuteenus_lapsehoiuteenus_.pdf",
+      "content_hash": "aa3ca16a3525105adabfcf4e3829e750ae279027719818712a951da7842627b0",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_tasuta_lasteaiatoidu_taotleja_ankeet",
@@ -516,7 +1185,36 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "tasuta_lasteaiatoidu_ankeet_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_tasuta_lasteaiatoidu_taotleja_ankeet",
+      "document_id": "johvi_vald_form_tasuta_lasteaiatoidu_taotleja_ankeet",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2025/10/tasuta-lasteaiatoidu-taotleja_ankeet.pdf",
+      "content_hash": "50902503ec41a71ef05bdd0b8f0ad8dccdcc61523450d90a2cd919e2922c6ad5",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_avaldus_teenustele_2026",
@@ -526,8 +1224,8 @@
       "status": "active",
       "summary": "2026. aasta teenuste avaldus on mõeldud laste logopeedilise nõustamise, vaimse tervise teenuse, suure hooldus- ja abivajadusega lapse tugiisiku, transpordi ja hoiuteenuse ning hooldajatoetuse taotlemiseks.",
       "sourceKeys": [
-        "avaldus_teenustele_2026_pdf",
-        "avaldus_teenustele_2026_2_pdf"
+        "avaldus_teenustele_2026_2_pdf",
+        "avaldus_teenustele_2026_pdf"
       ],
       "officialUrl": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026.pdf",
       "relatedTo": [
@@ -544,7 +1242,37 @@
       "submissionChannels": [
         "paberkandjal",
         "digiallkirjastatult e-posti teel"
-      ]
+      ],
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "avaldus_teenustele_2026_2_pdf",
+        "avaldus_teenustele_2026_pdf"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_avaldus_teenustele_2026",
+      "document_id": "johvi_vald_form_avaldus_teenustele_2026",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/wp-content/uploads/2026/01/Avaldus-teenustele-2026.pdf",
+      "content_hash": "8555201067e19e0e09d747113a43c8dc0a38744c9de345da10a855aaa1ca0378",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_form_koolitoetuse_evorm_arno",
@@ -566,7 +1294,36 @@
       "submissionChannels": [
         "ARNO e-teenus"
       ],
-      "eFormUrl": "https://piksel.ee/arno/johvi/"
+      "eFormUrl": "https://piksel.ee/arno/johvi/",
+      "item_type": "form",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_form_koolitoetuse_evorm_arno",
+      "document_id": "johvi_vald_form_koolitoetuse_evorm_arno",
+      "source_type": "application_form",
+      "resource_type": "form",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "3048200ed8caf57f37d8bf55a27cfdeab1ac596aa0d875634dfc2d73581eb47a",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_koduteenus",
@@ -603,7 +1360,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Üldjuhul tasuline; tasu sõltub teenuse mahust."
+      "pricing": "Üldjuhul tasuline; tasu sõltub teenuse mahust.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_koduteenus",
+      "document_id": "johvi_vald_service_koduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "55192f52140c576a98085635f0150bddcb7074d9829f7e398f41ac0e1db97db0",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_hoolekandelaste_abivahendite_teenus",
@@ -640,7 +1426,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Taotleja kannab abivahendi kasutamisega seotud kulud."
+      "pricing": "Taotleja kannab abivahendi kasutamisega seotud kulud.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_hoolekandelaste_abivahendite_teenus",
+      "document_id": "johvi_vald_service_hoolekandelaste_abivahendite_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "1e90380f5513027dca1ef1e1219ab5f5d845cd91ad4252f3185ea3dbf7099607",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_tugiisikuteenus",
@@ -679,7 +1494,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Teenust saama õigustatud isikule tasuta."
+      "pricing": "Teenust saama õigustatud isikule tasuta.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_tugiisikuteenus",
+      "document_id": "johvi_vald_service_tugiisikuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "4b009bc4ec1336558ce700467f74bbb82e502f5ee0d2b6d688b58dae0fd1d3aa",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_taisealise_isiku_hooldus",
@@ -715,7 +1559,36 @@
           "Selgitatakse hooldusvajadus ja potentsiaalse hooldaja sobivus."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_taisealise_isiku_hooldus",
+      "document_id": "johvi_vald_service_taisealise_isiku_hooldus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "2be42d5e8ddd8b320c6c88f8a7c9fb048933d0367d423d5151875d40735aa135",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_isikliku_abistaja_teenus",
@@ -752,7 +1625,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasuta."
+      "pricing": "Tasuta.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_isikliku_abistaja_teenus",
+      "document_id": "johvi_vald_service_isikliku_abistaja_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "6342fa69f8fce36a3f3be16f6de0b990ce1bd502a1f65e0dac5db5c61a7dbcef",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -789,7 +1691,36 @@
         ],
         "deadline": null
       },
-      "pricing": "2026. aastal kompenseerib Jõhvi Vallavalitsus hoolduskulude osa kuni 650 eurot kuus."
+      "pricing": "2026. aastal kompenseerib Jõhvi Vallavalitsus hoolduskulude osa kuni 650 eurot kuus.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "document_id": "johvi_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "c8c9ceb250e99b1bfd31d648fefcd2319238d7491c97f4b15ec05b81f93c442c",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_sotsiaaltransporditeenus",
@@ -826,7 +1757,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Jõhvi valla piires kuni 15 km 5 eurot; üle 15 km 10 eurot; väljapoole valda 0,30 eurot/km."
+      "pricing": "Jõhvi valla piires kuni 15 km 5 eurot; üle 15 km 10 eurot; väljapoole valda 0,30 eurot/km.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_sotsiaaltransporditeenus",
+      "document_id": "johvi_vald_service_sotsiaaltransporditeenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "a4bcbb4ab491b91e01dbbf0f0bf09d631acd98e3f7a5b40c503e0210273ec051",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_varjupaigateenus",
@@ -855,7 +1815,36 @@
           "Võtta ühendust Jõhvi Sotsiaalmajaga või sotsiaalteenistusega."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_varjupaigateenus",
+      "document_id": "johvi_vald_service_varjupaigateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "ae7785362ea4955a2b2ff0744e7d93919f4d8c7adc7ba63ec1f2e9153c000cd8",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_turvakoduteenus",
@@ -888,7 +1877,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasumise aluseks on sotsiaalkomisjoni otsus ja teenuseosutaja arve."
+      "pricing": "Tasumise aluseks on sotsiaalkomisjoni otsus ja teenuseosutaja arve.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_turvakoduteenus",
+      "document_id": "johvi_vald_service_turvakoduteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "d75769a19afa698f84c1fac2546f58eb51775a11cd41430f132105695391e206",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_eluruumi_tagamise_teenus",
@@ -925,7 +1943,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasumise kord sätestatakse kasutuslepingus või üürilepingus."
+      "pricing": "Tasumise kord sätestatakse kasutuslepingus või üürilepingus.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_eluruumi_tagamise_teenus",
+      "document_id": "johvi_vald_service_eluruumi_tagamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "bdac38da9eabd65f9e9d93e8d4d2fc60d062bdb22f863bc9872edf55fa200f68",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_kogukonnapohise_toetatud_elamise_teenus",
@@ -962,7 +2009,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Teenuse saaja tasub eluruumiga seotud üüri- ja kõrvalkulud."
+      "pricing": "Teenuse saaja tasub eluruumiga seotud üüri- ja kõrvalkulud.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_kogukonnapohise_toetatud_elamise_teenus",
+      "document_id": "johvi_vald_service_kogukonnapohise_toetatud_elamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "74f91414c9bfec7e6755d7c10fcc690ec71292c69ea786de8dcd5321d863d64e",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_volanoustamisteenus",
@@ -1000,7 +2076,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasuta."
+      "pricing": "Tasuta.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_volanoustamisteenus",
+      "document_id": "johvi_vald_service_volanoustamisteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "7d595a2afda20c6ab0d4b3551578b438a1a11518629a4e390f63e51542ef5a4c",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_pere_tugiteenused",
@@ -1037,7 +2142,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Kuni 5 tasuta nõustamiskorda aastas; muu maht sõltub abivajadusest."
+      "pricing": "Kuni 5 tasuta nõustamiskorda aastas; muu maht sõltub abivajadusest.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_pere_tugiteenused",
+      "document_id": "johvi_vald_service_pere_tugiteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "6186368c32cc3ac1cfc9834d356e37755341cd4d278288fb1f390d156b283ddc",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_tugiisikuteenus_lapsele",
@@ -1069,7 +2203,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasuta abivajadusega lastele."
+      "pricing": "Tasuta abivajadusega lastele.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_tugiisikuteenus_lapsele",
+      "document_id": "johvi_vald_service_tugiisikuteenus_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "a81413a4f0e8a85ea1e1f8fe1d435023f9f8bc62e73545beccee748290fbbb1c",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_sotsiaaltransport_suure_abivajadusega_lapsele",
@@ -1101,7 +2264,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasuta abivajadusega lastele."
+      "pricing": "Tasuta abivajadusega lastele.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_sotsiaaltransport_suure_abivajadusega_lapsele",
+      "document_id": "johvi_vald_service_sotsiaaltransport_suure_abivajadusega_lapsele",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "8d07b75cb5a054d99454e9803e66759bac4032b71e5ebf0e79daad9425af066c",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiu_teenus",
@@ -1137,7 +2329,36 @@
           "Teenuse määrab vallavalitsus sotsiaalkomisjoni ettepanekul."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiu_teenus",
+      "document_id": "johvi_vald_service_suure_hooldus_ja_abivajadusega_lapse_hoiu_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "0c98029143416b9af34ce6ad6a63d1510e907e469eb2bbb558c3e8e7a61a9cc5",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_lapsehoiuteenus",
@@ -1168,7 +2389,36 @@
           "Lisainfo saamiseks pöörduda laste ja perede heaoluspetsialisti poole."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "tugiteenused_puuetega_lastele_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_lapsehoiuteenus",
+      "document_id": "johvi_vald_service_lapsehoiuteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/tugiteenused-puuetega-lastele/",
+      "content_hash": "e5629a2e00ab76d6c63fd998ab549f998b6087c900d7d7143f3ce10b4e6fb028",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_asendushooldusteenus",
@@ -1198,7 +2448,36 @@
           "Teenusele suunamine otsustatakse valitsuse korraldusega."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_asendushooldusteenus",
+      "document_id": "johvi_vald_service_asendushooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "a46a6b098c9362c4028073f74b9409a0855e81e35b73d02cf8f617fe32fc8a68",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_jarelhooldusteenus",
@@ -1226,7 +2505,36 @@
           "Suunamine otsustatakse valitsuse korraldusega spetsialisti ettepanekul."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_jarelhooldusteenus",
+      "document_id": "johvi_vald_service_jarelhooldusteenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "bbcd97bbaf204b2e140529fec9eea1ee8a5b3c0949bc7e08690648415ff5cb1e",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_vaimse_tervise_teenus",
@@ -1259,7 +2567,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Tasuta kuni 8 nõustamiskorda ühe aasta jooksul; üks nõustamiskord kestab 60 minutit."
+      "pricing": "Tasuta kuni 8 nõustamiskorda ühe aasta jooksul; üks nõustamiskord kestab 60 minutit.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_vaimse_tervise_teenus",
+      "document_id": "johvi_vald_service_vaimse_tervise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "99e874c1c9e98c54bb311f35f2fa2d4b508dc81f138dcdb080b3f3b21727f216",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_taiendavad_toetavad_sotsiaalteenused",
@@ -1298,7 +2635,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Kuni 5 tasuta nõustamiskorda aastas; muu maht sõltub abivajadusest."
+      "pricing": "Kuni 5 tasuta nõustamiskorda aastas; muu maht sõltub abivajadusest.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_taiendavad_toetavad_sotsiaalteenused",
+      "document_id": "johvi_vald_service_taiendavad_toetavad_sotsiaalteenused",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "ed9e8ae886d9d808184e4f8a26f731df15462ab1539ade30270dcb46da3b776d",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_toetatud_elamise_teenus",
@@ -1326,7 +2692,36 @@
           "Võtta ühendust Jõhvi sotsiaalteenistuse või Ida-Virumaa Puuetega Inimeste Kojaga."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_toetatud_elamise_teenus",
+      "document_id": "johvi_vald_service_toetatud_elamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "9a87e881bb97d0ab190335e154e310255d88b044973f5e6bdf75df1aa52b99f0",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_igapaevaelu_toetamise_teenus",
@@ -1355,7 +2750,36 @@
           "Võtta ühendust Ida-Virumaa Puuetega Inimeste Kojaga."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_igapaevaelu_toetamise_teenus",
+      "document_id": "johvi_vald_service_igapaevaelu_toetamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "97d173bfd7e1b0aef24e3513afcf1e9307ee2618be1ed96667f0f509f872bdbe",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_toidupangateenus",
@@ -1388,7 +2812,36 @@
           "Sotsiaalteenistuse spetsialist hindab vajadust ja suunab teenusele."
         ],
         "deadline": null
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_toidupangateenus",
+      "document_id": "johvi_vald_service_toidupangateenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "283218443904adfb869a35fc4639763f360c9598eb30883af8dfa30762023a29",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_supikoogi_teenus",
@@ -1421,7 +2874,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Teenusele suunatud isikule tasuta."
+      "pricing": "Teenusele suunatud isikule tasuta.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_supikoogi_teenus",
+      "document_id": "johvi_vald_service_supikoogi_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "0d82c35127b9b90ddfc970f8456f562c712a9d0b9e5e21ea88b73baa7d6aec82",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_valtimatu_sotsiaalabi",
@@ -1461,7 +2943,36 @@
           "Abi andmise või keeldumise otsustab sotsiaalteenistuse spetsialist ning vormistatakse sotsiaalkomisjoni otsustusega."
         ],
         "deadline": "abivajaduse ilmnemisel"
-      }
+      },
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_valtimatu_sotsiaalabi",
+      "document_id": "johvi_vald_service_valtimatu_sotsiaalabi",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaalteenused/",
+      "content_hash": "28197be32d91eaddbfa2967700bda858b94accf7086b454afbab9d2cbbfa36a4",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_eakate_paevakeskuse_teenus",
@@ -1492,7 +3003,37 @@
         ],
         "deadline": null
       },
-      "pricing": "Saun 3 eurot / 1,5 tundi; dušš 2 eurot / kord; pesu pesemine 2 eurot / masinatäis; kuivatamine 1 eurot / masinatäis; triikimine 1 euro."
+      "pricing": "Saun 3 eurot / 1,5 tundi; dušš 2 eurot / kord; pesu pesemine 2 eurot / masinatäis; kuivatamine 1 eurot / masinatäis; triikimine 1 euro.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "eakate_paevakeskus_page",
+        "sotsiaalteenused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_eakate_paevakeskuse_teenus",
+      "document_id": "johvi_vald_service_eakate_paevakeskuse_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/eakate-paevakeskus/",
+      "content_hash": "2e6abba436c896e275df8dd09db61cb306ab94ee46ddb65bc50b94bfaef79b3f",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_service_kogukonnas_elamise_teenus",
@@ -1525,7 +3066,36 @@
         ],
         "deadline": null
       },
-      "pricing": "Inimene tasub majutuse ja toitlustamise eest; 2025. aastal oli SKA suunamisega omaosalus 405 eurot."
+      "pricing": "Inimene tasub majutuse ja toitlustamise eest; 2025. aastal oli SKA suunamisega omaosalus 405 eurot.",
+      "item_type": "service",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "kogukonnas_elamise_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_service_kogukonnas_elamise_teenus",
+      "document_id": "johvi_vald_service_kogukonnas_elamise_teenus",
+      "source_type": "kov_service_info",
+      "resource_type": "service",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/kogukonnas-elamise-teenus/",
+      "content_hash": "57b7e6f5a13436b889eb3228a2e40e8157bc6896b511f48901e53a91120bef0e",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_toimetulekutoetus",
@@ -1565,7 +3135,36 @@
         ],
         "deadline": "kuu viimane tööpäev"
       },
-      "amount": "2026. aastal 220 eurot esimesele pereliikmele, 176 eurot järgnevale täiskasvanule ja 264 eurot alaealisele."
+      "amount": "2026. aastal 220 eurot esimesele pereliikmele, 176 eurot järgnevale täiskasvanule ja 264 eurot alaealisele.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_toimetulekutoetus",
+      "document_id": "johvi_vald_benefit_toimetulekutoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "44acdd1bb859c3d38e91062b426657a2416b1b526172ec79f6eefe429481608b",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_ravimitoetus",
@@ -1601,7 +3200,36 @@
         ],
         "deadline": null
       },
-      "amount": "Kuni 120 eurot kalendriaastas; toimetulekutoetuse saajale kuni 150 eurot kalendriaastas."
+      "amount": "Kuni 120 eurot kalendriaastas; toimetulekutoetuse saajale kuni 150 eurot kalendriaastas.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_ravimitoetus",
+      "document_id": "johvi_vald_benefit_ravimitoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "0997de39509992366664c8311e21f105daefbacc409887383d6921a028a81713",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_prillide_toetus",
@@ -1637,7 +3265,36 @@
         ],
         "deadline": null
       },
-      "amount": "Kuni 120 eurot üks kord kahe kalendriaasta jooksul."
+      "amount": "Kuni 120 eurot üks kord kahe kalendriaasta jooksul.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_prillide_toetus",
+      "document_id": "johvi_vald_benefit_prillide_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "51690eed6b530001d9454ae07e004d5158ef33486958eff693e58db37da1adf8",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_ahikutte_toetus",
@@ -1673,7 +3330,36 @@
         ],
         "deadline": null
       },
-      "amount": "Kuni 400 eurot kalendriaastas."
+      "amount": "Kuni 400 eurot kalendriaastas.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_ahikutte_toetus",
+      "document_id": "johvi_vald_benefit_ahikutte_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "4b161c57e55f0ae1de00f6d1e9000a9c4809bd0e956c0621cd230b5649d877ad",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_lasteaiatoidu_toetus",
@@ -1710,7 +3396,36 @@
         ],
         "deadline": "kuu 20. kuupäev"
       },
-      "amount": "Toetus määratakse toiduraha tasust vabastamisena maksimaalselt kolmeks kuuks."
+      "amount": "Toetus määratakse toiduraha tasust vabastamisena maksimaalselt kolmeks kuuks.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_lasteaiatoidu_toetus",
+      "document_id": "johvi_vald_benefit_lasteaiatoidu_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "b61132ced01bb6fd4ea8a7ae14d013c4b88adf5a247e54266e31fca54b1ec918",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_suvelaagri_tuusiku_toetus",
@@ -1741,7 +3456,36 @@
         ],
         "deadline": null
       },
-      "amount": "Suuruse otsustab sotsiaalteenistuse spetsialist või erandjuhul sotsiaalkomisjon."
+      "amount": "Suuruse otsustab sotsiaalteenistuse spetsialist või erandjuhul sotsiaalkomisjon.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_suvelaagri_tuusiku_toetus",
+      "document_id": "johvi_vald_benefit_suvelaagri_tuusiku_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "2f42bd853f101325c69c4d2a88b179440f9cd343f66c79f1c4785cf41aaa55d3",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_taiendav_sotsiaaltoetus",
@@ -1773,7 +3517,36 @@
         ],
         "deadline": null
       },
-      "amount": "Sõltub abivajadusest ja valla eelarvelistest võimalustest."
+      "amount": "Sõltub abivajadusest ja valla eelarvelistest võimalustest.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_taiendav_sotsiaaltoetus",
+      "document_id": "johvi_vald_benefit_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "9cfba64fa6fa3bec024a869220efa0158fc016c1b36e0492647718b047018b06",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_sunnitoetus_ja_kinkekaart",
@@ -1811,7 +3584,36 @@
         "deadline": "6 kuud vastavast sündmusest"
       },
       "decisionTime": "Väljamakse hiljemalt 10 tööpäeva jooksul taotluse esitamisest.",
-      "amount": "1000 eurot kahes osas; kinkekaart 70 eurot."
+      "amount": "1000 eurot kahes osas; kinkekaart 70 eurot.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_sunnitoetus_ja_kinkekaart",
+      "document_id": "johvi_vald_benefit_sunnitoetus_ja_kinkekaart",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "f6569de59180cd6f9002625acba04ef01cc6ec1d77f15079dac6ce56d45af645",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_isikliku_tahtpaeva_toetus",
@@ -1846,7 +3648,36 @@
         "deadline": "60 päeva tähtpäevast"
       },
       "decisionTime": "Toetus kantakse pangakontole 30 päeva jooksul taotluse esitamise päevast.",
-      "amount": "70 eurot."
+      "amount": "70 eurot.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_isikliku_tahtpaeva_toetus",
+      "document_id": "johvi_vald_benefit_isikliku_tahtpaeva_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "0ff14347426cf5f994c8d108bda2a438204d09001297d10348e33b6e2c9c2f9d",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
@@ -1879,7 +3710,36 @@
         ],
         "deadline": "30. november"
       },
-      "amount": "150 eurot."
+      "amount": "150 eurot.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
+      "document_id": "johvi_vald_benefit_esmakordselt_koolimineva_lapse_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "4655b13e7b76fbc1864a7434536a8f3a82c28d2df536775e3b993b6f94fa0530",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_puudega_taisealise_isiku_taiendav_sotsiaaltoetus",
@@ -1916,7 +3776,36 @@
         ],
         "deadline": null
       },
-      "amount": "Sügava puudega inimesele 100 eurot kuus; raske puudega inimesele 50 eurot kuus."
+      "amount": "Sügava puudega inimesele 100 eurot kuus; raske puudega inimesele 50 eurot kuus.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_puudega_taisealise_isiku_taiendav_sotsiaaltoetus",
+      "document_id": "johvi_vald_benefit_puudega_taisealise_isiku_taiendav_sotsiaaltoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "c95baed8536d57610bf1b4fd470cb465d681321dd28557bef3264bc10518102e",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_puudega_lapse_hooldajatoetus",
@@ -1952,7 +3841,36 @@
         ],
         "deadline": null
       },
-      "amount": "Raske või sügava puudega lapse hooldajale 100 eurot kuus; erandjuhul või suure abivajaduse korral 70 eurot kuus."
+      "amount": "Raske või sügava puudega lapse hooldajale 100 eurot kuus; erandjuhul või suure abivajaduse korral 70 eurot kuus.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_puudega_lapse_hooldajatoetus",
+      "document_id": "johvi_vald_benefit_puudega_lapse_hooldajatoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "0ab18eac6d2aec99aa325385144a2030b968ef39e355e3d39343a8a06c98e282",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_matusetoetus",
@@ -1988,7 +3906,36 @@
         ],
         "deadline": "3 kuud pärast surmakande koostamist"
       },
-      "amount": "300 eurot."
+      "amount": "300 eurot.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_matusetoetus",
+      "document_id": "johvi_vald_benefit_matusetoetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "8ca4e31f4d97189f54a0f917b86ef5493c1fba8a916e119884c41348b2c5b921",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_benefit_puudega_isiku_eluruumi_kohandamise_toetus",
@@ -2026,7 +3973,36 @@
         ],
         "deadline": null
       },
-      "amount": "Kuni 85% kohandamise maksumusest, kuid mitte rohkem kui 2000 eurot kohanduse kohta."
+      "amount": "Kuni 85% kohandamise maksumusest, kuid mitte rohkem kui 2000 eurot kohanduse kohta.",
+      "item_type": "benefit",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaaltoetused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_benefit_puudega_isiku_eluruumi_kohandamise_toetus",
+      "document_id": "johvi_vald_benefit_puudega_isiku_eluruumi_kohandamise_toetus",
+      "source_type": "kov_service_info",
+      "resource_type": "benefit",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/sotsiaaltoetused/",
+      "content_hash": "ba36f41455ba75223e8d07a87e22a0529b6248d6e51b55df3e0559013664525c",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_sa_johvi_hooldekeskus",
@@ -2047,7 +4023,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_sa_johvi_hooldekeskus",
+      "document_id": "johvi_vald_resource_sa_johvi_hooldekeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "2bb6d78fa9f6b413a36ac14af3b8da977e02475a45da0638d9c3909d115afd76",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_johvi_sotsiaalmaja",
@@ -2068,7 +4073,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_johvi_sotsiaalmaja",
+      "document_id": "johvi_vald_resource_johvi_sotsiaalmaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "55564fb7c99e59f2428a811ae999fbde2543f5c48a7a47998b0ba0502d182cd6",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_johvi_kodutute_oomaja",
@@ -2091,7 +4125,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_johvi_kodutute_oomaja",
+      "document_id": "johvi_vald_resource_johvi_kodutute_oomaja",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "c0aecca4277dce101cc74078a126deb8a11339f40f680a603ffb5ba8703cde19",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_johvi_sotsiaalmaja_supikook",
@@ -2114,7 +4177,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_johvi_sotsiaalmaja_supikook",
+      "document_id": "johvi_vald_resource_johvi_sotsiaalmaja_supikook",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "07d610ac1bd29bfac42dd7227b8a1d45ad5fb113fdf10ca680b2c8c85b162681",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_johvi_eakate_paevakeskus",
@@ -2139,7 +4231,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_johvi_eakate_paevakeskus",
+      "document_id": "johvi_vald_resource_johvi_eakate_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "c59cc479df63bbe9a06c77432e7905498fdca49fb50bbe7ddc6d16571d8fc219",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_johvi_puuetega_inimeste_paevakeskus",
@@ -2160,7 +4281,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_johvi_puuetega_inimeste_paevakeskus",
+      "document_id": "johvi_vald_resource_johvi_puuetega_inimeste_paevakeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "83e7e466b28b7ba30f46443a775fbc1ea8fd57dd77c260f60bd4798f115873e6",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_mtu_virumaa_noustamis_aktiviseerimiskeskus",
@@ -2181,7 +4331,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_mtu_virumaa_noustamis_aktiviseerimiskeskus",
+      "document_id": "johvi_vald_resource_mtu_virumaa_noustamis_aktiviseerimiskeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "624ef95bad74c958dc5a7892a6352a1ce0c121648ea456919b3ea24e13e0c0f0",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_mtu_virumaa_laste_perede_tugikeskus",
@@ -2202,7 +4381,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_mtu_virumaa_laste_perede_tugikeskus",
+      "document_id": "johvi_vald_resource_mtu_virumaa_laste_perede_tugikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "2c91b7866451699986a61e1884866e09682069f8b7049717fe067539413001b8",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_ou_corrigo",
@@ -2223,7 +4431,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_ou_corrigo",
+      "document_id": "johvi_vald_resource_ou_corrigo",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "24e08d177cb3e8d5628dee33824cc9a0fa8904a20a54de494a8723bbc75e15f4",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_sa_johvi_haigla",
@@ -2244,7 +4481,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_sa_johvi_haigla",
+      "document_id": "johvi_vald_resource_sa_johvi_haigla",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "19c8017984e93c5e21dd8813f0ae7ca94a75899476c8476cd98947d75ac02bbd",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_mtu_puuetega_laste_tugikodu_paikesekiir",
@@ -2265,7 +4531,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_mtu_puuetega_laste_tugikodu_paikesekiir",
+      "document_id": "johvi_vald_resource_mtu_puuetega_laste_tugikodu_paikesekiir",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "2e40f91c33dfad541d226ebaef162339fb42aad302a50f9c3f33303e3128fb86",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_ida_virumaa_naiste_tugikeskus_varjupaik",
@@ -2285,7 +4580,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_ida_virumaa_naiste_tugikeskus_varjupaik",
+      "document_id": "johvi_vald_resource_ida_virumaa_naiste_tugikeskus_varjupaik",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "f632bc857ee172441aac433244d7d1ffe64e4d4c94d0a8062a9cf28f59cf9275",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_ohvriabi_ida_piirkond",
@@ -2306,7 +4630,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalasutused_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_ohvriabi_ida_piirkond",
+      "document_id": "johvi_vald_resource_ohvriabi_ida_piirkond",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/sotsiaalasutused/",
+      "content_hash": "4b67ba8edbe8523253e7b0f0ea7cdbd0ff4f11c9b9356beeec6f3126f2cbca97",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_lastekaitse",
@@ -2331,7 +4684,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "lastekaitse_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_lastekaitse",
+      "document_id": "johvi_vald_resource_lastekaitse",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "content_hash": "f06d02fee47f81a567abd1216d8b5ec5cf5e24200e891d2a52d386d5ba790311",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_lasteabi_",
@@ -2352,7 +4734,37 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "lastekaitse_page",
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_lasteabi_",
+      "document_id": "johvi_vald_resource_lasteabi_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/lastekaitse/",
+      "content_hash": "758d5bf59fd6a18dc33b9f265cb728d52514a53b2bba63af274d15ef8151a690",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_ohvriabi_kriisitelefon_",
@@ -2372,7 +4784,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_ohvriabi_kriisitelefon_",
+      "document_id": "johvi_vald_resource_ohvriabi_kriisitelefon_",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "content_hash": "0d7e052794b9d3c5e2d53ff8cbe5615d2d6d55229c6610d2f1745dc830b0c0c2",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_inimkaubanduse_nouandeliin",
@@ -2392,7 +4833,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_inimkaubanduse_nouandeliin",
+      "document_id": "johvi_vald_resource_inimkaubanduse_nouandeliin",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "content_hash": "b27e4e95b288aa440122eb68a1c6817091666e4c3ae27ef080f677126c99b5f8",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_vagivallast_loobumise_tugiliin",
@@ -2412,7 +4882,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_vagivallast_loobumise_tugiliin",
+      "document_id": "johvi_vald_resource_vagivallast_loobumise_tugiliin",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "content_hash": "410810bfa82a2922724e2045b40fcba4897f7d3e80e40110f8cba8a32e8a94b7",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_seksuaalvagivalla_kriisiabikeskus",
@@ -2432,7 +4931,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "ohvriabi_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_seksuaalvagivalla_kriisiabikeskus",
+      "document_id": "johvi_vald_resource_seksuaalvagivalla_kriisiabikeskus",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-toetused/ohvriabi/",
+      "content_hash": "dd35ace6cf52bb831a30e867f1ebab81cc7632b8d5436c3ef77837b8149e5a6e",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_hooldereform",
@@ -2457,7 +4985,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "hooldereform_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_hooldereform",
+      "document_id": "johvi_vald_resource_hooldereform",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/tervis-ja-hoolekanne/hooldereform/",
+      "content_hash": "57584c9fdfdae2a066dbc66e41c07802aaf39f20cef301063655778375ff5f43",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_medi_hairenupp",
@@ -2477,7 +5034,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "medi_hairenupp_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_medi_hairenupp",
+      "document_id": "johvi_vald_resource_medi_hairenupp",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/medi-hairenuputeenus-ja-nutikad-abivahendid/",
+      "content_hash": "dce47420a319f27bea5966b54ad3e2ccd4a3e18d65ba055322a033ae40481739",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_sotsiaalvaldkonna_projektid",
@@ -2497,7 +5083,36 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "sotsiaalprojektid_page"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_sotsiaalvaldkonna_projektid",
+      "document_id": "johvi_vald_resource_sotsiaalvaldkonna_projektid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/pere-sotsiaal-ja-tervishoid/teave-ja-projektid/sotsiaalvaldkonna-projektid/",
+      "content_hash": "525c177995908036b488c0258077a07f1f202318e46e94a54ab91f156c913a80",
+      "evidence_allowed": true
     },
     {
       "id": "johvi_vald_resource_riigi_infonumbrid",
@@ -2518,7 +5133,40 @@
         "channels": [],
         "steps": [],
         "deadline": null
-      }
+      },
+      "item_type": "resource",
+      "municipality_id": "johvi_vald",
+      "municipality_name": "Jõhvi vald",
+      "county": "Ida-Virumaa",
+      "source_keys": [
+        "home",
+        "social_overview"
+      ],
+      "metadata_schema_version": "v2.5",
+      "source_id": "johvi_vald_resource_riigi_infonumbrid",
+      "document_id": "johvi_vald_resource_riigi_infonumbrid",
+      "source_type": "kov_service_info",
+      "resource_type": "resource",
+      "collection_id": "kov_services",
+      "authority": "KOV",
+      "audience": [
+        "CLIENT",
+        "SOCIAL_WORKER"
+      ],
+      "language": "et",
+      "checked_at": "2026-04-29",
+      "last_checked": "2026-04-29",
+      "retrieved_at": "2026-04-29",
+      "valid_from": null,
+      "valid_to": null,
+      "historical": false,
+      "source_status": "active",
+      "url_canonical": "https://www.johvi.ee/",
+      "content_hash": "3eb9c6fd60a4be01860c5cff837bc90135ff54c142c77aa476b417eb3c2f123a",
+      "evidence_allowed": true
     }
-  ]
+  ],
+  "municipality_name": "Jõhvi vald",
+  "checked_at": "2026-04-29",
+  "lastMetadataUpgradeAt": "2026-04-29"
 }

@@ -1,12 +1,12 @@
 {
-  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "schemaVersion": "v2.5-sourcepackage",
   "docId": "kov-marjamaa-vald",
   "document_id": "kov-marjamaa-vald",
   "municipality": "Märjamaa vald",
   "municipality_id": "marjamaa_vald",
   "county": "Raplamaa",
   "checkedAt": "2026-04-30",
-  "status": "needs_review",
+  "status": "ingest_ready",
   "collection_id": "kov_services",
   "source_type": "kov_service_info",
   "source_format": "rag_md",
@@ -15,18 +15,31 @@
   "rt_layer_separate": true,
   "expected_rt_docId": "kov-rt-marjamaa-vald",
   "coverage": {
-    "services": 15,
-    "benefits": 8,
-    "resources": 12,
-    "contacts": 11,
-    "forms": 11
+    "services": 14,
+    "benefits": 6,
+    "resources": 4,
+    "contacts": 9,
+    "forms": 9,
+    "regulations": 0
   },
   "sourcePackageReadiness": {
+    "ok": true,
+    "collection_id": "kov_services",
+    "municipality_id": "marjamaa_vald",
+    "source_register_file": "maardu-linn.sources.json",
+    "service_benefit_resource_items": 24,
+    "items_with_source_keys": 24,
+    "items_missing_source_keys": [],
+    "items_with_related_forms": 9,
+    "items_without_related_forms": 15,
+    "items_with_related_contacts": 16,
+    "items_without_related_contacts": 8,
+    "form_sources": 1,
+    "contact_sources": 0,
     "regulation_sources": 0,
-    "has_web_sources": true,
-    "has_rag_markdown": true,
-    "has_structured_json": true,
-    "needs_review": true
+    "warnings": [
+      "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
+    ]
   },
   "notes": [
     "Täiendatud Märjamaa valla ametliku kodulehe sotsiaalharu alusel.",
@@ -38,5 +51,24 @@
     "Hauaplatsi kasutuslepingu lehe detailne sisu ei õnnestunud selles kontrollis kindlalt avada; lähedase surma praktiline info ja matusetoetus on siiski kajastatud.",
     "Erivajadusega lapse alamteemad (lapsehoiuteenus, tugiisikuteenus, sotsiaaltransport, vaimse tervise abi) olid KOV lehel koondteabena; neid ei dubleeritud eraldi teenusteks, kui eraldi KOV teenuse detailleht puudus.",
     "Sotsiaalkeskuse tasuliste teenuste hinnad paiknevad eraldi PDF-hinnakirjas; fail on lisatud allikaregistrisse, kuid hindade ridade kaupa väljavõtet ei tehtud."
+  ],
+  "municipality_name": "Märjamaa vald",
+  "checked_at": "2026-04-30",
+  "lastMetadataUpgradeAt": "2026-04-29",
+  "ingestReady": true,
+  "country": "EE",
+  "language": "et",
+  "sourceRegisterFile": "maardu-linn.sources.json",
+  "sourceCount": 27,
+  "counts": {
+    "services": 14,
+    "benefits": 6,
+    "resources": 4,
+    "contacts": 9,
+    "forms": 9,
+    "regulations": 0
+  },
+  "warnings": [
+    "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
   ]
 }
