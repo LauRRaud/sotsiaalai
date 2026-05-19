@@ -214,10 +214,12 @@ function captureSurfaceStyle(source) {
     next.maxHeight = `${rect.height}px`;
     next["--dashboard-info-panel-height"] = `${rect.height}px`;
     if (window.matchMedia?.("(min-width: 769px)")?.matches) {
-      const centeredTop = Math.max(0, (window.innerHeight - rect.height) / 2);
+      const viewportHeight =
+        document.documentElement?.getBoundingClientRect?.().height || window.innerHeight;
+      const centeredTop = Math.max(0, (viewportHeight - rect.height) / 2);
       const centeredOffset = rect.top - centeredTop;
       if (Math.abs(centeredOffset) > 0.5) {
-        next.marginTop = `${centeredOffset}px`;
+        next.top = `${centeredOffset}px`;
       }
     }
   }

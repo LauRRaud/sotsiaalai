@@ -39,7 +39,7 @@ test("dashboard info overlay uses the same close button system as the conversati
   assert.match(overlay, /--dashboard-info-surface-background/);
   assert.match(overlay, /--dashboard-info-title-wrap-padding-top/);
   assert.match(overlay, /--dashboard-info-title-wrap-extra-top/);
-  assert.match(overlay, /const centeredTop = Math\.max\(0, \(window\.innerHeight - rect\.height\) \/ 2\)/);
+  assert.match(overlay, /document\.documentElement\?\.getBoundingClientRect\?\.\(\)\.height \|\| window\.innerHeight/);
   assert.match(overlay, /dashboard-info-panel--with-title-metrics/);
   assert.match(helpersCss, /--dashboard-info-surface-background/);
   assert.match(helpersCss, /\.dashboard-info-panel\.workspace-guide-panel\.glass-subpage-surface\s*>\s*\.dashboard-info-content\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/);
