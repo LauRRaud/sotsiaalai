@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-laaneranna-vald",
+  "document_id": "kov-laaneranna-vald",
+  "municipality": "Lääneranna vald",
+  "municipality_id": "laaneranna_vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-laaneranna-vald",
+  "coverage": {
+    "services": 20,
+    "benefits": 15,
+    "resources": 13,
+    "contacts": 8,
+    "forms": 10
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Paketis on kajastatud KOV veebikihi praktiline sotsiaalvaldkonna info; RT/legal allikaid ei ole kasutatud.",
+    "SPOKU e-vormid on seotud KOV vormi- ja detaillehtedel avaldatud viidete põhjal ning üldise iseteeninduse URL-iga."
+  ],
+  "unresolvedIssues": [
+    "SPOKU e-taotluste vormipõhiseid süvalinke ei olnud avalikult ilma sisselogimiseta kindlalt eraldada; seetõttu on e-vormidel üldine Lääneranna valla SPOKU iseteeninduse URL ja seose allikaks KOV vormi- või detailleht.",
+    "Sotsiaaltoetuste koondlehel on nimetatud asendushooldusteenusel viibiva lapse toetus, kuid eraldi detaillehte, summat, tingimusi ega taotlemise korda ei õnnestunud KOV veebikihist leida.",
+    "Tšernobõli AEJ toetuse detaillehel on nimetatud toetuse taotlemise vorm, kuid konkreetset faili- või e-vormi URL-i ei olnud lehel eraldi avaldatud.",
+    "Teenuste täpsed hinnakirjad ja osad õigusaktidest on KOV lehel viidatud RT/ADR allikates; neid ei lisatud sellesse KOV veebipaketti, sest RT/legal kiht peab olema eraldi.",
+    "Lastekaitsespetsialisti kontaktide tabelis ei olnud ametniku nimi kontaktitabeli reas nähtav, kuid teenuse- ja lastekaitselehtedel oli Saima Soobard kontaktina avaldatud."
+  ]
+}

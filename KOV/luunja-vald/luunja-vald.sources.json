@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-luunja-vald",
+  "document_id": "kov-luunja-vald",
+  "municipality": "Luunja vald",
+  "municipality_id": "luunja_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Luunja valla avaleht",
+      "url": "https://luunja.ee/",
+      "url_canonical": "https://luunja.ee/",
+      "normalized_url": "https://luunja.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "overview"
+      ]
+    },
+    {
+      "source_id": "social_overview",
+      "title": "Pere, sotsiaal ja tervishoid",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/",
+      "source_type": "kov_social_overview",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "overview",
+        "navigation"
+      ]
+    },
+    {
+      "source_id": "tooealised_teenused_toetused",
+      "title": "Teenused ja toetused – tööealised ja eakad",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/teenused-ja-toetused-tooealised-ja-eakad/",
+      "source_type": "kov_service_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services",
+        "benefits",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "laps_pere_teenused_toetused",
+      "title": "Teenused ja toetused – laps ja pere",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/teenused-ja-toetused-laps-ja-pere/",
+      "source_type": "kov_service_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services",
+        "benefits",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "tooealised_noustamine",
+      "title": "Nõustamine – tööealised ja eakad",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/noustamine-tooealistele-ja-eakatele/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/noustamine-tooealistele-ja-eakatele/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/tooealised-ja-eakad/noustamine-tooealistele-ja-eakatele/",
+      "source_type": "kov_service_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services"
+      ]
+    },
+    {
+      "source_id": "laps_pere_noustamine",
+      "title": "Nõustamine – laps ja pere",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/sotsiaalnoustamine-lapsele-ja-perele/",
+      "source_type": "kov_service_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services",
+        "resources"
+      ]
+    },
+    {
+      "source_id": "laste_toetamine_page",
+      "title": "Laste toetamine Luunja vallas",
+      "url": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "url_canonical": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "normalized_url": "https://luunja.ee/haridus-kultuur-kogukonnad/haridus/luunja-valla-tugikeskus/",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "lapse_sund_page",
+      "title": "Lapse sünd",
+      "url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "url_canonical": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "normalized_url": "https://luunja.ee/pere-sotsiaal-ja-tervishoid/elusundmused/lapse-sund/",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "benefits",
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "kontaktid_page",
+      "title": "Üldkontaktid ja teenistujad",
+      "url": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "normalized_url": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/kontaktid/",
+      "source_type": "kov_contact_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "hallatavad_asutused_page",
+      "title": "Hallatavad asutused",
+      "url": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
+      "url_canonical": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
+      "normalized_url": "https://luunja.ee/vald-uudised-ja-kontakt/kontakt/hallatavad-asutused/",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "coverage_check"
+      ]
+    },
+    {
+      "source_id": "kriisikontaktid_page",
+      "title": "Kriisikontaktid",
+      "url": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "url_canonical": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "normalized_url": "https://luunja.ee/elanikkonnakaitse/kriisiinfo/kriisikontaktid/",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "contacts"
+      ]
+    }
+  ]
+}

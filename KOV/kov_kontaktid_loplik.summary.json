@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-05-19T17:02:40.581Z",
+  "sourceFolder": "KOV/Kodeerimine",
+  "sourceFiles": [
+    "kov_sotsiaalhoolekande_kontaktid_01_05.json",
+    "kov_sotsiaalhoolekande_kontaktid_06_10.json",
+    "kov_sotsiaalhoolekande_kontaktid_11_15.json",
+    "kov_sotsiaalhoolekande_kontaktid_16_20.json",
+    "kov_sotsiaalhoolekande_kontaktid_21_25.json",
+    "kov_sotsiaalhoolekande_kontaktid_26_30.json",
+    "kov_sotsiaalhoolekande_kontaktid_31_35.json",
+    "kov_sotsiaalhoolekande_kontaktid_36_40.json",
+    "kov_sotsiaalhoolekande_kontaktid_41_45.json",
+    "kov_sotsiaalhoolekande_kontaktid_46_50.json",
+    "kov_sotsiaalhoolekande_kontaktid_51_55_rapla_email_parandatud.json",
+    "kov_sotsiaalhoolekande_kontaktid_56_60.json",
+    "kov_sotsiaalhoolekande_kontaktid_61_66_tallinn_valja.json",
+    "kov_sotsiaalhoolekande_kontaktid_67_71_tallinn_valja.json",
+    "kov_sotsiaalhoolekande_kontaktid_72_77_tallinn_valja.json"
+  ],
+  "outputFile": "KOV/kov_kontaktid_loplik.json",
+  "sourceRows": 932,
+  "contacts": 910,
+  "contactsWithEmail": 865,
+  "contactsMissingEmail": 45,
+  "inactiveContacts": 5,
+  "displayableContacts": 905
+}

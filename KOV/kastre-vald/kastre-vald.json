@@ -1,0 +1,518 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-kastre-vald",
+  "document_id": "kov-kastre-vald",
+  "municipality": "Kastre vald",
+  "municipality_id": "kastre_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "kastre_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "kastre_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Kastre vald pakub lapsehoiuteenust, et toetada peresid lapse heaolu tagamisel. Teenus aitab last hooldada ajal, mil vanemad tööl või vajavad puhkust, ning suunatud eelkõige peredele, kellel on puudega või erivajadusega laps. Avalduse esitamiseks tuleb võtta ühendust lastekaitsespetsialistiga ja täita lapsehoiuteenuse taotluse vorm, mis on kättesaadav taotlusvormide lehel.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "application": {
+        "channels": [
+          "kirjalik taotlus",
+          ""
+        ],
+        "steps": [
+          "Täida lapsehoiuteenuse taotlus",
+          "Esita see piirkonna lastekaitsespetsialistile"
+        ],
+        "deadline": null
+      },
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_service_tugiisikuteenuse",
+      "canonical_item_id": "kastre_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus annab abivajajale isikliku abistaja, kes toetab igapäevase toimetuleku, asjaajamise ja sotsiaalsete oskuste arendamisel. Teenust saavad taotleda nii täisealised kui lapsed, kellel esineb erivajadus või sotsiaalne toimetulekuraskus. Taotlemiseks tuleb esitada vormikohane taotlus piirkonna sotsiaaltöötajale.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_iiri_sepping",
+        "kastre_vald_contact_heidi_kelt",
+        "kastre_vald_contact_laire_lodison",
+        "kastre_vald_contact_andre_lepik"
+      ]
+    },
+    {
+      "id": "kastre_vald_service_sotsiaaltransport",
+      "canonical_item_id": "kastre_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab puudega või liikumisraskustega inimestel sõita arsti, rehabilitatsiooni või muude toimingute juurde. Teenuse tellimiseks tuleb ühendust võtta sotsiaaltöötajaga; sõidud toimuvad eelregistreerimisel ja kasutajalt võidakse küsida omaosalus. Täpsem info avaldatakse valla teenuste lehel.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_iiri_sepping",
+        "kastre_vald_contact_heidi_kelt",
+        "kastre_vald_contact_andre_lepik"
+      ]
+    },
+    {
+      "id": "kastre_vald_service_turvakoduteenus",
+      "canonical_item_id": "kastre_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab ajutise turvalise majutuse ja toe lastele või täiskasvanutele, kes satuvad vägivalla või pereprobleemide tõttu kriisiolukorda. Kastre vald suunab abivajajad vastava teenuse pakkuja juurde ning toetab vajadusel teenuse eest tasumist. Teenuse saamiseks tuleb pöörduda lastekaitsespetsialisti või sotsiaaltöötaja poole.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste",
+        "kastre_vald_contact_iiri_sepping"
+      ]
+    },
+    {
+      "id": "kastre_vald_service_asendushooldusteenus",
+      "canonical_item_id": "kastre_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus tagab lapsele perepõhise hoolduse olukorras, kus vanemad ei saa lapse kasvatamisega hakkama. Teenus hõlmab lapse paigutamist kas perekonda, peremajja või asenduskodusse. Teenuse määramiseks tehakse koostööd lastekaitse spetsialistiga ja sotsiaaltöötajaga.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "kastre_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus pakub tuge ja nõustamist noortele, kes on väljunud asendushooldusest, et toetada nende iseseisva elu alustamist. Teenus võib hõlmata eluaseme pakkumist, nõustamist, koolitust ja individuaalset juhendamist. Teenuse saamiseks tuleb pöörduda lastekaitsespetsialisti poole.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_sunnitoetus",
+      "canonical_item_id": "kastre_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetust makstakse lapsevanemale või õigustatud isikule, kui lapse ja vähemalt ühe vanema elukoht on rahvastikuregistris Kastre vald. Taotlemiseks tuleb esitada vormikohane taotlus ja lapse sünnitõend【597773008972650†L408-L417】. Toetuse suurus on määratud valla eelarves.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "application": {
+        "channels": [
+          "kirjalik taotlus"
+        ],
+        "steps": [
+          "Täida sünnitoetuse taotlus",
+          "Lisa lapse sünnitõend",
+          "Esita taotlus vallavalitsusele"
+        ],
+        "deadline": null
+      },
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_iiri_sepping"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_hobelusikas",
+      "canonical_item_id": "kastre_vald:benefit:hobelusikas",
+      "itemType": "benefit",
+      "title": "Hõbelusikas vastsündinule",
+      "status": "active",
+      "summary": "Hõbelusikas on asjaline toetus, mida kingitakse Kastre valla vastsündinutele sünnitoetuse esimese osa saamisel. Nimelise hõbelusika annab vallavanem üle vastuvõtul tingimusel, et lapse registrijärgne elukoht on Kastre vald【597773008972650†L428-L434】.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_benefit_ranitsatoetus",
+      "canonical_item_id": "kastre_vald:benefit:ranitsatoetus",
+      "itemType": "benefit",
+      "title": "Ranitsatoetus",
+      "status": "active",
+      "summary": "Ranitsatoetust makstakse lapsevanemale, eestkostjale või perehooldajale, kui laps asub 1. klassi Kastre valla koolis või erivajadustega laste õppeasutuses. Toetuse taotlemise periood on 20. augustist 31. oktoobrini ja taotlust saab esitada SPOKU süsteemis või vormikohase avaldusena. Toetuse suurus on 150 eurot【597773008972650†L448-L467】.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "application": {
+        "channels": [
+          "veebivorm",
+          "kirjalik taotlus"
+        ],
+        "steps": [
+          "Esita ranitsatoetuse avaldus SPOKU süsteemis või paberil",
+          "Esita taotlus lastekaitsespetsialistile"
+        ],
+        "deadline": "20.08–31.10"
+      },
+      "amount": "150 €",
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_joulupakk",
+      "canonical_item_id": "kastre_vald:benefit:joulupakkide_toetus",
+      "itemType": "benefit",
+      "title": "Jõulupakkide toetus",
+      "status": "active",
+      "summary": "Jõulupakkide toetus on asjaline toetus, mille saamise õigus on Kastre valla eelkooliealistel lastel, valla munitsipaallasteasutustes käivatel lastel ning asendushooldusel olevatel lastel【597773008972650†L486-L490】. Toetus realiseerub jõulupaki näol ning seda ei maksta rahas.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "kastre_vald:benefit:puudega_lapse_hooldajale_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajale hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetuse eesmärk on pakkuda puudega lapse hooldajale igapäevase abi ja järelevalve kompenseerimiseks rahalist tuge ning hüvitada osaliselt saamata jäänud sissetulek【597773008972650†L501-L507】. Taotlemiseks tuleb esitada vormikohane avaldus lastekaitsespetsialistile.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_koolieelse_kohamaksu_toetus",
+      "canonical_item_id": "kastre_vald:benefit:koolieelse_lasteasutuse_kohamaksu_toetus",
+      "itemType": "benefit",
+      "title": "Koolieelse lasteasutuse kohamaksu ja toiduraha toetus",
+      "status": "active",
+      "summary": "See sissetulekust sõltuv toetus aitab katta koolieelses lasteasutuses või lapsehoius käiva lapse kohamaksu ja toiduraha kuni üheks õppeaastaks. Toetuse saamiseks tuleb esitada vormikohane taotlus või vabas vormis avaldus piirkonna lastekaitsespetsialistile【597773008972650†L526-L537】.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_koolitoetus",
+      "canonical_item_id": "kastre_vald:benefit:koolitoetus",
+      "itemType": "benefit",
+      "title": "Koolitoetus",
+      "status": "active",
+      "summary": "Koolitoetus (koolitoidutoetus) hüvitab osaliselt laste hommikusöögi, koolilõuna ja pikapäevarühma toidukulud. Toetus on sissetulekust sõltuv ja taotluse saab esitada vormikohasel kujul piirkonna lastekaitsespetsialistile【597773008972650†L549-L559】.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_prillitoetus",
+      "canonical_item_id": "kastre_vald:benefit:prillitoetus",
+      "itemType": "benefit",
+      "title": "Prillitoetus",
+      "status": "active",
+      "summary": "Prillitoetus on sissetulekust sõltuv toetus kuni 18‑aastastele õppuritele prilliklaaside hüvitamiseks kuludokumentide alusel üks kord aastas【597773008972650†L571-L576】. Taotlus esitatakse lastekaitsespetsialistile.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_ravimite_toetus",
+      "canonical_item_id": "kastre_vald:benefit:ravimite_abivahendite_toetus",
+      "itemType": "benefit",
+      "title": "Ravimite, abivahendite ja raviteenuste toetus",
+      "status": "active",
+      "summary": "Toetust makstakse kuni 18‑aastastele lastele ravimite, abivahendite ja raviteenuste maksumuse hüvitamiseks kuludokumentide alusel. Toetus on sissetulekust sõltuv【597773008972650†L593-L597】.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_benefit_sotsiaaltoetus_lastele",
+      "canonical_item_id": "kastre_vald:benefit:sotsiaaltoetus_lastele",
+      "itemType": "benefit",
+      "title": "Sotsiaaltoetus lastele",
+      "status": "active",
+      "summary": "Sotsiaaltoetus lastele on ühekordne toetus peredele, et katta kulutusi nagu laagritasud, õppevahendid, riided, jalanõud või kooli lõpetamisega seotud kulud【597773008972650†L615-L619】. Taotlus tuleb esitada vormikohasel kujul lastekaitsespetsialistile.",
+      "sourceKeys": [
+        "teenused_toetused_page"
+      ],
+      "relatedForms": [
+        "kastre_vald_form_sotsiaaltoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_laura_kuusk",
+        "kastre_vald_contact_kati_aviste"
+      ]
+    },
+    {
+      "id": "kastre_vald_resource_harmalong",
+      "canonical_item_id": "kastre_vald:resource:sa_hooldekodu_harmalong",
+      "itemType": "resource",
+      "title": "SA Hooldekodu Härmalõng",
+      "status": "active",
+      "summary": "SA Hooldekodu Härmalõng pakub ööpäevaringset üldhooldusteenust inimestele, kes kõrvalabi ja hooldusvajaduse tõttu ei saa enam iseseisvalt kodus hakkama. Hooldekodu juhatuse liige on Katrina Kütt; asutusel on kaks osakonda: Võnnu kodu (Tööstuse tee 4, Võnnu,. ) ja Kastre kodu (Mõisahäärberi, Kastre küla,. )【482275029074277†L281-L305】.",
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_resource_poka_centre",
+      "canonical_item_id": "kastre_vald:resource:poka_sotsiaalteenuste_keskus",
+      "itemType": "resource",
+      "title": "Poka sotsiaalteenuste keskus",
+      "status": "active",
+      "summary": "Poka sotsiaalteenuste keskus asub aadressil Poka tee 39, Poka küla ja pakub päevahoiuteenust täisealistele, sotsiaalmajutust ning pesuteenust. Päevahoiu kuutasu on 100 eurot (igapäevane kasutus) või 10 eurot päevas; sotsiaalmajutus maksab 200 eurot kuus valla elanikele ja 400 eurot väljaspool valda elavatele isikutele, lisaks tasu alaealistele pereliikmetele. Keskuse kontakt on projektijuht Cessika Hindriksoo (. )【482275029074277†L321-L407】.",
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_resource_melliste_meditsiinikeskus",
+      "canonical_item_id": "kastre_vald:resource:melliste_meditsiinikeskus",
+      "itemType": "resource",
+      "title": "Melliste meditsiinikeskus (perearst)",
+      "status": "active",
+      "summary": "Melliste meditsiinikeskus asub Järve põik 5, Melliste külas. Perearst Ave Pedaja võtab vastu esmaspäeval ja kolmapäeval; pereõde Pilvi Eensalu võtab vastu igal tööpäeval erinevatel aegadel. Vastuvõtule tuleb eelregistreeruda telefonil. Välisajal on abi saamiseks perearsti nõuandetelefon 1220 või hädaabinumber 【789522365119467†L283-L302】.",
+      "sourceKeys": [
+        "arstiabi_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_resource_vonnu_perearst",
+      "canonical_item_id": "kastre_vald:resource:vonnu_perearst",
+      "itemType": "resource",
+      "title": "Võnnu perearst ja apteek",
+      "status": "active",
+      "summary": "Võnnu perearsti teenust osutab OÜ Tartu Raatuse PAK (perearst Ants Tammepuu ja pereõde Malve Vaiksaar). Vastuvõtud toimuvad Võnnu kultuurimajas (Tartu tn 24) ning avatud ajad on esmaspäevast reedeni erinevatel kellaaegadel. Registratuuri telefonid: ja; perearsti nõuandetelefon 1220. Võnnu apteek on avatud E–R 9–16, 【789522365119467†L308-L370】.",
+      "sourceKeys": [
+        "arstiabi_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_resource_roiu_perearst",
+      "canonical_item_id": "kastre_vald:resource:roiu_perearst",
+      "itemType": "resource",
+      "title": "Roiu perearst ja apteek",
+      "status": "active",
+      "summary": "Roiu perearst dr Virve Raidma võtab vastu E, N, R 8–16; T 13–18; K 9–13, 15–17. Pereõe vastuvõtud toimuvad samuti igal tööpäeval erinevatel kellaaegadel. Vastuvõtuks on vajalik eelregistreerimine telefonil. Roiu apteek asub Kesk 9 ja on avatud kindlatel päevadel; 【789522365119467†L373-L410】.",
+      "sourceKeys": [
+        "arstiabi_page"
+      ],
+      "relatedContacts": []
+    },
+    {
+      "id": "kastre_vald_resource_abivajav_laps_info",
+      "canonical_item_id": "kastre_vald:resource:abivajav_laps",
+      "itemType": "resource",
+      "title": "Abivajav laps – info ja kontakt",
+      "status": "active",
+      "summary": "Lehekülg selgitab, kuidas eristada abivajavat ja hädaohus olevat last, ning rõhutab kohustust teavitada lastekaitsespetsialisti või lasteabi telefonile. Samuti viidatakse noorte heaolu spetsialistile Triin Tokmanile, kelle poole saab pöörduda noorte muredega【206448736175798†L316-L370】.",
+      "sourceKeys": [
+        "abivajav_laps_page"
+      ],
+      "relatedContacts": [
+        "kastre_vald_contact_triin_tokman"
+      ]
+    },
+    {
+      "id": "kastre_vald_contact_iiri_sepping",
+      "canonical_item_id": "kastre_vald:contact:iiri_sepping",
+      "itemType": "contact",
+      "title": "Iiri Sepping",
+      "status": "active",
+      "name": "Iiri Sepping",
+      "role": "Sotsiaaltöö peaspetsialist (asendav juhataja)",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_heidi_kelt",
+      "canonical_item_id": "kastre_vald:contact:heidi_kelt",
+      "itemType": "contact",
+      "title": "Heidi Kelt",
+      "status": "active",
+      "name": "Heidi Kelt",
+      "role": "Sotsiaaltöö peaspetsialist",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_laire_lodison",
+      "canonical_item_id": "kastre_vald:contact:laire_lodison",
+      "itemType": "contact",
+      "title": "Laire Lodison",
+      "status": "active",
+      "name": "Laire Lodison",
+      "role": "Sotsiaaltööspetsialist (Kurepalu vallamaja)",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_andre_lepik",
+      "canonical_item_id": "kastre_vald:contact:andre_lepik",
+      "itemType": "contact",
+      "title": "Andre Lepik",
+      "status": "active",
+      "name": "Andre Lepik",
+      "role": "Sotsiaaltööspetsialist (Võnnu teenuskeskus)",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_laura_kuusk",
+      "canonical_item_id": "kastre_vald:contact:laura_kuusk",
+      "itemType": "contact",
+      "title": "Laura Kuusk",
+      "status": "active",
+      "name": "Laura Kuusk",
+      "role": "Lastekaitsespetsialist",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_kati_aviste",
+      "canonical_item_id": "kastre_vald:contact:kati_aviste",
+      "itemType": "contact",
+      "title": "Kati Aviste",
+      "status": "active",
+      "name": "Kati Aviste",
+      "role": "Lastekaitsespetsialist",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "kontakt_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_contact_triin_tokman",
+      "canonical_item_id": "kastre_vald:contact:triin_tokman",
+      "itemType": "contact",
+      "title": "Triin Tokman",
+      "status": "active",
+      "name": "Triin Tokman",
+      "role": "Noorte heaolu spetsialist",
+      "department": "Kastre valla sotsiaalosakond",
+      "address": null,
+      "sourceKeys": [
+        "abivajav_laps_page"
+      ],
+      "relatedTo": []
+    },
+    {
+      "id": "kastre_vald_form_sotsiaaltoetuse_taotlus",
+      "canonical_item_id": "kastre_vald:form:sotsiaaltoetuse_taotlus",
+      "itemType": "form",
+      "title": "Sotsiaaltoetuse taotlus",
+      "status": "active",
+      "summary": "See üldine taotlusvorm on kasutatav mitme Kastre valla sotsiaaltoetuse ja -teenuse taotlemiseks, sealhulgas sünnitoetuse, ranitsatoetuse, prillitoetuse, ravimite ja abivahendite toetuse ning sotsiaaltoetuse lastele taotlemisel. Vorm on PDF-formaadis ja allkirjastatuna tuleb see esitada vallavalitsusele või saata e-postiga.",
+      "sourceKeys": [
+        "sotsiaaltoetuse_form_pdf",
+        "taotlusvormid_page"
+      ],
+      "format": "pdf",
+      "submissionChannels": [
+        "paber",
+        ""
+      ],
+      "relatedTo": [
+        "kastre_vald_benefit_sunnitoetus",
+        "kastre_vald_benefit_ranitsatoetus",
+        "kastre_vald_benefit_puudega_lapse_hooldajatoetus",
+        "kastre_vald_benefit_koolieelse_kohamaksu_toetus",
+        "kastre_vald_benefit_koolitoetus",
+        "kastre_vald_benefit_prillitoetus",
+        "kastre_vald_benefit_ravimite_toetus",
+        "kastre_vald_benefit_sotsiaaltoetus_lastele"
+      ]
+    }
+  ]
+}

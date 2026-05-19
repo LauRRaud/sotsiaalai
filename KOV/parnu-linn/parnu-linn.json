@@ -19,8 +19,6 @@
       "name": "Pärnu linnavalitsuse sotsiaalosakond",
       "role": "sotsiaalosakonna üldkontakt",
       "department": "Pärnu linnavalitsus",
-      "phone": "444 8200",
-      "email": "linnavalitsus@parnu.ee",
       "address": "Suur-Sepa 16, Pärnu",
       "workingHours": "E–N 8–17; R 8–16",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -34,36 +32,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_sotsiaalosakond",
-      "document_id": "parnu_linn_contact_sotsiaalosakond",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "6318283b1b074b4f93657607ef1d304d1856e52682647c607ce673a5d096e1a6",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_laste_ja_perede_heaolu_osakond",
@@ -74,8 +43,6 @@
       "name": "Laste ja perede heaolu osakond",
       "role": "laste ja perede heaolu osakonna üldkontakt",
       "department": "Pärnu linnavalitsus",
-      "phone": "444 8200",
-      "email": "linnavalitsus@parnu.ee",
       "address": "Suur-Sepa 16, Pärnu",
       "workingHours": "E–N 8–17; R 8–16; vastuvõtt N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -89,36 +56,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_laste_ja_perede_heaolu_osakond",
-      "document_id": "parnu_linn_contact_laste_ja_perede_heaolu_osakond",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "47e12fd3a9cff379ef7e4ac01f56d467403102fbf6485efc0707733fa9d7ceaa",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_heli_kallasmaa",
@@ -129,8 +67,6 @@
       "name": "Heli Kallasmaa",
       "role": "Pärnu Sotsiaalkeskuse juhataja",
       "department": "Pärnu Sotsiaalkeskus",
-      "phone": "512 3701",
-      "email": "info@sotsiaal.ee",
       "address": "Riia mnt 70, Pärnu",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
@@ -146,36 +82,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_heli_kallasmaa",
-      "document_id": "parnu_linn_contact_heli_kallasmaa",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "c61a245dee756afb26a3cc29344ffdc61b102358d9a0486428d69cfaab128193",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_karolin_nirk",
@@ -186,8 +93,6 @@
       "name": "Kärolin Nirk",
       "role": "hoolekande spetsialist",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "5300 0455",
-      "email": "karolin.nirk@parnu.ee",
       "address": "Suur-Sepa 16 (kab 126), Pärnu",
       "workingHours": "E 8.30–12; N 8.30–12 ja 14–17; muul ajal kokkuleppel",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -207,36 +112,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_karolin_nirk",
-      "document_id": "parnu_linn_contact_karolin_nirk",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "385637df47a25760bd4cbc12c3232521e62bf3fd32b7b6a497c1e7fc41580e1c",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_doris_vridolin",
@@ -247,8 +123,6 @@
       "name": "Doris Vridolin",
       "role": "hooldusspetsialist",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "528 4897",
-      "email": "doris.vridolin@parnu.ee",
       "address": "Suur-Sepa 16 (kab 114), Pärnu",
       "workingHours": "E 8.30–12; N 8.30–12 ja 14–17; muul ajal kokkuleppel",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -266,36 +140,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_doris_vridolin",
-      "document_id": "parnu_linn_contact_doris_vridolin",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "579e32369e41e6fd6c697eedcc6f2ffc6d9c7fc3c9816354c23736890ab88e3f",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_karene_lainela",
@@ -306,8 +151,6 @@
       "name": "Karene Lainela",
       "role": "sotsiaaltööspetsialist (Audru osavald)",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "511 0428",
-      "email": "karene.lainela@parnu.ee",
       "address": "Pärna allee 7, Audru",
       "workingHours": "E ja T 8.30–12; N 8.30–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -323,36 +166,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_karene_lainela",
-      "document_id": "parnu_linn_contact_karene_lainela",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "2feacbc634ac88a507e7dbe0a3b7b6b4711693dd3f4498a433ce3581805a12b8",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_sirli_sabiin",
@@ -363,8 +177,6 @@
       "name": "Sirli Sabiin",
       "role": "sotsiaaltööspetsialist (Paikuse osavald)",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "5866 9363",
-      "email": null,
       "address": "Pärnade pst 11, Paikuse",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -382,36 +194,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_sirli_sabiin",
-      "document_id": "parnu_linn_contact_sirli_sabiin",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "ed186f478afaf22e7c9a1bde614e981c9a6bb98a4167fd792ea84edec48c4132",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_tiiu_saar",
@@ -422,8 +205,6 @@
       "name": "Tiiu Saar",
       "role": "sotsiaaltööspetsialist (Tõstamaa osavald)",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "5787 6658",
-      "email": null,
       "address": "Sadama tee 2, Tõstamaa",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -441,36 +222,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_tiiu_saar",
-      "document_id": "parnu_linn_contact_tiiu_saar",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "7bf50b4c623b522f32f2a9f846829670f43df35086fd86bfcec0fa53e9687fe6",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_marii_hansalu",
@@ -481,8 +233,6 @@
       "name": "Marii Hansalu",
       "role": "hoolekande peaspetsialist",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "509 6508",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 114), Pärnu",
       "workingHours": "E 8.30–12; N 8.30–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -501,36 +251,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_marii_hansalu",
-      "document_id": "parnu_linn_contact_marii_hansalu",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "82e8251d7ac0f23698c586d80fe8b4e82589a9928ec5043f919c8a2a5c9a7914",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_reelika_ruubel",
@@ -541,8 +262,6 @@
       "name": "Reelika Ruubel",
       "role": "eluasemeteenuste spetsialist",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "5397 7160",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 115), Pärnu",
       "workingHours": "E ja T 8.30–12; N 8.30–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -560,36 +279,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_reelika_ruubel",
-      "document_id": "parnu_linn_contact_reelika_ruubel",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "4ea716903290a7e7c2672a78f45cccdfca7a0e2a272a7170f03b02b860fbd29c",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_raul_kivi",
@@ -600,8 +290,6 @@
       "name": "Raul Kivi",
       "role": "juhtiv sotsiaaltöö spetsialist",
       "department": "Pärnu linnavalitsuse sotsiaalosakond",
-      "phone": "5303 4497",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 116), Pärnu",
       "workingHours": "E ja T 8.30–12; N 8.30–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
@@ -623,36 +311,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_raul_kivi",
-      "document_id": "parnu_linn_contact_raul_kivi",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond",
-      "content_hash": "e456e912f1ef48320f2ac9b20906944c5458f6ed28f87b47cbde43bcb80d4228",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_sille_tohver",
@@ -663,8 +322,6 @@
       "name": "Sille Tohver",
       "role": "puuetega laste spetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5855 7969",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 205), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -684,36 +341,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_sille_tohver",
-      "document_id": "parnu_linn_contact_sille_tohver",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "7084c8cf837e1ec7f7e13e9d2a5d36503bf36beaab0cfaf251b157dcec3538df",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_annely_ausma",
@@ -724,8 +352,6 @@
       "name": "Annely Ausma",
       "role": "sotsiaalpedagoog",
       "department": "Pärnu Sotsiaalkeskus",
-      "phone": "5566 4039",
-      "email": "tugiisik@sotsiaal.ee",
       "address": "Riia mnt 70, Pärnu",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -741,36 +367,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_annely_ausma",
-      "document_id": "parnu_linn_contact_annely_ausma",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "58bc6e5c1c2588d5d6cb3fd4f070955267a593f5c4f0fee7f8500e22ec8f3b44",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_parnu_laste_noorte_tugikeskus",
@@ -781,8 +378,6 @@
       "name": "Pärnu Laste ja Noorte Tugikeskus",
       "role": "laste tugiteenuste ja turvakoduteenuse osutaja",
       "department": "Pärnu Laste ja Noorte Tugikeskus",
-      "phone": "5552 2003; turvakodu 24 h 5552 2136",
-      "email": "info@tugikeskus.parnu.ee",
       "address": "Oja 97, Pärnu",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -800,36 +395,7 @@
       "unresolvedIssues": [],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_parnu_laste_noorte_tugikeskus",
-      "document_id": "parnu_linn_contact_parnu_laste_noorte_tugikeskus",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "ea6e051e8eaea0063a5a9e818a9bf0500903ac777722de1081392a2a63343d52",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_eda_rannamagi",
@@ -840,8 +406,6 @@
       "name": "Eda Rannamägi",
       "role": "asendushoolduse spetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5336 5574",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 208), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -863,36 +427,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_eda_rannamagi",
-      "document_id": "parnu_linn_contact_eda_rannamagi",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "09765b8f37df84d4a71a45b506721529f5d532d070f0a678bc63ffd398d386f1",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_silja_palm",
@@ -903,8 +438,6 @@
       "name": "Silja Palm",
       "role": "asendushoolduse spetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5366 6535",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 208), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -926,36 +459,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_silja_palm",
-      "document_id": "parnu_linn_contact_silja_palm",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "a8bcf1014596c3c8f1f012fcc1fe59b3d5b15d08809d22c8b1c56adec382304d",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_kristina_artma",
@@ -966,8 +470,6 @@
       "name": "Kristina Artma",
       "role": "rahvastikutoimingute spetsialist",
       "department": "Pärnu linnavalitsus",
-      "phone": "5301 2212",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 328), Pärnu",
       "workingHours": "E, T ja N 9–12 ja 14–16",
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -985,36 +487,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_kristina_artma",
-      "document_id": "parnu_linn_contact_kristina_artma",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "8eec8ead1f3303d93ff4c5786f9cc3256ba233e1f8b11e0142905e1a7f6f1061",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_ines_savi",
@@ -1025,8 +498,6 @@
       "name": "Ines Savi",
       "role": "alushariduse spetsialist",
       "department": "Pärnu linnavalitsus",
-      "phone": "5335 9854",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 155), Pärnu",
       "workingHours": null,
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -1044,36 +515,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_ines_savi",
-      "document_id": "parnu_linn_contact_ines_savi",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "e6d89470dd72883b1c05ea86ece5a18d201828bf6b22d3e2b474d56ec170d46d",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_evelin_tormilind",
@@ -1084,8 +526,6 @@
       "name": "Evelin Tormilind",
       "role": "haridusvaldkonna kontakt ranitsatoetuse küsimustes",
       "department": "Pärnu linnavalitsus",
-      "phone": "523 3196",
-      "email": null,
       "address": null,
       "workingHours": null,
       "officialUrl": "https://parnu.ee/laps-pere",
@@ -1103,36 +543,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_evelin_tormilind",
-      "document_id": "parnu_linn_contact_evelin_tormilind",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "7298eb546e42ff8a288b688839bd822437bab8af279b1491e976a8b50640793a",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_linda_oisman",
@@ -1143,8 +554,6 @@
       "name": "Linda Õisman",
       "role": "laste ja perede heaolu osakonna juhataja",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5306 7633",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 326), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -1160,36 +569,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_linda_oisman",
-      "document_id": "parnu_linn_contact_linda_oisman",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "fd7d6486c331f5b1311a6ce9826ef5f4cbc5ccd2ea195d1cf36761480531cd7e",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_kristel_kambek",
@@ -1200,8 +580,6 @@
       "name": "Kristel Kambek",
       "role": "lastekaitsespetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5300 0408",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 206b), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -1217,36 +595,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_kristel_kambek",
-      "document_id": "parnu_linn_contact_kristel_kambek",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "f31fab407f44fbd8e06369a0a46aa784eb13bddab41045fef5523a5dda4aa450",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_kadi_kask",
@@ -1257,8 +606,6 @@
       "name": "Kadi Kask",
       "role": "lastekaitsespetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5300 0419",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 206a), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -1274,36 +621,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_kadi_kask",
-      "document_id": "parnu_linn_contact_kadi_kask",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "cbb8df901b1e307f660845625df1b525f1cc6b5054180aace2783294cdd9e306",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_anett_parts",
@@ -1314,8 +632,6 @@
       "name": "Anett Parts",
       "role": "lastekaitsespetsialist",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "5866 9597",
-      "email": null,
       "address": "Suur-Sepa 16 (kab 206b), Pärnu",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -1331,36 +647,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_anett_parts",
-      "document_id": "parnu_linn_contact_anett_parts",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "a28bef4113f30385f7d871e2b5a0c61d005f3b264aef95c6bbf867c42b6ac506",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_contact_liisi_pikkur",
@@ -1371,8 +658,6 @@
       "name": "Liisi Pikkur",
       "role": "lastekaitsespetsialist (Audru ja Tõstamaa osavald)",
       "department": "Laste ja perede heaolu osakond",
-      "phone": "528 3831",
-      "email": null,
       "address": "Pärna allee 7, Audru",
       "workingHours": "N 9–12 ja 14–17",
       "officialUrl": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
@@ -1388,36 +673,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "contact",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "family_contacts"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_contact_liisi_pikkur",
-      "document_id": "parnu_linn_contact_liisi_pikkur",
-      "source_type": "official_contact",
-      "resource_type": "contact",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond",
-      "content_hash": "186f5fbd05bffa5bec9ff6f556bfa7ac963a6c6c97be462d597926bd11730ecd",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_lapse_sunnitoetuse_taotlus",
@@ -1444,36 +700,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_lapse_sunnitoetuse_taotlus",
-      "document_id": "parnu_linn_form_lapse_sunnitoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "8ff51ce698b86001cbbcd0a5b033d2f35a894e872b5d60237e51914e6f2b7b6a",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_eluruumi_uurimise_taotlus",
@@ -1484,7 +711,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1503,36 +730,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_eluruumi_uurimise_taotlus",
-      "document_id": "parnu_linn_form_eluruumi_uurimise_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "e5ab935e9a21d2c3c756079753556d2955356ecfa258d3518b497efa8703ace3",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_uurilepingu_pikendamise_taotlus",
@@ -1543,7 +741,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1562,36 +760,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_uurilepingu_pikendamise_taotlus",
-      "document_id": "parnu_linn_form_uurilepingu_pikendamise_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "8ebce93b1d4715863c18ef52388a5509a82bd79db9f69dfb1b73f60bfe8ae247",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_eluruumi_kohandamise_toetuse_taotlus",
@@ -1602,7 +771,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1621,36 +790,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_eluruumi_kohandamise_toetuse_taotlus",
-      "document_id": "parnu_linn_form_eluruumi_kohandamise_toetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "f337779eb519ee0004518638b7a095fd45ebf11f3ae1a7732a6555875b4b0c94",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_hooldajaks_maaramise_ja_hooldajatoetuse_taotlus",
@@ -1661,7 +801,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1681,36 +821,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_hooldajaks_maaramise_ja_hooldajatoetuse_taotlus",
-      "document_id": "parnu_linn_form_hooldajaks_maaramise_ja_hooldajatoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "924ab617aa5970352c41e68704c5d1ae74ac61d42c5ad19ccae27e7b702de2a8",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_hooldajatoetuse_maksmise_jatkamise_taotlus",
@@ -1721,7 +832,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1740,36 +851,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_hooldajatoetuse_maksmise_jatkamise_taotlus",
-      "document_id": "parnu_linn_form_hooldajatoetuse_maksmise_jatkamise_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "d13020318974afffbdd1edc629ce374cab4ce8895cac7cff746282643fe9de08",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_puudega_lapse_hooldajatoetuse_taotlus",
@@ -1796,36 +878,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_puudega_lapse_hooldajatoetuse_taotlus",
-      "document_id": "parnu_linn_form_puudega_lapse_hooldajatoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "5db6849fb61c76e37c12465a73fd2bea0eaceb597306a330902951b0ada865bb",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_uldhooldusteenuse_rahastamise_taotlus",
@@ -1836,7 +889,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1856,36 +909,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_uldhooldusteenuse_rahastamise_taotlus",
-      "document_id": "parnu_linn_form_uldhooldusteenuse_rahastamise_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "af2875db17bb898975cef30d8c68ed8bdc4e6e7f9e09e4e64800bfd2ded4d66a",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_isikliku_abistaja_teenuse_taotlus",
@@ -1896,7 +920,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1915,36 +939,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_isikliku_abistaja_teenuse_taotlus",
-      "document_id": "parnu_linn_form_isikliku_abistaja_teenuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "684bc9f182729b3c8dd4151274b2f740bc34b32305fe2ac2901c91b0eee29b3c",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_matusetoetuse_taotlus",
@@ -1955,7 +950,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -1974,36 +969,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_matusetoetuse_taotlus",
-      "document_id": "parnu_linn_form_matusetoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "51e177ab8f3e8b2f669ea696c4e051c63973559bf6c07575d306037fae753886",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_tugiisikuteenuse_taotlus_taisealisele",
@@ -2014,7 +980,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2033,36 +999,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_tugiisikuteenuse_taotlus_taisealisele",
-      "document_id": "parnu_linn_form_tugiisikuteenuse_taotlus_taisealisele",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "98afa907855d1a52773ca540f7869dbe8a95b2d01472fddb005a08dc98a7278b",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_tugiisikuteenuse_taotlus_lastega_peredele",
@@ -2073,7 +1010,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2092,36 +1029,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_tugiisikuteenuse_taotlus_lastega_peredele",
-      "document_id": "parnu_linn_form_tugiisikuteenuse_taotlus_lastega_peredele",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "74228760d3bc112e5bb5c4e3dfad2a46b8127234e064eb3ade86fd0de4523aac",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_tugiteenuste_taotlus_puudega_lapsele",
@@ -2149,36 +1057,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_tugiteenuste_taotlus_puudega_lapsele",
-      "document_id": "parnu_linn_form_tugiteenuste_taotlus_puudega_lapsele",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "f3622c47b7e05daa04c326ce89f63231798810c8aedd2d712c25b605915a8ba2",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_toimetulekutoetuse_taotlus",
@@ -2189,7 +1068,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2208,36 +1087,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_toimetulekutoetuse_taotlus",
-      "document_id": "parnu_linn_form_toimetulekutoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "09439d3c9a822a2586c9e2a765e790a9d038a0375c27aeb065b66382c4c2eb30",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_uhekordse_lisatoetuse_taotlus",
@@ -2248,7 +1098,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2267,36 +1117,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_uhekordse_lisatoetuse_taotlus",
-      "document_id": "parnu_linn_form_uhekordse_lisatoetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "cffa3c715390c41515c125ebdd3702a2290f29098d782bb22f6d0cb58e587944",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_huvihariduse_huvitegevuse_toetuse_taotlus",
@@ -2307,7 +1128,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2326,36 +1147,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_huvihariduse_huvitegevuse_toetuse_taotlus",
-      "document_id": "parnu_linn_form_huvihariduse_huvitegevuse_toetuse_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "50867f171d58328fc535f6e53b505df132b045b1651b383afa5045b72bb38383",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_noorte_tervishoiutootajate_oppelaenu_toetus_taotlus",
@@ -2366,7 +1158,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2385,36 +1177,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_noorte_tervishoiutootajate_oppelaenu_toetus_taotlus",
-      "document_id": "parnu_linn_form_noorte_tervishoiutootajate_oppelaenu_toetus_taotlus",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "35398c2e6ec3bbfb42669c8113df5c1ad53b6be3a7805eff65355aa1e31f356e",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_sotsiaalhoolekande_tunnustuse_ettepanek",
@@ -2439,36 +1202,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_sotsiaalhoolekande_tunnustuse_ettepanek",
-      "document_id": "parnu_linn_form_sotsiaalhoolekande_tunnustuse_ettepanek",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "d91f8d6a6ee175ece02c979aca453a1d375e240b982487a824a619b6c75fb088",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_sotsiaalprojektide_ja_mtu_tegevustoetuse_taotlus_aruanne",
@@ -2479,7 +1213,7 @@
       "format": "web_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2499,36 +1233,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_sotsiaalprojektide_ja_mtu_tegevustoetuse_taotlus_aruanne",
-      "document_id": "parnu_linn_form_sotsiaalprojektide_ja_mtu_tegevustoetuse_taotlus_aruanne",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "4b0a0a2204a071eefebcf6457c9fc9219757fc6f45eeb678e8fa4228db987cd2",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_terviseprojektide_toetuse_taotlus_aruanne",
@@ -2555,36 +1260,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_terviseprojektide_toetuse_taotlus_aruanne",
-      "document_id": "parnu_linn_form_terviseprojektide_toetuse_taotlus_aruanne",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "31fc5d34b431fcc28d561e8db8e6d02d877766dec5e0c133ae1d75b78bb150b6",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_tasuta_soidu_oigus_4_lapse_pere",
@@ -2595,7 +1271,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2612,36 +1288,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_tasuta_soidu_oigus_4_lapse_pere",
-      "document_id": "parnu_linn_form_tasuta_soidu_oigus_4_lapse_pere",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "b16e04bf18b071b8a12a0ffff92fcf60971a0d77c90a8b321dbfedb41bb835a8",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_tasuta_soidu_oigus_eestkoste_all",
@@ -2652,7 +1299,7 @@
       "format": "application_form",
       "submissionChannels": [
         "iseteenindus või taotlusvorm",
-        "e-post",
+        "",
         "post",
         "kohapeal"
       ],
@@ -2669,36 +1316,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_tasuta_soidu_oigus_eestkoste_all",
-      "document_id": "parnu_linn_form_tasuta_soidu_oigus_eestkoste_all",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "fb4b6586360d4e60c86158cbd28103836e0ff01a078d91057dab512162256a6b",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_form_ranitsatoetuse_taotlus_arno",
@@ -2725,36 +1343,7 @@
       ],
       "status": "active",
       "relatedForms": [],
-      "relatedContacts": [],
-      "item_type": "form",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_form_ranitsatoetuse_taotlus_arno",
-      "document_id": "parnu_linn_form_ranitsatoetuse_taotlus_arno",
-      "source_type": "application_form",
-      "resource_type": "form",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "6ed781373c2c7b1993df7a1f017d94754c45808448fa04cd32fad68bf22835c7",
-      "evidence_allowed": true
+      "relatedContacts": []
     },
     {
       "id": "parnu_linn_service_isikliku_abistaja_teenus",
@@ -2766,11 +1355,11 @@
       "conditions": "Teenuse vajadus peab tulenema puudest või funktsioonihäirest ning olema seotud igapäevase kõrvalabi vajadusega. Põhjendatud juhtudel võib taotleda tasu vähendamist või teenuse eest tasumisest vabastamist.",
       "application": {
         "channels": [
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
-        "steps": "Esita taotlus Pärnu linnavalitsusele e-posti aadressil linnavalitsus@parnu.ee, postiaadressil Suur-Sepa 16, 80098 Pärnu linn või too taotlus linnavalitsuse infolauda. Teenuse vorm on KOV lehel nimetatud.",
+        "steps": "Esita taotlus Pärnu linnavalitsusele e-posti aadressil, postiaadressil Suur-Sepa 16, 80098 Pärnu linn või too taotlus linnavalitsuse infolauda. Teenuse vorm on KOV lehel nimetatud.",
         "deadline": null
       },
       "decisionTime": null,
@@ -2800,36 +1389,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_isikliku_abistaja_teenus",
-      "document_id": "parnu_linn_service_isikliku_abistaja_teenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "576994d49fab6e6a21c38a2966b93cdf4e94ce85f6f7f41407c57ff3b2bdd0d4",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_koduteenus",
@@ -2841,8 +1401,8 @@
       "conditions": "Abi antakse toimingutes, mida inimene kõrvalabita teha ei suuda, kuid mis on vajalikud kodustes tingimustes elamiseks.",
       "application": {
         "channels": [
-          "telefon",
-          "e-post",
+          "",
+          "",
           "kohapeal"
         ],
         "steps": "Teenuse saamiseks võib abivajaja, pereliige, eestkostja või abivajadust märganud inimene pöörduda linnavalitsuse hooldusspetsialisti või oma piirkonna sotsiaaltööspetsialisti poole.",
@@ -2872,36 +1432,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_koduteenus",
-      "document_id": "parnu_linn_service_koduteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "7c90a33fa798ece11f10203c10b4c0d18973f61e3de386b3794ecb46f2941e04",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_tugiisikuteenus_taisealisele",
@@ -2915,7 +1446,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -2947,36 +1478,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_tugiisikuteenus_taisealisele",
-      "document_id": "parnu_linn_service_tugiisikuteenus_taisealisele",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "f5de29321daf87c462939ba6348fa96890ca49fabe282a99e480bb8cd43dc9a4",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_taisealise_isiku_hooldus",
@@ -2990,7 +1492,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -3021,36 +1523,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_taisealise_isiku_hooldus",
-      "document_id": "parnu_linn_service_taisealise_isiku_hooldus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "edc86cac3e927e13efa6f65e7f1d3004f5ba02174c0c7eb5a6207d640dfddfab",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
@@ -3064,7 +1537,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -3096,36 +1569,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
-      "document_id": "parnu_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "15335dda7318cc64294d5570f8ef141509faae654a03f1beb3c775b217c5a0ca",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_sotsiaaltransporditeenus",
@@ -3138,12 +1582,12 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal",
-          "telefon teenuse tellimiseks"
+          "teenuse tellimiseks"
         ],
-        "steps": "Teenuse taotlemiseks esitatakse Pärnu linnavalitsusele vabas vormis avaldus. Sõite tellitakse Pärnumaa Ühistranspordikeskuse kaudu tööpäeviti kell 8–15 telefonil 442 5769.",
+        "steps": "Teenuse taotlemiseks esitatakse Pärnu linnavalitsusele vabas vormis avaldus. Sõite tellitakse Pärnumaa Ühistranspordikeskuse kaudu tööpäeviti kell 8–15 telefonil.",
         "deadline": null
       },
       "decisionTime": null,
@@ -3166,36 +1610,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_sotsiaaltransporditeenus",
-      "document_id": "parnu_linn_service_sotsiaaltransporditeenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "e8939f801abd4628f7ecb8e944ccf357da27e68faa0f751b81f0a2baa971a40d",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_eluasemeteenus",
@@ -3209,7 +1624,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -3243,36 +1658,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eluase_turvakodu_varjupaik_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_eluasemeteenus",
-      "document_id": "parnu_linn_service_eluasemeteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik",
-      "content_hash": "db9c9d1d79e7e5ff58c7eeede7e4d5d21b0447702682dbb5a709917367e72302",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_viipekeele_tolketeenus",
@@ -3281,11 +1667,11 @@
       "title": "Viipekeele tõlketeenus",
       "summary": "Viipekeele tõlketeenus on mõeldud Pärnu linna elanikele, kes on pimekurdid, vaegkuuljad või kuulmislangusega ning vajavad viipekeele tõlki asjaajamisel ja igapäevaelus osalemisel. Teenus on kasutajale tasuta. Teenust osutab KOV lehel nimetatud MTÜ Pärnumaa Kurtide Ühing.",
       "targetGroup": "Pärnu linna elanikud, kes vajavad kuulmispuude või pimekurtuse tõttu viipekeele tõlki.",
-      "conditions": "Teenust osutatakse vajaduse järgi ning tellimine toimub tööpäeviti; vältimatu vajaduse korral on KOV lehel nimetatud ööpäevaringne telefon.",
+      "conditions": "Teenust osutatakse vajaduse järgi ning tellimine toimub tööpäeviti; vältimatu vajaduse korral on KOV lehel nimetatud ööpäevaringne.",
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post"
         ],
         "steps": "Teenuse saamiseks esitatakse Pärnu linnavalitsusele vabas vormis taotlus e-posti või postiga.",
@@ -3313,36 +1699,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_viipekeele_tolketeenus",
-      "document_id": "parnu_linn_service_viipekeele_tolketeenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "6184aa50c80b07454d9199a5861bc2838ceb96c4b0a3c6fb0eb27048c6d6bee7",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_lapsehoiuteenus",
@@ -3386,36 +1743,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_lapsehoiuteenus",
-      "document_id": "parnu_linn_service_lapsehoiuteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "71802e2667fbff86e0b58f8b799641b0ec2fc2da7d5a3d3a450c2cc152420146",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_tugiisikuteenus_lapsele_ja_perele",
@@ -3428,7 +1756,7 @@
       "application": {
         "channels": [
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -3461,36 +1789,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_tugiisikuteenus_lapsele_ja_perele",
-      "document_id": "parnu_linn_service_tugiisikuteenus_lapsele_ja_perele",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "d00c41eaf00b77e37b72462119d8180359b099bcf9e3424ee17e4259a12b864f",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_tugiisikuteenus_puudega_lapsele",
@@ -3533,36 +1832,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_tugiisikuteenus_puudega_lapsele",
-      "document_id": "parnu_linn_service_tugiisikuteenus_puudega_lapsele",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "95adee0f313002d9cd1afd4e6647e0a32ba8d5ae50d655c63384a79ecf68523b",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_asendushooldusteenus",
@@ -3601,36 +1871,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_asendushooldusteenus",
-      "document_id": "parnu_linn_service_asendushooldusteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "39b9408309c69d7959792c88c6d0e9ceddd5efc06cd0a8c1ec3721060da080a5",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_jarelhooldusteenus",
@@ -3669,36 +1910,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_jarelhooldusteenus",
-      "document_id": "parnu_linn_service_jarelhooldusteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "4245ec5b9ac01b83a66e3423c7f4a7b1ada295d2e82f5a3cb5ad2c185c9ecc2e",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_turvakoduteenus",
@@ -3710,11 +1922,11 @@
       "conditions": "Teenust kasutatakse vägivalla, hülgamise, hooletusse jätmise, kodus viibimise võimatuse või muu kriisi korral.",
       "application": {
         "channels": [
-          "telefon",
+          "",
           "linnavalitsuse või teenuseosutaja poole pöördumine",
-          "hädaolukorras 112"
+          "hädaolukorras"
         ],
-        "steps": "Abivajadusest tuleb teatada linnavalitsusele, lastekaitsele või otse teenuseosutajale; ohu korral tuleb helistada hädaabinumbril 112.",
+        "steps": "Abivajadusest tuleb teatada linnavalitsusele, lastekaitsele või otse teenuseosutajale; ohu korral tuleb helistada hädaabinumbril.",
         "deadline": null
       },
       "decisionTime": null,
@@ -3739,36 +1951,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eluase_turvakodu_varjupaik_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_turvakoduteenus",
-      "document_id": "parnu_linn_service_turvakoduteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik",
-      "content_hash": "e9647679a52c4c2a085769fe62e44951ab448ad39617199acd8f3a8908e8c76e",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_varjupaigateenus",
@@ -3782,9 +1965,9 @@
         "channels": [
           "sotsiaaltööspetsialist",
           "otse teenuseosutaja",
-          "telefon"
+          ""
         ],
-        "steps": "Teenusele saamiseks pöördutakse piirkonna sotsiaaltööspetsialisti poole või väljaspool tööaega teenuseosutaja poole telefonil 5880 4883.",
+        "steps": "Teenusele saamiseks pöördutakse piirkonna sotsiaaltööspetsialisti poole või väljaspool tööaega teenuseosutaja poole telefonil.",
         "deadline": null
       },
       "decisionTime": null,
@@ -3809,36 +1992,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eluase_turvakodu_varjupaik_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_varjupaigateenus",
-      "document_id": "parnu_linn_service_varjupaigateenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik",
-      "content_hash": "40bbd164230344707380a41c022c6d320b59285f0e8456be7b32093387afa958",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_valtimatu_sotsiaalabi",
@@ -3878,36 +2032,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_valtimatu_sotsiaalabi",
-      "document_id": "parnu_linn_service_valtimatu_sotsiaalabi",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "a2bdb3ccf23ca4dd36b619e924e121612e5b10e5a0943d0a492863690988423f",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_volanoustamisteenus",
@@ -3920,7 +2045,7 @@
       "application": {
         "channels": [
           "sotsiaaltööspetsialist",
-          "teenuseosutaja telefon"
+          "teenuseosutaja"
         ],
         "steps": "Registreerimine toimub piirkonna sotsiaaltööspetsialistide või teenuseosutajate kaudu.",
         "deadline": null
@@ -3944,36 +2069,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_volanoustamisteenus",
-      "document_id": "parnu_linn_service_volanoustamisteenus",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "a8bffc8e107a4a83c4d734ca31b68688542ee2476a427556da788c60a2f5f37d",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_sotsiaaloppeteenus_tootule",
@@ -4009,36 +2105,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_sotsiaaloppeteenus_tootule",
-      "document_id": "parnu_linn_service_sotsiaaloppeteenus_tootule",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "c74ac08b25ae274401515050847baa3718eca5784dfd33d01b3783da9f7cac38",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_service_ravikindlustamata_isikute_ravi_eest_tasumine",
@@ -4077,36 +2144,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "service",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_service_ravikindlustamata_isikute_ravi_eest_tasumine",
-      "document_id": "parnu_linn_service_ravikindlustamata_isikute_ravi_eest_tasumine",
-      "source_type": "kov_service_info",
-      "resource_type": "service",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "922f7c17b3f7f1ba44c26895286e3f89d6879484b0b16d7b29e66192274ab193",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_taisealise_isiku_hooldajatoetus",
@@ -4121,7 +2159,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4149,36 +2187,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_taisealise_isiku_hooldajatoetus",
-      "document_id": "parnu_linn_benefit_taisealise_isiku_hooldajatoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "495b34e8d919356d99357b24fe2fec3153d54f868ce0120d1269739712142685",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_uldhooldusteenuse_hooldustoetus",
@@ -4193,7 +2202,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4220,36 +2229,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_uldhooldusteenuse_hooldustoetus",
-      "document_id": "parnu_linn_benefit_uldhooldusteenuse_hooldustoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "6b4466c36da7f30ef2056c42e35e6195d6c870492cfbfdd0df8a63d82877afa2",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_eluruumi_kohandamise_toetus",
@@ -4263,7 +2243,7 @@
       "application": {
         "channels": [
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4291,36 +2271,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_eluruumi_kohandamise_toetus",
-      "document_id": "parnu_linn_benefit_eluruumi_kohandamise_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "113db640a895be544627f81c32238d890627bb05689788fafe51e9558eeb7d25",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_juhtkoera_ulalpidamise_toetus",
@@ -4334,7 +2285,7 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4359,36 +2310,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_juhtkoera_ulalpidamise_toetus",
-      "document_id": "parnu_linn_benefit_juhtkoera_ulalpidamise_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "50e2d54ab91320f40d997b2b8e78acd17549fa376a2fe7f3c8f24526356c209a",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_asendushooldusel_viibiva_lapse_toetus",
@@ -4403,7 +2325,7 @@
         "channels": [
           "ametniku koostatud taotlus",
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4429,36 +2351,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_asendushooldusel_viibiva_lapse_toetus",
-      "document_id": "parnu_linn_benefit_asendushooldusel_viibiva_lapse_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "37e7a0aaf34575353aa7bf1537931ee7f45133c0af91358caf6cc7d03af085f8",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_jarelhooldusteenusel_viibiva_isiku_toetus",
@@ -4472,7 +2365,7 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4497,36 +2390,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_jarelhooldusteenusel_viibiva_isiku_toetus",
-      "document_id": "parnu_linn_benefit_jarelhooldusteenusel_viibiva_isiku_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "3428b36be38e7345431fd56ec7ba73d3583b20ac7a44b80c10e43b6d38769983",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_hoolduspere_toetus",
@@ -4540,7 +2404,7 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4565,36 +2429,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_hoolduspere_toetus",
-      "document_id": "parnu_linn_benefit_hoolduspere_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "ddd1052d0232eeb3962b3077e431a2a14027d59973620a35007c683f87da0b28",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_puudega_lapse_hooldaja_toetus",
@@ -4634,36 +2469,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_puudega_lapse_hooldaja_toetus",
-      "document_id": "parnu_linn_benefit_puudega_lapse_hooldaja_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "d7a9ed981c3be93fe04a5f20dbd6727b68b1bb8a77fdf0a202c7df8cfba2df12",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_lapse_sunnitoetus",
@@ -4702,36 +2508,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_lapse_sunnitoetus",
-      "document_id": "parnu_linn_benefit_lapse_sunnitoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "e00b1bb8b672374a0161589f3a802f011c3a508f571445463d754595e1aba279",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_lasteaia_soidutoetus",
@@ -4745,7 +2522,7 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4770,36 +2547,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_lasteaia_soidutoetus",
-      "document_id": "parnu_linn_benefit_lasteaia_soidutoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "e31e94af8d5d14335afd8ba29d989987887cdcf4fe09f3431e9a41212216972a",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_huvihariduse_ja_huvitegevuse_toetus",
@@ -4814,7 +2562,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4839,36 +2587,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_huvihariduse_ja_huvitegevuse_toetus",
-      "document_id": "parnu_linn_benefit_huvihariduse_ja_huvitegevuse_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "bf1535b4840f6425fd5b7eeeff7caaff214c1480342006149f5978db53ea7988",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_ranitsatoetus",
@@ -4908,36 +2627,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_ranitsatoetus",
-      "document_id": "parnu_linn_benefit_ranitsatoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "afeb413081654ce92a3e95e4a56da809cf4b484c05bf281c9ccd7d064551895e",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_leinatoetuslaagris_osalemise_toetus",
@@ -4951,7 +2641,7 @@
       "application": {
         "channels": [
           "vabas vormis avaldus",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -4977,36 +2667,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_leinatoetuslaagris_osalemise_toetus",
-      "document_id": "parnu_linn_benefit_leinatoetuslaagris_osalemise_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "d37f01984e89e3b60ec2b082772470dc9da420e63e3fe6d4d2b6ec7fea45ddb4",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_toimetulekutoetus",
@@ -5021,7 +2682,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -5050,36 +2711,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_toimetulekutoetus",
-      "document_id": "parnu_linn_benefit_toimetulekutoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "de2cc03079381c630e6290a6481a729f2397bfac25f2e3e98beee6257fb80455",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_uhekordne_lisatoetus",
@@ -5094,7 +2726,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -5122,36 +2754,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_uhekordne_lisatoetus",
-      "document_id": "parnu_linn_benefit_uhekordne_lisatoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "f2730e0e56cd751525c4e4accdc36caf503d91fddb0e8b2c55ccdfe30f7b9156",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_tsernoboli_aej_likvideerimisel_osalenud_isiku_toetus",
@@ -5188,36 +2791,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_tsernoboli_aej_likvideerimisel_osalenud_isiku_toetus",
-      "document_id": "parnu_linn_benefit_tsernoboli_aej_likvideerimisel_osalenud_isiku_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "34086911c33dbf8083b9c5ca6505c8cd11e33f2ca25535b0a28d84b8175df142",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_matusetoetus",
@@ -5232,7 +2806,7 @@
         "channels": [
           "iseteenindus",
           "taotlusvorm",
-          "e-post",
+          "",
           "post",
           "kohapeal"
         ],
@@ -5256,36 +2830,7 @@
         "Matusetoetuse detaillehe tingimused, summa ja taotlustähtaeg jäid selles kontrollis kinnitamata."
       ],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_matusetoetus",
-      "document_id": "parnu_linn_benefit_matusetoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "9d2248c47d29ce29bf19bd5adf3c63e14549a792052a81de2e161b9be2037f53",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_sotsiaalprojektide_toetus",
@@ -5318,36 +2863,7 @@
         "Detailtingimused ja tähtajad vajavad täiendavat kontrolli detaillehelt."
       ],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_sotsiaalprojektide_toetus",
-      "document_id": "parnu_linn_benefit_sotsiaalprojektide_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "a67d609f9786079956aaba2eea95e89ea5957ce29523ad0dc832fc543f5dd22f",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_sotsiaalvaldkonna_mtu_tegevustoetus",
@@ -5380,36 +2896,7 @@
         "Detailtingimused ja tähtajad vajavad täiendavat kontrolli detaillehelt."
       ],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_sotsiaalvaldkonna_mtu_tegevustoetus",
-      "document_id": "parnu_linn_benefit_sotsiaalvaldkonna_mtu_tegevustoetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "4c21c1e84ba07aee1d9dc3e92638df4e3a6a61428bdfcf96c918f8d6ce0f1730",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_terviseprojektide_toetus",
@@ -5442,36 +2929,7 @@
         "Detailtingimused ja tähtajad vajavad täiendavat kontrolli detaillehelt."
       ],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_terviseprojektide_toetus",
-      "document_id": "parnu_linn_benefit_terviseprojektide_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "ecd6b2272908fbc8e62a75a8bb94b3d6f762e2f3afb6ff7b5b4866221a7231c1",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_benefit_noorte_tervishoiutootajate_oppelaenu_tagasimaksmise_toetus",
@@ -5503,43 +2961,14 @@
         "Detailtingimused ja tähtajad vajavad täiendavat kontrolli detaillehelt."
       ],
       "status": "active",
-      "relatedTo": [],
-      "item_type": "benefit",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_benefit_noorte_tervishoiutootajate_oppelaenu_tagasimaksmise_toetus",
-      "document_id": "parnu_linn_benefit_noorte_tervishoiutootajate_oppelaenu_tagasimaksmise_toetus",
-      "source_type": "kov_service_info",
-      "resource_type": "benefit",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "0e2b0fd1a9a2ccdf7becf67e4e3e9d92a55614e62b48d9490f5df235fe842143",
-      "evidence_allowed": true
+      "relatedTo": []
     },
     {
       "id": "parnu_linn_resource_parnu_sotsiaalkeskus",
       "canonical_item_id": "parnu_linn:resource:parnu_sotsiaalkeskus",
       "itemType": "resource",
       "title": "Pärnu Sotsiaalkeskus",
-      "summary": "Pärnu Sotsiaalkeskus on KOV veebis nimetatud teenuseosutaja mitme teenuse puhul, sh isikliku abistaja teenus, koduteenus ning tugiisikuteenus lastega peredele. Kontaktina on avaldatud Riia mnt 70, Pärnu ning keskuse üldinfo info@sotsiaal.ee.",
+      "summary": "Pärnu Sotsiaalkeskus on KOV veebis nimetatud teenuseosutaja mitme teenuse puhul, sh isikliku abistaja teenus, koduteenus ning tugiisikuteenus lastega peredele. Kontaktina on avaldatud Riia mnt 70, Pärnu ning keskuse üldinfo.",
       "officialUrl": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
       "relatedTo": [
         "parnu_linn_service_isikliku_abistaja_teenus",
@@ -5557,43 +2986,14 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_parnu_sotsiaalkeskus",
-      "document_id": "parnu_linn_resource_parnu_sotsiaalkeskus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "0318fef272b9a40a1a974457af220b88151aa36e5189670f9e41b36290e99dc4",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_parnu_laste_noorte_tugikeskus",
       "canonical_item_id": "parnu_linn:resource:parnu_laste_noorte_tugikeskus",
       "itemType": "resource",
       "title": "Pärnu Laste ja Noorte Tugikeskus",
-      "summary": "Pärnu Laste ja Noorte Tugikeskus on KOV veebis nimetatud lapsehoiuteenuse, puudega lapse tugiisikuteenuse ja turvakoduteenuse osutajana. Üldkontakt on Oja 97, Pärnu, tel 5552 2003 ja info@tugikeskus.parnu.ee; turvakoduteenuse 24 h telefon on 5552 2136.",
+      "summary": "Pärnu Laste ja Noorte Tugikeskus on KOV veebis nimetatud lapsehoiuteenuse, puudega lapse tugiisikuteenuse ja turvakoduteenuse osutajana. Üldkontakt on Oja 97, Pärnu, ja; turvakoduteenuse 24 h on.",
       "officialUrl": "https://parnu.ee/laps-pere",
       "relatedTo": [
         "parnu_linn_service_lapsehoiuteenus",
@@ -5611,36 +3011,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_parnu_laste_noorte_tugikeskus",
-      "document_id": "parnu_linn_resource_parnu_laste_noorte_tugikeskus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "498e8e56a975b43081a0ebb807f343703e4464f3b4319abce56ebb3994d4ddd6",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_tammiste_hooldekodu",
@@ -5663,36 +3034,7 @@
         "E-posti aadress oli veebiväljavõttes varjestatud; seda ei taastatud oletuse põhjal."
       ],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_tammiste_hooldekodu",
-      "document_id": "parnu_linn_resource_tammiste_hooldekodu",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "e461ed696ac66051b5b232083f96bc6cfaa315c2e63fc1b58ee32a9ef108d647",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_paikuse_paevakeskus",
@@ -5711,36 +3053,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_paikuse_paevakeskus",
-      "document_id": "parnu_linn_resource_paikuse_paevakeskus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "d63bad873a335e91690e36c530bf92608e620b42fdb0e084446ae222cfc94b06",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_joopre_hooldekodu",
@@ -5759,36 +3072,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_joopre_hooldekodu",
-      "document_id": "parnu_linn_resource_joopre_hooldekodu",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "b952a9fee841148a9051d16fe595aeeef9f027317e512ce550f45dc5533acb46",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_tostamaa_hooldekodu",
@@ -5807,36 +3091,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_tostamaa_hooldekodu",
-      "document_id": "parnu_linn_resource_tostamaa_hooldekodu",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "b2683983ecf7acf85bb4d826204844cd8c48131928dc132e9dc7cf451270592b",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_parnu_haigla_oendus_hoolduskeskus",
@@ -5855,36 +3110,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_parnu_haigla_oendus_hoolduskeskus",
-      "document_id": "parnu_linn_resource_parnu_haigla_oendus_hoolduskeskus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "e46ef8f74c904048d0949f0b89f280342b5c1720babd09addfdee6c0e5bd36f2",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_abivahendi_vajajale",
@@ -5903,36 +3129,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_abivahendi_vajajale",
-      "document_id": "parnu_linn_resource_abivahendi_vajajale",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "78e9864795fd3cebcdb25efee723607fbd7552319666854177ebe25734eea5c6",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_hairenuputeenus",
@@ -5953,36 +3150,7 @@
         "Teenuse detailid asuvad välisel teenusepakkuja lehel ja jäid allikapiirangu tõttu kontrollimata."
       ],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_hairenuputeenus",
-      "document_id": "parnu_linn_resource_hairenuputeenus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "388c4b561f03e3f3b878cf9ba7b5e89f983f87b42bb0fbfe753595f4a261548b",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_koduandur_ja_kodunupp",
@@ -6003,43 +3171,14 @@
         "Teenuse detailid asuvad välisel teenusepakkuja lehel ja jäid allikapiirangu tõttu kontrollimata."
       ],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_koduandur_ja_kodunupp",
-      "document_id": "parnu_linn_resource_koduandur_ja_kodunupp",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "d671361c0fd511c8316e458ac0f2b0260b706ed48035dac6e3778bf3ec7a6086",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
-      "id": "parnu_linn_resource_lasteabi_116111_ja_112",
-      "canonical_item_id": "parnu_linn:resource:lasteabi_116111_ja_112",
+      "id": "parnu_linn_resource_lasteabi__ja_",
+      "canonical_item_id": "parnu_linn:resource:lasteabi__ja_",
       "itemType": "resource",
-      "title": "Lasteabi 116 111 ja hädaabinumber 112",
-      "summary": "Pärnu linna laste ja perede heaolu lehel on abivajava lapse puhul nimetatud Lasteabi telefon 116 111 ning hädaohus lapse korral hädaabinumber 112. Tegemist on praktilise abikanaliga, mida KOV leht soovitab lapse abivajadusest teatamiseks.",
+      "title": "Lasteabi ja hädaabinumber",
+      "summary": "Pärnu linna laste ja perede heaolu lehel on abivajava lapse puhul nimetatud Lasteabi ning hädaohus lapse korral hädaabinumber. Tegemist on praktilise abikanaliga, mida KOV leht soovitab lapse abivajadusest teatamiseks.",
       "officialUrl": "https://parnu.ee/laps-pere",
       "relatedTo": [],
       "relatedContacts": [],
@@ -6051,36 +3190,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "laps_pere_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_lasteabi_116111_ja_112",
-      "document_id": "parnu_linn_resource_lasteabi_116111_ja_112",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/laps-pere",
-      "content_hash": "b972aff58ce976fc666a36a6baab26d0c20484c18fe0532519c2db461abc056b",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_ohvriabi_ja_vagivalla_abi",
@@ -6101,36 +3211,7 @@
         "Ohvriabi detailne välisinfo ei ole KOV veebipaketi allikana kasutatud."
       ],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_ohvriabi_ja_vagivalla_abi",
-      "document_id": "parnu_linn_resource_ohvriabi_ja_vagivalla_abi",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "954a5fd9cdd8cb3fcccaf63bc2bb6adc9c3498c434a706e5e8549125a4e610c5",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_vaimse_tervise_abi",
@@ -6149,36 +3230,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "social_overview"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_vaimse_tervise_abi",
-      "document_id": "parnu_linn_resource_vaimse_tervise_abi",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne",
-      "content_hash": "90621144c41b6a6e88024cebe06b10f67b3bfdbd0c07bed01e84d3196e22686b",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_toiduabi_ja_toidukaart",
@@ -6200,36 +3252,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_toiduabi_ja_toidukaart",
-      "document_id": "parnu_linn_resource_toiduabi_ja_toidukaart",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "7a95d7bcd6404c0bd9f57bc3e453630519f69bad2af3f43ef5b18592cad39c9e",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_tasuta_oigusabi",
@@ -6248,36 +3271,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_tasuta_oigusabi",
-      "document_id": "parnu_linn_resource_tasuta_oigusabi",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "00fcafde909169ea0733c79cc9fdd543d29161e90924235f523f77e52af852f6",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_erihoolekandeteenused",
@@ -6296,43 +3290,14 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_erihoolekandeteenused",
-      "document_id": "parnu_linn_resource_erihoolekandeteenused",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "0c6cefed0ce05543a3a6ae35dd89a22e5769407b51d78c6480c6cd3836ba8268",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_parnumaa_uhistranspordikeskus_sotsiaaltransport",
       "canonical_item_id": "parnu_linn:resource:parnumaa_uhistranspordikeskus_sotsiaaltransport",
       "itemType": "resource",
       "title": "Pärnumaa Ühistranspordikeskus",
-      "summary": "Pärnumaa Ühistranspordikeskus on Pärnu linna veebis nimetatud sotsiaaltranspordi tellimuste vastuvõtjana. Tellimusi võetakse KOV lehe järgi vastu tööpäeviti kell 8–15 telefonil 442 5769.",
+      "summary": "Pärnumaa Ühistranspordikeskus on Pärnu linna veebis nimetatud sotsiaaltranspordi tellimuste vastuvõtjana. Tellimusi võetakse KOV lehe järgi vastu tööpäeviti kell 8–15 telefonil.",
       "officialUrl": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
       "relatedTo": [
         "parnu_linn_service_sotsiaaltransporditeenus"
@@ -6346,36 +3311,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_parnumaa_uhistranspordikeskus_sotsiaaltransport",
-      "document_id": "parnu_linn_resource_parnumaa_uhistranspordikeskus_sotsiaaltransport",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "7c4b5f6c1a8e074e94d25ac03c5a9507bcfcf9372435c5e727861b0551fc2b57",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_mtu_parnumaa_kurtide_uhing",
@@ -6396,36 +3332,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "eakale_erivajadusega_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_mtu_parnumaa_kurtide_uhing",
-      "document_id": "parnu_linn_resource_mtu_parnumaa_kurtide_uhing",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele",
-      "content_hash": "a232b5ceff1d6747731931af37d456b14727d4a1b22b65f37a589fcc2a32a439",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_mtu_sotsiaalne_kaasatus",
@@ -6448,36 +3355,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_mtu_sotsiaalne_kaasatus",
-      "document_id": "parnu_linn_resource_mtu_sotsiaalne_kaasatus",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "0000986e295a2f2d78c38a32814bd7ca0a3850e4c6fdef0aeb05927fa89f312e",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_mtu_pesapuu",
@@ -6498,36 +3376,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "toimetulek_page"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_mtu_pesapuu",
-      "document_id": "parnu_linn_resource_mtu_pesapuu",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele",
-      "content_hash": "7cf5b1ef153c4e398917316539b283197996b67d4382427c462b572b626f7a83",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_abi_ja_noustamisvoimalused",
@@ -6546,36 +3395,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "abi_noustamine"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_abi_ja_noustamisvoimalused",
-      "document_id": "parnu_linn_resource_abi_ja_noustamisvoimalused",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/abi-ja-noustamisvoimalused",
-      "content_hash": "2c38d85fa4213cf2df6bba14311a10f851340030d1acb14b6f387e46e5926d48",
-      "evidence_allowed": true
+      "relatedForms": []
     },
     {
       "id": "parnu_linn_resource_hoolekandepiirkonnad",
@@ -6594,39 +3414,7 @@
       ],
       "unresolvedIssues": [],
       "status": "active",
-      "relatedForms": [],
-      "item_type": "resource",
-      "municipality_id": "parnu_linn",
-      "municipality_name": "Pärnu linn",
-      "county": "Pärnumaa",
-      "source_keys": [
-        "hoolekandepiirkonnad"
-      ],
-      "metadata_schema_version": "v2.5",
-      "source_id": "parnu_linn_resource_hoolekandepiirkonnad",
-      "document_id": "parnu_linn_resource_hoolekandepiirkonnad",
-      "source_type": "kov_service_info",
-      "resource_type": "resource",
-      "collection_id": "kov_services",
-      "authority": "KOV",
-      "audience": [
-        "CLIENT",
-        "SOCIAL_WORKER"
-      ],
-      "language": "et",
-      "checked_at": "2026-04-29",
-      "last_checked": "2026-04-29",
-      "retrieved_at": "2026-04-29",
-      "valid_from": null,
-      "valid_to": null,
-      "historical": false,
-      "source_status": "active",
-      "url_canonical": "https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/hoolekandepiirkonnad",
-      "content_hash": "77b1335f35acafb7759cccbfe8e47bf22dcfdf17e3d198ee39254d7d16a0a7f7",
-      "evidence_allowed": true
+      "relatedForms": []
     }
-  ],
-  "municipality_name": "Pärnu linn",
-  "checked_at": "2026-04-29",
-  "lastMetadataUpgradeAt": "2026-04-29"
+  ]
 }

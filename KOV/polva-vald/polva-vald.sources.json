@@ -1,0 +1,367 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-polva-vald",
+  "document_id": "kov-polva-vald",
+  "municipality": "Põlva vald",
+  "municipality_id": "polva_vald",
+  "county": "Põlvamaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Põlva valla avaleht",
+      "url": "https://polva.ee/",
+      "url_canonical": "https://polva.ee/",
+      "normalized_url": "https://polva.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "peamine navigeerimine",
+        "KOV üldkontakt"
+      ]
+    },
+    {
+      "source_id": "social_services_overview",
+      "title": "Sotsiaaltoetused ja teenused",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/sotsiaaltoetused-ja-teenused/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/sotsiaaltoetused-ja-teenused/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/sotsiaaltoetused-ja-teenused/",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "sotsiaalteenused",
+        "sotsiaaltoetused",
+        "teenusepõhised kontaktid",
+        "taotlemine"
+      ]
+    },
+    {
+      "source_id": "child_benefits_page",
+      "title": "Lapsed ja pered – toetused",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/toetused/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/toetused/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/toetused/",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "perede ja laste toetused",
+        "lastekaitse kontaktid"
+      ]
+    },
+    {
+      "source_id": "special_needs_page",
+      "title": "Erivajadusega inimene",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/erivajadusega-inimene/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/erivajadusega-inimene/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/erivajadusega-inimene/",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "erivajadusega inimeste teenused",
+        "erivajadusega inimeste toetused",
+        "kontaktid",
+        "partnerressursid"
+      ]
+    },
+    {
+      "source_id": "eakad_page",
+      "title": "Eakad",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "eakate tegevusvõimalused",
+        "päevakeskuse viide"
+      ]
+    },
+    {
+      "source_id": "day_centre_page",
+      "title": "Päevakeskus",
+      "url": "https://polva.ee/paevakeskus-uus/",
+      "url_canonical": "https://polva.ee/paevakeskus-uus/",
+      "normalized_url": "https://polva.ee/paevakeskus-uus/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "päevakeskus",
+        "toidupank",
+        "puuetega inimeste koda"
+      ]
+    },
+    {
+      "source_id": "care_institutions_page",
+      "title": "Hoolekandeasutused",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/hoolekandeasutus/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/hoolekandeasutus/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/eakad/hoolekandeasutus/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "hoolekandeasutused",
+        "üldhooldekodud"
+      ]
+    },
+    {
+      "source_id": "child_protection_page",
+      "title": "Lastekaitse",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lastekaitse/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lastekaitse/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lastekaitse/",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "lastekaitse kontaktid",
+        "hädaohus ja abivajav laps",
+        "tugitelefonid"
+      ]
+    },
+    {
+      "source_id": "violence_shelter_page",
+      "title": "Lähisuhtevägivald ja varjupaik",
+      "url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lahisuhtevagivald-ja-varjupaik/",
+      "url_canonical": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lahisuhtevagivald-ja-varjupaik/",
+      "normalized_url": "https://polva.ee/perekond-sotsiaalabi-ja-tervishoid/lapsed-ja-pered/lahisuhtevagivald-ja-varjupaik/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "ohvriabi",
+        "lähisuhtevägivald",
+        "tugikanalid"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Blanketid – sotsiaalosakonna blanketid",
+      "url": "https://polva.ee/blanketid/",
+      "url_canonical": "https://polva.ee/blanketid/",
+      "normalized_url": "https://polva.ee/blanketid/",
+      "source_type": "application_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "sotsiaalosakonna taotlusvormid",
+        "blanketid"
+      ]
+    },
+    {
+      "source_id": "form_sotsiaaltoetuse_pdf",
+      "title": "Sotsiaaltoetuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/Sotsiaaltoetuse-taotlus.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/Sotsiaaltoetuse-taotlus.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/Sotsiaaltoetuse-taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_vanaduspensionari_joulutoetuse_pdf",
+      "title": "Vanaduspensionäri jõulutoetuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/3a3b7254-c92e-47ed-841b-5324423282ec.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/3a3b7254-c92e-47ed-841b-5324423282ec.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/3a3b7254-c92e-47ed-841b-5324423282ec.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_sissetulekust_mittesoltuva_toetuse_pdf",
+      "title": "Sissetulekust mittesõltuva toetuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/fa0e2879-00b5-4210-94ed-9128a4947528.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/fa0e2879-00b5-4210-94ed-9128a4947528.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/fa0e2879-00b5-4210-94ed-9128a4947528.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_taisealise_hooldus_pdf",
+      "title": "Taotlus hoolduse seadmiseks ja hooldajatoetuse maksmiseks (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/Taotlus-hoolduse-seadmiseks-ja-hooldajatoetuse-maksmiseks.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/Taotlus-hoolduse-seadmiseks-ja-hooldajatoetuse-maksmiseks.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/Taotlus-hoolduse-seadmiseks-ja-hooldajatoetuse-maksmiseks.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_puudega_lapse_hooldus_pdf",
+      "title": "Taotlus puudega lapsele hoolduse seadmiseks ja hooldajale hooldajatoetuse maksmiseks (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/Taotlus-puudega-lapsele-hoolduse-seadmiseks-ja-hooldajale-hooldajatoetuse-maksmiseks.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/Taotlus-puudega-lapsele-hoolduse-seadmiseks-ja-hooldajale-hooldajatoetuse-maksmiseks.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/Taotlus-puudega-lapsele-hoolduse-seadmiseks-ja-hooldajale-hooldajatoetuse-maksmiseks.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_hoolduse_lopetamine_pdf",
+      "title": "Taotlus hoolduse lõpetamiseks (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/88346cd4-76f8-4a76-8cfe-302c82e91778.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/88346cd4-76f8-4a76-8cfe-302c82e91778.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/88346cd4-76f8-4a76-8cfe-302c82e91778.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_puudega_lapse_sotsiaalteenused_pdf",
+      "title": "Puudega lapsele sotsiaalteenuste osutamise toetuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/Puudega-lapsele-sotsiaalteenuste-osutamise-toetuse-taotlus.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/Puudega-lapsele-sotsiaalteenuste-osutamise-toetuse-taotlus.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/Puudega-lapsele-sotsiaalteenuste-osutamise-toetuse-taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_koduteenuse_pdf",
+      "title": "Taotlus koduteenuste määramiseks (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/79c29e5a-86b4-4755-b0b0-85d280b9e4b3.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/79c29e5a-86b4-4755-b0b0-85d280b9e4b3.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/79c29e5a-86b4-4755-b0b0-85d280b9e4b3.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_sotsiaalteenuse_pdf",
+      "title": "Sotsiaalteenuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/Sotsiaalteenuse-taotluse-vorm_22042021.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/Sotsiaalteenuse-taotluse-vorm_22042021.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/Sotsiaalteenuse-taotluse-vorm_22042021.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_eluruumi_kohandamise_pdf",
+      "title": "Eluruumi kohandamise taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/2021-Eluruumi-kohandamise-taotlus.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/2021-Eluruumi-kohandamise-taotlus.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/2021-Eluruumi-kohandamise-taotlus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "form_energiahinna_toetus_pdf",
+      "title": "Energiahinna tõusu leevendamise toetuse taotlus (PDF)",
+      "url": "https://polva.ee/content/uploads/2026/01/b6b06442-bbe2-4cdd-b152-21cfeeb7e946.pdf",
+      "url_canonical": "https://polva.ee/content/uploads/2026/01/b6b06442-bbe2-4cdd-b152-21cfeeb7e946.pdf",
+      "normalized_url": "https://polva.ee/content/uploads/2026/01/b6b06442-bbe2-4cdd-b152-21cfeeb7e946.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põlva vald",
+      "language": "et",
+      "source_status": "official",
+      "used_for": [
+        "vorm"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1225 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-maardu-linn",
+  "document_id": "kov-maardu-linn",
+  "municipality": "Maardu linn",
+  "municipality_id": "maardu_linn",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "maardu_linn_service_sotsiaalnoustamine",
+      "canonical_item_id": "maardu_linn:service:sotsiaalnoustamine",
+      "itemType": "service",
+      "title": "Sotsiaalnõustamine",
+      "status": "active",
+      "summary": "Sotsiaalnõustamine on Maardu linnas elavatele inimestele ja peredele mõeldud teenus, mis toetab toimetulekut psühholoogiliste, sotsiaalsete või majanduslike raskuste korral. Teenust osutavad Maardu Linnavalitsuse sotsiaalabi osakonna töötajad ning nõustamise käigus antakse infot linna sotsiaalteenuste, toetuste ja riiklike abimeetmete kohta.",
+      "sourceKeys": [
+        "sotsiaalnoustamine_page"
+      ],
+      "officialUrl": "https://maardu.ee/sotsiaalnoustamine",
+      "targetGroup": "Maardu linnas elavad isikud ja pered, kelle iseseisev toimetulek on raskendatud.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_tatjana_chaus",
+        "maardu_linn_contact_viktoria_danilova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_uldhooldusteenus",
+      "canonical_item_id": "maardu_linn:service:uldhooldusteenus",
+      "itemType": "service",
+      "title": "Üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatav ööpäevane üldhooldusteenus tagab täisealisele inimesele turvalise keskkonna ja igapäevase abi, kui inimene ei tule terviseseisundi, tegevusvõime või elukeskkonna tõttu kodus iseseisvalt toime. Maardu linn hindab abivajadust ja võib katta hoolduskulu kehtestatud piirmäära ulatuses.",
+      "sourceKeys": [
+        "uldhooldusteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/uldhooldusteenus",
+      "targetGroup": "Täisealised Maardu elanikud, kelle toimetulekut ei ole võimalik tagada koduteenuse või muu abiga.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "taotlus Maardu Linnavalitsusele"
+        ],
+        "steps": [
+          "abivajaduse hindamine",
+          "maksevõime dokumentide esitamine vajadusel"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": "Maardu linn katab hoolduskulu piirmäära ulatuses kuni 600 eurot kuus; inimene tasub majutus-, toitlustus- ja muud kulud.",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_natalja_tuulik"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_sotsiaaleluasemeteenus",
+      "canonical_item_id": "maardu_linn:service:sotsiaaleluasemeteenus",
+      "itemType": "service",
+      "title": "Sotsiaaleluasemeteenus",
+      "status": "active",
+      "summary": "Eluasemeteenuse eesmärk on pakkuda eluruumi inimestele, kes ei ole ise võimelised endale eluaset muretsema ja kelle rahvastikuregistri järgne elukoht on Maardu linn. Eluruumide kasutamist korraldab Sotsiaaleluruumi komisjon ning teenuse osutamiseks sõlmitakse üürileping Maardu Sotsiaalmajaga.",
+      "sourceKeys": [
+        "sotsiaaleluasemeteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/sotsiaaleluasemeteenus",
+      "targetGroup": "Lastekodust elluastujad, kinnipidamiskohast vabanenud, puudega isikud, hävinud või elamiskõlbmatuks muutunud eluruumiga inimesed ning muud toimetulekuraskustes isikud.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "teenuse osutamise taotluse vorm",
+          "e-vorm"
+        ],
+        "steps": [
+          "taotluse esitamine",
+          "Sotsiaaleluruumi komisjoni menetlus"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_eluruumi_teenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_karina_neimla_nikiforova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_eestkoste_seadmine",
+      "canonical_item_id": "maardu_linn:service:eestkoste_seadmine",
+      "itemType": "service",
+      "title": "Eestkoste seadmine",
+      "status": "active",
+      "summary": "Eestkoste seadmine puudutab eestkostet vajava täisealise isiku või lapse õiguste ja huvide kaitsmist. Täisealise isiku puhul võib avalduse kohtule esitada linnavalitsus või isik ise; lapse puhul selgitab lastekaitsetöötaja eestkostjaks soovija võimalused ja lapse arvamuse.",
+      "sourceKeys": [
+        "eestkoste_seadmine_page"
+      ],
+      "officialUrl": "https://maardu.ee/eestkoste-seadmine",
+      "targetGroup": null,
+      "conditions": [],
+      "application": {
+        "channels": [
+          "kirjalik avaldus",
+          "e-vorm"
+        ],
+        "steps": [
+          "dokumentide esitamine",
+          "andmete kogumine ja arvamuse andmine kohtumenetluses"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_eestkoste_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_marina_keizo",
+        "maardu_linn_contact_jelena_afonova",
+        "maardu_linn_contact_jekaterina_djomina"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "maardu_linn:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus tagab Maardu eakatele ja puuetega inimestele vajaliku sõidu arsti, eriarsti, rehabilitatsiooniteenuse, haigla või kodu vahel, kui isikliku või ühistranspordi kasutamine on puudest tingitult takistatud.",
+      "sourceKeys": [
+        "sotsiaaltransport_page"
+      ],
+      "officialUrl": "https://maardu.ee/sotsiaaltransporditeenus",
+      "targetGroup": "Liikumispuudega, nägemispuudega, vaimupuudega, psüühilise erivajadusega inimesed, erivajadustega lapsed ja üksikud vanurid.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "isiku avaldus",
+          "e-vorm"
+        ],
+        "steps": [
+          "taotluses märgitakse puudest tingitud takistused, sõidu lähte- ja sihtkoht ning vajaduse põhjendus"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_koduteenus",
+      "canonical_item_id": "maardu_linn:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus aitab täisealisel inimesel turvaliselt ja iseseisvalt kodus toime tulla. Teenus hõlmab koduabi, isikuabi ja abi asjaajamisel, kuid ei asenda koduõendust ega ööpäevaringset hooldust.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/koduteenus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": {
+        "channels": [
+          "koduteenuse taotluse vorm",
+          "e-vorm"
+        ],
+        "steps": [
+          "taotluse esitamine",
+          "abivajaduse ja maksevõime hindamine"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": "Omaosalustasu 0,5–5 eurot tunnis sõltuvalt inimese netosissetulekust.",
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_koduteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_natalja_tuulik"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_tugiisikuteenus",
+      "canonical_item_id": "maardu_linn:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab lapse hooldamist, turvalise kasvukeskkonna loomist ja lapse arengu toetamist. Täiskasvanutele osutatakse tugiisikuteenust abivajaduse hindamisel ilmnenud vajaduse korral linnavalitsuse korralduse alusel.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/tugiisikuteenus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": {
+        "channels": [
+          "kirjalik taotlus",
+          "e-vorm"
+        ],
+        "steps": [
+          "taotluses esitatakse taotleja ja lapse andmed, vajaduse põhjendus ning nõusolek andmete kontrollimiseks"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_marina_keizo",
+        "maardu_linn_contact_jelena_afonova",
+        "maardu_linn_contact_jekaterina_djomina"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_hoolduse_seadmine",
+      "canonical_item_id": "maardu_linn:service:hoolduse_seadmine",
+      "itemType": "service",
+      "title": "Hoolduse seadmine",
+      "status": "active",
+      "summary": "Hooldus seatakse raske või sügava puudega täisealisele Maardu elanikule, kes vajab vaimse või kehalise puude tõttu abi oma õiguste teostamiseks ja kohustuste täitmiseks. Taotluses tuleb märkida hooldust vajava isiku andmed, soovitud hooldaja andmed ja esitada puude määramise otsus.",
+      "sourceKeys": [
+        "hoolduse_seadmine_page"
+      ],
+      "officialUrl": "https://maardu.ee/hoolduse-seadmine",
+      "targetGroup": "Raske või sügava puudega täisealised Maardu elanikud.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_karina_neimla_nikiforova",
+        "maardu_linn_contact_natalja_tuulik"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "maardu_linn:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus suurendab füüsilist kõrvalabi vajava puudega täisealise isiku iseseisvat toimetulekut ja osalemist kõigis eluvaldkondades. Teenus hõlmab abi igapäevaelu tegevustes, näiteks liikumisel, söömisel, riietumisel, hügieenitoimingutes ja majapidamistöödes.",
+      "sourceKeys": [
+        "isiklik_abistaja_page"
+      ],
+      "officialUrl": "https://maardu.ee/isikliku-abistaja-teenus",
+      "targetGroup": "Eelkõige sügava liikumis- või nägemispuudega täisealised Maardu elanikud.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "avaldus",
+          "e-vorm"
+        ],
+        "steps": [
+          "lisatakse vajadusel abistajaks sobiva isiku andmed ja puude raskusastme otsus"
+        ]
+      },
+      "decisionTime": "10 tööpäeva taotluse laekumisest",
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_sotsiaalteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_natalja_tuulik"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_parkimiskaardi_valjastamine",
+      "canonical_item_id": "maardu_linn:service:parkimiskaardi_valjastamine",
+      "itemType": "service",
+      "title": "Puudega inimese sõiduki parkimiskaardi väljastamine",
+      "status": "active",
+      "summary": "Parkimiskaart on isikupõhine pildiga dokument, mis väljastatakse tasuta õigustatud isikule. Kaarti saavad taotleda liikumispuudega või nägemispuudega inimesed ning inimesed, kelle käimine on tugevalt raskendatud raske üldhaigestumise tõttu.",
+      "sourceKeys": [
+        "parkimiskaart_page"
+      ],
+      "officialUrl": "https://maardu.ee/puudega-inimese-soiduki-parkimiskaardi-valjastamine",
+      "targetGroup": "Liikumis- või nägemispuudega inimesed ning liikumis- või nägemispuudega lapse vanem või eestkostja.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "kohapealne taotlemine"
+        ],
+        "steps": [
+          "esitada isikut tõendav dokument, SKA otsus või muu tõend ning foto 3 x 4 cm"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": "Tasuta",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_natalja_fjodorova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_supikoogiteenus",
+      "canonical_item_id": "maardu_linn:service:supikoogiteenus",
+      "itemType": "service",
+      "title": "Supiköögiteenus",
+      "status": "active",
+      "summary": "Supiköögiteenus pakub Maardu Sotsiaalmajas Kallasmaa 9 aadressil sooja toitu toimetulekuraskustes inimestele. Supiköök on avatud kell 12.00–14.00 ning teenus toimub sotsiaalabi osakonna juhataja otsuse alusel.",
+      "sourceKeys": [
+        "supikoogiteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/supikoogiteenus",
+      "targetGroup": "Toimetulekuraskustes isikud.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "sotsiaalabi osakonna juhataja otsus"
+        ],
+        "steps": [
+          "vajaduse väljaselgitamine"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_asendushooldusteenus",
+      "canonical_item_id": "maardu_linn:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenuse eesmärk on tagada lapse heaolu ja õigused, pakkuda peresarnaseid elutingimusi, turvalist ja arenguks soodsat elukeskkonda ning valmistada last ette iseseisvaks toimetulekuks täisealisena. Teenuse osutajaks võib olla hoolduspere, perekodu või asenduskodu.",
+      "sourceKeys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "officialUrl": "https://maardu.ee/asendus-ja-jarelhooldusteenus",
+      "targetGroup": "Lapsed, kes vajavad asendushooldust.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_jelena_afonova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_jarelhooldusteenus",
+      "canonical_item_id": "maardu_linn:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus toetab asendushoolduselt või eestkostelt lahkuva isiku iseseisvat toimetulekut ja õpingute jätkamist. Maardu kodulehel on märgitud, et teenust võib saada kuni 25-aastaseks saamiseni ning teenuse saamiseks tuleb pöörduda sotsiaalabi osakonda.",
+      "sourceKeys": [
+        "asendus_jarelhooldus_page"
+      ],
+      "officialUrl": "https://maardu.ee/asendus-ja-jarelhooldusteenus",
+      "targetGroup": "Asendushoolduselt või eestkostelt lahkuvad noored kuni 25. eluaastani.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_jelena_afonova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_service_volanoustamine",
+      "canonical_item_id": "maardu_linn:service:volanoustamine",
+      "itemType": "service",
+      "title": "Võlanõustamine",
+      "status": "active",
+      "summary": "Võlanõustamine on tasuta sotsiaalteenus Maardu linnas registreeritud elanikele, kellel on raskusi rahaliste kohustuste täitmisel. Teenus aitab hinnata finantsolukorda, koostada maksegraafikuid, pidada läbirääkimisi võlausaldajatega ning ennetada uusi võlgu.",
+      "sourceKeys": [
+        "volanoustamine_page"
+      ],
+      "officialUrl": "https://maardu.ee/volanoustamine",
+      "targetGroup": "Maardu linnas registreeritud elanikud, kellel on võlad või võlgade tekkimise risk.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "eelregistreerimine",
+          "",
+          "või",
+          "kohapeal kab 104"
+        ],
+        "steps": [
+          "vastuvõtule võtta kaasa isikut tõendav dokument ja võlakohustusi kajastavad dokumendid"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_tatjana_chaus",
+        "maardu_linn_contact_viktoria_danilova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_toimetulekutoetus",
+      "canonical_item_id": "maardu_linn:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on ajutine abimeede minimaalseks toimetulekuks, kui üksikisiku või pere kuu netosissetulek pärast eluasemekulude mahaarvamist jääb alla kehtestatud toimetulekupiiri. 2026. aastal on toimetulekupiir esimesele pereliikmele 220 eurot, järgmisele täisealisele 176 eurot ja alaealisele 264 eurot.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "officialUrl": "https://maardu.ee/toimetulekutoetus",
+      "targetGroup": "Üksi elav isik või perekond, kelle sissetulek jääb pärast eluasemekulusid alla toimetulekupiiri.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "Maardu Linnavalitsuse sotsiaalosakond, Kallasmaa 1 kab 104",
+          "digiallkirjastatult e-posti teel"
+        ],
+        "deadline": "jooksva kuu viimaseks tööpäevaks"
+      },
+      "decisionTime": "5 tööpäeva vajalike dokumentide esitamisest",
+      "amount": "2026: esimene pereliige 220 €, järgmine täisealine 176 €, alaealine 264 €; ainult alaealistest koosnevale perele lisaks 15 €.",
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_toimetulekutoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_tatjana_chaus",
+        "maardu_linn_contact_viktoria_danilova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_raske_ja_sugava_puudega_laste_teenuste_toetus",
+      "canonical_item_id": "maardu_linn:benefit:raske_ja_sugava_puudega_laste_teenuste_toetus",
+      "itemType": "benefit",
+      "title": "Raske ja sügava puudega laste toetavad teenused",
+      "status": "active",
+      "summary": "Toetuse eesmärk on rahastada raske või sügava puudega lapse arengut ja pere toimetulekut toetavaid teenuseid, sh lapsehoiuteenus, tugiisikuteenus, transport, nõustamine, teraapiad, abivahendid, laagrid ja eluruumi kohandamine. Toetust saab taotleda lapse seaduslik esindaja või hooldaja kuni lapse 18-aastaseks saamise aasta lõpuni.",
+      "sourceKeys": [
+        "puudega_lapse_lapsehoiuteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/puudega-lapse-lapsehoiuteenus",
+      "targetGroup": "Raske või sügava puudega lapsed ning nende seaduslikud esindajad või hooldajad.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "taotlus Maardu Linnavalitsuse Sotsiaalabi osakonnale"
+        ],
+        "steps": [
+          "lisada lapse dokumendi koopia, rehabilitatsiooniplaan, SKA otsus ja vajadusel eestkoste või hoolduslepingu koopia"
+        ]
+      },
+      "decisionTime": "10 tööpäeva taotluse ja kõigi dokumentide esitamisest",
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_raske_sugava_puudega_lapse_teenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_marina_keizo",
+        "maardu_linn_contact_jelena_afonova",
+        "maardu_linn_contact_jekaterina_djomina"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_hooldajatoetus",
+      "canonical_item_id": "maardu_linn:benefit:hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetuse eesmärk on tagada raske või sügava puudega inimesele igapäevane kõrvalabi, juhendamine ja järelevalve ning toetada puudega isiku iseseisvat toimetulekut. Toetust saab hooldaja, kelle hooldatava elukoht on Maardu linn ja kes hooldab teda vastavalt vajadustele.",
+      "sourceKeys": [
+        "hooldajatoetus_page",
+        "hoolduse_seadmine_page"
+      ],
+      "officialUrl": "https://maardu.ee/hooldajatoetus",
+      "targetGroup": "Raske või sügava puudega isiku hooldaja.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "maardu_linn_contact_karina_neimla_nikiforova",
+        "maardu_linn_contact_natalja_tuulik"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "maardu_linn:benefit:puudega_lapse_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus puudega lapse hooldajale",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetus on igakuine toetus keskmise, raske või sügava puudega lapse hooldajale. Toetust saab taotleda Maardu elanik, kelle hooldatava lapse elukoht ja tegelik elukoht on Maardu linnas.",
+      "sourceKeys": [
+        "puudega_lapse_hooldajatoetus_page"
+      ],
+      "officialUrl": "https://maardu.ee/hooldajatoetus-puudega-lapse-hooldajale",
+      "targetGroup": "Puudega lapse vanem, eestkostja või muu last kasvatav isik.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "kirjalik taotlus sotsiaalabi osakonnale"
+        ],
+        "steps": [
+          "lisada isikut tõendava dokumendi koopia, lapse sünnitunnistus, rehabilitatsiooniplaan olemasolul ja puude otsus"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_lapsehoiutoetus",
+      "canonical_item_id": "maardu_linn:benefit:lapsehoiutoetus",
+      "itemType": "benefit",
+      "title": "Lapsehoiutoetus",
+      "status": "active",
+      "summary": "Lapsehoiutoetus kompenseerib Maardu linna eelarvest koolieelses lasteasutuses mittekäiva eelkooliealise lapse lapsehoiu kulud. Toetust saab taotleda lapsevanem, eestkostja või lepinguline hooldaja, kui lapse ja taotleja elukoht on Maardu linn ning laps ei ole ühegi munitsipaal- või eralasteaia nimekirjas.",
+      "sourceKeys": [
+        "lapsehoiutoetus_page"
+      ],
+      "officialUrl": "https://maardu.ee/lapsehoiutoetus",
+      "targetGroup": "Eelkooliealise lapse vanem, eestkostja või hooldaja.",
+      "conditions": [],
+      "application": {
+        "channels": [
+          "taotluse blankett",
+          "e-vorm"
+        ],
+        "steps": [
+          "pöörduda sotsiaalabiosakonda kab 105,"
+        ]
+      },
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [
+        "maardu_linn_form_lapsehoiutoetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "maardu_linn_contact_viktoria_danilova"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_benefit_uksi_elava_pensionari_toetus",
+      "canonical_item_id": "maardu_linn:benefit:uksi_elava_pensionari_toetus",
+      "itemType": "benefit",
+      "title": "Üksi elava pensionäri toetus",
+      "status": "active",
+      "summary": "Üksi elava pensionäri toetus on kord aastas koos oktoobri pensioniga makstav riiklik toetus. Maardu koduleht kirjeldab, et toetust makstakse vanaduspensionieas inimesele, kes elab rahvastikuregistri järgi üksi ja kelle pension jääb alla 1,2-kordse Eesti keskmise vanaduspensioni.",
+      "sourceKeys": [
+        "uksi_elava_pensionari_toetus_page"
+      ],
+      "officialUrl": "https://maardu.ee/uksi-elava-pensionari-toetus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": {
+        "channels": [
+          "automaatne andmekontroll riiklikes registrites"
+        ],
+        "steps": [
+          "pensionär ei pea toetust ise taotlema"
+        ]
+      },
+      "decisionTime": null,
+      "amount": "200 eurot üks kord aastas",
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_resource_sotsiaalmaja",
+      "canonical_item_id": "maardu_linn:resource:sotsiaalmaja",
+      "itemType": "resource",
+      "title": "Maardu Sotsiaalmaja",
+      "status": "active",
+      "summary": "Maardu Sotsiaalmaja asub aadressidel Kallasmaa tn 9 ja Kallasmaa 12. Sotsiaalmaja eesmärk on pakkuda vanuritele, puuetega inimestele, lastele ja täiskasvanutele sotsiaalhoolekannet, toimetulekut soodustavaid teenuseid, supikööki, koduteenuseid, lugemissaali ja ajutise peavarju võimalust.",
+      "sourceKeys": [
+        "sotsiaalmaja_page"
+      ],
+      "officialUrl": "https://maardu.ee/sotsiaalmaja",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "address": "Kallasmaa tn 9 ja Kallasmaa tn 12, Maardu"
+    },
+    {
+      "id": "maardu_linn_resource_toidupank",
+      "canonical_item_id": "maardu_linn:resource:toidupank",
+      "itemType": "resource",
+      "title": "Maardu Toidupank",
+      "status": "active",
+      "summary": "Maardu Toidupank on heategevuslik toiduabipunkt, mis toetab majanduslikel põhjustel toiduabi vajavaid Maardu elanikke. Toiduabi väljastatakse koostöös sotsiaalabi osakonnaga ja abivajaduse hindamise alusel.",
+      "sourceKeys": [
+        "toidupank_page"
+      ],
+      "officialUrl": "https://maardu.ee/toidupank",
+      "targetGroup": "Inimesed ja pered, kelle sissetulek jääb alla linna kehtestatud vähekindlustatuse piirmäära.",
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "address": "Langu tn 4, Maardu"
+    },
+    {
+      "id": "maardu_linn_resource_abivahendite_info",
+      "canonical_item_id": "maardu_linn:resource:abivahendite_info",
+      "itemType": "resource",
+      "title": "Abivahendite taotlemise info",
+      "status": "active",
+      "summary": "Maardu kodulehel avaldatud abivahendite info selgitab, et abivahendi soetamiseks võib pöörduda abivahendeid müüvasse või rentivasse ettevõttesse, millel on Sotsiaalkindlustusametiga leping. Leht juhib abivahendite riikliku süsteemi ja Sotsiaalkindlustusameti kontaktide juurde.",
+      "sourceKeys": [
+        "abivahend_page"
+      ],
+      "officialUrl": "https://maardu.ee/abivahendi-taotlemine",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_resource_ohvriabi",
+      "canonical_item_id": "maardu_linn:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi ja kriisiabi info",
+      "status": "active",
+      "summary": "Ohvriabi leht selgitab, kuhu pöörduda hooletuse, halva kohtlemise, füüsilise, vaimse või seksuaalse vägivalla, õnnetuse või kuriteo korral. Lehel nimetatakse hädaabinumber, lasteabi ja ohvriabi kriisitelefon ning suunatakse ohvriabiteenuste juurde.",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ],
+      "officialUrl": "https://maardu.ee/ohvriabi",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "maardu_linn_contact_olga_jevdokimova",
+      "canonical_item_id": "maardu_linn:contact:olga_jevdokimova",
+      "itemType": "contact",
+      "title": "Olga Jevdokimova",
+      "status": "active",
+      "summary": "Sotsiaalabi osakonna juhataja, kelle tegevusvaldkond on sotsiaalhoolekande üldküsimused. Vastuvõtt esmaspäeviti 14.00–16.00 ja kolmapäeviti 10.00–12.00 eelregistreerimisega.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Olga Jevdokimova",
+      "role": "Sotsiaalabi osakonna juhataja",
+      "department": "Sotsiaalabi osakond",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_karina_neimla_nikiforova",
+      "canonical_item_id": "maardu_linn:contact:karina_neimla_nikiforova",
+      "itemType": "contact",
+      "title": "Karina Neimla-Nikiforova",
+      "status": "active",
+      "summary": "Tegevusvaldkonnad on eluruumi tagamise teenus, hooldaja ja hooldajatoetuse määramine ning osakonna ülesannete korraldamine.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Karina Neimla-Nikiforova",
+      "role": "Sotsiaalabi osakonna juhataja asetäitja",
+      "department": "Sotsiaalabi osakond",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_natalja_fjodorova",
+      "canonical_item_id": "maardu_linn:contact:natalja_fjodorova",
+      "itemType": "contact",
+      "title": "Natalja Fjodorova",
+      "status": "active",
+      "summary": "Tegeleb tõendite, parkimis- ja ühiskaartide, isikut tõendava dokumendi abistamise ning mitme toetusega, sh sünni- ja matusetoetus ning toiduabi.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Natalja Fjodorova",
+      "role": "Spetsialist",
+      "department": "Sotsiaalabi osakond",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_marina_keizo",
+      "canonical_item_id": "maardu_linn:contact:marina_keizo",
+      "itemType": "contact",
+      "title": "Marina Keizo",
+      "status": "active",
+      "summary": "Marina Keizo on KOV veebis nimetatud sotsiaalvaldkonna kontakt.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Marina Keizo",
+      "role": "Lastekaitse peaspetsialist",
+      "department": "Lastekaitse",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_jelena_afonova",
+      "canonical_item_id": "maardu_linn:contact:jelena_afonova",
+      "itemType": "contact",
+      "title": "Jelena Afonova",
+      "status": "active",
+      "summary": "Jelena Afonova on KOV veebis nimetatud sotsiaalvaldkonna kontakt.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Jelena Afonova",
+      "role": "Lastekaitse peaspetsialist",
+      "department": "Lastekaitse",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_jekaterina_djomina",
+      "canonical_item_id": "maardu_linn:contact:jekaterina_djomina",
+      "itemType": "contact",
+      "title": "Jekaterina Djomina",
+      "status": "active",
+      "summary": "Jekaterina Djomina on KOV veebis nimetatud sotsiaalvaldkonna kontakt.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Jekaterina Djomina",
+      "role": "Lastekaitse peaspetsialist",
+      "department": "Lastekaitse",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_tatjana_chaus",
+      "canonical_item_id": "maardu_linn:contact:tatjana_chaus",
+      "itemType": "contact",
+      "title": "Tatjana Chaus",
+      "status": "active",
+      "summary": "Tegevusvaldkonnad on toimetulekutoetus, Maardu linna eelarvest makstavad toetused, sotsiaalnõustamine, võlanõustamise teenustele suunamine ning erivajadustega laste sotsiaaltoetused ja teenused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Tatjana Chaus",
+      "role": "Sotsiaaltöö peaspetsialist",
+      "department": "Sotsiaaltoetused",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_viktoria_danilova",
+      "canonical_item_id": "maardu_linn:contact:viktoria_danilova",
+      "itemType": "contact",
+      "title": "Viktoria Danilova",
+      "status": "active",
+      "summary": "Tegevusvaldkonnad on toimetulekutoetus, Maardu linna eelarvest makstavad toetused, sotsiaalnõustamine ja võlanõustamise teenustele suunamine.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Viktoria Danilova",
+      "role": "Sotsiaaltöö peaspetsialist",
+      "department": "Sotsiaaltoetused",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_contact_natalja_tuulik",
+      "canonical_item_id": "maardu_linn:contact:natalja_tuulik",
+      "itemType": "contact",
+      "title": "Natalja Tuulik",
+      "status": "active",
+      "summary": "Tegevusvaldkonnad on puuetega inimeste hoolekanne, psüühiliste erivajadustega isikute eestkoste ja hoolekanne, eakate hoolekanne, koduteenus, isikliku abistaja teenus ja üldhooldusteenus.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "officialUrl": null,
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "name": "Natalja Tuulik",
+      "role": "Sotsiaaltöö peaspetsialist",
+      "department": "Sotsiaalteenused",
+      "address": null
+    },
+    {
+      "id": "maardu_linn_form_toimetulekutoetuse_avaldus",
+      "canonical_item_id": "maardu_linn:form:toimetulekutoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus",
+      "status": "active",
+      "summary": "Toimetulekutoetuse avaldus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "toimetulekutoetus_page",
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/toimetulekutoetus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_benefit_toimetulekutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "doc",
+      "submissionChannels": [
+        "kohapeal",
+        "digiallkirjastatult e-postiga"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_sotsiaalteenuse_taotlus",
+      "canonical_item_id": "maardu_linn:form:sotsiaalteenuse_taotlus",
+      "itemType": "form",
+      "title": "Sotsiaalteenuse taotlus",
+      "status": "active",
+      "summary": "Sotsiaalteenuse taotlus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "social_forms",
+        "koduteenus_page",
+        "sotsiaaltransport_page",
+        "tugiisikuteenus_page",
+        "isiklik_abistaja_page"
+      ],
+      "officialUrl": "https://maardu.ee/valdkonna-blanketid",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_service_koduteenus",
+        "maardu_linn_service_sotsiaaltransporditeenus",
+        "maardu_linn_service_tugiisikuteenus",
+        "maardu_linn_service_isikliku_abistaja_teenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "e-vorm või blankett",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_koduteenuse_taotlus",
+      "canonical_item_id": "maardu_linn:form:koduteenuse_taotlus",
+      "itemType": "form",
+      "title": "Koduteenuse taotluse vorm",
+      "status": "active",
+      "summary": "Koduteenuse taotluse vorm on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/koduteenus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_service_koduteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "vorm või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_eluruumi_teenuse_taotlus",
+      "canonical_item_id": "maardu_linn:form:eluruumi_teenuse_taotlus",
+      "itemType": "form",
+      "title": "Eluruumi teenuse taotlus",
+      "status": "active",
+      "summary": "Eluruumi teenuse taotlus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "sotsiaaleluasemeteenus_page"
+      ],
+      "officialUrl": "https://maardu.ee/sotsiaaleluasemeteenus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_service_sotsiaaleluasemeteenus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "vorm või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_eestkoste_taotlus",
+      "canonical_item_id": "maardu_linn:form:eestkoste_taotlus",
+      "itemType": "form",
+      "title": "Eestkoste seadmise taotlus",
+      "status": "active",
+      "summary": "Eestkoste seadmise taotlus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "eestkoste_seadmine_page",
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/eestkoste-seadmine",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_service_eestkoste_seadmine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "avaldus või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_raske_sugava_puudega_lapse_teenuse_taotlus",
+      "canonical_item_id": "maardu_linn:form:raske_sugava_puudega_lapse_teenuse_taotlus",
+      "itemType": "form",
+      "title": "Taotlus raske ja sügava puudega lapsele teenuse osutamiseks",
+      "status": "active",
+      "summary": "Taotlus raske ja sügava puudega lapsele teenuse osutamiseks on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "puudega_lapse_lapsehoiuteenus_page",
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/puudega-lapse-lapsehoiuteenus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_benefit_raske_ja_sugava_puudega_laste_teenuste_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "blankett",
+      "submissionChannels": [
+        "sotsiaalabi osakond"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_sunnitoetuse_avaldus",
+      "canonical_item_id": "maardu_linn:form:sunnitoetuse_avaldus",
+      "itemType": "form",
+      "title": "Sünnitoetuse avaldus",
+      "status": "active",
+      "summary": "Sünnitoetuse avaldus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/valdkonna-blanketid",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "blankett või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_matusetoetuse_avaldus",
+      "canonical_item_id": "maardu_linn:form:matusetoetuse_avaldus",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus",
+      "status": "active",
+      "summary": "Matusetoetuse avaldus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/valdkonna-blanketid",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "blankett või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    },
+    {
+      "id": "maardu_linn_form_lapsehoiutoetuse_taotlus",
+      "canonical_item_id": "maardu_linn:form:lapsehoiutoetuse_taotlus",
+      "itemType": "form",
+      "title": "Lapsehoiutoetuse taotlus",
+      "status": "active",
+      "summary": "Lapsehoiutoetuse taotlus on KOV veebis nimetatud sotsiaalvaldkonna taotlus või blankett.",
+      "sourceKeys": [
+        "lapsehoiutoetus_page",
+        "social_forms"
+      ],
+      "officialUrl": "https://maardu.ee/lapsehoiutoetus",
+      "targetGroup": null,
+      "conditions": [],
+      "application": null,
+      "decisionTime": null,
+      "amount": null,
+      "pricing": null,
+      "relatedTo": [
+        "maardu_linn_benefit_lapsehoiutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": [],
+      "format": "blankett või e-vorm",
+      "submissionChannels": [
+        "e-vorm",
+        "pabervorm"
+      ]
+    }
+  ]
+}

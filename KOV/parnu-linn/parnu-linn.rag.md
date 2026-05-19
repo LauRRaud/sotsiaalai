@@ -1,13 +1,13 @@
 # Pärnu linn sotsiaalhoolekande info
 
-Kontrollitud: 2026-04-29  
+Kontrollitud: 2026-04-29
 Ametlik veeb: https://parnu.ee
 
 ## Teenused
 
 ### Isikliku abistaja teenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -17,17 +17,15 @@ Kellele: Täisealine inimene, kes vajab puude või funktsioonihäire tõttu fü�
 
 Tingimused: Teenuse vajadus peab tulenema puudest või funktsioonihäirest ning olema seotud igapäevase kõrvalabi vajadusega. Põhjendatud juhtudel võib taotleda tasu vähendamist või teenuse eest tasumisest vabastamist.
 
-Taotlemine: kanalid: e-post, post, kohapeal; Esita taotlus Pärnu linnavalitsusele e-posti aadressil linnavalitsus@parnu.ee, postiaadressil Suur-Sepa 16, 80098 Pärnu linn või too taotlus linnavalitsuse infolauda. Teenuse vorm on KOV lehel nimetatud.
+Taotlemine: kanalid: post, kohapeal; Esita taotlus Pärnu linnavalitsusele e-posti aadressil, postiaadressil Suur-Sepa 16, 80098 Pärnu linn või too taotlus linnavalitsuse infolauda. Teenuse vorm on KOV lehel nimetatud.
 
 Maksumus: 0,50 € tund; Omaosalus 0,50 eurot tunnis; põhjendatud juhul võimalik tasu vähendamine või vabastamine.
 
 Blankett: Isikliku abistaja teenuse taotlusvorm
 
-Kontakt: Heli Kallasmaa; Kärolin Nirk
-
 ### Koduteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -37,15 +35,13 @@ Kellele: Täisealine inimene, kes terviseseisundi, tegevusvõime või elukeskkon
 
 Tingimused: Abi antakse toimingutes, mida inimene kõrvalabita teha ei suuda, kuid mis on vajalikud kodustes tingimustes elamiseks.
 
-Taotlemine: kanalid: telefon, e-post, kohapeal; Teenuse saamiseks võib abivajaja, pereliige, eestkostja või abivajadust märganud inimene pöörduda linnavalitsuse hooldusspetsialisti või oma piirkonna sotsiaaltööspetsialisti poole.
+Taotlemine: kanalid: kohapeal; Teenuse saamiseks võib abivajaja, pereliige, eestkostja või abivajadust märganud inimene pöörduda linnavalitsuse hooldusspetsialisti või oma piirkonna sotsiaaltööspetsialisti poole.
 
 Maksumus: Teenus on tasuline; täpne hind tuleneb kehtivast teenuste hinnakirjast.
 
-Kontakt: Doris Vridolin; Karene Lainela; Sirli Sabiin; Tiiu Saar
-
 ### Tugiisikuteenus täisealisele isikule
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -55,17 +51,15 @@ Kellele: Täisealine inimene, kellel on oluline kõrvalabi vajadus sotsiaalsete,
 
 Tingimused: Teenust osutatakse üldjuhul Pärnu linna territooriumil teenuse saaja igapäevases elukeskkonnas ja vajadusel asjaajamisel ametiasutustes.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotlus esitatakse Pärnu linnavalitsusele iseteeninduses või vormil; täidetud vormi saab saata e-posti või postiga või tuua kohapeale.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotlus esitatakse Pärnu linnavalitsusele iseteeninduses või vormil; täidetud vormi saab saata e-posti või postiga või tuua kohapeale.
 
 Maksumus: tasuta; KOV lehel on märgitud, et teenus on teenuse saajale tasuta.
 
 Blankett: Tugiisikuteenuse taotlus täisealisele isikule
 
-Kontakt: Kärolin Nirk
-
 ### Täisealise isiku hooldus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -75,17 +69,15 @@ Kellele: Täisealine inimene, kes vajab vaimse või kehalise puude tõttu igapä
 
 Tingimused: Hooldus seatakse hooldatava ja hooldaja nõusolekul. Hooldaja peab aitama hooldatavat õiguste teostamisel ja kohustuste täitmisel.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotlusele lisatakse isikut tõendava dokumendi koopiad, puude raskusastme otsus ning vajadusel kirjalik nõusolek hooldajaks määramiseks.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotlusele lisatakse isikut tõendava dokumendi koopiad, puude raskusastme otsus ning vajadusel kirjalik nõusolek hooldajaks määramiseks.
 
 Maksumus: tasuta; Hoolduse seadmine on teenuse saajale tasuta.
 
 Blankett: Hooldajaks määramise ja hooldajatoetuse taotlus
 
-Kontakt: Doris Vridolin
-
 ### Väljaspool kodu osutatav üldhooldusteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -95,17 +87,15 @@ Kellele: Täisealine inimene, kes ei tule kodus iseseisvalt toime ning kelle abi
 
 Tingimused: Teenuse vajadus ja hoolduskoormus hinnatakse enne teenusele suunamist. Kohta saab pakkuda eeskätt vabade ja sobivate kohtade olemasolul.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Avalduse võib esitada inimene ise või tema seadusjärgne ülalpidaja; taotlusega saab vajadusel taotleda ka linna osalist rahastust.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Avalduse võib esitada inimene ise või tema seadusjärgne ülalpidaja; taotlusega saab vajadusel taotleda ka linna osalist rahastust.
 
 Maksumus: linna hoolduskulu piirmäär kuni 660 € kuus; Tammiste Hooldekodu hinnad KOV lehel 1410–1565 € kuus; Teenuse saaja tasub oma sissetulekust; linn katab hoolduskulusid kehtestatud piirmäära ulatuses. Ravimid ja hooldusvahendid lisanduvad eraldi.
 
 Blankett: Väljaspool kodu osutatava üldhooldusteenuse ja selle osalise rahastamise taotlus
 
-Kontakt: Marii Hansalu
-
 ### Sotsiaaltransporditeenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -115,13 +105,13 @@ Kellele: Inimesed, kes puude tõttu ei saa kasutada isiklikku või ühissõiduki
 
 Tingimused: Teenust kasutatakse vajalike käikude tegemiseks ja puuetega laste puhul kooli ning kodu vahel sõitmiseks. Teenuse tellimise korraldab KOV lehel nimetatud teenusepakkuja.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal, telefon teenuse tellimiseks; Teenuse taotlemiseks esitatakse Pärnu linnavalitsusele vabas vormis avaldus. Sõite tellitakse Pärnumaa Ühistranspordikeskuse kaudu tööpäeviti kell 8–15 telefonil 442 5769.
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal, teenuse tellimiseks; Teenuse taotlemiseks esitatakse Pärnu linnavalitsusele vabas vormis avaldus. Sõite tellitakse Pärnumaa Ühistranspordikeskuse kaudu tööpäeviti kell 8–15 telefonil.
 
 Maksumus: puuetega lastele tasuta; muudel juhtudel soodushind või kokkuleppehind; Linna suunamisel kehtib soodushind; ilma suunamiseta rakenduvad kokkuleppehinnad.
 
 ### Eluasemeteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik
 
@@ -131,17 +121,15 @@ Kellele: Inimene või perekond, kes ei suuda endale sobivat eluruumi tagada, sh 
 
 Tingimused: Eluruumi antakse kasutusse vabade ja sobivate eluruumide olemasolul. Kui sobivat eluruumi ei ole, kantakse taotleja järjekorda.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotlusele lisatakse eluasemeteenuse vajadust tõendavad dokumendid; otsustab Pärnu linna eluasemekomisjon.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotlusele lisatakse eluasemeteenuse vajadust tõendavad dokumendid; otsustab Pärnu linna eluasemekomisjon.
 
 Maksumus: üür ja kõrvalkulud; Teenuse kasutaja tasub üüri ja eluruumi kasutamisega seotud kõrvalkulud.
 
 Blankett: Eluasemeteenus: eluruumi üürimise taotlus; Eluasemeteenus: üürilepingu pikendamise taotlus
 
-Kontakt: Reelika Ruubel
-
 ### Viipekeele tõlketeenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -149,17 +137,15 @@ Kirjeldus: Viipekeele tõlketeenus on mõeldud Pärnu linna elanikele, kes on pi
 
 Kellele: Pärnu linna elanikud, kes vajavad kuulmispuude või pimekurtuse tõttu viipekeele tõlki.
 
-Tingimused: Teenust osutatakse vajaduse järgi ning tellimine toimub tööpäeviti; vältimatu vajaduse korral on KOV lehel nimetatud ööpäevaringne telefon.
+Tingimused: Teenust osutatakse vajaduse järgi ning tellimine toimub tööpäeviti; vältimatu vajaduse korral on KOV lehel nimetatud ööpäevaringne.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post; Teenuse saamiseks esitatakse Pärnu linnavalitsusele vabas vormis taotlus e-posti või postiga.
+Taotlemine: kanalid: vabas vormis avaldus, post; Teenuse saamiseks esitatakse Pärnu linnavalitsusele vabas vormis taotlus e-posti või postiga.
 
 Maksumus: tasuta; KOV lehel on märgitud, et teenus on tasuta.
 
-Kontakt: Kärolin Nirk
-
 ### Lapsehoiuteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -175,11 +161,9 @@ Maksumus: tasuta; KOV lehel on märgitud, et teenus on tasuta.
 
 Blankett: Tugiteenuste taotlus puudega lapsele
 
-Kontakt: Sille Tohver; Pärnu Laste ja Noorte Tugikeskus
-
 ### Tugiisikuteenus lapsele ja lastega perele
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -189,17 +173,15 @@ Kellele: Laps, lapsevanem või lastega pere, kelle toimetulek on halvenenud ja k
 
 Tingimused: Teenust osutatakse lapse või pere tavapärases elukeskkonnas ning vajadusel asjaajamisel ametiasutustes.
 
-Taotlemine: kanalid: taotlusvorm, e-post, post, kohapeal; Taotlus esitatakse Pärnu linnavalitsusele; KOV koondlehel on nimetatud eraldi tugiisikuteenuse taotlus lastega peredele.
+Taotlemine: kanalid: taotlusvorm, post, kohapeal; Taotlus esitatakse Pärnu linnavalitsusele; KOV koondlehel on nimetatud eraldi tugiisikuteenuse taotlus lastega peredele.
 
 Maksumus: tasuta; KOV lehel on märgitud, et teenus on tasuta.
 
 Blankett: Tugiisikuteenuse taotlus lastega peredele
 
-Kontakt: Annely Ausma
-
 ### Tugiisikuteenus puudega lapsele
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -215,11 +197,9 @@ Maksumus: tasuta; KOV lehel on tugiisikuteenus lapsele kirjeldatud tasuta teenus
 
 Blankett: Tugiteenuste taotlus puudega lapsele
 
-Kontakt: Sille Tohver; Pärnu Laste ja Noorte Tugikeskus
-
 ### Asendushooldusteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -233,11 +213,9 @@ Taotlemine: kanalid: juhtumikorraldus, linnavalitsuse kontakt; Teenuse korraldam
 
 Maksumus: linna eelarvest; KOV leht kirjeldab teenuse korraldamist linnavalitsuse kaudu; teenuse kulud sõltuvad juhtumist ja hooldusvormist.
 
-Kontakt: Eda Rannamägi; Silja Palm
-
 ### Järelhooldusteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -251,11 +229,9 @@ Taotlemine: kanalid: juhtumikorraldus, vabas vormis avaldus; Teenuse saamiseks k
 
 Maksumus: linna eelarvest; KOV leht kirjeldab järelhoolduse toetavaid kulusid ja toetusi eraldi.
 
-Kontakt: Eda Rannamägi; Silja Palm
-
 ### Turvakoduteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik
 
@@ -265,15 +241,13 @@ Kellele: Hädaohus või abivajav laps, lapsega täiskasvanu ja muu täiskasvanu,
 
 Tingimused: Teenust kasutatakse vägivalla, hülgamise, hooletusse jätmise, kodus viibimise võimatuse või muu kriisi korral.
 
-Taotlemine: kanalid: telefon, linnavalitsuse või teenuseosutaja poole pöördumine, hädaolukorras 112; Abivajadusest tuleb teatada linnavalitsusele, lastekaitsele või otse teenuseosutajale; ohu korral tuleb helistada hädaabinumbril 112.
+Taotlemine: kanalid: linnavalitsuse või teenuseosutaja poole pöördumine, hädaolukorras; Abivajadusest tuleb teatada linnavalitsusele, lastekaitsele või otse teenuseosutajale; ohu korral tuleb helistada hädaabinumbril.
 
 Maksumus: tasuta; KOV lehel on teenus kirjeldatud tasuta teenusena.
 
-Kontakt: Pärnu Laste ja Noorte Tugikeskus
-
 ### Varjupaigateenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eluase-turvakodu-ja-varjupaik
 
@@ -283,15 +257,13 @@ Kellele: Täisealine koduta või ajutise peavarjuta inimene.
 
 Tingimused: Pöörduda võib sotsiaaltööspetsialisti kaudu või väljaspool tööaega otse teenuseosutaja poole, kes hindab abivajadust.
 
-Taotlemine: kanalid: sotsiaaltööspetsialist, otse teenuseosutaja, telefon; Teenusele saamiseks pöördutakse piirkonna sotsiaaltööspetsialisti poole või väljaspool tööaega teenuseosutaja poole telefonil 5880 4883.
+Taotlemine: kanalid: sotsiaaltööspetsialist, otse teenuseosutaja, Teenusele saamiseks pöördutakse piirkonna sotsiaaltööspetsialisti poole või väljaspool tööaega teenuseosutaja poole telefonil.
 
 Maksumus: Pärnu elanik 4 € öö; muu omavalitsuse elanik 9 € öö pärast 3 tasuta ööd aastas; KOV lehel on märgitud ööpäevahind alates neljandast ööst kalendriaastas.
 
-Kontakt: Raul Kivi
-
 ### Vältimatu sotsiaalabi
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -305,11 +277,9 @@ Taotlemine: kanalid: sotsiaalosakond, teenuseosutaja; Esmalt tuleb võtta ühend
 
 Maksumus: tasuta; Abi antakse esmavajaduse katmiseks.
 
-Kontakt: Raul Kivi
-
 ### Võlanõustamisteenus
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -319,13 +289,13 @@ Kellele: Inimene, kellel on võlad või võlgadesse sattumise risk ning kes vaja
 
 Tingimused: Teenusele saab registreerida piirkonna sotsiaaltööspetsialistide või KOV lehel nimetatud teenuseosutajate kaudu.
 
-Taotlemine: kanalid: sotsiaaltööspetsialist, teenuseosutaja telefon; Registreerimine toimub piirkonna sotsiaaltööspetsialistide või teenuseosutajate kaudu.
+Taotlemine: kanalid: sotsiaaltööspetsialist, teenuseosutaja Registreerimine toimub piirkonna sotsiaaltööspetsialistide või teenuseosutajate kaudu.
 
 Maksumus: tasuta; KOV lehel on märgitud, et teenus on tasuta.
 
 ### Sotsiaalõppeteenus töötule
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -341,7 +311,7 @@ Maksumus: tasuta; KOV lehel on märgitud, et teenus on tasuta.
 
 ### Ravikindlustamata isikute ravi eest tasumine
 
-Liik: teenus  
+Liik: teenus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -355,14 +325,11 @@ Taotlemine: kanalid: sotsiaalosakond, sotsiaaltööspetsialist; Inimene pöördu
 
 Maksumus: garantiikirja alusel; Kulu kaetakse sotsiaalosakonna garantiikirja ulatuses konkreetse haigusjuhtumi kohta.
 
-Kontakt: Raul Kivi
-
-
 ## Toetused
 
 ### Täisealise isiku hooldajatoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -372,17 +339,15 @@ Kellele: Täisealise puudega inimese hooldajaks määratud inimene.
 
 Tingimused: Hooldus peab olema seatud ning hooldaja peab täitma hooldamise ülesandeid.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Esitatakse hooldajaks määramise ja hooldajatoetuse taotlus koos nõutud dokumentidega; jätkamiseks kasutatakse eraldi jätkamise taotlust.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Esitatakse hooldajaks määramise ja hooldajatoetuse taotlus koos nõutud dokumentidega; jätkamiseks kasutatakse eraldi jätkamise taotlust.
 
 Summa: 50 € või 75 € kuus
 
 Blankett: Hooldajaks määramise ja hooldajatoetuse taotlus; Hooldajatoetuse maksmise jätkamise taotlus
 
-Kontakt: Doris Vridolin
-
 ### Üldhooldusteenuse hooldustoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -392,17 +357,15 @@ Kellele: Üldhooldusteenust vajav inimene, kellel on raskusi teenuse eest tasumi
 
 Tingimused: Toetuse suurus sõltub teenuse saaja ja ülalpidajate sissetulekust ning hooldusvajadusest.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Rahastust taotletakse üldhooldusteenuse ja selle osalise rahastamise taotlusega.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Rahastust taotletakse üldhooldusteenuse ja selle osalise rahastamise taotlusega.
 
 Summa: kuni 660 € kuus hoolduskulude katmiseks
 
 Blankett: Väljaspool kodu osutatava üldhooldusteenuse ja selle osalise rahastamise taotlus
 
-Kontakt: Marii Hansalu
-
 ### Eluruumi kohandamise toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -412,17 +375,15 @@ Kellele: Raske või sügava puudega inimene, kelle eluruum vajab iseseisva toime
 
 Tingimused: Pere netosissetulek liikme kohta peab olema alla riikliku töötasu alammäära ning kohandatav eluruum peab olema Pärnu linnas registreeritud elukoht.
 
-Taotlemine: kanalid: taotlusvorm, e-post, post, kohapeal; Taotlusele lisatakse kohanduse vajadust, pere koosseisu ja sissetulekut tõendavad dokumendid.
+Taotlemine: kanalid: taotlusvorm, post, kohapeal; Taotlusele lisatakse kohanduse vajadust, pere koosseisu ja sissetulekut tõendavad dokumendid.
 
 Summa: kuni 1800 € ja kuni 100% kohandamise maksumusest
 
 Blankett: Eluruumi kohandamise toetuse taotlusvorm
 
-Kontakt: Kärolin Nirk
-
 ### Juhtkoera ülalpidamise toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -432,15 +393,13 @@ Kellele: Nägemispuudega inimene, kes kasutab juhtkoera.
 
 Tingimused: Pärnu Pimedate Ühing peab esitama kinnituse, et inimene kasutab juhtkoera.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal; Esimene taotlus esitatakse linnavalitsusele; järgnevatel aastatel ei ole uut avaldust vaja, kui andmed ei muutu ja ühing esitab kinnituse.
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal; Esimene taotlus esitatakse linnavalitsusele; järgnevatel aastatel ei ole uut avaldust vaja, kui andmed ei muutu ja ühing esitab kinnituse.
 
 Summa: 65 € kuus
 
-Kontakt: Kärolin Nirk
-
 ### Asendushooldusel viibiva lapse toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -450,15 +409,13 @@ Kellele: Asendushooldusel viibiv kuni 19-aastane noor, kes lõpetab kooliastme.
 
 Tingimused: Noor peab olema asendushooldusel ja õppima põhikoolis, gümnaasiumis või kutseõppe tasemeõppes.
 
-Taotlemine: kanalid: ametniku koostatud taotlus, vabas vormis avaldus, e-post, post, kohapeal; Täisealine noor esitab avalduse koos lõputunnistuse koopiaga kolme kuu jooksul pärast lõpetamist.; tähtaeg: 3 kuud pärast kooliastme lõpetamist täisealise noore puhul
+Taotlemine: kanalid: ametniku koostatud taotlus, vabas vormis avaldus, post, kohapeal; Täisealine noor esitab avalduse koos lõputunnistuse koopiaga kolme kuu jooksul pärast lõpetamist.; tähtaeg: 3 kuud pärast kooliastme lõpetamist täisealise noore puhul
 
 Summa: 150 € põhikooli lõpetamisel; 250 € kutsekooli või gümnaasiumi lõpetamisel
 
-Kontakt: Eda Rannamägi; Silja Palm
-
 ### Järelhooldusteenusel viibiva isiku toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -468,15 +425,13 @@ Kellele: Järelhooldusteenusel viibiv kuni 25-aastane Pärnu linna elanik.
 
 Tingimused: Toetus seotakse juhtumiplaaniga; lõpetamistoetuse puhul tuleb esitada lõputunnistuse koopia.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal; Avaldus esitatakse ühe kuu jooksul pärast juhtumiplaani kinnitamist; lõpetamistoetus kolme kuu jooksul pärast lõpetamist.; tähtaeg: 1 kuu pärast juhtumiplaani kinnitamist; lõpetamistoetus 3 kuu jooksul
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal; Avaldus esitatakse ühe kuu jooksul pärast juhtumiplaani kinnitamist; lõpetamistoetus kolme kuu jooksul pärast lõpetamist.; tähtaeg: 1 kuu pärast juhtumiplaani kinnitamist; lõpetamistoetus 3 kuu jooksul
 
 Summa: 360 € kuus; vajadusel täiendav kuni 340 €; kooli lõpetamisel 250 €
 
-Kontakt: Eda Rannamägi; Silja Palm
-
 ### Hoolduspere toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -486,15 +441,13 @@ Kellele: Hoolduspere, kes hooldab Pärnu linna elanikust last lepingu alusel.
 
 Tingimused: Toetuse eelduseks on hoolduspere leping Pärnu linnaga.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal; Esimene avaldus esitatakse pärast hoolduspere lepingu sõlmimist; lepingu pikendamisel uut taotlust ei nõuta.
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal; Esimene avaldus esitatakse pärast hoolduspere lepingu sõlmimist; lepingu pikendamisel uut taotlust ei nõuta.
 
 Summa: 610 € kuus lapse kohta või 20 € päevas
 
-Kontakt: Eda Rannamägi; Silja Palm
-
 ### Puudega lapse hooldaja toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -510,11 +463,9 @@ Summa: 150 € kuus
 
 Blankett: Hooldajatoetuse taotlus puudega lapse hooldajale
 
-Kontakt: Sille Tohver
-
 ### Lapse sünnitoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -530,11 +481,9 @@ Summa: kokku 1000 €: 600 € + 200 € + 200 €
 
 Blankett: Lapse sünnitoetuse taotlus
 
-Kontakt: Kristina Artma
-
 ### Lasteaia sõidutoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -544,15 +493,13 @@ Kellele: Erivajadusega laps ja tema seaduslik esindaja, kui sobivat lasteaiakoht
 
 Tingimused: Esmakordsele taotlusele lisatakse teeninduspiirkonna lasteaia kinnitus, et laps on järjekorras; kuludokument on vajalik.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal; Seaduslik esindaja esitab avalduse koos lasteaia kinnituse ja kütuse- või sõidudokumendiga.
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal; Seaduslik esindaja esitab avalduse koos lasteaia kinnituse ja kütuse- või sõidudokumendiga.
 
 Summa: 0,15 € km kohta, maha arvestatakse 5 km mõlemas suunas
 
-Kontakt: Ines Savi
-
 ### Huvihariduse ja huvitegevuse toetus lastega peredele
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -562,7 +509,7 @@ Kellele: Lapsega pere, kelle netosissetulek ühe pereliikme kohta on alla riikli
 
 Tingimused: Kuludokumendid ei tohi olla vanemad kui 31 päeva ning taotlusele lisatakse pere koosseisu, sissetulekuid ja pangakontosid tõendavad dokumendid.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotluse võib esitada lapse vanem, hooldaja, eestkostja või lastekaitsetöötaja; lisada tuleb kulu- ja sissetulekudokumendid.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotluse võib esitada lapse vanem, hooldaja, eestkostja või lastekaitsetöötaja; lisada tuleb kulu- ja sissetulekudokumendid.
 
 Summa: sõltub pere sissetulekust ja põhjendatud kulust
 
@@ -570,7 +517,7 @@ Blankett: Huvihariduse ja huvitegevuse toetuse taotlus
 
 ### Esimesse klassi mineva lapse toetus (ranitsatoetus)
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -586,11 +533,9 @@ Summa: 200 € lapse kohta
 
 Blankett: Ranitsatoetuse taotlus ARNO keskkonnas
 
-Kontakt: Evelin Tormilind
-
 ### Leinatoetuslaagris osalemise toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -600,15 +545,13 @@ Kellele: 7–18-aastane laps või noor, kes on kaotanud lähedase pereliikme.
 
 Tingimused: Lapse osalemise vajaduse peab kinnitama leinatoetuslaagri programmi korraldaja.
 
-Taotlemine: kanalid: vabas vormis avaldus, e-post, post, kohapeal; Avalduse esitab lapse seaduslik esindaja Pärnu linnavalitsusele.
+Taotlemine: kanalid: vabas vormis avaldus, post, kohapeal; Avalduse esitab lapse seaduslik esindaja Pärnu linnavalitsusele.
 
 Summa: 260 € aastas
 
-Kontakt: Linda Õisman
-
 ### Toimetulekutoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -618,17 +561,15 @@ Kellele: Pärnu linna elanik või pere, kelle kuu netosissetulek pärast eluasem
 
 Tingimused: Avalduses tuleb märkida pereliikmed ja nende andmed ning lisada eelmise kuu sissetulekuid ja eluasemekulusid tõendavad dokumendid.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotlus tuleb esitada hiljemalt jooksva kuu viimasel tööpäeval koos nõutud dokumentidega.; tähtaeg: jooksva kuu viimane tööpäev
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotlus tuleb esitada hiljemalt jooksva kuu viimasel tööpäeval koos nõutud dokumentidega.; tähtaeg: jooksva kuu viimane tööpäev
 
 Summa: sõltub sissetulekust ja kuludest; KOV lehel nimetatud piirmäärad 220 €, 176 € ja 264 €
 
 Blankett: Toimetulekutoetuse taotlus
 
-Kontakt: Raul Kivi
-
 ### Ühekordne lisatoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -638,17 +579,15 @@ Kellele: Väikese sissetulekuga inimene või pere, kellel on põhjendatud hädav
 
 Tingimused: Kuludokumendid ei tohi olla vanemad kui 31 päeva; toetust ei maksta tagasiulatuvalt laenude, liisingu, võlgade, sõltuvusainete asendamise või teatud tasuliste meditsiiniteenuste eest.
 
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Taotlusele lisatakse kuludokumendid, pere koosseisu ja sissetulekuid tõendavad dokumendid.
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Taotlusele lisatakse kuludokumendid, pere koosseisu ja sissetulekuid tõendavad dokumendid.
 
 Summa: sõltub sissetulekust, kulust ja eelarvevahenditest
 
 Blankett: Ühekordse lisatoetuse taotlus
 
-Kontakt: Raul Kivi
-
 ### Tšernobõli AEJ likvideerimisel osalenud isiku toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -662,11 +601,9 @@ Taotlemine: kanalid: Gamma ühenduse kaudu, vabas vormis avaldus; Taotluse esita
 
 Summa: kuni 320 € aastas
 
-Kontakt: Heli Kallasmaa
-
 ### Matusetoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -674,15 +611,13 @@ Kirjeldus: Matusetoetus on Pärnu linna sotsiaalvaldkonna koondlehel eraldi nime
 
 Kellele: Isik, kes korraldab matuseid Pärnu linna toetuse tingimustel.
 
-
-Taotlemine: kanalid: iseteenindus, taotlusvorm, e-post, post, kohapeal; Koondlehel on nimetatud matusetoetuse taotlus iseteeninduses ja taotlusvormil.
-
+Taotlemine: kanalid: iseteenindus, taotlusvorm, post, kohapeal; Koondlehel on nimetatud matusetoetuse taotlus iseteeninduses ja taotlusvormil.
 
 Blankett: Matusetoetuse taotlus
 
 ### Sotsiaalprojektide toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -690,15 +625,13 @@ Kirjeldus: Pärnu linna sotsiaalhoolekande koondlehel on eraldi nimetatud sotsia
 
 Kellele: Sotsiaalvaldkonna projektide elluviijad.
 
-
 Taotlemine: kanalid: iseteenindus, taotlus ja aruanne; Koondlehel on nimetatud taotlus ja aruanne.
-
 
 Blankett: Sotsiaalprojektide toetuse ja MTÜ-de tegevustoetuse taotlus ning aruanne
 
 ### Sotsiaalvaldkonnas tegutsevate MTÜ-de tegevustoetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -706,15 +639,13 @@ Kirjeldus: Pärnu linna koondlehel on eraldi nimetatud sotsiaalvaldkonnas teguts
 
 Kellele: Sotsiaalvaldkonnas tegutsevad mittetulundusühingud.
 
-
 Taotlemine: kanalid: iseteenindus, taotlus ja aruanne; Koondlehel on nimetatud taotlus ja aruanne.
-
 
 Blankett: Sotsiaalprojektide toetuse ja MTÜ-de tegevustoetuse taotlus ning aruanne
 
 ### Terviseprojektide toetus
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -722,15 +653,13 @@ Kirjeldus: Pärnu linna sotsiaalhoolekande koondlehel on eraldi nimetatud tervis
 
 Kellele: Tervisevaldkonna projektide elluviijad.
 
-
 Taotlemine: kanalid: iseteenindus, taotlus ja aruanne; Koondlehel on nimetatud taotlus ja aruanne.
-
 
 Blankett: Terviseprojektide toetuse taotlus ja aruanne
 
 ### Toetus noorte tervishoiutöötajate õppelaenu tagasimaksmiseks
 
-Liik: toetus  
+Liik: toetus
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -738,38 +667,35 @@ Kirjeldus: Pärnu linna koondlehel on eraldi nimetatud toetus noorte tervishoiut
 
 Kellele: Noored tervishoiutöötajad toetuse tingimustel.
 
-
 Taotlemine: kanalid: iseteenindus või taotlusvorm; Koondlehel on nimetatud taotlusvorm.
 
-
 Blankett: Noorte tervishoiutöötajate õppelaenu tagasimaksmise toetuse taotlusvorm
-
 
 ## Ressursid
 
 ### Pärnu Sotsiaalkeskus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
-Kirjeldus: Pärnu Sotsiaalkeskus on KOV veebis nimetatud teenuseosutaja mitme teenuse puhul, sh isikliku abistaja teenus, koduteenus ning tugiisikuteenus lastega peredele. Kontaktina on avaldatud Riia mnt 70, Pärnu ning keskuse üldinfo info@sotsiaal.ee.
+Kirjeldus: Pärnu Sotsiaalkeskus on KOV veebis nimetatud teenuseosutaja mitme teenuse puhul, sh isikliku abistaja teenus, koduteenus ning tugiisikuteenus lastega peredele. Kontaktina on avaldatud Riia mnt 70, Pärnu ning keskuse üldinfo.
 
 Seotud kirjed: Isikliku abistaja teenus; Koduteenus; Tugiisikuteenus lapsele ja lastega perele
 
 ### Pärnu Laste ja Noorte Tugikeskus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/laps-pere
 
-Kirjeldus: Pärnu Laste ja Noorte Tugikeskus on KOV veebis nimetatud lapsehoiuteenuse, puudega lapse tugiisikuteenuse ja turvakoduteenuse osutajana. Üldkontakt on Oja 97, Pärnu, tel 5552 2003 ja info@tugikeskus.parnu.ee; turvakoduteenuse 24 h telefon on 5552 2136.
+Kirjeldus: Pärnu Laste ja Noorte Tugikeskus on KOV veebis nimetatud lapsehoiuteenuse, puudega lapse tugiisikuteenuse ja turvakoduteenuse osutajana. Üldkontakt on Oja 97, Pärnu, ja; turvakoduteenuse 24 h on.
 
 Seotud kirjed: Lapsehoiuteenus; Tugiisikuteenus puudega lapsele; Turvakoduteenus
 
 ### Tammiste Hooldekodu
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -779,7 +705,7 @@ Seotud kirjed: Väljaspool kodu osutatav üldhooldusteenus
 
 ### Pärnu Sotsiaalkeskuse Paikuse päevakeskus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -787,7 +713,7 @@ Kirjeldus: Paikuse päevakeskus on Pärnu linna sotsiaalhoolekande koondlehel ni
 
 ### Jõõpre Hooldekodu
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -795,7 +721,7 @@ Kirjeldus: Jõõpre Hooldekodu on Pärnu linna sotsiaalhoolekande koondlehel nim
 
 ### Tõstamaa Hooldekodu
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -803,7 +729,7 @@ Kirjeldus: Tõstamaa Hooldekodu on Pärnu linna sotsiaalhoolekande koondlehel ni
 
 ### Pärnu Haigla õendus- ja hoolduskeskus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -811,7 +737,7 @@ Kirjeldus: Pärnu Haigla õendus- ja hoolduskeskus on Pärnu linna sotsiaalhoole
 
 ### Abivahendi vajajale
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -819,7 +745,7 @@ Kirjeldus: Pärnu linna eakate ja erivajadusega inimeste lehel on abivahendi vaj
 
 ### Häirenuputeenus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -827,23 +753,23 @@ Kirjeldus: Pärnu linna eakate ja erivajadusega inimeste lehel on häirenuputeen
 
 ### Koduandur ja kodunupp
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
 Kirjeldus: Pärnu linna eakate ja erivajadusega inimeste lehel on koduandur ja kodunupp nimetatud toetava abivõimalusena. KOV leht annab suunava info, kuid teenuse detailid asuvad välisel lehel.
 
-### Lasteabi 116 111 ja hädaabinumber 112
+### Lasteabi ja hädaabinumber
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/laps-pere
 
-Kirjeldus: Pärnu linna laste ja perede heaolu lehel on abivajava lapse puhul nimetatud Lasteabi telefon 116 111 ning hädaohus lapse korral hädaabinumber 112. Tegemist on praktilise abikanaliga, mida KOV leht soovitab lapse abivajadusest teatamiseks.
+Kirjeldus: Pärnu linna laste ja perede heaolu lehel on abivajava lapse puhul nimetatud Lasteabi ning hädaohus lapse korral hädaabinumber. Tegemist on praktilise abikanaliga, mida KOV leht soovitab lapse abivajadusest teatamiseks.
 
 ### Vägivald ja ohvriabi
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -851,7 +777,7 @@ Kirjeldus: Pärnu linna sotsiaalhoolekande koondlehel on „Vägivald ja ohvriab
 
 ### Vaimse tervise abi ja teenused
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -859,7 +785,7 @@ Kirjeldus: Pärnu linna sotsiaalhoolekande koondlehel on vaimse tervise abivõim
 
 ### Toiduabi ja toidukaart
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -869,7 +795,7 @@ Seotud kirjed: Toimetulekutoetus; Ühekordne lisatoetus
 
 ### Tasuta õigusabi
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -877,7 +803,7 @@ Kirjeldus: Pärnu linna toimetulekuraskustes inimese lehel on tasuta õigusabi k
 
 ### Erihoolekandeteenused
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -885,17 +811,17 @@ Kirjeldus: Pärnu linna eakate ja erivajadusega inimeste lehel on erihoolekandet
 
 ### Pärnumaa Ühistranspordikeskus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
-Kirjeldus: Pärnumaa Ühistranspordikeskus on Pärnu linna veebis nimetatud sotsiaaltranspordi tellimuste vastuvõtjana. Tellimusi võetakse KOV lehe järgi vastu tööpäeviti kell 8–15 telefonil 442 5769.
+Kirjeldus: Pärnumaa Ühistranspordikeskus on Pärnu linna veebis nimetatud sotsiaaltranspordi tellimuste vastuvõtjana. Tellimusi võetakse KOV lehe järgi vastu tööpäeviti kell 8–15 telefonil.
 
 Seotud kirjed: Sotsiaaltransporditeenus
 
 ### MTÜ Pärnumaa Kurtide Ühing
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -905,7 +831,7 @@ Seotud kirjed: Viipekeele tõlketeenus
 
 ### MTÜ Sotsiaalne Kaasatus
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -915,7 +841,7 @@ Seotud kirjed: Vältimatu sotsiaalabi; Varjupaigateenus; Võlanõustamisteenus
 
 ### MTÜ Pesapuu
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/toimetulekuraskustes-inimesele
 
@@ -925,7 +851,7 @@ Seotud kirjed: Võlanõustamisteenus
 
 ### Abi- ja nõustamisvõimalused
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/abi-ja-noustamisvoimalused
 
@@ -933,7 +859,7 @@ Kirjeldus: Pärnu linna veebis on abi- ja nõustamisvõimalused esitatud praktil
 
 ### Hoolekandepiirkonnad
 
-Liik: ressurss  
+Liik: ressurss
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/hoolekandepiirkonnad
 
@@ -941,7 +867,7 @@ Kirjeldus: Pärnu linna veebis on hoolekandepiirkonnad eraldi kontaktiharuna, mi
 
 ### Pärnu linnavalitsuse sotsiaalosakond
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -951,17 +877,13 @@ Roll: sotsiaalosakonna üldkontakt
 
 Osakond: Pärnu linnavalitsus
 
-Telefon: 444 8200
-
-E-post: linnavalitsus@parnu.ee
-
 Aadress: Suur-Sepa 16, Pärnu
 
 Vastuvõtt: E–N 8–17; R 8–16
 
 ### Laste ja perede heaolu osakond
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -971,17 +893,13 @@ Roll: laste ja perede heaolu osakonna üldkontakt
 
 Osakond: Pärnu linnavalitsus
 
-Telefon: 444 8200
-
-E-post: linnavalitsus@parnu.ee
-
 Aadress: Suur-Sepa 16, Pärnu
 
 Vastuvõtt: E–N 8–17; R 8–16; vastuvõtt N 9–12 ja 14–17
 
 ### Heli Kallasmaa
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne/eakale-erivajadusega-inimesele
 
@@ -991,18 +909,13 @@ Roll: Pärnu Sotsiaalkeskuse juhataja
 
 Osakond: Pärnu Sotsiaalkeskus
 
-Telefon: 512 3701
-
-E-post: info@sotsiaal.ee
-
 Aadress: Riia mnt 70, Pärnu
-
 
 Seotud kirjed: Isikliku abistaja teenus
 
 ### Kärolin Nirk
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1012,10 +925,6 @@ Roll: hoolekande spetsialist
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 5300 0455
-
-E-post: karolin.nirk@parnu.ee
-
 Aadress: Suur-Sepa 16 (kab 126), Pärnu
 
 Vastuvõtt: E 8.30–12; N 8.30–12 ja 14–17; muul ajal kokkuleppel
@@ -1024,7 +933,7 @@ Seotud kirjed: Isikliku abistaja teenus; Tugiisikuteenus täisealisele isikule; 
 
 ### Doris Vridolin
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1034,10 +943,6 @@ Roll: hooldusspetsialist
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 528 4897
-
-E-post: doris.vridolin@parnu.ee
-
 Aadress: Suur-Sepa 16 (kab 114), Pärnu
 
 Vastuvõtt: E 8.30–12; N 8.30–12 ja 14–17; muul ajal kokkuleppel
@@ -1046,7 +951,7 @@ Seotud kirjed: Koduteenus; Täisealise isiku hooldus; Täisealise isiku hooldaja
 
 ### Karene Lainela
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1056,10 +961,6 @@ Roll: sotsiaaltööspetsialist (Audru osavald)
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 511 0428
-
-E-post: karene.lainela@parnu.ee
-
 Aadress: Pärna allee 7, Audru
 
 Vastuvõtt: E ja T 8.30–12; N 8.30–12 ja 14–17
@@ -1068,7 +969,7 @@ Seotud kirjed: Koduteenus
 
 ### Sirli Sabiin
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1078,17 +979,13 @@ Roll: sotsiaaltööspetsialist (Paikuse osavald)
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 5866 9363
-
-
 Aadress: Pärnade pst 11, Paikuse
-
 
 Seotud kirjed: Koduteenus
 
 ### Tiiu Saar
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1098,17 +995,13 @@ Roll: sotsiaaltööspetsialist (Tõstamaa osavald)
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 5787 6658
-
-
 Aadress: Sadama tee 2, Tõstamaa
-
 
 Seotud kirjed: Koduteenus
 
 ### Marii Hansalu
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1118,9 +1011,6 @@ Roll: hoolekande peaspetsialist
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 509 6508
-
-
 Aadress: Suur-Sepa 16 (kab 114), Pärnu
 
 Vastuvõtt: E 8.30–12; N 8.30–12 ja 14–17
@@ -1129,7 +1019,7 @@ Seotud kirjed: Väljaspool kodu osutatav üldhooldusteenus; Üldhooldusteenuse h
 
 ### Reelika Ruubel
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1139,9 +1029,6 @@ Roll: eluasemeteenuste spetsialist
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 5397 7160
-
-
 Aadress: Suur-Sepa 16 (kab 115), Pärnu
 
 Vastuvõtt: E ja T 8.30–12; N 8.30–12 ja 14–17
@@ -1150,7 +1037,7 @@ Seotud kirjed: Eluasemeteenus
 
 ### Raul Kivi
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/sotsiaalosakond
 
@@ -1160,9 +1047,6 @@ Roll: juhtiv sotsiaaltöö spetsialist
 
 Osakond: Pärnu linnavalitsuse sotsiaalosakond
 
-Telefon: 5303 4497
-
-
 Aadress: Suur-Sepa 16 (kab 116), Pärnu
 
 Vastuvõtt: E ja T 8.30–12; N 8.30–12 ja 14–17
@@ -1171,7 +1055,7 @@ Seotud kirjed: Vältimatu sotsiaalabi; Varjupaigateenus; Ravikindlustamata isiku
 
 ### Sille Tohver
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1181,9 +1065,6 @@ Roll: puuetega laste spetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5855 7969
-
-
 Aadress: Suur-Sepa 16 (kab 205), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
@@ -1192,7 +1073,7 @@ Seotud kirjed: Lapsehoiuteenus; Tugiisikuteenus puudega lapsele; Puudega lapse h
 
 ### Annely Ausma
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1202,18 +1083,13 @@ Roll: sotsiaalpedagoog
 
 Osakond: Pärnu Sotsiaalkeskus
 
-Telefon: 5566 4039
-
-E-post: tugiisik@sotsiaal.ee
-
 Aadress: Riia mnt 70, Pärnu
-
 
 Seotud kirjed: Tugiisikuteenus lapsele ja lastega perele
 
 ### Pärnu Laste ja Noorte Tugikeskus
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1223,18 +1099,13 @@ Roll: laste tugiteenuste ja turvakoduteenuse osutaja
 
 Osakond: Pärnu Laste ja Noorte Tugikeskus
 
-Telefon: 5552 2003; turvakodu 24 h 5552 2136
-
-E-post: info@tugikeskus.parnu.ee
-
 Aadress: Oja 97, Pärnu
-
 
 Seotud kirjed: Lapsehoiuteenus; Tugiisikuteenus puudega lapsele; Turvakoduteenus
 
 ### Eda Rannamägi
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1244,9 +1115,6 @@ Roll: asendushoolduse spetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5336 5574
-
-
 Aadress: Suur-Sepa 16 (kab 208), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
@@ -1255,7 +1123,7 @@ Seotud kirjed: Asendushooldusteenus; Järelhooldusteenus; Asendushooldusel viibi
 
 ### Silja Palm
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1265,9 +1133,6 @@ Roll: asendushoolduse spetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5366 6535
-
-
 Aadress: Suur-Sepa 16 (kab 208), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
@@ -1276,7 +1141,7 @@ Seotud kirjed: Asendushooldusteenus; Järelhooldusteenus; Asendushooldusel viibi
 
 ### Kristina Artma
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1286,9 +1151,6 @@ Roll: rahvastikutoimingute spetsialist
 
 Osakond: Pärnu linnavalitsus
 
-Telefon: 5301 2212
-
-
 Aadress: Suur-Sepa 16 (kab 328), Pärnu
 
 Vastuvõtt: E, T ja N 9–12 ja 14–16
@@ -1297,7 +1159,7 @@ Seotud kirjed: Lapse sünnitoetus
 
 ### Ines Savi
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1307,17 +1169,13 @@ Roll: alushariduse spetsialist
 
 Osakond: Pärnu linnavalitsus
 
-Telefon: 5335 9854
-
-
 Aadress: Suur-Sepa 16 (kab 155), Pärnu
-
 
 Seotud kirjed: Lasteaia sõidutoetus
 
 ### Evelin Tormilind
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1327,15 +1185,11 @@ Roll: haridusvaldkonna kontakt ranitsatoetuse küsimustes
 
 Osakond: Pärnu linnavalitsus
 
-Telefon: 523 3196
-
-
-
 Seotud kirjed: Esimesse klassi mineva lapse toetus (ranitsatoetus)
 
 ### Linda Õisman
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1345,16 +1199,13 @@ Roll: laste ja perede heaolu osakonna juhataja
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5306 7633
-
-
 Aadress: Suur-Sepa 16 (kab 326), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
 
 ### Kristel Kambek
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1364,16 +1215,13 @@ Roll: lastekaitsespetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5300 0408
-
-
 Aadress: Suur-Sepa 16 (kab 206b), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
 
 ### Kadi Kask
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1383,16 +1231,13 @@ Roll: lastekaitsespetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5300 0419
-
-
 Aadress: Suur-Sepa 16 (kab 206a), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
 
 ### Anett Parts
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1402,16 +1247,13 @@ Roll: lastekaitsespetsialist
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 5866 9597
-
-
 Aadress: Suur-Sepa 16 (kab 206b), Pärnu
 
 Vastuvõtt: N 9–12 ja 14–17
 
 ### Liisi Pikkur
 
-Liik: kontakt  
+Liik: kontakt
 
 Allikas: https://parnu.ee/perekond-sotsiaal-tervis/kontaktid/laste-ja-perede-heaolu-osakond
 
@@ -1421,19 +1263,15 @@ Roll: lastekaitsespetsialist (Audru ja Tõstamaa osavald)
 
 Osakond: Laste ja perede heaolu osakond
 
-Telefon: 528 3831
-
-
 Aadress: Pärna allee 7, Audru
 
 Vastuvõtt: N 9–12 ja 14–17
-
 
 ## Vormid
 
 ### Lapse sünnitoetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1447,7 +1285,7 @@ Seotud teenused või toetused: Lapse sünnitoetus
 
 ### Eluasemeteenus: eluruumi üürimise taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1455,13 +1293,13 @@ Kirjeldus: Koondlehel eraldi nimetatud taotlus eluasemeteenuse raames munitsipaa
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Eluasemeteenus
 
 ### Eluasemeteenus: üürilepingu pikendamise taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1469,13 +1307,13 @@ Kirjeldus: Koondlehel eraldi nimetatud taotlus eluasemeteenuse üürilepingu pik
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Eluasemeteenus
 
 ### Eluruumi kohandamise toetuse taotlusvorm
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1483,13 +1321,13 @@ Kirjeldus: Pärnu linnavalitsuse koondlehel eraldi nimetatud taotlusvorm eluruum
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Eluruumi kohandamise toetus
 
 ### Hooldajaks määramise ja hooldajatoetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1497,13 +1335,13 @@ Kirjeldus: Koondlehel nimetatud taotlus täisealise isiku hooldajaks määramise
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Täisealise isiku hooldus; Täisealise isiku hooldajatoetus
 
 ### Hooldajatoetuse maksmise jätkamise taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1511,13 +1349,13 @@ Kirjeldus: Koondlehel nimetatud taotlus hooldajatoetuse maksmise jätkamiseks.
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Täisealise isiku hooldajatoetus
 
 ### Hooldajatoetuse taotlus puudega lapse hooldajale
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1531,7 +1369,7 @@ Seotud teenused või toetused: Puudega lapse hooldaja toetus
 
 ### Väljaspool kodu osutatava üldhooldusteenuse ja selle osalise rahastamise taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1539,13 +1377,13 @@ Kirjeldus: Koondlehel nimetatud taotlus üldhooldusteenuse ja selle osalise raha
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Väljaspool kodu osutatav üldhooldusteenus; Üldhooldusteenuse hooldustoetus
 
 ### Isikliku abistaja teenuse taotlusvorm
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1553,13 +1391,13 @@ Kirjeldus: Koondlehel ja teenuse lehel nimetatud taotlusvorm isikliku abistaja t
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Isikliku abistaja teenus
 
 ### Matusetoetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1567,13 +1405,13 @@ Kirjeldus: Koondlehel nimetatud taotlus matusetoetuse taotlemiseks.
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Matusetoetus
 
 ### Tugiisikuteenuse taotlus täisealisele isikule
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1581,13 +1419,13 @@ Kirjeldus: Koondlehel nimetatud taotlusvorm täisealise isiku tugiisikuteenuse t
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Tugiisikuteenus täisealisele isikule
 
 ### Tugiisikuteenuse taotlus lastega peredele
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1595,13 +1433,13 @@ Kirjeldus: Koondlehel nimetatud taotlusvorm lastega peredele mõeldud tugiisikut
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Tugiisikuteenus lapsele ja lastega perele
 
 ### Tugiteenuste taotlus puudega lapsele
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1615,7 +1453,7 @@ Seotud teenused või toetused: Lapsehoiuteenus; Tugiisikuteenus puudega lapsele
 
 ### Toimetulekutoetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1623,13 +1461,13 @@ Kirjeldus: Koondlehel nimetatud taotlus toimetulekutoetuse taotlemiseks.
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Toimetulekutoetus
 
 ### Ühekordse lisatoetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1637,13 +1475,13 @@ Kirjeldus: Koondlehel nimetatud taotlus ühekordse lisatoetuse taotlemiseks.
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Ühekordne lisatoetus
 
 ### Huvihariduse ja huvitegevuse toetuse taotlus
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1651,13 +1489,13 @@ Kirjeldus: Koondlehel nimetatud taotlus lastega perede huvihariduse ja huvitegev
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Huvihariduse ja huvitegevuse toetus lastega peredele
 
 ### Noorte tervishoiutöötajate õppelaenu tagasimaksmise toetuse taotlusvorm
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1665,13 +1503,13 @@ Kirjeldus: Koondlehel nimetatud taotlusvorm noorte tervishoiutöötajate õppela
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Toetus noorte tervishoiutöötajate õppelaenu tagasimaksmiseks
 
 ### Sotsiaalhoolekande valdkonna tunnustuse ettepanek
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1683,7 +1521,7 @@ Esitamise viis: iseteenindus
 
 ### Sotsiaalprojektide toetuse ja MTÜ-de tegevustoetuse taotlus ning aruanne
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1691,13 +1529,13 @@ Kirjeldus: Koondlehel nimetatud taotlus ja aruande vorm sotsiaalprojektide ning 
 
 Vorming: web_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 Seotud teenused või toetused: Sotsiaalprojektide toetus; Sotsiaalvaldkonnas tegutsevate MTÜ-de tegevustoetus
 
 ### Terviseprojektide toetuse taotlus ja aruanne
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1711,7 +1549,7 @@ Seotud teenused või toetused: Terviseprojektide toetus
 
 ### Tasuta sõidu õiguse tõendi taotlus 4 ja enama lapsega pere liikmetele
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1719,11 +1557,11 @@ Kirjeldus: Koondlehel nimetatud taotlus tasuta sõidu õiguse tõendi saamiseks 
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 ### Tasuta sõidu õiguse tõendi taotlus eestkoste all olevatele isikutele
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/sotsiaalhoolekanne
 
@@ -1731,11 +1569,11 @@ Kirjeldus: Koondlehel nimetatud taotlus tasuta sõidu õiguse tõendi saamiseks 
 
 Vorming: application_form
 
-Esitamise viis: iseteenindus või taotlusvorm; e-post; post; kohapeal
+Esitamise viis: iseteenindus või taotlusvorm; post; kohapeal
 
 ### Ranitsatoetuse taotlus ARNO keskkonnas
 
-Liik: vorm  
+Liik: vorm
 
 Allikas: https://parnu.ee/laps-pere
 
@@ -1746,7 +1584,6 @@ Vorming: web_form
 Esitamise viis: ARNO iseteenindus
 
 Seotud teenused või toetused: Esimesse klassi mineva lapse toetus (ranitsatoetus)
-
 
 ## Piirangud
 

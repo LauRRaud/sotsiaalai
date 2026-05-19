@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-laane-nigula-vald",
+  "document_id": "kov-laane-nigula-vald",
+  "municipality": "Lääne-Nigula vald",
+  "municipality_id": "laane_nigula_vald",
+  "county": "Läänemaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-laane-nigula-vald",
+  "coverage": {
+    "services": 16,
+    "benefits": 5,
+    "resources": 17,
+    "contacts": 11,
+    "forms": 9
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett on koostatud KOV ametlikust veebikihist; RT/õigusaktide lingid jäeti allikapaketist välja ja kuuluvad eraldi RT/legal kihti.",
+    "Teenuste koondleht sisaldas mitme sotsiaalteenuse detailteksti samal URL-il; need teenused normaliseeriti eraldi itemiteks."
+  ],
+  "unresolvedIssues": [
+    "Eraldi üldist vormide/blankettide koondlehte ei õnnestunud kinnitada; vormid koguti konkreetsete teenuste ja toetuste detaillehtedelt ning SPOKU viidetest.",
+    "SPOKU iseteeninduse täpsed taotluse URL-id võivad avaneda alles iseteenindusse sisenemisel; paketti lisati avalik KOV SPOKU toetuste info link ja detaillehtedel nimetatud iseteeninduskanal.",
+    "Järelhooldusteenus oli sotsiaalteenuste koondlehel eraldi nimetatud, kuid detailne praktiline kirjeldus oli avalikul KOV lehel napp.",
+    "Hooldajatoetuse, puudega lapse hooldajatoetuse ja eraldi eluruumi kohandamise toetuse praktilisi KOV veebilehti ei õnnestunud kinnitada; eluruumi kohandamist käsitleti eluruumi tagamise teenuse all ning täisealise isiku hoolduse teenus oli teenusena olemas.",
+    "Väliste abikanalite ja partnerite (nt ohvriabi, naiste tugitelefon, matuse korraldamise abiviited, sotsiaalkindlustusameti viited) kohta kasutati ainult KOV lehel avaldatud infot; väliseid veebilehti ei kasutatud põhiallikana.",
+    "Mõnel KOV lehel kuvas tekstiekstraktsioon e-posti ankruteksti varjestatult; kontaktide aadressid võeti KOV otsingutulemustes ja ametlikel kontaktplokkidel avaldatud kujul.",
+    "Oru Hooldekodu ja Risti Hooldekodu e-posti aadressid olid tekstikorjes varjestatud või üheselt kinnitamata; kontaktidena säilitati telefonid ja aadressid."
+  ],
+  "RT_CANDIDATES_FOR_SEPARATE_MANIFEST": [
+    "Sotsiaaltoetuste määramise ja maksmise kord",
+    "Sotsiaaltoetuste suurused Lääne-Nigula vallas",
+    "Sotsiaalteenuste osutamise tingimused ja kord",
+    "Koduteenuse osutamise tingimused ja kord Lääne-Nigula vallas",
+    "Asendus- ja järelhooldusteenuse osutamise tingimused ja kord",
+    "Eluasemekulude piirmäärad toimetulekutoetuse arvestamisel",
+    "Puudega isikule hoolduse seadmise, hooldaja määramise ja hooldajatoetuse maksmise kord"
+  ]
+}

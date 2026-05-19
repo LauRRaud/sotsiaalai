@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-johvi-vald",
+  "document_id": "kov-johvi-vald",
+  "municipality": "Jõhvi vald",
+  "municipality_id": "johvi_vald",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-johvi-vald",
+  "coverage": {
+    "services": 28,
+    "benefits": 14,
+    "resources": 23,
+    "contacts": 15,
+    "forms": 11
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Paketis on käsitletud Jõhvi valla ametliku veebilehe Pere, sotsiaal ja tervishoid haru ning KOV veebis ametliku sisuna avaldatud sotsiaalvaldkonna vorme ja teavitusi.",
+    "Riigi Teataja ja muud õigusallikad on KOV veebipaketist välja jäetud; õigusliku aluse kontrollimiseks tuleb kasutada eraldi RT/legal kihti."
+  ],
+  "unresolvedIssues": [
+    "Osa e-posti aadresse on Jõhvi veebilehe tekstiväljavõttes varjestatud kujul **; kontaktiväljade täitmisel kasutati ainult KOV veebis loetavalt kuvatud ametlikke aadresse või säilitati varjestus.",
+    "Mõned vormilingid esinevad veebis mitmes versioonis või varasema nimega. Paketis kasutati ainult tegelikult avatud ametlikke KOV PDF-linke ning katkised või ebaselged DOCX-lingid jäeti kasutamata.",
+    "Väliseid teenuseosutajaid ja riiklikke abikanaleid ei kontrollitud väljaspool Jõhvi valla veebilehte; need kajastati ainult ulatuses, milles KOV leht neid nimetas.",
+    "Sotsiaalvaldkonna projektide detaillehti ei normaliseeritud eraldi teenuse või toetuse itemiteks, sest koondlehel oli projektide loetelu ja mitte kõigi projektide praktiline menetlusinfo.",
+    "Sotsiaalteenuste koondleht sisaldab palju teenuseid ühel lehel; detailseid otsustamisaegu ja tähtaegu ei olnud kõigi teenuste juures avaldatud."
+  ]
+}

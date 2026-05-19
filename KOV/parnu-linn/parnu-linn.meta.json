@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "v2.5-sourcepackage",
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
   "docId": "kov-parnu-linn",
   "document_id": "kov-parnu-linn",
   "municipality": "Pärnu linn",
@@ -9,7 +9,7 @@
   "collection_id": "kov_services",
   "legal_basis": false,
   "rt_layer_separate": true,
-  "status": "ingest_ready",
+  "status": "needs_review",
   "source_type": "kov_service_info",
   "source_format": "rag_md",
   "jurisdiction_level": "MUNICIPALITY",
@@ -19,27 +19,14 @@
     "benefits": 21,
     "resources": 22,
     "contacts": 24,
-    "forms": 23,
-    "regulations": 0
+    "forms": 23
   },
   "sourcePackageReadiness": {
-    "ok": true,
-    "collection_id": "kov_services",
-    "municipality_id": "parnu_linn",
-    "source_register_file": "parnu-linn.sources.json",
-    "service_benefit_resource_items": 62,
-    "items_with_source_keys": 62,
-    "items_missing_source_keys": [],
-    "items_with_related_forms": 22,
-    "items_without_related_forms": 40,
-    "items_with_related_contacts": 33,
-    "items_without_related_contacts": 29,
-    "form_sources": 0,
-    "contact_sources": 0,
     "regulation_sources": 0,
-    "warnings": [
-      "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
-    ]
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
   },
   "notes": [
     "Pakett on koostatud Pärnu linna ametliku veebilehe sotsiaalhoolekande, laste ja perede heaolu, toimetuleku, eluaseme/turvakodu/varjupaiga ning kontaktide lehtede põhjal.",
@@ -50,24 +37,5 @@
     "Pärnu linn kasutab osade taotluste jaoks iseteeninduse, Pikseli, ARNO või SharePointi linke. Koondleht kinnitab vormide olemasolu, kuid otseseid faililinke ei dubleeritud, kui need olid välised, ajutised või mittefaililised vormilingid.",
     "Matusetoetuse ja mõne projekti- või tegevustoetuse detailtingimused jäid selles paranduskihis koondlehe tasemele; detailtingimused vajavad hilisemat kontrolli vastavalt detaillehe või teenuse infosisu kättesaadavusele.",
     "KOV veebipakett ei hõlma Riigi Teataja või õigusaktide kihti; õigusliku aluse kontroll tuleb teha eraldi RT/legal kihis."
-  ],
-  "municipality_name": "Pärnu linn",
-  "checked_at": "2026-04-29",
-  "lastMetadataUpgradeAt": "2026-04-29",
-  "ingestReady": true,
-  "country": "EE",
-  "language": "et",
-  "sourceRegisterFile": "parnu-linn.sources.json",
-  "sourceCount": 10,
-  "counts": {
-    "services": 19,
-    "benefits": 21,
-    "resources": 22,
-    "contacts": 24,
-    "forms": 23,
-    "regulations": 0
-  },
-  "warnings": [
-    "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
   ]
 }

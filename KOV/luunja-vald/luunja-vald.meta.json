@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-luunja-vald",
+  "document_id": "kov-luunja-vald",
+  "municipality": "Luunja vald",
+  "municipality_id": "luunja_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-luunja-vald",
+  "coverage": {
+    "services": 17,
+    "benefits": 18,
+    "resources": 6,
+    "contacts": 10,
+    "forms": 26
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Veebipakett käsitleb ainult Luunja valla ametlikul veebilehel avaldatud praktilist sotsiaalvaldkonna infot.",
+    "SPOKU linke kasutati e-taotluste ametliku esitamise kanalina selles ulatuses, milles Luunja valla leht neile viitab."
+  ],
+  "unresolvedIssues": [
+    "KOV veebis ei leidunud eraldi sotsiaalvaldkonna blankettide lehte; taotluste esitamise kanalina oli avaldatud SPOKU keskkond ja e-taotluste lingid teenuse või toetuse plokkides.",
+    "SPOKU e-taotluste lingid viivad üldisesse SPOKU keskkonda, mistõttu üksikvormide otseseid eraldi URL-e ei olnud võimalik KOV veebikihis kindlalt eraldada.",
+    "Suure pere toetuse, lastelaagri toetuse, hõbelusika ja laste jõulupakkide juures ei olnud KOV lehel eraldi vormi linki avaldatud; seetõttu neid vorme ei seostatud.",
+    "Päevakeskust või hoolekandeasutust Luunja valla ametlikul sotsiaalharul ega hallatavate asutuste lehel eraldi sotsiaalvaldkonna ressursina ei leitud.",
+    "Puudega inimese parkimiskaardi või eluruumi kohandamise toetuse eraldi KOV veebilehte ei leitud; lapsehoiuteenuse all nimetatakse eluruumide kohandamist ainult puudega lapse tugiteenuste võimalusena.",
+    "E-posti aadressid on veebilehel tehniliselt varjestatud kujul; failides säilitati need vaid nendes kohtades, kus KOV veebikihist oli aadress varasemast vaates selgelt tuvastatav, ja see vajab vajadusel käsitsi ülevaatust.",
+    "Õigusaktide ja Riigi Teataja viited jäeti KOV veebipaketist välja ning kuuluvad eraldi RT/legal kihti.",
+    "KOV lehel viidatud SPOKU eelvaate juhise dokumendilink ei olnud kontrolli ajal avanev; seetõttu juhise failisisu andmepaketti ei lisatud."
+  ]
+}

@@ -1,0 +1,539 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-vinni-vald",
+  "document_id": "kov-vinni-vald",
+  "municipality": "Vinni vald",
+  "municipality_id": "vinni_vald",
+  "county": "Lääne Virumaa",
+  "checkedAt": "2026-04-30",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Vinni vald avaleht",
+      "url": "https://vinnivald.ee",
+      "url_canonical": "https://vinnivald.ee",
+      "normalized_url": "https://vinnivald.ee",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "site_structure"
+      ]
+    },
+    {
+      "source_id": "contact_page",
+      "title": "Kontakt",
+      "url": "https://vinnivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "url_canonical": "https://vinnivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "normalized_url": "https://vinnivald.ee/vald-uudised-ja-kontakt/valla-info/kontakt/",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "contacts",
+        "reception_times"
+      ]
+    },
+    {
+      "source_id": "social_rules_overview",
+      "title": "Eeskirjad ja korrad",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/eeskirjad-ja-korrad/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/eeskirjad-ja-korrad/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/eeskirjad-ja-korrad/",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "navigation"
+      ]
+    },
+    {
+      "source_id": "social_benefits",
+      "title": "Sotsiaaltoetused",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefits",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "social_services",
+      "title": "Sotsiaalteenused",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services",
+        "contacts",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "subsistence_benefit",
+      "title": "Toimetulekutoetus",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/toimetulekutoetus/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/toimetulekutoetus/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/toimetulekutoetus/",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefits",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "general_care",
+      "title": "Üldhooldusteenus",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/uldhooldusteenus/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/uldhooldusteenus/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/uldhooldusteenus/",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service_details",
+        "hooldereform"
+      ]
+    },
+    {
+      "source_id": "social_institutions",
+      "title": "Sotsiaalasutused",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalasutused/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalasutused/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalasutused/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "care_institutions",
+        "day_centre"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Taotlused ja blanketid",
+      "url": "https://vinnivald.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/asjaajamisjuhised/taotlused-ja-blanketid/",
+      "url_canonical": "https://vinnivald.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/asjaajamisjuhised/taotlused-ja-blanketid/",
+      "normalized_url": "https://vinnivald.ee/juhtimine-ja-majandus/asjaajamine-ja-korrad/asjaajamisjuhised/taotlused-ja-blanketid/",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "forms"
+      ]
+    },
+    {
+      "source_id": "health",
+      "title": "Tervishoid",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/tervishoid/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/tervishoid/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/tervishoid/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "health_resources"
+      ]
+    },
+    {
+      "source_id": "family_welfare",
+      "title": "Laste ja perede heaolu",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/laste-ja-perede-heaolu/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/laste-ja-perede-heaolu/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/laste-ja-perede-heaolu/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "children_families",
+        "counselling",
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "child_in_need",
+      "title": "Abivajav laps",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/abivajav-laps/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/abivajav-laps/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/abivajav-laps/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "child_protection",
+        "helplines"
+      ]
+    },
+    {
+      "source_id": "notify_person_in_need",
+      "title": "Teata abivajajast",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/teata-abivajajast/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/teata-abivajajast/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/teata-abivajajast/",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "reporting_form"
+      ]
+    },
+    {
+      "source_id": "victim_support_page",
+      "title": "Ohvriabi",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/ohvriabi/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/ohvriabi/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/ohvriabi/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "victim_support"
+      ]
+    },
+    {
+      "source_id": "victim_support_pdf",
+      "title": "Ohvriabi info 2025 PDF",
+      "url": "https://vinnivald.ee/wp-content/uploads/2026/04/Ohvriabi-info-2025.pdf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2026/04/Ohvriabi-info-2025.pdf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2026/04/Ohvriabi-info-2025.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "victim_support",
+        "helplines"
+      ]
+    },
+    {
+      "source_id": "child_support",
+      "title": "Elatisabi",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/elatisabi/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/elatisabi/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/abi/elatisabi/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "child_support"
+      ]
+    },
+    {
+      "source_id": "assistive_device_card",
+      "title": "Isikliku abivahendi kaart",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/isikliku-abivahendi-kaart/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/isikliku-abivahendi-kaart/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/isikliku-abivahendi-kaart/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "assistive_devices"
+      ]
+    },
+    {
+      "source_id": "parking_card",
+      "title": "Parkimiskaart ja tasuta sõiduõigus",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/parkimiskaart-ja-tasuta-soiduoigus/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/parkimiskaart-ja-tasuta-soiduoigus/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/parkimiskaart-ja-tasuta-soiduoigus/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "parking_card",
+        "free_travel"
+      ]
+    },
+    {
+      "source_id": "food_card",
+      "title": "Toidukaart",
+      "url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/toidukaart/",
+      "url_canonical": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/toidukaart/",
+      "normalized_url": "https://vinnivald.ee/pere-sotsiaal-ja-tervishoid/kaardid/toidukaart/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "food_aid"
+      ]
+    },
+    {
+      "source_id": "population_protection",
+      "title": "Elanikkonnakaitse rubriik",
+      "url": "https://vinnivald.ee/category/elanikkonnakaitse/",
+      "url_canonical": "https://vinnivald.ee/category/elanikkonnakaitse/",
+      "normalized_url": "https://vinnivald.ee/category/elanikkonnakaitse/",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "crisis_resources"
+      ]
+    },
+    {
+      "source_id": "form_social_support_rtf",
+      "title": "Avaldus sotsiaaltoetuse saamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/VVblanket2023.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/VVblanket2023.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/VVblanket2023.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_birth_benefit_rtf",
+      "title": "Avaldus sünnitoetuse saamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/s_nnitoetuse_avaldus2.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/s_nnitoetuse_avaldus2.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/s_nnitoetuse_avaldus2.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_funeral_benefit_rtf",
+      "title": "Avaldus matusetoetuse saamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/matusetoetuse-avaldus-1.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/matusetoetuse-avaldus-1.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/matusetoetuse-avaldus-1.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_subsistence_benefit_rtf",
+      "title": "Avaldus toimetulekutoetuse saamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Toimetulekutoetuse_avaldus.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Toimetulekutoetuse_avaldus.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Toimetulekutoetuse_avaldus.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_assets_list_rtf",
+      "title": "Loetelu vallas- ja kinnisasjadest toimetulekutoetuse esmataotlemisel",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Loetelu-vallas-ja-kinnisasjadest-esmataotlemisel.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Loetelu-vallas-ja-kinnisasjadest-esmataotlemisel.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Loetelu-vallas-ja-kinnisasjadest-esmataotlemisel.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_personal_assistant_docx",
+      "title": "Avaldus isikliku abistaja teenuse saamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-isikliku-abistaja-teenuse-osutamiseks-2023.docx",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-isikliku-abistaja-teenuse-osutamiseks-2023.docx",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-isikliku-abistaja-teenuse-osutamiseks-2023.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_child_care_rtf",
+      "title": "Hoolduse seadmine ja hooldajaks määramine puudega lapse üle",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/hoolduse-maaramine.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/hoolduse-maaramine.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/hoolduse-maaramine.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_home_adaptation_docx",
+      "title": "Taotlus meetmes „Puuetega inimeste eluaseme füüsiline kohandamine”",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/TAOTLUS-projektis-osalemiseks.docx",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/TAOTLUS-projektis-osalemiseks.docx",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/TAOTLUS-projektis-osalemiseks.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_home_service_docx",
+      "title": "Taotlus koduteenuse osutamiseks",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-koduteenuse-osutamiseks-2025.docx",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-koduteenuse-osutamiseks-2025.docx",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Taotlus-koduteenuse-osutamiseks-2025.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_adult_care_rtf",
+      "title": "Täisealise isiku hooldus avaldus",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Avaldus-hoolduse-seadmiseks-ja-hooldaja-maaramiseks-2023a.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Avaldus-hoolduse-seadmiseks-ja-hooldaja-maaramiseks-2023a.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Avaldus-hoolduse-seadmiseks-ja-hooldaja-maaramiseks-2023a.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_support_person_rtf",
+      "title": "Tugiisiku teenuse avaldus",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Tugiisiku-teenuse-osutamise-avaldus-2023.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Tugiisiku-teenuse-osutamise-avaldus-2023.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Tugiisiku-teenuse-osutamise-avaldus-2023.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    },
+    {
+      "source_id": "form_municipal_housing_rtf",
+      "title": "Munitsipaalkorteri taotlus",
+      "url": "https://vinnivald.ee/wp-content/uploads/2025/01/Munitsipaalkorteritaotlus.rtf",
+      "url_canonical": "https://vinnivald.ee/wp-content/uploads/2025/01/Munitsipaalkorteritaotlus.rtf",
+      "normalized_url": "https://vinnivald.ee/wp-content/uploads/2025/01/Munitsipaalkorteritaotlus.rtf",
+      "source_type": "application_form",
+      "source_format": "rtf",
+      "collection_id": "kov_services",
+      "authority": "Vinni vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form_file"
+      ]
+    }
+  ]
+}

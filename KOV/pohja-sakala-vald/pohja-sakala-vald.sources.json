@@ -1,0 +1,780 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-pohja-sakala-vald",
+  "document_id": "kov-pohja-sakala-vald",
+  "municipality": "Põhja-Sakala vald",
+  "municipality_id": "pohja_sakala_vald",
+  "county": "Viljandimaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Põhja-Sakala valla koduleht",
+      "url": "https://www.pohja-sakala.ee/",
+      "url_canonical": "https://www.pohja-sakala.ee/",
+      "normalized_url": "https://www.pohja-sakala.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalvaldkonna menüüstruktuur",
+        "üldkontakt"
+      ]
+    },
+    {
+      "source_id": "social_services_overview",
+      "title": "Sotsiaalteenused – üldteave",
+      "url": "https://www.pohja-sakala.ee/uldteave1",
+      "url_canonical": "https://www.pohja-sakala.ee/uldteave1",
+      "normalized_url": "https://www.pohja-sakala.ee/uldteave1",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalteenuste loetelu",
+        "sotsiaalteenuste vormid"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Eeskirjad, korrad ja blanketid",
+      "url": "https://www.pohja-sakala.ee/eeskirjad-ja-korrad1",
+      "url_canonical": "https://www.pohja-sakala.ee/eeskirjad-ja-korrad1",
+      "normalized_url": "https://www.pohja-sakala.ee/eeskirjad-ja-korrad1",
+      "source_type": "application_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vormide loetelu",
+        "vormide failid"
+      ]
+    },
+    {
+      "source_id": "contacts_page",
+      "title": "Sotsiaalvaldkonna ametnikud",
+      "url": "https://www.pohja-sakala.ee/ametnikud",
+      "url_canonical": "https://www.pohja-sakala.ee/ametnikud",
+      "normalized_url": "https://www.pohja-sakala.ee/ametnikud",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaalosakonna kontaktid",
+        "laste heaolu kontaktid"
+      ]
+    },
+    {
+      "source_id": "benefits_page",
+      "title": "Sotsiaaltoetused valla eelarvest",
+      "url": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "normalized_url": "https://www.pohja-sakala.ee/sotsiaaltoetused-valla-eelarvest",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "valla eelarvest makstavad sotsiaaltoetused"
+      ]
+    },
+    {
+      "source_id": "toimetulek_page",
+      "title": "Riiklik toimetulekutoetus",
+      "url": "https://www.pohja-sakala.ee/riiklik-toimetulek",
+      "url_canonical": "https://www.pohja-sakala.ee/riiklik-toimetulek",
+      "normalized_url": "https://www.pohja-sakala.ee/riiklik-toimetulek",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "toimetulekutoetus"
+      ]
+    },
+    {
+      "source_id": "koduteenus_page",
+      "title": "Koduteenus",
+      "url": "https://www.pohja-sakala.ee/koduteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/koduteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/koduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "koduteenus"
+      ]
+    },
+    {
+      "source_id": "uldhooldusteenus_page",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "url": "https://www.pohja-sakala.ee/uldhooldusteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/uldhooldusteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/uldhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "üldhooldusteenus"
+      ]
+    },
+    {
+      "source_id": "taisealise_hooldus_page",
+      "title": "Täisealise isiku hooldus",
+      "url": "https://www.pohja-sakala.ee/taisealise-isiku-hooldus",
+      "url_canonical": "https://www.pohja-sakala.ee/taisealise-isiku-hooldus",
+      "normalized_url": "https://www.pohja-sakala.ee/taisealise-isiku-hooldus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "täisealise isiku hooldus",
+        "täisealise hooldajatoetus"
+      ]
+    },
+    {
+      "source_id": "isikliku_abistaja_page",
+      "title": "Isikliku abistaja teenus",
+      "url": "https://www.pohja-sakala.ee/isikliku-abistaja-teenus",
+      "url_canonical": "https://www.pohja-sakala.ee/isikliku-abistaja-teenus",
+      "normalized_url": "https://www.pohja-sakala.ee/isikliku-abistaja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "isikliku abistaja teenus"
+      ]
+    },
+    {
+      "source_id": "tugiisikuteenus_page",
+      "title": "Tugiisikuteenus",
+      "url": "https://www.pohja-sakala.ee/tugiisikuteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/tugiisikuteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "tugiisikuteenus"
+      ]
+    },
+    {
+      "source_id": "lapsehoiuteenus_page",
+      "title": "Lapsehoiuteenus",
+      "url": "https://www.pohja-sakala.ee/lapsehoiuteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/lapsehoiuteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/lapsehoiuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "lapsehoiuteenus"
+      ]
+    },
+    {
+      "source_id": "eluruumi_tagamine_page",
+      "title": "Eluruumi tagamise teenus",
+      "url": "https://www.pohja-sakala.ee/eluruumi-tagamine",
+      "url_canonical": "https://www.pohja-sakala.ee/eluruumi-tagamine",
+      "normalized_url": "https://www.pohja-sakala.ee/eluruumi-tagamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "eluruumi tagamise teenus",
+        "sotsiaalmajutus",
+        "teenusepõhised kontaktid"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltransport_page",
+      "title": "Sotsiaaltransport",
+      "url": "https://www.pohja-sakala.ee/sotsiaaltransport",
+      "url_canonical": "https://www.pohja-sakala.ee/sotsiaaltransport",
+      "normalized_url": "https://www.pohja-sakala.ee/sotsiaaltransport",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "source_id": "psuhholoogiline_noustamine_page",
+      "title": "Psühholoogiline nõustamine",
+      "url": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "url_canonical": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "normalized_url": "https://www.pohja-sakala.ee/psuhholoogiline-noustamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "psühholoogiline nõustamine",
+        "Töötukassa nõustamise ressurss"
+      ]
+    },
+    {
+      "source_id": "volanoustamine_oigusabi_page",
+      "title": "Võla- ja õigusnõustamine",
+      "url": "https://www.pohja-sakala.ee/volanoustamine-oigusabi",
+      "url_canonical": "https://www.pohja-sakala.ee/volanoustamine-oigusabi",
+      "normalized_url": "https://www.pohja-sakala.ee/volanoustamine-oigusabi",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "võlanõustamine",
+        "õigusabi ressurss"
+      ]
+    },
+    {
+      "source_id": "asendushooldus_page",
+      "title": "Peres hooldamine ja asendushooldusteenus",
+      "url": "https://www.pohja-sakala.ee/peres-hooldamine-ja-asendushooldusteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/peres-hooldamine-ja-asendushooldusteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/peres-hooldamine-ja-asendushooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "asendushooldusteenus"
+      ]
+    },
+    {
+      "source_id": "jarelhooldus_page",
+      "title": "Järelhooldusteenus",
+      "url": "https://www.pohja-sakala.ee/jarelhooldusteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/jarelhooldusteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/jarelhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "järelhooldusteenus"
+      ]
+    },
+    {
+      "source_id": "varjupaigateenus_page",
+      "title": "Varjupaigateenus",
+      "url": "https://www.pohja-sakala.ee/varjupaigateenus",
+      "url_canonical": "https://www.pohja-sakala.ee/varjupaigateenus",
+      "normalized_url": "https://www.pohja-sakala.ee/varjupaigateenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "varjupaigateenus"
+      ]
+    },
+    {
+      "source_id": "turvakoduteenus_page",
+      "title": "Turvakoduteenus",
+      "url": "https://www.pohja-sakala.ee/turvakoduteenus",
+      "url_canonical": "https://www.pohja-sakala.ee/turvakoduteenus",
+      "normalized_url": "https://www.pohja-sakala.ee/turvakoduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "turvakoduteenus"
+      ]
+    },
+    {
+      "source_id": "hoolekandeasutused_page",
+      "title": "Hoolekandeasutused",
+      "url": "https://www.pohja-sakala.ee/hoolekandeasutused",
+      "url_canonical": "https://www.pohja-sakala.ee/hoolekandeasutused",
+      "normalized_url": "https://www.pohja-sakala.ee/hoolekandeasutused",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "hoolekandeasutused"
+      ]
+    },
+    {
+      "source_id": "igapaevaelu_toetamise_page",
+      "title": "Igapäevaelu toetamise teenus",
+      "url": "https://www.pohja-sakala.ee/iet",
+      "url_canonical": "https://www.pohja-sakala.ee/iet",
+      "normalized_url": "https://www.pohja-sakala.ee/iet",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "erihoolekande teenus"
+      ]
+    },
+    {
+      "source_id": "toetatud_elamise_page",
+      "title": "Toetatud elamise teenus",
+      "url": "https://www.pohja-sakala.ee/te",
+      "url_canonical": "https://www.pohja-sakala.ee/te",
+      "normalized_url": "https://www.pohja-sakala.ee/te",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "erihoolekande teenus"
+      ]
+    },
+    {
+      "source_id": "stk_avalikud_teenused_page",
+      "title": "Sotsiaalteenuste keskuse avalikud teenused",
+      "url": "https://www.pohja-sakala.ee/stk-avalikud-teenused",
+      "url_canonical": "https://www.pohja-sakala.ee/stk-avalikud-teenused",
+      "normalized_url": "https://www.pohja-sakala.ee/stk-avalikud-teenused",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "dušš",
+        "pesupesemine",
+        "ruumikasutus",
+        "trepironija rent"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi",
+      "url": "https://www.pohja-sakala.ee/ohvriabi",
+      "url_canonical": "https://www.pohja-sakala.ee/ohvriabi",
+      "normalized_url": "https://www.pohja-sakala.ee/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "ohvriabi ressurss"
+      ]
+    },
+    {
+      "source_id": "medi_hairenuputeenus_page",
+      "title": "MEDI häirenuputeenus",
+      "url": "https://www.pohja-sakala.ee/medi-hairenuputeenus",
+      "url_canonical": "https://www.pohja-sakala.ee/medi-hairenuputeenus",
+      "normalized_url": "https://www.pohja-sakala.ee/medi-hairenuputeenus",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "häirenuputeenus"
+      ]
+    },
+    {
+      "source_id": "koduanduri_teenus_page",
+      "title": "Koduanduri teenus",
+      "url": "https://www.pohja-sakala.ee/koduanduri-teenus",
+      "url_canonical": "https://www.pohja-sakala.ee/koduanduri-teenus",
+      "normalized_url": "https://www.pohja-sakala.ee/koduanduri-teenus",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "koduandur eakatele"
+      ]
+    },
+    {
+      "source_id": "juriidiline_noustamine_page",
+      "title": "Juriidiline nõustamine lapsevanematele",
+      "url": "https://www.pohja-sakala.ee/juriidiline-noustamine",
+      "url_canonical": "https://www.pohja-sakala.ee/juriidiline-noustamine",
+      "normalized_url": "https://www.pohja-sakala.ee/juriidiline-noustamine",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "lastega perede õigusnõustamine"
+      ]
+    },
+    {
+      "source_id": "perelepitus_page",
+      "title": "Perelepitus",
+      "url": "https://www.pohja-sakala.ee/perelepitus",
+      "url_canonical": "https://www.pohja-sakala.ee/perelepitus",
+      "normalized_url": "https://www.pohja-sakala.ee/perelepitus",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "perelepitus"
+      ]
+    },
+    {
+      "source_id": "raseduskriisi_noustamine_page",
+      "title": "Raseduskriisi nõustamine",
+      "url": "https://www.pohja-sakala.ee/raseduskriisi-noustamine",
+      "url_canonical": "https://www.pohja-sakala.ee/raseduskriisi-noustamine",
+      "normalized_url": "https://www.pohja-sakala.ee/raseduskriisi-noustamine",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "raseduskriisi nõustamine"
+      ]
+    },
+    {
+      "source_id": "puudega_laps_page",
+      "title": "Puudega laps",
+      "url": "https://www.pohja-sakala.ee/puudega-laps",
+      "url_canonical": "https://www.pohja-sakala.ee/puudega-laps",
+      "normalized_url": "https://www.pohja-sakala.ee/puudega-laps",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "puudega lapse inforessurss"
+      ]
+    },
+    {
+      "source_id": "lastekaitse_page",
+      "title": "Lastekaitse",
+      "url": "https://www.pohja-sakala.ee/lastekaitse",
+      "url_canonical": "https://www.pohja-sakala.ee/lastekaitse",
+      "normalized_url": "https://www.pohja-sakala.ee/lastekaitse",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "lastekaitse info",
+        "abivajav laps",
+        "hädaohus laps"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetuse_taotlus_file",
+      "title": "Sotsiaaltoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/Sotsiaaltoetus_2019.pdf/ac7dbe5c-c4c5-4101-87e3-347eed9cc2db",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/Sotsiaaltoetus_2019.pdf/ac7dbe5c-c4c5-4101-87e3-347eed9cc2db",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/Sotsiaaltoetus_2019.pdf/ac7dbe5c-c4c5-4101-87e3-347eed9cc2db",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "sunnitoetuse_taotlus_file",
+      "title": "Sünnitoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_synnitoetus.pdf/5d9b9ab0-30fa-46b3-8ecb-333a4e471ed2",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_synnitoetus.pdf/5d9b9ab0-30fa-46b3-8ecb-333a4e471ed2",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_synnitoetus.pdf/5d9b9ab0-30fa-46b3-8ecb-333a4e471ed2",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "matusetoetuse_taotlus_file",
+      "title": "Matusetoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_matusetoetus.pdf/280ae940-09a5-4844-9d66-59e3f975e897",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_matusetoetus.pdf/280ae940-09a5-4844-9d66-59e3f975e897",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_matusetoetus.pdf/280ae940-09a5-4844-9d66-59e3f975e897",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenuse_taotlus_file",
+      "title": "Sotsiaalteenuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa4_sotsiaalteenuse_taotlus.pdf/d261c219-d779-4878-a15b-292b59853361",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa4_sotsiaalteenuse_taotlus.pdf/d261c219-d779-4878-a15b-292b59853361",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa4_sotsiaalteenuse_taotlus.pdf/d261c219-d779-4878-a15b-292b59853361",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetuse_taotlus_file",
+      "title": "Toimetulekutoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotlus.pdf/e0b2d756-a1a7-4464-85ce-fafc2fa8e7a0",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotlus.pdf/e0b2d756-a1a7-4464-85ce-fafc2fa8e7a0",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotlus.pdf/e0b2d756-a1a7-4464-85ce-fafc2fa8e7a0",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "toimetulek_pere_vara_file",
+      "title": "Toimetulekutoetuse taotleja ja pere andmed (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotleja_pere_andmed.pdf/adeb1ed9-7272-42dc-848c-d2704faa7f3a",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotleja_pere_andmed.pdf/adeb1ed9-7272-42dc-848c-d2704faa7f3a",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/0/2018_TTT_taotleja_pere_andmed.pdf/adeb1ed9-7272-42dc-848c-d2704faa7f3a",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "hoolekandeteenuse_rahastamise_file",
+      "title": "Hoolekandeteenusele suunamise ja rahastamise taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/153_lisa_taotlus_260522.pdf/df7180f9-5360-4b8e-87a3-ade989b27a98",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/153_lisa_taotlus_260522.pdf/df7180f9-5360-4b8e-87a3-ade989b27a98",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/153_lisa_taotlus_260522.pdf/df7180f9-5360-4b8e-87a3-ade989b27a98",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "taiskasvanu_hoolduse_file",
+      "title": "Täiskasvanud isiku hoolduse ja hooldajatoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa1_hoolduse%2Bvorm_taiskasvanu.pdf/91fcc652-170d-43eb-aa4a-f146c5b20055",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa1_hoolduse%2Bvorm_taiskasvanu.pdf/91fcc652-170d-43eb-aa4a-f146c5b20055",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa1_hoolduse%2Bvorm_taiskasvanu.pdf/91fcc652-170d-43eb-aa4a-f146c5b20055",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "puudega_lapse_hooldajatoetus_file",
+      "title": "Puudega lapse hooldajatoetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa2_HT_laps.pdf/86de6b12-b735-49e8-9af7-9a14b5e71d47",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa2_HT_laps.pdf/86de6b12-b735-49e8-9af7-9a14b5e71d47",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/442_lisa2_HT_laps.pdf/86de6b12-b735-49e8-9af7-9a14b5e71d47",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "eluaseme_kohandamise_toetus_file",
+      "title": "Puuetega inimeste eluaseme kohandamise toetuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa1.pdf/c80370c4-ef76-4637-82dc-b7218a0abbde",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa1.pdf/c80370c4-ef76-4637-82dc-b7218a0abbde",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa1.pdf/c80370c4-ef76-4637-82dc-b7218a0abbde",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "eluruumi_omaniku_nousolek_file",
+      "title": "Eluruumi omaniku või kaasomaniku nõusolek (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa2.pdf/e9f55a0f-736c-4b11-825e-8fc78f2c2ee5",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa2.pdf/e9f55a0f-736c-4b11-825e-8fc78f2c2ee5",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/18263132/308_lisa2.pdf/e9f55a0f-736c-4b11-825e-8fc78f2c2ee5",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "raske_sugava_puudega_lapse_teenus_file",
+      "title": "Raske ja sügava puudega lapsele teenuse osutamise ja rahastamise taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/867_lisa.pdf/8155ae11-2789-4ec9-94cd-27f3c4f8e051",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/867_lisa.pdf/8155ae11-2789-4ec9-94cd-27f3c4f8e051",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/867_lisa.pdf/8155ae11-2789-4ec9-94cd-27f3c4f8e051",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "eluruumi_tagamise_taotlus_file",
+      "title": "Eluruumi tagamise teenuse taotlus (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa3_eluruumi_tagamise_teenuse_taotlus.pdf/491b53d4-1ac7-4613-a86f-106fc4971b76",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa3_eluruumi_tagamise_teenuse_taotlus.pdf/491b53d4-1ac7-4613-a86f-106fc4971b76",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa3_eluruumi_tagamise_teenuse_taotlus.pdf/491b53d4-1ac7-4613-a86f-106fc4971b76",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "koduteenuse_hoolduskava_file",
+      "title": "Koduteenuse hoolduskava (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa1_koduteenuse_hoolduskava.pdf/be3327c2-adc1-4894-b0ba-639ef9b5a2fa",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa1_koduteenuse_hoolduskava.pdf/be3327c2-adc1-4894-b0ba-639ef9b5a2fa",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa1_koduteenuse_hoolduskava.pdf/be3327c2-adc1-4894-b0ba-639ef9b5a2fa",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    },
+    {
+      "source_id": "koduteenuse_kliendikaart_file",
+      "title": "Koduteenuse kliendikaart (PDF)",
+      "url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa2_koduteenuse_kliendikaart.pdf/516a84ff-9ac5-4d5f-bca4-2dc762a73114",
+      "url_canonical": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa2_koduteenuse_kliendikaart.pdf/516a84ff-9ac5-4d5f-bca4-2dc762a73114",
+      "normalized_url": "https://www.pohja-sakala.ee/documents/17894261/19980876/77_190220_lisa2_koduteenuse_kliendikaart.pdf/516a84ff-9ac5-4d5f-bca4-2dc762a73114",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Põhja-Sakala vald",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "vorm"
+      ]
+    }
+  ]
+}

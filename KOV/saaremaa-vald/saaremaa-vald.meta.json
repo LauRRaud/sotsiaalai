@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-saaremaa-vald",
+  "document_id": "kov-saaremaa-vald",
+  "municipality": "Saaremaa vald",
+  "municipality_id": "saaremaa_vald",
+  "county": "Saaremaa",
+  "checkedAt": "2026-04-30",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-saaremaa-vald",
+  "coverage": {
+    "services": 18,
+    "benefits": 7,
+    "resources": 24,
+    "contacts": 19,
+    "forms": 9
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett on koostatud Saaremaa valla ametliku veebilehe põhjal ning ei sisalda RT/legal allikaid põhiallikatena.",
+    "E-posti aadressid on osal ametnike kontaktidel veebiväljundis varjestatud; neid ei taastatud oletuse põhjal."
+  ],
+  "unresolvedIssues": [
+    "Mõne ametniku e-posti aadress oli veebiväljundis varjestatud kujul; kontaktides on jäetud tühjaks, kui seda ei olnud allikast üheselt loetavalt eraldatav.",
+    "Kõik teenuste ja toetuste õigusaktide viited jäeti teadlikult välja, sest RT/legal kiht peab olema eraldi manifestis.",
+    "Teenusepakkujate väliseid veebilehti (nt Kuressaare Hoolekanne, STHK, naiste tugikeskus, Sotsiaalkindlustusamet) ei kasutatud põhiallikana; nende kohta on kajastatud ainult Saaremaa valla lehel avaldatud info.",
+    "Mõned teenuste vormid esinevad eri lehtedel eri failiversioonidena (2024-11 ja 2025-02); mõlemad ametlikult lingitud versioonid on allikates eraldi registreeritud.",
+    "Hooldajatoetuse kohta ei leitud Saaremaa valla praktilisel veebikihil eraldi toetuse lehte; täisealise isiku hooldus on kajastatud teenusena.",
+    "Vabatahtlike seltsiliste ja mõne välise teenusepakkuja info esines peamiselt navigeerimislingina või välislingina; neid ei normaliseeritud iseseisva teenuse itemina."
+  ]
+}

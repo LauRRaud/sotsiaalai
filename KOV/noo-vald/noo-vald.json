@@ -1,0 +1,1640 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-noo-vald",
+  "document_id": "kov-noo-vald",
+  "municipality": "Nõo vald",
+  "municipality_id": "noo_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "noo_vald_contact_ene_molter",
+      "canonical_item_id": "noo_vald:contact:ene_molter",
+      "itemType": "contact",
+      "title": "Ene Mölter",
+      "status": "active",
+      "summary": "Sotsiaalosakonna juhataja on peamine kontakt Nõo valla sotsiaalteenuste ja toetuste korraldamisel. Sama kontakt on nimetatud mitme teenuse detaillehel.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Ene Mölter",
+      "role": "Sotsiaalosakonna juhataja",
+      "department": "Sotsiaalosakond",
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_contact_annika_tamme",
+      "canonical_item_id": "noo_vald:contact:annika_tamme",
+      "itemType": "contact",
+      "title": "Annika Tamme",
+      "status": "active",
+      "summary": "Sotsiaaltööspetsialist nõustab elanikke sotsiaaltoetuste ja sotsiaalteenuste küsimustes. Kontakt on avaldatud Nõo valla kontaktide ja mitme teenuse juures.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Annika Tamme",
+      "role": "Sotsiaaltööspetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_contact_liisa_rootare",
+      "canonical_item_id": "noo_vald:contact:liisa_rootare",
+      "itemType": "contact",
+      "title": "Liisa Rootare",
+      "status": "active",
+      "summary": "Lastekaitsespetsialist on kontakt lapse heaolu, abivajava lapse, asendushoolduse ja perega seotud sotsiaalvaldkonna küsimustes.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Liisa Rootare",
+      "role": "Lastekaitsespetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_contact_triin_pedanik",
+      "canonical_item_id": "noo_vald:contact:triin_pedanik",
+      "itemType": "contact",
+      "title": "Triin Pedanik",
+      "status": "active",
+      "summary": "Hooldustöötaja kontakt on avaldatud Nõo valla sotsiaalosakonna kontaktide hulgas. Ametlikul lehel kasutatakse tema e-posti väljana sotsiaalosakonna juhataja e-posti aadressi.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Triin Pedanik",
+      "role": "Hooldustöötaja",
+      "department": "Sotsiaalosakond",
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_contact_leila_soomaa",
+      "canonical_item_id": "noo_vald:contact:leila_soomaa",
+      "itemType": "contact",
+      "title": "Leila Soomaa",
+      "status": "active",
+      "summary": "Hooldustöötaja kontakt on avaldatud Nõo valla sotsiaalosakonna kontaktide hulgas. Ametlikul lehel kasutatakse tema e-posti väljana sotsiaalosakonna juhataja e-posti aadressi.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Leila Soomaa",
+      "role": "Hooldustöötaja",
+      "department": "Sotsiaalosakond",
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_contact_noo_vallavalitsus",
+      "canonical_item_id": "noo_vald:contact:noo_vallavalitsus",
+      "itemType": "contact",
+      "title": "Nõo Vallavalitsus",
+      "status": "active",
+      "summary": "Nõo Vallavalitsuse üldkontakt on avaldatud ametliku veebilehe jaluses ja avalehel. Üldkontakt sobib juhul, kui konkreetset teenusepõhist kontakti ei ole teada.",
+      "sourceKeys": [
+        "contacts_page"
+      ],
+      "name": "Nõo Vallavalitsus",
+      "role": "Nõo Vallavalitsus üldkontakt",
+      "department": null,
+      "address": "Voika 23, Nõo alevik, 61601 Tartumaa",
+      "relatedTo": []
+    },
+    {
+      "id": "noo_vald_service_koduteenus",
+      "canonical_item_id": "noo_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse eesmärk on tagada eaka või puudega täisealise isiku iseseisev ja turvaline toimetulek kodus. Koduteenus hõlmab abi toiduainete, ravimite ja abivahendite hankimisel, majapidamistoimingutes ning asjaajamisel väljaspool kodu. Teenus on mõeldud olukorras, kus inimene ei suuda vajalikke igapäevatoiminguid kõrvalabita teha.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "targetGroup": "Täisealised eakad ja puudega inimesed, kes vajavad kodus toimetuleku toetamiseks kõrvalabi.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/koduteenused",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "service_content",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_uldhooldusteenus",
+      "canonical_item_id": "noo_vald:service:uldhooldusteenus",
+      "itemType": "service",
+      "title": "Üldhooldusteenus",
+      "status": "active",
+      "summary": "Väljaspool kodu osutatava üldhooldusteenuse eesmärk on tagada turvaline keskkond ja toimetulek täisealisele inimesele, kes ei tule kodustes tingimustes iseseisvalt toime. Nõo valla lehel on kirjeldatud hooldereformi põhimõtteid ja hoolduskulude KOV-poolse rahastuse piirmäära kuni 650 eurot kalendrikuus. KOV-poolse rahastuse eelduseks on sotsiaaltöötajate tehtav abivajaduse hindamine.",
+      "sourceKeys": [
+        "uldhooldusteenus_page",
+        "social_services_overview"
+      ],
+      "targetGroup": "Täisealised isikud, kes vajavad üldhooldusteenust väljaspool kodu.",
+      "conditions": "KOV-poolse hoolduskulude rahastuse eelduseks on abivajaduse hindamine; väiksema hoolduskoormusega kliendile riigi/KOV rahastus ei laiene.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Hoolduskulude KOV-poolne piirmäär kuni 650 eurot kuus; isik tasub majutuse, toitlustuse ja muud teenusega seotud kulud.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/uldhooldusteenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "pricing",
+        "application",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_tugiisikuteenus",
+      "canonical_item_id": "noo_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab iseseisvat toimetulekut olukordades, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu kõrvalabi. Kõrvalabi seisneb juhendamises, motiveerimises ning iseseisvuse ja vastutuse arendamises. Lapsele või last kasvatavale isikule osutades toetab teenus lapse hooldamist ja turvalist kasvukeskkonda.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "targetGroup": "Lapsed, last kasvatavad isikud ja täisealised inimesed, kes vajavad toimetuleku toetamiseks tugiisikut.",
+      "conditions": "Teenuse vajadust hindab sotsiaalosakond; teenus määratakse vallavalitsuse haldusaktiga.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Teenus on Nõo valla elanikele tasuta.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/tugiisikuteenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "noo_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hoolduse eesmärk on tagada vaimse või kehalise puude tõttu abivajavale isikule abi õiguste teostamisel ja kohustuste täitmisel. Hooldaja aitab igapäevastes toimingutes, juhendab ja tagab järelevalve. Hooldatavale on teenus tasuta ja hooldajale võib maksta hooldajatoetust.",
+      "sourceKeys": [
+        "taisealise_isiku_hooldus_page"
+      ],
+      "targetGroup": "Täisealised raske või sügava puudega isikud, kellel on vaja igapäevast kõrvalabi või järelevalvet.",
+      "conditions": "Hooldus seatakse hooldatava nõusolekul ja abivajaduse hindamise alusel; hooldajaks ei määrata inimest, kellel on raske või sügav puue.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonna poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Hooldatavale tasuta; hooldajatoetus 30 eurot raske puudega ja 50 eurot sügava puudega isiku hooldajale.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/taisealise-isiku-hooldus",
+      "relatedForms": [
+        "noo_vald_form_hooldajatoetus_taiskasvanu"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_annika_tamme"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "noo_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Nõo vald nimetab isikliku abistaja teenust ametlikul sotsiaalteenuste lehel eraldi sotsiaalteenusena. Detailteksti automaatkorje ei saanud täielikult avada, mistõttu teenuse tingimusi ei ole siin oletatud. Kirje säilitab teenuse olemasolu ja ametliku URL-i, et RAG-kiht saaks selle eraldi teenusena käsitleda.",
+      "sourceKeys": [
+        "isikliku_abistaja_teenus_page",
+        "social_services_overview"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/isikliku-abistaja-teenus",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Detaillehe praktiline sisu jäi automaatkorjes ebapiisavalt lahti; tingimused ja taotlemise kord vajavad käsitsi kontrolli."
+      ]
+    },
+    {
+      "id": "noo_vald_service_varjupaigateenus",
+      "canonical_item_id": "noo_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenuse eesmärk on tagada täisealisele isikule ajutine ööbimiskoht, kui inimene ei ole ise võimeline endale ööbimisvõimalust leidma. Teenus on ajutine abimeede ja Nõo valla lehe järgi on see abivajavale isikule tasuta. Teenusele pääsemiseks tuleb pöörduda sotsiaalosakonna poole.",
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ],
+      "targetGroup": "Täisealine inimene, kellel puudub ööbimiskoht.",
+      "conditions": "Teenuse vajadust hindab sotsiaaltööspetsialist ja suunab inimese teenusele.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Abivajavale isikule tasuta.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/varjupaigateenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_annika_tamme"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_turvakoduteenus",
+      "canonical_item_id": "noo_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenuse eesmärk on tagada abivajajale ajutine eluase, turvaline keskkond ja esmane abi, sh vajadusel kriisiabi. Teenust võib saada laps, kelle elu, tervis või areng on ohus, ning täisealine isik, kes vajab turvalist keskkonda. Teenus on Nõo valla lehe järgi abivajajale tasuta.",
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ],
+      "targetGroup": "Lapsed ja täisealised isikud, kes vajavad turvalist keskkonda.",
+      "conditions": "Teenust võib korraldada ka taotluseta; vallavalitsus peab välja selgitama inimese tahte ja nõusoleku teenusele suunamiseks.",
+      "application": {
+        "channels": [
+          "taotlus või pöördumine sotsiaalosakonda",
+          "vajadusel teenuse korraldamine taotluseta"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Abivajajale tasuta.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/turvakoduteenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "noo_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab eakal või puudega isikul, kelle tervislik olukord takistab isikliku või ühissõiduki kasutamist, kasutada vajadustele vastavat transporti tööle, õppeasutusse või avalike teenuste kasutamiseks. Taotlus esitatakse reeglina kolm tööpäeva enne sõitu ning puudega lapse haridusasutusse sõiduks hiljemalt 25. augustiks. Teenuse juures on avaldatud eraldi vormid puudega lapsele ja täisealisele isikule.",
+      "sourceKeys": [
+        "sotsiaaltransporditeenus_page"
+      ],
+      "targetGroup": "Eakad või puudega inimesed, kelle tervislik olukord takistab isikliku või ühissõiduki kasutamist.",
+      "conditions": "Taotluses tuleb märkida sõidu aeg, sihtkoht või marsruut ja sõidu põhjus.",
+      "application": {
+        "channels": [
+          "kirjalik taotlus Nõo Vallavalitsuse sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": "Reeglina kolm tööpäeva enne teenuse vajadust; puudega lapse haridusasutusse sõiduks hiljemalt 25. augustiks."
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
+      "relatedForms": [
+        "noo_vald_form_sotsiaaltransport_puudega_laps",
+        "noo_vald_form_sotsiaaltransport_taisealine"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_annika_tamme"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "application",
+        "deadline",
+        "forms",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_eluruumi_tagamine",
+      "canonical_item_id": "noo_vald:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenuse eesmärk on kindlustada eluruumi kasutamise võimalus inimesele, kes ei ole sotsiaalmajanduslikust olukorrast tulenevalt võimeline endale või oma perele sobivat eluruumi tagama. Teenuse lehel on avaldatud taotluse sisu, vajalikud dokumendid ja menetlustähtaeg. Üüri suuruse määrab vallavalitsus ning üürnik tasub kõrvalkulud.",
+      "sourceKeys": [
+        "eluruumi_tagamine_page"
+      ],
+      "targetGroup": "Eluaset vajav füüsiline isik, kelle elukoht on rahvastikuregistris vähemalt üks aasta olnud Nõo vald.",
+      "conditions": "Taotluses tuleb esitada isikuandmed, pereliikmed, sissetulekud, vara, eluruumi taotlemise põhjendus ja senise eluruumi andmed.",
+      "application": {
+        "channels": [
+          "kirjalik taotlus Nõo Vallavalitsusele",
+          ""
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": "Vallavalitsus teeb otsuse 10 tööpäeva jooksul taotluse saamisest; leping sõlmitakse 30 päeva jooksul korralduse andmisest.",
+      "pricing": "Eluruumi üüri määrab vallavalitsus; üürnik tasub üüri ja kõrvalkulud.",
+      "officialUrl": "https://nvv.ee/eluruumi-tagamine",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "decision_time",
+        "pricing",
+        "documents",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_volanoustamisteenus",
+      "canonical_item_id": "noo_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimesel kindlaks teha oma varalise olukorra, pidada läbirääkimisi võlausaldajaga, rahuldada nõudeid ja ennetada uusi võlgnevusi. Nõo valla lehe järgi tuleb teenuse saamiseks pöörduda sotsiaalosakonda. Sotsiaaltööspetsialist hindab teenuse vajadust ja suunab nõustamisele.",
+      "sourceKeys": [
+        "volanoustamisteenus_page"
+      ],
+      "targetGroup": "Majanduslikes raskustes Nõo valla elanikud.",
+      "conditions": "Teenuse vajaduse hindab sotsiaaltööspetsialist.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Nõo valla kodanikele tasuta.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/volanoustamisteenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "noo_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada raske või sügava puudega last kasvatava isiku toimetulekut või töötamist ning vähendada lapse erivajadusest tulenevat hoolduskoormust. Teenust võimaldatakse kuni 18-aastasele raske või sügava puudega lapsele ning teatud juhtudel kalendriaasta lõpuni, mil laps saab 18-aastaseks. Teenusele suunamiseks tuleb pöörduda sotsiaalosakonda.",
+      "sourceKeys": [
+        "lapsehoiuteenus_page"
+      ],
+      "targetGroup": "Raske või sügava puudega laps ja teda kasvatav isik.",
+      "conditions": "Osakonna spetsialist hindab teenuse vajadust; teenus on raske või sügava puudega lapsele tasuta.",
+      "application": {
+        "channels": [
+          "pöördumine sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/lapsehoiuteenus",
+      "relatedForms": [
+        "noo_vald_form_lapsehoiuteenuse_taotlus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "forms",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_asendushooldusteenus",
+      "canonical_item_id": "noo_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenuse eesmärk on tagada vanemliku hooleta jäänud lapse heaolu, turvaline kasvukeskkond ja lapse ettevalmistamine iseseisvaks eluks. Teenuse osutaja võib olla hoolduspere, perekodu või asenduskodu. Nõo vallas suunab lapse asendushooldusteenusele lastekaitsespetsialist.",
+      "sourceKeys": [
+        "asendushooldusteenus_page"
+      ],
+      "targetGroup": "Vanemliku hooleta jäänud laps.",
+      "conditions": "Teenusele suunab lastekaitsespetsialist; igapäevaelu korraldab teenust osutav hoolduspere või asutus.",
+      "application": {
+        "channels": [
+          "pöördumine lastekaitsespetsialisti poole"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Teenust rahastatakse valla eelarvest ja asendushooldusel oleva lapse sissetulekutest.",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/asendushooldusteenus",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "pricing",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "noo_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Nõo vald nimetab järelhooldusteenust ametlikul sotsiaalteenuste lehel eraldi teenusena. Automaatkorjes ei õnnestunud detailteksti terviklikult avada, seetõttu ei ole tingimusi ega menetluskäiku oletatud. Kirje on säilitatud, sest teenus on KOV veebis eraldi nimetatud.",
+      "sourceKeys": [
+        "jarelhooldusteenus_page",
+        "social_services_overview"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/jarelhooldusteenus",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Detailne praktiline menetluskäik vajab käsitsi kontrolli."
+      ]
+    },
+    {
+      "id": "noo_vald_service_puudega_lapse_hooldamine",
+      "canonical_item_id": "noo_vald:service:puudega_lapse_hooldamine",
+      "itemType": "service",
+      "title": "Puudega lapse hooldamine",
+      "status": "active",
+      "summary": "Puudega lapse hooldamise lehel kirjeldatakse hooldamise ja hooldajatoetusega seotud tingimusi ning viidatakse taotlusele. Lehel on avaldatud olukorrad, millal toetust ei määrata, ning sotsiaalosakonna juhataja kontakt. Kirje on seotud puudega lapse hooldajatoetusega.",
+      "sourceKeys": [
+        "puudega_lapse_hooldamine_page"
+      ],
+      "targetGroup": "Puudega lapse hooldaja ja puudega laps.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "taotlusvormi esitamine",
+          "pöördumine sotsiaalosakonda"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/puudega-lapse-hooldamine",
+      "relatedForms": [
+        "noo_vald_form_hooldajatoetus_puudega_laps"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "sections_present": [
+        "description",
+        "conditions",
+        "forms",
+        "contact"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_puudega_laste_tugiteenused",
+      "canonical_item_id": "noo_vald:service:puudega_laste_tugiteenused",
+      "itemType": "service",
+      "title": "Puudega laste tugiteenused",
+      "status": "active",
+      "summary": "Puudega laste tugiteenuste lehel kirjeldatakse raske ja sügava puudega lapse perele pakutavaid tugiteenuseid. Nimetatud on lapsehoiuteenus, tugiisikuteenus ning toetava teenusena transporditeenus. Teenuseid saab taotleda kuni 17-aastase raske või sügava puudega lapse seaduslik esindaja või hoolduspere vanem.",
+      "sourceKeys": [
+        "puudega_laste_tugiteenused_page"
+      ],
+      "targetGroup": "Kuni 17-aastase raske või sügava puudega lapse seaduslik esindaja või hoolduspere vanem.",
+      "conditions": "Laps ja taotleja peavad vastama lehel nimetatud tingimustele ning pöördumine algab elukohajärgsest KOV-ist.",
+      "application": {
+        "channels": [
+          "pöördumine kohalikku omavalitsusse"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/puudega-laste-tugiteenused",
+      "relatedForms": [
+        "noo_vald_form_puudega_lapse_tugiteenus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter",
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "application",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_service_pesupesemisteenus",
+      "canonical_item_id": "noo_vald:service:pesupesemisteenus",
+      "itemType": "service",
+      "title": "Pesupesemisteenus",
+      "status": "active",
+      "summary": "Nõo vald nimetab pesupesemisteenust ametlikul sotsiaalteenuste lehel eraldi sotsiaalteenusena. Detailteksti automaatkorje ei saanud täielikult avada, mistõttu ei ole tingimusi, tasu ega taotlemise korda oletatud. Kirje on loodud eraldi, sest teenus on KOV veebis nimetatud.",
+      "sourceKeys": [
+        "pesupesemisteenus_page",
+        "social_services_overview"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/pesupesemisteenus",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Detaillehe praktiline sisu jäi automaatkorjes ebapiisavalt lahti; teenuse tingimused vajavad käsitsi kontrolli."
+      ]
+    },
+    {
+      "id": "noo_vald_service_taiendavad_vajaduspohised_teenused",
+      "canonical_item_id": "noo_vald:service:taiendavad_vajaduspohised_teenused",
+      "itemType": "service",
+      "title": "Täiendavad vajaduspõhised teenused",
+      "status": "active",
+      "summary": "Nõo vald nimetab täiendavaid vajaduspõhiseid teenuseid ametlikul sotsiaalteenuste lehel eraldi teenusena. Kirje tähistab KOV-i võimalust korraldada inimese abivajadusest lähtuvaid täiendavaid teenuseid. Detailtingimusi ei ole siin oletatud, sest detailtekst ei olnud automaatkorjes piisavalt loetav.",
+      "sourceKeys": [
+        "taiendavad_vajaduspohised_teenused_page",
+        "social_services_overview"
+      ],
+      "targetGroup": null,
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://nvv.ee/taiendavad-vajaduspohised-teenused",
+      "relatedForms": [],
+      "relatedContacts": [],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Detaillehe praktiline sisu jäi automaatkorjes ebapiisavalt lahti; teenuse tingimused vajavad käsitsi kontrolli."
+      ]
+    },
+    {
+      "id": "noo_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "noo_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on ajutine abimeede, millega leevendatakse abivajavate isikute ja perede materiaalset puudust ning tagatakse minimaalsed vahendid esmavajadusteks. Toetus arvutatakse valemiga TT=(EK+TP)-S, võttes arvesse sissetulekut, eluasemekulusid ja toimetulekupiiri. 2026. aastal on toimetulekupiir esimesele pereliikmele 220 eurot, alaealisele 264 eurot ja teisele ning järgmisele täisealisele 176 eurot.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "targetGroup": "Madala sissetulekuga isikud ja pered.",
+      "conditions": "Taotleja peab esitama vormikohase avalduse ning sissetuleku ja eluasemekulude dokumendid hiljemalt kuu viimaseks tööpäevaks.",
+      "application": {
+        "channels": [
+          "vormikohane avaldus vallavalitsusele",
+          "elektrooniline avaldus infosüsteemi kaudu STAR programmis"
+        ],
+        "steps": null,
+        "deadline": "Hiljemalt kuu viimasel tööpäeval."
+      },
+      "decisionTime": null,
+      "amount": "Summa sõltub leibkonna sissetulekust, toimetulekupiirist ja arvesse võetavatest eluasemekuludest.",
+      "officialUrl": "https://nvv.ee/toimetulekutoetus",
+      "relatedForms": [
+        "noo_vald_form_toimetulekutoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [
+        "description",
+        "target_group",
+        "conditions",
+        "amount",
+        "application",
+        "deadline",
+        "forms"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_lapsetoetus",
+      "canonical_item_id": "noo_vald:benefit:lapsetoetus",
+      "itemType": "benefit",
+      "title": "Lapsetoetus",
+      "status": "active",
+      "summary": "Lapsetoetus on sissetulekust mittesõltuv Nõo valla sotsiaaltoetus lapse sünni puhul. Valla sotsiaaltoetuste lehel on nimetatud toetus summas 512 eurot, mis makstakse kolmes osas: 128 eurot pärast lapse sündi, 128 eurot pärast lapse üheaastaseks saamist ja 256 eurot lapse kaheaastaseks saamisel. Taotlemiseks on avaldatud eraldi lapsetoetuse avaldus.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Lapse vanem või taotleja, kellel on õigus Nõo valla lapsetoetusele.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "512 eurot kolmes osas: 128 €, 128 € ja 256 €.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_lapsetoetus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_koolitoetus",
+      "canonical_item_id": "noo_vald:benefit:koolitoetus",
+      "itemType": "benefit",
+      "title": "Koolitoetus esimesse klassi minevale lapsele",
+      "status": "active",
+      "summary": "Koolitoetus on sissetulekust mittesõltuv toetus esimesse klassi minevale lapsele. Nõo valla sotsiaaltoetuste lehel on toetusena nimetatud 50 eurot. Taotlemiseks on avaldatud koolitoetuse avaldus.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Esimesse klassi mineva lapse vanem või eestkostja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_koolitoetus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_pohikooli_lopetamise_toetus",
+      "canonical_item_id": "noo_vald:benefit:pohikooli_lopetamise_toetus",
+      "itemType": "benefit",
+      "title": "Põhikooli lõpetamise toetus",
+      "status": "active",
+      "summary": "Põhikooli lõpetamise toetus on Nõo vallas sissetulekust mittesõltuv toetus. Sotsiaaltoetuste lehel on põhikooli lõpetamise toetuse summaks märgitud 50 eurot. Taotlemiseks kasutatakse põhikooli või gümnaasiumi lõpetaja toetuse avaldust.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Põhikooli lõpetaja või tema esindaja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_lopetaja_toetus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_gumnaasiumi_lopetamise_toetus",
+      "canonical_item_id": "noo_vald:benefit:gumnaasiumi_lopetamise_toetus",
+      "itemType": "benefit",
+      "title": "Gümnaasiumi lõpetamise toetus",
+      "status": "active",
+      "summary": "Gümnaasiumi lõpetamise toetus on Nõo vallas sissetulekust mittesõltuv toetus. Sotsiaaltoetuste lehel on gümnaasiumi lõpetamise toetuse summaks märgitud 60 eurot. Taotlemiseks kasutatakse põhikooli või gümnaasiumi lõpetaja toetuse avaldust.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Gümnaasiumi lõpetaja või tema esindaja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "60 eurot.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_lopetaja_toetus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_represseeritute_maamaksutoetus",
+      "canonical_item_id": "noo_vald:benefit:represseeritute_maamaksutoetus",
+      "itemType": "benefit",
+      "title": "Represseeritute maamaksu tasumise toetus",
+      "status": "active",
+      "summary": "Represseeritute maamaksu tasumise toetus on sissetulekust mittesõltuv sotsiaaltoetus. Nõo valla sotsiaaltoetuste lehel on selle toetuse suuruseks märgitud kuni 20 eurot aastas. Vormiseost ei olnud samal lehel eraldi nimetatud.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Represseeritud isikud, kellel on õigus Nõo valla toetusele.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 20 eurot aastas.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_matusetoetus",
+      "canonical_item_id": "noo_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus on Nõo valla sissetulekust mittesõltuv sotsiaaltoetus. Sotsiaaltoetuste lehel on matusetoetuse summaks märgitud 450 eurot. Taotlemiseks on avaldatud matusetoetuse taotlemise avaldus.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Matuse korraldaja või muu õigustatud taotleja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "450 eurot.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_matusetoetus"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_kriisiabi",
+      "canonical_item_id": "noo_vald:benefit:kriisiabi",
+      "itemType": "benefit",
+      "title": "Kriisiabi",
+      "status": "active",
+      "summary": "Kriisiabi on Nõo valla sotsiaaltoetuste lehel nimetatud sissetulekust mittesõltuva toetusena. Lehel ei ole samas plokis eraldi summat ega menetluse kirjeldust avaldatud. Kirje on loodud eraldi, sest KOV veeb nimetab kriisiabi eraldi toetuste loetelus.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Kriisiolukorda sattunud inimene või pere.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": [
+        "Toetuse täpne summa ja menetluskäik ei ole vaadatud lehel avaldatud."
+      ]
+    },
+    {
+      "id": "noo_vald_benefit_toetus_lastega_peredele",
+      "canonical_item_id": "noo_vald:benefit:toetus_lastega_peredele",
+      "itemType": "benefit",
+      "title": "Toetus lastega peredele",
+      "status": "active",
+      "summary": "Toetus lastega peredele on Nõo vallas sissetulekust sõltuv sotsiaaltoetus. Sotsiaaltoetuste lehel on selle ülempiiriks märgitud kuni 400 eurot aastas. Vormiseos ei ole samal lehel eraldi nimetatud.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Sissetulekust sõltuvat abi vajavad lastega pered.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 400 eurot aastas.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_toetus_majandusliku_olukorra_leevendamiseks",
+      "canonical_item_id": "noo_vald:benefit:toetus_majandusliku_olukorra_leevendamiseks",
+      "itemType": "benefit",
+      "title": "Toetus majandusliku olukorra leevendamiseks",
+      "status": "active",
+      "summary": "Majandusliku olukorra leevendamise toetus on Nõo vallas sissetulekust sõltuv sotsiaaltoetus. Sotsiaaltoetuste lehel on selle ülempiiriks märgitud kuni 300 eurot aastas. Toetust kasutatakse materiaalse olukorra leevendamiseks, kui abivajadus sõltub sissetulekust.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Majandusliku olukorra tõttu abi vajavad isikud või pered.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 300 eurot aastas.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_kuttetoetus",
+      "canonical_item_id": "noo_vald:benefit:kuttetoetus",
+      "itemType": "benefit",
+      "title": "Küttetoetus",
+      "status": "active",
+      "summary": "Küttetoetus on Nõo vallas sissetulekust sõltuv sotsiaaltoetus. Sotsiaaltoetuste lehel on selle toetuse ülempiiriks märgitud kuni 300 eurot aastas. Toetuse täpsemad tingimused tuleb kontrollida eraldi korrast või sotsiaalosakonnast.",
+      "sourceKeys": [
+        "social_benefits_overview"
+      ],
+      "targetGroup": "Sissetulekust sõltuvat kütteabi vajavad leibkonnad.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 300 eurot aastas.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_taisealise_isiku_hooldajatoetus",
+      "canonical_item_id": "noo_vald:benefit:taisealise_isiku_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Täisealise isiku hooldajatoetus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldajatoetus on erivajadusest tulenev toetus hooldajale. Nõo valla lehel on raske puudega täisealise isiku hooldaja toetuseks märgitud 30 eurot ning sügava puudega täisealise isiku hooldaja toetuseks 50 eurot. Toetus on seotud täisealise isiku hoolduse teenusega.",
+      "sourceKeys": [
+        "social_benefits_overview",
+        "taisealise_isiku_hooldus_page"
+      ],
+      "targetGroup": "Täisealise raske või sügava puudega isiku hooldaja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "30 eurot raske puudega isiku hooldajale; 50 eurot sügava puudega isiku hooldajale.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_hooldajatoetus_taiskasvanu"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [
+        "noo_vald_service_taisealise_isiku_hooldus"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "noo_vald:benefit:puudega_lapse_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajatoetus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetus on erivajadusest tulenev toetus puudega lapse hooldajale. Sotsiaaltoetuste lehel on keskmise ja raske puudega lapse hooldajatoetuseks märgitud 50 eurot ning sügava puudega lapse hooldajatoetuseks 100 eurot. Taotlemiseks on avaldatud eraldi avaldus puudega lapse hooldajale.",
+      "sourceKeys": [
+        "social_benefits_overview",
+        "puudega_lapse_hooldamine_page"
+      ],
+      "targetGroup": "Keskmise, raske või sügava puudega lapse hooldaja.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot keskmise ja raske puudega lapse hooldajale; 100 eurot sügava puudega lapse hooldajale.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_hooldajatoetus_puudega_laps"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [
+        "noo_vald_service_puudega_lapse_hooldamine"
+      ],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_puudest_tingitud_lisakulude_toetus",
+      "canonical_item_id": "noo_vald:benefit:puudest_tingitud_lisakulude_toetus",
+      "itemType": "benefit",
+      "title": "Puudest tingitud lisakulude katmise toetus",
+      "status": "active",
+      "summary": "Puudest tingitud lisakulude katmise toetus on erivajadusest tulenev toetus, mida makstakse kuludokumentide alusel. Sotsiaaltoetuste lehel on täisealisele isikule ülempiiriks märgitud kuni 100 eurot aastas ja lapsele kuni 200 eurot aastas. Eraldi vorm on avaldatud puudega lapse vanemale lapse puudest tingitud lisakulude kompenseerimiseks.",
+      "sourceKeys": [
+        "social_benefits_overview",
+        "forms_page"
+      ],
+      "targetGroup": "Puudega täisealine isik või puudega laps ja tema vanem.",
+      "conditions": null,
+      "application": {
+        "channels": null,
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Täisealisele kuni 100 eurot aastas; lapsele kuni 200 eurot aastas.",
+      "officialUrl": "https://nvv.ee/sotsiaaltoetused1",
+      "relatedForms": [
+        "noo_vald_form_puudega_lapse_lisakulud"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_benefit_eluruumi_kohandamise_toetus",
+      "canonical_item_id": "noo_vald:benefit:eluruumi_kohandamise_toetus",
+      "itemType": "benefit",
+      "title": "Eluruumi kohandamise toetus",
+      "status": "active",
+      "summary": "Erivajadusega Nõo valla elanikul on võimalik taotleda toetust eluaseme kohandamiseks, et parandada puudega inimese elamis-, õppimis- ja töötamistingimusi. Toetus hõlmab näiteks liikumise, hügieeni või köögitoimingutega seotud kohandusi. Kohandada saab eluruumi, mis asub Nõo vallas ning on taotleja rahvastikuregistrijärgne ja tegelik elukoht.",
+      "sourceKeys": [
+        "eluaseme_kohandamine_page"
+      ],
+      "targetGroup": "Erivajadusega Nõo valla elanik, kelle eluruum vajab puudest tulenevat kohandamist.",
+      "conditions": "Eluruum peab asuma Nõo vallas ning olema taotleja rahvastikuregistrijärgne ja tegelik elukoht.",
+      "application": {
+        "channels": [
+          "taotlusvorm",
+          "omaniku või kaasomaniku nõusolek",
+          "vajadusel korteriühistu nõusolek"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://nvv.ee/puuetega-inimeste-eluaseme-fuusiline-kohandamine",
+      "relatedForms": [
+        "noo_vald_form_eluaseme_kohandamine",
+        "noo_vald_form_eluruumi_omaniku_nousolek",
+        "noo_vald_form_korteriuhistu_nousolek"
+      ],
+      "relatedContacts": [
+        "noo_vald_contact_ene_molter"
+      ],
+      "relatedTo": [],
+      "sections_present": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_lastekaitse",
+      "canonical_item_id": "noo_vald:resource:lastekaitse",
+      "itemType": "resource",
+      "title": "Lastekaitse",
+      "status": "active",
+      "summary": "Lastekaitse leht kirjeldab lapse õiguste ja heaolu tagamise põhimõtteid ning seda, kuidas lastekaitsespetsialist hindab lapse huve ja lapse/pere abivajadust. Lehel on kirjeldatud, et pöörduda võib igaüks, kes on mures lapse heaolu pärast. Vajadusel pakutakse perele teenuseid, toetusi või juhtumitööd.",
+      "sourceKeys": [
+        "lastekaitse_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/lastekaitse",
+      "relatedTo": [
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_haedaohus_ja_abivajav_laps",
+      "canonical_item_id": "noo_vald:resource:haedaohus_ja_abivajav_laps",
+      "itemType": "resource",
+      "title": "Hädaohus ja abivajav laps",
+      "status": "active",
+      "summary": "Leht selgitab, kuidas teavitada abivajavast või hädaohus olevast lapsest. Välja on toodud lasteabitelefon, kadunud laste 116 000 ja hädaabinumber. Kirjeldatakse hädaohus oleva lapse ja abivajava lapse tunnuseid ning turvakoduteenuse seost.",
+      "sourceKeys": [
+        "haedaohus_laps_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele/hadaohus-ja-abivajav-laps",
+      "relatedTo": [
+        "noo_vald_service_turvakoduteenus",
+        "noo_vald_contact_liisa_rootare"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_noo_paevakeskus",
+      "canonical_item_id": "noo_vald:resource:noo_paevakeskus",
+      "itemType": "resource",
+      "title": "Nõo Päevakeskus",
+      "status": "active",
+      "summary": "Nõo Päevakeskus pakub loenguid, muusikalisi pärastlõunaid, filmipäevi, mälutreeningut, huvitegevusi ning võimalust lugeda ajalehti ja ajakirju. Vajadusel on päevakeskuses pesemisvõimalus ja lühiajaline majutus. Päevakeskus on avatud esmaspäevast reedeni kell 13.00–17.00.",
+      "sourceKeys": [
+        "paevakeskus_page"
+      ],
+      "name": "Nõo Päevakeskus",
+      "address": "Tartu 20, Nõo, 61601 Tartumaa",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/noo-paevakeskus",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_sa_noo_hooldekodu",
+      "canonical_item_id": "noo_vald:resource:sa_noo_hooldekodu",
+      "itemType": "resource",
+      "title": "SA Nõo Hooldekodu",
+      "status": "active",
+      "summary": "SA Nõo Hooldekodu on Nõo valla hooldekodu Luke külas. Valla lehel on avaldatud hooldekodu aadress, juhataja, telefonid ja e-posti aadress. Ressurss on seotud üldhooldusteenuse praktilise teenusepakkujana.",
+      "sourceKeys": [
+        "hooldekodu_page"
+      ],
+      "name": "SA Nõo Hooldekodu",
+      "address": "Luke küla, Nõo vald, 61614 Tartumaa",
+      "officialUrl": "https://nvv.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sa-noo-hooldekodu",
+      "relatedTo": [
+        "noo_vald_service_uldhooldusteenus"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_ohvriabi",
+      "canonical_item_id": "noo_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Ohvriabi leht suunab abi saama juhul, kui inimene või tema lähedane on kannatanud kuriteo, vägivalla või kriisijuhtumi tõttu. Leht annab ohvriabi kriisitelefoni ning välismaalt helistamise numbri Lisaks viidatakse naiste tugi- ja teabekeskusele ning Sotsiaalkindlustusameti iseteeninduse broneerimisvõimalusele.",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/ohvriabi",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_puudega_isiku_parkimiskaart",
+      "canonical_item_id": "noo_vald:resource:puudega_isiku_parkimiskaart",
+      "itemType": "resource",
+      "title": "Puudega isiku parkimiskaart",
+      "status": "active",
+      "summary": "Puudega isiku parkimiskaart väljastatakse taotluse alusel inimesele, kellel on liikumis- või nägemisfunktsiooni kõrvalekalle või ajutine liikumisfunktsiooni kõrvalekalle. Kaardi taotlemisel tuleb esitada isikut tõendav dokument, SKA otsus või arstitõend ning foto. Kaart on isikupõhine, mitte sõidukipõhine.",
+      "sourceKeys": [
+        "parkimiskaart_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/puudega-isiku-parkimiskaart1",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_isikliku_abivahendi_kaart",
+      "canonical_item_id": "noo_vald:resource:isikliku_abivahendi_kaart",
+      "itemType": "resource",
+      "title": "Isikliku abivahendi kaart ja abivahendid",
+      "status": "active",
+      "summary": "Abivahendite leht selgitab, kuidas saada isikliku abivahendi kaart ja kuidas kasutada riigipoolse soodustusega abivahendeid. Abivahenditeks võivad olla näiteks liikumisabivahendid, mähkmed, poti- ja dušitoolid, proteesid või muud toimetulekut toetavad vahendid. Lehel viidatakse SKA taotlusvõimalustele ja üleriigilisele infotelefonile 16106.",
+      "sourceKeys": [
+        "abivahendi_kaart_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/invaabivahendite-laenutamine-ja-ostmine1",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_tahtsad_abinumbrid",
+      "canonical_item_id": "noo_vald:resource:tahtsad_abinumbrid",
+      "itemType": "resource",
+      "title": "Tähtsad abinumbrid ja kriisikontaktid",
+      "status": "active",
+      "summary": "Nõo valla avalehel on koondatud tähtsad kontaktid: hädaabi, perearsti nõuandetelefon 1220, ohvriabi ja lasteabi. Need on praktilised abikanalid, mida kasutatakse kiire abi ja nõustamise saamiseks. Leht ei kirjelda nende teenuste sisu, kuid kinnitab numbrid Nõo valla ametliku veebikihi kaudu.",
+      "sourceKeys": [
+        "home"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_resource_e_teenused",
+      "canonical_item_id": "noo_vald:resource:e_teenused",
+      "itemType": "resource",
+      "title": "Nõo valla e-teenused",
+      "status": "active",
+      "summary": "E-teenuste leht kirjeldab Nõo valla teenuste ja toimingute keskkonda, kus sotsiaal- ja haridusvaldkonnas on nimetatud lapsetoetuse, lapsehoiuteenuse, koolitoetuse, matusetoetuse, hooldajatoetuse, toimetulekutoetuse ning lõpetaja toetuse taotlemise võimalused. Leht märgib, et e-vorme saab allkirjastada ID-kaardiga. Ressurss kajastab ametlikku e-taotluste kanalit.",
+      "sourceKeys": [
+        "e_services_page"
+      ],
+      "name": null,
+      "address": null,
+      "officialUrl": "https://nvv.ee/teenused-ja-toimingud",
+      "relatedTo": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "noo_vald_form_sotsiaaltransport_puudega_laps",
+      "canonical_item_id": "noo_vald:form:sotsiaaltransport_puudega_laps",
+      "itemType": "form",
+      "title": "Sotsiaaltransporditeenus puudega lapsele",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Sotsiaaltransporditeenus puudega lapsele' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_sotsiaaltransport_puudega_laps"
+      ],
+      "format": "docx",
+      "officialUrl": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20puudega%20lapsele.docx",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_service_sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_sotsiaaltransport_taisealine",
+      "canonical_item_id": "noo_vald:form:sotsiaaltransport_taisealine",
+      "itemType": "form",
+      "title": "Sotsiaaltransporditeenus täiesealisele",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Sotsiaaltransporditeenus täiesealisele' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_sotsiaaltransport_taisealine"
+      ],
+      "format": "docx",
+      "officialUrl": "https://nvv.ee/sites/default/files/documents/2026-01/Sotsiaaltransporditeenus%20t%C3%A4iesealisele.docx",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_service_sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_toimetulekutoetuse_avaldus",
+      "canonical_item_id": "noo_vald:form:toimetulekutoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Toimetulekutoetuse avaldus' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "toimetulekutoetus_page",
+        "form_toimetulekutoetuse_avaldus"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/sites/default/files/documents/2026-01/Toimetulekutoetuse%20avaldus.pdf",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_toimetulekutoetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_hooldajatoetus_taiskasvanu",
+      "canonical_item_id": "noo_vald:form:hooldajatoetus_taiskasvanu",
+      "itemType": "form",
+      "title": "Hooldajatoetuse määramise avaldus täiskasvanule",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Hooldajatoetuse määramise avaldus täiskasvanule' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_hooldajatoetus_taiskasvanu"
+      ],
+      "format": "doc",
+      "officialUrl": "https://nvv.ee/documents/1432271/12882866/Hooldajatoetus.doc/a9e5011b-e76e-4e87-b995-9a4abbe75600",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_taisealise_isiku_hooldajatoetus",
+        "noo_vald_service_taisealise_isiku_hooldus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_hooldajatoetus_puudega_laps",
+      "canonical_item_id": "noo_vald:form:hooldajatoetus_puudega_laps",
+      "itemType": "form",
+      "title": "Hooldajatoetuse määramise avaldus puudega lapse hooldajale",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Hooldajatoetuse määramise avaldus puudega lapse hooldajale' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_hooldajatoetus_puudega_laps"
+      ],
+      "format": "docx",
+      "officialUrl": "https://nvv.ee/documents/1432271//Avaldus%2Bhooldajatoetuse%2Bmaksmiseks%2Bpuudega%2Blapse%2Bhooldajale.docx/090c2d6f-f219-49e9-9c7d-dfd00450e916",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_puudega_lapse_hooldajatoetus",
+        "noo_vald_service_puudega_lapse_hooldamine"
+      ]
+    },
+    {
+      "id": "noo_vald_form_matusetoetus",
+      "canonical_item_id": "noo_vald:form:matusetoetus",
+      "itemType": "form",
+      "title": "Matusetoetuse taotlemise avaldus",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Matusetoetuse taotlemise avaldus' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_matusetoetus"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271/18486248/Matusetoetuse%2Btaotlemise%2Bavaldus_muudetav.pdf/1b6e7959-ec76-4aa2-9112-586ce7ae1916",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_matusetoetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_lapsetoetus",
+      "canonical_item_id": "noo_vald:form:lapsetoetus",
+      "itemType": "form",
+      "title": "Lapsetoetuse taotlemise avaldus",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Lapsetoetuse taotlemise avaldus' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_lapsetoetus"
+      ],
+      "format": "doc",
+      "officialUrl": "https://nvv.ee/documents/1432271//Lapsetoetus%2Bblankett%2B2.doc/f180fb23-382d-4dd4-9cbc-6f67e686b7d0",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_lapsetoetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_lopetaja_toetus",
+      "canonical_item_id": "noo_vald:form:lopetaja_toetus",
+      "itemType": "form",
+      "title": "Põhikooli või gümnaasiumi lõpetaja toetuse taotlemise avaldus",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Põhikooli või gümnaasiumi lõpetaja toetuse taotlemise avaldus' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_lopetaja_toetus"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271//koolil%C3%B5putoetuse%2Bavaldus-kodukale.pdf/3dcc1ec8-9a40-45dc-8151-855587b4d3b9",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_pohikooli_lopetamise_toetus",
+        "noo_vald_benefit_gumnaasiumi_lopetamise_toetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_puudega_lapse_tugiteenus",
+      "canonical_item_id": "noo_vald:form:puudega_lapse_tugiteenus",
+      "itemType": "form",
+      "title": "Avaldus raske ja sügava puudega lapsele sotsiaalteenuse osutamise toetuse taotlemiseks",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Avaldus raske ja sügava puudega lapsele sotsiaalteenuse osutamise toetuse taotlemiseks' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_puudega_lapse_tugiteenus"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271//Raske%2Bja%2Bs%C3%BCgava%2Bpuudega%2Blaste%2Btugiteenuse%2Bveebis%2Bt%C3%A4idetav.pdf/5b3d8668-dec2-462c-90ab-d8d3e3f46b7e",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_service_puudega_laste_tugiteenused"
+      ]
+    },
+    {
+      "id": "noo_vald_form_koolitoetus",
+      "canonical_item_id": "noo_vald:form:koolitoetus",
+      "itemType": "form",
+      "title": "Avaldus esimesse klassi minevale lapsele koolitoetuse taotlemiseks",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Avaldus esimesse klassi minevale lapsele koolitoetuse taotlemiseks' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_koolitoetus"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271//Avaldus%2Bkoolitoetuse%2Btaotlemiseks_new.pdf/9f68b48d-34c2--10e03cc20eac",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_koolitoetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_puudega_lapse_lisakulud",
+      "canonical_item_id": "noo_vald:form:puudega_lapse_lisakulud",
+      "itemType": "form",
+      "title": "Taotlus puudega lapse vanemale lapse puudest tingitud lisakulude kompenseerimiseks",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Taotlus puudega lapse vanemale lapse puudest tingitud lisakulude kompenseerimiseks' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_puudega_lapse_lisakulud"
+      ],
+      "format": "docx",
+      "officialUrl": "https://nvv.ee/documents/1432271/22623507/Puudega%2Blapse%2Btoetus_taotlus.docx/47b8da68-f013-49ca-9226-7b9bf9e6697d",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_puudest_tingitud_lisakulude_toetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_eluaseme_kohandamine",
+      "canonical_item_id": "noo_vald:form:eluaseme_kohandamine",
+      "itemType": "form",
+      "title": "Eluaseme kohandamise taotlusvorm",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Eluaseme kohandamise taotlusvorm' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_eluaseme_kohandamine"
+      ],
+      "format": "doc",
+      "officialUrl": "https://nvv.ee/documents/1432271/22623507/Eluaseme%2Bkohandamine%2Btaotlusvorm.doc/6c9924ee-a480-41f2-a3c5-b1d13aa76a8a",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_eluruumi_kohandamise_toetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_eluruumi_omaniku_nousolek",
+      "canonical_item_id": "noo_vald:form:eluruumi_omaniku_nousolek",
+      "itemType": "form",
+      "title": "Eluruumi omaniku või kaasomaniku nõusolek",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Eluruumi omaniku või kaasomaniku nõusolek' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_eluruumi_omaniku_nousolek"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271//Omaniku%2Bv%C3%B5i%2Bkaasomaniku%2Bn%C3%B5usolek_new.pdf/d39d5d28-affe-40c4-8e6e-36f46ab072b8",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_eluruumi_kohandamise_toetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_korteriuhistu_nousolek",
+      "canonical_item_id": "noo_vald:form:korteriuhistu_nousolek",
+      "itemType": "form",
+      "title": "Korteriühistu nõusolek",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Korteriühistu nõusolek' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_korteriuhistu_nousolek"
+      ],
+      "format": "pdf",
+      "officialUrl": "https://nvv.ee/documents/1432271//Korteri%C3%BChistu%2Bn%C3%B5usolek.pdf/de1e1f1b-8bc0-4b42-9e43-44b983b86185",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_benefit_eluruumi_kohandamise_toetus"
+      ]
+    },
+    {
+      "id": "noo_vald_form_lapsehoiuteenuse_taotlus",
+      "canonical_item_id": "noo_vald:form:lapsehoiuteenuse_taotlus",
+      "itemType": "form",
+      "title": "Lapsehoiuteenuse taotlus",
+      "status": "active",
+      "summary": "Ametlik Nõo valla vorm 'Lapsehoiuteenuse taotlus' teenuse või toetuse taotlemiseks.",
+      "sourceKeys": [
+        "forms_page",
+        "form_lapsehoiuteenuse_taotlus"
+      ],
+      "format": "docx",
+      "officialUrl": "https://nvv.ee/documents/1432271//lapsehoiuteenuse%2Btaotlus.docx/796e2efe-4cb8-42eb-93f4-a8d172256a00",
+      "submissionChannels": [
+        "",
+        "paberkandjal vallavalitsusse"
+      ],
+      "relatedTo": [
+        "noo_vald_service_lapsehoiuteenus"
+      ]
+    }
+  ]
+}

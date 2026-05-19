@@ -1,0 +1,1619 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-loksa-linn",
+  "document_id": "kov-loksa-linn",
+  "municipality": "Loksa linn",
+  "municipality_id": "loksa_linn",
+  "county": "Harjumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "loksa_linn_contact_loksa_linnavalitsus",
+      "canonical_item_id": "loksa_linn:contact:loksa_linnavalitsus",
+      "itemType": "contact",
+      "title": "Loksa Linnavalitsus üldkontakt",
+      "status": "active",
+      "summary": "Loksa Linnavalitsuse üldkontakt sotsiaalvaldkonna taotluste ja pöördumiste esitamiseks. Kodulehel on varjestatud kujul ning seetõttu on see säilitatud täpselt allikal nähtud kujul.",
+      "name": "Loksa Linnavalitsus",
+      "role": "Üldkontakt",
+      "department": "Loksa Linnavalitsus",
+      "address": "Tallinna tn 45, Loksa linn 74806",
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/kontakt-ja-teated/kontakt/",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_contact_hilleri_treisalt",
+      "canonical_item_id": "loksa_linn:contact:hilleri_treisalt",
+      "itemType": "contact",
+      "title": "Hilleri Treisalt",
+      "status": "active",
+      "summary": "Hilleri Treisalt koordineerib Loksa linnas haridus- ja sotsiaalvaldkonda, sealhulgas sotsiaalhoolekannet, lastekaitset ja tervishoidu.",
+      "name": "Hilleri Treisalt",
+      "role": "Abilinnapea, avalike suhete juht",
+      "department": "Haridus- ja sotsiaalvaldkond",
+      "address": null,
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/kontakt-ja-teated/kontakt/",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_contact_irina_karotam",
+      "canonical_item_id": "loksa_linn:contact:irina_karotam",
+      "itemType": "contact",
+      "title": "Irina Karotam",
+      "status": "active",
+      "summary": "Irina Karotam on Loksa linna lastekaitsenõunik. Tema ülesanded hõlmavad lastekaitsealast nõustamist, ennetustööd, hädaohus ja abivajava lapse õiguste kaitset ning asendushooldusteenuse korraldamist.",
+      "name": "Irina Karotam",
+      "role": "Lastekaitsenõunik",
+      "department": "Haridus- ja sotsiaalvaldkond",
+      "address": null,
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/kontakt-ja-teated/kontakt/",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_contact_anne_klettenberg",
+      "canonical_item_id": "loksa_linn:contact:anne_klettenberg",
+      "itemType": "contact",
+      "title": "Anne Klettenberg",
+      "status": "active",
+      "summary": "Anne Klettenberg on Loksa linna sotsiaaltöönõunik. Tema ülesanded hõlmavad sotsiaalnõustamist, riiklike ja kohalike sotsiaaltoetuste ning sotsiaalteenuste taotluste menetlemist ja linna eestkostetavate elu korraldamist.",
+      "name": "Anne Klettenberg",
+      "role": "Sotsiaaltöönõunik",
+      "department": "Haridus- ja sotsiaalvaldkond",
+      "address": null,
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/kontakt-ja-teated/kontakt/",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_contact_kerlin_miklas",
+      "canonical_item_id": "loksa_linn:contact:kerlin_miklas",
+      "itemType": "contact",
+      "title": "Kerlin Miklas",
+      "status": "active",
+      "summary": "Kerlin Miklas on noorte heaolu spetsialist. Loksa kodulehe järgi nõustab ja juhendab ta noori, toetab töökoha leidmist ning teeb ennetustööd.",
+      "name": "Kerlin Miklas",
+      "role": "Noorte heaolu spetsialist",
+      "department": "Haridus- ja sotsiaalvaldkond",
+      "address": null,
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/kontakt-ja-teated/kontakt/",
+      "sourceKeys": [
+        "contact_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_contact_eivolt_genergard",
+      "canonical_item_id": "loksa_linn:contact:eivolt_genergard",
+      "itemType": "contact",
+      "title": "Eivolt Genergard",
+      "status": "active",
+      "summary": "Eivolt Genergard on Loksa linna matuseinfo lehel nimetatud surnuaia vaht. Lehel avaldatud praktiline matuseinfo suunab telefoni kasutamisele.",
+      "name": "Eivolt Genergard",
+      "role": "Surnuaia vaht",
+      "department": "Matuseinfo",
+      "address": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/matuseinfo/",
+      "sourceKeys": [
+        "matuseinfo_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_service_koduteenus",
+      "canonical_item_id": "loksa_linn:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse eesmärk on aidata täisealist isikut kodustes tingimustes nii, et säiliks iseseisev ja turvaline toimetulek. Teenus hõlmab kõrvalabi toimingutes, mida inimene ei suuda terviseseisundi, tegevusvõime või elukeskkonna tõttu ise teha, näiteks kütmine, toiduvalmistamine, eluruumi ja riiete korrastamine ning toiduainete ja majapidamistarvete ostmine.",
+      "targetGroup": "Täisealised isikud, kes ei suuda terviseseisundi, tegevusvõime või elukeskkonna tõttu vajalikke toiminguid kõrvalabita teha.",
+      "conditions": "Teenuse vajadust hinnatakse inimese kõrvalabi vajaduse järgi. Kui kõrvalabi vajaduse määr teenuse osutamise ajal muutub, viib sotsiaaltöötaja läbi korduva hindamise.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Teenuse saaja tasub teenuse eest linnavalitsuse korraldusega kehtestatud hinnakirja alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "loksa_linn:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenuse eesmärk on tagada turvaline keskkond ja toimetulek täisealisele inimesele, kes ei suuda terviseseisundi, tegevusvõime või elukeskkonna tõttu ajutiselt või püsivalt kodus iseseisvalt toime tulla. Teenuse osutamisel lähtutakse hooldusvajadusest ja hooldusplaanist ning teenuse rahastamine toimub üldjuhul teenuseosutaja arve alusel.",
+      "targetGroup": "Täisealised isikud, kes ei suuda kodustes tingimustes ajutiselt või püsivalt iseseisvalt toime tulla.",
+      "conditions": "Teenuse osutamisel lähtutakse hooldusvajadusest ja hooldusplaanist. Linn võib katta puudujääva osa, kui teenust on vaja viivitamatult, kuni inimese enda ja ülalpidamiskohustuslaste võimalused on selgitatud.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Teenust rahastatakse linna eelarvest ja isikult võetavast tasust. Isik tasub majutus- ja toitlustuskulud ning muud teenusega seotud kulud; linna osa sõltub hoolduskulude piirmäärast ja inimese majanduslikust olukorrast.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_tugiisikuteenus",
+      "canonical_item_id": "loksa_linn:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenuse eesmärk on toetada iseseisvat toimetulekut olukorras, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu olulisel määral juhendamist, motiveerimist ja kõrvalabi. Tugiisik töötab teenuse saaja igapäevases elukeskkonnas või muus sobivas kohas ning võib olla ka saatjaks väljaspool kodu.",
+      "targetGroup": "Last kasvatavad isikud, puude, haiguse või raske olukorra tõttu abi vajavad isikud, asenduskoduteenusel, eestkostel, perekonnas hooldamise teenusel või varjupaigateenusel viibivad või sealt iseseisvasse ellu lahkuvad lapsed ning kinnipidamiskohast vabanenud isikud.",
+      "conditions": "Lapsele osutatakse teenust seadusliku esindaja nõusolekul ja arvestades lapse soovi. Teenuse vajaduse, sageduse ja mahu selgitab välja linnavalitsuse sotsiaalametnik.",
+      "application": {
+        "channels": [
+          "kirjalik taotlus",
+          "sotsiaalametniku algatus"
+        ],
+        "steps": [
+          "Esitada linnavalitsusele põhjendatud kirjalik taotlus või teenuse vajaduse märkamisel algatab protsessi sotsiaalametnik.",
+          "Sotsiaalametnik külastab teenuse soovijat ja selgitab välja vajaduse, sageduse ja mahu.",
+          "Sobiva tugiisiku olemasolul määratakse teenus linnavalitsuse korraldusega."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Sobiva tugiisiku olemasolul määratakse teenus linnavalitsuse korraldusega kümne tööpäeva jooksul nõuetekohase taotluse saabumise päevast.",
+      "pricing": "Teenuse saaja tasub teenuse eest linnavalitsuse korraldusega kehtestatud hinnakirja alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg",
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "loksa_linn:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldus seatakse täisealisele inimesele, kes vaimse või kehalise puude tõttu vajab abi oma õiguste teostamisel ja kohustuste täitmisel. Teenus on pikaajaline ja toetav ning aitab inimesel jätkuvalt oma kodus elada.",
+      "targetGroup": "Täisealised vaimse või kehalise puudega isikud, kes vajavad abi õiguste teostamiseks ja kohustuste täitmiseks.",
+      "conditions": "Hooldus seatakse ja hooldav isik määratakse hooldatava nõusolekul. Hooldajaks saab määrata teovõimelise isiku, kes on tervisliku seisundi ja elukorralduse tõttu võimeline hooldaja ülesandeid täitma.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Hooldajaks määratud isikule tasu ei maksta.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "loksa_linn:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus suurendab puude tõttu füüsilist kõrvalabi vajava täisealise inimese iseseisvat toimetulekut ja osalemist eri eluvaldkondades. Abistaja aitab näiteks liikumisel, söömisel, toidu valmistamisel, riietumisel, hügieenitoimingutes, majapidamistöödes ja muudes vajalikes toimingutes.",
+      "targetGroup": "Täisealised puude tõttu füüsilist kõrvalabi vajavad isikud.",
+      "conditions": "Teenuse saajal on õigus valida vahetult teenust osutav isik ja enne isiku kindlaksmääramist hinnata omavahelist sobivust. Kui kõrvalabi vajadus muutub, viib sotsiaaltöötaja läbi korduva hindamise.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Teenuse saaja tasub teenuse eest linnavalitsuse korraldusega kehtestatud hinnakirja alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_varjupaigateenus",
+      "canonical_item_id": "loksa_linn:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenuse eesmärk on kindlustada ajutine ööbimiskoht täisealisele inimesele, kes ei ole võimeline endale ööbimiskohta leidma. Ajutises ööbimiskohas peab olema tagatud voodikoht, pesemisvõimalus ja turvaline keskkond.",
+      "targetGroup": "Täisealised isikud, kes ei ole võimelised endale ööbimiskohta leidma.",
+      "conditions": "Ajutiseks ööbimiskohaks loetakse linnale kuuluva eluruumi ajutist kasutamist. Linnavalitsus võib teenuse osutamise otsustamise halduslepinguga volitada teisele asutusele või isikule.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Varjupaigateenuse saaja tasub teenuse eest linnavalitsuse korraldusega kehtestatud hinnakirja alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_turvakoduteenus",
+      "canonical_item_id": "loksa_linn:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenuse eesmärk on tagada teenust vajavale isikule ajutine eluase, turvaline keskkond ja esmane abi. Ajutine eluase hõlmab voodikohta, hügieenivõimalust, pesupesemist ja toitu, esmane abi aga kriisiabi, meditsiiniabi ja muu sarnase abi korraldamist.",
+      "targetGroup": "Isikud, kes vajavad ajutist eluaset, turvalist keskkonda ja esmast abi; vajadusel ka laps koos seadusliku esindajaga.",
+      "conditions": "Linnavalitsuse lastekaitsetöötaja otsuse alusel võib teenust osutada teenust vajavale isikule koos tema seadusliku esindajaga. Teenuse korraldab linnavalitsus.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Turvakoduteenuse saaja jaoks on teenus tasuta; teenust vajava isiku seadusliku esindaja võib arve tasumisest vabastada linnavalitsus lastekaitsetöötaja ettepaneku alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "loksa_linn:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab puudega inimesel, kelle puue takistab isikliku või ühissõiduki kasutamist, kasutada tema vajadustele vastavat transpordivahendit tööle või õppeasutusse sõitmiseks või avalike teenuste kasutamiseks.",
+      "targetGroup": "Puudega isikud, kellel puue takistab isikliku või ühissõiduki kasutamist.",
+      "conditions": "Teenuse osutamist korraldab linnavalitsus.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Teenuse saaja tasub teenuse eest linnavalitsuse korraldusega kehtestatud hinnakirja või teenuseosutaja esitatud arve alusel.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_eluruumi_tagamine",
+      "canonical_item_id": "loksa_linn:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamine",
+      "status": "active",
+      "summary": "Eluruumi tagamise eesmärk on kindlustada eluruumi kasutamise võimalus inimesele, kes ei ole sotsiaalmajandusliku olukorra tõttu võimeline endale ja oma perele sobivat eluruumi tagama. Puudest tingitud raskuste korral abistab linnavalitsus eluruumi kohandamisel või sobivama eluruumi saamisel.",
+      "targetGroup": "Isikud ja pered, kes ei suuda sotsiaalmajandusliku olukorra tõttu endale sobivat eluruumi tagada; puudega isikud, kellel on raskusi eluruumis liikumise või toimetulekuga.",
+      "conditions": "Eluruum peab asuma Loksa linna haldusterritooriumil. Kulu ei hüvitata, kui taotleja või tema ülalpidamiskohustusega isikute varaline seisund võimaldab kulu ise kanda.",
+      "application": {
+        "channels": [
+          "kirjalik taotlus linnavalitsusele"
+        ],
+        "steps": [
+          "Taotluses põhjendatakse eluruumi kohandamise vajadust, nimetatakse töö valmimise planeeritav tähtaeg ja esitatakse andmed eluruumi kasutamise õiguse kohta.",
+          "Taotlusele lisatakse eksperdihinnang, töö ja materjali hinnapakkumised ning vajadusel omaniku kirjalik nõusolek.",
+          "Hüvitise väljamaksmiseks esitatakse kulu tõendavad dokumendid ja kinnitus töö teostamise kohta."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": "Kulude hüvitamine sõltub vajaduse hindamisest ja taotleja varalisest seisundist.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_volanoustamisteenus",
+      "canonical_item_id": "loksa_linn:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimesel kindlaks teha oma varalist olukorda, pidada läbirääkimisi võlausaldajaga, rahuldada nõudeid, vältida uute võlgnevuste tekkimist ja lahendada muid võlgnevusega seotud probleeme.",
+      "targetGroup": "Võlaprobleemidega isikud või isikud, kellel on võlgnevuse tekkimise oht ja kes ei suuda iseseisvalt rahalisi kohustusi täita.",
+      "conditions": "Teenust osutavad linnavalitsuse sotsiaaltöötajad või vastavat kvalifikatsiooni omav teenuseosutaja.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Võlanõustamisteenus on isikule tasuta.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_lapsehoiuteenus",
+      "canonical_item_id": "loksa_linn:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada pooleteise- kuni seitsmeaastast last kasvatava isiku toimetulekut või töötamist ning vähendada lapse erivajadustest tulenevat hoolduskoormust. Teenust osutab vanema soovil Loksa Lasteaed Õnnetriinu ning raske ja sügava puudega lapse puhul hindab vajadust linnavalitsuse sotsiaaltöötaja.",
+      "targetGroup": "Pooleteise- kuni seitsmeaastast last kasvatavad isikud ning raske või sügava puudega laste pered.",
+      "conditions": "Raske ja sügava puudega laste puhul hindab linnavalitsuse sotsiaaltöötaja lapsehoiuteenuse vajadust igal lapsel eraldi ja nõustab teenuseosutaja valikul.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Teenuse kulud kaetakse osaliselt või täielikult linna eelarvest ning volikogu kehtestatud korras lapsevanema tasutud kohatasu ja toiduraha arvelt.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam",
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_asendushooldusteenus",
+      "canonical_item_id": "loksa_linn:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenus on linnavalitsuse korraldatav teenus lapse heaolu ja õiguste tagamiseks, kui lapsele on vaja võimaldada perele sarnased elutingimused, turvaline ja arengut toetav keskkond ning ettevalmistus täisealisena toimetulekuks.",
+      "targetGroup": "Lapsed, kelle vanem on surnud, kelle vanemale on piiratud teovõime tõttu määratud eestkostja, kelle vanema hooldusõigus on peatatud, piiratud või ära võetud või kes on vanemast eraldatud.",
+      "conditions": "Teenuse vajadust hindab linnavalitsuse sotsiaaltöötaja lapse heaolust lähtuvalt. Otsuse hooldusperre, perekodusse või asenduskodusse paigutamiseks teeb linnavalitsus.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Lapse ülalpidamise kulud ja teenuseosutaja tasu kaetakse linna eelarvest ning lapse sissetulekutest, mis laekuvad riigieelarvest.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_jarelhooldusteenus",
+      "canonical_item_id": "loksa_linn:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenus toetab asendushoolduselt ja eestkostelt lahkuva inimese iseseisvat toimetulekut ning õpingute jätkamist. Teenust osutatakse juhtumiplaani alusel, millega linn tagab eluaseme, vajaduspõhised tugiteenused ja toetused.",
+      "targetGroup": "Asendushoolduselt või eestkostelt lahkuvad täisealised isikud.",
+      "conditions": "Linn tagab teenuse asendushooldusel viibivale täisealisele isikule ning sotsiaaltöötaja vaatab juhtumiplaani üle vähemalt üks kord aastas.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Järelhooldusteenust rahastatakse linnaeelarvest ja järelhooldusel oleva isiku sissetulekutest.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam",
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_valtimatu_sotsiaalabi",
+      "canonical_item_id": "loksa_linn:service:valtimatu_sotsiaalabi",
+      "itemType": "service",
+      "title": "Vältimatu sotsiaalabi",
+      "status": "active",
+      "summary": "Vältimatu sotsiaalabi on abi Loksa linna haldusterritooriumil viibivale inimesele, kellel ei ole piisavaid elatusvahendeid ega tugivõrgustikku toidu ja riietuse tagamiseks. Abi võib hõlmata toidupakki ning aastaajale vastavaid puhtaid ja sobivaid riideid või jalatseid.",
+      "targetGroup": "Loksa linna haldusterritooriumil viibivad piisavate elatusvahenditeta abivajajad, kellel puudub mitteformaalne tugivõrgustik ja ressursid.",
+      "conditions": "Abi tagatakse abivajaja vajadusest lähtuvalt.",
+      "application": null,
+      "decisionTime": null,
+      "pricing": "Vältimatu sotsiaalabi on abi saajale tasuta.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg",
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_service_vaimse_tervise_teenus",
+      "canonical_item_id": "loksa_linn:service:vaimse_tervise_teenus",
+      "itemType": "service",
+      "title": "Vaimse tervise teenus",
+      "status": "active",
+      "summary": "Loksa linnas on võimalik kord nädalas saada vaimse tervise nõustamist, psühholoogi teenust ja perenõustamist. Teenust pakub MTÜ Toetus ning teenusele saamiseks saab pöörduda linnavalitsuse sotsiaaltöötajate või otse teenuseosutaja poole.",
+      "targetGroup": "Loksa elanikud, kes vajavad vaimse tervise nõustamist, psühholoogi abi või perenõustamist.",
+      "conditions": "Teenusele saab pöörduda sotsiaaltöötajate kaudu või otse MTÜ Toetus poole. Venekeelset psühhosotsiaalset teenust pakub Loksal esmaspäeviti või kolmapäeviti psühholoog.",
+      "application": {
+        "channels": [
+          ""
+        ],
+        "steps": [
+          "Pöörduda Anne Klettenbergi telefonil või Irina Karotami telefonil.",
+          "Võimalik on pöörduda otse MTÜ Toetus telefonil",
+          "Venekeelse psühholoogi teenusele saamiseks helistada"
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg",
+        "loksa_linn_contact_irina_karotam"
+      ],
+      "serviceLocation": "Loksa Kultuurikeskuse ruumid"
+    },
+    {
+      "id": "loksa_linn_benefit_toimetulekutoetus",
+      "canonical_item_id": "loksa_linn:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on riigi rahaline abi puuduses inimestele, mida maksab kohalik omavalitsus. Loksa kodulehe järgi arvestatakse toetust leibkonna eelmise kuu netosissetuleku, jooksva kuu eluasemekulude ja toimetulekupiiri põhjal ning taotlus tuleb esitada kohaliku omavalitsuse üksusele.",
+      "targetGroup": "Puuduses olevad inimesed ja leibkonnad, kelle muud vaesuse ja puuduse leevendamise abinõud on olnud ebapiisavad.",
+      "conditions": "Taotlusele lisatakse eelmisel kuul saadud netosissetulekuid ja makstud elatist tõendavad dokumendid ning eluasemekulude arvesse võtmiseks eluruumi kasutamise õigust ja eluasemekulusid tõendavad dokumendid. Esmakordsel taotlemisel või varade muutumisel esitatakse ka kirjalik esemete loetelu.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "vormikohane avaldus",
+          "paberkandjal või e-posti teel linnavalitsusele"
+        ],
+        "steps": [
+          "Esitada jooksva kuu eest taotlus hiljemalt kuu viimaseks tööpäevaks.",
+          "Lisada nõutud sissetuleku-, eluaseme- ja vajadusel varade dokumendid.",
+          "Taotlusi võetakse vastu igal tööpäeval."
+        ],
+        "deadline": "Jooksva kuu viimane tööpäev"
+      },
+      "decisionTime": null,
+      "amount": "Toimetulekupiirid on KOV lehel esitatud: esimene pereliige 200 eurot kuus, iga alaealine liige 240 eurot kuus ning teine ja iga järgmine täisealine liige 160 eurot kuus.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_toimetulekutoetuse_taotlus",
+        "loksa_linn_form_toimetulekutoetuse_esemete_loetelu",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_taiendav_sotsiaaltoetus",
+      "canonical_item_id": "loksa_linn:benefit:taiendav_sotsiaaltoetus",
+      "itemType": "benefit",
+      "title": "Täiendav sotsiaaltoetus toimetulekutoetuse saajale",
+      "status": "active",
+      "summary": "Loksa kodulehel on toimetulekutoetuse juures nimetatud täiendavat sotsiaaltoetust, mida makstakse koos toimetulekutoetusega juhul, kui toetuse saaja kõik pereliikmed on alaealised. Toetuse suurus on 15 eurot ja seda maksab kohalik omavalitsus riigieelarvelistest vahenditest.",
+      "targetGroup": "Toimetulekutoetuse saajad, kelle kõik perekonnaliikmed on alaealised.",
+      "conditions": "Kõik perekonnaliikmed peavad olema alaealised ning inimene peab olema toimetulekutoetuse saaja.",
+      "application": {
+        "channels": [
+          "toimetulekutoetuse taotlus"
+        ],
+        "steps": [
+          "Toetus on seotud toimetulekutoetuse taotlemisega."
+        ],
+        "deadline": "Jooksva kuu viimane tööpäev koos toimetulekutoetuse taotlusega"
+      },
+      "decisionTime": null,
+      "amount": "15 eurot",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_toimetulekutoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_huvihariduse_ja_huvitegevuse_toetus",
+      "canonical_item_id": "loksa_linn:benefit:huvihariduse_ja_huvitegevuse_toetus",
+      "itemType": "benefit",
+      "title": "Huvihariduse ja huvitegevuse toetus",
+      "status": "active",
+      "summary": "Huvihariduse ja huvitegevuse toetus on mõeldud toimetulekuraskustega perede 7–19-aastaste laste huvitegevuse toetamiseks, sealhulgas õppetasu või huviringi omaosaluse tasumiseks. Toetust saab ka asenduskoduteenusel või hooldusperes viibiv Loksa linna laps, sõltumata sissetuleku eelduse täitmisest.",
+      "targetGroup": "Toimetulekuraskustega perede 7–19-aastased lapsed ning asenduskoduteenusel või hooldusperes viibivad Loksa linna lapsed.",
+      "conditions": "Üldjuhul peab leibkonna netosissetulek ühe pereliikme kohta olema väiksem kui 50% töötasu alammäärast kuus ning laps ja tema seaduslikud esindajad peavad olema Loksa linna elanikud; linnavalitsus võib põhjendatud juhul teha erandi.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Vanem või muu seaduslik esindaja esitab vormikohase taotluse.",
+          "Linnavalitsus otsustab toetuse määramise komisjoni ettepaneku alusel.",
+          "Toetus kantakse teenuseosutajale arve alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Toetus määratakse taotluse esitamisele järgnevast kalendrikuust.",
+      "amount": "Kuni 400 eurot aastas ühe lapse kohta",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_huvihariduse_ja_huvitegevuse_toetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_matusetoetus",
+      "canonical_item_id": "loksa_linn:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetust makstakse Loksa linna elaniku surma korral matuste korraldajale. Taotlus tuleb esitada kolme kuu jooksul lahkunu surmapäevast ning toetus kantakse taotleja arvelduskontole.",
+      "targetGroup": "Loksa linna elaniku matuste korraldaja.",
+      "conditions": "Lahkunu peab olema Loksa linna elanik ning taotlus tuleb esitada kolme kuu jooksul lahkunu surmapäevast arvates.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada matusetoetuse taotlus.",
+          "Toetus kantakse taotleja arvelduskontole."
+        ],
+        "deadline": "Kolme kuu jooksul lahkunu surmapäevast arvates"
+      },
+      "decisionTime": null,
+      "amount": "250 eurot",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_matusetoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg",
+        "loksa_linn_contact_eivolt_genergard"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_raske_voi_sugava_puudega_lapse_abistamise_toetus",
+      "canonical_item_id": "loksa_linn:benefit:raske_voi_sugava_puudega_lapse_abistamise_toetus",
+      "itemType": "benefit",
+      "title": "Raske või sügava puudega lapse abistamise toetus",
+      "status": "active",
+      "summary": "Raske või sügava puudega lapse abistamise toetusega kompenseeritakse lapsevanema toimetulekut või töötamist toetavaid teenuseid, mille ajal tagab lapsehoiuteenuse osutaja lapse hooldamise, arendamise ja turvalisuse. Toetusega saab kompenseerida lapsehoiuteenust, tugiisikuteenust, sotsiaaltransporditeenust või muid lapse ja pere toimetulekut soodustavaid teenuseid või toetusi.",
+      "targetGroup": "Raske või sügava puudega lapse vanemad või hooldajad, kui lapse hoiuteenuse vajadus on kirjas rehabilitatsiooniplaanis ja Loksal puuduvad sobivad arengu- ja õpivõimalused.",
+      "conditions": "Taotlusele tuleb lisada rehabilitatsiooniplaani koopia ja Sotsiaalkindlustusameti otsuse koopia puude raskusastme kohta. Lapsevanema minimaalne omaosalus teenuse eest tasumisel on võrdne Loksa linna koolieelses lasteasutuses kehtiva kohatasuga.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada kirjalik taotlus koos nõutud dokumentidega.",
+          "Otsuse toetuse määramise või mittemääramise kohta teeb linnavalitsus sotsiaalhoolekande komisjoni ettepanekul.",
+          "Toetus makstakse kuludokumentide alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Raha kantakse kuludokumentide esitamisest 10 tööpäeva jooksul taotleja või tema määratud isiku arvelduskontole.",
+      "amount": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_raske_voi_sugava_puudega_lapse_abistamise_toetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam",
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_toidutoetus",
+      "canonical_item_id": "loksa_linn:benefit:toidutoetus",
+      "itemType": "benefit",
+      "title": "Toidutoetus",
+      "status": "active",
+      "summary": "Toidutoetus määratakse vähekindlustatud Loksa linna lapsele, kes käib Loksa Lasteaias Õnnetriinu. Toetuse suuruse otsustab linnavalitsus komisjoni ettepaneku alusel ja see võib katta kuni 100% tegelikust toidukulust.",
+      "targetGroup": "Vähekindlustatud Loksa linna laps, kes käib Loksa Lasteaias Õnnetriinu.",
+      "conditions": "Vähemalt üks vanem peab olema Loksa linna elanik ja leibkonna netosissetulek pereliikme kohta peab olema väiksem kui 50% töötasu alammäärast kuus.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Lapsevanem või lapse esindaja esitab taotluse, milles on leibkonna suuruse ja sissetulekute andmed.",
+          "Linnavalitsus otsustab toetuse suuruse komisjoni ettepaneku alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Toidutoetus määratakse taotluse esitamisele järgnevast kalendrikuust.",
+      "amount": "Kuni 100% tegelikust kulust",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_toidu_ja_kohatasu_toetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_kohatasu_toetus",
+      "canonical_item_id": "loksa_linn:benefit:kohatasu_toetus",
+      "itemType": "benefit",
+      "title": "Kohatasu toetus",
+      "status": "active",
+      "summary": "Kohatasu toetus on Loksa Lasteaias Õnnetriinu koha kasutamisel lapsevanema poolt kaetava osa hüvitis. Toetuse suurus määratakse komisjoni ettepaneku alusel ja see võib katta kuni 100% kohamaksust.",
+      "targetGroup": "Loksa linna laps, kes kasutab kohta Loksa Lasteaias Õnnetriinu.",
+      "conditions": "Vähemalt üks vanem peab olema Loksa linna elanik ja taotleja leibkonna netosissetulek pereliikme kohta peab olema väiksem kui 50% töötasu alammäärast kuus.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Lapsevanem või lapse esindaja esitab taotluse leibkonna suuruse ja sissetulekute andmetega.",
+          "Linnavalitsus otsustab toetuse suuruse komisjoni ettepaneku alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Kohatasu toetus määratakse taotluse esitamisele järgnevast kalendrikuust.",
+      "amount": "Kuni 100% kohamaksust",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_toidu_ja_kohatasu_toetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_uhekordne_toetus",
+      "canonical_item_id": "loksa_linn:benefit:uhekordne_toetus",
+      "itemType": "benefit",
+      "title": "Ühekordne toetus",
+      "status": "active",
+      "summary": "Ühekordset toetust makstakse Loksa linna elanikule majanduslike raskuste puhul vältimatute kulude hüvitamiseks. Kriisiolukorras on linnavalitsusel õigus iseseisvalt eraldada toetust vajadusel kuni kahekordse piirmäära ulatuses.",
+      "targetGroup": "Loksa linna elanikud, kellel on majanduslikud raskused ja vältimatud kulud.",
+      "conditions": "Taotleja leibkonna netosissetulek pereliikme kohta peab olema väiksem kui 50% töötasu alammäärast kuus. Taotlusele lisatakse sissetulekuid ja kulusid tõendavad dokumendid.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada vormikohane taotlus koos sissetulekuid ja kulusid tõendavate dokumentidega.",
+          "Linnavalitsus otsustab toetuse suuruse komisjoni ettepaneku alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 200 eurot aastas ühele taotlejale; kriisiolukorras vajadusel kuni kahekordne piirmäär.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_uhekordse_toetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_sunnitoetus",
+      "canonical_item_id": "loksa_linn:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetust makstakse lapse sünni puhul lapse emale. Toetus makstakse 50% ulatuses sünni registreerimise järel ja 50% lapse 1-aastaseks saamisel, kui lapsevanemad on jätkuvalt rahvastikuregistri järgi Loksa linna elanikud.",
+      "targetGroup": "Lapse ema või taotleja, kelle laps on sündinud ja kelle perekond vastab Loksa linna elukoha tingimustele.",
+      "conditions": "Lapse ema peab olema Loksa linna elanik vähemalt 6 kuud vahetult enne lapse sündi. Toetust makstakse ka juhul, kui lapse isa on Loksa linna elanik vähemalt üks aasta enne lapse sündi ja lapse ema on registreerinud end linnaelanikuks enne lapse sündi.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada sünnitoetuse taotlus esimese osa saamiseks.",
+          "Teise osa saamiseks eraldi taotlust esitama ei pea; see kantakse üle ametniku esildise alusel."
+        ],
+        "deadline": "Kolme kuu jooksul lapse sündimise päevast arvates"
+      },
+      "decisionTime": null,
+      "amount": "400 eurot kahele esimesele lapsele ja alates kolmandast lapsest 500 eurot; makstakse kahes võrdses osas.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_sunnitoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_ranitsatoetus",
+      "canonical_item_id": "loksa_linn:benefit:ranitsatoetus",
+      "itemType": "benefit",
+      "title": "Ranitsatoetus",
+      "status": "active",
+      "summary": "Ranitsatoetust makstakse lapse eest, kes on Loksa linna elanik ja asub esmakordselt õppima Loksa Gümnaasiumi 1. klassi. Toetus makstakse õpilase seadusliku esindaja esitatud vormikohase taotluse alusel.",
+      "targetGroup": "Loksa linna elanikust laps, kes asub esmakordselt õppima Loksa Gümnaasiumi 1. klassi, ja tema seaduslik esindaja.",
+      "conditions": "Laps peab olema Loksa linna elanik ja alustama esmakordselt õppimist Loksa Gümnaasiumi 1. klassis.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Seaduslik esindaja esitab vormikohase taotluse."
+        ],
+        "deadline": "Õppeaasta algul kuni 1. oktoobrini"
+      },
+      "decisionTime": null,
+      "amount": "200 eurot",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_ranitsatoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_elluastumistoetus",
+      "canonical_item_id": "loksa_linn:benefit:elluastumistoetus",
+      "itemType": "benefit",
+      "title": "Elluastumistoetus",
+      "status": "active",
+      "summary": "Elluastumistoetust makstakse vanemliku hoolitsuseta Loksa linna eestkostel lapsele iseseisva elu alustamisel. Komisjon võib soovitada toetada noort mitte rahaliselt, vaid iseseisva elu alustamiseks vajalike esemete muretsemisega.",
+      "targetGroup": "Vanemliku hoolitsuseta Loksa linna eestkostel olnud laps või noor iseseisva elu alustamisel.",
+      "conditions": "Taotlusele lisatakse dokumendid, mis tõestavad iseseisva elu alustamist. Komisjon hindab toetuse põhjendatust ja suurust.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada vormikohane taotlus koos iseseisva elu alustamist tõendavate dokumentidega.",
+          "Taotlus suunatakse komisjonile, kes teeb linnavalitsusele ettepaneku."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "Kuni 350 eurot ühele taotlejale",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_elluastumistoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam",
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_juubelitoetus",
+      "canonical_item_id": "loksa_linn:benefit:juubelitoetus",
+      "itemType": "benefit",
+      "title": "Juubelitoetus",
+      "status": "active",
+      "summary": "Juubelitoetust makstakse vormikohase taotluse alusel Loksa linna eakale elanikule alates 80. eluaastast igal nulli ja viiega lõppeval sünnipäeval. Toetus kantakse taotleja esitatud arvelduskontole.",
+      "targetGroup": "Loksa linna eakad elanikud alates 80. eluaastast, kelle sünnipäev lõpeb nulli või viiega.",
+      "conditions": "Taotleja peab olema Loksa linna eakas elanik ja esitama vormikohase taotluse.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada juubelitoetuse taotlus."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_juubelitoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_pensionitoetus",
+      "canonical_item_id": "loksa_linn:benefit:pensionitoetus",
+      "itemType": "benefit",
+      "title": "Pensionitoetus",
+      "status": "active",
+      "summary": "Pensionitoetust makstakse mittetöötavale pensionärile alates 70. eluaastast. Toetus makstakse välja taotleja sünnikuus vormikohase ühekordse taotluse alusel.",
+      "targetGroup": "Mittetöötavad pensionärid alates 70. eluaastast.",
+      "conditions": "Toetuse saaja peab olema mittetöötav pensionär. Tööle asumise korral tuleb sellest hiljemalt 10 päeva jooksul sotsiaaltöötajat teavitada. Taotlus loetakse ühekordselt esitatuks ka isikutel, kes on linnavalitsusele pensionitoetuse taotluse esitanud juba 2020. aastal.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada vormikohane ühekordne pensionitoetuse taotlus."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": "50 eurot",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_pensionitoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_benefit_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "loksa_linn:benefit:puudega_lapse_hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajatoetus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetus on igakuine sotsiaaltoetus 3 kuni 18-aastase raske või sügava puudega lapse hooldamise eest. Toetus makstakse isikule, kes ise ja kelle puudega laps on Loksa linna elanikud.",
+      "targetGroup": "3–18-aastase raske või sügava puudega lapse hooldaja.",
+      "conditions": "Hooldajaks on vanem, võõrasvanem, eestkostja või hoolduspere vanem, kes ei saa töötada puudega lapse hooldamise tõttu. Taotlusele lisatakse lapse rehabilitatsiooniplaani koopia ja Sotsiaalkindlustusameti otsuse koopia puude raskusastme kohta.",
+      "application": {
+        "channels": [
+          "SPOKU iseteenindus",
+          "PDF-vorm",
+          "RTF-vorm"
+        ],
+        "steps": [
+          "Esitada kirjalik taotlus koos nõutud dokumentidega.",
+          "Sotsiaalametnik koostab arvamuse hooldusvajaduse ja hooldaja võimaluste kohta.",
+          "Linnavalitsus otsustab toetuse komisjoni ettepaneku alusel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": "Hooldajatoetust makstakse hooldajatoetuse määramise otsuse tegemisele järgnevast kuust kuni otsuses nimetatud tähtajani.",
+      "amount": "100 eurot kuus",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaaltoetused/",
+      "sourceKeys": [
+        "benefits_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [
+        "loksa_linn_form_puudega_lapse_hooldajatoetuse_taotlus",
+        "loksa_linn_form_spoku_iseteenindus"
+      ],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam",
+        "loksa_linn_contact_anne_klettenberg"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_noortegarantii_tugisusteem",
+      "canonical_item_id": "loksa_linn:resource:noortegarantii_tugisusteem",
+      "itemType": "resource",
+      "title": "Noortegarantii tugisüsteem",
+      "status": "active",
+      "summary": "Noortegarantii tugisüsteem Loksal on vabatahtlik, tasuta ja konfidentsiaalne tugi noortele, kes ei õpi ega tööta ning vajavad suunda, motivatsiooni või praktilist abi. Tugisüsteem aitab leida motivatsiooni, sobivat eriala, koolitust või praktikakohta, koostada CV-d ja motivatsioonikirja ning leida töökohta.",
+      "targetGroup": "16–29-aastased noored, ennetava toena alates 13. eluaastast; samuti lapsevanemad ja spetsialistid, kes märkavad tuge vajavat noort.",
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/noortegarantii-tugisusteem/",
+      "sourceKeys": [
+        "noortegarantii_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_kerlin_miklas"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_isiklik_abivahendi_kaart",
+      "canonical_item_id": "loksa_linn:resource:isiklik_abivahendi_kaart",
+      "itemType": "resource",
+      "title": "Isiklik abivahendi kaart",
+      "status": "active",
+      "summary": "Isiklik abivahendi kaart puudutab soodustingimustel tehniliste abivahendite ostmist, laenutamist või nendega seotud teenuste kompenseerimist. KOV leht kirjeldab, kes võib toetust taotleda ja millised tõendid tuleb esitada.",
+      "targetGroup": "Lapsed vanema või eestkostja kaudu, tööealised töövõime kaotuse või puude raskusastmega inimesed ning vanaduspensioniealised, kelle toimetulekut abivahend parandab.",
+      "conditions": "Vaja on pere- või raviarsti tõendit abivahendi vajaduse kohta, isikut tõendavat dokumenti ning vajadusel puude või töövõimekaotuse tõendit.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/abivahendi-kaart-parkimiskaart/",
+      "sourceKeys": [
+        "abivahendi_parkimiskaart_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_puudega_inimese_soiduki_parkimiskaart",
+      "canonical_item_id": "loksa_linn:resource:puudega_inimese_soiduki_parkimiskaart",
+      "itemType": "resource",
+      "title": "Puudega inimese sõiduki parkimiskaart",
+      "status": "active",
+      "summary": "Puudega inimese sõiduki parkimiskaarti saab taotleda Loksa Linnavalitsusest. Parkimiskaart väljastatakse liikumispuudega või pimedat inimest teenindava sõiduki juhile ning on linnakodanikule tasuta.",
+      "targetGroup": "Liikumis- või nägemispuudega isikud; lapse puhul võib taotluse esitada lapsevanem või eestkostja.",
+      "conditions": "Esitada tuleb foto 3x4 mõõdus ja arstitõend. Kaart antakse üldjuhul välja viieks aastaks, ajutise liikumispuude korral puude tõenäolise möödumise perioodiks, kuid mitte üle ühe aasta.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/abivahendi-kaart-parkimiskaart/",
+      "sourceKeys": [
+        "abivahendi_parkimiskaart_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_matuseinfo",
+      "canonical_item_id": "loksa_linn:resource:matuseinfo",
+      "itemType": "resource",
+      "title": "Matuseinfo",
+      "status": "active",
+      "summary": "Loksa linna matuseinfo leht annab matuseinfo telefoni ja surnuaia vahi kontakti. Leht suunab lisaks matusetoetuse info juurde.",
+      "targetGroup": null,
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/matuseinfo/",
+      "sourceKeys": [
+        "matuseinfo_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_eivolt_genergard"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_lastekaitse_info",
+      "canonical_item_id": "loksa_linn:resource:lastekaitse_info",
+      "itemType": "resource",
+      "title": "Lastekaitse ja abivajavast lapsest teatamine",
+      "status": "active",
+      "summary": "Lastekaitse leht kirjeldab linnavalitsuse tegevust laste hoolekande, eestkoste ja lapse arengut toetava keskkonna korraldamisel. Leht rõhutab, et abivajavast või hädaohus olevast lapsest tuleb viivitamata teatada.",
+      "targetGroup": "Lapsed, lapsevanemad, lastega töötavad spetsialistid ja kõik, kes märkavad abivajavat või hädaohus last.",
+      "conditions": "Hädaohus olevast lapsest tuleb teatada hädaabinumbril; abivajavast lapsest tuleb teatada kohalikule omavalitsusele või helistada lasteabitelefonil.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse/",
+      "sourceKeys": [
+        "lastekaitse_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_lasteabi_telefon",
+      "canonical_item_id": "loksa_linn:resource:lasteabi_telefon",
+      "itemType": "resource",
+      "title": "Lasteabi",
+      "status": "active",
+      "summary": "Loksa lastekaitse lehel on nimetatud Lasteabi. See töötab ööpäevaringselt, on tasuta ning nõustamist pakutakse eesti, vene ja vajadusel inglise keeles; pöördumine võib jääda anonüümseks.",
+      "targetGroup": "Lapsed, noored, lapsevanemad ja lapse pärast mures olevad inimesed.",
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse/",
+      "sourceKeys": [
+        "lastekaitse_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_perelepitus",
+      "canonical_item_id": "loksa_linn:resource:perelepitus",
+      "itemType": "resource",
+      "title": "Perelepitus",
+      "status": "active",
+      "summary": "Perelepitus aitab lahku minevatel lapsevanematel jõuda lapse huvidest lähtuvate kokkulepeteni. Lehel kirjeldatakse riiklikku perelepitusteenust, mis on lapsevanematele tasuta ja mille taotlus esitatakse Sotsiaalkindlustusametile.",
+      "targetGroup": "Lapsevanemad, kes plaanivad kooselu lõpetada või on selle juba lõpetanud ning soovivad kokku leppida lapse elukoha, suhtlemiskorra, ülalpidamise või muude praktiliste küsimuste üle.",
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/perelepitus/",
+      "sourceKeys": [
+        "perelepitus_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_irina_karotam"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_loksa_eakate_kodu_tallinna_26",
+      "canonical_item_id": "loksa_linn:resource:loksa_eakate_kodu_tallinna_26",
+      "itemType": "resource",
+      "title": "Loksa Eakate Kodu, Tallinna tn 26",
+      "status": "active",
+      "summary": "Loksa linna hoolekandeasutuste lehel on nimetatud Loksa Eakate Kodu aadressil Tallinna tn 26. Lehel avaldatakse info ja broneerimise ning majas kasutatav telefoninumber.",
+      "targetGroup": "Eakad ja hoolekandeasutuse kohta infot otsivad pered.",
+      "conditions": "Aadress: Tallinna tn 26, Loksa, Harjumaa. Info ja broneerimine: majas:",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/tervishoid-ja-hoolekanne/hoolekandeaasutused/",
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_loksa_eakate_kodu_posti_29",
+      "canonical_item_id": "loksa_linn:resource:loksa_eakate_kodu_posti_29",
+      "itemType": "resource",
+      "title": "Loksa Eakate Kodu, Posti 29",
+      "status": "active",
+      "summary": "Loksa linna hoolekandeasutuste lehel on nimetatud Loksa Eakate Kodu aadressil Posti 29. Lehel avaldatakse info ja broneerimise ning majas kasutatav telefoninumber.",
+      "targetGroup": "Eakad ja hoolekandeasutuse kohta infot otsivad pered.",
+      "conditions": "Aadress: Posti 29, Loksa, Harjumaa. Info ja broneerimine: majas:",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/tervishoid-ja-hoolekanne/hoolekandeaasutused/",
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_ohvriabi",
+      "canonical_item_id": "loksa_linn:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Lehel „Kuidas aidata abivajavat inimest” selgitatakse, et ohvriabisse saab pöörduda, kui inimene ise või tema lähedane on kannatanud kuriteo, vägivalla või kriisijuhtumi tõttu. Ohvriabisse võib pöörduda ka juhul, kui on nähtud kellegi halba kohtlemist või õnnetust ning soovitakse nõu, kuidas lähedast toetada.",
+      "targetGroup": "Kuriteo, vägivalla või kriisijuhtumi ohvrid ning inimesed, kes soovivad murega lähedast toetada.",
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/tervishoid-ja-hoolekanne/kuidas-aidata-abivajavat-inimest/",
+      "sourceKeys": [
+        "abivajav_inimene_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_medi_hairenuputeenus",
+      "canonical_item_id": "loksa_linn:resource:medi_hairenuputeenus",
+      "itemType": "resource",
+      "title": "Medi häirenuputeenus",
+      "status": "active",
+      "summary": "Loksa leht tutvustab Medi häirenuputeenust kui kodus turvatunnet pakkuvat lahendust eakatele ja nende lähedastele. Häirenupu kaudu saab ööpäevaringselt ühendust kõnekeskusega, kes hindab olukorda ja saadab ohu korral appi kontaktisiku, kiirabi, päästeameti või politsei.",
+      "targetGroup": "Üksi kodus elavad eakad ja nende lähedased.",
+      "conditions": "Lisainfo telefonil; e-posti aadress on KOV lehel varjestatud.",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/tervishoid-ja-hoolekanne/kuidas-aidata-abivajavat-inimest/",
+      "sourceKeys": [
+        "abivajav_inimene_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_kriisivalmiduse_kontaktid",
+      "canonical_item_id": "loksa_linn:resource:kriisivalmiduse_kontaktid",
+      "itemType": "resource",
+      "title": "Kriisideks valmisoleku kontaktide meelespea",
+      "status": "active",
+      "summary": "Loksa kriisideks valmisoleku leht koondab praktilised kontaktid vee-, kütte-, teede-, tulekahju-, varguste ja muude kriisiolukordade puhuks. Lehel on nimetatud ka riigiinfo Elektrilevi rikketelefon 1343, mürgistusteabekeskus 16662, perearsti nõuandetelefon 1220 ning hädaabinumber.",
+      "targetGroup": null,
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/linn-uudised-ja-kontakt/korrakaitse-ja-turvalisus/kriisideks-valmisolek/",
+      "sourceKeys": [
+        "kriisivalmidus_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_kasulikud_lingid",
+      "canonical_item_id": "loksa_linn:resource:kasulikud_lingid",
+      "itemType": "resource",
+      "title": "Kasulikud lingid sotsiaal- ja tervishoiu valdkonnas",
+      "status": "active",
+      "summary": "Loksa linna kasulike linkide leht koondab sotsiaal- ja tervishoiuvaldkonna väliseid abikanaleid ja infoallikaid. Lehel on muu hulgas nimetatud Sotsiaalministeerium, Sotsiaalkindlustusamet, Eesti Töötukassa, Eesti Puuetega Inimeste Koda, Lasteabi, Eesti Naiste Varjupaikade Liit, Ohvriabi, Eluliin ja Peaasi.ee.",
+      "targetGroup": null,
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/kasulikud-lingid/",
+      "sourceKeys": [
+        "kasulikud_lingid_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_resource_riigi_infotelefonid",
+      "canonical_item_id": "loksa_linn:resource:riigi_infotelefonid",
+      "itemType": "resource",
+      "title": "Riigi infotelefonid",
+      "status": "active",
+      "summary": "Loksa sotsiaalvaldkonna lehtede jaluses on avaldatud riigi infotelefonid: kriisiinfotelefon, 1220 perearsti nõuandetelefon, konsulaarabi ja hädaabi. Need on praktilised esmased pöördumiskohad kriisi-, tervise- või hädaolukorras.",
+      "targetGroup": null,
+      "conditions": null,
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/sotsiaalteenused/",
+      "sourceKeys": [
+        "social_services_page",
+        "benefits_page",
+        "forms_page"
+      ],
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "loksa_linn_contact_loksa_linnavalitsus"
+      ]
+    },
+    {
+      "id": "loksa_linn_form_spoku_iseteenindus",
+      "canonical_item_id": "loksa_linn:form:spoku_iseteenindus",
+      "itemType": "form",
+      "title": "SPOKU iseteeninduskeskkond",
+      "status": "active",
+      "summary": "Loksa KOV vormileht suunab taotlejaid SPOKU iseteeninduskeskkonda, mida kirjeldatakse kiireima ja lihtsaima viisina taotluste täitmiseks ja menetlusse edastamiseks.",
+      "format": "web_form",
+      "officialUrl": "https://loksalinn.ee/pere-sotsiaal-ja-tervishoid/toetused-ja-teenused/blanketid/",
+      "submissionChannels": [
+        "SPOKU iseteenindus"
+      ],
+      "sourceKeys": [
+        "forms_page"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_toimetulekutoetus",
+        "loksa_linn_benefit_taiendav_sotsiaaltoetus",
+        "loksa_linn_benefit_huvihariduse_ja_huvitegevuse_toetus",
+        "loksa_linn_benefit_matusetoetus",
+        "loksa_linn_benefit_raske_voi_sugava_puudega_lapse_abistamise_toetus",
+        "loksa_linn_benefit_toidutoetus",
+        "loksa_linn_benefit_kohatasu_toetus",
+        "loksa_linn_benefit_uhekordne_toetus",
+        "loksa_linn_benefit_sunnitoetus",
+        "loksa_linn_benefit_ranitsatoetus",
+        "loksa_linn_benefit_elluastumistoetus",
+        "loksa_linn_benefit_juubelitoetus",
+        "loksa_linn_benefit_pensionitoetus",
+        "loksa_linn_benefit_puudega_lapse_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "eServiceUrl": "https://piksel.ee/spoku/loksa/index.php?module=207&op="
+    },
+    {
+      "id": "loksa_linn_form_uhekordse_toetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:uhekordse_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Ühekordse toetuse taotluse vorm",
+      "status": "active",
+      "summary": "PDF-vorm ühekordse toetuse taotlemiseks. Vormis esitatakse taotleja andmed, leibkonna sissetulekud, toetuse põhjus, arvelduskonto andmed ja kinnitus andmete õigsuse kohta.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/yhekordse_toetuse_taotlus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_uhekordse_toetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_uhekordne_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_toimetulekutoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:toimetulekutoetuse_taotlus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse taotluse vorm",
+      "status": "active",
+      "summary": "PDF-vorm toimetulekutoetuse taotlemiseks. Vormis esitatakse taotleja, pereliikmete, sotsiaalse seisu, sissetulekute, eluruumi ja eluasemekulude andmed.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/Lisa-1-toimetulek.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_toimetulekutoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_toimetulekutoetus",
+        "loksa_linn_benefit_taiendav_sotsiaaltoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_toimetulekutoetuse_esemete_loetelu",
+      "canonical_item_id": "loksa_linn:form:toimetulekutoetuse_esemete_loetelu",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse esemete loetelu vorm",
+      "status": "active",
+      "summary": "PDF-lisavorm toimetulekutoetuse taotleja ja tema perekonna kasutuses või omandis olevate esemete loetlemiseks. Vormis kirjeldatakse eluruume, maad, sõidukeid, ettevõtlusvarasid, väärtpabereid ja pangakontosid.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/Lisa-2-toimetulek.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_toimetulekutoetuse_esemete_loetelu_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_toimetulekutoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_huvihariduse_ja_huvitegevuse_toetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:huvihariduse_ja_huvitegevuse_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Huvihariduse ja huvitegevuse toetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm huvihariduse ja huvitegevuse toetuse taotlemiseks. Vormis esitatakse taotleja ja lapse andmed, lapse kool, huvikool või huvitegevus ning maksumus ühes kalendrikuus.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/huvihariduse_ja_huvitegevuse_toetuse_taotlus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_huvihariduse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_huvihariduse_ja_huvitegevuse_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_raske_voi_sugava_puudega_lapse_abistamise_toetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:raske_voi_sugava_puudega_lapse_abistamise_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Raske või sügava puudega lapse abistamise toetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm raske või sügava puudega lapse abistamise toetuse taotlemiseks. Vormis esitatakse taotleja, lapse ja teenuseosutaja andmed ning lisatakse teenuse ostmise kuludokumendid, rehabilitatsiooniplaan ja puude raskusastme otsus.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/puudega_lapse_abistamise_toetuse_taotlus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_raske_puude_abi_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_raske_voi_sugava_puudega_lapse_abistamise_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_toidu_ja_kohatasu_toetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:toidu_ja_kohatasu_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Toidu- ja kohatasu toetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm Loksa Lasteaia Õnnetriinu toidutoetuse ja kohatasu toetuse taotlemiseks. Vormis esitatakse taotleja andmed, leibkonna sissetulekud ja lapse andmed.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/Lisa-6_toidu-ja-kohatasu-toetus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_toidu_kohatasu_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_toidutoetus",
+        "loksa_linn_benefit_kohatasu_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_sunnitoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:sunnitoetuse_taotlus",
+      "itemType": "form",
+      "title": "Sünnitoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm sünnitoetuse taotlemiseks. Vormis esitatakse taotleja, lapse, toetuse suuruse ja arvelduskonto andmed ning kinnitus avaldamise nõusoleku kohta.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/Lisa-9-sunnitoetus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_sunnitoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_sunnitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_matusetoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:matusetoetuse_taotlus",
+      "itemType": "form",
+      "title": "Matusetoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm matusetoetuse taotlemiseks. Vormis esitatakse taotleja ja surnu andmed, surnu viimane registreeritud elukoht, arvelduskonto ning kinnitus, et taotleja on matuse korraldaja.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/matusetoetuse_taotlus-2021.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_matusetoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_elluastumistoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:elluastumistoetuse_taotlus",
+      "itemType": "form",
+      "title": "Elluastumistoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm elluastumistoetuse taotlemiseks. Vormis esitatakse taotleja andmed, toetuse põhjus, arvelduskonto andmed ja kinnitus andmete õigsuse kohta.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/elluastumistoetuse_taotlus_taidetav_pdf.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_elluastumistoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_elluastumistoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_puudega_lapse_hooldajatoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:puudega_lapse_hooldajatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Puudega lapse hooldajatoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm puudega lapse hooldajatoetuse taotlemiseks. Vormis esitatakse taotleja ja lapse andmed, puude raskusaste ja kehtivus ning lisatakse rehabilitatsiooniplaani ja puude raskusastme otsuse koopia.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/puudega_lapse_hooldajatoetuse_taotlus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_puudega_lapse_hooldajatoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_puudega_lapse_hooldajatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_juubelitoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:juubelitoetuse_taotlus",
+      "itemType": "form",
+      "title": "Juubelitoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm juubelitoetuse taotlemiseks. Vormis esitatakse taotleja andmed ning arvelduskonto andmed.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/juubelitoetuse_taotlus.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_juubelitoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_juubelitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_pensionitoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:pensionitoetuse_taotlus",
+      "itemType": "form",
+      "title": "Pensionitoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm pensionitoetuse taotlemiseks. Vormis kinnitab taotleja, et ta ei tööta ja vastab pensionitoetuse saamise tingimustele, ning kohustub tööle asumisest teavitama.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/pensionitoetuse_taotlus-1.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_pensionitoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_pensionitoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "loksa_linn_form_ranitsatoetuse_taotlus",
+      "canonical_item_id": "loksa_linn:form:ranitsatoetuse_taotlus",
+      "itemType": "form",
+      "title": "Ranitsatoetuse taotlus",
+      "status": "active",
+      "summary": "PDF-vorm ranitsatoetuse taotlemiseks esmakordselt Loksa Gümnaasiumi 1. klassi õppima asuva lapse eest. Vormis esitatakse õpilase seadusliku esindaja ja lapse andmed ning arvelduskonto.",
+      "format": "pdf",
+      "officialUrl": "https://loksalinn.ee/wp-content/uploads/2025/02/ranitsatoetuse_taotluse_vorm.pdf",
+      "submissionChannels": [
+        "paberkandjal",
+        "",
+        "SPOKU"
+      ],
+      "sourceKeys": [
+        "forms_page",
+        "form_ranitsatoetuse_taotlus_file"
+      ],
+      "relatedTo": [
+        "loksa_linn_benefit_ranitsatoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": []
+    }
+  ]
+}

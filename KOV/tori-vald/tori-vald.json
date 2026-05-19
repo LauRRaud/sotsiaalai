@@ -1,0 +1,1245 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-tori-vald",
+  "document_id": "kov-tori-vald",
+  "municipality": "Tori vald",
+  "municipality_id": "tori_vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "tori_vald_service_koduteenus",
+      "canonical_item_id": "tori_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus on kohaliku omavalitsuse korraldatav teenus, mille eesmärk on tagada täisealise inimese iseseisev ja turvaline toimetulek kodustes tingimustes ning säilitada või parandada tema elukvaliteeti. Teenuse taotlemisel hinnatakse inimese teenusvajadust ja vajadusel tehakse kodukülastus.",
+      "sourceKeys": [
+        "koduteenus_page"
+      ],
+      "targetGroup": "Täisealised, kelle iseseisev kodune toimetulek vajab kõrvalabi.",
+      "conditions": "Teenuse saamiseks viiakse läbi teenusvajaduse hindamine ja kodukülastus.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/koduteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "tori_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus toetab puudega täisealist inimest igapäevastes toimingutes, et suurendada iseseisvust ja ühiskonnaelus osalemist. Teenus on nimetatud Tori valla eakate ja erivajadusega inimeste teenuste haru all.",
+      "sourceKeys": [
+        "isiklik_abistaja_page"
+      ],
+      "targetGroup": "Puudega täisealised.",
+      "conditions": "Vajalik on teenusvajaduse hindamine.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/isikliku-abistaja-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_service_tugiisikuteenus",
+      "canonical_item_id": "tori_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenust võib saada laps, kes vajab abi psüühika- või käitumishäire tõttu, last kasvatav isik, kes vajab abi lapse eest hoolitsemisel, ning isik, kes vajab abi igapäevastes olme- ja majapidamisküsimustes. Teenuse eesmärk on juhendada ja toetada iseseisvat toimetulekut.",
+      "sourceKeys": [
+        "tugiisikuteenus_page"
+      ],
+      "targetGroup": "Lapsed, last kasvatavad isikud ja täisealised abivajajad.",
+      "conditions": "Teenuse vajadust hindab vald.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/tugiisikuteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg",
+        "tori_vald_contact_geiu_vahtra",
+        "tori_vald_contact_krista_palk",
+        "tori_vald_contact_eve_lindoja",
+        "tori_vald_contact_kaja_rebane"
+      ]
+    },
+    {
+      "id": "tori_vald_service_sotsiaaltransport",
+      "canonical_item_id": "tori_vald:service:sotsiaaltransport",
+      "itemType": "service",
+      "title": "Sotsiaaltranspordi teenus",
+      "status": "active",
+      "summary": "Sotsiaaltranspordi teenus aitab abivajajal jõuda vajaliku teenuse, arstiabi või muu olulise toiminguni. Tori valla lehel on selle teenuse juures eraldi välja toodud taotlemine kohapeal, vallavalitsuses või teenuskeskustes ning digiallkirjastatud taotluse saatmine e-postiga.",
+      "sourceKeys": [
+        "sotsiaaltransport_page"
+      ],
+      "targetGroup": "Liikumisraskusega või muu abivajadusega täisealised.",
+      "conditions": "Teenuse vajadust hindab sotsiaalosakond.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Taotluse võib täita paberil ja tuua vallavalitsusse (Pärnu mnt 12, Sindi) või piirkondlikesse teenuskeskustesse.",
+          "Digiallkirjastatud taotlus saata."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/sotsiaaltranspordi-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "tori_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldus on kohaliku omavalitsuse teenus inimesele, kes vajab puude või terviseseisundi tõttu igapäevaelus abi. Hoolduse vajadust hindab vallavalitsus ning teenus võib olla seotud hooldaja määramisega.",
+      "sourceKeys": [
+        "taisealise_hooldus_page"
+      ],
+      "targetGroup": "Täisealised abivajajad.",
+      "conditions": "Teenuse saamiseks hinnatakse abivajadust.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/taisealise-isiku-hooldus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_service_valjaspool_kodu_uldhooldus",
+      "canonical_item_id": "tori_vald:service:valjaspool_kodu_uldhooldus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenus väljaspool kodu on teenus inimesele, kelle kodus toimetulek ei ole võimalik või ei ole turvaline ning kes vajab hooldust hoolekandeasutuses. Teenus on nimetatud Tori valla eakate ja erivajadustega inimeste teenuste all.",
+      "sourceKeys": [
+        "uldhooldus_page"
+      ],
+      "targetGroup": "Täisealised, kes vajavad hooldekodu või muud ööpäevaringset hooldust.",
+      "conditions": "Vajalik on teenusvajaduse hindamine.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_service_varjupaigateenus",
+      "canonical_item_id": "tori_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus on ajutine abi inimesele, kellel puudub ööbimiskoht või kes vajab kiiret turvalist majutust. Teenus asub Tori valla sotsiaalabi ajutises raskuses olevatele inimestele koondlehe all.",
+      "sourceKeys": [
+        "varjupaigateenus_page"
+      ],
+      "targetGroup": "Ajutiselt peavarjuta täisealised.",
+      "conditions": "Vajalik on sotsiaalosakonna hinnang.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/varjupaigateenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane"
+      ]
+    },
+    {
+      "id": "tori_vald_service_turvakoduteenus",
+      "canonical_item_id": "tori_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus on mõeldud inimesele või perele, kellel on vaja kriisiolukorras turvalist ajutist kohta ja abi. Teenus on Tori valla sotsiaalabi koondlehe all eraldi nimetatud.",
+      "sourceKeys": [
+        "turvakoduteenus_page"
+      ],
+      "targetGroup": "Kriisiolukorras isikud ja pered, sh lapsed.",
+      "conditions": "Teenusele suunamine toimub abivajaduse alusel.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/turvakoduteenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_liina_lelov_aasmaa"
+      ]
+    },
+    {
+      "id": "tori_vald_service_eluruumi_tagamise_teenus",
+      "canonical_item_id": "tori_vald:service:eluruumi_tagamise_teenus",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenus aitab inimest või peret, kes ei suuda endale ise eluruumi tagada. Teenus on Tori valla sotsiaalabi koondlehel eraldi nimetatud teenusena.",
+      "sourceKeys": [
+        "eluruumi_tagamine_page"
+      ],
+      "targetGroup": "Inimesed ja pered, kellel puudub sobiv eluruum.",
+      "conditions": "Abivajadust ja eluasemeolukorda hindab vallavalitsus.",
+      "application": {
+        "channels": [
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Pöörduda piirkondliku sotsiaaltöö spetsialisti, sotsiaalnõuniku või lastekaitsespetsialisti poole; teenuse saamiseks tehakse vajaduse hindamine ja vajadusel kodukülastus."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/eluruumi-tagamise-teenus",
+      "relatedTo": [],
+      "relatedForms": [
+        "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+        "tori_vald_form_sotsiaalteenuse_taotlus_docx"
+      ],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane"
+      ]
+    },
+    {
+      "id": "tori_vald_service_volanoustamisteenus",
+      "canonical_item_id": "tori_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimestel hinnata oma majanduslikku olukorda, koostada maksegraafikuid, pidada läbirääkimisi võlausaldajatega ja ennetada uute võlgade tekkimist. Teenus on Tori valla sotsiaalabi ajutises raskuses olevatele inimestele koondlehel eraldi nimetatud teenus.",
+      "sourceKeys": [
+        "volanoustamine_page"
+      ],
+      "targetGroup": "Võlgade või makseraskustega inimesed.",
+      "conditions": null,
+      "application": {
+        "channels": [
+          "kontakt"
+        ],
+        "steps": [
+          "Pöörduda sotsiaalosakonna poole ja leppida kokku nõustamine."
+        ],
+        "deadline": null
+      },
+      "pricing": null,
+      "officialUrl": "https://www.torivald.ee/toiming/volanoustamisteenus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "tori_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on sotsiaalabi inimestele ja peredele, kelle sissetulek pärast eluasemekulude arvestamist jääb alla kehtiva toimetulekupiiri. Tori valla veebis on see eraldi taotlusena sotsiaalvaldkonna taotlemise menüüs.",
+      "sourceKeys": [
+        "toimetulekutoetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Sissetulek peab jääma alla toimetulekupiiri; taotlemisel esitatakse sissetulekute ja eluasemekulude andmed.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/toimetulekutoetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_sunnitoetus",
+      "canonical_item_id": "tori_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetus on lapse sünniga seotud toetus. Tori valla lehel on see eraldi taotlusena ning sünnitoetus makstakse osadena sõltuvalt lapse ja vanemate elukohast ning taotluse esitamise ajast.",
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Lapse ja vanemate rahvastikuregistri järgne elukoht peab vastama Tori valla tingimustele.",
+      "amount": {
+        "text": "KOV lehel avaldatud määrade alusel; 2026. aasta muudatused kontrollida teenuslehelt."
+      },
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/sunnitoetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_koolitee_alustamise_toetus",
+      "canonical_item_id": "tori_vald:benefit:koolitee_alustamise_toetus",
+      "itemType": "benefit",
+      "title": "Koolitee alustamise toetus",
+      "status": "active",
+      "summary": "Koolitee alustamise toetus on Tori valla taotlus 1. klassi mineva lapse toetamiseks. See on haridus- ja perevaldkonna sotsiaalne toetus, mida taotletakse lapse koolitee alguses.",
+      "sourceKeys": [
+        "koolitee_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Laps alustab kooliteed ja vastab valla elukohatingimustele.",
+      "amount": {
+        "text": "150 eurot varasema korje põhjal; summa vajab teenuslehelt kinnitamist."
+      },
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": "KOV teenuslehe järgi."
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/koolitee-alustamise-toetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_erika_nomm"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_eralastehoiu_ja_eralasteaiateenuse_toetus",
+      "canonical_item_id": "tori_vald:benefit:eralastehoiu_ja_eralasteaiateenuse_toetus",
+      "itemType": "benefit",
+      "title": "Eralastehoiu- ja eralasteaiateenuse toetus",
+      "status": "active",
+      "summary": "Toetus aitab katta lapse eralastehoiu või eralasteaiateenuse kulu, kui perel on selleks vajadus ja Tori valla tingimused on täidetud. KOV menüüs on see taotlusena eraldi nimetatud.",
+      "sourceKeys": [
+        "eralastehoiu_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Lapse ja pere elukoha ning lasteaiakoha tingimused peavad vastama KOV lehele.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/eralastehoiu-ja-eralasteaiateenuse-toetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_erika_nomm"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_koolieelse_lasteasutuse_toiduraha_vabastus",
+      "canonical_item_id": "tori_vald:benefit:koolieelse_lasteasutuse_toiduraha_vabastus",
+      "itemType": "benefit",
+      "title": "Koolieelse lasteasutuse toiduraha tasumisest vabastamine",
+      "status": "active",
+      "summary": "Toetus võimaldab vabastada pere koolieelse lasteasutuse toiduraha tasumisest. Tegemist on taotluspõhise sotsiaalse toetusega, mille eesmärk on toetada väiksema sissetulekuga või suuremat koormust kandvaid peresid.",
+      "sourceKeys": [
+        "toiduraha_vabastus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Vabastuse alused ja tõendid sõltuvad valla teenuslehe tingimustest.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/koolieelse-lasteasutuse-toiduraha-tasumisest-vabastamise-taotlus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_erika_nomm"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_arendustegevuse_toetus",
+      "canonical_item_id": "tori_vald:benefit:arendustegevuse_toetus",
+      "itemType": "benefit",
+      "title": "Arendustegevuse toetus",
+      "status": "active",
+      "summary": "Arendustegevuse toetus aitab katta lapse arengut toetavate tegevuste kulusid, näiteks hariduslike ja huvitegevusega seotud kulusid, kui pere majanduslik olukord seda vajab.",
+      "sourceKeys": [
+        "arendustegevuse_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Taotlemisel hinnatakse pere vajadust ja esitatud kulusid.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/arendustegevuse-toetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_hooldustoetus",
+      "canonical_item_id": "tori_vald:benefit:hooldustoetus",
+      "itemType": "benefit",
+      "title": "Hooldustoetus",
+      "status": "active",
+      "summary": "Hooldustoetus on seotud hooldusvajadusega täisealise isiku abistamisega ja võib katta hoolduse või hooldekodukoha kulusid vastavalt valla tingimustele.",
+      "sourceKeys": [
+        "hooldustoetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Abivajaduse ja maksevõime hindamine.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/hooldustoetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_abivahenditoetus",
+      "canonical_item_id": "tori_vald:benefit:abivahenditoetus",
+      "itemType": "benefit",
+      "title": "Abivahenditoetus",
+      "status": "active",
+      "summary": "Abivahenditoetus aitab hüvitada puudest või tervislikust erivajadusest tulenevate abivahendite ostu või kasutamise kulusid. Toetus on Tori valla eakate ja erivajadusega inimeste toetusena eraldi nimetatud.",
+      "sourceKeys": [
+        "abivahenditoetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Vajalik on abivahendi vajadus ja KOV tingimustele vastavus.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/abivahenditoetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_puudega_lapse_uhekordne_toetus",
+      "canonical_item_id": "tori_vald:benefit:puudega_lapse_uhekordne_toetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse ühekordne toetus",
+      "status": "active",
+      "summary": "Puudega lapse ühekordne toetus on peredele, kus kasvab puudega laps. Toetus on Tori valla sotsiaalvaldkonna taotlemise menüüs eraldi nimetatud.",
+      "sourceKeys": [
+        "puudega_lapse_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Lapsel peab olema tuvastatud puue ja täidetud peavad olema Tori valla elukohatingimused.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/puudega-lapse-uhekordse-toetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_raske_sugava_puudega_laste_abi_toetus",
+      "canonical_item_id": "tori_vald:benefit:raske_sugava_puudega_laste_abi_toetus",
+      "itemType": "benefit",
+      "title": "Raske ja sügava puudega lastele abi osutamiseks eraldatud vahendite toetus",
+      "status": "active",
+      "summary": "Toetus võimaldab kasutada Tori vallale eraldatud vahendeid raske ja sügava puudega laste abistamiseks. KOV veebis on see eraldi toetusena nimetatud ja seondub lapse ning pere toetamisega.",
+      "sourceKeys": [
+        "raske_sugava_puudega_lapse_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Peres kasvab raske või sügava puudega laps ning kulud on seotud lapse abivajadusega.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/raske-ja-sugava-puudega-lastele-abi-osutamiseks-eraldatud-vahendite-toetus",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_uhekordne_toetus",
+      "canonical_item_id": "tori_vald:benefit:uhekordne_toetus",
+      "itemType": "benefit",
+      "title": "Ühekordne toetus",
+      "status": "active",
+      "summary": "Ühekordne toetus on sotsiaalabi ajutises raskuses olevale inimesele või perele vältimatute kulude katmiseks. See on KOV sotsiaalabi koondlehel eraldi nimetatud taotlus.",
+      "sourceKeys": [
+        "uhekordne_toetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Taotleja peab põhjendama ajutist raskust ja vajadusel esitama kuludokumendid.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/uhekordse-toetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_parnu_linna_parkimisloa_huvitamine",
+      "canonical_item_id": "tori_vald:benefit:parnu_linna_parkimisloa_huvitamine",
+      "itemType": "benefit",
+      "title": "Pärnu linna parkimisloa maksumuse hüvitamine",
+      "status": "active",
+      "summary": "Hüvitis aitab katta Pärnu linna parkimisloa maksumust Tori valla elanikele, kellel on valla lehel kirjeldatud sotsiaalne või perekondlik põhjendus. KOV menüüs on see eraldi sotsiaalabi taotlusena nimetatud.",
+      "sourceKeys": [
+        "parkimisloa_huvitamine_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Taotleja peab vastama teenuslehel avaldatud tingimustele.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/parnu-linna-parkimisloa-maksumuse-huvitamine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane"
+      ]
+    },
+    {
+      "id": "tori_vald_benefit_matusetoetus",
+      "canonical_item_id": "tori_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus makstakse matusekorraldaja avalduse alusel, kui tingimused on täidetud. Tori valla eakate ja erivajadusega inimeste koondleht kinnitab, et matusetoetust makstakse matusekorraldaja avalduse alusel.",
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "targetGroup": null,
+      "conditions": "Taotlemisel esitatakse avaldus ja vajalikud tõendid.",
+      "amount": null,
+      "application": {
+        "channels": [
+          "e-teenindus",
+          "kohapeal",
+          ""
+        ],
+        "steps": [
+          "Esitada taotlus Tori valla iseteeninduses või vallavalitsusele; vajadusel lisada tõendid ja kuludokumendid."
+        ],
+        "deadline": null
+      },
+      "officialUrl": "https://www.torivald.ee/toiming/matusetoetuse-taotlemine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_kaja_rebane",
+        "tori_vald_contact_silvi_pool",
+        "tori_vald_contact_tiina_mannik",
+        "tori_vald_contact_helena_tiik",
+        "tori_vald_contact_helga_isand",
+        "tori_vald_contact_jane_muur"
+      ]
+    },
+    {
+      "id": "tori_vald_resource_tori_valla_sotsiaalkeskus",
+      "canonical_item_id": "tori_vald:resource:tori_valla_sotsiaalkeskus",
+      "itemType": "resource",
+      "title": "Tori Valla Sotsiaalkeskus",
+      "status": "active",
+      "summary": "Tori valla hoolekandeasutus on Tori Valla Sotsiaalkeskus. Tegevuskohad on Sindi sotsiaalmaja, Tori sotsiaalmaja, Suigu sotsiaalmaja, Sauga sotsiaalmaja ja Kalda sotsiaalmaja; keskuse külastajatele pakutakse sotsiaaltransporti, toitlustamist ja sooja toidu kojukannet, juuksurit, pesemisvõimalust, pesupesemist, riideabi, sotsiaalnõustamist ja avahooldust.",
+      "sourceKeys": [
+        "sotsiaalkeskus_page"
+      ],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-tugivoimalused/tori-valla-sotsiaalkeskus",
+      "address": "Pärnu mnt 27a, Sindi, Tori vald, 86705 Pärnumaa",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_anu_eisenschmidt",
+        "tori_vald_contact_auliki_kremer"
+      ]
+    },
+    {
+      "id": "tori_vald_resource_erihoolekande_pilootprojekt",
+      "canonical_item_id": "tori_vald:resource:erihoolekande_pilootprojekt",
+      "itemType": "resource",
+      "title": "Erihoolekande pilootprojekt",
+      "status": "active",
+      "summary": "Tori vald osaleb Sotsiaalkindlustusameti pilootprojektis „Isikukeskse erihoolekande teenusmudeli jätkurakendamine kohalikus omavalitsuses 2025–2026“. Eesmärk on pakkuda psüühilise erivajadusega inimestele ja nende lähedastele isikukeskset ning vajaduspõhist abi; põhitoetuse osutajad Tori vallas on Sindi Sotsiaaltöökeskus ja Tori Sotsiaalmaja.",
+      "sourceKeys": [
+        "erihoolekande_pilootprojekt_page"
+      ],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-tugivoimalused/erihoolekande-pilootprojekt",
+      "relatedContacts": [
+        "tori_vald_contact_eda_mirk"
+      ],
+      "relatedTo": [],
+      "relatedForms": []
+    },
+    {
+      "id": "tori_vald_resource_ohvriabi",
+      "canonical_item_id": "tori_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Ohvriabisse saab pöörduda, kui inimene ise või tema lähedane on langenud hooletuse, halva kohtlemise, füüsilise, vaimse või seksuaalse vägivalla ohvriks. Tori valla leht selgitab, et abi saamise eelduseks ei ole kuriteo toimepanek; ohvriabi eesmärk on toetada inimese või lähedaste toimetulekut keerulistes emotsionaalsetes olukordades.",
+      "sourceKeys": [
+        "ohvriabi_page"
+      ],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-tugivoimalused/ohvriabi",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "tori_vald_resource_lastekaitse",
+      "canonical_item_id": "tori_vald:resource:lastekaitse",
+      "itemType": "resource",
+      "title": "Lastekaitse ja abi lapsele ning perele",
+      "status": "active",
+      "summary": "Tori valla lastekaitse leht koondab lapse ja pere abiga seotud info ning suunab vajadusel lasteabi ja vaimse tervise abi ressurssidele. Lastekaitse kontaktid on eraldi sotsiaalosakonna kontaktide lehel.",
+      "sourceKeys": [
+        "lastekaitse_page"
+      ],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/abi-lapsele-ja-perele",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "tori_vald_contact_liina_lelov_aasmaa",
+        "tori_vald_contact_natalja_zadunaiskaja_kiviselg",
+        "tori_vald_contact_geiu_vahtra",
+        "tori_vald_contact_krista_palk",
+        "tori_vald_contact_eve_lindoja"
+      ]
+    },
+    {
+      "id": "tori_vald_form_sotsiaalteenuse_taotlus_pdf",
+      "canonical_item_id": "tori_vald:form:sotsiaalteenuse_taotlus_pdf",
+      "itemType": "form",
+      "title": "Avaldus sotsiaalteenuse taotlemiseks täisealisele isikule (PDF)",
+      "status": "active",
+      "summary": "Ametlik paberil täitmiseks mõeldud PDF-vorm täisealise isiku sotsiaalteenuse taotlemiseks. Vormi lingitakse Tori valla sotsiaaltranspordi teenuse lehel ja see sobib sotsiaalteenuse taotlemiseks.",
+      "sourceKeys": [
+        "sotsiaaltransport_page",
+        "sotsiaalteenuse_taotlus_pdf"
+      ],
+      "format": "pdf",
+      "submissionChannels": [
+        "kohapeal",
+        ""
+      ],
+      "officialUrl": "https://torivald.sharepoint.com/:b:/s/AvalikudMaterjalid/IQCw6mVuXvQWTrNXotAYL8O0AZM96SvuMRsh3Cwq7VUeAso?e=DBZDFK",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "tori_vald_form_sotsiaalteenuse_taotlus_docx",
+      "canonical_item_id": "tori_vald:form:sotsiaalteenuse_taotlus_docx",
+      "itemType": "form",
+      "title": "Avaldus sotsiaalteenuse taotlemiseks täisealisele isikule (DOCX)",
+      "status": "active",
+      "summary": "Ametlik arvutis täitmiseks mõeldud DOCX-vorm täisealise isiku sotsiaalteenuse taotlemiseks. Digiallkirjastatud taotlus tuleb saata Tori vallavalitsuse üldisele e-postile või tuua teenuskeskusesse.",
+      "sourceKeys": [
+        "sotsiaaltransport_page",
+        "sotsiaalteenuse_taotlus_docx"
+      ],
+      "format": "docx",
+      "submissionChannels": [
+        "kohapeal",
+        ""
+      ],
+      "officialUrl": "https://torivald.sharepoint.com/:w:/s/AvalikudMaterjalid/IQBWdiU3cVoDQpVGJYe8008TAVgUxurybURqzWyrQ10AKOw?e=0Xxxyk",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": []
+    },
+    {
+      "id": "tori_vald_contact_priit_ruut",
+      "canonical_item_id": "tori_vald:contact:priit_ruut",
+      "itemType": "contact",
+      "title": "Priit Ruut",
+      "status": "active",
+      "summary": "Sotsiaaltöö, lastekaitse, haridus, noorsootöö ja ühistransport.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Priit Ruut",
+      "role": "Abivallavanem",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_kaja_rebane",
+      "canonical_item_id": "tori_vald:contact:kaja_rebane",
+      "itemType": "contact",
+      "title": "Kaja Rebane",
+      "status": "active",
+      "summary": "Täisealiste isikute sotsiaalhoolekanne, nõustamine ja täisealiste hoolekande kohtumenetlused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Kaja Rebane",
+      "role": "Sotsiaalnõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_liina_lelov_aasmaa",
+      "canonical_item_id": "tori_vald:contact:liina_lelov_aasmaa",
+      "itemType": "contact",
+      "title": "Liina Lelov-Aasmaa",
+      "status": "active",
+      "summary": "Lastekaitse üldküsimused, puuetega laste nõustamine ja teenused, asendushooldusteenus, lapsehoiu- ja eralasteaiateenuse toetamine.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Liina Lelov-Aasmaa",
+      "role": "Lastekaitsenõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_natalja_zadunaiskaja_kiviselg",
+      "canonical_item_id": "tori_vald:contact:natalja_zadunaiskaja_kiviselg",
+      "itemType": "contact",
+      "title": "Natalja Zadunaiskaja-Kiviselg",
+      "status": "active",
+      "summary": "Juhtumipõhine klienditöö, sotsiaalnõustamine, puuetega laste nõustamine ja teenused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Natalja Zadunaiskaja-Kiviselg",
+      "role": "Lastekaitsespetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_geiu_vahtra",
+      "canonical_item_id": "tori_vald:contact:geiu_vahtra",
+      "itemType": "contact",
+      "title": "Geiu Vahtra",
+      "status": "active",
+      "summary": "Juhtumipõhine klienditöö, sotsiaalnõustamine, puuetega laste nõustamine ja teenused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Geiu Vahtra",
+      "role": "Lastekaitsespetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_krista_palk",
+      "canonical_item_id": "tori_vald:contact:krista_palk",
+      "itemType": "contact",
+      "title": "Krista Palk",
+      "status": "active",
+      "summary": "Juhtumipõhine klienditöö, sotsiaalnõustamine, puuetega laste nõustamine ja teenused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Krista Palk",
+      "role": "Lastekaitsespetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_eve_lindoja",
+      "canonical_item_id": "tori_vald:contact:eve_lindoja",
+      "itemType": "contact",
+      "title": "Eve Lindoja",
+      "status": "active",
+      "summary": "Juhtumipõhine klienditöö, sotsiaalnõustamine, puuetega laste nõustamine ja teenused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Eve Lindoja",
+      "role": "Lastekaitsespetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_tiina_mannik",
+      "canonical_item_id": "tori_vald:contact:tiina_mannik",
+      "itemType": "contact",
+      "title": "Tiina Männik",
+      "status": "active",
+      "summary": "Teeninduspiirkond: endine Are vald, Kilksama, Eametsa, Nurme, Räägu külad ja Sauga alevik.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Tiina Männik",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_helena_tiik",
+      "canonical_item_id": "tori_vald:contact:helena_tiik",
+      "itemType": "contact",
+      "title": "Helena Tiik",
+      "status": "active",
+      "summary": "Teeninduspiirkond: Tammiste, Pulli, Rütavere, Urge, Kiisa ja Vainu külad.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Helena Tiik",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_helga_isand",
+      "canonical_item_id": "tori_vald:contact:helga_isand",
+      "itemType": "contact",
+      "title": "Helga Isand",
+      "status": "active",
+      "summary": "Teeninduspiirkond: Sindi linn, teenindatavate perekonnanimed N-Ü.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Helga Isand",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_jane_muur",
+      "canonical_item_id": "tori_vald:contact:jane_muur",
+      "itemType": "contact",
+      "title": "Jane Müür",
+      "status": "active",
+      "summary": "Teeninduspiirkond: Sindi linn, teenindatavate perekonnanimed A-N.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Jane Müür",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_silvi_pool",
+      "canonical_item_id": "tori_vald:contact:silvi_pool",
+      "itemType": "contact",
+      "title": "Silvi Pool",
+      "status": "active",
+      "summary": "Teeninduspiirkond: endine Tori vald.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Silvi Pool",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_eda_mirk",
+      "canonical_item_id": "tori_vald:contact:eda_mirk",
+      "itemType": "contact",
+      "title": "Eda Mirk",
+      "status": "active",
+      "summary": "Erihoolekande juhtumikorraldus.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Eda Mirk",
+      "role": "Juhtumikorraldaja (erihoolekanne)",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_erika_nomm",
+      "canonical_item_id": "tori_vald:contact:erika_nomm",
+      "itemType": "contact",
+      "title": "Erika Nõmm",
+      "status": "active",
+      "summary": "Alusharidus, lasteaiakohad, lapsehoiu ja eralasteaiateenuse toetamine, noorte huvihariduse ja -tegevuse toetused.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Erika Nõmm",
+      "role": "Haridus- ja noorsootöö nõunik",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_andrea_rebane",
+      "canonical_item_id": "tori_vald:contact:andrea_rebane",
+      "itemType": "contact",
+      "title": "Andrea Rebane",
+      "status": "active",
+      "summary": "Noortegarantii tugisüsteemi juhtumikoordineerimine.",
+      "sourceKeys": [
+        "social_contacts"
+      ],
+      "name": "Andrea Rebane",
+      "role": "Noortegarantii tugisüsteemi juhtumikoordinaator",
+      "department": "Haridus- ja sotsiaalosakond",
+      "address": null,
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/kontaktid"
+    },
+    {
+      "id": "tori_vald_contact_anu_eisenschmidt",
+      "canonical_item_id": "tori_vald:contact:anu_eisenschmidt",
+      "itemType": "contact",
+      "title": "Anu Eisenschmidt",
+      "status": "active",
+      "summary": "Sotsiaalkeskuse juhtimine.",
+      "sourceKeys": [
+        "sotsiaalkeskus_page"
+      ],
+      "name": "Anu Eisenschmidt",
+      "role": "Tori Valla Sotsiaalkeskuse juhataja",
+      "department": "Tori Valla Sotsiaalkeskus",
+      "address": "Pärnu mnt 27a, Sindi, Tori vald",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-tugivoimalused/tori-valla-sotsiaalkeskus"
+    },
+    {
+      "id": "tori_vald_contact_auliki_kremer",
+      "canonical_item_id": "tori_vald:contact:auliki_kremer",
+      "itemType": "contact",
+      "title": "Auliki Kremer",
+      "status": "active",
+      "summary": "Tori sotsiaalmaja teenuste koordineerimine.",
+      "sourceKeys": [
+        "sotsiaalkeskus_page"
+      ],
+      "name": "Auliki Kremer",
+      "role": "Teenuskoordinaator",
+      "department": "Tori Valla Sotsiaalkeskus",
+      "address": "Võlli tee 5, Tori alevik",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "officialUrl": "https://www.torivald.ee/pere-sotsiaal-ja-tervishoid/teenused-ja-tugivoimalused/tori-valla-sotsiaalkeskus"
+    }
+  ]
+}

@@ -1,0 +1,953 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-paide-linn",
+  "document_id": "kov-paide-linn",
+  "municipality": "Paide linn",
+  "municipality_id": "paide_linn",
+  "county": "Järvamaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "paide_linn_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "paide_linn:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hoolduse teenus aitab vaimse või kehalise puudega täisealisi, kes vajavad abi õiguste teostamisel ja kohustuste täitmisel. Taotlemiseks tuleb esitada kirjalik taotlus, milles märgitakse taotleja andmed, soovitav hooldaja ja põhjendus.",
+      "targetGroup": [
+        "raske või sügava puudega täisealised"
+      ],
+      "conditions": "Taotlejal peab puuduma ülalpidamiskohustusega perekonnaliige.",
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_yldhooldusteenus",
+      "canonical_item_id": "paide_linn:service:uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenus pakub täisealisele turvalist elukeskkonda ja abi, kui kodus iseseisvalt toime tulemine ei ole ajutiselt või püsivalt võimalik. Taotlemisel tuleb kirjalikus avalduses märkida oma andmed, soovitud hooldekodu ning teenuse põhjendus. Osa kuludest maksab vald kuni 590 euro ulatuses.",
+      "targetGroup": [
+        "täisealised, kes ei suuda kodus toime tulla"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "pricing": {
+        "amount": "Piirmäär 590 eurot",
+        "notes": "vald katab osa hooldekodu tasust"
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_eluruumi_tagamise_teenus",
+      "canonical_item_id": "paide_linn:service:eluruumi_tagamise_teenus",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenus võimaldab eluruumi kasutamist isikule, kes ei ole majanduslikel põhjustel võimeline endale sobivat eluruumi tagama. Taotluses esitatakse põhjused, sissetulek, pere- ja varaline seis. Teenuse hind on 1,50 eurot ruutmeetri kohta.",
+      "targetGroup": [
+        "isikud ja pered, kel puudub eluruum"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "pricing": {
+        "amount": "1,50 eurot/m²",
+        "notes": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_volanoustamine",
+      "canonical_item_id": "paide_linn:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab isikul hinnata oma majanduslikku olukorda, suhelda võlausaldajatega ning vältida uusi võlgnevusi. Taotlemiseks tuleb esitada kirjalik avaldus ja esitada sissetuleku ning võlgnevuste andmed.",
+      "targetGroup": [
+        "Paide elanikud võlaprobleemidega"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_koduteenus",
+      "canonical_item_id": "paide_linn:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenus tagab puudega või eaka inimese iseseisva ja turvalise toimetuleku kodustes tingimustes. Teenuse saamiseks tuleb esitada kirjalik avaldus koos sissetuleku ja puude raskusastme andmetega. Teenuse hind on 1 euro tund ja see on tasuta, kui pere sissetulek jääb alla toimetulekupiiri.",
+      "targetGroup": [
+        "Paide elanikud, kes vajavad koduabi"
+      ],
+      "pricing": {
+        "amount": "1 euro/tund",
+        "notes": "Tasuta, kui pere sissetulek on alla kahekordse toimetulekupiiri"
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_tugiisik",
+      "canonical_item_id": "paide_linn:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab inimesi, kes vajavad sotsiaalsete, majanduslike, psühholoogiliste või terviseprobleemide tõttu kõrvalabi oma kohustuste täitmisel. Taotluses tuleb märkida taotleja andmed, sissetulek ja vajadus teenuse järele. Teenus on tasuta.",
+      "targetGroup": [
+        "isikud, kes vajavad kõrvalabi"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "pricing": {
+        "amount": "tasuta",
+        "notes": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_isiklik_abistaja",
+      "canonical_item_id": "paide_linn:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenus aitab puudega täisealisel toime tulla igapäevategevustes nagu liikumine, toidu valmistamine ja majapidamine. Taotlemisel tuleb esitada taotleja andmed, sissetulek ja puude raskusaste. Teenuse hind on 1 euro tund.",
+      "targetGroup": [
+        "täisealised, kes vajavad füüsilist kõrvalabi"
+      ],
+      "pricing": {
+        "amount": "1 euro/tund",
+        "notes": null
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_varjupaik",
+      "canonical_item_id": "paide_linn:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus pakub ajutist ööbimisvõimalust täisealisele, kes ei ole võimeline endale ööbimiskohta leidma. Teenuse raames tagatakse voodikoht, pesemisvõimalus ja turvaline keskkond aadressil Aiavilja 13 Paides.",
+      "targetGroup": [
+        "täisealised kodutud"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_service_sotsiaaltransport",
+      "canonical_item_id": "paide_linn:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenus võimaldab liikumisraskustega isikutel või pensionäridel, kelle sissetulek on alla 180 euro inimese kohta, kasutada transporti avalike teenuste saamiseks. Teenuse hinnad: linna sees 5 eurot tund, väljaspool valda 0,30 eurot kilomeeter; ooteaeg 5 eurot alates teisest tunnist; invatransport 0,70 eurot/km ja lamaja transport 0,80 eurot/km.",
+      "targetGroup": [
+        "puudega isikud",
+        "madala sissetulekuga pensionärid"
+      ],
+      "pricing": {
+        "amount": "5 € tund või 0,30 €/km",
+        "notes": "invatransport 0,70 €/km, lamaja transport 0,80 €/km"
+      },
+      "application": {
+        "channels": [
+          "phone",
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "Vähemalt üks tööpäev enne sõitu"
+      },
+      "officialUrl": "https://paide.kovtp.ee/teenuste-liigid",
+      "sourceKeys": [
+        "teenuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_sunnitoetus",
+      "canonical_item_id": "paide_linn:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetus makstakse Paide lapsevanemale, kui vähemalt ühe vanema ja lapse elukohaks on Paide linn. Toetuse suurus on 500 eurot esimese ja teise lapse puhul ning 1000 eurot kolmanda ja iga järgneva lapse puhul. Toetus makstakse kahes osas: avaldus tuleb esitada kolme kuu jooksul pärast lapse sündi ja teise osa avaldus kolme kuu jooksul pärast lapse 1 aasta ja 6 kuu vanust.",
+      "targetGroup": [
+        "Paide lapsevanemad"
+      ],
+      "conditions": "Lapse ja vanema elukoht Paide",
+      "pricing": {
+        "amount": "500 või 1000 eurot",
+        "notes": "makstakse kahes osas"
+      },
+      "application": {
+        "channels": [
+          "in_person",
+          "online",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "3 kuud pärast lapse sündi"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_ranitsatoetus",
+      "canonical_item_id": "paide_linn:benefit:ranitsatoetus",
+      "itemType": "benefit",
+      "title": "Ranitsatoetus (esimest korda kooli minevale lapsele)",
+      "status": "active",
+      "summary": "Paide linn maksab 200 euro suurust ranitsatoetust lapsevanemale, kelle laps asub õppima Paide üldhariduskooli või erivajadustega õpilaste kooli. Taotlus esitatakse kolme kuu jooksul pärast kooli alustamist.",
+      "targetGroup": [
+        "Paide elanikud, kelle laps läheb 1. klassi"
+      ],
+      "pricing": {
+        "amount": "200 eurot",
+        "notes": "makstakse pärast nimekirja kinnitamist"
+      },
+      "application": {
+        "channels": [
+          "in_person",
+          "online",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "3 kuud pärast lapse õppima asumist"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_stat_ounesusabi",
+      "canonical_item_id": "paide_linn:benefit:statsionaarse_onusabiteenus",
+      "itemType": "benefit",
+      "title": "Statsionaarse õendusabiteenuse kulude hüvitamise toetus",
+      "status": "active",
+      "summary": "Toetus hüvitab 50% statsionaarse õendusabi eest makstud summast, kuid mitte rohkem kui 150 eurot kalendriaastas. Taotleja peab olema enne teenuse kasutamist elanud Paides vähemalt kuus kuud ja avaldus tuleb esitada kolme kuu jooksul pärast teenuse lõppemist koos arvega.",
+      "targetGroup": [
+        "Paide elanikud, kes kasutasid statsionaarset õendusabi"
+      ],
+      "pricing": {
+        "amount": "kuni 150 eurot",
+        "notes": "hüvitab 50% maksumusest"
+      },
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "3 kuud pärast teenuse lõppu"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_matusetoetus",
+      "canonical_item_id": "paide_linn:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus makstakse Paide linna elanikule, kes korraldab lahkunu matust. Toetuse suurus on 250 eurot ning avaldus tuleb esitada kolme kuu jooksul pärast surmakande koostamist.",
+      "targetGroup": [
+        "matuse korraldajad"
+      ],
+      "pricing": {
+        "amount": "250 eurot",
+        "notes": null
+      },
+      "application": {
+        "channels": [
+          "in_person",
+          "online",
+          "email"
+        ],
+        "steps": null,
+        "deadline": "3 kuud pärast surma registreerimist"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_lasteaia_toetus",
+      "canonical_item_id": "paide_linn:benefit:lasteaia_kohatasu_toetus",
+      "itemType": "benefit",
+      "title": "Lasteaia kohatasu ja toiduraha toetus",
+      "status": "active",
+      "summary": "Toetus makstakse perekonnale, kelle netosissetulek ühe pereliikme kohta on alla 400 euro. Toetuse suurus on 60% lapsevanema poolt makstavast lasteaiamaksust. Avaldus tuleb esitada iga kuu 20. kuupäevaks ja lisada kuludokumendid.",
+      "targetGroup": [
+        "madala sissetulekuga pered"
+      ],
+      "pricing": {
+        "amount": "60% kohatasust",
+        "notes": null
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": "iga kuu 20. kuupäev"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_huvitegevus_toetus",
+      "canonical_item_id": "paide_linn:benefit:huvitegevus_toetus",
+      "itemType": "benefit",
+      "title": "Huvitegevuses osalemise toetus",
+      "status": "active",
+      "summary": "Toetus katab 100% ühe huviringi või huvialakooli tasust kuni 19‑aastase lapse kohta, kui pere netosissetulek pereliikme kohta jääb alla 400 euro. Avaldus tuleb esitada iga kuu 20. kuupäevaks koos kuludokumentidega.",
+      "targetGroup": [
+        "madala sissetulekuga pered",
+        "lapsed kuni 19 a"
+      ],
+      "pricing": {
+        "amount": "100% huviringi tasust",
+        "notes": null
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": "iga kuu 20. kuupäev"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_taiendav_sotsiaaltoetus",
+      "canonical_item_id": "paide_linn:benefit:taiendav_sotsiaaltoetus",
+      "itemType": "benefit",
+      "title": "Täiendav sotsiaaltoetus",
+      "status": "active",
+      "summary": "Täiendav sotsiaaltoetus aitab peresid erakorraliste kulude katmisel. Toetuse piirmäärad on: abivahendi ostu omaosaluse hüvitamine kuni 50% ja kuni 150 eurot, retseptiravimite ost kuni 150 eurot, toimetuleku tagamine kuni 200 eurot ning eluaseme kohandamine kuni 50% kuludest. Avaldus esitatakse koos kulu tõendavate dokumentidega.",
+      "targetGroup": [
+        "leibkonnad majanduslikus raskuses"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "pricing": {
+        "amount": "kuni 200 eurot",
+        "notes": "piirmäärad vastavalt kulule"
+      },
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_erakorraline_toetus",
+      "canonical_item_id": "paide_linn:benefit:erakorraline_toetus",
+      "itemType": "benefit",
+      "title": "Erakorraline toetus",
+      "status": "active",
+      "summary": "Erakorraline toetus antakse isikule või perele, kes sattub raskesse majanduslikku olukorda või kellel tekivad põhjendatud ja erakorralised kulutused. Avaldus esitatakse sotsiaalosakonnale.",
+      "targetGroup": [
+        "majanduslikesse raskustesse sattunud isikud"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_perekonnas_hooldamise_toetus",
+      "canonical_item_id": "paide_linn:benefit:perekonnas_hooldamise_toetus",
+      "itemType": "benefit",
+      "title": "Alaealise lapse perekonnas hooldamise toetus",
+      "status": "active",
+      "summary": "Perekonnas hooldamise toetus makstakse lapse hooldaja lepingu alusel lapse ülalpidamiskulude osaliseks hüvitamiseks. Toetus on 100 eurot kvartalis ja makstakse märtsi, juuni, septembri ja detsembri 20. kuupäeval. Avaldusele lisatakse perekonnas hooldamise lepingu koopia.",
+      "targetGroup": [
+        "perekonnas hooldamise lepinguga hooldusvanemad"
+      ],
+      "pricing": {
+        "amount": "100 eurot kvartalis",
+        "notes": null
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_puudega_lapse_hooldaja_toetus",
+      "canonical_item_id": "paide_linn:benefit:puudega_lapse_hooldaja_toetus",
+      "itemType": "benefit",
+      "title": "Puudega lapse hooldajatoetus",
+      "status": "active",
+      "summary": "Puudega lapse hooldajatoetus on 200 eurot kuus ning makstakse isikule, kes ei saa tööle asuda puudega lapse hooldamise tõttu. Hooldajatoetuse määr on 75% osalise hooldusvajaduse korral ja 100% pideva hooldusvajaduse korral. Avaldusele lisatakse lapse puude otsus ja rehabilitatsiooniplaan.",
+      "targetGroup": [
+        "hooldajad, kes hooldavad 3–18‑aastast puudega last"
+      ],
+      "pricing": {
+        "amount": "200 eurot kuus",
+        "notes": "75% või 100% sõltuvalt hooldusvajadusest"
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_taisealise_hooldaja_toetus",
+      "canonical_item_id": "paide_linn:benefit:taisealise_hooldaja_toetus",
+      "itemType": "benefit",
+      "title": "Täisealise isiku hooldaja toetus",
+      "status": "active",
+      "summary": "Hooldaja toetus makstakse inimesele, kes hooldab raske või sügava puudega täisealist. Toetuse määr on 50 eurot kuus. Osalise hooldusvajaduse korral makstakse 75% määrast ja pideva hooldusvajaduse korral 100%.",
+      "targetGroup": [
+        "täisealise puudega isiku hooldajad"
+      ],
+      "pricing": {
+        "amount": "50 eurot kuus",
+        "notes": "75% või 100% sõltuvalt hooldusvajadusest"
+      },
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_toimetulekutoetus",
+      "canonical_item_id": "paide_linn:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus aitab peresid, kelle sissetulek ei kata seadusega kehtestatud toimetulekupiiri. Pere esimese liikme kohta peab pärast eluasemekulude mahaarvamist jääma vähemalt 220 eurot kuus, iga järgmise täiskasvanu kohta 176 eurot ja iga lapse kohta 264 eurot. Toetus katab puudujääva summa.",
+      "targetGroup": [
+        "peredele, kelle sissetulek jääb alla toimetulekupiiri"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": "taotlus esitada iga kuu viimase tööpäevani"
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_benefit_kodu_kohandamine",
+      "canonical_item_id": "paide_linn:benefit:kodu_kohandamise_toetus",
+      "itemType": "benefit",
+      "title": "Puudega inimese kodude kohandamise toetamine",
+      "status": "active",
+      "summary": "Paide linn osales projektis, mille raames kohandati puuetega inimeste eluruume. Toetuse eesmärk on tagada paremad elamis-, õppimis- ja töötamistingimused. Projekti taotlusvoorud on lõppenud, kuid linn jätkab kodukohandamise toetamist eelarve vahenditest.",
+      "targetGroup": [
+        "puudega inimesed"
+      ],
+      "application": {
+        "channels": [
+          "in_person"
+        ],
+        "steps": null,
+        "deadline": null
+      },
+      "officialUrl": "https://paide.kovtp.ee/toetuste-liigid",
+      "sourceKeys": [
+        "toetuste_liigid"
+      ]
+    },
+    {
+      "id": "paide_linn_resource_paevakeskus_vikerkaar",
+      "canonical_item_id": "paide_linn:resource:eakate_paevakeskus_vikerkaar",
+      "itemType": "resource",
+      "title": "Eakate päevakeskus 'Vikerkaar'",
+      "status": "active",
+      "summary": "Paide eakate päevakeskus 'Vikerkaar' tegutseb aadressil Lai tn 33 ja pakub tegevusi eakatele. Osalemise hind on 4 eurot kuus ning duši kasutamine maksab 1 euro korra kohta. Info saamiseks helistada või.",
+      "officialUrl": "https://paide.kovtp.ee/paevakeskus",
+      "sourceKeys": [
+        "paevakeskus"
+      ]
+    },
+    {
+      "id": "paide_linn_resource_hairenupp",
+      "canonical_item_id": "paide_linn:resource:hairenuputeenus",
+      "itemType": "resource",
+      "title": "Medi häirenuputeenus ja nutikad abivahendid",
+      "status": "active",
+      "summary": "Medi häirenuputeenus aitab eakatel ja erivajadusega inimestel kodus turvaliselt hakkama saada. Vajaduse korral saab häirenupp saata ööpäevaringsesse kõnekeskusesse häirekõne, millele reageeritakse kiiresti. Teenust pakub Meditech Estonia OÜ ning lisaks on saadaval ravimidosaatorid, pliidivalvurid ja suitsuandurid.",
+      "officialUrl": "https://paide.kovtp.ee/hairenupp",
+      "sourceKeys": [
+        "hairenupp"
+      ]
+    },
+    {
+      "id": "paide_linn_resource_hooldekodud",
+      "canonical_item_id": "paide_linn:resource:hooldekodud_pansionaadid",
+      "itemType": "resource",
+      "title": "Paide lähistel tegutsevad eakatekodud ja pansionaadid",
+      "status": "active",
+      "summary": "Paide linna veeb loetleb mitu eakatekodu ja pansionaati, sh Paide Südamekodu, Väätsa eakatekodu, Koeru hooldekeskus ja Ahula pansionaat. Need asutused pakuvad hooldusteenuseid väljaspool linna.",
+      "officialUrl": "https://paide.kovtp.ee/pansionaat",
+      "sourceKeys": [
+        "hooldekodud_pansionaadid"
+      ]
+    },
+    {
+      "id": "paide_linn_resource_hooldereform",
+      "canonical_item_id": "paide_linn:resource:hooldereform",
+      "itemType": "resource",
+      "title": "Hooldereformi info",
+      "status": "active",
+      "summary": "Hooldereformi leht selgitab, et alates 1. juulist 2023 hakkab riik katma osa hooldekodu kohatasust, jagades kulud kohaliku omavalitsuse ja teenuse saaja vahel. Leht rõhutab pikaajalise hoolduse kättesaadavuse parandamist ning pakub linke lisainfomaterjalidele.",
+      "officialUrl": "https://paide.kovtp.ee/hooldereform",
+      "sourceKeys": [
+        "hooldereform"
+      ]
+    },
+    {
+      "id": "paide_linn_contact_mart_peeter_erss",
+      "canonical_item_id": "paide_linn:contact:mart_peeter_erss",
+      "itemType": "contact",
+      "title": "Mart-Peeter Erss",
+      "status": "active",
+      "name": "Mart-Peeter Erss",
+      "role": "Sotsiaalosakonna juhataja",
+      "department": "Sotsiaalosakond",
+      "address": "Pärnu tn 3, Paide",
+      "sourceKeys": [
+        "sotsiaalosakond_kontaktid"
+      ]
+    },
+    {
+      "id": "paide_linn_contact_marit_leppoja",
+      "canonical_item_id": "paide_linn:contact:marit_leppoja",
+      "itemType": "contact",
+      "title": "Marit Leppoja",
+      "status": "active",
+      "name": "Marit Leppoja",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Pärnu tn 3, Paide",
+      "sourceKeys": [
+        "sotsiaalosakond_kontaktid"
+      ]
+    },
+    {
+      "id": "paide_linn_contact_karoliina_hanga",
+      "canonical_item_id": "paide_linn:contact:karoliina_hanga",
+      "itemType": "contact",
+      "title": "Karoliina Hanga",
+      "status": "active",
+      "name": "Karoliina Hanga",
+      "role": "Sotsiaaltöö spetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Pärnu tn 3, Paide",
+      "sourceKeys": [
+        "sotsiaalosakond_kontaktid"
+      ]
+    },
+    {
+      "id": "paide_linn_contact_kristi_lepiste",
+      "canonical_item_id": "paide_linn:contact:kristi_lepiste",
+      "itemType": "contact",
+      "title": "Kristi Lepiste",
+      "status": "active",
+      "name": "Kristi Lepiste",
+      "role": "Laste heaolu spetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Pärnu tn 3, Paide",
+      "sourceKeys": [
+        "sotsiaalosakond_kontaktid"
+      ]
+    },
+    {
+      "id": "paide_linn_contact_ingrid_hiis",
+      "canonical_item_id": "paide_linn:contact:ingrid_hiis",
+      "itemType": "contact",
+      "title": "Ingrid Hiis",
+      "status": "active",
+      "name": "Ingrid Hiis",
+      "role": "Noorte heaolu spetsialist",
+      "department": "Sotsiaalosakond",
+      "address": "Pärnu tn 3, Paide",
+      "sourceKeys": [
+        "sotsiaalosakond_kontaktid"
+      ]
+    },
+    {
+      "id": "paide_linn_form_sunnitoetus",
+      "canonical_item_id": "paide_linn:form:sunnitoetus",
+      "itemType": "form",
+      "title": "Sünnitoetuse avaldus (Paide)",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_sunnitoetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_ranitsatoetus",
+      "canonical_item_id": "paide_linn:form:ranitsatoetus",
+      "itemType": "form",
+      "title": "Ranitsatoetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_ranitsatoetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_stat_ounesusabi",
+      "canonical_item_id": "paide_linn:form:stat_ounesusabi",
+      "itemType": "form",
+      "title": "Statsionaarse õendusabiteenuse hüvitise avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_stat_ounesusabi"
+      ]
+    },
+    {
+      "id": "paide_linn_form_matusetoetus",
+      "canonical_item_id": "paide_linn:form:matusetoetus",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus (Paide)",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_matusetoetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_lasteaia_toetus",
+      "canonical_item_id": "paide_linn:form:lasteaia_toetus",
+      "itemType": "form",
+      "title": "Lasteaia kohatasu ja toiduraha toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_lasteaia_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_huvitegevus",
+      "canonical_item_id": "paide_linn:form:huvitegevus",
+      "itemType": "form",
+      "title": "Huvitegevuse toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_huvitegevus_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_taiendav_sotsiaaltoetus",
+      "canonical_item_id": "paide_linn:form:taiendav_sotsiaaltoetus",
+      "itemType": "form",
+      "title": "Täiendava sotsiaaltoetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_taiendav_sotsiaaltoetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_erakorraline",
+      "canonical_item_id": "paide_linn:form:erakorraline",
+      "itemType": "form",
+      "title": "Erakorralise toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_erakorraline_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_perekonnas_hooldamine",
+      "canonical_item_id": "paide_linn:form:perekonnas_hooldamine",
+      "itemType": "form",
+      "title": "Perekonnas hooldamise toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_perekonnas_hooldamise_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_puudega_lapse_hooldajatoetus",
+      "canonical_item_id": "paide_linn:form:puudega_lapse_hooldajatoetus",
+      "itemType": "form",
+      "title": "Puudega lapse hooldajatoetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_puudega_lapse_hooldaja_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_taisealise_hooldaja_toetus",
+      "canonical_item_id": "paide_linn:form:taisealise_hooldaja_toetus",
+      "itemType": "form",
+      "title": "Täisealise isiku hooldaja toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_taisealise_hooldaja_toetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_toimetulekutoetus",
+      "canonical_item_id": "paide_linn:form:toimetulekutoetus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus (Paide)",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_toimetulekutoetus"
+      ]
+    },
+    {
+      "id": "paide_linn_form_kodu_kohandamine",
+      "canonical_item_id": "paide_linn:form:kodu_kohandamine",
+      "itemType": "form",
+      "title": "Kodu kohandamise toetuse avaldus",
+      "status": "active",
+      "format": "web_form",
+      "submissionChannels": [
+        "in_person",
+        "online",
+        "email"
+      ],
+      "officialUrl": "https://paide.kovtp.ee/teenused_teenused",
+      "sourceKeys": [
+        "sotsiaalhoolekanne"
+      ],
+      "relatedTo": [
+        "paide_linn_benefit_kodu_kohandamine"
+      ]
+    }
+  ]
+}

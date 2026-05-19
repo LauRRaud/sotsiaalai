@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-pohja-parnumaa-vald",
+  "document_id": "kov-pohja-parnumaa-vald",
+  "municipality": "Põhja-Pärnumaa vald",
+  "municipality_id": "pohja_parnumaa_vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-pohja-parnumaa-vald",
+  "coverage": {
+    "services": 20,
+    "benefits": 10,
+    "resources": 23,
+    "contacts": 10,
+    "forms": 7
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett on koostatud KOV ametliku veebilehe praktilise sotsiaalvaldkonna info põhjal. RT ja õigusaktide kihte ei lisatud.",
+    "Mõne teenuse juures on KOV lehel detailsem õiguslik alus viidatud eraldi, kuid seda ei kanta käesolevasse KOV veebipaketti."
+  ],
+  "unresolvedIssues": [
+    "KOV veeb kuvab e-posti aadresse tehniliselt varjestatult; kontaktide e-posti aadressid vajavad vajadusel käsitsi üle kontrollimist ametlikul veebilehel.",
+    "Osa teenusepakkujaid on välised partnerid (nt häirenupp, koduandur, võlanõustajad, Töömaja); nende täiendavat infot ei kontrollitud välisveebidelt ja allikaks jäeti KOV leht.",
+    "Mitme teenuse puhul ei avalda KOV leht täpset otsustamise aega, omaosaluse arvutuskäiku või teenuse lepingu täisteksti; need väljad jäeti vastavalt avaldatud infole piiratuks.",
+    "Vormide seosed on lisatud ainult siis, kui KOV teenuse/toetuse leht või vormileht viitas kasutatavale vormile; üldvormi kasutus võib praktikas olla laiem.",
+    "Matusetoetuse ja mõne muu taotluse iseteeninduse link avaneb välises SPOKU keskkonnas; väliskeskkonna sisu ei kasutatud allikana.",
+    "Abivahendite, õigusabi ja kriisiabi ressursid on KOV veebis osaliselt suunavad; väliste asutuste detailandmeid ei kogutud."
+  ]
+}

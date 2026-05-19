@@ -343,7 +343,7 @@
       "application": "Isik esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaalkomisjon otsustab teenuse ja suunab kliendi koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "psuhholoogiline_noustamine_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "relatedForms": [
@@ -357,7 +357,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "psuhholoogiline_noustamine_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
@@ -448,7 +448,7 @@
       "application": "Teenuse saamiseks tasub pöörduda vallavalitsuse sotsiaaltöötaja poole ja esitada põhjendatud taotlus. Klient suunatakse teenust saama vallavalitsuse koostööpartneri juurde.",
       "officialUrl": "https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused",
       "sourceKeys": [
-        "soltuvusnoustamine_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "relatedForms": [
@@ -465,7 +465,7 @@
       "municipality_name": "Alutaguse vald",
       "county": "Ida-Virumaa",
       "source_keys": [
-        "soltuvusnoustamine_page",
+        "muud_vajaduspohised_sotsiaalteenused_page",
         "social_services_overview"
       ],
       "metadata_schema_version": "v2.5",
@@ -831,7 +831,7 @@
       "officialUrl": "https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus",
       "sourceKeys": [
         "social_services_overview",
-        "yldhooldusteenus_page"
+        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
       ],
       "relatedForms": [
         "alutaguse_vald_form_teenuse_taotlus_abivajaduse_korral"
@@ -848,7 +848,7 @@
       "county": "Ida-Virumaa",
       "source_keys": [
         "social_services_overview",
-        "yldhooldusteenus_page"
+        "valjaspool_kodu_osutatav_uldhooldusteenus_page"
       ],
       "metadata_schema_version": "v2.5",
       "source_id": "alutaguse_vald_service_uldhooldusteenus",
@@ -1626,7 +1626,7 @@
       "itemType": "resource",
       "title": "Avatud Värav MTÜ Kiikla Lastekodu",
       "status": "active",
-      "summary": "Kiikla Lastekodu, mille teenusepakkuja on Avatud Värav MTÜ, tegutseb Kiikla külas. Lastekodu telefon on +372 3327900 ja e-post kiikla@kiiklalastekodu.ee.",
+      "summary": "Kiikla Lastekodu, mille teenusepakkuja on Avatud Värav MTÜ, tegutseb Kiikla külas. Lastekodu on ja.",
       "officialUrl": "https://www.alutagusevald.ee/asenduskodud",
       "sourceKeys": [
         "asenduskodud_page"
@@ -1840,7 +1840,7 @@
       "itemType": "resource",
       "title": "SA Alutaguse Hoolekeskus",
       "status": "active",
-      "summary": "Sihtasutus Alutaguse Hoolekeskus pakub hooldekoduteenuseid Mäetaguse alevikus, aadressil Kooli 25. Hoolekeskuse juhatuse liige on Kristiina Ets. Kontakttelefonid on +372 3366971 ja +372 5130406 ning e-posti aadress info@hoolekeskus.ee.",
+      "summary": "Sihtasutus Alutaguse Hoolekeskus pakub hooldekoduteenuseid Mäetaguse alevikus, aadressil Kooli 25. Hoolekeskuse juhatuse liige on Kristiina Ets. Kontakttelefonid on ja ning e-posti aadress.",
       "officialUrl": "https://www.alutagusevald.ee/hoolekandeasutused",
       "sourceKeys": [
         "hoolekandeasutused_page"
@@ -1881,7 +1881,7 @@
       "itemType": "resource",
       "title": "Tudulinna Asenduskodu (MTÜ Maria ja Lapsed)",
       "status": "active",
-      "summary": "Tudulinna Asenduskodu, mida haldab MTÜ Maria ja Lapsed, pakub asendushooldusteenust aadressil Kooli 3, Tudulinna küla. Kontaktisik on Karis Mugamäe, telefon +372 56151175 ja e-post marialapsed@gmail.com.",
+      "summary": "Tudulinna Asenduskodu, mida haldab MTÜ Maria ja Lapsed, pakub asendushooldusteenust aadressil Kooli 3, Tudulinna küla. Kontaktisik on Karis Mugamäe, ja.",
       "officialUrl": "https://www.alutagusevald.ee/asenduskodud",
       "sourceKeys": [
         "asenduskodud_page"
@@ -1925,8 +1925,6 @@
       "name": "Aita Murdsalu",
       "role": "Sotsiaaltöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366921, +372 58144909",
-      "email": "aita.murdsalu@alutagusevald.ee",
       "summary": "Aita Murdsalu on sotsiaaltöötaja, kelle vastuvõtt toimub Mäetaguse teenuskeskuses kindlatel nädalapäevadel ja kellaaegadel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -1971,8 +1969,6 @@
       "name": "Anu Kljutšnik",
       "role": "Sotsiaaltöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 56929676",
-      "email": "anu.kljutsnik@alutagusevald.ee",
       "summary": "Anu Kljutšnik töötab sotsiaaltöötajana ja võtab vastu Iisaku ja Mäetaguse teenuskeskustes vastavalt graafikule.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2017,8 +2013,6 @@
       "name": "Heidi Kruut",
       "role": "Registri- ja personalitöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366900, +372 5280514",
-      "email": "heidi.kruut@alutagusevald.ee",
       "summary": "Heidi Kruut tegeleb registrite ja isikkoosseisu küsimustega ning võtab vastu kindlaksmääratud aegadel teenuskeskustes.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2063,8 +2057,6 @@
       "name": "Heli Šmigelskene",
       "role": "Sotsiaalabitöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366912, +372 56638765",
-      "email": "heli.smigelskene@alutagusevald.ee",
       "summary": "Heli Šmigelskene nõustab sotsiaalküsimustes. Tema vastuvõtud toimuvad Tudulinna ja Iisaku teenuskeskustes kindlatel aegadel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2109,8 +2101,6 @@
       "name": "Inna Zahhalina",
       "role": "Sotsiaaltöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366914, +372 55553486",
-      "email": "inna.zahhalina@alutagusevald.ee",
       "summary": "Inna Zahhalina nõustab ja teenindab Iisaku, Alajõe ja Kurtna piirkondade elanikke. Tal on vastuvõtuajad vastavalt teenuskeskuste graafikule.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2156,8 +2146,6 @@
       "summary": "Kaarel Treimann on Alutaguse valla koduhooldustöötaja.",
       "role": "Koduhooldustöötaja",
       "department": "Haridus-, kultuuri- ja sotsiaalteenistus",
-      "phone": "+372 54820842",
-      "email": "kaarel.treimann@alutagusevald.ee",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
@@ -2201,8 +2189,6 @@
       "name": "Kairi Hõbemeri",
       "role": "Abivallavanem",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366911, +372 58552996",
-      "email": "kairi.hobemeri@alutagusevald.ee",
       "summary": "Kairi Hõbemeri on Alutaguse valla abivallavanem. Vastuvõtt toimub kokkuleppel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2247,7 +2233,6 @@
       "name": "Mari‑Liis Are",
       "role": "Psühholoog (0,5)",
       "department": "Sotsiaalosakond",
-      "email": null,
       "summary": "Mari-Liis Are töötab Alutaguse vallas psühholoogina osakoormusega. Vastuvõtt toimub kokkuleppel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2293,8 +2278,6 @@
       "summary": "Merike Linder on Alutaguse valla koduhooldustöötaja.",
       "role": "Koduhooldustöötaja",
       "department": "Haridus-, kultuuri- ja sotsiaalteenistus",
-      "phone": "+372 5016916",
-      "email": "merike.linder@alutagusevald.ee",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
         "social_contacts_page"
@@ -2338,8 +2321,6 @@
       "name": "Nelli Kuldmaa",
       "role": "Haridus- ja noorsootööspetsialist",
       "department": "Sotsiaalosakond",
-      "phone": "+372 3366948, +372 51972608",
-      "email": "nelli.kuldmaa@alutagusevald.ee",
       "summary": "Nelli Kuldmaa tegeleb hariduse ja noorsootööga ning annab nõu kokkuleppel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [
@@ -2384,8 +2365,6 @@
       "name": "Zlata Hollat",
       "role": "Lastekaitsetöötaja",
       "department": "Sotsiaalosakond",
-      "phone": "+372 51925475",
-      "email": "zlata.hollat@alutagusevald.ee",
       "summary": "Zlata Hollat tegeleb lastekaitse juhtumitega ning võtab abivajajaid vastu kokkuleppel.",
       "officialUrl": "https://www.alutagusevald.ee/pere-sotsiaal-ja-tervishoid/kontaktid/sotsiaalvaldkonna-kontaktid",
       "sourceKeys": [

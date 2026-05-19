@@ -8,7 +8,6 @@ Asendushooldusteenus
 • Taotlemine: Lapse asendushoolduse korraldab lastekaitsetöötaja; vanemate või hooldajate taotlust tavaliselt ei nõuta.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/asendushooldusteenus
 
 Eluruumi tagamise teenus
@@ -19,7 +18,6 @@ Eluruumi tagamise teenus
 • Taotlemine: Taotlus koos põhjenduse, leibkonna koosseisu ja sissetuleku andmetega esitatakse sotsiaaltöötajale. Sotsiaalosakond otsustab eluruumi eraldamise.
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/eluruumi-tagamise-teenus
 
 Isikliku abistaja teenus
@@ -30,7 +28,6 @@ Isikliku abistaja teenus
 • Taotlemine: Taotlus koos põhjenduste ja soovitava abistaja andmetega esitatakse sotsiaaltöötajale. Sotsiaalosakond hindab vajaduse ja määrab teenuse mahu.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/isikliku-abistaja-teenus
 
 Järelhooldusteenus
@@ -41,7 +38,6 @@ Järelhooldusteenus
 • Taotlemine: Taotluse võivad esitada teenusele õigustatud isik ise, tema haridusasutus või varasem hoolduspere; teenuse võib algatada ka vald.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/jarelhooldusteenus
 
 Koduteenus
@@ -52,7 +48,6 @@ Koduteenus
 • Taotlemine: Taotlus esitatakse valla sotsiaaltöötajale, kes viib läbi abivajaduse hindamise ja korraldab teenuse. Taotluse jaoks on soovituslik vorm.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee ; Merike Linder, Koduhooldustöötaja, +372 5016916, merike.linder@alutagusevald.ee ; Kaarel Treimann, Koduhooldustöötaja, +372 54820842, kaarel.treimann@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/koduteenus-0
 
 Lapsehoiuteenus
@@ -63,7 +58,6 @@ Lapsehoiuteenus
 • Taotlemine: Hooldaja esitab kirjaliku taotluse valla sotsiaalosakonnale. Pärast vajaduse hindamist sõlmitakse teenusepakkujaga leping.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/lapsehoiuteenus
 
 Psühholoogiline nõustamine
@@ -74,7 +68,6 @@ Psühholoogiline nõustamine
 • Taotlemine: Isik esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaalkomisjon otsustab teenuse ja suunab kliendi koostööpartneri juurde.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Mari‑Liis Are, Psühholoog (0,5)
 • Ametlik link: https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused
 
 Sotsiaaltransporditeenus
@@ -86,7 +79,6 @@ Sotsiaaltransporditeenus
 • Summa: 8 € Ida-Virumaal; 0,30 €/km väljaspool maakonda; mittresidentidele 16 € Ida-Virumaal ja 0,60 €/km väljaspool maakonda; ootetunni tasu 4 € (püsielanikele) ja 8 € (mittresidentidele).
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/sotsiaaltranspordi-teenus
 
 Sõltuvusnõustamine
@@ -97,7 +89,6 @@ Sõltuvusnõustamine
 • Taotlemine: Teenuse saamiseks tasub pöörduda vallavalitsuse sotsiaaltöötaja poole ja esitada põhjendatud taotlus. Klient suunatakse teenust saama vallavalitsuse koostööpartneri juurde.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/muud-vajaduspohised-sotsiaalteenused
 
 Tugiisikuteenus
@@ -108,7 +99,6 @@ Tugiisikuteenus
 • Taotlemine: Taotleja esitab põhjendatud taotluse sotsiaaltöötajale. Sotsiaaltöötaja ja sotsiaalkomisjon otsustavad teenuse osutamise ning teenuse mahud.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/tugiisikuteenus
 
 Turvakoduteenus
@@ -119,7 +109,6 @@ Turvakoduteenus
 • Taotlemine: Teenust saab taotleda isik ise või algatab selle sotsiaalosakond; suunatakse turvakodusse vastavalt vajadusele.
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/turvakoduteenus
 
 Täisealise isiku hooldus
@@ -130,7 +119,6 @@ Täisealise isiku hooldus
 • Taotlemine: Taotlus esitatakse sotsiaaltöötajale ja selles märgitakse pakutava hooldaja andmed ning tema nõusolek. Vallavalitsus hindab abivajadust ja otsustab hoolduse korraldamise.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/taisealise-isiku-hooldus
 
 Varjupaigateenus
@@ -141,7 +129,6 @@ Varjupaigateenus
 • Taotlemine: Taotlus esitatakse sotsiaaltöötajale või suunatakse isik teenusele ka ilma taotluseta, kui see on vältimatu.
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/varjupaigateenus
 
 Vältimatu sotsiaalabi
@@ -152,7 +139,6 @@ Vältimatu sotsiaalabi
 • Taotlemine: Taotlus esitatakse sotsiaaltöötajale. Abi antakse kuni inimene suudab jälle ise oma vajadusi rahuldada.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/valtimatu-sotsiaalabi
 
 Võlanõustamisteenus
@@ -163,7 +149,6 @@ Võlanõustamisteenus
 • Taotlemine: Võlanõustamisteenuse saamiseks esitab isik vallavalitsuse sotsiaaltöötajale põhjendatud taotluse. Otsuse teenuse määramise või mittemääramise kohta teeb vallavalitsuse sotsiaalkomisjon ning klient suunatakse vallavalitsuse koostööpartneri juurde. Teenus on tasuta.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/volanoustamisteenus
 
 Üldhooldusteenus
@@ -175,7 +160,6 @@ Võlanõustamisteenus
 • Summa: Kasutaja või tema lähedased tasuvad hooldekodu majutuse ja toitlustuse eest kuni 670 eurot kuus (alates 1.05.2025). Omavalitsus katab personali kulu ja vajadusel lisatoetuse.
 • Blankett: Avaldus teenuse taotlemiseks abivajaduse korral
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20teenuse%20taotlemiseks%20abivajaduse%20korral%20%282%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/valjaspool-kodu-osutatav-uldhooldusteenus
 
 TOETUSED
@@ -187,7 +171,6 @@ Eakate sünnipäevatoetus
 • Summa: 50 €
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/eakate-sunnipaevatoetus
 
 Erakorraline toetus
@@ -198,7 +181,6 @@ Erakorraline toetus
 • Taotlemine: Taotlus esitatakse sotsiaalosakonnale. Vajadusel võib sotsiaaltöötaja küsida lisadokumente.
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/erakorraline-toetus
 
 Esmakordselt kooli mineva lapse toetus
@@ -211,7 +193,6 @@ Esmakordselt kooli mineva lapse toetus
 • Tähtaeg: 31. oktoober
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus
 
 Hooldust vajava täiskasvanu toetus
@@ -223,7 +204,6 @@ Hooldust vajava täiskasvanu toetus
 • Summa: 50 € kuus (kui vaja järelevalvet ja abi igapäevatoimingutes); 100 € kuus (kui inimene ei suuda iseseisvalt hakkama saada)
 • Blankett: Avaldus abivajadusest sõltuva toetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20abivajadusest%20s%C3%B5ltuva%20toetuse%20taotlemiseks%20%281%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/hooldust-vajava-taiskasvanu-toetus
 
 Huvihariduse ja huvitegevuse toetus
@@ -235,7 +215,6 @@ Huvihariduse ja huvitegevuse toetus
 • Summa: Kuni 25 € kuus või 250 € kalendriaastas (alates 1.09.2025)
 • Blankett: Huvihariduse ja huvitegevuse taotlus
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-04/Huvihariduse%20ja%20huvitegevuse%20taotlus%20.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/huvihariduse-ja-huvitegevuse-toetus
 
 Kindlustamata isiku ravikulude katmine
@@ -243,7 +222,6 @@ Kindlustamata isiku ravikulude katmine
 • Mis see on: Alutaguse valla e-taotluste lehe järgi saab sotsiaaltoetuse taotlust esitada ka kindlustamata isiku ravikulude katmiseks.
 • Blankett: KOV lehel ei ole eraldi blanketti nimetatud.
 • Blanketi link: KOV lehel ei ole eraldi blanketi linki nimetatud.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/e-taotlused
 
 Koolitarvete ja kooliriiete toetus
@@ -255,7 +233,6 @@ Koolitarvete ja kooliriiete toetus
 • Summa: Kuni 100 € lapse kohta kalendriaastas
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/koolitarvete-ja-kooliriiete-toetus
 
 Matusetoetus
@@ -268,7 +245,6 @@ Matusetoetus
 • Tähtaeg: 3 kuud pärast surma
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/matusetoetus-0
 
 Prillide ja abivahendite ostmise või laenutamise toetus
@@ -280,7 +256,6 @@ Prillide ja abivahendite ostmise või laenutamise toetus
 • Summa: Prillid: kuni 100 € iga kahe aasta järel; abivahendid: kuni 100 € kalendriaastas
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/prillide-ja-invatehniliste-abivahendite-toetus
 
 Puudega lapse hooldaja toetus
@@ -292,7 +267,6 @@ Puudega lapse hooldaja toetus
 • Summa: Raske puudega lapse hooldajale 50 € kuus; sügava puudega lapse hooldajale 100 € kuus
 • Blankett: Avaldus abivajadusest sõltuva toetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20abivajadusest%20s%C3%B5ltuva%20toetuse%20taotlemiseks%20%281%29.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/puudega-lapse-hooldajatoetus
 
 Retseptiravimite ostmise toetus
@@ -304,7 +278,6 @@ Retseptiravimite ostmise toetus
 • Summa: Kuni 150 € kalendriaastas
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/retseptiravimite-ostmise-toetus
 
 Sünnitoetus
@@ -316,7 +289,6 @@ Sünnitoetus
 • Summa: 1000 € (500 € kohe pärast sündi ja 500 € lapse aastaseks saamisel)
 • Blankett: Avaldus sotsiaaltoetuse taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Sotsiaaltoetuse%20taotlemise%20vorm.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/sunnitoetus
 
 Toimetulekutoetus
@@ -328,7 +300,6 @@ Toimetulekutoetus
 • Summa: Toetuse suurus arvutatakse individuaalselt, arvestades riiklikku toimetulekupiiri 220 € kuus (2026).
 • Blankett: Avaldus toimetuleku taotlemiseks
 • Blanketi link: https://www.alutagusevald.ee/sites/default/files/documents/2026-02/Avaldus%20toimetuleku%20taotlemiseks.docx
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/toimetulekutoetus
 
 Õpilaste sõidukulude hüvitamine
@@ -339,13 +310,12 @@ Toimetulekutoetus
 • Taotlemine: Taotlus koos piletite või sõidukulu dokumentidega tuleb esitada iga kuu 10. kuupäevaks. Üle kahe kuu vanu pileteid ei hüvitata.
 • Blankett: Sõidupiletite hüvitamise avaldus
 • Blanketi link: https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/toiming/opilaste-soidukulude-huvitamise-taotlus
 
 RESSURSID
 Avatud Värav MTÜ Kiikla Lastekodu
 
-• Mis see on: Kiikla Lastekodu, mille teenusepakkuja on Avatud Värav MTÜ, tegutseb Kiikla külas. Lastekodu telefon on +372 3327900 ja e-post kiikla@kiiklalastekodu.ee.
+• Mis see on: Kiikla Lastekodu, mille teenusepakkuja on Avatud Värav MTÜ, tegutseb Kiikla külas. Lastekodu on ja.
 • Ametlik link: https://www.alutagusevald.ee/asenduskodud
 
 MEDI häirenuputeenus
@@ -367,17 +337,16 @@ Parkimiskaardid
 
 • Mis see on: Parkimiskaart väljastatakse Alutaguse valla elanikule, kellel on keskmisele, raskele või sügavale puude raskusastmele vastav liikumis- või nägemisfunktsiooni kõrvalekalle või ajutine liikumis- või nägemisfunktsiooni kõrvalekalle. Kaart antakse välja puude raskusastme kehtivuse ajaks, kuid mitte kauemaks kui viieks aastaks; ajutise kõrvalekalde korral kuni kuueks kuuks.
 • Tingimused: Taotleja esitab isikut tõendava dokumendi, dokumendifoto, Sotsiaalkindlustusameti puude raskusastme otsuse ning vajadusel pere- või eriarsti teatise.
-• Kontakt: Aita Murdsalu, Sotsiaaltöötaja, +372 3366921, +372 58144909, aita.murdsalu@alutagusevald.ee ; Heli Šmigelskene, Sotsiaalabitöötaja, +372 3366912, +372 56638765, heli.smigelskene@alutagusevald.ee ; Inna Zahhalina, Sotsiaaltöötaja, +372 3366914, +372 55553486, inna.zahhalina@alutagusevald.ee ; Anu Kljutšnik, Sotsiaaltöötaja, +372 56929676, anu.kljutsnik@alutagusevald.ee
 • Ametlik link: https://www.alutagusevald.ee/parkimiskaardid
 
 SA Alutaguse Hoolekeskus
 
-• Mis see on: Sihtasutus Alutaguse Hoolekeskus pakub hooldekoduteenuseid Mäetaguse alevikus, aadressil Kooli 25. Hoolekeskuse juhatuse liige on Kristiina Ets. Kontakttelefonid on +372 3366971 ja +372 5130406 ning e-posti aadress info@hoolekeskus.ee.
+• Mis see on: Sihtasutus Alutaguse Hoolekeskus pakub hooldekoduteenuseid Mäetaguse alevikus, aadressil Kooli 25. Hoolekeskuse juhatuse liige on Kristiina Ets. Kontakttelefonid on ja ning e-posti aadress.
 • Ametlik link: https://www.alutagusevald.ee/hoolekandeasutused
 
 Tudulinna Asenduskodu (MTÜ Maria ja Lapsed)
 
-• Mis see on: Tudulinna Asenduskodu, mida haldab MTÜ Maria ja Lapsed, pakub asendushooldusteenust aadressil Kooli 3, Tudulinna küla. Kontaktisik on Karis Mugamäe, telefon +372 56151175 ja e-post marialapsed@gmail.com.
+• Mis see on: Tudulinna Asenduskodu, mida haldab MTÜ Maria ja Lapsed, pakub asendushooldusteenust aadressil Kooli 3, Tudulinna küla. Kontaktisik on Karis Mugamäe, ja.
 • Ametlik link: https://www.alutagusevald.ee/asenduskodud
 
 VORMID

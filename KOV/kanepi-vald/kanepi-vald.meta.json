@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-kanepi-vald",
+  "document_id": "kov-kanepi-vald",
+  "municipality": "Kanepi vald",
+  "municipality_id": "kanepi_vald",
+  "county": "Põlvamaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-kanepi-vald",
+  "coverage": {
+    "services": 11,
+    "benefits": 13,
+    "resources": 14,
+    "contacts": 13,
+    "forms": 7
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett hõlmab Kanepi valla ametlikul veebilehel avaldatud sotsiaalteenuseid, sotsiaaltoetusi, ressursse, kontakte ja vorme. Riigi Teataja linke käsitleti ainult eraldi legal-kihi kandidaatidena ning neid ei lisatud allikaregistrisse."
+  ],
+  "unresolvedIssues": [
+    "KOV veebilt ei leitud eraldi praktilist detaillehte tugiisikuteenuse, isikliku abistaja teenuse, varjupaigateenuse ega vältimatu sotsiaalabi kohta; neid ei lisatud teenuse itemitena.",
+    "KOV veebil ei paistnud olevat eraldi keskset sotsiaalvaldkonna vormide/blankettide koondlehte; vormid on tuletatud teenuse- ja toetuse detaillehtedel avatud ametlikest faililinkidest.",
+    "Koolieelsete lasteasutuste lapsevanema osalustasu kompenseerimise PDF on KOV lehelt lingitud prelive.vportal.ee alamdomeenile ja otsene avamine andis kontrolli ajal 403 vastuse; seos vormiga vajab käsitsi ülevaatust.",
+    "Mõnede teenuste puhul (nt võlanõustamine, toiduabi, lapsehoiuteenus) ei ole KOV lehel avaldatud täpset otsustamise tähtaega ega teenuse maksumust.",
+    "Häirenuputeenus, tasuta õigusabi ja mitu kriisiabi kanalit on KOV lehel avaldatud väliste teenuste või abikanalite suunamisena; neid ei kontrollitud väliste veebilehtede põhjal."
+  ],
+  "RT_CANDIDATES_FOR_SEPARATE_MANIFEST": [
+    "Sotsiaalhoolekandelise abi andmise kord",
+    "Sotsiaaltoetuste määrade kehtestamine",
+    "Puudega inimeste eluruumi kohandamise toetuse andmine",
+    "Liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaardi vorm ja väljaandmise tingimused"
+  ]
+}

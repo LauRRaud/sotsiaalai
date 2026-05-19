@@ -1,0 +1,2031 @@
+{
+  "schemaVersion": "kov-data-v2.5-sourcepackage",
+  "docId": "kov-otepaa-vald",
+  "document_id": "kov-otepaa-vald",
+  "municipality": "Otepää vald",
+  "municipality_id": "otepaa_vald",
+  "county": "Valgamaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "items": [
+    {
+      "id": "otepaa_vald_contact_yldkontakt",
+      "canonical_item_id": "otepaa_vald:contact:yldkontakt",
+      "itemType": "contact",
+      "title": "Otepää Vallavalitsuse üldkontakt",
+      "status": "active",
+      "summary": "Otepää Vallavalitsuse üldkontakt on kasutusel digitaalselt allkirjastatud sotsiaalvaldkonna avalduste esitamiseks ning üldiseks suhtluseks. Paberkandjal sotsiaalvaldkonna avaldused esitatakse sotsiaalteenistusele aadressil Lipuväljak 13, Otepää.",
+      "name": "Otepää Vallavalitsus",
+      "role": "üldkontakt",
+      "department": "Otepää Vallavalitsus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/",
+      "relatedTo": [],
+      "sourceKeys": [
+        "home",
+        "forms_overview"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_marika_paris",
+      "canonical_item_id": "otepaa_vald:contact:marika_paris",
+      "itemType": "contact",
+      "title": "Marika Paris",
+      "status": "active",
+      "summary": "Marika Paris juhib ja korraldab sotsiaalhoolekandealast tööd ning tagab sotsiaalteenistusele pandud ülesannete täitmise. Vastuvõtt toimub Otepää Vallavalitsuse I korrusel etteregistreerimisel.",
+      "name": "Marika Paris",
+      "role": "Sotsiaalteenistuse juhataja",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_pille_sikk",
+      "canonical_item_id": "otepaa_vald:contact:pille_sikk",
+      "itemType": "contact",
+      "title": "Pille Sikk",
+      "status": "active",
+      "summary": "Pille Sikk tegeleb piiratud teovõimega täisealiste isikute eestkoste korraldamisega. Vastuvõtt toimub Sangaste Teenuskeskuses ja Otepää Vallavalitsuse I korrusel etteregistreerimisel.",
+      "name": "Pille Sikk",
+      "role": "Sotsiaaltöö vanemspetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Sangaste Teenuskeskus ja Otepää Vallavalitsus I korrus",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_kelli_ann_kovljasenko",
+      "canonical_item_id": "otepaa_vald:contact:kelli_ann_kovljasenko",
+      "itemType": "contact",
+      "title": "Kelli-Ann Kovljašenko",
+      "status": "active",
+      "summary": "Kelli-Ann Kovljašenko korraldab abi isikute toimetulekuraskuste ennetamiseks, kergendamiseks või kõrvaldamiseks ning aitab kaasa sotsiaalsele turvalisusele ja ühiskonnas kohanemisele.",
+      "name": "Kelli-Ann Kovljašenko",
+      "role": "Sotsiaaltööspetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_carmen_mets",
+      "canonical_item_id": "otepaa_vald:contact:carmen_mets",
+      "itemType": "contact",
+      "title": "Carmen Mets",
+      "status": "active",
+      "summary": "Carmen Mets on Otepää sotsiaaltööspetsialist. Ametniku kontakt on avaldatud sotsiaalteenistuse kontaktide lehel ja kasutatav toimetuleku ning sotsiaalabi küsimustes.",
+      "name": "Carmen Mets",
+      "role": "Sotsiaaltööspetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_terje_lille",
+      "canonical_item_id": "otepaa_vald:contact:terje_lille",
+      "itemType": "contact",
+      "title": "Terje Lille",
+      "status": "active",
+      "summary": "Terje Lille korraldab ja arendab lastekaitsetööd Otepää vallas. Vastuvõtt toimub Otepää Vallavalitsuse I korrusel etteregistreerimisel.",
+      "name": "Terje Lille",
+      "role": "Lastekaitse vanemspetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page",
+        "lastekaitse_general_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_pille_vihmann",
+      "canonical_item_id": "otepaa_vald:contact:pille_vihmann",
+      "itemType": "contact",
+      "title": "Pille Vihmann",
+      "status": "active",
+      "summary": "Pille Vihmann korraldab lastekaitsetööd Otepää vallas ja on KOV veebis avaldatud lastekaitse kontakt.",
+      "name": "Pille Vihmann",
+      "role": "Lastekaitsespetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page",
+        "lastekaitse_general_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_marju_karavin",
+      "canonical_item_id": "otepaa_vald:contact:marju_karavin",
+      "itemType": "contact",
+      "title": "Marju Karavin",
+      "status": "active",
+      "summary": "Marju Karavin korraldab lastekaitse suunal ennetustööd ja on kontaktiks perenõustamise, vaimse tervise ning ohvriabi info lehtedel.",
+      "name": "Marju Karavin",
+      "role": "Ennetustööspetsialist",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page",
+        "perenoustamine_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_airin_hermann",
+      "canonical_item_id": "otepaa_vald:contact:airin_hermann",
+      "itemType": "contact",
+      "title": "Airin Hermann",
+      "status": "active",
+      "summary": "Airin Hermann on tugiisik, kelle tööülesanne on toetada ja juhendada kliente ning aidata neil leida lahendusi igapäevaelus toime tulemiseks. E-posti aadress ei olnud ligipääsetavas veebitekstis üheselt loetav.",
+      "name": "Airin Hermann",
+      "role": "Tugiisik",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_rita_parnik",
+      "canonical_item_id": "otepaa_vald:contact:rita_parnik",
+      "itemType": "contact",
+      "title": "Rita Pärnik",
+      "status": "active",
+      "summary": "Rita Pärnik on peretöötaja, kelle töö keskendub perede heaolu toetamisele ja vanemlike oskuste arendamisele. E-posti aadress ei olnud ligipääsetavas veebitekstis üheselt loetav.",
+      "name": "Rita Pärnik",
+      "role": "Peretöötaja",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_contact_pille_visnapuu",
+      "canonical_item_id": "otepaa_vald:contact:pille_visnapuu",
+      "itemType": "contact",
+      "title": "Pille Visnapuu",
+      "status": "active",
+      "summary": "Pille Visnapuu on tegevusjuhendaja erivajadusega inimeste igapäevaelu toetamise ja toetatud elamise teenuste juures. E-posti aadress ei olnud ligipääsetavas veebitekstis üheselt loetav.",
+      "name": "Pille Visnapuu",
+      "role": "Tegevusjuhendaja",
+      "department": "Sotsiaalteenistus",
+      "address": "Otepää Vallavalitsus, Lipuväljak 13, Otepää",
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/ametnikud",
+      "relatedTo": [],
+      "sourceKeys": [
+        "sotsiaalteenistus_contacts_page",
+        "erihoolekanne_page"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_sunnitoetuse_esimese_osa_avaldus",
+      "canonical_item_id": "otepaa_vald:form:sunnitoetuse_esimese_osa_avaldus",
+      "itemType": "form",
+      "title": "Sünnitoetuse esimese osa avaldus",
+      "status": "active",
+      "summary": "Sünnitoetuse esimese osa avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/S%C3%BCnnitoetus_UUS.docx",
+      "relatedTo": [
+        "otepaa_vald_benefit_sunnitoetus"
+      ],
+      "sourceKeys": [
+        "sunnitoetus_page",
+        "file_sunnitoetus_esimene_osa"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_sunnitoetuse_teise_osa_avaldus",
+      "canonical_item_id": "otepaa_vald:form:sunnitoetuse_teise_osa_avaldus",
+      "itemType": "form",
+      "title": "Sünnitoetuse teise osa avaldus",
+      "status": "active",
+      "summary": "Sünnitoetuse teise osa avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-10/synnitoetus_II_osa.docx",
+      "relatedTo": [
+        "otepaa_vald_benefit_sunnitoetus"
+      ],
+      "sourceKeys": [
+        "sunnitoetus_page",
+        "file_sunnitoetus_teine_osa"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_esmakordselt_kooli_mineva_lapse_toetuse_taotlus",
+      "canonical_item_id": "otepaa_vald:form:esmakordselt_kooli_mineva_lapse_toetuse_taotlus",
+      "itemType": "form",
+      "title": "Esmakordselt kooli mineva lapse toetuse taotlus",
+      "status": "active",
+      "summary": "Esmakordselt kooli mineva lapse toetuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/1klass_taotlus.docx",
+      "relatedTo": [
+        "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus"
+      ],
+      "sourceKeys": [
+        "kooli_mineva_lapse_toetus_page",
+        "file_kooli_mineva_lapse_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_koolilopetaja_toetus",
+      "canonical_item_id": "otepaa_vald:form:koolilopetaja_toetus",
+      "itemType": "form",
+      "title": "Koolilõpetaja toetuse taotlus",
+      "status": "active",
+      "summary": "Koolilõpetaja toetuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "rtf",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Koolil%C3%B5petaja%20toetus.rtf",
+      "relatedTo": [
+        "otepaa_vald_benefit_koolilopetaja_toetus"
+      ],
+      "sourceKeys": [
+        "koolilopetaja_toetus_page",
+        "file_koolilopetaja_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_hooldajatoetuse_maaramine",
+      "canonical_item_id": "otepaa_vald:form:hooldajatoetuse_maaramine",
+      "itemType": "form",
+      "title": "Hooldajatoetuse määramise avaldus",
+      "status": "active",
+      "summary": "Hooldajatoetuse määramise avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "doc",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Hooldajatoetuse_maaramine.doc",
+      "relatedTo": [
+        "otepaa_vald_benefit_hooldajatoetus",
+        "otepaa_vald_service_taisealise_isiku_hooldus"
+      ],
+      "sourceKeys": [
+        "hooldajatoetus_page",
+        "file_hooldajatoetuse_maaramine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_hooldaja_maaramine",
+      "canonical_item_id": "otepaa_vald:form:hooldaja_maaramine",
+      "itemType": "form",
+      "title": "Hooldaja määramise avaldus",
+      "status": "active",
+      "summary": "Hooldaja määramise avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "doc",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Hooldaja_maaramine.doc",
+      "relatedTo": [
+        "otepaa_vald_benefit_hooldajatoetus",
+        "otepaa_vald_service_taisealise_isiku_hooldus"
+      ],
+      "sourceKeys": [
+        "hooldajatoetus_page",
+        "file_hooldaja_maaramine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_matusetoetuse_avaldus",
+      "canonical_item_id": "otepaa_vald:form:matusetoetuse_avaldus",
+      "itemType": "form",
+      "title": "Matusetoetuse avaldus",
+      "status": "active",
+      "summary": "Matusetoetuse avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "rtf",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Matusetoetus.rtf",
+      "relatedTo": [
+        "otepaa_vald_benefit_matusetoetus"
+      ],
+      "sourceKeys": [
+        "matusetoetus_page",
+        "file_matusetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_tervisetoetus",
+      "canonical_item_id": "otepaa_vald:form:tervisetoetus",
+      "itemType": "form",
+      "title": "Tervisetoetuse taotlus",
+      "status": "active",
+      "summary": "Tervisetoetuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Tervisetoetus.docx",
+      "relatedTo": [
+        "otepaa_vald_benefit_tervisetoetus"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page",
+        "file_tervisetoetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_sotsiaalteenuste_toetus",
+      "canonical_item_id": "otepaa_vald:form:sotsiaalteenuste_toetus",
+      "itemType": "form",
+      "title": "Sotsiaalteenuste toetuse taotlus",
+      "status": "active",
+      "summary": "Sotsiaalteenuste toetuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Sotsiaalteenuste%20toetus.docx",
+      "relatedTo": [
+        "otepaa_vald_benefit_sotsiaalteenuste_toetus",
+        "otepaa_vald_service_sotsiaaltransporditeenus"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page",
+        "file_sotsiaalteenuste_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_raske_majandusliku_olukorra_toetus",
+      "canonical_item_id": "otepaa_vald:form:raske_majandusliku_olukorra_toetus",
+      "itemType": "form",
+      "title": "Raske majandusliku olukorra toetuse taotlus",
+      "status": "active",
+      "summary": "Raske majandusliku olukorra toetuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "rtf",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Raske%20majandusliku%20olukorra%20toetuse%20taotlus%20%283%29.rtf",
+      "relatedTo": [
+        "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page",
+        "file_raske_majandusliku_olukorra_toetus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_toimetulekutoetuse_avaldus",
+      "canonical_item_id": "otepaa_vald:form:toimetulekutoetuse_avaldus",
+      "itemType": "form",
+      "title": "Toimetulekutoetuse avaldus",
+      "status": "active",
+      "summary": "Toimetulekutoetuse avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "doc",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/Toimetulekutoetuse_avaldus.doc",
+      "relatedTo": [
+        "otepaa_vald_benefit_toimetulekutoetus"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page",
+        "file_toimetulekutoetus_avaldus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_koduteenuse_taotlus",
+      "canonical_item_id": "otepaa_vald:form:koduteenuse_taotlus",
+      "itemType": "form",
+      "title": "Koduteenuse taotlus",
+      "status": "active",
+      "summary": "Koduteenuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2026-02/koduteenus_taotlus.docx",
+      "relatedTo": [
+        "otepaa_vald_service_koduteenus"
+      ],
+      "sourceKeys": [
+        "koduteenus_page",
+        "file_koduteenus_taotlus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_koduteenuse_vajadusest_teavitamise_avaldus",
+      "canonical_item_id": "otepaa_vald:form:koduteenuse_vajadusest_teavitamise_avaldus",
+      "itemType": "form",
+      "title": "Koduteenuse vajadusest teavitamise avaldus",
+      "status": "active",
+      "summary": "Koduteenuse vajadusest teavitamise avaldus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2026-02/koduteenus_vajadus_akt.docx",
+      "relatedTo": [
+        "otepaa_vald_service_koduteenus"
+      ],
+      "sourceKeys": [
+        "koduteenus_page",
+        "file_koduteenuse_vajadusest_teavitamine"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_hooldekoduteenuse_taotlus",
+      "canonical_item_id": "otepaa_vald:form:hooldekoduteenuse_taotlus",
+      "itemType": "form",
+      "title": "Hooldekoduteenuse taotlus",
+      "status": "active",
+      "summary": "Hooldekoduteenuse taotlus on Otepää vald ametlikul veebilehel avaldatud sotsiaalvaldkonna taotlusvorm.",
+      "format": "doc",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-08/hooldekoduteenuse%20taotlus.doc",
+      "relatedTo": [
+        "otepaa_vald_benefit_hooldekodus_hooldamise_toetus",
+        "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus"
+      ],
+      "sourceKeys": [
+        "hooldekoduteenuse_page",
+        "file_hooldekoduteenuse_taotlus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks",
+      "canonical_item_id": "otepaa_vald:form:hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks",
+      "itemType": "form",
+      "title": "Hindamisinstrument hooldusvajaduse ja sotsiaalteenuse määramiseks",
+      "status": "active",
+      "summary": "Hindamisinstrument on sotsiaalteenuse vajaduse ja hooldusvajaduse hindamiseks mõeldud ametlik Otepää valla dokumendivorm.",
+      "format": "docx",
+      "submissionChannels": [
+        "email",
+        "in_person"
+      ],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-10/Hindamisinstrument%20hooldusvajaduse%20ja%20sotsiaalteenuse%20m%C3%A4%C3%A4ramiseks.docx",
+      "relatedTo": [
+        "otepaa_vald_service_koduteenus",
+        "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+        "otepaa_vald_benefit_hooldekodus_hooldamise_toetus"
+      ],
+      "sourceKeys": [
+        "forms_overview",
+        "file_hindamisinstrument_hooldusvajadus"
+      ],
+      "relatedForms": [],
+      "relatedContacts": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_koduteenus",
+      "canonical_item_id": "otepaa_vald:service:koduteenus",
+      "itemType": "service",
+      "title": "Koduteenus",
+      "status": "active",
+      "summary": "Koduteenuse eesmärk on tagada täisealise inimese iseseisev ja turvaline toimetulek kodustes tingimustes. Teenuse käigus abistatakse toimingutes, mida inimene tervise, tegevusvõime või elukeskkonna tõttu ei saa kõrvalabita teha, näiteks kütmine, toiduvalmistamine, eluruumi ja riiete korrastamine, poeskäik ja asjaajamine.",
+      "targetGroup": [
+        "täisealised Otepää valla elanikud, kes vajavad kodustes tingimustes kõrvalabi"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Täida koduteenuse taotlus või koduteenuse vajadusest teavitamise avaldus.",
+          "Saada digitaalselt allkirjastatud vorm e-posti aadressile või esita paberkandjal sotsiaalteenistusele Lipuväljak 13, Otepää.",
+          "Vastuvõtt vallavalitsusse toimub eelregistreerimisel."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/toiming/koduteenus-0",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_koduteenuse_taotlus",
+        "otepaa_vald_form_koduteenuse_vajadusest_teavitamise_avaldus",
+        "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_carmen_mets"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "koduteenus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_valjaspool_kodu_osutatav_uldhooldusteenus",
+      "canonical_item_id": "otepaa_vald:service:valjaspool_kodu_osutatav_uldhooldusteenus",
+      "itemType": "service",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus",
+      "status": "active",
+      "summary": "Üldhooldusteenus tagab turvalise keskkonna ja toimetuleku täisealisele inimesele, kes terviseseisundi, tegevusvõime või elukeskkonna tõttu ei suuda kodustes tingimustes ajutiselt või püsivalt iseseisvalt toime tulla. Otepää veebis on üldhooldusteenuse kohaliku toetuse taotlemiseks eraldi hooldekoduteenuse taotluse leht.",
+      "targetGroup": [
+        "täisealised inimesed, kelle hooldusvajadus ei võimalda kodus iseseisvalt toime tulla"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Üldhooldusteenuse vajaduse ja toetuse küsimuses pöördu sotsiaalteenistuse poole.",
+          "Hooldekoduteenuse toetuse taotlemiseks täida hooldekoduteenuse taotluse vorm."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_hooldekoduteenuse_taotlus",
+        "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "hooldekoduteenuse_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_tugiisikuteenus",
+      "canonical_item_id": "otepaa_vald:service:tugiisikuteenus",
+      "itemType": "service",
+      "title": "Tugiisikuteenus",
+      "status": "active",
+      "summary": "Tugiisikuteenus toetab inimese iseseisvat toimetulekut olukorras, kus inimene vajab sotsiaalsete, majanduslike, psühholoogiliste või tervislike probleemide tõttu oma kohustuste täitmisel ja õiguste teostamisel kõrvalabi. Otepää veebis kirjeldatakse teenust täiskasvanule, last kasvatavale isikule ja lapsele suunatud tugiisikuteenusena.",
+      "targetGroup": [
+        "täiskasvanud",
+        "last kasvatavad isikud",
+        "lapsed, kelle areng ja igapäevane toimetulek vajab tuge"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_airin_hermann",
+        "otepaa_vald_contact_terje_lille",
+        "otepaa_vald_contact_pille_vihmann"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "lastekaitse_general_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_taisealise_isiku_hooldus",
+      "canonical_item_id": "otepaa_vald:service:taisealise_isiku_hooldus",
+      "itemType": "service",
+      "title": "Täisealise isiku hooldus",
+      "status": "active",
+      "summary": "Täisealise isiku hooldus ehk omastehooldus tähendab hoolduse seadmist täisealisele inimesele, kes vaimse või kehalise puude tõttu vajab abi oma õiguste teostamiseks ja kohustuste täitmiseks. Hoolduse seadmisel määratakse kindlaks hooldaja ülesanded.",
+      "targetGroup": [
+        "täisealised vaimse või kehalise puudega inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_hooldaja_maaramine",
+        "otepaa_vald_form_hooldajatoetuse_maaramine"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "hooldajatoetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_isikliku_abistaja_teenus",
+      "canonical_item_id": "otepaa_vald:service:isikliku_abistaja_teenus",
+      "itemType": "service",
+      "title": "Isikliku abistaja teenus",
+      "status": "active",
+      "summary": "Isikliku abistaja teenuse eesmärk on suurendada puude tõttu füüsilist kõrvalabi vajava täisealise inimese iseseisvat toimetulekut ja osalemist kõigis eluvaldkondades ning vähendada seadusjärgsete hooldajate hoolduskoormust. Abistaja toetab liikumisel, söömisel, toidu valmistamisel, riietumisel, hügieenitoimingutes, majapidamistöödes ja muudes vajalikes tegevustes.",
+      "targetGroup": [
+        "puude tõttu füüsilist kõrvalabi vajavad täisealised isikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_kelli_ann_kovljasenko"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_varjupaigateenus",
+      "canonical_item_id": "otepaa_vald:service:varjupaigateenus",
+      "itemType": "service",
+      "title": "Varjupaigateenus",
+      "status": "active",
+      "summary": "Varjupaigateenus tagab ajutise ööbimiskoha täisealisele inimesele, kes ei ole võimeline endale ööbimiskohta leidma. Ajutises ööbimiskohas peab olema tagatud voodikoht, pesemisvõimalus ja turvaline keskkond.",
+      "targetGroup": [
+        "täisealised inimesed, kellel puudub ööbimiskoht"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_kelli_ann_kovljasenko"
+      ],
+      "sourceKeys": [
+        "service_descriptions"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_turvakoduteenus",
+      "canonical_item_id": "otepaa_vald:service:turvakoduteenus",
+      "itemType": "service",
+      "title": "Turvakoduteenus",
+      "status": "active",
+      "summary": "Turvakoduteenus tagab ajutise eluaseme, turvalise keskkonna ja esmase abi lapsele või täisealisele inimesele, kes vajab turvalist keskkonda. Esmase abi raames võib olla vajalik kriisiabi, teavitamine muudest abi saamise võimalustest ning inimese hooldamine ja arendamine.",
+      "targetGroup": [
+        "lapsed, kelle hooldamises esinevad elu, tervist või arengut ohustavad puudused",
+        "täisealised isikud, kes vajavad turvalist keskkonda"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_terje_lille",
+        "otepaa_vald_contact_pille_vihmann"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "abivajav_laps_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_sotsiaaltransporditeenus",
+      "canonical_item_id": "otepaa_vald:service:sotsiaaltransporditeenus",
+      "itemType": "service",
+      "title": "Sotsiaaltransporditeenus",
+      "status": "active",
+      "summary": "Sotsiaaltransporditeenust osutab Otepää vallas hanke tulemusena OÜ Urmi. Teenust saavad kasutada Otepää valla elanikud, kes puudest tingitud erivajaduse tõttu ei saa kasutada ühistransporti ning kelle abivajaduse on hinnanud kohalik omavalitsus. Teenuse kasutamine eeldab sotsiaaltööspetsialisti eelnevat otsust.",
+      "targetGroup": [
+        "puudega Otepää valla elanikud, kellel puue takistab isikliku või ühissõiduki kasutamist"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "phone",
+          "email"
+        ],
+        "steps": [
+          "Teenust saab kasutada ainult sotsiaaltööspetsialisti eelneva otsuse alusel.",
+          "Vähekindlustatud isikud võivad esitada sotsiaalteenuse toetuse taotluse teenuse maksumuse osaliseks või täielikuks hüvitamiseks.",
+          "Hüvitamiseks tuleb kasutada OÜ Urmi teenust."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": {
+        "amount": "0,80 eurot/km",
+        "notes": "Sõidu alustamistasu 6 eurot ja ootetasu 6 eurot/tund."
+      },
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/sotsiaaltransport",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_marika_paris"
+      ],
+      "sourceKeys": [
+        "sotsiaaltransport_page",
+        "service_descriptions"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_eluruumi_tagamine",
+      "canonical_item_id": "otepaa_vald:service:eluruumi_tagamine",
+      "itemType": "service",
+      "title": "Eluruumi tagamise teenus",
+      "status": "active",
+      "summary": "Eluruumi tagamise teenuse eesmärk on kindlustada eluruumi kasutamise võimalus isikule, kes ei ole sotsiaalmajanduslikust olukorrast tulenevalt võimeline endale või oma perele vajadustele vastavat eluruumi tagama. Teenus hõlmab ka sotsiaaleluruumi üürimist ning puudega inimesele vajaliku eluruumi kohandamist.",
+      "targetGroup": [
+        "isikud ja pered, kes ei suuda endale sobivat eluruumi tagada"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_kelli_ann_kovljasenko"
+      ],
+      "sourceKeys": [
+        "service_descriptions"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_volanoustamisteenus",
+      "canonical_item_id": "otepaa_vald:service:volanoustamisteenus",
+      "itemType": "service",
+      "title": "Võlanõustamisteenus",
+      "status": "active",
+      "summary": "Võlanõustamisteenus aitab inimesel teha kindlaks oma varalise olukorra, pidada läbirääkimisi võlausaldajatega, rahuldada nõudeid, vältida uusi võlgnevusi ja lahendada muid võlgnevusega seotud probleeme.",
+      "targetGroup": [
+        "võlgnevusega seotud probleemidega inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_pille_sikk"
+      ],
+      "sourceKeys": [
+        "service_descriptions"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_lapsehoiuteenus",
+      "canonical_item_id": "otepaa_vald:service:lapsehoiuteenus",
+      "itemType": "service",
+      "title": "Lapsehoiuteenus",
+      "status": "active",
+      "summary": "Lapsehoiuteenuse eesmärk on toetada last kasvatava isiku toimetulekut või töötamist ning vähendada lapse erivajadusest tulenevat hoolduskoormust. Lastekaitse üldteabe lehel on puudega lapse perele korraldatavate teenustena nimetatud tugiisiku- ja lapsehoiuteenust.",
+      "targetGroup": [
+        "last kasvatavad isikud",
+        "erivajadusega laste pered"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_terje_lille",
+        "otepaa_vald_contact_pille_vihmann"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "lastekaitse_general_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_asendushooldusteenus",
+      "canonical_item_id": "otepaa_vald:service:asendushooldusteenus",
+      "itemType": "service",
+      "title": "Asendushooldusteenus",
+      "status": "active",
+      "summary": "Asendushooldusteenuse eesmärk on pika- või lühiajaliselt tagada lapse heaolu ja õigused ning võimaldada lapsele peresarnased elutingimused, turvaline ja arenguks soodne keskkond ning ettevalmistus täisealisena toimetulekuks. Teenuse osutaja võib olla hoolduspere, perekodu või asenduskodu.",
+      "targetGroup": [
+        "vanemliku hoolitsuseta lapsed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_terje_lille",
+        "otepaa_vald_contact_pille_vihmann"
+      ],
+      "sourceKeys": [
+        "service_descriptions",
+        "lastekaitse_general_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_jarelhooldusteenus",
+      "canonical_item_id": "otepaa_vald:service:jarelhooldusteenus",
+      "itemType": "service",
+      "title": "Järelhooldusteenus",
+      "status": "active",
+      "summary": "Järelhooldusteenuse eesmärk on toetada asendushoolduselt või eestkostelt lahkuva noore iseseisvat toimetulekut ja õpingute jätkamist. Teenust osutatakse noorele, kes on saanud 18-aastaseks ja jätkab õpinguid esmase õppekavajärgse nominaalse õppeaja lõpuni, kuid mitte kauem kui 25-aastaseks saamiseni.",
+      "targetGroup": [
+        "asendushoolduselt või eestkostelt lahkuvad noored"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://www.otepaa.ee/pere-sotsiaal-ja-tervishoid/abi-toimetulekuraskusega-inimesele/sotsiaalteenuste-kirjeldused",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_terje_lille"
+      ],
+      "sourceKeys": [
+        "service_descriptions"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_perenoustamine_ja_manguteraapia",
+      "canonical_item_id": "otepaa_vald:service:perenoustamine_ja_manguteraapia",
+      "itemType": "service",
+      "title": "Perenõustamine ja mänguteraapia",
+      "status": "active",
+      "summary": "Otepää vald pakub vaimse tervise teenuse raames tasuta perenõustamist Otepää valla elanikele. 2025. aastal osutab teenust FIE Õie Kiis/OÜ Hingehiis. Perenõustamine on mõeldud peredele, kes soovivad lahendada suhteprobleeme, ning mänguteraapia eelkõige 3–16-aastastele lastele, kelle igapäevast toimetulekut häirivad elumuutused või muudatused.",
+      "targetGroup": [
+        "Otepää valla pered",
+        "3–16-aastased lapsed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "in_person",
+          "email"
+        ],
+        "steps": [
+          "Teenusele saamiseks tuleb pöörduda Otepää valla sotsiaalteenistusse."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/perenoustamine",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_marju_karavin"
+      ],
+      "sourceKeys": [
+        "perenoustamine_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_lastekaitse_ja_lapse_heaolu",
+      "canonical_item_id": "otepaa_vald:service:lastekaitse_ja_lapse_heaolu",
+      "itemType": "service",
+      "title": "Lastekaitse ja lapse heaolu juhtumitöö",
+      "status": "active",
+      "summary": "Otepää vallas korraldab lastekaitset kohalik omavalitsus. Lastekaitse hõlmab sotsiaalnõustamist, reageerimist hädaohus ja abivajava lapse teadetele, abivajaduse hindamist, sekkumiste planeerimist, lapse huvi väljaselgitamist, vanemate nõustamist, teenustele suunamist, kodukülastusi ning kohtuga seotud eestkosteasutuse ülesandeid.",
+      "targetGroup": [
+        "lapsed ja lastega pered"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Abivajavast lapsest tuleb teatada kohalikule omavalitsusele või Lasteabi telefonile.",
+          "Hädaohus olevast lapsest tuleb viivitamata teatada hädaabinumbril."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse-uldteave",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_terje_lille",
+        "otepaa_vald_contact_pille_vihmann",
+        "otepaa_vald_contact_marju_karavin",
+        "otepaa_vald_contact_rita_parnik"
+      ],
+      "sourceKeys": [
+        "lastekaitse_general_page",
+        "abivajav_laps_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_eestkoste_korraldamine",
+      "canonical_item_id": "otepaa_vald:service:eestkoste_korraldamine",
+      "itemType": "service",
+      "title": "Eestkoste korraldamine",
+      "status": "active",
+      "summary": "Eestkoste lehel on kirjas, et Otepää Vallavalitsuses tegeleb täisealiste isikute eestkoste korraldamisega Pille Sikk ning laste eestkoste küsimustega Terje Lille. Leht suunab eestkoste teekonda puudutava lisainfo jaoks eestkostja portaali.",
+      "targetGroup": [
+        "täisealised piiratud teovõimega isikud",
+        "laste eestkoste juhtumid"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "email",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/eestkoste",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_terje_lille"
+      ],
+      "sourceKeys": [
+        "eestkoste_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_igapaevaelu_toetamise_teenus",
+      "canonical_item_id": "otepaa_vald:service:igapaevaelu_toetamise_teenus",
+      "itemType": "service",
+      "title": "Igapäevaelu toetamise teenus psüühilise erivajadusega inimesele",
+      "status": "active",
+      "summary": "Erihoolekande lehel kirjeldatakse psüühilise erivajadusega inimeste igapäevaelu toetamise teenust. Teenuse eesmärk on inimese parim võimalik iseseisev toimetulek ja areng läbi tegevuste, mis toetavad igapäevaelu korraldamist.",
+      "targetGroup": [
+        "psüühilise erivajadusega inimesed"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/erihoolekanne",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_visnapuu"
+      ],
+      "sourceKeys": [
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_service_toetatud_elamise_teenus",
+      "canonical_item_id": "otepaa_vald:service:toetatud_elamise_teenus",
+      "itemType": "service",
+      "title": "Toetatud elamise teenus",
+      "status": "active",
+      "summary": "Toetatud elamise teenus on erihoolekande teenus, mille eesmärk on inimese sotsiaalse toimetuleku ja integratsiooni toetamine koos eluruumi kasutamise võimalusega. Teenus toetab psüühilise erivajadusega inimest võimalikult iseseisvas elukorralduses.",
+      "targetGroup": [
+        "psüühilise erivajadusega inimesed, kes vajavad toetatud elamist"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "phone",
+          "in_person"
+        ],
+        "steps": [],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "pricing": null,
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/erihoolekanne",
+      "relatedTo": [],
+      "relatedForms": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_visnapuu"
+      ],
+      "sourceKeys": [
+        "erihoolekanne_page",
+        "sotsiaalteenistus_contacts_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_sunnitoetus",
+      "canonical_item_id": "otepaa_vald:benefit:sunnitoetus",
+      "itemType": "benefit",
+      "title": "Sünnitoetus",
+      "status": "active",
+      "summary": "Sünnitoetus on kokku 600 eurot ja makstakse kahes osas. Esimene osa on 400 eurot, kui lapse sünnijärgse elukohana registreeritakse Otepää vald ning ühe lapsevanema elukoht on lapse sünni hetkel ja vähemalt eelnevad kuus kuud olnud rahvastikuregistris Otepää vald. Teine osa on 200 eurot lapse üheaastaseks saamisel, kui lapse ja vähemalt ühe lapsevanema elukoht on jätkuvalt Otepää vald.",
+      "targetGroup": [
+        "Otepää valla lapsevanemad"
+      ],
+      "conditions": "Lapse ja vähemalt ühe vanema elukoht peab olema rahvastikuregistris Otepää vald; esimese osa puhul peab ühe vanema elukoht olema Otepää vald ka vähemalt eelnevad kuus kuud.",
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "SPOKU-le ülemineku tõttu toimub avalduste esitamine e-posti teel.",
+          "Laadi vorm alla, allkirjasta digitaalselt ja saada aadressile või esita paberkandjal sotsiaalteenistusele Lipuväljak 13, Otepää."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "600 eurot",
+        "notes": "400 eurot esimene osa ja 200 eurot teine osa"
+      },
+      "officialUrl": "https://www.otepaa.ee/toiming/sunnitoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_sunnitoetuse_esimese_osa_avaldus",
+        "otepaa_vald_form_sunnitoetuse_teise_osa_avaldus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_marika_paris",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "sunnitoetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+      "canonical_item_id": "otepaa_vald:benefit:esmakordselt_kooli_mineva_lapse_toetus",
+      "itemType": "benefit",
+      "title": "Esmakordselt kooli mineva lapse toetus ehk ranitsatoetus",
+      "status": "active",
+      "summary": "Toetus määratakse Otepää vallas asuvasse haridusasutusse mineva lapse vanemale, kui lapse elukohana on rahvastikuregistris registreeritud Otepää vald. Toetust võib saada ka juhul, kui laps õpib väljaspool Otepää valda asuvas erivajadusega õppijatele mõeldud koolis koolivälise nõustamismeeskonna soovituse alusel või kui lapse rahvastikuregistrijärgses elukohas sarnast toetust ei maksta.",
+      "targetGroup": [
+        "lapsevanemad, kelle laps läheb esimest korda kooli"
+      ],
+      "conditions": "Lapse elukohana peab olema rahvastikuregistris Otepää vald; erisus on kirjeldatud erivajadusega õppija ja teise elukoha toetuse puudumise korral.",
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "SPOKU-le ülemineku tõttu toimub avalduste esitamine e-posti teel.",
+          "Laadi vorm alla, allkirjasta digitaalselt ja saada aadressile või esita paberkandjal vallavalitsusse."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://otepaa.ee/toiming/esmakordselt-kooli-mineva-lapse-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_esmakordselt_kooli_mineva_lapse_toetuse_taotlus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_marika_paris",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "kooli_mineva_lapse_toetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_koolilopetaja_toetus",
+      "canonical_item_id": "otepaa_vald:benefit:koolilopetaja_toetus",
+      "itemType": "benefit",
+      "title": "Koolilõpetaja toetus",
+      "status": "active",
+      "summary": "Koolilõpetaja toetus määratakse põhikooli või gümnaasiumi lõpetajale, kui tema elukohana on rahvastikuregistris registreeritud Otepää vald ning ta on sooritanud lõpueksamid selleks ettenähtud ajal. Põhikooli lõpetaja toetus on 45 eurot ja gümnaasiumi lõpetaja toetus 55 eurot.",
+      "targetGroup": [
+        "Otepää valla põhikooli ja gümnaasiumi lõpetajad"
+      ],
+      "conditions": "Toetuse saaja elukohana peab olema rahvastikuregistris Otepää vald ja lõpueksamid peavad olema sooritatud ettenähtud ajal.",
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "SPOKU-le ülemineku tõttu toimub avalduste esitamine e-posti teel.",
+          "Laadi vorm alla, allkirjasta digitaalselt ja saada aadressile või esita paberkandjal vallavalitsusse."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "45 või 55 eurot",
+        "notes": "45 eurot põhikooli lõpetajale, 55 eurot gümnaasiumi lõpetajale"
+      },
+      "officialUrl": "https://otepaa.ee/toiming/koolilopetaja-toetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_koolilopetaja_toetus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_marika_paris",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "koolilopetaja_toetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_hooldajatoetus",
+      "canonical_item_id": "otepaa_vald:benefit:hooldajatoetus",
+      "itemType": "benefit",
+      "title": "Hooldajatoetus",
+      "status": "active",
+      "summary": "Hooldajatoetust saab taotleda isik, kes on määratud raske või sügava puudega isiku hooldajaks või eestkostjaks või kes hooldab raske või sügava puudega last. Toetust võib saada puudega lapse vanem, seaduslik esindaja või kasuvanem, kes ei tööta lapse puudest tingitud kõrvalabi vajaduse tõttu. Hooldajatoetusega kaasnevad riiklikud maksud tasub vallavalitsus.",
+      "targetGroup": [
+        "raske või sügava puudega isiku hooldajad",
+        "raske või sügava puudega lapse hooldajad"
+      ],
+      "conditions": "Hooldajaks või eestkostjaks määramine ning hooldatava raske või sügav puue; puudega lapse hooldaja puhul tööle asumise takistus lapse kõrvalabi vajaduse tõttu.",
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "SPOKU-le ülemineku tõttu toimub avalduste esitamine e-posti teel.",
+          "Laadi vormid alla, allkirjasta digitaalselt ja saada aadressile või esita paberkandjal vallavalitsusse."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "30 või 50 eurot kuus",
+        "notes": "30 eurot raske puudega isiku hooldamisel ja 50 eurot sügava puudega isiku hooldamisel"
+      },
+      "officialUrl": "https://otepaa.ee/toiming/hooldajatoetus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_hooldajatoetuse_maaramine",
+        "otepaa_vald_form_hooldaja_maaramine"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "hooldajatoetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_matusetoetus",
+      "canonical_item_id": "otepaa_vald:benefit:matusetoetus",
+      "itemType": "benefit",
+      "title": "Matusetoetus",
+      "status": "active",
+      "summary": "Matusetoetus määratakse isikule, kes korraldab rahvastikuregistri andmetel Otepää vallas registreeritud elukohaga lahkunu matuse. Matusetoetuse piirmäär on 250 eurot.",
+      "targetGroup": [
+        "Otepää valla elaniku matuse korraldaja"
+      ],
+      "conditions": "Lahkunu elukoht pidi rahvastikuregistri andmetel olema Otepää vald.",
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "SPOKU-le ülemineku tõttu toimub avalduste esitamine e-posti teel.",
+          "Laadi vorm alla, allkirjasta digitaalselt ja saada aadressile või esita paberkandjal sotsiaalteenistusele Lipuväljak 13, Otepää."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": {
+        "amount": "250 eurot",
+        "notes": "piirmäär"
+      },
+      "officialUrl": "https://otepaa.ee/toiming/matusetoetuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_matusetoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_marika_paris",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "matusetoetus_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_tervisetoetus",
+      "canonical_item_id": "otepaa_vald:benefit:tervisetoetus",
+      "itemType": "benefit",
+      "title": "Tervisetoetus",
+      "status": "active",
+      "summary": "Tervisetoetus on Otepää valla sissetulekust sõltuv sotsiaaltoetus. KOV leht nimetab selle perekonna sissetulekust sõltuvate toetuste hulgas ning avaldab eraldi taotlusvormi.",
+      "targetGroup": [
+        "vähekindlustatud Otepää valla elanikud"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Täida taotluse vorm paberkandjal või digitaalselt.",
+          "Esita vallamajas, sotsiaaltöötaja kodukülastusel, paberkandjal sotsiaalteenistusele või digiallkirjastatult aadressile."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_tervisetoetus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_sotsiaalteenuste_toetus",
+      "canonical_item_id": "otepaa_vald:benefit:sotsiaalteenuste_toetus",
+      "itemType": "benefit",
+      "title": "Sotsiaalteenuste toetus",
+      "status": "active",
+      "summary": "Sotsiaalteenuste toetus on Otepää valla sissetulekust sõltuv sotsiaaltoetus. Leht nimetab seda eraldi toetusena ning avaldab sotsiaalteenuste toetuse taotlusvormi.",
+      "targetGroup": [
+        "vähekindlustatud isikud, kellel on sotsiaalteenuste kulu"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Täida taotluse vorm.",
+          "Esita vorm vallamajas, sotsiaaltöötaja kodukülastusel, sotsiaalteenistusele paberkandjal või digitaalselt allkirjastatult aadressile."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_sotsiaalteenuste_toetus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_raske_majandusliku_olukorra_toetus",
+      "canonical_item_id": "otepaa_vald:benefit:raske_majandusliku_olukorra_toetus",
+      "itemType": "benefit",
+      "title": "Raske majandusliku olukorra toetus",
+      "status": "active",
+      "summary": "Raske majandusliku olukorra toetuse taotlus on Otepää valla sissetulekust sõltuva sotsiaaltoetuse taotlemiseks avaldatud vorm. Toetus on mõeldud majanduslikesse raskustesse sattunud leibkonna abistamiseks.",
+      "targetGroup": [
+        "perekonnad ja isikud majanduslikes raskustes"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Täida raske majandusliku olukorra toetuse taotlus.",
+          "Esita digitaalselt allkirjastatult aadressile või paberkandjal sotsiaalteenistusele."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_raske_majandusliku_olukorra_toetus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_toimetulekutoetus",
+      "canonical_item_id": "otepaa_vald:benefit:toimetulekutoetus",
+      "itemType": "benefit",
+      "title": "Toimetulekutoetus",
+      "status": "active",
+      "summary": "Toimetulekutoetus on rahaline abi puuduses inimestele ning seda maksab kohalik omavalitsus. Otepää valla leht rõhutab, et toimetulekutoetust makstakse siis, kui muud vaesuse ja puuduse leevendamise abinõud on osutunud ebapiisavaks. KOV avaldab toimetulekutoetuse avalduse ja eraldi infofaili.",
+      "targetGroup": [
+        "puuduses leibkonnad"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "in_person",
+          "email"
+        ],
+        "steps": [
+          "Täida vormikohane avaldus ning lisa eluruumi kasutamise õigust tõendav dokument, eluasemekulude arved ja muud nõutud tõendid.",
+          "Esita avaldus sotsiaalteenistusele või digitaalselt allkirjastatuna aadressile."
+        ],
+        "deadline": "Jooksva kuu eest tuleb pöörduda hiljemalt kuu viimaseks tööpäevaks."
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://www.otepaa.ee/toiming/sissetulekust-soltuvad-sotsiaaltoetused",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_toimetulekutoetuse_avaldus"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "income_based_benefits_page",
+        "file_toimetulekutaotluse_info"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_benefit_hooldekodus_hooldamise_toetus",
+      "canonical_item_id": "otepaa_vald:benefit:hooldekodus_hooldamise_toetus",
+      "itemType": "benefit",
+      "title": "Hooldekodus hooldamise toetus",
+      "status": "active",
+      "summary": "Otepää valla veebis on eraldi hooldekoduteenuse taotluse leht, mille järgi vallakodanikel on võimalik taotleda hooldekodus hooldamise toetust. Taotlemiseks täidetakse hooldekoduteenuse taotlus ning esitatakse see vallavalitsuse sotsiaalteenistusele või saadetakse digitaalselt allkirjastatult.",
+      "targetGroup": [
+        "Otepää valla elanikud, kellel on hooldekodus hooldamise vajadus"
+      ],
+      "conditions": null,
+      "application": {
+        "channels": [
+          "email",
+          "in_person"
+        ],
+        "steps": [
+          "Täida hooldekoduteenuse taotlus.",
+          "Saada digitaalselt allkirjastatud vorm aadressile või esita paberkandjal sotsiaalteenistusele Lipuväljak 13, Otepää."
+        ],
+        "deadline": null
+      },
+      "decisionTime": null,
+      "amount": null,
+      "officialUrl": "https://otepaa.ee/toiming/hooldekoduteenuse-taotlus",
+      "relatedTo": [],
+      "relatedForms": [
+        "otepaa_vald_form_hooldekoduteenuse_taotlus",
+        "otepaa_vald_form_hindamisinstrument_hooldusvajaduse_ja_sotsiaalteenuse_maaramiseks"
+      ],
+      "relatedContacts": [
+        "otepaa_vald_contact_pille_sikk",
+        "otepaa_vald_contact_kelli_ann_kovljasenko",
+        "otepaa_vald_contact_yldkontakt"
+      ],
+      "sourceKeys": [
+        "hooldekoduteenuse_page",
+        "forms_overview"
+      ],
+      "sections_present": [
+        "description"
+      ],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_rehabilitatsiooniteenus_info",
+      "canonical_item_id": "otepaa_vald:resource:rehabilitatsiooniteenus_info",
+      "itemType": "resource",
+      "title": "Rehabilitatsiooniteenuse info",
+      "status": "active",
+      "summary": "Rehabilitatsiooniteenus on Otepää veebis kirjeldatud sotsiaalteenusena, mille eesmärk on parandada puudega inimese iseseisvat toimetulekut, suurendada ühiskonda kaasatust ja soodustada töötamist või tööle asumist. Leht viitab Sotsiaalkindlustusameti infole ja nimetab teenusepakkujana SA Otepää Tervisekeskust.",
+      "targetGroup": [
+        "puudega inimesed"
+      ],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/rehabilitatsiooniteenus",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "rehabilitatsiooniteenus_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_hoolekandeasutus_sa_otepaa_tervisekeskus",
+      "canonical_item_id": "otepaa_vald:resource:hoolekandeasutus_sa_otepaa_tervisekeskus",
+      "itemType": "resource",
+      "title": "SA Otepää Tervisekeskus hoolekandeasutusena",
+      "status": "active",
+      "summary": "Hoolekandeasutuste lehel on Otepää piirkonna hoolekandeasutusena nimetatud SA Otepää Tervisekeskus aadressidel Tartu mnt 2 ja Kastolatsi tee 25. Lehel on viide asutuse kodulehele, kuid välislehte ei kasutatud allikana.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_hoolekandeasutus_sangaste_kodu",
+      "canonical_item_id": "otepaa_vald:resource:hoolekandeasutus_sangaste_kodu",
+      "itemType": "resource",
+      "title": "Lõuna-Eesti Hooldekeskus AS Sangaste kodu",
+      "status": "active",
+      "summary": "Hoolekandeasutuste lehel on Otepää piirkonna hoolekandeasutusena nimetatud Lõuna-Eesti Hooldekeskus AS Sangaste kodu aadressil Nooruse 2, Sangaste alevik. Välise teenusepakkuja lehte ei kasutatud korje allikana.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/hoolekandeasutused",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "hoolekandeasutused_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_seenioride_koda",
+      "canonical_item_id": "otepaa_vald:resource:seenioride_koda",
+      "itemType": "resource",
+      "title": "Otepää valla seenioride koda",
+      "status": "active",
+      "summary": "Otepää valla seenioride koda on eakate esindus- ja koostöökogu, mille eesmärk on eakate huvide esindamine, probleemide kaardistamine ja koostöö omavalitsusega lahenduste leidmiseks. Koda moodustati 27.12.2023 ning veebis on avaldatud koosseis, kodukord ja tegevuskava.",
+      "targetGroup": [
+        "Otepää valla eakad"
+      ],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/eakad-ja-erivajadusega-inimesed/seenioride-koda",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "seenioride_koda_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_seenioride_koda_kodukord",
+      "canonical_item_id": "otepaa_vald:resource:seenioride_koda_kodukord",
+      "itemType": "resource",
+      "title": "Seenioride koja kodukord",
+      "status": "active",
+      "summary": "Seenioride koja kodukord on KOV veebis avaldatud PDF, mis kirjeldab koja eesmärki, ülesandeid ja töökorraldust. Dokument on praktiline ressurss eakate esinduskogu toimimise mõistmiseks.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-10/Otep%C3%A4%C3%A4%20valla%20seenioride%20koja%20kodukord2024.pdf",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "seenioride_koda_page",
+        "file_seenioride_koda_kodukord"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_seenioride_koda_tegevuskava",
+      "canonical_item_id": "otepaa_vald:resource:seenioride_koda_tegevuskava",
+      "itemType": "resource",
+      "title": "Seenioride koja tegevuskava",
+      "status": "active",
+      "summary": "Seenioride koja tegevuskava on KOV veebis avaldatud PDF, kus on kirjeldatud eakate infotundide, teenuste ja tugivõimaluste tutvustamise tegevusi. Dokument on eakate valdkonna praktiline ressurss.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-10/Seenioride%20koja%20tegevuskava.pdf",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "seenioride_koda_page",
+        "file_seenioride_koda_tegevuskava"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_lasteabi_",
+      "canonical_item_id": "otepaa_vald:resource:lasteabi_",
+      "itemType": "resource",
+      "title": "Lasteabi",
+      "status": "active",
+      "summary": "Lasteabi pakub laste ja perede aitamiseks ööpäevaringset tasuta nõustamist telefoni ja interneti teel. Otepää lehe järgi saab pöörduda ka välismaalt numbril, e-posti aadressil ja veebivestluse kaudu.",
+      "targetGroup": [
+        "lapsed",
+        "lapsevanemad",
+        "lastega töötavad spetsialistid"
+      ],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/abivajav-laps",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "abivajav_laps_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_louna_lastemaja",
+      "canonical_item_id": "otepaa_vald:resource:louna_lastemaja",
+      "itemType": "resource",
+      "title": "Lõuna Lastemaja",
+      "status": "active",
+      "summary": "Seksuaalselt väärkoheldud lapse või väärkohtlemise kahtluse korral saab Otepää lehe järgi pöörduda Lõuna Lastemaja poole, mis asub Tartus. on tööpäeviti 8.30–17.00; töövälisel ajal suunab leht Lasteabi numbrile või aadressile.",
+      "targetGroup": [
+        "seksuaalselt väärkoheldud lapsed ja nende lähedased"
+      ],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/abivajav-laps",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "abivajav_laps_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_puudega_lapse_vanemale_info",
+      "canonical_item_id": "otepaa_vald:resource:puudega_lapse_vanemale_info",
+      "itemType": "resource",
+      "title": "Puudega lapse vanemale mõeldud infomaterjalid",
+      "status": "active",
+      "summary": "Puudega lapse vanemale mõeldud lehel viitab vald Eesti Puuetega Inimeste Koja käsiraamatule „Teekond erilise lapse kõrval” ning eesti.ee infoteenusele „Terviseprobleemiga lapse toetamine”. Need ressursid aitavad lapsevanemal ja spetsialistil aru saada lapse terviseprobleemide, teenuste ja toetuste teekonnast.",
+      "targetGroup": [
+        "puudega ja erivajadusega laste vanemad"
+      ],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/puudega-lapse-vanemale",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "puudega_lapse_vanemale_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_lasteombudsman",
+      "canonical_item_id": "otepaa_vald:resource:lasteombudsman",
+      "itemType": "resource",
+      "title": "Lasteombudsman",
+      "status": "active",
+      "summary": "Lasteombudsman kaitseb laste õigusi suhetes avalikke ülesandeid täitvate inimeste ja asutustega. Otepää leht kirjeldab lasteombudsmani ülesannetena lapse õiguste ja parimate huvide eest seismist, lapse õigusi puudutavate avalduste lahendamist ja laste õigustega seotud teavitustööd.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lasteombudsman",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "lasteombudsman_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_lastekaitse_lisainfo_tugikanalid",
+      "canonical_item_id": "otepaa_vald:resource:lastekaitse_lisainfo_tugikanalid",
+      "itemType": "resource",
+      "title": "Lastekaitse lisainfo ja tugikanalid",
+      "status": "active",
+      "summary": "Lastekaitse lisainfo leht koondab kasulikud viited ja nõustamisvõimalused, sh Lasteabi, Lastekaitseliit, õiguskantsler, peaasi.ee, lahendus.net, tarkvanem.ee, tugitelefon 1492, Eesti Kasuperede Liit, Igale Lapsele Pere ja ohvriabi palunabi.ee.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/lastekaitse-lisainfo",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "lastekaitse_lisainfo_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_vaimse_tervise_abi",
+      "canonical_item_id": "otepaa_vald:resource:vaimse_tervise_abi",
+      "itemType": "resource",
+      "title": "Vaimse tervise abi ja kriisitoe kanalid",
+      "status": "active",
+      "summary": "Vaimse tervise abi lehel on koondatud praktilised abikanalid, sh kriisitelefon, hädaabinumber, ohvriabi, ohvriabi vaimse tervise nõustamine, Lasteabi, peaasi.ee, lahendus.net, Rajaleidja, Eluliin, hingehoid 116 123 ja perearsti nõuandetelefon 1220.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/vaimse-tervise-abi",
+      "relatedTo": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_marju_karavin"
+      ],
+      "sourceKeys": [
+        "vaimse_tervise_abi_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_ohvriabi",
+      "canonical_item_id": "otepaa_vald:resource:ohvriabi",
+      "itemType": "resource",
+      "title": "Ohvriabi",
+      "status": "active",
+      "summary": "Ohvriabi leht selgitab, et kuriteo, vägivalla, hoolimatu või halva kohtlemise ning õnnetusjuhtumite ohvrid ja nende lähedased saavad nõu ja abi ohvriabikeskustest. Otepää leht viitab tasuta nõustamisele, emotsionaalsele toele, info jagamisele ja vajadusel teiste spetsialistide poole suunamisele.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/ohvriabi",
+      "relatedTo": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_marju_karavin"
+      ],
+      "sourceKeys": [
+        "ohvriabi_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_soltuvusprobleemide_abi",
+      "canonical_item_id": "otepaa_vald:resource:soltuvusprobleemide_abi",
+      "itemType": "resource",
+      "title": "Sõltuvusprobleemide abiinfo",
+      "status": "active",
+      "summary": "Sõltuvusprobleemide leht koondab info alkoholi tarvitamise häire kabineti, narko- ja ravimisõltuvuse ravi- ja rehabilitatsiooniteenuste, MTÜ Lootuse Küla rehabilitatsioonikeskuse ning Hasartmängusõltuvuse Nõustamiskeskuse kohta. Väliste teenusepakkujate veebilehti ei kasutatud allikatena.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/pere-sotsiaal-ja-tervishoid/tervis/soltuvusprobleemid",
+      "relatedTo": [],
+      "relatedContacts": [
+        "otepaa_vald_contact_marju_karavin"
+      ],
+      "sourceKeys": [
+        "soltuvusprobleemid_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_kriisi_abitelefonid",
+      "canonical_item_id": "otepaa_vald:resource:kriisi_abitelefonid",
+      "itemType": "resource",
+      "title": "Üldised abitelefonid kriisi ajal",
+      "status": "active",
+      "summary": "Kriisideks valmisoleku lehel on avaldatud üldised abitelefonid:, riigiinfo, mürgistusinfo 16662, perearsti nõuandeliin 1220, naiste tugiliin 1492, ohvriabi kriisitelefon, lasteabi ja hingehoiu 116 123.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/kriisideks-valmisolek/uldised-abitelefonid-kriisi-ajal",
+      "relatedTo": [],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "kriisi_abitelefonid_page"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    },
+    {
+      "id": "otepaa_vald_resource_toimetulekutaotluse_info",
+      "canonical_item_id": "otepaa_vald:resource:toimetulekutaotluse_info",
+      "itemType": "resource",
+      "title": "Toimetulekutaotluse infofail",
+      "status": "active",
+      "summary": "Otepää valla vormide lehel avaldatud PDF selgitab toimetulekutoetuse üldinfot, taotluse esitamise nõudeid ja seda, et jooksva kuu eest tuleb pöörduda hiljemalt kuu viimaseks tööpäevaks elukohajärgse piirkonna sotsiaaltööspetsialisti vastuvõtule.",
+      "targetGroup": [],
+      "officialUrl": "https://otepaa.ee/sites/default/files/documents/2025-10/Toimetulekutaotluse%20info.pdf",
+      "relatedTo": [
+        "otepaa_vald_benefit_toimetulekutoetus"
+      ],
+      "relatedContacts": [],
+      "sourceKeys": [
+        "forms_overview",
+        "file_toimetulekutaotluse_info"
+      ],
+      "relatedForms": [],
+      "unresolvedIssues": []
+    }
+  ]
+}

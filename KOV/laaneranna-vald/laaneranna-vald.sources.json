@@ -1,0 +1,866 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-laaneranna-vald",
+  "document_id": "kov-laaneranna-vald",
+  "municipality": "Lääneranna vald",
+  "municipality_id": "laaneranna_vald",
+  "county": "Pärnumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Lääneranna vald – avaleht",
+      "url": "https://www.laanerannavald.ee/",
+      "url_canonical": "https://www.laanerannavald.ee/",
+      "normalized_url": "https://www.laanerannavald.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "intro",
+        "navigation"
+      ]
+    },
+    {
+      "source_id": "social_overview",
+      "title": "Sotsiaalteenused – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sotsiaalteenused",
+      "url_canonical": "https://www.laanerannavald.ee/sotsiaalteenused",
+      "normalized_url": "https://www.laanerannavald.ee/sotsiaalteenused",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services_list",
+        "service_overview"
+      ]
+    },
+    {
+      "source_id": "benefits_overview",
+      "title": "Sotsiaaltoetused – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sotsiaaltoetused",
+      "url_canonical": "https://www.laanerannavald.ee/sotsiaaltoetused",
+      "normalized_url": "https://www.laanerannavald.ee/sotsiaaltoetused",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefits_list",
+        "benefit_overview"
+      ]
+    },
+    {
+      "source_id": "social_contacts",
+      "title": "Sotsiaal- ja tervishoiuvaldkonna ametnikud",
+      "url": "https://www.laanerannavald.ee/ametnikud",
+      "url_canonical": "https://www.laanerannavald.ee/ametnikud",
+      "normalized_url": "https://www.laanerannavald.ee/ametnikud",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "social_forms",
+      "title": "Blanketid – sotsiaal ja tervishoid",
+      "url": "https://www.laanerannavald.ee/blanketid-sotsiaal-tervishoid",
+      "url_canonical": "https://www.laanerannavald.ee/blanketid-sotsiaal-tervishoid",
+      "normalized_url": "https://www.laanerannavald.ee/blanketid-sotsiaal-tervishoid",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "forms_list"
+      ]
+    },
+    {
+      "source_id": "spoku_laaneranna",
+      "title": "Lääneranna valla iseteenindus SPOKU",
+      "url": "https://piksel.ee/spoku/laaneranna/index.php?module=207&op=0",
+      "url_canonical": "https://piksel.ee/spoku/laaneranna/index.php?module=207&op=0",
+      "normalized_url": "https://piksel.ee/spoku/laaneranna/index.php?module=207&op=0",
+      "source_type": "web_form",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsuse iseteenindus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "web_forms",
+        "e_services"
+      ]
+    },
+    {
+      "source_id": "service_sotsiaalnoustamine",
+      "title": "Sotsiaalnõustamine – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sotsiaalnoustamine",
+      "url_canonical": "https://www.laanerannavald.ee/sotsiaalnoustamine",
+      "normalized_url": "https://www.laanerannavald.ee/sotsiaalnoustamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_koduteenus",
+      "title": "Koduteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/koduteenus",
+      "url_canonical": "https://www.laanerannavald.ee/koduteenus",
+      "normalized_url": "https://www.laanerannavald.ee/koduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_erakorraline_koduteenus",
+      "title": "Erakorraline koduteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/erakorraline-koduteenus",
+      "url_canonical": "https://www.laanerannavald.ee/erakorraline-koduteenus",
+      "normalized_url": "https://www.laanerannavald.ee/erakorraline-koduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_uldhooldusteenus",
+      "title": "Väljaspool kodu osutatav üldhooldusteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/uldhooldusteenus",
+      "url_canonical": "https://www.laanerannavald.ee/uldhooldusteenus",
+      "normalized_url": "https://www.laanerannavald.ee/uldhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_tugiisikuteenus",
+      "title": "Tugiisikuteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/tugiisikuteenus",
+      "url_canonical": "https://www.laanerannavald.ee/tugiisikuteenus",
+      "normalized_url": "https://www.laanerannavald.ee/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_taisealise_isiku_hooldus",
+      "title": "Täisealise isiku hooldus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/taisealise-isiku-hooldus",
+      "url_canonical": "https://www.laanerannavald.ee/taisealise-isiku-hooldus",
+      "normalized_url": "https://www.laanerannavald.ee/taisealise-isiku-hooldus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_isikliku_abistaja_teenus",
+      "title": "Isikliku abistaja teenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/isikliku-abistaja-teenus",
+      "url_canonical": "https://www.laanerannavald.ee/isikliku-abistaja-teenus",
+      "normalized_url": "https://www.laanerannavald.ee/isikliku-abistaja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_varjupaigateenus",
+      "title": "Varjupaigateenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/varjupaigateenus",
+      "url_canonical": "https://www.laanerannavald.ee/varjupaigateenus",
+      "normalized_url": "https://www.laanerannavald.ee/varjupaigateenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_turvakoduteenus",
+      "title": "Turvakoduteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/turvakoduteenus",
+      "url_canonical": "https://www.laanerannavald.ee/turvakoduteenus",
+      "normalized_url": "https://www.laanerannavald.ee/turvakoduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_sotsiaaltransporditeenus",
+      "title": "Sotsiaaltransporditeenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sotsiaaltransporditeenus",
+      "url_canonical": "https://www.laanerannavald.ee/sotsiaaltransporditeenus",
+      "normalized_url": "https://www.laanerannavald.ee/sotsiaaltransporditeenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_sotsiaaltranspordi_saatja_teenus",
+      "title": "Sotsiaaltranspordi saatja teenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sotsiaaltranspordi-saatja-teenus",
+      "url_canonical": "https://www.laanerannavald.ee/sotsiaaltranspordi-saatja-teenus",
+      "normalized_url": "https://www.laanerannavald.ee/sotsiaaltranspordi-saatja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_eluruumi_tagamine",
+      "title": "Eluruumi tagamine – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/eluruumi-tagamine",
+      "url_canonical": "https://www.laanerannavald.ee/eluruumi-tagamine",
+      "normalized_url": "https://www.laanerannavald.ee/eluruumi-tagamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_volanoustamisteenus",
+      "title": "Võlanõustamisteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/volanoustamisteenus",
+      "url_canonical": "https://www.laanerannavald.ee/volanoustamisteenus",
+      "normalized_url": "https://www.laanerannavald.ee/volanoustamisteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_lapsehoiuteenus",
+      "title": "Lapsehoiuteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/lapsehoiuteenus",
+      "url_canonical": "https://www.laanerannavald.ee/lapsehoiuteenus",
+      "normalized_url": "https://www.laanerannavald.ee/lapsehoiuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_asendushooldusteenus",
+      "title": "Asendushooldusteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/asendushooldusteenus",
+      "url_canonical": "https://www.laanerannavald.ee/asendushooldusteenus",
+      "normalized_url": "https://www.laanerannavald.ee/asendushooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_jarelhooldusteenus",
+      "title": "Järelhooldusteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/jarelhooldusteenus",
+      "url_canonical": "https://www.laanerannavald.ee/jarelhooldusteenus",
+      "normalized_url": "https://www.laanerannavald.ee/jarelhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_pesemisteenused",
+      "title": "Pesemis- ja pesupesemisteenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/pesemisteenused",
+      "url_canonical": "https://www.laanerannavald.ee/pesemisteenused",
+      "normalized_url": "https://www.laanerannavald.ee/pesemisteenused",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_hairenuputeenus",
+      "title": "Häirenuputeenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/hairenuputeenus",
+      "url_canonical": "https://www.laanerannavald.ee/hairenuputeenus",
+      "normalized_url": "https://www.laanerannavald.ee/hairenuputeenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_parkimiskaart",
+      "title": "Puudega inimese sõiduki parkimiskaart – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/puudega-inimese-soiduki-parkimiskaart",
+      "url_canonical": "https://www.laanerannavald.ee/puudega-inimese-soiduki-parkimiskaart",
+      "normalized_url": "https://www.laanerannavald.ee/puudega-inimese-soiduki-parkimiskaart",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "service_taiendavad_vajaduspohised_teenused",
+      "title": "Täiendavad vajaduspõhised teenused – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/taiendavad-vajaduspohised-teenused",
+      "url_canonical": "https://www.laanerannavald.ee/taiendavad-vajaduspohised-teenused",
+      "normalized_url": "https://www.laanerannavald.ee/taiendavad-vajaduspohised-teenused",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "service_vaimse_tervise_teenus",
+      "title": "Vaimse tervise teenus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/vaimse-tervise-teenus",
+      "url_canonical": "https://www.laanerannavald.ee/vaimse-tervise-teenus",
+      "normalized_url": "https://www.laanerannavald.ee/vaimse-tervise-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "service"
+      ]
+    },
+    {
+      "source_id": "benefit_toimetulekutoetus",
+      "title": "Toimetulekutoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/toimetulekutoetus",
+      "url_canonical": "https://www.laanerannavald.ee/toimetulekutoetus",
+      "normalized_url": "https://www.laanerannavald.ee/toimetulekutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_lisatoetus",
+      "title": "Lisatoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/lisatoetus",
+      "url_canonical": "https://www.laanerannavald.ee/lisatoetus",
+      "normalized_url": "https://www.laanerannavald.ee/lisatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_huvihariduse_ja_huvitegevuse_toetus",
+      "title": "Huvihariduse ja huvitegevuse toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/huvihariduse-ja-huvitegevuse-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/huvihariduse-ja-huvitegevuse-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/huvihariduse-ja-huvitegevuse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_sunnitoetus",
+      "title": "Sünnitoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/sunnitoetus",
+      "url_canonical": "https://www.laanerannavald.ee/sunnitoetus",
+      "normalized_url": "https://www.laanerannavald.ee/sunnitoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_matusetoetus",
+      "title": "Matusetoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/matusetoetus",
+      "url_canonical": "https://www.laanerannavald.ee/matusetoetus",
+      "normalized_url": "https://www.laanerannavald.ee/matusetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_puudega_lapse_hooldaja_toetus",
+      "title": "Puudega lapse hooldaja toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/puudega-lapse-hooldaja-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/puudega-lapse-hooldaja-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/puudega-lapse-hooldaja-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_taisealise_puudega_isiku_hooldaja_toetus",
+      "title": "Täisealise puudega isiku hooldaja toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/taisealise-puudega-isiku-hooldaja-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/taisealise-puudega-isiku-hooldaja-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/taisealise-puudega-isiku-hooldaja-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_eakate_sunnipaevatoetus",
+      "title": "Eakate sünnipäevatoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/eakate-sunnipaevatoetus",
+      "url_canonical": "https://www.laanerannavald.ee/eakate-sunnipaevatoetus",
+      "normalized_url": "https://www.laanerannavald.ee/eakate-sunnipaevatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_ranitsatoetus",
+      "title": "Ranitsatoetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/ranitsatoetus",
+      "url_canonical": "https://www.laanerannavald.ee/ranitsatoetus",
+      "normalized_url": "https://www.laanerannavald.ee/ranitsatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_joulupaki_toetus",
+      "title": "Jõulupaki toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/joulupaki-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/joulupaki-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/joulupaki-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_jarelhooldusteenusel_viibiva_isiku_toetus",
+      "title": "Järelhooldusteenusel viibiva isiku toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/jarelhooldusteenusel-viibiva-isiku-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/jarelhooldusteenusel-viibiva-isiku-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/jarelhooldusteenusel-viibiva-isiku-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_hoolduspere_toetus",
+      "title": "Hoolduspere toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/hoolduspere-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/hoolduspere-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/hoolduspere-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_tsernoboli_aej_toetus",
+      "title": "Tšernobõli AEJ avarii tagajärgede likvideerimisel osalenud isikute toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/tsernoboli-aej-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/tsernoboli-aej-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/tsernoboli-aej-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "benefit_leinatoetuslaagris_osalemise_toetus",
+      "title": "Leinatoetuslaagris osalemise toetus – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/leinatoetuslaagris-osalemise-toetus",
+      "url_canonical": "https://www.laanerannavald.ee/leinatoetuslaagris-osalemise-toetus",
+      "normalized_url": "https://www.laanerannavald.ee/leinatoetuslaagris-osalemise-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefit"
+      ]
+    },
+    {
+      "source_id": "resource_hoolekandeasutused",
+      "title": "Hoolekandeasutused – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/hoolekandeasutused",
+      "url_canonical": "https://www.laanerannavald.ee/hoolekandeasutused",
+      "normalized_url": "https://www.laanerannavald.ee/hoolekandeasutused",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "resource_lastekaitse",
+      "title": "Lastekaitse – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/lastekaitse",
+      "url_canonical": "https://www.laanerannavald.ee/lastekaitse",
+      "normalized_url": "https://www.laanerannavald.ee/lastekaitse",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "resource_ohvriabi",
+      "title": "Ohvriabi – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/ohvriabi",
+      "url_canonical": "https://www.laanerannavald.ee/ohvriabi",
+      "normalized_url": "https://www.laanerannavald.ee/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "resource_kasulik_teave",
+      "title": "Kasulik teave – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/kasulik-teave",
+      "url_canonical": "https://www.laanerannavald.ee/kasulik-teave",
+      "normalized_url": "https://www.laanerannavald.ee/kasulik-teave",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "resource_noortegarantii",
+      "title": "Noortegarantii tugisüsteem – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/noortegarantii-tugisusteem",
+      "url_canonical": "https://www.laanerannavald.ee/noortegarantii-tugisusteem",
+      "normalized_url": "https://www.laanerannavald.ee/noortegarantii-tugisusteem",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "resource_oigusnoustamine",
+      "title": "Õigusnõustamine, õigusabi – Lääneranna Vallavalitsus",
+      "url": "https://www.laanerannavald.ee/oigusnoustamine",
+      "url_canonical": "https://www.laanerannavald.ee/oigusnoustamine",
+      "normalized_url": "https://www.laanerannavald.ee/oigusnoustamine",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resource"
+      ]
+    },
+    {
+      "source_id": "form_toimetulekutoetuse_taotlus",
+      "title": "Toimetulekutoetuse taotlus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Toimetulekutoetuse_taotlus.pdf/1a395832-3b02-45f2-a44c-25bd6535f8a5",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Toimetulekutoetuse_taotlus.pdf/1a395832-3b02-45f2-a44c-25bd6535f8a5",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Toimetulekutoetuse_taotlus.pdf/1a395832-3b02-45f2-a44c-25bd6535f8a5",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "form_sissetulekust_soltuv_sotsiaaltoetus",
+      "title": "Sissetulekust sõltuva sotsiaaltoetuse taotlus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Sissetulekust_soltuva_sotsiaaltoetuse_taotlus.pdf/193a02f2-f175-4057-820b-5f018369f391",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Sissetulekust_soltuva_sotsiaaltoetuse_taotlus.pdf/193a02f2-f175-4057-820b-5f018369f391",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Sissetulekust_soltuva_sotsiaaltoetuse_taotlus.pdf/193a02f2-f175-4057-820b-5f018369f391",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "form_sotsiaalteenuse_avaldus",
+      "title": "Sotsiaalteenuse avaldus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Sotsiaalteenuse_avaldus.pdf/faf99735-5f75-427d-8cc5-34b5fc02e33d",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Sotsiaalteenuse_avaldus.pdf/faf99735-5f75-427d-8cc5-34b5fc02e33d",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Sotsiaalteenuse_avaldus.pdf/faf99735-5f75-427d-8cc5-34b5fc02e33d",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "form_puudega_lapse_hooldaja_taotlus",
+      "title": "Puudega lapse hooldaja määramise ja toetuse taotlus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Puudega_lapse_hooldaja_maaramise_ja_toetuse_taotlus.pdf/483252b4-f9a4-4c51-b1d1-e082ac203143",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Puudega_lapse_hooldaja_maaramise_ja_toetuse_taotlus.pdf/483252b4-f9a4-4c51-b1d1-e082ac203143",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Puudega_lapse_hooldaja_maaramise_ja_toetuse_taotlus.pdf/483252b4-f9a4-4c51-b1d1-e082ac203143",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "form_taisealise_puudega_isiku_hooldaja_taotlus",
+      "title": "Täisealise puudega isiku hooldaja määramise ja toetuse taotlus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Taisealise_puudega_isiku_hooldaja_maaramise_ja_toetuse_taotlus.pdf/eef0c86a-891c-4736-9f3b-460a3e2c63f8",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Taisealise_puudega_isiku_hooldaja_maaramise_ja_toetuse_taotlus.pdf/eef0c86a-891c-4736-9f3b-460a3e2c63f8",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Taisealise_puudega_isiku_hooldaja_maaramise_ja_toetuse_taotlus.pdf/eef0c86a-891c-4736-9f3b-460a3e2c63f8",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    },
+    {
+      "source_id": "form_uldhooldusteenuse_taotlus",
+      "title": "Üldhooldusteenuse taotlus (PDF)",
+      "url": "https://www.laanerannavald.ee/documents/16319726//Uldhooldusteenuse_taotlus.pdf/81d72a78-baa4-4755-a73b-963f0e55cb6e",
+      "url_canonical": "https://www.laanerannavald.ee/documents/16319726//Uldhooldusteenuse_taotlus.pdf/81d72a78-baa4-4755-a73b-963f0e55cb6e",
+      "normalized_url": "https://www.laanerannavald.ee/documents/16319726//Uldhooldusteenuse_taotlus.pdf/81d72a78-baa4-4755-a73b-963f0e55cb6e",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "Lääneranna Vallavalitsus",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "form"
+      ]
+    }
+  ]
+}

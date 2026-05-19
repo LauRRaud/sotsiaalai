@@ -1,0 +1,940 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-peipsiaare-vald",
+  "document_id": "kov-peipsiaare-vald",
+  "municipality": "Peipsiääre vald",
+  "municipality_id": "peipsiaare_vald",
+  "county": "Tartumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Peipsiääre vald – ametlik veebileht",
+      "url": "https://peipsivald.ee/",
+      "url_canonical": "https://peipsivald.ee/",
+      "normalized_url": "https://peipsivald.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_contact_vallavalitsus",
+        "peipsiaare_vald_resource_eakate_bussiringid"
+      ]
+    },
+    {
+      "source_id": "social_contacts",
+      "title": "Sotsiaalosakonna kontaktid – Peipsiääre vald",
+      "url": "https://peipsivald.ee/sotsiaalosakonna-kontaktid",
+      "url_canonical": "https://peipsivald.ee/sotsiaalosakonna-kontaktid",
+      "normalized_url": "https://peipsivald.ee/sotsiaalosakonna-kontaktid",
+      "source_type": "kov_contact_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_contact_triin_vaino",
+        "peipsiaare_vald_contact_viktoria_tougjas",
+        "peipsiaare_vald_contact_olga_solovjova",
+        "peipsiaare_vald_contact_relika_laan",
+        "peipsiaare_vald_contact_helina_vester",
+        "peipsiaare_vald_contact_elise_tollimae",
+        "peipsiaare_vald_contact_marina_reinsalu",
+        "peipsiaare_vald_contact_svetlana_puss",
+        "peipsiaare_vald_contact_natalja_sorgina",
+        "peipsiaare_vald_contact_elle_koort",
+        "peipsiaare_vald_contact_silvi_vaiknemets",
+        "peipsiaare_vald_contact_ene_toom",
+        "peipsiaare_vald_contact_elvi_randlahe",
+        "peipsiaare_vald_service_koduteenus",
+        "peipsiaare_vald_service_sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "source_id": "laps_pere_overview",
+      "title": "Laps ja pere – teenused ja toetused",
+      "url": "https://peipsivald.ee/teenused/pere-elukoht",
+      "url_canonical": "https://peipsivald.ee/teenused/pere-elukoht",
+      "normalized_url": "https://peipsivald.ee/teenused/pere-elukoht",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_sunnitoetus",
+        "peipsiaare_vald_service_tugiisikuteenus"
+      ]
+    },
+    {
+      "source_id": "eakale_erivajadusega_overview",
+      "title": "Eakale ja erivajadusega inimesele – teenused ja toetused",
+      "url": "https://peipsivald.ee/teenused/eakale-ja-erivajadusega-inimesele",
+      "url_canonical": "https://peipsivald.ee/teenused/eakale-ja-erivajadusega-inimesele",
+      "normalized_url": "https://peipsivald.ee/teenused/eakale-ja-erivajadusega-inimesele",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_tugiisikuteenus"
+      ]
+    },
+    {
+      "source_id": "toimetulek_overview",
+      "title": "Toimetulekuraskusega inimesele – teenused ja toetused",
+      "url": "https://peipsivald.ee/teenused/sotsiaalabi",
+      "url_canonical": "https://peipsivald.ee/teenused/sotsiaalabi",
+      "normalized_url": "https://peipsivald.ee/teenused/sotsiaalabi",
+      "source_type": "kov_social_overview",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": []
+    },
+    {
+      "source_id": "sunnitoetus_page",
+      "title": "Sünnitoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/sunnitoetus",
+      "url_canonical": "https://peipsivald.ee/sunnitoetus",
+      "normalized_url": "https://peipsivald.ee/sunnitoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_sunnitoetus"
+      ]
+    },
+    {
+      "source_id": "koolimineku_toetus_page",
+      "title": "Esmakordselt kooli mineva lapse toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/esmakordselt-kooli-mineva-lapse-toetus",
+      "url_canonical": "https://peipsivald.ee/esmakordselt-kooli-mineva-lapse-toetus",
+      "normalized_url": "https://peipsivald.ee/esmakordselt-kooli-mineva-lapse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+        "peipsiaare_vald_form_esmakordselt_kooli_mineva_lapse_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "laste_ravimite_toetus_page",
+      "title": "Laste ravimite ja abivahendite toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/laste-ravimite-ja-abivahendite-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/laste-ravimite-ja-abivahendite-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/laste-ravimite-ja-abivahendite-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_laste_ravimite_ja_abivahendite_toetus",
+        "peipsiaare_vald_form_laste_ravimite_ja_abivahendite_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "laste_noortelaagri_toetus_page",
+      "title": "Laste- ja noortelaagri toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/laste-ja-noortelaagri-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/laste-ja-noortelaagri-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/laste-ja-noortelaagri-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_laste_ja_noortelaagri_toetus",
+        "peipsiaare_vald_form_laste_ja_noortelaagri_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "perekonnas_hooldamisel_toetus_page",
+      "title": "Perekonnas hooldamisel oleva lapse toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/perekonnas-hooldamisel-oleva-lapse-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/perekonnas-hooldamisel-oleva-lapse-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/perekonnas-hooldamisel-oleva-lapse-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_perekonnas_hooldamisel_oleva_lapse_toetus",
+        "peipsiaare_vald_form_perekonnas_hooldamisel_oleva_lapse_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "toitlustustoetus_page",
+      "title": "Toitlustustoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/toitlustustoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/toitlustustoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/toitlustustoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_toitlustustoetus",
+        "peipsiaare_vald_form_toitlustustoetus_doc"
+      ]
+    },
+    {
+      "source_id": "lapsehoiuteenus_page",
+      "title": "Lapsehoiuteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/lapsehoiuteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/lapsehoiuteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/lapsehoiuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_lapsehoiuteenus"
+      ]
+    },
+    {
+      "source_id": "asendushooldusteenus_page",
+      "title": "Asendushooldusteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/asendushooldusteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/asendushooldusteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/asendushooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_asendushooldusteenus"
+      ]
+    },
+    {
+      "source_id": "tugiisikuteenus_page",
+      "title": "Tugiisikuteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/tugiisikuteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/tugiisikuteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/tugiisikuteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_tugiisikuteenus"
+      ]
+    },
+    {
+      "source_id": "taiendavad_sotsiaalteenused_page",
+      "title": "Täiendavad sotsiaalteenused – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/taiendavad-sotsiaalteenused",
+      "url_canonical": "https://peipsivald.ee/toiming/taiendavad-sotsiaalteenused",
+      "normalized_url": "https://peipsivald.ee/toiming/taiendavad-sotsiaalteenused",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_taiendavad_sotsiaalteenused"
+      ]
+    },
+    {
+      "source_id": "perelepitus_page",
+      "title": "Perelepitus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/perelepitus",
+      "url_canonical": "https://peipsivald.ee/toiming/perelepitus",
+      "normalized_url": "https://peipsivald.ee/toiming/perelepitus",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_resource_perelepitus"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi – Peipsiääre vald",
+      "url": "https://peipsivald.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/ohvriabi",
+      "url_canonical": "https://peipsivald.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/ohvriabi",
+      "normalized_url": "https://peipsivald.ee/pere-sotsiaal-ja-tervishoid/laps-ja-pere/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_resource_ohvriabi"
+      ]
+    },
+    {
+      "source_id": "koduteenus_page",
+      "title": "Koduteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/koduteenus",
+      "url_canonical": "https://peipsivald.ee/koduteenus",
+      "normalized_url": "https://peipsivald.ee/koduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_koduteenus",
+        "peipsiaare_vald_form_koduteenus_docx"
+      ]
+    },
+    {
+      "source_id": "uldhooldusteenus_page",
+      "title": "Üldhooldusteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/uldhooldusteenus",
+      "url_canonical": "https://peipsivald.ee/uldhooldusteenus",
+      "normalized_url": "https://peipsivald.ee/uldhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_uldhooldusteenus",
+        "peipsiaare_vald_form_uldhooldusteenus_pdf",
+        "peipsiaare_vald_form_uldhooldusteenus_docx"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetus_page",
+      "title": "Hooldajatoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/hooldajatoetus",
+      "url_canonical": "https://peipsivald.ee/hooldajatoetus",
+      "normalized_url": "https://peipsivald.ee/hooldajatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_hooldajatoetus",
+        "peipsiaare_vald_form_hooldajatoetus_docx"
+      ]
+    },
+    {
+      "source_id": "isikliku_abistaja_page",
+      "title": "Isikliku abistaja teenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/isikliku-abistaja-teenus",
+      "url_canonical": "https://peipsivald.ee/toiming/isikliku-abistaja-teenus",
+      "normalized_url": "https://peipsivald.ee/toiming/isikliku-abistaja-teenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_isikliku_abistaja_teenus"
+      ]
+    },
+    {
+      "source_id": "taisealise_isiku_hooldus_page",
+      "title": "Täisealise isiku hooldus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/taisealise-isiku-hooldus",
+      "url_canonical": "https://peipsivald.ee/toiming/taisealise-isiku-hooldus",
+      "normalized_url": "https://peipsivald.ee/toiming/taisealise-isiku-hooldus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_taisealise_isiku_hooldus"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltransport_page",
+      "title": "Sotsiaaltransporditeenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/sotsiaaltransporditeenus",
+      "url_canonical": "https://peipsivald.ee/toiming/sotsiaaltransporditeenus",
+      "normalized_url": "https://peipsivald.ee/toiming/sotsiaaltransporditeenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_sotsiaaltransporditeenus"
+      ]
+    },
+    {
+      "source_id": "puudega_igakvartaalne_toetus_page",
+      "title": "Puudega inimese igakvartaalne toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/puudega-inimese-igakvartaalne-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/puudega-inimese-igakvartaalne-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/puudega-inimese-igakvartaalne-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_puudega_inimese_igakvartaalne_toetus",
+        "peipsiaare_vald_form_puudega_inimese_igakvartaalne_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "taisealiste_ravimite_toetus_page",
+      "title": "Täisealiste ravimite ja abivahendite toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/taisealiste-ravimite-ja-abivahendite-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/taisealiste-ravimite-ja-abivahendite-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/taisealiste-ravimite-ja-abivahendite-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_taisealiste_ravimite_ja_abivahendite_toetus",
+        "peipsiaare_vald_form_taisealiste_ravimite_ja_abivahendite_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "parkimiskaart_page",
+      "title": "Puudega inimest teenindava sõiduki parkimiskaart – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/puudega-inimest-teenindava-soiduki-parkimiskaart",
+      "url_canonical": "https://peipsivald.ee/toiming/puudega-inimest-teenindava-soiduki-parkimiskaart",
+      "normalized_url": "https://peipsivald.ee/toiming/puudega-inimest-teenindava-soiduki-parkimiskaart",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_resource_puudega_inimese_parkimiskaart",
+        "peipsiaare_vald_form_parkimiskaart_doc"
+      ]
+    },
+    {
+      "source_id": "eakate_juubeli_toetus_page",
+      "title": "Eakate juubeli- ja sünnipäevatoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/eakate-juubeli-ja-sunnipaevatoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/eakate-juubeli-ja-sunnipaevatoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/eakate-juubeli-ja-sunnipaevatoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_eakate_juubeli_ja_sunnipaevatoetus"
+      ]
+    },
+    {
+      "source_id": "matusetoetus_page",
+      "title": "Matusetoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/matusetoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/matusetoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/matusetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_matusetoetus",
+        "peipsiaare_vald_form_matusetoetus_doc"
+      ]
+    },
+    {
+      "source_id": "eakate_bussiringid_page",
+      "title": "Eakate bussiringid – Peipsiääre vald",
+      "url": "https://peipsivald.ee/eakate-bussiringid",
+      "url_canonical": "https://peipsivald.ee/eakate-bussiringid",
+      "normalized_url": "https://peipsivald.ee/eakate-bussiringid",
+      "source_type": "kov_resource_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_resource_eakate_bussiringid"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetus_page",
+      "title": "Sotsiaaltoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/sotsiaaltoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/sotsiaaltoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/sotsiaaltoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_sotsiaaltoetus",
+        "peipsiaare_vald_form_sotsiaaltoetuse_taotlus_doc"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetus_page",
+      "title": "Toimetulekutoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/toimetulekutoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/toimetulekutoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/toimetulekutoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_toimetulekutoetus",
+        "peipsiaare_vald_form_toimetulekutoetus_xls"
+      ]
+    },
+    {
+      "source_id": "volanoustamine_page",
+      "title": "Võlanõustamisteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/volanoustamisteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/volanoustamisteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/volanoustamisteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_volanoustamisteenus"
+      ]
+    },
+    {
+      "source_id": "eluruumi_kohandamise_toetus_page",
+      "title": "Eluruumi kohandamise toetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/eluruumi-kohandamise-toetus",
+      "url_canonical": "https://peipsivald.ee/toiming/eluruumi-kohandamise-toetus",
+      "normalized_url": "https://peipsivald.ee/toiming/eluruumi-kohandamise-toetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_eluruumi_kohandamise_toetus"
+      ]
+    },
+    {
+      "source_id": "kuttetoetus_page",
+      "title": "Küttetoetus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/kuttetoetus",
+      "url_canonical": "https://peipsivald.ee/toiming/kuttetoetus",
+      "normalized_url": "https://peipsivald.ee/toiming/kuttetoetus",
+      "source_type": "kov_benefit_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_kuttetoetus",
+        "peipsiaare_vald_form_kuttetoetus_doc"
+      ]
+    },
+    {
+      "source_id": "valtimatu_sotsiaalabi_page",
+      "title": "Vältimatu sotsiaalabi – Peipsiääre vald",
+      "url": "https://peipsivald.ee/valtimatu-sotsiaalabi",
+      "url_canonical": "https://peipsivald.ee/valtimatu-sotsiaalabi",
+      "normalized_url": "https://peipsivald.ee/valtimatu-sotsiaalabi",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_valtimatu_sotsiaalabi"
+      ]
+    },
+    {
+      "source_id": "jarelhooldusteenus_page",
+      "title": "Järelhooldusteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/jarelhooldusteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/jarelhooldusteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/jarelhooldusteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_jarelhooldusteenus"
+      ]
+    },
+    {
+      "source_id": "eluruumi_tagamine_page",
+      "title": "Eluruumi tagamine – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/eluruumi-tagamine",
+      "url_canonical": "https://peipsivald.ee/toiming/eluruumi-tagamine",
+      "normalized_url": "https://peipsivald.ee/toiming/eluruumi-tagamine",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_eluruumi_tagamine"
+      ]
+    },
+    {
+      "source_id": "varjupaigateenus_page",
+      "title": "Varjupaigateenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/varjupaigateenus",
+      "url_canonical": "https://peipsivald.ee/toiming/varjupaigateenus",
+      "normalized_url": "https://peipsivald.ee/toiming/varjupaigateenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_varjupaigateenus"
+      ]
+    },
+    {
+      "source_id": "turvakoduteenus_page",
+      "title": "Turvakoduteenus – Peipsiääre vald",
+      "url": "https://peipsivald.ee/toiming/turvakoduteenus",
+      "url_canonical": "https://peipsivald.ee/toiming/turvakoduteenus",
+      "normalized_url": "https://peipsivald.ee/toiming/turvakoduteenus",
+      "source_type": "kov_service_page",
+      "source_format": "html",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_turvakoduteenus"
+      ]
+    },
+    {
+      "source_id": "koolimineku_toetus_doc",
+      "title": "Esmakordselt kooli mineva lapse toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Esmakordselt%20kooli%20mineva%20lapse%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Esmakordselt%20kooli%20mineva%20lapse%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Esmakordselt%20kooli%20mineva%20lapse%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_esmakordselt_kooli_mineva_lapse_toetus",
+        "peipsiaare_vald_form_esmakordselt_kooli_mineva_lapse_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "laste_ravimite_abivahendite_toetus_doc",
+      "title": "Laste ravimite ja abivahendite toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_laste_ravimite_ja_abivahendite_toetus",
+        "peipsiaare_vald_form_laste_ravimite_ja_abivahendite_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "laste_noortelaagri_toetus_doc",
+      "title": "Laste- ja noortelaagri toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste-%20ja%20noortelaagri%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste-%20ja%20noortelaagri%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Laste-%20ja%20noortelaagri%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_laste_ja_noortelaagri_toetus",
+        "peipsiaare_vald_form_laste_ja_noortelaagri_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "perekonnas_hooldamisel_lapse_toetus_doc",
+      "title": "Perekonnas hooldamisel oleva lapse toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Perekonnas%20hooldamisel%20oleva%20lapse%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Perekonnas%20hooldamisel%20oleva%20lapse%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Perekonnas%20hooldamisel%20oleva%20lapse%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_perekonnas_hooldamisel_oleva_lapse_toetus",
+        "peipsiaare_vald_form_perekonnas_hooldamisel_oleva_lapse_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "toitlustustoetus_doc",
+      "title": "Toitlustustoetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toitlustustoetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toitlustustoetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toitlustustoetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_toitlustustoetus",
+        "peipsiaare_vald_form_toitlustustoetus_doc"
+      ]
+    },
+    {
+      "source_id": "koduteenus_docx",
+      "title": "Koduteenus.docx",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Koduteenus.docx",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Koduteenus.docx",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Koduteenus.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_koduteenus",
+        "peipsiaare_vald_form_koduteenus_docx"
+      ]
+    },
+    {
+      "source_id": "uldhooldusteenus_pdf",
+      "title": "Üldhooldusteenus.pdf",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.pdf",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.pdf",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.pdf",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_uldhooldusteenus",
+        "peipsiaare_vald_form_uldhooldusteenus_pdf"
+      ]
+    },
+    {
+      "source_id": "uldhooldusteenus_docx",
+      "title": "Üldhooldusteenus.docx",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.docx",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.docx",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/%C3%9Cldhooldusteenus.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_service_uldhooldusteenus",
+        "peipsiaare_vald_form_uldhooldusteenus_docx"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetus_docx",
+      "title": "Hooldajatoetus.docx",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Hooldajatoetus.docx",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Hooldajatoetus.docx",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Hooldajatoetus.docx",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_hooldajatoetus",
+        "peipsiaare_vald_form_hooldajatoetus_docx"
+      ]
+    },
+    {
+      "source_id": "puudega_igakvartaalne_toetus_doc",
+      "title": "Puudega inimese igakvartaalne toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimese%20igakvartaalne%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimese%20igakvartaalne%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimese%20igakvartaalne%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_puudega_inimese_igakvartaalne_toetus",
+        "peipsiaare_vald_form_puudega_inimese_igakvartaalne_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "taisealiste_ravimite_abivahendite_toetus_doc",
+      "title": "Täisealiste ravimite ja abivahendite toetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/T%C3%A4isealiste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/T%C3%A4isealiste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/T%C3%A4isealiste%20ravimite%20ja%20abivahendite%20toetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_taisealiste_ravimite_ja_abivahendite_toetus",
+        "peipsiaare_vald_form_taisealiste_ravimite_ja_abivahendite_toetus_doc"
+      ]
+    },
+    {
+      "source_id": "parkimiskaart_doc",
+      "title": "Puudega inimest teenindava sõiduki parkimiskaart.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimest%20teenindava%20s%C3%B5iduki%20parkimiskaart.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimest%20teenindava%20s%C3%B5iduki%20parkimiskaart.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Puudega%20inimest%20teenindava%20s%C3%B5iduki%20parkimiskaart.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_resource_puudega_inimese_parkimiskaart",
+        "peipsiaare_vald_form_parkimiskaart_doc"
+      ]
+    },
+    {
+      "source_id": "matusetoetus_doc",
+      "title": "Matusetoetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Matusetoetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Matusetoetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Matusetoetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_matusetoetus",
+        "peipsiaare_vald_form_matusetoetus_doc"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetuse_taotlus_doc",
+      "title": "Sotsiaaltoetuse taotlus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Sotsiaaltoetuse%20taotlus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Sotsiaaltoetuse%20taotlus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Sotsiaaltoetuse%20taotlus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_sotsiaaltoetus",
+        "peipsiaare_vald_form_sotsiaaltoetuse_taotlus_doc"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetus_xls",
+      "title": "Toimetulekutoetus.xls",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toimetulekutoetus.xls",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toimetulekutoetus.xls",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/Toimetulekutoetus.xls",
+      "source_type": "file_attachment",
+      "source_format": "xls",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_toimetulekutoetus",
+        "peipsiaare_vald_form_toimetulekutoetus_xls"
+      ]
+    },
+    {
+      "source_id": "kuttetoetus_doc",
+      "title": "Küttetoetus.doc",
+      "url": "https://peipsivald.ee/sites/default/files/documents/2025-05/k%C3%BCttetoetus.doc",
+      "url_canonical": "https://peipsivald.ee/sites/default/files/documents/2025-05/k%C3%BCttetoetus.doc",
+      "normalized_url": "https://peipsivald.ee/sites/default/files/documents/2025-05/k%C3%BCttetoetus.doc",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "peipsiaare_vald_benefit_kuttetoetus",
+        "peipsiaare_vald_form_kuttetoetus_doc"
+      ]
+    }
+  ]
+}

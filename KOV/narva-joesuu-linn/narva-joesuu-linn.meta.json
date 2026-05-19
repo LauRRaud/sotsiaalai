@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "kov-meta-v2.5-sourcepackage",
+  "docId": "kov-narva-joesuu-linn",
+  "document_id": "kov-narva-joesuu-linn",
+  "municipality": "Narva-Jõesuu linn",
+  "municipality_id": "narva_joesuu_linn",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-29",
+  "status": "needs_review",
+  "collection_id": "kov_services",
+  "source_type": "kov_service_info",
+  "source_format": "rag_md",
+  "jurisdiction_level": "MUNICIPALITY",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "expected_rt_docId": "kov-rt-narva-joesuu-linn",
+  "coverage": {
+    "services": 13,
+    "benefits": 19,
+    "resources": 11,
+    "contacts": 22,
+    "forms": 18
+  },
+  "sourcePackageReadiness": {
+    "regulation_sources": 0,
+    "has_web_sources": true,
+    "has_rag_markdown": true,
+    "has_structured_json": true,
+    "needs_review": true
+  },
+  "notes": [
+    "Pakett kasutab Narva-Jõesuu linna ametlikke veebilehti ja nende ametlikke sotsiaalvaldkonna vormilinke.",
+    "Riigi Teataja ja õigusaktide lingid on jäetud veebipaketist välja ning kuuluvad eraldi RT/legal kihti."
+  ],
+  "unresolvedIssues": [
+    "Isikliku abistaja teenuse aktiivset eraldi teenuse detaillehte ei leitud; seda nimetatakse ainult varasemas sotsiaalteenuste arendamise projektis.",
+    "Varjupaigateenuse ja turvakoduteenuse eraldi KOV teenuse detaillehti ei leitud; vältimatu sotsiaalabi leht nimetab ajutist peavarju varjupaigas, kuid ei ava eraldi teenuse korda.",
+    "Asendushooldus- ja järelhooldusteenuse eraldi KOV teenuse detaillehti ei leitud; SA Narva-Jõesuu Peremajad on kajastatud ressursina KOV lehel avaldatud ulatuses.",
+    "Eluruumide kohandamise lehel on avaldatud 2025. aasta taotlustähtaeg; 2026. aasta taotlusvooru tähtaega ei leitud.",
+    "Terviseteenuse lehel on teenuse mahuna avaldatud 2025. aasta 40 eurot inimese kohta; 2026. aasta mahtu ei leitud.",
+    "Elluastumistoetuse, lastelaagrite tuusikute hüvitamise ja puudega lapsele toetava sotsiaalteenuse kohta leiti vormi või vormilehe nimetus, kuid detailne teenuse/toetuse kirjeldus jäi avaldamata.",
+    "Mitmed DOC/DOCX vormid olid ametliku lingina leitavad, kuid nende sisu ei saanud tööriistaga täielikult parsida; faililingid on siiski lisatud ametliku KOV vormilehe või detaillehe põhjal.",
+    "Väliste partnerite ja abikanalite sisu ei kontrollitud väljaspool KOV lehti; need on kajastatud ainult KOV lehel avaldatud ulatuses."
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "schemaVersion": "kov-sources-v2.5-sourcepackage",
+  "docId": "kov-luganuse-vald",
+  "document_id": "kov-luganuse-vald",
+  "municipality": "Lüganuse vald",
+  "municipality_id": "luganuse_vald",
+  "county": "Ida-Virumaa",
+  "checkedAt": "2026-04-29",
+  "collection_id": "kov_services",
+  "legal_basis": false,
+  "rt_layer_separate": true,
+  "sources": [
+    {
+      "source_id": "home",
+      "title": "Lüganuse valla avaleht",
+      "url": "https://www.lyganuse.ee/",
+      "url_canonical": "https://www.lyganuse.ee/",
+      "normalized_url": "https://www.lyganuse.ee/",
+      "source_type": "kov_homepage",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "overview",
+        "navigation"
+      ]
+    },
+    {
+      "source_id": "social_overview_contacts",
+      "title": "Sotsiaal ja tervishoid – ametnikud ja menüüharu",
+      "url": "https://www.lyganuse.ee/ametnikud",
+      "url_canonical": "https://www.lyganuse.ee/ametnikud",
+      "normalized_url": "https://www.lyganuse.ee/ametnikud",
+      "source_type": "kov_social_overview",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "navigation",
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "services_page",
+      "title": "Sotsiaalteenused",
+      "url": "https://www.lyganuse.ee/sotsiaalteenused",
+      "url_canonical": "https://www.lyganuse.ee/sotsiaalteenused",
+      "normalized_url": "https://www.lyganuse.ee/sotsiaalteenused",
+      "source_type": "kov_service_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "services",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "benefits_page",
+      "title": "Sotsiaaltoetused",
+      "url": "https://www.lyganuse.ee/sotsiaaltoetused",
+      "url_canonical": "https://www.lyganuse.ee/sotsiaaltoetused",
+      "normalized_url": "https://www.lyganuse.ee/sotsiaaltoetused",
+      "source_type": "kov_benefit_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "benefits",
+        "forms"
+      ]
+    },
+    {
+      "source_id": "forms_page",
+      "title": "Taotluste vormid",
+      "url": "https://www.lyganuse.ee/asjaajamisjuhised-ja-blanketid",
+      "url_canonical": "https://www.lyganuse.ee/asjaajamisjuhised-ja-blanketid",
+      "normalized_url": "https://www.lyganuse.ee/asjaajamisjuhised-ja-blanketid",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "forms"
+      ]
+    },
+    {
+      "source_id": "paevakeskused_page",
+      "title": "Päevakeskused",
+      "url": "https://www.lyganuse.ee/paevakeskused",
+      "url_canonical": "https://www.lyganuse.ee/paevakeskused",
+      "normalized_url": "https://www.lyganuse.ee/paevakeskused",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "hoolekandeasutused_page",
+      "title": "Hoolekandeasutused",
+      "url": "https://www.lyganuse.ee/hoolekandeasutused",
+      "url_canonical": "https://www.lyganuse.ee/hoolekandeasutused",
+      "normalized_url": "https://www.lyganuse.ee/hoolekandeasutused",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "ohvriabi_page",
+      "title": "Ohvriabi",
+      "url": "https://www.lyganuse.ee/ohvriabi",
+      "url_canonical": "https://www.lyganuse.ee/ohvriabi",
+      "normalized_url": "https://www.lyganuse.ee/ohvriabi",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "riiklik_perelepitus_page",
+      "title": "Riiklik perelepitus",
+      "url": "https://www.lyganuse.ee/riiklik-perelepitus",
+      "url_canonical": "https://www.lyganuse.ee/riiklik-perelepitus",
+      "normalized_url": "https://www.lyganuse.ee/riiklik-perelepitus",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "lastekaitse_page",
+      "title": "Lastekaitse",
+      "url": "https://www.lyganuse.ee/lastekaitse",
+      "url_canonical": "https://www.lyganuse.ee/lastekaitse",
+      "normalized_url": "https://www.lyganuse.ee/lastekaitse",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources",
+        "contacts"
+      ]
+    },
+    {
+      "source_id": "ska_vastuvott_page",
+      "title": "Sotsiaalkindlustusameti töötajate vastuvõtt",
+      "url": "https://www.lyganuse.ee/sotsiaalkindlustusameti-vastuvott",
+      "url_canonical": "https://www.lyganuse.ee/sotsiaalkindlustusameti-vastuvott",
+      "normalized_url": "https://www.lyganuse.ee/sotsiaalkindlustusameti-vastuvott",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "eakate_noukogu_page",
+      "title": "Eakate nõukogu",
+      "url": "https://www.lyganuse.ee/eakate-noukogu",
+      "url_canonical": "https://www.lyganuse.ee/eakate-noukogu",
+      "normalized_url": "https://www.lyganuse.ee/eakate-noukogu",
+      "source_type": "kov_resource_page",
+      "source_format": "web_page",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "resources"
+      ]
+    },
+    {
+      "source_id": "sotsiaalteenuse_avalduse_vorm_doc",
+      "title": "Sotsiaalteenuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//sotsiaalteenuse%2Bavalduse%2Bvorm.doc/0d32685d-826d-4e11-a652-541696cfefc2",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//sotsiaalteenuse%2Bavalduse%2Bvorm.doc/0d32685d-826d-4e11-a652-541696cfefc2",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//sotsiaalteenuse%2Bavalduse%2Bvorm.doc/0d32685d-826d-4e11-a652-541696cfefc2",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "services"
+      ]
+    },
+    {
+      "source_id": "parkimiskaardi_avaldus_doc",
+      "title": "Parkimiskaardi avaldus",
+      "url": "https://www.lyganuse.ee/documents/18275789//parkimiskaardi%2Bavaldus.doc/319a34ca-c84b-4d4f-9a1b-52525800f8c0",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//parkimiskaardi%2Bavaldus.doc/319a34ca-c84b-4d4f-9a1b-52525800f8c0",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//parkimiskaardi%2Bavaldus.doc/319a34ca-c84b-4d4f-9a1b-52525800f8c0",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "services"
+      ]
+    },
+    {
+      "source_id": "toimetulekutoetuse_avaldus_pdf",
+      "title": "Toimetulekutoetuse avaldus",
+      "url": "https://www.lyganuse.ee/documents/18275789//Toimetulekutoetuse%2BAVALDUS.pdf/d934c547-82ce-4d1f-966f-22d672b5eeec",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Toimetulekutoetuse%2BAVALDUS.pdf/d934c547-82ce-4d1f-966f-22d672b5eeec",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Toimetulekutoetuse%2BAVALDUS.pdf/d934c547-82ce-4d1f-966f-22d672b5eeec",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "sunnitoetuse_avaldus_doc",
+      "title": "Sünnitoetuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//S%C3%BCnnitoetuse%2Bavalduse%2Bvorm.doc/6d94d609-bd7b-4ec8-91a3-1254914ea622",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//S%C3%BCnnitoetuse%2Bavalduse%2Bvorm.doc/6d94d609-bd7b-4ec8-91a3-1254914ea622",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//S%C3%BCnnitoetuse%2Bavalduse%2Bvorm.doc/6d94d609-bd7b-4ec8-91a3-1254914ea622",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "matusetoetuse_avaldus_doc",
+      "title": "Matusetoetuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//Matusetoetuse%2Bavalduse%2Bvorm.doc/15d32de3-5620-493c-a0b4-f5b404a2d03f",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Matusetoetuse%2Bavalduse%2Bvorm.doc/15d32de3-5620-493c-a0b4-f5b404a2d03f",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Matusetoetuse%2Bavalduse%2Bvorm.doc/15d32de3-5620-493c-a0b4-f5b404a2d03f",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "ranitsatoetuse_avaldus_doc",
+      "title": "Ranitsatoetuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//Ranitsatoetuse%2Bavalduse%2Bvorm.doc/9da35791-8e39-47b9-ae03-ab08e99e158a",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Ranitsatoetuse%2Bavalduse%2Bvorm.doc/9da35791-8e39-47b9-ae03-ab08e99e158a",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Ranitsatoetuse%2Bavalduse%2Bvorm.doc/9da35791-8e39-47b9-ae03-ab08e99e158a",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "koolilopetamise_toetuse_avaldus_doc",
+      "title": "Koolilõpetamise toetuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//Koolil%C3%B5petamise%2Btoetuse%2Bavalduse%2Bvorm.doc/4482a359-f406-4ba4-a496-37b84cdc13ad",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Koolil%C3%B5petamise%2Btoetuse%2Bavalduse%2Bvorm.doc/4482a359-f406-4ba4-a496-37b84cdc13ad",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Koolil%C3%B5petamise%2Btoetuse%2Bavalduse%2Bvorm.doc/4482a359-f406-4ba4-a496-37b84cdc13ad",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "hooldajatoetuse_avaldus_doc",
+      "title": "Hooldajatoetuse avalduse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//hooldajatoetuse%2Bavalduse%2Bvorm.doc/4d737546-fabc-4f87-b00f-90eeb0901f9d",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//hooldajatoetuse%2Bavalduse%2Bvorm.doc/4d737546-fabc-4f87-b00f-90eeb0901f9d",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//hooldajatoetuse%2Bavalduse%2Bvorm.doc/4d737546-fabc-4f87-b00f-90eeb0901f9d",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "sotsiaaltoetuse_lisa_doc",
+      "title": "Sotsiaaltoetuse avalduse lisa",
+      "url": "https://www.lyganuse.ee/documents/18275789//Sotsiaaltoetuse%2Blisa.doc/aa6b07e1-3527-4d45-be50-572e29a2ca07",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Sotsiaaltoetuse%2Blisa.doc/aa6b07e1-3527-4d45-be50-572e29a2ca07",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Sotsiaaltoetuse%2Blisa.doc/aa6b07e1-3527-4d45-be50-572e29a2ca07",
+      "source_type": "application_form",
+      "source_format": "doc",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms",
+        "benefits"
+      ]
+    },
+    {
+      "source_id": "huvihariduse_taotluse_vorm_docx",
+      "title": "Laste ja noorte huvihariduse ja huvitegevuse toetuse taotluse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//Laste%2Bja%2Bnoorte%2Bhuvihariduse%2Bja%2Bhuvitegevuse%2Btaotluse%2Bvorm.docx/8a489b1f-00a1-43ec-becc-a6ffda13e501",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//Laste%2Bja%2Bnoorte%2Bhuvihariduse%2Bja%2Bhuvitegevuse%2Btaotluse%2Bvorm.docx/8a489b1f-00a1-43ec-becc-a6ffda13e501",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//Laste%2Bja%2Bnoorte%2Bhuvihariduse%2Bja%2Bhuvitegevuse%2Btaotluse%2Bvorm.docx/8a489b1f-00a1-43ec-becc-a6ffda13e501",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms"
+      ]
+    },
+    {
+      "source_id": "lasteaia_osalustasu_vabastuse_taotlus_docx",
+      "title": "Koolieelse lasteasutuse osalustasu soodustuse ja vabastuse taotluse vorm",
+      "url": "https://www.lyganuse.ee/documents/18275789//L%C3%BCganuse%2Bvalla%2Bkoolieelses%2Bmunitsipaallasteasutuses%2Bosalustasu%2Bmaksmise%2Bsoodustuse%2Bja%2Bvabastuse%2Btaotluse%2Bvorm.docx/5ce9cdc3-0447-4c3d-b469-27fc9540c20a",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//L%C3%BCganuse%2Bvalla%2Bkoolieelses%2Bmunitsipaallasteasutuses%2Bosalustasu%2Bmaksmise%2Bsoodustuse%2Bja%2Bvabastuse%2Btaotluse%2Bvorm.docx/5ce9cdc3-0447-4c3d-b469-27fc9540c20a",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//L%C3%BCganuse%2Bvalla%2Bkoolieelses%2Bmunitsipaallasteasutuses%2Bosalustasu%2Bmaksmise%2Bsoodustuse%2Bja%2Bvabastuse%2Btaotluse%2Bvorm.docx/5ce9cdc3-0447-4c3d-b469-27fc9540c20a",
+      "source_type": "docx_form",
+      "source_format": "docx",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active_binary_unparsed",
+      "used_for": [
+        "forms"
+      ]
+    },
+    {
+      "source_id": "opilase_transpordi_huvitise_taotlus_pdf",
+      "title": "Õpilase transpordi sõidukulude hüvitamise taotlus",
+      "url": "https://www.lyganuse.ee/documents/18275789//%C3%95pilase%2Btransport%2B%C3%BCldhariduskooli.pdf/3d08f867-83b7-4900-a122-71975b28780f",
+      "url_canonical": "https://www.lyganuse.ee/documents/18275789//%C3%95pilase%2Btransport%2B%C3%BCldhariduskooli.pdf/3d08f867-83b7-4900-a122-71975b28780f",
+      "normalized_url": "https://www.lyganuse.ee/documents/18275789//%C3%95pilase%2Btransport%2B%C3%BCldhariduskooli.pdf/3d08f867-83b7-4900-a122-71975b28780f",
+      "source_type": "pdf_form",
+      "source_format": "pdf",
+      "collection_id": "kov_services",
+      "authority": "municipality",
+      "language": "et",
+      "source_status": "active",
+      "used_for": [
+        "forms"
+      ]
+    }
+  ]
+}
