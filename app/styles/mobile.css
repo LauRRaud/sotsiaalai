@@ -3327,10 +3327,10 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .policy-scroll-back-button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.02rem) !important;
     top: calc(
       var(--policy-scroll-overscan-top, 0px) +
-        0.0825rem
+        0.18rem
     ) !important;
   }
 }
@@ -3498,6 +3498,24 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   :is(
+      .direct-scroll-surface,
+      .subscription-modal-content,
+      .policy-scroll-page-ring,
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    .glass-subpage-title-wrap {
+    padding-top: calc(var(--mobile-common-title-top) + 0.216rem) !important;
+  }
+
+  .subscription-modal-content .glass-subpage-title-wrap.policy-mobile-title-wrap {
+    padding-top: calc(var(--mobile-common-title-top) + 0.396rem) !important;
+  }
+
+  :is(
       .glass-page-title,
       .glass-subpage-title,
       .policy-mobile-title,
@@ -3629,10 +3647,10 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
   .workspace-scroll-surface .workspace-scroll-back-button {
     position: absolute !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
     top: calc(
       var(--workspace-guide-panel-overscan-top, 0px) +
-        0.0825rem
+        0.2rem
     ) !important;
     bottom: auto !important;
     margin-left: 0 !important;
@@ -3648,17 +3666,22 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .account-settings-back-button
     ) {
     position: absolute !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.06rem) !important;
+    left: calc(env(safe-area-inset-left, 0px) + 0.02rem) !important;
     top: calc(
       var(
           --workspace-guide-panel-overscan-top,
           var(--policy-scroll-overscan-top, 0px)
-        ) + 0.0825rem
+        ) + 0.18rem
     ) !important;
     right: auto !important;
     bottom: auto !important;
     margin-left: 0 !important;
     transform: none !important;
+  }
+
+  .subscription-modal-content :is(.glass-subpage-back-button, .workspace-scroll-back-button) {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: 0.2rem !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)

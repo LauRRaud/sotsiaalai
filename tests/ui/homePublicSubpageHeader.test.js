@@ -30,3 +30,21 @@ test("home quick links route to the checked public glass subpages", () => {
     assert.match(homeAbout, new RegExp(`href[:=]\\s*"${pathname}"`));
   }
 });
+
+test("subscription page uses the shared subpage back button class on mobile", () => {
+  const subscription = read("components/alalehed/TellimusBody.jsx");
+  const mobileCss = read("app/styles/mobile.css");
+
+  assert.match(
+    subscription,
+    /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button z-\[3\]"/
+  );
+  assert.match(
+    mobileCss,
+    /\.subscription-modal-content \.glass-subpage-title-wrap\.policy-mobile-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /\.subscription-modal-content :is\(\.glass-subpage-back-button,\s*\.workspace-scroll-back-button\)\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
+  );
+});

@@ -303,11 +303,11 @@ function StatusBadge({ status, type = "case" }) {
   );
 }
 
-function SectionPanel({ title, children, aside }) {
+function SectionPanel({ title, children, aside, className }) {
   return (
     <BorderGlow
       as="section"
-      className={cn(styles.sectionPanel, "covision-glow-card grid gap-[0.72rem] rounded-[1.02rem] p-[var(--panel-padding,0.85rem)]")}
+      className={cn(styles.sectionPanel, "covision-glow-card grid gap-[0.72rem] rounded-[1.02rem] p-[var(--panel-padding,0.85rem)]", className)}
       edgeSensitivity={24}
       glowColor="358 82 72"
       backgroundColor="var(--covision-panel-bg, #120F17)"
@@ -961,7 +961,7 @@ export default function CovisionPage() {
             <>
               <BorderGlow
                 as="section"
-                className={cn(styles.toolbar, "covision-glow-card grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}
+                className={cn(styles.toolbar, "covision-glow-card -mt-[8.4rem] grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem] max-[768px]:-mt-[1rem]")}
                 edgeSensitivity={24}
                 glowColor="358 82 72"
                 backgroundColor="var(--covision-card-bg, #120F17)"

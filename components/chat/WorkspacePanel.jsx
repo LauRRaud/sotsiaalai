@@ -447,7 +447,9 @@ export default function WorkspacePanel({
 
   return (
     <>
-      {roleMenuPortalTarget && roleMenu ? createPortal(roleMenu, roleMenuPortalTarget) : null}
+      {visible && roleMenuPortalTarget && roleMenu
+        ? createPortal(roleMenu, roleMenuPortalTarget)
+        : null}
       <section
         className={cn("workspace-dashboard-panel", styles.panel)}
         data-visible={visible ? "true" : "false"}

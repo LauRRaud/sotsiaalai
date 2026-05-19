@@ -389,7 +389,7 @@ export default function TellimusBody() {
             onBack={handleBack}
             backAriaLabel={backLabel}
             holdPressedVisualDisabled
-            backClassName="z-[3]"
+            backClassName="workspace-scroll-back-button z-[3]"
             titleClassName="subscription-page-title"
           >
             {t("subscription.title")}
@@ -416,7 +416,7 @@ export default function TellimusBody() {
             onBack={handleBack}
             backAriaLabel={backLabel}
             holdPressedVisualDisabled
-            backClassName="z-[3]"
+            backClassName="workspace-scroll-back-button z-[3]"
             titleClassName="subscription-page-title"
           >
             {t("subscription.title")}
@@ -453,7 +453,7 @@ export default function TellimusBody() {
           onBack={handleBack}
           backAriaLabel={backLabel}
           holdPressedVisualDisabled
-          backClassName="z-[3]"
+          backClassName="workspace-scroll-back-button z-[3]"
           titleClassName="subscription-page-title"
         >
           {t("subscription.title")}

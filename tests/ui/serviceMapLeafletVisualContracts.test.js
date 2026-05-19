@@ -120,9 +120,13 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
     source,
     /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}[\s\S]*?backAriaLabel=\{text\(t,\s*"buttons\.back_previous",\s*"Tagasi"\)\}/
   );
-  assert.match(css, /\.panel :global\(\.glass-subpage-back-button\),/);
-  assert.doesNotMatch(css, /^\.backButton\s*\{/m);
-  assert.doesNotMatch(source, /styles\.backButton|glassPageBackTopLeftClassName/);
+  assert.match(source, /backClassName=\{styles\.backButton\}/);
+  assert.match(css, /^\.backButton\s*\{[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/m);
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2rem -[\s\S]*?var\(--chat-pad-top,\s*1rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.doesNotMatch(source, /glassPageBackTopLeftClassName/);
 });
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
