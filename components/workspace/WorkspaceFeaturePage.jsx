@@ -13,6 +13,7 @@ import BackButton from "@/components/ui/BackButton";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField from "@/components/ui/GlowField";
@@ -145,6 +146,15 @@ function clearServiceMapPageState() {
   if (typeof document === "undefined") return;
   document.documentElement.classList.remove("service-map-page-active");
   document.body?.classList.remove("service-map-page-active");
+}
+
+function getWorkspaceFeatureInfoId(featureKey, activeRole) {
+  if (featureKey === "service_map") return "service_map";
+  if (featureKey === "service_profile") return "service_profile";
+  if (featureKey === "pre_inquiries") {
+    return activeRole === "CLIENT" ? "pre_inquiry" : "intake";
+  }
+  return "workspace";
 }
 
 function SectionCard({ title, children, className }) {
@@ -1608,6 +1618,11 @@ function ServiceMapSurface({
               ) : null}
             </div>
         </div>
+        <DashboardInfoTrigger
+          infoId="service_map"
+          title={readText(t, "workspace_feature_pages.service_map.title", "Teenusekaart")}
+          className="service-map-workspace__info"
+        />
         </div>
         <button
           type="button"
@@ -2180,7 +2195,6 @@ export default function WorkspaceFeaturePage({ feature }) {
   }, [locale, router]);
 
   const title = readText(t, `workspace_feature_pages.${featureKey}.title`, "Workspace feature");
-  const lead = readText(t, `workspace_feature_pages.${featureKey}.lead`, "");
   const activeWorkspaceRole = isAdmin
     ? adminWorkspaceRole
     : normalizeWorkspaceRole(session?.user?.role);
@@ -2188,6 +2202,7 @@ export default function WorkspaceFeaturePage({ feature }) {
     featureKey === "pre_inquiries"
   );
   const isServiceMap = featureKey === "service_map";
+  const infoId = getWorkspaceFeatureInfoId(featureKey, activeWorkspaceRole);
 
   return (
     <section className={shellClassName} lang={locale}>
@@ -2216,12 +2231,18 @@ export default function WorkspaceFeaturePage({ feature }) {
             headerClassName={isServiceMap ? "service-map-page-header" : null}
             titleWrapClassName={isServiceMap ? "service-map-page-title-wrap" : null}
             titleClassName={isServiceMap ? "service-map-page-title" : null}
+            rightSlot={
+              isServiceMap ? null : (
+                <DashboardInfoTrigger
+                  infoId={infoId}
+                  title={title}
+                  className={dashboardInfoTriggerCornerClassName}
+                />
+              )
+            }
           >
             {title}
           </GlassSubpageHeader>
-
-          {lead && !isServiceMap && activeWorkspaceRole === "CLIENT" ? <p className="mx-auto m-0 max-w-[54rem] text-left text-[1.12rem] leading-[1.58] tracking-[0] opacity-[0.86] max-[768px]:px-[0.05rem] max-[768px]:text-[1rem] max-[768px]:leading-[1.52]">{lead}</p> : null}
-
           {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
           {featureKey === "service_map" ? <ServiceMapSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={handleAdminWorkspaceRoleChange} onBack={handleBack} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}

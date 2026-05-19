@@ -13,6 +13,7 @@ import {
 import { policySectionHeadingClassName } from "@/components/alalehed/policySectionStyles";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
+import { ABOUT_FEATURE_KEYS } from "@/lib/dashboardInfoContent";
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ${glassFullPanelMobileHeaderClassName} ` +
@@ -36,32 +37,6 @@ const cardClassName =
   "rounded-[1.05rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.035)] px-[1rem] pt-[0.76rem] pb-[0.86rem] light:border-[rgba(122,58,56,0.11)] light:bg-[rgba(255,255,255,0.32)] max-[768px]:rounded-[0.9rem] max-[768px]:px-[0.78rem] max-[768px]:pt-[0.62rem] max-[768px]:pb-[0.72rem]";
 const cardBodyClassName =
   "m-0 text-[1.12rem] leading-[1.66] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.08rem] max-[768px]:leading-[1.58]";
-
-const featureKeys = [
-  "workspace",
-  "knowledge_base",
-  "assistants_agents",
-  "privacy_safety",
-  "crisis_routing",
-  "youth_child_safety",
-  "trusted_access_security",
-  "workflow_orchestration",
-  "domain_knowledge",
-  "sources",
-  "help",
-  "service_card",
-  "rooms",
-  "drafting",
-  "analysis",
-  "research",
-  "documents",
-  "pre_inquiry",
-  "intake",
-  "kovisioon",
-  "materials_adding",
-  "service_card_listing",
-  "service_profile"
-];
 
 export default function VoimalusedBody() {
   const router = useRouter();
@@ -124,7 +99,7 @@ export default function VoimalusedBody() {
           <p className={introClassName}>{t("about.features_page.intro")}</p>
 
           <div className={gridClassName} aria-labelledby="voimalused-title">
-            {featureKeys.map((key) => (
+            {ABOUT_FEATURE_KEYS.map((key) => (
               <article key={key} className={cardClassName}>
                 <h2 className={`${policySectionHeadingClassName} !mt-0 mb-[0.8rem] max-[768px]:!mt-0 max-[768px]:mb-[0.68rem]`}>
                   {t(`about.features_page.items.${key}.title`)}

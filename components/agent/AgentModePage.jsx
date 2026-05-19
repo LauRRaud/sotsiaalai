@@ -15,6 +15,7 @@ import { detectMobileViewport } from "@/components/alalehed/chat/chatLayoutVars"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import BorderGlow from "@/components/ui/BorderGlow"
 import Button from "@/components/ui/Button"
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay"
 import FancyCheckbox from "@/components/ui/FancyCheckbox"
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader"
 import Input from "@/components/ui/Input"
@@ -44,8 +45,6 @@ import { localizePath } from "@/lib/localizePath"
 import { pushWithTransition } from "@/lib/routeTransition"
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__"
-const heroBodyClassName =
-  "grid gap-[1.05rem] px-0 py-0 max-[768px]:gap-[0.95rem]"
 const agentPrimaryButtonClassName =
   "drawer-pill-btn invite-primary-btn documents-primary-button !inline-flex !w-fit !justify-center !self-center !min-h-[3.05rem] !rounded-[1.6rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] !whitespace-nowrap " +
   "max-[768px]:!w-fit max-[768px]:!min-h-[3.2rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.18rem] " +
@@ -639,9 +638,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     !savingResult &&
     !approvingResult
   const alternateOutputOptions = outputTypeOptions.filter((option) => option.value !== String(workspaceResult?.type || outputType || ""))
-  const introText = selectedDocumentIds.length
-    ? t(`documents.agent_handoff.agent_page_with_docs_${roleScope}`, { count: selectedDocumentIds.length })
-    : t(`documents.agent_handoff.agent_page_empty_${roleScope}`)
   const activeArtifactDetailHref = !isClientRole && isWorkspaceResultSaved
     ? localizePath(`/documents/artifacts/${encodeURIComponent(workspaceResult.id)}`, locale)
     : ""
@@ -1580,16 +1576,17 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
             backAriaLabel={t("documents.agent_workspace.back_to_chat")}
             anchorBack={false}
             backClassName="workspace-scroll-back-button documents-scroll-back-button"
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId="document_drafting"
+                title={t("chat.tools.agent_mode")}
+                className={dashboardInfoTriggerCornerClassName}
+              />
+            }
           >
             {t("chat.tools.agent_mode")}
           </GlassSubpageHeader>
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
-            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-page-hero-panel--agent documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-              <div className={heroBodyClassName}>
-                <p className="documents-page-description documents-agent-page-description">{introText}</p>
-              </div>
-            </Panel>
-
           {documentsError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{documentsError}</div> : null}
           {runError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{runError}</div> : null}
           {artifactError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{artifactError}</div> : null}

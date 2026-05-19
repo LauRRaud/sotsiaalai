@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import BorderGlow from "@/components/ui/BorderGlow";
 import { cn } from "@/components/ui/cn";
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
@@ -463,6 +464,14 @@ export default function WorkspacePanel({
         backClassName={styles.backButton}
         holdPressedVisualDisabled
         titleId="chat-workspace-title"
+        rightSlot={
+          <DashboardInfoTrigger
+            infoId="workspace"
+            title={text(t, "chat.workspace.title", "Töölaud")}
+            className={dashboardInfoTriggerCornerClassName}
+            style={{ top: "0.475rem" }}
+          />
+        }
       >
         {text(t, "chat.workspace.title", "Töölaud")}
       </GlassSubpageHeader>

@@ -6,11 +6,11 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import Input from "@/components/ui/Input";
 import OptionCard from "@/components/ui/OptionCard";
-import PageInfoButton from "@/components/ui/PageInfoButton";
 import Textarea from "@/components/ui/Textarea";
 import { cn } from "@/components/ui/cn";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
@@ -52,7 +52,7 @@ const surfaceClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -307,7 +307,7 @@ function SectionPanel({ title, children, aside, className }) {
   return (
     <BorderGlow
       as="section"
-      className={cn(styles.sectionPanel, "covision-glow-card grid gap-[0.72rem] rounded-[1.02rem] p-[var(--panel-padding,0.85rem)]", className)}
+      className={cn(styles.sectionPanel, "covision-glow-card grid content-start gap-[0.72rem] rounded-[1.02rem] p-[var(--panel-padding,0.85rem)]", className)}
       edgeSensitivity={24}
       glowColor="358 82 72"
       backgroundColor="var(--covision-panel-bg, #120F17)"
@@ -917,32 +917,6 @@ export default function CovisionPage() {
           styles.surface,
       )}
       >
-        <PageInfoButton
-          title="Kuidas kovisioon ja praktikanäited toimivad"
-          label="Ava kovisiooni lehe info"
-          className="absolute right-[0.55rem] top-[0.55rem] z-[35] max-[768px]:right-[0.2rem] max-[768px]:top-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+0.2rem)]"
-        >
-          <p className="m-0">
-            <strong>Kovisioon</strong> on spetsialistide tööruum keerulisest juhtumist õppimiseks ja järgmiste sammude kokkuleppimiseks. Juhtum tuleb kirjeldada nii, et inimest ei oleks võimalik ära tunda: ära lisa nime, isikukoodi, täpset aadressi, haruldasi äratuntavaid asjaolusid ega muud otseselt tuvastavat infot.
-          </p>
-          <ul>
-            <li><strong>Alusta uut kovisiooni</strong> avab juhtumipüstituse vormi.</li>
-            <li>Kirjuta lühike pealkiri, anonüümne olukorra kirjeldus ja keskne küsimus, millele soovid kolleegide vaadet.</li>
-            <li>Vali teemad, oodatav abi, osapooled, riskid, kaitsetegurid ja vajadusel osalejad.</li>
-            <li>AI-abiga saad teksti korrastada, küsimust täpsustada ja hiljem arutelust kokkuvõtte vormistada.</li>
-            <li>Salvestatud kovisioonid jäävad jaotisse <strong>Minu kovisioonid</strong>, kust saad neid avada, täiendada ja otsingu või teemafiltri abil leida.</li>
-          </ul>
-          <p className="m-0">
-            <strong>Praktikanäited</strong> on üldistatud õppetunnid lahendustest, mis on töös aidanud. Need ei ole konkreetse inimese toimikud, vaid lühikesed teadmuskirjed, mida saab hiljem sarnaste olukordade lahendamisel kasutada.
-          </p>
-          <ul>
-            <li><strong>Lisa praktikanäide</strong> avab vormi toimiva lahenduse kirjeldamiseks.</li>
-            <li>Kirjelda tausta, peamist väljakutset, mis aitas, teenuse või võrgustiku rolli, tulemust, õppetunde ja piiranguid.</li>
-            <li>Seo näide vajadusel kovisiooniga, lisa teemad ja sildid ning salvesta see jaotisse <strong>Praktikanäited</strong>.</li>
-            <li>Otsing ja teemafilter töötavad nii kovisioonide kui praktikanäidete pealkirjade, küsimuste, teemade ja siltide pealt.</li>
-          </ul>
-        </PageInfoButton>
-
         <div className={bodyClassName}>
           <GlassSubpageHeader
             onBack={handleBack}
@@ -950,6 +924,14 @@ export default function CovisionPage() {
             holdPressedVisualDisabled
             anchorBack={false}
             backClassName="workspace-scroll-back-button"
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId="kovision"
+                label="Ava info"
+                title={t("chat.workspace.cards.kovision.title", "Kovisioon")}
+                className={dashboardInfoTriggerCornerClassName}
+              />
+            }
           >
             {t("chat.workspace.cards.kovision.title", "Kovisioon")}
           </GlassSubpageHeader>
@@ -961,7 +943,7 @@ export default function CovisionPage() {
             <>
               <BorderGlow
                 as="section"
-                className={cn(styles.toolbar, "covision-glow-card -mt-[8.4rem] grid gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem] max-[768px]:-mt-[1rem]")}
+                className={cn(styles.toolbar, "covision-glow-card mt-[0.16rem] grid content-start gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}
                 edgeSensitivity={24}
                 glowColor="358 82 72"
                 backgroundColor="var(--covision-card-bg, #120F17)"
@@ -973,7 +955,7 @@ export default function CovisionPage() {
                 edgeOnly
                 style={fieldEdgeGlowStyle}
               >
-                <div className="flex flex-wrap items-center justify-between gap-[0.72rem]">
+                <div className="grid gap-[0.72rem]">
                   <div className="flex flex-wrap gap-[0.52rem]">
                     <Button type="button" onClick={startCase} className={primaryButtonClassName}>
                       Alusta uut kovisiooni
@@ -982,7 +964,7 @@ export default function CovisionPage() {
                       Lisa praktikanäide
                     </Button>
                   </div>
-                  <div className="grid w-full min-w-[min(28rem,100%)] flex-1 gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
+                  <div className="grid w-full gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
                     <CovisionInput
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { useI18n } from "@/components/i18n/I18nProvider"
 import Button from "@/components/ui/Button"
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay"
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader"
 import GlowField from "@/components/ui/GlowField"
 import Textarea from "@/components/ui/Textarea"
@@ -137,17 +138,18 @@ export default function MaterialsPage({ locale = "et" }) {
             holdPressedVisualDisabled
             anchorBack={false}
             backClassName="workspace-scroll-back-button"
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId="materials"
+                title={t("materials_page.title")}
+                className={dashboardInfoTriggerCornerClassName}
+              />
+            }
           >
             {t("materials_page.title")}
           </GlassSubpageHeader>
 
           <section className={materialsUploadSectionClassName}>
-            <div className={`grid gap-[0.12rem] pb-[0.12rem] text-left ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
-              <p className="m-0 text-[1.08rem] leading-[1.58] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] max-[768px]:text-[1.14rem]">
-                {t("materials_page.description")}
-              </p>
-            </div>
-
             <form onSubmit={handleSubmit} className={`mt-[0.42rem] grid gap-[0.68rem] ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
               <input
                 ref={fileInputRef}

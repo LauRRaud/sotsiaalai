@@ -46,6 +46,7 @@ safety_snapshots/
 
 # Codex / local review artifacts
 .codex/
+.playwright-mcp/
 *.codex_tmp
 *.segment.txt
 

@@ -1780,6 +1780,7 @@
       .materials-admin-panel > div
     ),
   .help-listings-body,
+  .help-listings-modal-content .glass-subpage-header,
   .help-listings-modal-content
     :is(.help-listings-panel, .help-listings-item-card, .help-listings-empty),
   .selected-listing-body,
@@ -3511,6 +3512,12 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     padding-top: calc(var(--mobile-common-title-top) + 0.216rem) !important;
   }
 
+  .dashboard-info-panel--with-title-metrics
+    .glass-subpage-title-wrap {
+    padding-top: var(--dashboard-info-title-wrap-padding-top) !important;
+    padding-bottom: var(--dashboard-info-title-wrap-padding-bottom) !important;
+  }
+
   .subscription-modal-content .glass-subpage-title-wrap.policy-mobile-title-wrap {
     padding-top: calc(var(--mobile-common-title-top) + 0.396rem) !important;
   }
@@ -3687,5 +3694,13 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)
     > :is(.documents-grid.workspace-guide-panel-scroll, .workspace-guide-panel-scroll) {
     scrollbar-gutter: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .help-listings-modal-content {
+    height: var(--glass-mobile-root-vh, 100dvh) !important;
+    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
+    max-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
 }

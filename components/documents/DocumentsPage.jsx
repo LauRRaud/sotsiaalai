@@ -7,6 +7,7 @@ import { useEffectiveRole } from "@/components/auth/useEffectiveRole"
 import { useI18n } from "@/components/i18n/I18nProvider"
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton"
 import Button from "@/components/ui/Button"
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay"
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown"
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader"
 import Input from "@/components/ui/Input"
@@ -42,77 +43,6 @@ function markChatWorkspaceRestore() {
       JSON.stringify({ ts: Date.now() })
     )
   } catch {}
-}
-
-const WORKER_INTRO_COPY = {
-  et: {
-    expand: "Loe täpsemalt",
-    collapse: "Peida",
-    details:
-      "Milleks see mõeldud on\nLehe eesmärk on teha dokumentide koostamine kiiremaks ja korrastatumaks. Selle asemel, et iga kord nullist alustada, saad:\n- laadida üles vajalikud materjalid\n- hoida alles korduvkasutatavad põhjad\n- valida, milliseid faile AI-assistent tohib kasutada\n- avada nende põhjal dokumendi koostamise vaate\n- vaadata ja alla laadida valmis mustandeid või lõppversioone\n\nLisada dokumente\nSiia saab üles laadida tööks vajalikud failid, näiteks juhendid, kliendi kohta käivad materjalid, näidisdokumendid või valmis põhjad.\n\nMäärata dokumendi rolli\nDokumendi saab märkida näiteks:\n- põhjana\n- taustamaterjalina\n- muu tüüpi failina\nSee aitab süsteemil aru saada, kuidas seda faili kasutada.\n\nLubada dokument AI kasutusse\nIga faili juures saab otsustada, kas süsteem võib seda dokumendi koostamisel kasutada. See annab spetsialistile kontrolli, milline info läheb sisendiks.\n\nValida dokumendid koostamiseks\nKui vajalikud failid on välja valitud, saab need saata edasi dokumendi koostamise vaatesse. Seal saab süsteem nende põhjal teha näiteks mustandi, kokkuvõtte, kirja või muu tööteksti.\n\nHallata valmis tulemusi\nLehe alumises osas on näha juba loodud väljundid. Neid saab:\n- avada\n- kopeerida\n- alla laadida\n- vajadusel kustutada"
-  },
-  en: {
-    expand: "Read more",
-    collapse: "Hide",
-    details:
-      "What this is for\nThis page is meant to make document drafting faster and more organized. Instead of starting from scratch every time, you can:\n- upload the materials you need\n- keep reusable templates ready\n- choose which files the AI assistant is allowed to use\n- open the drafting view based on those files\n- review and download finished drafts or final versions\n\nAdd documents\nUpload the files you need for work here, such as guidance, client-related materials, sample documents, or ready-made templates.\n\nSet the document role\nEach document can be marked, for example, as:\n- a template\n- background material\n- another file type\nThis helps the system understand how the file should be used.\n\nAllow AI to use the document\nFor each file, you can decide whether the system may use it during document drafting. This gives the specialist control over what information becomes input.\n\nChoose documents for drafting\nOnce the needed files are selected, you can send them forward into the drafting view. There the system can use them to create, for example, a draft, summary, letter, or another work text.\n\nManage finished results\nIn the lower part of the page you can see outputs that have already been created. You can:\n- open them\n- copy them\n- download them\n- delete them when needed"
-  },
-  ru: {
-    expand: "Подробнее",
-    collapse: "Скрыть",
-    details:
-      "Для чего это нужно\nЭта страница нужна, чтобы сделать подготовку документов быстрее и понятнее. Вместо того чтобы каждый раз начинать с нуля, вы можете:\n- загружать нужные материалы\n- хранить шаблоны для повторного использования\n- выбирать, какие файлы ИИ-ассистент может использовать\n- открывать режим подготовки на основе этих файлов\n- просматривать и скачивать готовые черновики или финальные версии\n\nДобавление документов\nСюда можно загружать файлы, нужные для работы, например инструкции, материалы по клиенту, образцы документов или готовые шаблоны.\n\nНазначение роли документа\nДокумент можно отметить, например:\n- как шаблон\n- как фоновый материал\n- как другой тип файла\nЭто помогает системе понять, как использовать этот файл.\n\nРазрешить ИИ использовать документ\nДля каждого файла можно решить, может ли система использовать его при подготовке документов. Это дает специалисту контроль над тем, какая информация становится входным материалом.\n\nВыбор документов для подготовки\nКогда нужные файлы выбраны, их можно передать в режим подготовки. Там система может на их основе создать, например, черновик, сводку, письмо или другой рабочий текст.\n\nУправление готовыми результатами\nВ нижней части страницы видны уже созданные результаты. Их можно:\n- открывать\n- копировать\n- скачивать\n- удалять при необходимости"
-  }
-}
-
-function getWorkerIntroCopy(locale) {
-  return WORKER_INTRO_COPY[locale] || WORKER_INTRO_COPY.et
-}
-
-function parseIntroDetailSections(text) {
-  return String(text || "")
-    .split(/\n{2,}/)
-    .map((block) => block.split("\n").map((line) => line.trim()).filter(Boolean))
-    .filter((lines) => lines.length)
-    .map((lines) => {
-      const title = lines[0]
-      const items = []
-      let paragraphLines = []
-      let listItems = []
-
-      const flushParagraph = () => {
-        if (!paragraphLines.length) return
-        items.push({
-          type: "paragraph",
-          text: paragraphLines.join(" ")
-        })
-        paragraphLines = []
-      }
-
-      const flushList = () => {
-        if (!listItems.length) return
-        items.push({
-          type: "list",
-          items: [...listItems]
-        })
-        listItems = []
-      }
-
-      lines.slice(1).forEach((line) => {
-        if (line.startsWith("- ")) {
-          flushParagraph()
-          listItems.push(line.slice(2).trim())
-          return
-        }
-        flushList()
-        paragraphLines.push(line)
-      })
-
-      flushParagraph()
-      flushList()
-
-      return { title, items }
-    })
 }
 
 function normalizeSearchValue(value) {
@@ -202,12 +132,6 @@ const documentsPanelLinkClassName =
   "text-[clamp(1.02rem,1.25vw,1.14rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] " +
   "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
-const documentsInlineMoreLinkClassName =
-  `${linkRichTextBase} documents-panel-link documents-library-more-link inline w-auto whitespace-nowrap ` +
-  "font-medium " +
-  "[--link-brand-text:var(--documents-accent)] " +
-  "max-[768px]:leading-[1.12]"
-
 export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
@@ -215,7 +139,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const isClientRole = effectiveRole === "CLIENT"
   const isArtifactsExpanded = artifactsExpanded || initialArtifactLimit >= ARTIFACT_LIST_LIMIT_ALL
   const artifactPageSize = isArtifactsExpanded ? ARTIFACT_LIST_LIMIT_ALL : initialArtifactLimit
-  const [introExpanded, setIntroExpanded] = useState(false)
   const [kindFilter, setKindFilter] = useState("ALL")
   const [artifactFilter, setArtifactFilter] = useState("ALL")
   const [artifactSearch, setArtifactSearch] = useState("")
@@ -253,14 +176,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   const deferredArtifactSearch = useDeferredValue(artifactSearch)
   const trimmedArtifactSearch = String(deferredArtifactSearch || "").trim()
   const roleScope = effectiveRole === "CLIENT" ? "client" : "worker"
-  const workerIntroCopy = useMemo(() => getWorkerIntroCopy(locale), [locale])
-  const roleIntroText = t(`documents.view_mode.intro_${roleScope}`)
-  const roleIntroDetailsText = roleScope === "worker" ? workerIntroCopy.details : ""
-  const hasRoleIntroDetails = roleScope === "worker" && Boolean(roleIntroDetailsText)
-  const roleIntroSections = useMemo(
-    () => (hasRoleIntroDetails ? parseIntroDetailSections(roleIntroDetailsText) : []),
-    [hasRoleIntroDetails, roleIntroDetailsText]
-  )
   const handoffHelpText = selectedDocumentIds.length
     ? t(`documents.agent_handoff.ready_help_${roleScope}`)
     : t(`documents.agent_handoff.empty_help_${roleScope}`)
@@ -393,10 +308,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     const timer = window.setTimeout(() => setSuccessNotice(null), 6000)
     return () => window.clearTimeout(timer)
   }, [successNotice])
-
-  useEffect(() => {
-    setIntroExpanded(false)
-  }, [roleScope, roleIntroText, roleIntroDetailsText])
 
   useEffect(() => {
     const blockedIds = new Set(documents.filter((document) => !document.agentAllowed).map((document) => document.id))
@@ -593,7 +504,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
           value={effectiveRole}
           onRoleChanged={refreshEffectiveRole}
           className="documents-admin-role-menu documents-admin-role-menu--viewport"
-          ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
+          ariaLabel={t("chat.workspace.view_role.label", "TĆ¶Ć¶laua vaade")}
         />
       ) : null}
       <div className={`documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
@@ -603,62 +514,17 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
             backAriaLabel={t("buttons.back")}
             anchorBack={false}
             backClassName="workspace-scroll-back-button documents-scroll-back-button"
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId="documents"
+                title={t("documents.page_title")}
+                className={dashboardInfoTriggerCornerClassName}
+              />
+            }
           >
             {t("documents.page_title")}
           </GlassSubpageHeader>
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
-            <Panel as="div" variant="secondary" padding="sm" className="documents-panel documents-page-hero-panel documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
-              <div className="documents-section-description documents-library-description">
-                <div className="documents-library-copy">
-                  <p className="documents-library-summary">
-                    <span>{roleIntroText}</span>
-                    {hasRoleIntroDetails ? (
-                      <>
-                        {" "}
-                        <button
-                          type="button"
-                          className={documentsInlineMoreLinkClassName}
-                          onClick={() => setIntroExpanded((current) => !current)}
-                          aria-expanded={introExpanded}
-                          aria-controls="documents-intro-details"
-                        >
-                          {introExpanded
-                            ? workerIntroCopy.collapse
-                            : workerIntroCopy.expand}
-                        </button>
-                      </>
-                    ) : null}
-                  </p>
-                  {hasRoleIntroDetails ? (
-                    introExpanded ? (
-                      <div id="documents-intro-details" className="documents-library-details">
-                        {roleIntroSections.map((section, sectionIndex) => (
-                          section.items.length ? (
-                            <section key={`${section.title}-${sectionIndex}`} className="documents-library-detail-section">
-                              <h3 className={sectionIndex === 0 ? "documents-subsection-title documents-library-detail-group-title" : "documents-library-detail-title"}>
-                                {section.title}
-                              </h3>
-                              {section.items.map((item, itemIndex) => (
-                                item.type === "list" ? (
-                                  <ul key={`${section.title}-list-${itemIndex}`} className="documents-library-detail-list">
-                                    {item.items.map((entry, entryIndex) => (
-                                      <li key={`${section.title}-entry-${entryIndex}`}>{entry}</li>
-                                    ))}
-                                  </ul>
-                                ) : (
-                                  <p key={`${section.title}-text-${itemIndex}`} className="documents-library-detail-text">{item.text}</p>
-                                )
-                              ))}
-                            </section>
-                          ) : null
-                        ))}
-                      </div>
-                    ) : null
-                  ) : null}
-                </div>
-              </div>
-            </Panel>
-
             {successNotice ? (
               <div className="documents-notice documents-notice--info flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
                 <span>{successNotice.message}</span>
@@ -784,7 +650,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                       <p className="documents-meta-text documents-upload-dropzone-help">{t("documents.form.file_help")}</p>
                     </button>
                     <div className="documents-upload-selected documents-notice documents-notice--muted rounded-[0.9rem]">
-                      {uploadFile ? `${uploadFile.name} · ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}
+                      {uploadFile ? `${uploadFile.name} Ā· ${formatFileSize(uploadFile.size)}` : t("documents.form.no_file_selected")}
                     </div>
                     <div className="documents-upload-inline-actions">
                       <Button
@@ -864,8 +730,8 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                               {isReadOnly ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{t("documents.framework_acceptance.system_chip", "Acceptance")}</span> : null}
                               {document.templateFor ? <span className="documents-chip is-active rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{templateForLabel(document.templateFor, t)}</span> : null}
                             </div>
-                            <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{document.originalName} · {formatFileSize(document.size)} · {formatDate(document.updatedAt, locale)}</p>
-                            {frameworkAcceptance ? <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.framework_acceptance.accepted_at", "Accepted")}: {formatDate(frameworkAcceptance.acceptedAt, locale)} · {t("documents.framework_acceptance.framework_version", "Version")}: {frameworkAcceptance.frameworkVersion} · {t("documents.framework_acceptance.status_confirmed", "Confirmed")}</p> : null}
+                            <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{document.originalName} Ā· {formatFileSize(document.size)} Ā· {formatDate(document.updatedAt, locale)}</p>
+                            {frameworkAcceptance ? <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.framework_acceptance.accepted_at", "Accepted")}: {formatDate(frameworkAcceptance.acceptedAt, locale)} Ā· {t("documents.framework_acceptance.framework_version", "Version")}: {frameworkAcceptance.frameworkVersion} Ā· {t("documents.framework_acceptance.status_confirmed", "Confirmed")}</p> : null}
                           </>
                         )}
                       </div>
@@ -1034,7 +900,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                     <span className="documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em]">{artifactTypeLabel(artifact.type, t)}</span>
                     <span className={`documents-chip rounded-full px-[0.55rem] py-[0.15rem] text-[0.78rem] uppercase tracking-[0.08em] ${artifact.status === "FINAL" ? "is-active" : ""}`}>{artifactStatusLabel(artifact.status, t)}</span>
                   </div>
-                  <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{formatDate(artifact.createdAt, locale)} · {t("documents.updated_at")} {formatDate(artifact.updatedAt, locale)}{artifact.approvedAt ? ` · ${t("documents.approved_at")} ${formatDate(artifact.approvedAt, locale)}` : ""}</p>
+                  <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{formatDate(artifact.createdAt, locale)} Ā· {t("documents.updated_at")} {formatDate(artifact.updatedAt, locale)}{artifact.approvedAt ? ` Ā· ${t("documents.approved_at")} ${formatDate(artifact.approvedAt, locale)}` : ""}</p>
                   <p className="documents-artifact-snippet mt-[0.45rem] text-[0.94rem] leading-[1.55]">{artifact.snippet}</p>
                   <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.sources_label", { count: artifact.sourceCount || 0 })}</p>
                   {isArtifactsExpanded && artifact.sources?.length ? <div className="mt-[0.45rem] flex flex-wrap gap-[0.4rem]">{artifact.sources.slice(0, 4).map((source) => <span key={source.id} className="documents-source-pill rounded-full border px-[0.55rem] py-[0.18rem] text-[0.8rem]">{source.title || source.originalName}</span>)}{artifact.sources.length > 4 ? <span className="documents-source-pill rounded-full border px-[0.55rem] py-[0.18rem] text-[0.8rem]">{t("documents.artifacts.source_preview_more", { count: artifact.sources.length - 4 })}</span> : null}</div> : null}

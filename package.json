@@ -88,6 +88,8 @@
     "kov:upgrade-metadata": "node scripts/upgrade-kov-metadata.mjs",
     "kov:upgrade-metadata:batch": "node scripts/upgrade-kov-metadata.mjs --batch",
     "kov:validate-metadata": "node scripts/validate-kov-metadata.mjs",
+    "kov:resolve-emails": "node scripts/resolve-kov-emails.mjs",
+    "kov:resolve-emails:kodeerimine": "node scripts/resolve-kov-emails.mjs --input-dir KOV/Kodeerimine",
     "kov:audit-rt": "node scripts/audit-kov-rt.mjs",
     "kov:validate-rt": "node scripts/validate-kov-rt.mjs",
     "kov:ingest-rt:batch": "node scripts/ingest-kov-rt-batch.mjs",

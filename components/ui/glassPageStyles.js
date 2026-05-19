@@ -13,7 +13,7 @@ export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
 
 export const glassSubpageHeaderClassName =
-  "glass-subpage-header mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]";
+  "glass-subpage-header relative mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]";
 
 export const glassSubpageTitleWrapClassName =
   "glass-subpage-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";

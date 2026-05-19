@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
@@ -88,7 +89,6 @@ export default function InviteModal() {
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
-  const [workspaceModalHeight, setWorkspaceModalHeight] = useState(null);
   const closeTimerRef = useRef(null);
   const formatSentenceCase = (text) => {
     const raw = typeof text === "string" ? text.trim() : "";
@@ -103,11 +103,9 @@ export default function InviteModal() {
   const inviteDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
     : "!min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)]";
-  const inviteWorkspaceStyle = isWorkspaceReturn && workspaceModalHeight
-    ? {
-        "--invite-workspace-measured-height": `${workspaceModalHeight}px`
-      }
-    : undefined;
+  const inviteHeaderTitle = isWorkspaceReturn
+    ? t("chat.workspace.cards.add_person.title")
+    : t("invite.eyebrow");
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-x-hidden ${isWorkspaceReturn ? "!overflow-y-auto" : "!overflow-y-hidden"} ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
@@ -266,38 +264,6 @@ export default function InviteModal() {
       setHostDisplayName("");
     }
   }, [open, roomId]);
-  useLayoutEffect(() => {
-    if (!isWorkspaceReturn || typeof window === "undefined") return undefined;
-
-    const measureWorkspace = () => {
-      const node = document.querySelector("[data-chat-container]");
-      const rect = node?.getBoundingClientRect?.();
-      const nextHeight = Math.round(rect?.height || 0);
-      if (nextHeight > 0) {
-        setWorkspaceModalHeight(nextHeight);
-      }
-    };
-
-    measureWorkspace();
-    window.addEventListener("resize", measureWorkspace);
-
-    let resizeObserver;
-    const node = document.querySelector("[data-chat-container]");
-    if (node && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(measureWorkspace);
-      resizeObserver.observe(node);
-    }
-
-    return () => {
-      window.removeEventListener("resize", measureWorkspace);
-      resizeObserver?.disconnect?.();
-    };
-  }, [isWorkspaceReturn]);
-  useEffect(() => {
-    if (!isWorkspaceReturn) {
-      setWorkspaceModalHeight(null);
-    }
-  }, [isWorkspaceReturn]);
   useEffect(() => {
     if (paymentMode !== "SPONSORED_BY_HOST") {
       setTargetRole(null);
@@ -572,8 +538,7 @@ export default function InviteModal() {
       variant="glass"
       onClose={handleClose}
       closeOnOverlayClick={!closing}
-      aria-label={t("invite.title")}
-      style={inviteWorkspaceStyle}
+      aria-label={inviteHeaderTitle}
       className={
         open
           ? `invite-modal-overlay person-invite-modal-overlay z-[140] overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "invite-modal-overlay--workspace" : ""}`
@@ -586,8 +551,16 @@ export default function InviteModal() {
         backAriaLabel={t("buttons.back")}
         titleAs="h2"
         backClassName="!z-[145]"
+        titleWrapClassName={isWorkspaceReturn ? "invite-workspace-title-wrap" : undefined}
+        rightSlot={
+          <DashboardInfoTrigger
+            infoId="invites"
+            title={inviteHeaderTitle}
+            className={`${dashboardInfoTriggerCornerClassName} !z-[146]`}
+          />
+        }
       >
-        {t("invite.eyebrow")}
+        {inviteHeaderTitle}
       </GlassSubpageHeader>
 
       <div className={inviteModalBodyClassName}>

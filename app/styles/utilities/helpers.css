@@ -825,6 +825,36 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   -webkit-backdrop-filter: blur(var(--glass-modal-blur, var(--glass-blur-radius, 1rem)));
 }
 
+.dashboard-info-panel.workspace-guide-panel.glass-subpage-surface {
+  --dashboard-info-blur: var(--glass-blur-radius, 1rem);
+  background:
+    var(
+      --dashboard-info-surface-background,
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
+  box-shadow: var(--dashboard-info-surface-shadow, var(--glass-shell-shadow, none)) !important;
+  -webkit-backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%) !important;
+  backdrop-filter: blur(var(--dashboard-info-blur, 1rem)) saturate(112%) !important;
+}
+
+.dashboard-info-panel.workspace-guide-panel.glass-subpage-surface
+  > .dashboard-info-content.workspace-guide-panel-scroll {
+  padding-left: clamp(1.4rem, 3vw, 2rem) !important;
+  padding-right: clamp(1.4rem, 3vw, 2rem) !important;
+}
+
+.dashboard-info-panel--with-title-metrics
+  .glass-subpage-title-wrap {
+  padding-top: var(--dashboard-info-title-wrap-padding-top) !important;
+  padding-bottom: var(--dashboard-info-title-wrap-padding-bottom) !important;
+}
+
+html[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface,
+body[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.glass-subpage-surface {
+  --dashboard-info-blur: 1rem;
+}
+
 .workspace-guide-panel > header {
   flex: 0 0 auto;
 }
@@ -936,6 +966,11 @@ html[data-contrast="hc"] .glass-subpage-surface::before {
   .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
     --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
     --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
+  }
+
+  .help-listings-modal-content--workspace .help-listings-workspace-title-wrap,
+  .invite-modal-content--workspace .invite-workspace-title-wrap {
+    padding-top: 0.28rem !important;
   }
 
   .workspace-guide-panel.glass-subpage-surface :is(

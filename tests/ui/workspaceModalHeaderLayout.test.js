@@ -26,4 +26,5 @@ test("workspace modal headers use the shared glass subpage title contract", () =
     helpersCss,
     /:is\([\s\S]*?\.invite-modal-content--workspace,[\s\S]*?\.help-listings-modal-content--workspace[\s\S]*?\)\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.glass-subpage-header\s*\{[\s\S]*?margin-top:\s*0\s*!important;/
   );
+  assert.match(helpersCss, /\.invite-modal-content--workspace \.invite-workspace-title-wrap[\s\S]*?padding-top:\s*0\.28rem\s*!important;/);
 });

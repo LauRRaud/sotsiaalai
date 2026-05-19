@@ -4,6 +4,110 @@
   --page-info-dot-color: #7A3A38;
 }
 
+.cornerTrigger {
+  position: absolute;
+  right: var(--workspace-subpage-back-left, 0.55rem);
+  top: calc(
+    var(--workspace-guide-panel-overscan-top, 0px) +
+      var(--workspace-subpage-back-top, 0.55rem) + 0.425rem
+  );
+  z-index: 35;
+}
+
+.overlayLayer {
+  background: var(--dashboard-info-backdrop, rgba(37, 26, 25, 0.94));
+  -webkit-backdrop-filter: blur(1.35rem);
+  backdrop-filter: blur(1.35rem);
+}
+
+.infoContent {
+  width: 100%;
+  max-width: min(46rem, 100%);
+  min-height: 0;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 0 clamp(1.15rem, 2.6vw, 1.7rem) 0.32rem;
+}
+
+.infoContent::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.introBlock {
+  display: grid;
+  gap: clamp(1.9rem, 4.5vh, 2.65rem);
+  padding-top: clamp(3.45rem, 7.2vh, 4.35rem);
+  padding-bottom: clamp(1.15rem, 2.7vh, 1.6rem);
+}
+
+.infoTitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
+  font-size: 2.15rem;
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.03em;
+  color: var(--title-color, var(--brand-primary, #c57171));
+  text-shadow: var(--glass-modal-title-shadow);
+}
+
+.introText {
+  margin: 0;
+  text-align: left;
+  font-size: 1.12rem;
+  line-height: 1.58;
+  letter-spacing: 0;
+  color: var(--glass-modal-text, var(--glass-surface-text, #f2f2f2));
+}
+
+.detailsList {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  padding-bottom: 0.55rem;
+}
+
+.detailSection {
+  display: grid;
+  gap: 0.54rem;
+  padding: 0.34rem 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .cornerTrigger {
+    right: 0.04rem;
+    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.625rem);
+  }
+
+  .infoContent {
+    padding-inline: 0.62rem;
+  }
+
+  .introBlock {
+    gap: 1.45rem;
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 3.85rem);
+  }
+
+  .infoTitle {
+    font-size: clamp(1.78rem, 6.6vw, 2.18rem);
+    letter-spacing: 0.012em;
+  }
+
+  .introText {
+    font-size: 1.04rem;
+    line-height: 1.5;
+  }
+}
+
 :global(:root.theme-light:not(.theme-mid)) .trigger,
 :global(:root.theme-mid) .trigger {
   --page-info-ring-color: #7A3A38;

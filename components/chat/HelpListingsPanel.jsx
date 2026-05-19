@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Button from "@/components/ui/Button";
+import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import Panel from "@/components/ui/Panel";
@@ -29,6 +30,7 @@ export default function HelpListingsPanel({
   onLoadMore,
   onSelectItem,
   detailNode = null,
+  infoId,
   onClose,
   onBackToProfile,
   onBackToWorkspace
@@ -195,6 +197,16 @@ export default function HelpListingsPanel({
           onBack={handleBackClick}
           backAriaLabel={backAriaLabel}
           titleAs="h2"
+          titleWrapClassName={isWorkspaceReturn ? "help-listings-workspace-title-wrap" : undefined}
+          rightSlot={
+            infoId ? (
+              <DashboardInfoTrigger
+                infoId={infoId}
+                title={title}
+                className={dashboardInfoTriggerCornerClassName}
+              />
+            ) : null
+          }
         >
           {title}
         </GlassSubpageHeader>

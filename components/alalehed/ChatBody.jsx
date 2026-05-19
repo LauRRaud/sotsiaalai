@@ -1941,6 +1941,7 @@ export default function ChatBody({
     <HelpListingsPanel
       locale={locale}
       title={activeListingsPanel.title}
+      infoId={activeListingsPanel.key}
       side={activeListingsPanel.side}
       items={listingsPanelState.items}
       loading={listingsPanelState.loading}
