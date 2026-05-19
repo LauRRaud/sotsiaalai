@@ -1427,8 +1427,7 @@ function ServiceMapSurface({
     const query = keyword.trim().toLocaleLowerCase("et");
     const regionQuery = region.trim().toLocaleLowerCase("et");
     return entries.filter((entry) => {
-      if (entryType === "KOV_CONTACT" && !String(entry.type || "").startsWith("KOV_")) return false;
-      if (entryType !== "ALL" && entryType !== "KOV_CONTACT" && entry.type !== entryType) return false;
+      if (entryType !== "ALL" && entry.type !== entryType) return false;
       const haystack = [
         entry.title,
         entry.description,
@@ -1458,6 +1457,21 @@ function ServiceMapSurface({
       setSelectedEntryId("");
     }
   }, [filteredEntries, selectedEntryId]);
+
+  const handleKeywordChange = useCallback((event) => {
+    setSelectedEntryId("");
+    setKeyword(event.target.value);
+  }, []);
+
+  const handleRegionChange = useCallback((event) => {
+    setSelectedEntryId("");
+    setRegion(event.target.value);
+  }, []);
+
+  const handleEntryTypeChange = useCallback((event) => {
+    setSelectedEntryId("");
+    setEntryType(event.target.value);
+  }, []);
 
   const handleSelectEntry = useCallback((entryId) => {
     setSelectedEntryId(entryId);
@@ -1494,6 +1508,10 @@ function ServiceMapSurface({
             "service-map-workspace__filters-shell",
             "service-map-workspace__filters-shell--toolbar-feedback"
           )}
+          style={{
+            backdropFilter: "blur(var(--service-map-glass-blur)) saturate(160%)",
+            WebkitBackdropFilter: "blur(var(--service-map-glass-blur)) saturate(160%)"
+          }}
         >
           <div className="service-map-toolbar__identity">
             <BackButton
@@ -1515,7 +1533,7 @@ function ServiceMapSurface({
                     <input
                       className="service-map-toolbar__input service-map-toolbar__input--keyword ui-glow-control"
                       value={keyword}
-                      onChange={(event) => setKeyword(event.target.value)}
+                      onChange={handleKeywordChange}
                       placeholder={keywordPlaceholder}
                     />
                   </GlowField>
@@ -1529,7 +1547,7 @@ function ServiceMapSurface({
                     <input
                       className="service-map-toolbar__input service-map-toolbar__input--region ui-glow-control"
                       value={region}
-                      onChange={(event) => setRegion(event.target.value)}
+                      onChange={handleRegionChange}
                       placeholder={regionPlaceholder}
                     />
                   </GlowField>
@@ -1538,7 +1556,7 @@ function ServiceMapSurface({
 
               <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
-                ["KOV_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV kontakt")],
+                ["KOV_SOCIAL_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov_social", "KOV sotsiaalhoolekanne")],
                 ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")],
                 ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")]
               ].map(([value, label]) => (
@@ -1548,7 +1566,7 @@ function ServiceMapSurface({
                     name="service-map-entry-type"
                     value={value}
                     checked={entryType === value}
-                    onChange={(event) => setEntryType(event.target.value)}
+                    onChange={handleEntryTypeChange}
                     className={serviceMapChoiceCardClassName}
                   >
                     <span className="service-map-toolbar__type-label text-center [text-wrap:balance]">{label}</span>

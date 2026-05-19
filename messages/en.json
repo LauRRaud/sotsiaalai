@@ -670,6 +670,7 @@
       "types": {
         "all": "All",
         "kov": "Municipality contact",
+        "kov_social": "Local welfare department",
         "provider": "Service provider"
       },
       "marker_kov": "KOV",

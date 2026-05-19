@@ -248,6 +248,7 @@ export default function ServiceMapLeaflet({
   const mapRef = useRef(null);
   const markerLayerRef = useRef(null);
   const markerRefs = useRef(new Map());
+  const popupOpenFrameRef = useRef(0);
   const selectedEntryIdRef = useRef(selectedEntryId);
   const onSelectEntryRef = useRef(onSelectEntry);
   const tRef = useRef(t);
@@ -289,7 +290,8 @@ export default function ServiceMapLeaflet({
           maxBoundsViscosity: 1,
           zoomControl: true,
           attributionControl: false,
-          worldCopyJump: false
+          worldCopyJump: false,
+          fadeAnimation: false
         });
 
         L.tileLayer(process.env.NEXT_PUBLIC_SERVICE_MAP_TILE_URL || DEFAULT_TILE_URL, {
@@ -342,6 +344,10 @@ export default function ServiceMapLeaflet({
         window.cancelAnimationFrame(resizeFrame);
         resizeFrame = 0;
       }
+      if (popupOpenFrameRef.current) {
+        window.cancelAnimationFrame(popupOpenFrameRef.current);
+        popupOpenFrameRef.current = 0;
+      }
       markers.clear();
       markerLayerRef.current = null;
       if (mapRef.current) {
@@ -362,6 +368,11 @@ export default function ServiceMapLeaflet({
   useEffect(() => {
     if (!leaflet || !mapRef.current || !markerLayerRef.current) return;
 
+    if (popupOpenFrameRef.current) {
+      window.cancelAnimationFrame(popupOpenFrameRef.current);
+      popupOpenFrameRef.current = 0;
+    }
+    mapRef.current.closePopup?.();
     markerLayerRef.current.clearLayers();
     markerRefs.current.clear();
 
@@ -412,6 +423,12 @@ export default function ServiceMapLeaflet({
   useEffect(() => {
     if (!leaflet || !mapRef.current || !markerLayerRef.current) return;
 
+    if (popupOpenFrameRef.current) {
+      window.cancelAnimationFrame(popupOpenFrameRef.current);
+      popupOpenFrameRef.current = 0;
+    }
+    mapRef.current.closePopup?.();
+
     for (const [entryId, marker] of markerRefs.current.entries()) {
       const entry = entries.find((item) => item.id === entryId);
       if (!entry) continue;
@@ -426,13 +443,28 @@ export default function ServiceMapLeaflet({
       );
     }
 
+    if (!selectedEntryId) return;
+
     const selectedMarker = markerRefs.current.get(selectedEntryId);
     const selectedEntry = entries.find((entry) => entry.id === selectedEntryId);
     const selectedCoordinates = entryCoordinates(selectedEntry);
     if (selectedMarker && selectedCoordinates) {
       mapRef.current.flyTo(selectedCoordinates, Math.max(mapRef.current.getZoom(), 11), { duration: 0.45 });
-      selectedMarker.openPopup();
+      popupOpenFrameRef.current = window.requestAnimationFrame(() => {
+        popupOpenFrameRef.current = 0;
+        mapRef.current?.closePopup?.();
+        if (markerRefs.current.get(selectedEntryId) === selectedMarker) {
+          selectedMarker.openPopup();
+        }
+      });
     }
+
+    return () => {
+      if (popupOpenFrameRef.current) {
+        window.cancelAnimationFrame(popupOpenFrameRef.current);
+        popupOpenFrameRef.current = 0;
+      }
+    };
   }, [entries, leaflet, selectedEntryId, t]);
 
   return (

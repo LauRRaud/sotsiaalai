@@ -3982,6 +3982,51 @@ def get_document(doc_id: str):
         **resolved_meta,
     }
 
+@app.get("/documents/{doc_id}/chunks", dependencies=[Depends(_require_key)])
+def get_document_chunks(
+    doc_id: str,
+    item_type: Optional[str] = None,
+    source_type: Optional[str] = None,
+    limit: int = 10000,
+):
+    reg = _load_registry()
+    if doc_id not in reg:
+        raise HTTPException(404, "Document not in registry")
+
+    safe_limit = max(1, min(int(limit or 10000), 100000))
+    try:
+        got = collection.get(where={"doc_id": doc_id}, include=["documents", "metadatas"], limit=safe_limit)
+    except Exception as exc:
+        logger.exception("Document chunks read failed for doc_id=%s", doc_id)
+        raise HTTPException(500, "Document chunks read failed") from exc
+
+    ids = got.get("ids", []) or []
+    documents = got.get("documents") or []
+    metadatas = got.get("metadatas") or []
+    where: Dict[str, object] = {}
+    if item_type:
+        where["item_type"] = str(item_type).strip()
+    if source_type:
+        where["source_type"] = str(source_type).strip()
+
+    chunks = []
+    for index, item_id in enumerate(ids):
+        metadata = metadatas[index] if index < len(metadatas) and isinstance(metadatas[index], dict) else {}
+        if where and not _metadata_matches_filter(metadata, where):
+            continue
+        chunks.append({
+            "id": item_id,
+            "docId": doc_id,
+            "text": documents[index] if index < len(documents) and isinstance(documents[index], str) else "",
+            "metadata": metadata,
+        })
+
+    return {
+        "docId": doc_id,
+        "count": len(chunks),
+        "chunks": chunks,
+    }
+
 @app.get("/documents/{doc_id}/source", dependencies=[Depends(_require_key)])
 def get_document_source(doc_id: str):
     reg = _load_registry()

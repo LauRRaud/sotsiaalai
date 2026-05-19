@@ -148,6 +148,14 @@ test("service map mobile filter toggle is larger with a larger arrow and narrow 
   );
   assert.match(
     serviceMapCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace\s*\{[\s\S]*?--service-map-mobile-control-top:\s*0\.61rem/
+  );
+  assert.match(
+    serviceMapCss,
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-workspace\s*\{[\s\S]*?--service-map-mobile-control-top:\s*0\.61rem/
+  );
+  assert.match(
+    serviceMapCss,
     /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__toggle svg\s*\{[\s\S]*?width:\s*2\.72rem[\s\S]*?height:\s*2\.72rem/
   );
   assert.match(

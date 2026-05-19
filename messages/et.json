@@ -670,6 +670,7 @@
       "types": {
         "all": "Kõik",
         "kov": "KOV kontakt",
+        "kov_social": "KOV sotsiaalhoolekanne",
         "provider": "Teenuseosutaja"
       },
       "marker_kov": "KOV",

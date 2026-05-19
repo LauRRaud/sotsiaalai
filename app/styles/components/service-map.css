@@ -2199,10 +2199,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     --service-map-mobile-panel-gap: var(--mobile-glass-card-gap, clamp(0.32rem, 1.6vw, 0.5rem));
     inset: 0 !important;
     border-radius: 0;
-    background: var(--service-map-map-bg, #eef0ef) !important;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    background: var(--mobile-common-glass-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: var(--glass-shell-shadow, none);
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     overflow: hidden !important;
   }
 
@@ -2210,8 +2210,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     --service-map-map-radius: 0px;
     --service-map-mobile-map-inset: 0px;
     --service-map-mobile-control-size: 3.12rem;
-    --service-map-mobile-control-top: 0.34rem;
-    --service-map-mobile-filters-pad-top: 3.8rem;
+    --service-map-mobile-control-top: 0.61rem;
+    --service-map-mobile-filters-pad-top: 4.18rem;
     --service-map-results-row-height: min(30dvh, 15.25rem);
     --service-map-summary-row-height: 3.35rem;
     --service-map-mobile-toggle-shadow:
@@ -2282,6 +2282,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     width: 100%;
     padding: var(--service-map-mobile-filters-pad-top) 0.72rem 0.92rem;
     max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.12rem);
+    background:
+      var(--glass-ring-sheen, none),
+      var(--service-map-panel-glass-bg) !important;
+    box-shadow: var(--service-map-panel-shadow) !important;
+    backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -2334,7 +2340,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-toolbar__types {
     display: grid;
-    grid-template-columns: minmax(5.25rem, 1fr) minmax(6.9rem, 1.28fr) minmax(3.35rem, 0.62fr);
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.18fr) minmax(0, 0.58fr);
     width: 100%;
     justify-content: center;
     gap: 0.28rem;
@@ -2504,8 +2510,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 @media (max-width: 560px) {
   .service-map-workspace {
     --service-map-mobile-control-size: 3.12rem;
-    --service-map-mobile-control-top: 0.32rem;
-    --service-map-mobile-filters-pad-top: 3.72rem;
+    --service-map-mobile-control-top: 0.61rem;
+    --service-map-mobile-filters-pad-top: 4.12rem;
   }
 
   .workspace-feature-inline-stat {
@@ -2551,7 +2557,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-toolbar__type-card {
     padding-right: 0.32rem;
     padding-left: 0.32rem;
-    font-size: 0.8rem;
+    font-size: 0.74rem;
   }
 
   .service-map-workspace__filters h2 {
@@ -2663,6 +2669,15 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     box-shadow: var(--service-map-mobile-toggle-shadow) !important;
     backdrop-filter: blur(26px) saturate(160%) !important;
     -webkit-backdrop-filter: blur(26px) saturate(160%) !important;
+  }
+
+  .service-map-workspace__filters-shell {
+    background:
+      var(--glass-ring-sheen, none),
+      var(--service-map-panel-glass-bg) !important;
+    box-shadow: var(--service-map-panel-shadow) !important;
+    backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
   }
 
 }

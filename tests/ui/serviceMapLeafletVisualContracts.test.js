@@ -22,6 +22,8 @@ test("service map Leaflet markers do not inherit the default div icon plate", ()
 
 test("service map popup glass is applied on the wrapper immediately", () => {
   const css = read("app/styles/components/service-map.css");
+  const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
+  const workspaceSource = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(css, /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/);
   assert.match(
@@ -31,6 +33,27 @@ test("service map popup glass is applied on the wrapper immediately", () => {
   assert.match(
     css,
     /\.service-map-leaflet\.leaflet-fade-anim \.service-map-leaflet__popup\.leaflet-popup\s*\{[\s\S]*?opacity:\s*1\s*!important[\s\S]*?transition:\s*none\s*!important/
+  );
+  assert.match(
+    leafletSource,
+    /mapRef\.current\.closePopup\?\.\(\);\s*markerLayerRef\.current\.clearLayers\(\);/
+  );
+  assert.match(leafletSource, /fadeAnimation:\s*false/);
+  assert.match(
+    leafletSource,
+    /mapRef\.current\.closePopup\?\.\(\);[\s\S]*?if \(!selectedEntryId\) return;/
+  );
+  assert.match(
+    leafletSource,
+    /popupOpenFrameRef\.current = window\.requestAnimationFrame\(\(\) => \{[\s\S]*?mapRef\.current\?\.closePopup\?\.\(\);[\s\S]*?selectedMarker\.openPopup\(\);/
+  );
+  assert.match(
+    workspaceSource,
+    /const handleEntryTypeChange = useCallback\(\(event\) => \{\s*setSelectedEntryId\(""\);\s*setEntryType\(event\.target\.value\);/
+  );
+  assert.match(
+    workspaceSource,
+    /style=\{\{\s*backdropFilter:\s*"blur\(var\(--service-map-glass-blur\)\) saturate\(160%\)",\s*WebkitBackdropFilter:\s*"blur\(var\(--service-map-glass-blur\)\) saturate\(160%\)"/
   );
 });
 
@@ -139,7 +162,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__types\s*\{[\s\S]*?grid-template-columns:\s*minmax\(5\.25rem,\s*1fr\) minmax\(6\.9rem,\s*1\.28fr\) minmax\(3\.35rem,\s*0\.62fr\)/
+    /\.service-map-toolbar__types\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1\.5fr\) minmax\(0,\s*1\.18fr\) minmax\(0,\s*0\.58fr\)/
   );
   assert.match(
     css,
@@ -148,6 +171,10 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   assert.match(
     css,
     /\.service-map-toolbar__type-card \.service-map-toolbar__type-label\s*\{[\s\S]*?text-wrap:\s*nowrap[\s\S]*?white-space:\s*nowrap/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*560px\)[\s\S]*?\.service-map-toolbar__type-card\s*\{[\s\S]*?font-size:\s*0\.74rem/
   );
   assert.match(
     css,
@@ -201,7 +228,7 @@ test("service map result cards use toolbar control styling without shadows", () 
   );
 });
 
-test("service map mobile route keeps the shared color background, removes particles, and lets the map fill the panel", () => {
+test("service map mobile route keeps the glass page panel, removes particles, and lets the map fill the panel", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const css = read("app/styles/components/service-map.css");
   const colorBendsExcludedPaths = backgroundLayer.match(
@@ -218,7 +245,7 @@ test("service map mobile route keeps the shared color background, removes partic
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-page-panel\.service-map-page-panel\s*\{[\s\S]*?inset:\s*0\s*!important[\s\S]*?border-radius:\s*0[\s\S]*?background:\s*var\(--service-map-map-bg,\s*#eef0ef\)\s*!important[\s\S]*?backdrop-filter:\s*none/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-page-panel\.service-map-page-panel\s*\{[\s\S]*?inset:\s*0\s*!important[\s\S]*?border-radius:\s*0[\s\S]*?background:\s*var\(--mobile-common-glass-surface-bg,[\s\S]*?\)\s*!important[\s\S]*?backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)\s*!important/
   );
   assert.match(
     css,
@@ -412,6 +439,10 @@ test("service map toolbar uses flat glass while map canvas stays edge-free", () 
   assert.match(filtersShell, /background:\s*[\s\S]*?var\(--glass-ring-sheen,\s*none\)/);
   assert.match(filtersShell, /background:\s*[\s\S]*?var\(--service-map-panel-glass-bg\)/);
   assert.match(filtersShell, /box-shadow:\s*var\(--service-map-panel-shadow\)\s*!important/);
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?backdrop-filter:\s*blur\(var\(--service-map-glass-blur\)\) saturate\(160%\)\s*!important/
+  );
   assert.doesNotMatch(css, /\.service-map-workspace__filters-shell::after/);
   assert.doesNotMatch(css, /--service-map-panel-edge-stroke/);
   assert.match(mapFrame, /border:\s*0\s*!important/);
