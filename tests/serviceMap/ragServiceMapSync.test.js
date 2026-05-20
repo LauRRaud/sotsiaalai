@@ -100,6 +100,41 @@ test("sync reads ingested KOV contact chunks from RAG and upserts map entries", 
   assert.equal(upserts[0].create.email, "linnavalitsus@parnu.ee");
 });
 
+test("sync normalizes legacy KOV admin ragDocId to current bundle doc id", async () => {
+  const prisma = {
+    municipalityKovAdmin: {
+      findMany: async () => [
+        {
+          ragDocId: "kov-parnu-linn",
+          ingestStatus: "INGESTED",
+          municipality
+        }
+      ]
+    },
+    serviceMapEntry: {
+      findUnique: async () => null,
+      upsert: async () => {
+        throw new Error("dry run should not upsert");
+      }
+    }
+  };
+  const ragClient = {
+    listDocumentChunks: async (docId) => {
+      assert.equal(docId, "kov::parnu-linn::bundle");
+      return [];
+    }
+  };
+
+  const result = await syncKovContactsFromRagToServiceMap({
+    prisma,
+    ragClient,
+    dryRun: true
+  });
+
+  assert.equal(result.scannedDocuments, 1);
+  assert.equal(result.failedDocuments, 0);
+});
+
 test("service provider RAG organization document maps to a service-map entry", () => {
   const entry = mapServiceProviderRagDocumentToServiceMapEntry({
     docId: "organization-astangu",
