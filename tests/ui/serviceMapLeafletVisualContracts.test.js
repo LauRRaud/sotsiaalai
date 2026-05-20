@@ -44,8 +44,12 @@ test("service map popup glass is applied on the wrapper immediately", () => {
   assert.match(css, /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/);
   assert.match(
     css,
-    /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:[\s\S]*?var\(--service-map-popup-glass-bg\)\s*!important[\s\S]*?backdrop-filter:\s*blur/
+    /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:[\s\S]*?var\(--opaque-panel-bg,[\s\S]*?var\(--workspace-feature-surface-strong,[\s\S]*?#111827[\s\S]*?\)\)\s*!important[\s\S]*?backdrop-filter:\s*blur/
   );
+  assert.match(css, /:root\.theme-light:not\(\.theme-mid\) \.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:\s*rgb\(255,\s*255,\s*255\)\s*!important/);
+  assert.match(css, /:root\.theme-mid \.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:\s*rgb\(242,\s*232,\s*228\)\s*!important/);
+  assert.match(css, /:root:not\(\.theme-light\):not\(\.theme-mid\) \.service-map-leaflet__popup \.leaflet-popup-content-wrapper,[\s\S]*?background-color:\s*rgb\(17,\s*24,\s*39\)\s*!important/);
+  assert.doesNotMatch(css, /theme-mid[\s\S]{0,120}rgba\(242,\s*232,\s*228,\s*0\./);
   assert.match(
     css,
     /\.service-map-leaflet\.leaflet-fade-anim \.service-map-leaflet__popup\.leaflet-popup\s*\{[\s\S]*?opacity:\s*1\s*!important[\s\S]*?transition:\s*none\s*!important/

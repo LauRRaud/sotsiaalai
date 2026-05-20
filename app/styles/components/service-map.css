@@ -1791,7 +1791,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   border: 1px solid var(--service-map-glass-border, var(--workspace-feature-border));
   position: relative;
   isolation: isolate;
-  background-color: var(--service-map-popup-glass-bg) !important;
+  background-color: var(--opaque-panel-bg, var(--workspace-feature-surface-strong, #111827)) !important;
   background-image: var(--glass-ring-sheen, none);
   color: var(--workspace-feature-text);
   border-radius: 0.9rem;
@@ -1808,7 +1808,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   inset: 0;
   z-index: 0;
   border-radius: inherit;
-  background-color: var(--service-map-popup-glass-bg);
+  background-color: var(--opaque-panel-bg, var(--workspace-feature-surface-strong, #111827));
   background-image: var(--glass-ring-sheen, none);
   backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
   -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
@@ -1911,13 +1911,13 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   gap: 0.28rem 0.42rem;
   border: 1px solid color-mix(in srgb, var(--workspace-feature-text, #1f2937) 11%, transparent);
   border-radius: 0.72rem;
-  background: color-mix(in srgb, var(--workspace-feature-surface, #fff) 76%, transparent);
+  background: var(--opaque-panel-bg, var(--workspace-feature-surface, #fff));
   padding: 0.48rem 0.5rem;
 }
 
 .service-map-popup__contact[data-selected="true"] {
   border-color: color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 44%, transparent);
-  background: color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 12%, var(--workspace-feature-surface, #fff));
+  background: color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 12%, var(--opaque-panel-bg, var(--workspace-feature-surface, #fff)));
 }
 
 .service-map-popup__contact-button {
@@ -1970,33 +1970,39 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background-color: rgba(255, 255, 255, 0.86) !important;
+  background-color: rgb(255, 255, 255) !important;
   background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
-  background-color: rgba(255, 255, 255, 0.86);
+  background-color: rgb(255, 255, 255);
   background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgb(255, 255, 255);
   background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 92%, transparent) !important;
+  background-color: rgb(242, 232, 228) !important;
   background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
-  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 92%, transparent);
+  background-color: rgb(242, 232, 228);
   background-image: var(--glass-ring-sheen, none);
 }
 
 :root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 94%, transparent);
+  background-color: rgb(242, 232, 228);
   background-image: var(--glass-ring-sheen, none);
+}
+
+:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,
+:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
+:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip {
+  background-color: rgb(17, 24, 39) !important;
 }
 
 html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrapper,
