@@ -112,6 +112,28 @@ export default function RagAdminContactRegistryPanel() {
     }
   }, []);
 
+  const confirmBaseline = useCallback(async () => {
+    setBusy(true);
+    setMessage("Kinnitan kontaktiregistri praeguse seisu baasjooneks...");
+    try {
+      const response = await fetch("/api/admin/rag/contact-registry", {
+        method: "POST",
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "baseline" })
+      });
+      const data = await response.json();
+      if (!response.ok || !data?.ok) throw new Error(data?.message || "Baasjoone kinnitamine ebaõnnestus");
+      setStatus(data.status);
+      setMessage(`Baasjoon kinnitatud: ${data?.result?.summaryFile || "KOV/kov_kontaktid_loplik.summary.json"}.`);
+    } catch (error) {
+      setMessage(error?.message || "Baasjoone kinnitamine ebaõnnestus");
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
   useEffect(() => {
     loadStatus();
   }, [loadStatus]);
@@ -161,6 +183,11 @@ export default function RagAdminContactRegistryPanel() {
         <button type="button" className={primaryButtonClassName} onClick={runWebCheck} disabled={busy}>
           Käivita veebikontroll
         </button>
+        {status?.needsRefresh ? (
+          <button type="button" className={buttonClassName} onClick={confirmBaseline} disabled={busy}>
+            Kinnita baasjoon
+          </button>
+        ) : null}
         <button type="button" className={buttonClassName} onClick={applyCheck} disabled={busy || !canApplyCheck}>
           Uuenda põhifail
         </button>

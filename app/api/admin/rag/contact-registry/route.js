@@ -1,7 +1,8 @@
 import {
   applyKovContactRegistryCheck,
   checkKovContactRegistryFromWeb,
-  getKovContactRegistryStatus
+  getKovContactRegistryStatus,
+  writeKovContactRegistryBaseline
 } from "@/lib/admin/rag/contactRegistry/service";
 import { errorJson, json, requireKovAdminSession } from "@/lib/admin/rag/kov/api";
 import { safeError } from "@/lib/privacy/safeError";
@@ -36,13 +37,18 @@ export async function POST(request) {
 
   try {
     const action = String(body?.action || "web-check");
-    const result = action === "apply-check"
-      ? await applyKovContactRegistryCheck({
-          syncServiceMap: Boolean(body?.syncServiceMap)
-        })
-      : await checkKovContactRegistryFromWeb({
-          maxUrls: Number(body?.maxUrls || 0) || 0
-        });
+    let result;
+    if (action === "apply-check") {
+      result = await applyKovContactRegistryCheck({
+        syncServiceMap: Boolean(body?.syncServiceMap)
+      });
+    } else if (action === "baseline") {
+      result = await writeKovContactRegistryBaseline();
+    } else {
+      result = await checkKovContactRegistryFromWeb({
+        maxUrls: Number(body?.maxUrls || 0) || 0
+      });
+    }
     const status = await getKovContactRegistryStatus();
     return json({
       ok: true,

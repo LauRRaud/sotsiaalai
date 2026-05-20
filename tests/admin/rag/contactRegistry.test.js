@@ -8,7 +8,8 @@ import {
   applyKovContactRegistryCheck,
   buildKovContactRegistry,
   checkKovContactRegistryFromWeb,
-  refreshKovContactRegistry
+  refreshKovContactRegistry,
+  writeKovContactRegistryBaseline
 } from "../../../lib/admin/rag/contactRegistry/service.js";
 
 async function makeTempKovRoot() {
@@ -104,6 +105,28 @@ test("web check writes comparison candidate without changing central contact fil
   } finally {
     global.fetch = originalFetch;
   }
+});
+
+test("contact registry baseline writes summary without changing central contact file", async () => {
+  const kovRoot = await makeTempKovRoot();
+  const originalContacts = [
+    {
+      slug: "test-vald",
+      municipality: "Test vald",
+      name: "Mari Maasikas",
+      email: "mari.maasikas@example.test"
+    }
+  ];
+  await fs.writeFile(path.join(kovRoot, "kov_kontaktid_loplik.json"), JSON.stringify(originalContacts, null, 2));
+
+  const result = await writeKovContactRegistryBaseline({ kovRoot });
+  const central = JSON.parse(await fs.readFile(path.join(kovRoot, "kov_kontaktid_loplik.json"), "utf8"));
+  const summary = JSON.parse(await fs.readFile(path.join(kovRoot, "kov_kontaktid_loplik.summary.json"), "utf8"));
+
+  assert.equal(result.summaryFile, "KOV/kov_kontaktid_loplik.summary.json");
+  assert.deepEqual(central, originalContacts);
+  assert.equal(summary.contacts, 1);
+  assert.equal(typeof summary.sourceFingerprint, "string");
 });
 
 test("apply check promotes candidate to central file and keeps a backup", async () => {
