@@ -444,26 +444,31 @@ select.workspace-feature-field option {
 
 .pre-inquiry-recipient-controls {
   display: grid;
-  grid-template-columns: auto minmax(min(18rem, 100%), 1fr);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
   gap: 0.62rem;
 }
 
 .pre-inquiry-recipient-types {
-  align-items: center;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  width: 100%;
   min-width: 0;
+  gap: 0.54rem;
 }
 
 .pre-inquiry-recipient-type-card {
-  flex: 0 1 auto;
-  min-width: min(11.25rem, 100%);
+  flex: 1 1 min(11.25rem, 100%);
+  width: 100%;
+  min-width: 0;
   min-height: 3.15rem;
   padding: 0.66rem 0.92rem;
   font-size: 0.96rem;
   font-weight: 650;
   line-height: 1.18;
   letter-spacing: 0;
-  white-space: nowrap;
+  white-space: normal;
   background: var(--btn-primary-bg, var(--workspace-feature-surface)) !important;
   color: var(--btn-primary-text, rgba(248, 252, 255, 0.92)) !important;
   box-shadow: var(--service-map-control-shadow, var(--workspace-feature-shadow)) !important;
@@ -519,6 +524,7 @@ select.workspace-feature-field option {
 }
 
 .pre-inquiry-recipient-controls > label {
+  width: 100%;
   min-width: 0;
 }
 
@@ -528,7 +534,7 @@ select.workspace-feature-field option {
   }
 
   .pre-inquiry-recipient-types {
-    flex-wrap: wrap;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -980,7 +986,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   align-items: flex-start;
   padding-bottom: 0.38rem;
   padding-right: calc(0.78rem + 3.15rem + 0.64rem);
-  width: max-content;
+  width: min(calc(100vw - 2rem), 78rem);
   max-width: calc(100vw - 2rem);
 }
 
@@ -1143,7 +1149,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 0.5rem 0.2rem;
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   min-width: 0;
   padding-right: 0;
@@ -1185,7 +1191,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   justify-content: center;
   gap: 0.34rem;
   min-width: 0;
-  width: max-content;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -1204,7 +1210,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   min-height: var(--service-map-results-row-height);
   max-width: 100%;
   width: 100%;
-  transform: translateX(-1.9rem);
+  overflow: hidden;
+  transform: none;
 }
 
 .service-map-toolbar__resultsblock:empty {
@@ -1544,7 +1551,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 .service-map-toolbar__results {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
   width: 100%;
   min-height: 0;
@@ -1754,6 +1761,10 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   background: #1d6f6f;
 }
 
+.service-map-leaflet__marker--group {
+  font-size: 0.78rem;
+}
+
 .service-map-leaflet__marker--selected {
   box-shadow:
     0 0 0 0.34rem rgba(197, 113, 113, 0.28),
@@ -1858,6 +1869,79 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   padding: 0.98rem 1rem 0.96rem;
   color: var(--workspace-feature-text, #1f2937);
   font-family: var(--font-aino), system-ui, sans-serif;
+}
+
+.service-map-popup--group {
+  width: min(21rem, calc(100vw - 2.4rem));
+  min-width: min(17rem, calc(100vw - 2.4rem));
+  max-width: min(21rem, calc(100vw - 2.4rem));
+}
+
+.service-map-popup__contacts {
+  display: grid;
+  gap: 0.46rem;
+  max-height: min(10.5rem, calc(100vh - 18rem));
+  overflow-y: auto;
+  padding-right: 0.08rem;
+}
+
+.service-map-popup__contact {
+  display: grid;
+  gap: 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--workspace-feature-text, #1f2937) 11%, transparent);
+  border-radius: 0.72rem;
+  background: color-mix(in srgb, var(--workspace-feature-surface, #fff) 76%, transparent);
+  padding: 0.52rem;
+}
+
+.service-map-popup__contact[data-selected="true"] {
+  border-color: color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 44%, transparent);
+  background: color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 12%, var(--workspace-feature-surface, #fff));
+}
+
+.service-map-popup__contact-button {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 0.18rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: var(--cursor-pointer, pointer);
+}
+
+.service-map-popup__contact-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--workspace-feature-accent, #8f3d3d) 68%, transparent);
+  outline-offset: 0.18rem;
+}
+
+.service-map-popup__contact-title {
+  font-size: 0.9rem;
+  font-weight: 780;
+  line-height: 1.14;
+  overflow-wrap: anywhere;
+}
+
+.service-map-popup__contact-description,
+.service-map-popup__contact-meta {
+  color: var(--workspace-feature-muted, #475569);
+  font-size: 0.74rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.service-map-popup__contact-actions {
+  justify-content: flex-start;
+  gap: 0.36rem;
+  padding-top: 0;
+}
+
+.service-map-leaflet__popup .service-map-popup__contact-actions a {
+  min-height: 2.08rem;
+  padding: 0.36rem 0.72rem;
+  font-size: 0.86rem;
 }
 
 :root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,

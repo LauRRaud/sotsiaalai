@@ -615,6 +615,7 @@
         "open_room": "Ava vestlusruum",
         "opening_room": "Avan...",
         "write_email": "Kirjuta e-kiri",
+        "open_email": "Ava e-kiri",
         "save_preferences": "Salvesta vastuvõtt",
         "saving": "Salvestan...",
         "assisting": "Koostan...",
@@ -677,6 +678,7 @@
       "marker_provider": "Teenuseosutaja",
       "marker_kov_short": "K",
       "marker_provider_short": "T",
+      "marker_group_title": "{count} kontakti",
       "map_label": "Teenusekaardi eelvaade",
       "loading": "Laen kaardikirjeid...",
       "loading_map": "Laen Eesti kaarti...",
@@ -698,7 +700,8 @@
         "phone": "Telefon",
         "email": "E-post",
         "write": "Kirjuta",
-        "website": "Veeb"
+        "website": "Veeb",
+        "group_title": "{count} kontakti"
       },
       "empty": "Avaldatud kaardikirjed kuvatakse siin markeritena."
     },

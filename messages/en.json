@@ -615,6 +615,7 @@
         "open_room": "Open conversation room",
         "opening_room": "Opening...",
         "write_email": "Write email",
+        "open_email": "Open email",
         "save_preferences": "Save receiving settings",
         "saving": "Saving...",
         "assisting": "Preparing...",
@@ -677,6 +678,7 @@
       "marker_provider": "Provider",
       "marker_kov_short": "M",
       "marker_provider_short": "S",
+      "marker_group_title": "{count} contacts",
       "map_label": "Service map preview",
       "loading": "Loading map entries...",
       "loading_map": "Loading the Estonia map...",
@@ -698,7 +700,8 @@
         "phone": "Phone",
         "email": "Email",
         "write": "Write",
-        "website": "Website"
+        "website": "Website",
+        "group_title": "{count} contacts"
       },
       "empty": "Published map entries will appear here as markers."
     },

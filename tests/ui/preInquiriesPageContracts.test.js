@@ -35,7 +35,8 @@ test("pre-inquiry recipient type filter is optional and aligned with search", ()
   assert.match(source, /type="checkbox"[\s\S]*?name="pre-inquiry-recipient-type"/);
   assert.match(source, /setRecipientType\(\(current\) => current === value \? "" : value\)/);
   assert.match(source, /pre-inquiry-recipient-controls/);
-  assert.match(css, /\.pre-inquiry-recipient-controls\s*\{[\s\S]*?grid-template-columns:\s*auto minmax\(min\(18rem,\s*100%\),\s*1fr\)/);
+  assert.match(css, /\.pre-inquiry-recipient-controls\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.pre-inquiry-recipient-types\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
 });
 
 test("pre-inquiry assistant clears stale draft and recipient when no draft or contact is returned", () => {

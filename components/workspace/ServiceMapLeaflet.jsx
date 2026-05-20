@@ -39,6 +39,42 @@ function entryCoordinates(entry) {
   return [latitude, longitude];
 }
 
+function coordinateKey(coordinates) {
+  if (!Array.isArray(coordinates) || coordinates.length < 2) return "";
+  return `${Number(coordinates[0]).toFixed(6)}:${Number(coordinates[1]).toFixed(6)}`;
+}
+
+function groupedEntriesByCoordinates(entries = []) {
+  const groupsByKey = new Map();
+
+  for (const entry of Array.isArray(entries) ? entries : []) {
+    const coordinates = entryCoordinates(entry);
+    if (!coordinates) continue;
+    const key = coordinateKey(coordinates);
+    if (!key) continue;
+
+    if (!groupsByKey.has(key)) {
+      groupsByKey.set(key, {
+        id: `coord:${key}`,
+        coordinates,
+        entries: []
+      });
+    }
+    groupsByKey.get(key).entries.push(entry);
+  }
+
+  return Array.from(groupsByKey.values()).map((group) => {
+    const sortedEntries = group.entries.slice().sort((a, b) =>
+      String(a?.title || "").localeCompare(String(b?.title || ""), "et", { sensitivity: "base" })
+    );
+    return {
+      ...group,
+      entries: sortedEntries,
+      primaryEntry: sortedEntries[0]
+    };
+  });
+}
+
 function shortText(value, maxLength = 240) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   if (!text) return "";
@@ -65,6 +101,10 @@ function safeWebsiteUrl(value) {
   } catch {
     return "";
   }
+}
+
+function entryRegionText(entry) {
+  return [entry?.municipalityName || entry?.municipality?.displayName, entry?.county].filter(Boolean).join(", ");
 }
 
 function appendText(parent, tagName, className, text) {
@@ -133,7 +173,7 @@ function createPopupContent(entry, t) {
   appendMeta(
     root,
     readText(t, "workspace_feature_pages.service_map.popup.region", "Piirkond"),
-    [entry.municipalityName || entry.municipality?.displayName, entry.county].filter(Boolean).join(", ")
+    entryRegionText(entry)
   );
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.phone", "Telefon"), entry.phone);
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.email", "E-post"), entry.email);
@@ -167,17 +207,107 @@ function createPopupContent(entry, t) {
   return root;
 }
 
-function markerLabel(entry, t) {
+function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntryId) {
+  const item = document.createElement("article");
+  item.className = "service-map-popup__contact";
+  if (entry?.id === selectedEntryId) item.dataset.selected = "true";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "service-map-popup__contact-button";
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onSelectEntry?.(entry.id);
+  });
+
+  appendText(button, "span", "service-map-popup__contact-title", entry.title);
+  appendText(button, "span", "service-map-popup__contact-description", popupDescription(entry));
+  appendText(
+    button,
+    "span",
+    "service-map-popup__contact-meta",
+    [entry.phone, entry.email].filter(Boolean).join(" / ")
+  );
+  item.appendChild(button);
+
+  const websiteUrl = safeWebsiteUrl(entry.website);
+  if (entry.email || websiteUrl) {
+    const actions = document.createElement("div");
+    actions.className = "service-map-popup__actions service-map-popup__contact-actions";
+
+    if (entry.email) {
+      appendActionLink(
+        actions,
+        `mailto:${entry.email}`,
+        readText(t, "workspace_feature_pages.service_map.popup.write", "Kirjuta"),
+        { forceLocation: true }
+      );
+    }
+
+    if (websiteUrl) {
+      appendActionLink(
+        actions,
+        websiteUrl,
+        readText(t, "workspace_feature_pages.service_map.popup.website", "Veeb"),
+        { target: "_blank", rel: "noreferrer" }
+      );
+    }
+
+    item.appendChild(actions);
+  }
+
+  parent.appendChild(item);
+  return item;
+}
+
+function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId) {
+  if (!group || group.entries.length <= 1) {
+    return createPopupContent(group?.primaryEntry || group?.entries?.[0] || {}, t);
+  }
+
+  const root = document.createElement("article");
+  root.className = "service-map-popup service-map-popup--group";
+  const primaryEntry = group.primaryEntry || group.entries[0];
+
+  appendText(
+    root,
+    "h3",
+    "service-map-popup__title",
+    readText(t, "workspace_feature_pages.service_map.popup.group_title", `${group.entries.length} kontakti`)
+      .replace("{count}", String(group.entries.length))
+  );
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.address", "Aadress"), primaryEntry.address);
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.region", "Piirkond"), entryRegionText(primaryEntry));
+
+  const list = document.createElement("div");
+  list.className = "service-map-popup__contacts";
+  for (const entry of group.entries) {
+    appendGroupedPopupContact(list, entry, t, onSelectEntry, selectedEntryId);
+  }
+  root.appendChild(list);
+
+  return root;
+}
+
+function markerLabel(group, t) {
+  if (group?.entries?.length > 1) {
+    return group.entries.length > 99 ? "99+" : String(group.entries.length);
+  }
+  const entry = group?.primaryEntry || group?.entries?.[0] || {};
   if (entry.type === "SERVICE_PROVIDER") {
     return readText(t, "workspace_feature_pages.service_map.marker_provider_short", "T");
   }
   return readText(t, "workspace_feature_pages.service_map.marker_kov_short", "K");
 }
 
-function markerClassName(entry, selected) {
+function markerClassName(group, selected) {
+  const entries = Array.isArray(group?.entries) ? group.entries : [];
+  const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
   return [
     "service-map-leaflet__marker",
-    entry.type === "SERVICE_PROVIDER" ? "service-map-leaflet__marker--provider" : "service-map-leaflet__marker--kov",
+    allProviders ? "service-map-leaflet__marker--provider" : "service-map-leaflet__marker--kov",
+    entries.length > 1 ? "service-map-leaflet__marker--group" : "",
     selected ? "service-map-leaflet__marker--selected" : ""
   ]
     .filter(Boolean)
@@ -248,6 +378,7 @@ export default function ServiceMapLeaflet({
   const mapRef = useRef(null);
   const markerLayerRef = useRef(null);
   const markerRefs = useRef(new Map());
+  const markerGroupRefs = useRef(new Map());
   const popupOpenFrameRef = useRef(0);
   const selectedEntryIdRef = useRef(selectedEntryId);
   const onSelectEntryRef = useRef(onSelectEntry);
@@ -272,16 +403,19 @@ export default function ServiceMapLeaflet({
     let cancelled = false;
     let resizeObserver = null;
     let resizeFrame = 0;
+    let mapContainer = null;
     const markers = markerRefs.current;
+    const markerGroups = markerGroupRefs.current;
 
     async function initializeMap() {
       if (!containerRef.current || mapRef.current) return;
+      mapContainer = containerRef.current;
 
       try {
         const L = await loadLeafletFromPublicAssets();
-        if (cancelled || !containerRef.current) return;
+        if (cancelled || !mapContainer) return;
 
-        const map = L.map(containerRef.current, {
+        const map = L.map(mapContainer, {
           center: [58.75, 25.2],
           zoom: SERVICE_MAP_MIN_ZOOM,
           minZoom: SERVICE_MAP_MIN_ZOOM,
@@ -318,7 +452,7 @@ export default function ServiceMapLeaflet({
             if (
               cancelled ||
               mapRef.current !== map ||
-              !containerRef.current ||
+              !mapContainer ||
               !map._container ||
               !map._mapPane
             ) {
@@ -327,7 +461,7 @@ export default function ServiceMapLeaflet({
             map.invalidateSize();
           });
         });
-        resizeObserver.observe(containerRef.current);
+        resizeObserver.observe(mapContainer);
       } catch (error) {
         if (!cancelled) {
           setMapError(error?.message || readText(tRef.current, "workspace_feature_pages.service_map.errors.map_failed", "Kaarti ei saanud laadida."));
@@ -349,6 +483,7 @@ export default function ServiceMapLeaflet({
         popupOpenFrameRef.current = 0;
       }
       markers.clear();
+      markerGroups.clear();
       markerLayerRef.current = null;
       if (mapRef.current) {
         mapRef.current.closePopup?.();
@@ -356,11 +491,11 @@ export default function ServiceMapLeaflet({
         mapRef.current.remove();
         mapRef.current = null;
       }
-      if (containerRef.current) {
-        containerRef.current.replaceChildren();
-        containerRef.current.classList.remove("leaflet-container", "leaflet-touch", "leaflet-retina", "leaflet-fade-anim");
-        containerRef.current.removeAttribute("tabindex");
-        containerRef.current.removeAttribute("style");
+      if (mapContainer) {
+        mapContainer.replaceChildren();
+        mapContainer.classList.remove("leaflet-container", "leaflet-touch", "leaflet-retina", "leaflet-fade-anim");
+        mapContainer.removeAttribute("tabindex");
+        mapContainer.removeAttribute("style");
       }
     };
   }, []);
@@ -375,40 +510,51 @@ export default function ServiceMapLeaflet({
     mapRef.current.closePopup?.();
     markerLayerRef.current.clearLayers();
     markerRefs.current.clear();
+    markerGroupRefs.current.clear();
 
     const bounds = [];
-    for (const entry of entries) {
-      const coordinates = entryCoordinates(entry);
-      if (!coordinates) continue;
+    const groups = groupedEntriesByCoordinates(entries);
+    for (const group of groups) {
+      const selected = group.entries.some((entry) => entry.id === selectedEntryIdRef.current);
 
-      const selected = entry.id === selectedEntryIdRef.current;
       const icon = leaflet.divIcon({
         className: "",
-        html: `<span class="${markerClassName(entry, selected)}"><span>${escapeHtml(markerLabel(entry, t))}</span></span>`,
+        html: `<span class="${markerClassName(group, selected)}"><span>${escapeHtml(markerLabel(group, t))}</span></span>`,
         iconSize: [42, 42],
         iconAnchor: [21, 42],
         popupAnchor: [0, -38]
       });
 
-      const marker = leaflet.marker(coordinates, {
+      const marker = leaflet.marker(group.coordinates, {
         icon,
         keyboard: true,
-        title: entry.title || ""
+        title: group.entries.length > 1
+          ? readText(t, "workspace_feature_pages.service_map.marker_group_title", `${group.entries.length} kontakti`)
+              .replace("{count}", String(group.entries.length))
+          : group.primaryEntry?.title || ""
       });
 
-      marker.bindPopup(() => createPopupContent(entry, t), {
+      marker.bindPopup(() => createGroupedPopupContent(
+        group,
+        tRef.current,
+        onSelectEntryRef.current,
+        selectedEntryIdRef.current
+      ), {
         className: "service-map-leaflet__popup",
-        maxWidth: 296,
-        minWidth: 216,
+        maxWidth: group.entries.length > 1 ? 380 : 296,
+        minWidth: group.entries.length > 1 ? 260 : 216,
         autoPanPaddingTopLeft: [24, 176],
         autoPanPaddingBottomRight: [24, 84]
       });
       marker.on("click", () => {
-        onSelectEntryRef.current?.(entry.id);
+        onSelectEntryRef.current?.(group.primaryEntry?.id);
       });
       marker.addTo(markerLayerRef.current);
-      markerRefs.current.set(entry.id, marker);
-      bounds.push(coordinates);
+      markerGroupRefs.current.set(group.id, marker);
+      for (const entry of group.entries) {
+        markerRefs.current.set(entry.id, marker);
+      }
+      bounds.push(group.coordinates);
     }
 
     if (bounds.length === 1) {
@@ -429,13 +575,14 @@ export default function ServiceMapLeaflet({
     }
     mapRef.current.closePopup?.();
 
-    for (const [entryId, marker] of markerRefs.current.entries()) {
-      const entry = entries.find((item) => item.id === entryId);
-      if (!entry) continue;
+    const groups = groupedEntriesByCoordinates(entries);
+    for (const group of groups) {
+      const marker = markerGroupRefs.current.get(group.id);
+      if (!marker) continue;
       marker.setIcon(
         leaflet.divIcon({
           className: "",
-          html: `<span class="${markerClassName(entry, entryId === selectedEntryId)}"><span>${escapeHtml(markerLabel(entry, t))}</span></span>`,
+          html: `<span class="${markerClassName(group, group.entries.some((entry) => entry.id === selectedEntryId))}"><span>${escapeHtml(markerLabel(group, t))}</span></span>`,
           iconSize: [42, 42],
           iconAnchor: [21, 42],
           popupAnchor: [0, -38]

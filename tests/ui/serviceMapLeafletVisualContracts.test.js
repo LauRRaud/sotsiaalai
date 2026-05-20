@@ -20,6 +20,19 @@ test("service map Leaflet markers do not inherit the default div icon plate", ()
   );
 });
 
+test("service map Leaflet groups entries that share one coordinate", () => {
+  const css = read("app/styles/components/service-map.css");
+  const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
+
+  assert.match(leafletSource, /function groupedEntriesByCoordinates/);
+  assert.match(leafletSource, /markerGroupRefs/);
+  assert.match(leafletSource, /createGroupedPopupContent/);
+  assert.match(leafletSource, /service-map-popup--group/);
+  assert.match(leafletSource, /group\.entries\.length > 99 \? "99\+"/);
+  assert.match(css, /\.service-map-leaflet__marker--group\s*\{/);
+  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?overflow-y:\s*auto/);
+});
+
 test("service map popup glass is applied on the wrapper immediately", () => {
   const css = read("app/styles/components/service-map.css");
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
@@ -305,7 +318,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*translateX\(-1\.9rem\)/
+    /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*none/
   );
   assert.match(
     css,
@@ -341,7 +354,8 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(source, /const workspaceRef = useRef\(null\);/);
   assert.match(source, /const filtersShellRef = useRef\(null\);/);
-  assert.match(source, /const showResults = !loading && !error && filteredEntries\.length > 0;/);
+  assert.match(source, /const hasResultFilter = Boolean\(keyword\.trim\(\) \|\| region\.trim\(\)\);/);
+  assert.match(source, /const showResults = !loading && !error && hasResultFilter && filteredEntries\.length > 0;/);
   assert.doesNotMatch(source, /hasToolbarFeedback/);
   assert.match(source, /"service-map-workspace--toolbar-feedback"/);
   assert.match(source, /"service-map-workspace__filters-shell--toolbar-feedback"/);
@@ -361,8 +375,8 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(css, /\.service-map-workspace__map\s*\{[\s\S]*?width:\s*min\(calc\(100vw - 4rem\),\s*100rem\)/);
   assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*fit-content/);
   assert.match(css, /\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*auto/);
-  assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*max-content/);
-  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*center[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
+  assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*100%/);
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*flex-start[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
 });
 
 test("service map popup and desktop one-line toolbar preserve glass and back alignment", () => {

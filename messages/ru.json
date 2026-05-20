@@ -615,6 +615,7 @@
         "open_room": "Открыть комнату беседы",
         "opening_room": "Открываю...",
         "write_email": "Написать письмо",
+        "open_email": "Открыть письмо",
         "save_preferences": "Сохранить прием",
         "saving": "Сохраняю...",
         "assisting": "Подготавливаю...",
@@ -677,6 +678,7 @@
       "marker_provider": "Поставщик",
       "marker_kov_short": "К",
       "marker_provider_short": "П",
+      "marker_group_title": "{count} контакта",
       "map_label": "Предпросмотр карты услуг",
       "loading": "Загружаем записи карты...",
       "loading_map": "Загружаем карту Эстонии...",
@@ -698,7 +700,8 @@
         "phone": "Телефон",
         "email": "Э-почта",
         "write": "Написать",
-        "website": "Сайт"
+        "website": "Сайт",
+        "group_title": "{count} контакта"
       },
       "empty": "Опубликованные записи карты будут показаны здесь маркерами."
     },

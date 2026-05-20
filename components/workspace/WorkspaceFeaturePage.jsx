@@ -37,6 +37,7 @@ import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
 import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const SERVICE_MAP_ENTRIES_FETCH_LIMIT = 2000;
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
@@ -317,6 +318,24 @@ function buildPreInquiryReplyMailto(inquiry) {
   return `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
+function buildPreInquiryRecipientMailto({ recipient, topic, draft, situation }) {
+  const email = String(recipient?.email || "").trim();
+  if (!email) return "";
+  const subject = String(topic || "Pöördumine").trim();
+  const body = String(draft || buildLocalPreInquiryDraft({ topic, situation, recipient }) || "").trim();
+  return `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function isKovServiceMapEntry(entry) {
+  return entry?.type === "KOV_SOCIAL_CONTACT" || entry?.type === "KOV_GENERAL_CONTACT";
+}
+
+function serviceMapEntryMatchesType(entry, entryType) {
+  if (!entryType || entryType === "ALL") return true;
+  if (entryType === "KOV_SOCIAL_CONTACT" || entryType === "KOV_CONTACT") return isKovServiceMapEntry(entry);
+  return entry?.type === entryType;
+}
+
 function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
   const router = useRouter();
   const chatWindowRef = useRef(null);
@@ -362,7 +381,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       setError("");
       try {
         const [entriesResponse, inquiriesResponse, preferencesResponse] = await Promise.all([
-          fetch("/api/service-map/entries?limit=250&includeUnlocated=1&includeNeedsReview=1", { cache: "no-store" }),
+          fetch(`/api/service-map/entries?limit=${SERVICE_MAP_ENTRIES_FETCH_LIMIT}&includeUnlocated=1&includeNeedsReview=1`, { cache: "no-store" }),
           fetch("/api/pre-inquiries", { cache: "no-store" }),
           fetch("/api/pre-inquiries/preferences", { cache: "no-store" })
         ]);
@@ -422,6 +441,15 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const selectedRecipient = useMemo(
     () => entries.find((entry) => entry.id === selectedRecipientId) || null,
     [entries, selectedRecipientId]
+  );
+  const selectedRecipientMailto = useMemo(
+    () => buildPreInquiryRecipientMailto({
+      recipient: selectedRecipient,
+      topic,
+      draft,
+      situation
+    }),
+    [draft, selectedRecipient, situation, topic]
   );
 
   const assistantConversationText = useMemo(() => {
@@ -1129,7 +1157,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
         <div className="pre-inquiry-recipient-controls">
-          <div className="pre-inquiry-recipient-types flex flex-nowrap gap-[0.46rem]" role="group" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
+          <div className="pre-inquiry-recipient-types flex flex-wrap gap-[0.46rem]" role="group" aria-label={readText(t, "workspace_feature_pages.pre_inquiries.fields.recipient_type", "Adressaadi tüüp")}>
             {[
               ["KOV_CONTACT", readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt")],
               ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja")]
@@ -1250,6 +1278,11 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </div>
         ) : null}
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
+          {selectedRecipientMailto ? (
+            <Button as="a" href={selectedRecipientMailto} size="sm">
+              {readText(t, "workspace_feature_pages.pre_inquiries.actions.open_email", "Ava e-kiri")}
+            </Button>
+          ) : null}
           <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
             {saving
               ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
@@ -1412,7 +1445,7 @@ function ServiceMapSurface({
       setLoading(true);
       setError("");
       try {
-        const response = await fetch("/api/service-map/entries", { cache: "no-store" });
+        const response = await fetch(`/api/service-map/entries?limit=${SERVICE_MAP_ENTRIES_FETCH_LIMIT}`, { cache: "no-store" });
         const payload = await response.json().catch(() => ({}));
         if (!response.ok) {
           throw new Error(payload?.message || readText(t, "workspace_feature_pages.service_map.errors.load_failed", "Map entries could not be loaded."));
@@ -1437,7 +1470,7 @@ function ServiceMapSurface({
     const query = keyword.trim().toLocaleLowerCase("et");
     const regionQuery = region.trim().toLocaleLowerCase("et");
     return entries.filter((entry) => {
-      if (entryType !== "ALL" && entry.type !== entryType) return false;
+      if (!serviceMapEntryMatchesType(entry, entryType)) return false;
       const haystack = [
         entry.title,
         entry.description,
@@ -1489,7 +1522,8 @@ function ServiceMapSurface({
   }, [isMobilePanel]);
 
   const panelCollapsed = isMobilePanel && !panelOpen;
-  const showResults = !loading && !error && filteredEntries.length > 0;
+  const hasResultFilter = Boolean(keyword.trim() || region.trim());
+  const showResults = !loading && !error && hasResultFilter && filteredEntries.length > 0;
 
   return (
     <div

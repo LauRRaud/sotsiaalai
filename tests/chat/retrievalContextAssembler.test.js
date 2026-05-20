@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import {
   buildLegalExactSelection,
@@ -7,6 +8,10 @@ import {
   mergePackageDisplayedSources,
   shouldUseReportedPracticeInstruction
 } from "../../lib/chat/retrievalContextAssembler.js";
+
+function readSource(path) {
+  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
+}
 
 test("buildRagSearchErrorPayload marks optional RAG failures with planner context", () => {
   const payload = buildRagSearchErrorPayload({
@@ -120,6 +125,17 @@ test("reported practice instruction is not enabled without a background practice
       }
     ]
   ), false);
+});
+
+test("municipality chat context can use service map KOV contacts", () => {
+  const source = readSource("lib/chat/retrievalContextAssembler.js");
+
+  assert.match(source, /SERVICE_MAP_KOV_CONTACTS/);
+  assert.match(source, /prisma\.serviceMapEntry\.findMany/);
+  assert.match(source, /KOV_SOCIAL_CONTACT/);
+  assert.match(source, /KOV_GENERAL_CONTACT/);
+  assert.match(source, /contextParts\.push\(serviceMapKovContactContext\)/);
+  assert.match(source, /serviceMapKovContactCount/);
 });
 
 test("buildLegalExactSelection keeps only requested legal paragraph groups", () => {
