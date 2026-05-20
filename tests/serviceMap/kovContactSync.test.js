@@ -134,6 +134,47 @@ test("central contact with multiple reception locations creates one map entry pe
   assert.ok(result.entries.every((entry) => entry.description.includes("Vastuv")));
 });
 
+test("central contact raw id still creates distinct entries for multiple locations", async () => {
+  const kovRoot = await makeTempKovRoot();
+  await fs.writeFile(
+    path.join(kovRoot, "kov_kontaktid_loplik.json"),
+    JSON.stringify([
+      {
+        id: "tallinn-lov-shared-contact",
+        slug: "tallinn-haabersti",
+        municipality: "Tallinna linn",
+        county: "Harjumaa",
+        name: "Jagatud Kontakt",
+        role: "laste heaolu spetsialist",
+        email: "jagatud@example.test",
+        address: "Ehitajate tee 109a/1, Tallinn; Valdeku 13, Tallinn"
+      }
+    ])
+  );
+
+  const prisma = {
+    municipality: {
+      findFirst: async () => null
+    },
+    serviceMapEntry: {
+      findUnique: async () => null,
+      upsert: async () => {
+        throw new Error("dry run should not upsert");
+      }
+    }
+  };
+
+  const result = await syncKovContactsToServiceMap({
+    kovRoot,
+    prisma,
+    dryRun: true
+  });
+
+  assert.equal(result.entries.length, 2);
+  assert.equal(new Set(result.entries.map((entry) => entry.id)).size, 2);
+  assert.ok(result.entries.every((entry) => entry.id.startsWith("kov-contact-tallinn-lov-shared-contact")));
+});
+
 test("central contact without address uses municipality office fallback when known", async () => {
   const kovRoot = await makeTempKovRoot();
   await fs.writeFile(

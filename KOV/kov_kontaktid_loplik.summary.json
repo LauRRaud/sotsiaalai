@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:02:40.581Z",
+  "generatedAt": "2026-05-20T16:54:33.755Z",
   "sourceFolder": "KOV/Kodeerimine",
   "sourceFiles": [
     "kov_sotsiaalhoolekande_kontaktid_01_05.json",
@@ -16,13 +16,36 @@
     "kov_sotsiaalhoolekande_kontaktid_56_60.json",
     "kov_sotsiaalhoolekande_kontaktid_61_66_tallinn_valja.json",
     "kov_sotsiaalhoolekande_kontaktid_67_71_tallinn_valja.json",
-    "kov_sotsiaalhoolekande_kontaktid_72_77_tallinn_valja.json"
+    "kov_sotsiaalhoolekande_kontaktid_72_77_tallinn_valja.json",
+    "LOV/haabersti_kontaktid_koond.json",
+    "LOV/kesklinn_kontaktid_koond.json",
+    "LOV/kristiine_kontaktid_koond.json",
+    "LOV/lasnamae_kontaktid_koond.json",
+    "LOV/mustamae_kontaktid_koond.json",
+    "LOV/nomme_kontaktid_koond.json",
+    "LOV/pirita_kontaktid_koond.json",
+    "LOV/pohja_tallinn_kontaktid_koond.json"
   ],
   "outputFile": "KOV/kov_kontaktid_loplik.json",
   "sourceRows": 932,
-  "contacts": 910,
-  "contactsWithEmail": 865,
-  "contactsMissingEmail": 45,
-  "inactiveContacts": 5,
-  "displayableContacts": 905
+  "contacts": 1130,
+  "contactsWithEmail": 1078,
+  "contactsMissingEmail": 52,
+  "inactiveContacts": 0,
+  "displayableContacts": 1130,
+  "lovSourceFolder": "KOV/LOV",
+  "lovSourceFiles": [
+    "LOV/haabersti_kontaktid_koond.json",
+    "LOV/kesklinn_kontaktid_koond.json",
+    "LOV/kristiine_kontaktid_koond.json",
+    "LOV/lasnamae_kontaktid_koond.json",
+    "LOV/mustamae_kontaktid_koond.json",
+    "LOV/nomme_kontaktid_koond.json",
+    "LOV/pirita_kontaktid_koond.json",
+    "LOV/pohja_tallinn_kontaktid_koond.json"
+  ],
+  "tallinnLovContacts": 220,
+  "tallinnLovDistricts": 8,
+  "tallinnLovAddressFallbacks": 11,
+  "tallinnLovStableIds": 220
 }
