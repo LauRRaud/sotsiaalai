@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
 
+import RagAdminContactRegistryPanel from "./RagAdminContactRegistryPanel";
 import { getRagAdminCopy } from "./ragAdminCopy";
 import {
   ragAdminPageShellClassName,
@@ -53,6 +54,8 @@ export default function RagAdminLandingWorkspace({ locale }) {
               </Link>
             ))}
           </nav>
+
+          <RagAdminContactRegistryPanel />
         </div>
       </div>
     </section>
