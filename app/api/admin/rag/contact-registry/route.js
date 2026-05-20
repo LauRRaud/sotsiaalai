@@ -1,4 +1,5 @@
 import {
+  applyKovContactRegistryCheck,
   checkKovContactRegistryFromWeb,
   getKovContactRegistryStatus
 } from "@/lib/admin/rag/contactRegistry/service";
@@ -34,10 +35,14 @@ export async function POST(request) {
   }
 
   try {
-    const action = "web-check";
-    const result = await checkKovContactRegistryFromWeb({
-      maxUrls: Number(body?.maxUrls || 0) || 0
-    });
+    const action = String(body?.action || "web-check");
+    const result = action === "apply-check"
+      ? await applyKovContactRegistryCheck({
+          syncServiceMap: Boolean(body?.syncServiceMap)
+        })
+      : await checkKovContactRegistryFromWeb({
+          maxUrls: Number(body?.maxUrls || 0) || 0
+        });
     const status = await getKovContactRegistryStatus();
     return json({
       ok: true,

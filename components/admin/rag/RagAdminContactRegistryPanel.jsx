@@ -24,6 +24,13 @@ const buttonClassName =
 const primaryButtonClassName =
   `${buttonClassName} [background:color-mix(in_srgb,var(--documents-accent)_22%,var(--documents-content-bg)_78%)]`;
 const messageClassName = "mt-3 text-[0.86rem] leading-[1.45] text-[color:var(--documents-page-muted)]";
+const changeListClassName =
+  "mt-4 overflow-hidden rounded-[1rem] [background:color-mix(in_srgb,var(--documents-card-bg)_76%,rgba(255,255,255,0.10)_24%)] " +
+  "shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--documents-card-border)_70%,transparent)]";
+const changeRowClassName =
+  "grid gap-1 border-b border-[color:color-mix(in_srgb,var(--documents-card-border)_70%,transparent)] px-3 py-2.5 last:border-b-0 sm:grid-cols-[1.1fr_1fr_1fr]";
+const changeNameClassName = "text-[0.88rem] font-semibold leading-snug text-[color:var(--documents-page-text)]";
+const changeValueClassName = "min-w-0 break-words text-[0.82rem] leading-snug text-[color:var(--documents-page-muted)]";
 
 function formatValue(value) {
   if (value === null || value === undefined || value === "") return "-";
@@ -83,11 +90,35 @@ export default function RagAdminContactRegistryPanel() {
     }
   }, []);
 
+  const applyCheck = useCallback(async () => {
+    setBusy(true);
+    setMessage("Rakendan kontrollfaili põhifailiks...");
+    try {
+      const response = await fetch("/api/admin/rag/contact-registry", {
+        method: "POST",
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "apply-check" })
+      });
+      const data = await response.json();
+      if (!response.ok || !data?.ok) throw new Error(data?.message || "Kontrollfaili rakendamine ebaõnnestus");
+      setStatus(data.status);
+      setMessage(`Põhifail uuendatud. Varukoopia: ${data?.result?.backupFile || "-"}.`);
+    } catch (error) {
+      setMessage(error?.message || "Kontrollfaili rakendamine ebaõnnestus");
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
   useEffect(() => {
     loadStatus();
   }, [loadStatus]);
 
   const geocoding = useMemo(() => status?.serviceMap?.geocodingStatus || {}, [status]);
+  const emailChanges = status?.check?.emailChanges || [];
+  const canApplyCheck = Boolean(status?.check?.fileExists && status?.check?.reportExists && status?.check?.changedContacts > 0);
 
   return (
     <section className={panelClassName} aria-label="KOV ja LOV kontaktiregister">
@@ -130,12 +161,31 @@ export default function RagAdminContactRegistryPanel() {
         <button type="button" className={primaryButtonClassName} onClick={runWebCheck} disabled={busy}>
           Käivita veebikontroll
         </button>
+        <button type="button" className={buttonClassName} onClick={applyCheck} disabled={busy || !canApplyCheck}>
+          Uuenda põhifail
+        </button>
       </div>
 
       {message ? <p className={messageClassName}>{message}</p> : null}
+      {emailChanges.length > 0 ? (
+        <div className={changeListClassName} aria-label="E-posti muudatused">
+          {emailChanges.map((change) => (
+            <div key={`${change.index}-${change.field}`} className={changeRowClassName}>
+              <div className={changeNameClassName}>
+                {change.name || "Kontakt"} <span className={changeValueClassName}>({change.slug || "-"})</span>
+              </div>
+              <div className={changeValueClassName}>Vana: {change.oldValue || "-"}</div>
+              <div className={changeValueClassName}>Uus: {change.newValue || "-"}</div>
+            </div>
+          ))}
+        </div>
+      ) : status?.check?.reportExists ? (
+        <p className={messageClassName}>Viimases raportis e-posti muudatusi ei olnud.</p>
+      ) : null}
       {status?.check?.reportExists ? (
         <p className={messageClassName}>
           Viimane raport: {status.check.reportFile}; kandidaatfail: {status.check.outputFile}.
+          {status.check.appliedAt ? ` Rakendatud: ${status.check.appliedAt}.` : ""}
         </p>
       ) : null}
       {status?.generatedAt ? <p className={messageClassName}>Viimane koondamine: {status.generatedAt}</p> : null}

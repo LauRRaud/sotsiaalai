@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 
 import {
+  applyKovContactRegistryCheck,
   buildKovContactRegistry,
   checkKovContactRegistryFromWeb,
   refreshKovContactRegistry
@@ -100,6 +101,44 @@ test("web check writes comparison candidate without changing central contact fil
     const candidate = JSON.parse(await fs.readFile(path.join(kovRoot, "kov_kontaktid_loplik.kontroll.json"), "utf8"));
     assert.equal(central[0].email, null);
     assert.equal(candidate[0].email, "mari.maasikas@example.test");
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
+
+test("apply check promotes candidate to central file and keeps a backup", async () => {
+  const kovRoot = await makeTempKovRoot();
+  await fs.writeFile(
+    path.join(kovRoot, "kov_kontaktid_loplik.json"),
+    JSON.stringify([
+      {
+        slug: "test-vald",
+        municipality: "Test vald",
+        name: "Mari Maasikas",
+        email: null,
+        officialUrl: "https://example.test/kontakt"
+      }
+    ], null, 2)
+  );
+
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    text: async () => "<main>Mari Maasikas e-post mari.maasikas [ät] example.test</main>"
+  });
+
+  try {
+    await checkKovContactRegistryFromWeb({ kovRoot });
+    const result = await applyKovContactRegistryCheck({
+      kovRoot,
+      prisma: { serviceMapEntry: {} },
+      syncServiceMap: false
+    });
+    const central = JSON.parse(await fs.readFile(path.join(kovRoot, "kov_kontaktid_loplik.json"), "utf8"));
+    assert.equal(result.changedContacts, 1);
+    assert.equal(central[0].email, "mari.maasikas@example.test");
+    assert.match(result.backupFile, /^KOV\/kov_kontaktid_loplik\.bak-/);
   } finally {
     global.fetch = originalFetch;
   }
