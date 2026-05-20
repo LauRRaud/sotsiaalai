@@ -1230,6 +1230,14 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   display: none;
 }
 
+.service-map-toolbar__resultsmeta {
+  margin: 0 0 0.34rem;
+  font-size: 0.82rem;
+  line-height: 1.22;
+  color: var(--workspace-feature-muted, #64748b);
+  text-align: center;
+}
+
 .service-map-workspace__toggle {
   --service-map-toggle-color: #c57171;
   --service-map-toggle-arrow-color: #c57171;

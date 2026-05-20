@@ -1528,6 +1528,19 @@ function ServiceMapSurface({
   const panelCollapsed = isMobilePanel && !panelOpen;
   const hasResultFilter = Boolean(keyword.trim() || region.trim());
   const showResults = !loading && !error && hasResultFilter && filteredEntries.length > 0;
+  const resultsSummary = showResults
+    ? (
+      filteredEntries.length === 1
+        ? readText(t, "workspace_feature_pages.service_map.results_count_one", "1 kirje")
+        : readText(t, "workspace_feature_pages.service_map.results_count_many", "{count} kirjet")
+    ).replace("{count}", String(filteredEntries.length))
+    : "";
+  const scrollableResultsHint = readText(
+    t,
+    "workspace_feature_pages.service_map.results_scroll_hint",
+    "Keri nimekirja, et näha kõiki."
+  );
+  const shouldHintScrollableResults = showResults && filteredEntries.length > 12;
 
   return (
     <div
@@ -1625,34 +1638,40 @@ function ServiceMapSurface({
 
             <div className="service-map-toolbar__resultsblock">
               {showResults ? (
-                <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
-                  {filteredEntries.slice(0, SERVICE_MAP_RESULT_BUTTON_LIMIT).map((entry) => (
-                  <BorderGlow
-                    as="button"
-                    key={entry.id}
-                    type="button"
-                    data-variant="primary"
-                    data-selected={selectedEntryId === entry.id ? "true" : "false"}
-                    className={cn(
-                      "workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
-                      selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
-                    )}
-                    edgeSensitivity={22}
-                    glowColor="358 82 72"
-                    backgroundColor="var(--btn-primary-bg)"
-                    borderRadius={12}
-                    glowRadius={42}
-                    glowIntensity={0.62}
-                    coneSpread={20}
-                    fillOpacity={0}
-                    edgeOnly
-                    style={fieldEdgeGlowStyle}
-                    onClick={() => handleSelectEntry(entry.id)}
-                  >
-                    <span className="service-map-result-card__title text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
-                  </BorderGlow>
-                  ))}
-                </div>
+                <>
+                  <p className="service-map-toolbar__resultsmeta">
+                    <span>{resultsSummary}</span>
+                    {shouldHintScrollableResults ? <span> {scrollableResultsHint}</span> : null}
+                  </p>
+                  <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
+                    {filteredEntries.slice(0, SERVICE_MAP_RESULT_BUTTON_LIMIT).map((entry) => (
+                    <BorderGlow
+                      as="button"
+                      key={entry.id}
+                      type="button"
+                      data-variant="primary"
+                      data-selected={selectedEntryId === entry.id ? "true" : "false"}
+                      className={cn(
+                        "workspace-feature-list-card button invite-primary-btn service-map-toolbar__result-button ui-glow-button-frame ui-glow-button-control grid gap-[0.12rem] rounded-[0.72rem] border px-[0.62rem] py-[0.4rem] text-left transition",
+                        selectedEntryId === entry.id && "ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
+                      )}
+                      edgeSensitivity={22}
+                      glowColor="358 82 72"
+                      backgroundColor="var(--btn-primary-bg)"
+                      borderRadius={12}
+                      glowRadius={42}
+                      glowIntensity={0.62}
+                      coneSpread={20}
+                      fillOpacity={0}
+                      edgeOnly
+                      style={fieldEdgeGlowStyle}
+                      onClick={() => handleSelectEntry(entry.id)}
+                    >
+                      <span className="service-map-result-card__title text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
+                    </BorderGlow>
+                    ))}
+                  </div>
+                </>
               ) : null}
             </div>
         </div>
