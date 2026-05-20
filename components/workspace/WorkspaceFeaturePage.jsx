@@ -38,6 +38,7 @@ import ServiceMapLeaflet from "./ServiceMapLeaflet";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 const SERVICE_MAP_ENTRIES_FETCH_LIMIT = 2000;
+const SERVICE_MAP_RESULT_BUTTON_LIMIT = 56;
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
@@ -1625,7 +1626,7 @@ function ServiceMapSurface({
             <div className="service-map-toolbar__resultsblock">
               {showResults ? (
                 <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
-                  {filteredEntries.slice(0, 10).map((entry) => (
+                  {filteredEntries.slice(0, SERVICE_MAP_RESULT_BUTTON_LIMIT).map((entry) => (
                   <BorderGlow
                     as="button"
                     key={entry.id}

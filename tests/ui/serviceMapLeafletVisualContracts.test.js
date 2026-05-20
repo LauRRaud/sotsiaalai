@@ -31,6 +31,9 @@ test("service map Leaflet groups entries that share one coordinate", () => {
   assert.match(leafletSource, /group\.entries\.length > 99 \? "99\+"/);
   assert.match(css, /\.service-map-leaflet__marker--group\s*\{/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?overflow-y:\s*auto/);
+  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?max-height:\s*min\(11rem,\s*calc\(100vh - 18\.5rem\)\)/);
+  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?scrollbar-gutter:\s*stable both-edges/);
+  assert.match(leafletSource, /offset:\s*\[0,\s*-18\]/);
 });
 
 test("service map popup glass is applied on the wrapper immediately", () => {
@@ -204,8 +207,10 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.28rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(10\.5rem,\s*1fr\)\)[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.32rem/
   );
+  assert.match(source, /const SERVICE_MAP_RESULT_BUTTON_LIMIT = 56;/);
+  assert.match(source, /filteredEntries\.slice\(0,\s*SERVICE_MAP_RESULT_BUTTON_LIMIT\)\.map/);
   assert.doesNotMatch(
     source,
     /name="service-map-entry-type"[\s\S]*?fitTextLines/
@@ -327,7 +332,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*none[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.28rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*min\(10\.4rem,[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.32rem/
   );
   assert.match(
     css,
@@ -383,7 +388,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*fit-content/);
   assert.match(css, /\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*auto/);
   assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*100%/);
-  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*flex-start[\s\S]*?overflow-x:\s*auto[\s\S]*?overflow-y:\s*hidden/);
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*center[\s\S]*?overflow-x:\s*hidden[\s\S]*?overflow-y:\s*auto/);
 });
 
 test("service map popup and desktop one-line toolbar preserve glass and back alignment", () => {

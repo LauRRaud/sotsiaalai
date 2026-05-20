@@ -1220,8 +1220,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   align-content: start;
   min-width: 0;
   min-height: var(--service-map-results-row-height);
-  max-width: min(64rem, calc(100vw - 8.8rem));
-  width: min(64rem, calc(100vw - 8.8rem));
+  max-width: min(47rem, calc(100vw - 8.8rem));
+  width: min(47rem, calc(100vw - 8.8rem));
   overflow: visible;
   transform: none;
 }
@@ -1562,26 +1562,27 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-toolbar__results {
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  justify-content: center;
   align-items: stretch;
   min-width: 0;
   width: 100%;
   min-height: 0;
   height: auto;
-  max-height: none;
+  max-height: min(10.4rem, calc(100dvh - 14rem));
   gap: 0.34rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  padding: 0.12rem 0.24rem 0.28rem;
-  scrollbar-gutter: stable;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.12rem 0.24rem 0.32rem;
+  scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
 }
 
 .service-map-toolbar__results .service-map-toolbar__result-button {
   position: relative;
-  flex: 0 0 clamp(10.75rem, 12vw, 13.5rem);
+  width: 100%;
   min-height: 3.15rem;
   height: 3.15rem;
   max-height: none;
@@ -1895,11 +1896,11 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-popup__contacts {
   display: grid;
   gap: 0.38rem;
-  max-height: min(12.5rem, calc(100vh - 18.5rem));
+  max-height: min(11rem, calc(100vh - 18.5rem));
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-right: 0.18rem;
-  scrollbar-gutter: stable;
+  padding-inline: 0;
+  scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
 }
 
@@ -1968,21 +1969,33 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   font-size: 0.82rem;
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
+:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper {
   background-color: rgba(255, 255, 255, 0.86) !important;
   background-image: var(--glass-ring-sheen, none);
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
+:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
   background-color: rgba(255, 255, 255, 0.86);
   background-image: var(--glass-ring-sheen, none);
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip,
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
+:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip {
   background-color: rgba(255, 255, 255, 0.9);
+  background-image: var(--glass-ring-sheen, none);
+}
+
+:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
+  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 92%, transparent) !important;
+  background-image: var(--glass-ring-sheen, none);
+}
+
+:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
+  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 92%, transparent);
+  background-image: var(--glass-ring-sheen, none);
+}
+
+:root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
+  background-color: color-mix(in srgb, var(--service-map-panel-glass-bg, var(--service-map-popup-glass-bg)) 94%, transparent);
   background-image: var(--glass-ring-sheen, none);
 }
 
@@ -2338,6 +2351,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
   .service-map-toolbar__results {
     max-height: 3.1rem;
+  }
+
+  .service-map-workspace--toolbar-feedback .service-map-toolbar__results {
+    max-height: min(10.4rem, calc(100dvh - 14rem));
   }
 }
 
