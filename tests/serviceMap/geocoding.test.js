@@ -216,6 +216,39 @@ test("Maa- ja Ruumiamet provider retries room addresses with municipality contex
   assert.ok(queries.includes("Rahu 15, Tartu linn"));
 });
 
+test("Maa- ja Ruumiamet provider accepts Tallinn short context for Tallinna linn entries", async () => {
+  process.env.SERVICE_MAP_GEOCODER_PROVIDER = "maaruum";
+  const queries = [];
+  globalThis.fetch = async (url) => {
+    const query = url.searchParams.get("address");
+    queries.push(query);
+    if (query !== "Metalli 5, Tallinn") {
+      return Response.json({ addresses: [] });
+    }
+    return Response.json({
+      addresses: [
+        {
+          ipikkaadress: "Metalli tn 5, Kristiine linnaosa, Tallinn, Harju maakond",
+          adr_id: "tallinn-metalli-5",
+          viitepunkt_b: 59.42123,
+          viitepunkt_l: 24.70456,
+          kvaliteet: "tapne_nr",
+          primary: "true"
+        }
+      ]
+    });
+  };
+
+  const result = await geocodeServiceMapAddress("Kristiine: Metalli 5, Tallinn", {
+    municipalityName: "Tallinna linn",
+    county: "Harjumaa"
+  });
+
+  assert.equal(result.status, "MATCHED");
+  assert.equal(result.normalizedAddress, "Metalli tn 5, Kristiine linnaosa, Tallinn, Harju maakond");
+  assert.ok(queries.includes("Metalli 5, Tallinn"));
+});
+
 test("Maa- ja Ruumiamet provider resolves service point labels to settlement with county context", async () => {
   process.env.SERVICE_MAP_GEOCODER_PROVIDER = "maaruum";
   const queries = [];

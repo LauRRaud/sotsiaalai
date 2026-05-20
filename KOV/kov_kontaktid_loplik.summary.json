@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T16:54:33.755Z",
+  "generatedAt": "2026-05-20T17:16:47.837Z",
   "sourceFolder": "KOV/Kodeerimine",
   "sourceFiles": [
     "kov_sotsiaalhoolekande_kontaktid_01_05.json",
@@ -47,5 +47,6 @@
   "tallinnLovContacts": 220,
   "tallinnLovDistricts": 8,
   "tallinnLovAddressFallbacks": 11,
-  "tallinnLovStableIds": 220
+  "tallinnLovStableIds": 220,
+  "tallinnLovAddressCleanups": 15
 }
