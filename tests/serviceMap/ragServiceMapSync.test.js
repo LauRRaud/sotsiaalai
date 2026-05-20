@@ -62,7 +62,7 @@ test("sync reads ingested KOV contact chunks from RAG and upserts map entries", 
     municipalityKovAdmin: {
       findMany: async () => [
         {
-          ragDocId: "kov-parnu-linn",
+          ragDocId: "kov::parnu-linn::bundle",
           ingestStatus: "INGESTED",
           municipality
         }
@@ -78,10 +78,9 @@ test("sync reads ingested KOV contact chunks from RAG and upserts map entries", 
   };
   const ragClient = {
     listDocumentChunks: async (docId, filters) => {
-      assert.equal(docId, "kov-parnu-linn");
+      assert.equal(docId, "kov::parnu-linn::bundle");
       assert.deepEqual(filters, {
-        itemType: "contact",
-        sourceType: "municipality_kov"
+        itemType: "contact"
       });
       return [contactChunk];
     }
