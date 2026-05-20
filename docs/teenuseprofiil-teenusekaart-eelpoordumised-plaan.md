@@ -425,6 +425,7 @@ Lisatud ServiceMapEntry geokodeerimise MVP kiht:
 - vaikimisi ei kutsuta välist geoteenust ja aadress jääb `PENDING` olekusse, kuni provider on seadistatud;
 - toetatud on fixture-põhine MVP (`SERVICE_MAP_GEOCODER_PROVIDER=fixture` koos `SERVICE_MAP_GEOCODER_FIXTURES` või `SERVICE_MAP_GEOCODER_FIXTURE_FILE`);
 - toetatud on Nominatim adapter (`SERVICE_MAP_GEOCODER_PROVIDER=nominatim`) ajutise MVP variandina, kuni Maa- ja Ruumiameti/In-ADS adapter on täpselt ühendatud;
+- toetatud on Maa- ja Ruumiameti In-AKS Gazetteer adapter (`SERVICE_MAP_GEOCODER_PROVIDER=maaruum`, aliasena `maaamet`, `inaks` või `aks`), vaikimisi endpointiga `https://aks.geoportaal.ee/inaks/inaadress/gazetteer`;
 - mitme vaste korral märgitakse kirje `AMBIGUOUS`, mitte ei valita juhuslikult esimest vastet;
 - kindla vaste korral salvestatakse `normalizedAddress`, `latitude`, `longitude`, `adsObjectId`, `geocodingRaw` ja `checkedAt`;
 - `NEEDS_REVIEW` või avaldatav KOV kirje tõstetakse kindla vaste korral `PUBLISHED` olekusse;
@@ -450,6 +451,14 @@ Näidis fixture:
     "adsObjectId": "ADS_TULEVANE_ID"
   }
 }
+```
+
+Maa- ja Ruumiameti In-AKS näidisseadistus:
+
+```env
+SERVICE_MAP_GEOCODER_PROVIDER=maaruum
+SERVICE_MAP_MAARUUM_GEOCODER_URL=https://aks.geoportaal.ee/inaks/inaadress/gazetteer
+SERVICE_MAP_GEOCODER_USER_AGENT=SotsiaalAI/1.0 admin@sotsiaal.ai
 ```
 
 Uued seotud failid:
