@@ -4,7 +4,7 @@
 
 This package gives the system a clean, machine-readable manifest for KOV RT/legal layer ingest.
 
-Use `kov_rt_manifest.json` as the primary source. TSV is for manual review. XML is optional.
+Use `kov_rt_manifest.json` as the primary source. The local `.xml` files are the current RT source snapshots used for reproducible ingest and update checks.
 
 ## Important architecture rule
 
@@ -37,6 +37,6 @@ If multiple XML files exist and none matches manifest `xml_file`, do not choose 
 
 ## Summary
 
-- Entries: 69
-- auto_ingest=true: 67
+- Entries: 78
+- auto_ingest=true: 76
 - needs_review: 2

@@ -9,6 +9,8 @@ import {
 import { localizePath } from "@/lib/localizePath";
 
 import RagAdminContactRegistryPanel from "./RagAdminContactRegistryPanel";
+import RagAdminKovSourceMonitorPanel from "./RagAdminKovSourceMonitorPanel";
+import RagAdminRtRegistryPanel from "./RagAdminRtRegistryPanel";
 import { getRagAdminCopy } from "./ragAdminCopy";
 import {
   ragAdminPageShellClassName,
@@ -56,6 +58,8 @@ export default function RagAdminLandingWorkspace({ locale }) {
           </nav>
 
           <RagAdminContactRegistryPanel />
+          <RagAdminKovSourceMonitorPanel />
+          <RagAdminRtRegistryPanel />
         </div>
       </div>
     </section>
