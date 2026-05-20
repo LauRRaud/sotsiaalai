@@ -75,6 +75,13 @@ function groupedEntriesByCoordinates(entries = []) {
   });
 }
 
+function groupForEntryId(entries = [], entryId = "") {
+  if (!entryId) return null;
+  return groupedEntriesByCoordinates(entries).find((group) =>
+    group.entries.some((entry) => entry?.id === entryId)
+  ) || null;
+}
+
 function shortText(value, maxLength = 240) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   if (!text) return "";
@@ -140,13 +147,21 @@ function appendActionLink(parent, href, label, options = {}) {
   const link = document.createElement("a");
   link.href = href;
   link.className = "service-map-popup__action";
+  link.target = options.target || "_self";
   if (options.target) link.target = options.target;
   if (options.rel) link.rel = options.rel;
+  const stopMapInteraction = (event) => {
+    event.stopPropagation();
+  };
+  link.addEventListener("pointerdown", stopMapInteraction);
+  link.addEventListener("mousedown", stopMapInteraction);
+  link.addEventListener("mouseup", stopMapInteraction);
+  link.addEventListener("touchstart", stopMapInteraction, { passive: true });
   if (options.forceLocation) {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
-      window.location.href = href;
+      window.location.assign(href);
     });
   } else {
     link.addEventListener("click", (event) => {
@@ -541,10 +556,12 @@ export default function ServiceMapLeaflet({
         selectedEntryIdRef.current
       ), {
         className: "service-map-leaflet__popup",
-        maxWidth: group.entries.length > 1 ? 380 : 296,
-        minWidth: group.entries.length > 1 ? 260 : 216,
-        autoPanPaddingTopLeft: [24, 176],
-        autoPanPaddingBottomRight: [24, 84]
+        maxWidth: group.entries.length > 1 ? 460 : 296,
+        minWidth: group.entries.length > 1 ? 320 : 216,
+        autoPan: true,
+        keepInView: true,
+        autoPanPaddingTopLeft: [28, 128],
+        autoPanPaddingBottomRight: [28, 84]
       });
       marker.on("click", () => {
         onSelectEntryRef.current?.(group.primaryEntry?.id);
@@ -573,7 +590,6 @@ export default function ServiceMapLeaflet({
       window.cancelAnimationFrame(popupOpenFrameRef.current);
       popupOpenFrameRef.current = 0;
     }
-    mapRef.current.closePopup?.();
 
     const groups = groupedEntriesByCoordinates(entries);
     for (const group of groups) {
@@ -590,12 +606,26 @@ export default function ServiceMapLeaflet({
       );
     }
 
-    if (!selectedEntryId) return;
+    if (!selectedEntryId) {
+      mapRef.current.closePopup?.();
+      return;
+    }
 
     const selectedMarker = markerRefs.current.get(selectedEntryId);
     const selectedEntry = entries.find((entry) => entry.id === selectedEntryId);
     const selectedCoordinates = entryCoordinates(selectedEntry);
     if (selectedMarker && selectedCoordinates) {
+      const selectedGroup = groupForEntryId(entries, selectedEntryId);
+      if (selectedMarker.isPopupOpen?.() && selectedGroup) {
+        selectedMarker.setPopupContent(createGroupedPopupContent(
+          selectedGroup,
+          tRef.current,
+          onSelectEntryRef.current,
+          selectedEntryId
+        ));
+        return;
+      }
+
       mapRef.current.flyTo(selectedCoordinates, Math.max(mapRef.current.getZoom(), 11), { duration: 0.45 });
       popupOpenFrameRef.current = window.requestAnimationFrame(() => {
         popupOpenFrameRef.current = 0;

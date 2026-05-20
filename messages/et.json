@@ -666,7 +666,7 @@
       },
       "placeholders": {
         "keyword": "Teenus, kontakt või vajadus",
-        "region": "KOV või maakond"
+        "region": "KOV, asula või maakond"
       },
       "types": {
         "all": "Kõik",

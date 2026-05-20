@@ -1483,7 +1483,10 @@ function ServiceMapSurface({
       const regionText = [
         entry.municipalityName,
         entry.municipality?.displayName,
-        entry.county
+        entry.county,
+        entry.address,
+        entry.providerProfile?.serviceArea,
+        ...(entry.providerProfile?.serviceAreas || [])
       ].join(" ").toLocaleLowerCase("et");
       return (!query || haystack.includes(query)) && (!regionQuery || regionText.includes(regionQuery));
     });

@@ -666,7 +666,7 @@
       },
       "placeholders": {
         "keyword": "Service, contact, or need",
-        "region": "Municipality or county"
+        "region": "Municipality, settlement, or county"
       },
       "types": {
         "all": "All",

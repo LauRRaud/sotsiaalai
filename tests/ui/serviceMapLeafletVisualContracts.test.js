@@ -52,9 +52,14 @@ test("service map popup glass is applied on the wrapper immediately", () => {
     /mapRef\.current\.closePopup\?\.\(\);\s*markerLayerRef\.current\.clearLayers\(\);/
   );
   assert.match(leafletSource, /fadeAnimation:\s*false/);
+  assert.match(leafletSource, /function groupForEntryId/);
   assert.match(
     leafletSource,
-    /mapRef\.current\.closePopup\?\.\(\);[\s\S]*?if \(!selectedEntryId\) return;/
+    /if \(!selectedEntryId\) \{\s*mapRef\.current\.closePopup\?\.\(\);\s*return;\s*\}/
+  );
+  assert.match(
+    leafletSource,
+    /selectedMarker\.isPopupOpen\?\.\(\)[\s\S]*?selectedMarker\.setPopupContent\(createGroupedPopupContent/
   );
   assert.match(
     leafletSource,
@@ -199,7 +204,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.28rem/
   );
   assert.doesNotMatch(
     source,
@@ -322,7 +327,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*var\(--service-map-results-row-height\)[\s\S]*?padding:\s*0\.08rem 0\.22rem 0\.08rem/
+    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*none[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.28rem/
   );
   assert.match(
     css,
@@ -355,6 +360,8 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(source, /const workspaceRef = useRef\(null\);/);
   assert.match(source, /const filtersShellRef = useRef\(null\);/);
   assert.match(source, /const hasResultFilter = Boolean\(keyword\.trim\(\) \|\| region\.trim\(\)\);/);
+  assert.match(source, /entry\.address/);
+  assert.match(source, /entry\.providerProfile\?\.serviceAreas/);
   assert.match(source, /const showResults = !loading && !error && hasResultFilter && filteredEntries\.length > 0;/);
   assert.doesNotMatch(source, /hasToolbarFeedback/);
   assert.match(source, /"service-map-workspace--toolbar-feedback"/);
