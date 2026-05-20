@@ -135,6 +135,51 @@ test("sync normalizes legacy KOV admin ragDocId to current bundle doc id", async
   assert.equal(result.failedDocuments, 0);
 });
 
+test("sync retries underscore KOV bundle doc id for legacy slug mismatches", async () => {
+  const requested = [];
+  const prisma = {
+    municipalityKovAdmin: {
+      findMany: async () => [
+        {
+          ragDocId: "kov-antsla-vald",
+          ingestStatus: "INGESTED",
+          municipality: {
+            ...municipality,
+            slug: "antsla-vald"
+          }
+        }
+      ]
+    },
+    serviceMapEntry: {
+      findUnique: async () => null,
+      upsert: async () => {
+        throw new Error("dry run should not upsert");
+      }
+    }
+  };
+  const ragClient = {
+    listDocumentChunks: async (docId) => {
+      requested.push(docId);
+      if (docId === "kov::antsla-vald::bundle") {
+        const error = new Error("RAG chunk request failed: HTTP 404");
+        error.status = 404;
+        throw error;
+      }
+      assert.equal(docId, "kov::antsla_vald::bundle");
+      return [];
+    }
+  };
+
+  const result = await syncKovContactsFromRagToServiceMap({
+    prisma,
+    ragClient,
+    dryRun: true
+  });
+
+  assert.deepEqual(requested, ["kov::antsla-vald::bundle", "kov::antsla_vald::bundle"]);
+  assert.equal(result.failedDocuments, 0);
+});
+
 test("service provider RAG organization document maps to a service-map entry", () => {
   const entry = mapServiceProviderRagDocumentToServiceMapEntry({
     docId: "organization-astangu",
