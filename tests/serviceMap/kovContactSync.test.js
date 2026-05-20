@@ -82,6 +82,103 @@ test("sync reads central KOV contact registry before folder contact items", asyn
   assert.equal(upserts[0].create.sourceUrl, "https://parnu.ee/sotsiaal");
 });
 
+test("central contact with multiple reception locations creates one map entry per location", async () => {
+  const kovRoot = await makeTempKovRoot();
+  await fs.writeFile(
+    path.join(kovRoot, "kov_kontaktid_loplik.json"),
+    JSON.stringify([
+      {
+        slug: "laane-nigula-vald",
+        municipality: "Laane-Nigula vald",
+        county: "Laanemaa",
+        name: "Maire Koppelmaa",
+        role: "sotsiaaltoo spetsialist",
+        phone: "518 7159",
+        email: "maire.koppelmaa@example.test",
+        address: "Noarootsi osavallamaja; Nova osavallamaja; Oru osavallamaja"
+      }
+    ])
+  );
+
+  const prisma = {
+    municipality: {
+      findFirst: async () => ({
+        id: "laane-nigula-id",
+        slug: "laane-nigula-vald",
+        displayName: "Laane-Nigula vald",
+        county: "Laanemaa"
+      })
+    },
+    serviceMapEntry: {
+      findUnique: async () => null,
+      upsert: async () => {
+        throw new Error("dry run should not upsert");
+      }
+    }
+  };
+
+  const result = await syncKovContactsToServiceMap({
+    kovRoot,
+    prisma,
+    dryRun: true
+  });
+
+  assert.equal(result.scannedContacts, 1);
+  assert.equal(result.entries.length, 3);
+  assert.deepEqual(result.entries.map((entry) => entry.address), [
+    "Noarootsi osavallamaja",
+    "Nova osavallamaja",
+    "Oru osavallamaja"
+  ]);
+  assert.equal(new Set(result.entries.map((entry) => entry.id)).size, 3);
+  assert.ok(result.entries.every((entry) => entry.description.includes("Vastuv")));
+});
+
+test("central contact without address uses municipality office fallback when known", async () => {
+  const kovRoot = await makeTempKovRoot();
+  await fs.writeFile(
+    path.join(kovRoot, "kov_kontaktid_loplik.json"),
+    JSON.stringify([
+      {
+        slug: "alutaguse-vald",
+        municipality: "Alutaguse vald",
+        county: "Ida-Virumaa",
+        name: "Nelli Kuldmaa",
+        role: "haridus- ja noorsootoo",
+        phone: "5555 0000",
+        email: "nelli.kuldmaa@example.test"
+      }
+    ])
+  );
+
+  const prisma = {
+    municipality: {
+      findFirst: async () => ({
+        id: "alutaguse-id",
+        slug: "alutaguse-vald",
+        displayName: "Alutaguse vald",
+        county: "Ida-Virumaa"
+      })
+    },
+    serviceMapEntry: {
+      findUnique: async () => null,
+      upsert: async () => {
+        throw new Error("dry run should not upsert");
+      }
+    }
+  };
+
+  const result = await syncKovContactsToServiceMap({
+    kovRoot,
+    prisma,
+    dryRun: true
+  });
+
+  assert.equal(result.entries.length, 1);
+  assert.equal(result.entries[0].address, "Tartu mnt 56, Iisaku alevik, Alutaguse vald, 41101");
+  assert.equal(result.entries[0].geocodingStatus, "PENDING");
+});
+
 test("central contacts with same title get stable distinct ids from name and email", async () => {
   const kovRoot = await makeTempKovRoot();
   await fs.writeFile(
