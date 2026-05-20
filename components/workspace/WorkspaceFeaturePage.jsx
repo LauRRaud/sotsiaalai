@@ -1528,19 +1528,6 @@ function ServiceMapSurface({
   const panelCollapsed = isMobilePanel && !panelOpen;
   const hasResultFilter = Boolean(keyword.trim() || region.trim());
   const showResults = !loading && !error && hasResultFilter && filteredEntries.length > 0;
-  const resultsSummary = showResults
-    ? (
-      filteredEntries.length === 1
-        ? readText(t, "workspace_feature_pages.service_map.results_count_one", "1 kirje")
-        : readText(t, "workspace_feature_pages.service_map.results_count_many", "{count} kirjet")
-    ).replace("{count}", String(filteredEntries.length))
-    : "";
-  const scrollableResultsHint = readText(
-    t,
-    "workspace_feature_pages.service_map.results_scroll_hint",
-    "Keri nimekirja, et näha kõiki."
-  );
-  const shouldHintScrollableResults = showResults && filteredEntries.length > 12;
 
   return (
     <div
@@ -1638,13 +1625,8 @@ function ServiceMapSurface({
 
             <div className="service-map-toolbar__resultsblock">
               {showResults ? (
-                <>
-                  <p className="service-map-toolbar__resultsmeta">
-                    <span>{resultsSummary}</span>
-                    {shouldHintScrollableResults ? <span> {scrollableResultsHint}</span> : null}
-                  </p>
-                  <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
-                    {filteredEntries.slice(0, SERVICE_MAP_RESULT_BUTTON_LIMIT).map((entry) => (
+                <div className="service-map-toolbar__results" aria-label={readText(t, "workspace_feature_pages.service_map.results", "Tulemused")}>
+                  {filteredEntries.slice(0, SERVICE_MAP_RESULT_BUTTON_LIMIT).map((entry) => (
                     <BorderGlow
                       as="button"
                       key={entry.id}
@@ -1669,9 +1651,8 @@ function ServiceMapSurface({
                     >
                       <span className="service-map-result-card__title text-[0.98rem] font-[760] leading-[1.14]">{entry.title}</span>
                     </BorderGlow>
-                    ))}
-                  </div>
-                </>
+                  ))}
+                </div>
               ) : null}
             </div>
         </div>

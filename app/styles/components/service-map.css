@@ -1216,26 +1216,18 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   display: grid;
   grid-column: 1 / -1;
   align-self: start;
-  justify-items: center;
+  justify-items: stretch;
   align-content: start;
   min-width: 0;
   min-height: var(--service-map-results-row-height);
-  max-width: min(47rem, calc(100vw - 8.8rem));
-  width: min(47rem, calc(100vw - 8.8rem));
+  max-width: 100%;
+  width: 100%;
   overflow: visible;
   transform: none;
 }
 
 .service-map-toolbar__resultsblock:empty {
   display: none;
-}
-
-.service-map-toolbar__resultsmeta {
-  margin: 0 0 0.34rem;
-  font-size: 0.82rem;
-  line-height: 1.22;
-  color: var(--workspace-feature-muted, #64748b);
-  text-align: center;
 }
 
 .service-map-workspace__toggle {
@@ -1572,13 +1564,13 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__results {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
-  justify-content: center;
+  justify-content: stretch;
   align-items: stretch;
   min-width: 0;
   width: 100%;
   min-height: 0;
   height: auto;
-  max-height: min(10.4rem, calc(100dvh - 14rem));
+  max-height: min(10.95rem, calc(100dvh - 14rem));
   gap: 0.34rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -2368,7 +2360,7 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace--toolbar-feedback .service-map-toolbar__results {
-    max-height: min(10.4rem, calc(100dvh - 14rem));
+    max-height: min(10.95rem, calc(100dvh - 14rem));
   }
 }
 
