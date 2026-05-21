@@ -3,6 +3,16 @@ import assert from "node:assert/strict";
 
 import { detectMentionedMunicipalitiesFromUserText } from "../../lib/chat/requestContext.js";
 
+test("detectMentionedMunicipalitiesFromUserText resolves Tallinn locative service questions", async () => {
+  const matches = await detectMentionedMunicipalitiesFromUserText(
+    [],
+    "Elan Tallinnas. Milliseid teenuseid ja toetusi saan kysida, kui vajan koduteenust voi hooldusabi eakale lahedasele?"
+  );
+
+  assert.deepEqual(matches.map(item => item.id), ["tallinn"]);
+  assert.deepEqual(matches.map(item => item.displayName), ["Tallinn"]);
+});
+
 test("detectMentionedMunicipalitiesFromUserText distinguishes Viljandi vald inflection from city", async () => {
   const matches = await detectMentionedMunicipalitiesFromUserText(
     [],
