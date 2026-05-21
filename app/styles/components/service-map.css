@@ -206,6 +206,79 @@ html[data-contrast="hc"] .service-profile-glow-field > .edgeLight {
   display: block !important;
 }
 
+.service-profile-address-field {
+  position: relative;
+  z-index: 190;
+  display: grid;
+  gap: 0.46rem;
+  width: 100%;
+}
+
+.service-profile-address-suggestions {
+  position: relative;
+  z-index: 180;
+  display: grid;
+  max-height: min(18rem, 42vh);
+  overflow-y: auto;
+  border: 1px solid var(--workspace-feature-border-strong);
+  border-radius: 0.95rem;
+  background: var(--opaque-panel-bg, var(--workspace-feature-surface-strong, #1e222a));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    var(--workspace-feature-shadow, 0 18px 42px rgba(0, 0, 0, 0.22));
+  padding: 0.34rem;
+}
+
+.service-profile-address-suggestion {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 0.72rem;
+  background: transparent;
+  color: var(--workspace-feature-text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.62rem 0.72rem;
+  text-align: left;
+}
+
+.service-profile-address-suggestion:hover,
+.service-profile-address-suggestion:focus-visible {
+  background: var(--workspace-feature-surface-hover);
+  outline: none;
+}
+
+.service-profile-address-suggestions__state,
+.service-profile-address-selected {
+  margin: 0;
+  color: var(--workspace-feature-text);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  opacity: 0.78;
+}
+
+.service-profile-address-suggestions__state {
+  padding: 0.62rem 0.72rem;
+}
+
+.service-profile-address-selected {
+  padding-inline: 0.08rem;
+}
+
+:root.theme-light .service-profile-address-suggestions,
+:root.theme-mid .service-profile-address-suggestions {
+  background: var(--opaque-panel-bg, #f8f8f7);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
+    0 16px 34px rgba(82, 50, 46, 0.14);
+}
+
+html[data-contrast="hc"] .service-profile-address-suggestions {
+  background: #000;
+  border-color: var(--hc-accent, #ffea00);
+  box-shadow: inset 0 0 0 2px var(--hc-accent, #ffea00);
+}
+
 :root.theme-light .workspace-feature-panel:not(.theme-mid),
 :root.theme-mid .workspace-feature-panel {
   --workspace-feature-option-bg: var(--chat-ui-solid-surface, #f8f8f7);

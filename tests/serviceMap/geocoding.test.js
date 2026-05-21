@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { geocodeServiceMapAddress } from "../../lib/serviceMap/geocoding.js";
+import { geocodeServiceMapAddress, suggestServiceMapAddresses } from "../../lib/serviceMap/geocoding.js";
 
 const originalFetch = globalThis.fetch;
 const originalProvider = process.env.SERVICE_MAP_GEOCODER_PROVIDER;
@@ -16,6 +16,37 @@ function restoreEnv() {
 }
 
 test.afterEach(restoreEnv);
+
+test("Maa- ja Ruumiamet suggestions expose selectable official address candidates", async () => {
+  process.env.SERVICE_MAP_GEOCODER_PROVIDER = "maaruum";
+  const queries = [];
+  globalThis.fetch = async (url, options) => {
+    queries.push(url.searchParams.get("address"));
+    assert.equal(options.headers.Accept, "application/json");
+    return Response.json({
+      addresses: [
+        {
+          ipikkaadress: "Teenuste tn 2, Tabasalu alevik, Harku vald, Harju maakond",
+          adr_id: "tabasalu-teenuste-2",
+          viitepunkt_b: "59.429",
+          viitepunkt_l: "24.546",
+          kvaliteet: "tapne_lahiaadress"
+        }
+      ]
+    });
+  };
+
+  const result = await suggestServiceMapAddresses("Taba", { limit: 5 });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.provider, "maaruum");
+  assert.deepEqual(queries, ["Taba"]);
+  assert.equal(result.suggestions.length, 1);
+  assert.equal(result.suggestions[0].normalizedAddress, "Teenuste tn 2, Tabasalu alevik, Harku vald, Harju maakond");
+  assert.equal(result.suggestions[0].latitude, 59.429);
+  assert.equal(result.suggestions[0].longitude, 24.546);
+  assert.equal(result.suggestions[0].adsObjectId, "tabasalu-teenuste-2");
+});
 
 test("Maa- ja Ruumiamet provider maps In-AKS Gazetteer address response", async () => {
   process.env.SERVICE_MAP_GEOCODER_PROVIDER = "maaruum";

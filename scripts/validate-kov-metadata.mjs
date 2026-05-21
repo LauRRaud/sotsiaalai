@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { loadManifest, pathsForSlug, readJson, validateKovBundle } from "./kovMetadataUpgradeLib.mjs";
+import { loadManifest, pathsForSlug, validateKovBundle } from "./kovMetadataUpgradeLib.mjs";
 
 function parseArgs(argv) {
   const args = { root: "KOV", manifest: "config/kov-metadata-upgrade-manifest.json", slug: "" };
@@ -27,12 +27,16 @@ function usage() {
 function entryFromSlug(slug, root) {
   const paths = pathsForSlug(slug, root);
   if (!fs.existsSync(paths.meta)) throw new Error(`${slug}: missing ${paths.meta}`);
-  const meta = readJson(paths.meta);
+  const municipalityName = String(slug || "")
+    .split("-")
+    .filter(Boolean)
+    .map(part => part.charAt(0).toLocaleUpperCase("et") + part.slice(1))
+    .join(" ");
   return {
     slug,
-    municipality_id: meta.municipality_id || slug.replace(/-/g, "_"),
-    municipality_name: meta.municipality_name || meta.municipality || slug,
-    county: meta.county || null
+    municipality_id: slug.replace(/-/g, "_"),
+    municipality_name: municipalityName,
+    county: null
   };
 }
 

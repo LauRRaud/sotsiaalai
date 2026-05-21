@@ -68,3 +68,63 @@ test("KOV admin sources validation rejects sources without identifier", () => {
   assert.equal(result.validationStatus, "INVALID");
   assert.match(result.validationMessage, /source id/i);
 });
+
+test("KOV admin data validation accepts v2.5 item_type and source_keys aliases", () => {
+  const result = validateKovFileContent({
+    fileKey: "dataJson",
+    text: JSON.stringify({
+      municipality: "Test vald",
+      items: [
+        {
+          id: "test_vald_service_koduteenus",
+          item_type: "service",
+          title: "Koduteenus",
+          source_keys: ["koduteenus_page"]
+        }
+      ]
+    }),
+    slug: "test-vald",
+    displayName: "Test vald"
+  });
+
+  assert.equal(result.validationStatus, "VALID");
+});
+
+test("KOV admin meta validation accepts v2.5 source package shape without legacy notes", () => {
+  const result = validateKovFileContent({
+    fileKey: "metaJson",
+    text: JSON.stringify({
+      schemaVersion: "kov-meta-v2.5-sourcepackage",
+      municipality: "Test vald",
+      municipality_id: "test_vald",
+      collection_id: "kov_services",
+      sourcePackageReadiness: {
+        ok: true
+      }
+    }),
+    slug: "test-vald",
+    displayName: "Test vald"
+  });
+
+  assert.equal(result.validationStatus, "VALID");
+});
+
+test("KOV admin meta validation rejects mismatched municipality", () => {
+  const result = validateKovFileContent({
+    fileKey: "metaJson",
+    text: JSON.stringify({
+      schemaVersion: "kov-meta-v2.5-sourcepackage",
+      municipality: "Märjamaa vald",
+      municipality_id: "marjamaa_vald",
+      collection_id: "kov_services",
+      sourcePackageReadiness: {
+        ok: true
+      }
+    }),
+    slug: "maardu-linn",
+    displayName: "Maardu linn"
+  });
+
+  assert.equal(result.validationStatus, "INVALID");
+  assert.match(result.validationMessage, /Municipality does not match/i);
+});

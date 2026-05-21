@@ -107,9 +107,13 @@ async function main() {
   }
 
   let slugs = listKovBundleSlugs(args.root);
-  const excluded = new Set(args.excludeSlugs.filter(Boolean));
-  slugs = slugs.filter(slug => !excluded.has(slug));
   if (args.slug) slugs = slugs.filter(slug => slug === args.slug);
+  const excluded = new Set(
+    args.excludeSlugs
+      .filter(Boolean)
+      .filter(slug => !args.slug || slug !== args.slug)
+  );
+  slugs = slugs.filter(slug => !excluded.has(slug));
   if (args.limit > 0) slugs = slugs.slice(0, args.limit);
 
   console.log(JSON.stringify({

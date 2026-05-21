@@ -719,6 +719,7 @@
       "summary": {
         "status": "Staatus",
         "price": "Hind",
+        "map_status": "Teenusekaart",
         "map_ready": "Kaardil kuvamiseks valmis",
         "map_not_ready": "Kaardil veel ei kuvata"
       },
@@ -779,6 +780,11 @@
         "ambiguous": "Aadress vajab täpsustamist enne kaardil kuvamist.",
         "failed": "Aadressile ei leitud veel vastet. Markerit kaardil ei kuvata."
       },
+      "address_search": {
+        "loading": "Otsin aadresse...",
+        "selected": "Valitud ametlik aadressivaste:",
+        "error": "Aadressisoovitusi ei saanud laadida."
+      },
       "map_preview_empty": "Aadressi vaste eelvaade ilmub pärast geokodeerimist.",
       "publish_help": "Mustand ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet.",
       "outputs": {
@@ -794,7 +800,8 @@
       "save_success": "Teenuseprofiil salvestatud.",
       "errors": {
         "load_failed": "Teenuseprofiili laadimine ebaõnnestus.",
-        "save_failed": "Teenuseprofiili salvestamine ebaõnnestus."
+        "save_failed": "Teenuseprofiili salvestamine ebaõnnestus.",
+        "address_suggestions_failed": "Aadressisoovitusi ei saanud laadida."
       }
     },
     "admin_role": {

@@ -719,6 +719,7 @@
       "summary": {
         "status": "Status",
         "price": "Price",
+        "map_status": "Service map",
         "map_ready": "Ready for map",
         "map_not_ready": "Not shown on map yet"
       },
@@ -779,6 +780,11 @@
         "ambiguous": "The address needs clarification before it can be shown on the map.",
         "failed": "The address could not be matched yet. The marker is not shown on the map."
       },
+      "address_search": {
+        "loading": "Searching addresses...",
+        "selected": "Official address match selected:",
+        "error": "Address suggestions could not be loaded."
+      },
       "map_preview_empty": "Address match preview appears after geocoding.",
       "publish_help": "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears.",
       "outputs": {
@@ -794,7 +800,8 @@
       "save_success": "Service profile saved.",
       "errors": {
         "load_failed": "Service profile could not be loaded.",
-        "save_failed": "Service profile could not be saved."
+        "save_failed": "Service profile could not be saved.",
+        "address_suggestions_failed": "Address suggestions could not be loaded."
       }
     },
     "admin_role": {

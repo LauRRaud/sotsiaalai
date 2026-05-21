@@ -1716,6 +1716,7 @@ function splitList(value) {
 }
 
 function createServiceProfileForm(profile = null) {
+  const mapEntry = profile?.serviceMapEntry || null;
   return {
     organizationName: profile?.organizationName || "",
     shortDescription: profile?.shortDescription || "",
@@ -1726,6 +1727,11 @@ function createServiceProfileForm(profile = null) {
     serviceAreaMunicipalityIds: joinList(profile?.serviceAreaMunicipalityIds),
     county: profile?.county || "",
     address: profile?.address || "",
+    normalizedAddress: profile?.normalizedAddress || mapEntry?.normalizedAddress || "",
+    latitude: mapEntry?.latitude ?? "",
+    longitude: mapEntry?.longitude ?? "",
+    adsObjectId: mapEntry?.adsObjectId || "",
+    geocodingProvider: mapEntry?.geocodingRaw?.provider || "",
     phone: profile?.phone || "",
     email: profile?.email || "",
     website: profile?.website || "",
@@ -1853,6 +1859,104 @@ function ServiceProfileTextarea({ className, ...props }) {
   );
 }
 
+function ServiceProfileAddressInput({ t, form, onTyping, onSelect }) {
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const query = form.address || "";
+  const selectedAddress =
+    form.normalizedAddress &&
+    Number.isFinite(Number(form.latitude)) &&
+    Number.isFinite(Number(form.longitude))
+      ? form.normalizedAddress
+      : "";
+
+  useEffect(() => {
+    const trimmed = query.trim();
+    if (trimmed.length < 3 || selectedAddress === trimmed) {
+      setSuggestions([]);
+      setLoading(false);
+      setError("");
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const params = new URLSearchParams({
+          query: trimmed,
+          limit: "8"
+        });
+        if (form.county) params.set("county", form.county);
+        const municipalityContext = splitList(form.serviceAreaMunicipalityIds)[0] || "";
+        if (municipalityContext) params.set("municipalityName", municipalityContext);
+        const response = await fetch(`/api/service-map/address-suggestions?${params.toString()}`, {
+          cache: "no-store",
+          signal: controller.signal
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload?.message || "address_suggestions_failed");
+        setSuggestions(Array.isArray(payload?.suggestions) ? payload.suggestions : []);
+        setOpen(true);
+      } catch (suggestionError) {
+        if (suggestionError?.name !== "AbortError") {
+          setSuggestions([]);
+          setError(readText(t, "workspace_feature_pages.service_profile.address_search.error", "Address suggestions could not be loaded."));
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }, 260);
+
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [form.county, form.serviceAreaMunicipalityIds, query, selectedAddress, t]);
+
+  return (
+    <div className="service-profile-address-field">
+      <ServiceProfileInput
+        value={query}
+        autoComplete="off"
+        onFocus={() => setOpen(true)}
+        onChange={(event) => onTyping(event.target.value)}
+      />
+      {open && (loading || error || suggestions.length > 0) ? (
+        <div className="service-profile-address-suggestions" role="listbox">
+          {loading ? (
+            <p className="service-profile-address-suggestions__state">
+              {readText(t, "workspace_feature_pages.service_profile.address_search.loading", "Searching addresses...")}
+            </p>
+          ) : null}
+          {error ? <p className="service-profile-address-suggestions__state">{error}</p> : null}
+          {!loading && !error ? suggestions.map((suggestion) => (
+            <button
+              key={`${suggestion.adsObjectId || suggestion.normalizedAddress}-${suggestion.latitude}-${suggestion.longitude}`}
+              type="button"
+              className="service-profile-address-suggestion"
+              onClick={() => {
+                onSelect(suggestion);
+                setOpen(false);
+              }}
+            >
+              <span>{suggestion.label || suggestion.normalizedAddress}</span>
+            </button>
+          )) : null}
+        </div>
+      ) : null}
+      {selectedAddress ? (
+        <p className="service-profile-address-selected">
+          {readText(t, "workspace_feature_pages.service_profile.address_search.selected", "Official address match selected:")} {selectedAddress}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function ServiceProfileSurface({ t }) {
   const [form, setForm] = useState(() => createServiceProfileForm());
   const [profile, setProfile] = useState(null);
@@ -1915,6 +2019,28 @@ function ServiceProfileSurface({ t }) {
     setForm((current) => ({
       ...current,
       [field]: value
+    }));
+  }, []);
+  const updateAddressTyping = useCallback((value) => {
+    setForm((current) => ({
+      ...current,
+      address: value,
+      normalizedAddress: "",
+      latitude: "",
+      longitude: "",
+      adsObjectId: "",
+      geocodingProvider: ""
+    }));
+  }, []);
+  const selectAddressSuggestion = useCallback((suggestion) => {
+    setForm((current) => ({
+      ...current,
+      address: suggestion.normalizedAddress || suggestion.label || current.address,
+      normalizedAddress: suggestion.normalizedAddress || suggestion.label || current.address,
+      latitude: suggestion.latitude ?? "",
+      longitude: suggestion.longitude ?? "",
+      adsObjectId: suggestion.adsObjectId || "",
+      geocodingProvider: suggestion.provider || "maaruum"
     }));
   }, []);
 
@@ -2093,7 +2219,12 @@ function ServiceProfileSurface({ t }) {
           </Label>
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.address", "Address or reception location")}</span>
-            <ServiceProfileInput value={form.address} onChange={(event) => updateField("address", event.target.value)} />
+            <ServiceProfileAddressInput
+              t={t}
+              form={form}
+              onTyping={updateAddressTyping}
+              onSelect={selectAddressSuggestion}
+            />
           </Label>
         </div>
         <ToggleRow

@@ -1,11 +1,11 @@
 {
   "schemaVersion": "v2.5-sourcepackage",
-  "docId": "kov-marjamaa-vald",
-  "document_id": "kov-marjamaa-vald",
-  "municipality": "Märjamaa vald",
-  "municipality_id": "marjamaa_vald",
-  "county": "Raplamaa",
-  "checkedAt": "2026-04-30",
+  "docId": "kov-maardu-linn",
+  "document_id": "kov-maardu-linn",
+  "municipality": "Maardu linn",
+  "municipality_id": "maardu_linn",
+  "county": "Harjumaa",
+  "checkedAt": "2026-05-21",
   "status": "ingest_ready",
   "collection_id": "kov_services",
   "source_type": "kov_service_info",
@@ -13,62 +13,61 @@
   "jurisdiction_level": "MUNICIPALITY",
   "legal_basis": false,
   "rt_layer_separate": true,
-  "expected_rt_docId": "kov-rt-marjamaa-vald",
+  "expected_rt_docId": "kov-rt-maardu-linn",
   "coverage": {
-    "services": 14,
-    "benefits": 6,
-    "resources": 4,
-    "contacts": 9,
-    "forms": 9,
+    "services": 18,
+    "benefits": 24,
+    "resources": 8,
+    "forms": 16,
+    "contacts": 0,
     "regulations": 0
   },
   "sourcePackageReadiness": {
     "ok": true,
     "collection_id": "kov_services",
-    "municipality_id": "marjamaa_vald",
+    "municipality_id": "maardu_linn",
     "source_register_file": "maardu-linn.sources.json",
-    "service_benefit_resource_items": 24,
-    "items_with_source_keys": 24,
+    "service_benefit_resource_items": 50,
+    "items_with_source_keys": 50,
     "items_missing_source_keys": [],
-    "items_with_related_forms": 9,
-    "items_without_related_forms": 15,
-    "items_with_related_contacts": 16,
-    "items_without_related_contacts": 8,
-    "form_sources": 1,
+    "items_with_related_forms": 11,
+    "items_without_related_forms": 39,
+    "items_with_related_contacts": 0,
+    "items_without_related_contacts": 50,
+    "form_sources": 15,
     "contact_sources": 0,
     "regulation_sources": 0,
-    "warnings": [
-      "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
-    ]
+    "warnings": []
   },
   "notes": [
-    "Täiendatud Märjamaa valla ametliku kodulehe sotsiaalharu alusel.",
-    "KOV veebipaketis ei ole kasutatud Riigi Teatajat ega õigusakte põhiallikana."
+    "Kontaktandmeid ei normaliseeritud ning contact itemeid ei loodud.",
+    "KOV veebipakett kasutab Maardu ametlikke veebilehti ja Maardu ametlikult lingitud vorme; RT/legal kiht on eraldi.",
+    "SPOKU/minumaardu.ee on kajastatud e-taotluste ja iseteeninduse kanalina."
   ],
   "unresolvedIssues": [
-    "Toimetulekutoetuse lehel avaldatud toimetulekupiirid on märgitud KOV veebilehe praktilise infona; nende kehtivus tuleb kontrollida eraldi RT/legal kihis.",
-    "Mõnede kontaktide e-posti aadressid olid tööriistavaates varjatud; neid ei taastatud oletuse põhjal ja vastavates contact itemites jäeti nulliks.",
-    "Hauaplatsi kasutuslepingu lehe detailne sisu ei õnnestunud selles kontrollis kindlalt avada; lähedase surma praktiline info ja matusetoetus on siiski kajastatud.",
-    "Erivajadusega lapse alamteemad (lapsehoiuteenus, tugiisikuteenus, sotsiaaltransport, vaimse tervise abi) olid KOV lehel koondteabena; neid ei dubleeritud eraldi teenusteks, kui eraldi KOV teenuse detailleht puudus.",
-    "Sotsiaalkeskuse tasuliste teenuste hinnad paiknevad eraldi PDF-hinnakirjas; fail on lisatud allikaregistrisse, kuid hindade ridade kaupa väljavõtet ei tehtud."
+    "Õigusliku aluse, määruste tervikteksti ja normide kehtivuse kontrollimiseks tuleb kasutada eraldi RT/legal kihti.",
+    "Üldhooldusteenuse kohaliku rahastuse piirmäär vajab üle kontrollimist: teenuselehel on märgitud kuni 600 eurot kuus, Maardu eeskirjade ja kordade lehel viitab 2026. aasta dokument piirmäärale 650 eurot kuus.",
+    "Vältimatu sotsiaalabi ei olnud kontrollitud Maardu veebis eraldi teenuse detaillehena selgelt tuvastatud; vajadusel kontrollida täiendavalt Maardu sotsiaalabi koondstruktuurist.",
+    "Varjupaiga-/turvakodu-, kahjude vähendamise ja ohvriabi info võib toetuda välistele teenuseosutajatele; paketis on kasutatud ainult Maardu ametlikul lehel kinnitatud infot.",
+    "Kõigi teenuste kohta ei tuvastatud eraldi e-vormi; üldine sotsiaalteenuse taotluse e-vorm ja minumaardu.ee on lisatud üldkanalina, kui teenuseleht seda toetab.",
+    "Tervishoiuasutuste leht sisaldab kontakte; neid ei kogutud eraldi kontaktidena, vaid leht on märgitud ressursina.",
+    "Valdkonna blanketid lehel on veel vorme (nt represseeritu maamaksu soodustuse avaldus, sünnitoetuse avaldus, eestkostjaks vormistamise avaldus, taotlus raske ja sügava puudega lapsele teenuse osutamiseks), kuid failide täpseid linke ei õnnestunud kindlaks teha; need vormid tuleb lisada, kui ametlikud faililingid on kättesaadavad."
   ],
-  "municipality_name": "Märjamaa vald",
-  "checked_at": "2026-04-30",
+  "municipality_name": "Maardu linn",
+  "checked_at": "2026-05-21",
   "lastMetadataUpgradeAt": "2026-04-29",
   "ingestReady": true,
   "country": "EE",
   "language": "et",
   "sourceRegisterFile": "maardu-linn.sources.json",
-  "sourceCount": 27,
+  "sourceCount": 49,
   "counts": {
-    "services": 14,
-    "benefits": 6,
-    "resources": 4,
-    "contacts": 9,
-    "forms": 9,
+    "services": 18,
+    "benefits": 24,
+    "resources": 8,
+    "contacts": 0,
+    "forms": 16,
     "regulations": 0
   },
-  "warnings": [
-    "1 source'i jäid üldiseks kov_service_info/service_page allikaks ilma otsese item seoseta."
-  ]
+  "warnings": []
 }

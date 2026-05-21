@@ -1,699 +1,654 @@
-# Märjamaa vald sotsiaalhoolekande info
+# Maardu linna sotsiaalhoolekande info
 
-Kontrollitud: 2026-04-30
-Ametlik veeb: https://marjamaa.ee
+Kontrollitud: 2026-05-21  
+Ametlik veeb: https://maardu.ee
 
 ## Teenused
 
-### Võlanõustamisteenus
+### Sotsiaalnõustamine
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/volanoustamisteenus
+Allikas: https://maardu.ee/sotsiaalnoustamine
 
-Kirjeldus: Võlanõustamisteenuse eesmärk on aidata inimest varalise olukorra kindlakstegemisel, võlausaldajaga läbirääkimisel ja nõuete rahuldamisel, vältida uute võlgnevuste tekkimist toimetulekuvõime parandamise kaudu ning lahendada muid võlgnevusega seotud probleeme.
+Kirjeldus: Nõustamine Maardu elanikele ja peredele, kellel on raskusi igapäevaeluga toimetulekul; hõlmab ka abi sobiva teenuse või toetuse leidmisel.
+Kellele: Maardu linna elanikud; toimetulekuraskustes isikud ja pered
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud sotsiaalnõustamise pöördumiskanalid Sammud: Kirjelda abivajadust; Sotsiaalvaldkonna töötaja hindab sobivat abi või suunamist
 
-Kellele: Inimene, kellel on majanduslikud toimetulekuprobleemid, võlgnevused või oht võlgnevuste tekkimiseks ning kes ei suuda iseseisvalt rahalisi kohustusi täita.
+### Väljaspool kodu osutatav üldhooldusteenus
 
-Taotlemine: kanalid: kohapeal | sammud: eelnevalt registreerida aeg sotsiaaltööspetsialisti vastuvõtule
+Liik: teenus
+Allikas: https://maardu.ee/uldhooldusteenus
 
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
+Kirjeldus: Teenuse eesmärk on tagada turvaline keskkond ja toimetulek täisealisele isikule, kes ei tule terviseseisundi või tegevusvõime tõttu kodus iseseisvalt toime.
+Kellele: Maardu linna elanikud, kelle abivajadus on hinnatud
+Tingimused: Teenuse vajadus tuvastatakse hindamise käigus
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Esita taotlus ja nõutud dokumendid; Linn hindab abivajadust ja teenuse rahastamise ulatust
+Seotud ressursid: maardu_linn:resource:minumaardu_iseteenindus
+Summa: Teenuselehel: Maardu linn tasub hoolduskulu kuni 600 eurot kuus. Eeskirjade ja kordade lehel viidatud 2026. aasta piirmäär on 650 eurot kuus; enne kasutamist kontrollida.
+Täpsustamist vajab: Teenuselehe ja 2026. aasta piirmäära info vajab sisulist üle kontrollimist.
+
+### Sotsiaaleluasemeteenus
+
+Liik: teenus
+Allikas: https://maardu.ee/sotsiaaleluasemeteenus
+
+Kirjeldus: Sotsiaaleluasemeteenus on mõeldud inimestele või peredele, kes ei ole võimelised endale või oma perele eluruumi tagama.
+Kellele: eluruumi vajavad Maardu linna elanikud; sotsiaalmaja teenuse vajajad
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Esita sotsiaaleluaseme taotlus; Linn hindab vajadust ja sõlmib vajadusel lepingu
+Seotud ressursid: maardu_linn:resource:sotsiaalmaja
+
+### Eestkoste seadmine
+
+Liik: teenus
+Allikas: https://maardu.ee/eestkoste-seadmine
+
+Kirjeldus: Eestkoste seadmine puudutab olukordi, kus isik vajab õiguste ja huvide kaitseks eestkostet ning protsess toimub kohtu kaudu.
+Kellele: alaealised või täisealised isikud, kellele võib olla vaja eestkostet
+Taotlemine: Kanalid: E-vorm või ametlik dokument Maardu veebis Sammud: Täida eestkoste seadmise e-vorm või nõusoleku vorm; Esita vajalikud dokumendid kohtule/linnale vastavalt juhisele
+Blankett: maardu_linn:form:eestkoste_evorm; maardu_linn:form:eestkoste_nousolek
+
+### Sotsiaaltransporditeenus
+
+Liik: teenus
+Allikas: https://maardu.ee/sotsiaaltransporditeenus
+
+Kirjeldus: Sotsiaaltransporditeenus toetab isikuid, kellel on puudest, terviseseisundist või sotsiaalsest olukorrast tulenev takistus kasutada ühistransporti või isiklikku transporti.
+Kellele: puudest või terviseseisundist tingitud liikumisraskustega inimesed
+Taotlemine: Kanalid: Sotsiaalteenuse taotlus või e-vorm Sammud: Esita sotsiaalteenuse taotlus; Lisa vajadust põhjendavad dokumendid, kui neid küsitakse
+Blankett: maardu_linn:form:sotsiaalteenuste_taotlus; maardu_linn:form:sotsiaalteenuse_evorm
+
+### Koduteenus
+
+Liik: teenus
+Allikas: https://maardu.ee/koduteenus
+
+Kirjeldus: Koduteenus aitab inimest koduses keskkonnas toimingutes, mida ta terviseseisundi või tegevusvõime tõttu ise piisavalt teha ei saa.
+Kellele: kodus elavad abivajavad täisealised Maardu elanikud
+Taotlemine: Kanalid: Sotsiaalteenuse taotlus või e-vorm Sammud: Esita sotsiaalteenuse taotlus; Abivajadust hinnatakse ning lepitakse kokku teenuse sisu ja maht
+Blankett: maardu_linn:form:sotsiaalteenuste_taotlus; maardu_linn:form:sotsiaalteenuse_evorm
+Hind või omaosalus: Teenuselehel: koduabi 3 eurot/tund ja isikuabi 5 eurot/tund.
 
 ### Tugiisikuteenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/tugiisikuteenus
+Allikas: https://maardu.ee/tugiisikuteenus
 
-Kirjeldus: Tugiisikuteenuse eesmärk on aidata inimesel iseseisvalt toime tulla olukordades, kus majanduslikud, tervise- või muud raskused takistavad õiguste ja kohustuste täitmist. Teenus hõlmab juhendamist, motiveerimist ning iseseisvuse ja vastutusvõime suurendamist.
+Kirjeldus: Tugiisikuteenus toetab isiku iseseisvat toimetulekut, juhendamist ja sotsiaalsete oskuste arendamist.
+Kellele: lapsed ja täisealised abivajajad vastavalt teenuse eesmärgile
+Tingimused: Teenuseosutajale on seatud sobivuse ja piirangute nõuded
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Kirjelda abivajadust; Linn hindab teenuse sobivust ja mahtu
 
-Kellele: Laps, kes vajab abi psüühika- või käitumishäire tõttu; last kasvatav isik; või inimene, kes vajab juhendamist igapäevaste olme- ja majapidamisküsimuste lahendamisel.
-
-Taotlemine: kanalid: kohapeal, e-postiga | sammud: taotlus on vormivaba; märkida taotletav abi, isikuandmed, kontaktandmed, hüvitise/abi aluseks olevad asjaolud, koostamise kuupäev ja allkiri; lisada kõrvalabi vajadus ja vajadusel rehabilitatsiooniplaan või eriarsti soovitused
-
-Tasu: Teenuse saajale tasuta
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-### Toiduabi
+### Hoolduse seadmine
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/toiduabi
+Allikas: https://maardu.ee/hoolduse-seadmine
 
-Kirjeldus: Toidupangateenuse eesmärk on toetada toimetulekuraskustes inimesi ja peresid toiduabiga. Toiduabikaarte jagatakse neli korda aastas ning nende abil saab osta toidu- ja esmatarbekaupu Rimi kauplustes üle Eesti.
+Kirjeldus: Hoolduse seadmine puudutab olukordi, kus täisealine isik vajab hooldajat igapäevase toimetuleku toetamiseks.
+Kellele: täisealised abivajajad, kellele on vaja määrata hooldaja
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Esita hoolduse seadmise taotlus; Linn hindab hooldusvajadust ja hooldaja sobivust
+Seotud ressursid: maardu_linn:benefit:hooldajatoetus
 
-Kellele: Toimetulekutoetuse saajad, teatud toimetulekutoetuse taotlejad, KOV eelarvest sissetulekust sõltuva või teenusekulu kompenseerimise toetuse saajad ning varjupaigateenust kasutavad inimesed.
-
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita sotsiaaltoetuse taotlus
-
-Summa: Alates 2025. aasta kolmandast kvartalist 36 eurot iga abisaaja kaardile.
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-Blankett: Sotsiaaltoetuse taotlus, SPOKU iseteeninduse e-taotlused
-
-### Vältimatu sotsiaalabi teenus
+### Raske ja sügava puudega laste toetavad sotsiaalteenused
 
 Liik: teenus
-Allikas: https://marjamaa.ee/valtimatu-sotsiaalabi
+Allikas: https://maardu.ee/puudega-lapse-lapsehoiuteenus
 
-Kirjeldus: Vältimatu sotsiaalabi teenuse eesmärk on teha toiduabi ja/või riideabi kättesaadavaks abivajajale, kes abi vajaduse hetkel viibib Märjamaa valla territooriumil. Teenust osutatakse seni, kuni inimene ei ole enam elatusvahendite kaotuse või puudumise tõttu sotsiaalselt abitus olukorras.
-
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita sotsiaaltoetuse taotlus
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-Blankett: Sotsiaaltoetuse taotlus, SPOKU iseteeninduse e-taotlused
-
-### Eluruumi tagamine
-
-Liik: teenus
-Allikas: https://marjamaa.ee/toiming/eluruumi-tagamine
-
-Kirjeldus: Eluruumi tagamise teenusega abistab vallavalitsus inimesi, kellel on puudest tingituna raskusi eluruumis liikumise, endaga toimetuleku või suhtlemisega, eluruumi kohandamisel või sobivama eluruumi saamisel. Abi määramisel arvestatakse abivajaja ja pere sissetulekuid, majanduslikku olukorda, taotluse põhjendatust ja muid võimalusi olukorra parandamiseks.
-
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita sotsiaaleluruumi taotlus
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-Blankett: Sotsiaaleluruumi taotlus, SPOKU iseteeninduse e-taotlused
-
-### Varjupaigateenus
-
-Liik: teenus
-Allikas: https://marjamaa.ee/toiming/varjupaigateenus
-
-Kirjeldus: Varjupaigateenuse eesmärk on tagada ajutine ööbimisvõimalus täisealisele sotsiaalhoolekande kliendile, kes ei suuda endale ise ööbimiskohta leida. Teenuse võib korraldada ka ilma taotluseta, kui ametiasutus selgitab inimese soovi ja saab tema nõusoleku varjupaika suunamiseks.
-
-Kellele: Täisealine sotsiaalhoolekande klient, kes viibib abi vajaduse hetkel Märjamaa vallas, kellel puudub ööbimiskoht ning kellele ei saa püsivat ööbimist tagada muu teenuse või toetusega.
-
-Taotlemine: kanalid: vormivaba taotlus kohapeal | sammud: taotluses märkida taotletav abi, isikuandmed, kontaktid ja asjaolud; sotsiaaltööspetsialisti vastuvõtule eelnev registreerimine
-
-Tasu: Teenuse saaja tasub võimalusel osa hinnast; osa, mida inimene ise maksta ei suuda, katab Märjamaa vald.
-
-### Turvakoduteenus
-
-Liik: teenus
-Allikas: https://marjamaa.ee/toiming/turvakoduteenus
-
-Kirjeldus: Turvakoduteenuse eesmärk on tagada ajutine eluase, turvaline keskkond ja esmane abi lapsele või täiskasvanule, kelle elu, tervis või areng on ohus. Teenust pakutakse nii kaua, kui on vaja inimese turvalisuse ja edasise elu korraldamise tagamiseks; teenuse eest maksab Märjamaa vald oma eelarvest.
-
-Kellele: Laps, kelle elu, tervis või areng on ohus, ja täiskasvanu, kes vajab ajutiselt turvalist elukohta.
-
-Taotlemine: kanalid: vormivaba taotlus kohapeal, teenuse korraldamine ka taotluseta | sammud: taotluseta korraldamisel selgitatakse välja isiku tahe ja nõusolek turvakoduteenusele suunamiseks
-
-Tasu: Teenuse eest maksab Märjamaa vald.
-
-### Sotsiaaltranspordi teenus
-
-Liik: teenus
-Allikas: https://marjamaa.ee/toiming/sotsiaaltranspordi-teenus
-
-Kirjeldus: Sotsiaaltransporditeenust osutatakse sotsiaalhoolekande alla kuuluvale inimesele, kellel on puue või kelle tervislik seisund takistab isikliku või ühistranspordi kasutamist avalike teenuste tarbimiseks, tööle või õppima sõitmiseks. Teenust osutatakse juhuveona Märjamaa vallale kuuluva sõidukiga või teenusepakkuja kaudu.
-
-Kellele: Puudega või terviseseisundist tuleneva transporditakistusega sotsiaalhoolekande kliendid.
-
-Taotlemine: kanalid: kohapeal, e-postiga, telefoni teel | sammud: taotluses esitada teenuse vajaduse aeg ja sihtkoht või marsruut | tähtaeg: vähemalt 10 tööpäeva enne teenuse vajadust
-
-Tasu: Teenuse kasutajalt võetakse tasu teenuseosutaja kehtestatud kilomeetrihinna alusel.
-
-Blankett: Sotsiaaltoetuse taotlus
+Kirjeldus: Teenused on mõeldud raske või sügava puudega lapse ja pere toetamiseks, sh lapsehoiuteenuse ja teiste toetavate teenuste kasutamiseks.
+Kellele: raske või sügava puudega lapsed ja nende pered
+Taotlemine: Kanalid: Riigi rahastatava lapsehoiuteenuse e-vorm või Maardu ametlik juhis Sammud: Esita taotlus; Lisa vajalikud dokumendid; Linn menetleb taotlust ja teeb otsuse
+Blankett: maardu_linn:form:riigi_lapsehoiuteenus_evorm
+Otsustamise aeg: Maardu lehe järgi kuni 10 tööpäeva pärast vajalike dokumentide esitamist.
 
 ### Isikliku abistaja teenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/isikliku-abistaja-teenus
+Allikas: https://maardu.ee/isikliku-abistaja-teenus
 
-Kirjeldus: Isikliku abistaja teenuse eesmärk on aidata täisealisel inimesel, kes vajab puude tõttu füüsilist abi, iseseisvamalt igapäevaelus toime tulla ja osaleda ühiskonnaelus. Vajadusel aitab ametiasutus leida abivajadusele vastava sobiva isikliku abistaja.
+Kirjeldus: Isikliku abistaja teenus toetab puudega inimese iseseisvat osalemist igapäevaelus ja toimingutes, mida ta puude tõttu ise teha ei saa.
+Kellele: puudega inimesed, kellel on vajadus kõrvalabi järele
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Esita taotlus; Linn hindab abivajadust ja teenuse mahtu
+Hind või omaosalus: Teenuse hind ja teenuseosutaja määratakse Maardu linna kehtestatud korra alusel.
+Otsustamise aeg: Maardu lehe järgi tehakse otsus 10 tööpäeva jooksul pärast vajalike dokumentide saamist.
 
-Kellele: Täisealine inimene, kellel on puudest tingitud vajadus kasutada füüsilist kõrvalabi igapäevaelutegevustes.
-
-Taotlemine: kanalid: vormivaba taotlus kohapeal | sammud: märkida taotletav abi, isikuandmed, kontaktid, põhjus, puude raskusaste, vajatavad tegevused ja võimalusel abistaja andmed; konkreetse abistaja korral lisada abistaja kirjalik nõusolek
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-### Täisealise isiku hooldus
+### Puudega inimese sõiduki parkimiskaardi väljastamine
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/taisealise-isiku-hooldus
+Allikas: https://maardu.ee/puudega-inimese-soiduki-parkimiskaardi-valjastamine
 
-Kirjeldus: Täisealisele inimesele määratakse hooldaja, kui ta vajab vaimse või kehalise puude tõttu abi oma õiguste kaitsmisel ja kohustuste täitmisel. Hooldaja määramist saab taotleda täisealine inimene, kes kuulub sotsiaalhoolekande sihtrühma ning kellele on määratud raske või sügav puue.
+Kirjeldus: Puudega inimese sõiduki parkimiskaart on isiklik kaart, mida saab kasutada õigustatud isiku sõiduki parkimise eritingimusteks.
+Kellele: puudega inimesed, kes vastavad parkimiskaardi tingimustele
+Taotlemine: Kanalid: Taotlus Maardu Linnavalitsusele Sammud: Esita taotlus ja nõutud dokumendid; Linn väljastab kaardi, kui tingimused on täidetud
 
-Kellele: Raske või sügava puudega täisealine inimene, kes vajab abi oma õiguste kaitsmisel ja kohustuste täitmisel.
-
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita hooldajaks määramise taotlus
-
-Tasu: Hooldatavale tasuta, välja arvatud hooldatava ja hooldaja omavaheline tasukokkulepe.
-
-Otsustamise aeg: 10 tööpäeva pärast nõuetekohase taotluse ja vajalike dokumentide esitamist
-
-Blankett: Hooldajaks määramise taotlus, SPOKU iseteeninduse e-taotlused
-
-### Parkimiskaardi väljastamine
+### Supiköögiteenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/parkimiskaart
+Allikas: https://maardu.ee/supikoogiteenus
 
-Kirjeldus: Liikumispuudega või pimedat inimest teenindava sõiduki parkimiskaart võimaldab inimesel sõidukiga liikuda ja parkida. Parkimiskaart antakse inimesele, mitte sõidukile, ning selle saab väljastada puude kehtivuse perioodiks, kuid mitte kauemaks kui viieks aastaks.
+Kirjeldus: Supiköögiteenus pakub Maardu ametliku info järgi sooja toitu abivajavatele inimestele.
+Kellele: toimetulekuraskustes Maardu elanikud
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud supiköögi kasutamise kord Sammud: Pöördu teenuse saamiseks Maardu ametliku juhise järgi
 
-Kellele: Liikumis- või nägemisfunktsiooni häirega inimene; ajutise liikumisvõime häirega või ajutise nägemisfunktsiooni häirega inimene; piiratud teovõimega isiku nimel tema seaduslik esindaja.
-
-Taotlemine: kanalid: elukohajärgne omavalitsus | sammud: esitada kehtiv isikut tõendav dokument, 3 x 4 cm foto ning ajutise parkimiskaardi korral pere- või eriarsti teatis
-
-### Päevakeskuse teenus
+### Kahjude vähendamise teenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused
+Allikas: https://maardu.ee/narkovoorutuse-punkt
 
-Kirjeldus: Päevakeskuse teenuse eesmärk on osutada sotsiaalteenuseid eakate ja puudega inimeste toimetuleku säilitamiseks ja soodustamiseks ning huvitegevuse võimaldamiseks. Teenust osutatakse Märjamaa Sotsiaalkeskuses ning see on inimesele tasuta.
+Kirjeldus: Kahjude vähendamise teenus on suunatud narkootikume tarvitavatele inimestele ja nende lähedastele ning hõlmab terviseriskide vähendamist ja nõustamist.
+Kellele: narkootikume tarvitavad inimesed ja nende lähedased
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud teenuse osutamise koht või partner Sammud: Kasuta Maardu lehel kirjeldatud teenuse kanalit
+Täpsustamist vajab: Teenuse detailsem kirjeldus sõltub välisest teenuseosutajast; paketis on kasutatud ainult Maardu lehel avaldatud infot.
 
-Kellele: Sotsiaalhoolekandega hõlmatud isikud, eakad ja puudega inimesed.
-
-Taotlemine: kanalid: pöördumine Märjamaa Sotsiaalkeskusesse
-
-Tasu: Tasuta
-
-### Saunateenus
+### Asendushooldusteenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused
+Allikas: https://maardu.ee/asendus-ja-jarelhooldusteenus
 
-Kirjeldus: Saunateenuse eesmärk on osutada sotsiaalteenuseid sihtrühma toimetuleku säilitamiseks ja soodustamiseks. Teenust osutatakse Märjamaa Sotsiaalkeskuses.
+Kirjeldus: Asendushooldusteenus tagab lapsele hoolduse ja kasvatamise väljaspool bioloogilist perekonda, kui lapse heaolu kaitseks on see vajalik.
+Kellele: lapsed, kes vajavad hooldust väljaspool sünniperekonda
+Taotlemine: Kanalid: Maardu Linnavalitsuse lastekaitse- või sotsiaalvaldkonna menetluskanal Sammud: Teenusele suunamine toimub lapse juhtumimenetluse ja abivajaduse hindamise alusel
 
-Kellele: Eakad, puudega inimesed ja vähekindlustatud olmeraskustes pered.
-
-Taotlemine: kanalid: pöördumine Märjamaa Sotsiaalkeskusesse
-
-Tasu: Tasuline teenus; hinnakiri on KOV lehel PDF-failina.
-
-### Pesupesemisteenus
+### Järelhooldusteenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/toiming/taiendavad-sotsiaalteenused
+Allikas: https://maardu.ee/asendus-ja-jarelhooldusteenus
 
-Kirjeldus: Pesupesemisteenuse eesmärk on toetada sihtrühma toimetuleku säilitamist ja soodustamist. Teenust osutatakse Märjamaa Sotsiaalkeskuses ning see on tasuline.
+Kirjeldus: Järelhooldusteenus toetab asendushoolduselt või eestkostelt iseseisvasse ellu astuvat noort.
+Kellele: asendushoolduselt või eestkostelt elluastuvad noored
+Taotlemine: Kanalid: Maardu Linnavalitsuse sotsiaalvaldkonna menetluskanal Sammud: Teenusele suunamine toimub abivajaduse hindamise ja juhtumiplaani alusel
 
-Kellele: Eakad, puudega inimesed ja vähekindlustatud olmeraskustes pered.
-
-Taotlemine: kanalid: pöördumine Märjamaa Sotsiaalkeskusesse
-
-Tasu: Tasuline teenus; hinnakiri on KOV lehel PDF-failina.
-
-### Hooldusteenus väljaspool kodu
+### Varjupaiga- ja turvakoduteenus
 
 Liik: teenus
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu
+Allikas: https://maardu.ee/289
 
-Kirjeldus: Väljaspool kodu pakutava üldhooldusteenuse eesmärk on tagada täisealisele inimesele turvaline keskkond ja abi igapäevaseks toimetulekuks, kui ta ei suuda kodus iseseisvalt hakkama saada. Teenuse saamise aluseks on inimese seisundi hindamine ning taotlemisel peab rahvastikuregistrijärgne elukoht olema Märjamaa vallas.
+Kirjeldus: Varjupaiga- ja turvakoduteenus pakub ajutist turvalist kohta inimestele, kes vajavad vältimatut peavarju või kaitset.
+Kellele: peavarjuta või kriisiolukorras inimesed; vägivalla või muu ohu tõttu turvalist kohta vajavad inimesed
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud teenusekanalid ja välised tugikeskused Sammud: Kriisiolukorras pöörduda Maardu lehel nimetatud juhise järgi või hädaohu korral 112
+Täpsustamist vajab: Väliste teenusepakkujate detailset infot ei kontrollitud eraldi; kasutatud on ainult Maardu lehel nimetatud infot.
 
-Kellele: Täisealine inimene, kes vajab vanuse, terviseseisundi, toimetulekuvõime või elukeskkonna tõttu ööpäevaringset abi ning kelle iseseisev hakkamasaamine kodus ei ole tagatav muu abiga.
+### Võlanõustamine
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: esitada taotlus hooldekodusse paigutamiseks; lisada tõend hooldekodusse paigutatava isiku kinnisvara ja vallasvara kohta; kui isik ei saa taotlust esitada, esitab taotluse ülalpidaja või ülalpidajate puudumisel teeb ettepaneku piirkonna sotsiaaltööspetsialist
+Liik: teenus
+Allikas: https://maardu.ee/volanoustamine
 
-Tasu: Alates 01.07.2023 jaguneb kohamaksumus inimese ja KOV vahel. Märjamaa vallas on hoolduskulude piirmäärana lehel märgitud kuni 590 eurot; hooldekodusse paigutamise taotluse lehel on märgitud suure hooldusvajaduse puhul kuni 400 eurot ja ulatusliku hooldusvajaduse puhul kuni 590 eurot kuus.
+Kirjeldus: Võlanõustamine aitab inimesel selgitada võlgnevuste olukorda, koostada tegevusplaani ja otsida lahendusi makseraskuste korral.
+Kellele: võlgnevuste või makseraskustega Maardu elanikud
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud võlanõustamise kanalid Sammud: Pöördu teenuse saamiseks Maardu sotsiaalvaldkonna kaudu; Võta kaasa võlgnevusi ja sissetulekuid puudutavad dokumendid, kui leht seda nõuab
 
-Blankett: Üldtaotlus Märjamaa valla sotsiaaltoetuse või -teenuse taotlemiseks, SPOKU iseteeninduse e-taotlused
+### Psühholoogiline nõustamine
+
+Liik: teenus
+Allikas: https://maardu.ee/psuhholoogiline-noustamine
+
+Kirjeldus: Psühholoogiline nõustamine toetab inimest emotsionaalsete, pere- või toimetulekuraskuste korral.
+Kellele: Maardu linna elanikud, kes vajavad psühholoogilist tuge
+Taotlemine: Kanalid: Maardu ametlikul lehel nimetatud psühholoogilise nõustamise kanalid Sammud: Pöördu nõustamisele Maardu ametliku juhise järgi
 
 ## Toetused
 
 ### Toimetulekutoetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toimetulekutoetus
+Allikas: https://maardu.ee/toimetulekutoetus
 
-Kirjeldus: Toimetulekutoetus on ajutine rahaline abimeede inimesele või perele, kelle kuu sissetulek pärast eluasemekulude mahaarvamist jääb alla kehtestatud toimetulekupiiri. Märjamaa kodulehel avaldatud andmetel arvestatakse toimetulekutoetuse määramisel perekonnaliikmeteks samas eluruumis elavad ühise majapidamisega isikud ning arvestuse alus on eelmise kuu netosissetulek, eluasemekulud ja toimetulekupiir.
+Kirjeldus: Riiklik toimetulekutoetus väikese sissetulekuga leibkonnale; Maardu leht kirjeldab 2026. aasta toimetulekupiire ja taotlemist.
+Kellele: Väikese sissetulekuga leibkonnad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus esitatakse Maardu ametliku juhise järgi; otsus tehakse Maardu lehe järgi hiljemalt 5 tööpäeva jooksul pärast kõigi dokumentide saamist.
+Blankett: maardu_linn:form:toimetulekutoetuse_avaldus
+Summa: 2026: esimesele pereliikmele 200 eurot, igale järgnevale täisealisele 160 eurot ja igale alaealisele lapsele 240 eurot.
 
-Kellele: Üksi elav inimene või perekond, kelle sissetulek pärast arvestatavaid eluasemekulusid jääb alla kehtestatud toimetulekupiiri.
-
-Taotlemine: kanalid: kohapeal sotsiaaltööspetsialisti juures, e-postiga digiallkirjastatult | sammud: pöörduda jooksva kuu eest hiljemalt kuu viimaseks tööpäevaks; esitada toimetulekutoetuse taotlus ja sissetulekut ning eluasemekulusid tõendavad dokumendid | tähtaeg: jooksva kuu viimaseks tööpäevaks
-
-Summa: KOV lehel avaldatud toimetulekupiirid: esimene pereliige 200 €, alaealine laps 240 €, iga järgmine täisealine pereliige 160 €; ainult alaealistest koosneval perel täiendav sotsiaaltoetus 15 €.
-
-Blankett: Toimetulekutoetuse taotlus
-
-### Erakorraline toetus
+### Ravimitoetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/erakorraline-toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Erakorraline toetus on Märjamaa valla rahaline abi inimesele või perele, kes on sattunud raskustesse õnnetuse, näiteks tulekahju või loodusõnnetuse tõttu. Toetuse eesmärk on aidata katta õnnetusest tingitud kulusid ning abi määramisel arvestatakse inimese ja pere sissetulekuid, majanduslikku olukorda ja taotluse põhjendatust.
+Kirjeldus: Perekonna sissetulekust sõltuv toetus retseptiravimite maksumuse osaliseks või täielikuks hüvitamiseks.
+Kellele: mittetöötavad üksi elavad vanaduspensionärid ja puudega isikud
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotletakse kuludokumentide alusel; taotleda saab 1 kord kvartalis.
+Summa: Kuni 110 eurot aastas.
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita sotsiaaltoetuse taotlus; esitada vajadust tõendavad dokumendid
-
-Otsustamise aeg: 10 tööpäeva nõuetekohase taotluse ja vajalike dokumentide esitamisest
-
-Blankett: Sotsiaaltoetuse taotlus, SPOKU iseteeninduse e-taotlused
-
-### Sotsiaaltranspordikulude hüvitis
+### Toetus isiklike abivahendite ja hooldusvahendite ostmisel või rentimisel
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/sotsiaaltranspordi-teenus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Kui sotsiaaltranspordi kasutaja ei ole majanduslikust olukorrast tulenevalt võimeline teenuse eest tasuma, saab taotleda ametiasutuselt hüvitist. Hüvitise andmiseks tuleb esitada taotlus, v.a juhul, kui hüvitist saab anda ennetavalt.
+Kirjeldus: Perekonna sissetulekust sõltuv toetus puudega inimese omaosaluse osaliseks või täielikuks katmiseks abivahendite ja hooldusvahendite ostmisel või rentimisel.
+Kellele: mittetöötavad puudega isikud
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotletakse nimeliste kuludokumentide alusel; taotleda saab 1 kord kvartalis.
+Summa: Kuni 160 eurot aastas.
 
-Taotlemine: kanalid: kirjalikult, elektrooniliselt | sammud: taotluses märkida taotletav abi, isikuandmed, kontaktandmed, asjaolud, makseviis ja vajadusel kontonumber
-
-Summa: Sotsiaaltranspordikulude piirmäär on 100 eurot ühele taotlejale kalendriaastas.
-
-Blankett: Sotsiaaltoetuse taotlus
-
-### Hooldajatoetus
+### Suvelaagri tuusiku toetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/taisealise-isiku-hooldus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Täisealise isiku hoolduse lehel on märgitud, et hooldajal on võimalik taotleda hooldajatoetust. Hooldajatoetuse taotlemiseks saab kasutada SPOKU iseteenindust, pabervormi või e-postiga esitatavat hooldajatoetuse taotlust.
+Kirjeldus: Toetus vähekindlustatud pere lapse suvelaagri kulude katmiseks või hüvitamiseks.
+Kellele: vähekindlustatud perede lapsed
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Esitatakse põhjendatud taotlus ja kuludokumendid Maardu ametliku korra järgi.
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita hooldajatoetuse taotlus; registreeruda vajadusel sotsiaaltööspetsialisti vastuvõtule
+### Lasteaiatoidu toetus
 
-Blankett: Hooldajatoetuse taotlus, SPOKU iseteeninduse e-taotlused
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Toetus vähekindlustatud pere lapse Maardu munitsipaallasteaia toidu maksumuse osaliseks või täielikuks hüvitamiseks.
+Kellele: vähekindlustatud pered
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus tuleb esitada hiljemalt 1. septembriks või raske majandusliku olukorra tekkimisel.
+Blankett: maardu_linn:form:kooli_lasteaia_toiduraha_avaldus; maardu_linn:form:toiduraha_evorm
+
+### Pikapäevarühma toidu toetus
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Toetus vähekindlustatud pere lapse üldhariduskooli pikapäevarühma toidu maksumuse osaliseks või täielikuks hüvitamiseks.
+Kellele: vähekindlustatud pered
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus tuleb esitada hiljemalt 1. septembriks või raske majandusliku olukorra tekkimisel; toetus määratakse kuni üheks õppeaastaks.
+
+### Põhikooli ja gümnaasiumi lõpetamise kulude toetus
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Toetus lapse põhikooli ja gümnaasiumi lõpetamise kulude osaliseks katmiseks.
+Kellele: vähekindlustatud, eestkoste-, hooldus- ja lasterikkad pered
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Toetuse suuruse otsustab linnavalitsus.
+
+### Ühekordne toetus raske majandusliku olukorra puhul
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Ühekordne toetus vähekindlustatud inimesele raske majandusliku olukorra puhul või muudel erandjuhtudel.
+Kellele: vähekindlustatud inimesed
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Esitatakse põhjendatud taotlus Maardu ametliku korra järgi.
+Summa: Kuni 190 eurot aastas.
+
+### Muud perekonna sissetulekust sõltuvad toetused
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Erandjuhtudel võib maksta ka muid korras nimetamata toetusi linnavalitsuse korralduse alusel.
+Kellele: vähekindlustatud inimesed või määratletud abivajajate sihtrühm
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Vajadus ja toetus otsustatakse erandjuhtumi alusel.
 
 ### Sünnitoetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/sunnitoetuse-taotlemine
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Sünnitoetust saab taotleda lapsevanem, eestkostja või lapsendaja, kes on Eesti kodanik või kellel on kehtiv elamisluba. Taotleja ja lapse elukoht peab rahvastikuregistri järgi olema Märjamaa vald ning vähemalt üks lapsevanematest peab olema elanud Märjamaa vallas vähemalt ühe aasta vahetult enne lapse sündi.
+Kirjeldus: Sünnitoetus lapse sünniga seotud kulude katmiseks Maardus registreeritud peredele.
+Kellele: Maardu linna elanikest lapsevanemad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus esitatakse osade kaupa 6 kuu jooksul pärast lapse sündi, 1-aastaseks või 2-aastaseks saamist; väljamakse 30 päeva jooksul pärast taotlust.
+Blankett: maardu_linn:form:sunnitoetus_evorm
+Summa: Kehtival toetuste lehel: 400/500/1160/1540 eurot lapse järjekorrast sõltuvalt; Maardu 24.03.2026 teate järgi alates 01.01.2027: 1000/1100/1200/1600 eurot.
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: esitada vormikohane avaldus | tähtaeg: 3 kuu jooksul sünnitoetuse saamise õiguse tekkimisest
-
-Summa: 500 eurot lapse sünni registreerimisel ja 300 eurot lapse üheaastaseks saamisel.
-
-Otsustamise aeg: 10 tööpäeva dokumentide esitamise kuupäevast; väljamakse 10 tööpäeva jooksul otsusest
-
-Blankett: Sünnitoetuse taotlus, SPOKU iseteeninduse e-taotlused
-
-### Ranitsatoetus
+### Koolitoetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/ranitsatoetuse-taotlemine-0
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Ranitsatoetus on Märjamaa valla eelarvest makstav ühekordne sotsiaaltoetus esmakordselt üldhariduskooli 1. klassi mineva lapse vanemale, eestkostjale või lapse hooldajale. Toetuse saamise tingimuseks on, et kooli minev laps ja vähemalt üks tema vanematest on rahvastikuregistri andmetel 1. augusti seisuga Märjamaa valla elanik.
+Kirjeldus: Toetus lapse koolimineku kulude katmiseks esimesse kuni kuuendasse klassi mineva lapse puhul.
+Kellele: 1.–6. klassi minevate laste vanemad/eestkostjad/hoolduspere vanemad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Kui laps õpib väljaspool Maardut, tuleb taotlus esitada toetuse õiguse tekkimise aasta 1. detsembriks.
+Summa: 1. klassi mineva lapse puhul 150 eurot; 2.–6. klassi mineva lapse puhul 50 eurot.
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: esitada vormikohane taotlus | tähtaeg: 1. augustist kuni 30. septembrini
+### Vee- ja kanalisatsiooni abonenttasu hüvitamise toetus
 
-Summa: 400 eurot
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Otsustamise aeg: 10 tööpäeva taotluse laekumisest; väljamakse 30 kalendripäeva jooksul otsusest
+Kirjeldus: Toetus vee- ja kanalisatsiooni abonenttasu hüvitamiseks.
+Kellele: üksi elavad pensionärid ja lasterikkad pered
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlemine Maardu ametliku korra järgi.
+Summa: Kuni 1 euro kuus.
 
-Blankett: Ranitsatoetuse taotlus, SPOKU iseteeninduse e-taotlused
+### Toetus elluastujatele
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Ühekordne toetus täisealiseks saanud asenduskoduteenuselt lahkunutele, kelle elukoht enne asenduskoduteenusele suunamist oli Maardu linn.
+Kellele: asenduskoduteenuselt lahkunud elluastujad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlemine Maardu ametliku korra järgi.
+Summa: 400 eurot.
+
+### Sünnipäevatoetus
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Toetus 65-aastastele ja vanematele Maardu elanikele iga sünnipäeva puhul.
+Kellele: 65-aastased ja vanemad Maardu elanikud
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Maksmiseks peab taotleja olema esitanud arveldusarve numbri Maardu ametliku korra järgi.
+Summa: 100 eurot.
+
+### Toetus Tšernobõli AEJ tuumakatastroofi likvideerimistöödest osavõtjaile
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Aastane toetus Tšernobõli AEJ tuumakatastroofi likvideerimistöödest osavõtnule.
+Kellele: Tšernobõli AEJ tuumakatastroofi likvideerimistöödest osavõtjad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Makstakse üks kord aastas aprillikuus; esmasel taotlemisel tuleb esitada arveldusarve number.
+Summa: 300 eurot aastas.
+
+### Maamaksu toetus
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Toetus pensionäridele Maardu elamumaa sihtotstarbega maatüki maamaksu osaliseks hüvitamiseks.
+Kellele: pensionärid
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlemine Maardu ametliku korra järgi.
+Blankett: maardu_linn:form:maamaksu_pensionar_avaldus
+Summa: Kuni 50% maamaksu summast, kuid mitte üle 32 euro aastas.
+
+### Toetus täisealistele raske või sügava puudega isikutele lisakulutuste katmiseks
+
+Liik: toetus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
+
+Kirjeldus: Igakuine toetus raske või sügava puudega inimese lisakulutuste katmiseks.
+Kellele: raske või sügava puudega täisealised isikud
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Toetust ei maksta isikule, kelle hooldajale makstakse hooldajatoetust.
+Summa: Sügava puudega isikule 39 eurot kuus; raske puudega isikule 28 eurot kuus.
 
 ### Matusetoetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/matusetoetus-0
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Matusetoetus on Märjamaa valla eelarvest makstav ühekordne sotsiaaltoetus matusekulude osaliseks kompenseerimiseks. Toetust on õigus saada lahkunu matuse korraldajal, kui lahkunu elukoht oli rahvastikuregistri andmetel Märjamaa vald.
+Kirjeldus: Ühekordne toetus Maardu linna elaniku matuse korraldajale.
+Kellele: matust korraldav füüsiline isik
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotleda saab kolme kuu jooksul alates surmakuupäevast; lisada tuleb kulude kandmist tõendavad dokumendid.
+Blankett: maardu_linn:form:matusetoetuse_avaldus; maardu_linn:form:matusetoetuse_evorm
+Summa: Kuni 250 eurot.
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: esitada kirjalik vormikohane avaldus | tähtaeg: 2 kuu jooksul alates lahkunu surmapäevast
-
-Summa: 250 eurot
-
-Otsustamise aeg: otsus hiljemalt järgneval tööpäeval pärast vajalike dokumentide saamist; teavitus määramata jätmisest 5 tööpäeva jooksul; väljamakse 3 tööpäeva jooksul otsusest
-
-Blankett: Matusetoetuse taotlus, SPOKU iseteeninduse e-taotlused
-
-### Lasteaia kohatasu soodustus
+### Lasterikaste perede lasteaiatoidu toetus
 
 Liik: toetus
-Allikas: https://marjamaa.ee/toiming/lasteaia-kohatasu-soodustus
+Allikas: https://maardu.ee/taiendavad-sotsiaaltoetused
 
-Kirjeldus: Märjamaa valla lasteaias käivate laste vanematel on võimalik taotleda kohatasu vabastust, kui peres käib valla lasteaias kaks või enam last. Teise lapse eest saab taotleda 50% vabastust ning kolmanda ja enama lapse eest 100% vabastust.
+Kirjeldus: Toetus lasterikaste perede Maardu munitsipaallasteaedades käiva lapse toiduraha hüvitamiseks täies ulatuses.
+Kellele: lasterikkad pered, 3 ja enam alaealist last
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus tuleb esitada hiljemalt jooksva aasta 1. septembriks või toetusele õiguse tekkimisel.
+Summa: Toiduraha hüvitamine täies ulatuses.
 
-Kellele: Märjamaa valla lasteaias käivate laste vanemad, kelle peres on kaks või enam valla lasteaias käivat last.
+### Hooldajatoetus
 
-Tingimused: vanema ja laste elukoht peab rahvastikuregistri andmetel olema Märjamaa vald
+Liik: toetus
+Allikas: https://maardu.ee/hooldajatoetus
 
-Taotlemine: kanalid: SPOKU iseteenindus, pabervorm vallamajja, digiallkirjastatult e-postiga | sammud: täita lasteaia kohatasu soodustuse taotlus
+Kirjeldus: Toetus määratud hooldajale hooldatava igapäevase toimetuleku toetamise eest.
+Kellele: hooldajaks määratud isikud
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Seotud hoolduse seadmise menetlusega; täpne määr ja tingimused kontrollida Maardu ametlikult lehelt.
 
-Summa: Teise lapse eest 50% kohatasu vabastus; kolmanda ja enama lapse eest 100% kohatasu vabastus.
+### Hooldajatoetus puudega lapse hooldajale
 
-Otsustamise aeg: hiljemalt 30 tööpäeva pärast taotluse laekumist
+Liik: toetus
+Allikas: https://maardu.ee/hooldajatoetus-puudega-lapse-hooldajale
 
-Blankett: Lasteaia kohatasu soodustuse taotlus, SPOKU iseteeninduse e-taotlused
+Kirjeldus: Toetus puudega lapse hooldajale lapse hooldamisega seotud koormuse ja lisakulude toetamiseks.
+Kellele: puudega lapse hooldajad
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Esitatakse taotlus ja nõutud dokumendid Maardu ametliku juhise järgi.
+
+### Lapsehoiutoetus
+
+Liik: toetus
+Allikas: https://maardu.ee/lapsehoiutoetus
+
+Kirjeldus: Lapsehoiutoetus toetab lapsehoiuteenuse kasutamist Maardu linna ametlikul lehel kirjeldatud tingimustel.
+Kellele: lapsehoiuteenust vajavad pered
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Taotlus esitatakse Maardu ametliku juhise järgi; seotud PDF-blankett ja e-vorm on Maardu lehel.
+Blankett: maardu_linn:form:lapsehoiutoetus_pdf; maardu_linn:form:lapsehoiutoetus_evorm
+
+### Üksi elava pensionäri toetus
+
+Liik: toetus
+Allikas: https://maardu.ee/uksi-elava-pensionari-toetus
+
+Kirjeldus: Riiklik üksi elava pensionäri toetus, mille kohta Maardu leht annab suunava info.
+Kellele: üksi elavad pensionärid
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel kirjeldatud korras Sammud: Sisuline riiklik kontroll tuleb teha eraldi riiklikust allikast; siin on Maardu lehel avaldatud suunav info.
+
+### Huvihariduse ja huvitegevuse toetus
+
+Liik: toetus
+Allikas: https://maardu.ee/riigieelarvest-huvihariduse-ja-huvitegevuse-toetuse-andmise-kord
+
+Kirjeldus: Riigieelarvest huvihariduse ja huvitegevuse toetus toetab 7–19-aastaste Maardu noorte huviharidust ja -tegevust. Toetust saab taotleda nii juriidiline isik (huviharidus või huvitegevuse pakkuja, projektid kuni 15 000 eurot aastas) kui ka vähekindlustatud ja lasterikkad pered või lapse seaduslik esindaja. Toetus on suunatud Maardu linna haldusterritooriumil toimuvatele juhendatud huvialaringidele või tegevustele.
+Kellele: 7–19-aastaste Maardu lapsed ja noored; lasterikkad ja vähekindlustatud pered; Maardus tegutsevad juriidilised isikud (huviharidus või huvitegevus)
+Taotlemine: Kanalid: Taotlus Maardu ametlikul lehel nimetatud korras (e-vorm või pabervorm) Sammud: Esita korrektne taotlusvorm (juriidilised isikud alates 1. aprillist 2025 SPOKU kaudu; füüsilised isikud minumaardu.ee kaudu või pabervorm).; Lisa nõutud andmed projekti või huvitegevuse kohta ning allkirjasta digitaalselt.; Linnavalitsus hindab taotluse vastavust tingimustele ja teeb otsuse.
+Blankett: maardu_linn:form:huvihariduse_ja_huvitegevuse_toetuse_evorm
+Summa: Juriidilistele isikutele kuni 15 000 eurot aastas; füüsilistele isikutele toetuse suurus vastavalt Maardu linnavalitsuse otsusele.
 
 ## Ressursid
 
-### Märjamaa Sotsiaalkeskus
+### Abivahendi taotlemine
 
 Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/sotsiaalkeskus
+Allikas: https://maardu.ee/abivahendi-taotlemine
 
-Kirjeldus: Märjamaa Sotsiaalkeskus pakub eakatele, puudega inimestele ja nende peredele tasuta või tasulisi sotsiaalteenuseid ning aitab kaasa probleemide lahendamisele ja ennetamisele. Keskuses on päevakeskuse saal, ühiselamu tüüpi korterid eluaseme- ja toimetulekuraskustega inimestele, pesuruum ja saun, käsitöötuba ning liikumisabivahendite laenutamise võimalus.
+Kirjeldus: Maardu leht viitab abivahendite taotlemise ja riikliku soodustuse üldisele korrale ning abivahendi vajadusega seotud praktilisele infole.
+Kellele: abivahendit vajavad inimesed
+Taotlemine: Kanalid: Maardu ametlik abivahendi taotlemise info Sammud: Kontrolli Maardu lehel kirjeldatud abivahendi taotlemise juhist
 
-Aadress: Veetorni 4a, Märjamaa alev, 78302 Rapla maakond
-
-### Kuuda hooldekodu
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu
-
-Kirjeldus: Kuuda hooldekodu on Märjamaa valla veebis nimetatud hooldekodu väljaspool kodu osutatava üldhooldusteenuse kontekstis.
-
-Aadress: Tolli küla, Märjamaa vald, 78256 Rapla maakond
-
-### Vigala Hooldekodu
+### Toidupank
 
 Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/hooldusteenus-valjaspool-kodu
+Allikas: https://maardu.ee/toidupank
 
-Kirjeldus: Vigala Hooldekodu on Märjamaa valla veebis nimetatud hooldekodu väljaspool kodu osutatava üldhooldusteenuse kontekstis.
-
-Aadress: Naravere küla, Märjamaa vald, 78022 Rapla maakond
-
-### Eestkoste info
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/erivajadused-ja-igapaevaelu/eestkoste
-
-Kirjeldus: Eestkoste leht selgitab piiratud teovõimega isiku õiguste ja huvide kaitsmist, lapse ja täiskasvanu eestkoste eesmärki, eestkostjaks sobivust, eestkoste algatamist ning eestkostja ülesandeid. Eestkoste määrab kohus ning sobiva eestkostja leidmine toimub koostöös kohaliku omavalitsusega.
-
-### Lastekaitse
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lastekaitse
-
-Kirjeldus: Lastekaitse lehe järgi on lastekaitse eesmärk lapse õiguste ja heaolu igakülgne tagamine. Lehel rõhutatakse, et lapse huvid on kõige tähtsamad ning lastekaitsetöö toetab peresid võimalikult vara, kuid sekkub ka juhul, kui lapse heaolu vajab kaitset.
-
-### Hädaohus ja abivajav laps
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/hadaohus-ja-abivajav-laps
-
-Kirjeldus: Hädaohus ja abivajava lapse leht selgitab, et iga inimese kohustus on teatada abivajavast lapsest. Märgates, et laps võib abi vajada, tuleb teavitada vallavalitsuse lastekaitsetöötajat, helistada lasteabitelefonile või võtta vajadusel ühendust politseiga.
-
-### Erivajadusega laps
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/erivajadusega-laps
-
-Kirjeldus: Erivajadusega lapse leht annab infot lapse erivajaduse märkamisest, KOV lastekaitsespetsialisti rollist, laste sotsiaalsest rehabilitatsioonist ning eraldi alamteemadena lapsehoiuteenusest, tugiisikuteenusest, sotsiaaltranspordist ja vaimse tervise abist. Kui laps saab puude, võtab KOV lastekaitsespetsialist perega ühendust ja jagab infot teenuste ning toetuste kohta.
-
-### Lähisuhtevägivald peres
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lahisuhtevagivald-peres
-
-Kirjeldus: Lähisuhtevägivalla leht selgitab füüsilise, psühholoogilise, seksuaalse ja majandusliku vägivalla tunnuseid ning annab abikanali Raplamaa Naiste Tugikeskuse juurde. Kui märgatakse hädaohus last, tuleb helistada hädaabinumbrile.
-
-### Raplamaa Naiste Tugikeskus
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/laste-ja-perede-heaolu/lahisuhtevagivald-peres
-
-Kirjeldus: Raplamaa Naiste Tugikeskus abistab naistevastase vägivalla ohvreid ja nendega kaasas olevaid lapsi. Märjamaa valla lehel on nimetatud tasuta teenustena esmane ja juhtumipõhine nõustamine, turvakodu teenus, õigusabi, psühholoogiline nõustamine ja psühhoteraapia.
+Kirjeldus: Maardu Toidupank on ametlikul lehel kirjeldatud abikanal toiduabi vajavatele inimestele.
+Kellele: toiduabi vajavad Maardu elanikud
+Taotlemine: Kanalid: Maardu lehel nimetatud toiduabi korraldus Sammud: Abivajadust hinnatakse Maardu lehel kirjeldatud korras
 
 ### Ohvriabi
 
 Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/ohvriabi/ohvriabi
+Allikas: https://maardu.ee/ohvriabi
 
-Kirjeldus: Ohvriabi eesmärk on toetada ohvrite toimetulekut ja turvatunnet ning ennetada vägivalla kordumist. Märjamaa valla leht suunab täpsema info saamiseks palunabi.ee lehele ja sisaldab ohvriabi materjalide viiteid.
+Kirjeldus: Ohvriabi info koondab abi vägivalla, kuriteo, kriisi või muu traumeeriva sündmuse korral ning Maardu leht viitab riiklikele abikanalitele.
+Kellele: vägivalla, kuriteo või kriisi tõttu abi vajavad inimesed
+Taotlemine: Kanalid: Hädaohu korral 112; Lasteabi 116111; Ohvriabi kriisitelefon 116006 või palunabi.ee, kui Maardu leht seda nimetab
 
-### Lapse sünd
-
-Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/perekonnasundmused/lapse-sund
-
-Kirjeldus: Lapse sünni leht selgitab sünni registreerimise üldist korda, nime andmist ning hooldusõiguse andmete kandmist rahvastikuregistrisse. Lehel on märgitud, et alates 1. jaanuarist 2026 registreerivad lapse sündi ainult maakonnakeskuste kohalikud omavalitsused ja Märjamaa vallavalitsuses lapse sündi enam registreerida ei saa.
-
-### Lähedase surm
+### Sotsiaalmaja
 
 Liik: ressurss
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/lahedase-surm/lahedase-surm
+Allikas: https://maardu.ee/sotsiaalmaja
 
-Kirjeldus: Lähedase surma leht kirjeldab surma registreerimise, surmatõendi, matuste ja kalmistuga seotud praktilist asjaajamist. Märjamaa lehel on toodud kalmistute ja kalmistuvahtide kontaktid ning viide matusetoetuse lehele.
+Kirjeldus: Maardu Sotsiaalmaja on ametlikul lehel kirjeldatud sotsiaalvaldkonna asutus/ressurss, kus pakutakse erinevaid sotsiaalteenuseid ja tuge.
+Kellele: sotsiaalmaja teenuseid vajavad inimesed
+Taotlemine: Kanalid: Maardu Sotsiaalmaja ametlikul lehel nimetatud teenusekanalid
 
-### Üld- ja valdkonnakontaktid
+### Tervishoiuasutused
 
-### Kontakt: Märjamaa Vallavalitsuse sotsiaalosakond
+Liik: ressurss
+Allikas: https://maardu.ee/tervishoiuasutused
 
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
+Kirjeldus: Maardu lehel on koondatud tervishoiuasutuste ja apteekide info; paketis kajastatakse seda ressursina, mitte kontaktikorjena.
+Kellele: Maardu elanikud, kes vajavad tervishoiuressursside infot
+Taotlemine: Kanalid: Maardu ametlik tervishoiuasutuste leht
+Täpsustamist vajab: Leht sisaldab kontaktandmeid; neid ei normaliseeritud eraldi contact itemitena.
 
-Kirjeldus: Märjamaa Vallavalitsuse sotsiaalosakonna üldine teeninduskoht. Sotsiaaltööspetsialistide vastuvõtuajad on teisipäeviti ja neljapäeviti kell 9.00–12.00 ja 13.00–16.00; muul ajal toimub vastuvõtt kokkuleppel.
+### Riiklikud sotsiaaltoetused
 
-Roll: Sotsiaalvaldkonna üldkontakt
+Liik: ressurss
+Allikas: https://maardu.ee/riiklikud-sotsiaaltoetused-2018
 
-Osakond: Sotsiaalosakond
+Kirjeldus: Maardu ametlik leht suunab riiklike sotsiaaltoetuste info juurde, sh peretoetused ja muud riiklikud toetused.
+Kellele: riiklike toetuste infot vajavad inimesed
+Taotlemine: Kanalid: Maardu ametlik riiklike sotsiaaltoetuste infoleht
+Täpsustamist vajab: Riiklike toetuste sisuline kontroll kuulub eraldi riikliku kihi alla; siin on kajastatud Maardu lehe suunav info.
 
-Aadress: Tehnika 11, Märjamaa alev, 78304 Rapla maakond
+### minumaardu.ee iseteenindus
 
-### Kontakt: Marge Viska
+Liik: ressurss
+Allikas: https://minumaardu.ee/
 
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
+Kirjeldus: Maardu linna iseteeninduskeskkond võimaldab esitada taotlusi elektrooniliselt ning kasutada e-vorme.
+Kellele: Maardu elanikud ja teenuste/toetuste taotlejad
+Taotlemine: Kanalid: minumaardu.ee Sammud: Logi sisse ID-kaardi, Mobiil-ID või Smart-ID abil; Täida sobiv e-vorm; Allkirjasta ja esita taotlus digitaalselt
 
-Kirjeldus: Sotsiaalosakonna juhataja. Tegevusvaldkond on sotsiaalhoolekandealase töö juhtimine ja korraldamine ning sotsiaalhoolekannet käsitlevate õigusaktide eelnõude ettevalmistus.
+### SPOKU toetuste e-taotlused
 
-Roll: Sotsiaalosakonna juhataja
+Liik: ressurss
+Allikas: https://maardu.ee/uudised-ja-teated/-/asset_publisher/GOSUWtP4XUy9/content/id/42051223
 
-Osakond: Sotsiaalosakond
-
-### Kontakt: Gedy Remmel
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Lastekaitsespetsialist, kelle tegevusvaldkonnaks on lastekaitse. E-posti aadress jäi tööriistavaates varjatuks, mistõttu seda ei taastatud oletuse põhjal.
-
-Roll: Lastekaitsespetsialist
-
-Osakond: Lastekaitse
-
-### Kontakt: Maiken Kask
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Maiken Kask on Märjamaa valla ametlikul veebis nimetatud sotsiaalvaldkonna kontakt.
-
-Roll: Lastekaitsespetsialist
-
-Osakond: Lastekaitse
-
-### Kontakt: Ilme Roosi
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Sotsiaaltööspetsialist. Valdkond: sotsiaalteenused ja -toetused, sh koduteenus, sotsiaaltransport, toimetulekutoetus ja nõustamine.
-
-Roll: Sotsiaaltööspetsialist
-
-Osakond: Sotsiaalosakond
-
-### Kontakt: Egela Eensalu
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Sotsiaaltööspetsialist. Valdkond: toimetulekutoetus, sotsiaalteenused ja -toetused, sh varjupaigateenus, sotsiaaleluruumid, toiduabi ja nõustamine.
-
-Roll: Sotsiaaltööspetsialist
-
-Osakond: Sotsiaalosakond
-
-### Kontakt: Eneli Rego
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Sotsiaaltööspetsialist. Valdkond: sotsiaalteenused ja -toetused, sh üldhooldusteenus, hooldaja toetus, varjupaigateenus ja nõustamine.
-
-Roll: Sotsiaaltööspetsialist
-
-Osakond: Sotsiaalosakond
-
-### Kontakt: Katrin Aasamaa
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Eestkostespetsialist, kelle valdkond on täiskasvanute eestkoste vajaduse hindamine, eestkoste seadmise algatamine, vallavalitsuse eestkostetava huvide esindamine ja eestkostjate nõustamine. E-posti aadress jäi tööriistavaates varjatuks, mistõttu seda ei taastatud oletuse põhjal.
-
-Roll: Eestkostespetsialist
-
-Osakond: Sotsiaalosakond
-
-### Kontakt: Mirjam Aasma
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Registrisekretär, kelle kontakt on KOV veebis seotud sünnitoetuse, ranitsatoetuse ja matusetoetuse taotlemisega.
-
-Roll: Registrisekretär
-
-Osakond: Vallavalitsus
-
-### Kontakt: Helen Raid
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/vald-uudised-kontakt-ettevotlus/kontaktid/uldkontaktid-teenistujad
-
-Kirjeldus: Haridusnõunik, kelle kontakt on KOV veebis seotud lasteaia kohatasu soodustuse taotlemisega. E-posti aadress jäi tööriistavaates varjatuks, mistõttu seda ei taastatud oletuse põhjal.
-
-Roll: Haridusnõunik
-
-Osakond: Haridusvaldkond
-
-### Kontakt: Tiina Kokemägi
-
-Liik: kontakt
-Allikas: https://marjamaa.ee/pere-sotsiaal-ja-tervishoid/vaarikas-vananemine/sotsiaalkeskus
-
-Kirjeldus: Märjamaa Sotsiaalkeskuse kontakt. Sotsiaalkeskuse üldtelefonid on ja
-
-Roll: Märjamaa Sotsiaalkeskuse kontakt
-
-Osakond: Märjamaa Sotsiaalkeskus
-
-Aadress: Veetorni 4a, Märjamaa alev, 78302 Rapla maakond
+Kirjeldus: Maardu ametliku teate järgi saab osa toetuste taotlusi esitada elektrooniliselt SPOKU kaudu.
+Kellele: Maardu toetuste taotlejad
+Taotlemine: Kanalid: SPOKU/minumaardu.ee Sammud: Vali sobiv e-taotlus; Täida ja esita taotlus elektrooniliselt
 
 ## Vormid
 
-### Toimetulekutoetuse taotlus
+### Sotsiaalteenuste taotluse vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Toimetulekutoetuse%20taotlus.doc
+Allikas: https://maardu.ee/documents/820601/948099/Sotsiaalteenuste%2Btaotluse%2Bvorm.rtf/eccb18d9-9822-4b31-af2a-47ef391a92fb
 
-Kirjeldus: Toimetulekutoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: RTF-vorm sotsiaalteenuse taotlemiseks Maardu ametlikul veebilehel.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:service:koduteenus; maardu_linn:service:sotsiaaltransporditeenus
 
-Vorming: doc
-
-Esitamise viis: kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Toimetulekutoetus
-
-### Sotsiaaltoetuse taotlus
+### Sotsiaalteenuse taotluse e-vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Sotsiaaltoetuse%20taotlus.docx
+Allikas: https://maardu.ee/sotsiaalteenuse-taotluse-e-vorm
 
-Kirjeldus: Sotsiaaltoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: E-vorm sotsiaalteenuse taotluse esitamiseks; Maardu leht kirjeldab sisselogimist ja digiallkirjastamist.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:service:koduteenus; maardu_linn:service:sotsiaaltransporditeenus
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Erakorraline toetus, Toiduabi, Vältimatu sotsiaalabi teenus, Sotsiaaltranspordikulude hüvitis, Sotsiaaltranspordi teenus
-
-### Sotsiaaleluruumi taotlus
+### Nõusolek kohtule eestkoste seadmiseks
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-07/Sotsiaaleluruumi%20taotlus.docx
+Allikas: https://maardu.ee/documents/820601/39394333/N%C3%B5usolek%2Bkohtule_eestkoste.docx/d8165227-516f-4e2f-bb28-3e8a289a5c1e
 
-Kirjeldus: Sotsiaaleluruumi taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: DOCX-vorm eestkoste seadmise menetluseks.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:service:eestkoste_seadmine
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Eluruumi tagamine
-
-### Hooldajaks määramise taotlus
+### Eestkoste seadmise taotluse e-vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Hooldajaks%20m%C3%A4%C3%A4ramise%20taotlus.docx
+Allikas: https://maardu.ee/et/eestkoste-seadmise-taotluse-e-vorm
 
-Kirjeldus: Hooldajaks määramise taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: E-vorm eestkoste seadmise taotluse esitamiseks.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:service:eestkoste_seadmine
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Täisealise isiku hooldus
-
-### Hooldajatoetuse taotlus
+### Toimetulekutoetuse avaldus
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Hooldajatoetuse%20taotlus.docx
+Allikas: https://maardu.ee/documents/820601/38257696/TTT%2Bblank%2B-%2BUUS2024.docx/0e741cb2-d71a-4e6b-8a74-e3e22baaf03f
 
-Kirjeldus: Hooldajatoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: DOCX-vorm toimetulekutoetuse taotlemiseks.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:benefit:toimetulekutoetus
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Hooldajatoetus
-
-### Sünnitoetuse taotlus
+### Lapsehoiutoetuse taotlus
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/S%C3%BCnnitoetuse%20taotlus.rtf
+Allikas: https://maardu.ee/documents/820601/948099/lapsehoiutoetuse%2Btaotlus.pdf/5eda9f8a-cc79-49e6-9720-bbf87966c15c
 
-Kirjeldus: Sünnitoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: PDF-blankett lapsehoiutoetuse taotlemiseks.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:benefit:lapsehoiutoetus
 
-Vorming: rtf
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Sünnitoetus
-
-### Ranitsatoetuse taotlus
+### Lastehoiuteenuse toetuse taotluse e-vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Ranitsatoetuse%20taotlus.docx
+Allikas: https://maardu.ee/et/lastehoiuteenuse-toetuse-taotluse-e-vorm
 
-Kirjeldus: Ranitsatoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: E-vorm lastehoiuteenuse toetuse taotlemiseks.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:benefit:lapsehoiutoetus
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Ranitsatoetus
-
-### Matusetoetuse taotlus
+### Sünnitoetuse taotluse e-vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Matusetoetuse%20taotlus.rtf
+Allikas: https://maardu.ee/et/sunnituetuse-taoluse-e-vorm
 
-Kirjeldus: Matusetoetuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: E-vorm sünnitoetuse taotlemiseks.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:benefit:sunnitoetus
 
-Vorming: rtf
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Matusetoetus
-
-### Lasteaia kohatasu soodustuse taotlus
+### Riigi rahastatava lapsehoiuteenuse taotluse e-vorm
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-05/Lasteaia%20kohatasu%20soodustuse%20taotlus.docx
+Allikas: https://maardu.ee/et/riigi-rahastatava-lapsehoiuteenuse-taotluse-e-vorm
 
-Kirjeldus: Lasteaia kohatasu soodustuse taotlus on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: E-vorm riigi rahastatava lapsehoiuteenuse taotlemiseks.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:service:puudega_lapse_lapsehoiuteenus
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Lasteaia kohatasu soodustus
-
-### Üldtaotlus Märjamaa valla sotsiaaltoetuse või -teenuse taotlemiseks
+### minumaardu.ee e-taotlused
 
 Liik: vorm
-Allikas: https://marjamaa.ee/sites/default/files/documents/2025-08/%C3%9Cldtaotlus%20M%C3%A4rjamaa%20valla%20sotsiaaltoetuse%20v%C3%B5i%20-teenuse%20taotlemiseks.docx
+Allikas: https://minumaardu.ee/
 
-Kirjeldus: Üldtaotlus Märjamaa valla sotsiaaltoetuse või -teenuse taotlemiseks on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: Iseteeninduse e-vormide keskkond Maardu taotluste elektrooniliseks esitamiseks.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita või allkirjasta vastavalt vormi juhisele
+Seotud ressursid: maardu_linn:resource:minumaardu_iseteenindus
 
-Vorming: docx
-
-Esitamise viis: SPOKU, kohapeal, digiallkirjastatult e-postiga
-
-Seotud teenused või toetused: Hooldusteenus väljaspool kodu
-
-### SPOKU iseteeninduse e-taotlused
+### Kooli-lasteaia toiduraha toetuse avaldus
 
 Liik: vorm
-Allikas: https://iseteenindus.marjamaa.ee
+Allikas: https://maardu.ee/documents/820601/948099/toiduraha_uus.docx
 
-Kirjeldus: SPOKU iseteeninduse e-taotlused on Märjamaa valla ametlikul veebis avaldatud sotsiaalvaldkonna vorm või e-taotlus.
+Kirjeldus: DOCX-vorm kooli- ja lasteaia toiduraha toetuse taotlemiseks. Täida vorm ja esita see Maardu linnavalitsusele vastavalt juhistele.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita allkirjastatult linna dokumendihaldussüsteemi või paberkandjal
 
-Vorming: web_form
+### Matusetoetuse avaldus
 
-Esitamise viis: e-vorm
+Liik: vorm
+Allikas: https://maardu.ee/documents/820601/948099/matusetoetus_oige.docx
 
-Seotud teenused või toetused: Erakorraline toetus, Toiduabi, Vältimatu sotsiaalabi teenus, Eluruumi tagamine, Toimetulekutoetus, Sünnitoetus, Ranitsatoetus, Matusetoetus, Lasteaia kohatasu soodustus, Hooldusteenus väljaspool kodu
+Kirjeldus: DOCX-blankett matusetoetuse taotlemiseks. Täida vorm ja esita see Maardu linnavalitsusele koos nõutud dokumentidega.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita taotlus Maardu linnavalitsusele kolme kuu jooksul alates surmakuupäevast
+
+### Matusetoetuse taotluse e-vorm
+
+Liik: vorm
+Allikas: https://maardu.ee/et/matusetoetuse-taotluse-e-vorm
+
+Kirjeldus: E-vorm matusetoetuse taotluse esitamiseks digitaalselt. Logi sisse minumaardu.ee või Maardu e-vormi kaudu, täida vorm ja esita taotlus.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik e-vorm; Logi sisse; Täida nõutud väljad; Allkirjasta ja esita taotlus digitaalselt
+
+### Lasteaia toiduraha toetuse taotluse e-vorm
+
+Liik: vorm
+Allikas: https://maardu.ee/lasteaia-toiduraha-toetuse-e-vorm
+
+Kirjeldus: E-vorm lasteaia toiduraha toetuse taotluse esitamiseks. Logi sisse Maardu e-teeninduse keskkonda, täida vorm ja esita taotlus digitaalselt.
+Taotlemine: Kanalid: Ametlik link; Maardu e-vormi või minumaardu.ee keskkond Sammud: Ava ametlik e-vorm; Logi sisse; Täida nõutud väljad; Allkirjasta ja esita taotlus digitaalselt
+
+### Pensionäri maamaksu soodustuse avaldus
+
+Liik: vorm
+Allikas: https://maardu.kovtp.ee/documents/820601/948099/maamaksust%20vabastamine%20pens.pdf/957911d0-6254-4bb9-8e52-c6fda651c33b
+
+Kirjeldus: PDF-blankett pensionäri maamaksu soodustuse taotlemiseks. Täida vorm ja esita see Maardu linnavalitsusele.
+Taotlemine: Kanalid: Ametlik link; Maardu ametlik faililink Sammud: Ava ametlik vorm; Täida nõutud väljad; Esita taotlus Maardu linnavalitsusele koos nõutud dokumentidega
+
+### Huvihariduse ja huvitegevuse toetuse taotluse e-vorm
+
+Liik: vorm
+Allikas: https://maardu.kovtp.ee/huvihariduse-ja-huvitegevuse-toetuse-taotlus
+
+Kirjeldus: E-vorm huvihariduse ja huvitegevuse toetuse taotluse esitamiseks. Taotlejad saavad täita vormi Maardu e-teeninduses.
+Taotlemine: Kanalid: Ametlik link; minumaardu.ee/SPOKU või Maardu e-vormi leht Sammud: Ava ametlik e-vorm; Logi sisse; Täida nõutud väljad; Allkirjasta ja esita taotlus digitaalselt
 
 ## Piirangud
 
-See KOV veebipakett kirjeldab Märjamaa valla ametlikul veebilehel avaldatud praktilist sotsiaalvaldkonna infot. Õigusliku aluse kontrollimiseks tuleb kasutada eraldi RT/legal kihti.
+See KOV veebipakett kirjeldab Maardu linna ametlikul veebilehel avaldatud praktilist sotsiaalvaldkonna infot. Õigusliku aluse kontrollimiseks tuleb kasutada eraldi RT/legal kihti. Kontaktandmeid selles paketis ei kogutud, sest kontaktide andmekorje tehakse eraldi.
+
+Täpsustamist vajavad kohad:
+- Õigusliku aluse, määruste tervikteksti ja normide kehtivuse kontrollimiseks tuleb kasutada eraldi RT/legal kihti.
+- Üldhooldusteenuse kohaliku rahastuse piirmäär vajab üle kontrollimist: teenuselehel on märgitud kuni 600 eurot kuus, Maardu eeskirjade ja kordade lehel viitab 2026. aasta dokument piirmäärale 650 eurot kuus.
+- Vältimatu sotsiaalabi ei olnud kontrollitud Maardu veebis eraldi teenuse detaillehena selgelt tuvastatud; vajadusel kontrollida täiendavalt Maardu sotsiaalabi koondstruktuurist.
+- Varjupaiga-/turvakodu-, kahjude vähendamise ja ohvriabi info võib toetuda välistele teenuseosutajatele; paketis on kasutatud ainult Maardu ametlikul lehel kinnitatud infot.
+- Kõigi teenuste kohta ei tuvastatud eraldi e-vormi; üldine sotsiaalteenuse taotluse e-vorm ja minumaardu.ee on lisatud üldkanalina, kui teenuseleht seda toetab.
+- Tervishoiuasutuste leht sisaldab kontakte; neid ei kogutud eraldi kontaktidena, vaid leht on märgitud ressursina.
+- Valdkonna blanketid lehel on veel vorme (nt represseeritu maamaksu soodustuse avaldus, sünnitoetuse avaldus, eestkostjaks vormistamise avaldus, taotlus raske ja sügava puudega lapsele teenuse osutamiseks), kuid failide täpseid linke ei õnnestunud kindlaks teha; need vormid tuleb lisada, kui ametlikud faililingid on kättesaadavad.
