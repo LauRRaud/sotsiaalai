@@ -349,7 +349,8 @@ test("Query Planner V2 expands municipality service and benefit list queries", (
   assert.equal(plan.primaryRagQueries.every((query) => query?.filters?.municipality_id === "tartu_linn"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "service"), true);
   assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.item_type === "benefit"), true);
-  assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id === "kov_legal"), true);
+  assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id?.$in?.includes("kov_legal")), true);
+  assert.equal(plan.primaryRagQueries.some((query) => query?.filters?.collection_id?.$in?.includes("kov_regulations")), true);
 });
 
 test("Query Planner V2 routes municipality Riigi Teataja availability checks to KOV legal layer", () => {

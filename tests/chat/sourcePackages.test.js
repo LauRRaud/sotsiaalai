@@ -351,6 +351,38 @@ test("buildRuntimeSourcePackages adds production-shaped same-KOV RT regulation a
   assert.equal(pkg.missing_sections.includes("deadlines"), true);
 });
 
+test("buildRuntimeSourcePackages accepts manifest-shaped kov_legal RT regulation as legal basis", () => {
+  const packages = buildRuntimeSourcePackages([
+    {
+      source_id: "kov_tallinn_item_tallinn_service_koduteenus",
+      title: "Koduteenus",
+      source_type: "kov_service_info",
+      collection_id: "kov_services",
+      item_type: "service",
+      canonical_item_id: "tallinn_service_koduteenus",
+      municipality_id: "tallinn",
+      sections_present: ["description", "eligibility", "application"],
+      source_status: "active"
+    },
+    {
+      source_id: "tallinn-rt-412042025007",
+      doc_id: "kov-rt-tallinn",
+      title: "Sotsiaalhoolekandelise abi andmise kord",
+      source_type: "kov_regulation",
+      collection_id: "kov_legal",
+      municipality_id: "tallinn",
+      jurisdiction_level: "MUNICIPALITY",
+      is_current_version: true
+    }
+  ]);
+
+  const pkg = packages.find(item => item.canonical_item_id === "tallinn_service_koduteenus");
+  assert.ok(pkg);
+  assert.deepEqual(pkg.sections.legal_basis.map(source => source.source_id), ["tallinn-rt-412042025007"]);
+  assert.equal(pkg.sections.legal_basis[0].collection_id, "kov_legal");
+  assert.equal(pkg.sections.legal_basis[0].evidence_strength, "partial");
+});
+
 test("buildRuntimeSourcePackages maps service relatedForms and relatedContacts into package sections", () => {
   const packages = buildRuntimeSourcePackages([
     {
