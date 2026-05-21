@@ -2185,10 +2185,10 @@
         "historical": false,
         "is_current_version": true
       },
-      "auto_ingest": false,
-      "ingest_status": "deferred",
+      "auto_ingest": true,
+      "ingest_status": "ingest_ready",
       "original_status": "FOUND_EXACT",
-      "notes": "Tallinn RT is intentionally deferred until the Tallinn KOV package is prepared."
+      "notes": "Tallinn RT XML is available and ready after the Tallinn KOV package was prepared."
     },
     {
       "municipality_name": "Tapa vald",
