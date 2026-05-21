@@ -13,6 +13,44 @@ test("detectMentionedMunicipalitiesFromUserText resolves Tallinn locative servic
   assert.deepEqual(matches.map(item => item.displayName), ["Tallinn"]);
 });
 
+test("detectMentionedMunicipalitiesFromUserText resolves unknown places through geocoding", async () => {
+  const matches = await detectMentionedMunicipalitiesFromUserText(
+    [],
+    "Elan Murastes. Milliseid teenuseid ja toetusi saan kysida?",
+    {
+      geocodePlaceFn: async (rawPlace) => ({
+        rawPlace,
+        matchedPlace: "Muraste kyla, Harku vald, Harju maakond",
+        municipalityDisplayName: "Harku vald",
+        candidateStrings: ["Harku vald", "Harju maakond"],
+        confidence: "medium"
+      })
+    }
+  );
+
+  assert.deepEqual(matches.map(item => item.id), ["harku_vald"]);
+  assert.deepEqual(matches.map(item => item.displayName), ["Harku vald"]);
+  assert.deepEqual(matches.map(item => item.matchSource), ["geocoding"]);
+});
+
+test("detectMentionedMunicipalitiesFromUserText geocodes place names before service terms", async () => {
+  const matches = await detectMentionedMunicipalitiesFromUserText(
+    [],
+    "Muraste koduteenus",
+    {
+      geocodePlaceFn: async (rawPlace) => ({
+        rawPlace,
+        matchedPlace: "Muraste kyla, Harku vald, Harju maakond",
+        municipalityDisplayName: "Harku vald",
+        candidateStrings: ["Harku vald"],
+        confidence: "medium"
+      })
+    }
+  );
+
+  assert.deepEqual(matches.map(item => item.id), ["harku_vald"]);
+});
+
 test("detectMentionedMunicipalitiesFromUserText distinguishes Viljandi vald inflection from city", async () => {
   const matches = await detectMentionedMunicipalitiesFromUserText(
     [],

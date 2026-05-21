@@ -5,11 +5,14 @@ import { geocodePlace } from "../../lib/help/geocoding.js";
 
 const originalFetch = globalThis.fetch;
 const originalProvider = process.env.HELP_GEOCODER_PROVIDER;
+const originalServiceMapProvider = process.env.SERVICE_MAP_GEOCODER_PROVIDER;
 const originalBaseUrl = process.env.HELP_GEOCODER_BASE_URL;
 
 function restoreEnv() {
   if (originalProvider === undefined) delete process.env.HELP_GEOCODER_PROVIDER;
   else process.env.HELP_GEOCODER_PROVIDER = originalProvider;
+  if (originalServiceMapProvider === undefined) delete process.env.SERVICE_MAP_GEOCODER_PROVIDER;
+  else process.env.SERVICE_MAP_GEOCODER_PROVIDER = originalServiceMapProvider;
   if (originalBaseUrl === undefined) delete process.env.HELP_GEOCODER_BASE_URL;
   else process.env.HELP_GEOCODER_BASE_URL = originalBaseUrl;
   globalThis.fetch = originalFetch;
@@ -66,4 +69,24 @@ test("help geocoder supports Maa- ja Ruumiamet provider aliases", async () => {
 
   assert.equal(result.provider, "maaruum");
   assert.equal(result.municipalityDisplayName, "Tartu linn");
+});
+
+test("help geocoder can use service map provider configuration", async () => {
+  delete process.env.HELP_GEOCODER_PROVIDER;
+  process.env.SERVICE_MAP_GEOCODER_PROVIDER = "maaruum";
+  globalThis.fetch = async () => Response.json({
+    addresses: [
+      {
+        omavalitsus: "Harku vald",
+        pikkaadress: "Muraste kyla, Harku vald, Harju maakond",
+        viitepunkt_b: 59.458,
+        viitepunkt_l: 24.441
+      }
+    ]
+  });
+
+  const result = await geocodePlace("Muraste");
+
+  assert.equal(result.provider, "maaruum");
+  assert.equal(result.municipalityDisplayName, "Harku vald");
 });
