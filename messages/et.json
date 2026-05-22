@@ -727,6 +727,7 @@
       "sections": {
         "profile": "Teenuse info",
         "services": "Teenused selle teenuseosutaja all",
+        "locations": "Teeninduskohad",
         "map_profile": "Kaardiprofiil",
         "outputs": "Väljundid",
         "area": "Teeninduspiirkond ja asukoht",
@@ -781,6 +782,7 @@
         "description": "Kirjeldus",
         "target_groups": "Sihtrühmad",
         "service_area": "Teeninduspiirkond",
+        "locations": "Teeninduskohad",
         "fee_type": "Hind",
         "price_description": "Hinna täpsustus",
         "contact_name": "Kontaktisik",
@@ -788,6 +790,15 @@
         "add": "Lisa teenus",
         "remove": "Eemalda",
         "empty": "Eraldi teenuseid ei ole veel lisatud."
+      },
+      "locations": {
+        "item_title": "Teeninduskoht",
+        "label": "Nimetus",
+        "address": "Aadress",
+        "visible_on_map": "Näita teenusekaardil",
+        "add": "Lisa teeninduskoht",
+        "remove": "Eemalda",
+        "empty": "Teeninduskohti ei ole veel lisatud."
       },
       "map_status": {
         "title": "Aadressi seis",
@@ -2017,7 +2028,7 @@
         },
         "service_card": {
           "title": "Teenusekaart",
-          "body": "Teenusekaart on SotsiaalAI kaardivaade avaldatud KOV sotsiaalhoolekande kontaktide ja teenuseosutajate leidmiseks. Otsida saab nime, kirjelduse, aadressi, teenuse, kategooria, sihtrühma või piirkonna järgi. Otsing arvestab ka teenuseosutaja profiili all olevaid teenuseid, sealhulgas nende kirjeldusi, piirkonda ja hinnainfot. Ühel teenuseosutajal on kaardil üks marker, mille all saab kuvada mitu avaldatud teenust."
+          "body": "Teenusekaart on SotsiaalAI kaardivaade avaldatud KOV sotsiaalhoolekande kontaktide ja teenuseosutajate leidmiseks. Otsida saab nime, kirjelduse, aadressi, teenuse, kategooria, sihtrühma või piirkonna järgi. Otsing arvestab ka teenuseosutaja profiili all olevaid teenuseid, nende teeninduskohti, kirjeldusi ja hinnainfot. Marker tekib asukoha järgi: ühes teeninduskohas saab kuvada mitu teenust ning sama teenus võib olla seotud mitme asukohaga."
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
@@ -2073,7 +2084,7 @@
         },
         "service_profile": {
           "title": "Teenuseprofiil ja haldus",
-          "body": "Teenuseprofiil on teenuseosutaja töövaade avaliku info ja pöördumiste haldamiseks. Profiilis saab kirjeldada organisatsiooni üldandmeid, kontakte, teeninduspiirkonda, ligipääsetavust ja lisada selle alla eraldi teenusekirjed. Igal teenusel võib olla oma kirjeldus, sihtrühm, piirkond, hind, kontakt ja eelpöördumise seaded. Teenusekaardile jõuab profiil siis, kui see on avaldatud, nähtavaks märgitud ja aadressil on usaldusväärne vaste. Avaldatud profiili ja teenuste infot saab kasutada ka teadmistebaasis, et teenused oleksid leitavad assistendiga vesteldes."
+          "body": "Teenuseprofiil on teenuseosutaja töövaade avaliku info ja pöördumiste haldamiseks. Profiilis saab kirjeldada organisatsiooni üldandmeid, kontakte, teeninduspiirkonda, ligipääsetavust, teeninduskohti ja eraldi teenusekirjeid. Igal teenusel võib olla oma kirjeldus, sihtrühm, piirkond, hind, kontakt ja eelpöördumise seaded ning teenuse saab siduda ühe või mitme teeninduskohaga. Avaldatud profiili, teenuste ja teeninduskohtade infot saab kasutada teenusekaardil ja teadmistebaasis."
         },
         "privacy_safety": {
           "title": "Privaatsuse eelkiht",

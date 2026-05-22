@@ -1104,9 +1104,10 @@ model ServiceProviderProfile {
   createdAt                   DateTime                     @default(now())
   updatedAt                   DateTime                     @updatedAt
 
-  owner           User                     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  serviceMapEntry ServiceMapEntry?
-  serviceItems    ServiceProviderService[]
+  owner            User                      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  serviceMapEntry  ServiceMapEntry?
+  serviceItems     ServiceProviderService[]
+  serviceLocations ServiceProviderLocation[]
 
   @@unique([ownerId])
   @@index([ownerId, updatedAt])
@@ -1140,11 +1141,57 @@ model ServiceProviderService {
   createdAt                   DateTime                     @default(now())
   updatedAt                   DateTime                     @updatedAt
 
+  locationLinks ServiceProviderServiceLocation[]
+
   @@index([providerProfileId])
   @@index([status])
   @@index([mapVisible])
   @@index([feeType])
   @@index([sortOrder])
+}
+
+model ServiceProviderLocation {
+  id                String                       @id @default(cuid())
+  providerProfileId String
+  providerProfile   ServiceProviderProfile       @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
+  label             String?
+  address           String?
+  normalizedAddress String?
+  county            String?
+  latitude          Float?
+  longitude         Float?
+  geocodingStatus   ServiceMapGeocodingStatus    @default(PENDING)
+  adsObjectId       String?
+  geocodingRaw      Json?
+  phone             String?
+  email             String?
+  website           String?
+  accessibilityInfo String?                      @db.Text
+  mapVisible        Boolean                      @default(true)
+  status            ServiceProviderProfileStatus @default(PUBLISHED)
+  sortOrder         Int                          @default(0)
+  createdAt         DateTime                     @default(now())
+  updatedAt         DateTime                     @updatedAt
+
+  serviceLinks ServiceProviderServiceLocation[]
+
+  @@index([providerProfileId])
+  @@index([status])
+  @@index([mapVisible])
+  @@index([geocodingStatus])
+  @@index([sortOrder])
+}
+
+model ServiceProviderServiceLocation {
+  id                 String                  @id @default(cuid())
+  providerServiceId  String
+  providerLocationId String
+  providerService    ServiceProviderService  @relation(fields: [providerServiceId], references: [id], onDelete: Cascade)
+  providerLocation   ServiceProviderLocation @relation(fields: [providerLocationId], references: [id], onDelete: Cascade)
+  createdAt          DateTime                @default(now())
+
+  @@unique([providerServiceId, providerLocationId])
+  @@index([providerLocationId])
 }
 
 model ServiceMapEntry {

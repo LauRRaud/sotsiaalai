@@ -727,6 +727,7 @@
       "sections": {
         "profile": "Service information",
         "services": "Services under this provider",
+        "locations": "Service locations",
         "map_profile": "Map profile",
         "outputs": "Outputs",
         "area": "Service area and location",
@@ -781,6 +782,7 @@
         "description": "Description",
         "target_groups": "Target groups",
         "service_area": "Service area",
+        "locations": "Service locations",
         "fee_type": "Price",
         "price_description": "Price note",
         "contact_name": "Contact person",
@@ -788,6 +790,15 @@
         "add": "Add service",
         "remove": "Remove",
         "empty": "No separate services have been added yet."
+      },
+      "locations": {
+        "item_title": "Service location",
+        "label": "Label",
+        "address": "Address",
+        "visible_on_map": "Show on service map",
+        "add": "Add service location",
+        "remove": "Remove",
+        "empty": "No service locations have been added yet."
       },
       "map_status": {
         "title": "Address status",
@@ -2017,7 +2028,7 @@
         },
         "service_card": {
           "title": "Service card",
-          "body": "The service card is SotsiaalAI's map view for finding published local-government social-welfare contacts and service providers. Users can search by name, description, address, service, category, target group, or area. Search also uses the services listed under a service provider profile, including their descriptions, areas, and price information. One service provider has one map marker, and several published services can be shown under that marker."
+          "body": "The service card is SotsiaalAI's map view for finding published local-government social-welfare contacts and service providers. Users can search by name, description, address, service, category, target group, or area. Search also uses the services, service locations, descriptions, and price information listed under a service provider profile. Markers are created by location: one service location can show several services, and the same service can be linked to several locations."
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",
@@ -2073,7 +2084,7 @@
         },
         "service_profile": {
           "title": "Service profile and management",
-          "body": "The service profile is the service provider's workspace for managing public information and inquiries. The profile can describe the organisation's general information, contacts, service area, accessibility details, and separate service records under the organisation. Each service can have its own description, target group, area, price, contact, and pre-inquiry settings. The profile appears on the service map when it is published, marked as visible, and the address has a reliable match. Published profile and service information can also be used in the knowledge base so the services can be found in assistant conversations."
+          "body": "The service profile is the service provider's workspace for managing public information and inquiries. The profile can describe the organisation's general information, contacts, service area, accessibility, service locations, and separate service records. Each service can have its own description, target group, area, price, contact, and pre-inquiry settings, and it can be linked to one or more service locations. Published profile, service, and location information can be used on the service map and in the knowledge base."
         },
         "privacy_safety": {
           "title": "Privacy pre-check",

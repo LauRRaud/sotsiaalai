@@ -1727,6 +1727,28 @@ function splitList(value) {
     .filter(Boolean);
 }
 
+function createServiceProfileLocationForm(location = null, index = 0, profile = null) {
+  const mapEntry = profile?.serviceMapEntry || null;
+  return {
+    clientId: location?.id || `location-${index + 1}`,
+    label: location?.label || "",
+    address: location?.address || location?.normalizedAddress || (index === 0 ? profile?.address || "" : ""),
+    normalizedAddress: location?.normalizedAddress || (index === 0 ? profile?.normalizedAddress || mapEntry?.normalizedAddress || "" : ""),
+    county: location?.county || profile?.county || "",
+    latitude: location?.latitude ?? (index === 0 ? mapEntry?.latitude ?? "" : ""),
+    longitude: location?.longitude ?? (index === 0 ? mapEntry?.longitude ?? "" : ""),
+    adsObjectId: location?.adsObjectId || (index === 0 ? mapEntry?.adsObjectId || "" : ""),
+    geocodingProvider: location?.geocodingProvider || location?.geocodingRaw?.provider || (index === 0 ? mapEntry?.geocodingRaw?.provider || "" : ""),
+    phone: location?.phone || "",
+    email: location?.email || "",
+    website: location?.website || "",
+    accessibilityInfo: location?.accessibilityInfo || "",
+    mapVisible: location?.mapVisible !== false,
+    status: location?.status || (profile?.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT"),
+    sortOrder: Number.isFinite(Number(location?.sortOrder)) ? Number(location.sortOrder) : index
+  };
+}
+
 function createServiceProfileServiceForm(service = null, index = 0, profile = null) {
   return {
     name: service?.name || "",
@@ -1740,6 +1762,7 @@ function createServiceProfileServiceForm(service = null, index = 0, profile = nu
     phone: service?.phone || "",
     email: service?.email || "",
     website: service?.website || "",
+    locationIds: Array.isArray(service?.locationIds) ? service.locationIds : [],
     acceptsPlatformPreInquiries: service?.acceptsPlatformPreInquiries ?? profile?.acceptsPlatformPreInquiries ?? true,
     acceptsEmailPreInquiries: service?.acceptsEmailPreInquiries ?? profile?.acceptsEmailPreInquiries ?? true,
     mapVisible: service?.mapVisible !== false,
@@ -1750,6 +1773,11 @@ function createServiceProfileServiceForm(service = null, index = 0, profile = nu
 
 function createServiceProfileForm(profile = null) {
   const mapEntry = profile?.serviceMapEntry || null;
+  const serviceLocations = Array.isArray(profile?.serviceLocations) && profile.serviceLocations.length
+    ? profile.serviceLocations.map((location, index) => createServiceProfileLocationForm(location, index, profile))
+    : (profile?.address || mapEntry?.normalizedAddress)
+        ? [createServiceProfileLocationForm(null, 0, profile)]
+        : [];
   const serviceItems = Array.isArray(profile?.serviceItems) && profile.serviceItems.length
     ? profile.serviceItems.map((service, index) => createServiceProfileServiceForm(service, index, profile))
     : (Array.isArray(profile?.services) ? profile.services : []).map((name, index) =>
@@ -1780,7 +1808,8 @@ function createServiceProfileForm(profile = null) {
     acceptsPlatformPreInquiries: profile?.acceptsPlatformPreInquiries !== false,
     acceptsEmailPreInquiries: profile?.acceptsEmailPreInquiries !== false,
     status: profile?.status || "DRAFT",
-    serviceItems
+    serviceItems,
+    serviceLocations
   };
 }
 
@@ -2068,6 +2097,66 @@ function ServiceProfileSurface({ t }) {
       )
     }));
   }, []);
+  const updateServiceLocation = useCallback((index, field, value) => {
+    setForm((current) => ({
+      ...current,
+      serviceLocations: current.serviceLocations.map((item, itemIndex) =>
+        itemIndex === index ? { ...item, [field]: value } : item
+      )
+    }));
+  }, []);
+  const addServiceLocation = useCallback(() => {
+    setForm((current) => ({
+      ...current,
+      serviceLocations: [
+        ...current.serviceLocations,
+        createServiceProfileLocationForm(null, current.serviceLocations.length, current)
+      ]
+    }));
+  }, []);
+  const removeServiceLocation = useCallback((index) => {
+    setForm((current) => {
+      const removed = current.serviceLocations[index]?.clientId;
+      return {
+        ...current,
+        serviceLocations: current.serviceLocations
+          .filter((_, itemIndex) => itemIndex !== index)
+          .map((item, itemIndex) => ({ ...item, sortOrder: itemIndex })),
+        serviceItems: current.serviceItems.map((service) => ({
+          ...service,
+          locationIds: (service.locationIds || []).filter((id) => id !== removed)
+        }))
+      };
+    });
+  }, []);
+  const updateServiceLocationAddressTyping = useCallback((index, value) => {
+    setForm((current) => ({
+      ...current,
+      serviceLocations: current.serviceLocations.map((item, itemIndex) =>
+        itemIndex === index
+          ? { ...item, address: value, normalizedAddress: "", latitude: "", longitude: "", adsObjectId: "", geocodingProvider: "" }
+          : item
+      )
+    }));
+  }, []);
+  const selectServiceLocationAddress = useCallback((index, suggestion) => {
+    setForm((current) => ({
+      ...current,
+      serviceLocations: current.serviceLocations.map((item, itemIndex) =>
+        itemIndex === index
+          ? {
+              ...item,
+              address: suggestion.normalizedAddress || suggestion.label || item.address,
+              normalizedAddress: suggestion.normalizedAddress || suggestion.label || item.address,
+              latitude: suggestion.latitude ?? "",
+              longitude: suggestion.longitude ?? "",
+              adsObjectId: suggestion.adsObjectId || "",
+              geocodingProvider: suggestion.provider || "maaruum"
+            }
+          : item
+      )
+    }));
+  }, []);
   const addServiceItem = useCallback(() => {
     setForm((current) => ({
       ...current,
@@ -2129,10 +2218,18 @@ function ServiceProfileSurface({ t }) {
           targetGroups: splitList(form.targetGroups),
           serviceAreaMunicipalityIds: splitList(form.serviceAreaMunicipalityIds),
           languages: splitList(form.languages),
+          serviceLocations: form.serviceLocations
+            .map((item, index) => ({
+              ...item,
+              status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
+              sortOrder: index
+            }))
+            .filter((item) => String(item.address || item.normalizedAddress || item.label || "").trim()),
           serviceItems: form.serviceItems
             .map((item, index) => ({
               ...item,
               targetGroups: splitList(item.targetGroups),
+              locationIds: Array.isArray(item.locationIds) ? item.locationIds : [],
               status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
               sortOrder: index
             }))
@@ -2275,6 +2372,65 @@ function ServiceProfileSurface({ t }) {
         </div>
       </SectionCard>
 
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.locations", "Teeninduskohad")}>
+        <div className="grid gap-[0.82rem]">
+          {form.serviceLocations.length ? form.serviceLocations.map((location, index) => (
+            <div key={location.clientId || `location-${index}`} className="grid gap-[0.72rem] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.045)] p-[0.82rem]">
+              <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
+                <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+                  {readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} {index + 1}
+                </p>
+                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="!min-h-[2.4rem] !px-[0.95rem] !py-[0.55rem] !text-[0.92rem]">
+                  {readText(t, "workspace_feature_pages.service_profile.locations.remove", "Eemalda")}
+                </Button>
+              </div>
+              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.label", "Nimetus")}</span>
+                  <ServiceProfileInput value={location.label} onChange={(event) => updateServiceLocation(index, "label", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.address", "Aadress")}</span>
+                  <ServiceProfileAddressInput
+                    t={t}
+                    form={{ ...form, ...location, county: location.county || form.county }}
+                    onTyping={(value) => updateServiceLocationAddressTyping(index, value)}
+                    onSelect={(suggestion) => selectServiceLocationAddress(index, suggestion)}
+                  />
+                </Label>
+              </div>
+              <div className="grid gap-[0.72rem] sm:grid-cols-3">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+                  <ServiceProfileInput value={location.phone} onChange={(event) => updateServiceLocation(index, "phone", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+                  <ServiceProfileInput type="email" value={location.email} onChange={(event) => updateServiceLocation(index, "email", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Website")}</span>
+                  <ServiceProfileInput value={location.website} onChange={(event) => updateServiceLocation(index, "website", event.target.value)} />
+                </Label>
+              </div>
+              <ToggleRow
+                checked={location.mapVisible}
+                onChange={(value) => updateServiceLocation(index, "mapVisible", value)}
+                title={readText(t, "workspace_feature_pages.service_profile.locations.visible_on_map", "Näita teenusekaardil")}
+                className="workspace-feature-toggle-row--flat"
+              />
+            </div>
+          )) : (
+            <p className={bodyTextClassName}>
+              {readText(t, "workspace_feature_pages.service_profile.locations.empty", "Teeninduskohti ei ole veel lisatud.")}
+            </p>
+          )}
+          <Button type="button" variant="secondary" onClick={addServiceLocation} className="justify-self-start">
+            {readText(t, "workspace_feature_pages.service_profile.locations.add", "Lisa teeninduskoht")}
+          </Button>
+        </div>
+      </SectionCard>
+
       <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.services", "Services under this provider")}>
         <div className="grid gap-[0.82rem]">
           {form.serviceItems.length ? form.serviceItems.map((service, index) => (
@@ -2328,6 +2484,34 @@ function ServiceProfileSurface({ t }) {
                   />
                 </Label>
               </div>
+              {form.serviceLocations.length ? (
+                <div className="grid gap-[0.42rem]">
+                  <p className="m-0 text-[0.92rem] font-[640] leading-[1.2]">
+                    {readText(t, "workspace_feature_pages.service_profile.service_items.locations", "Teeninduskohad")}
+                  </p>
+                  <div className="flex flex-wrap gap-[0.42rem]">
+                    {form.serviceLocations.map((location, locationIndex) => {
+                      const locationId = location.clientId || `location-${locationIndex + 1}`;
+                      const checked = (service.locationIds || []).includes(locationId);
+                      return (
+                        <label key={locationId} className="inline-flex items-center gap-[0.36rem] rounded-full border border-[rgba(255,255,255,0.14)] px-[0.68rem] py-[0.34rem] text-[0.86rem]">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={(event) => {
+                              const currentIds = new Set(service.locationIds || []);
+                              if (event.target.checked) currentIds.add(locationId);
+                              else currentIds.delete(locationId);
+                              updateServiceItem(index, "locationIds", [...currentIds]);
+                            }}
+                          />
+                          <span>{location.label || location.normalizedAddress || location.address || `${readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} ${locationIndex + 1}`}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
               <div className="grid gap-[0.72rem] sm:grid-cols-2">
                 <Label>
                   <span>{readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Price")}</span>
