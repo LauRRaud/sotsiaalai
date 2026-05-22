@@ -1996,7 +1996,7 @@
         },
         "help": {
           "title": "Help requests and help offers",
-          "body": "A help request or help offer can be described in the user's own words. SotsiaalAI helps make it clearer, asks follow-up questions when needed, and helps make the completed listing visible. The platform tries to find suitable help requests and help offers, and when there is a match, the parties can continue communication in a shared chat room."
+          "body": "The user describes a help request or help offer in their own words. SotsiaalAI helps make the description clearer, asks follow-up questions when needed, and prepares the listing for publication. After the listing is confirmed, the platform shows suitable help requests or help offers based on category, region, form of help, and other signals. When the user connects two suitable listings, a shared chat room is created for the parties to continue communication."
         },
         "service_card": {
           "title": "Service card",
@@ -2004,7 +2004,7 @@
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",
-          "body": "The SotsiaalAI knowledge base is a background layer that supports assistant answers with domain information: municipal service and contact information, application forms, legal acts, guidance, methodology materials, organisation and service-provider information, practical materials, and field articles or studies. It helps keep answers in a social-sector context and reduces the need to search for the same information manually across separate places."
+          "body": "The SotsiaalAI knowledge base is a background layer that supports assistant answers with domain information. It includes municipal service and contact information, application forms, legal acts, guidance, methodology materials, organisation and service-provider information, practical materials, and field articles or studies. Automated checks and update workflows help detect changes in municipal, Riigi Teataja, and contact-information sources and refresh content in a controlled way. This helps keep answers in a social-sector context and reduces the need to search for the same information manually across separate places."
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistants and agents",
@@ -2012,7 +2012,7 @@
         },
         "sources": {
           "title": "Source display",
-          "body": "Source display helps users see what an answer is based on. It supports checking the answer and distinguishing whether information comes from legislation, guidance, a local-government website, or another used material. In social-sector questions this is especially important because information needs to be reliable and up to date."
+          "body": "When sources are available for an answer, the sources button opens an overview of the materials the answer relies on. This helps check whether the information comes from legislation, guidance, a local-government website, service information, or another material used. In social-sector questions, visible sources help assess whether the answer is sufficiently checkable and up to date."
         },
         "drafting": {
           "title": "Document drafting",
@@ -2028,7 +2028,7 @@
         },
         "rooms": {
           "title": "Chat rooms",
-          "body": "Chat rooms can be used for shared conversations and to invite, for example, a person seeking help, a social work professional, a service provider, or a colleague. A room may also be created through a match between a help request and a help offer, or when information needs to be clarified with another party after a pre-inquiry. If needed, a person can be invited to a chat room and given one month of full platform access paid by the inviter."
+          "body": "Chat rooms are shared communication spaces where the user may invite a person seeking help, a social work professional, a service provider, or a colleague. A room may be created when a help request and help offer are connected, or after a pre-inquiry when the parties need clarification and further communication. A regular invite adds the person to the room. If needed, the inviter may pay for one month of role-based platform access for the invited person."
         },
         "documents": {
           "title": "Documents: storage and management",

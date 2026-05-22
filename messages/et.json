@@ -1996,7 +1996,7 @@
         },
         "help": {
           "title": "Abisoovid ja abipakkumised",
-          "body": "Abisoovi või abipakkumise saab kirjeldada oma sõnadega. SotsiaalAI aitab selle selgemalt vormistada, küsib vajadusel täpsustusi ja aitab koostatud kuulutuse nähtavaks teha. Platvorm proovib leida sobivaid abisoove ja abipakkumisi ning sobituse korral saavad osapooled jätkata suhtlust ühises vestlusruumis."
+          "body": "Kasutaja kirjeldab abisoovi või abipakkumist oma sõnadega. SotsiaalAI aitab kirjelduse selgemaks vormistada, küsib vajadusel täpsustusi ja valmistab ette avaldatava kuulutuse. Pärast kuulutuse kinnitamist näitab platvorm sobivaid abisoove või abipakkumisi kategooria, piirkonna, abi vormi ja muude tunnuste põhjal. Kui kasutaja ühendab kaks sobivat kuulutust, luuakse ühine vestlusruum osapoolte edasiseks suhtluseks."
         },
         "service_card": {
           "title": "Teenusekaart",
@@ -2004,7 +2004,7 @@
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
-          "body": "SotsiaalAI teadmusbaas on platvormi taustakiht, mis toetab assistendi vastuseid valdkondliku infoga: KOV teenuse- ja kontaktinfo, taotlusvormid, õigusaktid, juhendid, metoodikamaterjalid, organisatsioonide ja teenuseosutajate info, praktilised materjalid ning valdkondlikud artiklid või uuringud. See aitab hoida vastused sotsiaalvaldkonna kontekstis ja vähendab vajadust otsida sama infot käsitsi mitmest eri kohast."
+          "body": "SotsiaalAI teadmusbaas on platvormi taustakiht, mis toetab assistendi vastuseid valdkondliku infoga. Sinna kuuluvad KOV teenuse- ja kontaktinfo, taotlusvormid, õigusaktid, juhendid, metoodikamaterjalid, organisatsioonide ja teenuseosutajate info, praktilised materjalid ning valdkondlikud artiklid või uuringud. Automaatkontrollid ja uuendamise töövood aitavad märgata KOV, Riigi Teataja ja kontaktinfo muutusi ning värskendada sisu kontrollitult. See aitab hoida vastused sotsiaalvaldkonna kontekstis ja vähendab vajadust otsida sama infot käsitsi mitmest eri kohast."
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistendid ja agendid",
@@ -2012,7 +2012,7 @@
         },
         "sources": {
           "title": "Allikate kuvamine",
-          "body": "Allikate kuvamine aitab näha, millele vastus tugineb. See toetab vastuse kontrollimist ja aitab eristada, kas info pärineb näiteks õigusaktist, juhendist, kohaliku omavalitsuse veebilehelt või muust kasutatud materjalist. Sotsiaalvaldkonna küsimustes on see eriti oluline, sest info peab olema usaldusväärne ja ajakohane."
+          "body": "Kui vastuse juures on kasutatud allikad olemas, avab allikate nupp ülevaate materjalidest, millele vastus toetub. See aitab kontrollida, kas info pärineb näiteks õigusaktist, juhendist, kohaliku omavalitsuse veebilehelt, teenuseinfost või muust kasutatud materjalist. Sotsiaalvaldkonna küsimustes aitab allikate nähtavus hinnata, kas vastus on piisavalt kontrollitav ja ajakohane."
         },
         "drafting": {
           "title": "Dokumentide koostamine",
@@ -2028,7 +2028,7 @@
         },
         "rooms": {
           "title": "Vestlusruumid",
-          "body": "Vestlusruumides saab pidada ühiseid vestlusi ja kutsuda neisse näiteks pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida ka abisoovi ja abipakkumise sobituse kaudu või siis, kui eelpöördumise järel on vaja teise osapoolega infot täpsustada. Soovi korral saab inimese kutsuda vestlusruumi ning tasuda tema eest ühe kuu platvormi täieliku kasutusõiguse."
+          "body": "Vestlusruumid on ühised suhtlusruumid, kuhu kasutaja võib kutsuda pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida abisoovi ja abipakkumise ühendamisel või eelpöördumise järel, kui osapooled vajavad täpsustust ja edasist suhtlust. Tavaline kutse lisab inimese ruumi. Soovi korral võib kutsuja tasuda kutsutu ühe kuu rollipõhise platvormiligipääsu eest."
         },
         "documents": {
           "title": "Dokumendid: hoidla ja haldus",
