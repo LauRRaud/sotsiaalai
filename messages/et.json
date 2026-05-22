@@ -2060,7 +2060,7 @@
         },
         "privacy_safety": {
           "title": "Privaatsuse eelkiht",
-          "body": "Tundlike tekstide puhul toetab SotsiaalAI andmete minimeerimist: eelpöördumistes ja töömustandites tuvastatakse lihtsamad isikuandmete signaalid ning kasutajale näidatakse hoiatust enne AI-töötluse, salvestamise või jagamise jätkamist. Eesmärk on sisestada ainult see info, mida töövoog päriselt vajab."
+          "body": "Privaatsuse eelkiht aitab tundlikes töövoogudes märgata liigseid isikuandmeid enne teksti saatmist, AI-töötlust, salvestamist või jagamist. Kontroll otsib lihtsamaid signaale, näiteks e-posti aadressi, telefoninumbrit, isikukoodi ja aadressi, ning kuvab vajadusel hoiatuse koos maskeeritud versiooniga. Eesmärk on hoida sisendis ainult see info, mida valitud töövoog vajab. See on abikiht ega asenda kasutaja või organisatsiooni andmekaitseotsust."
         },
         "crisis_routing": {
           "title": "Kriisi- ja ohusuunamine",
