@@ -1992,7 +1992,7 @@
       "items": {
         "workspace": {
           "title": "Workspace",
-          "body": "The workspace is the user's personal overview and work area in SotsiaalAI. It can be used to manage documents, pre-inquiries, deep research, and help requests and offers. The workspace gives access to tools suited to the user, including document drafting and analysis, co-vision, adding materials, the service profile, and the service map application."
+          "body": "The workspace is a role-based overview and work area that shows the tools suited to the user's role. The help-seeker view focuses on help requests and offers, pre-inquiries, document drafting, invites, and the service map. The social work professional view adds documents, inquiry intake, co-vision, and materials. The service provider view adds the service profile, pre-inquiry intake, and visibility related to the service map. Some tools may require active access or a subscription."
         },
         "help": {
           "title": "Help requests and help offers",
@@ -2004,7 +2004,7 @@
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",
-          "body": "The SotsiaalAI knowledge base brings together social-sector sources, guidance, legal frameworks, methodologies, and practical materials. Its purpose is to support answers with more field-specific and verifiable information, so the user does not have to manually collect the needed information from separate sources."
+          "body": "The SotsiaalAI knowledge base is a background layer that supports assistant answers with domain information: municipal service and contact information, application forms, legal acts, guidance, methodology materials, organisation and service-provider information, practical materials, and field articles or studies. It helps keep answers in a social-sector context and reduces the need to search for the same information manually across separate places."
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistants and agents",

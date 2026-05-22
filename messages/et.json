@@ -1992,7 +1992,7 @@
       "items": {
         "workspace": {
           "title": "Töölaud",
-          "body": "Töölaud on kasutaja isiklik ülevaate- ja töökoht SotsiaalAI-s. Seal saab hallata dokumente, eelpöördumisi, süvauuringuid ning abisoove ja -pakkumisi. Töölaud annab ligipääsu kasutajale sobivatele töövahenditele, sealhulgas dokumentide koostamisele ja analüüsile, kovisioonile, materjalide lisamisele, teenuseprofiilile ning teenuste kaardirakendusele."
+          "body": "Töölaud on rollipõhine ülevaate- ja töökoht, kus kuvatakse kasutaja rollile sobivad tööriistad. Pöörduja vaates on rõhk abisoovidel ja -pakkumistel, eelpöördumisel, dokumendi koostamisel, kutsetel ning teenusekaardil. Sotsiaaltöö spetsialisti vaates lisanduvad dokumendid, pöördumiste vastuvõtt, kovisioon ja materjalid. Teenuseosutaja vaates lisanduvad teenuseprofiil, eelpöördumiste vastuvõtt ning teenusekaardiga seotud nähtavus. Osa töövahendeid võib eeldada aktiivset ligipääsu või tellimust."
         },
         "help": {
           "title": "Abisoovid ja abipakkumised",
@@ -2004,7 +2004,7 @@
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
-          "body": "SotsiaalAI teadmusbaas koondab sotsiaalvaldkonna allikaid, juhiseid, õigusraamistikku, metoodikaid ja praktilisi materjale. Teadmusbaasi eesmärk on toetada vastuseid valdkonnaga seotud ja kontrollitavama infoga, et kasutaja ei peaks vajalikku infot käsitsi eri allikatest kokku otsima."
+          "body": "SotsiaalAI teadmusbaas on platvormi taustakiht, mis toetab assistendi vastuseid valdkondliku infoga: KOV teenuse- ja kontaktinfo, taotlusvormid, õigusaktid, juhendid, metoodikamaterjalid, organisatsioonide ja teenuseosutajate info, praktilised materjalid ning valdkondlikud artiklid või uuringud. See aitab hoida vastused sotsiaalvaldkonna kontekstis ja vähendab vajadust otsida sama infot käsitsi mitmest eri kohast."
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistendid ja agendid",
