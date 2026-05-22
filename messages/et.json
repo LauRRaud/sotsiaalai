@@ -2064,7 +2064,7 @@
         },
         "crisis_routing": {
           "title": "Kriisi- ja ohusuunamine",
-          "body": "Kui kirjeldus viitab vahetule ohule, suitsiidiriskile, vägivallale või muule raskele kriisile, ei jää AI ainsaks kanaliks. Platvorm toob esile Eesti abikanalid, näiteks 112, Lasteabi 116 111 ja Ohvriabi 116 006, ning suunab kasutaja inimese või pädeva teenuseni."
+          "body": "Kui kasutaja kirjeldab vahetut ohtu, enesevigastamise või suitsiidiriski, vägivalda või muud rasket kriisi, kuvab SotsiaalAI kiire abi juhised ja Eesti abikanalid. Esile tuuakse näiteks 112, Lasteabi 116 111 ja Ohvriabi 116 006. AI ei asenda hädaabi, lastekaitset, ohvriabi ega professionaalset kriisiabi."
         },
         "youth_child_safety": {
           "title": "Noorte ja laste ohutus",

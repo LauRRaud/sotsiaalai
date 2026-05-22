@@ -2064,7 +2064,7 @@
         },
         "crisis_routing": {
           "title": "Crisis and risk routing",
-          "body": "When a description points to immediate danger, suicide risk, violence, or another serious crisis, AI does not remain the only channel. The platform surfaces Estonian support channels such as 112, Child Helpline 116 111, and Victim Support 116 006, and routes the user toward a person or competent service."
+          "body": "When a user describes immediate danger, self-harm or suicide risk, violence, or another serious crisis, SotsiaalAI shows urgent-help guidance and Estonian support channels. These include 112, Child Helpline 116 111, and Victim Support 116 006. AI does not replace emergency services, child protection, victim support, or professional crisis help."
         },
         "youth_child_safety": {
           "title": "Youth and child safety",
