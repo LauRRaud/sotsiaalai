@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - generic [ref=e6]:
+      - button "Tagasi eelmisele lehele" [ref=e7]:
+        - img [ref=e8]
+      - heading "SotsiaalAI võimalused" [level=1] [ref=e14]
+      - generic [ref=e15]:
+        - paragraph [ref=e16]: "Siit leiad SotsiaalAI põhifunktsioonide lühiselgitused: mida iga võimalus teeb, kellele see on mõeldud ja millised privaatsus-, turva- ja inimese kontrolli põhimõtted töövoogudes kehtivad."
+        - generic "SotsiaalAI võimalused" [ref=e17]:
+          - article [ref=e18]
+          - article [ref=e21]
+          - article [ref=e24]
+          - article [ref=e27]
+          - article [ref=e30]
+          - article [ref=e33]
+          - article [ref=e36]
+          - article [ref=e39]
+          - article [ref=e42]
+          - article [ref=e45]
+          - article [ref=e48]
+          - article [ref=e51]
+          - article [ref=e54]
+          - article [ref=e57]
+          - article [ref=e60]
+          - article [ref=e63]
+          - article [ref=e66]
+          - article [ref=e69]
+          - article [ref=e72]
+  - button "Open Next.js Dev Tools" [ref=e80] [cursor=pointer]:
+    - img [ref=e81]
+  - alert [ref=e84]
