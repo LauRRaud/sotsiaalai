@@ -4,6 +4,7 @@ import {
   getVisibleCovisionCase,
   serializeCovisionCase
 } from "@/lib/covision";
+import { fetchCovisionKnowledgeSupport } from "@/lib/covisionKnowledge";
 import {
   covisionErrorResponse,
   covisionLocale,
@@ -26,6 +27,15 @@ export async function POST(request) {
         return covisionErrorResponse({ message: "api.common.not_found", status: 404 }, locale);
       }
       covisionCase = serializeCovisionCase(record, auth);
+    }
+    if (body?.action === "knowledge") {
+      const support = await fetchCovisionKnowledgeSupport(auth, covisionCase, {
+        topK: body?.topK
+      });
+      return json({
+        ok: true,
+        knowledge: support
+      });
     }
     const result = buildCovisionAssist({
       action: body?.action,

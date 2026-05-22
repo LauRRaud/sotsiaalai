@@ -57,6 +57,15 @@ test("covision overview keeps the intro close to the action panel", () => {
   assert.doesNotMatch(source, /styles\.lead,[\s\S]*?pb-\[0\.18rem\]/);
 });
 
+test("covision room exposes knowledge-base background support", () => {
+  const source = read("components/covision/CovisionPage.jsx");
+
+  assert.match(source, /loadKnowledgeSupport/);
+  assert.match(source, /Otsi taustainfot/);
+  assert.match(source, /Teadmistebaasi taustainfo/);
+  assert.match(source, /KnowledgeSupportPanel/);
+});
+
 test("covision HC surface keeps the shared blurred glass shell", () => {
   const css = read("components/covision/CovisionPage.module.css");
   const hcPageBlock = cssBlock(css, ':global(html[data-contrast="hc"]) .page');

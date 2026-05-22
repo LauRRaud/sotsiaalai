@@ -1385,6 +1385,8 @@ model EffectivePractice {
   topics               String[]                @default([])
   tags                 String[]                @default([])
   status               EffectivePracticeStatus @default(DRAFT)
+  ragSourceId          String?
+  ragMetadata          Json?
   anonymityCheckedAt   DateTime?
   reviewedAt           DateTime?
   createdAt            DateTime                @default(now())
@@ -1396,6 +1398,7 @@ model EffectivePractice {
   @@index([authorId, updatedAt])
   @@index([sourceCovisionCaseId])
   @@index([status])
+  @@index([ragSourceId])
   @@index([createdAt])
 }
 

@@ -665,7 +665,7 @@
         "type": "Entry type"
       },
       "placeholders": {
-        "keyword": "Service, contact, or need",
+        "keyword": "Service, contact, or keyword",
         "region": "Municipality, settlement, or county"
       },
       "types": {
@@ -2017,7 +2017,7 @@
         },
         "service_card": {
           "title": "Service card",
-          "body": "The service card is SotsiaalAI's map view where published map entries can be searched by name, description, address, service, service category, or target group. The area search uses municipality, county, address, and the service provider's service area. The map shows published local-government social-welfare contacts and service providers made visible in SotsiaalAI. A result can show an address, area, phone number, email address, or website when those details are available."
+          "body": "The service card is SotsiaalAI's map view for finding published local-government social-welfare contacts and service providers. Users can search by name, description, address, service, category, target group, or area. Search also uses the services listed under a service provider profile, including their descriptions, areas, and price information. One service provider has one map marker, and several published services can be shown under that marker."
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",
@@ -2061,7 +2061,7 @@
         },
         "kovisioon": {
           "title": "Co-vision and practice examples",
-          "body": "The co-vision view has two separate parts: closed case discussions and practice examples. In co-vision, the case owner describes the situation in an anonymised form, adds the central question, topics, parties, risks, and protective factors, and invites colleagues to participate. In the practice examples view, users can add generalised effective-practice entries or create one from a co-vision case. Before publication, a practice example remains subject to anonymity checks and review."
+          "body": "The co-vision view has two separate parts: closed case discussions and practice examples. In co-vision, the case owner describes the situation in an anonymised form, adds the central question, topics, parties, risks, and protective factors, and invites colleagues to participate. In the discussion room, users can search the knowledge base for related laws, guides, methodology, practice descriptions, services, and benefits. In the practice examples view, users can add generalised effective-practice entries or create one from a co-vision case. A published practice example can be used in the knowledge base, but before publication it remains subject to anonymity checks and review."
         },
         "materials_adding": {
           "title": "Adding materials",
@@ -2073,7 +2073,7 @@
         },
         "service_profile": {
           "title": "Service profile and management",
-          "body": "The service profile is the service provider's workspace for managing public information and inquiries. The service provider can describe the organisation, services, categories, target groups, service area, address or reception location, contacts, languages, price, and accessibility information. The profile can also define whether the provider is visible on the service map and whether it accepts pre-inquiries in SotsiaalAI or by email. The profile appears on the service map when it is published, marked as visible, and the address has a reliable match."
+          "body": "The service profile is the service provider's workspace for managing public information and inquiries. The profile can describe the organisation's general information, contacts, service area, accessibility details, and separate service records under the organisation. Each service can have its own description, target group, area, price, contact, and pre-inquiry settings. The profile appears on the service map when it is published, marked as visible, and the address has a reliable match. Published profile and service information can also be used in the knowledge base so the services can be found in assistant conversations."
         },
         "privacy_safety": {
           "title": "Privacy pre-check",

@@ -665,7 +665,7 @@
         "type": "Kirje liik"
       },
       "placeholders": {
-        "keyword": "Teenus, kontakt või vajadus",
+        "keyword": "Teenus, kontakt või märksõna",
         "region": "KOV, asula või maakond"
       },
       "types": {
@@ -2017,7 +2017,7 @@
         },
         "service_card": {
           "title": "Teenusekaart",
-          "body": "Teenusekaart on SotsiaalAI kaardivaade, kus saab otsida avaldatud kaardikirjeid nime, kirjelduse, aadressi, teenuse, teenusekategooria või sihtrühma järgi. Piirkonna otsing arvestab KOV-i, maakonda, aadressi ja teenuseosutaja teeninduspiirkonda. Kaardil kuvatakse avaldatud KOV sotsiaalhoolekande kontaktid ning SotsiaalAI-s nähtavaks tehtud teenuseosutajad. Tulemuse juures saab näha aadressi, piirkonda, telefoni, e-posti või veebilehte, kui need andmed on olemas."
+          "body": "Teenusekaart on SotsiaalAI kaardivaade avaldatud KOV sotsiaalhoolekande kontaktide ja teenuseosutajate leidmiseks. Otsida saab nime, kirjelduse, aadressi, teenuse, kategooria, sihtrühma või piirkonna järgi. Otsing arvestab ka teenuseosutaja profiili all olevaid teenuseid, sealhulgas nende kirjeldusi, piirkonda ja hinnainfot. Ühel teenuseosutajal on kaardil üks marker, mille all saab kuvada mitu avaldatud teenust."
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
@@ -2061,7 +2061,7 @@
         },
         "kovisioon": {
           "title": "Kovisioon ja praktikanäited",
-          "body": "Kovisiooni vaates on kaks eraldi osa: kinnised juhtumiarutelud ja praktikanäited. Kovisioonis kirjeldab juhtumi looja olukorda anonümiseeritud kujul, lisab keskse küsimuse, teemad, osapooled, riskid ja kaitsetegurid ning kutsub kolleegid osalema. Praktikanäidete vaates saab lisada üldistatud toimiva praktika kirjeid või luua sellise kirje kovisiooni põhjal. Enne avaldamist jääb praktikanäide anonüümsuse kontrolli ja ülevaatuse alla."
+          "body": "Kovisiooni vaates on kaks eraldi osa: kinnised juhtumiarutelud ja praktikanäited. Kovisioonis kirjeldab juhtumi looja olukorda anonümiseeritud kujul, lisab keskse küsimuse, teemad, osapooled, riskid ja kaitsetegurid ning kutsub kolleegid osalema. Aruteluruumis saab otsida teadmistebaasist seotud seadusi, juhendeid, metoodikat, praktikakirjeldusi, teenuseid ja toetusi. Praktikanäidete vaates saab lisada üldistatud toimiva praktika kirjeid või luua sellise kirje kovisiooni põhjal. Avaldatud praktikanäidet saab kasutada teadmistebaasis, kuid enne avaldamist jääb see anonüümsuse kontrolli ja ülevaatuse alla."
         },
         "materials_adding": {
           "title": "Materjalide lisamine",
@@ -2073,7 +2073,7 @@
         },
         "service_profile": {
           "title": "Teenuseprofiil ja haldus",
-          "body": "Teenuseprofiil on teenuseosutaja töövaade avaliku info ja pöördumiste haldamiseks. Teenuseosutaja saab kirjeldada organisatsiooni, teenuseid, kategooriaid, sihtrühmi, teeninduspiirkonda, aadressi või vastuvõtukohta, kontakte, keeli, hinda ja ligipääsetavuse infot. Profiilis saab määrata, kas teenuseosutaja on teenusekaardil nähtav ning kas ta võtab eelpöördumisi vastu SotsiaalAI-s või e-posti kaudu. Teenusekaardile jõuab profiil siis, kui see on avaldatud, nähtavaks märgitud ja aadressil on usaldusväärne vaste."
+          "body": "Teenuseprofiil on teenuseosutaja töövaade avaliku info ja pöördumiste haldamiseks. Profiilis saab kirjeldada organisatsiooni üldandmeid, kontakte, teeninduspiirkonda, ligipääsetavust ja lisada selle alla eraldi teenusekirjed. Igal teenusel võib olla oma kirjeldus, sihtrühm, piirkond, hind, kontakt ja eelpöördumise seaded. Teenusekaardile jõuab profiil siis, kui see on avaldatud, nähtavaks märgitud ja aadressil on usaldusväärne vaste. Avaldatud profiili ja teenuste infot saab kasutada ka teadmistebaasis, et teenused oleksid leitavad assistendiga vesteldes."
         },
         "privacy_safety": {
           "title": "Privaatsuse eelkiht",

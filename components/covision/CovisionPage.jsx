@@ -429,6 +429,60 @@ function SummaryField({ label, value, onChange }) {
   );
 }
 
+function knowledgeCategoryLabel(category) {
+  if (category === "legal") return "Õigusraam";
+  if (category === "guidance") return "Juhend või metoodika";
+  if (category === "practice") return "Praktika";
+  if (category === "service") return "Teenus või toetus";
+  return "Taustainfo";
+}
+
+function KnowledgeSupportPanel({ support }) {
+  const items = Array.isArray(support?.results) ? support.results : [];
+  if (!support) {
+    return (
+      <p className={mutedTextClassName}>
+        Otsi teadmistebaasist seotud seadusi, juhendeid, metoodikamaterjale, praktikakirjeldusi, teenuseid ja toetusi.
+      </p>
+    );
+  }
+  if (support.available === false) {
+    return (
+      <p className={mutedTextClassName}>
+        Teadmistebaasi otsing ei ole selles keskkonnas seadistatud.
+      </p>
+    );
+  }
+  if (!items.length) {
+    return (
+      <p className={mutedTextClassName}>
+        Teadmistebaasist ei leitud selle juhtumipüstituse põhjal sobivaid vasteid.
+      </p>
+    );
+  }
+  return (
+    <div className="grid gap-[0.58rem]">
+      {items.map((item) => (
+        <article key={item.id || `${item.title}-${item.snippet}`} className={cn(styles.subtleCard, "grid gap-[0.34rem] rounded-[0.86rem] border px-[0.74rem] py-[0.64rem]")}>
+          <div className="flex flex-wrap items-start justify-between gap-[0.48rem]">
+            <h3 className="m-0 text-[0.98rem] font-[680] leading-[1.22]">{item.title}</h3>
+            <span className={cn(styles.tag, "rounded-full border px-[0.52rem] py-[0.16rem] text-[0.76rem] leading-[1.1]")}>
+              {knowledgeCategoryLabel(item.category)}
+            </span>
+          </div>
+          {item.organization ? <p className={cn(styles.meta, "m-0 text-[0.82rem]")}>{item.organization}</p> : null}
+          <p className="m-0 line-clamp-3 whitespace-pre-wrap text-[0.92rem] leading-[1.38]">{item.snippet}</p>
+          {item.url ? (
+            <a className="w-fit text-[0.88rem] font-[680] underline underline-offset-4" href={item.url} target="_blank" rel="noreferrer">
+              Ava allikas
+            </a>
+          ) : null}
+        </article>
+      ))}
+    </div>
+  );
+}
+
 export default function CovisionPage() {
   const router = useRouter();
   const { locale, t } = useI18n();
@@ -449,6 +503,8 @@ export default function CovisionPage() {
   const [messageBody, setMessageBody] = useState("");
   const [messageType, setMessageType] = useState("free_text");
   const [summaryForm, setSummaryForm] = useState({});
+  const [knowledgeSupport, setKnowledgeSupport] = useState(null);
+  const [knowledgeLoading, setKnowledgeLoading] = useState(false);
   const [participantEmail, setParticipantEmail] = useState("");
   const [participantRole, setParticipantRole] = useState("participant");
   const [partyCategory, setPartyCategory] = useState(COVISION_PARTY_GROUPS[0]?.category || "");
@@ -581,6 +637,7 @@ export default function CovisionPage() {
       if (!response.ok) throw new Error(payload?.message || "Kovisiooni avamine ebaõnnestus.");
       setActiveCase(payload.case);
       setSummaryForm(payload.case?.summaryRecord || {});
+      setKnowledgeSupport(null);
       setView("room");
     } catch (openError) {
       setError(openError?.message || "Kovisiooni avamine ebaõnnestus.");
@@ -773,6 +830,7 @@ export default function CovisionPage() {
       await loadWorkspace();
       setActiveCase(data.case);
       setSummaryForm(data.case?.summaryRecord || {});
+      setKnowledgeSupport(null);
       setNotice("Kovisiooni juhtumipüstitus salvestatud.");
       setView("room");
     } catch (saveError) {
@@ -823,6 +881,31 @@ export default function CovisionPage() {
       setNotice("Kokkuvõtte mustand koostatud. Vaata see enne salvestamist üle.");
     } catch (assistError) {
       setError(assistError?.message || "Kokkuvõtte mustandi koostamine ebaõnnestus.");
+    }
+  }
+
+  async function loadKnowledgeSupport() {
+    if (!activeCase?.id || knowledgeLoading) return;
+    setKnowledgeLoading(true);
+    setError("");
+    try {
+      const response = await covisionFetch("/api/covision/assist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "knowledge", caseId: activeCase.id, topK: 8 })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload?.message || "Teadmistebaasi taustainfo otsimine ebaõnnestus.");
+      setKnowledgeSupport(payload.knowledge || { available: true, results: [] });
+      if (payload.knowledge?.available === false) {
+        setNotice("Teadmistebaasi otsing ei ole selles keskkonnas seadistatud.");
+      } else {
+        setNotice("Teadmistebaasi taustainfo uuendatud. Kontrolli allikaid enne kasutamist.");
+      }
+    } catch (knowledgeError) {
+      setError(knowledgeError?.message || "Teadmistebaasi taustainfo otsimine ebaõnnestus.");
+    } finally {
+      setKnowledgeLoading(false);
     }
   }
 
@@ -1237,6 +1320,9 @@ export default function CovisionPage() {
                   <CardTags tags={activeCase.topics} />
                 </div>
                 <div className="flex flex-wrap gap-[0.5rem]">
+                  <Button type="button" variant="secondary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
+                    {knowledgeLoading ? "Otsin taustainfot..." : "Otsi taustainfot"}
+                  </Button>
                   <Button type="button" variant="secondary" onClick={() => editCase(activeCase)} className={smallButtonClassName}>Muuda juhtumit</Button>
                   <Button type="button" variant="secondary" onClick={startPracticeFromCase} className={smallButtonClassName}>Loo toimiv praktika</Button>
                 </div>
@@ -1296,6 +1382,17 @@ export default function CovisionPage() {
                   </form>
                 </SectionPanel>
               </div>
+
+              <SectionPanel
+                title="Teadmistebaasi taustainfo"
+                aside={knowledgeSupport?.query ? (
+                  <span className={cn(styles.meta, "text-[0.82rem]")}>
+                    {knowledgeSupport.results?.length || 0} vastet
+                  </span>
+                ) : null}
+              >
+                <KnowledgeSupportPanel support={knowledgeSupport} />
+              </SectionPanel>
 
               <SectionPanel
                 title="Kovisiooni kokkuvõte"
