@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { __iconNode as buildingCommunityIconNode } from "@tabler/icons-react/dist/esm/icons/IconBuildingCommunity.mjs";
+import { __iconNode as heartHandshakeIconNode } from "@tabler/icons-react/dist/esm/icons/IconHeartHandshake.mjs";
 
 const ESTONIA_BOUNDS = [
   [57.45, 21.35],
@@ -366,30 +368,39 @@ function markerClassName(group, selected) {
     .join(" ");
 }
 
+function escapeSvgAttribute(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("\"", "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function iconNodeHtml(iconNode) {
+  const body = iconNode.map(([tag, attrs = {}]) => {
+    const attributes = Object.entries(attrs)
+      .filter(([name]) => name !== "key")
+      .map(([name, value]) => `${name}="${escapeSvgAttribute(value)}"`)
+      .join(" ");
+    return `<${tag}${attributes ? ` ${attributes}` : ""} />`;
+  }).join("");
+
+  return [
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">",
+    body,
+    "</svg>"
+  ].join("");
+}
+
 function markerIconHtml(group) {
   const entries = Array.isArray(group?.entries) ? group.entries : [];
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
 
   if (allProviders) {
-    return [
-      "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
-      "<path d=\"M8.2 8.1V6.85c0-1 .8-1.8 1.8-1.8h4c1 0 1.8.8 1.8 1.8V8.1\" />",
-      "<path d=\"M5.4 8.1h13.2c.88 0 1.6.72 1.6 1.6v7.25c0 .88-.72 1.6-1.6 1.6H5.4c-.88 0-1.6-.72-1.6-1.6V9.7c0-.88.72-1.6 1.6-1.6Z\" />",
-      "<path d=\"M3.8 12.25h16.4\" />",
-      "<path d=\"M10.55 12.25v1.05h2.9v-1.05\" />",
-      "</svg>"
-    ].join("");
+    return iconNodeHtml(heartHandshakeIconNode);
   }
 
-  return [
-    "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
-    "<path d=\"M4.4 19.15h15.2\" />",
-    "<path d=\"M5.8 8.8 12 4.85l6.2 3.95\" />",
-    "<path d=\"M6.55 10.05h10.9\" />",
-    "<path d=\"M6.35 18.1h11.3\" />",
-    "<path d=\"M7.65 18.1v-5.75M10.55 18.1v-5.75M13.45 18.1v-5.75M16.35 18.1v-5.75\" />",
-    "</svg>"
-  ].join("");
+  return iconNodeHtml(buildingCommunityIconNode);
 }
 
 function markerHtml(group, selected) {

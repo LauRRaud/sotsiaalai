@@ -163,6 +163,14 @@ test("service map back button uses desktop toolbar panel and mobile page anchor"
     css,
     /\.service-map-toolbar__back\s*\{[\s\S]*?background:\s*transparent\s*!important[\s\S]*?box-shadow:\s*none\s*!important/
   );
+  assert.match(
+    css,
+    /\.service-map-toolbar__back\s*\{[\s\S]*?width:\s*var\(--service-map-toolbar-back-hit-size,\s*3\.72rem\)\s*!important[\s\S]*?height:\s*var\(--service-map-toolbar-back-hit-size,\s*3\.72rem\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__back svg\s*\{[\s\S]*?width:\s*var\(--service-map-toolbar-back-hit-size,\s*3\.15rem\)\s*!important[\s\S]*?height:\s*var\(--service-map-toolbar-back-hit-size,\s*3\.15rem\)\s*!important/
+  );
 });
 
 test("workspace dashboard back button keeps the same shared page anchor", () => {
@@ -418,6 +426,30 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
+    /\.service-map-toolbar__fields\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*16rem\) minmax\(0,\s*13\.6rem\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__field--keyword\s*\{[\s\S]*?width:\s*min\(16rem,\s*100%\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__field--region\s*\{[\s\S]*?width:\s*min\(13\.6rem,\s*100%\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?--service-map-toolbar-control-size:\s*3\.76rem[\s\S]*?--service-map-toolbar-control-top:\s*0\.25rem[\s\S]*?--service-map-toolbar-back-hit-size:\s*var\(--service-map-toolbar-control-size\)[\s\S]*?--service-map-toolbar-icon-edge-gap:\s*0\.46rem[\s\S]*?--service-map-toolbar-icon-inner-nudge:\s*0\.18rem[\s\S]*?--service-map-toolbar-side-reserve:\s*3\.42rem[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*66rem\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__info\.service-map-workspace__info\s*\{[\s\S]*?top:\s*calc\(var\(--service-map-toolbar-control-top\) \+ \(\(var\(--service-map-toolbar-control-size\) - var\(--service-map-toolbar-back-hit-size\)\) \/ 2\)\)\s*!important[\s\S]*?right:\s*calc\(var\(--service-map-toolbar-icon-edge-gap\) \+ var\(--service-map-toolbar-icon-inner-nudge\)\)\s*!important[\s\S]*?width:\s*var\(--service-map-toolbar-back-hit-size\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__info\.service-map-workspace__info svg\s*\{[\s\S]*?width:\s*var\(--service-map-toolbar-back-hit-size\)\s*!important[\s\S]*?height:\s*var\(--service-map-toolbar-back-hit-size\)\s*!important/
+  );
+  assert.match(
+    css,
     /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*relative[\s\S]*?top:\s*auto[\s\S]*?left:\s*auto/
   );
   assert.match(
@@ -427,6 +459,10 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   assert.match(
     css,
     /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*absolute[\s\S]*?left:\s*0\.28rem/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__body\s*\{[\s\S]*?width:\s*100%[\s\S]*?box-sizing:\s*border-box[\s\S]*?padding-inline:\s*var\(--service-map-toolbar-side-reserve,\s*3\.7rem\)/
   );
   assert.match(
     css,
@@ -442,11 +478,15 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /\.service-map-toolbar__identity\s*\{[\s\S]*?align-self:\s*flex-start[\s\S]*?padding-top:\s*0/
+    /\.service-map-toolbar__identity\s*\{[\s\S]*?z-index:\s*3[\s\S]*?align-self:\s*flex-start[\s\S]*?padding-top:\s*0/
   );
   assert.match(
     css,
-    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*-0\.34rem/
+    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__back\s*\{[\s\S]*?margin-top:\s*0/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?top:\s*calc\(var\(--service-map-toolbar-control-top\) \+ \(\(var\(--service-map-toolbar-control-size\) - var\(--service-map-toolbar-back-hit-size\)\) \/ 2\)\)[\s\S]*?left:\s*calc\(var\(--service-map-toolbar-icon-edge-gap\) \+ var\(--service-map-toolbar-icon-inner-nudge\)\)/
   );
   assert.doesNotMatch(source, /hasToolbarFeedback/);
   assert.match(source, /"service-map-workspace--toolbar-feedback"/);
