@@ -2032,7 +2032,7 @@
         },
         "documents": {
           "title": "Dokumendid: hoidla ja haldus",
-          "body": "Dokumentide vaade koondab üleslaetud failid, loodud tekstid, mallid ja tööversioonid ühte kohta. Nii saab dokumente hiljem uuesti avada, täiendada ja kasutada uutes vestlustes või töövoogudes. Dokumendid võivad olla seotud näiteks eelpöördumise, kovisiooni, vestlusruumi või spetsialisti tööprotsessiga."
+          "body": "Dokumentide vaade koondab üleslaetud failid, loodud tekstid, mallid ja tööversioonid ühte kohta. Nii saab dokumente hiljem uuesti avada, täiendada ning vajadusel kasutada uutes vestlustes, dokumendi koostamisel või muudes töövoogudes."
         },
         "pre_inquiry": {
           "title": "Eelpöördumine",

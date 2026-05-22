@@ -2032,7 +2032,7 @@
         },
         "documents": {
           "title": "Documents: storage and management",
-          "body": "The documents view gathers uploaded files, created texts, templates, and working versions in one place. This makes it possible to reopen, refine, and use documents later in new conversations or workflows. Documents may be connected to a pre-inquiry, co-vision, chat room, or a professional work process."
+          "body": "The documents view gathers uploaded files, created texts, templates, and working versions in one place. This makes it possible to reopen, refine, and, when needed, use documents later in new conversations, document drafting, or other workflows."
         },
         "pre_inquiry": {
           "title": "Pre-inquiry",
