@@ -373,19 +373,21 @@ function markerIconHtml(group) {
   if (allProviders) {
     return [
       "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
-      "<path d=\"M7.35 19.2c.48-2.05 1.86-3.35 4.65-3.35s4.17 1.3 4.65 3.35\" />",
-      "<circle cx=\"12\" cy=\"9.05\" r=\"3.1\" />",
-      "<path d=\"M17.65 8.05h3.3M19.3 6.4v3.3\" />",
+      "<path d=\"M8.2 8.1V6.85c0-1 .8-1.8 1.8-1.8h4c1 0 1.8.8 1.8 1.8V8.1\" />",
+      "<path d=\"M5.4 8.1h13.2c.88 0 1.6.72 1.6 1.6v7.25c0 .88-.72 1.6-1.6 1.6H5.4c-.88 0-1.6-.72-1.6-1.6V9.7c0-.88.72-1.6 1.6-1.6Z\" />",
+      "<path d=\"M3.8 12.25h16.4\" />",
+      "<path d=\"M10.55 12.25v1.05h2.9v-1.05\" />",
       "</svg>"
     ].join("");
   }
 
   return [
     "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
-    "<path d=\"M5.15 19.3h13.7\" />",
-    "<path d=\"M6.35 19.3V9.15L12 5.05l5.65 4.1V19.3\" />",
-    "<path d=\"M9.05 19.3v-5.05h5.9v5.05\" />",
-    "<path d=\"M8.85 10.55h.02M12 10.55h.02M15.15 10.55h.02\" />",
+    "<path d=\"M4.4 19.15h15.2\" />",
+    "<path d=\"M5.8 8.8 12 4.85l6.2 3.95\" />",
+    "<path d=\"M6.55 10.05h10.9\" />",
+    "<path d=\"M6.35 18.1h11.3\" />",
+    "<path d=\"M7.65 18.1v-5.75M10.55 18.1v-5.75M13.45 18.1v-5.75M16.35 18.1v-5.75\" />",
     "</svg>"
   ].join("");
 }
@@ -710,6 +712,27 @@ export default function ServiceMapLeaflet({
         role="application"
         aria-label={readText(t, "workspace_feature_pages.service_map.map_label", "Teenusekaart")}
       />
+      <div
+        className="service-map-leaflet__legend"
+        aria-label={readText(t, "workspace_feature_pages.service_map.marker_legend", "Kaardimarkerite tüübid")}
+      >
+        <span className="service-map-leaflet__legend-item">
+          <span
+            className="service-map-leaflet__marker service-map-leaflet__marker--kov"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: markerIconHtml({ entries: [{ type: "KOV_SOCIAL_CONTACT" }] }) }}
+          />
+          <span>{readText(t, "workspace_feature_pages.service_map.marker_kov", "KOV")}</span>
+        </span>
+        <span className="service-map-leaflet__legend-item">
+          <span
+            className="service-map-leaflet__marker service-map-leaflet__marker--provider"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: markerIconHtml({ entries: [{ type: "SERVICE_PROVIDER" }] }) }}
+          />
+          <span>{readText(t, "workspace_feature_pages.service_map.marker_provider", "Teenuseosutaja")}</span>
+        </span>
+      </div>
       {!ready || mapError ? (
         <div className="service-map-leaflet__status">
           {mapError || readText(t, "workspace_feature_pages.service_map.loading_map", "Laen Eesti kaarti...")}

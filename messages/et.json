@@ -679,6 +679,7 @@
       "marker_kov_short": "K",
       "marker_provider_short": "T",
       "marker_group_title": "{count} kontakti",
+      "marker_legend": "Kaardimarkerite tüübid",
       "map_label": "Teenusekaardi eelvaade",
       "loading": "Laen kaardikirjeid...",
       "loading_map": "Laen Eesti kaarti...",

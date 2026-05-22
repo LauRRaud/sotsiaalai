@@ -679,6 +679,7 @@
       "marker_kov_short": "К",
       "marker_provider_short": "П",
       "marker_group_title": "{count} контакта",
+      "marker_legend": "Типы маркеров карты",
       "map_label": "Предпросмотр карты услуг",
       "loading": "Загружаем записи карты...",
       "loading_map": "Загружаем карту Эстонии...",

@@ -679,6 +679,7 @@
       "marker_kov_short": "M",
       "marker_provider_short": "S",
       "marker_group_title": "{count} contacts",
+      "marker_legend": "Map marker types",
       "map_label": "Service map preview",
       "loading": "Loading map entries...",
       "loading_map": "Loading the Estonia map...",
