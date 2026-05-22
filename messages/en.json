@@ -701,6 +701,7 @@
         "email": "Email",
         "write": "Write",
         "website": "Website",
+        "services": "Services",
         "group_title": "{count} contacts"
       },
       "empty": "Published map entries will appear here as markers."
@@ -710,7 +711,7 @@
       "lead": "Manage the provider's information, contacts, service area and pre-inquiry settings in one workspace.",
       "meta": {
         "title": "Service profile",
-        "description": "Manage the provider's public profile, map visibility, and AI-discoverable information."
+        "description": "Manage the provider's public profile, map visibility, and pre-inquiry intake."
       },
       "overview": {
         "title": "Service provider workspace",
@@ -725,6 +726,7 @@
       },
       "sections": {
         "profile": "Service information",
+        "services": "Services under this provider",
         "map_profile": "Map profile",
         "outputs": "Outputs",
         "area": "Service area and location",
@@ -771,6 +773,21 @@
         "accepts_email": "Accept email drafts",
         "platform_help": "People can send an internal pre-inquiry to this provider account.",
         "email_help": "The workflow can prepare an email draft for the contact address."
+      },
+      "service_items": {
+        "item_title": "Service",
+        "name": "Service name",
+        "category": "Category",
+        "description": "Description",
+        "target_groups": "Target groups",
+        "service_area": "Service area",
+        "fee_type": "Price",
+        "price_description": "Price note",
+        "contact_name": "Contact person",
+        "visible_in_profile": "Visible under map marker",
+        "add": "Add service",
+        "remove": "Remove",
+        "empty": "No separate services have been added yet."
       },
       "map_status": {
         "title": "Address status",
@@ -2000,7 +2017,7 @@
         },
         "service_card": {
           "title": "Service card",
-          "body": "The service card is SotsiaalAI's map-based application for finding key social-sector contacts and places to turn to. The initial focus is on local-government social-welfare contacts and service providers visible in SotsiaalAI. The map helps users reach a specific contact or service provider faster, without having to search across separate websites."
+          "body": "The service card is SotsiaalAI's map view where published map entries can be searched by name, description, address, service, service category, or target group. The area search uses municipality, county, address, and the service provider's service area. The map shows published local-government social-welfare contacts and service providers made visible in SotsiaalAI. A result can show an address, area, phone number, email address, or website when those details are available."
         },
         "knowledge_base": {
           "title": "SotsiaalAI knowledge base",
@@ -2056,7 +2073,7 @@
         },
         "service_profile": {
           "title": "Service profile and management",
-          "body": "The service profile helps a service provider be findable in SotsiaalAI both on the map and in assistant conversations. The service provider can describe their services, target groups, region, contacts, languages, and accessibility information. This lets the platform use current information on the service card, in the knowledge base, and when answering user questions."
+          "body": "The service profile is the service provider's workspace for managing public information and inquiries. The service provider can describe the organisation, services, categories, target groups, service area, address or reception location, contacts, languages, price, and accessibility information. The profile can also define whether the provider is visible on the service map and whether it accepts pre-inquiries in SotsiaalAI or by email. The profile appears on the service map when it is published, marked as visible, and the address has a reliable match."
         },
         "privacy_safety": {
           "title": "Privacy pre-check",

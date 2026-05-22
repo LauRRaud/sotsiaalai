@@ -701,6 +701,7 @@
         "email": "E-post",
         "write": "Kirjuta",
         "website": "Veeb",
+        "services": "Teenused",
         "group_title": "{count} kontakti"
       },
       "empty": "Avaldatud kaardikirjed kuvatakse siin markeritena."
@@ -710,7 +711,7 @@
       "lead": "Halda teenuseosutaja infot, kontakte, teeninduspiirkonda ja eelpöördumiste vastuvõttu ühes töövaates.",
       "meta": {
         "title": "Teenuseprofiil",
-        "description": "Halda teenuseosutaja avalikku profiili, kaardil nähtavust ja assistendi jaoks leitavat infot."
+        "description": "Halda teenuseosutaja avalikku profiili, kaardil nähtavust ja eelpöördumiste vastuvõttu."
       },
       "overview": {
         "title": "Teenuseosutaja tööriist",
@@ -725,6 +726,7 @@
       },
       "sections": {
         "profile": "Teenuse info",
+        "services": "Teenused selle teenuseosutaja all",
         "map_profile": "Kaardiprofiil",
         "outputs": "Väljundid",
         "area": "Teeninduspiirkond ja asukoht",
@@ -771,6 +773,21 @@
         "accepts_email": "Võtab vastu e-posti mustandeid",
         "platform_help": "Inimene saab saata sisemise eelpöördumise selle teenuseosutaja kontole.",
         "email_help": "Töövoog saab koostada e-kirja mustandi kontaktmeili jaoks."
+      },
+      "service_items": {
+        "item_title": "Teenus",
+        "name": "Teenuse nimi",
+        "category": "Kategooria",
+        "description": "Kirjeldus",
+        "target_groups": "Sihtrühmad",
+        "service_area": "Teeninduspiirkond",
+        "fee_type": "Hind",
+        "price_description": "Hinna täpsustus",
+        "contact_name": "Kontaktisik",
+        "visible_in_profile": "Nähtav kaardimarkeri all",
+        "add": "Lisa teenus",
+        "remove": "Eemalda",
+        "empty": "Eraldi teenuseid ei ole veel lisatud."
       },
       "map_status": {
         "title": "Aadressi seis",
@@ -2000,7 +2017,7 @@
         },
         "service_card": {
           "title": "Teenusekaart",
-          "body": "Teenusekaart on SotsiaalAI kaardipõhine rakendus, mis aitab leida sotsiaalvaldkonna peamisi kontakte ja pöördumiskohti. Esmane fookus on KOV sotsiaalhoolekande kontaktidel ja SotsiaalAI-s nähtavatel teenuseosutajatel. Kaart aitab kasutajal jõuda kiiremini konkreetse kontakti või teenuseosutajani, ilma et peaks infot eri veebilehtedelt otsima."
+          "body": "Teenusekaart on SotsiaalAI kaardivaade, kus saab otsida avaldatud kaardikirjeid nime, kirjelduse, aadressi, teenuse, teenusekategooria või sihtrühma järgi. Piirkonna otsing arvestab KOV-i, maakonda, aadressi ja teenuseosutaja teeninduspiirkonda. Kaardil kuvatakse avaldatud KOV sotsiaalhoolekande kontaktid ning SotsiaalAI-s nähtavaks tehtud teenuseosutajad. Tulemuse juures saab näha aadressi, piirkonda, telefoni, e-posti või veebilehte, kui need andmed on olemas."
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
@@ -2056,7 +2073,7 @@
         },
         "service_profile": {
           "title": "Teenuseprofiil ja haldus",
-          "body": "Teenuseprofiil aitab teenuseosutajal olla SotsiaalAI-s leitav nii kaardil kui ka assistendiga vestluses. Teenuseosutaja saab kirjeldada oma teenuseid, sihtrühmi, piirkonda, kontakte, keeli ja ligipääsetavuse infot. Nii saab platvorm kasutada ajakohast infot teenusekaardil, teadmistebaasis ja kasutaja küsimustele vastamisel."
+          "body": "Teenuseprofiil on teenuseosutaja töövaade avaliku info ja pöördumiste haldamiseks. Teenuseosutaja saab kirjeldada organisatsiooni, teenuseid, kategooriaid, sihtrühmi, teeninduspiirkonda, aadressi või vastuvõtukohta, kontakte, keeli, hinda ja ligipääsetavuse infot. Profiilis saab määrata, kas teenuseosutaja on teenusekaardil nähtav ning kas ta võtab eelpöördumisi vastu SotsiaalAI-s või e-posti kaudu. Teenusekaardile jõuab profiil siis, kui see on avaldatud, nähtavaks märgitud ja aadressil on usaldusväärne vaste."
         },
         "privacy_safety": {
           "title": "Privaatsuse eelkiht",

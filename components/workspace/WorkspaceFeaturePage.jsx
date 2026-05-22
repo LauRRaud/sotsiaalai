@@ -1479,7 +1479,16 @@ function ServiceMapSurface({
         entry.providerProfile?.organizationName,
         ...(entry.providerProfile?.services || []),
         ...(entry.providerProfile?.serviceCategories || []),
-        ...(entry.providerProfile?.targetGroups || [])
+        ...(entry.providerProfile?.targetGroups || []),
+        ...(entry.providerProfile?.serviceItems || [])
+          .filter((service) => service?.mapVisible !== false && String(service?.status || "PUBLISHED").toUpperCase() === "PUBLISHED")
+          .flatMap((service) => [
+            service?.name,
+            service?.description,
+            service?.category,
+            service?.priceDescription,
+            ...(service?.targetGroups || [])
+          ])
       ].join(" ").toLocaleLowerCase("et");
       const regionText = [
         entry.municipalityName,
@@ -1487,7 +1496,10 @@ function ServiceMapSurface({
         entry.county,
         entry.address,
         entry.providerProfile?.serviceArea,
-        ...(entry.providerProfile?.serviceAreas || [])
+        ...(entry.providerProfile?.serviceAreas || []),
+        ...(entry.providerProfile?.serviceItems || [])
+          .filter((service) => service?.mapVisible !== false && String(service?.status || "PUBLISHED").toUpperCase() === "PUBLISHED")
+          .map((service) => service?.serviceArea)
       ].join(" ").toLocaleLowerCase("et");
       return (!query || haystack.includes(query)) && (!regionQuery || regionText.includes(regionQuery));
     });
@@ -1715,8 +1727,34 @@ function splitList(value) {
     .filter(Boolean);
 }
 
+function createServiceProfileServiceForm(service = null, index = 0, profile = null) {
+  return {
+    name: service?.name || "",
+    description: service?.description || "",
+    category: service?.category || "",
+    targetGroups: joinList(service?.targetGroups),
+    serviceArea: service?.serviceArea || profile?.serviceArea || "",
+    feeType: service?.feeType || profile?.feeType || "UNKNOWN",
+    priceDescription: service?.priceDescription || "",
+    contactName: service?.contactName || "",
+    phone: service?.phone || "",
+    email: service?.email || "",
+    website: service?.website || "",
+    acceptsPlatformPreInquiries: service?.acceptsPlatformPreInquiries ?? profile?.acceptsPlatformPreInquiries ?? true,
+    acceptsEmailPreInquiries: service?.acceptsEmailPreInquiries ?? profile?.acceptsEmailPreInquiries ?? true,
+    mapVisible: service?.mapVisible !== false,
+    status: service?.status || (profile?.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT"),
+    sortOrder: Number.isFinite(Number(service?.sortOrder)) ? Number(service.sortOrder) : index
+  };
+}
+
 function createServiceProfileForm(profile = null) {
   const mapEntry = profile?.serviceMapEntry || null;
+  const serviceItems = Array.isArray(profile?.serviceItems) && profile.serviceItems.length
+    ? profile.serviceItems.map((service, index) => createServiceProfileServiceForm(service, index, profile))
+    : (Array.isArray(profile?.services) ? profile.services : []).map((name, index) =>
+        createServiceProfileServiceForm({ name, sortOrder: index }, index, profile)
+      );
   return {
     organizationName: profile?.organizationName || "",
     shortDescription: profile?.shortDescription || "",
@@ -1741,7 +1779,8 @@ function createServiceProfileForm(profile = null) {
     mapVisible: Boolean(profile?.mapVisible),
     acceptsPlatformPreInquiries: profile?.acceptsPlatformPreInquiries !== false,
     acceptsEmailPreInquiries: profile?.acceptsEmailPreInquiries !== false,
-    status: profile?.status || "DRAFT"
+    status: profile?.status || "DRAFT",
+    serviceItems
   };
 }
 
@@ -2021,6 +2060,31 @@ function ServiceProfileSurface({ t }) {
       [field]: value
     }));
   }, []);
+  const updateServiceItem = useCallback((index, field, value) => {
+    setForm((current) => ({
+      ...current,
+      serviceItems: current.serviceItems.map((item, itemIndex) =>
+        itemIndex === index ? { ...item, [field]: value } : item
+      )
+    }));
+  }, []);
+  const addServiceItem = useCallback(() => {
+    setForm((current) => ({
+      ...current,
+      serviceItems: [
+        ...current.serviceItems,
+        createServiceProfileServiceForm(null, current.serviceItems.length, current)
+      ]
+    }));
+  }, []);
+  const removeServiceItem = useCallback((index) => {
+    setForm((current) => ({
+      ...current,
+      serviceItems: current.serviceItems
+        .filter((_, itemIndex) => itemIndex !== index)
+        .map((item, itemIndex) => ({ ...item, sortOrder: itemIndex }))
+    }));
+  }, []);
   const updateAddressTyping = useCallback((value) => {
     setForm((current) => ({
       ...current,
@@ -2064,7 +2128,15 @@ function ServiceProfileSurface({ t }) {
           serviceCategories: splitList(form.serviceCategories),
           targetGroups: splitList(form.targetGroups),
           serviceAreaMunicipalityIds: splitList(form.serviceAreaMunicipalityIds),
-          languages: splitList(form.languages)
+          languages: splitList(form.languages),
+          serviceItems: form.serviceItems
+            .map((item, index) => ({
+              ...item,
+              targetGroups: splitList(item.targetGroups),
+              status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
+              sortOrder: index
+            }))
+            .filter((item) => String(item.name || "").trim())
         })
       });
       const payload = await response.json().catch(() => ({}));
@@ -2200,6 +2272,123 @@ function ServiceProfileSurface({ t }) {
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Languages")}</span>
             <ServiceProfileInput value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
           </Label>
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.services", "Services under this provider")}>
+        <div className="grid gap-[0.82rem]">
+          {form.serviceItems.length ? form.serviceItems.map((service, index) => (
+            <div key={`service-item-${index}`} className="grid gap-[0.72rem] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.045)] p-[0.82rem]">
+              <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
+                <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+                  {readText(t, "workspace_feature_pages.service_profile.service_items.item_title", "Service")} {index + 1}
+                </p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => removeServiceItem(index)}
+                  className="!min-h-[2.4rem] !px-[0.95rem] !py-[0.55rem] !text-[0.92rem]"
+                >
+                  {readText(t, "workspace_feature_pages.service_profile.service_items.remove", "Remove")}
+                </Button>
+              </div>
+              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.name", "Service name")}</span>
+                  <ServiceProfileInput value={service.name} onChange={(event) => updateServiceItem(index, "name", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.category", "Category")}</span>
+                  <ServiceProfileInput value={service.category} onChange={(event) => updateServiceItem(index, "category", event.target.value)} />
+                </Label>
+              </div>
+              <Label>
+                <span>{readText(t, "workspace_feature_pages.service_profile.service_items.description", "Description")}</span>
+                <ServiceProfileTextarea
+                  className="min-h-[5.8rem]"
+                  value={service.description}
+                  onChange={(event) => updateServiceItem(index, "description", event.target.value)}
+                />
+              </Label>
+              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Target groups")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.targetGroups}
+                    onChange={(event) => updateServiceItem(index, "targetGroups", event.target.value)}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.service_area", "Service area")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.serviceArea}
+                    onChange={(event) => updateServiceItem(index, "serviceArea", event.target.value)}
+                  />
+                </Label>
+              </div>
+              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Price")}</span>
+                  <ServiceProfileGlowField>
+                    <DocumentsDropdown
+                      ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Price")}
+                      value={service.feeType}
+                      onChange={(nextValue) => updateServiceItem(index, "feeType", nextValue)}
+                      options={feeOptions}
+                      className="workspace-feature-dropdown service-profile-glow-dropdown"
+                    />
+                  </ServiceProfileGlowField>
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.price_description", "Price note")}</span>
+                  <ServiceProfileInput value={service.priceDescription} onChange={(event) => updateServiceItem(index, "priceDescription", event.target.value)} />
+                </Label>
+              </div>
+              <div className="grid gap-[0.72rem] sm:grid-cols-3">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_name", "Contact person")}</span>
+                  <ServiceProfileInput value={service.contactName} onChange={(event) => updateServiceItem(index, "contactName", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+                  <ServiceProfileInput value={service.phone} onChange={(event) => updateServiceItem(index, "phone", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+                  <ServiceProfileInput type="email" value={service.email} onChange={(event) => updateServiceItem(index, "email", event.target.value)} />
+                </Label>
+              </div>
+              <div className="grid gap-[0.64rem] sm:grid-cols-3">
+                <ToggleRow
+                  checked={service.mapVisible}
+                  onChange={(value) => updateServiceItem(index, "mapVisible", value)}
+                  title={readText(t, "workspace_feature_pages.service_profile.service_items.visible_in_profile", "Visible under map marker")}
+                  className="workspace-feature-toggle-row--flat"
+                />
+                <ToggleRow
+                  checked={service.acceptsPlatformPreInquiries}
+                  onChange={(value) => updateServiceItem(index, "acceptsPlatformPreInquiries", value)}
+                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}
+                  className="workspace-feature-toggle-row--flat"
+                />
+                <ToggleRow
+                  checked={service.acceptsEmailPreInquiries}
+                  onChange={(value) => updateServiceItem(index, "acceptsEmailPreInquiries", value)}
+                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}
+                  className="workspace-feature-toggle-row--flat"
+                />
+              </div>
+            </div>
+          )) : (
+            <p className={bodyTextClassName}>
+              {readText(t, "workspace_feature_pages.service_profile.service_items.empty", "No separate services have been added yet.")}
+            </p>
+          )}
+          <Button type="button" variant="secondary" onClick={addServiceItem} className="justify-self-start">
+            {readText(t, "workspace_feature_pages.service_profile.service_items.add", "Add service")}
+          </Button>
         </div>
       </SectionCard>
 

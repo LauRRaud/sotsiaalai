@@ -177,6 +177,50 @@ function appendActionLink(parent, href, label, options = {}) {
   return link;
 }
 
+function feeLabel(value, t) {
+  const normalized = String(value || "UNKNOWN").toUpperCase();
+  if (normalized === "FREE") return readText(t, "workspace_feature_pages.service_profile.fee.free", "Tasuta");
+  if (normalized === "PAID") return readText(t, "workspace_feature_pages.service_profile.fee.paid", "Tasuline");
+  if (normalized === "AGREEMENT") return readText(t, "workspace_feature_pages.service_profile.fee.agreement", "Kokkuleppel");
+  if (normalized === "MIXED") return readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mitut tüüpi");
+  return "";
+}
+
+function appendServiceItems(parent, entry, t) {
+  const services = (entry?.providerProfile?.serviceItems || [])
+    .filter((service) => service?.mapVisible !== false && String(service?.status || "PUBLISHED").toUpperCase() === "PUBLISHED")
+    .slice(0, 8);
+  if (!services.length) return null;
+
+  const section = document.createElement("div");
+  section.className = "service-map-popup__services";
+  appendText(
+    section,
+    "p",
+    "service-map-popup__services-title",
+    readText(t, "workspace_feature_pages.service_map.popup.services", "Teenused")
+  );
+
+  for (const service of services) {
+    const item = document.createElement("article");
+    item.className = "service-map-popup__service";
+    appendText(item, "h4", "service-map-popup__service-title", service.name);
+    appendText(item, "p", "service-map-popup__service-body", shortText(service.description, 180));
+    const meta = [
+      service.category,
+      Array.isArray(service.targetGroups) ? service.targetGroups.join(", ") : "",
+      service.serviceArea,
+      feeLabel(service.feeType, t),
+      service.priceDescription
+    ].filter(Boolean).join(" | ");
+    appendText(item, "p", "service-map-popup__service-meta", meta);
+    section.appendChild(item);
+  }
+
+  parent.appendChild(section);
+  return section;
+}
+
 function createPopupContent(entry, t) {
   const root = document.createElement("article");
   root.className = "service-map-popup";
@@ -192,6 +236,7 @@ function createPopupContent(entry, t) {
   );
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.phone", "Telefon"), entry.phone);
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.email", "E-post"), entry.email);
+  appendServiceItems(root, entry, t);
 
   const websiteUrl = safeWebsiteUrl(entry.website);
   if (websiteUrl || entry.email) {

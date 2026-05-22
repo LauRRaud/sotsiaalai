@@ -422,32 +422,32 @@ model User {
   materialSubmissions    MaterialSubmission[]
 
   // Chat / runs
-  conversationRuns     ConversationRun[]
-  conversationMessages ConversationMessage[]
-  conversations        Conversation[]
-  analyzeUsage         AnalyzeUsage[]
-  emailOtpCodes        EmailOtpCode[]
-  trustedDevices       TrustedDevice[]
-  loginTempTokens      LoginTempToken[]
-  roomsOwned           Room[]
-  roomMemberships      RoomMember[]
-  sentInvites          Invite[]              @relation("InviterUser")
-  sponsoredInvites     Invite[]              @relation("InviteSponsorUser")
-  sponsoredMembers     RoomMember[]          @relation("RoomMemberSponsorUser")
-  acceptedInvites      Invite[]              @relation("InviteAcceptedBy")
-  roomMessages         RoomMessage[]         @relation("RoomMessageAuthor")
-  helpRequests         HelpRequest[]
-  helpOffers           HelpOffer[]
-  requestedHelpMatches HelpMatch[]           @relation("HelpMatchRequester")
-  offeredHelpMatches   HelpMatch[]           @relation("HelpMatchOfferer")
-  researchJobs         ResearchJob[]
+  conversationRuns        ConversationRun[]
+  conversationMessages    ConversationMessage[]
+  conversations           Conversation[]
+  analyzeUsage            AnalyzeUsage[]
+  emailOtpCodes           EmailOtpCode[]
+  trustedDevices          TrustedDevice[]
+  loginTempTokens         LoginTempToken[]
+  roomsOwned              Room[]
+  roomMemberships         RoomMember[]
+  sentInvites             Invite[]                 @relation("InviterUser")
+  sponsoredInvites        Invite[]                 @relation("InviteSponsorUser")
+  sponsoredMembers        RoomMember[]             @relation("RoomMemberSponsorUser")
+  acceptedInvites         Invite[]                 @relation("InviteAcceptedBy")
+  roomMessages            RoomMessage[]            @relation("RoomMessageAuthor")
+  helpRequests            HelpRequest[]
+  helpOffers              HelpOffer[]
+  requestedHelpMatches    HelpMatch[]              @relation("HelpMatchRequester")
+  offeredHelpMatches      HelpMatch[]              @relation("HelpMatchOfferer")
+  researchJobs            ResearchJob[]
   serviceProviderProfiles ServiceProviderProfile[]
-  authoredPreInquiries PreInquiry[]          @relation("PreInquiryAuthor")
-  receivedPreInquiries PreInquiry[]          @relation("PreInquiryRecipientOwner")
-  covisionCasesOwned    CovisionCase[]        @relation("CovisionCaseOwner")
-  covisionParticipants  CovisionParticipant[] @relation("CovisionParticipantUser")
-  covisionMessages      CovisionMessage[]     @relation("CovisionMessageAuthor")
-  effectivePractices    EffectivePractice[]   @relation("EffectivePracticeAuthor")
+  authoredPreInquiries    PreInquiry[]             @relation("PreInquiryAuthor")
+  receivedPreInquiries    PreInquiry[]             @relation("PreInquiryRecipientOwner")
+  covisionCasesOwned      CovisionCase[]           @relation("CovisionCaseOwner")
+  covisionParticipants    CovisionParticipant[]    @relation("CovisionParticipantUser")
+  covisionMessages        CovisionMessage[]        @relation("CovisionMessageAuthor")
+  effectivePractices      EffectivePractice[]      @relation("EffectivePracticeAuthor")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -660,29 +660,29 @@ model RagDocument {
 }
 
 model SourcePackageSnapshot {
-  id              String    @id @default(cuid())
-  packageId       String
-  canonicalItemId String
-  municipalityId  String?
-  packageType     String
-  title           String?
-  status          String    @default("active")
-  confidence      String?
-  missingSections Json
-  packageHash     String
-  lastBuiltAt     DateTime  @default(now())
-  lastChecked     DateTime?
-  version         Int
-  sectionSummary  Json
+  id               String                             @id @default(cuid())
+  packageId        String
+  canonicalItemId  String
+  municipalityId   String?
+  packageType      String
+  title            String?
+  status           String                             @default("active")
+  confidence       String?
+  missingSections  Json
+  packageHash      String
+  lastBuiltAt      DateTime                           @default(now())
+  lastChecked      DateTime?
+  version          Int
+  sectionSummary   Json
   sourceMembership Json
-  active          Boolean   @default(true)
-  reviewStatus    String    @default("pending")
-  reviewedAt      DateTime?
-  reviewedBy      String?
-  reviewNote      String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  reviewEvents    SourcePackageSnapshotReviewEvent[]
+  active           Boolean                            @default(true)
+  reviewStatus     String                             @default("pending")
+  reviewedAt       DateTime?
+  reviewedBy       String?
+  reviewNote       String?
+  createdAt        DateTime                           @default(now())
+  updatedAt        DateTime                           @updatedAt
+  reviewEvents     SourcePackageSnapshotReviewEvent[]
 
   @@unique([packageId, packageHash])
   @@unique([packageId, version])
@@ -931,9 +931,9 @@ model Municipality {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 
-  helpRequests HelpRequest[]
-  helpOffers   HelpOffer[]
-  kovAdmin     MunicipalityKovAdmin?
+  helpRequests      HelpRequest[]
+  helpOffers        HelpOffer[]
+  kovAdmin          MunicipalityKovAdmin?
   serviceMapEntries ServiceMapEntry[]
 
   @@index([baseName])
@@ -1073,39 +1073,40 @@ model OrganizationAdminFile {
 }
 
 model ServiceProviderProfile {
-  id                         String                       @id @default(cuid())
-  ownerId                    String
-  organizationName           String
-  shortDescription           String?                      @db.Text
-  services                   String[]                     @default([])
-  serviceCategories          String[]                     @default([])
-  targetGroups               String[]                     @default([])
-  serviceArea                String?                      @db.Text
-  serviceAreaMunicipalityIds String[]                     @default([])
-  county                     String?
-  address                    String?
-  normalizedAddress          String?
-  phone                      String?
-  email                      String?
-  website                    String?
-  languages                  String[]                     @default([])
-  accessibilityInfo          String?                      @db.Text
-  feeType                    ServiceProviderFeeType       @default(UNKNOWN)
-  mapVisible                 Boolean                      @default(false)
-  acceptsPlatformPreInquiries Boolean                     @default(true)
-  acceptsEmailPreInquiries   Boolean                      @default(true)
-  status                     ServiceProviderProfileStatus @default(DRAFT)
-  publicSlug                 String?                      @unique
-  publishedAt                DateTime?
-  hiddenAt                   DateTime?
-  checkedAt                  DateTime?
-  ragSourceId                String?
-  ragMetadata                Json?
-  createdAt                  DateTime                     @default(now())
-  updatedAt                  DateTime                     @updatedAt
+  id                          String                       @id @default(cuid())
+  ownerId                     String
+  organizationName            String
+  shortDescription            String?                      @db.Text
+  services                    String[]                     @default([])
+  serviceCategories           String[]                     @default([])
+  targetGroups                String[]                     @default([])
+  serviceArea                 String?                      @db.Text
+  serviceAreaMunicipalityIds  String[]                     @default([])
+  county                      String?
+  address                     String?
+  normalizedAddress           String?
+  phone                       String?
+  email                       String?
+  website                     String?
+  languages                   String[]                     @default([])
+  accessibilityInfo           String?                      @db.Text
+  feeType                     ServiceProviderFeeType       @default(UNKNOWN)
+  mapVisible                  Boolean                      @default(false)
+  acceptsPlatformPreInquiries Boolean                      @default(true)
+  acceptsEmailPreInquiries    Boolean                      @default(true)
+  status                      ServiceProviderProfileStatus @default(DRAFT)
+  publicSlug                  String?                      @unique
+  publishedAt                 DateTime?
+  hiddenAt                    DateTime?
+  checkedAt                   DateTime?
+  ragSourceId                 String?
+  ragMetadata                 Json?
+  createdAt                   DateTime                     @default(now())
+  updatedAt                   DateTime                     @updatedAt
 
-  owner           User             @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner           User                     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   serviceMapEntry ServiceMapEntry?
+  serviceItems    ServiceProviderService[]
 
   @@unique([ownerId])
   @@index([ownerId, updatedAt])
@@ -1114,6 +1115,36 @@ model ServiceProviderProfile {
   @@index([acceptsPlatformPreInquiries])
   @@index([acceptsEmailPreInquiries])
   @@index([publicSlug])
+}
+
+model ServiceProviderService {
+  id                          String                       @id @default(cuid())
+  providerProfileId           String
+  providerProfile             ServiceProviderProfile       @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
+  name                        String
+  description                 String?                      @db.Text
+  category                    String?
+  targetGroups                String[]                     @default([])
+  serviceArea                 String?                      @db.Text
+  feeType                     ServiceProviderFeeType       @default(UNKNOWN)
+  priceDescription            String?                      @db.Text
+  contactName                 String?
+  phone                       String?
+  email                       String?
+  website                     String?
+  acceptsPlatformPreInquiries Boolean?
+  acceptsEmailPreInquiries    Boolean?
+  mapVisible                  Boolean                      @default(true)
+  status                      ServiceProviderProfileStatus @default(PUBLISHED)
+  sortOrder                   Int                          @default(0)
+  createdAt                   DateTime                     @default(now())
+  updatedAt                   DateTime                     @updatedAt
+
+  @@index([providerProfileId])
+  @@index([status])
+  @@index([mapVisible])
+  @@index([feeType])
+  @@index([sortOrder])
 }
 
 model ServiceMapEntry {
@@ -1157,23 +1188,23 @@ model ServiceMapEntry {
 }
 
 model PreInquiry {
-  id                     String                  @id @default(cuid())
-  authorId               String
-  recipientOwnerId       String?
-  recipientEntryId       String?
-  recipientType          PreInquiryRecipientType
-  deliveryChannel        PreInquiryDeliveryChannel @default(INTERNAL)
-  selectedRecipientEmail String?
-  selectedRecipientName  String?
-  topic                  String?
-  situation              String                  @db.Text
-  generatedDraft         String?                 @db.Text
-  userEditedDraft        String?                 @db.Text
-  status                 PreInquiryStatus        @default(DRAFT)
-  sentAt                 DateTime?
+  id                      String                    @id @default(cuid())
+  authorId                String
+  recipientOwnerId        String?
+  recipientEntryId        String?
+  recipientType           PreInquiryRecipientType
+  deliveryChannel         PreInquiryDeliveryChannel @default(INTERNAL)
+  selectedRecipientEmail  String?
+  selectedRecipientName   String?
+  topic                   String?
+  situation               String                    @db.Text
+  generatedDraft          String?                   @db.Text
+  userEditedDraft         String?                   @db.Text
+  status                  PreInquiryStatus          @default(DRAFT)
+  sentAt                  DateTime?
   externalSendConfirmedAt DateTime?
-  createdAt              DateTime                @default(now())
-  updatedAt              DateTime                @updatedAt
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
 
   author         User             @relation("PreInquiryAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   recipientOwner User?            @relation("PreInquiryRecipientOwner", fields: [recipientOwnerId], references: [id], onDelete: SetNull)
@@ -1190,22 +1221,22 @@ model PreInquiry {
 }
 
 model CovisionCase {
-  id                     String               @id @default(cuid())
-  ownerId                String
-  title                  String
-  summary                String?              @db.Text
-  anonymizedDescription  String?              @db.Text
-  centralQuestion        String?              @db.Text
-  expectedHelpTypes      String[]             @default([])
-  topics                 String[]             @default([])
-  tags                   String[]             @default([])
-  status                 CovisionCaseStatus   @default(DRAFT)
-  visibility             CovisionVisibility   @default(PRIVATE)
-  sourcePreInquiryId     String?
-  anonymityConfirmedAt   DateTime?
-  lastActivityAt         DateTime             @default(now())
-  createdAt              DateTime             @default(now())
-  updatedAt              DateTime             @updatedAt
+  id                    String             @id @default(cuid())
+  ownerId               String
+  title                 String
+  summary               String?            @db.Text
+  anonymizedDescription String?            @db.Text
+  centralQuestion       String?            @db.Text
+  expectedHelpTypes     String[]           @default([])
+  topics                String[]           @default([])
+  tags                  String[]           @default([])
+  status                CovisionCaseStatus @default(DRAFT)
+  visibility            CovisionVisibility @default(PRIVATE)
+  sourcePreInquiryId    String?
+  anonymityConfirmedAt  DateTime?
+  lastActivityAt        DateTime           @default(now())
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
 
   owner            User                  @relation("CovisionCaseOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   sourcePreInquiry PreInquiry?           @relation(fields: [sourcePreInquiryId], references: [id], onDelete: SetNull)
@@ -1225,18 +1256,18 @@ model CovisionCase {
 }
 
 model CovisionJourneyStep {
-  id             String             @id @default(cuid())
-  covisionCaseId String
-  type           String
-  title          String?
-  description    String?            @db.Text
+  id              String             @id @default(cuid())
+  covisionCaseId  String
+  type            String
+  title           String?
+  description     String?            @db.Text
   relatedPartyIds String[]           @default([])
-  order          Int                @default(0)
-  dateLabel      String?
-  notes          String?            @db.Text
-  status         CovisionStepStatus @default(NEEDS_CLARIFICATION)
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  order           Int                @default(0)
+  dateLabel       String?
+  notes           String?            @db.Text
+  status          CovisionStepStatus @default(NEEDS_CLARIFICATION)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
 
   covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
 
@@ -1319,45 +1350,45 @@ model CovisionMessage {
 }
 
 model CovisionSummary {
-  id                String   @id @default(cuid())
-  covisionCaseId    String   @unique
-  content           String?  @db.Text
-  keyObservations   String?  @db.Text
-  questions         String?  @db.Text
-  risks             String?  @db.Text
-  protectiveFactors String?  @db.Text
-  possibleNextSteps String?  @db.Text
-  ethicalNotes      String?  @db.Text
-  documentationNotes String? @db.Text
-  networkNotes      String?  @db.Text
-  takeaways         String?  @db.Text
-  openQuestions     String?  @db.Text
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  covisionCaseId     String   @unique
+  content            String?  @db.Text
+  keyObservations    String?  @db.Text
+  questions          String?  @db.Text
+  risks              String?  @db.Text
+  protectiveFactors  String?  @db.Text
+  possibleNextSteps  String?  @db.Text
+  ethicalNotes       String?  @db.Text
+  documentationNotes String?  @db.Text
+  networkNotes       String?  @db.Text
+  takeaways          String?  @db.Text
+  openQuestions      String?  @db.Text
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   covisionCase CovisionCase @relation(fields: [covisionCaseId], references: [id], onDelete: Cascade)
 }
 
 model EffectivePractice {
-  id                    String                  @id @default(cuid())
-  authorId              String
-  sourceCovisionCaseId  String?
-  title                 String
-  background            String?                 @db.Text
-  mainChallenge         String?                 @db.Text
-  whatHelped            String?                 @db.Text
-  networkOrServiceRole  String?                 @db.Text
-  outcome               String?                 @db.Text
-  learningPoints        String?                 @db.Text
-  limitations           String?                 @db.Text
-  sources               String?                 @db.Text
-  topics                String[]                @default([])
-  tags                  String[]                @default([])
-  status                EffectivePracticeStatus @default(DRAFT)
-  anonymityCheckedAt    DateTime?
-  reviewedAt            DateTime?
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
+  id                   String                  @id @default(cuid())
+  authorId             String
+  sourceCovisionCaseId String?
+  title                String
+  background           String?                 @db.Text
+  mainChallenge        String?                 @db.Text
+  whatHelped           String?                 @db.Text
+  networkOrServiceRole String?                 @db.Text
+  outcome              String?                 @db.Text
+  learningPoints       String?                 @db.Text
+  limitations          String?                 @db.Text
+  sources              String?                 @db.Text
+  topics               String[]                @default([])
+  tags                 String[]                @default([])
+  status               EffectivePracticeStatus @default(DRAFT)
+  anonymityCheckedAt   DateTime?
+  reviewedAt           DateTime?
+  createdAt            DateTime                @default(now())
+  updatedAt            DateTime                @updatedAt
 
   author             User          @relation("EffectivePracticeAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   sourceCovisionCase CovisionCase? @relation(fields: [sourceCovisionCaseId], references: [id], onDelete: SetNull)
@@ -1752,20 +1783,20 @@ model DocumentAudit {
 }
 
 model MaterialSubmission {
-  id                String   @id @default(cuid())
+  id                String    @id @default(cuid())
   submittedByUserId String
-  comment           String   @db.Text
+  comment           String    @db.Text
   originalName      String
   mime              String
   size              Int
   sha256            String
   storagePath       String
-  status            String   @default("pending")
+  status            String    @default("pending")
   reviewedAt        DateTime?
   reviewedBy        String?
-  reviewNote        String?  @db.Text
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  reviewNote        String?   @db.Text
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   submittedByUser User @relation(fields: [submittedByUserId], references: [id], onDelete: Cascade)
 
