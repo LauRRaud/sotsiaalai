@@ -350,23 +350,15 @@ function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId) {
   return root;
 }
 
-function markerLabel(group, t) {
-  if (group?.entries?.length > 1) {
-    return group.entries.length > 99 ? "99+" : String(group.entries.length);
-  }
-  const entry = group?.primaryEntry || group?.entries?.[0] || {};
-  if (entry.type === "SERVICE_PROVIDER") {
-    return readText(t, "workspace_feature_pages.service_map.marker_provider_short", "T");
-  }
-  return readText(t, "workspace_feature_pages.service_map.marker_kov_short", "K");
-}
-
 function markerClassName(group, selected) {
   const entries = Array.isArray(group?.entries) ? group.entries : [];
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
+  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER");
   return [
     "service-map-leaflet__marker",
-    allProviders ? "service-map-leaflet__marker--provider" : "service-map-leaflet__marker--kov",
+    allProviders ? "service-map-leaflet__marker--provider" : "",
+    allKov ? "service-map-leaflet__marker--kov" : "",
+    !allProviders && !allKov ? "service-map-leaflet__marker--mixed" : "",
     entries.length > 1 ? "service-map-leaflet__marker--group" : "",
     selected ? "service-map-leaflet__marker--selected" : ""
   ]
@@ -374,12 +366,32 @@ function markerClassName(group, selected) {
     .join(" ");
 }
 
-function escapeHtml(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+function markerIconHtml(group) {
+  const entries = Array.isArray(group?.entries) ? group.entries : [];
+  const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
+
+  if (allProviders) {
+    return [
+      "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
+      "<path d=\"M7.35 19.2c.48-2.05 1.86-3.35 4.65-3.35s4.17 1.3 4.65 3.35\" />",
+      "<circle cx=\"12\" cy=\"9.05\" r=\"3.1\" />",
+      "<path d=\"M17.65 8.05h3.3M19.3 6.4v3.3\" />",
+      "</svg>"
+    ].join("");
+  }
+
+  return [
+    "<svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">",
+    "<path d=\"M5.15 19.3h13.7\" />",
+    "<path d=\"M6.35 19.3V9.15L12 5.05l5.65 4.1V19.3\" />",
+    "<path d=\"M9.05 19.3v-5.05h5.9v5.05\" />",
+    "<path d=\"M8.85 10.55h.02M12 10.55h.02M15.15 10.55h.02\" />",
+    "</svg>"
+  ].join("");
+}
+
+function markerHtml(group, selected) {
+  return `<span class="${markerClassName(group, selected)}">${markerIconHtml(group)}</span>`;
 }
 
 function ensureStylesheet(href) {
@@ -579,10 +591,10 @@ export default function ServiceMapLeaflet({
 
       const icon = leaflet.divIcon({
         className: "",
-        html: `<span class="${markerClassName(group, selected)}"><span>${escapeHtml(markerLabel(group, t))}</span></span>`,
+        html: markerHtml(group, selected),
         iconSize: [42, 42],
-        iconAnchor: [21, 42],
-        popupAnchor: [0, -38]
+        iconAnchor: [21, 21],
+        popupAnchor: [0, -22]
       });
 
       const marker = leaflet.marker(group.coordinates, {
@@ -644,10 +656,10 @@ export default function ServiceMapLeaflet({
       marker.setIcon(
         leaflet.divIcon({
           className: "",
-          html: `<span class="${markerClassName(group, group.entries.some((entry) => entry.id === selectedEntryId))}"><span>${escapeHtml(markerLabel(group, t))}</span></span>`,
+          html: markerHtml(group, group.entries.some((entry) => entry.id === selectedEntryId)),
           iconSize: [42, 42],
-          iconAnchor: [21, 42],
-          popupAnchor: [0, -38]
+          iconAnchor: [21, 21],
+          popupAnchor: [0, -22]
         })
       );
     }

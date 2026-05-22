@@ -28,7 +28,8 @@ test("service map Leaflet groups entries that share one coordinate", () => {
   assert.match(leafletSource, /markerGroupRefs/);
   assert.match(leafletSource, /createGroupedPopupContent/);
   assert.match(leafletSource, /service-map-popup--group/);
-  assert.match(leafletSource, /group\.entries\.length > 99 \? "99\+"/);
+  assert.doesNotMatch(leafletSource, /group\.entries\.length > 99 \? "99\+"/);
+  assert.match(leafletSource, /function markerIconHtml/);
   assert.match(css, /\.service-map-leaflet__marker--group\s*\{/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?overflow-y:\s*auto/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?max-height:\s*min\(11rem,\s*calc\(100vh - 18\.5rem\)\)/);

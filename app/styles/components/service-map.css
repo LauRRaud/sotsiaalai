@@ -1825,59 +1825,78 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-leaflet__marker {
   position: relative;
   display: grid;
-  width: 2.42rem;
-  height: 2.42rem;
+  width: 2.32rem;
+  height: 2.32rem;
   place-items: center;
-  border: 0;
-  border-radius: 999px 999px 999px 0.34rem;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 0.86rem;
   color: #fff;
-  font-size: 0.88rem;
-  font-weight: 800;
-  line-height: 1;
-  transform: rotate(-45deg);
-  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.28);
+  box-shadow:
+    0 10px 20px rgba(15, 23, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   font-family: var(--font-aino), system-ui, sans-serif;
   isolation: isolate;
-  letter-spacing: 0;
   overflow: hidden;
   pointer-events: auto;
   text-align: center;
-  text-indent: 0;
-  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
   user-select: none;
 }
 
 .service-map-leaflet__marker::before {
   content: "";
   position: absolute;
-  inset: 0.42rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
+  inset: 0.38rem;
+  border-radius: 0.58rem;
+  background: rgba(255, 255, 255, 0.13);
 }
 
-.service-map-leaflet__marker > span {
-  display: inline-block;
+.service-map-leaflet__marker svg {
+  display: block;
   position: relative;
-  transform: rotate(45deg);
+  width: 1.42rem;
+  height: 1.42rem;
   z-index: 1;
 }
 
+.service-map-leaflet__marker svg path,
+.service-map-leaflet__marker svg circle {
+  stroke: currentColor;
+  stroke-width: 1.68;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .service-map-leaflet__marker--kov {
-  background: #8f3d3d;
+  background: #2f5f8f;
 }
 
 .service-map-leaflet__marker--provider {
-  background: #1d6f6f;
+  background: #168a72;
+  border-radius: 999px;
+}
+
+.service-map-leaflet__marker--provider::before {
+  border-radius: 999px;
+}
+
+.service-map-leaflet__marker--mixed {
+  background: #475569;
+}
+
+.service-map-leaflet__marker--mixed::before {
+  border-radius: 0.58rem;
 }
 
 .service-map-leaflet__marker--group {
-  font-size: 0.78rem;
+  outline: 2px solid rgba(255, 255, 255, 0.38);
+  outline-offset: 2px;
 }
 
 .service-map-leaflet__marker--selected {
   box-shadow:
-    0 0 0 0.34rem rgba(197, 113, 113, 0.28),
-    0 18px 34px rgba(15, 23, 42, 0.32);
+    0 0 0 0.26rem rgba(255, 255, 255, 0.28),
+    0 14px 28px rgba(15, 23, 42, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .service-map-leaflet__popup .leaflet-popup-content-wrapper {
