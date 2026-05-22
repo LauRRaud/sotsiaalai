@@ -2008,7 +2008,7 @@
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistants and agents",
-          "body": "SotsiaalAI assistants and agents help users ask for information, understand situations, and move on to the right workflow. From a conversation, the user can start document drafting, document analysis, deep research, a pre-inquiry, a help request, a help offer, or chat-room creation. The user does not always need to know which tool to choose; they can start with their question or situation."
+          "body": "SotsiaalAI assistants and agents support users as they work with a question, document, or situation description. The conversation supports asking for information, making sense of a situation, and user-selected workflows such as document drafting, document analysis, deep research, a pre-inquiry, a help request, or a help offer. The user decides which tool to use. The assistant can help organize information, clarify questions, and prepare content when needed."
         },
         "sources": {
           "title": "Source display",

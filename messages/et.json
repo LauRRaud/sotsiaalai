@@ -2008,7 +2008,7 @@
         },
         "assistants_agents": {
           "title": "SotsiaalAI assistendid ja agendid",
-          "body": "SotsiaalAI assistendid ja agendid aitavad küsida infot, mõtestada olukordi ning liikuda edasi sobiva töövooni. Vestlusest saab alustada näiteks dokumendi koostamist, dokumendi analüüsi, süvauuringut, eelpöördumist, abisoovi, abipakkumist või vestlusruumi loomist. Kasutaja ei pea alati ise teadma, millist tööriista valida - ta saab alustada oma küsimusest või olukorrast."
+          "body": "SotsiaalAI assistendid ja agendid toetavad kasutajat küsimuse, dokumendi või olukorra kirjeldusega töötamisel. Vestlus toetab info küsimist, olukorra mõtestamist ja kasutaja valitud töövooge, näiteks dokumendi koostamist, dokumendi analüüsi, süvauuringut, eelpöördumist, abisoovi või abipakkumist. Kasutaja otsustab ise, millist töövahendit kasutada. Assistent aitab vajadusel infot korrastada, küsimusi täpsustada ja sisu ette valmistada."
         },
         "sources": {
           "title": "Allikate kuvamine",
