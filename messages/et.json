@@ -2020,11 +2020,11 @@
         },
         "analysis": {
           "title": "Dokumendi analüüs",
-          "body": "Dokumendi analüüs võimaldab üles laadida faili ja küsida selle kohta kokkuvõtet, selgitusi või olulisi tähelepanekuid. See sobib näiteks ametliku vastuse, juhendi, lepingu, aruande, otsuse või muu dokumendi mõistmiseks. Vajadusel saab analüüsis arvestada ka SotsiaalAI teadmistebaasi, et siduda dokumendi sisu laiema valdkondliku taustaga."
+          "body": "Dokumendi analüüs algab kasutaja üles laaditud failist. SotsiaalAI loeb failist välja teksti, jagab selle analüüsiks sobivateks osadeks ja vastab kasutaja küsimustele dokumendi sisu põhjal. See sobib näiteks ametliku vastuse, juhendi, lepingu, aruande, otsuse või muu dokumendi mõistmiseks, kokkuvõtmiseks ja oluliste kohtade leidmiseks. Vaikimisi keskendub analüüs üles laaditud dokumendile. Laiendatud analüüsis võib kasutaja lisada valdkondliku tausta SotsiaalAI teadmistebaasist. Vestlusesse lisatud fail on ajutine ega liigu automaatselt dokumentide hoidlasse."
         },
         "research": {
           "title": "Süvauuring",
-          "body": "Süvauuring sobib olukorras, kus kasutaja vajab põhjalikumat ülevaadet mõnest sotsiaalvaldkonna teemast, teenusest, seadusest, juhendist või praktilisest küsimusest. SotsiaalAI koondab info struktureeritud vastuseks või raportiks, tuues välja olulisemad tähelepanekud, seosed ja allikad."
+          "body": "Süvauuring aitab koostada põhjalikumat ülevaadet sotsiaalvaldkonna teemast, teenusest, seadusest, juhendist või praktilisest küsimusest. SotsiaalAI otsib seotud allikaid, koondab leitud info struktureeritud vastuseks või raporti tööversiooniks ning toob välja peamised tähelepanekud, seosed, lüngad ja võimalikud järgmised sammud."
         },
         "rooms": {
           "title": "Vestlusruumid",

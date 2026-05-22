@@ -2020,11 +2020,11 @@
         },
         "analysis": {
           "title": "Document analysis",
-          "body": "Document analysis allows the user to upload a file and ask for a summary, explanations, or important observations. It is useful for understanding an official response, guide, contract, report, decision, or another document. When needed, the analysis can also take the SotsiaalAI knowledge base into account to connect the document content with a wider field context."
+          "body": "Document analysis starts from the file uploaded by the user. SotsiaalAI extracts text from the file, splits it into parts suitable for analysis, and answers the user’s questions based on the document content. It is useful for understanding, summarising, and finding important points in an official response, guide, contract, report, decision, or another document. By default, the analysis focuses on the uploaded document. In extended analysis, the user may add domain context from the SotsiaalAI knowledge base. A file added in chat is temporary and is not automatically moved to the Documents library."
         },
         "research": {
           "title": "Deep research",
-          "body": "Deep research is useful when the user needs a more thorough overview of a social-sector topic, service, law, guide, or practical question. SotsiaalAI gathers the information into a structured answer or report, highlighting the main observations, connections, and sources."
+          "body": "Deep research helps prepare a more thorough overview of a social-sector topic, service, law, guide, or practical question. SotsiaalAI searches related sources, gathers the information into a structured answer or working report draft, and highlights the main observations, connections, gaps, and possible next steps."
         },
         "rooms": {
           "title": "Chat rooms",
