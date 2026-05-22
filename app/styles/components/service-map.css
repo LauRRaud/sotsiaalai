@@ -1059,8 +1059,8 @@ html[data-contrast="hc"] body.service-map-page-active {
   --service-map-toolbar-control-size: 3.76rem;
   --service-map-toolbar-control-top: 0.25rem;
   --service-map-toolbar-back-hit-size: var(--service-map-toolbar-control-size);
-  --service-map-toolbar-icon-edge-gap: 0.46rem;
-  --service-map-toolbar-icon-inner-nudge: 0.18rem;
+  --service-map-toolbar-icon-edge-gap: 0.28rem;
+  --service-map-toolbar-icon-inner-nudge: 0.08rem;
   --service-map-toolbar-side-reserve: 3.42rem;
   align-items: flex-start;
   padding-bottom: 0.38rem;
@@ -1247,6 +1247,15 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__back svg {
   width: var(--service-map-toolbar-back-hit-size, 3.15rem) !important;
   height: var(--service-map-toolbar-back-hit-size, 3.15rem) !important;
+  transform-origin: center;
+}
+
+.service-map-toolbar__back svg > g {
+  transform: translate(36px, 32px) scale(0.82) translate(-36px, -32px);
+}
+
+.service-map-workspace--toolbar-feedback .service-map-workspace__info.service-map-workspace__info svg {
+  transform: scale(1.16);
   transform-origin: center;
 }
 

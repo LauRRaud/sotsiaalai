@@ -438,7 +438,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?--service-map-toolbar-control-size:\s*3\.76rem[\s\S]*?--service-map-toolbar-control-top:\s*0\.25rem[\s\S]*?--service-map-toolbar-back-hit-size:\s*var\(--service-map-toolbar-control-size\)[\s\S]*?--service-map-toolbar-icon-edge-gap:\s*0\.46rem[\s\S]*?--service-map-toolbar-icon-inner-nudge:\s*0\.18rem[\s\S]*?--service-map-toolbar-side-reserve:\s*3\.42rem[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*66rem\)/
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?--service-map-toolbar-control-size:\s*3\.76rem[\s\S]*?--service-map-toolbar-control-top:\s*0\.25rem[\s\S]*?--service-map-toolbar-back-hit-size:\s*var\(--service-map-toolbar-control-size\)[\s\S]*?--service-map-toolbar-icon-edge-gap:\s*0\.28rem[\s\S]*?--service-map-toolbar-icon-inner-nudge:\s*0\.08rem[\s\S]*?--service-map-toolbar-side-reserve:\s*3\.42rem[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*66rem\)/
   );
   assert.match(
     css,
@@ -447,6 +447,14 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   assert.match(
     css,
     /\.service-map-workspace--toolbar-feedback \.service-map-workspace__info\.service-map-workspace__info svg\s*\{[\s\S]*?width:\s*var\(--service-map-toolbar-back-hit-size\)\s*!important[\s\S]*?height:\s*var\(--service-map-toolbar-back-hit-size\)\s*!important/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__back svg > g\s*\{[\s\S]*?scale\(0\.82\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__info\.service-map-workspace__info svg\s*\{[\s\S]*?transform:\s*scale\(1\.16\)/
   );
   assert.match(
     css,
