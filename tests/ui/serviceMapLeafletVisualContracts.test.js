@@ -208,6 +208,26 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__body\s*\{[\s\S]*?padding-inline:\s*0/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?padding:\s*var\(--service-map-mobile-filters-pad-top\) 0\.5rem 0\.92rem/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)[\s\S]*?justify-items:\s*stretch/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*100%[\s\S]*?overflow:\s*visible/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*100%[\s\S]*?max-width:\s*100%[\s\S]*?padding-inline:\s*0\.5rem/
+  );
+  assert.match(
+    css,
     /\.service-map-toolbar__type-card\s*\{[\s\S]*?font-size:\s*0\.82rem[\s\S]*?letter-spacing:\s*0/
   );
   assert.match(
@@ -438,7 +458,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?--service-map-toolbar-control-size:\s*3\.76rem[\s\S]*?--service-map-toolbar-control-top:\s*0\.25rem[\s\S]*?--service-map-toolbar-back-hit-size:\s*var\(--service-map-toolbar-control-size\)[\s\S]*?--service-map-toolbar-icon-edge-gap:\s*0\.28rem[\s\S]*?--service-map-toolbar-icon-inner-nudge:\s*0\.08rem[\s\S]*?--service-map-toolbar-side-reserve:\s*3\.42rem[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*66rem\)/
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?--service-map-toolbar-control-size:\s*3\.76rem[\s\S]*?--service-map-toolbar-control-top:\s*0\.25rem[\s\S]*?--service-map-toolbar-back-hit-size:\s*var\(--service-map-toolbar-control-size\)[\s\S]*?--service-map-toolbar-icon-edge-gap:\s*0\.28rem[\s\S]*?--service-map-toolbar-icon-inner-nudge:\s*0\.26rem[\s\S]*?--service-map-toolbar-side-reserve:\s*3\.42rem[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*66rem\)/
   );
   assert.match(
     css,
@@ -458,7 +478,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*relative[\s\S]*?top:\s*auto[\s\S]*?left:\s*auto/
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*absolute[\s\S]*?top:\s*calc\(var\(--service-map-toolbar-control-top\)[\s\S]*?left:\s*calc\(var\(--service-map-toolbar-icon-edge-gap\) \+ var\(--service-map-toolbar-icon-inner-nudge\)\)/
   );
   assert.match(
     css,
@@ -474,7 +494,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-toolbar__body\s*\{[\s\S]*?display:\s*flex[\s\S]*?flex-wrap:\s*nowrap[\s\S]*?justify-content:\s*center/
+    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__body\s*\{[\s\S]*?display:\s*flex[\s\S]*?flex-wrap:\s*wrap[\s\S]*?justify-content:\s*center[\s\S]*?padding-inline:\s*var\(--service-map-toolbar-side-reserve,\s*3\.42rem\)/
   );
   assert.match(
     css,
@@ -516,6 +536,31 @@ test("service map mobile map edge does not expose a blue Leaflet fallback seam",
   assert.match(
     css,
     /\.service-map-leaflet(?:\.leaflet-container)?\s*\{[\s\S]*?background:\s*var\(--service-map-map-bg\)\s*!important/
+  );
+});
+
+test("service map legend stays left on desktop and uses the lower right mobile corner without attribution", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(
+    css,
+    /\.service-map-leaflet__legend\s*\{[\s\S]*?left:\s*0\.86rem[\s\S]*?bottom:\s*0\.86rem[\s\S]*?right:\s*auto/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-leaflet__legend\s*\{[\s\S]*?right:\s*calc\(env\(safe-area-inset-right,\s*0px\) \+ 0\.52rem\)[\s\S]*?bottom:\s*calc\(env\(safe-area-inset-bottom,\s*0px\) \+ 0\.52rem\)[\s\S]*?left:\s*auto/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-leaflet \.leaflet-control-attribution\s*\{[\s\S]*?display:\s*none/
+  );
+  assert.match(
+    css,
+    /\.service-map-leaflet \.leaflet-bottom\.leaflet-right\s*\{[\s\S]*?right:\s*0\.55rem[\s\S]*?bottom:\s*0\.08rem/
+  );
+  assert.match(
+    css,
+    /\.service-map-leaflet \.leaflet-control-attribution\s*\{[\s\S]*?margin-bottom:\s*0\.1rem/
   );
 });
 

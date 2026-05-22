@@ -20,6 +20,14 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   const css = read("app/styles/components/service-map.css");
 
   assert.match(source, /Koosta kirja mustand/);
+  assert.match(source, /PRE_INQUIRY_ASSESSMENT_PATHS\.map/);
+  assert.match(source, /definition\.primaryQuestions\.map/);
+  assert.match(source, /buildPreInquiryAssessmentExportText/);
+  assert.match(source, /buildPreInquiryAssessmentReview/);
+  assert.match(source, /Vaata eelkaardistus enne saatmist üle/);
+  assert.match(source, /assessmentReview\.unansweredQuestions\.map/);
+  assert.match(source, /assessmentState:\s*normalizedAssessmentState/);
+  assert.match(source, /Saada platvormis/);
   assert.match(source, /aria-pressed=\{isSelectedRecipient \? "true" : "false"\}/);
   assert.match(source, /data-selected=\{isSelectedRecipient \? "true" : undefined\}/);
   assert.match(source, /className="pre-inquiry-draft-textarea"/);

@@ -5,6 +5,14 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 import { buildPreInquiryAssessment } from "../../lib/preInquiriesAssessment.js";
+import {
+  PRE_INQUIRY_DOMAIN_DEFINITIONS,
+  buildPreInquiryAssessmentExportText,
+  buildPreInquiryAssessmentReview,
+  buildPreInquiryAssessmentSituation,
+  createEmptyPreInquiryAssessmentState,
+  normalizePreInquiryAssessmentState
+} from "../../lib/preInquiriesQuestionnaire.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -86,6 +94,140 @@ test("pre-inquiry assessment routes child safety concerns to human support chann
   assert.ok(assessment.riskFlags.includes("CHILD_SAFETY"));
   assert.ok(assessment.riskFlags.includes("YOUTH_SAFETY"));
   assert.ok(assessment.warnings.some((warning) => warning.includes("116 111")));
+});
+
+test("pre-inquiry questionnaire stores a structured state and keeps traffic-light labels internal", () => {
+  const state = createEmptyPreInquiryAssessmentState("TARGETED_ASSESSMENT");
+  const normalized = normalizePreInquiryAssessmentState({
+    ...state,
+    subject: {
+      ...state.subject,
+      concernsAbout: "Eaka lähedase kohta",
+      municipalityText: "Tallinn"
+    },
+    domains: state.domains.map((domain) => (
+      domain.id === "daily_living"
+        ? {
+            ...domain,
+            primaryAnswers: domain.primaryAnswers.map((answer) => (
+              answer.id === "food_preparation"
+                ? {
+                    ...answer,
+                    screenAnswer: "SIGNIFICANT_DIFFICULTY",
+                    followUpAnswers: {
+                      "Millises toidu hankimise või valmistamise osas vajab inimene abi?": "Poes käimine ja söögi tegemine."
+                    }
+                  }
+                : answer
+            ))
+          }
+        : domain
+    ))
+  });
+
+  const dailyLiving = normalized.domains.find((domain) => domain.id === "daily_living");
+  assert.equal(normalized.path, "TARGETED_ASSESSMENT");
+  assert.equal(normalized.routing.confidence, "HIGH");
+  assert.equal(dailyLiving.status, "RED");
+  assert.ok(dailyLiving.routingSignals.includes("koduteenus"));
+
+  const exportText = buildPreInquiryAssessmentExportText(normalized, {
+    topic: "Ema toimetulek"
+  });
+  assert.match(exportText, /SotsiaalAI eelpöördumise eelinfo/);
+  assert.match(exportText, /Toidu valmistamine: Kas inimene suudab iseseisvalt süüa valmistada/);
+  assert.match(exportText, /Vastus: Oluline mure/);
+  assert.match(exportText, /Poes käimine ja söögi tegemine/);
+  assert.doesNotMatch(exportText, /\bRED\b/);
+});
+
+test("pre-inquiry questionnaire keeps the guide primary questions visible by life domain", () => {
+  const primaryQuestions = PRE_INQUIRY_DOMAIN_DEFINITIONS.flatMap((domain) => domain.primaryQuestions);
+
+  assert.equal(PRE_INQUIRY_DOMAIN_DEFINITIONS.length, 7);
+  assert.equal(primaryQuestions.length, 21);
+  assert.ok(primaryQuestions.some((question) => question.question.includes("eluruumides")));
+  assert.ok(primaryQuestions.some((question) => question.question.includes("rahade planeerimisel")));
+  assert.ok(primaryQuestions.some((question) => question.question.includes("sotsiaalne võrgustik on turvalised")));
+});
+
+test("pre-inquiry questionnaire can generate a saveable situation summary", () => {
+  const state = normalizePreInquiryAssessmentState({
+    ...createEmptyPreInquiryAssessmentState("COMPREHENSIVE_ASSESSMENT"),
+    subject: {
+      concernsAbout: "Minu enda kohta",
+      municipalityText: "Põltsamaa vald",
+      urgency: "Saan oodata"
+    },
+    supportContext: {
+      existingSupport: "Naaber aitab vahel poes käia.",
+      personWish: "Soovin kodus edasi elada."
+    }
+  });
+
+  const summary = buildPreInquiryAssessmentSituation(state);
+  assert.match(summary, /Põhjalikum eelkaardistus/);
+  assert.match(summary, /Piirkond\/KOV: Põltsamaa vald/);
+  assert.match(summary, /Naaber aitab vahel poes käia/);
+});
+
+test("pre-inquiry questionnaire builds a review from exact answered questions before sending", () => {
+  const state = createEmptyPreInquiryAssessmentState("TARGETED_ASSESSMENT");
+  const review = buildPreInquiryAssessmentReview({
+    ...state,
+    subject: {
+      ...state.subject,
+      concernsAbout: "Eaka lähedase kohta",
+      municipalityText: "Põltsamaa vald",
+      urgency: "Keegi võib olla vahetus ohus"
+    },
+    supportContext: {
+      existingSupport: "Lähedane aitab nädalavahetusel.",
+      personWish: "Soovib kodus edasi elada."
+    },
+    domains: state.domains.map((domain) => ({
+      ...domain,
+      primaryAnswers: domain.primaryAnswers.map((answer) => {
+        if (answer.id === "social_relations") {
+          return {
+            ...answer,
+            screenAnswer: "INDEPENDENT"
+          };
+        }
+        if (answer.id === "indoor_mobility") {
+          return {
+            ...answer,
+            screenAnswer: "UNKNOWN"
+          };
+        }
+        if (answer.id === "food_preparation") {
+          return {
+            ...answer,
+            screenAnswer: "SIGNIFICANT_DIFFICULTY",
+            followUpAnswers: {
+              "Millises toidu hankimise või valmistamise osas vajab inimene abi?": "Poes käimisel."
+            }
+          };
+        }
+        return answer;
+      })
+    }))
+  });
+
+  assert.equal(review.pathTitle, "Lühem eelkaardistus");
+  assert.deepEqual(review.progress, {
+    answeredPrimaryCount: 3,
+    totalPrimaryCount: 21,
+    unansweredPrimaryCount: 18
+  });
+  assert.equal(review.concernQuestions[0].answerLabel, "Oluline mure");
+  assert.equal(review.concernQuestions[0].followUpAnswers[0].answer, "Poes käimisel.");
+  assert.equal(review.unknownQuestions[0].title, "Liikumine eluruumides");
+  assert.equal(review.strengthQuestions[0].title, "Sotsiaalsed suhted");
+  assert.ok(review.unansweredQuestions.some((question) => question.id.endsWith(":outdoor_mobility")));
+  assert.ok(review.possibleDirections.includes("koduteenus"));
+  assert.ok(review.subjectLines.some((line) => line.value === "Põltsamaa vald"));
+  assert.match(review.riskMessage, /112/);
 });
 
 test("pre-inquiry assist message uses detected urgency, not only explicit urgency input", () => {

@@ -31,6 +31,20 @@ import {
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
+import {
+  PRE_INQUIRY_ASSESSMENT_PATHS,
+  PRE_INQUIRY_CONSENT_OPTIONS,
+  PRE_INQUIRY_DOMAIN_DEFINITIONS,
+  PRE_INQUIRY_SCREEN_OPTIONS,
+  PRE_INQUIRY_SUBJECT_OPTIONS,
+  PRE_INQUIRY_URGENCY_OPTIONS,
+  buildPreInquiryAssessmentExportText,
+  buildPreInquiryAssessmentReview,
+  buildPreInquiryAssessmentSituation,
+  createEmptyPreInquiryAssessmentState,
+  getPreInquiryQuestionFollowUpQuestions,
+  normalizePreInquiryAssessmentState
+} from "@/lib/preInquiriesQuestionnaire";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import AdminRoleViewCycleButton from "./AdminRoleViewCycleButton";
@@ -359,6 +373,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [assessmentLifeDomains, setAssessmentLifeDomains] = useState([]);
   const [assessmentTargetGroups, setAssessmentTargetGroups] = useState([]);
   const [assessmentQuestions, setAssessmentQuestions] = useState([]);
+  const [assessmentState, setAssessmentState] = useState(() => createEmptyPreInquiryAssessmentState());
   const [assistantSuggestions, setAssistantSuggestions] = useState([]);
   const [showMoreContacts, setShowMoreContacts] = useState(false);
   const [inquiries, setInquiries] = useState([]);
@@ -443,14 +458,36 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     () => entries.find((entry) => entry.id === selectedRecipientId) || null,
     [entries, selectedRecipientId]
   );
+  const normalizedAssessmentState = useMemo(
+    () => normalizePreInquiryAssessmentState(assessmentState),
+    [assessmentState]
+  );
+  const assessmentSituation = useMemo(
+    () => buildPreInquiryAssessmentSituation(normalizedAssessmentState),
+    [normalizedAssessmentState]
+  );
+  const effectiveSituation = situation.trim() || assessmentSituation;
   const selectedRecipientMailto = useMemo(
     () => buildPreInquiryRecipientMailto({
       recipient: selectedRecipient,
       topic,
       draft,
-      situation
+      situation: effectiveSituation
     }),
-    [draft, selectedRecipient, situation, topic]
+    [draft, effectiveSituation, selectedRecipient, topic]
+  );
+  const assessmentExportText = useMemo(
+    () => buildPreInquiryAssessmentExportText(normalizedAssessmentState, {
+      topic,
+      situation: effectiveSituation,
+      draft,
+      recipientName: selectedRecipient?.title || ""
+    }),
+    [draft, effectiveSituation, normalizedAssessmentState, selectedRecipient?.title, topic]
+  );
+  const assessmentReview = useMemo(
+    () => buildPreInquiryAssessmentReview(normalizedAssessmentState, { topic }),
+    [normalizedAssessmentState, topic]
   );
 
   const assistantConversationText = useMemo(() => {
@@ -574,10 +611,95 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     if (draftTouched) return;
     setDraft(buildLocalPreInquiryDraft({
       topic,
-      situation,
+      situation: effectiveSituation,
       recipient: selectedRecipient
     }));
-  }, [draftTouched, selectedRecipient, situation, topic]);
+  }, [draftTouched, effectiveSituation, selectedRecipient, topic]);
+
+  function updateAssessmentState(updater) {
+    setAssessmentState((current) => {
+      const normalized = normalizePreInquiryAssessmentState(current);
+      const next = typeof updater === "function" ? updater(normalized) : updater;
+      return normalizePreInquiryAssessmentState(next);
+    });
+    setDraftTouched(false);
+  }
+
+  function handleAssessmentPathChange(pathId) {
+    updateAssessmentState((current) => ({
+      ...createEmptyPreInquiryAssessmentState(pathId),
+      subject: current.subject,
+      supportContext: current.supportContext
+    }));
+  }
+
+  function updateAssessmentSubject(field, value) {
+    updateAssessmentState((current) => ({
+      ...current,
+      subject: {
+        ...current.subject,
+        [field]: value
+      }
+    }));
+  }
+
+  function updateAssessmentSupport(field, value) {
+    updateAssessmentState((current) => ({
+      ...current,
+      supportContext: {
+        ...current.supportContext,
+        [field]: value
+      }
+    }));
+  }
+
+  function updatePrimaryQuestionAnswer(domainId, questionId, screenAnswer) {
+    updateAssessmentState((current) => ({
+      ...current,
+      domains: current.domains.map((domain) => (
+        domain.id === domainId
+          ? {
+              ...domain,
+              primaryAnswers: domain.primaryAnswers.map((primaryAnswer) => (
+                primaryAnswer.id === questionId
+                  ? {
+                      ...primaryAnswer,
+                      screenAnswer,
+                      followUpAnswers: screenAnswer === "INDEPENDENT" || screenAnswer === "NOT_APPLICABLE"
+                        ? {}
+                        : primaryAnswer.followUpAnswers
+                    }
+                  : primaryAnswer
+              ))
+            }
+          : domain
+      ))
+    }));
+  }
+
+  function updatePrimaryQuestionFollowUpAnswer(domainId, questionId, question, answer) {
+    updateAssessmentState((current) => ({
+      ...current,
+      domains: current.domains.map((domain) => (
+        domain.id === domainId
+          ? {
+              ...domain,
+              primaryAnswers: domain.primaryAnswers.map((primaryAnswer) => (
+                primaryAnswer.id === questionId
+                  ? {
+                      ...primaryAnswer,
+                      followUpAnswers: {
+                        ...primaryAnswer.followUpAnswers,
+                        [question]: answer
+                      }
+                    }
+                  : primaryAnswer
+              ))
+            }
+          : domain
+      ))
+    }));
+  }
 
   function handleNewInquiry() {
     setActiveInquiryId("");
@@ -594,6 +716,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssessmentLifeDomains([]);
     setAssessmentTargetGroups([]);
     setAssessmentQuestions([]);
+    setAssessmentState(createEmptyPreInquiryAssessmentState());
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(false);
@@ -616,6 +739,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssessmentLifeDomains([]);
     setAssessmentTargetGroups([]);
     setAssessmentQuestions([]);
+    setAssessmentState(normalizePreInquiryAssessmentState(inquiry.assessmentState || createEmptyPreInquiryAssessmentState()));
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(true);
@@ -625,7 +749,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
   async function handleSave(event, options = {}) {
     event?.preventDefault?.();
-    if (saving || !situation.trim()) return;
+    const saveSituation = situation.trim() || assessmentSituation;
+    const nextStatus = options?.status || "DRAFT";
+    if (saving || !saveSituation.trim()) return;
 
     setSaving(true);
     setNotice("");
@@ -640,13 +766,14 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         },
         body: JSON.stringify({
           topic,
-          situation,
+          situation: saveSituation,
+          assessmentState: normalizedAssessmentState,
           recipientType,
           recipientEntryId: selectedRecipient?.id || null,
           selectedRecipientName: selectedRecipient?.title || "",
           selectedRecipientEmail: selectedRecipient?.email || "",
           userEditedDraft: draft,
-          status: "DRAFT",
+          status: nextStatus,
           privacyDecision: options?.privacyDecision
         })
       });
@@ -669,12 +796,18 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         setActiveInquiryId(inquiry.id || "");
         setTopic(inquiry.topic || topic);
         setSituation(inquiry.situation || situation);
+        setAssessmentState(normalizePreInquiryAssessmentState(inquiry.assessmentState || normalizedAssessmentState));
         setDraft(inquiry.userEditedDraft || inquiry.generatedDraft || draft);
         setDraftTouched(true);
       }
-      setNotice(readText(t, "workspace_feature_pages.pre_inquiries.save_success", "Pre-inquiry saved."));
+      setNotice(nextStatus === "SENT"
+        ? readText(t, "workspace_feature_pages.pre_inquiries.send_success", "Eelpöördumine saadetud.")
+        : readText(t, "workspace_feature_pages.pre_inquiries.save_success", "Pre-inquiry saved."));
     } catch (saveError) {
-      setError(saveError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.save_failed", "Pre-inquiry could not be saved."));
+      const message = saveError?.message === "pre_inquiries.errors.internal_recipient_required"
+        ? readText(t, "workspace_feature_pages.pre_inquiries.errors.internal_recipient_required", "Platvormis saatmiseks vali kontakt, kelle konto võtab eelpöördumisi vastu.")
+        : saveError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.save_failed", "Pre-inquiry could not be saved.");
+      setError(message);
     } finally {
       setSaving(false);
     }
@@ -707,8 +840,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }
 
   function handleDownload() {
-    if (!draft.trim() || typeof window === "undefined") return;
-    const blob = new Blob([draft], { type: "text/plain;charset=utf-8" });
+    const content = assessmentExportText || draft;
+    if (!content.trim() || typeof window === "undefined") return;
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
     const url = window.URL.createObjectURL(blob);
     const link = window.document.createElement("a");
     link.href = url;
@@ -807,11 +941,12 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   async function handleAskAssistant(event, overrideMessage = "", options = {}) {
     event?.preventDefault();
     const message = String(overrideMessage || assistantInput).trim();
-    if (assisting || (!message && !situation.trim())) return;
+    const baseSituation = situation.trim() || assessmentSituation;
+    if (assisting || (!message && !baseSituation.trim())) return;
     const shouldAppendMessage = options.appendMessage !== false;
     const nextSituation = shouldAppendMessage
-      ? [situation.trim(), message].filter(Boolean).join(situation.trim() && message ? "\n\n" : "")
-      : situation.trim();
+      ? [baseSituation, message].filter(Boolean).join(baseSituation && message ? "\n\n" : "")
+      : baseSituation;
     setAssisting(true);
     setNotice("");
     setError("");
@@ -984,6 +1119,18 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             <div className="grid gap-[0.54rem]">
               <p className="m-0 text-[1rem] font-[720] leading-[1.2]">{activeReceivedInquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</p>
               <p className={bodyTextClassName}>{activeReceivedInquiry.situation}</p>
+              {activeReceivedInquiry.assessmentState ? (
+                <ServiceProfileTextarea
+                  readOnly
+                  value={buildPreInquiryAssessmentExportText(activeReceivedInquiry.assessmentState, {
+                    topic: activeReceivedInquiry.topic || "",
+                    situation: activeReceivedInquiry.situation || "",
+                    draft: activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || "",
+                    recipientName: activeReceivedInquiry.selectedRecipientName || ""
+                  })}
+                  className="min-h-[14rem]"
+                />
+              ) : null}
               {activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft ? (
                 <ServiceProfileTextarea readOnly value={activeReceivedInquiry.userEditedDraft || activeReceivedInquiry.generatedDraft || ""} className="min-h-[10rem]" />
               ) : null}
@@ -1018,6 +1165,368 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           {notice}
         </p>
       ) : null}
+
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
+        <p className={bodyTextClassName}>
+          {readText(t, "workspace_feature_pages.pre_inquiries.assessment.note", "Eelkaardistus ei ole ametlik abivajaduse hindamine ega teenuse määramise otsus. See aitab olukorda läbi mõelda ja pöördumist ette valmistada.")}
+        </p>
+        <div className="grid gap-[0.54rem] md:grid-cols-3">
+          {PRE_INQUIRY_ASSESSMENT_PATHS.map((path) => (
+            <OptionCard
+              key={path.id}
+              type="radio"
+              name="pre-inquiry-assessment-path"
+              value={path.id}
+              checked={normalizedAssessmentState.path === path.id}
+              onChange={() => handleAssessmentPathChange(path.id)}
+              className={cn(preInquiryRecipientTypeCardClassName, "h-full items-start rounded-[1rem] px-[0.8rem] py-[0.72rem] text-left")}
+              fitTextLines={4}
+            >
+              <span className="grid gap-[0.28rem]">
+                <span className="font-[740] leading-[1.14]">{path.title}</span>
+                <span className="text-[0.82rem] font-[500] leading-[1.26] opacity-[0.76]">{path.description}</span>
+              </span>
+            </OptionCard>
+          ))}
+        </div>
+
+        <div className="grid gap-[0.62rem] md:grid-cols-2">
+          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pöördumine käib")}</span>
+            <div className="grid gap-[0.42rem]">
+              {PRE_INQUIRY_SUBJECT_OPTIONS.map((option) => (
+                <OptionCard
+                  key={option}
+                  type="radio"
+                  name="pre-inquiry-subject"
+                  value={option}
+                  checked={normalizedAssessmentState.subject.concernsAbout === option}
+                  onChange={() => updateAssessmentSubject("concernsAbout", option)}
+                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
+                  fitTextLines={2}
+                >
+                  <span className="leading-[1.18]">{option}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </div>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.municipality", "KOV või piirkond")}</span>
+            <ServiceProfileInput
+              value={normalizedAssessmentState.subject.municipalityText}
+              onChange={(event) => updateAssessmentSubject("municipalityText", event.target.value)}
+              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.municipality", "Näiteks Tallinn, Põltsamaa vald või piirkond")}
+            />
+          </Label>
+          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.urgency", "Kiireloomulisus")}</span>
+            <div className="grid gap-[0.42rem]">
+              {PRE_INQUIRY_URGENCY_OPTIONS.map((option) => (
+                <OptionCard
+                  key={option}
+                  type="radio"
+                  name="pre-inquiry-urgency"
+                  value={option}
+                  checked={normalizedAssessmentState.subject.urgency === option}
+                  onChange={() => updateAssessmentSubject("urgency", option)}
+                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
+                  fitTextLines={2}
+                >
+                  <span className="leading-[1.18]">{option}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.consent", "Nõusolek või pöördumise alus")}</span>
+            <div className="grid gap-[0.42rem]">
+              {PRE_INQUIRY_CONSENT_OPTIONS.map((option) => (
+                <OptionCard
+                  key={option}
+                  type="radio"
+                  name="pre-inquiry-consent"
+                  value={option}
+                  checked={normalizedAssessmentState.subject.consentStatus === option}
+                  onChange={() => updateAssessmentSubject("consentStatus", option)}
+                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
+                  fitTextLines={2}
+                >
+                  <span className="leading-[1.18]">{option}</span>
+                </OptionCard>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {normalizedAssessmentState.riskGate.userVisibleMessage ? (
+          <p className="m-0 rounded-[0.9rem] border border-[rgba(208,116,108,0.28)] bg-[rgba(58,22,25,0.62)] px-[0.8rem] py-[0.62rem] text-[0.94rem] font-[620] leading-[1.36] text-[rgba(255,231,226,0.98)]">
+            {normalizedAssessmentState.riskGate.userVisibleMessage}
+          </p>
+        ) : null}
+        {normalizedAssessmentState.subject.concernsAbout === "Lapse või noore kohta" && normalizedAssessmentState.path !== "QUICK_DESCRIPTION" ? (
+          <p className="m-0 rounded-[0.9rem] border border-[rgba(218,182,94,0.26)] bg-[rgba(56,43,17,0.48)] px-[0.8rem] py-[0.62rem] text-[0.92rem] leading-[1.36] text-[rgba(255,241,205,0.96)]">
+            {readText(t, "workspace_feature_pages.pre_inquiries.assessment.child_note", "See eelkaardistus lähtub praegu täisealise inimese eluvaldkondade põhiküsimustest. Lapse või noore olukorra puhul kirjelda mure kindlasti ka oma sõnadega; eraldi lapse ja pere eelkaardistus vajab oma küsimustikku.")}
+          </p>
+        ) : null}
+
+        <Label>
+          <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.situation", "Olukorra kirjeldus inimese sõnadega")}</span>
+          <ServiceProfileTextarea
+            value={situation}
+            onChange={(event) => {
+              setSituation(event.target.value);
+              setDraftTouched(false);
+            }}
+            placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.situation", "Kirjelda lühidalt, mis olukord vajab abi. Teenuse nime ei pea teadma.")}
+            className="min-h-[8rem]"
+          />
+        </Label>
+
+        {normalizedAssessmentState.path !== "QUICK_DESCRIPTION" ? (
+          <div className="grid gap-[0.74rem]">
+            <h3 className="m-0 text-[1.02rem] font-[720] leading-[1.18]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.domains_title", "Eluvaldkonnad")}
+            </h3>
+            {PRE_INQUIRY_DOMAIN_DEFINITIONS.map((definition) => {
+              const domain = normalizedAssessmentState.domains.find((item) => item.id === definition.id) || {};
+              return (
+                <div key={definition.id} className="workspace-feature-list-card grid gap-[0.56rem] rounded-[0.92rem] border px-[0.82rem] py-[0.74rem]">
+                  <div className="grid gap-[0.18rem]">
+                    <h4 className="m-0 text-[0.98rem] font-[730] leading-[1.15]">{definition.title}</h4>
+                    <p className="m-0 text-[0.82rem] leading-[1.3] opacity-[0.66]">{definition.helperText}</p>
+                  </div>
+                  <div className="grid gap-[0.6rem]">
+                    {definition.primaryQuestions.map((primaryQuestion) => {
+                      const primaryAnswer = domain.primaryAnswers?.find((answer) => answer.id === primaryQuestion.id) || {};
+                      const followUpQuestions = getPreInquiryQuestionFollowUpQuestions(
+                        primaryQuestion,
+                        normalizedAssessmentState.path,
+                        primaryAnswer.screenAnswer
+                      );
+                      return (
+                        <div key={primaryQuestion.id} className="grid gap-[0.5rem] rounded-[0.82rem] border border-[color:rgba(255,255,255,0.12)] px-[0.7rem] py-[0.62rem]">
+                          <div className="grid gap-[0.16rem]">
+                            <p className="m-0 text-[0.82rem] font-[720] leading-[1.22] opacity-[0.68]">{primaryQuestion.title}</p>
+                            <p className="m-0 text-[0.92rem] leading-[1.35] opacity-[0.86]">{primaryQuestion.question}</p>
+                          </div>
+                          <div className="grid gap-[0.42rem] sm:grid-cols-2 lg:grid-cols-5">
+                            {PRE_INQUIRY_SCREEN_OPTIONS.map((option) => (
+                              <OptionCard
+                                key={option.value}
+                                type="radio"
+                                name={`pre-inquiry-question-${definition.id}-${primaryQuestion.id}`}
+                                value={option.value}
+                                checked={primaryAnswer.screenAnswer === option.value}
+                                onChange={() => updatePrimaryQuestionAnswer(definition.id, primaryQuestion.id, option.value)}
+                                className={cn(preInquiryRecipientTypeCardClassName, "min-h-[3.1rem] rounded-[0.9rem] px-[0.58rem] py-[0.48rem] text-[0.86rem]")}
+                                fitTextLines={2}
+                              >
+                                <span className="text-center leading-[1.16]">{option.label}</span>
+                              </OptionCard>
+                            ))}
+                          </div>
+                          {followUpQuestions.length ? (
+                            <div className="grid gap-[0.5rem]">
+                              {followUpQuestions.map((question) => (
+                                <Label key={question}>
+                                  <span>{question}</span>
+                                  <ServiceProfileTextarea
+                                    value={primaryAnswer.followUpAnswers?.[question] || ""}
+                                    onChange={(event) => updatePrimaryQuestionFollowUpAnswer(definition.id, primaryQuestion.id, question, event.target.value)}
+                                    className="min-h-[5.6rem]"
+                                    placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.follow_up", "Vasta oma sõnadega. Võid jätta tühjaks, kui ei tea.")}
+                                  />
+                                </Label>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+
+        <div className="grid gap-[0.62rem] md:grid-cols-3">
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.existing_support", "Olemasolev abi")}</span>
+            <ServiceProfileTextarea
+              value={normalizedAssessmentState.supportContext.existingSupport}
+              onChange={(event) => updateAssessmentSupport("existingSupport", event.target.value)}
+              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.existing_support", "Kes või mis praegu aitab?")}
+              className="min-h-[5.6rem]"
+            />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.support_adequacy", "Kas abist piisab")}</span>
+            <ServiceProfileTextarea
+              value={normalizedAssessmentState.supportContext.supportAdequacy}
+              onChange={(event) => updateAssessmentSupport("supportAdequacy", event.target.value)}
+              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.support_adequacy", "Näiteks piisab, ei piisa või abistaja on ülekoormatud")}
+              className="min-h-[5.6rem]"
+            />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.person_wish", "Inimese enda soov")}</span>
+            <ServiceProfileTextarea
+              value={normalizedAssessmentState.supportContext.personWish}
+              onChange={(event) => updateAssessmentSupport("personWish", event.target.value)}
+              placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.person_wish", "Mida inimene ise kõige rohkem soovib?")}
+              className="min-h-[5.6rem]"
+            />
+          </Label>
+        </div>
+      </SectionCard>
+
+      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelkaardistus enne saatmist üle")}>
+        <p className={bodyTextClassName}>
+          {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_note", "Ülevaade koondab täpselt need eelkaardistuse vastused ja täpsustused, mis lähevad salvestatud eelpöördumise ning allalaaditava eelinfo juurde.")}
+        </p>
+
+        <div className="grid gap-[0.56rem] md:grid-cols-2">
+          <div className="workspace-feature-list-card grid gap-[0.24rem] rounded-[0.92rem] border px-[0.82rem] py-[0.7rem]">
+            <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.66]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_path", "Valitud rada")}
+            </p>
+            <p className="m-0 text-[1rem] font-[720] leading-[1.22]">{assessmentReview.pathTitle}</p>
+          </div>
+          <div className="workspace-feature-list-card grid gap-[0.24rem] rounded-[0.92rem] border px-[0.82rem] py-[0.7rem]">
+            <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.66]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_progress", "Põhiküsimuste ülevaade")}
+            </p>
+            {assessmentReview.progress.totalPrimaryCount ? (
+              <p className="m-0 text-[1rem] font-[720] leading-[1.22]">
+                {`${assessmentReview.progress.answeredPrimaryCount} / ${assessmentReview.progress.totalPrimaryCount} ${readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_answered", "vastatud")}`}
+              </p>
+            ) : (
+              <p className="m-0 text-[0.96rem] leading-[1.34] opacity-[0.86]">
+                {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_without_questionnaire", "Selles rajas jääb eelinfo olukorra kirjelduse ja valitud taustandmete juurde.")}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {assessmentReview.subjectLines.length ? (
+          <dl className="workspace-feature-list-card m-0 grid gap-[0.42rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem] md:grid-cols-2">
+            {assessmentReview.subjectLines.map((line) => (
+              <div key={line.label} className="grid gap-[0.12rem]">
+                <dt className="text-[0.8rem] font-[720] leading-[1.2] opacity-[0.64]">{line.label}</dt>
+                <dd className="m-0 text-[0.94rem] leading-[1.3] opacity-[0.9]">{line.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        {assessmentReview.riskMessage ? (
+          <p className="m-0 rounded-[0.9rem] border border-[rgba(208,116,108,0.28)] bg-[rgba(58,22,25,0.62)] px-[0.8rem] py-[0.62rem] text-[0.94rem] font-[620] leading-[1.36] text-[rgba(255,231,226,0.98)]">
+            {assessmentReview.riskMessage}
+          </p>
+        ) : null}
+
+        {effectiveSituation.trim() ? (
+          <div className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem]">
+            <h3 className="m-0 text-[0.94rem] font-[730] leading-[1.18]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_situation", "Olukorra kirjeldus")}
+            </h3>
+            <p className="m-0 whitespace-pre-wrap text-[0.93rem] leading-[1.42] opacity-[0.86]">{effectiveSituation}</p>
+          </div>
+        ) : null}
+
+        {assessmentReview.concernQuestions.length || assessmentReview.unknownQuestions.length ? (
+          <div className="grid gap-[0.48rem]">
+            <h3 className="m-0 text-[1rem] font-[730] leading-[1.18]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_concerns", "Mured ja täpsustamist vajavad küsimused")}
+            </h3>
+            {[...assessmentReview.concernQuestions, ...assessmentReview.unknownQuestions].map((question) => (
+              <article key={question.id} className="workspace-feature-list-card grid gap-[0.3rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem]">
+                <div className="flex flex-wrap items-start justify-between gap-[0.34rem]">
+                  <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.66]">
+                    {`${question.domainTitle} / ${question.title}`}
+                  </p>
+                  <span className="rounded-full border px-[0.54rem] py-[0.16rem] text-[0.78rem] font-[720] leading-[1.2] opacity-[0.86]">
+                    {question.answerLabel}
+                  </span>
+                </div>
+                <p className="m-0 text-[0.94rem] leading-[1.38] opacity-[0.9]">{question.question}</p>
+                {question.followUpAnswers.length ? (
+                  <div className="grid gap-[0.34rem]">
+                    {question.followUpAnswers.map((answer) => (
+                      <div key={`${question.id}-${answer.question}`} className="grid gap-[0.1rem] rounded-[0.72rem] border border-[color:rgba(255,255,255,0.1)] px-[0.62rem] py-[0.48rem]">
+                        <p className="m-0 text-[0.8rem] font-[720] leading-[1.24] opacity-[0.64]">{answer.question}</p>
+                        <p className="m-0 whitespace-pre-wrap text-[0.9rem] leading-[1.36] opacity-[0.88]">{answer.answer}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        ) : null}
+
+        {assessmentReview.strengthQuestions.length ? (
+          <div className="grid gap-[0.48rem]">
+            <h3 className="m-0 text-[1rem] font-[730] leading-[1.18]">
+              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_strengths", "Toimivad vastused ja tugevused")}
+            </h3>
+            <div className="grid gap-[0.38rem]">
+              {assessmentReview.strengthQuestions.map((question) => (
+                <article key={question.id} className="workspace-feature-list-card grid gap-[0.16rem] rounded-[0.84rem] border px-[0.72rem] py-[0.58rem]">
+                  <div className="flex flex-wrap items-start justify-between gap-[0.34rem]">
+                    <p className="m-0 text-[0.8rem] font-[720] leading-[1.2] opacity-[0.64]">
+                      {`${question.domainTitle} / ${question.title}`}
+                    </p>
+                    <span className="rounded-full border px-[0.54rem] py-[0.16rem] text-[0.76rem] font-[720] leading-[1.2] opacity-[0.82]">
+                      {question.answerLabel}
+                    </span>
+                  </div>
+                  <p className="m-0 text-[0.92rem] leading-[1.34] opacity-[0.88]">{question.question}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        {assessmentReview.progress.unansweredPrimaryCount ? (
+          <details className="workspace-feature-list-card rounded-[0.92rem] border px-[0.82rem] py-[0.7rem]">
+            <summary className="cursor-pointer text-[0.94rem] font-[730] leading-[1.24]">
+              {`${readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_unanswered", "Vastamata põhiküsimused")} (${assessmentReview.progress.unansweredPrimaryCount})`}
+            </summary>
+            <div className="mt-[0.52rem] grid gap-[0.34rem]">
+              {assessmentReview.unansweredQuestions.map((question) => (
+                <p key={question.id} className="m-0 text-[0.88rem] leading-[1.34] opacity-[0.78]">
+                  {`${question.domainTitle} / ${question.title}`}
+                </p>
+              ))}
+            </div>
+          </details>
+        ) : null}
+
+        {assessmentReview.supportLines.length || assessmentReview.possibleDirections.length ? (
+          <div className="workspace-feature-list-card grid gap-[0.46rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem]">
+            {assessmentReview.supportLines.length ? (
+              <dl className="m-0 grid gap-[0.42rem] md:grid-cols-2">
+                {assessmentReview.supportLines.map((line) => (
+                  <div key={line.label} className="grid gap-[0.12rem]">
+                    <dt className="text-[0.8rem] font-[720] leading-[1.2] opacity-[0.64]">{line.label}</dt>
+                    <dd className="m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.36] opacity-[0.88]">{line.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
+            {assessmentReview.possibleDirections.length ? (
+              <div className="grid gap-[0.24rem]">
+                <p className="m-0 text-[0.8rem] font-[720] leading-[1.2] opacity-[0.64]">
+                  {readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_directions", "Võimalikud teenuse- või kontaktisuunad")}
+                </p>
+                <p className="m-0 text-[0.92rem] leading-[1.36] opacity-[0.88]">{assessmentReview.possibleDirections.join(", ")}</p>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </SectionCard>
 
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
@@ -1120,7 +1629,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <Button
             type="button"
             size="sm"
-            disabled={assisting || !situation.trim()}
+            disabled={assisting || !effectiveSituation.trim()}
             onClick={(event) => handleAskAssistant(event, "Palun koosta sellest lühike eelpöördumise kokkuvõte ja mustand.")}
           >
             {readText(t, "workspace_feature_pages.pre_inquiries.actions.prepare_draft", "Koosta kirja mustand")}
@@ -1284,13 +1793,20 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               {readText(t, "workspace_feature_pages.pre_inquiries.actions.open_email", "Ava e-kiri")}
             </Button>
           ) : null}
-          <Button type="button" size="sm" disabled={saving || !situation.trim()} onClick={handleSave}>
+          <Button type="button" size="sm" disabled={saving || !effectiveSituation.trim()} onClick={handleSave}>
             {saving
               ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
               : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Salvesta")}
           </Button>
+          {selectedRecipientId ? (
+            <Button type="button" size="sm" disabled={saving || !effectiveSituation.trim()} onClick={(event) => handleSave(event, { status: "SENT" })}>
+              {saving
+                ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
+                : readText(t, "workspace_feature_pages.pre_inquiries.actions.send_internal", "Saada platvormis")}
+            </Button>
+          ) : null}
           <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri")}</Button>
-          <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
+          <Button type="button" size="sm" disabled={!draft.trim() && !effectiveSituation.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
         </div>
       </SectionCard>
 

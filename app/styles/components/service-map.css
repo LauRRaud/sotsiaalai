@@ -1060,7 +1060,7 @@ html[data-contrast="hc"] body.service-map-page-active {
   --service-map-toolbar-control-top: 0.25rem;
   --service-map-toolbar-back-hit-size: var(--service-map-toolbar-control-size);
   --service-map-toolbar-icon-edge-gap: 0.28rem;
-  --service-map-toolbar-icon-inner-nudge: 0.08rem;
+  --service-map-toolbar-icon-inner-nudge: 0.26rem;
   --service-map-toolbar-side-reserve: 3.42rem;
   align-items: flex-start;
   padding-bottom: 0.38rem;
@@ -1306,7 +1306,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   align-items: center;
   justify-self: center;
   justify-content: center;
-  gap: 0.34rem;
+  gap: 0.62rem;
   min-width: 0;
   width: 100%;
   max-width: 100%;
@@ -1547,7 +1547,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 13.6rem);
   align-items: center;
-  gap: 0.34rem;
+  gap: 0.62rem;
   min-width: 0;
 }
 
@@ -1627,7 +1627,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 0.28rem;
+  gap: 0.5rem;
   min-width: 0;
   align-self: center;
 }
@@ -1853,6 +1853,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   position: absolute;
   left: 0.86rem;
   bottom: 0.86rem;
+  right: auto;
   z-index: 500;
   display: grid;
   max-width: min(16rem, calc(100% - 1.72rem));
@@ -2398,11 +2399,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
 .service-map-leaflet .leaflet-bottom.leaflet-right {
   right: 0.55rem;
-  bottom: 0.24rem;
+  bottom: 0.08rem;
 }
 
 .service-map-leaflet .leaflet-control-attribution {
   max-width: min(18rem, calc(100vw - 1.8rem));
+  margin-bottom: 0.1rem;
   background: transparent !important;
   box-shadow: none !important;
   color: var(--title-color, var(--brand-primary, #c57171)) !important;
@@ -2523,19 +2525,19 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace--toolbar-feedback .service-map-toolbar__identity {
-    position: relative;
-    top: auto;
-    left: auto;
-    flex: 0 0 auto;
+    position: absolute;
+    top: calc(var(--service-map-toolbar-control-top) + ((var(--service-map-toolbar-control-size) - var(--service-map-toolbar-back-hit-size)) / 2));
+    left: calc(var(--service-map-toolbar-icon-edge-gap) + var(--service-map-toolbar-icon-inner-nudge));
   }
 
-  .service-map-toolbar__body {
+  .service-map-workspace--toolbar-feedback .service-map-toolbar__body {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-items: center;
     justify-content: center;
+    gap: 0.62rem;
     width: 100%;
-    padding-inline: 0;
+    padding-inline: var(--service-map-toolbar-side-reserve, 3.42rem);
   }
 
   .service-map-toolbar__resultsblock {
@@ -2641,6 +2643,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     top: calc(env(safe-area-inset-top, 0px) + 0.56rem);
     right: calc(env(safe-area-inset-right, 0px) + 0.5rem);
     left: calc(env(safe-area-inset-left, 0px) + 0.5rem);
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
     width: auto;
     max-width: none;
     transform: none;
@@ -2663,9 +2667,9 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   .service-map-workspace__filters-shell {
     gap: 0.72rem;
     border-radius: 1rem;
-    width: auto;
+    width: 100%;
     max-width: 100%;
-    padding: var(--service-map-mobile-filters-pad-top) 0.72rem 0.92rem;
+    padding: var(--service-map-mobile-filters-pad-top) 0.5rem 0.92rem;
     max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.12rem);
     background:
       var(--glass-ring-sheen, none),
@@ -2673,18 +2677,19 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     box-shadow: var(--service-map-panel-shadow) !important;
     backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
     -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;
-    overflow-y: hidden;
-    overflow-x: auto;
+    overflow: visible;
   }
 
   .service-map-workspace__filters-shell--toolbar-feedback {
     gap: 0.5rem;
     padding-bottom: 0.46rem;
-    padding-right: 0.72rem;
+    padding-right: 0.5rem;
   }
 
   .service-map-workspace--toolbar-feedback .service-map-workspace__filters-shell {
-    padding-right: 0.72rem;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 0.5rem;
   }
 
   .service-map-toolbar__content {
@@ -2705,6 +2710,10 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     gap: 0.58rem;
     width: 100%;
     max-width: 100%;
+  }
+
+  .service-map-workspace--toolbar-feedback .service-map-toolbar__body {
+    padding-inline: 0;
   }
 
   .service-map-toolbar__fields {
@@ -2858,6 +2867,16 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     left: calc(env(safe-area-inset-left, 0px) + 0.58rem);
   }
 
+  .service-map-leaflet__legend {
+    right: calc(env(safe-area-inset-right, 0px) + 0.52rem);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.52rem);
+    left: auto;
+  }
+
+  .service-map-leaflet .leaflet-control-attribution {
+    display: none;
+  }
+
   .service-map-workspace__role {
     right: 0.65rem;
     bottom: 0.65rem;
@@ -2957,17 +2976,17 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
   }
 
   .service-map-workspace__filters-shell {
-    padding: var(--service-map-mobile-filters-pad-top) 0.62rem 0.78rem;
+    padding: var(--service-map-mobile-filters-pad-top) 0.44rem 0.78rem;
   }
 
   .service-map-workspace__filters-shell--toolbar-feedback {
     gap: 0.44rem;
     padding-bottom: 0.48rem;
-    padding-right: 0.62rem;
+    padding-right: 0.44rem;
   }
 
   .service-map-workspace--toolbar-feedback .service-map-workspace__filters-shell {
-    padding-right: 0.62rem;
+    padding-inline: 0.44rem;
   }
 
   .service-map-toolbar__type-card {

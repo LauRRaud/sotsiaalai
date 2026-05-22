@@ -1245,6 +1245,7 @@ model PreInquiry {
   selectedRecipientName   String?
   topic                   String?
   situation               String                    @db.Text
+  assessmentState         Json?
   generatedDraft          String?                   @db.Text
   userEditedDraft         String?                   @db.Text
   status                  PreInquiryStatus          @default(DRAFT)
