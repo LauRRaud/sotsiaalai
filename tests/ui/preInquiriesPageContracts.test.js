@@ -24,8 +24,17 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(source, /definition\.primaryQuestions\.map/);
   assert.match(source, /buildPreInquiryAssessmentExportText/);
   assert.match(source, /buildPreInquiryAssessmentReview/);
+  assert.match(source, /buildPreInquiryAssessmentDraftSummary/);
+  assert.match(source, /buildPreInquiryAssessmentAssistContext/);
+  assert.match(source, /municipality:\s*assessmentAssistContext\.municipality/);
+  assert.match(source, /selectedNeedAreas:\s*assessmentAssistContext\.selectedNeedAreas/);
+  assert.match(source, /urgencyLevel:\s*assessmentAssistContext\.urgencyLevel/);
+  assert.match(source, /assistantRoutingConfidence/);
+  assert.match(source, /entry\.routingReason/);
   assert.match(source, /Vaata eelkaardistus enne saatmist üle/);
-  assert.match(source, /assessmentReview\.unansweredQuestions\.map/);
+  assert.match(source, /review\.unansweredQuestions\.map/);
+  assert.match(source, /review=\{assessmentReview\}/);
+  assert.match(source, /assessmentDraftSummary:\s*assessmentDraftSummary/);
   assert.match(source, /assessmentState:\s*normalizedAssessmentState/);
   assert.match(source, /Saada platvormis/);
   assert.match(source, /aria-pressed=\{isSelectedRecipient \? "true" : "false"\}/);
@@ -45,6 +54,21 @@ test("pre-inquiry recipient type filter is optional and aligned with search", ()
   assert.match(source, /pre-inquiry-recipient-controls/);
   assert.match(css, /\.pre-inquiry-recipient-controls\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/);
   assert.match(css, /\.pre-inquiry-recipient-types\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
+});
+
+test("pre-inquiry receiver view shows structured assessment review, not only raw export", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.match(source, /function PreInquiryAssessmentReviewSection/);
+  assert.match(source, /activeReceivedInquiryAssessmentReview/);
+  assert.match(source, /buildPreInquiryAssessmentReview\(activeReceivedInquiry\.assessmentState/);
+  assert.match(source, /workspace_feature_pages\.pre_inquiries\.sections\.received_assessment_review/);
+  assert.match(source, /activeReceivedInquiryAssessmentReview[\s\S]*?PreInquiryAssessmentReviewSection/);
+  assert.match(source, /handleDownloadReceivedInquiry/);
+  assert.match(source, /received_download/);
+  assert.match(source, /receiverChecklistDraft/);
+  assert.match(source, /handleSaveReceiverWorkflow/);
+  assert.match(source, /api\/pre-inquiries\/\$\{encodeURIComponent\(inquiryId\)\}\/workflow/);
 });
 
 test("pre-inquiry assistant clears stale draft and recipient when no draft or contact is returned", () => {

@@ -1248,6 +1248,8 @@ model PreInquiry {
   assessmentState         Json?
   generatedDraft          String?                   @db.Text
   userEditedDraft         String?                   @db.Text
+  receiverNote            String?                   @db.Text
+  receiverChecklist       Json?
   status                  PreInquiryStatus          @default(DRAFT)
   sentAt                  DateTime?
   externalSendConfirmedAt DateTime?

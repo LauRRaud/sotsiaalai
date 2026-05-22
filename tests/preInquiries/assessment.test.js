@@ -6,7 +6,17 @@ import { dirname, resolve } from "node:path";
 
 import { buildPreInquiryAssessment } from "../../lib/preInquiriesAssessment.js";
 import {
+  buildPreInquiryRoutingConfidence,
+  explainPreInquiryRecipientMatch
+} from "../../lib/preInquiryRouting.js";
+import {
+  normalizePreInquiryReceiverChecklist,
+  normalizePreInquiryReceiverNote
+} from "../../lib/preInquiryReceiverWorkflow.js";
+import {
   PRE_INQUIRY_DOMAIN_DEFINITIONS,
+  buildPreInquiryAssessmentAssistContext,
+  buildPreInquiryAssessmentDraftSummary,
   buildPreInquiryAssessmentExportText,
   buildPreInquiryAssessmentReview,
   buildPreInquiryAssessmentSituation,
@@ -230,6 +240,160 @@ test("pre-inquiry questionnaire builds a review from exact answered questions be
   assert.match(review.riskMessage, /112/);
 });
 
+test("pre-inquiry questionnaire provides structured contact matching context", () => {
+  const state = createEmptyPreInquiryAssessmentState("TARGETED_ASSESSMENT");
+  const assistContext = buildPreInquiryAssessmentAssistContext({
+    ...state,
+    subject: {
+      ...state.subject,
+      municipalityText: "Põltsamaa vald",
+      urgency: "Olukord on tõsine ja vajab kiiret sekkumist"
+    },
+    domains: state.domains.map((domain) => (
+      domain.id === "daily_living"
+        ? {
+            ...domain,
+            primaryAnswers: domain.primaryAnswers.map((answer) => (
+              answer.id === "food_preparation"
+                ? {
+                    ...answer,
+                    screenAnswer: "SIGNIFICANT_DIFFICULTY"
+                  }
+                : answer
+            ))
+          }
+        : domain
+    ))
+  });
+
+  assert.deepEqual(assistContext, {
+    municipality: "Põltsamaa vald",
+    selectedNeedAreas: ["koduteenus", "sotsiaaltransport", "abivahendid", "hoolduskoormus"],
+    urgencyLevel: "URGENT"
+  });
+});
+
+test("pre-inquiry questionnaire builds a concise draft summary from structured answers", () => {
+  const state = createEmptyPreInquiryAssessmentState("TARGETED_ASSESSMENT");
+  const draftSummary = buildPreInquiryAssessmentDraftSummary({
+    ...state,
+    subject: {
+      ...state.subject,
+      concernsAbout: "Eaka lähedase kohta",
+      municipalityText: "Põltsamaa vald",
+      urgency: "Vajan ühendust lähiajal"
+    },
+    supportContext: {
+      existingSupport: "Tütar aitab kord nädalas.",
+      supportAdequacy: "Abist ei piisa.",
+      personWish: "Soovib kodus edasi elada."
+    },
+    domains: state.domains.map((domain) => ({
+      ...domain,
+      primaryAnswers: domain.primaryAnswers.map((answer) => {
+        if (answer.id === "social_relations") {
+          return {
+            ...answer,
+            screenAnswer: "INDEPENDENT"
+          };
+        }
+        if (answer.id === "food_preparation") {
+          return {
+            ...answer,
+            screenAnswer: "SIGNIFICANT_DIFFICULTY",
+            followUpAnswers: {
+              "Millises toidu hankimise või valmistamise osas vajab inimene abi?": "Poes käimine ja söögi tegemine."
+            }
+          };
+        }
+        return answer;
+      })
+    }))
+  });
+
+  assert.match(draftSummary, /Eelkaardistuse kokkuvõte/);
+  assert.match(draftSummary, /Kelle kohta: Eaka lähedase kohta/);
+  assert.match(draftSummary, /Piirkond\/KOV: Põltsamaa vald/);
+  assert.match(draftSummary, /Peamised mured ja täpsustused/);
+  assert.match(draftSummary, /Igapäevaelu toimingud \/ Toidu valmistamine: Oluline mure/);
+  assert.match(draftSummary, /Poes käimine ja söögi tegemine/);
+  assert.match(draftSummary, /Toimivad valdkonnad või tugevused/);
+  assert.match(draftSummary, /Suhtlemine \/ Sotsiaalsed suhted/);
+  assert.match(draftSummary, /Olemasolev abi: Tütar aitab kord nädalas/);
+  assert.match(draftSummary, /Inimese enda soov: Soovib kodus edasi elada/);
+  assert.match(draftSummary, /Võimalikud teenuse- või kontaktisuunad: koduteenus/);
+  assert.doesNotMatch(draftSummary, /\bRED\b|\bGREEN\b/);
+});
+
+test("pre-inquiry routing explains recipient matches and confidence", () => {
+  const entry = {
+    type: "SERVICE_PROVIDER",
+    title: "Kodutugi",
+    email: "info@example.test",
+    providerProfile: {
+      ownerId: "user_1",
+      serviceArea: "Põltsamaa vald",
+      services: ["Koduteenus"],
+      serviceItems: [
+        {
+          name: "Koduteenus",
+          description: "Abi poes käimisel ja toidu valmistamisel",
+          category: "koduteenus",
+          targetGroups: ["eakas inimene"],
+          serviceArea: "Põltsamaa vald"
+        }
+      ]
+    }
+  };
+
+  const explanation = explainPreInquiryRecipientMatch(entry, {
+    municipality: "Põltsamaa vald",
+    needAreas: ["koduteenus"],
+    keywords: ["toidu", "poes"]
+  });
+  const confidence = buildPreInquiryRoutingConfidence({
+    municipality: "Põltsamaa vald",
+    needAreas: ["koduteenus"],
+    suggestions: [entry]
+  });
+
+  assert.match(explanation.reason, /teenuseosutajaga/);
+  assert.match(explanation.reason, /Piirkond kattub/);
+  assert.deepEqual(explanation.matchedServices, ["Koduteenus"]);
+  assert.equal(confidence.level, "HIGH");
+  assert.match(confidence.text, /piirkonnal/);
+});
+
+test("pre-inquiry receiver workflow normalizes checklist and internal note", () => {
+  const state = createEmptyPreInquiryAssessmentState("TARGETED_ASSESSMENT");
+  const checklist = normalizePreInquiryReceiverChecklist([
+    { id: "review_preinfo", checked: true },
+    { id: "unknown", checked: true }
+  ], {
+    topic: "Ema toimetulek",
+    assessmentState: {
+      ...state,
+      domains: state.domains.map((domain) => (
+        domain.id === "daily_living"
+          ? {
+              ...domain,
+              primaryAnswers: domain.primaryAnswers.map((answer) => (
+                answer.id === "food_preparation"
+                  ? { ...answer, screenAnswer: "UNKNOWN" }
+                  : answer
+              ))
+            }
+          : domain
+      ))
+    }
+  });
+
+  assert.equal(checklist[0].id, "review_preinfo");
+  assert.equal(checklist[0].checked, true);
+  assert.ok(checklist.some((item) => item.id === "clarify_missing" && item.label.includes("ebaselget")));
+  assert.equal(normalizePreInquiryReceiverNote("  Märge\r\njärgmisele kontaktile  "), "Märge\njärgmisele kontaktile");
+});
+
 test("pre-inquiry assist message uses detected urgency, not only explicit urgency input", () => {
   const source = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
 
@@ -241,12 +405,21 @@ test("pre-inquiry assist message uses detected urgency, not only explicit urgenc
   assert.doesNotMatch(source, /detectedUrgencyLevel:\s*normalizedUrgencyLevel/);
 });
 
+test("pre-inquiry service includes structured assessment summary in fallback draft", () => {
+  const source = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
+
+  assert.match(source, /buildPreInquiryAssessmentDraftSummary/);
+  assert.match(source, /const assessmentDraftSummary = assessmentState \? buildPreInquiryAssessmentDraftSummary\(assessmentState\) : ""/);
+  assert.match(source, /assessmentSummary:\s*assessmentDraftSummary/);
+});
+
 test("pre-inquiry visibility is owner or recipient based without admin content bypass", () => {
   const serviceSource = readFileSync(resolve(__dirname, "../../lib/preInquiries.js"), "utf8");
   const listRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/route.js"), "utf8");
   const detailRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/route.js"), "utf8");
   const acceptRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/accept/route.js"), "utf8");
   const roomRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/room/route.js"), "utf8");
+  const workflowRouteSource = readFileSync(resolve(__dirname, "../../app/api/pre-inquiries/[id]/workflow/route.js"), "utf8");
 
   assert.match(serviceSource, /function visiblePreInquiryWhere\(userId\) \{[\s\S]*?authorId: userId[\s\S]*?recipientOwnerId: userId[\s\S]*?\}/);
   assert.doesNotMatch(serviceSource, /isAdmin\s*\?\s*\{\}/);
@@ -255,4 +428,7 @@ test("pre-inquiry visibility is owner or recipient based without admin content b
   assert.doesNotMatch(detailRouteSource, /isAdmin\(session\.user\)/);
   assert.doesNotMatch(acceptRouteSource, /auth\.isAdmin/);
   assert.doesNotMatch(roomRouteSource, /auth\.isAdmin/);
+  assert.match(serviceSource, /updatePreInquiryReceiverWorkflow/);
+  assert.match(workflowRouteSource, /updatePreInquiryReceiverWorkflow/);
+  assert.doesNotMatch(workflowRouteSource, /auth\.isAdmin/);
 });
