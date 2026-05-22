@@ -77,6 +77,63 @@ test("buildPackageAwareContext guides condition questions to use confirmed packa
   assert.equal(result.missingSectionsUsed.includes("deadlines"), false);
 });
 
+test("buildPackageAwareContext instructs Tallinn district follow-up for district-routed services", () => {
+  const result = buildPackageAwareContext([
+    {
+      package_id: "tallinn_service_koduteenus_package",
+      canonical_item_id: "tallinn_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "tallinn",
+      municipality_name: "Tallinna linn",
+      sections: {
+        description: [{ source_id: "tallinn_koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        application: [{ source_id: "tallinn_koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        legal_basis: [{ source_id: "tallinn-rt", title: "Sotsiaalhoolekandelise abi andmise kord", source_type: "kov_regulation" }],
+        contacts: []
+      },
+      source_ids: ["tallinn_koduteenus", "tallinn-rt"],
+      missing_sections: ["contacts"]
+    }
+  ], {
+    query: "Elan Tallinnas. Mis tingimustel saab koduteenust ja millisele õigusaktile see tugineb?"
+  });
+
+  assert.equal(result.contextText.includes("konkreetse kontakti valimiseks on vaja linnaosa"), true);
+  assert.equal(result.contextText.includes("Ära jäta sellepärast teenuse tingimusi"), true);
+  assert.equal(result.contextText.includes("paku vastava linnaosa kontakt"), true);
+});
+
+test("buildPackageAwareContext asks for paragraph-level legal detail for social workers", () => {
+  const result = buildPackageAwareContext([
+    {
+      package_id: "tallinn_service_koduteenus_package",
+      canonical_item_id: "tallinn_service_koduteenus",
+      package_type: "kov_service",
+      title: "Koduteenus",
+      municipality_id: "tallinn",
+      municipality_name: "Tallinna linn",
+      sections: {
+        description: [{ source_id: "tallinn_koduteenus", title: "Koduteenus", source_type: "kov_service_info" }],
+        legal_basis: [{
+          source_id: "tallinn-rt-koduteenus",
+          title: "Sotsiaalhoolekandelise abi andmise kord § 7 Koduteenus",
+          source_type: "kov_regulation"
+        }]
+      },
+      source_ids: ["tallinn_koduteenus", "tallinn-rt-koduteenus"],
+      missing_sections: []
+    }
+  ], {
+    query: "Elan Tallinnas. Mis tingimustel saab koduteenust ja millisele õigusaktile see tugineb?",
+    role: "SOCIAL_WORKER"
+  });
+
+  assert.equal(result.contextText.includes("SPETSIALISTI ÕIGUSVIITE REEGEL"), true);
+  assert.equal(result.contextText.includes("nimeta paragrahvinumber ja paragrahvi pealkiri"), true);
+  assert.equal(result.contextText.includes("õigusakti tasand"), true);
+});
+
 test("buildPackageAwareContext anchors package selection to the requested service", () => {
   const result = buildPackageAwareContext([
     {
