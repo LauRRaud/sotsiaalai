@@ -2036,7 +2036,7 @@
         },
         "pre_inquiry": {
           "title": "Eelpöördumine",
-          "body": "Eelpöördumine aitab pöördujal oma olukorda selgelt kirjeldada ja koostada pöördumise mustandi. Seda saab üle vaadata, muuta, alla laadida või edasi saata sotsiaaltöö spetsialistile või teenuseosutajale. Eelpöördumine ei asenda ametlikku abivajaduse väljaselgitamist ega otsustamist, vaid aitab inimesel oma olukorra arusaadavamalt kirja panna ja sobiva osapooleni viia."
+          "body": "Eelpöördumine on eelkaardistuse ja pöördumise ettevalmistamise töövoog. Assistent aitab olukorda täpsustada, märgata riski- ja isikuandmete signaale, pakkuda teenusekaardi andmekihi põhjal sobivaid KOV kontakte või teenuseosutajaid ning koostada muudetava pöördumise mustandi. Mustandi saab salvestada, kopeerida, alla laadida või avada e-kirjana; SotsiaalAI-sisese vastuvõtu korral saab vastuvõtja pöördumise platvormis avada ja vajadusel vestlusruumis edasi suhelda. Eelpöördumine ei asenda ametlikku abivajaduse hindamist ega otsust."
         },
         "intake": {
           "title": "Pöördumiste vastuvõtt",

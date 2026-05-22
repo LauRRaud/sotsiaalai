@@ -2036,7 +2036,7 @@
         },
         "pre_inquiry": {
           "title": "Pre-inquiry",
-          "body": "A pre-inquiry helps a person seeking help describe their situation clearly and prepare a draft inquiry. It can be reviewed, edited, downloaded, or sent on to a social work professional or service provider. A pre-inquiry does not replace an official assessment of need or decision-making; it helps the person describe their situation more clearly and bring it to the right party."
+          "body": "A pre-inquiry is a workflow for pre-assessment and preparing an inquiry. The assistant helps clarify the situation, notice risk and personal-data signals, suggest suitable municipal contacts or service providers from the service-map data layer, and prepare an editable inquiry draft. The draft can be saved, copied, downloaded, or opened as an email; when internal SotsiaalAI intake is available, the recipient can open the inquiry in the platform and continue in a chat room if needed. A pre-inquiry does not replace an official assessment of need or decision-making."
         },
         "intake": {
           "title": "Inquiry intake",
