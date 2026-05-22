@@ -2016,7 +2016,7 @@
         },
         "drafting": {
           "title": "Dokumentide koostamine",
-          "body": "SotsiaalAI aitab koostada kirju, taotlusi, aruandeid ja muid vajalikke dokumente. Kasutaja saab kirjeldada, mida ta soovib vormistada, ning platvorm aitab teksti üles ehitada, täiendada ja viimistleda. Dokumentide koostamisel saab vajadusel kasutada olemasolevaid materjale, malle, vestluse sisu või teadmistebaasi infot."
+          "body": "Dokumentide koostamine on tööruum kirjade, taotluste, aruannete, kokkuvõtete ja vormi täitmise tulemuste loomiseks. Kasutaja kirjeldab, mida on vaja koostada, ning valib vajadusel väljundi tüübi, tooni, keele, pikkuse, malli ja allikdokumendid. Agent koostab nende põhjal esimese mustandi. Mustand jääb tööruumi ülevaatamiseks, täiendamiseks, salvestamiseks ja kinnitamiseks. Kinnitatud tulemust saab alla laadida DOCX- või PDF-failina."
         },
         "analysis": {
           "title": "Dokumendi analüüs",
@@ -2032,7 +2032,7 @@
         },
         "documents": {
           "title": "Dokumendid: hoidla ja haldus",
-          "body": "Dokumentide vaade koondab üleslaetud failid, loodud tekstid, mallid ja tööversioonid ühte kohta. Nii saab dokumente hiljem uuesti avada, täiendada ning vajadusel kasutada uutes vestlustes, dokumendi koostamisel või muudes töövoogudes."
+          "body": "Dokumentide vaade koondab kasutaja tööfailid, taustamaterjalid, mallid ning dokumendiagendi mustandid ja kinnitatud tulemused. Faili juures saab määrata selle rolli, näiteks taustamaterjal või mall, ning lubada selle kasutamist dokumendi koostamisel. Loodud tulemusi saab avada, kopeerida, kustutada ja pärast kinnitamist alla laadida."
         },
         "pre_inquiry": {
           "title": "Eelpöördumine",

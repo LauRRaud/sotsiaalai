@@ -2016,7 +2016,7 @@
         },
         "drafting": {
           "title": "Document drafting",
-          "body": "SotsiaalAI helps draft letters, applications, reports, and other needed documents. The user can describe what they want to prepare, and the platform helps structure, expand, and refine the text. Document drafting can use existing materials, templates, conversation content, or knowledge-base information when needed."
+          "body": "Document drafting is a workspace for creating letters, applications, reports, summaries, and completed form outputs. The user describes what needs to be prepared and, when needed, chooses the output type, tone, language, length, template, and source documents. The agent creates a first draft from those inputs. The draft stays in the workspace for review, refinement, saving, and approval. An approved result can be downloaded as a DOCX or PDF file."
         },
         "analysis": {
           "title": "Document analysis",
@@ -2032,7 +2032,7 @@
         },
         "documents": {
           "title": "Documents: storage and management",
-          "body": "The documents view gathers uploaded files, created texts, templates, and working versions in one place. This makes it possible to reopen, refine, and, when needed, use documents later in new conversations, document drafting, or other workflows."
+          "body": "The documents view brings together the user’s working files, background materials, templates, and document-agent drafts and approved results. Each file can be assigned a role, such as background material or template, and allowed for use in document drafting. Created results can be opened, copied, deleted, and downloaded after approval."
         },
         "pre_inquiry": {
           "title": "Pre-inquiry",
