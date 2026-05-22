@@ -2036,19 +2036,19 @@
         },
         "pre_inquiry": {
           "title": "Eelpöördumine",
-          "body": "Eelpöördumine on eelkaardistuse ja pöördumise ettevalmistamise töövoog. Assistent aitab olukorda täpsustada, märgata riski- ja isikuandmete signaale, pakkuda teenusekaardi andmekihi põhjal sobivaid KOV kontakte või teenuseosutajaid ning koostada muudetava pöördumise mustandi. Mustandi saab salvestada, kopeerida, alla laadida või avada e-kirjana; SotsiaalAI-sisese vastuvõtu korral saab vastuvõtja pöördumise platvormis avada ja vajadusel vestlusruumis edasi suhelda. Eelpöördumine ei asenda ametlikku abivajaduse hindamist ega otsust."
+          "body": "Eelpöördumises saab alustada kahel viisil: vastata olukorda täpsustavatele küsimustele või koostada olemasoleva kirjelduse põhjal pöördumise mustand. Küsimustega alustamisel uurib assistent vajadusel igapäevast toimetulekut, tervist, elukeskkonda, võrgustikku, senist abi ja peamisi vajadusi. Töövoog aitab märgata võimalikke riske ja liigseid isikuandmeid. Kui infot on piisavalt, otsib SotsiaalAI teenusekaardi andmetest kirjelduse ja piirkonna järgi võimalikke KOV sotsiaalvaldkonna kontakte või teenuseosutajaid. Kasutaja saab mustandit muuta, salvestada, kopeerida, alla laadida või avada e-kirjana. SotsiaalAI-sisese vastuvõtu korral saab vastuvõtja pöördumise platvormis avada ja vajadusel vestlusruumis edasi suhelda."
         },
         "intake": {
           "title": "Pöördumiste vastuvõtt",
-          "body": "Pöördumiste vastuvõtt võimaldab sotsiaaltöö spetsialistil või teenuseosutajal võtta platvormis vastu kasutaja nõusolekul edastatud eelpöördumisi või päringuid. See aitab alustada suhtlust parema eelinfoga ning vajadusel liikuda edasi vestlusruumi, täpsustuste, järgmiste tegevusteni või kohtumiseni."
+          "body": "Pöördumiste vastuvõtt on töövaade sotsiaaltöö spetsialistile või teenuseosutajale, kes lubab platvormis eelpöördumisi vastu võtta. Sinna jõuavad kasutaja kinnitatud ja konkreetsele kontole või teenuseprofiilile adresseeritud eelpöördumised. Vastuvõtja näeb olukorra kirjeldust, adressaati ja pöördumise mustandit, saab märkida pöördumise vastuvõetuks ning vajadusel avada osapooltega vestlusruumi."
         },
         "kovisioon": {
           "title": "Kovisioon ja praktikanäited",
-          "body": "Kovisioon on spetsialistide kinnine kolleegidevaheline juhtumiarutelu. Spetsialist kirjeldab olukorda ise ja kutsub arutelusse kolleegid. AI assistent on toetavas rollis: aitab arutelu struktureerida, märgata tuvastatavaid detaile, sõnastada küsimusi ja koostada kokkuvõtte. Soovi korral saab arutelu järel luua üldistatud näidisjuhtumi või praktikakogemuse teistele spetsialistidele."
+          "body": "Kovisiooni vaates on kaks eraldi osa: kinnised juhtumiarutelud ja praktikanäited. Kovisioonis kirjeldab juhtumi looja olukorda anonümiseeritud kujul, lisab keskse küsimuse, teemad, osapooled, riskid ja kaitsetegurid ning kutsub kolleegid osalema. Praktikanäidete vaates saab lisada üldistatud toimiva praktika kirjeid või luua sellise kirje kovisiooni põhjal. Enne avaldamist jääb praktikanäide anonüümsuse kontrolli ja ülevaatuse alla."
         },
         "materials_adding": {
           "title": "Materjalide lisamine",
-          "body": "Spetsialistid ja teenuseosutajad saavad saata SotsiaalAI teadmistebaasi täiendamiseks dokumente, juhendeid, teenusekirjeldusi ja muid allikaid. Materjalid vaadatakse enne teadmistebaasi lisamist üle, et hoida platvormi sisu asjakohase ja usaldusväärsena."
+          "body": "Materjalide lisamine võimaldab spetsialistil või teenuseosutajal saata SotsiaalAI teadmistebaasi täiendamiseks faile, näiteks juhendeid, teenusekirjeldusi, vorme või muid allikaid. Failile saab lisada kommentaari, mis aitab materjali konteksti mõista. Saadetud materjal jõuab ülevaatusse ega lisandu teadmistebaasi automaatselt. Pärast ülevaatust otsustatakse, kas materjal sobib teadmistebaasi lisamiseks."
         },
         "service_card_listing": {
           "title": "Teenuseosutaja kaardiprofiil",

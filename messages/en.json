@@ -2036,19 +2036,19 @@
         },
         "pre_inquiry": {
           "title": "Pre-inquiry",
-          "body": "A pre-inquiry is a workflow for pre-assessment and preparing an inquiry. The assistant helps clarify the situation, notice risk and personal-data signals, suggest suitable municipal contacts or service providers from the service-map data layer, and prepare an editable inquiry draft. The draft can be saved, copied, downloaded, or opened as an email; when internal SotsiaalAI intake is available, the recipient can open the inquiry in the platform and continue in a chat room if needed. A pre-inquiry does not replace an official assessment of need or decision-making."
+          "body": "A pre-inquiry can start in two ways: by answering questions that clarify the situation or by creating an inquiry draft from an existing description. When starting with questions, the assistant may ask about daily functioning, health, living environment, support network, previous help, and main needs. The workflow helps notice possible risks and excessive personal data. When there is enough information, SotsiaalAI looks through service-map data for possible municipal social-sector contacts or service providers based on the description and area. The user can edit, save, copy, download, or open the draft as an email. When internal SotsiaalAI intake is available, the recipient can open the inquiry in the platform and continue in a chat room if needed."
         },
         "intake": {
           "title": "Inquiry intake",
-          "body": "Inquiry intake allows a social work professional or service provider to receive pre-inquiries or requests sent through the platform with the user's consent. It helps start communication with better background information and, when needed, move on to a chat room, clarifications, next actions, or a meeting."
+          "body": "Inquiry intake is a workspace for a social work professional or service provider who allows pre-inquiries to be received in the platform. It receives pre-inquiries confirmed by the user and addressed to a specific account or service profile. The recipient can see the situation description, addressee, and inquiry draft, mark the inquiry as accepted, and open a chat room with the parties when needed."
         },
         "kovisioon": {
           "title": "Co-vision and practice examples",
-          "body": "Co-vision is a closed peer discussion of a case between professionals. The professional describes the situation themselves and invites colleagues into the discussion. The AI assistant has a supporting role: it helps structure the discussion, notice identifiable details, formulate questions, and prepare a summary. After the discussion, a generalised example case or practice experience can be created for other professionals if desired."
+          "body": "The co-vision view has two separate parts: closed case discussions and practice examples. In co-vision, the case owner describes the situation in an anonymised form, adds the central question, topics, parties, risks, and protective factors, and invites colleagues to participate. In the practice examples view, users can add generalised effective-practice entries or create one from a co-vision case. Before publication, a practice example remains subject to anonymity checks and review."
         },
         "materials_adding": {
           "title": "Adding materials",
-          "body": "Professionals and service providers can send documents, guides, service descriptions, and other sources to supplement the SotsiaalAI knowledge base. Materials are reviewed before being added to the knowledge base, so the platform content stays relevant and reliable."
+          "body": "Adding materials lets a professional or service provider send files to supplement the SotsiaalAI knowledge base, for example guides, service descriptions, forms, or other sources. A comment can be added to help explain the material's context. Submitted material goes into review and is not added to the knowledge base automatically. After review, it is decided whether the material is suitable for adding to the knowledge base."
         },
         "service_card_listing": {
           "title": "Service provider card profile",
