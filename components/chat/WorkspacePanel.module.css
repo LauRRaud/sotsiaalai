@@ -260,6 +260,7 @@
 .cardIcon {
   display: inline-flex;
   grid-column: 2;
+  align-self: center;
   justify-self: center;
   width: var(--workspace-card-icon-size);
   height: var(--workspace-card-icon-size);
@@ -283,10 +284,11 @@
 .cardCopy {
   display: flex;
   grid-column: 3;
+  align-self: center;
   align-items: center;
   justify-content: flex-start;
   min-width: 0;
-  min-height: 100%;
+  min-height: 0;
   text-align: left;
 }
 

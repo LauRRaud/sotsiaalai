@@ -86,13 +86,55 @@ test("light and mid buttons use an outer glow ring without inset double edges", 
   assert.ok(buttonHoverBlock, "light/mid buttons should define hover glow");
   assert.ok(softEdgeHoverBlock, "light/mid buttons should define a soft edge layer");
   assert.match(buttonSource, /ui-glow-button-soft-edge/);
-  assert.match(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.1\)/);
-  assert.match(buttonHoverBlock[1], /0 0 12px rgba\(197,\s*113,\s*113,\s*0\.13\)/);
-  assert.match(buttonHoverBlock[1], /0 0 26px rgba\(197,\s*113,\s*113,\s*0\.075\)/);
+  assert.match(buttonHoverBlock[1], /0 0 3px rgba\(122,\s*58,\s*56,\s*0\.13\)/);
+  assert.match(buttonHoverBlock[1], /0 0 9px rgba\(197,\s*113,\s*113,\s*0\.095\)/);
+  assert.match(buttonHoverBlock[1], /0 0 18px rgba\(197,\s*113,\s*113,\s*0\.055\)/);
+  assert.doesNotMatch(buttonHoverBlock[1], /0 0 0 1px rgba\(122,\s*58,\s*56/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 0 1px rgba\(122,\s*58,\s*56/);
   assert.doesNotMatch(buttonHoverBlock[1], /inset\s+0 0 5px rgba\(197,\s*113,\s*113/);
-  assert.match(softEdgeHoverBlock[1], /inset 0 0 0 1px rgba\(122,\s*58,\s*56,\s*0\.16\)/);
-  assert.match(softEdgeHoverBlock[1], /inset 0 0 5px rgba\(197,\s*113,\s*113,\s*0\.055\)/);
+  assert.doesNotMatch(softEdgeHoverBlock[1], /inset 0 0 0 1px rgba\(122,\s*58,\s*56/);
+  assert.match(softEdgeHoverBlock[1], /inset 0 0 4px rgba\(122,\s*58,\s*56,\s*0\.13\)/);
+  assert.match(softEdgeHoverBlock[1], /inset 0 0 9px rgba\(197,\s*113,\s*113,\s*0\.055\)/);
+});
+
+test("light and mid input fields keep edge glow without inset double edges", () => {
+  const css = readCss("app/styles/components/glass.css");
+  const serviceMapCss = readCss("app/styles/components/service-map.css");
+  const lightFieldIdleBlock = css.match(
+    /:root\.theme-light \.ui-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+  const midFieldIdleBlock = css.match(
+    /:root\.theme-mid \.ui-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+  const lightFieldHoverBlock = css.match(
+    /:root\.theme-light \.ui-glow-field:hover\s*\{([\s\S]*?)\n\}/
+  );
+  const midFieldHoverBlock = css.match(
+    /:root\.theme-mid \.ui-glow-field:hover\s*\{([\s\S]*?)\n\}/
+  );
+  const fieldEdgeBlock = css.match(
+    /:root\.theme-light :is\(\.ui-glow-field, \.invite-glow-field\) > \.edgeLight::before,[\s\S]*?:root\.theme-mid :is\(\.ui-glow-field, \.invite-glow-field\) > \[class\*="edgeLight"\]::before\s*\{([\s\S]*?)\n\}/
+  );
+  const lightServiceProfileBlock = serviceMapCss.match(
+    /:root\.theme-light \.service-profile-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+  const midServiceProfileBlock = serviceMapCss.match(
+    /:root\.theme-mid \.service-profile-glow-field\s*\{([\s\S]*?)\n\}/
+  );
+
+  for (const block of [
+    lightFieldIdleBlock,
+    midFieldIdleBlock,
+    lightFieldHoverBlock,
+    midFieldHoverBlock,
+    fieldEdgeBlock,
+    lightServiceProfileBlock,
+    midServiceProfileBlock,
+  ]) {
+    assert.ok(block, "light/mid fields should define field-specific glow styling");
+    assert.doesNotMatch(block[1], /inset\s+0 0 0 1px rgba\(122,\s*58,\s*56/);
+    assert.doesNotMatch(block[1], /0 0 0 1px rgba\(122,\s*58,\s*56/);
+  }
 });
 
 test("option card glow transitions use the same slow easing as other glow controls", () => {
@@ -120,4 +162,21 @@ test("border glow edge color enters and tracks pointer smoothly across controls"
   );
   assert.match(source, /currentProximityRef\.current \+= edgeDelta \* 0\.12/);
   assert.match(source, /currentAngleRef\.current \+ angleDelta \* 0\.11/);
+});
+
+test("shared border glow avoids hard full-edge outline shadows", () => {
+  const css = readCss("components/ui/BorderGlow.module.css");
+  const edgeBlock = css.match(/\.edgeLight::before\s*\{([\s\S]*?)\n\}/);
+  const edgeOnlyBlock = css.match(/\.edgeOnly > \.edgeLight::before\s*\{([\s\S]*?)\n\}/);
+  const lightMidBlock = css.match(
+    /:global\(:root\.theme-light\) \.edgeLight::before,[\s\S]*?:global\(:root\.theme-mid\) \.edgeOnly > \.edgeLight::before\s*\{([\s\S]*?)\n\}/
+  );
+
+  for (const block of [edgeBlock, edgeOnlyBlock, lightMidBlock]) {
+    assert.ok(block, "shared edge glow block should exist");
+    assert.doesNotMatch(block[1], /inset\s+0 0 0 1px/);
+    assert.doesNotMatch(block[1], /0 0 0 1px/);
+    assert.doesNotMatch(block[1], /50px/);
+    assert.doesNotMatch(block[1], /52px/);
+  }
 });

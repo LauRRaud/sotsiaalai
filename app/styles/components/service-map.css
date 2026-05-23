@@ -176,20 +176,36 @@
   color: color-mix(in srgb, currentColor 72%, transparent);
 }
 
-:root.theme-light .service-profile-glow-field,
-:root.theme-mid .service-profile-glow-field {
-  background: rgba(255, 255, 255, 0.64) !important;
+:root.theme-light .service-profile-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
+  background: var(--input-bg, rgba(255, 255, 255, 0.64)) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
-    0 8px 20px rgba(82, 50, 46, 0.08) !important;
+    var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 8px 20px rgba(82, 50, 46, 0.08)))) !important;
 }
 
-:root.theme-light .service-profile-glow-field:hover,
-:root.theme-mid .service-profile-glow-field:hover {
-  background: rgba(255, 255, 255, 0.78) !important;
+:root.theme-mid .service-profile-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.12),
-    0 10px 24px rgba(82, 50, 46, 0.1) !important;
+    var(--chat-inputbar-shadow, var(--mid-pill-surface-shadow, var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 8px 20px rgba(82, 50, 46, 0.08)))))) !important;
+}
+
+:root.theme-light .service-profile-glow-field:hover {
+  border-color: transparent !important;
+  background: var(--input-bg-hover, rgba(255, 255, 255, 0.78)) !important;
+  box-shadow:
+    var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 10px 24px rgba(82, 50, 46, 0.1))))) !important;
+}
+
+:root.theme-mid .service-profile-glow-field:hover {
+  border-color: transparent !important;
+  background:
+    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),
+    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+  box-shadow:
+    var(--chat-inputbar-shadow-hover, var(--mid-pill-surface-shadow-hover, var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 10px 24px rgba(82, 50, 46, 0.1))))))) !important;
 }
 
 :root.theme-light .service-profile-glow-field > .edgeLight,
@@ -2366,11 +2382,11 @@ html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrap
 :root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .service-map-popup__actions a:is(:hover, :focus-visible) {
   box-shadow:
     var(--btn-primary-shadow-hover),
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 7px rgba(255, 122, 126, 0.09),
-    0 0 2px rgba(255, 122, 126, 0.3),
-    0 0 12px rgba(255, 122, 126, 0.14),
-    0 0 26px rgba(255, 122, 126, 0.07) !important;
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04) !important;
 }
 
 html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions a:is(:hover, :focus-visible) {

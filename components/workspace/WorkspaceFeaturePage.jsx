@@ -1678,10 +1678,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </Label>
 
         {normalizedAssessmentState.path !== "QUICK_DESCRIPTION" ? (
-          <div className="grid gap-[0.74rem]">
-            <h3 className="m-0 text-[1.02rem] font-[720] leading-[1.18]">
-              {readText(t, "workspace_feature_pages.pre_inquiries.assessment.domains_title", "Eluvaldkonnad")}
-            </h3>
+          <details className="pre-inquiry-details">
+            <summary>{readText(t, "workspace_feature_pages.pre_inquiries.assessment.domains_title", "Eluvaldkonnad")}</summary>
+            <div className="grid gap-[0.74rem]">
             {PRE_INQUIRY_DOMAIN_DEFINITIONS.map((definition) => {
               const domain = normalizedAssessmentState.domains.find((item) => item.id === definition.id) || {};
               return (
@@ -1742,10 +1741,13 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 </div>
               );
             })}
-          </div>
+            </div>
+          </details>
         ) : null}
 
-        <div className="grid gap-[0.62rem] md:grid-cols-3">
+        <details className="pre-inquiry-details">
+          <summary>{readText(t, "workspace_feature_pages.pre_inquiries.assessment.extra_details", "Lisainfo ja taust")}</summary>
+          <div className="grid gap-[0.62rem] md:grid-cols-3">
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.existing_support", "Olemasolev abi")}</span>
             <ServiceProfileTextarea
@@ -1773,9 +1775,12 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               className="min-h-[5.6rem]"
             />
           </Label>
-        </div>
+          </div>
+        </details>
       </SectionCard>
 
+      <details className="pre-inquiry-details">
+        <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelkaardistus enne saatmist üle")}</summary>
       <PreInquiryAssessmentReviewSection
         t={t}
         title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelkaardistus enne saatmist üle")}
@@ -1783,6 +1788,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         situation={effectiveSituation}
         note={readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_note", "Ülevaade koondab täpselt need eelkaardistuse vastused ja täpsustused, mis lähevad salvestatud eelpöördumise ning allalaaditava eelinfo juurde.")}
       />
+      </details>
+      <details className="pre-inquiry-details">
+        <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}</summary>
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
@@ -1920,7 +1928,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </div>
         ) : null}
       </SectionCard>
+      </details>
 
+      <div className="pre-inquiry-output-grid">
       <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
@@ -2086,6 +2096,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <Button type="button" size="sm" disabled={!draft.trim() && !effectiveSituation.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
         </div>
       </SectionCard>
+      </div>
 
       {showReceivedInquiries ? (
         <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>

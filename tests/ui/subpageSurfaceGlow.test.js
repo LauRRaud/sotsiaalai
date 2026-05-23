@@ -91,3 +91,20 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
     /\.workspace-feature-glow-card > \[class\*="edgeLight"\],[\s\S]*?\.materials-glow-card::after\s*\{[\s\S]*?display:\s*none !important/
   );
 });
+
+test("invite modal form controls align to the invite list panel width", () => {
+  const inviteSource = read("components/invite/InviteModal.jsx");
+
+  assert.match(
+    inviteSource,
+    /inviteFormClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
+  );
+  assert.match(
+    inviteSource,
+    /inviteFieldWrapClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
+  );
+  assert.match(
+    inviteSource,
+    /inviteListCardClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
+  );
+});

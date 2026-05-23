@@ -973,6 +973,14 @@
       "eyebrow": "Hub",
       "title": "Workspace",
       "close": "Close workspace",
+      "wellbeing_page": {
+        "title": "Work wellbeing",
+        "info_label": "Open Work wellbeing info",
+        "back_label": "Back",
+        "tools_label": "Work wellbeing tools",
+        "placeholder": "Workflow will be added in the next stage.",
+        "back_to_workspace": "Back to Work wellbeing workspace"
+      },
       "cards": {
         "documents": {
           "title": "Documents",
@@ -1009,6 +1017,11 @@
         "kovision": {
           "title": "Co-vision",
           "meta": "Rooms"
+        },
+        "wellbeing": {
+          "title": "Work wellbeing",
+          "meta": "Load and support",
+          "description": "Notice workload, review overviews, and keep recovery, boundaries, and work processes in focus."
         },
         "materials": {
           "title": "Materials",
@@ -1988,7 +2001,8 @@
         "kovisioon": "Co-vision and practice examples",
         "materials_adding": "Adding materials",
         "service_card_listing": "Service provider card profile",
-        "service_profile": "Service profile and management"
+        "service_profile": "Service profile and management",
+        "wellbeing": "Work wellbeing"
       },
       "values": {
         "included": "Included",
@@ -2074,6 +2088,10 @@
         "kovisioon": {
           "title": "Co-vision and practice examples",
           "body": "The co-vision view has two separate parts: closed case discussions and practice examples. In co-vision, the case owner describes the situation in an anonymised form, adds the central question, topics, parties, risks, and protective factors, and invites colleagues to participate. In the discussion room, users can search the knowledge base for related laws, guides, methodology, practice descriptions, services, and benefits. In the practice examples view, users can add generalised effective-practice entries or create one from a co-vision case. A published practice example can be used in the knowledge base, but before publication it remains subject to anonymity checks and review."
+        },
+        "wellbeing": {
+          "title": "Work wellbeing",
+          "body": "Work wellbeing tools help a social-sector specialist notice workload, emotional load, recovery needs, recurring interruptions, and the effect of difficult cases. The workspace can later support quick checks, weekly or monthly overviews, difficult-case notes, workplace-violence situations, recovery, work boundaries, interruptions, work processes, role boundaries, and starter support."
         },
         "materials_adding": {
           "title": "Adding materials",

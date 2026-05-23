@@ -199,6 +199,7 @@ export default function HomeAboutSection({
   const activeQuickKeyRef = useRef("privacy");
   const [activeQuickKey, setActiveQuickKey] = useState("privacy");
   const [quickInstallTarget, setQuickInstallTarget] = useState("desktop");
+  const [useQuickCarouselVisibility, setUseQuickCarouselVisibility] = useState(false);
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -240,7 +241,9 @@ export default function HomeAboutSection({
     if (typeof window === "undefined") return undefined;
     const mobileQuery = window.matchMedia?.("(max-width: 768px)");
     const updateInstallTarget = () => {
-      setQuickInstallTarget(mobileQuery?.matches ? "mobile" : "desktop");
+      const isMobile = mobileQuery?.matches ?? false;
+      setQuickInstallTarget(isMobile ? "mobile" : "desktop");
+      setUseQuickCarouselVisibility(isMobile);
     };
 
     updateInstallTarget();
@@ -360,28 +363,6 @@ export default function HomeAboutSection({
       icon: "shield",
       onClick: (event) => openGlassPage(event, "/privaatsustingimused")
     },
-    ...(showAdminLinks
-      ? [
-          {
-            key: "analytics",
-            href: "/admin/analytics",
-            label: t("about.links.analytics"),
-            icon: "chart"
-          },
-          {
-            key: "admin",
-            href: "/admin/rag",
-            label: t("about.links.admin"),
-            icon: "database"
-          },
-          {
-            key: "framework-acceptances",
-            href: "/admin/framework-acceptances",
-            label: adminFrameworkLinkLabel,
-            icon: "audit"
-          }
-        ]
-      : []),
     {
       key: "pricing",
       href: "/hinnastus",
@@ -416,7 +397,29 @@ export default function HomeAboutSection({
       icon: "mail",
       type: "button",
       onClick: openBeforeContact
-    }
+    },
+    ...(showAdminLinks
+      ? [
+          {
+            key: "analytics",
+            href: "/admin/analytics",
+            label: t("about.links.analytics"),
+            icon: "chart"
+          },
+          {
+            key: "admin",
+            href: "/admin/rag",
+            label: t("about.links.admin"),
+            icon: "database"
+          },
+          {
+            key: "framework-acceptances",
+            href: "/admin/framework-acceptances",
+            label: adminFrameworkLinkLabel,
+            icon: "audit"
+          }
+        ]
+      : [])
   ];
   const quickLinkSignature = quickLinks.map((item) => item.key).join("|");
   const activeQuickIndex = quickLinks.findIndex((item) => item.key === activeQuickKey);
@@ -430,6 +433,7 @@ export default function HomeAboutSection({
       ? `Fookuses link: ${activeQuickLabel}`
       : `Focused link: ${activeQuickLabel}`;
   const quickVisibilityForIndex = (index) => {
+    if (!useQuickCarouselVisibility) return "active";
     if (activeQuickIndex < 0) return "hidden";
 
     const distance = Math.abs(index - activeQuickIndex);
@@ -734,7 +738,12 @@ export default function HomeAboutSection({
             aria-label={quickCarouselLabel}
             aria-describedby={`${beforeHeadingId}-quick-status`}
             onKeyDown={handleQuickCarouselKeyDown}
-            className="home-before-link-list m-0 flex w-full flex-wrap list-none items-start justify-center gap-x-[clamp(0.55rem,1.55vw,1.35rem)] gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3"
+            className={cn(
+              "home-before-link-list m-0 w-full list-none items-start gap-y-[clamp(0.45rem,1.25vw,0.95rem)] overflow-visible p-0 max-[768px]:grid max-[768px]:grid-cols-2 max-[768px]:gap-x-[clamp(0.65rem,4vw,1rem)] max-[768px]:gap-y-[clamp(0.95rem,4.8vw,1.45rem)] max-[768px]:[grid-auto-rows:auto] min-[430px]:max-[768px]:grid-cols-3",
+              showAdminLinks
+                ? "grid grid-cols-[repeat(6,clamp(4.8rem,6vw,5.4rem))] justify-between"
+                : "flex flex-nowrap justify-between gap-x-0"
+            )}
           >
             {quickLinks.map((item, index) => {
               const isContactItem = item.key === "contact";
@@ -750,7 +759,10 @@ export default function HomeAboutSection({
                   data-quick-visibility={quickVisibility}
                   aria-hidden={isVisibleQuickItem ? undefined : true}
                   className={cn(
-                    "home-before-link-item pointer-events-none relative flex min-h-[clamp(6.5rem,7.9vw,7.15rem)] min-w-[clamp(7.2rem,10.6vw,9.55rem)] flex-[0_1_clamp(7.2rem,10.6vw,9.55rem)] flex-col items-center justify-start pt-[0.26rem] max-[768px]:min-h-[clamp(7rem,25.5vw,8.4rem)] max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
+                    "home-before-link-item pointer-events-none relative flex min-h-[clamp(6.5rem,7.9vw,7.15rem)] flex-col items-center justify-start pt-[0.26rem] max-[768px]:min-h-[clamp(7rem,25.5vw,8.4rem)] max-[768px]:min-w-0 max-[768px]:flex-none max-[768px]:justify-start",
+                    showAdminLinks
+                      ? "w-full min-w-0"
+                      : "w-[clamp(4.8rem,6vw,5.4rem)] min-w-[clamp(4.8rem,6vw,5.4rem)] flex-none",
                     isContactItem && "max-[768px]:col-span-full max-[768px]:justify-self-center",
                     isContactItem && beforeView === "contact" && "max-[768px]:hidden"
                   )}

@@ -10,6 +10,7 @@ import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
+import { createWorkspaceDashboardRows, WORKSPACE_ROUTE_PREFETCH_PATHS } from "@/lib/workspaceDashboardCards";
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import styles from "./WorkspacePanel.module.css";
 
@@ -19,16 +20,6 @@ const DASHBOARD_VIEW_ROLES = Object.freeze([
   "SOCIAL_WORKER",
   "SERVICE_PROVIDER"
 ]);
-const WORKSPACE_ROUTE_PREFETCH_PATHS = Object.freeze([
-  "/documents",
-  "/dokreziim",
-  "/eelpoordumised",
-  "/kovisioon",
-  "/materjalid",
-  "/teenusekaart",
-  "/teenuseprofiil"
-]);
-
 function DashboardCardIcon({ type }) {
   const serviceMapId = useId().replaceAll(":", "");
   const serviceMapCutoutMaskId = `${serviceMapId}-service-map-cutout`;
@@ -120,6 +111,14 @@ function DashboardCardIcon({ type }) {
         <path d="M12 15.08v-4.75" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" />
         <path d="m9.25 13.08 2.75-2.75 2.75 2.75" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M7.85 15.28v2.12h8.3v-2.12" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (type === "wellbeing") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M12 20.25c-.42 0-.86-.18-1.18-.5C7.4 16.35 4.35 13.55 4.35 9.72A4.08 4.08 0 0 1 8.45 5.6c1.32 0 2.6.63 3.55 1.78.95-1.15 2.23-1.78 3.55-1.78a4.08 4.08 0 0 1 4.1 4.12c0 3.83-3.05 6.63-6.47 10.03-.32.32-.76.5-1.18.5Z" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7.15 12.3h2.35l1.12-2.7 2.08 5.18 1.18-2.48h2.98" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
@@ -249,190 +248,16 @@ export default function WorkspacePanel({
   const activeRole = isAdmin
     ? dashboardRole
     : normalizeDashboardRole(userActualRole || userRole || "", "CLIENT");
-  const isClientView = activeRole === "CLIENT";
-  const isProviderView = activeRole === "SERVICE_PROVIDER";
   const hasPaidAccess = Boolean(isAdmin || subActive);
 
-  const makeCard = useCallback(
-    (card, { requiresPaid = false } = {}) => ({
-      ...card,
-      disabled: Boolean(requiresPaid && !hasPaidAccess)
-    }),
-    [hasPaidAccess]
-  );
-
-  const serviceMapCard = makeCard({
-    key: "service_map",
-    icon: "map",
-    title: text(t, "chat.workspace.cards.service_map.title", "Teenusekaart"),
-    meta: text(t, "chat.workspace.cards.service_map.meta", "Kaardivaade"),
-    onClick: () => navigateTo("/teenusekaart")
-  });
-
-  const cardRows = isProviderView
-    ? [
-        [
-          makeCard({
-            key: "help_requests",
-            icon: "help-request",
-            title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
-            meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
-            onClick: () => openHelpPanel("help_requests")
-          }),
-          makeCard({
-            key: "help_offers",
-            icon: "help-offer",
-            title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
-            meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
-            onClick: () => openHelpPanel("help_offers")
-          })
-        ],
-        [
-          serviceMapCard,
-          makeCard({
-            key: "service_profile",
-            icon: "service-profile",
-            title: text(t, "chat.workspace.cards.service_profile.title", "Teenuseprofiil"),
-            meta: text(t, "chat.workspace.cards.service_profile.meta", "Profiil"),
-            onClick: () => navigateTo("/teenuseprofiil")
-          }, { requiresPaid: true })
-        ],
-        [
-          makeCard({
-            key: "documents",
-            icon: "document",
-            title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
-            meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
-            onClick: () => navigateTo("/documents")
-          }, { requiresPaid: true }),
-          makeCard({
-            key: "document_drafting",
-            icon: "compose",
-            title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-            meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-            onClick: () => navigateTo("/dokreziim")
-          }, { requiresPaid: true })
-        ],
-        [
-          makeCard({
-            key: "pre_inquiries",
-            icon: "compose",
-            title: text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
-            meta: text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
-            onClick: () => navigateTo("/eelpoordumised")
-          }, { requiresPaid: true }),
-          makeCard({
-            key: "add_person",
-            icon: "invite",
-            title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
-            meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
-            onClick: openInvite
-          }, { requiresPaid: true })
-        ],
-        [
-          makeCard({
-            key: "materials",
-            icon: "materials",
-            title: text(t, "chat.workspace.cards.materials.title", "Materjalid"),
-            meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
-            onClick: () => navigateTo("/materjalid")
-          }, { requiresPaid: true })
-        ]
-      ]
-    : [
-        [
-          makeCard({
-            key: "help_requests",
-            icon: "help-request",
-            title: text(t, "chat.workspace.cards.help_requests.title", "Abisoovid"),
-            meta: text(t, "chat.workspace.cards.help_requests.meta", "Kuulutused"),
-            onClick: () => openHelpPanel("help_requests")
-          }),
-          makeCard({
-            key: "help_offers",
-            icon: "help-offer",
-            title: text(t, "chat.workspace.cards.help_offers.title", "Abipakkumised"),
-            meta: text(t, "chat.workspace.cards.help_offers.meta", "Pakkumised"),
-            onClick: () => openHelpPanel("help_offers")
-          })
-        ],
-        ...(!isClientView
-          ? [[
-              makeCard({
-                key: "documents",
-                icon: "document",
-                title: text(t, "chat.workspace.cards.documents.title", "Dokumendid"),
-                meta: text(t, "chat.workspace.cards.documents.meta", "Teek"),
-                onClick: () => navigateTo("/documents")
-              }, { requiresPaid: true }),
-              makeCard({
-                key: "document_drafting",
-                icon: "compose",
-                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-                onClick: () => navigateTo("/dokreziim")
-              }, { requiresPaid: true })
-            ]]
-          : []),
-        [
-          makeCard({
-            key: "pre_inquiries",
-            icon: "compose",
-            title: isClientView
-              ? text(t, "chat.workspace.cards.pre_inquiries.title_client", "Eelpöördumine")
-              : text(t, "chat.workspace.cards.pre_inquiries.title_staff", "Pöördumised"),
-            meta: isClientView
-              ? text(t, "chat.workspace.cards.pre_inquiries.meta_client", "Pöördumise mustand")
-              : text(t, "chat.workspace.cards.pre_inquiries.meta_staff", "Saabunud ja saadetud"),
-            onClick: () => navigateTo("/eelpoordumised")
-          }, { requiresPaid: true }),
-          isClientView
-            ? makeCard({
-                key: "document_drafting",
-                icon: "compose",
-                title: text(t, "chat.workspace.cards.document_drafting.title", "Dokumendi koostamine"),
-                meta: text(t, "chat.workspace.cards.document_drafting.meta", "Koostamise tooruum"),
-                onClick: () => navigateTo("/dokreziim")
-              }, { requiresPaid: true })
-            : makeCard({
-                key: "add_person",
-                icon: "invite",
-                title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
-                meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
-                onClick: openInvite
-              }, { requiresPaid: true })
-        ],
-        ...(isClientView
-          ? [[
-              makeCard({
-                key: "add_person",
-                icon: "invite",
-                title: text(t, "chat.workspace.cards.add_person.title", "Kutsed"),
-                meta: text(t, "chat.workspace.cards.add_person.meta", "Kutsed"),
-                onClick: openInvite
-              }, { requiresPaid: true }),
-              serviceMapCard
-            ]]
-          : [
-            [
-              makeCard({
-                key: "kovision",
-                icon: "room",
-                title: text(t, "chat.workspace.cards.kovision.title", "Kovisioon"),
-                meta: text(t, "chat.workspace.cards.kovision.meta", "Ruumid"),
-                onClick: () => navigateTo("/kovisioon")
-              }, { requiresPaid: true }),
-              makeCard({
-                key: "materials",
-                icon: "materials",
-                title: text(t, "chat.workspace.cards.materials.title", "Materjalid"),
-                meta: text(t, "chat.workspace.cards.materials.meta", "Andmebaas"),
-                onClick: () => navigateTo("/materjalid")
-              }, { requiresPaid: true })
-            ],
-            [serviceMapCard]
-          ])
-      ];
+  const cardRows = useMemo(() => createWorkspaceDashboardRows({
+    activeRole,
+    hasPaidAccess,
+    t,
+    navigateTo,
+    openHelpPanel,
+    openInvite
+  }), [activeRole, hasPaidAccess, navigateTo, openHelpPanel, openInvite, t]);
 
   const roleMenu = isAdmin ? (
     <div className={styles.roleMenu}>

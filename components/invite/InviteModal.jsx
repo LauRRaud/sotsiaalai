@@ -124,11 +124,11 @@ export default function InviteModal() {
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalBodyClassName =
     `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
-  const inviteFormClassName = `mx-auto grid w-full max-w-[32.6rem] gap-[0.72rem] max-[768px]:max-w-[22.4rem] max-[768px]:gap-[0.68rem] ${
+  const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] gap-[0.72rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[0.68rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
   const inviteFieldWrapClassName =
-    "mx-auto w-full max-w-[30.6rem] max-[768px]:max-w-[21.6rem]";
+    "mx-auto w-full max-w-[36rem] max-[768px]:max-w-[23rem]";
   const mobileInviteInputClassName = inviteFieldInputClassName;
   const inviteInputClassName =
     `${mobileInviteInputClassName} ` +

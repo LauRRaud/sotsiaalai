@@ -221,11 +221,11 @@ html[data-contrast="hc"] {
 
 :root:not(.theme-light):not(.theme-mid) .ui-glow-field:hover {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 7px rgba(255, 122, 126, 0.09),
-    0 0 2px rgba(255, 122, 126, 0.3),
-    0 0 12px rgba(255, 122, 126, 0.14),
-    0 0 26px rgba(255, 122, 126, 0.07),
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04),
     0 14px 28px rgba(0, 0, 0, 0.14) !important;
 }
 
@@ -309,11 +309,11 @@ html[data-contrast="hc"] {
   background: var(--btn-primary-bg-hover, var(--btn-primary-bg)) !important;
   box-shadow:
     var(--btn-primary-shadow-hover),
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 7px rgba(255, 122, 126, 0.09),
-    0 0 2px rgba(255, 122, 126, 0.3),
-    0 0 12px rgba(255, 122, 126, 0.14),
-    0 0 26px rgba(255, 122, 126, 0.07) !important;
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid) .ui-glow-button-frame:focus-visible {
@@ -349,18 +349,17 @@ html[data-contrast="hc"] {
   background: var(--btn-primary-bg-hover, var(--btn-primary-bg)) !important;
   box-shadow:
     var(--btn-primary-shadow-hover),
-    0 0 0 1px rgba(122, 58, 56, 0.1),
-    0 0 2px rgba(122, 58, 56, 0.08),
-    0 0 12px rgba(197, 113, 113, 0.13),
-    0 0 26px rgba(197, 113, 113, 0.075) !important;
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
 }
 
 :root.theme-light .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > .ui-glow-button-soft-edge,
 :root.theme-mid .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) > .ui-glow-button-soft-edge {
   opacity: 1;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.16),
-    inset 0 0 5px rgba(197, 113, 113, 0.055);
+    inset 0 0 4px rgba(122, 58, 56, 0.13),
+    inset 0 0 9px rgba(197, 113, 113, 0.055);
 }
 
 html[data-contrast="hc"] .ui-glow-button-frame > .edgeLight,
@@ -429,21 +428,21 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
 .invite-glow-field:hover,
 .invite-glow-field:focus-within {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 8px rgba(255, 122, 126, 0.09),
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
     0 5px 12px rgba(0, 0, 0, 0.14),
-    0 0 2px rgba(255, 122, 126, 0.32),
-    0 0 12px rgba(255, 122, 126, 0.15),
-    0 0 26px rgba(255, 122, 126, 0.08) !important;
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04) !important;
 }
 
 :root.theme-light .invite-glow-field,
 :root.theme-mid .invite-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
   background: rgba(255, 255, 255, 0.72) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
-    inset 0 0 6px rgba(197, 113, 113, 0),
-    0 4px 10px rgba(82, 50, 46, 0.065),
+    var(--input-shadow-composite, var(--input-shadow, 0 4px 10px rgba(82, 50, 46, 0.065))),
     0 0 2px rgba(122, 58, 56, 0),
     0 0 10px rgba(197, 113, 113, 0),
     0 0 22px rgba(197, 113, 113, 0) !important;
@@ -453,14 +452,24 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
 :root.theme-light .invite-glow-field:focus-within,
 :root.theme-mid .invite-glow-field:hover,
 :root.theme-mid .invite-glow-field:focus-within {
+  border-color: transparent !important;
   background: rgba(255, 255, 255, 0.82) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.22),
-    inset 0 0 6px rgba(197, 113, 113, 0.085),
-    0 5px 12px rgba(82, 50, 46, 0.095),
-    0 0 2px rgba(122, 58, 56, 0.17),
-    0 0 11px rgba(197, 113, 113, 0.1),
-    0 0 24px rgba(197, 113, 113, 0.06) !important;
+    var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 5px 12px rgba(82, 50, 46, 0.095)))),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
+}
+
+:root.theme-mid .invite-glow-field {
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+}
+
+:root.theme-mid .invite-glow-field:hover,
+:root.theme-mid .invite-glow-field:focus-within {
+  background:
+    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),
+    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
 }
 
 .invite-glow-panel {
@@ -523,11 +532,11 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
   background: var(--seg-card-bg-hover, var(--btn-primary-bg-hover, var(--seg-card-bg))) !important;
   box-shadow:
     var(--seg-card-shadow-hover, var(--btn-primary-shadow-hover)),
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 7px rgba(255, 122, 126, 0.09),
-    0 0 2px rgba(255, 122, 126, 0.3),
-    0 0 12px rgba(255, 122, 126, 0.14),
-    0 0 26px rgba(255, 122, 126, 0.07) !important;
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04) !important;
 }
 
 :root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame[data-focus-visible="true"]:not(:hover) {
@@ -563,11 +572,11 @@ html[data-contrast="hc"] .ui-glow-button-frame > [class*="edgeLight"] {
   background: var(--seg-card-bg-hover, var(--btn-primary-bg-hover, var(--seg-card-bg))) !important;
   box-shadow:
     var(--seg-card-shadow-hover, var(--btn-primary-shadow-hover)),
-    inset 0 0 0 1px rgba(122, 58, 56, 0.16),
-    inset 0 0 5px rgba(197, 113, 113, 0.055),
-    0 0 2px rgba(122, 58, 56, 0.12),
-    0 0 9px rgba(197, 113, 113, 0.065),
-    0 0 18px rgba(197, 113, 113, 0.038) !important;
+    inset 0 0 4px rgba(122, 58, 56, 0.13),
+    inset 0 0 9px rgba(197, 113, 113, 0.055),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-option-card-frame > .edgeLight,
@@ -576,47 +585,47 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
 }
 
 :root.theme-light .ui-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
   background: rgba(255, 255, 255, 0.64) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.05),
-    inset 0 0 6px rgba(197, 113, 113, 0),
-    0 5px 12px rgba(82, 50, 46, 0.045),
+    var(--input-shadow-composite, var(--input-shadow, 0 5px 12px rgba(82, 50, 46, 0.045))),
     0 0 2px rgba(122, 58, 56, 0),
     0 0 10px rgba(197, 113, 113, 0),
     0 0 22px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-mid .ui-glow-field {
-  background: rgba(255, 255, 255, 0.64) !important;
+  border-color: transparent !important;
+  background-clip: padding-box;
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
-    inset 0 0 6px rgba(197, 113, 113, 0),
-    0 8px 20px rgba(82, 50, 46, 0.08),
+    var(--chat-inputbar-shadow, var(--mid-pill-surface-shadow, var(--input-shadow-composite, var(--input-shadow, 0 8px 20px rgba(82, 50, 46, 0.08))))),
     0 0 2px rgba(122, 58, 56, 0),
     0 0 11px rgba(197, 113, 113, 0),
     0 0 24px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-light .ui-glow-field:hover {
+  border-color: transparent !important;
   background: rgba(255, 255, 255, 0.74) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.2),
-    inset 0 0 6px rgba(197, 113, 113, 0.075),
-    0 6px 14px rgba(82, 50, 46, 0.08),
-    0 0 2px rgba(122, 58, 56, 0.16),
-    0 0 10px rgba(197, 113, 113, 0.095),
-    0 0 22px rgba(197, 113, 113, 0.055) !important;
+    var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 6px 14px rgba(82, 50, 46, 0.08)))),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
 }
 
 :root.theme-mid .ui-glow-field:hover {
-  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: transparent !important;
+  background:
+    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),
+    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.22),
-    inset 0 0 6px rgba(197, 113, 113, 0.085),
-    0 10px 24px rgba(82, 50, 46, 0.12),
-    0 0 2px rgba(122, 58, 56, 0.17),
-    0 0 11px rgba(197, 113, 113, 0.1),
-    0 0 24px rgba(197, 113, 113, 0.06) !important;
+    var(--chat-inputbar-shadow-hover, var(--mid-pill-surface-shadow-hover, var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 10px 24px rgba(82, 50, 46, 0.12)))))),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
 }
 
 :root.theme-light .ui-glow-field > .edgeLight,
@@ -624,6 +633,17 @@ html[data-contrast="hc"] .ui-glow-option-card-frame > [class*="edgeLight"] {
 :root.theme-mid .ui-glow-field > .edgeLight,
 :root.theme-mid .ui-glow-field > [class*="edgeLight"] {
   display: block !important;
+}
+
+:root.theme-light :is(.ui-glow-field, .invite-glow-field) > .edgeLight::before,
+:root.theme-light :is(.ui-glow-field, .invite-glow-field) > [class*="edgeLight"]::before,
+:root.theme-mid :is(.ui-glow-field, .invite-glow-field) > .edgeLight::before,
+:root.theme-mid :is(.ui-glow-field, .invite-glow-field) > [class*="edgeLight"]::before {
+  box-shadow:
+    inset 0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 3px rgba(122, 58, 56, 0.18),
+    0 0 10px rgba(197, 113, 113, 0.12),
+    0 0 18px rgba(197, 113, 113, 0.065) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-field {
@@ -671,38 +691,58 @@ html[data-contrast="hc"] .ui-glow-field:hover {
 .invite-glow-field.ui-glow-field:hover,
 .invite-glow-field.ui-glow-field:focus-within {
   box-shadow:
-    inset 0 0 0 1px rgba(255, 122, 126, 0.38),
-    inset 0 0 8px rgba(255, 122, 126, 0.09),
+    inset 0 0 4px rgba(255, 122, 126, 0.11),
+    inset 0 0 9px rgba(255, 122, 126, 0.045),
     0 5px 12px rgba(0, 0, 0, 0.14),
-    0 0 2px rgba(255, 122, 126, 0.32),
-    0 0 12px rgba(255, 122, 126, 0.15),
-    0 0 26px rgba(255, 122, 126, 0.08) !important;
+    0 0 3px rgba(255, 122, 126, 0.14),
+    0 0 10px rgba(255, 122, 126, 0.08),
+    0 0 20px rgba(255, 122, 126, 0.04) !important;
 }
 
-:root.theme-light .invite-glow-field.ui-glow-field,
-:root.theme-mid .invite-glow-field.ui-glow-field {
+:root.theme-light .invite-glow-field.ui-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
   background: rgba(255, 255, 255, 0.72) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.08),
-    inset 0 0 6px rgba(197, 113, 113, 0),
-    0 4px 10px rgba(82, 50, 46, 0.065),
+    var(--input-shadow-composite, var(--input-shadow, 0 4px 10px rgba(82, 50, 46, 0.065))),
+    0 0 2px rgba(122, 58, 56, 0),
+    0 0 10px rgba(197, 113, 113, 0),
+    0 0 22px rgba(197, 113, 113, 0) !important;
+}
+
+:root.theme-mid .invite-glow-field.ui-glow-field {
+  border-color: transparent !important;
+  background-clip: padding-box;
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+  box-shadow:
+    var(--chat-inputbar-shadow, var(--mid-pill-surface-shadow, var(--input-shadow-composite, var(--input-shadow, 0 4px 10px rgba(82, 50, 46, 0.065))))),
     0 0 2px rgba(122, 58, 56, 0),
     0 0 10px rgba(197, 113, 113, 0),
     0 0 22px rgba(197, 113, 113, 0) !important;
 }
 
 :root.theme-light .invite-glow-field.ui-glow-field:hover,
-:root.theme-light .invite-glow-field.ui-glow-field:focus-within,
-:root.theme-mid .invite-glow-field.ui-glow-field:hover,
-:root.theme-mid .invite-glow-field.ui-glow-field:focus-within {
+:root.theme-light .invite-glow-field.ui-glow-field:focus-within {
+  border-color: transparent !important;
   background: rgba(255, 255, 255, 0.82) !important;
   box-shadow:
-    inset 0 0 0 1px rgba(122, 58, 56, 0.22),
-    inset 0 0 6px rgba(197, 113, 113, 0.085),
-    0 5px 12px rgba(82, 50, 46, 0.095),
-    0 0 2px rgba(122, 58, 56, 0.17),
-    0 0 11px rgba(197, 113, 113, 0.1),
-    0 0 24px rgba(197, 113, 113, 0.06) !important;
+    var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 5px 12px rgba(82, 50, 46, 0.095)))),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
+}
+
+:root.theme-mid .invite-glow-field.ui-glow-field:hover,
+:root.theme-mid .invite-glow-field.ui-glow-field:focus-within {
+  border-color: transparent !important;
+  background:
+    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),
+    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+  box-shadow:
+    var(--chat-inputbar-shadow-hover, var(--mid-pill-surface-shadow-hover, var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 5px 12px rgba(82, 50, 46, 0.095)))))),
+    0 0 3px rgba(122, 58, 56, 0.13),
+    0 0 9px rgba(197, 113, 113, 0.095),
+    0 0 18px rgba(197, 113, 113, 0.055) !important;
 }
 
 html[data-contrast="hc"] .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled) {

@@ -48,6 +48,14 @@ test("home quick links include desktop and mobile download icons with a short vi
   assert.match(source, /const installLabel =\s*locale === "et" \? "Paigalda" : locale === "ru" \? "Установить" : "Install"/);
 });
 
+test("home quick links fit the six public icons on one desktop row", () => {
+  assert.match(source, /showAdminLinks\s*\?\s*"grid grid-cols-\[repeat\(6,clamp\(4\.8rem,6vw,5\.4rem\)\)\] justify-between"/);
+  assert.match(source, /:\s*"flex flex-nowrap justify-between gap-x-0"/);
+  assert.match(source, /:\s*"w-\[clamp\(4\.8rem,6vw,5\.4rem\)\] min-w-\[clamp\(4\.8rem,6vw,5\.4rem\)\] flex-none"/);
+  assert.match(source, /const \[useQuickCarouselVisibility, setUseQuickCarouselVisibility\] = useState\(false\)/);
+  assert.match(source, /if \(!useQuickCarouselVisibility\) return "active"/);
+});
+
 test("home quick link labels stay short in English and Russian", () => {
   assert.equal(enMessages.about.links.terms, "Terms");
   assert.equal(enMessages.about.links.privacy, "Privacy");

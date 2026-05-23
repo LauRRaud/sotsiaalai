@@ -50,6 +50,6 @@ test("wellbeing dashboard card sits next to covision and opens the wellbeing wor
   assert.equal(wellbeing.route, "/tooheaolu");
   assert.equal(
     wellbeing.description,
-    "Märka töökoormust, vaata ülevaateid ning valmista ette raport, kovisioon või töökorralduse kokkulepe."
+    "Märka töökoormust, vaata ülevaateid ning hoia fookuses taastumine, piirid ja tööprotsessid."
   );
 });

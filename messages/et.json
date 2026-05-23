@@ -973,6 +973,14 @@
       "eyebrow": "Keskus",
       "title": "Töölaud",
       "close": "Sulge töölaud",
+      "wellbeing_page": {
+        "title": "Tööheaolu",
+        "info_label": "Ava Tööheaolu info",
+        "back_label": "Tagasi",
+        "tools_label": "Tööheaolu tööriistad",
+        "placeholder": "Töövoog lisandub järgmises etapis.",
+        "back_to_workspace": "Tagasi Tööheaolu tööruumi"
+      },
       "cards": {
         "documents": {
           "title": "Dokumendid",
@@ -1009,6 +1017,11 @@
         "kovision": {
           "title": "Kovisioon",
           "meta": "Ruumid"
+        },
+        "wellbeing": {
+          "title": "Tööheaolu",
+          "meta": "Koormus ja tugi",
+          "description": "Märka töökoormust, vaata ülevaateid ning hoia fookuses taastumine, piirid ja tööprotsessid."
         },
         "materials": {
           "title": "Materjalid",
@@ -1988,7 +2001,8 @@
         "kovisioon": "Kovisioon ja praktikanäited",
         "materials_adding": "Materjalide lisamine",
         "service_card_listing": "Teenuseosutaja kaardiprofiil",
-        "service_profile": "Teenuseprofiil ja haldus"
+        "service_profile": "Teenuseprofiil ja haldus",
+        "wellbeing": "Tööheaolu"
       },
       "values": {
         "included": "Sisaldub",
@@ -2074,6 +2088,10 @@
         "kovisioon": {
           "title": "Kovisioon ja praktikanäited",
           "body": "Kovisiooni vaates on kaks eraldi osa: kinnised juhtumiarutelud ja praktikanäited. Kovisioonis kirjeldab juhtumi looja olukorda anonümiseeritud kujul, lisab keskse küsimuse, teemad, osapooled, riskid ja kaitsetegurid ning kutsub kolleegid osalema. Aruteluruumis saab otsida teadmistebaasist seotud seadusi, juhendeid, metoodikat, praktikakirjeldusi, teenuseid ja toetusi. Praktikanäidete vaates saab lisada üldistatud toimiva praktika kirjeid või luua sellise kirje kovisiooni põhjal. Avaldatud praktikanäidet saab kasutada teadmistebaasis, kuid enne avaldamist jääb see anonüümsuse kontrolli ja ülevaatuse alla."
+        },
+        "wellbeing": {
+          "title": "Tööheaolu",
+          "body": "Tööheaolu tööriistad aitavad sotsiaalvaldkonna spetsialistil märgata töökoormust, emotsionaalset koormust, taastumise vajadust, korduvaid katkestusi ja keeruliste juhtumite mõju. Tööruumis saab teha kiirkontrolli, vaadata nädala või kuu ülevaadet, märkida raske juhtum, käsitleda töövägivalla olukorda ning sõnastada taastumise, tööpiiride, katkestuste, tööprotsesside, rollipiiride ja alustaja toe järgmisi samme."
         },
         "materials_adding": {
           "title": "Materjalide lisamine",

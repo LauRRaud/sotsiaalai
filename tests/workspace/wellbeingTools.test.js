@@ -6,8 +6,8 @@ import {
   wellbeingTools
 } from "../../lib/wellbeingTools.js";
 
-test("wellbeing workspace exposes the twelve configured tool cards in order", () => {
-  assert.equal(wellbeingTools.length, 12);
+test("wellbeing workspace exposes the final ten tool cards in order", () => {
+  assert.equal(wellbeingTools.length, 10);
 
   assert.deepEqual(
     wellbeingTools.map((tool) => tool.title),
@@ -16,14 +16,12 @@ test("wellbeing workspace exposes the twelve configured tool cards in order", ()
       "Ülevaade",
       "Raske juhtum",
       "Töövägivald",
-      "Kovisioon",
-      "Kolleegitugi",
-      "Raportid",
+      "Taastumine",
       "Tööpiirid",
+      "Katkestused",
       "Tööprotsessid",
-      "Selgitused",
-      "Alustaja tugi",
-      "Meeskond"
+      "Rollipiirid",
+      "Alustaja tugi"
     ]
   );
 
@@ -41,5 +39,6 @@ test("wellbeing workspace exposes the twelve configured tool cards in order", ()
 test("wellbeing tools can be resolved by route slug", () => {
   assert.equal(getWellbeingToolBySlug("kiirkontroll")?.id, "quick-check");
   assert.equal(getWellbeingToolBySlug("toovagivald")?.title, "Töövägivald");
+  assert.equal(getWellbeingToolBySlug("rollipiirid")?.id, "role-boundaries");
   assert.equal(getWellbeingToolBySlug("puudub"), null);
 });
