@@ -638,6 +638,27 @@
   opacity: 1 !important;
 }
 
+:root.theme-mid body .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
+:root.theme-mid body .ui-glow-button-frame:focus-visible,
+:root.theme-mid body .button[data-variant="primary"]:hover,
+:root.theme-mid body .button[data-variant="primary"]:focus-visible {
+  background: var(--btn-primary-bg) !important;
+}
+
+:root.theme-mid body .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled)::before,
+:root.theme-mid body .ui-glow-button-frame:focus-visible::before,
+:root.theme-mid body .button[data-variant="primary"]:hover::before,
+:root.theme-mid body .button[data-variant="primary"]:focus-visible::before {
+  opacity: 1 !important;
+}
+
+:root.theme-mid body .ui-glow-field:hover,
+:root.theme-mid body .ui-glow-field:focus-within,
+:root.theme-mid body .invite-glow-field:hover,
+:root.theme-mid body .invite-glow-field:focus-within {
+  background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
+}
+
 :root.theme-mid .invite-sponsor-toggle-card {
   --seg-card-bg: var(--btn-primary-bg);
   --seg-card-bg-hover: var(--btn-primary-bg-hover);

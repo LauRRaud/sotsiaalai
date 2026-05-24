@@ -27,6 +27,7 @@ const PARTICLES_EXCLUDED_PATHS = new Set([
 const MOBILE_COLOR_BENDS_READY_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_LIGHT = 0.77;
+const COLOR_BENDS_OPACITY_FOREST = 0.78;
 const COLOR_BENDS_OPACITY_FULL = 1;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
@@ -536,12 +537,16 @@ function BackgroundLayer() {
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
   const colorBendsColors =
-    effectiveTheme === "mid"
+    effectiveTheme === "forest"
+      ? ["#5a3438"]
+      : effectiveTheme === "mid"
       ? ["#794f4c"]
       : ["#7e4442"];
   const colorBendsOpacity =
     effectiveTheme === "light"
       ? COLOR_BENDS_OPACITY_LIGHT
+      : effectiveTheme === "forest"
+      ? COLOR_BENDS_OPACITY_FOREST
       : effectiveTheme === "mid"
       ? COLOR_BENDS_OPACITY_FULL
       : COLOR_BENDS_OPACITY_DEFAULT;

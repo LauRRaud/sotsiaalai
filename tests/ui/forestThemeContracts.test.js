@@ -40,32 +40,37 @@ test("forest theme has moss glass, warm mid-style icons, controls and home/about
   assert.match(forest, /--glass-ring-surface-bg:\s*rgba\(13,\s*23,\s*20,\s*0\.62\)/);
   assert.match(forest, /--home-panel-bg:\s*var\(--glass-ring-surface-bg\)/);
   assert.match(forest, /--forest-orbit-surface:/);
+  assert.match(forest, /--forest-floating-surface:/);
+  assert.match(forest, /--forest-input-surface:/);
   assert.match(forest, /--btn-primary-bg:\s*var\(--forest-orbit-surface\)/);
-  assert.match(forest, /--input-bg:/);
+  assert.match(forest, /--form-surface:\s*var\(--forest-input-surface\)/);
+  assert.match(forest, /--input-bg:\s*var\(--form-surface\)/);
   assert.match(forest, /--chat-icon-dark:\s*var\(--forest-highlight\)/);
   assert.match(forest, /button:has\(\.back-icon-arrow\)[\s\S]*?--back-arrow-color:\s*var\(--forest-highlight\)/);
   assert.match(forest, /button:has\(\.back-icon-arrow\)[\s\S]*?--back-dot-color:\s*#7A3A38/);
   assert.match(forest, /\.chat-rail-icon-btn \.back-icon-dot \{[\s\S]*?fill:\s*#7A3A38 !important;/);
-  assert.match(forest, /--chat-tools-panel-bg:\s*var\(--chat-card-surface-strong-bg\)/);
-  assert.match(forest, /\.chat-tools-menu \{[\s\S]*?background:\s*var\(--chat-tools-panel-bg/);
+  assert.match(forest, /--chat-tools-panel-bg:\s*var\(--forest-floating-surface\)/);
+  assert.match(forest, /--chat-tools-item-hover-bg:\s*var\(--forest-floating-surface-hover\)/);
+  assert.match(forest, /\.chat-tools-menu \{[\s\S]*?background:\s*var\(--forest-floating-surface\)/);
   assert.match(forest, /\.chat-inputbar \.chat-send-btn[\s\S]*?--btn-primary-bg:\s*var\(--forest-orbit-surface\) !important/);
   assert.match(forest, /--home-title-color:\s*var\(--forest-highlight\)/);
   assert.match(forest, /:is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
   assert.match(forest, /\.workspace-feature-panel[\s\S]*?--workspace-feature-accent:\s*var\(--forest-icon\)/);
   assert.match(infoButton, /:global\(:root\.theme-forest\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-highlight,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*#7A3A38;/);
-  assert.match(leftRail, /:global\(:root\.theme-forest\) \.tooltip \{[\s\S]*?background:\s*var\(--chat-rail-tooltip-bg/);
-  assert.match(rightRail, /:global\(:root\.theme-forest\) \.tooltip \{[\s\S]*?background:\s*var\(--chat-rail-tooltip-bg/);
+  assert.match(leftRail, /:global\(:root\.theme-forest\) \.tooltip \{[\s\S]*?background:\s*var\(--forest-floating-surface/);
+  assert.match(rightRail, /:global\(:root\.theme-forest\) \.tooltip \{[\s\S]*?background:\s*var\(--forest-floating-surface/);
   assert.match(orbital, /:root\.theme-forest[\s\S]*?var\(--forest-highlight,\s*#c57171\)/);
   assert.match(orbital, /var\(--forest-orbit-surface/);
 });
 
-test("forest background uses the default dark color bends", () => {
+test("forest background uses brown color bends with stronger opacity", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
 
   assert.doesNotMatch(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\["#eee4de"\]/);
-  assert.match(backgroundLayer, /: ["#7e4442"]/);
+  assert.match(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\["#5a3438"\]/);
   assert.doesNotMatch(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\?\s*0\.56/);
-  assert.match(backgroundLayer, /COLOR_BENDS_OPACITY_DEFAULT/);
+  assert.match(backgroundLayer, /const COLOR_BENDS_OPACITY_FOREST = 0\.78;/);
+  assert.match(backgroundLayer, /effectiveTheme === "forest"\s*\?\s*COLOR_BENDS_OPACITY_FOREST/);
 });
 
 test("forest theme labels are available in all locales", () => {

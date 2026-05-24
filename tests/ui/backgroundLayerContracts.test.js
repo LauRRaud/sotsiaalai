@@ -36,11 +36,11 @@ test("light theme uses dark color bends with extra transparency", () => {
   assert.doesNotMatch(source, /effectiveTheme === "light"\s*\?\s*\["#a06861"\]/);
   assert.match(
     source,
-    /const colorBendsColors =\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\];/
+    /const colorBendsColors =\s*effectiveTheme === "forest"\s*\?\s*\["#5a3438"\]\s*:\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\];/
   );
   assert.match(
     source,
-    /const colorBendsOpacity =\s*effectiveTheme === "light"\s*\?\s*COLOR_BENDS_OPACITY_LIGHT\s*:\s*effectiveTheme === "mid"\s*\?\s*COLOR_BENDS_OPACITY_FULL\s*:\s*COLOR_BENDS_OPACITY_DEFAULT;/
+    /const colorBendsOpacity =\s*effectiveTheme === "light"\s*\?\s*COLOR_BENDS_OPACITY_LIGHT\s*:\s*effectiveTheme === "forest"\s*\?\s*COLOR_BENDS_OPACITY_FOREST\s*:\s*effectiveTheme === "mid"\s*\?\s*COLOR_BENDS_OPACITY_FULL\s*:\s*COLOR_BENDS_OPACITY_DEFAULT;/
   );
 });
 
