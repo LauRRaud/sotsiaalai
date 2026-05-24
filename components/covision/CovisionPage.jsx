@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
 import DocumentsDropdown from "@/components/documents/DocumentsDropdown";
+import RoomCallBar from "@/components/rooms/RoomCallBar";
 import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
@@ -39,6 +40,7 @@ import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const CovisionCallBar = RoomCallBar;
 
 const shellClassName =
   `${glassPageShellCenteredClassName} ${glassPrimaryButtonToneClassName} ` +
@@ -52,7 +54,7 @@ const surfaceClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(48rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(76rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -81,6 +83,44 @@ const sectionHeadingClassName =
 
 const mutedTextClassName =
   cn(styles.muted, "m-0 text-[0.98rem] leading-[1.5] tracking-[0]");
+
+const caseCreationSteps = Object.freeze([
+  { key: "basic", label: "Põhiinfo" },
+  { key: "anonymous_description", label: "Anonüümne olukorrakirjeldus" },
+  { key: "process_flow", label: "Olukorra kulg" },
+  { key: "network_risks", label: "Võrgustik, riskid ja kaitsetegurid" },
+  { key: "central_question", label: "Keskne küsimus ja ootus" },
+  { key: "review", label: "Ülevaade ja salvesta" }
+]);
+
+const journeyFocusBlocks = Object.freeze([
+  ["mis on seni toimunud", "mis on seni toimunud"],
+  ["mida on proovitud", "mida on proovitud"],
+  ["mis on toiminud", "mis on toiminud"],
+  ["mis on takerdunud", "mis on takerdunud"],
+  ["mida ei ole veel teada", "mida ei ole veel teada"]
+]);
+
+const contributionStatuses = Object.freeze([
+  ["NEW", "uus"],
+  ["DISCUSSED", "arutatud"],
+  ["ADDED_TO_CANVAS", "lisatud lõuendile"],
+  ["CONVERTED_TO_NEXT_STEP", "muudetud järgmiseks sammuks"],
+  ["DISMISSED", "kõrvale jäetud"]
+]);
+
+function messageTypeLabel(value) {
+  return optionLabel(COVISION_MESSAGE_TYPES, value);
+}
+
+function messagesByTypes(messages = [], types = []) {
+  const accepted = new Set(types);
+  return messages.filter((message) => accepted.has(message.messageType));
+}
+
+function currentUserIdFromCase(covisionCase) {
+  return covisionCase?.currentUserId || covisionCase?.me?.id || "";
+}
 
 function emptyCaseForm() {
   return {
@@ -483,6 +523,44 @@ function KnowledgeSupportPanel({ support }) {
   );
 }
 
+function CanvasSection({ title, children, meta = "viimane muutja: alustaja · muutmise aeg: tööruumis" }) {
+  return (
+    <article className={cn(styles.subtleCard, "grid gap-[0.42rem] rounded-[0.86rem] border px-[0.74rem] py-[0.64rem]")}>
+      <div className="flex flex-wrap items-start justify-between gap-[0.45rem]">
+        <h3 className="m-0 text-[0.98rem] font-[700] leading-[1.2]">{title}</h3>
+        <span className={cn(styles.meta, "text-[0.76rem]")}>{meta}</span>
+      </div>
+      <div className="m-0 whitespace-pre-wrap text-[0.94rem] leading-[1.42]">{children}</div>
+    </article>
+  );
+}
+
+function ContributionList({ messages, locale, emptyText, onPromote, onNextStep }) {
+  if (!messages.length) return <p className={mutedTextClassName}>{emptyText}</p>;
+  return (
+    <div className="grid gap-[0.46rem]">
+      {messages.map((message) => (
+        <article key={message.id} className={cn(styles.message, "grid gap-[0.3rem] rounded-[0.78rem] border px-[0.66rem] py-[0.58rem]")}>
+          <div className={cn(styles.meta, "flex flex-wrap items-center justify-between gap-[0.45rem] text-[0.78rem]")}>
+            <span>{message.author?.name || message.author?.email || "Osaleja"} · {messageTypeLabel(message.messageType)}</span>
+            <span>{formatDate(message.createdAt, locale)}</span>
+          </div>
+          <p className="m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.4]">{message.body}</p>
+          <div className="flex flex-wrap items-center gap-[0.34rem]">
+            {contributionStatuses.slice(0, 3).map(([key, label]) => (
+              <span key={key} className={cn(styles.tag, "rounded-full border px-[0.48rem] py-[0.14rem] text-[0.72rem]")}>{label}</span>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-end gap-[0.36rem]">
+            <Button type="button" variant="secondary" onClick={() => onPromote?.(message)} className={smallButtonClassName}>Lisa lõuendile</Button>
+            <Button type="button" variant="secondary" onClick={() => onNextStep?.(message)} className={smallButtonClassName}>Muuda järgmiseks sammuks</Button>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 export default function CovisionPage() {
   const router = useRouter();
   const { locale, t } = useI18n();
@@ -496,12 +574,14 @@ export default function CovisionPage() {
   const [query, setQuery] = useState("");
   const [topicFilter, setTopicFilter] = useState("");
   const [caseForm, setCaseForm] = useState(() => emptyCaseForm());
+  const [caseStep, setCaseStep] = useState(0);
   const [activeCase, setActiveCase] = useState(null);
   const [practiceForm, setPracticeForm] = useState(() => emptyPracticeForm());
   const [anonymityIssues, setAnonymityIssues] = useState([]);
   const [questionSuggestions, setQuestionSuggestions] = useState([]);
   const [messageBody, setMessageBody] = useState("");
-  const [messageType, setMessageType] = useState("free_text");
+  const [messageType, setMessageType] = useState("question");
+  const [messageSectionKey, setMessageSectionKey] = useState("questions");
   const [summaryForm, setSummaryForm] = useState({});
   const [knowledgeSupport, setKnowledgeSupport] = useState(null);
   const [knowledgeLoading, setKnowledgeLoading] = useState(false);
@@ -588,6 +668,13 @@ export default function CovisionPage() {
     });
   }, [practices, query, topicFilter]);
 
+  const roomMessages = useMemo(() => activeCase?.messages || [], [activeCase?.messages]);
+  const roomQuestions = useMemo(() => messagesByTypes(roomMessages, ["question"]), [roomMessages]);
+  const roomReflections = useMemo(() => messagesByTypes(roomMessages, ["observation", "reflection"]), [roomMessages]);
+  const roomSuggestions = useMemo(() => messagesByTypes(roomMessages, ["source_note", "suggestion"]), [roomMessages]);
+  const roomNextSteps = useMemo(() => messagesByTypes(roomMessages, ["next_step"]), [roomMessages]);
+  const roomOpenQuestions = useMemo(() => messagesByTypes(roomMessages, ["question"]).slice(-3), [roomMessages]);
+
   const handleBack = useCallback(() => {
     if (view !== "overview") {
       setView("overview");
@@ -612,6 +699,7 @@ export default function CovisionPage() {
 
   function startCase() {
     setCaseForm(emptyCaseForm());
+    setCaseStep(0);
     setAnonymityIssues([]);
     setQuestionSuggestions([]);
     setNotice("");
@@ -621,6 +709,7 @@ export default function CovisionPage() {
 
   function editCase(item) {
     setCaseForm(caseToForm(item));
+    setCaseStep(0);
     setAnonymityIssues([]);
     setQuestionSuggestions([]);
     setNotice("");
@@ -746,20 +835,44 @@ export default function CovisionPage() {
     }));
   }
 
-  function addParticipant() {
+  async function inviteParticipant() {
+    if (!activeCase?.id || saving) return;
     const email = participantEmail.trim().toLowerCase();
     if (!email) return;
-    setCaseForm((current) => {
-      if (current.participants.some((participant) => participant.email === email)) return current;
-      return {
-        ...current,
-        participants: [
-          ...current.participants,
-          { email, role: participantRole }
-        ]
-      };
-    });
-    setParticipantEmail("");
+    setSaving(true);
+    setError("");
+    try {
+      const nextParticipants = [
+        ...(activeCase.participants || [])
+          .filter((participant) => participant.role !== "owner")
+          .map((participant) => ({
+            email: participant.email || participant.user?.email || "",
+            userId: participant.userId || "",
+            role: participant.role || "participant"
+          })),
+        { email, role: participantRole }
+      ];
+      const response = await covisionFetch(`/api/covision/${encodeURIComponent(activeCase.id)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...caseToForm(activeCase),
+          participants: nextParticipants,
+          tags: activeCase.tags || [],
+          anonymityConfirmed: true
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload?.message || "Kutse lisamine ebaõnnestus.");
+      setActiveCase(payload.case);
+      setParticipantEmail("");
+      setNotice("Osaleja kutse lisatud. Sisu avaneb pärast autentimist ja õiguste kontrolli.");
+      await loadWorkspace();
+    } catch (inviteError) {
+      setError(inviteError?.message || "Kutse lisamine ebaõnnestus.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function runAnonymityCheck() {
@@ -811,6 +924,11 @@ export default function CovisionPage() {
   async function saveCase(event) {
     event.preventDefault();
     if (saving) return;
+    if (!caseForm.anonymityConfirmed) {
+      setError("Kovisiooni salvestamiseks kinnita, et juhtumipüstitus on anonüümne.");
+      setCaseStep(1);
+      return;
+    }
     setSaving(true);
     setError("");
     setNotice("");
@@ -849,7 +967,7 @@ export default function CovisionPage() {
       const response = await covisionFetch(`/api/covision/${encodeURIComponent(activeCase.id)}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messageType, body: messageBody })
+        body: JSON.stringify({ messageType, body: messageBody, sectionKey: messageSectionKey, status: "NEW" })
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload?.message || "Sõnumi lisamine ebaõnnestus.");
@@ -864,6 +982,14 @@ export default function CovisionPage() {
     } finally {
       setSaving(false);
     }
+  }
+
+  function promoteContribution(message) {
+    setNotice(`Arutelusisend märgitud lõuendile lisamiseks: ${messageTypeLabel(message.messageType)}.`);
+  }
+
+  function convertContributionToNextStep(message) {
+    setNotice(`Järgmine samm on eraldi objektina ette valmistatud sisendist: ${message.body?.slice(0, 80) || ""}`);
   }
 
   async function draftSummary() {
@@ -1099,7 +1225,22 @@ export default function CovisionPage() {
 
           {view === "case_form" ? (
             <form onSubmit={saveCase} className="grid gap-[0.9rem]">
-              <SectionPanel title="1. Pealkiri ja teemad">
+              <div className="flex flex-wrap gap-[0.42rem]" aria-label="Kovisiooni loomise sammud">
+                {caseCreationSteps.map((step, index) => (
+                  <button
+                    key={step.key}
+                    type="button"
+                    onClick={() => setCaseStep(index)}
+                    className={cn(styles.chip, index === caseStep && styles.chipActive, "rounded-full border px-[0.72rem] py-[0.3rem] text-[0.84rem] font-[680]")}
+                    aria-current={index === caseStep ? "step" : undefined}
+                  >
+                    {index + 1}. {t(`covision.workflow.steps.${step.key}`, step.label)}
+                  </button>
+                ))}
+              </div>
+
+              {caseStep === 0 ? (
+              <SectionPanel title={`1. ${t("covision.workflow.steps.basic", "Põhiinfo")}`}>
                 <div className="grid gap-[0.68rem] md:grid-cols-[1fr_0.82fr]">
                   <Field label="Pealkiri">
                     <CovisionInput value={caseForm.title} onChange={(event) => updateCaseForm("title", event.target.value)} required />
@@ -1119,11 +1260,19 @@ export default function CovisionPage() {
                   <CovisionInput value={caseForm.tagText} onChange={(event) => updateCaseForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
               </SectionPanel>
+              ) : null}
 
+              {caseStep === 1 ? (
               <SectionPanel
-                title="2. Olukorra anonüümne kirjeldus"
+                title={`2. ${t("covision.workflow.steps.anonymous_description", "Anonüümne olukorrakirjeldus")}`}
                 aside={<Button type="button" variant="secondary" onClick={runAnonymityCheck} className={smallButtonClassName}>Kontrolli anonüümsust</Button>}
               >
+                <p className={mutedTextClassName}>
+                  {t(
+                    "covision.workflow.anonymity_instruction",
+                    "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ära sisesta nime, isikukoodi, täpset aadressi, telefoninumbrit, täpset sündmuskohta ega muid tuvastamist võimaldavaid detaile."
+                  )}
+                </p>
                 <CovisionTextarea
                   value={caseForm.anonymizedDescription}
                   onChange={(event) => updateCaseForm("anonymizedDescription", event.target.value)}
@@ -1148,11 +1297,17 @@ export default function CovisionPage() {
                     checked={caseForm.anonymityConfirmed}
                     onChange={(event) => updateCaseForm("anonymityConfirmed", event.target.checked)}
                   />
-                  <span>Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.</span>
+                  <span>{t("covision.workflow.anonymity_confirmation", "Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.")}</span>
                 </label>
               </SectionPanel>
+              ) : null}
 
-              <SectionPanel title="3. Kliendi teekond" aside={<Button type="button" variant="secondary" onClick={addJourneyStep} className={smallButtonClassName}>Lisa samm</Button>}>
+              {caseStep === 2 ? (
+              <SectionPanel title={`3. ${t("covision.workflow.steps.process_flow", "Olukorra kulg")}`} aside={<Button type="button" variant="secondary" onClick={addJourneyStep} className={smallButtonClassName}>Lisa samm</Button>}>
+                <p className={mutedTextClassName}>
+                  Kirjelda tööprotsessi või olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud,
+                  mis on toiminud ja mis on takerdunud. Ära lisa tuvastatavaid kliendiandmeid.
+                </p>
                 {caseForm.journeySteps.length ? (
                   <div className="grid gap-[0.58rem]">
                     {caseForm.journeySteps.map((step, index) => (
@@ -1180,10 +1335,20 @@ export default function CovisionPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className={mutedTextClassName}>Lisa tööprotsessi sammud kaartidena. Teekond ei pea olema inimese elulugu.</p>
+                  <div className="grid gap-[0.42rem]">
+                    <p className={mutedTextClassName}>Lisa Tööprotsessi etapid kaartidena. See ei ole inimese elulugu, vaid tööalase olukorra kulg.</p>
+                    <div className="flex flex-wrap gap-[0.32rem]">
+                      {journeyFocusBlocks.map(([key, label]) => (
+                        <span key={key} className={cn(styles.tag, "rounded-full border px-[0.56rem] py-[0.2rem] text-[0.82rem]")}>{label}</span>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </SectionPanel>
+              ) : null}
 
+              {caseStep === 3 ? (
+              <div className="grid gap-[0.9rem]">
               <SectionPanel title="4. Võrgustik ja osapooled" aside={<Button type="button" variant="secondary" onClick={addParty} className={smallButtonClassName}>Lisa osapool</Button>}>
                 <div className="grid gap-[0.52rem] md:grid-cols-[0.8fr_0.8fr]">
                   <SelectField
@@ -1252,9 +1417,12 @@ export default function CovisionPage() {
                   </div>
                 ) : null}
               </SectionPanel>
+              </div>
+              ) : null}
 
+              {caseStep === 4 ? (
               <SectionPanel
-                title="6. Keskne küsimus ja ootus"
+                title={`5. ${t("covision.workflow.steps.central_question", "Keskne küsimus ja ootus")}`}
                 aside={<Button type="button" variant="secondary" onClick={runQuestionAssist} className={smallButtonClassName}>Paku küsimusi</Button>}
               >
                 <CovisionTextarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="Sõnasta üks keskne küsimus kolleegidele." />
@@ -1277,40 +1445,181 @@ export default function CovisionPage() {
                   <MultiChoice options={COVISION_EXPECTED_HELP_TYPES} value={caseForm.expectedHelpTypes} onChange={(value) => updateCaseForm("expectedHelpTypes", value)} />
                 </div>
               </SectionPanel>
+              ) : null}
 
-              <SectionPanel title="7. Keda kutsun arutelusse?">
-                <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.62fr_auto]">
-                  <CovisionInput value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="kolleeg@example.ee" type="email" />
-                  <SelectField value={participantRole} onChange={setParticipantRole} ariaLabel="Osaleja roll" options={COVISION_PARTICIPANT_ROLES} />
-                  <Button type="button" variant="secondary" onClick={addParticipant} className={smallButtonClassName}>Lisa</Button>
+              {caseStep === 5 ? (
+              <SectionPanel title={`6. ${t("covision.workflow.steps.review", "Ülevaade ja salvesta")}`}>
+                <p className={mutedTextClassName}>Kontrolli enne salvestamist uuesti, et kirjeldus ei sisaldaks tuvastatavaid kliendiandmeid. Kutsed lisatakse kovisiooniruumis.</p>
+                <div className="grid gap-[0.58rem] md:grid-cols-2">
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}><strong>Pealkiri</strong><p className={mutedTextClassName}>{caseForm.title || "Puudub"}</p></div>
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}><strong>Keskne küsimus</strong><p className={mutedTextClassName}>{caseForm.centralQuestion || "Täpsustamisel"}</p></div>
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem] md:col-span-2")}><strong>Anonüümne olukorrakirjeldus</strong><p className={mutedTextClassName}>{caseForm.anonymizedDescription || "Puudub"}</p></div>
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}><strong>Olukorra kulg</strong><p className={mutedTextClassName}>{caseForm.journeySteps.length ? `${caseForm.journeySteps.length} etappi` : "Etapid puuduvad"}</p></div>
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}><strong>Võrgustik, riskid ja kaitsetegurid</strong><p className={mutedTextClassName}>{caseForm.parties.length} osapoolt, {caseForm.riskFactors.length} tegurit</p></div>
+                  <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem] md:col-span-2")}><strong>Ootus kovisioonile</strong><p className={mutedTextClassName}>{caseForm.expectedHelpTypes.join(", ") || "Puudub"}</p></div>
                 </div>
-                {caseForm.participants.length ? (
-                  <div className="flex flex-wrap gap-[0.42rem]">
-                    {caseForm.participants.map((participant) => (
-                      <button
-                        type="button"
-                        key={`${participant.email}-${participant.role}`}
-                        onClick={() => updateCaseForm("participants", caseForm.participants.filter((item) => item.email !== participant.email))}
-                        className={cn(styles.chip, "rounded-full border px-[0.7rem] py-[0.28rem] text-[0.86rem]")}
-                      >
-                        {participant.email} · {optionLabel(COVISION_PARTICIPANT_ROLES, participant.role)}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <p className={mutedTextClassName}>Kutse sisu avaneb ainult pärast autentimist ja õiguste kontrolli.</p>
-                )}
               </SectionPanel>
+              ) : null}
 
               <div className="flex flex-wrap justify-end gap-[0.55rem]">
                 <Button type="button" variant="secondary" onClick={() => setView("overview")} className={secondaryButtonClassName}>Tühista</Button>
-                <Button type="submit" disabled={saving || !caseForm.title.trim()} className={primaryButtonClassName}>{saving ? "Salvestan..." : "Salvesta kovisioon"}</Button>
+                {caseStep > 0 ? <Button type="button" variant="secondary" onClick={() => setCaseStep((step) => Math.max(0, step - 1))} className={secondaryButtonClassName}>Tagasi</Button> : null}
+                {caseStep < caseCreationSteps.length - 1 ? (
+                  <Button type="button" onClick={() => setCaseStep((step) => Math.min(caseCreationSteps.length - 1, step + 1))} className={primaryButtonClassName}>Järgmine</Button>
+                ) : (
+                  <Button type="submit" disabled={saving || !caseForm.title.trim() || !caseForm.anonymityConfirmed} className={primaryButtonClassName}>
+                    {saving ? "Salvestan..." : t("covision.workflow.save_open_room", "Salvesta ja ava kovisiooniruum")}
+                  </Button>
+                )}
               </div>
             </form>
           ) : null}
 
           {view === "room" && activeCase ? (
             <div className="grid gap-[0.92rem]">
+              <div className="grid gap-[0.7rem] rounded-[0.95rem] border border-[color:var(--covision-card-border)] bg-[var(--covision-card-bg)] px-[0.78rem] py-[0.7rem]">
+                <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
+                  <div className="grid gap-[0.32rem]">
+                    <div className="flex flex-wrap items-center gap-[0.5rem]">
+                      <h2 className="m-0 text-[1.3rem] font-[700] leading-[1.16]">{activeCase.title}</h2>
+                      <StatusBadge status={activeCase.status} />
+                      <span className={cn(styles.meta, "text-[0.84rem]")}>{activeCase.participants?.length || 1} osalejat</span>
+                    </div>
+                    <p className="m-0 text-[0.96rem] font-[680] leading-[1.3]">Keskne küsimus: {activeCase.centralQuestion || "täpsustamisel"}</p>
+                    <CardTags tags={activeCase.topics} />
+                  </div>
+                  <div className="flex flex-wrap gap-[0.5rem]">
+                    <Button type="button" variant="secondary" className={smallButtonClassName}>{t("covision.room.request_to_speak", "Soovin sõna")}</Button>
+                    <Button type="button" variant="secondary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
+                      {knowledgeLoading ? "Otsin taustainfot..." : "Otsi taustainfot"}
+                    </Button>
+                    <Button type="button" variant="secondary" onClick={startPracticeFromCase} className={smallButtonClassName}>Loo toimiv praktika</Button>
+                  </div>
+                </div>
+                <CovisionCallBar
+                  roomId={activeCase.id}
+                  userId={currentUserIdFromCase(activeCase)}
+                  basePath={`/api/covision/${encodeURIComponent(activeCase.id)}/calls`}
+                  contextType="COVISION"
+                  allowRecordingControls={false}
+                  recordingAllowed={false}
+                  t={t}
+                />
+              </div>
+
+              <div className="grid gap-[0.92rem] xl:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
+                <SectionPanel title={t("covision.room.canvas", "Juhtumilõuend")} className="xl:row-span-2">
+                  <div className="grid gap-[0.58rem] md:grid-cols-2">
+                    <CanvasSection title="1. Keskne küsimus">{activeCase.centralQuestion || "Täpsustamisel"}</CanvasSection>
+                    <CanvasSection title="2. Anonüümne olukorrakirjeldus">{activeCase.anonymizedDescription || activeCase.summary || "Puudub"}</CanvasSection>
+                    <CanvasSection title="3. Olukorra kulg / tööprotsessi etapid">
+                      {(activeCase.journeySteps || []).length
+                        ? activeCase.journeySteps.map((step) => `- ${step.title || step.type}: ${step.description || step.notes || ""}`).join("\n")
+                        : "Olukorra kulg vajab täpsustamist."}
+                    </CanvasSection>
+                    <CanvasSection title="4. Võrgustik ja osapooled">
+                      {(activeCase.parties || []).length
+                        ? activeCase.parties.map((party) => `- ${party.label} (${party.involvementStatus || "seis täpsustamisel"})`).join("\n")
+                        : "Osapooled sisestatakse rollidena, mitte nimedena."}
+                    </CanvasSection>
+                    <CanvasSection title="5. Riskid ja kaitsetegurid">
+                      {(activeCase.riskFactors || []).length
+                        ? activeCase.riskFactors.map((factor) => `- ${factor.type === "protective" ? "Kaitsetegur" : "Risk"}: ${factor.label} (${factor.severity})`).join("\n")
+                        : "Riskid ja kaitsetegurid puuduvad või vajavad lisamist."}
+                    </CanvasSection>
+                    <CanvasSection title="6. Kolleegide küsimused"><ContributionList messages={roomQuestions} locale={locale} emptyText="Küsimusi pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} /></CanvasSection>
+                    <CanvasSection title="7. Peegeldused ja võimalikud seletused"><ContributionList messages={roomReflections} locale={locale} emptyText="Peegeldusi pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} /></CanvasSection>
+                    <CanvasSection title="8. Ettepanekud"><ContributionList messages={roomSuggestions} locale={locale} emptyText="Ettepanekuid pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} /></CanvasSection>
+                    <CanvasSection title="9. Järgmised sammud">
+                      <ContributionList messages={roomNextSteps} locale={locale} emptyText="Järgmine samm on eraldi objekt; ettepanekuid pole veel kinnitatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} />
+                    </CanvasSection>
+                    <CanvasSection title="10. Lahtised küsimused"><ContributionList messages={roomOpenQuestions} locale={locale} emptyText="Lahtiseid küsimusi pole veel koondatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} /></CanvasSection>
+                    <CanvasSection title="11. Kokkuvõte">{summaryForm.content || "Kokkuvõte täidetakse käsitsi juhtumilõuendi ja tekstiliste sisendite põhjal. Heli ei kasutata."}</CanvasSection>
+                  </div>
+                </SectionPanel>
+
+                <SectionPanel title="Osalejad ja kutsed">
+                  <div className="grid gap-[0.52rem]">
+                    <div className="flex flex-wrap gap-[0.32rem]">
+                      {(activeCase.participants || []).map((participant) => (
+                        <span key={participant.id} className={cn(styles.tag, "rounded-full border px-[0.56rem] py-[0.2rem] text-[0.82rem]")}>
+                          {participant.user?.name || participant.email || participant.role} · {optionLabel(COVISION_PARTICIPANT_ROLES, participant.role)}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.62fr_auto]">
+                      <CovisionInput value={participantEmail} onChange={(event) => setParticipantEmail(event.target.value)} placeholder="kolleeg@example.ee" type="email" />
+                      <SelectField value={participantRole} onChange={setParticipantRole} ariaLabel="Osaleja roll" options={COVISION_PARTICIPANT_ROLES} />
+                      <Button type="button" variant="secondary" onClick={inviteParticipant} disabled={saving || !participantEmail.trim()} className={smallButtonClassName}>{t("covision.room.invite_participant", "Kutsu osaleja")}</Button>
+                    </div>
+                    <p className={mutedTextClassName}>Kutsutav ei näe sisu enne autentimist ja õiguste kontrolli.</p>
+                  </div>
+                </SectionPanel>
+
+                <SectionPanel title="Sõnasoovid">
+                  <p className={mutedTextClassName}>Sõnasoovide järjekord on heliriba detailides nähtav. Moderaator saab sõnasoovi lahendada ja osaleja saab selle tühistada.</p>
+                </SectionPanel>
+
+                <SectionPanel title={t("covision.room.written_discussion", "Kirjalik arutelu")}>
+                  <div className="grid max-h-[18rem] gap-[0.55rem] overflow-y-auto pr-[0.25rem]">
+                    {(activeCase.messages || []).length ? activeCase.messages.map((message) => (
+                      <article key={message.id} className={cn(styles.message, "grid gap-[0.24rem] rounded-[0.86rem] border px-[0.72rem] py-[0.62rem]")}>
+                        <div className={cn(styles.meta, "flex flex-wrap items-center justify-between gap-[0.45rem] text-[0.8rem]")}>
+                          <span>{message.author?.name || message.author?.email || "Osaleja"} · {messageTypeLabel(message.messageType)}</span>
+                          <span>{formatDate(message.createdAt, locale)}</span>
+                        </div>
+                        <p className="m-0 whitespace-pre-wrap text-[0.98rem] leading-[1.45]">{message.body}</p>
+                      </article>
+                    )) : (
+                      <p className={mutedTextClassName}>Arutelu ei ole veel alanud.</p>
+                    )}
+                  </div>
+                  <form onSubmit={sendMessage} className={cn(styles.discussionForm, "grid gap-[0.52rem] border-t pt-[0.72rem]")}>
+                    <div className="grid gap-[0.52rem] md:grid-cols-2">
+                      <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sisendi tüüp" options={COVISION_MESSAGE_TYPES} />
+                      <SelectField
+                        value={messageSectionKey}
+                        onChange={setMessageSectionKey}
+                        ariaLabel="Seos juhtumilõuendi sektsiooniga"
+                        options={[
+                          { value: "questions", label: "Kolleegide küsimused" },
+                          { value: "reflections", label: "Peegeldused" },
+                          { value: "suggestions", label: "Ettepanekud" },
+                          { value: "risks", label: "Riskid ja kaitsetegurid" },
+                          { value: "next_steps", label: "Järgmised sammud" },
+                          { value: "open_questions", label: "Lahtised küsimused" }
+                        ]}
+                      />
+                    </div>
+                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa küsimus, peegeldus, ettepanek, risk või järgmise sammu ettepanek." />
+                    <div className="flex justify-end">
+                      <Button type="submit" disabled={saving || !messageBody.trim()} className={compactPrimaryButtonClassName}>Lisa arutelusse</Button>
+                    </div>
+                  </form>
+                </SectionPanel>
+              </div>
+
+              <SectionPanel
+                title="Kovisiooni kokkuvõte"
+                aside={<Button type="button" variant="secondary" onClick={draftSummary} className={smallButtonClassName}>Koosta mustand</Button>}
+              >
+                <p className={mutedTextClassName}>
+                  Kokkuvõte põhineb juhtumilõuendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuvõtte koostamiseks.
+                </p>
+                <div className="grid gap-[0.58rem] md:grid-cols-2">
+                  <SummaryField label="Peamised tähelepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
+                  <SummaryField label="Kolleegide küsimused" value={summaryForm.questions} onChange={(value) => setSummaryForm((current) => ({ ...current, questions: value }))} />
+                  <SummaryField label="Riskid, mis vajavad tähelepanu" value={summaryForm.risks} onChange={(value) => setSummaryForm((current) => ({ ...current, risks: value }))} />
+                  <SummaryField label="Kaitsetegurid" value={summaryForm.protectiveFactors} onChange={(value) => setSummaryForm((current) => ({ ...current, protectiveFactors: value }))} />
+                  <SummaryField label="Kinnitatud järgmised sammud" value={summaryForm.possibleNextSteps} onChange={(value) => setSummaryForm((current) => ({ ...current, possibleNextSteps: value }))} />
+                  <SummaryField label="Lahtised küsimused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
+                </div>
+                <div className="flex justify-end">
+                  <Button type="button" onClick={saveSummary} disabled={saving} className={compactPrimaryButtonClassName}>Salvesta kokkuvõte</Button>
+                </div>
+              </SectionPanel>
+
+              <div className="hidden">
               <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
                 <div className="grid gap-[0.32rem]">
                   <div className="flex flex-wrap items-center gap-[0.5rem]">
@@ -1414,6 +1723,7 @@ export default function CovisionPage() {
                   <Button type="button" onClick={saveSummary} disabled={saving} className={compactPrimaryButtonClassName}>Salvesta kokkuvõte</Button>
                 </div>
               </SectionPanel>
+              </div>
             </div>
           ) : null}
 

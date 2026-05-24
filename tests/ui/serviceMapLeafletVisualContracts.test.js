@@ -42,7 +42,10 @@ test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
   const markerBlock = cssBlock(css, ".service-map-leaflet__marker");
   const legendMarkerBlock = cssBlock(css, ".service-map-leaflet__legend .service-map-leaflet__marker");
+  const legendMarkerSvgBlock = cssBlock(css, ".service-map-leaflet__legend .service-map-leaflet__marker svg");
   const markerSvgBlock = cssBlock(css, ".service-map-leaflet__marker svg");
+  const kovMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--kov");
+  const providerMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--provider");
   const selectedMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--selected");
 
   assert.match(leafletSource, /IconBuildingBank\.mjs/);
@@ -51,7 +54,12 @@ test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
   assert.match(markerBlock, /box-shadow:\s*0 0 0 2px rgba\(255,\s*255,\s*255,\s*0\.92\)/);
   assert.match(markerBlock, /transform:\s*rotate\(-45deg\)/);
   assert.doesNotMatch(markerBlock, /inset\s+-/);
-  assert.match(markerSvgBlock, /transform:\s*rotate\(45deg\)/);
+  assert.match(markerSvgBlock, /transform:\s*translate\(var\(--service-map-marker-icon-x\),\s*var\(--service-map-marker-icon-y\)\) rotate\(45deg\)/);
+  assert.match(legendMarkerSvgBlock, /--service-map-legend-marker-icon-size/);
+  assert.match(kovMarkerBlock, /--service-map-marker-icon-size:\s*1\.56rem/);
+  assert.match(kovMarkerBlock, /--service-map-marker-icon-y:\s*0rem/);
+  assert.match(providerMarkerBlock, /--service-map-marker-icon-size:\s*1\.64rem/);
+  assert.match(providerMarkerBlock, /--service-map-marker-icon-y:\s*0rem/);
   assert.doesNotMatch(legendMarkerBlock, /inset\s+-/);
   assert.doesNotMatch(selectedMarkerBlock, /inset\s+-/);
 });

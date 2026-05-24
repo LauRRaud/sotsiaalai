@@ -2625,6 +2625,26 @@
       "load_failed": "Could not load the covision workspace.",
       "save_failed": "Could not save the covision workspace.",
       "schema_missing": "Covision database tables are missing or the server is using the wrong database. Run Prisma migrations and reload the page."
+    },
+    "workflow": {
+      "steps": {
+        "basic": "Basic information",
+        "anonymous_description": "Anonymous situation description",
+        "process_flow": "Situation flow",
+        "network_risks": "Network, risks and protective factors",
+        "central_question": "Central question and expectation",
+        "review": "Review and save"
+      },
+      "anonymity_instruction": "Describe the situation so that the person cannot be identified. Do not enter a name, personal ID code, exact address, phone number, exact event location or other details that could enable identification.",
+      "anonymity_confirmation": "I confirm that the case framing is anonymous and does not intentionally include identifiable client data.",
+      "save_open_room": "Save and open covision room"
+    },
+    "room": {
+      "canvas": "Case canvas",
+      "audio_no_recording": "Covision audio is not recorded, not transcribed, and audio is not sent to AI.",
+      "invite_participant": "Invite participant",
+      "request_to_speak": "Request to speak",
+      "written_discussion": "Written discussion"
     }
   },
   "api": {

@@ -48,7 +48,16 @@ function recordingStatusText(recording) {
   return "";
 }
 
-export default function RoomCallBar({ roomId, userId, isLightTheme = false, t }) {
+export default function RoomCallBar({
+  roomId,
+  userId,
+  isLightTheme = false,
+  t,
+  basePath = "",
+  contextType = "ROOM",
+  allowRecordingControls = true,
+  recordingAllowed = true
+}) {
   const [expanded, setExpanded] = useState(false);
   const [recordingPurpose, setRecordingPurpose] = useState("GENERAL_SUMMARY");
   const [recordingPurposeText, setRecordingPurposeText] = useState("");
@@ -74,7 +83,7 @@ export default function RoomCallBar({ roomId, userId, isLightTheme = false, t })
     cancelRecordingRequest,
     startRecording,
     stopRecording
-  } = useRoomCall(roomId, userId);
+  } = useRoomCall(roomId, userId, { basePath });
 
   if (!roomId) return null;
 
@@ -82,6 +91,7 @@ export default function RoomCallBar({ roomId, userId, isLightTheme = false, t })
   const participants = call?.participants || [];
   const speakRequests = call?.speakRequests || [];
   const recording = call?.recording || null;
+  const recordingControlsEnabled = allowRecordingControls && recordingAllowed && call?.recordingAllowed !== false && contextType !== "COVISION";
   const requesterName = recording?.requesterName || text(t, "calls.recording_requester_fallback", "Kõne osaleja");
   const myRecordingConsent = recording?.myConsent || (recording?.consents || []).find(consent => consent.userId === userId) || null;
   const showConsentDialog = joined && recording?.status === "REQUESTED" && myRecordingConsent?.status === "REQUESTED";
@@ -164,43 +174,43 @@ export default function RoomCallBar({ roomId, userId, isLightTheme = false, t })
         </div>
       ) : null}
 
-      {recording?.status === "REQUESTED" ? (
+      {recordingControlsEnabled && recording?.status === "REQUESTED" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs", isLightTheme ? "bg-amber-50 text-amber-800" : "bg-amber-400/14 text-amber-100")}>
           {text(t, "calls.recording_consent_pending", "Salvestamise nõusolekut küsitakse")} · {recordingStatus}
         </div>
       ) : null}
 
-      {recording?.status === "DECLINED" ? (
+      {recordingControlsEnabled && recording?.status === "DECLINED" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs", isLightTheme ? "bg-rose-50 text-rose-700" : "bg-rose-400/12 text-rose-100")}>
           {text(t, "calls.recording_declined", "Salvestamist ei alustatud, sest kõik osapooled ei nõustunud.")}
         </div>
       ) : null}
 
-      {recording?.status === "READY_TO_RECORD" ? (
+      {recordingControlsEnabled && recording?.status === "READY_TO_RECORD" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs", isLightTheme ? "bg-emerald-50 text-emerald-800" : "bg-emerald-400/14 text-emerald-100")}>
           {text(t, "calls.recording_ready", "Salvestus on valmis käivitamiseks")}
         </div>
       ) : null}
 
-      {recording?.status === "ACTIVE" ? (
+      {recordingControlsEnabled && recording?.status === "ACTIVE" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs font-semibold", isLightTheme ? "bg-rose-50 text-rose-700" : "bg-rose-400/12 text-rose-100")}>
           {text(t, "calls.recording_active", "Salvestamine käib")}
         </div>
       ) : null}
 
-      {recording?.status === "COMPLETED" ? (
+      {recordingControlsEnabled && recording?.status === "COMPLETED" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs", isLightTheme ? "bg-slate-100 text-slate-700" : "bg-white/10 text-white/78")}>
           {text(t, "calls.recording_completed", "Salvestamine lõpetati")}
         </div>
       ) : null}
 
-      {recording?.status === "FAILED" ? (
+      {recordingControlsEnabled && recording?.status === "FAILED" ? (
         <div className={cn("rounded-md px-2 py-1 text-xs", isLightTheme ? "bg-rose-50 text-rose-700" : "bg-rose-400/12 text-rose-100")}>
           {text(t, "calls.recording_failed", "Salvestus ebaõnnestus")}
         </div>
       ) : null}
 
-      {showConsentDialog ? (
+      {recordingControlsEnabled && showConsentDialog ? (
         <div className={cn("rounded-md border p-3 text-sm", isLightTheme ? "border-amber-200 bg-amber-50 text-slate-900" : "border-amber-300/25 bg-amber-300/12 text-white")}>
           <p className="font-semibold">{text(t, "calls.recording_consent_intro", `${requesterName} soovib selle helikõne salvestada.`, { requesterName })}</p>
           <p className="mt-2">{text(t, "calls.recording_consent_purpose", `Salvestust kasutatakse ainult märgitud eesmärgil: ${recording.purposeLabel}.`, { recordingPurpose: recording.purposeLabel })}</p>
@@ -264,6 +274,17 @@ export default function RoomCallBar({ roomId, userId, isLightTheme = false, t })
           </div>
 
           <div className={cn("md:col-span-2 flex flex-col gap-2 rounded-md px-2 py-2 text-xs", isLightTheme ? "bg-slate-50 text-slate-600" : "bg-white/8 text-white/68")}>
+            {!recordingControlsEnabled ? (
+              <span>
+                {text(
+                  t,
+                  contextType === "COVISION" ? "covision.room.audio_no_recording" : "calls.covision_no_recording",
+                  "Kovisiooni helivestlust ei salvestata, ei transkribeerita ja heli ei saadeta AI-le."
+                )}
+              </span>
+            ) : null}
+            {recordingControlsEnabled ? (
+              <>
             <span>{text(t, "calls.recording_notice", "Kõne ei salvestu vaikimisi. Salvestamine vajab kõigi nõutud osapoolte nõusolekut.")}</span>
             {recording ? (
               <div className="flex flex-col gap-1">
@@ -323,6 +344,8 @@ export default function RoomCallBar({ roomId, userId, isLightTheme = false, t })
             ) : (
               <span>{text(t, "calls.recording_moderator_only", "Salvestamise nõusolekut saab küsida host või moderaator.")}</span>
             )}
+              </>
+            ) : null}
           </div>
         </div>
       ) : null}

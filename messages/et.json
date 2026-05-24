@@ -2625,6 +2625,26 @@
       "load_failed": "Kovisiooni tööruumi laadimine ebaõnnestus.",
       "save_failed": "Kovisiooni salvestamine ebaõnnestus.",
       "schema_missing": "Kovisiooni andmetabelid puuduvad või server kasutab vale andmebaasi. Käivita Prisma migratsioonid ja laadi leht uuesti."
+    },
+    "workflow": {
+      "steps": {
+        "basic": "Põhiinfo",
+        "anonymous_description": "Anonüümne olukorrakirjeldus",
+        "process_flow": "Olukorra kulg",
+        "network_risks": "Võrgustik, riskid ja kaitsetegurid",
+        "central_question": "Keskne küsimus ja ootus",
+        "review": "Ülevaade ja salvesta"
+      },
+      "anonymity_instruction": "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ära sisesta nime, isikukoodi, täpset aadressi, telefoninumbrit, täpset sündmuskohta ega muid tuvastamist võimaldavaid detaile.",
+      "anonymity_confirmation": "Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.",
+      "save_open_room": "Salvesta ja ava kovisiooniruum"
+    },
+    "room": {
+      "canvas": "Juhtumilõuend",
+      "audio_no_recording": "Kovisiooni helivestlust ei salvestata, ei transkribeerita ja heli ei saadeta AI-le.",
+      "invite_participant": "Kutsu osaleja",
+      "request_to_speak": "Soovin sõna",
+      "written_discussion": "Kirjalik arutelu"
     }
   },
   "api": {

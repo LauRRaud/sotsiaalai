@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-function callPath(roomId, suffix = "") {
+function callPath(roomId, suffix = "", basePath = "") {
+  if (basePath) return `${basePath}${suffix}`;
   return `/api/rooms/${encodeURIComponent(String(roomId || ""))}/calls${suffix}`;
 }
 
@@ -17,7 +18,7 @@ async function readPayload(response) {
   return payload;
 }
 
-export function useRoomCall(roomId, userId) {
+export function useRoomCall(roomId, userId, { basePath = "" } = {}) {
   const [call, setCall] = useState(null);
   const [config, setConfig] = useState({ provider: "mock", providerAvailable: true, maxParticipants: 8 });
   const [canModerate, setCanModerate] = useState(false);
@@ -64,7 +65,7 @@ export function useRoomCall(roomId, userId) {
   const load = useCallback(async () => {
     if (!roomId) return;
     try {
-      const payload = await fetch(callPath(roomId), { cache: "no-store" }).then(readPayload);
+      const payload = await fetch(callPath(roomId, "", basePath), { cache: "no-store" }).then(readPayload);
       setCall(payload.call || null);
       setConfig(payload.config || { provider: "mock", providerAvailable: true, maxParticipants: 8 });
       setCanModerate(payload.canModerate === true);
@@ -78,7 +79,7 @@ export function useRoomCall(roomId, userId) {
     } catch (err) {
       setError(err.message || "call.load_failed");
     }
-  }, [cleanupLiveKit, roomId]);
+  }, [basePath, cleanupLiveKit, roomId]);
 
   useEffect(() => {
     setCall(null);
@@ -99,14 +100,14 @@ export function useRoomCall(roomId, userId) {
   }, [cleanupLiveKit]);
 
   const postAction = useCallback(async (suffix, body = {}) => {
-    const payload = await fetch(callPath(roomId, suffix), {
+    const payload = await fetch(callPath(roomId, suffix, basePath), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     }).then(readPayload);
     if ("call" in payload) setCall(payload.call || null);
     return payload;
-  }, [roomId]);
+  }, [basePath, roomId]);
 
   const connectLiveKit = useCallback(async ({ token, url }) => {
     if (!token || !url) return;
@@ -258,7 +259,7 @@ export function useRoomCall(roomId, userId) {
     try {
       if (nextMuted) await audioTrackRef.current?.mute?.();
       else await audioTrackRef.current?.unmute?.();
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/mute`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/mute`, basePath), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ micMuted: nextMuted })
@@ -268,13 +269,13 @@ export function useRoomCall(roomId, userId) {
     } catch (err) {
       setError(err.message || "call.mute_failed");
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const toggleSpeakRequest = useCallback(async () => {
     if (!roomId || !call?.id) return;
     setError("");
     try {
-      const url = callPath(roomId, `/${encodeURIComponent(call.id)}/speak-requests${activeSpeakRequest ? "/me" : ""}`);
+      const url = callPath(roomId, `/${encodeURIComponent(call.id)}/speak-requests${activeSpeakRequest ? "/me" : ""}`, basePath);
       const payload = await fetch(url, {
         method: activeSpeakRequest ? "DELETE" : "POST"
       }).then(readPayload);
@@ -282,27 +283,27 @@ export function useRoomCall(roomId, userId) {
     } catch (err) {
       setError(err.message || "call.speak_request_failed");
     }
-  }, [activeSpeakRequest, call?.id, roomId]);
+  }, [activeSpeakRequest, basePath, call?.id, roomId]);
 
   const resolveSpeakRequest = useCallback(async requestId => {
     if (!roomId || !call?.id || !requestId) return;
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/speak-requests/${encodeURIComponent(requestId)}/resolve`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/speak-requests/${encodeURIComponent(requestId)}/resolve`, basePath), {
         method: "PATCH"
       }).then(readPayload);
       setCall(payload.call || null);
     } catch (err) {
       setError(err.message || "call.speak_resolve_failed");
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const requestRecordingConsent = useCallback(async ({ purpose, purposeText } = {}) => {
     if (!roomId || !call?.id) return;
     setBusy(true);
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/request`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/request`, basePath), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ purpose, purposeText })
@@ -313,7 +314,7 @@ export function useRoomCall(roomId, userId) {
     } finally {
       setBusy(false);
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const respondRecordingConsent = useCallback(async (recordingRequestId, decision) => {
     if (!roomId || !call?.id || !recordingRequestId) return;
@@ -321,7 +322,7 @@ export function useRoomCall(roomId, userId) {
     setBusy(true);
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/${action}`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/${action}`, basePath), {
         method: "POST"
       }).then(readPayload);
       setCall(payload.call || null);
@@ -330,14 +331,14 @@ export function useRoomCall(roomId, userId) {
     } finally {
       setBusy(false);
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const cancelRecordingRequest = useCallback(async recordingRequestId => {
     if (!roomId || !call?.id || !recordingRequestId) return;
     setBusy(true);
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/cancel`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/cancel`, basePath), {
         method: "POST"
       }).then(readPayload);
       setCall(payload.call || null);
@@ -346,14 +347,14 @@ export function useRoomCall(roomId, userId) {
     } finally {
       setBusy(false);
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const startRecording = useCallback(async recordingRequestId => {
     if (!roomId || !call?.id || !recordingRequestId) return;
     setBusy(true);
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/start`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/start`, basePath), {
         method: "POST"
       }).then(readPayload);
       setCall(payload.call || null);
@@ -362,14 +363,14 @@ export function useRoomCall(roomId, userId) {
     } finally {
       setBusy(false);
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   const stopRecording = useCallback(async recordingRequestId => {
     if (!roomId || !call?.id || !recordingRequestId) return;
     setBusy(true);
     setError("");
     try {
-      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/stop`), {
+      const payload = await fetch(callPath(roomId, `/${encodeURIComponent(call.id)}/recording/${encodeURIComponent(recordingRequestId)}/stop`, basePath), {
         method: "POST"
       }).then(readPayload);
       setCall(payload.call || null);
@@ -378,7 +379,7 @@ export function useRoomCall(roomId, userId) {
     } finally {
       setBusy(false);
     }
-  }, [call?.id, roomId]);
+  }, [basePath, call?.id, roomId]);
 
   return {
     call,
