@@ -39,7 +39,7 @@ export default function HomeFooter({ className, logoClassName }) {
               refraction={0.008}
               blur={0.02}
               liquid={0.56}
-              speed={0.08}
+              speed={0.11}
               brightness={1.28}
               contrast={0.12}
               angle={-90}
