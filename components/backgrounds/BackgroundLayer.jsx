@@ -18,6 +18,7 @@ const COLOR_BENDS_EXCLUDED_PATHS = new Set([
   "/kasutustingimused",
   "/privaatsustingimused",
   "/hinnastus",
+  "/teenusekaart",
   "/voimalused"
 ]);
 const BACKGROUND_LAYER_EXCLUDED_PATHS = new Set([]);
