@@ -30,6 +30,7 @@ DISCARD_TRACKED=${discardTracked ? "1" : "0"}
 SKIP_BUILD=${skipBuild ? "1" : "0"}
 
 cd "$APP_DIR"
+BACKUP_DIR="$(dirname "$APP_DIR")/sotsiaalai-deploy-backups"
 
 frontend_was_active="0"
 frontend_stopped_for_build="0"
@@ -70,13 +71,32 @@ if ! git diff --quiet --ignore-submodules -- || ! git diff --cached --quiet --ig
     exit 3
   fi
 
-  backup_dir="$APP_DIR/deploy-backups"
+  backup_dir="$BACKUP_DIR"
   mkdir -p "$backup_dir"
   backup_file="$backup_dir/tracked-changes-$(date -u +%Y%m%dT%H%M%SZ).patch"
   git diff --binary > "$backup_file"
   git diff --cached --binary >> "$backup_file"
   echo "[deploy:server] Saved tracked changes to $backup_file" >&2
   git reset --hard HEAD
+fi
+
+mapfile -d '' untracked_files < <(git ls-files --others --exclude-standard -z)
+if [ "\${#untracked_files[@]}" -gt 0 ]; then
+  echo "[deploy:server] Server has untracked local files:" >&2
+  printf '?? %s\n' "\${untracked_files[@]}" >&2
+
+  if [ "$DISCARD_TRACKED" != "1" ]; then
+    echo "[deploy:server] Pull stopped before changing anything." >&2
+    echo "[deploy:server] Re-run with --discard-tracked to save backups and remove local tracked/untracked changes." >&2
+    exit 3
+  fi
+
+  backup_dir="$BACKUP_DIR"
+  mkdir -p "$backup_dir"
+  backup_file="$backup_dir/untracked-files-$(date -u +%Y%m%dT%H%M%SZ).tar.gz"
+  printf '%s\\0' "\${untracked_files[@]}" | tar --null -czf "$backup_file" --files-from -
+  echo "[deploy:server] Saved untracked files to $backup_file" >&2
+  printf '%s\\0' "\${untracked_files[@]}" | xargs -0 rm -f --
 fi
 
 local_rev="$(git rev-parse HEAD)"
