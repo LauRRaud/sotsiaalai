@@ -1883,3 +1883,85 @@ html[data-contrast="hc"]
     0 0 10px rgba(255, 234, 0, 0.12),
     0 0 22px rgba(255, 234, 0, 0.08) !important;
 }
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-menu__center,
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
+  ).dock-item {
+  color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  background: var(--forest-orbit-surface) !important;
+  box-shadow:
+    0 0 18px rgba(238, 228, 222, 0.12),
+    inset 0 0 0 1px rgba(238, 228, 222, 0.08),
+    inset 0 1px 0 rgba(238, 228, 222, 0.05) !important;
+}
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item::before {
+  content: "" !important;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 0;
+  background: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0.22),
+    0 0 10px rgba(238, 228, 222, 0.14),
+    0 0 24px rgba(238, 228, 222, 0.08) !important;
+  opacity: 0 !important;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity;
+}
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-menu__item.dock-item:is(:hover, :focus-visible)::before {
+  opacity: 1 !important;
+}
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(
+    .profile-orbit-menu__item,
+    .profile-orbit-menu__center,
+    .profile-orbit-stack-bubble,
+    .profile-orbit-mobile-action
+  ).dock-item:is(:hover, :focus-visible, :active, [data-orbit-mobile-active="true"]) {
+  color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  background: var(--forest-orbit-surface-hover, var(--forest-orbit-surface)) !important;
+}
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-edge-glow
+  > [class*="edgeLight"]::before {
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0.3),
+    inset 0 0 4px 0 rgba(238, 228, 222, 0.16),
+    inset 0 0 10px 0 rgba(238, 228, 222, 0.1),
+    0 0 2px 0 rgba(238, 228, 222, 0.22),
+    0 0 7px 0 rgba(238, 228, 222, 0.2),
+    0 0 16px 1px rgba(238, 228, 222, 0.13),
+    0 0 30px 2px rgba(238, 228, 222, 0.075) !important;
+}
+
+:root.theme-forest
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  .profile-orbit-static-glow {
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0.22),
+    inset 0 0 7px rgba(238, 228, 222, 0.08),
+    0 0 2px rgba(238, 228, 222, 0.16),
+    0 0 10px rgba(238, 228, 222, 0.11),
+    0 0 22px rgba(238, 228, 222, 0.07) !important;
+}

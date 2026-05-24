@@ -59,6 +59,7 @@ export default function ChatBodyView({
   errorBanner,
   roomBlocked,
   roomAuthRequired,
+  roomCallNode,
   chatWindowRef,
   isStreamingAny,
   hiddenCount,
@@ -177,6 +178,8 @@ export default function ChatBodyView({
               {showChatInterface ? selectedListingContextNode : null}
 
               {showChatInterface ? <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} hideRoomTitle={hideRoomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} /> : null}
+
+              {showChatInterface ? roomCallNode : null}
 
               {showChatInterface ? <ConversationView t={t} chatWindowRef={chatWindowRef} isStreamingAny={isStreamingAny} hiddenCount={hiddenCount} pageSize={pageSize} onRevealOlder={onRevealOlder} canHideOlder={canHideOlder} onHideOlder={onHideOlder} onJumpToBottom={onJumpToBottom} messageItems={messageItems} onWindowDoubleClick={onWindowDoubleClick} focusActive={focusActive} mainClassName={focusActive ? "mt-[var(--chat-window-main-offset,0rem)] mb-[var(--chat-window-main-bottom-overlap,clamp(0.6rem,1.6vh,1.3rem))] [transform:translateY(var(--chat-window-focus-shift,0rem))]" : "mt-[var(--chat-window-main-offset,0rem)] mb-[clamp(0.5rem,1.4vh,1.1rem)] [transform:translateY(0)]"} isMobile={isMobile} isLightTheme={isLightTheme} hasConversationSources={hasConversationSources} conversationSourcesCount={conversationSources.length} toggleSourcesPanel={toggleSourcesPanel} showSourcesPanel={showSourcesPanel} sourcesPulse={sourcesPulse} sourcesButtonRef={sourcesButtonRef} /> : null}
 

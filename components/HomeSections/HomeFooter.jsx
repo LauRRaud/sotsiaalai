@@ -33,23 +33,23 @@ export default function HomeFooter({ className, logoClassName }) {
               imageSrc="/logo/logomust-ai-mask.svg"
               className="home-footer-metallic-ai-canvas block h-full w-full"
               tintColor="#f5f5f4"
-              darkColor="#d2ccc4"
-              seed={27.35}
-              scale={1.72}
-              refraction={0.009}
-              blur={0.026}
-              liquid={0.78}
-              speed={0.11}
-              brightness={1.22}
-              contrast={0.1}
-              angle={-68}
+              darkColor="#d0ccc5"
+              seed={16.2}
+              scale={2.42}
+              refraction={0.008}
+              blur={0.02}
+              liquid={0.56}
+              speed={0.08}
+              brightness={1.28}
+              contrast={0.12}
+              angle={-90}
               lightColor="#f5f5f4"
-              patternSharpness={0.66}
+              patternSharpness={0.78}
               chromaticSpread={0}
-              waveAmplitude={0.46}
-              noiseScale={0.22}
-              distortion={0.12}
-              contour={0.055}
+              waveAmplitude={0.32}
+              noiseScale={0.16}
+              distortion={0.1}
+              contour={0.025}
             />
           </span>
         </span>

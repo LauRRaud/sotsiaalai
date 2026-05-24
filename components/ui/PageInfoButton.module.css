@@ -114,6 +114,11 @@
   --page-info-dot-color: #c57171;
 }
 
+:global(:root.theme-forest) .trigger {
+  --page-info-ring-color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  --page-info-dot-color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+}
+
 :global(html[data-contrast="hc"]) .trigger {
   --page-info-ring-color: var(--hc-accent, #ffea00);
   --page-info-dot-color: var(--hc-accent, #ffea00);
@@ -195,6 +200,16 @@
   --page-info-close-bg: rgba(220, 236, 255, 0.06);
   --page-info-close-bg-hover: rgba(220, 236, 255, 0.11);
   --page-info-shadow: 0 20px 46px rgba(0, 0, 0, 0.38);
+}
+
+:global(:root.theme-forest) .modalContent {
+  --page-info-bg: rgba(8, 20, 12, 0.88);
+  --page-info-text: rgba(239, 249, 241, 0.94);
+  --page-info-strong: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  --page-info-border: rgba(238, 228, 222, 0.12);
+  --page-info-close-bg: rgba(238, 228, 222, 0.06);
+  --page-info-close-bg-hover: rgba(238, 228, 222, 0.11);
+  --page-info-shadow: 0 20px 46px rgba(1, 10, 5, 0.34);
 }
 
 :global(html[data-contrast="hc"]) .modalContent {

@@ -133,6 +133,7 @@ export default function ChatComposer({
   showDocumentAttachButton = false,
   onPickDocumentFile,
   voiceEnabled = true,
+  showDictationButton = true,
   recording,
   recordingPulse,
   handleMic,
@@ -615,10 +616,10 @@ export default function ChatComposer({
       void submitSend();
       return;
     }
-    if (voiceEnabled && !useSimpleRoomActionButtons) {
+    if (showDictationButton && voiceEnabled && !useSimpleRoomActionButtons) {
       handleMic?.(event);
     }
-  }, [closeToolsMenu, draft, handleMic, isGenerating, isStreamingAny, onStop, submitSend, useSimpleRoomActionButtons, voiceEnabled]);
+  }, [closeToolsMenu, draft, handleMic, isGenerating, isStreamingAny, onStop, showDictationButton, submitSend, useSimpleRoomActionButtons, voiceEnabled]);
   const handleDictateClick = useCallback(event => {
     closeToolsMenu();
     handleMic?.(event);
@@ -890,7 +891,7 @@ export default function ChatComposer({
       }} onBlur={onBlurInput} className={inputFieldClassName} disabled={isGenerating || isRoomMode && (roomBlocked || roomAuthRequired)} rows={1} />
       </div>
       <div className={actionRowClassName}>
-        {!useSimpleRoomActionButtons ? <button type="button" className={`${actionButtonClassName} chat-dictate-btn`} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleDictateClick} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
+        {showDictationButton && !useSimpleRoomActionButtons ? <button type="button" className={`${actionButtonClassName} chat-dictate-btn`} aria-label={recording ? t("chat.mic.stop") : t("chat.mic.start")} title={recording ? t("chat.mic.stop") : t("chat.mic.start")} onClick={handleDictateClick} onMouseDown={preserveDesktopInputFocusOnMouseDown} disabled={!voiceEnabled || isRoomMode && (roomBlocked || roomAuthRequired)} data-speaking={recording ? "true" : "false"} data-recording={recording ? "true" : "false"} data-recording-complete={recordingPulse ? "true" : "false"}>
             <MicrophoneIcon className="chat-mic-glyph h-[var(--chat-composer-mic-icon-size)] w-[var(--chat-composer-mic-icon-size)] text-[color:var(--chat-composer-action-icon-color,#c57171)]" />
           </button> : null}
         {isGenerating || isStreamingAny ? <button type="submit" className={sendButtonClassName} aria-label={t("chat.send.stop")} title={t("chat.send.title_stop")} disabled={isRoomMode && (roomBlocked || roomAuthRequired) || !hasInput && !isGenerating && !isStreamingAny} data-loader-active="true" onPointerDown={handlePrimaryActionPointerDown} onMouseDown={preserveDesktopInputFocusOnMouseDown}>

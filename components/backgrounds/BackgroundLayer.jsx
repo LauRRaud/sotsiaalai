@@ -80,6 +80,7 @@ function resolveThemeFromDom() {
   if (html.getAttribute("data-contrast") === "hc") return "dark";
   if (html.classList.contains("theme-mid")) return "mid";
   if (html.classList.contains("theme-night")) return "night";
+  if (html.classList.contains("theme-forest")) return "forest";
   if (html.classList.contains("theme-light")) return "light";
   return "dark";
 }
@@ -538,10 +539,14 @@ function BackgroundLayer() {
       ? ["#a06861"]
       : effectiveTheme === "mid"
         ? ["#794f4c"]
+        : effectiveTheme === "forest"
+          ? ["#eee4de"]
         : ["#7e4442"];
   const colorBendsOpacity =
     effectiveTheme === "light" || effectiveTheme === "mid"
       ? COLOR_BENDS_OPACITY_FULL
+      : effectiveTheme === "forest"
+        ? 0.56
       : COLOR_BENDS_OPACITY_DEFAULT;
   return <BackgroundContent
     reduceMotion={effectiveReduceMotion}

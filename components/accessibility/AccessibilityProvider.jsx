@@ -26,6 +26,7 @@ function resolveThemeChromeColor(theme, contrast = "normal") {
   if (theme === "light") return "#f4f2ee";
   if (theme === "mid") return "#d7c6c0";
   if (theme === "night") return "#0e1420";
+  if (theme === "forest") return "#0b160d";
   return "#10151d";
 }
 
@@ -88,7 +89,7 @@ function resolveUIScaleValue(uiScale, uiProfile) {
   return profileFactor * textFactor;
 }
 function normalizeTheme(theme) {
-  if (theme === "light" || theme === "mid" || theme === "dark" || theme === "night") return theme;
+  if (theme === "light" || theme === "mid" || theme === "dark" || theme === "night" || theme === "forest") return theme;
   if (theme === "light-mono") return "light";
   if (theme === "dark-mono" || theme === "monochrome") return "dark";
   return DEFAULT_PREFS.theme;
@@ -103,9 +104,11 @@ function isLightBaseTheme(theme) {
 function resolveThemeFromDom(html) {
   const hasMid = html.classList.contains("theme-mid");
   const hasNight = html.classList.contains("theme-night");
+  const hasForest = html.classList.contains("theme-forest");
   const hasLight = html.classList.contains("theme-light");
   if (hasMid) return "mid";
   if (hasNight) return "night";
+  if (hasForest) return "forest";
   if (hasLight) return "light";
   return "dark";
 }
@@ -115,7 +118,8 @@ function matchesThemeClasses(html, prefs) {
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
   const shouldBeMid = !forceDark && theme === "mid";
   const shouldBeNight = !forceDark && theme === "night";
-  return html.classList.contains("theme-light") === shouldBeLight && html.classList.contains("theme-mid") === shouldBeMid && html.classList.contains("theme-night") === shouldBeNight;
+  const shouldBeForest = !forceDark && theme === "forest";
+  return html.classList.contains("theme-light") === shouldBeLight && html.classList.contains("theme-mid") === shouldBeMid && html.classList.contains("theme-night") === shouldBeNight && html.classList.contains("theme-forest") === shouldBeForest;
 }
 const DEV = process.env.NODE_ENV !== "production";
 const A11Y_DEBUG = process.env.NEXT_PUBLIC_A11Y_DEBUG === "1";
@@ -193,7 +197,7 @@ function readInitialPrefsFromDom() {
   if (contrast !== "hc") {
     try {
       const storedTheme = window.localStorage.getItem("theme");
-      if (storedTheme === "light" || storedTheme === "mid" || storedTheme === "dark" || storedTheme === "night" || storedTheme === "light-mono" || storedTheme === "dark-mono" || storedTheme === "monochrome") {
+      if (storedTheme === "light" || storedTheme === "mid" || storedTheme === "dark" || storedTheme === "night" || storedTheme === "forest" || storedTheme === "light-mono" || storedTheme === "dark-mono" || storedTheme === "monochrome") {
         theme = normalizeTheme(storedTheme);
       }
     } catch {}
@@ -241,19 +245,23 @@ function applyPrefsToDom(prefs) {
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
   const shouldBeMid = !forceDark && theme === "mid";
   const shouldBeNight = !forceDark && theme === "night";
+  const shouldBeForest = !forceDark && theme === "forest";
   const hadThemeLight = html.classList.contains("theme-light");
   const hadThemeMid = html.classList.contains("theme-mid");
   const hadThemeNight = html.classList.contains("theme-night");
+  const hadThemeForest = html.classList.contains("theme-forest");
   const themeChanged =
     hadThemeLight !== shouldBeLight ||
     hadThemeMid !== shouldBeMid ||
-    hadThemeNight !== shouldBeNight;
+    hadThemeNight !== shouldBeNight ||
+    hadThemeForest !== shouldBeForest;
   if (themeChanged) {
     html.setAttribute("data-theme-switching", "1");
   }
   html.classList.toggle("theme-light", shouldBeLight);
   html.classList.toggle("theme-mid", shouldBeMid);
   html.classList.toggle("theme-night", shouldBeNight);
+  html.classList.toggle("theme-forest", shouldBeForest);
   syncThemeChrome({ ...prefs, theme, contrast: prefs.contrast || DEFAULT_PREFS.contrast });
   if (themeChanged && typeof window !== "undefined") {
     if (themeSwitchClearTimer) window.clearTimeout(themeSwitchClearTimer);
@@ -568,7 +576,8 @@ function AccessibilityProvider({
         merged.theme === "light" ||
         merged.theme === "mid" ||
         merged.theme === "dark" ||
-        merged.theme === "night"
+        merged.theme === "night" ||
+        merged.theme === "forest"
       ) {
         localStorage.setItem("theme", merged.theme);
       }

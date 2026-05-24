@@ -316,6 +316,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   }, [documents])
 
   const kindOptions = useMemo(() => DOCUMENT_KIND_VALUES.map((kind) => ({ value: kind, label: kindLabel(kind, t) })), [t])
+  const uploadKindOptions = useMemo(() => ["TEMPLATE", "MATERIAL", "OTHER"].map((kind) => ({ value: kind, label: kindLabel(kind, t) })), [t])
   const templateForOptions = useMemo(() => TEMPLATE_FOR_VALUES.map((value) => ({ value, label: templateForLabel(value, t) })), [t])
   const artifactSortOptions = useMemo(() => ([
     { value: "updated_desc", label: t("documents.artifacts.sort_updated_desc") },
@@ -600,7 +601,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                           setUploadKind(nextValue)
                           if (nextValue !== "TEMPLATE") setUploadTemplateFor("")
                         }}
-                        options={kindOptions}
+                        options={uploadKindOptions}
                         className="documents-dropdown--kind"
                         align="end"
                       />
@@ -732,6 +733,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                             </div>
                             <p className="documents-meta-text mt-[0.25rem] text-[0.9rem]">{document.originalName} Ā· {formatFileSize(document.size)} Ā· {formatDate(document.updatedAt, locale)}</p>
                             {frameworkAcceptance ? <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.framework_acceptance.accepted_at", "Accepted")}: {formatDate(frameworkAcceptance.acceptedAt, locale)} Ā· {t("documents.framework_acceptance.framework_version", "Version")}: {frameworkAcceptance.frameworkVersion} Ā· {t("documents.framework_acceptance.status_confirmed", "Confirmed")}</p> : null}
+                            {document.callRecording ? <p className="documents-meta-text mt-[0.25rem] text-[0.84rem]">{t("documents.call_recording.purpose", "Salvestamise eesmärk")}: {document.callRecording.purposeText || document.callRecording.purpose || "-"} Ā· {t("documents.call_recording.consent_status", "Nõusoleku staatus")}: {document.callRecording.consentStatus || "-"}{document.callRecording.retentionUntil ? ` Ā· ${t("documents.call_recording.retention_until", "Säilitustähtaeg")}: ${formatDate(document.callRecording.retentionUntil, locale)}` : ""}</p> : null}
                           </>
                         )}
                       </div>

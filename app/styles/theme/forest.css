@@ -1,0 +1,634 @@
+:root.theme-forest {
+  color-scheme: dark;
+  --forest-bg-top: #243528;
+  --forest-bg-mid: #18271c;
+  --forest-bg-bottom: #0c1710;
+  --forest-accent: #8a8874;
+  --forest-accent-bright: #b7ad99;
+  --forest-icon: rgba(238, 228, 222, 0.96);
+  --forest-icon-muted: rgba(238, 228, 222, 0.76);
+  --forest-accent-soft: rgba(138, 136, 116, 0.22);
+  --forest-accent-faint: rgba(138, 136, 116, 0.1);
+  --forest-surface: rgba(14, 29, 18, 0.5);
+  --forest-surface-strong: rgba(9, 20, 12, 0.66);
+  --forest-orbit-surface:
+    radial-gradient(116% 98% at 50% 7%, rgba(61, 76, 57, 0.72) 0%, rgba(32, 48, 34, 0.76) 46%, rgba(14, 31, 18, 0.8) 100%),
+    linear-gradient(180deg, rgba(43, 57, 42, 0.7) 0%, rgba(13, 29, 17, 0.84) 100%);
+  --forest-orbit-surface-hover:
+    radial-gradient(116% 98% at 50% 7%, rgba(70, 86, 65, 0.78) 0%, rgba(36, 54, 38, 0.82) 46%, rgba(15, 34, 19, 0.86) 100%),
+    linear-gradient(180deg, rgba(50, 65, 47, 0.76) 0%, rgba(14, 32, 18, 0.9) 100%);
+
+  --brand-primary: var(--forest-icon);
+  --brand-accent: var(--forest-icon);
+  --title-color: var(--forest-icon);
+  --link-color: var(--forest-icon);
+  --link-gold: var(--forest-icon);
+  --link-gold-hover: #fff4ee;
+  --icon-btn-close-color: var(--forest-icon);
+  --chat-composer-action-icon-color: var(--forest-icon);
+  --chat-icon-color: var(--forest-icon);
+  --chat-icon-dark: var(--forest-icon);
+  --chat-icon-light: var(--forest-icon);
+  --click-pulse-ring-color: rgba(238, 228, 222, 0.5);
+
+  --glass-surface-bg: rgba(13, 29, 18, 0.36);
+  --glass-ring-surface-bg: rgba(12, 27, 17, 0.44);
+  --glass-surface-text: rgba(239, 249, 241, 0.94);
+  --glass-modal-bg: var(--glass-ring-surface-bg);
+  --glass-modal-text: var(--glass-surface-text);
+  --glass-modal-title-color: var(--forest-icon);
+  --glass-ring-edge-stroke-width-desktop: 1.36px;
+  --glass-ring-edge-stroke-opacity-desktop: 0.82;
+  --glass-ring-edge-stroke-blur-desktop: 0.12px;
+  --glass-ring-edge-stroke-desktop: conic-gradient(
+    from -104deg at 50% 50%,
+    rgba(206, 221, 195, 0) 0deg,
+    rgba(206, 221, 195, 0) 14deg,
+    rgba(206, 221, 195, 0.018) 26deg,
+    rgba(206, 221, 195, 0.07) 38deg,
+    rgba(206, 221, 195, 0.14) 46deg,
+    rgba(206, 221, 195, 0.24) 54deg,
+    rgba(206, 221, 195, 0.3) 60deg,
+    rgba(206, 221, 195, 0.2) 70deg,
+    rgba(206, 221, 195, 0.09) 82deg,
+    rgba(206, 221, 195, 0.022) 94deg,
+    rgba(206, 221, 195, 0) 108deg,
+    rgba(206, 221, 195, 0) 360deg
+  );
+  --glass-ring-glow-dark:
+    0 10px 20px -16px rgba(238, 228, 222, 0.16),
+    0 20px 34px -25px rgba(238, 228, 222, 0.1);
+  --glass-shell-shadow: var(--glass-ring-glow-dark);
+
+  --home-panel-bg: rgba(12, 30, 18, 0.56);
+  --home-prose-color: rgba(239, 249, 241, 0.93);
+  --home-title-color: var(--forest-icon);
+  --home-link-color: var(--forest-icon);
+  --home-scroll-cue-color: var(--forest-icon);
+  --home-panel-shadow-idle:
+    0 0 12px rgba(238, 228, 222, 0.12),
+    0 0 24px rgba(238, 228, 222, 0.06);
+  --home-panel-shadow-active:
+    0 0 14px rgba(238, 228, 222, 0.16),
+    0 0 30px rgba(238, 228, 222, 0.08);
+  --home-card-light-opacity: 0.78;
+  --home-card-dark-opacity: 0.68;
+
+  --workspace-elevated-card-bg:
+    linear-gradient(145deg, rgba(206, 221, 195, 0.07), rgba(206, 221, 195, 0.028)),
+    color-mix(in srgb, var(--glass-ring-surface-bg) 66%, transparent);
+  --workspace-elevated-card-bg-hover: var(--workspace-elevated-card-bg);
+  --workspace-elevated-card-bg-strong: var(--workspace-elevated-card-bg-hover);
+  --chat-card-surface-standard-bg: radial-gradient(
+    ellipse at top,
+    rgba(30, 50, 34, 0.76) 0%,
+    rgba(14, 30, 18, 0.82) 100%
+  );
+  --chat-card-surface-standard-flat-bg: linear-gradient(
+    180deg,
+    rgba(27, 45, 31, 0.78) 0%,
+    rgba(13, 29, 17, 0.84) 100%
+  );
+  --chat-card-surface-strong-bg: radial-gradient(
+    ellipse at top,
+    rgb(30, 51, 35) 0%,
+    rgb(13, 30, 18) 100%
+  );
+  --chat-card-surface-flat-bg: linear-gradient(
+    180deg,
+    rgb(28, 47, 32) 0%,
+    rgb(13, 29, 17) 100%
+  );
+  --chat-ui-solid-surface: rgb(13, 30, 18);
+  --chat-rail-tooltip-bg: rgb(13, 30, 18);
+  --chat-tools-panel-bg: rgb(13, 30, 18);
+  --chat-upload-picker-bg: rgb(13, 30, 18);
+  --rail-tooltip-bg: rgb(13, 30, 18);
+  --rail-tooltip-border: rgba(206, 221, 195, 0.11);
+  --rail-tooltip-shadow: var(--subpage-card-shadow);
+  --rail-tooltip-text: var(--subpage-card-text);
+  --chat-tools-item-hover-bg: rgba(238, 228, 222, 0.1);
+
+  --form-surface: var(--workspace-elevated-card-bg);
+  --form-surface-hover: var(--workspace-elevated-card-bg);
+  --form-surface-active: var(--form-surface-hover);
+  --input-bg: var(--form-surface);
+  --input-bg-hover: var(--form-surface-hover);
+  --input-bg-focus: var(--form-surface-active);
+  --input-flat-bg: var(--workspace-elevated-card-bg);
+  --input-flat-bg-hover: var(--workspace-elevated-card-bg);
+  --input-text: rgba(239, 249, 241, 0.95);
+  --input-caret: var(--forest-icon);
+  --input-placeholder: rgba(239, 249, 241, 0.88);
+  --input-border: 0 solid transparent;
+  --input-shadow:
+    0 5px 14px rgba(1, 10, 5, 0.24),
+    0 10px 18px -12px rgba(238, 228, 222, 0.1),
+    0 18px 28px -24px rgba(238, 228, 222, 0.06);
+  --input-shadow-hover:
+    0 5.5px 15px rgba(1, 10, 5, 0.25),
+    0 10px 18px -11px rgba(238, 228, 222, 0.13),
+    0 18px 28px -23px rgba(238, 228, 222, 0.08);
+  --input-surface-overlay: inset 0 0 0 999px rgba(238, 228, 222, 0);
+  --input-surface-overlay-hover: inset 0 0 0 999px rgba(238, 228, 222, 0.018);
+  --input-surface-overlay-focus: inset 0 0 0 999px rgba(238, 228, 222, 0.04);
+
+  --btn-primary-hover-brightness: 1.035;
+  --btn-primary-bg: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(206, 221, 195, 0.08) 0%,
+      rgba(206, 221, 195, 0.036) 42%,
+      rgba(206, 221, 195, 0.014) 58%,
+      rgba(206, 221, 195, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(42, 52, 43, 0.9) 0%,
+      rgba(19, 32, 22, 0.94) 100%
+    );
+  --btn-primary-bg-hover: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(206, 221, 195, 0.1) 0%,
+      rgba(206, 221, 195, 0.044) 42%,
+      rgba(206, 221, 195, 0.018) 58%,
+      rgba(206, 221, 195, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(50, 61, 49, 0.94) 0%,
+      rgba(22, 38, 25, 0.96) 100%
+    );
+  --btn-primary-bg-active: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(206, 221, 195, 0.07) 0%,
+      rgba(206, 221, 195, 0.032) 42%,
+      rgba(206, 221, 195, 0.012) 58%,
+      rgba(206, 221, 195, 0) 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(36, 46, 37, 0.92) 0%,
+      rgba(16, 29, 19, 0.95) 100%
+    );
+  --btn-primary-text: var(--forest-icon);
+  --btn-primary-border: 0 solid transparent;
+  --btn-primary-border-hover: 0 solid transparent;
+  --btn-primary-border-active: 0 solid transparent;
+  --btn-primary-shadow:
+    inset 0 1px 0 rgba(206, 221, 195, 0.08),
+    0 5px 12px rgba(1, 10, 5, 0.24);
+  --btn-primary-shadow-hover:
+    inset 0 1px 0 rgba(206, 221, 195, 0.1),
+    0 7px 14px rgba(1, 10, 5, 0.28);
+  --btn-primary-shadow-active:
+    inset 0 1px 0 rgba(206, 221, 195, 0.07),
+    0 4px 10px rgba(1, 10, 5, 0.22);
+  --btn-primary-focus-ring-color: rgba(238, 228, 222, 0.24);
+  --btn-primary-shadow-focus:
+    inset 0 1px 0 rgba(206, 221, 195, 0.12),
+    0 8px 18px rgba(1, 10, 5, 0.32),
+    0 0 0 3px var(--btn-primary-focus-ring-color);
+
+  --seg-card-bg: var(--form-surface);
+  --seg-card-bg-hover: var(--form-surface-hover);
+  --seg-card-bg-selected: var(--form-surface-hover);
+  --seg-card-text: rgba(239, 249, 241, 0.95);
+  --seg-card-text-hover: var(--forest-icon);
+  --seg-card-text-selected: var(--forest-icon);
+  --seg-card-border: transparent;
+  --seg-card-shadow: var(--input-shadow);
+  --seg-card-shadow-hover: var(--input-shadow-hover);
+  --seg-card-shadow-selected: var(--input-shadow-hover);
+  --seg-radio-bg: rgba(25, 46, 30, 0.5);
+  --seg-radio-border: rgba(206, 221, 195, 0.22);
+  --seg-radio-inner-ring: inset 0 0 0 1px rgba(206, 221, 195, 0.12);
+  --seg-radio-dot-bg: var(--forest-icon);
+  --seg-radio-dot-shadow: 0 0 8px rgba(111, 128, 97, 0.24);
+
+  --subpage-card-bg: var(--input-flat-bg);
+  --subpage-card-bg-hover: var(--input-flat-bg-hover);
+  --subpage-card-border: rgba(206, 221, 195, 0.09);
+  --subpage-card-border-hover: rgba(206, 221, 195, 0.15);
+  --subpage-card-shadow:
+    inset 0 1px 0 rgba(206, 221, 195, 0.046),
+    0 10px 22px rgba(1, 10, 5, 0.2),
+    0 0 22px -16px rgba(72, 94, 66, 0.18);
+  --subpage-card-shadow-hover:
+    inset 0 1px 0 rgba(206, 221, 195, 0.06),
+    0 12px 26px rgba(1, 10, 5, 0.24),
+    0 0 26px -16px rgba(72, 94, 66, 0.22);
+  --subpage-card-text: rgba(239, 249, 241, 0.94);
+  --opaque-panel-bg: var(--workspace-elevated-card-bg);
+  --opaque-panel-bg-hover: var(--workspace-elevated-card-bg);
+  --opaque-panel-border: rgba(206, 221, 195, 0.11);
+  --opaque-panel-shadow: 0 12px 26px rgba(1, 10, 5, 0.24);
+  --opaque-panel-text: rgba(239, 249, 241, 0.94);
+  --panel-secondary-bg: var(--input-flat-bg);
+  --panel-secondary-border: rgba(206, 221, 195, 0.11);
+  --panel-secondary-shadow: var(--subpage-card-shadow);
+  --drawer-delete-border: var(--opaque-panel-border);
+  --drawer-delete-bg: var(--opaque-panel-bg);
+  --drawer-delete-text: var(--forest-icon);
+  --drawer-delete-border-hover: rgba(238, 228, 222, 0.24);
+  --drawer-delete-bg-hover: rgba(31, 49, 34, 0.58);
+  --drawer-delete-text-hover: var(--forest-icon);
+  --drawer-title-text: var(--forest-icon);
+  --drawer-preview-text: rgba(239, 249, 241, 0.86);
+  --drawer-time-text: rgba(238, 228, 222, 0.74);
+  --checkbox-accent: var(--forest-icon);
+  --checkbox-border: rgba(238, 228, 222, 0.58);
+  --checkbox-focus: rgba(238, 228, 222, 0.28);
+  --subscription-error-color: rgba(218, 246, 226, 0.9);
+}
+
+:root.theme-forest .space-backdrop[data-mode="dark"] {
+  --space-backdrop-glow: radial-gradient(
+    ellipse at 50% -12%,
+    rgba(238, 228, 222, 0.12) 0%,
+    rgba(238, 228, 222, 0.055) 34%,
+    rgba(238, 228, 222, 0.014) 56%,
+    rgba(238, 228, 222, 0) 74%
+  );
+  background: linear-gradient(
+    180deg,
+    var(--forest-bg-top) 0%,
+    var(--forest-bg-mid) 56%,
+    var(--forest-bg-bottom) 100%
+  );
+}
+
+:root.theme-forest body.homepage,
+:root.theme-forest .homepage-root {
+  --home-prose-color: rgba(239, 249, 241, 0.93);
+  --home-scroll-cue-color: var(--forest-icon);
+  --home-title-color: var(--forest-icon);
+  --home-link-color: var(--forest-icon);
+  --home-panel-shadow-idle:
+    0 0 12px rgba(238, 228, 222, 0.12),
+    0 0 24px rgba(238, 228, 222, 0.06);
+  --home-panel-shadow-active:
+    0 0 14px rgba(238, 228, 222, 0.16),
+    0 0 30px rgba(238, 228, 222, 0.08);
+}
+
+:root.theme-forest .homepage-root .home-about-panel {
+  --home-panel-bg: rgba(12, 30, 18, 0.52);
+  --home-about-panel-shadow:
+    0 0 12px rgba(238, 228, 222, 0.12),
+    0 0 24px rgba(238, 228, 222, 0.06);
+}
+
+:root.theme-forest .homepage-root .home-before-links :is(.home-quick-link, .home-quick-link svg, .home-quick-label) {
+  color: var(--forest-icon) !important;
+  text-shadow: 0 0 14px rgba(238, 228, 222, 0.12);
+}
+
+:root.theme-forest :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back),
+:root.theme-forest button:has(.back-icon-arrow) {
+  --back-arrow-color: var(--forest-icon) !important;
+  --back-dot-color: var(--forest-icon) !important;
+  color: var(--forest-icon) !important;
+}
+
+:root.theme-forest :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back) svg,
+:root.theme-forest button:has(.back-icon-arrow) svg {
+  --back-arrow-color: var(--forest-icon) !important;
+  --back-dot-color: var(--forest-icon) !important;
+}
+
+:root.theme-forest :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back) :is(svg, path, circle, line, polyline),
+:root.theme-forest button:has(.back-icon-arrow) :is(svg, path, circle, line, polyline) {
+  color: var(--forest-icon) !important;
+}
+
+:root.theme-forest .back-icon-arrow {
+  stroke: var(--forest-icon) !important;
+}
+
+:root.theme-forest .back-icon-dot {
+  fill: var(--forest-icon) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass {
+  --drawer-glass-bg: rgba(6, 16, 9, 0.72);
+  --drawer-title-text: var(--forest-icon);
+  --drawer-card-border: rgba(238, 228, 222, 0.1);
+  --drawer-card-border-hover: rgba(238, 228, 222, 0.16);
+  --drawer-card-border-active: rgba(238, 228, 222, 0.18);
+  --drawer-card-bg: var(--subpage-card-bg);
+  --drawer-card-bg-hover: var(--subpage-card-bg-hover);
+  --drawer-card-bg-active: var(--subpage-card-bg-hover);
+  --drawer-card-shadow: var(--subpage-card-shadow);
+  --drawer-card-shadow-hover: var(--subpage-card-shadow-hover);
+  --drawer-card-shadow-active: var(--subpage-card-shadow-hover);
+}
+
+:root.theme-forest .drawer-panel--chat-glass :is(.drawer-title, .drawer-close-btn--chat, .drawer-chat-sidebar, .cs-title-text, .cs-preview),
+:root.theme-forest .drawer-panel--chat-glass .drawer-close-btn--chat > span {
+  color: var(--forest-icon) !important;
+  -webkit-text-fill-color: var(--forest-icon) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-title {
+  text-shadow: 0 0.18rem 0.58rem rgba(1, 10, 5, 0.34) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .cs-time {
+  color: var(--drawer-time-text) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-card {
+  background: var(--drawer-card-bg) !important;
+  border-color: var(--drawer-card-border) !important;
+  box-shadow: var(--drawer-card-shadow) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within),
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active {
+  background: var(--drawer-card-bg-hover) !important;
+  border-color: var(--drawer-card-border-hover) !important;
+  box-shadow: var(--drawer-card-shadow-hover) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn) {
+  color: var(--forest-icon) !important;
+  background: var(--btn-primary-bg) !important;
+  border: var(--btn-primary-border) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn)::before {
+  background: var(--btn-primary-bg-hover) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .drawer-chat-sidebar :is(.button, .btn, .drawer-pill-btn, .invite-primary-btn):is(:hover, :focus-visible) {
+  color: var(--forest-icon) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .chat-sidebar-search-input {
+  color: var(--input-text) !important;
+  caret-color: var(--input-caret) !important;
+  background: var(--input-bg) !important;
+  box-shadow: var(--input-shadow) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .chat-sidebar-search-input::placeholder {
+  color: var(--input-placeholder) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .cs-delete {
+  color: var(--drawer-delete-text) !important;
+  border-color: var(--drawer-delete-border) !important;
+  background: var(--drawer-delete-bg) !important;
+  box-shadow: var(--drawer-delete-shadow, var(--opaque-panel-shadow)) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .cs-delete:is(:hover, :focus-visible) {
+  color: var(--drawer-delete-text-hover) !important;
+  border-color: var(--drawer-delete-border-hover) !important;
+  background: var(--drawer-delete-bg-hover) !important;
+  box-shadow: var(--drawer-delete-shadow-hover, var(--subpage-card-shadow-hover)) !important;
+}
+
+:root.theme-forest .drawer-panel--chat-glass .cs-trash-icon,
+:root.theme-forest .drawer-panel--chat-glass .cs-trash-icon :is(path, polyline, line) {
+  color: var(--forest-icon) !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+:root.theme-forest :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) {
+  color: var(--forest-icon) !important;
+}
+
+:root.theme-forest :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(svg, path, circle, rect, line, polyline, polygon) {
+  color: var(--forest-icon) !important;
+  stroke: var(--forest-icon) !important;
+}
+
+:root.theme-forest :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
+  fill: var(--forest-icon) !important;
+}
+
+:root.theme-forest body .chat-input-row .chat-side-control-btn,
+:root.theme-forest body .chat-inputbar .chat-listen-btn,
+:root.theme-forest body .chat-inputbar .chat-send-btn {
+  border-color: transparent !important;
+}
+
+:root.theme-forest:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell,
+:root.theme-forest .chat-page-shell .chat-composer-glow-shell {
+  --glow-color: rgba(238, 228, 222, 0.44) !important;
+  --glow-color-60: rgba(238, 228, 222, 0.28) !important;
+  --glow-color-50: rgba(238, 228, 222, 0.22) !important;
+  --glow-color-40: rgba(238, 228, 222, 0.17) !important;
+  --glow-color-30: rgba(238, 228, 222, 0.12) !important;
+  --glow-color-20: rgba(238, 228, 222, 0.08) !important;
+  --glow-color-10: rgba(238, 228, 222, 0.05) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0),
+    inset 0 0 7px rgba(238, 228, 222, 0),
+    0 0 2px rgba(238, 228, 222, 0),
+    0 0 12px rgba(238, 228, 222, 0),
+    0 0 26px rgba(238, 228, 222, 0),
+    0 6px 16px rgba(1, 10, 5, 0.22),
+    0 8px 14px -12px rgba(238, 228, 222, 0.34),
+    0 18px 24px -18px rgba(238, 228, 222, 0.18) !important;
+}
+
+:root.theme-forest:not(.theme-light):not(.theme-mid):not([data-contrast="hc"]) .chat-page-shell .chat-composer-glow-shell:hover,
+:root.theme-forest .chat-page-shell .chat-composer-glow-shell:hover {
+  box-shadow:
+    inset 0 0 4px rgba(238, 228, 222, 0.1),
+    inset 0 0 9px rgba(238, 228, 222, 0.045),
+    0 0 3px rgba(238, 228, 222, 0.12),
+    0 0 10px rgba(238, 228, 222, 0.075),
+    0 0 20px rgba(238, 228, 222, 0.04),
+    0 6px 16px rgba(1, 10, 5, 0.22),
+    0 8px 14px -12px rgba(238, 228, 222, 0.36),
+    0 18px 24px -18px rgba(238, 228, 222, 0.2) !important;
+}
+
+:root.theme-forest body .chat-inputbar .chat-send-btn,
+:root.theme-forest body .chat-inputbar:focus-within .chat-send-btn,
+:root.theme-forest body .chat-inputbar .chat-send-btn:hover,
+:root.theme-forest body .chat-inputbar .chat-send-btn:focus-visible {
+  --btn-primary-bg: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(238, 228, 222, 0.09) 0%,
+      rgba(238, 228, 222, 0.038) 42%,
+      rgba(238, 228, 222, 0.014) 58%,
+      rgba(238, 228, 222, 0) 74%
+    ),
+    linear-gradient(180deg, rgba(42, 52, 43, 0.9) 0%, rgba(19, 32, 22, 0.94) 100%) !important;
+  --btn-primary-bg-hover: radial-gradient(
+      82% 66% at 50% -14%,
+      rgba(238, 228, 222, 0.11) 0%,
+      rgba(238, 228, 222, 0.046) 42%,
+      rgba(238, 228, 222, 0.018) 58%,
+      rgba(238, 228, 222, 0) 74%
+    ),
+    linear-gradient(180deg, rgba(50, 61, 49, 0.94) 0%, rgba(22, 38, 25, 0.96) 100%) !important;
+  color: var(--forest-icon) !important;
+  background: var(--btn-primary-bg) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
+
+:root.theme-forest :is(.button, .btn, .invite-primary-btn, .documents-primary-button, .workspace-feature-action-btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
+  color: var(--forest-icon) !important;
+  background: var(--btn-primary-bg) !important;
+  border: var(--btn-primary-border) !important;
+  box-shadow: var(--btn-primary-shadow) !important;
+}
+
+:root.theme-forest :is(.button, .btn, .invite-primary-btn, .documents-primary-button, .workspace-feature-action-btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn)::before {
+  background: var(--btn-primary-bg-hover) !important;
+}
+
+:root.theme-forest :is(.button, .btn, .invite-primary-btn, .documents-primary-button, .workspace-feature-action-btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn):is(:hover, :focus-visible) {
+  color: var(--forest-icon) !important;
+  background: var(--btn-primary-bg-hover) !important;
+  box-shadow: var(--btn-primary-shadow-hover) !important;
+}
+
+:root.theme-forest :is(.glass-ring.glass-ring--desktop-stable, .policy-mobile-lower.glass-ring.glass-ring--desktop-stable, .guide-policy-ring.glass-ring.glass-ring--desktop-stable) {
+  box-shadow: var(--glass-shell-shadow) !important;
+}
+
+:root.theme-forest :is(.ui-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame, .invite-glow-field, .profile-orbit-edge-glow) {
+  --glow-color: rgba(238, 228, 222, 0.46) !important;
+  --glow-color-60: rgba(238, 228, 222, 0.3) !important;
+  --glow-color-50: rgba(238, 228, 222, 0.24) !important;
+  --glow-color-40: rgba(238, 228, 222, 0.19) !important;
+  --glow-color-30: rgba(238, 228, 222, 0.14) !important;
+  --glow-color-20: rgba(238, 228, 222, 0.09) !important;
+  --glow-color-10: rgba(238, 228, 222, 0.055) !important;
+}
+
+:root.theme-forest .ui-glow-field:hover,
+:root.theme-forest .ui-glow-field:focus-within,
+:root.theme-forest .invite-glow-field:hover,
+:root.theme-forest .invite-glow-field:focus-within {
+  box-shadow:
+    var(--input-shadow-hover),
+    inset 0 0 4px rgba(238, 228, 222, 0.1),
+    inset 0 0 10px rgba(238, 228, 222, 0.048),
+    0 0 3px rgba(238, 228, 222, 0.12),
+    0 0 10px rgba(238, 228, 222, 0.075),
+    0 0 20px rgba(238, 228, 222, 0.04) !important;
+}
+
+:root.theme-forest .ui-glow-button-frame:hover:not(.ui-glow-button-frame--disabled),
+:root.theme-forest .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled) {
+  box-shadow:
+    var(--btn-primary-shadow-hover),
+    inset 0 0 4px rgba(238, 228, 222, 0.1),
+    inset 0 0 10px rgba(238, 228, 222, 0.045),
+    0 0 3px rgba(238, 228, 222, 0.12),
+    0 0 10px rgba(238, 228, 222, 0.075),
+    0 0 20px rgba(238, 228, 222, 0.04) !important;
+}
+
+:root.theme-forest :is(.ui-glow-field, .invite-glow-field, .ui-glow-button-frame, .ui-glow-option-card-frame) > [class*="edgeLight"]::before,
+:root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-edge-glow > [class*="edgeLight"]::before {
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0.3),
+    inset 0 0 4px 0 rgba(238, 228, 222, 0.16),
+    inset 0 0 10px 0 rgba(238, 228, 222, 0.1),
+    0 0 2px 0 rgba(238, 228, 222, 0.22),
+    0 0 7px 0 rgba(238, 228, 222, 0.22),
+    0 0 16px 1px rgba(238, 228, 222, 0.13),
+    0 0 30px 2px rgba(238, 228, 222, 0.075) !important;
+}
+
+:root.theme-forest:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+:root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-accent: var(--forest-icon);
+  --orbit-mobile-accent: var(--forest-icon);
+  --orbit-keypad-fill: var(--forest-orbit-surface);
+  --orbit-keypad-fill-item: var(--forest-orbit-surface);
+  --orbit-keypad-fill-center: var(--forest-orbit-surface);
+  --orbit-button-shadow:
+    inset 0 0 0 1px rgba(206, 221, 195, 0.04),
+    inset 0 1px 0 rgba(206, 221, 195, 0.03);
+  --orbit-button-shadow-hover:
+    0 0 20px rgba(238, 228, 222, 0.18),
+    inset 0 0 0 1px rgba(206, 221, 195, 0.05),
+    inset 0 1px 0 rgba(206, 221, 195, 0.04);
+  --orbit-button-shadow-center:
+    0 0 22px rgba(238, 228, 222, 0.18),
+    inset 0 0 0 1px rgba(206, 221, 195, 0.06),
+    inset 0 1px 0 rgba(206, 221, 195, 0.04);
+  --orbit-button-shadow-center-hover:
+    0 0 28px rgba(238, 228, 222, 0.22),
+    inset 0 0 0 1px rgba(206, 221, 195, 0.08),
+    inset 0 1px 0 rgba(206, 221, 195, 0.05);
+}
+
+:root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper :is(.profile-orbit-menu__item, .profile-orbit-menu__center, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
+  color: var(--forest-icon);
+  background:
+    radial-gradient(
+      156% 112% at 50% -18%,
+      rgba(206, 221, 195, 0.044) 0%,
+      rgba(206, 221, 195, 0.018) 38%,
+      rgba(206, 221, 195, 0) 70%
+    ),
+    radial-gradient(
+      144% 124% at 50% 118%,
+      rgba(0, 0, 0, 0.14) 0%,
+      rgba(0, 0, 0, 0) 52%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(43, 57, 42, 0.7) 0%,
+      rgba(26, 44, 30, 0.75) 54%,
+      rgba(13, 31, 18, 0.82) 100%
+    ) !important;
+  border: none !important;
+  --pin-gloss-op: 0.08;
+}
+
+:root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-static-glow {
+  box-shadow:
+    inset 0 0 0 1px rgba(206, 221, 195, 0.22),
+    inset 0 0 7px rgba(238, 228, 222, 0.08),
+    0 0 2px rgba(238, 228, 222, 0.16),
+    0 0 10px rgba(238, 228, 222, 0.11),
+    0 0 22px rgba(238, 228, 222, 0.07) !important;
+}
+
+:root.theme-forest .workspace-feature-panel {
+  --workspace-feature-accent: var(--forest-icon);
+  --workspace-feature-border: rgba(238, 228, 222, 0.12);
+  --workspace-feature-border-strong: rgba(238, 228, 222, 0.2);
+}
+
+:root.theme-forest :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) {
+  border-color: rgba(238, 228, 222, 0.12) !important;
+}
+
+:root.theme-forest :is(.workspace-feature-glow-card, .workspace-feature-card, .workspace-feature-list-card, .workspace-feature-chip, .workspace-feature-toggle-row, .workspace-feature-admin-role) > [class*="edgeLight"]::before {
+  box-shadow:
+    inset 0 0 0 1px rgba(238, 228, 222, 0.28),
+    0 0 2px rgba(238, 228, 222, 0.2),
+    0 0 8px rgba(238, 228, 222, 0.14),
+    0 0 18px rgba(238, 228, 222, 0.08) !important;
+}
+
+@media (min-width: 48.001em) {
+  :root.theme-forest:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .homepage-root .home-about-panel,
+  :root.theme-forest .homepage-root .home-about-panel {
+    box-shadow: var(--home-about-panel-shadow) !important;
+  }
+}
+
+@media (max-width: 48em) {
+  :root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-item,
+  :root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-label,
+  :root.theme-forest .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-bubble.dock-item {
+    color: var(--forest-icon);
+  }
+}

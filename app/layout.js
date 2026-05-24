@@ -155,7 +155,8 @@ function parseA11yPrefs(jar) {
       rawTheme === "light" ||
       rawTheme === "mid" ||
       rawTheme === "dark" ||
-      rawTheme === "night"
+      rawTheme === "night" ||
+      rawTheme === "forest"
         ? rawTheme
         : rawTheme === "light-mono"
           ? "light"
@@ -189,7 +190,7 @@ export default async function RootLayout({
   const initialA11yPrefs = parseA11yPrefs(jar);
   const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
-  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""}`.trim()} suppressHydrationWarning>
+  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""} ${initialA11yPrefs?.theme === "forest" ? "theme-forest" : ""}`.trim()} suppressHydrationWarning>
       <head>
         <meta
           name="format-detection"

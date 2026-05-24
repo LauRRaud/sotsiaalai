@@ -8,15 +8,13 @@ function readCss(path) {
 
 test("global light and mid button glow rules keep edgeLight available", () => {
   const css = readCss("app/styles/components/glass.css");
+  const block = css.match(
+    /:root\.theme-light \.ui-glow-button-frame > \.edgeLight,[\s\S]*?:root\.theme-mid \.ui-glow-button-frame > \[class\*="edgeLight"\]\s*\{([\s\S]*?)\n\}/
+  );
 
-  assert.match(
-    css,
-    /:root\.theme-light \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?:root\.theme-mid \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?display:\s*block\s*!important/
-  );
-  assert.doesNotMatch(
-    css,
-    /:root\.theme-light \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?:root\.theme-mid \.ui-glow-button-frame > \[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important/
-  );
+  assert.ok(block, "light/mid button glow edgeLight rule should exist");
+  assert.match(block[1], /display:\s*block\s*!important/);
+  assert.doesNotMatch(block[1], /display:\s*none\s*!important/);
 });
 
 test("profile orbital menu restores light and mid edgeLight with darker red glow", () => {

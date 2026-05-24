@@ -594,6 +594,9 @@ export default function AccessibilityModal({
               <OptionCard type="radio" name="theme" value="night" checked={theme === "night"} onChange={() => setTheme("night")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.night")}</span>
               </OptionCard>
+              <OptionCard type="radio" name="theme" value="forest" checked={theme === "forest"} onChange={() => setTheme("forest")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.forest")}</span>
+              </OptionCard>
             </div>
           </fieldset>
 

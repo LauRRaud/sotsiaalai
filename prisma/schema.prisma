@@ -102,6 +102,75 @@ enum RoomMessageSenderType {
   ASSISTANT
 }
 
+enum CallContextType {
+  ROOM
+  PRE_ASSESSMENT
+  COVISION
+  MENTORING
+}
+
+enum CallProvider {
+  MOCK
+  LIVEKIT_SELF_HOSTED
+}
+
+enum CallMode {
+  AUDIO
+}
+
+enum CallSessionStatus {
+  ACTIVE
+  ENDED
+}
+
+enum CallParticipantRole {
+  HOST
+  PARTICIPANT
+}
+
+enum CallSpeakRequestStatus {
+  ACTIVE
+  RESOLVED
+  CANCELLED
+}
+
+enum CallRecordingPurpose {
+  GENERAL_SUMMARY
+  CASE_SUMMARY
+  PRE_ASSESSMENT_SUMMARY
+  STAR_HELPER
+  MENTORING_SUMMARY
+  COVISION_SUMMARY
+  OTHER
+}
+
+enum CallRecordingRequestStatus {
+  REQUESTED
+  CONSENTED
+  DECLINED
+  READY_TO_RECORD
+  ACTIVE
+  STOPPED
+  COMPLETED
+  FAILED
+  DELETED
+}
+
+enum CallRecordingConsentStatus {
+  REQUESTED
+  CONSENTED
+  DECLINED
+  WITHDRAWN
+}
+
+enum CallRecordingFileStatus {
+  NOT_CREATED
+  PROCESSING
+  AVAILABLE
+  FAILED
+  DELETED
+}
+
 enum MunicipalityType {
   LINN
   VALD
@@ -350,6 +419,8 @@ enum BillingSource {
 enum DocumentKind {
   TEMPLATE
   MATERIAL
+  CALL_AUDIO_RECORDING
+  CALL_TRANSCRIPT
   OTHER
 }
 
@@ -436,6 +507,12 @@ model User {
   sponsoredMembers        RoomMember[]             @relation("RoomMemberSponsorUser")
   acceptedInvites         Invite[]                 @relation("InviteAcceptedBy")
   roomMessages            RoomMessage[]            @relation("RoomMessageAuthor")
+  callSessionsStarted     CallSession[]            @relation("CallSessionStartedBy")
+  callParticipants        CallParticipant[]
+  callSpeakRequests       CallSpeakRequest[]
+  callSpeakRequestsClosed CallSpeakRequest[]        @relation("CallSpeakRequestResolvedBy")
+  callRecordingRequests   CallRecordingRequest[]    @relation("CallRecordingRequestRequestedBy")
+  callRecordingConsents   CallRecordingConsent[]
   helpRequests            HelpRequest[]
   helpOffers              HelpOffer[]
   requestedHelpMatches    HelpMatch[]              @relation("HelpMatchRequester")
@@ -1653,6 +1730,7 @@ model Room {
   invites   Invite[]
   messages  RoomMessage[]
   helpMatch HelpMatch?
+  calls     CallSession[]
 
   @@index([ownerId])
 }
@@ -1728,6 +1806,145 @@ model RoomMessage {
   @@index([roomId, id])
 }
 
+model CallSession {
+  id               String            @id @default(cuid())
+  contextType      CallContextType   @default(ROOM)
+  contextId        String
+  roomId           String?
+  provider         CallProvider      @default(MOCK)
+  providerRoomName String
+  mode             CallMode          @default(AUDIO)
+  status           CallSessionStatus @default(ACTIVE)
+  startedByUserId  String
+  startedAt        DateTime          @default(now())
+  endedAt          DateTime?
+  maxParticipants  Int               @default(8)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  room              Room?                  @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  startedBy         User                   @relation("CallSessionStartedBy", fields: [startedByUserId], references: [id], onDelete: Cascade)
+  participants      CallParticipant[]
+  speakRequests     CallSpeakRequest[]
+  recordingRequests CallRecordingRequest[]
+  recordingFiles    CallRecordingFile[]
+
+  @@index([contextType, contextId, status])
+  @@index([roomId, status])
+  @@index([startedByUserId, startedAt])
+}
+
+model CallParticipant {
+  id            String              @id @default(cuid())
+  callSessionId String
+  userId        String
+  role          CallParticipantRole @default(PARTICIPANT)
+  joinedAt      DateTime            @default(now())
+  leftAt        DateTime?
+  micMuted      Boolean             @default(false)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  callSession CallSession @relation(fields: [callSessionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([callSessionId, leftAt])
+  @@index([callSessionId, userId])
+  @@index([userId, joinedAt])
+}
+
+model CallSpeakRequest {
+  id               String                 @id @default(cuid())
+  callSessionId    String
+  userId           String
+  status           CallSpeakRequestStatus @default(ACTIVE)
+  requestedAt      DateTime               @default(now())
+  resolvedAt       DateTime?
+  resolvedByUserId String?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  callSession CallSession @relation(fields: [callSessionId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resolvedBy  User?       @relation("CallSpeakRequestResolvedBy", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([callSessionId, status, requestedAt])
+  @@index([userId, status])
+}
+
+model CallRecordingRequest {
+  id                  String                     @id @default(cuid())
+  callSessionId       String
+  requestedByUserId   String
+  purpose             CallRecordingPurpose       @default(GENERAL_SUMMARY)
+  purposeText         String?                    @db.Text
+  status              CallRecordingRequestStatus @default(REQUESTED)
+  consentTextVersion  String
+  consentTextSnapshot String                     @db.Text
+  requestedAt         DateTime                   @default(now())
+  startedAt           DateTime?
+  stoppedAt           DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+
+  callSession CallSession            @relation(fields: [callSessionId], references: [id], onDelete: Cascade)
+  requestedBy User                   @relation("CallRecordingRequestRequestedBy", fields: [requestedByUserId], references: [id], onDelete: Cascade)
+  consents    CallRecordingConsent[]
+  files       CallRecordingFile[]
+
+  @@index([callSessionId, status])
+  @@index([requestedByUserId, requestedAt])
+}
+
+model CallRecordingConsent {
+  id                  String                     @id @default(cuid())
+  recordingRequestId  String
+  callSessionId       String
+  userId              String
+  status              CallRecordingConsentStatus @default(REQUESTED)
+  consentTextVersion  String
+  consentTextSnapshot String                     @db.Text
+  respondedAt         DateTime?
+  withdrawnAt         DateTime?
+  ipAddressHash       String?
+  userAgentHash       String?
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+
+  recordingRequest CallRecordingRequest @relation(fields: [recordingRequestId], references: [id], onDelete: Cascade)
+  user             User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([recordingRequestId, status])
+  @@index([callSessionId, userId])
+}
+
+model CallRecordingFile {
+  id                 String                  @id @default(cuid())
+  recordingRequestId String
+  callSessionId      String
+  egressId           String?
+  storageProvider    String?
+  filePath           String?
+  mimeType           String?
+  fileSizeBytes      Int?
+  durationSeconds    Int?
+  checksum           String?
+  status             CallRecordingFileStatus @default(NOT_CREATED)
+  createdDocumentId  String?
+  retentionUntil     DateTime?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+
+  recordingRequest CallRecordingRequest @relation(fields: [recordingRequestId], references: [id], onDelete: Cascade)
+  callSession      CallSession          @relation(fields: [callSessionId], references: [id], onDelete: Cascade)
+  createdDocument  UserDocument?        @relation(fields: [createdDocumentId], references: [id], onDelete: SetNull)
+
+  @@index([recordingRequestId, status])
+  @@index([callSessionId, status])
+  @@index([createdDocumentId])
+}
+
 model UserDocument {
   id                    String       @id @default(cuid())
   ownerId               String
@@ -1749,6 +1966,7 @@ model UserDocument {
   templateArtifacts   AgentArtifact[]               @relation("AgentArtifactTemplate")
   sourceArtifactLinks AgentArtifactSourceDocument[]
   audits              DocumentAudit[]
+  callRecordingFiles  CallRecordingFile[]
 
   @@index([ownerId, updatedAt])
   @@index([ownerId, kind, updatedAt])

@@ -423,6 +423,16 @@ function ThemeHighContrastDockIcon({
       <path d="M12 7.1a4.9 4.9 0 0 1 0 9.8" />
     </svg>;
 }
+function ThemeForestDockIcon({
+  isHovered: _isHovered,
+  ...props
+}) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M19.4 4.8c-5.9-.55-10.6 1.2-13.1 4.55-2.08 2.8-1.9 6.1.14 8.14 2.02 2.02 5.32 2.24 8.13.15 3.35-2.5 5.4-7.02 4.83-12.84Z" />
+      <path d="M6.6 17.4c2.22-4.52 5.38-7.6 10.18-9.65" />
+      <path d="M10.1 14.38c-.1-1.38-.43-2.55-1-3.52" opacity="0.62" />
+    </svg>;
+}
 export default function ProfiilBody({
   initialProfile = null,
   initialOrbitRequested = false,
@@ -506,6 +516,7 @@ export default function ProfiilBody({
     prefs?.theme === "light" ||
     prefs?.theme === "mid" ||
     prefs?.theme === "night" ||
+    prefs?.theme === "forest" ||
     prefs?.theme === "dark"
       ? prefs.theme
       : "dark";
@@ -823,7 +834,7 @@ export default function ProfiilBody({
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
-  const modeSequence = ["light", "mid", "dark", "night", "hc"];
+  const modeSequence = ["light", "mid", "dark", "night", "forest", "hc"];
   const currentModeIndex = modeSequence.indexOf(currentMode);
   const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
@@ -832,6 +843,8 @@ export default function ProfiilBody({
       ? <ThemeMidDockIcon width={33} height={33} className="profile-theme-mode-icon profile-theme-mid-icon" />
       : nextMode === "hc"
         ? <ThemeHighContrastDockIcon width={27} height={27} className="profile-theme-mode-icon" />
+      : nextMode === "forest"
+        ? <ThemeForestDockIcon width={28} height={28} className="profile-theme-mode-icon profile-theme-forest-icon" />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} className="profile-theme-mode-icon" />
         : <ThemeMoonDockIcon width={26} height={26} className="profile-theme-mode-icon" showStars={nextMode === "night"} />, [nextMode]);

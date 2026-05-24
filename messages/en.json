@@ -284,6 +284,7 @@
       "mid": "Dim",
       "dark": "Dark",
       "night": "Night",
+      "forest": "Forest",
       "hc": "KKR"
     },
     "preferences": {
@@ -416,7 +417,8 @@
         "light": "Light",
         "mid": "Dim",
         "dark": "Dark",
-        "night": "Night"
+        "night": "Night",
+        "forest": "Forest"
       },
       "screen_profile": {
         "sm": "Mobile / laptop screen",
@@ -1684,24 +1686,40 @@
       "admin_notice": "Admin preview: {role}",
       "conversation_title": "Conversation with the agent",
       "conversation_description": "Send the first instruction or refine the current draft in the conversation. The agent uses the selected documents and your chosen work goal.",
-      "meeting_summary": {
-        "label": "Create meeting summary later",
-        "description": "Use the microphone to record a separate summary based on the meeting. The result is created a bit later and can be used as input for a later report or draft.",
-        "enabled_help": "When this option is enabled, the microphone creates a meeting summary in the background. The finished text is saved to Documents and added here among the selected documents.",
-        "disabled_help": "When this option is disabled, the microphone uses the regular speech-to-text flow and inserts the transcript directly into the open draft.",
-        "empty_help": "You can first dictate a meeting summary here. When it finishes, it will be added as a source document for the draft.",
-        "queued": "Meeting summary queued. The text will appear here a bit later.",
-        "processing": "Meeting summary is being processed. When it is ready, it will be added to Documents and to the current draft input.",
-        "ready": "Meeting summary finished. It was added to Documents and inserted into the current draft input.",
-        "busy": "One meeting summary is already processing. Wait for it to finish before starting another one.",
-        "error": "Meeting summary processing failed.",
-        "not_found": "Meeting summary job was not found.",
-        "document_title": "Meeting summary",
-        "result_added": "The meeting summary was saved to Documents as \"{title}\" and added here for use.",
-        "template_ready_help": "If you want to turn this summary into a draft right away, choose a meeting-summary template here. The summary is still saved to Documents first as a separate text document.",
-        "template_switch_help": "If you want to create a template-based draft from this summary, change the output type to {type}. Matching templates will then appear here.",
-        "documents_idle_help": "When the summary is finished, it is first saved to Documents as a text document and then added here automatically among the selected documents.",
-        "documents_processing_help": "The meeting summary is processing. When it is ready, it will be saved to Documents as a text document and added here automatically."
+      "audio_input": {
+        "title": "Use audio input for document drafting",
+        "description": "Record a meeting or add an audio file to create a transcript and document draft from it. Audio is not inserted into the draft automatically. You can review the transcript before creating the document.",
+        "processing_note": "The audio file is used only for the selected document. The transcript and draft are created through separate user actions.",
+        "coming_soon": "Document drafting from audio files will be added in the next stage.",
+        "draft_type_label": "Draft type after transcription",
+        "source_options": [
+          { "value": "record_new", "label": "Record a new audio file" },
+          { "value": "upload_file", "label": "Upload an audio file" },
+          { "value": "choose_existing", "label": "Choose an existing audio recording from Documents" }
+        ],
+        "sources": {
+          "record_new": "Record a new audio file",
+          "upload_file": "Upload an audio file",
+          "choose_existing": "Choose an existing audio recording from Documents"
+        },
+        "draft_type_options": [
+          { "value": "MEETING_SUMMARY", "label": "meeting summary" },
+          { "value": "CASE_SUMMARY", "label": "case summary" },
+          { "value": "PRE_ASSESSMENT_SUMMARY", "label": "pre-assessment summary" },
+          { "value": "STAR_HELPER", "label": "STAR entry support material" },
+          { "value": "LETTER_DRAFT", "label": "official letter/reply" },
+          { "value": "ACTION_PLAN", "label": "action plan" },
+          { "value": "OTHER", "label": "other document" }
+        ],
+        "draft_types": {
+          "meeting_summary": "meeting summary",
+          "case_summary": "case summary",
+          "pre_assessment_summary": "pre-assessment summary",
+          "star_helper": "STAR entry support material",
+          "letter_draft": "official letter/reply",
+          "action_plan": "action plan",
+          "other": "other document"
+        }
       },
       "conversation_intro_empty": "Hello! First bring documents into Document drafting and then describe what you want me to create.",
       "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",

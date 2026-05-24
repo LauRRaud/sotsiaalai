@@ -1194,24 +1194,40 @@
       "admin_notice": "Admini eelvaade: {role}",
       "conversation_title": "Vestlus agendiga",
       "conversation_description": "Anna esimene juhis või täpsusta praegust mustandit vestluses. Agent kasutab valitud dokumente ja sinu määratud töö eesmärki.",
-      "meeting_summary": {
-        "label": "Koosta kohtumise kokkuvõte hiljem",
-        "description": "Kasuta mikrofoni selleks, et salvestada kohtumise põhjal eraldi kokkuvõte. Tulemus valmib veidi hiljem ning sobib hilisema aruande või mustandi sisendiks.",
-        "enabled_help": "Kui see valik on sees, loob mikrofon kohtumise kokkuvõtte taustal. Valmis tekst salvestatakse Dokumentidesse ja lisatakse siia valitud dokumentide hulka.",
-        "disabled_help": "Kui see valik on väljas, kasutab mikrofon tavalist kõne tekstiks voogu ja lisab transkriptsiooni kohe avatud mustandisse.",
-        "empty_help": "Võid alustada kohtumise kokkuvõtte sisse rääkimisest. Kui see valmis saab, lisatakse see mustandi allikdokumendiks.",
-        "queued": "Kohtumise kokkuvõte on järjekorras. Tekst jõuab siia veidi hiljem.",
-        "processing": "Kohtumise kokkuvõtet töödeldakse. Kui see valmis saab, lisatakse see Dokumentidesse ja praegusesse mustandisse.",
-        "ready": "Kohtumise kokkuvõte valmis. See lisati Dokumentidesse ja praegusesse mustandisse.",
-        "busy": "Üks kohtumise kokkuvõte on juba töötluses. Oota selle valmimiseni enne uue alustamist.",
-        "error": "Kohtumise kokkuvõtte töötlemine ebaõnnestus.",
-        "not_found": "Kohtumise kokkuvõtte tööd ei leitud.",
-        "document_title": "Kohtumise kokkuvõte",
-        "result_added": "Kohtumise kokkuvõte salvestati Dokumentidesse nimega \"{title}\" ja lisati siia kasutamiseks.",
-        "template_ready_help": "Kui soovid sellest kokkuvõttest teha kohe mustandi, vali siin kohtumise kokkuvõtte mall. Kõigepealt salvestatakse kokkuvõte siiski eraldi tekstidokumendina Dokumentidesse.",
-        "template_switch_help": "Kui soovid sellest kokkuvõttest teha malliga mustandi, vali väljundi tüübiks {type}. Siis kuvatakse siin sobivad mallid.",
-        "documents_idle_help": "Kui kokkuvõte valmis saab, salvestatakse see esmalt Dokumentidesse tekstidokumendina ja lisatakse seejärel automaatselt siia valitud dokumentide hulka.",
-        "documents_processing_help": "Kohtumise kokkuvõte on töötlemisel. Pärast valmimist salvestatakse see Dokumentidesse tekstidokumendina ja lisatakse siia automaatselt."
+      "audio_input": {
+        "title": "Kasuta helisisendit dokumendi koostamiseks",
+        "description": "Salvesta kohtumine või lisa helifail, et koostada selle põhjal transkriptsioon ja dokumendi mustand. Helist ei lisata teksti automaatselt mustandisse. Enne dokumendi koostamist saad transkriptsiooni üle vaadata.",
+        "processing_note": "Helifaili kasutatakse ainult valitud dokumendi koostamiseks. Transkriptsioon ja mustand tekivad eraldi kasutaja tegevuse alusel.",
+        "coming_soon": "Helifaili põhjal dokumendi koostamine lisandub järgmises etapis.",
+        "draft_type_label": "Mustandi tüüp pärast transkriptsiooni",
+        "source_options": [
+          { "value": "record_new", "label": "Salvesta uus helifail" },
+          { "value": "upload_file", "label": "Laadi üles helifail" },
+          { "value": "choose_existing", "label": "Vali olemasolev helisalvestus dokumentidest" }
+        ],
+        "sources": {
+          "record_new": "Salvesta uus helifail",
+          "upload_file": "Laadi üles helifail",
+          "choose_existing": "Vali olemasolev helisalvestus dokumentidest"
+        },
+        "draft_type_options": [
+          { "value": "MEETING_SUMMARY", "label": "kohtumise kokkuvõte" },
+          { "value": "CASE_SUMMARY", "label": "juhtumikokkuvõte" },
+          { "value": "PRE_ASSESSMENT_SUMMARY", "label": "eelpöördumise kokkuvõte" },
+          { "value": "STAR_HELPER", "label": "STAR-i sisestamise abimaterjal" },
+          { "value": "LETTER_DRAFT", "label": "ametlik kiri/vastus" },
+          { "value": "ACTION_PLAN", "label": "tegevuskava" },
+          { "value": "OTHER", "label": "muu dokument" }
+        ],
+        "draft_types": {
+          "meeting_summary": "kohtumise kokkuvõte",
+          "case_summary": "juhtumikokkuvõte",
+          "pre_assessment_summary": "eelpöördumise kokkuvõte",
+          "star_helper": "STAR-i sisestamise abimaterjal",
+          "letter_draft": "ametlik kiri/vastus",
+          "action_plan": "tegevuskava",
+          "other": "muu dokument"
+        }
       },
       "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
       "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",

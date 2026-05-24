@@ -27,6 +27,7 @@ import { useChatMobileRail } from "./chat/hooks/useChatMobileRail";
 import { useChatProfileRoll } from "./chat/hooks/useChatProfileRoll";
 import { useChatRoomMode, useSyncRoomAssistantMessages } from "./chat/hooks/useChatRoomMode";
 import ChatBodyView from "./chat/ChatBodyView";
+import RoomCallBar from "@/components/rooms/RoomCallBar";
 import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
@@ -2336,6 +2337,14 @@ export default function ChatBody({
       errorBanner={errorBanner}
       roomBlocked={roomBlocked}
       roomAuthRequired={roomAuthRequired}
+      roomCallNode={isRoomMode && sessionUserId && !roomBlocked && !roomAuthRequired ? (
+        <RoomCallBar
+          roomId={effectiveRoomId}
+          userId={sessionUserId}
+          isLightTheme={isLightTheme}
+          t={t}
+        />
+      ) : null}
       activeModeLabel={activeModeLabel}
       roomModeLabel={roomModeLabel}
       activeModeKey={activeWorkflow}

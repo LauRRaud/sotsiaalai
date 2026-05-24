@@ -32,6 +32,8 @@ const DOCUMENTS_UPLOAD_RATE_LIMIT_MAX = readDocumentsRateLimit(process.env.DOCUM
 
 function serializeDocument(document) {
   const frameworkAcceptance = document.frameworkAcceptance || null
+  const callRecordingFile = document.callRecordingFiles?.[0] || null
+  const recordingRequest = callRecordingFile?.recordingRequest || null
   return {
     id: document.id,
     title: document.title,
@@ -50,6 +52,21 @@ function serializeDocument(document) {
           acceptanceType: frameworkAcceptance.acceptanceType,
           acceptedAt: frameworkAcceptance.acceptedAt,
           signedDocumentDownloadedAt: frameworkAcceptance.signedDocumentDownloadedAt
+        }
+      : null,
+    callRecording: callRecordingFile
+      ? {
+          id: callRecordingFile.id,
+          callSessionId: callRecordingFile.callSessionId,
+          recordingRequestId: callRecordingFile.recordingRequestId,
+          purpose: recordingRequest?.purpose || null,
+          purposeText: recordingRequest?.purposeText || null,
+          consentStatus: recordingRequest?.status || null,
+          participantsCount: recordingRequest?.consents?.length || 0,
+          callStartedAt: recordingRequest?.callSession?.startedAt || null,
+          callEndedAt: recordingRequest?.callSession?.endedAt || null,
+          retentionUntil: callRecordingFile.retentionUntil || null,
+          durationSeconds: callRecordingFile.durationSeconds || null
         }
       : null,
     createdAt: document.createdAt,
@@ -104,6 +121,26 @@ export async function GET(request) {
               acceptanceType: true,
               acceptedAt: true,
               signedDocumentDownloadedAt: true
+            }
+          },
+          callRecordingFiles: {
+            orderBy: { createdAt: "desc" },
+            take: 1,
+            select: {
+              id: true,
+              callSessionId: true,
+              recordingRequestId: true,
+              retentionUntil: true,
+              durationSeconds: true,
+              recordingRequest: {
+                select: {
+                  purpose: true,
+                  purposeText: true,
+                  status: true,
+                  consents: { select: { id: true } },
+                  callSession: { select: { startedAt: true, endedAt: true } }
+                }
+              }
             }
           }
         },
