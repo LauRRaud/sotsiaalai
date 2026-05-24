@@ -2260,6 +2260,18 @@ html[data-contrast="hc"]
 html[data-contrast="hc"]
   body
   .profile-email-dock-wrapper.profile-orbit-menu-wrapper
+  :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item:is(
+    :hover,
+    :focus-visible,
+    :active,
+    [data-orbit-mobile-active="true"]
+  ) {
+  color: var(--hc-accent) !important;
+  background: var(--orbit-keypad-fill-item, var(--orbit-keypad-fill)) !important;
+}
+html[data-contrast="hc"]
+  body
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper
   .profile-orbit-menu__item.dock-item {
   transition: box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
@@ -2299,6 +2311,8 @@ html[data-contrast="hc"]
     :focus-visible,
     :active
   ) {
+  color: var(--hc-accent) !important;
+  background: var(--orbit-keypad-fill-center, var(--orbit-keypad-fill)) !important;
   box-shadow: 0 0 32px rgba(255, 234, 0, 0.46) !important;
 }
 

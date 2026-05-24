@@ -1892,7 +1892,7 @@ html[data-contrast="hc"]
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item {
-  color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  color: var(--forest-highlight, #c57171);
   background: var(--forest-orbit-surface) !important;
   box-shadow:
     0 0 18px rgba(238, 228, 222, 0.12),
@@ -1937,7 +1937,7 @@ html[data-contrast="hc"]
     .profile-orbit-stack-bubble,
     .profile-orbit-mobile-action
   ).dock-item:is(:hover, :focus-visible, :active, [data-orbit-mobile-active="true"]) {
-  color: var(--forest-icon, rgba(238, 228, 222, 0.96));
+  color: var(--forest-highlight, #c57171);
   background: var(--forest-orbit-surface-hover, var(--forest-orbit-surface)) !important;
 }
 

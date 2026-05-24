@@ -29,19 +29,25 @@ test("profile orbital theme switch includes forest before high contrast", () => 
 test("forest theme has moss glass, warm mid-style icons, controls and home/about tokens", () => {
   const forest = read("app/styles/theme/forest.css");
   const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
+  const infoButton = read("components/ui/PageInfoButton.module.css");
 
   assert.match(forest, /:root\.theme-forest/);
-  assert.match(forest, /--forest-bg-top:\s*#235347/);
+  assert.match(forest, /--forest-bg-top:\s*#2c6a5a/);
+  assert.match(forest, /--forest-highlight:\s*#c57171/);
   assert.match(forest, /--forest-icon:\s*rgba\(238,\s*228,\s*222/);
   assert.match(forest, /--glass-ring-surface-bg:\s*rgba\(/);
   assert.match(forest, /--home-panel-bg:\s*rgba\(/);
+  assert.match(forest, /--forest-orbit-surface:/);
   assert.match(forest, /--btn-primary-bg:/);
   assert.match(forest, /--input-bg:/);
-  assert.match(forest, /--chat-icon-dark:\s*var\(--forest-icon\)/);
-  assert.match(forest, /button:has\(\.back-icon-arrow\)[\s\S]*?--back-arrow-color:\s*var\(--forest-icon\)/);
+  assert.match(forest, /--chat-icon-dark:\s*var\(--forest-highlight\)/);
+  assert.match(forest, /button:has\(\.back-icon-arrow\)[\s\S]*?--back-arrow-color:\s*var\(--forest-highlight\)/);
+  assert.match(forest, /button:has\(\.back-icon-arrow\)[\s\S]*?--back-dot-color:\s*#7A3A38/);
+  assert.match(forest, /--home-title-color:\s*var\(--forest-highlight\)/);
   assert.match(forest, /:is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
   assert.match(forest, /\.workspace-feature-panel[\s\S]*?--workspace-feature-accent:\s*var\(--forest-icon\)/);
-  assert.match(orbital, /:root\.theme-forest[\s\S]*?var\(--forest-icon/);
+  assert.match(infoButton, /:global\(:root\.theme-forest\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-highlight,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*#7A3A38;/);
+  assert.match(orbital, /:root\.theme-forest[\s\S]*?var\(--forest-highlight,\s*#c57171\)/);
   assert.match(orbital, /var\(--forest-orbit-surface/);
 });
 

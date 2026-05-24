@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { __iconNode as buildingBankIconNode } from "@tabler/icons-react/dist/esm/icons/IconBuildingBank.mjs";
-import { __iconNode as heartHandshakeIconNode } from "@tabler/icons-react/dist/esm/icons/IconHeartHandshake.mjs";
 
 const ESTONIA_BOUNDS = [
   [57.45, 21.35],
@@ -368,43 +366,18 @@ function markerClassName(group, selected) {
     .join(" ");
 }
 
-function escapeSvgAttribute(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("\"", "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
-
-function iconNodeHtml(iconNode) {
-  const body = iconNode.map(([tag, attrs = {}]) => {
-    const attributes = Object.entries(attrs)
-      .filter(([name]) => name !== "key")
-      .map(([name, value]) => `${name}="${escapeSvgAttribute(value)}"`)
-      .join(" ");
-    return `<${tag}${attributes ? ` ${attributes}` : ""} />`;
-  }).join("");
-
-  return [
-    "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\">",
-    body,
-    "</svg>"
-  ].join("");
-}
-
-function markerIconHtml(group) {
+function markerLabelText(group) {
   const entries = Array.isArray(group?.entries) ? group.entries : [];
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
+  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER");
 
-  if (allProviders) {
-    return iconNodeHtml(heartHandshakeIconNode);
-  }
-
-  return iconNodeHtml(buildingBankIconNode);
+  if (allProviders) return "T";
+  if (allKov) return "K";
+  return "KT";
 }
 
 function markerHtml(group, selected) {
-  return `<span class="${markerClassName(group, selected)}">${markerIconHtml(group)}</span>`;
+  return `<span class="${markerClassName(group, selected)}"><span class="service-map-leaflet__marker-label">${markerLabelText(group)}</span></span>`;
 }
 
 function ensureStylesheet(href) {
@@ -729,17 +702,17 @@ export default function ServiceMapLeaflet({
       >
         <span className="service-map-leaflet__legend-item">
           <span
-            className="service-map-leaflet__marker service-map-leaflet__marker--kov"
+            className="service-map-leaflet__legend-marker"
             aria-hidden="true"
-            dangerouslySetInnerHTML={{ __html: markerIconHtml({ entries: [{ type: "KOV_SOCIAL_CONTACT" }] }) }}
+            dangerouslySetInnerHTML={{ __html: markerHtml({ entries: [{ type: "KOV_SOCIAL_CONTACT" }] }, false) }}
           />
           <span>{readText(t, "workspace_feature_pages.service_map.marker_kov", "KOV")}</span>
         </span>
         <span className="service-map-leaflet__legend-item">
           <span
-            className="service-map-leaflet__marker service-map-leaflet__marker--provider"
+            className="service-map-leaflet__legend-marker"
             aria-hidden="true"
-            dangerouslySetInnerHTML={{ __html: markerIconHtml({ entries: [{ type: "SERVICE_PROVIDER" }] }) }}
+            dangerouslySetInnerHTML={{ __html: markerHtml({ entries: [{ type: "SERVICE_PROVIDER" }] }, false) }}
           />
           <span>{readText(t, "workspace_feature_pages.service_map.marker_provider", "Teenuseosutaja")}</span>
         </span>
