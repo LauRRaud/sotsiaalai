@@ -30,6 +30,7 @@
     "service-map:geocode": "node scripts/geocode-service-map-entries.mjs",
     "build": "npm run i18n:check && next build --turbopack",
     "build:webpack": "npm run i18n:check && next build --webpack",
+    "video:dev:timeline": "node scripts/make-dev-video.mjs",
     "start": "npm run env:check && cross-env NODE_ENV=production next start -p 3000",
     "serve": "cross-env NODE_ENV=production pm2 start npm --name \"sotsiaalai\" -- start",
     "AI": "node scripts/ai-deploy.mjs",

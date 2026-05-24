@@ -277,10 +277,11 @@
 @media (min-width: 48.001em) {
 }
 
-/* Home scroll cue (mouse + arrow) should match mid title tone (e.g. "Meist"). */
+/* Home cue and opening banner share the same mid-tone accent. */
 :root.theme-mid body.homepage {
   --home-panel-bg: rgba(203, 190, 186, 0.79);
   --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
+  --home-title-color: var(--home-scroll-cue-color);
   --home-card-light-opacity: 0.74;
   --home-card-dark-opacity: 0.81;
   --home-card-shell-shadow:

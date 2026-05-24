@@ -1,0 +1,34 @@
+{
+  "sections": [
+    {
+      "name": "Avaleht",
+      "from": 1,
+      "to": 20
+    },
+    {
+      "name": "Login modal",
+      "from": 21,
+      "to": 40
+    },
+    {
+      "name": "Registreeru",
+      "from": 41,
+      "to": 55
+    },
+    {
+      "name": "Profiil / orbitaalmenüü",
+      "from": 56,
+      "to": 112
+    },
+    {
+      "name": "Toolaud",
+      "from": 113,
+      "to": 129
+    },
+    {
+      "name": "Rakendused",
+      "from": 130,
+      "to": 139
+    }
+  ]
+}

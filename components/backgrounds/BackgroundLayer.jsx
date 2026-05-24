@@ -539,14 +539,10 @@ function BackgroundLayer() {
       ? ["#a06861"]
       : effectiveTheme === "mid"
         ? ["#794f4c"]
-        : effectiveTheme === "forest"
-          ? ["#eee4de"]
         : ["#7e4442"];
   const colorBendsOpacity =
     effectiveTheme === "light" || effectiveTheme === "mid"
       ? COLOR_BENDS_OPACITY_FULL
-      : effectiveTheme === "forest"
-        ? 0.56
       : COLOR_BENDS_OPACITY_DEFAULT;
   return <BackgroundContent
     reduceMotion={effectiveReduceMotion}

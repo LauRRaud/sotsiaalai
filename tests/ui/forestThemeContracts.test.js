@@ -31,7 +31,7 @@ test("forest theme has moss glass, warm mid-style icons, controls and home/about
   const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
 
   assert.match(forest, /:root\.theme-forest/);
-  assert.match(forest, /--forest-bg-top:\s*#243528/);
+  assert.match(forest, /--forest-bg-top:\s*#235347/);
   assert.match(forest, /--forest-icon:\s*rgba\(238,\s*228,\s*222/);
   assert.match(forest, /--glass-ring-surface-bg:\s*rgba\(/);
   assert.match(forest, /--home-panel-bg:\s*rgba\(/);
@@ -45,11 +45,13 @@ test("forest theme has moss glass, warm mid-style icons, controls and home/about
   assert.match(orbital, /var\(--forest-orbit-surface/);
 });
 
-test("forest background uses warm light color bends", () => {
+test("forest background uses the default dark color bends", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
 
-  assert.match(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\["#eee4de"\]/);
-  assert.match(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\?\s*0\.56/);
+  assert.doesNotMatch(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\["#eee4de"\]/);
+  assert.match(backgroundLayer, /: ["#7e4442"]/);
+  assert.doesNotMatch(backgroundLayer, /effectiveTheme === "forest"[\s\S]*?\?\s*0\.56/);
+  assert.match(backgroundLayer, /COLOR_BENDS_OPACITY_DEFAULT/);
 });
 
 test("forest theme labels are available in all locales", () => {

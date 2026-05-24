@@ -1,8 +1,8 @@
 :root.theme-forest {
   color-scheme: dark;
-  --forest-bg-top: #243528;
-  --forest-bg-mid: #18271c;
-  --forest-bg-bottom: #0c1710;
+  --forest-bg-top: #235347;
+  --forest-bg-mid: #1d433a;
+  --forest-bg-bottom: #10281f;
   --forest-accent: #8a8874;
   --forest-accent-bright: #b7ad99;
   --forest-icon: rgba(238, 228, 222, 0.96);
@@ -252,7 +252,7 @@
   background: linear-gradient(
     180deg,
     var(--forest-bg-top) 0%,
-    var(--forest-bg-mid) 56%,
+    var(--forest-bg-mid) 54%,
     var(--forest-bg-bottom) 100%
   );
 }
