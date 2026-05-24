@@ -16,7 +16,8 @@ import {
   normalizeDocumentKind,
   normalizeDocumentTitle,
   normalizeTemplateFor,
-  requireDocumentUser
+  requireDocumentUser,
+  writeStoredTextDocument
 } from "@/lib/documents/server"
 
 export const runtime = "nodejs"
@@ -42,6 +43,9 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
+    sourceDocumentId: document.sourceDocumentId || null,
+    content: ["CALL_TRANSCRIPT", "AUDIO_TRANSCRIPT", "TRANSCRIPT_SUMMARY"].includes(document.kind) ? document.content || "" : undefined,
+    metadata: document.metadata || null,
     readOnly: Boolean(frameworkAcceptance),
     frameworkAcceptance: frameworkAcceptance
       ? {
@@ -74,6 +78,9 @@ async function findDocumentWithFrameworkState(id) {
         size: true,
         sha256: true,
         storagePath: true,
+        sourceDocumentId: true,
+        content: true,
+        metadata: true,
         createdAt: true,
         updatedAt: true,
         frameworkAcceptance: {
@@ -110,6 +117,9 @@ async function findDocumentWithFrameworkState(id) {
         size: true,
         sha256: true,
         storagePath: true,
+        sourceDocumentId: true,
+        content: true,
+        metadata: true,
         createdAt: true,
         updatedAt: true
       }
@@ -215,6 +225,18 @@ export async function PATCH(request, { params }) {
 
     const agentAllowed =
       body?.agentAllowed === undefined ? existing.agentAllowed : Boolean(body.agentAllowed)
+    const canUpdateContent = ["CALL_TRANSCRIPT", "AUDIO_TRANSCRIPT", "TRANSCRIPT_SUMMARY"].includes(existing.kind)
+    const nextContent =
+      body?.content === undefined || !canUpdateContent ? undefined : String(body.content || "").replace(/\r\n?/g, "\n").trim()
+    let storedText = null
+
+    if (body?.content !== undefined && !canUpdateContent) {
+      return errorJson("documents.errors.read_only_document", 403, locale)
+    }
+
+    if (nextContent !== undefined) {
+      storedText = await writeStoredTextDocument(nextContent, existing.storagePath)
+    }
 
     const document = await prisma.userDocument.update({
       where: { id },
@@ -222,7 +244,19 @@ export async function PATCH(request, { params }) {
         title,
         kind,
         templateFor,
-        agentAllowed
+        agentAllowed,
+        ...(storedText
+          ? {
+              content: nextContent,
+              size: storedText.size,
+              sha256: storedText.sha256,
+              metadata: {
+                ...(existing.metadata && typeof existing.metadata === "object" ? existing.metadata : {}),
+                reviewedAt: new Date().toISOString(),
+                reviewedByUserId: auth.userId
+              }
+            }
+          : {})
       },
       select: {
         id: true,
@@ -235,6 +269,9 @@ export async function PATCH(request, { params }) {
         mime: true,
         size: true,
         storagePath: true,
+        sourceDocumentId: true,
+        content: true,
+        metadata: true,
         createdAt: true,
         updatedAt: true
       }
@@ -248,6 +285,16 @@ export async function PATCH(request, { params }) {
       templateFor: document.templateFor,
       agentAllowed: document.agentAllowed
     })
+
+    if (storedText) {
+      await logDocumentsAudit("document.transcript_updated", {
+        userId: auth.userId,
+        documentId: document.id,
+        sourceDocumentId: document.sourceDocumentId || null,
+        kind: document.kind,
+        size: document.size
+      })
+    }
 
     return json({
       ok: true,

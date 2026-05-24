@@ -117,8 +117,9 @@ function DashboardCardIcon({ type }) {
   if (type === "wellbeing") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M12 20.25c-.42 0-.86-.18-1.18-.5C7.4 16.35 4.35 13.55 4.35 9.72A4.08 4.08 0 0 1 8.45 5.6c1.32 0 2.6.63 3.55 1.78.95-1.15 2.23-1.78 3.55-1.78a4.08 4.08 0 0 1 4.1 4.12c0 3.83-3.05 6.63-6.47 10.03-.32.32-.76.5-1.18.5Z" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M7.15 12.3h2.35l1.12-2.7 2.08 5.18 1.18-2.48h2.98" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 3.35c2.2 1.68 4.5 2.38 6.85 2.1v5.05c0 4.25-2.48 7.42-6.85 9.65-4.37-2.23-6.85-5.4-6.85-9.65V5.45c2.35.28 4.65-.42 6.85-2.1Z" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="9.2" r="1.85" stroke="currentColor" strokeWidth="1.52" />
+        <path d="M8.6 15.35c.7-1.95 1.82-2.9 3.4-2.9s2.7.95 3.4 2.9" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }

@@ -421,6 +421,9 @@ enum DocumentKind {
   MATERIAL
   CALL_AUDIO_RECORDING
   CALL_TRANSCRIPT
+  AUDIO_TRANSCRIPT
+  TRANSCRIPT_SUMMARY
+  UPLOADED_AUDIO_SOURCE
   OTHER
 }
 
@@ -435,8 +438,13 @@ enum TemplateFor {
 
 enum AgentArtifactType {
   MEETING_SUMMARY
+  TRANSCRIPT_SUMMARY
+  CASE_SUMMARY
+  PRE_ASSESSMENT_SUMMARY
+  STAR_HELPER
   CASE_BRIEF
   REPORT_DRAFT
+  ACTION_PLAN
   CHECKLIST
   LETTER_DRAFT
   OTHER
@@ -445,6 +453,14 @@ enum AgentArtifactType {
 enum AgentArtifactStatus {
   DRAFT
   FINAL
+}
+
+enum TranscriptionJobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
 }
 
 enum DocumentAuditAction {
@@ -487,6 +503,7 @@ model User {
   sponsoredSubscriptions Subscription[]        @relation("SubscriptionSponsorUser")
   ragDocuments           RagDocument[]
   documents              UserDocument[]
+  transcriptionJobs      TranscriptionJob[]
   agentArtifacts         AgentArtifact[]
   documentAudits         DocumentAudit[]
   frameworkAcceptances   FrameworkAcceptance[]
@@ -1957,20 +1974,28 @@ model UserDocument {
   size                  Int
   sha256                String
   storagePath           String
+  sourceDocumentId      String?
+  content               String?      @db.Text
+  metadata              Json?
   frameworkAcceptanceId String?      @unique
   createdAt             DateTime     @default(now())
   updatedAt             DateTime     @updatedAt
 
   owner               User                          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   frameworkAcceptance FrameworkAcceptance?          @relation(fields: [frameworkAcceptanceId], references: [id], onDelete: SetNull)
+  sourceDocument      UserDocument?                  @relation("UserDocumentSource", fields: [sourceDocumentId], references: [id], onDelete: SetNull)
+  derivedDocuments    UserDocument[]                 @relation("UserDocumentSource")
   templateArtifacts   AgentArtifact[]               @relation("AgentArtifactTemplate")
   sourceArtifactLinks AgentArtifactSourceDocument[]
+  sourceTranscriptionJobs TranscriptionJob[]             @relation("TranscriptionJobSource")
+  transcriptTranscriptionJobs TranscriptionJob[]         @relation("TranscriptionJobTranscript")
   audits              DocumentAudit[]
   callRecordingFiles  CallRecordingFile[]
 
   @@index([ownerId, updatedAt])
   @@index([ownerId, kind, updatedAt])
   @@index([ownerId, agentAllowed, updatedAt])
+  @@index([sourceDocumentId])
   @@index([sha256])
 }
 
@@ -2006,6 +2031,7 @@ model AgentArtifact {
   title      String?
   status     AgentArtifactStatus @default(DRAFT)
   content    String              @db.Text
+  metadata   Json?
   approvedAt DateTime?
   templateId String?
   createdAt  DateTime            @default(now())
@@ -2020,6 +2046,32 @@ model AgentArtifact {
   @@index([ownerId, type, updatedAt])
   @@index([ownerId, status, updatedAt])
   @@index([templateId])
+}
+
+model TranscriptionJob {
+  id                   String                 @id @default(cuid())
+  sourceDocumentId     String
+  requestedByUserId    String
+  transcriptDocumentId String?
+  provider             String
+  model                String?
+  language             String?
+  status               TranscriptionJobStatus @default(QUEUED)
+  error                String?
+  startedAt            DateTime?
+  completedAt          DateTime?
+  cancelledAt          DateTime?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+
+  sourceDocument     UserDocument  @relation("TranscriptionJobSource", fields: [sourceDocumentId], references: [id], onDelete: Cascade)
+  requestedBy        User          @relation(fields: [requestedByUserId], references: [id], onDelete: Cascade)
+  transcriptDocument UserDocument? @relation("TranscriptionJobTranscript", fields: [transcriptDocumentId], references: [id], onDelete: SetNull)
+
+  @@index([sourceDocumentId, status])
+  @@index([requestedByUserId, status])
+  @@index([transcriptDocumentId])
+  @@index([createdAt])
 }
 
 model AgentArtifactSourceDocument {

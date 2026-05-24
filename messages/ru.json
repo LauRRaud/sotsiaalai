@@ -1561,7 +1561,12 @@
     "kinds": {
       "template": "Шаблон",
       "material": "Материал",
-      "other": "Другое"
+      "uploaded_audio_source": "Загруженный аудиофайл",
+      "other": "Другое",
+      "audio_transcript": "Audio transcript",
+      "transcript_summary": "Transcript summary",
+      "call_audio_recording": "Call recording",
+      "call_transcript": "Call transcript"
     },
     "template_for": {
       "report_draft": "Отчёт",
@@ -1573,11 +1578,16 @@
     },
     "artifact_types": {
       "meeting_summary": "Итоги встречи",
+      "case_summary": "Краткое описание случая",
+      "pre_assessment_summary": "Итог первичного обращения",
+      "star_helper": "Материал для STAR",
       "case_brief": "Краткое описание случая",
       "report_draft": "Черновик отчёта",
+      "action_plan": "План действий",
       "checklist": "Чек-лист",
       "letter_draft": "Черновик письма",
-      "other": "Другое"
+      "other": "Другое",
+      "transcript_summary": "?????? ???????????"
     },
     "status": {
       "draft": "Черновик",
@@ -1688,29 +1698,43 @@
       "conversation_description": "Отправьте первую инструкцию или уточните текущий черновик в беседе. Агент использует выбранные документы и вашу цель работы.",
       "audio_input": {
         "title": "Использовать аудио для подготовки документа",
-        "description": "Запишите встречу или добавьте аудиофайл, чтобы на его основе подготовить транскрипцию и черновик документа. Текст из аудио не добавляется в черновик автоматически. Перед подготовкой документа вы сможете проверить транскрипцию.",
-        "processing_note": "Аудиофайл используется только для выбранного документа. Транскрипция и черновик создаются отдельными действиями пользователя.",
+        "description": "???????? ???????????? ??????????? ??? ????????? ?????????. ??????? ????????? ?????? ?????????? ??????. ????? ????? ????????? ?????????? ? ??????? ?? ??? ?????? ?????? ??????.",
+        "processing_note": "????????? ???????????? ?????? ??? ????????? ??????. ?????????? ? ?????? ????????? ?????????? ?????????? ????????????.",
         "coming_soon": "Подготовка документа на основе аудиофайла будет добавлена на следующем этапе.",
-        "draft_type_label": "Тип черновика после транскрипции",
+        "existing_title": "Существующие аудиозаписи",
+        "existing_empty": "Доступные аудиозаписи не найдены.",
+        "existing_loading": "Загружаем аудиозаписи...",
+        "choose_existing": "Выбрать",
+        "selected_source": "Выбранный аудиофайл: {title}",
+        "upload_label": "Загрузить аудиофайл",
+        "upload_help": "Разрешены только аудиофайлы. Файл не становится публичным.",
+        "uploading": "Загружаем...",
+        "upload_success": "Аудиофайл добавлен в Документы.",
+        "transcribe": "??????? ??????????",
+        "transcribing": "?????????? ??????????????...",
+        "transcript_title": "???????? ???????????",
+        "transcript_ready": "?????????? ?????.",
+        "transcript_link": "??????? ??????????",
+        "source_recording": "Запись звонка",
+        "source_upload": "Загруженный аудиофайл",
+        "duration": "Длительность: {duration}",
+        "purpose": "Цель: {purpose}",
+        "room_context": "Время звонка: {date}",
+        "no_auto_transcription": "Транскрипция не запускается автоматически.",
         "source_options": [
-          { "value": "record_new", "label": "Записать новый аудиофайл" },
-          { "value": "upload_file", "label": "Загрузить аудиофайл" },
-          { "value": "choose_existing", "label": "Выбрать существующую аудиозапись из Документов" }
+          {
+            "value": "upload_file",
+            "label": "Загрузить аудиофайл"
+          },
+          {
+            "value": "choose_existing",
+            "label": "Выбрать существующую аудиозапись из Документов"
+          }
         ],
         "sources": {
-          "record_new": "Записать новый аудиофайл",
           "upload_file": "Загрузить аудиофайл",
           "choose_existing": "Выбрать существующую аудиозапись из Документов"
         },
-        "draft_type_options": [
-          { "value": "MEETING_SUMMARY", "label": "итоги встречи" },
-          { "value": "CASE_SUMMARY", "label": "краткое описание случая" },
-          { "value": "PRE_ASSESSMENT_SUMMARY", "label": "итог первичного обращения" },
-          { "value": "STAR_HELPER", "label": "материал для заполнения STAR" },
-          { "value": "LETTER_DRAFT", "label": "официальное письмо/ответ" },
-          { "value": "ACTION_PLAN", "label": "план действий" },
-          { "value": "OTHER", "label": "другой документ" }
-        ],
         "draft_types": {
           "meeting_summary": "итоги встречи",
           "case_summary": "краткое описание случая",
@@ -1719,7 +1743,23 @@
           "letter_draft": "официальное письмо/ответ",
           "action_plan": "план действий",
           "other": "другой документ"
-        }
+        },
+        "steps_label": "??????? ???????",
+        "step_audio": "1. ???????? ?????????",
+        "step_transcript": "2. ??????? ??????????",
+        "step_review": "3. ????????? ??????????",
+        "step_summary": "4. ??????? ??????",
+        "transcript_edit_label": "????? ???????????",
+        "transcript_edit_help": "????????? ?????????? ????? ????????? ??????. ??? ????????????? ????????? ????? ? ????????? ?????????.",
+        "save_transcript": "????????? ??????????",
+        "saving_transcript": "????????? ??????????...",
+        "transcript_saved": "?????????? ????????.",
+        "summary_title": "?????? ??????",
+        "summary_help": "?????? ????????? ?????? ?? ???????????? ???????????. ??? ?????????? ??????? ?? ????? ? ?? ????????? ????? ??????.",
+        "create_summary": "??????? ??????",
+        "summary_creating": "?????? ?????????...",
+        "summary_ready": "?????? ?????? ??? ????????????? ????????.",
+        "summary_link": "??????? ??????"
       },
       "conversation_intro_empty": "Здравствуйте! Сначала передайте сюда документы, а затем опишите, что вы хотите, чтобы Ѹ создал.",
       "conversation_intro_with_docs": "Здравствуйте! Опишите, что я должен создать на основе {count} выбранных документов.",
@@ -1855,13 +1895,25 @@
       "invalid_payload": "Некорректные данные запроса.",
       "not_found": "Документ не найден.",
       "list_failed": "Не удалось получить список документов.",
+      "audio_sources_load_failed": "Не удалось загрузить аудиозаписи.",
+      "audio_file_required": "Выберите аудиофайл.",
+      "audio_file_too_large": "Аудиофайл слишком большой.",
+      "audio_mime_not_allowed": "Файл должен быть аудиофайлом.",
+      "audio_signature_invalid": "Формат аудиофайла не поддерживается.",
+      "audio_upload_failed": "Не удалось загрузить аудиофайл.",
+      "audio_source_required": "Выберите аудиофайл для транскрипции.",
+      "transcription_not_configured": "Сервис транскрипции не настроен.",
+      "transcription_failed": "Транскрипция не удалась.",
+      "transcription_empty": "Транскрипция не вернула текст.",
       "update_failed": "Не удалось обновить документ.",
       "download_failed": "Не удалось скачать документ.",
       "storage_path_invalid": "Некорректный путь хранения документа.",
       "storage_dir_missing": "Каталог хранения документов не настроен.",
       "agent_storage_dir_missing": "Каталог хранения результатов агента не настроен.",
       "daily_upload_quota_exceeded": "Дневной лимит загрузок исчерпан. Попробуйте снова завтра.",
-      "storage_quota_exceeded": "Лимит хранилища достигнут. Удалите несколько файлов и попробуйте снова."
+      "storage_quota_exceeded": "Лимит хранилища достигнут. Удалите несколько файлов и попробуйте снова.",
+      "transcript_required": "Transcript is missing or cannot be used.",
+      "summary_failed": "Summary creation failed."
     },
     "artifacts": {
       "search_placeholder": "Поиск по названию, тексту, типу или исходному документу",

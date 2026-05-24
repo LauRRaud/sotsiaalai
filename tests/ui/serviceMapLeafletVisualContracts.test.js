@@ -37,6 +37,25 @@ test("service map Leaflet groups entries that share one coordinate", () => {
   assert.match(leafletSource, /offset:\s*\[0,\s*-18\]/);
 });
 
+test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
+  const css = read("app/styles/components/service-map.css");
+  const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
+  const markerBlock = cssBlock(css, ".service-map-leaflet__marker");
+  const legendMarkerBlock = cssBlock(css, ".service-map-leaflet__legend .service-map-leaflet__marker");
+  const markerSvgBlock = cssBlock(css, ".service-map-leaflet__marker svg");
+  const selectedMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--selected");
+
+  assert.match(leafletSource, /IconBuildingBank\.mjs/);
+  assert.doesNotMatch(leafletSource, /IconBuildingCommunity\.mjs/);
+  assert.match(markerBlock, /border-radius:\s*50% 50% 50% 0\.28rem/);
+  assert.match(markerBlock, /box-shadow:\s*0 0 0 2px rgba\(255,\s*255,\s*255,\s*0\.92\)/);
+  assert.match(markerBlock, /transform:\s*rotate\(-45deg\)/);
+  assert.doesNotMatch(markerBlock, /inset\s+-/);
+  assert.match(markerSvgBlock, /transform:\s*rotate\(45deg\)/);
+  assert.doesNotMatch(legendMarkerBlock, /inset\s+-/);
+  assert.doesNotMatch(selectedMarkerBlock, /inset\s+-/);
+});
+
 test("service map popup glass is applied on the wrapper immediately", () => {
   const css = read("app/styles/components/service-map.css");
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");

@@ -24,4 +24,22 @@ test("register and accessibility scroll masks are disabled", () => {
     finalOverride[1],
     /mask-image:\s*none\s*!important/
   );
+  assert.match(
+    finalOverride[1],
+    /--csp-edge-overscan-top:\s*clamp\(/,
+    "scroll area should overscan upward so content clips at the ring edge"
+  );
+  assert.match(
+    finalOverride[1],
+    /--csp-edge-overscan-bottom:\s*clamp\(/,
+    "scroll area should overscan downward so content clips at the ring edge"
+  );
+  assert.match(
+    finalOverride[1],
+    /margin-top:\s*calc\(-1 \* var\(--csp-edge-overscan-top\)\)/
+  );
+  assert.match(
+    finalOverride[1],
+    /margin-bottom:\s*calc\(-1 \* var\(--csp-edge-overscan-bottom\)\)/
+  );
 });

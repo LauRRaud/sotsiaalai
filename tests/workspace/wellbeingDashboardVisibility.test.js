@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { createWorkspaceDashboardRows } from "../../lib/workspaceDashboardCards.js";
@@ -52,4 +53,15 @@ test("wellbeing dashboard card sits next to covision and opens the wellbeing wor
     wellbeing.description,
     "Märka töökoormust, vaata ülevaateid ning hoia fookuses taastumine, piirid ja tööprotsessid."
   );
+});
+
+test("wellbeing dashboard icon uses a social support mark instead of a medical pulse", () => {
+  const source = readFileSync(new URL("../../components/chat/WorkspacePanel.jsx", import.meta.url), "utf8");
+  const wellbeingIcon = source.match(/if \(type === "wellbeing"\) \{[\s\S]*?return \([\s\S]*?<\/svg>[\s\S]*?\);\s*\}/)?.[0] || "";
+
+  assert.match(wellbeingIcon, /M12 3\.35c2\.2 1\.68/);
+  assert.match(wellbeingIcon, /<circle cx="12" cy="9\.2" r="1\.85"/);
+  assert.match(wellbeingIcon, /M8\.6 15\.35c\.7-1\.95/);
+  assert.doesNotMatch(wellbeingIcon, /M12 20\.25c-/);
+  assert.doesNotMatch(wellbeingIcon, /1\.12-2\.7/);
 });

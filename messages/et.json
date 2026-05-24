@@ -124,7 +124,7 @@
       "pin_placeholder": "PIN (4-8 numbrit)",
       "role_label_question": "Kes oled?",
       "role_label": "Roll:",
-      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist, Eluküsimusega pöörduja või Teenuseosutaja.",
+      "role_hint": "Vali roll nooleklahvidega. Valikud: Sotsiaaltöö spetsialist, Eluküsimusega pöörduja või Teenuse osutaja.",
       "worker_use_org": "Kasutan platvormi tööks kliendi isikuandmetega",
       "worker_framework_title": "Tööalase kasutuse raamistik",
       "worker_framework_note": "Kui kasutad SotsiaalAI-d tööülesannetes kliendi või muu isiku andmetega, pead enne jätkamist tutvuma tööalase kasutuse ja andmetöötluse raamistikuga ning alla laadima eestikeelse raamlepingu ja allkirjastatud DigiDoc-faili.",
@@ -193,7 +193,7 @@
       },
       "service_provider": {
         "title_line1": "Teenuse",
-        "title_line2": "osutajale"
+        "title_line2": "osutaja"
       },
       "client": {
         "login_aria": "Ava eluküsimusega pöörduja sisselogimine",
@@ -1561,7 +1561,12 @@
     "kinds": {
       "template": "Mall",
       "material": "Materjal",
-      "other": "Muu"
+      "uploaded_audio_source": "Üles laaditud helifail",
+      "other": "Muu",
+      "audio_transcript": "Helifaili transkript",
+      "transcript_summary": "Transkripti kokkuvõte",
+      "call_audio_recording": "Helikõne salvestus",
+      "call_transcript": "Helikõne transkript"
     },
     "template_for": {
       "report_draft": "Aruanne",
@@ -1573,11 +1578,16 @@
     },
     "artifact_types": {
       "meeting_summary": "Kohtumise kokkuvõte",
+      "case_summary": "Juhtumikokkuvõte",
+      "pre_assessment_summary": "Eelpöördumise kokkuvõte",
+      "star_helper": "STAR-i sisestamise abimaterjal",
       "case_brief": "Juhtumikokkuvõte",
       "report_draft": "Aruande mustand",
+      "action_plan": "Tegevuskava",
       "checklist": "Kontrollnimekiri",
       "letter_draft": "Kirja mustand",
-      "other": "Muu"
+      "other": "Muu",
+      "transcript_summary": "Transkripti kokkuvõte"
     },
     "status": {
       "draft": "Mustand",
@@ -1687,30 +1697,44 @@
       "conversation_title": "Vestlus agendiga",
       "conversation_description": "Anna esimene juhis või täpsusta praegust mustandit vestluses. Agent kasutab valitud dokumente ja sinu määratud töö eesmärki.",
       "audio_input": {
-        "title": "Kasuta helisisendit dokumendi koostamiseks",
-        "description": "Salvesta kohtumine või lisa helifail, et koostada selle põhjal transkriptsioon ja dokumendi mustand. Helist ei lisata teksti automaatselt mustandisse. Enne dokumendi koostamist saad transkriptsiooni üle vaadata.",
-        "processing_note": "Helifaili kasutatakse ainult valitud dokumendi koostamiseks. Transkriptsioon ja mustand tekivad eraldi kasutaja tegevuse alusel.",
+        "title": "Kasuta helifaili dokumendi koostamiseks",
+        "description": "Vali olemasolev helisalvestus või laadi üles helifail. Esmalt koostatakse kogu salvestise transkript. Seejärel saad transkripti üle vaadata ja koostada selle põhjal täpse kokkuvõtte.",
+        "processing_note": "Helifaili kasutatakse ainult valitud dokumendi koostamiseks. Transkript ja kokkuvõte tekivad eraldi kasutaja tegevuse alusel.",
         "coming_soon": "Helifaili põhjal dokumendi koostamine lisandub järgmises etapis.",
-        "draft_type_label": "Mustandi tüüp pärast transkriptsiooni",
+        "existing_title": "Olemasolevad helisalvestused",
+        "existing_empty": "Õigustatud helisalvestusi ei leitud.",
+        "existing_loading": "Laen helisalvestusi...",
+        "choose_existing": "Vali",
+        "selected_source": "Valitud helifail: {title}",
+        "upload_label": "Laadi üles helifail",
+        "upload_help": "Lubatud on ainult audiofailid. Fail ei muutu avalikuks.",
+        "uploading": "Laadin üles...",
+        "upload_success": "Helifail lisati Documents alla.",
+        "transcribe": "Koosta transkript",
+        "transcribing": "Transkript on töötlemisel...",
+        "transcript_title": "Transkripti ülevaatus",
+        "transcript_ready": "Transkript valmis.",
+        "transcript_link": "Ava transkript",
+        "source_recording": "Helikõne salvestus",
+        "source_upload": "Üles laaditud helifail",
+        "duration": "Kestus: {duration}",
+        "purpose": "Eesmärk: {purpose}",
+        "room_context": "Kõne aeg: {date}",
+        "no_auto_transcription": "Transkriptsioon ei käivitu automaatselt.",
         "source_options": [
-          { "value": "record_new", "label": "Salvesta uus helifail" },
-          { "value": "upload_file", "label": "Laadi üles helifail" },
-          { "value": "choose_existing", "label": "Vali olemasolev helisalvestus dokumentidest" }
+          {
+            "value": "upload_file",
+            "label": "Laadi üles helifail"
+          },
+          {
+            "value": "choose_existing",
+            "label": "Vali olemasolev helisalvestus dokumentidest"
+          }
         ],
         "sources": {
-          "record_new": "Salvesta uus helifail",
           "upload_file": "Laadi üles helifail",
           "choose_existing": "Vali olemasolev helisalvestus dokumentidest"
         },
-        "draft_type_options": [
-          { "value": "MEETING_SUMMARY", "label": "kohtumise kokkuvõte" },
-          { "value": "CASE_SUMMARY", "label": "juhtumikokkuvõte" },
-          { "value": "PRE_ASSESSMENT_SUMMARY", "label": "eelpöördumise kokkuvõte" },
-          { "value": "STAR_HELPER", "label": "STAR-i sisestamise abimaterjal" },
-          { "value": "LETTER_DRAFT", "label": "ametlik kiri/vastus" },
-          { "value": "ACTION_PLAN", "label": "tegevuskava" },
-          { "value": "OTHER", "label": "muu dokument" }
-        ],
         "draft_types": {
           "meeting_summary": "kohtumise kokkuvõte",
           "case_summary": "juhtumikokkuvõte",
@@ -1719,7 +1743,23 @@
           "letter_draft": "ametlik kiri/vastus",
           "action_plan": "tegevuskava",
           "other": "muu dokument"
-        }
+        },
+        "steps_label": "Töövoog",
+        "step_audio": "1. Vali helifail",
+        "step_transcript": "2. Koosta transkript",
+        "step_review": "3. Vaata transkript üle",
+        "step_summary": "4. Koosta kokkuvõte",
+        "transcript_edit_label": "Transkripti tekst",
+        "transcript_edit_help": "Vaata transkript enne kokkuvõtte koostamist üle. Vajadusel paranda teksti ja salvesta muudatus.",
+        "save_transcript": "Salvesta transkript",
+        "saving_transcript": "Salvestan transkripti...",
+        "transcript_saved": "Transkript salvestati.",
+        "summary_title": "Täpne kokkuvõte",
+        "summary_help": "Kokkuvõte koostatakse ainult üle vaadatud transkripti põhjal. See koondab kordused teemade alla ega lisa uusi fakte.",
+        "create_summary": "Koosta kokkuvõte",
+        "summary_creating": "Kokkuvõte on koostamisel...",
+        "summary_ready": "Kokkuvõte valmis muudetava mustandina.",
+        "summary_link": "Ava kokkuvõte"
       },
       "conversation_intro_empty": "Tere! Too esmalt dokumendid kaasa ja siis kirjelda, mida soovid koostada.",
       "conversation_intro_with_docs": "Tere! Kirjelda, mida pean valitud {count} dokumendi põhjal koostama.",
@@ -1855,13 +1895,25 @@
       "not_found": "Dokumenti ei leitud.",
       "read_only_document": "Süsteemi loodud kinnituskirjet ei saa muuta ega kustutada.",
       "list_failed": "Dokumentide nimekirja laadimine ebaõnnestus.",
+      "audio_sources_load_failed": "Helisalvestuste laadimine ebaõnnestus.",
+      "audio_file_required": "Vali helifail.",
+      "audio_file_too_large": "Helifail on liiga suur.",
+      "audio_mime_not_allowed": "Fail peab olema helifail.",
+      "audio_signature_invalid": "Helifaili vorming ei sobi.",
+      "audio_upload_failed": "Helifaili üleslaadimine ebaõnnestus.",
+      "audio_source_required": "Vali transkribeerimiseks helifail.",
+      "transcription_not_configured": "Transkriptsiooniteenus ei ole seadistatud.",
+      "transcription_failed": "Transkriptsioon ebaõnnestus.",
+      "transcription_empty": "Transkriptsioon ei tagastanud teksti.",
       "update_failed": "Dokumendi uuendamine ebaõnnestus.",
       "download_failed": "Dokumendi allalaadimine ebaõnnestus.",
       "storage_path_invalid": "Dokumendi salvestustee on vigane.",
       "storage_dir_missing": "Dokumentide salvestuskataloog pole seadistatud.",
       "agent_storage_dir_missing": "Agendi salvestuskataloog pole seadistatud.",
       "daily_upload_quota_exceeded": "Päevane üleslaadimise limiit on täitunud. Proovi homme uuesti.",
-      "storage_quota_exceeded": "Salvestusmaht on täis. Kustuta mõni fail ja proovi uuesti."
+      "storage_quota_exceeded": "Salvestusmaht on täis. Kustuta mõni fail ja proovi uuesti.",
+      "transcript_required": "Transkript puudub või ei ole kasutatav.",
+      "summary_failed": "Kokkuvõtte koostamine ebaõnnestus."
     },
     "artifacts": {
       "search_placeholder": "Otsi pealkirja, sisu, liigi või allikdokumendi järgi",
@@ -2298,7 +2350,7 @@
   "role": {
     "admin": "Administraator",
     "worker": "Sotsiaaltöö spetsialist",
-    "provider": "Teenuseosutaja",
+    "provider": "Teenuse osutaja",
     "client": "Eluküsimusega pöörduja",
     "unknown": "—"
   },

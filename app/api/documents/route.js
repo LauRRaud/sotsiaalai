@@ -43,6 +43,9 @@ function serializeDocument(document) {
     agentAllowed: Boolean(document.agentAllowed),
     mime: document.mime,
     size: document.size,
+    sourceDocumentId: document.sourceDocumentId || null,
+    content: ["CALL_TRANSCRIPT", "AUDIO_TRANSCRIPT", "TRANSCRIPT_SUMMARY"].includes(document.kind) ? document.content || "" : undefined,
+    metadata: document.metadata || null,
     readOnly: Boolean(frameworkAcceptance),
     frameworkAcceptance: frameworkAcceptance
       ? {
@@ -111,6 +114,9 @@ export async function GET(request) {
           agentAllowed: true,
           mime: true,
           size: true,
+          sourceDocumentId: true,
+          content: true,
+          metadata: true,
           createdAt: true,
           updatedAt: true,
           frameworkAcceptance: {
@@ -173,6 +179,9 @@ export async function GET(request) {
               agentAllowed: true,
               mime: true,
               size: true,
+              sourceDocumentId: true,
+              content: true,
+              metadata: true,
               createdAt: true,
               updatedAt: true
             },

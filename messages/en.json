@@ -268,7 +268,7 @@
     "role_short": {
       "admin": "Administrator",
       "worker": "Specialist",
-      "provider": "Provider",
+      "provider": "Service provider",
       "client": "Seeker",
       "unknown": ""
     },
@@ -1561,7 +1561,12 @@
     "kinds": {
       "template": "Template",
       "material": "Material",
-      "other": "Other"
+      "uploaded_audio_source": "Uploaded audio file",
+      "other": "Other",
+      "audio_transcript": "Audio transcript",
+      "transcript_summary": "Transcript summary",
+      "call_audio_recording": "Call recording",
+      "call_transcript": "Call transcript"
     },
     "template_for": {
       "report_draft": "Report",
@@ -1573,11 +1578,16 @@
     },
     "artifact_types": {
       "meeting_summary": "Meeting summary",
+      "case_summary": "Case summary",
+      "pre_assessment_summary": "Pre-assessment summary",
+      "star_helper": "STAR entry support material",
       "case_brief": "Case brief",
       "report_draft": "Report draft",
+      "action_plan": "Action plan",
       "checklist": "Checklist",
       "letter_draft": "Letter draft",
-      "other": "Other"
+      "other": "Other",
+      "transcript_summary": "Transcript summary"
     },
     "status": {
       "draft": "Draft",
@@ -1687,30 +1697,44 @@
       "conversation_title": "Conversation with the agent",
       "conversation_description": "Send the first instruction or refine the current draft in the conversation. The agent uses the selected documents and your chosen work goal.",
       "audio_input": {
-        "title": "Use audio input for document drafting",
-        "description": "Record a meeting or add an audio file to create a transcript and document draft from it. Audio is not inserted into the draft automatically. You can review the transcript before creating the document.",
-        "processing_note": "The audio file is used only for the selected document. The transcript and draft are created through separate user actions.",
+        "title": "Use an audio file for document drafting",
+        "description": "Choose an existing audio recording or upload an audio file. First, the full recording transcript is created. You can then review the transcript and create an accurate summary from it.",
+        "processing_note": "The audio file is used only for the selected document task. The transcript and summary are created through separate user actions.",
         "coming_soon": "Document drafting from audio files will be added in the next stage.",
-        "draft_type_label": "Draft type after transcription",
+        "existing_title": "Existing audio recordings",
+        "existing_empty": "No authorized audio recordings found.",
+        "existing_loading": "Loading audio recordings...",
+        "choose_existing": "Choose",
+        "selected_source": "Selected audio file: {title}",
+        "upload_label": "Upload audio file",
+        "upload_help": "Only audio files are allowed. The file is not made public.",
+        "uploading": "Uploading...",
+        "upload_success": "Audio file was added to Documents.",
+        "transcribe": "Create transcript",
+        "transcribing": "Transcript is processing...",
+        "transcript_title": "Transcript review",
+        "transcript_ready": "Transcript ready.",
+        "transcript_link": "Open transcript",
+        "source_recording": "Call recording",
+        "source_upload": "Uploaded audio file",
+        "duration": "Duration: {duration}",
+        "purpose": "Purpose: {purpose}",
+        "room_context": "Call time: {date}",
+        "no_auto_transcription": "Transcription does not start automatically.",
         "source_options": [
-          { "value": "record_new", "label": "Record a new audio file" },
-          { "value": "upload_file", "label": "Upload an audio file" },
-          { "value": "choose_existing", "label": "Choose an existing audio recording from Documents" }
+          {
+            "value": "upload_file",
+            "label": "Upload an audio file"
+          },
+          {
+            "value": "choose_existing",
+            "label": "Choose an existing audio recording from Documents"
+          }
         ],
         "sources": {
-          "record_new": "Record a new audio file",
           "upload_file": "Upload an audio file",
           "choose_existing": "Choose an existing audio recording from Documents"
         },
-        "draft_type_options": [
-          { "value": "MEETING_SUMMARY", "label": "meeting summary" },
-          { "value": "CASE_SUMMARY", "label": "case summary" },
-          { "value": "PRE_ASSESSMENT_SUMMARY", "label": "pre-assessment summary" },
-          { "value": "STAR_HELPER", "label": "STAR entry support material" },
-          { "value": "LETTER_DRAFT", "label": "official letter/reply" },
-          { "value": "ACTION_PLAN", "label": "action plan" },
-          { "value": "OTHER", "label": "other document" }
-        ],
         "draft_types": {
           "meeting_summary": "meeting summary",
           "case_summary": "case summary",
@@ -1719,7 +1743,23 @@
           "letter_draft": "official letter/reply",
           "action_plan": "action plan",
           "other": "other document"
-        }
+        },
+        "steps_label": "Workflow",
+        "step_audio": "1. Choose audio file",
+        "step_transcript": "2. Create transcript",
+        "step_review": "3. Review transcript",
+        "step_summary": "4. Create summary",
+        "transcript_edit_label": "Transcript text",
+        "transcript_edit_help": "Review the transcript before creating the summary. Edit the text if needed and save the change.",
+        "save_transcript": "Save transcript",
+        "saving_transcript": "Saving transcript...",
+        "transcript_saved": "Transcript saved.",
+        "summary_title": "Accurate summary",
+        "summary_help": "The summary is created only from the reviewed transcript. It groups repetitions by topic and does not add new facts.",
+        "create_summary": "Create summary",
+        "summary_creating": "Summary is being created...",
+        "summary_ready": "Summary ready as an editable draft.",
+        "summary_link": "Open summary"
       },
       "conversation_intro_empty": "Hello! First bring documents into Document drafting and then describe what you want me to create.",
       "conversation_intro_with_docs": "Hello! Describe what I should create based on the {count} selected document(s).",
@@ -1855,13 +1895,25 @@
       "not_found": "Document not found.",
       "read_only_document": "A system-generated acceptance record cannot be changed or deleted.",
       "list_failed": "Failed to list documents.",
+      "audio_sources_load_failed": "Failed to load audio recordings.",
+      "audio_file_required": "Select an audio file.",
+      "audio_file_too_large": "Audio file is too large.",
+      "audio_mime_not_allowed": "The file must be an audio file.",
+      "audio_signature_invalid": "Audio file format is not supported.",
+      "audio_upload_failed": "Failed to upload audio file.",
+      "audio_source_required": "Choose an audio file to transcribe.",
+      "transcription_not_configured": "Transcription service is not configured.",
+      "transcription_failed": "Transcription failed.",
+      "transcription_empty": "Transcription returned no text.",
       "update_failed": "Failed to update document.",
       "download_failed": "Failed to download document.",
       "storage_path_invalid": "Invalid document storage path.",
       "storage_dir_missing": "Document storage directory is not configured.",
       "agent_storage_dir_missing": "Agent storage directory is not configured.",
       "daily_upload_quota_exceeded": "Daily upload limit reached. Please try again tomorrow.",
-      "storage_quota_exceeded": "Storage quota reached. Delete some files and try again."
+      "storage_quota_exceeded": "Storage quota reached. Delete some files and try again.",
+      "transcript_required": "Transcript is missing or cannot be used.",
+      "summary_failed": "Summary creation failed."
     },
     "artifacts": {
       "search_placeholder": "Search by title, text, type, or source document",

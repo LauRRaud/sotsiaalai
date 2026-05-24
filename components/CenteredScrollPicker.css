@@ -363,6 +363,13 @@
 
 .register-scroll.csp-container,
 .a11y-csp-scroll.csp-container {
+  --csp-edge-overscan-top: clamp(2.05rem, 4.9vh, 3rem);
+  --csp-edge-overscan-bottom: clamp(2rem, 4.8vh, 3.05rem);
+  flex: 1 1 calc(100% + var(--csp-edge-overscan-top) + var(--csp-edge-overscan-bottom)) !important;
+  height: calc(100% + var(--csp-edge-overscan-top) + var(--csp-edge-overscan-bottom));
+  min-height: calc(100% + var(--csp-edge-overscan-top) + var(--csp-edge-overscan-bottom)) !important;
+  margin-top: calc(-1 * var(--csp-edge-overscan-top));
+  margin-bottom: calc(-1 * var(--csp-edge-overscan-bottom));
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }

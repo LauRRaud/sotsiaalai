@@ -16,6 +16,7 @@ import {
   normalizeAgentTone
 } from "@/lib/documents/generation"
 import { cacheRetrievalDebugMeta } from "@/lib/documents/retrievalObservability"
+import { logDocumentsAudit } from "@/lib/documents/audit"
 import { enforceDocumentsRateLimit, readDocumentsRateLimit } from "@/lib/documents/rateLimit"
 import { errorJson, json, localeFromRequest, requireDocumentUser } from "@/lib/documents/server"
 import { safeError } from "@/lib/privacy/safeError"
@@ -120,6 +121,15 @@ export async function POST(request) {
     const notAllowed = documents.find((document) => !document.agentAllowed)
     if (notAllowed) {
       return errorJson("documents.artifacts.errors.source_not_allowed", 400, locale)
+    }
+
+    for (const transcriptDocument of documents.filter((document) => ["CALL_TRANSCRIPT", "AUDIO_TRANSCRIPT"].includes(document.kind))) {
+      await logDocumentsAudit("document.transcript_used_for_draft", {
+        userId: auth.userId,
+        documentId: transcriptDocument.id,
+        type,
+        route: "api/documents/artifacts/generate"
+      })
     }
 
     let template = null

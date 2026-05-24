@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { __iconNode as buildingCommunityIconNode } from "@tabler/icons-react/dist/esm/icons/IconBuildingCommunity.mjs";
+import { __iconNode as buildingBankIconNode } from "@tabler/icons-react/dist/esm/icons/IconBuildingBank.mjs";
 import { __iconNode as heartHandshakeIconNode } from "@tabler/icons-react/dist/esm/icons/IconHeartHandshake.mjs";
 
 const ESTONIA_BOUNDS = [
@@ -400,7 +400,7 @@ function markerIconHtml(group) {
     return iconNodeHtml(heartHandshakeIconNode);
   }
 
-  return iconNodeHtml(buildingCommunityIconNode);
+  return iconNodeHtml(buildingBankIconNode);
 }
 
 function markerHtml(group, selected) {

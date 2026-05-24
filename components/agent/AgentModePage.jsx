@@ -103,19 +103,8 @@ const agentPanelLinkClassName =
   "max-[768px]:text-[clamp(1rem,4.1vw,1.15rem)] max-[768px]:leading-[1.12]"
 
 const audioInputSourceOptions = [
-  { value: "record_new", labelKey: "documents.agent_workspace.audio_input.sources.record_new" },
   { value: "upload_file", labelKey: "documents.agent_workspace.audio_input.sources.upload_file" },
   { value: "choose_existing", labelKey: "documents.agent_workspace.audio_input.sources.choose_existing" }
-]
-
-const audioInputDraftTypeOptions = [
-  { value: "MEETING_SUMMARY", labelKey: "documents.agent_workspace.audio_input.draft_types.meeting_summary" },
-  { value: "CASE_SUMMARY", labelKey: "documents.agent_workspace.audio_input.draft_types.case_summary" },
-  { value: "PRE_ASSESSMENT_SUMMARY", labelKey: "documents.agent_workspace.audio_input.draft_types.pre_assessment_summary" },
-  { value: "STAR_HELPER", labelKey: "documents.agent_workspace.audio_input.draft_types.star_helper" },
-  { value: "LETTER_DRAFT", labelKey: "documents.agent_workspace.audio_input.draft_types.letter_draft" },
-  { value: "ACTION_PLAN", labelKey: "documents.agent_workspace.audio_input.draft_types.action_plan" },
-  { value: "OTHER", labelKey: "documents.agent_workspace.audio_input.draft_types.other" }
 ]
 
 function formatArtifactMessage(artifact, t) {
@@ -160,6 +149,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const inputRef = useRef(null)
   const fileInputRef = useRef(null)
   const clientUploadInputRef = useRef(null)
+  const audioUploadInputRef = useRef(null)
   const composerDraftApiRef = useRef(null)
   const activeRequestAbortRef = useRef(null)
   const [selectedDocumentIds, setSelectedDocumentIds] = useState(initialSelectedDocumentIds)
@@ -185,8 +175,20 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const [instruction, setInstruction] = useState("")
   const [selectedTemplateId, setSelectedTemplateId] = useState("")
   const [clientTask, setClientTask] = useState("LETTER_REQUEST")
-  const [audioSourceMode, setAudioSourceMode] = useState("record_new")
-  const [audioDraftType, setAudioDraftType] = useState("MEETING_SUMMARY")
+  const [audioSourceMode, setAudioSourceMode] = useState("choose_existing")
+  const [audioSources, setAudioSources] = useState([])
+  const [audioSourcesLoading, setAudioSourcesLoading] = useState(false)
+  const [audioSourcesError, setAudioSourcesError] = useState("")
+  const [selectedAudioDocumentId, setSelectedAudioDocumentId] = useState("")
+  const [audioUploading, setAudioUploading] = useState(false)
+  const [audioWorkflowError, setAudioWorkflowError] = useState("")
+  const [audioWorkflowFeedback, setAudioWorkflowFeedback] = useState("")
+  const [transcribingAudio, setTranscribingAudio] = useState(false)
+  const [audioTranscriptDocument, setAudioTranscriptDocument] = useState(null)
+  const [audioTranscriptDraft, setAudioTranscriptDraft] = useState("")
+  const [savingAudioTranscript, setSavingAudioTranscript] = useState(false)
+  const [summarizingAudio, setSummarizingAudio] = useState(false)
+  const [audioSummaryArtifact, setAudioSummaryArtifact] = useState(null)
 
   const [persistedArtifactId, setPersistedArtifactId] = useState(String(initialArtifactId || "").trim())
   const [workspaceResult, setWorkspaceResult] = useState(null)
@@ -438,6 +440,43 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
   }, [isClientRole, t])
 
+  const refreshAudioSources = useCallback(async ({ signal } = {}) => {
+    if (isClientRole) {
+      setAudioSources([])
+      setAudioSourcesError("")
+      setAudioSourcesLoading(false)
+      return []
+    }
+
+    setAudioSourcesLoading(true)
+    setAudioSourcesError("")
+    try {
+      const response = await fetch("/api/documents/audio-sources", {
+        cache: "no-store",
+        headers: { "x-ui-locale": locale },
+        signal
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.audio_sources_load_failed"))
+      const nextSources = Array.isArray(payload?.audioSources) ? payload.audioSources : []
+      setAudioSources(nextSources)
+      return nextSources
+    } catch (error) {
+      if (signal?.aborted) return []
+      setAudioSources([])
+      setAudioSourcesError(error?.message || t("documents.errors.audio_sources_load_failed"))
+      return []
+    } finally {
+      if (!signal?.aborted) setAudioSourcesLoading(false)
+    }
+  }, [isClientRole, locale, t])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    void refreshAudioSources({ signal: controller.signal })
+    return () => controller.abort()
+  }, [refreshAudioSources])
+
   useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
@@ -556,7 +595,9 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       }))
     }
 
-    return AGENT_ARTIFACT_TYPE_VALUES.map((value) => ({ value, label: artifactTypeLabel(value, t) }))
+    return AGENT_ARTIFACT_TYPE_VALUES
+      .filter((value) => value !== "TRANSCRIPT_SUMMARY")
+      .map((value) => ({ value, label: artifactTypeLabel(value, t) }))
   }, [isClientRole, t])
   const audienceOptions = useMemo(
     () => [
@@ -591,6 +632,23 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   )
 
   const selectedCount = documents.length
+  const selectedAudioSource = useMemo(
+    () => audioSources.find((source) => source.id === selectedAudioDocumentId) || null,
+    [audioSources, selectedAudioDocumentId]
+  )
+  const activeTranscriptDocument = audioTranscriptDocument || selectedAudioSource?.transcript || null
+  const canTranscribeAudio = Boolean(selectedAudioSource?.id) && !transcribingAudio && !audioUploading
+  const canSaveAudioTranscript =
+    Boolean(activeTranscriptDocument?.id && audioTranscriptDraft.trim()) &&
+    String(audioTranscriptDraft || "") !== String(activeTranscriptDocument?.content || activeTranscriptDocument?.preview || "")
+  const canCreateAudioSummary =
+    Boolean(activeTranscriptDocument?.id && audioTranscriptDraft.trim()) &&
+    !starting &&
+    !summarizingAudio &&
+    !savingAudioTranscript &&
+    !refiningResult &&
+    !savingResult &&
+    !approvingResult
   const selectedCountLimitReached = isClientRole && selectedCount >= CLIENT_MAX_DOCUMENTS
   const templateTargetType = String(workspaceResult?.type || outputType || "REPORT_DRAFT")
   const allowedTemplates = useMemo(() => templates.filter((template) => template.agentAllowed), [templates])
@@ -655,10 +713,6 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
       : hasWorkspaceResult && workspaceResult?.status === "DRAFT" && resultContent.trim()
         ? t("documents.agent_workspace.conversation_refine_help")
         : t("documents.agent_workspace.conversation_ready_help")
-  const audioDraftTypeDropdownOptions = audioInputDraftTypeOptions.map((option) => ({
-    value: option.value,
-    label: t(option.labelKey)
-  }))
   const clientResultLabel =
     outputTypeOptions.find((option) => option.value === clientTask)?.label || t("documents.agent_workspace.client_tasks.letter_request")
   const agentConversationVars = useMemo(
@@ -851,6 +905,222 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
     }
   }
 
+  async function loadTranscriptDocument(transcript) {
+    const transcriptId = String(transcript?.id || "").trim()
+    if (!transcriptId) return null
+    try {
+      const response = await fetch(`/api/documents/${encodeURIComponent(transcriptId)}`, {
+        cache: "no-store",
+        headers: { "x-ui-locale": locale }
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.read_failed"))
+      return payload?.document || transcript
+    } catch {
+      return transcript
+    }
+  }
+
+  async function handleSelectAudioSource(documentId) {
+    const nextId = String(documentId || "").trim()
+    const nextSource = audioSources.find((source) => source.id === nextId) || null
+    setSelectedAudioDocumentId(nextId)
+    setAudioTranscriptDocument(null)
+    setAudioTranscriptDraft("")
+    setAudioSummaryArtifact(null)
+    setAudioWorkflowError("")
+    setAudioWorkflowFeedback(nextSource?.title ? t("documents.agent_workspace.audio_input.selected_source", { title: nextSource.title }) : "")
+    if (nextId) {
+      void fetch(`/api/documents/${encodeURIComponent(nextId)}/audio-select`, {
+        method: "POST",
+        headers: { "x-ui-locale": locale }
+      }).catch(() => {})
+    }
+    if (nextSource?.transcript?.id) {
+      const transcript = await loadTranscriptDocument(nextSource.transcript)
+      setAudioTranscriptDocument(transcript)
+      setAudioTranscriptDraft(String(transcript?.content || transcript?.preview || "").trim())
+    }
+  }
+
+  async function handleAudioUpload(event) {
+    const file = event?.target?.files?.[0]
+    if (event?.target) event.target.value = ""
+    if (!file) return
+
+    if (!String(file.type || "").toLowerCase().startsWith("audio/") && !["video/webm", "video/mp4", "application/ogg"].includes(String(file.type || "").toLowerCase())) {
+      setAudioWorkflowFeedback("")
+      setAudioWorkflowError(t("documents.errors.audio_mime_not_allowed"))
+      return
+    }
+
+    setAudioUploading(true)
+    setAudioWorkflowError("")
+    setAudioWorkflowFeedback("")
+    setAudioTranscriptDocument(null)
+    setAudioTranscriptDraft("")
+    setAudioSummaryArtifact(null)
+
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("title", file.name || t("documents.agent_workspace.audio_input.upload_label"))
+      const response = await fetch("/api/documents/audio-sources", {
+        method: "POST",
+        headers: { "x-ui-locale": locale },
+        body: formData
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.audio_upload_failed"))
+      const audioSource = payload?.audioSource || null
+      const nextSources = audioSource
+        ? [audioSource, ...audioSources.filter((source) => source.id !== audioSource.id)]
+        : await refreshAudioSources()
+      setAudioSources(nextSources)
+      if (audioSource?.id) {
+        setAudioSourceMode("upload_file")
+        setSelectedAudioDocumentId(audioSource.id)
+      }
+      setAudioWorkflowFeedback(t("documents.agent_workspace.audio_input.upload_success"))
+    } catch (error) {
+      setAudioWorkflowFeedback("")
+      setAudioWorkflowError(error?.message || t("documents.errors.audio_upload_failed"))
+    } finally {
+      setAudioUploading(false)
+    }
+  }
+
+  async function handleTranscribeAudio() {
+    if (!selectedAudioSource?.id || transcribingAudio) return
+
+    setTranscribingAudio(true)
+    setAudioWorkflowError("")
+    setAudioWorkflowFeedback("")
+    setAudioSummaryArtifact(null)
+
+    try {
+      const response = await fetch(`/api/documents/${encodeURIComponent(selectedAudioSource.id)}/transcribe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-ui-locale": locale
+        },
+        body: JSON.stringify({ language })
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.transcription_failed"))
+      const transcript = payload?.transcriptDocument || null
+      if (!transcript?.id) throw new Error(t("documents.errors.transcription_failed"))
+      setAudioTranscriptDocument(transcript)
+      setAudioTranscriptDraft(String(transcript.content || transcript.preview || "").trim())
+      setAudioSources((current) =>
+        current.map((source) =>
+          source.id === selectedAudioSource.id
+            ? { ...source, transcript: { ...transcript, preview: String(transcript.content || "").slice(0, 1200) } }
+            : source
+        )
+      )
+      setAudioWorkflowFeedback(t("documents.agent_workspace.audio_input.transcript_ready"))
+    } catch (error) {
+      setAudioWorkflowFeedback("")
+      setAudioWorkflowError(error?.message || t("documents.errors.transcription_failed"))
+    } finally {
+      setTranscribingAudio(false)
+    }
+  }
+
+  async function saveAudioTranscriptIfNeeded() {
+    const transcript = activeTranscriptDocument
+    if (!transcript?.id || !audioTranscriptDraft.trim()) return transcript
+    if (!canSaveAudioTranscript) return transcript
+    setSavingAudioTranscript(true)
+    try {
+      const response = await fetch(`/api/documents/${encodeURIComponent(transcript.id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-ui-locale": locale
+        },
+        body: JSON.stringify({ content: audioTranscriptDraft })
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.update_failed"))
+      const updated = payload?.document || transcript
+      setAudioTranscriptDocument(updated)
+      setAudioTranscriptDraft(String(updated.content || "").trim())
+      setAudioWorkflowFeedback(t("documents.agent_workspace.audio_input.transcript_saved"))
+      return updated
+    } finally {
+      setSavingAudioTranscript(false)
+    }
+  }
+
+  async function handleSaveAudioTranscript() {
+    if (!canSaveAudioTranscript) return
+    setAudioWorkflowError("")
+    setAudioWorkflowFeedback("")
+    try {
+      await saveAudioTranscriptIfNeeded()
+    } catch (error) {
+      setAudioWorkflowError(error?.message || t("documents.errors.update_failed"))
+    }
+  }
+
+  async function handleCreateAudioSummary() {
+    if (!canCreateAudioSummary || !activeTranscriptDocument?.id) return
+    setSummarizingAudio(true)
+    setAudioWorkflowError("")
+    setAudioWorkflowFeedback("")
+    try {
+      const transcript = await saveAudioTranscriptIfNeeded()
+      const transcriptDocument = {
+        id: transcript.id,
+        title: transcript.title,
+        originalName: transcript.originalName || transcript.title,
+        kind: transcript.kind || "AUDIO_TRANSCRIPT",
+        agentAllowed: true,
+        mime: transcript.mime || "text/plain",
+        size: transcript.size || String(transcript.content || audioTranscriptDraft || "").length,
+        sourceDocumentId: transcript.sourceDocumentId || selectedAudioSource?.id || null,
+        content: transcript.content || audioTranscriptDraft || "",
+        createdAt: transcript.createdAt,
+        updatedAt: transcript.updatedAt
+      }
+      const response = await fetch(`/api/documents/${encodeURIComponent(transcript.id)}/summary`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-ui-locale": locale
+        },
+        body: JSON.stringify({
+          language,
+          content: transcriptDocument.content
+        })
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(payload?.message || t("documents.errors.summary_failed"))
+      const summary = payload?.summaryArtifact || null
+      if (!summary?.id) throw new Error(t("documents.errors.summary_failed"))
+      setAudioSummaryArtifact(summary)
+      setDocuments([transcriptDocument])
+      setSelectedDocumentIds([transcriptDocument.id])
+      setMissingDocumentIds([])
+      setOutputType("TRANSCRIPT_SUMMARY")
+      applyWorkspaceResult(summary)
+      setPersistedArtifactId(summary.id)
+      setAudioWorkflowFeedback(t("documents.agent_workspace.audio_input.summary_ready"))
+      appendConversationMessage({
+        role: "ai",
+        text: formatArtifactMessage(summary, t),
+        attachments: buildSourceAttachments(summary.sources, t)
+      })
+    } catch (error) {
+      setAudioWorkflowError(error?.message || t("documents.errors.summary_failed"))
+    } finally {
+      setSummarizingAudio(false)
+    }
+  }
+
   async function handleOpenClientArtifact(artifactId) {
     const nextArtifactId = String(artifactId || "").trim()
     if (!nextArtifactId) return
@@ -904,12 +1174,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   async function runGeneration({
     typeOverride = outputType,
     instructionOverride = instruction,
+    documentsOverride = null,
     historyKind = "generated",
     feedbackKey = "documents.agent_workspace.result_ready",
     privacyDecision
   } = {}) {
     const effectiveInstruction = String(instructionOverride || "").trim()
-    if (!selectedCount || !effectiveInstruction || starting) return null
+    const sourceDocuments = Array.isArray(documentsOverride) ? documentsOverride : documents
+    if (!sourceDocuments.length || !effectiveInstruction || starting) return null
 
     setStarting(true)
     clearResultMessages()
@@ -934,7 +1206,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
           "x-ui-locale": locale
         },
         body: JSON.stringify({
-          documentIds: documents.map((document) => document.id),
+          documentIds: sourceDocuments.map((document) => document.id),
           type: effectiveType,
           templateId: isClientRole ? undefined : templateIdToUse || undefined,
           instruction: nextInstruction,
@@ -1508,6 +1780,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                             </p>
                           </div>
 
+                          <div className="documents-agent-chip-row" aria-label={t("documents.agent_workspace.audio_input.steps_label")}>
+                            {["step_audio", "step_transcript", "step_review", "step_summary"].map((stepKey) => (
+                              <span key={stepKey} className="documents-chip rounded-full px-[0.72rem] py-[0.22rem] text-[0.82rem]">
+                                {t(`documents.agent_workspace.audio_input.${stepKey}`)}
+                              </span>
+                            ))}
+                          </div>
+
                           <div className="documents-agent-chip-row">
                             {audioInputSourceOptions.map((option) => (
                               <OptionCard
@@ -1516,10 +1796,13 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                                 name="agent-audio-source"
                                 value={option.value}
                                 checked={audioSourceMode === option.value}
-                                onChange={(event) => setAudioSourceMode(event.target.value)}
+                                onChange={(event) => {
+                                  setAudioSourceMode(event.target.value)
+                                  setAudioWorkflowError("")
+                                  setAudioWorkflowFeedback("")
+                                }}
                                 className={agentChoiceCardClassName}
                                 fitTextLines={2}
-                                disabled
                               >
                                 <span className="text-center [text-wrap:balance]">
                                   {t(option.labelKey)}
@@ -1528,27 +1811,206 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
                             ))}
                           </div>
 
-                          <div className="documents-agent-field-grid documents-agent-field-grid--compact">
-                            <label className="documents-agent-field">
-                              <span className="documents-meta-text documents-agent-field-label">
-                                {t("documents.agent_workspace.audio_input.draft_type_label")}
-                              </span>
-                              <DocumentsDropdown
-                                value={audioDraftType}
-                                onChange={setAudioDraftType}
-                                options={audioDraftTypeDropdownOptions}
-                                className="documents-agent-dropdown"
-                                disabled
+                          {audioSourceMode === "choose_existing" ? (
+                            <div className="documents-agent-audio-source-list">
+                              <div className="documents-agent-card-copy">
+                                <h4 className="documents-strong-text text-[0.98rem] font-semibold">
+                                  {t("documents.agent_workspace.audio_input.existing_title")}
+                                </h4>
+                                <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                                  {t("documents.agent_workspace.audio_input.no_auto_transcription")}
+                                </p>
+                              </div>
+                              {audioSourcesLoading ? (
+                                <div className="documents-empty-state rounded-[0.9rem] border border-dashed px-[0.85rem] py-[0.8rem] text-[0.92rem]">
+                                  {t("documents.agent_workspace.audio_input.existing_loading")}
+                                </div>
+                              ) : null}
+                              {!audioSourcesLoading && !audioSources.length ? (
+                                <div className="documents-empty-state rounded-[0.9rem] border border-dashed px-[0.85rem] py-[0.8rem] text-[0.92rem]">
+                                  {t("documents.agent_workspace.audio_input.existing_empty")}
+                                </div>
+                              ) : null}
+                              {!audioSourcesLoading && audioSources.length ? (
+                                <div className="documents-agent-source-list">
+                                  {audioSources.map((source) => {
+                                    const isSelected = source.id === selectedAudioDocumentId
+                                    const sourceLabel = source.kind === "CALL_AUDIO_RECORDING"
+                                      ? t("documents.agent_workspace.audio_input.source_recording")
+                                      : t("documents.agent_workspace.audio_input.source_upload")
+                                    return (
+                                      <article key={source.id} className={`documents-card documents-agent-source-card rounded-[0.8rem] border px-[0.75rem] py-[0.65rem] text-[0.92rem] ${isSelected ? "is-active" : ""}`}>
+                                        <div className="documents-document-row-title">
+                                          <div className="min-w-0 flex-1">
+                                            <div className="documents-strong-text font-medium">{source.title || source.originalName}</div>
+                                            <div className="documents-meta-text text-[0.84rem]">
+                                              {sourceLabel} - {formatDate(source.createdAt, locale)}
+                                            </div>
+                                            {source.callRecording?.durationSeconds ? (
+                                              <div className="documents-meta-text text-[0.84rem]">
+                                                {t("documents.agent_workspace.audio_input.duration", { duration: `${source.callRecording.durationSeconds}s` })}
+                                              </div>
+                                            ) : null}
+                                            {source.callRecording?.purpose || source.callRecording?.purposeText ? (
+                                              <div className="documents-meta-text text-[0.84rem]">
+                                                {t("documents.agent_workspace.audio_input.purpose", { purpose: source.callRecording.purposeText || source.callRecording.purpose })}
+                                              </div>
+                                            ) : null}
+                                            {source.callRecording?.callStartedAt ? (
+                                              <div className="documents-meta-text text-[0.84rem]">
+                                                {t("documents.agent_workspace.audio_input.room_context", { date: formatDate(source.callRecording.callStartedAt, locale) })}
+                                              </div>
+                                            ) : null}
+                                          </div>
+                                          <Button
+                                            type="button"
+                                            size="sm"
+                                            variant={isSelected ? "primary" : "ghost"}
+                                            className={isSelected ? agentPrimaryButtonCompactClassName : "documents-secondary-button"}
+                                            onClick={() => void handleSelectAudioSource(source.id)}
+                                          >
+                                            {t("documents.agent_workspace.audio_input.choose_existing")}
+                                          </Button>
+                                        </div>
+                                      </article>
+                                    )
+                                  })}
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : null}
+
+                          {audioSourceMode === "upload_file" ? (
+                            <div className="documents-agent-field">
+                              <input
+                                ref={audioUploadInputRef}
+                                type="file"
+                                accept="audio/*,.ogg,.oga,.opus,.webm,.mp3,.m4a,.wav,.flac,.aac"
+                                className="hidden"
+                                onChange={handleAudioUpload}
                               />
-                            </label>
+                              <div className="documents-row-actions">
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  className={agentPrimaryButtonCompactClassName}
+                                  onClick={() => audioUploadInputRef.current?.click()}
+                                  disabled={audioUploading}
+                                >
+                                  {audioUploading ? t("documents.agent_workspace.audio_input.uploading") : t("documents.agent_workspace.audio_input.upload_label")}
+                                </Button>
+                              </div>
+                              <p className="documents-meta-text mt-[0.35rem] text-[0.9rem] leading-[1.45]">
+                                {t("documents.agent_workspace.audio_input.upload_help")}
+                              </p>
+                            </div>
+                          ) : null}
+
+                          {selectedAudioSource ? (
+                            <div className="documents-notice documents-notice--muted rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                              {t("documents.agent_workspace.audio_input.selected_source", { title: selectedAudioSource.title || selectedAudioSource.originalName })}
+                            </div>
+                          ) : null}
+
+                          <div className="documents-row-actions">
+                            <Button
+                              type="button"
+                              size="sm"
+                              className={agentPrimaryButtonCompactClassName}
+                              onClick={() => void handleTranscribeAudio()}
+                              disabled={!canTranscribeAudio}
+                            >
+                              {transcribingAudio ? t("documents.agent_workspace.audio_input.transcribing") : t("documents.agent_workspace.audio_input.transcribe")}
+                            </Button>
                           </div>
+
+                          {activeTranscriptDocument ? (
+                            <div className="documents-agent-audio-transcript rounded-[0.95rem] border px-[0.95rem] py-[0.85rem]">
+                              <div className="documents-agent-card-copy">
+                                <h4 className="documents-strong-text text-[0.98rem] font-semibold">
+                                  {t("documents.agent_workspace.audio_input.transcript_title")}
+                                </h4>
+                                <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                                  {t("documents.agent_workspace.audio_input.transcript_ready")}{" "}
+                                  <a href={`/api/documents/${encodeURIComponent(activeTranscriptDocument.id)}/download`} className={agentPanelLinkClassName}>
+                                    {t("documents.agent_workspace.audio_input.transcript_link")}
+                                  </a>
+                                </p>
+                                <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                                  {t("documents.agent_workspace.audio_input.transcript_edit_help")}
+                                </p>
+                              </div>
+                              <label className="documents-agent-field mt-[0.55rem]">
+                                <span className="documents-meta-text documents-agent-field-label">
+                                  {t("documents.agent_workspace.audio_input.transcript_edit_label")}
+                                </span>
+                                <Textarea
+                                  value={audioTranscriptDraft}
+                                  onChange={(event) => setAudioTranscriptDraft(event.target.value)}
+                                  rows={8}
+                                  className="documents-agent-textarea"
+                                />
+                              </label>
+                              <div className="documents-row-actions mt-[0.7rem]">
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  variant="ghost"
+                                  className="documents-secondary-button"
+                                  onClick={() => void handleSaveAudioTranscript()}
+                                  disabled={!canSaveAudioTranscript || savingAudioTranscript}
+                                >
+                                  {savingAudioTranscript ? t("documents.agent_workspace.audio_input.saving_transcript") : t("documents.agent_workspace.audio_input.save_transcript")}
+                                </Button>
+                              </div>
+                            </div>
+                          ) : null}
+
+                          {activeTranscriptDocument ? (
+                            <div className="documents-agent-audio-transcript rounded-[0.95rem] border px-[0.95rem] py-[0.85rem]">
+                              <div className="documents-agent-card-copy">
+                                <h4 className="documents-strong-text text-[0.98rem] font-semibold">
+                                  {t("documents.agent_workspace.audio_input.summary_title")}
+                                </h4>
+                                <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                                  {t("documents.agent_workspace.audio_input.summary_help")}
+                                </p>
+                                {audioSummaryArtifact?.id ? (
+                                  <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
+                                    {t("documents.agent_workspace.audio_input.summary_ready")}{" "}
+                                    <Link href={localizePath(`/documents/artifacts/${encodeURIComponent(audioSummaryArtifact.id)}`, locale)} className={agentPanelLinkClassName}>
+                                      {t("documents.agent_workspace.audio_input.summary_link")}
+                                    </Link>
+                                  </p>
+                                ) : null}
+                              </div>
+                              <div className="documents-row-actions mt-[0.7rem]">
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  className={agentPrimaryButtonClassName}
+                                  onClick={() => void handleCreateAudioSummary()}
+                                  disabled={!canCreateAudioSummary}
+                                >
+                                  {summarizingAudio ? t("documents.agent_workspace.audio_input.summary_creating") : t("documents.agent_workspace.audio_input.create_summary")}
+                                </Button>
+                              </div>
+                            </div>
+                          ) : null}
 
                           <p className="documents-meta-text text-[0.9rem] leading-[1.45]">
                             {t("documents.agent_workspace.audio_input.processing_note")}
                           </p>
-                          <div className="documents-notice documents-notice--info rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
-                            {t("documents.agent_workspace.audio_input.coming_soon")}
-                          </div>
+                          {audioSourcesError || audioWorkflowError ? (
+                            <div className="documents-notice documents-notice--error rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                              {audioWorkflowError || audioSourcesError}
+                            </div>
+                          ) : null}
+                          {audioWorkflowFeedback ? (
+                            <div className="documents-notice documents-notice--success rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
+                              {audioWorkflowFeedback}
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </div>
