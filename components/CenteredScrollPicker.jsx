@@ -43,6 +43,8 @@ export default function CenteredScrollPicker({
   manageHiddenFocus = true,
   pauseSettleOnInputFocus = false,
   pauseSettleWhileTouch = false,
+  applyEdgeVisibility = false,
+  edgeVisibilityMin = 0.08,
   onActiveIndexChange
 } = {}) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -114,6 +116,30 @@ export default function CenteredScrollPicker({
     }
     return bestIdx;
   }, [containerRef, getItems]);
+  const applyEdgeVisibilityForItems = useCallback(() => {
+    const el = containerRef?.current;
+    if (!el || !applyEdgeVisibility) return;
+    const items = getItems();
+    if (!items.length) return;
+    const containerRect = el.getBoundingClientRect();
+    const edgeZone = Math.max(
+      58,
+      Math.min(containerRect.height * 0.26, 188)
+    );
+    const minOpacity = clamp(edgeVisibilityMin, 0, 1);
+    for (const item of items) {
+      if (!isHTMLElement(item)) continue;
+      const rect = item.getBoundingClientRect();
+      const centerY = getCenterY(rect);
+      const topDistance = centerY - containerRect.top;
+      const bottomDistance = containerRect.bottom - centerY;
+      const edgeDistance = Math.min(topDistance, bottomDistance);
+      const progress = clamp(edgeDistance / edgeZone, 0, 1);
+      const easedProgress = progress ** 1.75;
+      const opacity = minOpacity + (1 - minOpacity) * easedProgress;
+      item.style.setProperty("--csp-edge-opacity", opacity.toFixed(3));
+    }
+  }, [applyEdgeVisibility, containerRef, edgeVisibilityMin, getItems]);
   const scrollToIndex = useCallback((idx, behaviorOverride) => {
     const items = getItems();
     if (!items.length) return;
@@ -223,9 +249,10 @@ export default function CenteredScrollPicker({
       if (disabled) return;
       const idx = computeActiveIndex();
       if (idx !== activeIndexRef.current) commitActiveIndex(idx);
+      applyEdgeVisibilityForItems();
       updateScrollHints();
     });
-  }, [computeActiveIndex, commitActiveIndex, updateScrollHints, disabled]);
+  }, [computeActiveIndex, commitActiveIndex, applyEdgeVisibilityForItems, updateScrollHints, disabled]);
   const scheduleSettle = useCallback(() => {
     if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current);
     settleTimerRef.current = window.setTimeout(() => {
@@ -265,12 +292,14 @@ export default function CenteredScrollPicker({
     commitActiveIndex(idx);
     lastSettledIndexRef.current = idx;
     scrollToIndex(idx, behaviorOverride);
+    applyEdgeVisibilityForItems();
     updateScrollHints();
-  }, [disabled, getItems, computeActiveIndex, commitActiveIndex, scrollToIndex, updateScrollHints]);
+  }, [disabled, getItems, computeActiveIndex, commitActiveIndex, scrollToIndex, applyEdgeVisibilityForItems, updateScrollHints]);
   useEffect(() => {
     const el = containerRef?.current;
     if (!el || disabled) return;
     updateScrollHints();
+    applyEdgeVisibilityForItems();
     lastScrollTopRef.current = el.scrollTop || 0;
     const onScroll = () => {
       updateScrollDirection();
@@ -282,11 +311,13 @@ export default function CenteredScrollPicker({
     });
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(() => {
       scheduleRafUpdate();
+      applyEdgeVisibilityForItems();
       updateScrollHints();
     }) : null;
     ro?.observe(el);
     const onResize = () => {
       scheduleRafUpdate();
+      applyEdgeVisibilityForItems();
       updateScrollHints();
     };
     window.addEventListener("resize", onResize);
@@ -295,7 +326,7 @@ export default function CenteredScrollPicker({
       ro?.disconnect?.();
       window.removeEventListener("resize", onResize);
     };
-  }, [containerRef, disabled, scheduleRafUpdate, scheduleSettle, updateScrollHints, updateScrollDirection, lockWheelToSteps, settleOnScroll]);
+  }, [containerRef, disabled, scheduleRafUpdate, scheduleSettle, applyEdgeVisibilityForItems, updateScrollHints, updateScrollDirection, lockWheelToSteps, settleOnScroll]);
   useEffect(() => {
     const el = containerRef?.current;
     if (!el || disabled || !lockWheelToSteps) return;

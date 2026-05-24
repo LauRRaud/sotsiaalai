@@ -126,6 +126,7 @@ export default function AccessibilityModal({
   const proxyWheelToModalScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
+    passthroughNativeTargets: false,
   });
   useEffect(() => {
     setUiScale(current => current ?? initialUiScale);
@@ -248,6 +249,8 @@ export default function AccessibilityModal({
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: false,
     settleOnScroll: false,
+    applyEdgeVisibility: !isMobileViewport,
+    edgeVisibilityMin: 0.06,
     enableArrowKeys: isMobileViewport,
     allowArrowKeysInInputs: true,
     captureArrowKeys: isMobileViewport,

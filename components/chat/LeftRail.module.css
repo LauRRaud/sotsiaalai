@@ -315,6 +315,23 @@
   backdrop-filter: none;
 }
 
+:global(:root.theme-forest) .tooltip {
+  color: var(--forest-highlight, #c57171);
+  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(18, 44, 37)));
+  border: 0;
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(1, 10, 5, 0.22));
+}
+
+:global(:root.theme-forest) .iconBack :global(.back-icon-arrow) {
+  stroke: var(--forest-highlight, #c57171) !important;
+}
+
+:global(:root.theme-forest) .iconBack :global(.back-icon-dot) {
+  color: #7A3A38 !important;
+  fill: #7A3A38 !important;
+  stroke: #7A3A38 !important;
+}
+
 :global(:root.theme-light) .tooltip {
   color: var(--title-color, var(--link-color, #7a3a38));
   font-size: 1.12rem;
@@ -369,6 +386,10 @@
 
   :global(:root.theme-mid) .tooltip {
     background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
+  }
+
+  :global(:root.theme-forest) .tooltip {
+    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(18, 44, 37)));
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

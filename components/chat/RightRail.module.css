@@ -327,6 +327,13 @@
   backdrop-filter: none;
 }
 
+:global(:root.theme-forest) .tooltip {
+  color: var(--forest-highlight, #c57171);
+  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(18, 44, 37)));
+  border: 0;
+  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(1, 10, 5, 0.22));
+}
+
 :global(html[data-contrast="hc"]) .tooltip {
   color: var(--hc-accent, #ffea00);
   background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));
@@ -362,6 +369,10 @@
 
   :global(:root.theme-mid) .tooltip {
     background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));
+  }
+
+  :global(:root.theme-forest) .tooltip {
+    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(18, 44, 37)));
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

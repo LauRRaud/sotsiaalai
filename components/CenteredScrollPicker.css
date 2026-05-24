@@ -373,3 +373,8 @@
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
+
+.register-scroll.csp-container .register-step,
+.a11y-csp-scroll.csp-container .csp-step {
+  opacity: var(--csp-edge-opacity, 1);
+}

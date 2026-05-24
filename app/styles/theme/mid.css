@@ -302,6 +302,10 @@
     var(--home-card-shell-shadow);
 }
 
+:root.theme-mid .homepage-root .home-about-title {
+  color: #7a3a38 !important;
+}
+
 :root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,
 :root.theme-mid .home-scroll-cue .home-scroll-cue-arrow {
   opacity: 1 !important;

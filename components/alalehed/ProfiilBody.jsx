@@ -427,10 +427,9 @@ function ThemeForestDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M19.4 4.8c-5.9-.55-10.6 1.2-13.1 4.55-2.08 2.8-1.9 6.1.14 8.14 2.02 2.02 5.32 2.24 8.13.15 3.35-2.5 5.4-7.02 4.83-12.84Z" />
-      <path d="M6.6 17.4c2.22-4.52 5.38-7.6 10.18-9.65" />
-      <path d="M10.1 14.38c-.1-1.38-.43-2.55-1-3.52" opacity="0.62" />
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <path d="M19.1 5.15c-5.78-.5-10.18 1.18-12.55 4.22-2.22 2.85-1.84 6.18.18 8.12 2.08 1.98 5.45 2.03 8.16-.32 3.02-2.62 4.62-6.34 4.21-12.02Z" />
+      <path d="M7.25 16.82c2.58-3.38 5.58-6.08 9.52-8.42" />
     </svg>;
 }
 export default function ProfiilBody({

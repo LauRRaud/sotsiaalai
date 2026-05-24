@@ -246,10 +246,10 @@ export default function RegistreerimineBody({}) {
   const guideStepIndex = 4;
   const workerStepIndex = 5;
   const submitStepIndex = isProfessionalUser ? 6 : 5;
-  useSmoothWheelProxy({
+  const proxyWheelToRegisterScroll = useSmoothWheelProxy({
     scrollRef,
-    eventTargetRef: ringRef,
     disabled: isMobileViewport,
+    passthroughNativeTargets: false,
   });
 
   useEffect(() => {
@@ -482,6 +482,8 @@ export default function RegistreerimineBody({}) {
     neighborDistance: isMobileViewport ? 2 : 1,
     lockWheelToSteps: false,
     settleOnScroll: false,
+    applyEdgeVisibility: !isMobileViewport,
+    edgeVisibilityMin: 0.06,
     enableArrowKeys: isMobileViewport,
     allowArrowKeysInInputs: true,
     captureArrowKeys: isMobileViewport,
@@ -731,6 +733,7 @@ export default function RegistreerimineBody({}) {
           showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]" : null,
         )}
         data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
+        onWheel={proxyWheelToRegisterScroll}
       >
         <BackButton
           ref={backButtonRef}

@@ -31,6 +31,19 @@ test("covision keeps color bends while the glass corner glow stays on the surfac
   assert.ok(!setEntries("BACKGROUND_LAYER_EXCLUDED_PATHS").includes("/kovisioon"));
 });
 
+test("light theme uses dark color bends with extra transparency", () => {
+  assert.match(source, /const COLOR_BENDS_OPACITY_LIGHT = 0\.77;/);
+  assert.doesNotMatch(source, /effectiveTheme === "light"\s*\?\s*\["#a06861"\]/);
+  assert.match(
+    source,
+    /const colorBendsColors =\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\];/
+  );
+  assert.match(
+    source,
+    /const colorBendsOpacity =\s*effectiveTheme === "light"\s*\?\s*COLOR_BENDS_OPACITY_LIGHT\s*:\s*effectiveTheme === "mid"\s*\?\s*COLOR_BENDS_OPACITY_FULL\s*:\s*COLOR_BENDS_OPACITY_DEFAULT;/
+  );
+});
+
 test("homepage color bends still fade on scroll when motion is reduced", () => {
   assert.match(
     source,
