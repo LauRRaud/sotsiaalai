@@ -59,9 +59,10 @@ test("wellbeing dashboard icon uses a social support mark instead of a medical p
   const source = readFileSync(new URL("../../components/chat/WorkspacePanel.jsx", import.meta.url), "utf8");
   const wellbeingIcon = source.match(/if \(type === "wellbeing"\) \{[\s\S]*?return \([\s\S]*?<\/svg>[\s\S]*?\);\s*\}/)?.[0] || "";
 
-  assert.match(wellbeingIcon, /M12 3\.35c2\.2 1\.68/);
-  assert.match(wellbeingIcon, /<circle cx="12" cy="9\.2" r="1\.85"/);
-  assert.match(wellbeingIcon, /M8\.6 15\.35c\.7-1\.95/);
+  assert.match(wellbeingIcon, /M12 1\.85c2\.72 1\.72/);
+  assert.match(wellbeingIcon, /translate\(5\.65 4\.55\) scale\(0\.53\)/);
+  assert.match(wellbeingIcon, /M9\.3 15H14\.7C16\.8 15 18\.4 16 19 17\.6/);
+  assert.match(wellbeingIcon, /<circle cx="12" cy="7" r="4"/);
   assert.doesNotMatch(wellbeingIcon, /M12 20\.25c-/);
   assert.doesNotMatch(wellbeingIcon, /1\.12-2\.7/);
 });

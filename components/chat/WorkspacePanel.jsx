@@ -117,9 +117,11 @@ function DashboardCardIcon({ type }) {
   if (type === "wellbeing") {
     return (
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-        <path d="M12 3.35c2.2 1.68 4.5 2.38 6.85 2.1v5.05c0 4.25-2.48 7.42-6.85 9.65-4.37-2.23-6.85-5.4-6.85-9.65V5.45c2.35.28 4.65-.42 6.85-2.1Z" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="12" cy="9.2" r="1.85" stroke="currentColor" strokeWidth="1.52" />
-        <path d="M8.6 15.35c.7-1.95 1.82-2.9 3.4-2.9s2.7.95 3.4 2.9" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 1.85c2.72 1.72 5.45 2.38 8.05 1.95v6.25c0 5.08-2.96 8.82-8.05 11.35-5.09-2.53-8.05-6.27-8.05-11.35V3.8c2.6.43 5.33-.23 8.05-1.95Z" stroke="currentColor" strokeWidth="1.52" strokeLinecap="round" strokeLinejoin="round" />
+        <g transform="translate(5.65 4.55) scale(0.53)">
+          <path d="M9.3 15H14.7C16.8 15 18.4 16 19 17.6C19.5 18.9 19.4 20.1 19.2 21C18.7 23 16.3 23.6 12 23.6C7.7 23.6 5.3 23 4.8 21C4.6 20.1 4.5 18.9 5 17.6C5.6 16 7.2 15 9.3 15Z" stroke="currentColor" strokeWidth="2.9" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2.9" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
       </svg>
     );
   }
