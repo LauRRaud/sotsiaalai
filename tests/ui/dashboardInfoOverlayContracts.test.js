@@ -80,7 +80,7 @@ test("workspace surfaces expose the shared dashboard info trigger", () => {
   assert.match(covision, /<GlassSubpageHeader[\s\S]*rightSlot=\{[\s\S]*<DashboardInfoTrigger[\s\S]*infoId="kovision"/);
   assert.match(helpListings, /infoId=\{infoId\}/);
   assert.match(invite, /DashboardInfoTrigger[\s\S]*infoId="invites"/);
-  assert.match(invite, /const inviteHeaderTitle = isWorkspaceReturn[\s\S]*?t\("chat\.workspace\.cards\.add_person\.title"\)[\s\S]*?: t\("invite\.eyebrow"\)/);
+  assert.match(invite, /const inviteHeaderTitle = t\("invite\.eyebrow"\)/);
   assert.match(invite, /titleWrapClassName=\{isWorkspaceReturn \? "invite-workspace-title-wrap" : undefined\}/);
   assert.match(invite, /title=\{inviteHeaderTitle\}/);
 });

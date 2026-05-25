@@ -47,14 +47,18 @@ test("workspace and framework scroll pages keep the back button inside the scrol
 
   assert.match(invite, /invite-modal-content--workspace/);
   assert.doesNotMatch(invite, /invite-modal-content--workspace workspace-scroll-surface/);
-  assert.match(invite, /isWorkspaceReturn \? "!overflow-y-auto" : "!overflow-y-hidden"/);
+  assert.match(invite, /!overflow-hidden/);
   assert.match(
     mobileCss,
-    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?overflow-y:\s*auto\s*!important;/
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?overflow-y:\s*hidden\s*!important;/
   );
   assert.match(
     mobileCss,
-    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.invite-modal-scroll\.workspace-guide-panel-scroll\s*\{[\s\S]*?overflow:\s*visible\s*!important;/
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.invite-modal-scroll\.workspace-guide-panel-scroll\s*\{[\s\S]*?flex:\s*1 1 auto\s*!important;[\s\S]*?overflow:\s*visible\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /\.invite-modal-content--workspace\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.invite-list-panel\s*\{[\s\S]*?overflow-y:\s*auto\s*!important;/
   );
 
   assert.match(mobileCss, /\.direct-scroll-surface\s*\{[\s\S]*?padding-top:\s*0\s*!important;/);

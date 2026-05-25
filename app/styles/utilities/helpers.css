@@ -956,16 +956,25 @@ body[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.g
 
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface {
     overflow-x: hidden !important;
-    overflow-y: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior: none !important;
     scrollbar-gutter: auto !important;
   }
 
   .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
     > .invite-modal-scroll.workspace-guide-panel-scroll {
-    flex: 0 0 auto !important;
-    min-height: auto !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
     overflow: visible !important;
     scrollbar-gutter: auto !important;
+  }
+
+  .invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface
+    .invite-list-panel {
+    flex: 1 1 auto !important;
+    min-height: clamp(7.5rem, 18vh, 11rem) !important;
+    max-height: min(24dvh, 13rem) !important;
+    overflow-y: auto !important;
   }
 
   .workspace-guide-panel.glass-subpage-surface .glass-subpage-title {
