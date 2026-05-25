@@ -3778,3 +3778,25 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   display: none !important;
   opacity: 0 !important;
 }
+
+.invite-modal-overlay.person-invite-modal-overlay:not(.invite-modal-overlay--workspace) {
+  align-items: flex-start !important;
+  overflow-y: auto !important;
+  padding-top: clamp(1rem, 3vh, 1.75rem) !important;
+  padding-bottom: clamp(1rem, 3vh, 1.75rem) !important;
+}
+
+.invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+  height: auto !important;
+  min-height: clamp(40rem, 86vh, 56rem) !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace)
+  > .invite-modal-scroll:not(.workspace-guide-panel-scroll) {
+  flex: 0 0 auto !important;
+  min-height: auto !important;
+  overflow: visible !important;
+  scrollbar-gutter: auto !important;
+}

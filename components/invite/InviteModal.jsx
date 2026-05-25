@@ -113,12 +113,12 @@ export default function InviteModal() {
   const isWorkspaceReturn = openSource === "workspace";
   const inviteDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
-    : "!min-h-[clamp(40rem,86vh,56rem)] !max-h-[calc(100dvh-2.5rem)]";
+    : "!min-h-[clamp(40rem,86vh,56rem)] !max-h-none";
   const inviteHeaderTitle = isWorkspaceReturn
     ? t("chat.workspace.cards.add_person.title")
     : t("invite.eyebrow");
   const inviteModalContentClassName =
-    `invite-modal-content person-invite-modal-content glass-field-hole-surface mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-x-hidden ${isWorkspaceReturn ? "!overflow-y-auto" : "!overflow-y-hidden"} ` +
+    `invite-modal-content person-invite-modal-content glass-field-hole-surface mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-x-hidden ${isWorkspaceReturn ? "!overflow-y-auto" : "!overflow-y-visible"} ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
     `${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
@@ -134,7 +134,7 @@ export default function InviteModal() {
     `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalBodyClassName =
-    `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
+    `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden ${isWorkspaceReturn ? "overflow-y-auto" : "overflow-y-visible"} overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem]`;
   const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] gap-[1.08rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[1rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;

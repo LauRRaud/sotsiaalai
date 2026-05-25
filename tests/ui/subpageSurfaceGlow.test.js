@@ -44,8 +44,16 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   );
   assert.match(materialsSource, /materials-page-content[\s\S]*?\$\{workspaceGuidePanelClassName\}/);
   assert.match(materialsSource, /materials-page-body[\s\S]*?\$\{workspaceGuidePanelScrollClassName\}/);
-  assert.match(inviteSource, /invite-modal-content[\s\S]*?!overflow-y-hidden/);
-  assert.match(inviteSource, /invite-modal-scroll[\s\S]*?overflow-y-auto/);
+  assert.match(inviteSource, /invite-modal-content[\s\S]*?!overflow-y-visible/);
+  assert.match(inviteSource, /invite-modal-scroll[\s\S]*?overflow-y-visible/);
+  assert.match(
+    read("app/styles/mobile.css"),
+    /\.invite-modal-content\.person-invite-modal-content\.glass-subpage-surface:not\(\.invite-modal-content--workspace\)\s*\{[\s\S]*?max-height:\s*none !important;[\s\S]*?overflow-y:\s*visible !important;/
+  );
+  assert.match(
+    read("app/styles/mobile.css"),
+    /> \.invite-modal-scroll:not\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?overflow-y:\s*visible !important;/
+  );
   assert.match(surfaceBlock, /--glass-subpage-edge-stroke-width:\s*0px/);
   assert.match(surfaceBeforeBlock, /content:\s*""/);
   assert.match(surfaceBeforeBlock, /background:\s*var\(--glass-subpage-edge-stroke,\s*none\)/);
