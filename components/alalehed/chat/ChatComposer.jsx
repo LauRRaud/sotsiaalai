@@ -101,6 +101,44 @@ function DeepResearchIcon({
   );
 }
 
+function JourneyModeIcon({
+  stroke,
+  className,
+  strokeWidth = 1.8,
+  ...props
+}) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <path
+        d="M5.4 17.9c2.2-1.7 3.5-3.6 3.6-5.8.08-1.5-.6-2.75-1.85-3.3-1.28-.57-2.85-.08-3.45 1.22-.62 1.34.03 2.86 1.45 3.4 1.28.5 2.85.1 4.32-.88l5.05-3.36c1.54-1.02 3.55-.82 4.78.48 1.34 1.42 1.14 3.72-.43 4.88l-4.56 3.38"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="15.4"
+        cy="17.9"
+        r="1.35"
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+      />
+      <circle
+        cx="5.4"
+        cy="17.9"
+        r="1.35"
+        fill={stroke}
+      />
+    </svg>
+  );
+}
+
 export default function ChatComposer({
   t,
   locale = "et",
@@ -130,6 +168,8 @@ export default function ChatComposer({
   onActivateDeepResearchMode,
   onActivateHelpRequestMode,
   onActivateHelpOfferMode,
+  onActivateJourneyMode,
+  showJourneyTool = false,
   showDocumentAttachButton = false,
   onPickDocumentFile,
   voiceEnabled = true,
@@ -264,6 +304,11 @@ export default function ChatComposer({
     deepResearchModeLabelRaw && deepResearchModeLabelRaw !== "chat.deep_research.mode_label"
       ? deepResearchModeLabelRaw
       : "Süvauuring";
+  const journeyModeLabelRaw = t("journey.chatTool.label");
+  const journeyModeLabel =
+    journeyModeLabelRaw && journeyModeLabelRaw !== "journey.chatTool.label"
+      ? journeyModeLabelRaw
+      : "Teekond";
   const modeLabelShineBackground = isHighContrast
     ? MODE_LABEL_SHINE_BACKGROUND_HC
     : isLightTheme
@@ -273,13 +318,15 @@ export default function ChatComposer({
     if (activeModeKey === "deep_research") return deepResearchModeLabel;
     if (activeModeKey === "help_request") return helpRequestModeLabel;
     if (activeModeKey === "help_offer") return helpOfferModeLabel;
+    if (activeModeKey === "journey") return journeyModeLabel;
     return String(activeModeLabel || "");
   }, [
     activeModeKey,
     activeModeLabel,
     deepResearchModeLabel,
     helpOfferModeLabel,
-    helpRequestModeLabel
+    helpRequestModeLabel,
+    journeyModeLabel
   ]);
   const effectiveModeLabel = String(roomModeLabel || resolvedActiveModeLabel || "");
   const subtleModeLabel = effectiveModeLabel
@@ -492,6 +539,10 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateHelpOfferMode?.();
   }, [closeToolsMenu, onActivateHelpOfferMode]);
+  const handleJourneyModeSelect = useCallback(() => {
+    closeToolsMenu();
+    onActivateJourneyMode?.();
+  }, [closeToolsMenu, onActivateJourneyMode]);
   const checkPrivacyBeforeSend = useCallback(async (text) => {
     const workflow = resolvePrivacyWorkflow({ activeModeKey, isRoomMode });
     try {
@@ -820,6 +871,12 @@ export default function ChatComposer({
             </span>
             <span className={toolLabelClassName}>{helpOfferModeLabel}</span>
           </button>
+          {!isRoomMode && showJourneyTool ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleJourneyModeSelect}>
+              <span aria-hidden="true" className={toolIconSlotClassName}>
+                <JourneyModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuModeIconClassName} />
+              </span>
+              <span className={toolLabelClassName}>{journeyModeLabel}</span>
+            </button> : null}
           {!isRoomMode ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDeepResearchModeSelect}>
               <span aria-hidden="true" className={toolIconSlotClassName}>
                 <DeepResearchIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />
@@ -929,6 +986,7 @@ export default function ChatComposer({
                 {activeModeKey === "deep_research" ? <DeepResearchIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : activeModeKey === "help_request" ? <HelpRequestIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : activeModeKey === "help_offer" ? <HelpOfferIcon isLightTheme={isLightTheme} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
+                  : activeModeKey === "journey" ? <JourneyModeIcon stroke={iconStroke} strokeWidth={activeModeIconStrokeWidth} className={activeModeIconClassName} />
                   : <svg aria-hidden="true" width="36" height="36" viewBox="0 0 42 42" fill="none" className={activeModeIconClassName}>
                     <path d="M21 8.75v24.5M8.75 21h24.5" stroke={iconStroke} strokeWidth={plusIconStrokeWidth} strokeLinecap="round" />
                   </svg>}

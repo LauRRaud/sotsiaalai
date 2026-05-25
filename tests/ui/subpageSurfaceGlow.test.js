@@ -128,6 +128,8 @@ test("invite modal form controls align to the invite list panel width", () => {
     mobileCss,
     /\.invite-modal-content\.glass-field-hole-surface > \.glass-hole-mask-layer\s*\{[\s\S]*?mask-image:\s*var\(--glass-field-hole-mask/
   );
+  assert.doesNotMatch(inviteSource, /glass-hole-underlay-layer/);
+  assert.doesNotMatch(mobileCss, /glass-hole-underlay-layer/);
   assert.doesNotMatch(
     mobileCss,
     /\.invite-modal-content\.glass-field-hole-surface::before\s*\{[\s\S]*?glass-field-hole-mask/

@@ -291,6 +291,12 @@
   margin: -16%;
 }
 
+.journeyInlineIcon {
+  width: 106% !important;
+  height: 106% !important;
+  margin: -3%;
+}
+
 .cardCopy {
   display: flex;
   grid-column: 3;

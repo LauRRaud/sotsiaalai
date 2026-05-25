@@ -59,6 +59,16 @@ function DashboardCardIcon({ type }) {
       </svg>
     );
   }
+  if (type === "journey") {
+    return (
+      <svg className={styles.journeyInlineIcon} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M6.1 17.55c1.15-2.45 2.7-3.7 4.7-3.72 2.24-.02 3.88-1.38 4.9-4.08" stroke="currentColor" strokeWidth="1.82" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="6.1" cy="17.55" r="2.16" stroke="currentColor" strokeWidth="1.72" />
+        <path d="M16.95 4.15c-1.66 0-3 1.3-3 2.92 0 2.34 3 5.78 3 5.78s3-3.44 3-5.78c0-1.62-1.34-2.92-3-2.92Z" stroke="currentColor" strokeWidth="1.72" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="16.95" cy="7.1" r="0.86" fill="currentColor" />
+      </svg>
+    );
+  }
   if (type === "map") {
     return (
       <svg className={styles.serviceMapInlineIcon} viewBox="0 0 34.12 32.89" fill="none" aria-hidden="true" focusable="false">

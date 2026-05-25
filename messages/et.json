@@ -569,6 +569,10 @@
         "title": "Eelpöördumine",
         "description": "Koosta ja halda pöördumise mustandeid KOV kontaktile või teenuseosutajale."
       },
+      "journey_prefill": {
+        "loaded": "Eelpöördumise mustand koostati teekonna põhjal. Vaata see enne saatmist üle ja muuda vajadusel.",
+        "load_failed": "Teekonna põhjal eelpöördumise mustandit ei saanud laadida."
+      },
       "sections": {
         "input": "Pöördumise sisend",
         "assistant": "Vestlus assistendiga",
@@ -1064,6 +1068,10 @@
         "service_map": {
           "title": "Teenusekaart",
           "meta": "Kaardivaade"
+        },
+        "journey": {
+          "title": "Teekond",
+          "meta": "Teekonnakaart"
         },
         "kovision": {
           "title": "Kovisioon",
@@ -2163,6 +2171,10 @@
         "service_card": {
           "title": "Teenusekaart",
           "body": "Teenusekaart on SotsiaalAI kaardivaade avaldatud KOV sotsiaalhoolekande kontaktide ja teenuseosutajate leidmiseks. Otsida saab nime, kirjelduse, aadressi, teenuse, kategooria, sihtrühma või piirkonna järgi. Otsing arvestab ka teenuseosutaja profiili all olevaid teenuseid, nende teeninduskohti, kirjeldusi ja hinnainfot. Marker tekib asukoha järgi: ühes teeninduskohas saab kuvada mitu teenust ning sama teenus võib olla seotud mitme asukohaga."
+        },
+        "journey": {
+          "title": "Teekond",
+          "body": "Teekond aitab olukorra kirjelduse põhjal hoida koos kokkuvõtet, seotud teemasid, puuduolevat infot, ettevaatlikke tähelepanekuid ja soovitatud järgmisi samme. Teekond on alguses privaatne ning seda ei jagata spetsialisti, teenuseosutaja ega muu osapoolega enne kasutaja teadlikku kinnitust."
         },
         "knowledge_base": {
           "title": "SotsiaalAI teadmusbaas",
@@ -3587,6 +3599,127 @@
         "type": "Tüüp",
         "language": "Keel"
       }
+    }
+  },
+  "journey": {
+    "title": "Teekond",
+    "meta": {
+      "title": "Teekond",
+      "description": "Privaatne koht olukorra kirjeldamiseks ja teekonna mustandi kinnitamiseks."
+    },
+    "chatTool": {
+      "label": "Teekond",
+      "description": "Koosta olukorra põhjal privaatne teekonnakaart."
+    },
+    "workflow": {
+      "startTitle": "Teekonna režiim",
+      "startBody": "Teekonna režiim. Kirjelda olukorda oma sõnadega. Aitan selle põhjal koostada esialgse teekonnakaardi. Teekond jääb privaatseks ja seda ei jagata enne, kui sa ise kinnitad.",
+      "draftTitle": "Teekonna mustand",
+      "privacyNote": "See on mustand. Seda ei salvestata ega jagata enne, kui sa selle kinnitad.",
+      "save": "Salvesta teekond",
+      "refine": "Täpsustan veel",
+      "cancel": "Tühista",
+      "openSaved": "Ava teekond",
+      "savedSuccess": "Privaatne teekond salvestati.",
+      "nextPrompt": "Kirjuta lisainfot või vasta: salvesta, täpsustan või tühista.",
+      "refinePrompt": "Lisa täpsustus, mida soovid muuta või täiendada. Uuendan selle põhjal mustandit.",
+      "cancelled": "Teekonna mustand tühistati. Midagi ei salvestatud."
+    },
+    "primary_paths": {
+      "SERVICE_MAP": "Teenusekaart",
+      "PRE_INQUIRY": "Eelpöördumine",
+      "DOCUMENT": "Dokument",
+      "HELP_REQUEST": "Abisoov",
+      "ROOM": "Vestlusruum",
+      "GENERAL_SUPPORT": "Täpsustamine",
+      "UNKNOWN": "Pole veel selge"
+    },
+    "status": {
+      "ACTIVE": "Aktiivne",
+      "ARCHIVED": "Arhiveeritud",
+      "DRAFT": "Mustand"
+    },
+    "labels": {
+      "private": "Privaatne",
+      "updated_at": "Uuendatud {date}",
+      "title": "Pealkiri",
+      "summary": "Olukorra kokkuvõte",
+      "primary_path": "Esmane suund",
+      "domains": "Seotud teemad",
+      "missing_info": "Puuduolev info",
+      "risk_signals": "Ettevaatlikud tähelepanekud",
+      "suggested_actions": "Soovitatud järgmised sammud",
+      "situation": "Olukorra kirjeldus",
+      "one_item_per_line": "Üks kirje reale"
+    },
+    "actions": {
+      "archive": "Arhiveeri",
+      "archive_named": "Arhiveeri teekond {title}",
+      "save_private": "Salvesta privaatne teekond",
+      "save_changes": "Salvesta muudatused",
+      "back": "Tagasi",
+      "back_to_list": "Tagasi teekonda",
+      "login": "Logi sisse",
+      "start_new": "Alusta teekonda",
+      "open": "Ava teekond",
+      "edit": "Muuda",
+      "close_edit": "Sulge muutmine",
+      "create_draft": "Koosta mustand",
+      "cancel": "Tühista"
+    },
+    "messages": {
+      "loading": "Laen teekonda...",
+      "auth_required": "Teekond on privaatne. Jätkamiseks logi sisse.",
+      "load_failed": "Teekonna laadimine ebaõnnestus.",
+      "draft_failed": "Mustandi koostamine ebaõnnestus.",
+      "save_failed": "Teekonna salvestamine ebaõnnestus.",
+      "archive_failed": "Teekonna arhiveerimine ebaõnnestus.",
+      "saved": "Privaatne teekond salvestati.",
+      "updated": "Teekond uuendati.",
+      "archived": "Teekond arhiveeriti.",
+      "no_active": "Ühtegi privaatset teekonda ei ole veel salvestatud.",
+      "no_archived": "Arhiveeritud teekondi ei ole.",
+      "not_found_title": "Teekonda ei leitud",
+      "not_found": "See teekond ei ole kättesaadav või ei kuulu sinu kontole.",
+      "empty_domains": "Seotud teemasid ei ole lisatud.",
+      "empty_missing_info": "Puuduolevat infot ei ole lisatud.",
+      "empty_risk_signals": "Ettevaatlikke tähelepanekuid ei ole lisatud.",
+      "empty_suggested_actions": "Soovitatud järgmisi samme ei ole lisatud."
+    },
+    "privacy": {
+      "title": "Teekond on privaatne",
+      "description": "See teekond on privaatne. Teavet ei jagata spetsialisti, teenuseosutaja ega muu osapoolega enne, kui sa selle ise kinnitad ja jagad."
+    },
+    "info": {
+      "label": "Ava teekonna info"
+    },
+    "service_map": {
+      "title": "Teenusekaart avaneb teekonna põhjal",
+      "open": "Ava teenusekaart",
+      "filtered_description": "Teenusekaart avaneb teekonna põhjal eelfiltriga.",
+      "fallback_description": "Piirkond puudub, avan teenusekaardi üldvaates.",
+      "privacy_note": "Teenusekaart ei jaga sinu teekonda ühegi osapoolega. See on abivahend sobiva kontakti või järgmise sammu leidmiseks."
+    },
+    "pre_inquiry": {
+      "title": "Eelpöördumise mustand",
+      "open": "Koosta eelpöördumine",
+      "description": "Eelpöördumise mustand koostatakse sinu teekonna põhjal. Enne saatmist saad kogu teksti üle vaadata ja muuta.",
+      "privacy_note": "Teekonda ei jagata automaatselt. Vastuvõtja näeb ainult sinu kinnitatud eelpöördumist."
+    },
+    "header": {
+      "eyebrow": "Privaatne teekonnakiht",
+      "description": "Kirjelda olukorda, vaata koostatud mustand üle ja salvesta see privaatse teekonnana. Mustand ei salvestu enne kinnitamist."
+    },
+    "sections": {
+      "start_title": "Kirjelda olukorda",
+      "start_description": "Siin tekib ainult ajutine struktureeritud mustand. Andmebaasi Journey objekt luuakse alles pärast salvestamise kinnitamist.",
+      "review_title": "Vaata mustand üle",
+      "review_description": "Muuda välju enne salvestamist. Privaatne teekond salvestub alles kinnituse järel.",
+      "active_title": "Aktiivne teekond",
+      "archived_title": "Varasemad teekonnad"
+    },
+    "placeholders": {
+      "situation": "Näiteks: vajan abi lähedase hoolduse korraldamisel, ei tea millise teenuse või KOV kontakti poole pöörduda..."
     }
   },
   "footer": {

@@ -89,6 +89,13 @@ test("color bends do not render one frame at fallback strength", () => {
   );
 });
 
+test("color bends fail closed when WebGL shader setup or rendering breaks", () => {
+  assert.match(colorBendsSource, /renderer\.compile\(scene, camera\);/);
+  assert.match(colorBendsSource, /console\.warn\("ColorBends disabled after a WebGL renderer failure\."/);
+  assert.match(colorBendsSource, /try\s*\{\s*renderer\.render\(scene, camera\);\s*\}\s*catch \(error\) \{\s*disableRenderer\(error\);\s*\}/);
+  assert.match(colorBendsSource, /float resolveMonoChannel\(vec2 baseQ, float t, float channelOffset\)/);
+});
+
 test("homepage color bends still fade on scroll when motion is reduced", () => {
   assert.match(
     source,

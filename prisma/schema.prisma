@@ -259,6 +259,16 @@ enum ServiceMapEntryType {
   SERVICE_PROVIDER
 }
 
+enum JourneyStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum JourneySharingStatus {
+  PRIVATE
+}
+
 enum ServiceMapEntryStatus {
   DRAFT
   NEEDS_REVIEW
@@ -538,6 +548,7 @@ model User {
   serviceProviderProfiles ServiceProviderProfile[]
   authoredPreInquiries    PreInquiry[]             @relation("PreInquiryAuthor")
   receivedPreInquiries    PreInquiry[]             @relation("PreInquiryRecipientOwner")
+  journeys                Journey[]
   covisionCasesOwned      CovisionCase[]           @relation("CovisionCaseOwner")
   covisionParticipants    CovisionParticipant[]    @relation("CovisionParticipantUser")
   covisionMessages        CovisionMessage[]        @relation("CovisionMessageAuthor")
@@ -848,10 +859,37 @@ model Conversation {
 
   user     User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   messages ConversationMessage[]
+  journeys Journey[]
 
   @@index([userId, isPinned, lastActivityAt])
   @@index([userId, archivedAt])
   @@index([expiresAt])
+}
+
+model Journey {
+  id               String               @id @default(cuid())
+  ownerUserId      String
+  conversationId   String?
+  roleContext      Role                 @default(CLIENT)
+  status           JourneyStatus        @default(ACTIVE)
+  sharingStatus    JourneySharingStatus @default(PRIVATE)
+  title            String
+  summary          String               @db.Text
+  primaryPath      String?
+  domains          Json?
+  missingInfo      Json?
+  riskSignals      Json?
+  suggestedActions Json?
+  context          Json?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  owner        User          @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+  conversation Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+
+  @@index([ownerUserId, updatedAt])
+  @@index([ownerUserId, status, updatedAt])
+  @@index([conversationId])
 }
 
 model ConversationMessage {

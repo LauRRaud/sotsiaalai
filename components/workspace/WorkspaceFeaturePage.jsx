@@ -137,6 +137,13 @@ function normalizeWorkspaceRole(role) {
   return ADMIN_WORKSPACE_ROLES.includes(normalized) ? normalized : "SOCIAL_WORKER";
 }
 
+function readRequestedWorkspaceRole() {
+  if (typeof window === "undefined") return "";
+  const params = new URLSearchParams(window.location.search || "");
+  const value = params.get("workspaceRole");
+  return value ? normalizeWorkspaceRole(value) : "";
+}
+
 function roleLabel(t, role) {
   if (role === "CLIENT") {
     return readText(t, "workspace_feature_pages.roles.client", "Pöörduja");
@@ -567,6 +574,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [savePrivacyPrompt, setSavePrivacyPrompt] = useState(null);
+  const journeyPrefillLoadedRef = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -824,6 +832,71 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       assessmentDraftSummary: assessmentDraftSummary
     }));
   }, [assessmentDraftSummary, draftTouched, effectiveSituation, selectedRecipient, situation, topic]);
+
+  useEffect(() => {
+    if (journeyPrefillLoadedRef.current || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const fromJourney = String(params.get("fromJourney") || "").trim();
+    if (!fromJourney) return;
+
+    journeyPrefillLoadedRef.current = true;
+    let cancelled = false;
+
+    async function loadJourneyPrefill() {
+      setNotice("");
+      setError("");
+      try {
+        const response = await fetch(`/api/journeys/${encodeURIComponent(fromJourney)}/pre-inquiry-draft`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          cache: "no-store"
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload?.ok) {
+          throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.journey_prefill.load_failed", "Journey prefill could not be loaded."));
+        }
+        if (cancelled) return;
+        const prefill = payload?.prefill || {};
+        const nextAssessmentState = createEmptyPreInquiryAssessmentState();
+        nextAssessmentState.subject.municipalityText = String(prefill.municipality || "");
+        nextAssessmentState.supportContext.personWish = String(prefill.personContext || "");
+        nextAssessmentState.routing.contactSearchInput.municipalityText = String(prefill.municipality || "");
+
+        setActiveInquiryId("");
+        setTopic(String(prefill.topic || ""));
+        setSituation(String(prefill.situation || ""));
+        setRecipientType(["KOV_CONTACT", "SERVICE_PROVIDER"].includes(prefill.recipientType) ? prefill.recipientType : "");
+        setRecipientQuery(String(prefill.municipality || ""));
+        setSelectedRecipientId("");
+        setDraft(String(prefill.suggestedMessageDraft || ""));
+        setAssistantInput("");
+        setAssistantMessage("");
+        setAssistantReasoning("");
+        setAssistantWarnings([]);
+        setAssistantRoutingConfidence(null);
+        setAssessmentLifeDomains([]);
+        setAssessmentTargetGroups([]);
+        setAssessmentQuestions([]);
+        setAssessmentState(normalizePreInquiryAssessmentState(nextAssessmentState));
+        setAssistantSuggestions([]);
+        setShowMoreContacts(false);
+        setDraftTouched(Boolean(prefill.suggestedMessageDraft));
+        setSavePrivacyPrompt(null);
+        setNotice(readText(t, "workspace_feature_pages.pre_inquiries.journey_prefill.loaded", "A pre-inquiry draft was prepared from the journey. Review and edit it before sending."));
+      } catch (prefillError) {
+        if (!cancelled) {
+          setError(prefillError?.message || readText(t, "workspace_feature_pages.pre_inquiries.journey_prefill.load_failed", "Journey prefill could not be loaded."));
+        }
+      }
+    }
+
+    void loadJourneyPrefill();
+    return () => {
+      cancelled = true;
+    };
+  }, [t]);
 
   function updateAssessmentState(updater) {
     setAssessmentState((current) => {
@@ -2041,6 +2114,19 @@ function hasServiceMapCoordinates(entry) {
   return Number.isFinite(latitude) && Number.isFinite(longitude);
 }
 
+function readInitialServiceMapFilters() {
+  if (typeof window === "undefined") {
+    return { keyword: "", region: "", entryType: "ALL" };
+  }
+  const params = new URLSearchParams(window.location.search || "");
+  const entryType = String(params.get("type") || "ALL").trim().toUpperCase();
+  return {
+    keyword: params.get("q") || params.get("keyword") || "",
+    region: params.get("municipalityName") || params.get("municipality") || params.get("county") || "",
+    entryType: ["KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "ALL"].includes(entryType) ? entryType : "ALL"
+  };
+}
+
 function ServiceMapSurface({
   t,
   locale = "et",
@@ -2062,6 +2148,13 @@ function ServiceMapSurface({
   const filtersShellRef = useRef(null);
   const keywordPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.keyword", "Service, contact or need");
   const regionPlaceholder = readText(t, "workspace_feature_pages.service_map.placeholders.region", "Municipality or county");
+
+  useEffect(() => {
+    const initialFilters = readInitialServiceMapFilters();
+    if (initialFilters.keyword) setKeyword(initialFilters.keyword);
+    if (initialFilters.region) setRegion(initialFilters.region);
+    if (initialFilters.entryType !== "ALL") setEntryType(initialFilters.entryType);
+  }, []);
 
   useLayoutEffect(() => {
     if (typeof document === "undefined") return undefined;
@@ -3389,20 +3482,31 @@ export default function WorkspaceFeaturePage({ feature }) {
     String(session?.user?.role || "").toUpperCase() === "ADMIN"
   );
   const [adminWorkspaceRole, setAdminWorkspaceRole] = useState("SOCIAL_WORKER");
+  const adminQueryRoleAppliedRef = useRef(false);
+  const featureKey =
+    feature === "service_map" || feature === "service_profile"
+      ? feature
+      : "pre_inquiries";
+
   useEffect(() => {
     if (!isAdmin || !isRoleResolved) return;
+    if (featureKey === "pre_inquiries") {
+      const requestedRole = readRequestedWorkspaceRole();
+      if (requestedRole) {
+        if (!adminQueryRoleAppliedRef.current) {
+          adminQueryRoleAppliedRef.current = true;
+          setAdminWorkspaceRole(requestedRole);
+        }
+        return;
+      }
+    }
     setAdminWorkspaceRole(normalizeWorkspaceRole(effectiveRole));
-  }, [effectiveRole, isAdmin, isRoleResolved]);
+  }, [effectiveRole, featureKey, isAdmin, isRoleResolved]);
 
   const handleAdminWorkspaceRoleChange = useCallback((nextRole) => {
     setAdminWorkspaceRole(normalizeWorkspaceRole(nextRole));
     refreshEffectiveRole();
   }, [refreshEffectiveRole]);
-
-  const featureKey =
-    feature === "service_map" || feature === "service_profile"
-      ? feature
-      : "pre_inquiries";
 
   const handleBack = useCallback(() => {
     if (typeof window === "undefined") {

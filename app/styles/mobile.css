@@ -3720,20 +3720,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   backdrop-filter: none !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface > .glass-hole-underlay-layer {
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-  background:
-    radial-gradient(circle at 50% 28%, rgba(230, 230, 230, 0.055), transparent 32%),
-    rgba(18, 18, 18, 0.34) !important;
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur-radius, 1rem) * 1.15)) saturate(0.72) !important;
-  backdrop-filter: blur(calc(var(--glass-blur-radius, 1rem) * 1.15)) saturate(0.72) !important;
-}
-
 :root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface > .glass-hole-mask-layer {
   display: block !important;
   position: absolute !important;
@@ -3803,7 +3789,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface
-  > :not(.glass-hole-underlay-layer):not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
+  > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
   position: relative;
   z-index: 2;
 }

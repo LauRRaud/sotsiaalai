@@ -569,6 +569,10 @@
         "title": "Предобращение",
         "description": "Создавайте и ведите черновики обращений для контакта самоуправления или поставщика услуги."
       },
+      "journey_prefill": {
+        "loaded": "A pre-inquiry draft was prepared from the journey. Review and edit it before sending.",
+        "load_failed": "The pre-inquiry draft could not be loaded from the journey."
+      },
       "sections": {
         "input": "Данные обращения",
         "assistant": "Беседа с ассистентом",
@@ -1011,6 +1015,10 @@
         "service_map": {
           "title": "Карта услуг",
           "meta": "Карта"
+        },
+        "journey": {
+          "title": "Journey",
+          "meta": "Journey map"
         },
         "kovision": {
           "title": "Ковизия",
@@ -2163,6 +2171,10 @@
         "service_card": {
           "title": "Карточка услуг",
           "body": "Карточка услуг — это карта SotsiaalAI для поиска опубликованных контактов социальной сферы местных самоуправлений и поставщиков услуг. Искать можно по названию, описанию, адресу, услуге, категории, целевой группе или региону. Поиск также учитывает услуги, места оказания услуг, описания и информацию о цене, указанные в профиле поставщика. Маркеры создаются по месту оказания услуги: в одном месте можно показать несколько услуг, а одну услугу можно связать с несколькими местами."
+        },
+        "journey": {
+          "title": "Journey",
+          "body": "Journey keeps a situation summary, related topics, missing information, careful notes, and suggested next steps together. The journey is private at first and is not shared with a specialist, service provider, or another party before the user knowingly confirms sharing."
         },
         "knowledge_base": {
           "title": "База знаний SotsiaalAI",
@@ -3587,6 +3599,127 @@
         "type": "type",
         "language": "language"
       }
+    }
+  },
+  "journey": {
+    "title": "Teekond",
+    "meta": {
+      "title": "Teekond",
+      "description": "A private place to describe a situation and confirm a journey draft."
+    },
+    "chatTool": {
+      "label": "Teekond",
+      "description": "Создать приватную карту пути на основе ситуации."
+    },
+    "workflow": {
+      "startTitle": "Режим Teekond",
+      "startBody": "Режим Teekond. Опишите ситуацию своими словами. Я помогу составить первичную карту пути. Teekond остается приватным и не передается другим до вашего подтверждения.",
+      "draftTitle": "Черновик Teekond",
+      "privacyNote": "Это черновик. Он не сохраняется и не передается, пока вы его не подтвердите.",
+      "save": "Сохранить Teekond",
+      "refine": "Уточнить",
+      "cancel": "Отменить",
+      "openSaved": "Открыть Teekond",
+      "savedSuccess": "Приватный Teekond сохранен.",
+      "nextPrompt": "Добавьте детали или ответьте: сохранить, уточнить или отменить.",
+      "refinePrompt": "Добавьте уточнение, которое хотите изменить или дополнить. Я обновлю черновик.",
+      "cancelled": "Черновик Teekond отменен. Ничего не сохранено."
+    },
+    "primary_paths": {
+      "SERVICE_MAP": "Service map",
+      "PRE_INQUIRY": "Pre-inquiry",
+      "DOCUMENT": "Document",
+      "HELP_REQUEST": "Help request",
+      "ROOM": "Room",
+      "GENERAL_SUPPORT": "Clarification",
+      "UNKNOWN": "Not clear yet"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "ARCHIVED": "Archived",
+      "DRAFT": "Draft"
+    },
+    "labels": {
+      "private": "Private",
+      "updated_at": "Updated {date}",
+      "title": "Title",
+      "summary": "Situation summary",
+      "primary_path": "Primary direction",
+      "domains": "Related topics",
+      "missing_info": "Missing information",
+      "risk_signals": "Careful notes",
+      "suggested_actions": "Suggested next steps",
+      "situation": "Situation description",
+      "one_item_per_line": "One item per line"
+    },
+    "actions": {
+      "archive": "Archive",
+      "archive_named": "Archive journey {title}",
+      "save_private": "Save private journey",
+      "save_changes": "Save changes",
+      "back": "Back",
+      "back_to_list": "Back to journey",
+      "login": "Log in",
+      "start_new": "Start journey",
+      "open": "Open journey",
+      "edit": "Edit",
+      "close_edit": "Close editing",
+      "create_draft": "Create draft",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "loading": "Loading journey...",
+      "auth_required": "The journey is private. Log in to continue.",
+      "load_failed": "Loading the journey failed.",
+      "draft_failed": "Creating the draft failed.",
+      "save_failed": "Saving the journey failed.",
+      "archive_failed": "Archiving the journey failed.",
+      "saved": "Private journey saved.",
+      "updated": "Journey updated.",
+      "archived": "Journey archived.",
+      "no_active": "No private journey has been saved yet.",
+      "no_archived": "There are no archived journeys.",
+      "not_found_title": "Journey was not found",
+      "not_found": "This journey is not available or does not belong to your account.",
+      "empty_domains": "No related topics have been added.",
+      "empty_missing_info": "No missing information has been added.",
+      "empty_risk_signals": "No careful notes have been added.",
+      "empty_suggested_actions": "No suggested next steps have been added."
+    },
+    "privacy": {
+      "title": "Journey is private",
+      "description": "This journey is private. Information is not shared with a specialist, service provider, or another party before you confirm and share it yourself."
+    },
+    "info": {
+      "label": "Open journey info"
+    },
+    "service_map": {
+      "title": "Service map opens from this journey",
+      "open": "Open service map",
+      "filtered_description": "The service map opens with filters based on this journey.",
+      "fallback_description": "The region is missing, so the service map opens in the general view.",
+      "privacy_note": "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step."
+    },
+    "pre_inquiry": {
+      "title": "Pre-inquiry draft",
+      "open": "Create pre-inquiry",
+      "description": "A pre-inquiry draft is prepared from this journey. You can review and edit all text before sending.",
+      "privacy_note": "The journey is not shared automatically. The receiver sees only the pre-inquiry you confirm and send."
+    },
+    "header": {
+      "eyebrow": "Private journey layer",
+      "description": "Describe the situation, review the draft, and save it as a private journey. The draft is not saved before confirmation."
+    },
+    "sections": {
+      "start_title": "Describe the situation",
+      "start_description": "This creates only a temporary structured draft. The database Journey object is created only after save confirmation.",
+      "review_title": "Review the draft",
+      "review_description": "Edit the fields before saving. The private journey is saved only after confirmation.",
+      "active_title": "Active journey",
+      "archived_title": "Previous journeys"
+    },
+    "placeholders": {
+      "situation": "For example: I need help arranging care for a family member and do not know which service or local contact to approach..."
     }
   },
   "footer": {

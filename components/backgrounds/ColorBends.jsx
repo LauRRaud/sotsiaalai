@@ -4,26 +4,44 @@ import "./ColorBends.css";
 
 const MAX_COLORS = 8;
 
+function normalizeColorInput(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
 function colorToVec3(hex) {
-  const clean = hex.replace("#", "").trim();
-  const value =
+  const clean = normalizeColorInput(hex).replace(/^#/, "");
+  if (!clean) return new THREE.Vector3(0, 0, 0);
+
+  const expanded =
     clean.length === 3
+      ? clean
+          .split("")
+          .map(channel => channel + channel)
+          .join("")
+      : clean;
+  if (expanded.length < 6) return new THREE.Vector3(0, 0, 0);
+
+  const value =
+    expanded.length === 6
       ? [
-          parseInt(clean[0] + clean[0], 16),
-          parseInt(clean[1] + clean[1], 16),
-          parseInt(clean[2] + clean[2], 16)
+          Number.parseInt(expanded.slice(0, 2), 16),
+          Number.parseInt(expanded.slice(2, 4), 16),
+          Number.parseInt(expanded.slice(4, 6), 16)
         ]
-      : [
-          parseInt(clean.slice(0, 2), 16),
-          parseInt(clean.slice(2, 4), 16),
-          parseInt(clean.slice(4, 6), 16)
-        ];
+      : [0, 0, 0];
+  if (value.some(channel => Number.isNaN(channel))) {
+    return new THREE.Vector3(0, 0, 0);
+  }
 
   return new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
 }
 
 function applyColorUniforms(material, colors) {
-  const palette = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(colorToVec3);
+  const palette = (Array.isArray(colors) ? colors : [])
+    .map(normalizeColorInput)
+    .filter(Boolean)
+    .slice(0, MAX_COLORS)
+    .map(colorToVec3);
   for (let index = 0; index < MAX_COLORS; index++) {
     const colorVector = material.uniforms.uColors.value[index];
     if (index < palette.length) {
@@ -85,6 +103,21 @@ uniform float uScrollOffset;
 uniform float uNoise;
 varying vec2 vUv;
 
+float resolveMonoChannel(vec2 baseQ, float t, float channelOffset) {
+  vec2 s = baseQ;
+  s -= 0.01 * (channelOffset + 1.0);
+  vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
+  float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + channelOffset) / 4.0);
+  float kBelow = clamp(uWarpStrength, 0.0, 1.0);
+  float kMix = pow(kBelow, 0.3);
+  float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
+  vec2 disp = (r - s) * kBelow;
+  vec2 warped = s + disp * gain;
+  float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + channelOffset) / 4.0);
+  float m = mix(m0, m1, kMix);
+  return 1.0 - exp(-6.0 / exp(6.0 * m));
+}
+
 void main() {
   float t = uPhase + (uTime * uSpeed);
   vec2 p = vUv * 2.0 - 1.0;
@@ -124,20 +157,9 @@ void main() {
     col = clamp(sumCol, 0.0, 1.0);
     a = uTransparent > 0 ? cover : 1.0;
   } else {
-    vec2 s = q;
-    for (int k = 0; k < 3; ++k) {
-      s -= 0.01;
-      vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
-      float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(k)) / 4.0);
-      float kBelow = clamp(uWarpStrength, 0.0, 1.0);
-      float kMix = pow(kBelow, 0.3);
-      float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
-      vec2 disp = (r - s) * kBelow;
-      vec2 warped = s + disp * gain;
-      float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(k)) / 4.0);
-      float m = mix(m0, m1, kMix);
-      col[k] = 1.0 - exp(-6.0 / exp(6.0 * m));
-    }
+    col.r = resolveMonoChannel(q, t, 0.0);
+    col.g = resolveMonoChannel(q, t, 1.0);
+    col.b = resolveMonoChannel(q, t, 2.0);
     a = uTransparent > 0 ? max(max(col.r, col.g), col.b) : 1.0;
   }
 
@@ -208,10 +230,12 @@ export default function ColorBends({
   const interactiveRef = useRef(false);
   const elapsedRef = useRef(0);
   const colorsRef = useRef(colors);
+  const renderFailedRef = useRef(false);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+    renderFailedRef.current = false;
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -263,6 +287,38 @@ export default function ColorBends({
     renderer.domElement.style.display = "block";
     container.appendChild(renderer.domElement);
 
+    const disableRenderer = error => {
+      if (renderFailedRef.current) return;
+      renderFailedRef.current = true;
+      rendererRef.current = null;
+      materialRef.current = null;
+      sceneRef.current = null;
+      cameraRef.current = null;
+      console.warn("ColorBends disabled after a WebGL renderer failure.", error);
+      try {
+        geometry.dispose();
+      } catch {}
+      try {
+        material.dispose();
+      } catch {}
+      try {
+        renderer.dispose();
+      } catch {}
+      try {
+        renderer.forceContextLoss();
+      } catch {}
+      if (renderer.domElement.parentElement === container) {
+        container.removeChild(renderer.domElement);
+      }
+    };
+
+    try {
+      renderer.compile(scene, camera);
+    } catch (error) {
+      disableRenderer(error);
+      return () => {};
+    }
+
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
     const updatePlaybackMode = () => {
       const motionActive = !reducedMotion && (speedRef.current !== 0 || autoRotateRef.current !== 0);
@@ -276,6 +332,7 @@ export default function ColorBends({
     };
 
     const renderFrame = elapsed => {
+      if (renderFailedRef.current) return;
       elapsedRef.current = elapsed;
       material.uniforms.uTime.value = elapsed;
       updateRotation(elapsed);
@@ -285,15 +342,20 @@ export default function ColorBends({
         material.uniforms.uPointer.value.copy(pointerCurrentRef.current);
       }
 
-      renderer.render(scene, camera);
+      try {
+        renderer.render(scene, camera);
+      } catch (error) {
+        disableRenderer(error);
+      }
     };
 
     renderStillRef.current = () => {
-      if (document.hidden) return;
+      if (document.hidden || renderFailedRef.current) return;
       renderFrame(elapsedRef.current);
     };
 
     const handleResize = () => {
+      if (renderFailedRef.current) return;
       const width = container.clientWidth || 1;
       const height = container.clientHeight || 1;
       renderer.setPixelRatio(resolveRenderDpr(width, height, maxDpr));
@@ -399,6 +461,11 @@ export default function ColorBends({
     syncPlaybackRef.current();
 
     return () => {
+      renderFailedRef.current = true;
+      rendererRef.current = null;
+      materialRef.current = null;
+      sceneRef.current = null;
+      cameraRef.current = null;
       document.removeEventListener("visibilitychange", onVisibilityChange);
       cleanupPointerRef.current();
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
@@ -407,10 +474,18 @@ export default function ColorBends({
       } else {
         window.removeEventListener("resize", handleResize);
       }
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      renderer.forceContextLoss();
+      try {
+        geometry.dispose();
+      } catch {}
+      try {
+        material.dispose();
+      } catch {}
+      try {
+        renderer.dispose();
+      } catch {}
+      try {
+        renderer.forceContextLoss();
+      } catch {}
       if (renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);
       }
@@ -537,5 +612,11 @@ export default function ColorBends({
     transparent
   ]);
 
-  return <div ref={containerRef} className={`color-bends-container ${className}`.trim()} style={style} />;
+  return (
+    <div
+      ref={containerRef}
+      className={`color-bends-container ${typeof className === "string" ? className : ""}`.trim()}
+      style={style}
+    />
+  );
 }

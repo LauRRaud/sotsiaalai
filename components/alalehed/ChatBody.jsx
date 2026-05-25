@@ -60,8 +60,14 @@ const ACTIVE_CHAT_WORKFLOW_VALUES = Object.freeze([
   "default",
   "deep_research",
   "help_request",
-  "help_offer"
+  "help_offer",
+  "journey"
 ]);
+
+function readTranslated(t, key, fallback) {
+  const value = typeof t === "function" ? t(key) : "";
+  return typeof value === "string" && value && value !== key ? value : fallback;
+}
 
 function readChatSurfaceModeFromDom() {
   if (typeof document === "undefined") return null;
@@ -118,6 +124,7 @@ function getEmptyIntroMessage(t, workflow) {
   if (workflow === "deep_research") return t("chat.empty_intro_deep_research");
   if (workflow === "help_request") return t("chat.empty_intro_help_request");
   if (workflow === "help_offer") return t("chat.empty_intro_help_offer");
+  if (workflow === "journey") return readTranslated(t, "journey.workflow.startBody", "Journey mode. Describe the situation in your own words. I will help create an initial journey map. The journey stays private and is not shared before you confirm it.");
   return t("chat.empty_intro");
 }
 
@@ -146,7 +153,84 @@ function getWorkflowModeLabel(t, workflow) {
       ? value
       : "Abipakkumine";
   }
+  if (workflow === "journey") {
+    return readTranslated(t, "journey.chatTool.label", "Teekond");
+  }
   return t("chat.tools.info_mode");
+}
+
+function normalizeJourneyListItems(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => (typeof item === "string" ? item : item?.title || item?.description || ""))
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+}
+
+function formatJourneyDraftMessage(t, draft) {
+  const title = String(draft?.title || "").trim();
+  const summary = String(draft?.summary || "").trim();
+  const primaryPath = String(draft?.primaryPath || "UNKNOWN").trim();
+  const domains = normalizeJourneyListItems(draft?.domains);
+  const missingInfo = normalizeJourneyListItems(draft?.missingInfo);
+  const riskSignals = normalizeJourneyListItems(draft?.riskSignals);
+  const suggestedActions = normalizeJourneyListItems(draft?.suggestedActions);
+  const primaryPathLabel = readTranslated(t, `journey.primary_paths.${primaryPath}`, primaryPath || readTranslated(t, "journey.primary_paths.UNKNOWN", "Not clear yet"));
+  const listBlock = (label, items, emptyFallback) => [
+    label,
+    ...(items.length ? items.map((item) => `- ${item}`) : [`- ${emptyFallback}`])
+  ].join("\n");
+
+  return [
+    readTranslated(t, "journey.workflow.draftTitle", "Journey draft"),
+    "",
+    `${readTranslated(t, "journey.labels.title", "Title")}: ${title}`,
+    "",
+    `${readTranslated(t, "journey.labels.summary", "Situation summary")}:`,
+    summary,
+    "",
+    `${readTranslated(t, "journey.labels.primary_path", "Primary direction")}: ${primaryPathLabel}`,
+    "",
+    listBlock(
+      readTranslated(t, "journey.labels.domains", "Related topics"),
+      domains,
+      readTranslated(t, "journey.messages.empty_domains", "No related topics have been added.")
+    ),
+    "",
+    listBlock(
+      readTranslated(t, "journey.labels.missing_info", "Missing information"),
+      missingInfo,
+      readTranslated(t, "journey.messages.empty_missing_info", "No missing information has been added.")
+    ),
+    "",
+    listBlock(
+      readTranslated(t, "journey.labels.risk_signals", "Careful notes"),
+      riskSignals,
+      readTranslated(t, "journey.messages.empty_risk_signals", "No careful notes have been added.")
+    ),
+    "",
+    listBlock(
+      readTranslated(t, "journey.labels.suggested_actions", "Suggested next steps"),
+      suggestedActions,
+      readTranslated(t, "journey.messages.empty_suggested_actions", "No suggested next steps have been added.")
+    ),
+    "",
+    readTranslated(t, "journey.workflow.privacyNote", "This is a draft. It is not saved or shared before you confirm it."),
+    "",
+    readTranslated(t, "journey.workflow.nextPrompt", "Write more details, or answer: save, clarify, or cancel.")
+  ].filter((line) => line != null).join("\n");
+}
+
+function isJourneySaveCommand(text) {
+  return /^(salvesta|salvesta teekond|kinnita|save|save journey|confirm|сохранить|подтвердить)\.?$/iu.test(String(text || "").trim());
+}
+
+function isJourneyCancelCommand(text) {
+  return /^(tühista|tyhista|katkesta|cancel|отмена|отменить)\.?$/iu.test(String(text || "").trim());
+}
+
+function isJourneyRefineCommand(text) {
+  return /^(täpsustan|tapsustan|täpsustan veel|tapsustan veel|refine|clarify|уточнить|уточню)\.?$/iu.test(String(text || "").trim());
 }
 
 function getEmptyIntroSeenStorageKey({
@@ -277,6 +361,8 @@ export default function ChatBody({
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
   const [activeWorkflow, setActiveWorkflow] = useState("default");
+  const [journeyWorkflowDraft, setJourneyWorkflowDraft] = useState(null);
+  const [isJourneyGenerating, setIsJourneyGenerating] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
   const [scopedSources, setScopedSources] = useState(null);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -947,6 +1033,7 @@ export default function ChatBody({
   useEffect(() => {
     if (!isRoomMode) return;
     setActiveWorkflow("default");
+    setJourneyWorkflowDraft(null);
     setShowSourcesPanel(false);
     setActiveListingsPanel(null);
     setListingsPanelClosing(false);
@@ -1778,7 +1865,7 @@ export default function ChatBody({
     onFocusInput: focusInput,
     onAuthRedirect: () => setLoginOpen(true)
   });
-  const isGenerating = isChatGenerating;
+  const isGenerating = isChatGenerating || isJourneyGenerating;
   const stop = useCallback(() => {
     stopChatStream();
   }, [stopChatStream]);
@@ -1797,6 +1884,7 @@ export default function ChatBody({
     setListingsPanelClosing(false);
     setListingsPanelState(createEmptyListingsPanelState());
     setSelectedListingState(createEmptySelectedListingState());
+    setJourneyWorkflowDraft(null);
     if (closeAnalysis) {
       analysis.closeAnalysisPanel?.();
     }
@@ -1822,6 +1910,7 @@ export default function ChatBody({
     }
     if (preserveConversation) {
       setActiveWorkflow("default");
+      setJourneyWorkflowDraft(null);
       return true;
     }
     startFreshConversation("default");
@@ -1853,11 +1942,152 @@ export default function ChatBody({
     startFreshConversation("help_offer");
     return true;
   }, [startFreshConversation]);
+  const activateJourneyMode = useCallback(() => {
+    if (isRoomMode) {
+      return false;
+    }
+    startFreshConversation("journey");
+    return true;
+  }, [isRoomMode, startFreshConversation]);
+  const createJourneyDraftFromText = useCallback(async (text) => {
+    const response = await fetch("/api/journeys/draft", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        situation: text
+      })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload?.ok) {
+      throw new Error(payload?.message || "journeys.errors.draft_failed");
+    }
+    return payload.draft || null;
+  }, []);
+  const saveJourneyWorkflowDraft = useCallback(async (draft) => {
+    const response = await fetch("/api/journeys", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(draft || {})
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload?.ok) {
+      throw new Error(payload?.message || "journeys.errors.save_failed");
+    }
+    return payload.journey || null;
+  }, []);
+  const handleJourneyWorkflowMessage = useCallback(async (text) => {
+    appendMessage({
+      role: "user",
+      text,
+      aiVisible: true
+    });
+
+    if (isJourneyCancelCommand(text)) {
+      setJourneyWorkflowDraft(null);
+      setActiveWorkflow("default");
+      appendMessage({
+        role: "ai",
+        text: readTranslated(t, "journey.workflow.cancelled", "Journey draft was cancelled. Nothing was saved."),
+        aiVisible: true
+      });
+      return true;
+    }
+
+    if (journeyWorkflowDraft && isJourneySaveCommand(text)) {
+      setIsJourneyGenerating(true);
+      try {
+        const saved = await saveJourneyWorkflowDraft(journeyWorkflowDraft.draft);
+        const href = saved?.id ? localizePath(`/teekond/${saved.id}`, locale) : localizePath("/teekond", locale);
+        setJourneyWorkflowDraft(null);
+        setActiveWorkflow("default");
+        appendMessage({
+          role: "ai",
+          text: readTranslated(t, "journey.workflow.savedSuccess", "Private journey was saved."),
+          aiVisible: true,
+          attachments: [{
+            label: readTranslated(t, "journey.workflow.openSaved", "Open journey"),
+            url: href
+          }]
+        });
+        requestConversationsRefresh();
+        return true;
+      } catch {
+        appendMessage({
+          role: "ai",
+          text: readTranslated(t, "journey.messages.save_failed", "Saving the journey failed."),
+          aiVisible: true
+        });
+        return false;
+      } finally {
+        setIsJourneyGenerating(false);
+      }
+    }
+
+    if (journeyWorkflowDraft && isJourneyRefineCommand(text)) {
+      appendMessage({
+        role: "ai",
+        text: readTranslated(t, "journey.workflow.refinePrompt", "Add the detail you want to clarify. I will update the draft."),
+        aiVisible: true
+      });
+      return true;
+    }
+
+    const baseText = journeyWorkflowDraft?.sourceText
+      ? `${journeyWorkflowDraft.sourceText}\n\n${text}`
+      : text;
+
+    setIsJourneyGenerating(true);
+    const streamingMessageId = appendMessage({
+      role: "ai",
+      text: "",
+      isStreaming: true,
+      aiVisible: true
+    });
+
+    try {
+      const draft = await createJourneyDraftFromText(baseText);
+      setJourneyWorkflowDraft({
+        draft,
+        sourceText: baseText
+      });
+      mutateMessage(streamingMessageId, (message) => ({
+        ...message,
+        text: formatJourneyDraftMessage(t, draft),
+        isStreaming: false
+      }));
+      return true;
+    } catch {
+      mutateMessage(streamingMessageId, (message) => ({
+        ...message,
+        text: readTranslated(t, "journey.messages.draft_failed", "Creating the draft failed."),
+        isStreaming: false
+      }));
+      return false;
+    } finally {
+      setIsJourneyGenerating(false);
+    }
+  }, [
+    appendMessage,
+    createJourneyDraftFromText,
+    journeyWorkflowDraft,
+    locale,
+    mutateMessage,
+    requestConversationsRefresh,
+    saveJourneyWorkflowDraft,
+    t
+  ]);
   const handleSendMessage = useCallback(async (rawText, options = {}) => {
     const text = String(rawText || "").trim();
     if (!text) return false;
+    if (!isRoomMode && activeWorkflow === "journey") {
+      return handleJourneyWorkflowMessage(text);
+    }
     return sendMessage(text, options);
-  }, [sendMessage]);
+  }, [activeWorkflow, handleJourneyWorkflowMessage, isRoomMode, sendMessage]);
   const handleDraftStateChange = useCallback(({ ready: _ready, hasDraft }) => {
     setComposerHasDraft(Boolean(hasDraft));
   }, []);
@@ -2377,6 +2607,8 @@ export default function ChatBody({
       onActivateDeepResearchMode={activateDeepResearchMode}
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
+      onActivateJourneyMode={activateJourneyMode}
+      showJourneyTool={userRole === "CLIENT"}
       placeholderText={composerPlaceholderText}
       forcePlaceholderVisible={composerForcePlaceholderVisible}
       hideComposerTools={hideComposerTools}
