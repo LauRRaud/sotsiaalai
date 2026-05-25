@@ -1518,32 +1518,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               <span className="pre-inquiry-field-hint">{selectedAssessmentPath.description}</span>
             ) : null}
           </Label>
-          <div className="pre-inquiry-quick-actions">
-            <Button
-              type="button"
-              size="sm"
-              disabled={assisting}
-              onClick={(event) => handleAskAssistant(
-                event,
-                "Soovin alustada abivajaduse eelkaardistust.",
-                { appendMessage: false }
-              )}
-            >
-              {readText(t, "workspace_feature_pages.pre_inquiries.actions.start_assessment", "Alusta eelkaardistust")}
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              disabled={assisting || !effectiveSituation.trim()}
-              onClick={(event) => handleAskAssistant(
-                event,
-                "Palun koosta sellest lühike eelpöördumise kokkuvõte ja mustand.",
-                { appendMessage: false }
-              )}
-            >
-              {readText(t, "workspace_feature_pages.pre_inquiries.actions.prepare_draft", "Koosta kirja mustand")}
-            </Button>
-          </div>
         </div>
 
         <div className="pre-inquiry-compact-grid">
@@ -1586,25 +1560,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               ))}
             </select>
           </Label>
-          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pöördumine käib")}</span>
-            <div className="grid gap-[0.42rem]">
-              {PRE_INQUIRY_SUBJECT_OPTIONS.map((option) => (
-                <OptionCard
-                  key={option}
-                  type="radio"
-                  name="pre-inquiry-subject"
-                  value={option}
-                  checked={normalizedAssessmentState.subject.concernsAbout === option}
-                  onChange={() => updateAssessmentSubject("concernsAbout", option)}
-                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
-                  fitTextLines={2}
-                >
-                  <span className="leading-[1.18]">{option}</span>
-                </OptionCard>
-              ))}
-            </div>
-          </div>
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.municipality", "KOV või piirkond")}</span>
             <ServiceProfileInput
@@ -1613,44 +1568,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.municipality", "Näiteks Tallinn, Põltsamaa vald või piirkond")}
             />
           </Label>
-          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.urgency", "Kiireloomulisus")}</span>
-            <div className="grid gap-[0.42rem]">
-              {PRE_INQUIRY_URGENCY_OPTIONS.map((option) => (
-                <OptionCard
-                  key={option}
-                  type="radio"
-                  name="pre-inquiry-urgency"
-                  value={option}
-                  checked={normalizedAssessmentState.subject.urgency === option}
-                  onChange={() => updateAssessmentSubject("urgency", option)}
-                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
-                  fitTextLines={2}
-                >
-                  <span className="leading-[1.18]">{option}</span>
-                </OptionCard>
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]">
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.consent", "Nõusolek või pöördumise alus")}</span>
-            <div className="grid gap-[0.42rem]">
-              {PRE_INQUIRY_CONSENT_OPTIONS.map((option) => (
-                <OptionCard
-                  key={option}
-                  type="radio"
-                  name="pre-inquiry-consent"
-                  value={option}
-                  checked={normalizedAssessmentState.subject.consentStatus === option}
-                  onChange={() => updateAssessmentSubject("consentStatus", option)}
-                  className={cn(preInquiryRecipientTypeCardClassName, "min-h-[2.64rem] rounded-[0.88rem] px-[0.64rem] py-[0.44rem] text-left text-[0.88rem]")}
-                  fitTextLines={2}
-                >
-                  <span className="leading-[1.18]">{option}</span>
-                </OptionCard>
-              ))}
-            </div>
-          </div>
         </div>
 
         {normalizedAssessmentState.riskGate.userVisibleMessage ? (
@@ -1874,33 +1791,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
               </BorderGlow>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-wrap gap-[0.46rem]">
-          <Button
-            type="button"
-            size="sm"
-            disabled={assisting}
-            onClick={(event) => handleAskAssistant(
-              event,
-              "Soovin alustada abivajaduse eelkaardistust.",
-              { appendMessage: false }
-            )}
-          >
-            {readText(t, "workspace_feature_pages.pre_inquiries.actions.start_assessment", "Alusta eelkaardistust")}
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            disabled={assisting || !effectiveSituation.trim()}
-            onClick={(event) => handleAskAssistant(
-              event,
-              "Palun koosta sellest lühike eelpöördumise kokkuvõte ja mustand.",
-              { appendMessage: false }
-            )}
-          >
-            {readText(t, "workspace_feature_pages.pre_inquiries.actions.prepare_draft", "Koosta kirja mustand")}
-          </Button>
         </div>
 
         {activeRole === "SOCIAL_WORKER" ? (

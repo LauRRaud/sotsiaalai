@@ -19,7 +19,6 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
   const css = read("app/styles/components/service-map.css");
 
-  assert.match(source, /Koosta kirja mustand/);
   assert.match(source, /PRE_INQUIRY_ASSESSMENT_PATHS\.map/);
   assert.match(source, /definition\.primaryQuestions\.map/);
   assert.match(source, /buildPreInquiryAssessmentExportText/);
@@ -42,6 +41,20 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(source, /className="pre-inquiry-draft-textarea"/);
   assert.match(css, /\.pre-inquiry-draft-textarea\s*\{[\s\S]*?min-height:\s*clamp\(24rem,\s*54vh,\s*34rem\)/);
   assert.match(css, /\.workspace-feature-list-card\[data-selected="true"\]\s*\{[\s\S]*?background:\s*color-mix\(in srgb,\s*var\(--workspace-feature-accent\) 16%/);
+});
+
+test("pre-inquiry assessment uses one questionnaire control set without quick action button rows", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+
+  assert.doesNotMatch(source, /pre-inquiry-quick-actions/);
+  assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.actions\.start_assessment/);
+  assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.actions\.prepare_draft/);
+  assert.doesNotMatch(source, /name="pre-inquiry-subject"/);
+  assert.doesNotMatch(source, /name="pre-inquiry-urgency"/);
+  assert.doesNotMatch(source, /name="pre-inquiry-consent"/);
+  assert.match(source, /name="pre-inquiry-subject-select"/);
+  assert.match(source, /name="pre-inquiry-urgency-select"/);
+  assert.match(source, /name="pre-inquiry-consent-select"/);
 });
 
 test("pre-inquiry recipient type filter is optional and aligned with search", () => {

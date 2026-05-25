@@ -16,6 +16,7 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { glassFormInputBaseClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
+import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
 const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
@@ -29,7 +30,7 @@ const otpSubmitLabelClassName = "inline-flex items-center justify-center text-ce
 const helpPopoverClassName =
   "login-help-popover chat-tools-surface-popover absolute left-1/2 -translate-x-1/2 bottom-[calc(var(--pin-btn)+0.72rem)] " +
   "rounded-[16px] px-[0.95rem] pt-[0.72rem] pb-[0.68rem] z-30 border border-[color:var(--subpage-card-border)] [background:var(--subpage-card-bg)] text-[color:var(--subpage-card-text)] shadow-[var(--subpage-card-shadow)] backdrop-blur-[16px] backdrop-saturate-[120%]";
-const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] translate-y-[0.14rem] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.4rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
+const modalTitleClassName = "login-modal-title !mb-0 !mt-0 !text-[clamp(1.78rem,1.18rem+1.15vw,2.18rem)] !leading-[1.05] tracking-[0.01em] translate-y-[0.04rem] max-md:!text-[clamp(2.18rem,9vw,3rem)] max-md:!leading-[1.03] max-md:translate-y-[0.26rem] text-[#c57171] light:text-[#7a3a38] [font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 const otpModalTitleClassName =
   "!text-[clamp(1.34rem,0.95rem+0.72vw,1.72rem)] !leading-[1.08] whitespace-normal text-center max-w-[12ch] mx-auto max-md:!text-[clamp(1.36rem,5.2vw,1.72rem)] max-md:!leading-[1.06]";
 const otpTextClassName = "text-[color:var(--otp-copy-text)]";
@@ -45,6 +46,11 @@ const MODAL_FOCUSABLE_SELECTOR = [
   "textarea:not([disabled])",
   "[tabindex]:not([tabindex='-1'])"
 ].join(", ");
+const LOGIN_FIELD_HOLE_SELECTORS = [
+  'input[name="email"]',
+  "#otp-code-input",
+  "#trusted-device-name"
+];
 
 function focusElementWithoutScroll(element) {
   if (!element?.focus) return;
@@ -52,6 +58,19 @@ function focusElementWithoutScroll(element) {
     element.focus({ preventScroll: true });
   } catch {
     element.focus();
+  }
+}
+
+function resetInputHorizontalScroll(element) {
+  if (!element) return;
+  const reset = () => {
+    try {
+      element.scrollLeft = 0;
+    } catch {}
+  };
+  reset();
+  if (typeof window !== "undefined") {
+    window.requestAnimationFrame(reset);
   }
 }
 
@@ -222,6 +241,8 @@ export default function LoginModal({
     return "phone";
   });
   const boxRef = useRef(null);
+  const shellRef = useRef(null);
+  const maskLayerRef = useRef(null);
   const emailInputRef = useRef(null);
   const emailIconButtonRef = useRef(null);
   const hiddenInputRef = useRef(null);
@@ -258,6 +279,12 @@ export default function LoginModal({
   const otpInlineError = isOtpStep && error ? error : "";
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
+  useGlassFieldHoleMask({
+    rootRef: shellRef,
+    maskLayerRef,
+    selectors: LOGIN_FIELD_HOLE_SELECTORS,
+    enabled: open,
+  });
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", isAndroidPlatform ? "gap-[0.12rem] mt-[0.14rem] max-md:mt-[0.28rem]" : "gap-[0.02em] mt-[0.08rem] max-md:mt-[0.18rem]", "mb-0"].join(" ");
   const emailRowClass = [
@@ -682,7 +709,10 @@ export default function LoginModal({
     }
     const target = emailInputRef.current;
     if (target && typeof target.focus === "function") {
-      registerTimeout(() => focusElementWithoutScroll(target), 0);
+      registerTimeout(() => {
+        focusElementWithoutScroll(target);
+        resetInputHorizontalScroll(target);
+      }, 0);
     }
   }, [open, isOtpStep, emailRevealed, registerTimeout]);
   const finishLogin = useCallback(async token => {
@@ -1058,6 +1088,7 @@ export default function LoginModal({
       if (!node.value && storedEmail) node.value = storedEmail;
       setEmailValue(node.value || "");
       node.focus();
+      resetInputHorizontalScroll(node);
     }, 0);
   }, [emailRevealed, registerTimeout, storedEmail]);
   const focusMobilePinInput = useCallback(() => {
@@ -1263,7 +1294,10 @@ export default function LoginModal({
   ].join(" ");
   const loginEmailInputClassName = [
     "register-input register-input-mid-shell block !my-0 !w-full !max-w-none",
-    "!text-left placeholder:!text-left !font-normal !text-[1.25rem] !leading-[1.38] !tracking-[0.01em] !px-[1.5rem] !py-[0.95rem] !min-h-[3.6rem]",
+    "!text-left placeholder:!text-left !font-normal !leading-[1.38] !py-[0.95rem] !min-h-[3.6rem]",
+    isMonoTheme
+      ? "!text-[clamp(1rem,1.75vw,1.12rem)] !tracking-[0] !px-[1rem] !py-[0.72rem] !min-h-[3.08rem] !shadow-[0_18px_24px_-18px_rgba(230,230,230,0.22)] hover:!shadow-[0_18px_24px_-18px_rgba(230,230,230,0.26)] focus:!shadow-[0_18px_24px_-18px_rgba(230,230,230,0.26)] focus-visible:!shadow-[0_18px_24px_-18px_rgba(230,230,230,0.26)]"
+      : "!text-[1.25rem] !tracking-[0.01em] !px-[1.5rem]",
     "!text-[color:var(--input-text)] placeholder:opacity-100 placeholder:!text-[color:var(--input-placeholder)]",
     "max-[768px]:!text-[clamp(1.2rem,4.9vw,1.36rem)] max-[768px]:!px-[clamp(1.06rem,4.1vw,1.34rem)] max-[768px]:!py-[0.84rem] max-[768px]:!min-h-[3.2rem]",
     isAndroidPlatform ? "max-[768px]:!min-h-[3.12rem]" : ""
@@ -1492,13 +1526,13 @@ export default function LoginModal({
               : "0.64em",
       "--pin-btn": isPhoneViewport
         ? isAndroidPlatform
-          ? "clamp(4.84rem, 18.05vw, 5.5rem)"
-          : "clamp(5.15rem, 19.8vw, 5.85rem)"
+          ? "clamp(4.48rem, 16.8vw, 5.14rem)"
+          : "clamp(4.78rem, 18.45vw, 5.46rem)"
         : isTightDesktop
-          ? "3.94rem"
+          ? "3.66rem"
           : isCompactDesktop
-            ? "4.22rem"
-            : "4.58rem",
+            ? "3.94rem"
+            : "4.26rem",
       "--pin-gap-x": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(1.18rem, 4.45vw, 1.48rem)"
@@ -1518,19 +1552,11 @@ export default function LoginModal({
             ? "0.64rem"
             : "0.82rem",
       "--pin-grid-w": "calc((3 * var(--pin-btn)) + (2 * var(--pin-gap-x)))",
-      "--login-email-w": isPhoneViewport
-        ? isAndroidPlatform
-          ? "min(calc(var(--pin-grid-w) + 1.22rem), calc(100vw - 2.02rem))"
-          : "var(--pin-grid-w)"
-        : isTightDesktop
-          ? "calc(var(--pin-grid-w) + 0.46rem)"
-          : isCompactDesktop
-            ? "calc(var(--pin-grid-w) + 0.58rem)"
-            : "calc(var(--pin-grid-w) + 0.72rem)",
+      "--login-email-w": "var(--pin-grid-w)",
       "--login-core-w": "max(var(--pin-grid-w), var(--login-email-w, var(--pin-grid-w)))",
-      "--login-pin-modal-min-w": isTightDesktop ? "19rem" : isCompactDesktop ? "20.25rem" : "22rem",
+      "--login-pin-modal-min-w": isTightDesktop ? "18.4rem" : isCompactDesktop ? "19.3rem" : "20.4rem",
       "--login-modal-pad-effective": isOtpStep ? "var(--login-modal-side-pad)" : "var(--login-modal-inner-side-pad)",
-      "--login-pin-modal-w": "min(90vw, max(var(--login-pin-modal-min-w,22rem), calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 1.5rem)))",
+      "--login-pin-modal-w": "min(90vw, max(var(--login-pin-modal-min-w,20.4rem), calc(var(--pin-grid-w) + (2 * var(--login-modal-pad-effective, var(--login-modal-side-pad))) + 0.8rem)))",
       "--login-envelope-size": isPhoneViewport
         ? isAndroidPlatform
           ? "clamp(5rem, 14.95vw, 6.08rem)"
@@ -1654,11 +1680,12 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div className={`login-modal-shell glass-box w-full !my-0 !pt-[clamp(0.58rem,1.75vw,1.02rem)] max-md:!pt-[clamp(0.66rem,2.35vw,1.06rem)] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:none] [box-shadow:var(--login-shell-shadow,none)] [filter:var(--login-shell-filter,none)] ${
+        <div ref={shellRef} className={`login-modal-shell glass-field-hole-surface glass-box w-full !my-0 !px-[clamp(1.25rem,3vw,1.55rem)] max-md:!px-[clamp(1.1rem,4.4vw,1.42rem)] !pt-[clamp(1.08rem,2.18vw,1.42rem)] max-md:!pt-[clamp(1rem,3vw,1.36rem)] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(21,21,21,0.5))] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:none] [box-shadow:var(--login-shell-shadow,none)] [filter:var(--login-shell-filter,none)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
       }`} style={loginShellStyle}>
+          <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[768px]:!w-[2.66rem] max-[768px]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>
@@ -1695,11 +1722,14 @@ export default function LoginModal({
                   <EmailEnvelopeStatusIcon isLightTheme={isLightTheme} status={emailIconStatus} className="login-email-icon pointer-events-none h-[var(--login-envelope-size)] w-[var(--login-envelope-size)]" />
                   <span className="sr-only">{t("auth.email_icon_hint")}</span>
                 </button> : <label className={loginEmailFieldWrapClassName}>
-                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} aria-invalid={emailErrorVisual ? "true" : "false"} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onMouseDown={e => {
+                  <Input type="email" name="email" ref={emailInputRef} size="md" aria-label={t("auth.email_placeholder")} aria-describedby={emailHintIdRef.current} aria-invalid={emailErrorVisual ? "true" : "false"} placeholder={t("auth.email_placeholder")} autoComplete="username" inputMode="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} className={loginEmailInputClassName} onFocus={e => {
+              resetInputHorizontalScroll(e.currentTarget);
+            }} onMouseDown={e => {
               const node = emailInputRef.current;
               if (node && document.activeElement !== node) {
                 e.preventDefault();
                 node.focus();
+                resetInputHorizontalScroll(node);
               }
             }} onKeyDown={e => {
               if (e.key === "Enter") e.preventDefault();

@@ -200,7 +200,7 @@ body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-pulse {
 
 .login-modal-box .login-modal-close.modal-close-btn {
   position: absolute;
-  top: 0.34rem !important;
+  top: 0.58rem !important;
   right: 0.58rem !important;
   z-index: 4;
   color: #c57171;

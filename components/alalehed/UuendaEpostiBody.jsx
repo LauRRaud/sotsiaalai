@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -12,6 +12,7 @@ import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import GlowField from "@/components/ui/GlowField";
+import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
 import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
@@ -24,12 +25,13 @@ const ringClassName = cn(
   glassPageRingCenteredClassName,
   "glass-ring--desktop-stable mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]"
 );
-const contentClassName = "update-email-content mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] min-[769px]:max-[1120px]:max-w-[clamp(20rem,56vw,29.4rem)] flex-col gap-4";
+const contentClassName = "update-email-content relative z-[1] mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] min-[769px]:max-[1120px]:max-w-[clamp(20rem,56vw,29.4rem)] flex-col gap-4";
 const inputClassName = "w-full max-w-[26.25rem] min-[769px]:max-[1120px]:max-w-[24.9rem] max-[768px]:max-w-[min(100%,26.25rem)]";
 const inputBaseClassName = `${glassFormInputBaseClassName} text-[1.25rem] py-[0.95rem] px-[1.5rem] min-h-[3.6rem]`;
 const primaryActionButtonClassName =
   "max-w-[22rem] whitespace-normal text-center leading-[1.2] px-[1.6rem] py-[1.05rem] text-[1.18rem] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
+const UPDATE_EMAIL_FIELD_HOLE_SELECTORS = [".update-email-content .ui-glow-field"];
 export default function UuendaEpostiBody() {
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -37,6 +39,8 @@ export default function UuendaEpostiBody() {
     t,
     locale
   } = useI18n();
+  const ringRef = useRef(null);
+  const maskLayerRef = useRef(null);
   const PIN_MIN = 4;
   const PIN_MAX = 8;
   const [currentEmail, setCurrentEmail] = useState("");
@@ -46,6 +50,12 @@ export default function UuendaEpostiBody() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [loginOpen, setLoginOpen] = useState(false);
+  useGlassFieldHoleMask({
+    rootRef: ringRef,
+    maskLayerRef,
+    selectors: UPDATE_EMAIL_FIELD_HOLE_SELECTORS,
+    enabled: true,
+  });
   const errorId = error ? "update-email-error" : undefined;
   const backLabel = t("buttons.back_previous");
   const pinPlaceholder = t("profile.email_update.pin_placeholder");
@@ -165,7 +175,8 @@ export default function UuendaEpostiBody() {
   }
   const unauthenticated = status === "unauthenticated";
   return <section lang={locale} className={pageShellClassName}>
-      <GlassRing className={ringClassName}>
+      <GlassRing ref={ringRef} className={cn(ringClassName, "glass-field-hole-surface")}>
+        <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
         <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`} />
         <div className={mobileTitleWrapClassName}>

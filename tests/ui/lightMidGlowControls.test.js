@@ -148,6 +148,20 @@ test("option card glow transitions use the same slow easing as other glow contro
   );
 });
 
+test("option cards use a tighter pointer edge mask than input fields", () => {
+  const source = readCss("components/ui/OptionCard.jsx");
+  const optionStyleBlock = source.match(/const optionEdgeGlowStyle = \{([\s\S]*?)\n\};/);
+  const borderGlowStyle = source.match(/style=\{\{([\s\S]*?)\}\}/);
+
+  assert.ok(optionStyleBlock, "OptionCard should define option-specific edge glow geometry");
+  assert.match(optionStyleBlock[1], /"--edge-only-tail-end":\s*"24%"/);
+  assert.match(optionStyleBlock[1], /"--edge-only-gap-start":\s*"31%"/);
+  assert.match(optionStyleBlock[1], /"--edge-only-return-start":\s*"69%"/);
+  assert.doesNotMatch(optionStyleBlock[1], /"--edge-only-tail-end":\s*"50%"/);
+  assert.ok(borderGlowStyle, "OptionCard should pass inline style to BorderGlow");
+  assert.match(borderGlowStyle[1], /\.\.\.style,[\s\S]*?\.\.\.optionEdgeGlowStyle/);
+});
+
 test("border glow edge color enters and tracks pointer smoothly across controls", () => {
   const css = readCss("components/ui/BorderGlow.module.css");
   const source = readCss("components/ui/BorderGlow.jsx");

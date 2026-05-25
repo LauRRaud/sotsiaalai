@@ -14,6 +14,7 @@ export default function Modal({
   children,
   className,
   contentClassName,
+  contentRef,
   closeOnOverlayClick = true,
   ...props
 }) {
@@ -29,7 +30,7 @@ export default function Modal({
     if (!closeOnOverlayClick) return;
     if (event.target === event.currentTarget) onClose?.(event);
   }}>
-      <div role="dialog" aria-modal="true" className={cn(useGlass ? glassContentStyles : contentStyles, contentClassName)} {...props}>
+      <div ref={contentRef} role="dialog" aria-modal="true" className={cn(useGlass ? glassContentStyles : contentStyles, contentClassName)} {...props}>
         {children}
       </div>
     </div>;

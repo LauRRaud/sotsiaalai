@@ -6,6 +6,8 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { cn } from "@/components/ui/cn";
 import { chatDrawerCloseButtonClassName } from "@/components/ui/chatDrawerCloseButtonStyles";
 import IconButton from "@/components/ui/IconButton";
+import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
+const CONVERSATION_DRAWER_FIELD_HOLE_SELECTORS = [".chat-sidebar-search-glow.ui-glow-field"];
 export default function ConversationDrawer({
   children
 }) {
@@ -22,6 +24,11 @@ export default function ConversationDrawer({
   const {
     t
   } = useI18n();
+  useGlassFieldHoleMask({
+    rootRef: panelRef,
+    selectors: CONVERSATION_DRAWER_FIELD_HOLE_SELECTORS,
+    enabled: open,
+  });
   const parkFocusOutsidePanel = () => {
     if (typeof document === "undefined") return;
     const panel = panelRef.current;
@@ -225,7 +232,7 @@ export default function ConversationDrawer({
   const overlayClassName =
     "drawer-overlay fixed inset-0 z-[130] bg-transparent [-webkit-backdrop-filter:none] [backdrop-filter:none]";
   const panelClassName = cn(
-    "drawer-panel drawer-panel--chat-glass " +
+    "drawer-panel drawer-panel--chat-glass glass-field-hole-surface " +
       "fixed top-[0.45rem] bottom-[0.45rem] left-[0.45rem] w-[22rem] max-w-[calc(78vw-0.45rem)] z-[131] overflow-hidden rounded-[1.65rem] " +
       "lg:left-[0.6rem] lg:top-[0.6rem] lg:bottom-[0.6rem] lg:rounded-[1.8rem] " +
       "xl:left-[0.75rem] xl:top-[0.75rem] xl:bottom-[0.75rem] xl:rounded-[2rem] " +

@@ -35,6 +35,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
   const loginModal = read("components/LoginModal.jsx");
+  const inviteModal = read("components/invite/InviteModal.jsx");
 
   assert.match(mono, /:root\.theme-mono/);
   assert.match(mono, /--forest-bg-top:\s*#2f2f2f/);
@@ -59,9 +60,19 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /\.home-before-links \.home-quick-label\s*\{[\s\S]*?color:\s*var\(--forest-highlight\) !important;[\s\S]*?-webkit-text-fill-color:\s*var\(--forest-highlight\) !important;/);
   assert.match(mono, /\.drawer-panel--chat-glass\s*\{[\s\S]*?--drawer-glass-bg:\s*var\(--glass-ring-surface-bg\)/);
   assert.match(mono, /\.drawer-panel--chat-glass \.drawer-title\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
-  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?--card-bg:\s*var\(--input-bg\) !important;[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;[\s\S]*?border:\s*var\(--input-border\) !important;/);
+  assert.match(mono, /--mono-field-hole-bg:\s*transparent;/);
+  assert.match(mono, /--mono-field-hole-border:\s*0 solid transparent;/);
+  assert.match(mono, /--mono-field-hole-shadow:[\s\S]*?0 6px 16px rgba\(0,\s*0,\s*0,\s*0\.26\),[\s\S]*?0 18px 24px -18px rgba\(230,\s*230,\s*230,\s*0\.22\);/);
+  assert.match(mono, /--mono-field-hole-shadow-hover:[\s\S]*?0 6px 16px rgba\(0,\s*0,\s*0,\s*0\.28\),[\s\S]*?0 18px 24px -18px rgba\(230,\s*230,\s*230,\s*0\.26\);/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;/);
+  assert.match(inviteModal, /"invite-glow-field ui-glow-field service-map-toolbar__glow-field "/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field,[\s\S]*?\.invite-glow-field\.ui-glow-field,[\s\S]*?\.update-pin-content \.ui-glow-field,[\s\S]*?\.update-email-content \.ui-glow-field[\s\S]*?\)\s*\{[\s\S]*?--card-bg:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
+  assert.doesNotMatch(mono, /:is\([\s\S]*?\.register-input\.ui-glow-field,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field/);
+  assert.match(mono, /\.ui-glow-option-card-frame\s*\{[\s\S]*?--seg-card-bg-hover:\s*var\(--seg-card-bg\) !important;[\s\S]*?--seg-card-shadow-hover:\s*var\(--seg-card-shadow\) !important;/);
+  assert.match(mono, /\.ui-glow-option-card-frame:is\(:hover, :focus-visible, :focus-within, :active\):not\(\.ui-glow-option-card-frame--disabled\)\s*\{[\s\S]*?background:\s*var\(--seg-card-bg\) !important;[\s\S]*?box-shadow:\s*var\(--seg-card-shadow\) !important;/);
+  assert.match(mono, /#login-modal :is\([\s\S]*?input\[name="email"\],[\s\S]*?#otp-code-input,[\s\S]*?#trusted-device-name[\s\S]*?\)\s*\{[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field::before,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field > \.edgeLight\s*\{[\s\S]*?display:\s*block !important;[\s\S]*?opacity:\s*1 !important;/);
-  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field:is\(:hover, :focus-within\)\s*\{[\s\S]*?--card-bg:\s*var\(--input-bg-hover,\s*var\(--input-bg\)\) !important;[\s\S]*?0 5px 12px rgba\(0,\s*0,\s*0,\s*0\.2\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field[\s\S]*?\):is\(:hover, :focus-within\)\s*\{[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow-hover\) !important;/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-input\s*\{[\s\S]*?min-height:\s*3\.12rem !important;[\s\S]*?background:\s*transparent !important;[\s\S]*?padding:\s*0\.74rem 1\.28rem !important;/);
   assert.match(mono, /--profile-logout-outer-stroke:\s*var\(--forest-title\)/);
   assert.match(mono, /--profile-logout-arrow-stroke:\s*var\(--forest-title\)/);

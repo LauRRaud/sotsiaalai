@@ -111,10 +111,23 @@ test("invite modal form controls align to the invite list panel width", () => {
 
 test("register ring surface matches chat and profile glass surface token", () => {
   const registerSource = read("components/alalehed/RegistreerimineBody.jsx");
+  const mobileCss = read("app/styles/mobile.css");
 
   assert.match(registerSource, /registerRingClassName[\s\S]*?glass-ring--desktop-stable/);
   assert.match(
     registerSource,
     /registerRingClassName[\s\S]*?\[--glass-ring-surface-bg:var\(--glass-surface-bg,rgba\(0,0,0,0\.25\)\)\]/
+  );
+  assert.match(
+    registerSource,
+    /registerRingClassName[\s\S]*?\[--mobile-common-glass-surface-bg:var\(--glass-surface-bg,rgba\(0,0,0,0\.25\)\)\]/
+  );
+  assert.match(
+    mobileCss,
+    /\.profile-container\.glass-ring \.profile-mask-layer\s*\{[\s\S]*?var\(--glass-surface-bg,\s*rgba\(0,\s*0,\s*0,\s*0\.25\)\) !important;/
+  );
+  assert.match(
+    mobileCss,
+    /\.profile-container\.glass-ring\[data-orbit-open="true"\] \.profile-mask-layer\s*\{[\s\S]*?var\(--glass-surface-bg,\s*rgba\(0,\s*0,\s*0,\s*0\.25\)\) !important;/
   );
 });

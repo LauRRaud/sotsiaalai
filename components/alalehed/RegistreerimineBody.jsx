@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState, useId } from "react";
 import { useI18n } from "@/components/i18n/I18nProvider";
-import OptionCard from "@/components/ui/OptionCard";
+import OptionCard, { optionEdgeGlowStyle } from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
 import CloseButton from "@/components/ui/CloseButton";
@@ -42,7 +42,7 @@ const successTitleClassName =
 const successTitleWrapClassName =
   "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
 const contentClassName =
-  "register-content mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
+  "register-content relative z-[1] mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const successContentClassName =
   "register-success-content mx-auto mt-[clamp(2.8rem,6.2vh,3.8rem)] flex w-full max-w-[clamp(21rem,62vw,32rem)] flex-col items-center gap-[1.35rem] text-center";
 const successPanelClassName =
@@ -237,7 +237,7 @@ export default function RegistreerimineBody({}) {
     isProfessionalUser && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
-    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
+    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] [--mobile-common-glass-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
   );
   const roleStepIndex = 0;
   const emailStepIndex = 1;
@@ -774,7 +774,7 @@ export default function RegistreerimineBody({}) {
         ) : (
           <>
             <div
-              className="csp-overlayTitle [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
+              className="csp-overlayTitle z-[1] [--csp-title-top:2.35rem] max-[768px]:[--csp-title-top:calc(env(safe-area-inset-top,0px)+2.9rem)]"
               aria-hidden="true"
             >
               <h1 className={localizedTitleClassName}>
@@ -879,6 +879,7 @@ export default function RegistreerimineBody({}) {
                           edgeOnly
                           style={{
                             ...fieldEdgeGlowStyle,
+                            ...optionEdgeGlowStyle,
                             "--border-radius": "var(--seg-card-radius, 1.25rem)"
                           }}
                         >
