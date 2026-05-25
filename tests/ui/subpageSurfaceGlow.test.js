@@ -108,3 +108,13 @@ test("invite modal form controls align to the invite list panel width", () => {
     /inviteListCardClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
   );
 });
+
+test("register ring surface matches chat and profile glass surface token", () => {
+  const registerSource = read("components/alalehed/RegistreerimineBody.jsx");
+
+  assert.match(registerSource, /registerRingClassName[\s\S]*?glass-ring--desktop-stable/);
+  assert.match(
+    registerSource,
+    /registerRingClassName[\s\S]*?\[--glass-ring-surface-bg:var\(--glass-surface-bg,rgba\(0,0,0,0\.25\)\)\]/
+  );
+});
