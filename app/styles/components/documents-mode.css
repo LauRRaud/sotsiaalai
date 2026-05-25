@@ -850,6 +850,17 @@ html[data-contrast="hc"] .documents-workspace.documents-workspace-page--library 
   backdrop-filter: var(--documents-glass-backdrop-filter, blur(var(--glass-blur-radius, 1rem))) !important;
 }
 
+.dashboard-info-panel .documents-framework-banner--info.documents-notice {
+  margin-top: 0.12rem;
+  background: var(--documents-surface-panel-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg))) !important;
+  color: var(--documents-surface-panel-text, var(--glass-modal-text, var(--glass-surface-text))) !important;
+  box-shadow: var(--glass-shell-shadow, none) !important;
+}
+
+.dashboard-info-panel .documents-framework-banner--info .documents-framework-banner-actions {
+  justify-content: center;
+}
+
 .documents-framework-banner-copy {
   display: grid;
   gap: 0.45rem;

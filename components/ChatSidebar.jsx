@@ -670,12 +670,13 @@ export default function ChatSidebar() {
     "drawer-pill-btn invite-primary-btn !min-h-[2.42rem] !px-[0.86rem] !py-[0.48rem] !text-[0.98rem] !tracking-[0.012rem] !whitespace-nowrap " +
     "max-[768px]:!min-h-[2.52rem] max-[768px]:!px-[0.92rem] max-[768px]:!py-[0.52rem] max-[768px]:!text-[1.02rem] " +
     glassPrimaryButtonToneClassName;
-  const searchInputShellClassName = "relative";
+  const searchInputShellClassName = "relative flex justify-center";
   const searchInputClassName =
-    `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
-    "chat-sidebar-search-input duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
+    `${glassFormInputBaseClassName} text-[1.08rem] py-[0.74rem] px-[1.28rem] min-h-[3.12rem] tracking-[0.018em] placeholder:text-[1.08rem] placeholder:tracking-[0.018em] ` +
+    "chat-sidebar-search-input duration-[720ms] max-[768px]:text-[1.14rem] max-[768px]:tracking-[0.02em] max-[768px]:placeholder:text-[1.14rem] max-[768px]:placeholder:tracking-[0.02em] max-[768px]:min-h-[3.22rem] max-[768px]:py-[0.78rem] max-[768px]:px-[1.32rem]";
   const sidebarContentWidthClassName = "w-full max-w-[20.6rem] max-[768px]:max-w-none mx-auto";
-  const sidebarInsetWidthClassName = `${sidebarContentWidthClassName} px-[0.42rem] max-[768px]:px-[0.4rem]`;
+  const searchInsetWidthClassName =
+    "w-full max-w-[20.6rem] min-[769px]:max-[1120px]:max-w-[20.6rem] max-[768px]:max-w-[min(100%,24rem)] px-[0.42rem] max-[768px]:px-[0.4rem] mx-auto";
   const listViewportClassName = "mt-[-0.18rem] max-[768px]:mt-[-0.28rem] flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listScrollFrameClassName = "relative flex min-h-0 flex-1 flex-col overflow-visible rounded-[1.1rem]";
   const listClassName =
@@ -794,7 +795,7 @@ export default function ChatSidebar() {
           {isConversationView ? t("chat.sidebar.sections.groups") : t("chat.sidebar.sections.conversations")}
         </Button>
       </div>
-      {isConversationView ? <div className={`${sidebarInsetWidthClassName} mt-[0.16rem] max-[768px]:mt-[0.22rem]`}>
+      {isConversationView ? <div className={`${searchInsetWidthClassName} mt-[0.16rem] max-[768px]:mt-[0.22rem]`}>
           <div className={searchInputShellClassName}>
             <GlowField className="chat-sidebar-search-glow w-full">
               <input id="chat-sidebar-search" name="chat-sidebar-search" value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder={t("chat.sidebar.search.placeholder", "Otsi vestlusi...")} aria-label={t("chat.sidebar.search.label", "Otsi vestlusi")} className={`${searchInputClassName} ui-glow-control`} />

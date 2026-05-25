@@ -314,14 +314,19 @@
 .cardTitle {
   display: block;
   color: var(--glass-surface-text, #f2f2f2);
-  font-size: clamp(0.98rem, 1.65vw, 1.14rem);
-  font-weight: 650;
-  letter-spacing: 0;
-  line-height: 1.04;
+  font-family: var(--font-aino), Arial, sans-serif;
+  font-size: clamp(1.12rem, 1.76vw, 1.28rem);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.08;
   overflow-wrap: normal;
   word-break: normal;
   hyphens: manual;
   text-wrap: pretty;
+}
+
+.card_document_drafting .cardTitle {
+  max-width: 7.35em;
 }
 
 :global(:root.theme-light) .panel,
@@ -373,6 +378,14 @@
 :global(:root.theme-light) .cardTitle,
 :global(:root.theme-mid) .cardTitle {
   color: var(--text-strong, #1f2937);
+}
+
+:global(:root.theme-mono) .cardIcon {
+  color: var(--forest-title, #c57171);
+}
+
+:global(:root.theme-mono) .cardTitle {
+  color: var(--forest-highlight, #c8c8c8);
 }
 
 :global(html[data-contrast="hc"]) .panel {
@@ -472,8 +485,8 @@
   }
 
   .cardTitle {
-    font-size: 0.92rem;
-    line-height: 1.04;
+    font-size: 1.06rem;
+    line-height: 1.08;
   }
 
   .rowSingle .card {

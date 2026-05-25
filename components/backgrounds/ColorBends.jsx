@@ -1,8 +1,40 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import * as THREE from "three";
 import "./ColorBends.css";
 
 const MAX_COLORS = 8;
+
+function colorToVec3(hex) {
+  const clean = hex.replace("#", "").trim();
+  const value =
+    clean.length === 3
+      ? [
+          parseInt(clean[0] + clean[0], 16),
+          parseInt(clean[1] + clean[1], 16),
+          parseInt(clean[2] + clean[2], 16)
+        ]
+      : [
+          parseInt(clean.slice(0, 2), 16),
+          parseInt(clean.slice(2, 4), 16),
+          parseInt(clean.slice(4, 6), 16)
+        ];
+
+  return new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
+}
+
+function applyColorUniforms(material, colors) {
+  const palette = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(colorToVec3);
+  for (let index = 0; index < MAX_COLORS; index++) {
+    const colorVector = material.uniforms.uColors.value[index];
+    if (index < palette.length) {
+      colorVector.copy(palette[index]);
+    } else {
+      colorVector.set(0, 0, 0);
+    }
+  }
+
+  material.uniforms.uColorCount.value = palette.length;
+}
 
 function isLikelyLowSpecDevice() {
   if (typeof navigator === "undefined") return false;
@@ -175,6 +207,7 @@ export default function ColorBends({
   const pausedRef = useRef(paused);
   const interactiveRef = useRef(false);
   const elapsedRef = useRef(0);
+  const colorsRef = useRef(colors);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -212,6 +245,7 @@ export default function ColorBends({
       transparent: true
     });
     materialRef.current = material;
+    applyColorUniforms(material, colorsRef.current);
 
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
@@ -456,7 +490,7 @@ export default function ColorBends({
     };
   }, [scrollParallax, scrollParallaxMax, scrollContainerSelector]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const material = materialRef.current;
     const renderer = rendererRef.current;
     if (!material) return;
@@ -480,35 +514,8 @@ export default function ColorBends({
     material.uniforms.uNoise.value = noise;
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
 
-    const toVec3 = hex => {
-      const clean = hex.replace("#", "").trim();
-      const value =
-        clean.length === 3
-          ? [
-              parseInt(clean[0] + clean[0], 16),
-              parseInt(clean[1] + clean[1], 16),
-              parseInt(clean[2] + clean[2], 16)
-            ]
-          : [
-              parseInt(clean.slice(0, 2), 16),
-              parseInt(clean.slice(2, 4), 16),
-              parseInt(clean.slice(4, 6), 16)
-            ];
-
-      return new THREE.Vector3(value[0] / 255, value[1] / 255, value[2] / 255);
-    };
-
-    const palette = (colors || []).filter(Boolean).slice(0, MAX_COLORS).map(toVec3);
-    for (let index = 0; index < MAX_COLORS; index++) {
-      const colorVector = material.uniforms.uColors.value[index];
-      if (index < palette.length) {
-        colorVector.copy(palette[index]);
-      } else {
-        colorVector.set(0, 0, 0);
-      }
-    }
-
-    material.uniforms.uColorCount.value = palette.length;
+    colorsRef.current = colors;
+    applyColorUniforms(material, colors);
 
     if (renderer) {
       renderer.setClearColor(0x000000, transparent ? 0 : 1);

@@ -731,7 +731,7 @@ export default function HomePage() {
                               <span>{leftCardTitle.line2}</span>
                             </> : leftCardTitle.line1}
                         </h2>
-                        <SaimustLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu z-[5]")} aria-hidden="true" />
+                        <SaimustLogo className={cn("home-card-back-logo home-card-back-logo-left absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu z-[5]")} aria-hidden="true" />
                       </div>
                     </div>
                   </div>
@@ -761,7 +761,7 @@ export default function HomePage() {
                         <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
                           {t("home.card.client.title")}
                         </h2>
-                        <SaivalgeLogo className={cn("absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu z-[5]")} aria-hidden="true" />
+                        <SaivalgeLogo className={cn("home-card-back-logo home-card-back-logo-right absolute left-1/2 top-[74%] block max-w-[10rem] h-auto w-[calc(var(--card-logo-back)*0.9)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu z-[5]")} aria-hidden="true" />
                       </div>
                     </div>
                   </div>

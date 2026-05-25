@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { X } from "lucide-react";
 
 export default function CloseButton({
   onClick,
@@ -17,7 +18,7 @@ export default function CloseButton({
       aria-label={ariaLabel || "Close"}
       className={`${baseClasses} ${className}`.trim()}
     >
-      &times;
+      <X aria-hidden="true" className="h-[58%] w-[58%]" strokeWidth={2.1} />
     </button>
   );
 }

@@ -237,7 +237,7 @@ export default function RegistreerimineBody({}) {
     isProfessionalUser && form.workerUse === "ORG_IDENTIFIABLE";
   const hasConfirmedFramework = requiresFramework && form.frameworkAck;
   const registerRingClassName = cn(
-    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--glass-ring-edge-stroke-width:0px] [--glass-ring-edge-stroke-opacity:0] [--glass-ring-edge-stroke-blur:0px] [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
+    "glass-ring glass-ring--desktop-stable scroll-reactive-shell register-mobile-ring register-ring-shell md:mt-0 md:mb-0 [--csp-chevron-top:clamp(0.12rem,0.55vh,0.45rem)] [--csp-chevron-bottom:clamp(0.12rem,0.55vh,0.45rem)] [--csp-arrow-size:clamp(2.55rem,calc(var(--ring-diameter,52rem)/16.8),3.25rem)] min-[769px]:[--csp-arrow-size:clamp(1.95rem,calc(var(--ring-diameter,52rem)/20.8),2.45rem)] max-[768px]:[--csp-arrow-size:clamp(2.25rem,9.8vw,2.95rem)] max-[768px]:[--csp-chevron-top:clamp(0.24rem,1.2vw,0.54rem)] max-[768px]:[--csp-chevron-bottom:clamp(0.24rem,1.15vw,0.52rem)] max-[768px]:[--mobile-glass-card-gap:clamp(calc(0.26*var(--base-rem)),1.2vw,calc(0.4*var(--base-rem)))] max-[768px]:[--ring-pad-x:clamp(calc(0.44*var(--base-rem)),2vw,calc(0.78*var(--base-rem)))] max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+1.4rem)]",
   );
   const roleStepIndex = 0;
   const emailStepIndex = 1;
@@ -249,7 +249,7 @@ export default function RegistreerimineBody({}) {
   const proxyWheelToRegisterScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
-    passthroughNativeTargets: false,
+    passthroughNativeTargets: true,
   });
 
   useEffect(() => {
@@ -730,7 +730,7 @@ export default function RegistreerimineBody({}) {
         ref={ringRef}
         className={cn(
           registerRingClassName,
-          showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]" : null,
+          showSuccessState ? "register-success-shell mobile-keep-desktop-glass-cards" : null,
         )}
         data-scrolled={hasUserStartedScroll && isScrolled ? "1" : "0"}
         onWheel={proxyWheelToRegisterScroll}

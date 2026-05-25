@@ -126,7 +126,7 @@ export default function AccessibilityModal({
   const proxyWheelToModalScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
-    passthroughNativeTargets: false,
+    passthroughNativeTargets: true,
   });
   useEffect(() => {
     setUiScale(current => current ?? initialUiScale);
@@ -597,8 +597,8 @@ export default function AccessibilityModal({
               <OptionCard type="radio" name="theme" value="night" checked={theme === "night"} onChange={() => setTheme("night")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
                 <span>{t("accessibility.options.theme.night")}</span>
               </OptionCard>
-              <OptionCard type="radio" name="theme" value="forest" checked={theme === "forest"} onChange={() => setTheme("forest")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
-                <span>{t("accessibility.options.theme.forest")}</span>
+              <OptionCard type="radio" name="theme" value="mono" checked={theme === "mono"} onChange={() => setTheme("mono")} className={`${optionCardClassName} ${optionCardButtonClassName} ${optionCardTextScaleDesktopClassName}`}>
+                <span>{t("accessibility.options.theme.mono")}</span>
               </OptionCard>
             </div>
           </fieldset>

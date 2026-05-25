@@ -284,7 +284,7 @@
       "mid": "Dim",
       "dark": "Dark",
       "night": "Night",
-      "forest": "Forest",
+      "mono": "Mono",
       "hc": "KKR"
     },
     "preferences": {
@@ -418,7 +418,7 @@
         "mid": "Dim",
         "dark": "Dark",
         "night": "Night",
-        "forest": "Forest"
+        "mono": "Mono"
       },
       "screen_profile": {
         "sm": "Mobile / laptop screen",
@@ -2129,7 +2129,7 @@
         },
         "drafting": {
           "title": "Document drafting",
-          "body": "Document drafting is a workspace for creating letters, applications, reports, summaries, and completed form outputs. The user describes what needs to be prepared and, when needed, chooses the output type, tone, language, length, template, and source documents. The agent creates a first draft from those inputs. The draft stays in the workspace for review, refinement, saving, and approval. An approved result can be downloaded as a DOCX or PDF file."
+          "body": "Document drafting is a workspace for creating letters, applications, reports, summaries, and completed form outputs. The user can create a draft from source documents, a template, and instructions, or use an audio-file workflow: select a call recording or upload an audio file, create a separate transcript, review the transcript, and only then create an accurate summary. Speech or audio-file content is not added to the draft automatically. The draft stays in the workspace for review, refinement, saving, and approval. An approved result can be downloaded as a DOCX or PDF file."
         },
         "analysis": {
           "title": "Document analysis",
@@ -2141,7 +2141,7 @@
         },
         "rooms": {
           "title": "Chat rooms",
-          "body": "Chat rooms are shared communication spaces where the user may invite a person seeking help, a social work professional, a service provider, or a colleague. A room may be created when a help request and help offer are connected, or after a pre-inquiry when the parties need clarification and further communication. A regular invite adds the person to the room. If needed, the inviter may pay for one month of role-based platform access for the invited person."
+          "body": "Chat rooms are shared communication spaces where the user may invite a person seeking help, a social work professional, a service provider, or a colleague. A room may be created when a help request and help offer are connected, or after a pre-inquiry when the parties need clarification and further communication. In a room, members can continue the text conversation and, when needed, start an audio-only call between the same room members. Calls are not recorded by default; recording is a separate consent-based workflow, and transcription is started later only as a separate user action. A regular invite adds the person to the room. If needed, the inviter may pay for one month of role-based platform access for the invited person."
         },
         "documents": {
           "title": "Documents: storage and management",

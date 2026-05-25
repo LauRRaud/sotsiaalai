@@ -335,7 +335,7 @@
       "mid": "Hämar",
       "dark": "Tume",
       "night": "Öö",
-      "forest": "Mets",
+      "mono": "Mono",
       "hc": "KKR"
     }
   },
@@ -418,7 +418,7 @@
         "mid": "Hämar",
         "dark": "Tume",
         "night": "Öö",
-        "forest": "Mets"
+        "mono": "Mono"
       },
       "screen_profile": {
         "sm": "Mobiil / sülearvuti ekraan",
@@ -2129,7 +2129,7 @@
         },
         "drafting": {
           "title": "Dokumentide koostamine",
-          "body": "Dokumentide koostamine on tööruum kirjade, taotluste, aruannete, kokkuvõtete ja vormi täitmise tulemuste loomiseks. Kasutaja kirjeldab, mida on vaja koostada, ning valib vajadusel väljundi tüübi, tooni, keele, pikkuse, malli ja allikdokumendid. Agent koostab nende põhjal esimese mustandi. Mustand jääb tööruumi ülevaatamiseks, täiendamiseks, salvestamiseks ja kinnitamiseks. Kinnitatud tulemust saab alla laadida DOCX- või PDF-failina."
+          "body": "Dokumentide koostamine on tööruum kirjade, taotluste, aruannete, kokkuvõtete ja vormi täitmise tulemuste loomiseks. Kasutaja saab koostada mustandi allikdokumentide, malli ja juhiste põhjal või kasutada helifailipõhist töövoogu: valida kõnesalvestuse või laadida üles helifaili, koostada sellest eraldi transkript, transkript üle vaadata ja alles seejärel luua täpne kokkuvõte. Kõne ega helifaili sisu ei lisata mustandisse automaatselt. Mustand jääb tööruumi ülevaatamiseks, täiendamiseks, salvestamiseks ja kinnitamiseks. Kinnitatud tulemust saab alla laadida DOCX- või PDF-failina."
         },
         "analysis": {
           "title": "Dokumendi analüüs",
@@ -2141,7 +2141,7 @@
         },
         "rooms": {
           "title": "Vestlusruumid",
-          "body": "Vestlusruumid on ühised suhtlusruumid, kuhu kasutaja võib kutsuda pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida abisoovi ja abipakkumise ühendamisel või eelpöördumise järel, kui osapooled vajavad täpsustust ja edasist suhtlust. Tavaline kutse lisab inimese ruumi. Soovi korral võib kutsuja tasuda kutsutu ühe kuu rollipõhise platvormiligipääsu eest."
+          "body": "Vestlusruumid on ühised suhtlusruumid, kuhu kasutaja võib kutsuda pöörduja, sotsiaaltöö spetsialisti, teenuseosutaja või kolleegi. Ruum võib tekkida abisoovi ja abipakkumise ühendamisel või eelpöördumise järel, kui osapooled vajavad täpsustust ja edasist suhtlust. Ruumis saab jätkata tekstivestlust ning vajadusel alustada audio-only helikõnet samade ruumi liikmete vahel. Helikõne ei salvestu vaikimisi; salvestamine on eraldi nõusolekupõhine töövoog ja transkriptsioon käivitatakse hiljem ainult kasutaja eraldi tegevusena. Tavaline kutse lisab inimese ruumi. Soovi korral võib kutsuja tasuda kutsutu ühe kuu rollipõhise platvormiligipääsu eest."
         },
         "documents": {
           "title": "Dokumendid: hoidla ja haldus",

@@ -146,8 +146,8 @@ export function PowerExitIcon({
   className,
   ...props
 }) {
-  const outerStroke = isLightTheme ? DARK_THEME_COLOR : LIGHT_THEME_COLOR;
-  const arrowStroke = isLightTheme ? LIGHT_THEME_COLOR : DARK_THEME_COLOR;
+  const outerStroke = `var(--profile-logout-outer-stroke, ${isLightTheme ? DARK_THEME_COLOR : LIGHT_THEME_COLOR})`;
+  const arrowStroke = `var(--profile-logout-arrow-stroke, ${isLightTheme ? LIGHT_THEME_COLOR : DARK_THEME_COLOR})`;
   const groupOpacity = isLightTheme ? 0.9 : 0.8;
   const outerOpacity = isLightTheme ? 0.9 : 1;
 

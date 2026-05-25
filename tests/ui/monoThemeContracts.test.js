@@ -1,0 +1,137 @@
+import { readFileSync } from "node:fs";
+import assert from "node:assert/strict";
+import test from "node:test";
+
+function read(path) {
+  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
+}
+
+test("mono theme is wired through globals, layout and accessibility provider", () => {
+  const globals = read("app/styles/globals.css");
+  const layout = read("app/layout.js");
+  const provider = read("components/accessibility/AccessibilityProvider.jsx");
+
+  assert.match(globals, /@import url\("\.\/theme\/mono\.css"\);/);
+  assert.match(layout, /rawTheme === "mono"/);
+  assert.match(layout, /theme === "mono" \? "theme-mono"/);
+  assert.match(provider, /theme === "mono"/);
+  assert.match(provider, /html\.classList\.toggle\("theme-mono", shouldBeForest\)/);
+});
+
+test("profile orbital theme switch includes mono before high contrast", () => {
+  const profile = read("components/alalehed/ProfiilBody.jsx");
+
+  assert.match(profile, /const modeSequence = \["light", "mid", "dark", "night", "mono", "hc"\]/);
+  assert.match(profile, /function ThemeForestDockIcon/);
+  assert.match(profile, /nextMode === "mono"[\s\S]*?<ThemeForestDockIcon/);
+});
+
+test("mono theme renders black and gray glass, icons, controls and home/about tokens", () => {
+  const mono = read("app/styles/theme/mono.css");
+  const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
+  const infoButton = read("components/ui/PageInfoButton.module.css");
+  const leftRail = read("components/chat/LeftRail.module.css");
+  const rightRail = read("components/chat/RightRail.module.css");
+  const workspacePanel = read("components/chat/WorkspacePanel.module.css");
+  const darkTheme = read("app/styles/theme/dark.css");
+
+  assert.match(mono, /:root\.theme-mono/);
+  assert.match(mono, /--forest-bg-top:\s*#2f2f2f/);
+  assert.match(mono, /--forest-highlight:\s*#c8c8c8/);
+  assert.match(mono, /--forest-title:\s*#c57171/);
+  assert.match(mono, /--forest-icon:\s*rgba\(230,\s*230,\s*230/);
+  assert.match(mono, /--glass-ring-surface-bg:\s*rgba\(20,\s*20,\s*20,\s*0\.62\)/);
+  assert.match(mono, /--link-gold:\s*var\(--forest-title\)/);
+  assert.doesNotMatch(mono, /#7A3A38|#1b3a2f|rgba\(238,\s*228,\s*222|rgba\(206,\s*221,\s*195/);
+  assert.match(mono, /--home-panel-bg:\s*var\(--glass-ring-surface-bg\)/);
+  assert.match(mono, /--home-card-mono-filter:\s*grayscale\(1\)\s*saturate\(0\)/);
+  assert.match(mono, /--home-card-back-mono-filter:\s*grayscale\(1\)\s*saturate\(0\)/);
+  assert.match(mono, /--home-card-circular-text-left:\s*rgba\(57,\s*57,\s*57,\s*0\.6\)/);
+  assert.match(mono, /\.home-card-face-content::before\s*\{[\s\S]*?filter:\s*var\(--home-card-mono-filter\) !important;/);
+  assert.match(mono, /\.centered-back-left, \.centered-back-right\)[\s\S]*?filter:\s*var\(--home-card-back-mono-filter\) !important;/);
+  assert.match(mono, /\.left-card-primary \.desc-ring-left \.circular-text-line\s*\{[\s\S]*?color:\s*var\(--home-card-circular-text-left\) !important;/);
+  assert.match(mono, /\.right-card-primary \.desc-ring-right \.circular-text-line\s*\{[\s\S]*?color:\s*var\(--home-card-circular-text-right\) !important;/);
+  assert.match(mono, /\.centered-back-right h2\s*\{[\s\S]*?color:\s*var\(--home-card-back-title-right\) !important;/);
+  assert.doesNotMatch(mono, /\.home-card-back-logo\s*\{[\s\S]*?filter:\s*grayscale\(1\)\s*saturate\(0\)/);
+  assert.match(mono, /\.home-about-title\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /\.home-before-links \.home-quick-link,[\s\S]*?\.home-before-links \.home-quick-link svg\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /\.home-before-links \.home-quick-label\s*\{[\s\S]*?color:\s*var\(--forest-highlight\) !important;[\s\S]*?-webkit-text-fill-color:\s*var\(--forest-highlight\) !important;/);
+  assert.match(mono, /\.drawer-panel--chat-glass\s*\{[\s\S]*?--drawer-glass-bg:\s*var\(--glass-ring-surface-bg\)/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.drawer-title\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?--card-bg:\s*var\(--input-bg\) !important;[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;[\s\S]*?border:\s*var\(--input-border\) !important;/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field::before,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field > \.edgeLight\s*\{[\s\S]*?display:\s*block !important;[\s\S]*?opacity:\s*1 !important;/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field:is\(:hover, :focus-within\)\s*\{[\s\S]*?--card-bg:\s*var\(--input-bg-hover,\s*var\(--input-bg\)\) !important;[\s\S]*?0 5px 12px rgba\(0,\s*0,\s*0,\s*0\.2\)/);
+  assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-input\s*\{[\s\S]*?min-height:\s*3\.12rem !important;[\s\S]*?background:\s*transparent !important;[\s\S]*?padding:\s*0\.74rem 1\.28rem !important;/);
+  assert.match(mono, /--profile-logout-outer-stroke:\s*var\(--forest-title\)/);
+  assert.match(mono, /--profile-logout-arrow-stroke:\s*var\(--forest-title\)/);
+  assert.match(mono, /--profile-logout-label:\s*#c8c8c8/);
+  assert.match(mono, /--forest-orbit-surface:/);
+  assert.match(mono, /--forest-floating-surface:/);
+  assert.match(mono, /--forest-tooltip-surface:/);
+  assert.match(mono, /--chat-rail-tooltip-bg:\s*var\(--forest-tooltip-surface\)/);
+  assert.doesNotMatch(mono, /--chat-rail-tooltip-bg:\s*var\(--forest-floating-surface\)/);
+  assert.doesNotMatch(mono, /--chat-tools-panel-bg:\s*var\(--forest-floating-surface\)/);
+  assert.match(mono, /--forest-input-surface:/);
+  assert.match(mono, /--orbit-accent:\s*#c57171/);
+  assert.match(mono, /\.profile-orbit-menu__center\.dock-item\s*\{[\s\S]*?color:\s*var\(--orbit-accent,\s*#c57171\)/);
+  assert.match(mono, /--btn-primary-bg:\s*var\(--forest-orbit-surface\)/);
+  assert.match(mono, /--btn-primary-text-hover:\s*var\(--forest-title-soft\)/);
+  assert.match(mono, /--seg-card-text-hover:\s*var\(--forest-title-soft\)/);
+  assert.match(mono, /--seg-card-text-selected:\s*var\(--forest-title-soft\)/);
+  assert.match(mono, /--form-surface:\s*var\(--forest-input-surface\)/);
+  assert.match(mono, /--input-bg:\s*var\(--form-surface\)/);
+  assert.match(mono, /--chat-icon-dark:\s*var\(--forest-title\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) button:has\(\.back-icon-arrow\)[\s\S]*?--back-arrow-color:\s*var\(--forest-title\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) button:has\(\.back-icon-arrow\)[\s\S]*?--back-dot-color:\s*var\(--forest-title\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-rail-icon-btn \.back-icon-dot \{[\s\S]*?fill:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /--chat-tools-panel-bg:\s*var\(--forest-tooltip-surface\)/);
+  assert.match(mono, /--chat-tools-item-hover-bg:\s*var\(--forest-tooltip-surface-hover\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \{[\s\S]*?background:\s*var\(--forest-tooltip-surface\)/);
+  assert.match(mono, /--forest-tooltip-surface:\s*[\s\S]*?linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
+  assert.match(mono, /--forest-tooltip-surface-hover:\s*[\s\S]*?rgba\(46,\s*46,\s*46,\s*0\.98\)/);
+  assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.chat-tools-menu/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item\s*\{[\s\S]*?color:\s*var\(--forest-highlight\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item :is\(svg, path, circle, rect, line, polyline, polygon\)\s*\{[\s\S]*?stroke:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) body \.chat-inputbar \.chat-send-btn[\s\S]*?--btn-primary-bg:\s*var\(--forest-orbit-surface\) !important/);
+  assert.match(mono, /--home-title-color:\s*var\(--forest-title\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?:is\(:hover, :focus-visible\) \{[\s\S]*?color:\s*var\(--btn-primary-text-hover,\s*var\(--forest-title-soft\)\) !important/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-feature-panel[\s\S]*?--workspace-feature-accent:\s*var\(--forest-title\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.drawer-panel--chat-glass :is\(\.drawer-close-btn--chat, \.drawer-close-btn--chat > span\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
+  assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-title,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*var\(--forest-title,\s*#c57171\);/);
+  assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.closeButton \{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
+  assert.match(leftRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
+  assert.match(rightRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardIcon\s*\{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardTitle\s*\{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);/);
+  assert.match(orbital, /:root\.theme-mono[\s\S]*?var\(--forest-highlight,\s*#c8c8c8\)/);
+  assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-menu__center\.dock-item\s*\{[\s\S]*?color:\s*var\(--orbit-accent,\s*#c57171\)/);
+  assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-item-label[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\) !important;/);
+  assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-item-icon[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\) !important;/);
+  assert.match(orbital, /var\(--forest-orbit-surface/);
+});
+
+test("mono background uses grayscale color bends with stronger opacity", () => {
+  const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
+
+  assert.doesNotMatch(backgroundLayer, /effectiveTheme === "mono"[\s\S]*?\["#eee4de"\]/);
+  assert.doesNotMatch(backgroundLayer, /effectiveTheme === "mono"[\s\S]*?\["#5a3438"\]/);
+  assert.match(backgroundLayer, /effectiveTheme === "mono"[\s\S]*?\["#3d3d3d"\]/);
+  assert.doesNotMatch(backgroundLayer, /effectiveTheme === "mono"[\s\S]*?\?\s*0\.56/);
+  assert.match(backgroundLayer, /const COLOR_BENDS_OPACITY_MONO = 0\.78;/);
+  assert.match(backgroundLayer, /effectiveTheme === "mono"\s*\?\s*COLOR_BENDS_OPACITY_MONO/);
+});
+
+test("mono theme labels are available in all locales", () => {
+  const expectedLabels = new Map([
+    ["et", "Mono"],
+    ["en", "Mono"],
+    ["ru", "Mono"]
+  ]);
+
+  for (const locale of ["et", "en", "ru"]) {
+    const messages = JSON.parse(read(`messages/${locale}.json`));
+    assert.equal(messages.profile.theme_mode.mono, expectedLabels.get(locale));
+    assert.equal(messages.accessibility.options.theme.mono, expectedLabels.get(locale));
+  }
+});

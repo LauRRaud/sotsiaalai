@@ -12,6 +12,19 @@
       var(--workspace-subpage-back-top, 0.55rem) + 0.425rem
   );
   z-index: 35;
+  opacity: 0;
+  animation: page-info-corner-reveal 260ms ease-out 420ms forwards;
+}
+
+@keyframes page-info-corner-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-0.16rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .overlayLayer {
@@ -108,15 +121,22 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .cornerTrigger {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 :global(:root.theme-light:not(.theme-mid)) .trigger,
 :global(:root.theme-mid) .trigger {
   --page-info-ring-color: #7A3A38;
   --page-info-dot-color: #c57171;
 }
 
-:global(:root.theme-forest) .trigger {
-  --page-info-ring-color: var(--forest-highlight, #c57171);
-  --page-info-dot-color: #7A3A38;
+:global(:root.theme-mono:not([data-contrast="hc"])) .trigger {
+  --page-info-ring-color: var(--forest-title, #c57171);
+  --page-info-dot-color: var(--forest-title, #c57171);
 }
 
 :global(html[data-contrast="hc"]) .trigger {
@@ -202,7 +222,7 @@
   --page-info-shadow: 0 20px 46px rgba(0, 0, 0, 0.38);
 }
 
-:global(:root.theme-forest) .modalContent {
+:global(:root.theme-mono:not([data-contrast="hc"])) .modalContent {
   --page-info-bg: #151c27;
   --page-info-text: rgba(242, 247, 255, 0.96);
   --page-info-strong: #f6f9ff;
@@ -210,6 +230,10 @@
   --page-info-close-bg: rgba(255, 255, 255, 0.055);
   --page-info-close-bg-hover: rgba(255, 255, 255, 0.095);
   --page-info-shadow: 0 20px 46px rgba(0, 0, 0, 0.34);
+}
+
+:global(:root.theme-mono:not([data-contrast="hc"])) .closeButton {
+  color: var(--forest-title, #c57171);
 }
 
 :global(html[data-contrast="hc"]) .modalContent {

@@ -197,3 +197,7 @@ body[data-reduce-motion="1"] [data-bg-layer] .bg-bends-layer,
 body[data-reduce-motion="1"] [data-bg-layer] .bg-particles-layer {
   transition: none !important;
 }
+
+html[data-theme-switching="1"] [data-bg-layer] .bg-bends-layer {
+  transition: none !important;
+}

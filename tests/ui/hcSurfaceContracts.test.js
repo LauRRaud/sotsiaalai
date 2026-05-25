@@ -184,11 +184,16 @@ test("HC invite modal list panel keeps a yellow border over glow panel defaults"
 test("HC left and right rail icon buttons stay transparent", () => {
   const left = read("components/chat/LeftRail.module.css");
   const right = read("components/chat/RightRail.module.css");
+  const mono = read("app/styles/theme/mono.css");
+  const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
 
   for (const css of [left, right]) {
     assert.match(css, /:global\(html\[data-contrast="hc"\] body\) \.item[\s\S]*?\{[\s\S]*?background:\s*transparent\s*!important/);
     assert.match(css, /:global\(html\[data-contrast="hc"\] body\) \.iconBtn[\s\S]*?\{[\s\S]*?box-shadow:\s*none\s*!important/);
   }
+  assert.doesNotMatch(mono, /:root\.theme-mono(?![^{]*data-contrast="hc")[^{]*:is\(\.chat-rail-icon-btn,[^{]*\{/);
+  assert.doesNotMatch(mono, /:root\.theme-mono(?![^{]*data-contrast="hc")[^{]*\.chat-tools-menu/);
+  assert.doesNotMatch(orbital, /:root\.theme-mono(?![^{]*data-contrast="hc")[^{]*\.profile-orbit-item-icon/);
 });
 
 test("HC invite selected payment cards and workspace action buttons have clear outlines", () => {

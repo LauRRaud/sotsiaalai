@@ -99,7 +99,7 @@ export default function PageInfoButton({
           onClick={() => setOpen(false)}
           className={cn(
             styles.closeButton,
-            "absolute right-[0.72rem] top-[0.72rem] inline-flex h-[2.35rem] w-[2.35rem] items-center justify-center rounded-full border outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-[color:var(--covision-focus-ring,var(--btn-primary-focus-ring-color,rgba(197,113,113,0.28)))]"
+            "absolute right-[1rem] top-[1rem] inline-flex h-[2.35rem] w-[2.35rem] items-center justify-center rounded-full border outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-[color:var(--covision-focus-ring,var(--btn-primary-focus-ring-color,rgba(197,113,113,0.28)))]"
           )}
         >
           <CloseIcon className="h-[1.08rem] w-[1.08rem]" />

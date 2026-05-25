@@ -790,7 +790,7 @@ export default function ChatComposer({
   const toolIconSlotClassName = "inline-flex h-[1.68rem] w-[1.68rem] shrink-0 items-center justify-center self-center";
   const toolLabelClassName = "inline-flex min-w-0 items-center self-center leading-[1.08]";
   const toolIconStrokeWidth = 1.55;
-  const iconStroke = isLightTheme ? "#7A3A38" : "#c57171";
+  const iconStroke = `var(--chat-composer-action-icon-color, ${isLightTheme ? "#7A3A38" : "#c57171"})`;
   const menuModeIconClassName = "block h-[1.64rem] w-[1.64rem] shrink-0 opacity-95";
   const menuLargeModeIconClassName = "block h-[1.82rem] w-[1.82rem] shrink-0 opacity-95";
   const activeModeIconClassName = "opacity-95 h-[var(--chat-composer-plus-icon-size)] w-[var(--chat-composer-plus-icon-size)] transition-transform duration-150 group-hover:scale-110 group-focus-visible:scale-110";

@@ -27,6 +27,8 @@ test("dashboard info overlay uses the same close button system as the conversati
   const mobileCss = read("app/styles/mobile.css");
 
   assert.match(overlay, /import IconButton from "@\/components\/ui\/IconButton"/);
+  assert.match(read("components/ui/IconButton.jsx"), /from "lucide-react"/);
+  assert.match(read("components/ui/CloseButton.jsx"), /from "lucide-react"/);
   assert.match(overlay, /chatDrawerCloseButtonClassName/);
   assert.match(overlay, /aria-modal="true"/);
   assert.match(overlay, /document\.addEventListener\("keydown", onKeyDown, true\)/);
@@ -37,10 +39,15 @@ test("dashboard info overlay uses the same close button system as the conversati
   assert.match(overlay, /\.materials-page-content/);
   assert.match(overlay, /--dashboard-info-panel-width/);
   assert.match(overlay, /--dashboard-info-surface-background/);
+  assert.match(overlay, /--documents-heading-color/);
+  assert.match(overlay, /const sectionTitleClassName =\s*\n\s*"[^"]*font-\[500\][^"]*var\(--documents-heading-color,var\(--title-color,var\(--brand-accent,#c57171\)\)\)/);
+  assert.doesNotMatch(overlay, /const sectionTitleClassName =\s*\n\s*"[^"]*font-\[680\][^"]*var\(--glass-modal-text/);
   assert.match(overlay, /--dashboard-info-title-wrap-padding-top/);
   assert.match(overlay, /--dashboard-info-title-wrap-extra-top/);
   assert.match(overlay, /document\.documentElement\?\.getBoundingClientRect\?\.\(\)\.height \|\| window\.innerHeight/);
   assert.match(overlay, /dashboard-info-panel--with-title-metrics/);
+  assert.match(overlay, /<IconButton[\s\S]*?style=\{overlayCloseStyle\}[\s\S]*?\/>\s*<div className=\{contentClassName\}/);
+  assert.doesNotMatch(overlay, /<div className=\{contentClassName\}[\s\S]*?<IconButton[\s\S]*?style=\{overlayCloseStyle\}/);
   assert.match(helpersCss, /--dashboard-info-surface-background/);
   assert.match(helpersCss, /\.dashboard-info-panel\.workspace-guide-panel\.glass-subpage-surface\s*>\s*\.dashboard-info-content\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/);
   assert.match(helpersCss, /var\(--dashboard-info-title-wrap-extra-top,\s*0px\)/);
@@ -64,6 +71,8 @@ test("workspace surfaces expose the shared dashboard info trigger", () => {
   assert.match(featurePage, /getWorkspaceFeatureInfoId/);
   assert.match(featurePage, /DashboardInfoTrigger[\s\S]*infoId=\{infoId\}/);
   assert.match(documents, /DashboardInfoTrigger[\s\S]*infoId="documents"/);
+  assert.match(documents, /detailExtras=\{\{\s*3:\s*frameworkInfoPanel\s*\}\}/);
+  assert.doesNotMatch(documents, /documents-library-intro[\s\S]*?<div className="documents-framework-banner documents-notice/);
   assert.match(agent, /DashboardInfoTrigger[\s\S]*infoId="document_drafting"/);
   assert.match(materials, /DashboardInfoTrigger[\s\S]*infoId="materials"/);
   assert.match(covision, /DashboardInfoTrigger[\s\S]*infoId="kovision"/);

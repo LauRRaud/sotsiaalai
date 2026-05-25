@@ -27,7 +27,8 @@ const PARTICLES_EXCLUDED_PATHS = new Set([
 const MOBILE_COLOR_BENDS_READY_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_LIGHT = 0.77;
-const COLOR_BENDS_OPACITY_FOREST = 0.78;
+const COLOR_BENDS_OPACITY_MONO = 0.78;
+const COLOR_BENDS_OPACITY_HC = 0.24;
 const COLOR_BENDS_OPACITY_FULL = 1;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
@@ -82,10 +83,14 @@ function resolveThemeFromDom() {
   if (html.getAttribute("data-contrast") === "hc") return "dark";
   if (html.classList.contains("theme-mid")) return "mid";
   if (html.classList.contains("theme-night")) return "night";
-  if (html.classList.contains("theme-forest")) return "forest";
+  if (html.classList.contains("theme-mono")) return "mono";
   if (html.classList.contains("theme-light")) return "light";
   return "dark";
 }
+const readDomContrast = () => {
+  if (typeof document === "undefined") return null;
+  return document.documentElement?.getAttribute("data-contrast") || "normal";
+};
 function resolvePlatformFromDom() {
   if (typeof document === "undefined") return "";
   return (
@@ -108,7 +113,7 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mounted, setMounted] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
   const [cursorReady, setCursorReady] = useState(false);
-  const [mobileBendsVisible, setMobileBendsVisible] = useState(false);
+  const [mobileBendsVisible, setMobileBendsVisible] = useState(true);
   const [mobileParticlesVisible, setMobileParticlesVisible] = useState(false);
   const [colorBendsPaused, setColorBendsPaused] = useState(false);
   // Keep initial server/client render identical; compute real value after mount.
@@ -197,21 +202,8 @@ const BackgroundContent = memo(function BackgroundContent({
     setParticlesReady(true);
   }, [mounted]);
   useEffect(() => {
-    if (
-      !mounted ||
-      !deviceProfileReady
-    ) {
-      setMobileBendsVisible(false);
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setMobileBendsVisible(true);
-    }, mobileBackgroundMode ? 500 : 60);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    if (!mounted || !deviceProfileReady) return;
+    setMobileBendsVisible(true);
   }, [mounted, deviceProfileReady, mobileBackgroundMode]);
   useEffect(() => {
     if (
@@ -455,6 +447,7 @@ const BackgroundContent = memo(function BackgroundContent({
         data-parallax={baseParallaxActive ? "on" : "off"}
         data-particles-parallax={particlesParallaxActive ? "on" : "off"}
         data-mobile-bends={forceMobileBendsVisible || mobileBendsVisible ? "ready" : "pending"}
+        style={{ "--saai-bends-opacity": colorBendsOpacity }}
         aria-hidden="true"
         suppressHydrationWarning
       >
@@ -507,7 +500,8 @@ function BackgroundLayer() {
     prefs
   } = useAccessibility();
   const pathname = usePathname();
-  const [domTheme, setDomTheme] = useState(null);
+  const [domTheme, setDomTheme] = useState(resolveThemeFromDom);
+  const [domContrast, setDomContrast] = useState(readDomContrast);
   const [domReduceMotion, setDomReduceMotion] = useState(null);
   const isHomepage = pathname === "/";
   useEffect(() => {
@@ -515,6 +509,7 @@ function BackgroundLayer() {
     const html = document.documentElement;
     const apply = () => {
       setDomTheme(resolveThemeFromDom());
+      setDomContrast(html.getAttribute("data-contrast") || "normal");
       setDomReduceMotion(html.getAttribute("data-reduce-motion") === "1");
     };
     apply();
@@ -525,7 +520,10 @@ function BackgroundLayer() {
     });
     return () => observer.disconnect();
   }, []);
+  const liveDomContrast = readDomContrast();
   const effectiveTheme = domTheme || prefs?.theme;
+  const effectiveContrast = liveDomContrast ?? domContrast ?? prefs?.contrast ?? "normal";
+  const isHighContrast = effectiveContrast === "hc";
   const effectiveReduceMotion = domReduceMotion ?? !!prefs?.reduceMotion;
   const normalizedPathname = stripLocaleFromPathname(pathname || "/");
   if (BACKGROUND_LAYER_EXCLUDED_PATHS.has(normalizedPathname)) return null;
@@ -537,16 +535,20 @@ function BackgroundLayer() {
     effectiveTheme === "light" ||
     effectiveTheme === "mid";
   const colorBendsColors =
-    effectiveTheme === "forest"
-      ? ["#5a3438"]
+    isHighContrast
+      ? ["#ffea00"]
+      : effectiveTheme === "mono"
+      ? ["#3d3d3d"]
       : effectiveTheme === "mid"
       ? ["#794f4c"]
       : ["#7e4442"];
   const colorBendsOpacity =
-    effectiveTheme === "light"
+    isHighContrast
+      ? COLOR_BENDS_OPACITY_HC
+      : effectiveTheme === "light"
       ? COLOR_BENDS_OPACITY_LIGHT
-      : effectiveTheme === "forest"
-      ? COLOR_BENDS_OPACITY_FOREST
+      : effectiveTheme === "mono"
+      ? COLOR_BENDS_OPACITY_MONO
       : effectiveTheme === "mid"
       ? COLOR_BENDS_OPACITY_FULL
       : COLOR_BENDS_OPACITY_DEFAULT;

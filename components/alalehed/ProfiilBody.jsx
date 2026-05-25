@@ -130,11 +130,11 @@ const logoutIconClassName = "profile-logout-icon h-[4.2rem] w-[4.2rem] max-[48em
 const logoutLabelClassName =
   "absolute left-1/2 top-[calc(100%+0.28rem)] -translate-x-1/2 text-center " +
   "text-[1.2rem] max-[48em]:text-[1.18rem] font-[500] tracking-[0.06em] leading-[1.1] " +
-  "text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] opacity-0 -translate-y-[0.38rem] scale-100 pointer-events-none transform-gpu will-change-transform " +
+  "text-[color:var(--profile-logout-label,#c57171)] light:text-[color:var(--profile-logout-label-light,#7A3A38)] hc:text-[color:var(--hc-accent)] opacity-0 -translate-y-[0.38rem] scale-100 pointer-events-none transform-gpu will-change-transform " +
   "transition-all duration-[520ms] ease-out " +
   "group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-[1.13] group-focus-visible:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:scale-[1.13]";
 const mobileLogoutLabelClassName =
-  "absolute left-1/2 text-center -translate-x-1/2 text-[#c57171] light:text-[#7A3A38] hc:text-[color:var(--hc-accent)] pointer-events-none whitespace-nowrap transition-opacity duration-[220ms] ease-out";
+  "absolute left-1/2 text-center -translate-x-1/2 text-[color:var(--profile-logout-label,#c57171)] light:text-[color:var(--profile-logout-label-light,#7A3A38)] hc:text-[color:var(--hc-accent)] pointer-events-none whitespace-nowrap transition-opacity duration-[220ms] ease-out";
 const profileBackButtonClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "max-[48em]:!z-[95]";
@@ -427,9 +427,10 @@ function ThemeForestDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
-      <path d="M19.1 5.15c-5.78-.5-10.18 1.18-12.55 4.22-2.22 2.85-1.84 6.18.18 8.12 2.08 1.98 5.45 2.03 8.16-.32 3.02-2.62 4.62-6.34 4.21-12.02Z" />
-      <path d="M7.25 16.82c2.58-3.38 5.58-6.08 9.52-8.42" />
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}>
+      <circle cx="12" cy="12" r="7.2" />
+      <path d="M12 4.8v14.4" />
+      <path d="M15.2 7.25h2.35M15.2 10.42h3.3M15.2 13.58h3.3M15.2 16.75h2.35" />
     </svg>;
 }
 export default function ProfiilBody({
@@ -515,7 +516,7 @@ export default function ProfiilBody({
     prefs?.theme === "light" ||
     prefs?.theme === "mid" ||
     prefs?.theme === "night" ||
-    prefs?.theme === "forest" ||
+    prefs?.theme === "mono" ||
     prefs?.theme === "dark"
       ? prefs.theme
       : "dark";
@@ -833,7 +834,7 @@ export default function ProfiilBody({
   useEffect(() => {
     if (embedded && !isActive) setLoginOpen(false);
   }, [embedded, isActive]);
-  const modeSequence = ["light", "mid", "dark", "night", "forest", "hc"];
+  const modeSequence = ["light", "mid", "dark", "night", "mono", "hc"];
   const currentModeIndex = modeSequence.indexOf(currentMode);
   const nextMode = modeSequence[(currentModeIndex + 1 + modeSequence.length) % modeSequence.length];
   const nextModeLabel = t(`profile.theme_mode.${nextMode}`);
@@ -842,8 +843,8 @@ export default function ProfiilBody({
       ? <ThemeMidDockIcon width={33} height={33} className="profile-theme-mode-icon profile-theme-mid-icon" />
       : nextMode === "hc"
         ? <ThemeHighContrastDockIcon width={27} height={27} className="profile-theme-mode-icon" />
-      : nextMode === "forest"
-        ? <ThemeForestDockIcon width={28} height={28} className="profile-theme-mode-icon profile-theme-forest-icon" />
+      : nextMode === "mono"
+        ? <ThemeForestDockIcon width={28} height={28} className="profile-theme-mode-icon profile-theme-mono-icon" />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} className="profile-theme-mode-icon" />
         : <ThemeMoonDockIcon width={26} height={26} className="profile-theme-mode-icon" showStars={nextMode === "night"} />, [nextMode]);

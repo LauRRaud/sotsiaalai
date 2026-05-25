@@ -6,6 +6,18 @@ const source = readFileSync(
   new URL("../../components/backgrounds/BackgroundLayer.jsx", import.meta.url),
   "utf8"
 );
+const colorBendsSource = readFileSync(
+  new URL("../../components/backgrounds/ColorBends.jsx", import.meta.url),
+  "utf8"
+);
+const backgroundCss = readFileSync(
+  new URL("../../app/styles/base/backgrounds.css", import.meta.url),
+  "utf8"
+);
+const accessibilityProviderSource = readFileSync(
+  new URL("../../components/accessibility/AccessibilityProvider.jsx", import.meta.url),
+  "utf8"
+);
 
 function setEntries(name) {
   const match = source.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\);`));
@@ -36,11 +48,44 @@ test("light theme uses dark color bends with extra transparency", () => {
   assert.doesNotMatch(source, /effectiveTheme === "light"\s*\?\s*\["#a06861"\]/);
   assert.match(
     source,
-    /const colorBendsColors =\s*effectiveTheme === "forest"\s*\?\s*\["#5a3438"\]\s*:\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\];/
+    /const colorBendsColors =\s*isHighContrast\s*\?\s*\["#ffea00"\]\s*:\s*effectiveTheme === "mono"\s*\?\s*\["#3d3d3d"\]\s*:\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\];/
   );
   assert.match(
     source,
-    /const colorBendsOpacity =\s*effectiveTheme === "light"\s*\?\s*COLOR_BENDS_OPACITY_LIGHT\s*:\s*effectiveTheme === "forest"\s*\?\s*COLOR_BENDS_OPACITY_FOREST\s*:\s*effectiveTheme === "mid"\s*\?\s*COLOR_BENDS_OPACITY_FULL\s*:\s*COLOR_BENDS_OPACITY_DEFAULT;/
+    /const colorBendsOpacity =\s*isHighContrast\s*\?\s*COLOR_BENDS_OPACITY_HC\s*:\s*effectiveTheme === "light"\s*\?\s*COLOR_BENDS_OPACITY_LIGHT\s*:\s*effectiveTheme === "mono"\s*\?\s*COLOR_BENDS_OPACITY_MONO\s*:\s*effectiveTheme === "mid"\s*\?\s*COLOR_BENDS_OPACITY_FULL\s*:\s*COLOR_BENDS_OPACITY_DEFAULT;/
+  );
+});
+
+test("high contrast color bends are yellow and independent of mono theme", () => {
+  assert.match(source, /const COLOR_BENDS_OPACITY_HC = 0\.24;/);
+  assert.match(source, /const readDomContrast = \(\) =>/);
+  assert.match(source, /const \[domContrast, setDomContrast\] = useState\(readDomContrast\);/);
+  assert.match(source, /setDomContrast\(html\.getAttribute\("data-contrast"\) \|\| "normal"\);/);
+  assert.match(source, /const liveDomContrast = readDomContrast\(\);/);
+  assert.match(source, /const effectiveContrast = liveDomContrast \?\? domContrast \?\? prefs\?\.contrast \?\? "normal";/);
+  assert.match(source, /const isHighContrast = effectiveContrast === "hc";/);
+  assert.match(
+    source,
+    /isHighContrast\s*\?\s*\["#ffea00"\]\s*:\s*effectiveTheme === "mono"\s*\?\s*\["#3d3d3d"\]\s*:\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\]/
+  );
+  assert.match(
+    source,
+    /const colorBendsOpacity =\s*isHighContrast\s*\?\s*COLOR_BENDS_OPACITY_HC\s*:\s*effectiveTheme === "light"/
+  );
+});
+
+test("color bends do not render one frame at fallback strength", () => {
+  assert.match(source, /const \[mobileBendsVisible, setMobileBendsVisible\] = useState\(true\);/);
+  assert.doesNotMatch(source, /setMobileBendsVisible\(false\)/);
+  assert.match(source, /style=\{\{\s*"--saai-bends-opacity": colorBendsOpacity\s*\}\}/);
+  assert.match(backgroundCss, /html\[data-theme-switching="1"\]\s+\[data-bg-layer\]\s+\.bg-bends-layer\s*\{[\s\S]*?transition:\s*none\s*!important;/);
+  assert.match(accessibilityProviderSource, /const hadContrast = html\.getAttribute\("data-contrast"\) \|\| DEFAULT_PREFS\.contrast;/);
+  assert.match(accessibilityProviderSource, /hadContrast !== nextContrast \|\|/);
+  assert.match(colorBendsSource, /import \{ useEffect, useLayoutEffect, useRef \} from "react";/);
+  assert.match(colorBendsSource, /function applyColorUniforms\(material, colors\)/);
+  assert.match(
+    colorBendsSource,
+    /materialRef\.current = material;\s*applyColorUniforms\(material, colorsRef\.current\);/
   );
 });
 

@@ -73,8 +73,8 @@ const basePanelStyle = {
 };
 
 const overlayCloseStyle = {
-  top: "calc(var(--workspace-guide-panel-overscan-top, 0px) + 0.62rem)",
-  right: "calc(var(--workspace-guide-panel-pad-x, 1rem) + 0.35rem)"
+  top: "calc(var(--workspace-guide-panel-overscan-top, 0px) + 0.72rem)",
+  right: "0.72rem"
 };
 
 const introBlockStyle = {
@@ -166,7 +166,22 @@ const SURFACE_CSS_VARIABLES = [
   "--workspace-subpage-back-top",
   "--workspace-subpage-header-margin-bottom",
   "--workspace-subpage-title-margin-top",
-  "--workspace-subpage-title-margin-bottom"
+  "--workspace-subpage-title-margin-bottom",
+  "--documents-page-text",
+  "--documents-page-strong",
+  "--documents-page-muted",
+  "--documents-heading-color",
+  "--documents-accent",
+  "--documents-elevated-bg",
+  "--documents-elevated-bg-hover",
+  "--documents-elevated-border",
+  "--documents-elevated-border-hover",
+  "--documents-elevated-shadow",
+  "--documents-panel-bg",
+  "--documents-surface-panel-bg",
+  "--documents-surface-panel-text",
+  "--documents-glass-backdrop-filter",
+  "--documents-strong-shadow"
 ];
 
 function isUsableSurfaceStyle(style) {
@@ -263,7 +278,7 @@ function captureSurfaceStyle(source) {
 }
 
 const sectionTitleClassName =
-  "m-0 text-[1.14rem] font-[680] leading-[1.18] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]";
+  "m-0 text-[clamp(1.32rem,1.75vw,1.5rem)] font-[500] leading-[1.16] tracking-[0.013em] text-[color:var(--documents-heading-color,var(--title-color,var(--brand-accent,#c57171)))] max-[768px]:text-[clamp(1.62rem,5.7vw,1.9rem)] max-[768px]:tracking-[0.018em]";
 
 const bodyTextClassName =
   "m-0 text-[1.03rem] leading-[1.56] tracking-[0] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] opacity-[0.88] max-[768px]:text-[1rem] max-[768px]:leading-[1.5]";
@@ -286,7 +301,7 @@ function getFocusable(root) {
   return Array.from(nodes).filter((el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length));
 }
 
-function renderDetail(section) {
+function renderDetail(section, extra) {
   return (
     <section key={section.title} style={detailSectionStyle}>
       <h3 className={sectionTitleClassName}>{section.title}</h3>
@@ -296,11 +311,12 @@ function renderDetail(section) {
           {section.items.map((item) => <li key={item}>{item}</li>)}
         </ul>
       ) : null}
+      {extra ? <div className="mt-[0.28rem]">{extra}</div> : null}
     </section>
   );
 }
 
-export default function DashboardInfoOverlay({ open, onClose, infoId, label = "Ava info", title, surfaceStyle }) {
+export default function DashboardInfoOverlay({ open, onClose, infoId, label = "Ava info", title, surfaceStyle, detailExtras }) {
   const [portalRoot, setPortalRoot] = useState(null);
   const panelRef = useRef(null);
   const closeRef = useRef(null);
@@ -456,14 +472,14 @@ export default function DashboardInfoOverlay({ open, onClose, infoId, label = "A
         className={cn(panelClassName, hasTitleMetrics && "dashboard-info-panel--with-title-metrics")}
         style={panelStyle}
       >
+        <IconButton
+          ref={closeRef}
+          onClick={onClose}
+          className={chatDrawerCloseButtonClassName}
+          style={overlayCloseStyle}
+          label={typeof t === "function" ? t("buttons.close", "Sulge") : "Sulge"}
+        />
         <div className={contentClassName} style={contentStyle}>
-          <IconButton
-            ref={closeRef}
-            onClick={onClose}
-            className={chatDrawerCloseButtonClassName}
-            style={overlayCloseStyle}
-            label={typeof t === "function" ? t("buttons.close", "Sulge") : "Sulge"}
-          />
           <div style={introBlockStyle}>
             <header className={glassSubpageHeaderClassName}>
               <div className={glassSubpageTitleWrapClassName}>
@@ -477,7 +493,7 @@ export default function DashboardInfoOverlay({ open, onClose, infoId, label = "A
             </p>
           </div>
           <div style={detailsListStyle}>
-            {content.details.map(renderDetail)}
+            {content.details.map((section, index) => renderDetail(section, detailExtras?.[index]))}
           </div>
         </div>
       </section>
@@ -492,7 +508,8 @@ export function DashboardInfoTrigger({
   className,
   dialogLabel,
   title,
-  style
+  style,
+  detailExtras
 }) {
   const [open, setOpen] = useState(false);
   const [surfaceStyle, setSurfaceStyle] = useState(undefined);
@@ -527,6 +544,7 @@ export function DashboardInfoTrigger({
         label={dialogLabel || label}
         title={title}
         surfaceStyle={surfaceStyle}
+        detailExtras={detailExtras}
       />
     </>
   );

@@ -488,6 +488,43 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     handleUploadFileSelection(nextFile)
   }, [handleUploadFileSelection])
 
+  const frameworkInfoPanel = (
+    <div className="documents-framework-banner documents-framework-banner--info documents-notice documents-notice--muted !border-0 !shadow-none rounded-[1rem]">
+      <div className="documents-framework-banner-copy">
+        <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
+        <p className="documents-section-description documents-subsection-description">
+          {frameworkStatus.loading
+            ? t("documents.loading")
+            : hasFrameworkAcceptance
+            ? t("documents.framework_acceptance.manage_confirmed_short", {
+                date: frameworkAcceptedAtLabel,
+                version: frameworkAcceptance.frameworkVersion || WORKER_FRAMEWORK_VERSION
+              })
+            : t("documents.framework_acceptance.manage_pending")}
+        </p>
+      </div>
+      <div className="documents-framework-banner-actions">
+        <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
+          {t("auth.register.worker_framework_open")}
+        </Button>
+        <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" className="documents-primary-button">
+          {t("auth.register.worker_framework_download_signed")}
+        </Button>
+        {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (
+          <Button
+            as="a"
+            href={frameworkAcceptance.documentDownloadUrl}
+            size="sm"
+            variant="ghost"
+            className="documents-secondary-button"
+          >
+            {t("documents.framework_acceptance.download_record")}
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  )
+
   if (isClientRole) {
     return (
       <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
@@ -520,6 +557,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
                 infoId="documents"
                 title={t("documents.page_title")}
                 className={dashboardInfoTriggerCornerClassName}
+                detailExtras={{ 3: frameworkInfoPanel }}
               />
             }
           >
@@ -540,41 +578,6 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
 
             <div className="documents-section-stack documents-mobile-panel-stack mt-0 md:mt-[1.75rem]">
               <div className="documents-library-section documents-library-intro documents-mobile-panel-stack">
-                <div className="documents-framework-banner documents-notice documents-notice--muted !border-0 !shadow-none rounded-[1rem]">
-                  <div className="documents-framework-banner-copy">
-                    <h3 className="documents-subsection-title">{t("documents.framework_acceptance.manage_title")}</h3>
-                    <p className="documents-section-description documents-subsection-description">
-                      {frameworkStatus.loading
-                        ? t("documents.loading")
-                        : hasFrameworkAcceptance
-                        ? t("documents.framework_acceptance.manage_confirmed_short", {
-                            date: frameworkAcceptedAtLabel,
-                            version: frameworkAcceptance.frameworkVersion || WORKER_FRAMEWORK_VERSION
-                          })
-                        : t("documents.framework_acceptance.manage_pending")}
-                    </p>
-                  </div>
-                  <div className="documents-framework-banner-actions">
-                    <Button as="a" href={frameworkPageHref} size="sm" className="documents-primary-button">
-                      {t("auth.register.worker_framework_open")}
-                    </Button>
-                    <Button as="a" href={WORKER_FRAMEWORK_SIGNED_HREF} size="sm" className="documents-primary-button">
-                      {t("auth.register.worker_framework_download_signed")}
-                    </Button>
-                    {hasFrameworkAcceptance && frameworkAcceptance?.documentDownloadUrl ? (
-                      <Button
-                        as="a"
-                        href={frameworkAcceptance.documentDownloadUrl}
-                        size="sm"
-                        variant="ghost"
-                        className="documents-secondary-button"
-                      >
-                        {t("documents.framework_acceptance.download_record")}
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-
                 <div className="documents-section-body documents-mobile-panel-stack mt-0 md:mt-[0.55rem]">
                 <Panel as="section" variant="secondary" padding="sm" className="documents-panel documents-subsection-stack documents-library-panel documents-library-panel--upload documents-surface-panel !border-0 !shadow-none rounded-[1rem]">
                   <div className="documents-subsection-copy">
