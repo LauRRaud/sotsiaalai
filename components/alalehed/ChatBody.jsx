@@ -246,7 +246,7 @@ export default function ChatBody({
   const {
     prefs
   } = useAccessibility();
-  const prefsIsLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const prefsIsLightTheme = prefs?.theme === "light" || prefs?.theme === "mid";
   const prefsUsesInputHoleSurface = prefs?.contrast === "hc" || !prefsIsLightTheme;
   const [domChatSurfaceMode, setDomChatSurfaceMode] = useState(null);
   const isLightTheme = domChatSurfaceMode?.isLightTheme ?? prefsIsLightTheme;

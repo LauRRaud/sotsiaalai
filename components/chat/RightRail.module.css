@@ -329,7 +329,7 @@
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .tooltip {
   color: var(--forest-highlight, #c8c8c8);
-  background: linear-gradient(180deg, rgba(48, 48, 48, 0.94) 0%, rgba(28, 28, 28, 0.97) 100%) !important;
+  background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;
   border: 0;
   box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);
 }
@@ -372,7 +372,7 @@
   }
 
   :global(:root.theme-mono:not([data-contrast="hc"])) .tooltip {
-    background: linear-gradient(180deg, rgba(48, 48, 48, 0.94) 0%, rgba(28, 28, 28, 0.97) 100%) !important;
+    background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;
   }
 
   :global(html[data-contrast="hc"]) .tooltip {

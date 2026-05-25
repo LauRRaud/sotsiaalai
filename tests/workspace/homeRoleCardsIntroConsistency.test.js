@@ -45,3 +45,46 @@ test("home role card blur backdrop fades with the same intro on desktop and mobi
     /\.homepage-root \.three-d-card\.(?:left|right) \.home-card-rotating-backdrop\s*\{[\s\S]*?radial-gradient/
   );
 });
+
+test("home role card intro is remembered across chat navigation returns", () => {
+  const homePage = readSource("components/HomePage.jsx");
+  const appPage = readSource("app/page.js");
+
+  assert.match(homePage, /const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";/);
+  assert.match(homePage, /const HOME_FULL_INTRO = "full";/);
+  assert.match(homePage, /const HOME_SOFT_INTRO = "soft";/);
+  assert.match(homePage, /const SOFT_FADE_DELAY_MS = 40;/);
+  assert.match(homePage, /const SOFT_FADE_DURATION_MS = 600;/);
+  assert.doesNotMatch(homePage, /HOME_INTRO_SEEN_KEY/);
+  assert.doesNotMatch(homePage, /HOME_INTRO_SEEN_COOKIE/);
+  assert.doesNotMatch(homePage, /persistHomeIntroSeen/);
+  assert.doesNotMatch(homePage, /hasPersistedHomeIntroSeen/);
+  assert.match(
+    homePage,
+    /export default function HomePage\(\{ initialIntroVariant = HOME_FULL_INTRO \} = \{\}\)/
+  );
+  assert.match(
+    homePage,
+    /const initialIntroMode =[\s\S]*?initialIntroVariant === HOME_SOFT_INTRO \? HOME_SOFT_INTRO : HOME_FULL_INTRO;/
+  );
+  assert.match(
+    homePage,
+    /const startSoftIntroState = useCallback\(\(\) => \{[\s\S]*?setIntroMode\(HOME_SOFT_INTRO\);[\s\S]*?setIntroStart\(false\);[\s\S]*?setLeftFadeDone\(false\);[\s\S]*?setRightFadeDone\(false\);/
+  );
+  assert.match(
+    homePage,
+    /const markChatEnterFromHome = useCallback\(\(\) => \{[\s\S]*?window\.sessionStorage\.setItem\("sotsiaalai:chat-enter-from-home",\s*String\(Date\.now\(\)\)\);/
+  );
+  assert.match(
+    homePage,
+    /if \(returnedFromChat\) \{[\s\S]*?window\.sessionStorage\.removeItem\(HOME_RETURN_FROM_CHAT_KEY\);[\s\S]*?\}[\s\S]*?if \(!returnedFromChat\) return;[\s\S]*?startSoftIntroState\(\);/
+  );
+  assert.match(homePage, /const fadeDurationMs =[\s\S]*?introMode === HOME_FULL_INTRO \? CARD_FADE_DELAY_MS \+ CARD_FADE_DURATION_MS : SOFT_FADE_DURATION_MS;/);
+  assert.match(homePage, /const isFullIntro = introMode === HOME_FULL_INTRO && !prefs\.reduceMotion;/);
+  assert.match(homePage, /const isSoftIntro = introMode === HOME_SOFT_INTRO && !prefs\.reduceMotion;/);
+  assert.match(homePage, /const delayMs = isFullIntro \? INTRO_ANIMATION_DELAY_MS : SOFT_FADE_DELAY_MS;/);
+  assert.match(homePage, /if \(introMode !== HOME_FULL_INTRO\) \{[\s\S]*?setShowHomeBottomSections\(true\);[\s\S]*?setShowHomeFooter\(true\);[\s\S]*?return;/);
+  assert.match(homePage, /introMode === HOME_SOFT_INTRO \? "is-visible" : "", "relative z-\[4\]"/);
+  assert.doesNotMatch(appPage, /HOME_INTRO_SEEN_COOKIE/);
+  assert.match(appPage, /return <HomePage \/>;/);
+});

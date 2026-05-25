@@ -2414,7 +2414,7 @@ html[data-contrast="hc"] .centered-back-right h2 {
   color: var(--hc-accent) !important;
 }
 html[data-contrast="hc"] .centered-back-left h2 {
-  color: #323232 !important;
+  color: #000 !important;
 }
 html[data-contrast="hc"] .desc-ring-left,
 html[data-contrast="hc"] .desc-ring-right,

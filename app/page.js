@@ -22,4 +22,3 @@ export async function generateMetadata() {
 export default function HomeRoot() {
   return <HomePage />;
 }
-

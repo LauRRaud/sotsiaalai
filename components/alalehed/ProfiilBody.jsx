@@ -423,7 +423,7 @@ function ThemeHighContrastDockIcon({
       <path d="M12 7.1a4.9 4.9 0 0 1 0 9.8" />
     </svg>;
 }
-function ThemeForestDockIcon({
+function ThemeMonoDockIcon({
   isHovered: _isHovered,
   ...props
 }) {
@@ -844,7 +844,7 @@ export default function ProfiilBody({
       : nextMode === "hc"
         ? <ThemeHighContrastDockIcon width={27} height={27} className="profile-theme-mode-icon" />
       : nextMode === "mono"
-        ? <ThemeForestDockIcon width={28} height={28} className="profile-theme-mode-icon profile-theme-mono-icon" />
+        ? <ThemeMonoDockIcon width={28} height={28} className="profile-theme-mode-icon profile-theme-mono-icon" />
       : nextMode === "light"
         ? <ThemeSunDockIcon width={26} height={26} className="profile-theme-mode-icon" />
         : <ThemeMoonDockIcon width={26} height={26} className="profile-theme-mode-icon" showStars={nextMode === "night"} />, [nextMode]);

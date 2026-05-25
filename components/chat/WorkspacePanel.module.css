@@ -78,6 +78,7 @@
 }
 
 .panel[data-visible="false"] :global(.glass-subpage-back-button),
+.panel[data-visible="false"] :global(.dashboard-info-trigger-corner),
 .panel[data-visible="false"] :global(.glass-subpage-header),
 .panel[data-visible="false"] .roleMenu,
 .panel[data-visible="false"] .grid {

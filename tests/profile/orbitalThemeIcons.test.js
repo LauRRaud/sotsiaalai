@@ -22,7 +22,7 @@ test("profile orbital theme mode icons use a consistent base stroke width", () =
   const source = readSource("components/alalehed/ProfiilBody.jsx");
   const expectedStrokeWidth = getIconStrokeWidth(source, "ThemeSunDockIcon");
 
-  for (const iconName of ["ThemeMoonDockIcon", "ThemeMidDockIcon", "ThemeHighContrastDockIcon", "ThemeForestDockIcon"]) {
+  for (const iconName of ["ThemeMoonDockIcon", "ThemeMidDockIcon", "ThemeHighContrastDockIcon", "ThemeMonoDockIcon"]) {
     assert.equal(getIconStrokeWidth(source, iconName), expectedStrokeWidth);
   }
 });

@@ -23,11 +23,14 @@ const HomeFooter = dynamic(
   () => import("@/components/HomeSections/HomeFooter"),
   { loading: () => null }
 );
-let homeIntroSeen = false;
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
+const HOME_FULL_INTRO = "full";
+const HOME_SOFT_INTRO = "soft";
 const INTRO_ANIMATION_DELAY_MS = 1500;
 const CARD_FADE_DURATION_MS = 2400;
 const CARD_FADE_DELAY_MS = 500;
+const SOFT_FADE_DELAY_MS = 40;
+const SOFT_FADE_DURATION_MS = 600;
 const HOME_FOOTER_STAGGER_MS = 220;
 const CARD_FLIP_TO_BACK_MS = 1250;
 const CARD_FLIP_TO_FRONT_MS = 1250;
@@ -46,11 +49,7 @@ const homeCardFadeStyle = {
 };
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-function persistHomeIntroSeen() {
-  homeIntroSeen = true;
-}
-
-export default function HomePage() {
+export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {}) {
   const {
     data: session,
     status
@@ -61,8 +60,9 @@ export default function HomePage() {
     hydrated: prefsHydrated
   } = useAccessibility();
   const { t, locale } = useI18n();
-  const initialSkipIntro = false;
-  const [hasSeenIntro, setHasSeenIntro] = useState(false);
+  const initialIntroMode =
+    initialIntroVariant === HOME_SOFT_INTRO ? HOME_SOFT_INTRO : HOME_FULL_INTRO;
+  const [introMode, setIntroMode] = useState(initialIntroMode);
   const [leftFadeDone, setLeftFadeDone] = useState(false);
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [introStart, setIntroStart] = useState(false);
@@ -80,9 +80,9 @@ export default function HomePage() {
   const [scrollCueEntered, setScrollCueEntered] = useState(false);
   const [isHomeOverlayOpen, setIsHomeOverlayOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [homeA11yReady, setHomeA11yReady] = useState(false);
-  const [showHomeBottomSections, setShowHomeBottomSections] = useState(false);
-  const [showHomeFooter, setShowHomeFooter] = useState(false);
+  const [homeA11yReady, setHomeA11yReady] = useState(initialIntroMode !== HOME_FULL_INTRO);
+  const [showHomeBottomSections, setShowHomeBottomSections] = useState(initialIntroMode !== HOME_FULL_INTRO);
+  const [showHomeFooter, setShowHomeFooter] = useState(initialIntroMode !== HOME_FULL_INTRO);
   const [autoPreviewActive, setAutoPreviewActive] = useState(false);
   const [autoPreviewBackVisible, setAutoPreviewBackVisible] = useState(false);
   const [leftCardTitleIndex, setLeftCardTitleIndex] = useState(0);
@@ -143,6 +143,15 @@ export default function HomePage() {
   }, [session]);
   const flipToBackMs = CARD_FLIP_TO_BACK_MS;
   const flipToFrontMs = CARD_FLIP_TO_FRONT_MS;
+  const startSoftIntroState = useCallback(() => {
+    setIntroMode(HOME_SOFT_INTRO);
+    setIntroStart(false);
+    setLeftFadeDone(false);
+    setRightFadeDone(false);
+    setHomeA11yReady(true);
+    setShowHomeBottomSections(true);
+    setShowHomeFooter(true);
+  }, []);
   const markChatEnterFromHome = useCallback(() => {
     if (typeof window === "undefined") return;
     try {
@@ -241,17 +250,7 @@ export default function HomePage() {
     };
   }, [homeA11yReady]);
   useIsomorphicLayoutEffect(() => {
-    if (!homeIntroSeen) return;
-    setHasSeenIntro(true);
-    setLeftFadeDone(true);
-    setRightFadeDone(true);
-    setIntroStart(true);
-    setHomeA11yReady(true);
-    setShowHomeBottomSections(true);
-    setShowHomeFooter(true);
-  }, []);
-  useIsomorphicLayoutEffect(() => {
-    if (initialSkipIntro || typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
     let returnedFromChat = false;
     try {
       returnedFromChat = Boolean(
@@ -262,15 +261,8 @@ export default function HomePage() {
       }
     } catch {}
     if (!returnedFromChat) return;
-    persistHomeIntroSeen();
-    setHasSeenIntro(true);
-    setLeftFadeDone(true);
-    setRightFadeDone(true);
-    setIntroStart(true);
-    setHomeA11yReady(true);
-    setShowHomeBottomSections(true);
-    setShowHomeFooter(true);
-  }, [initialSkipIntro]);
+    startSoftIntroState();
+  }, [startSoftIntroState]);
   useEffect(() => {
     const timeoutIds = timeoutIdsRef.current;
     return () => {
@@ -281,22 +273,25 @@ export default function HomePage() {
     };
   }, []);
   useEffect(() => {
-    if (!introStart || initialSkipIntro) return;
+    if (!introStart || prefs.reduceMotion) return;
+    const fadeDurationMs =
+      introMode === HOME_FULL_INTRO ? CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS : SOFT_FADE_DURATION_MS;
     const leftDoneTimer = registerTimeout(
       () => setLeftFadeDone(true),
-      CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
+      fadeDurationMs
     );
     const rightDoneTimer = registerTimeout(
       () => setRightFadeDone(true),
-      CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS
+      fadeDurationMs
     );
     return () => {
       clearRegisteredTimeout(leftDoneTimer);
       clearRegisteredTimeout(rightDoneTimer);
     };
-  }, [clearRegisteredTimeout, initialSkipIntro, introStart, registerTimeout]);
+  }, [clearRegisteredTimeout, introMode, introStart, prefs.reduceMotion, registerTimeout]);
   useEffect(() => {
     if (prefs.reduceMotion) {
+      setIntroMode(HOME_SOFT_INTRO);
       setLeftFadeDone(true);
       setRightFadeDone(true);
       setIntroStart(true);
@@ -357,25 +352,28 @@ export default function HomePage() {
   useEffect(() => {
     suppressFlipRef.current = false;
   }, []);
-  const skipIntroAnimations = hasSeenIntro || prefs.reduceMotion;
-  const introPending = !introStart && !skipIntroAnimations;
+  const isFullIntro = introMode === HOME_FULL_INTRO && !prefs.reduceMotion;
+  const isSoftIntro = introMode === HOME_SOFT_INTRO && !prefs.reduceMotion;
+  const introPending = !introStart && (isFullIntro || isSoftIntro);
   const cardsIntroDone = leftFadeDone && rightFadeDone;
   const scrollCueReady = leftFadeDone && rightFadeDone;
   const showScrollCueNow =
     showScrollCue &&
     (isMobile ? scrollCueReady : scrollCueEntered) &&
     !(isHomeOverlayOpen || isLoginOpen);
-  const shouldFadeLeft = introStart && !skipIntroAnimations && !leftFadeDone;
-  const shouldFadeRight = introStart && !skipIntroAnimations && !rightFadeDone;
+  const shouldFadeLeft = introStart && isFullIntro && !leftFadeDone;
+  const shouldFadeRight = introStart && isFullIntro && !rightFadeDone;
+  const getHomeCardIntroStyle = shouldFade => (shouldFade ? homeCardFadeStyle : undefined);
   useEffect(() => {
     if (!prefsHydrated) return;
-    if (skipIntroAnimations) {
+    if (!isFullIntro && !isSoftIntro) {
       setIntroStart(true);
       return;
     }
-    const delayTimer = registerTimeout(() => setIntroStart(true), INTRO_ANIMATION_DELAY_MS);
+    const delayMs = isFullIntro ? INTRO_ANIMATION_DELAY_MS : SOFT_FADE_DELAY_MS;
+    const delayTimer = registerTimeout(() => setIntroStart(true), delayMs);
     return () => clearRegisteredTimeout(delayTimer);
-  }, [clearRegisteredTimeout, prefsHydrated, registerTimeout, skipIntroAnimations]);
+  }, [clearRegisteredTimeout, isFullIntro, isSoftIntro, prefsHydrated, registerTimeout]);
   useEffect(() => {
     if (!scrollCueReady) {
       setScrollCueEntered(false);
@@ -392,14 +390,16 @@ export default function HomePage() {
     };
   }, [clearRegisteredTimeout, registerTimeout, scrollCueReady]);
   useEffect(() => {
+    if (introMode !== HOME_FULL_INTRO) {
+      setShowHomeBottomSections(true);
+      setShowHomeFooter(true);
+      return;
+    }
     const shouldShow = !isLoginOpen && cardsIntroDone;
     if (!shouldShow) {
       setShowHomeBottomSections(false);
       setShowHomeFooter(false);
       return;
-    }
-    if (!prefs.reduceMotion) {
-      persistHomeIntroSeen();
     }
     setShowHomeBottomSections(true);
     const footerTimer = registerTimeout(
@@ -407,7 +407,7 @@ export default function HomePage() {
       HOME_FOOTER_STAGGER_MS
     );
     return () => clearRegisteredTimeout(footerTimer);
-  }, [cardsIntroDone, clearRegisteredTimeout, isLoginOpen, prefs.reduceMotion, registerTimeout]);
+  }, [cardsIntroDone, clearRegisteredTimeout, introMode, isLoginOpen, prefs.reduceMotion, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const cardInteractionAllowed = flipAllowed && !autoPreviewActive;
   const autoPreviewBackInteractive = !isMobile && flipAllowed && autoPreviewActive && autoPreviewBackVisible;
@@ -712,9 +712,9 @@ export default function HomePage() {
                   <div aria-hidden="true" className={leftFrontBackdropClassName} />
                   <div aria-hidden="true" className={leftBackBackdropClassName} />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
-                    <div className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={shouldFadeLeft ? homeCardFadeStyle : undefined}>
+                    <div className={cn("glass-card", "glass-card-light", "left-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease]", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in opacity-0" : null, leftFadeDone ? "fade-in-done" : null)} style={getHomeCardIntroStyle(shouldFadeLeft)}>
                       <div ref={setLeftCardEl} className="home-card-face-content relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]">
-                        <CircularRingLeft className={cn(isMobile || leftFadeDone ? "is-visible" : "", "relative z-[4]")} />
+                        <CircularRingLeft className={cn(isMobile || leftFadeDone || introMode === HOME_SOFT_INTRO ? "is-visible" : "", "relative z-[4]")} />
                         <AivalgeLogo className={cn("home-card-front-logo home-card-front-logo-ai absolute left-[48%] top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-left),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-75 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                       </div>
                     </div>
@@ -723,9 +723,9 @@ export default function HomePage() {
                   <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (leftPhase === "front" || leftPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" onClick={leftBackInteractive ? handleCardBackClick("left") : undefined} style={!leftBackInteractive ? {
                   pointerEvents: "none"
                 } : {}} data-interactive={leftBackInteractive ? "true" : "false"}>
-                    <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={shouldFadeLeft ? homeCardFadeStyle : undefined}>
+                    <div className={cn("centered-back-left", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeLeft ? "fade-in" : null)} style={getHomeCardIntroStyle(shouldFadeLeft)}>
                       <div className="home-card-face-content relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/kerahele.svg')] dark:before:bg-[url('/logo/kerahele-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-light-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]">
-                        <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] flex min-h-[3.2em] flex-col items-center justify-center text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-[#323232] [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em] transition-opacity duration-[400ms] ease-in-out", leftCardTitleVisible ? "opacity-100" : "opacity-0")}>
+                        <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] flex min-h-[3.2em] flex-col items-center justify-center text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.98rem,calc(var(--card-size)*0.069),1.8rem)] text-black [text-shadow:0_0.4rem_0.4rem_rgba(0,0,0,0.5)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em] transition-opacity duration-[400ms] ease-in-out", leftCardTitleVisible ? "opacity-100" : "opacity-0")}>
                           {leftCardTitle.line2 ? <>
                               <span>{leftCardTitle.line1}</span>
                               <span>{leftCardTitle.line2}</span>
@@ -745,9 +745,9 @@ export default function HomePage() {
                   <div aria-hidden="true" className={rightFrontBackdropClassName} />
                   <div aria-hidden="true" className={rightBackBackdropClassName} />
                   <div className={cn("card-face", "front", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)]")} aria-hidden="true">
-                    <div className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={shouldFadeRight ? homeCardFadeStyle : undefined}>
+                    <div className={cn("glass-card", "glass-card-dark", "right-card-primary", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] [transform:translate3d(0,0,0)] [transform-origin:50%_50%] [transition:opacity_var(--fade-ms)_ease,box-shadow_360ms_ease]", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in opacity-0" : null, rightFadeDone ? "fade-in-done" : null)} style={getHomeCardIntroStyle(shouldFadeRight)}>
                       <div ref={setRightCardEl} className="home-card-face-content relative w-full h-full aspect-square rounded-full mx-auto flex flex-col items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]">
-                        <CircularRingRight className={cn(isMobile || rightFadeDone ? "is-visible" : "", "relative z-[4]")} />
+                        <CircularRingRight className={cn(isMobile || rightFadeDone || introMode === HOME_SOFT_INTRO ? "is-visible" : "", "relative z-[4]")} />
                         <SmustLogo className={cn("home-card-front-logo home-card-front-logo-smust absolute left-1/2 top-1/2 block max-w-full h-auto w-[min(var(--card-logo-front-right),calc(100%-var(--card-logo-safe-gap)))] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[5] overflow-visible [overflow:visible] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]")} aria-hidden="true" />
                       </div>
                     </div>
@@ -756,7 +756,7 @@ export default function HomePage() {
                   <div className={cn("card-face", "back", "absolute inset-0 grid place-items-center rounded-full z-[1] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]", (rightPhase === "front" || rightPhase === "flippingToFront") && !autoPreviewBackVisible ? "pointer-events-none" : "pointer-events-auto")} aria-hidden="true" onClick={rightBackInteractive ? handleCardBackClick("right") : undefined} style={!rightBackInteractive ? {
                   pointerEvents: "none"
                 } : {}} data-interactive={rightBackInteractive ? "true" : "false"}>
-                    <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in" : null)} style={shouldFadeRight ? homeCardFadeStyle : undefined}>
+                    <div className={cn("centered-back-right", "relative w-full h-full aspect-square rounded-full mx-auto overflow-visible [box-shadow:none] transition-[box-shadow] duration-[320ms] ease-out", introPending ? "opacity-0" : null, shouldFadeRight ? "fade-in" : null)} style={getHomeCardIntroStyle(shouldFadeRight)}>
                       <div className="home-card-face-content relative w-full h-full aspect-square rounded-full mx-auto flex items-center justify-center box-border p-[2em] bg-clip-padding bg-transparent overflow-hidden before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:pointer-events-none before:z-[2] before:bg-[url('/logo/keratume.svg')] dark:before:bg-[url('/logo/keratume-dark.svg')] before:bg-no-repeat before:bg-center before:bg-[length:106%_106%] before:opacity-[var(--home-card-dark-opacity)] before:[filter:none] before:[transform-origin:50%_50%] before:[transform:scale(1)] before:[will-change:opacity,transform]">
                         <h2 className={cn("font-headline font-normal uppercase tracking-[0.1em] leading-[1.6] [text-rendering:geometricPrecision] [-webkit-font-smoothing:antialiased] [-webkit-font-smoothing:antialiased] [font-variant-ligatures:none] relative z-[5] text-center mx-auto w-fit max-w-full [text-align-last:center] mt-0 [font-size:clamp(0.94rem,calc(var(--card-size)*0.065),1.7rem)] text-[#c57171] opacity-80 [text-shadow:0_0.5rem_0.3rem_rgba(0,0,0,0.6)] -translate-y-[0.25em] max-[768px]:-translate-y-[0.45em]")}>
                           {t("home.card.client.title")}

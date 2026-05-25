@@ -137,7 +137,7 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const documentsHref = localizePath("/documents", locale)
   const chatHref = localizePath("/vestlus", locale)
   const backHref = chatHref
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid"
+  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "mid"
   const roleScope = effectiveRole === "CLIENT" ? "client" : "worker"
   const defaultAudience = effectiveRole === "CLIENT" ? "client" : "worker"
   const initialSelectedDocumentIds = useMemo(

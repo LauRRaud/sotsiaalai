@@ -11,6 +11,7 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
+  const pageInfoCss = readSource("components/ui/PageInfoButton.module.css");
 
   assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 680;/);
   assert.match(chatBodySource, /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(false\);/);
@@ -27,8 +28,13 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
 
   assert.match(
     workspaceCss,
-    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/
+    /\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-back-button\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.dashboard-info-trigger-corner\),[\s\S]*?\.panel\[data-visible="false"\]\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\[data-visible="false"\]\s+\.grid\s*\{[\s\S]*?visibility:\s*hidden;[\s\S]*?pointer-events:\s*none;/
   );
+  assert.match(
+    pageInfoCss,
+    /\.cornerTrigger\s*\{[\s\S]*?opacity:\s*1;[\s\S]*?animation:\s*none;/
+  );
+  assert.doesNotMatch(pageInfoCss, /page-info-corner-reveal/);
   assert.match(
     workspaceCss,
     /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/

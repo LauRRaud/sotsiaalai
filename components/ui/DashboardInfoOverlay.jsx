@@ -39,7 +39,7 @@ const triggerClassName =
   "inline-flex h-[3.45rem] w-[3.45rem] min-[769px]:h-[4.15rem] min-[769px]:w-[4.15rem] items-center justify-center rounded-full border-0 bg-transparent p-0 text-[color:var(--title-color,var(--brand-primary,#c57171))] shadow-none outline-none transform-gpu transition-transform duration-[260ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] hover:scale-[1.08] focus-visible:scale-[1.08] focus-visible:ring-[3px] focus-visible:ring-[color:var(--covision-focus-ring,var(--btn-primary-focus-ring-color,rgba(197,113,113,0.28)))] active:scale-[0.98] hc:text-[color:var(--hc-accent)]";
 
 export const dashboardInfoTriggerCornerClassName =
-  styles.cornerTrigger;
+  `${styles.cornerTrigger} dashboard-info-trigger-corner`;
 
 const overlayClassName =
   "dashboard-info-overlay fixed inset-0 z-[170] flex items-center justify-center bg-transparent p-0 max-[768px]:items-start";

@@ -15,15 +15,15 @@ test("mono theme is wired through globals, layout and accessibility provider", (
   assert.match(layout, /rawTheme === "mono"/);
   assert.match(layout, /theme === "mono" \? "theme-mono"/);
   assert.match(provider, /theme === "mono"/);
-  assert.match(provider, /html\.classList\.toggle\("theme-mono", shouldBeForest\)/);
+  assert.match(provider, /html\.classList\.toggle\("theme-mono", shouldBeMono\)/);
 });
 
 test("profile orbital theme switch includes mono before high contrast", () => {
   const profile = read("components/alalehed/ProfiilBody.jsx");
 
   assert.match(profile, /const modeSequence = \["light", "mid", "dark", "night", "mono", "hc"\]/);
-  assert.match(profile, /function ThemeForestDockIcon/);
-  assert.match(profile, /nextMode === "mono"[\s\S]*?<ThemeForestDockIcon/);
+  assert.match(profile, /function ThemeMonoDockIcon/);
+  assert.match(profile, /nextMode === "mono"[\s\S]*?<ThemeMonoDockIcon/);
 });
 
 test("mono theme renders black and gray glass, icons, controls and home/about tokens", () => {
@@ -34,6 +34,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   const rightRail = read("components/chat/RightRail.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
+  const loginModal = read("components/LoginModal.jsx");
 
   assert.match(mono, /:root\.theme-mono/);
   assert.match(mono, /--forest-bg-top:\s*#2f2f2f/);
@@ -87,8 +88,10 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /--chat-tools-panel-bg:\s*var\(--forest-tooltip-surface\)/);
   assert.match(mono, /--chat-tools-item-hover-bg:\s*var\(--forest-tooltip-surface-hover\)/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \{[\s\S]*?background:\s*var\(--forest-tooltip-surface\)/);
-  assert.match(mono, /--forest-tooltip-surface:\s*[\s\S]*?linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
-  assert.match(mono, /--forest-tooltip-surface-hover:\s*[\s\S]*?rgba\(46,\s*46,\s*46,\s*0\.98\)/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-surface-popover\s*\{[\s\S]*?background:\s*var\(--forest-tooltip-surface\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) #login-modal \.login-help-popover\s*\{[\s\S]*?background:\s*var\(--forest-tooltip-surface\) !important;[\s\S]*?color:\s*var\(--forest-highlight\) !important;/);
+  assert.match(mono, /--forest-tooltip-surface:\s*[\s\S]*?linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
+  assert.match(mono, /--forest-tooltip-surface-hover:\s*[\s\S]*?rgb\(46,\s*46,\s*46\)/);
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.chat-tools-menu/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item\s*\{[\s\S]*?color:\s*var\(--forest-highlight\) !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item :is\(svg, path, circle, rect, line, polyline, polygon\)\s*\{[\s\S]*?stroke:\s*var\(--forest-title\) !important;/);
@@ -100,8 +103,8 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.drawer-panel--chat-glass :is\(\.drawer-close-btn--chat, \.drawer-close-btn--chat > span\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
   assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-title,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*var\(--forest-title,\s*#c57171\);/);
   assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.closeButton \{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
-  assert.match(leftRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
-  assert.match(rightRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgba\(48,\s*48,\s*48,\s*0\.94\)/);
+  assert.match(leftRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
+  assert.match(rightRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardIcon\s*\{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardTitle\s*\{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);/);
   assert.match(orbital, /:root\.theme-mono[\s\S]*?var\(--forest-highlight,\s*#c8c8c8\)/);
@@ -109,6 +112,18 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-item-label[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\) !important;/);
   assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-item-icon[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\) !important;/);
   assert.match(orbital, /var\(--forest-orbit-surface/);
+  assert.match(loginModal, /const isMonoTheme = prefs\?\.theme === "mono";/);
+  assert.match(loginModal, /isMonoTheme[\s\S]*?var\(--forest-orbit-surface/);
+  assert.match(loginModal, /isMonoTheme[\s\S]*?0 5px 12px rgba\(7,\s*7,\s*7,\s*0\.26\), inset 0 0 0 1px rgba\(214,\s*214,\s*214,\s*0\.13\)/);
+  assert.match(loginModal, /isNightTheme[\s\S]*?0 5px 12px rgba\(4,\s*9,\s*18,\s*0\.22\), inset 0 0 0 1px rgba\(198,\s*222,\s*255,\s*0\.12\)/);
+  assert.match(loginModal, /isMidTheme[\s\S]*?0 5px 10px rgba\(42,\s*23,\s*20,\s*0\.12\), inset 0 0 0 1px rgba\(255,\s*255,\s*255,\s*0\.16\)/);
+  assert.match(loginModal, /const pinGlossOpacityBase = isLightTheme \? isMidTheme \? "0\.075"/);
+  assert.match(loginModal, /const pinGlossOpacityButton = isLightTheme \? isMidTheme \? "0\.06"/);
+  assert.match(loginModal, /const pinKeyOutline = "transparent";/);
+  assert.match(loginModal, /const pinKeyRimTop = "transparent";/);
+  assert.match(loginModal, /const pinKeyRimBottom = "transparent";/);
+  assert.match(loginModal, /"--otp-copy-text": isMidTheme[\s\S]*?isMonoTheme[\s\S]*?var\(--forest-highlight,\s*#c8c8c8\)/);
+  assert.match(loginModal, /"--otp-panel-bg": "var\(--glass-ring-surface-bg,\s*rgba\(20,\s*20,\s*20,\s*0\.62\)\)"/);
 });
 
 test("mono background uses grayscale color bends with stronger opacity", () => {

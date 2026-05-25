@@ -16,7 +16,7 @@ test("service provider role labels stay consistent on home and register screens"
   assert.equal(et.role.provider, "Teenuse osutaja");
   assert.match(et.auth.register.role_hint, /Teenuse osutaja/);
   assert.equal(et.home.card.service_provider.title_line1, "Teenuse");
-  assert.equal(et.home.card.service_provider.title_line2, "osutaja");
+  assert.equal(et.home.card.service_provider.title_line2, "osutajale");
 
   assert.equal(en.role.provider, "Service provider");
   assert.match(en.auth.register.role_hint, /Service provider/);

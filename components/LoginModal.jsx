@@ -1124,7 +1124,8 @@ export default function LoginModal({
   if (!open) return null;
   const isMidTheme = prefs?.theme === "mid";
   const isNightTheme = prefs?.theme === "night";
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "light-mono" || prefs?.theme === "mid";
+  const isMonoTheme = prefs?.theme === "mono";
+  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "mid";
   const isDarkKeypadTheme = !isLightTheme;
   const helpPopoverLinkStyle = isMidTheme
     ? {
@@ -1146,57 +1147,55 @@ export default function LoginModal({
     ? isMidTheme
       ? "radial-gradient(122% 122% at 26% 22%, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.15) 26%, rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0) 60%), radial-gradient(102% 102% at 76% 80%, rgba(164, 112, 104, 0.085) 0%, rgba(164, 112, 104, 0.03) 34%, rgba(164, 112, 104, 0) 62%), linear-gradient(155deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.11) 42%, rgba(255, 255, 255, 0.06) 100%), rgba(255, 255, 255, 0.085)"
       : "radial-gradient(120% 120% at 18% 16%, rgba(255, 255, 255, 0.995) 0%, rgba(255, 255, 255, 0.28) 62%), radial-gradient(120% 120% at 86% 90%, rgba(0, 0, 0, 0.045) 0%, rgba(0, 0, 0, 0) 64%), linear-gradient(145deg, rgba(255, 255, 255, 0.76) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.34) 100%)"
+    : isMonoTheme
+      ? "var(--forest-orbit-surface, radial-gradient(118% 102% at 50% 8%, rgba(62, 62, 62, 0.88) 0%, rgba(43, 43, 43, 0.9) 48%, rgba(25, 25, 25, 0.94) 100%), linear-gradient(180deg, rgba(52, 52, 52, 0.86) 0%, rgba(27, 27, 27, 0.96) 100%))"
     : isNightTheme
       ? "radial-gradient(138% 124% at 28% 18%, rgba(255, 255, 255, 0.095) 0%, rgba(220, 236, 255, 0.05) 20%, rgba(170, 206, 255, 0.018) 34%, rgba(170, 206, 255, 0) 56%), linear-gradient(168deg, rgba(72, 91, 118, 0.2) 0%, rgba(38, 48, 64, 0.16) 46%, rgba(16, 22, 32, 0.12) 100%), rgba(12, 18, 28, 0.18)"
       : "radial-gradient(136% 122% at 28% 18%, rgba(255, 255, 255, 0.08) 0%, rgba(232, 240, 255, 0.04) 20%, rgba(194, 214, 255, 0.014) 34%, rgba(194, 214, 255, 0) 56%), linear-gradient(168deg, rgba(68, 78, 98, 0.17) 0%, rgba(36, 42, 54, 0.135) 46%, rgba(14, 19, 26, 0.11) 100%), rgba(11, 15, 22, 0.16)";
   const pinKeyBoxShadow = isLightTheme
     ? isMidTheme
-      ? "0 5px 10px rgba(0, 0, 0, 0.11), 0 1px 1px rgba(20, 12, 10, 0.07), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 -1px 0 rgba(0, 0, 0, 0.1)"
+      ? "0 5px 10px rgba(42, 23, 20, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.16)"
       : "0 5px 9px rgba(0, 0, 0, 0.09), 0 1px 1px rgba(15, 23, 42, 0.06), inset 0 0 0 var(--pin-border-w) rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.09)"
+    : isMonoTheme
+      ? "0 5px 12px rgba(7, 7, 7, 0.26), inset 0 0 0 1px rgba(214, 214, 214, 0.13)"
     : isNightTheme
-      ? "0 7px 16px rgba(4, 9, 18, 0.17), 0 1px 3px rgba(7, 13, 24, 0.12), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -5px 10px rgba(7, 13, 22, 0.13), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
-      : "0 6px 14px rgba(3, 8, 15, 0.16), 0 1px 3px rgba(8, 13, 21, 0.11), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -4px 9px rgba(5, 9, 16, 0.12), inset 0 -1px 0 rgba(38, 52, 76, 0.12)";
+      ? "0 5px 12px rgba(4, 9, 18, 0.22), inset 0 0 0 1px rgba(198, 222, 255, 0.12)"
+      : "0 5px 12px rgba(3, 8, 15, 0.2), inset 0 0 0 1px rgba(214, 228, 255, 0.1)";
   const pinGlossBackground = isLightTheme
     ? isMidTheme
       ? "linear-gradient(138deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 22%, rgba(255, 255, 255, 0.018) 44%, rgba(255, 255, 255, 0) 66%, rgba(122, 58, 56, 0.045) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 36%, rgba(255, 255, 255, 0) 72%)"
       : "linear-gradient(138deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 22%, rgba(255, 255, 255, 0.07) 44%, rgba(255, 255, 255, 0) 66%, rgba(255, 255, 255, 0.04) 100%), radial-gradient(64% 58% at 32% 24%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.1) 36%, rgba(255, 255, 255, 0) 72%)"
+    : isMonoTheme
+      ? "linear-gradient(145deg, rgba(230, 230, 230, 0.11) 0%, rgba(230, 230, 230, 0.042) 22%, rgba(230, 230, 230, 0.016) 38%, rgba(230, 230, 230, 0) 58%, rgba(120, 120, 120, 0.042) 100%)"
     : isNightTheme
       ? "linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(222, 237, 255, 0.055) 22%, rgba(222, 237, 255, 0.018) 38%, rgba(222, 237, 255, 0) 58%, rgba(95, 146, 228, 0.05) 100%)"
       : "linear-gradient(145deg, rgba(255, 255, 255, 0.11) 0%, rgba(236, 244, 255, 0.042) 22%, rgba(236, 244, 255, 0.016) 38%, rgba(236, 244, 255, 0) 58%, rgba(150, 188, 244, 0.042) 100%)";
-  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.12" : "0.13" : isNightTheme ? "0.08" : "0.07";
-  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.09" : "0.1" : isNightTheme ? "0.09" : "0.08";
+  const pinGlossOpacityBase = isLightTheme ? isMidTheme ? "0.075" : "0.13" : isNightTheme ? "0.045" : "0.04";
+  const pinGlossOpacityButton = isLightTheme ? isMidTheme ? "0.06" : "0.1" : isNightTheme ? "0.05" : "0.045";
   const pinKeySheenBackground = isDarkKeypadTheme
-    ? isNightTheme
-      ? "linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.028) 24%, rgba(255, 255, 255, 0) 60%)"
-      : "linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.022) 24%, rgba(255, 255, 255, 0) 60%)"
+    ? isMonoTheme
+      ? "linear-gradient(180deg, rgba(230, 230, 230, 0.035) 0%, rgba(230, 230, 230, 0.012) 30%, rgba(230, 230, 230, 0) 62%)"
+      : isNightTheme
+      ? "linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.014) 30%, rgba(255, 255, 255, 0) 62%)"
+      : "linear-gradient(180deg, rgba(255, 255, 255, 0.038) 0%, rgba(255, 255, 255, 0.012) 30%, rgba(255, 255, 255, 0) 62%)"
     : "transparent";
-  const pinKeySheenOpacity = isDarkKeypadTheme ? "0.56" : "0";
-  const pinKeyOutline = isDarkKeypadTheme
-    ? isNightTheme
-      ? "rgba(190, 209, 236, 0.26)"
-      : "rgba(184, 197, 220, 0.22)"
-    : "transparent";
+  const pinKeySheenOpacity = isDarkKeypadTheme ? "0.34" : "0";
+  const pinKeyOutline = "transparent";
   const pinKeyOutlineHover = isDarkKeypadTheme
     ? pinKeyOutline
     : "transparent";
   const pinKeyOutlineActive = isDarkKeypadTheme
     ? pinKeyOutline
     : "transparent";
-  const pinKeyRimTop = isDarkKeypadTheme
-    ? isNightTheme
-      ? "rgba(249, 252, 255, 0.1)"
-      : "rgba(255, 255, 255, 0.075)"
-    : "transparent";
-  const pinKeyRimBottom = isDarkKeypadTheme
-    ? isNightTheme
-      ? "rgba(80, 112, 162, 0.1)"
-      : "rgba(52, 68, 96, 0.08)"
-    : "transparent";
+  const pinKeyRimTop = "transparent";
+  const pinKeyRimBottom = "transparent";
   const pinKeyBackdropFilter = "none";
   const pinKeyHoverShadow = isDarkKeypadTheme
-    ? isNightTheme
-      ? "0 7px 16px rgba(4, 9, 18, 0.17), 0 1px 3px rgba(7, 13, 24, 0.12), inset 0 0 0 var(--pin-border-w) rgba(198, 222, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -5px 10px rgba(7, 13, 22, 0.13), inset 0 -1px 0 rgba(44, 74, 120, 0.12)"
-      : "0 6px 14px rgba(3, 8, 15, 0.16), 0 1px 3px rgba(8, 13, 21, 0.11), inset 0 0 0 var(--pin-border-w) rgba(214, 228, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -4px 9px rgba(5, 9, 16, 0.12), inset 0 -1px 0 rgba(38, 52, 76, 0.12)"
+    ? isMonoTheme
+      ? pinKeyBoxShadow
+      : isNightTheme
+      ? "0 5px 13px rgba(4, 9, 18, 0.24), inset 0 0 0 1px rgba(198, 222, 255, 0.14)"
+      : "0 5px 13px rgba(3, 8, 15, 0.22), inset 0 0 0 1px rgba(214, 228, 255, 0.12)"
     : pinKeyBoxShadow;
   const pinKeyFocusShadow = isDarkKeypadTheme
     ? `0 0 0 3px rgba(197, 113, 113, 0.18), ${pinKeyHoverShadow}`
@@ -1224,6 +1223,8 @@ export default function LoginModal({
       ? "0 14px 30px rgba(26, 18, 18, 0.15)"
       : isLightTheme
         ? "0 16px 34px rgba(15, 23, 42, 0.1)"
+        : isMonoTheme
+          ? "0 0 14px rgba(230, 230, 230, 0.1), 0 0 32px rgba(230, 230, 230, 0.05)"
         : isNightTheme
           ? "0 0 18px rgba(214, 232, 255, 0.12), 0 0 38px rgba(214, 232, 255, 0.06)"
           : "0 0 14px rgba(248, 253, 255, 0.11), 0 0 32px rgba(248, 253, 255, 0.055)";
@@ -1550,6 +1551,8 @@ export default function LoginModal({
             : "clamp(4.4rem, 7vw, 5.2rem)",
       "--otp-copy-text": isMidTheme
         ? "#4a3833"
+        : isMonoTheme
+          ? "var(--forest-highlight, #c8c8c8)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1557,6 +1560,8 @@ export default function LoginModal({
           : "#e5e7eb",
       "--otp-copy-strong": isMidTheme
         ? "#3f2f2b"
+        : isMonoTheme
+          ? "var(--forest-icon, #e6e6e6)"
         : isNightTheme
           ? "#f3f7ff"
         : isLightTheme
@@ -1564,6 +1569,8 @@ export default function LoginModal({
           : "#f3f4f6",
       "--otp-input-text": isMidTheme
         ? "#4a3833"
+        : isMonoTheme
+          ? "var(--forest-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1571,6 +1578,8 @@ export default function LoginModal({
           : "#e5e7eb",
       "--otp-input-placeholder": isMidTheme
         ? "rgba(82,58,51,0.92)"
+        : isMonoTheme
+          ? "rgba(230,230,230,0.78)"
         : isNightTheme
           ? "rgba(208,223,243,0.9)"
         : isLightTheme
@@ -1578,6 +1587,8 @@ export default function LoginModal({
           : "rgba(229,231,235,0.82)",
       "--otp-input-caret": isMidTheme
         ? "#4a3833"
+        : isMonoTheme
+          ? "var(--forest-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1585,6 +1596,8 @@ export default function LoginModal({
           : "#e5e7eb",
       "--otp-check-shape": isMidTheme
         ? "#4a3833"
+        : isMonoTheme
+          ? "var(--forest-icon, #e6e6e6)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
@@ -1593,11 +1606,21 @@ export default function LoginModal({
       "--otp-check-tick": isLightTheme ? "#7A3A38" : "#c57171",
       "--otp-check-text": isMidTheme
         ? "#4a3833"
+        : isMonoTheme
+          ? "var(--forest-highlight, #c8c8c8)"
         : isNightTheme
           ? "#e6eefb"
         : isLightTheme
           ? "#1f2937"
           : "#e5e7eb",
+      ...(isOtpStep && isMonoTheme ? {
+        "--otp-panel-bg": "var(--glass-ring-surface-bg, rgba(20, 20, 20, 0.62))",
+        "--otp-panel-border": "rgba(214, 214, 214, 0.11)",
+        "--otp-panel-shadow": "0 12px 26px rgba(7, 7, 7, 0.24)",
+        "--otp-input-bg": "var(--forest-input-surface, linear-gradient(180deg, rgba(42, 42, 42, 0.94) 0%, rgba(29, 29, 29, 0.965) 100%))",
+        "--otp-input-border": "rgba(214, 214, 214, 0.16)",
+        "--otp-accent": "var(--forest-title, #c57171)"
+      } : {}),
       "--pin-key-backdrop-filter": pinKeyBackdropFilter,
       "--pin-key-sheen-bg": pinKeySheenBackground,
       "--pin-key-sheen-op": pinKeySheenOpacity,
@@ -1809,7 +1832,7 @@ export default function LoginModal({
                 digit: key
               });
               return <button key={key + String(idx)} type="button" className={["login-keypad-btn", "no-click-pulse", "relative", "grid", "place-items-center", "!w-[var(--pin-btn)]", "!h-[var(--pin-btn)]", "rounded-full", "overflow-hidden", "border-0", "appearance-none", "[-webkit-appearance:none]", "text-[1.6rem]", "max-md:text-[2.02rem]", "font-[360]", "tracking-[0.01em]", "[font-variant-numeric:tabular-nums]", "select-none", "[text-rendering:geometricPrecision]", "[-webkit-font-smoothing:antialiased]", "cursor-pointer", "transition-[transform,background,box-shadow,filter]", "duration-[140ms]", "ease-[cubic-bezier(0.2,1,0.3,1)]", "focus-visible:outline-none", "focus-visible:shadow-[0_0_0_3px_rgba(197,113,113,0.18),0_12px_20px_rgba(0,0,0,0.12)]", "disabled:shadow-none", "disabled:cursor-default", "after:content-['']", "after:absolute", "after:inset-0", "after:rounded-full", "after:pointer-events-none", "after:[background:var(--pin-gloss-bg)]", "after:opacity-[var(--pin-gloss-op)]"].filter(Boolean).join(" ")} style={{
-                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : "rgba(255, 255, 255, 0.95)",
+                color: isLightTheme ? "rgba(31, 41, 55, 0.92)" : isMonoTheme ? "var(--forest-icon, rgba(230, 230, 230, 0.96))" : "rgba(255, 255, 255, 0.95)",
                 background: pinKeyBackground,
                 boxShadow: pinKeyBoxShadow,
                 "--pin-gloss-op": pinGlossOpacityButton,
