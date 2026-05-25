@@ -96,6 +96,14 @@ function buildClipPath(rootWidth, rootHeight, holes) {
   return `path(evenodd, "${outerPath} ${holePaths}")`;
 }
 
+function isScrollableElement(node) {
+  if (!(node instanceof HTMLElement)) return false;
+  const style = getComputedStyle(node);
+  const overflow = `${style.overflow} ${style.overflowX} ${style.overflowY}`;
+  if (!/(auto|scroll|overlay)/.test(overflow)) return false;
+  return node.scrollHeight > node.clientHeight + 1 || node.scrollWidth > node.clientWidth + 1;
+}
+
 export default function useGlassFieldHoleMask({
   rootRef,
   maskLayerRef,
@@ -112,8 +120,23 @@ export default function useGlassFieldHoleMask({
     let freezeGeometryDuringTilt = false;
     let pendingAfterTilt = false;
     let retryCount = 0;
+    const scrollParents = new Set();
 
     const isTiltActive = () => Boolean(window[TILT_ACTIVE_FLAG_KEY]);
+
+    const bindScrollParents = (targets) => {
+      targets.forEach((target) => {
+        let node = target.parentElement;
+        while (node && node !== root.parentElement) {
+          if ((node === root || isScrollableElement(node)) && !scrollParents.has(node)) {
+            node.addEventListener("scroll", scheduleUpdate, { passive: true });
+            scrollParents.add(node);
+          }
+          if (node === root) break;
+          node = node.parentElement;
+        }
+      });
+    };
 
     const clearMask = () => {
       root.style.removeProperty("--glass-field-hole-mask");
@@ -144,6 +167,7 @@ export default function useGlassFieldHoleMask({
       const targets = selectors.flatMap((selector) =>
         Array.from(root.querySelectorAll(selector))
       );
+      bindScrollParents(targets);
       const holes = targets
         .map((target) => localHoleRect(target, root))
         .filter(Boolean);
@@ -262,6 +286,8 @@ export default function useGlassFieldHoleMask({
       settleTimers.forEach((timer) => window.clearTimeout(timer));
       resizeObserver?.disconnect?.();
       mutationObserver?.disconnect?.();
+      scrollParents.forEach((node) => node.removeEventListener("scroll", scheduleUpdate));
+      scrollParents.clear();
       root.removeEventListener("scroll", scheduleUpdate, true);
       root.removeEventListener("animationstart", onAnimationStart);
       root.removeEventListener("animationend", onAnimationEnd);

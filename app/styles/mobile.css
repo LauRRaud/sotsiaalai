@@ -3704,3 +3704,77 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     max-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
 }
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface > .glass-hole-mask-layer {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background:
+    var(--glass-ring-sheen, none),
+    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  -webkit-mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
+  mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] {
+  --card-bg: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 solid transparent !important;
+  box-shadow: var(--mono-field-hole-shadow) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]:is(:hover, :focus-within) {
+  --card-bg: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: var(--mono-field-hole-shadow-hover) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] :is(
+  .ui-glow-control,
+  input,
+  textarea,
+  select,
+  [class*="inner"]
+) {
+  --card-bg: transparent !important;
+  --input-bg: transparent !important;
+  --input-bg-hover: transparent !important;
+  --input-bg-focus: transparent !important;
+  --input-flat-bg: transparent !important;
+  --input-flat-bg-hover: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]::before,
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]::after,
+:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] > [class*="edgeLight"] {
+  display: none !important;
+  opacity: 0 !important;
+}

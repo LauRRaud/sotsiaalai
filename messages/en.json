@@ -574,22 +574,41 @@
         "assistant": "Conversation with the assistant",
         "recipient": "Suitable contacts",
         "draft": "Inquiry draft",
+        "assessment": "Pre-assessment",
+        "assessment_review": "Review the pre-assessment before sending",
         "receiving_settings": "Receiving",
         "received": "Received pre-inquiries",
         "selected_received": "Selected pre-inquiry",
+        "receiver_workflow": "Receiver workflow",
+        "received_assessment_review": "Structured pre-assessment information",
         "saved": "My pre-inquiries"
       },
       "fields": {
         "topic": "Topic",
         "situation": "Situation description",
         "recipient_type": "Recipient type",
-        "recipient_search": "Find recipient"
+        "recipient_search": "Find recipient",
+        "assessment_path": "Pre-assessment path",
+        "concerns_about": "Who the inquiry is about",
+        "urgency": "Urgency",
+        "consent": "Consent or basis for inquiry",
+        "municipality": "Municipality or area",
+        "existing_support": "Existing support",
+        "support_adequacy": "Whether support is sufficient",
+        "person_wish": "Person's own wish",
+        "receiver_note": "Internal note"
       },
       "placeholders": {
         "topic": "Short subject",
         "situation": "Describe the situation, need, or question.",
         "recipient": "Municipality contact, service provider, or area",
-        "draft": "Generated inquiry text"
+        "draft": "Generated inquiry text",
+        "municipality": "For example Tallinn, Poltsamaa parish, or area",
+        "existing_support": "Who or what is helping now?",
+        "support_adequacy": "For example enough, not enough, or the helper is overloaded",
+        "person_wish": "What does the person most want?",
+        "follow_up": "Answer in your own words. You can leave this empty if you do not know.",
+        "receiver_note": "What needs to be clarified or prepared before the next contact?"
       },
       "recipient": {
         "kov": "Municipality contact",
@@ -607,6 +626,26 @@
         "admin_note": "Admin test view; saving applies only to your account.",
         "provider_note": "Receiving channels are managed in the service profile. Addressed pre-inquiries appear here."
       },
+      "assessment": {
+        "note": "The pre-assessment is not an official needs assessment or service decision. It helps think through the situation and prepare the inquiry.",
+        "child_note": "This pre-assessment currently uses core questions for adult life domains. For a child or young person, describe the concern in your own words as well; a separate child and family pre-assessment needs its own questionnaire.",
+        "domains_title": "Life domains",
+        "extra_details": "Additional information and background",
+        "review_note": "The overview gathers exactly the pre-assessment answers and details that go into the saved pre-inquiry and downloadable information.",
+        "receiver_review_note": "The pre-inquiry answers are shown here in structured form. Use the text export when you need all pre-information in one copyable block.",
+        "review_path": "Selected path",
+        "review_progress": "Core question overview",
+        "review_answered": "answered",
+        "review_without_questionnaire": "In this path, the pre-information stays with the situation description and selected background details.",
+        "review_situation": "Situation description",
+        "review_concerns": "Concerns and questions needing clarification",
+        "review_strengths": "Working responses and strengths",
+        "review_unanswered": "Unanswered core questions",
+        "review_directions": "Possible service or contact directions"
+      },
+      "routing": {
+        "confidence": "Contact recommendation confidence"
+      },
       "actions": {
         "save": "Save",
         "copy": "Copy",
@@ -623,6 +662,10 @@
         "assisting": "Preparing...",
         "start_assessment": "Start pre-assessment",
         "prepare_draft": "Prepare letter draft",
+        "send_internal": "Send in platform",
+        "save_workflow": "Save workflow",
+        "mark_ready": "Mark as accepted",
+        "archive": "Archive",
         "show_more_contacts": "Show more contacts",
         "show_less_contacts": "Show less"
       },
@@ -640,12 +683,18 @@
       "download_success": "Inquiry text downloaded.",
       "accept_success": "Pre-inquiry marked as accepted.",
       "preferences_save_success": "Receiving settings saved.",
+      "send_success": "Pre-inquiry sent.",
+      "received_download": "Download pre-information",
+      "receiver_workflow_note": "Use this block to prepare for a meeting or next contact. Notes are visible in the receiver workflow, not in the inquirer's draft.",
+      "workflow_save_success": "Receiver workflow saved.",
       "errors": {
         "load_failed": "Pre-inquiries could not be loaded.",
         "save_failed": "Pre-inquiry could not be saved.",
         "assist_failed": "The assistant could not prepare the pre-inquiry.",
         "accept_failed": "Pre-inquiry could not be accepted.",
         "room_failed": "Conversation room could not be opened.",
+        "internal_recipient_required": "To send in the platform, choose a contact whose account receives pre-inquiries.",
+        "workflow_save_failed": "Receiver workflow could not be saved.",
         "preferences_load_failed": "Receiving settings could not be loaded.",
         "preferences_save_failed": "Receiving settings could not be saved."
       }
@@ -2254,7 +2303,7 @@
         },
         "privacy_safety": {
           "title": "11. Privacy warnings and masking",
-          "body": "<p>If you write personal data into a chat, pre-inquiry, document drafting instruction, or help listing, SotsiaalAI may show a privacy warning before sending. This means the text may contain a name, personal identification code, address, phone number, email address, or another sensitive detail.</p><ul><li><strong>Edit text</strong> keeps the text in the input field and nothing is sent.</li><li><strong>Send masked</strong> replaces sensitive parts with labels such as [address] or [phone number] and sends the masked version.</li><li><strong>Send anyway</strong> may be available only in private or professional workflows. It may not be available in a public help request or help offer.</li></ul><p>When drafting documents, the system may also mask source material before sending it to AI or RAG search. This helps reduce excessive data processing, but the final draft must always be reviewed by a person.</p>"
+          "body": "<p>If the privacy check detects a personal-data signal in text entered into a chat, pre-inquiry, document drafting instruction, or help listing, SotsiaalAI shows a privacy warning before sending. The signal can be a name, personal identification code, address, phone number, email address, or another sensitive detail.</p><ul><li><strong>Edit text</strong> keeps the text in the input field and nothing is sent.</li><li><strong>Send masked</strong> replaces sensitive parts with labels such as [address] or [phone number] and sends the masked version.</li><li><strong>Send anyway</strong> is shown only in private or professional workflows. It is not shown in public help requests or help offers.</li></ul><p>When drafting documents, the system may also mask source material before sending it to AI or RAG search. This helps reduce excessive data processing, but the final draft must always be reviewed by a person.</p>"
         }
       }
     }

@@ -27,7 +27,7 @@ import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const inviteLinkClassName =
   "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
-const INVITE_FIELD_HOLE_SELECTORS = ['[data-glass-field-hole="invite"]'];
+const INVITE_FIELD_HOLE_SELECTORS = ['.invite-glow-field[data-glass-field-hole="invite"]'];
 
 function parseEmails(raw) {
   if (!raw) return [];
@@ -91,6 +91,7 @@ export default function InviteModal() {
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
+  const [maskRootReady, setMaskRootReady] = useState(false);
   const modalContentRef = useRef(null);
   const maskLayerRef = useRef(null);
   const closeTimerRef = useRef(null);
@@ -98,7 +99,7 @@ export default function InviteModal() {
     rootRef: modalContentRef,
     maskLayerRef,
     selectors: INVITE_FIELD_HOLE_SELECTORS,
-    enabled: open,
+    enabled: open && maskRootReady,
   });
   const formatSentenceCase = (text) => {
     const raw = typeof text === "string" ? text.trim() : "";
@@ -134,7 +135,7 @@ export default function InviteModal() {
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalBodyClassName =
     `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1rem] overflow-x-hidden overflow-y-auto overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.9rem] pb-[0.4rem] [scrollbar-gutter:stable_both-edges]"} max-[768px]:gap-[1rem] max-[768px]:px-[0.05rem] max-[768px]:[scrollbar-gutter:auto]`;
-  const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] gap-[0.72rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[0.68rem] ${
+  const inviteFormClassName = `mx-auto grid w-full max-w-[36rem] gap-[1.08rem] max-[768px]:max-w-[23rem] max-[768px]:gap-[1rem] ${
     sponsoredSelected ? "pb-[1.6rem] max-[768px]:pb-[1.25rem]" : ""
   }`;
   const inviteFieldWrapClassName =
@@ -160,11 +161,11 @@ export default function InviteModal() {
   const inviteRefreshButtonClassName =
     "!min-h-[2.22rem] !px-[0.98rem] !py-[0.28rem] !text-[1.12rem] !tracking-[0.026em] max-[768px]:!min-h-[2.2rem] max-[768px]:!w-auto max-[768px]:!min-w-[7rem] max-[768px]:!justify-center max-[768px]:!self-center max-[768px]:!px-[0.78rem] max-[768px]:!py-[0.2rem] max-[768px]:!text-[1.03rem] max-[768px]:!tracking-[0.024em]";
   const inviteSponsorToggleClassName =
-    "!inline-flex !w-fit !justify-center !justify-self-center !self-center !mt-[0.28rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
+    "!inline-flex !w-fit !justify-center !justify-self-center !self-center !mt-[0.56rem] !min-h-[2.72rem] !rounded-[1.6rem] !px-[1.05rem] !py-[0.64rem] !text-[1.06rem] !leading-[1.2] " +
     "[--seg-control-size:1.42rem] [--seg-check-size:1.1rem] " +
     "[&>span.shrink-0]:-translate-y-[0.08rem] " +
     `${inviteOptionButtonClassName} ` +
-    "max-[768px]:!mt-[0.34rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
+    "max-[768px]:!mt-[0.58rem] max-[768px]:!min-h-[2.9rem] max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.12rem]";
   const inviteRoleCardClassName =
     "!w-[min(100%,18.2rem)] !max-w-none !mx-auto !min-h-[2.88rem] !justify-center !rounded-[1.55rem] !px-[1.15rem] !py-[0.66rem] !text-[1.12rem] !leading-[1.2] text-center max-[768px]:!w-[min(100%,18.2rem)] max-[768px]:!max-w-none max-[768px]:!rounded-[1.45rem] max-[768px]:!text-[1.16rem] max-[768px]:!px-[1rem] " +
     `[&>span:last-child]:justify-center [&>span:last-child]:text-center [&>span:last-child]:[text-wrap:balance] ` +
@@ -311,6 +312,10 @@ export default function InviteModal() {
     } catch {
       return false;
     }
+  }, []);
+  const setModalContentRef = useCallback((node) => {
+    modalContentRef.current = node;
+    setMaskRootReady(Boolean(node));
   }, []);
   const handleClose = useCallback(() => {
     const shouldReturnToWorkspace = isWorkspaceReturn;
@@ -555,7 +560,7 @@ export default function InviteModal() {
           : undefined
       }
       contentClassName={inviteModalContentClassName}
-      contentRef={modalContentRef}
+      contentRef={setModalContentRef}
     >
       <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
       <GlassSubpageHeader
@@ -584,8 +589,8 @@ export default function InviteModal() {
           <form className={inviteFormClassName} onSubmit={submit}>
             {!roomId ? (
               <>
-                <div className={inviteFieldWrapClassName} data-glass-field-hole="invite">
-                  <GlowField className={inviteFieldGlowClassName}>
+                <div className={inviteFieldWrapClassName}>
+                  <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
                     <input
                       id="invite-room-title"
                       value={roomTitle}
@@ -597,8 +602,8 @@ export default function InviteModal() {
                     />
                   </GlowField>
                 </div>
-                <div className={inviteFieldWrapClassName} data-glass-field-hole="invite">
-                  <GlowField className={inviteFieldGlowClassName}>
+                <div className={inviteFieldWrapClassName}>
+                  <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
                     <input
                       id="invite-host-name"
                       value={hostDisplayName}
@@ -612,8 +617,8 @@ export default function InviteModal() {
                 </div>
               </>
             ) : null}
-            <div className={inviteFieldWrapClassName} data-glass-field-hole="invite">
-              <GlowField className={inviteFieldGlowClassName}>
+            <div className={inviteFieldWrapClassName}>
+              <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
                 <input
                   id="invite-emails"
                   value={emails}
@@ -766,7 +771,7 @@ export default function InviteModal() {
               type="button"
               variant="primary"
               size="sm"
-              className={`${inviteRefreshButtonClassName} invite-refresh-btn`}
+              className={`${inviteRefreshButtonClassName} invite-primary-btn invite-refresh-btn`}
               onClick={loadInvites}
               disabled={loadingList}
             >

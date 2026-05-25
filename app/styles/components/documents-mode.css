@@ -483,7 +483,7 @@
   --subpage-card-bg-hover: color-mix(in srgb, var(--documents-surface-panel-bg) 96%, transparent);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace-page--library {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) .documents-workspace-page--library {
   --documents-glass-surface: rgba(12, 18, 27, 0.58);
   --documents-panel-bg: var(--documents-glass-surface);
   --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);
@@ -625,7 +625,7 @@
 
 :root.theme-light .documents-workspace.documents-workspace-page--library,
 :root.theme-mid .documents-workspace.documents-workspace-page--library,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .documents-workspace.documents-workspace-page--library,
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) .documents-workspace.documents-workspace-page--library,
 :root.theme-night .documents-workspace.documents-workspace-page--library,
 html[data-contrast="hc"] .documents-workspace.documents-workspace-page--library {
   --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));

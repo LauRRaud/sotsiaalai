@@ -94,6 +94,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
 
 test("invite modal form controls align to the invite list panel width", () => {
   const inviteSource = read("components/invite/InviteModal.jsx");
+  const mobileCss = read("app/styles/mobile.css");
 
   assert.match(
     inviteSource,
@@ -106,6 +107,18 @@ test("invite modal form controls align to the invite list panel width", () => {
   assert.match(
     inviteSource,
     /inviteListCardClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
+  );
+  assert.match(inviteSource, /const \[maskRootReady,\s*setMaskRootReady\]\s*=\s*useState\(false\)/);
+  assert.match(inviteSource, /enabled:\s*open && maskRootReady/);
+  assert.match(inviteSource, /contentRef=\{setModalContentRef\}/);
+  assert.match(inviteSource, /data-glass-field-hole="invite"/);
+  assert.match(
+    mobileCss,
+    /\.invite-modal-content\.glass-field-hole-surface > \.glass-hole-mask-layer\s*\{[\s\S]*?mask-image:\s*var\(--glass-field-hole-mask/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /\.invite-modal-content\.glass-field-hole-surface::before\s*\{[\s\S]*?glass-field-hole-mask/
   );
 });
 

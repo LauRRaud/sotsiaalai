@@ -489,7 +489,7 @@
     },
     "privacy_filter": {
       "heading": "4.10 Privaatsuse eelkontroll ja Privacy Filter",
-      "body": "<p>Platvorm v?ib tundlikes t??voogudes kasutada privaatsuse eelkontrolli, mis tuvastab ja maskeerib tekstis v?imalikke isikuandmeid enne AI-t??tlust, RAG-indekseerimist, dokumendi koostamist, logimist v?i avaliku abikirje salvestamist. Kontroll v?ib p?hineda SotsiaalAI lokaalsel mustrip?hisel filtril ning serveris lokaalselt t??taval OpenAI Privacy Filteri mudelil, kui see on kasutusele v?etud.</p><p>Kui kasutaja sisendis leitakse v?imalikud isikuandmed, v?ib s?steem pakkuda valikuid: kasutaja muudab teksti, s?steem saadab edasi maskeeritud versiooni v?i privaatses t??alases t??voos saadetakse algne tekst edasi kasutaja selge valiku alusel. Avalikes abisoovides ja abipakkumistes kasutatakse rangemat andmete minimeerimist ning algse tundliku tekstiga j?tkamine v?ib olla piiratud.</p><p>Privaatsuse eelkontroll ei taga, et k?ik isikuandmed v?i tundlikud detailid alati leitakse. See on lisakaitse, mis aitab v?hendada juhuslikku ?lem??rast andmet??tlust; kasutaja ja vajaduse korral organisatsioon peavad endiselt hindama ?iguslikku alust, andmete vajalikkust ja sobivat t??voogu.</p>"
+      "body": "<p>Platvorm võib tundlikes töövoogudes kasutada privaatsuse eelkontrolli, mis tuvastab ja maskeerib tekstis võimalikke isikuandmeid enne AI-töötlust, RAG-indekseerimist, dokumendi koostamist, logimist või avaliku abikirje salvestamist. Kontroll võib põhineda SotsiaalAI lokaalsel mustripõhisel filtril ning serveris lokaalselt töötaval OpenAI Privacy Filteri mudelil, kui see on kasutusele võetud.</p><p>Kui kasutaja sisendis leitakse võimalikud isikuandmed, võib süsteem pakkuda valikuid: kasutaja muudab teksti, süsteem saadab edasi maskeeritud versiooni või privaatses tööalases töövoos saadetakse algne tekst edasi kasutaja selge valiku alusel. Avalikes abisoovides ja abipakkumistes kasutatakse rangemat andmete minimeerimist ning algse tundliku tekstiga jätkamine võib olla piiratud.</p><p>Privaatsuse eelkontroll ei taga, et kõik isikuandmed või tundlikud detailid alati leitakse. See on lisakaitse, mis aitab vähendada juhuslikku ülemäärast andmetöötlust; kasutaja ja vajaduse korral organisatsioon peavad endiselt hindama õiguslikku alust, andmete vajalikkust ja sobivat töövoogu.</p>"
     }
   },
   "terms": {
@@ -557,7 +557,7 @@
     },
     "privacy_filter": {
       "heading": "10.1 Privaatsuse eelkontroll ja maskeerimine",
-      "body": "<p>SotsiaalAI v?ib enne AI-t??tlust, RAG-otsingut, dokumendi koostamist, logimist v?i avaliku abikirje salvestamist kontrollida, kas sisend sisaldab isikuandmeid v?i muud tundlikku infot. Kontroll v?ib kasutada nii platvormi enda lokaalseid reegleid kui ka serveris lokaalselt t??tavat OpenAI Privacy Filteri mudelit, kui see on kasutusele v?etud.</p><p>Kui kontroll leiab n?iteks nime, isikukoodi, aadressi, telefoninumbri, e-posti aadressi v?i muu ?ratuntava detaili, v?ib platvorm kuvada hoiatuse ja pakkuda valikuid: muuta teksti, saata tekst maskeeritult v?i lubatud privaatses t??voos j?tkata algse tekstiga. Avalikes abisoovides ja abipakkumistes ei pruugi algse tundliku tekstiga j?tkamine olla lubatud.</p><p>Maskeerimine on andmete minimeerimise abivahend, mitte t?ielik anon??mimine ega ?iguslik garantii. Kasutaja vastutab j?tkuvalt selle eest, et sisestatav info oleks t??voo jaoks vajalik ja et tal oleks selle t??tlemiseks asjakohane alus.</p>"
+      "body": "<p>SotsiaalAI võib enne AI-töötlust, RAG-otsingut, dokumendi koostamist, logimist või avaliku abikirje salvestamist kontrollida, kas sisend sisaldab isikuandmeid või muud tundlikku infot. Kontroll võib kasutada nii platvormi enda lokaalseid reegleid kui ka serveris lokaalselt töötavat OpenAI Privacy Filteri mudelit, kui see on kasutusele võetud.</p><p>Kui kontroll leiab näiteks nime, isikukoodi, aadressi, telefoninumbri, e-posti aadressi või muu äratuntava detaili, võib platvorm kuvada hoiatuse ja pakkuda valikuid: muuta teksti, saata tekst maskeeritult või lubatud privaatses töövoos jätkata algse tekstiga. Avalikes abisoovides ja abipakkumistes ei pruugi algse tundliku tekstiga jätkamine olla lubatud.</p><p>Maskeerimine on andmete minimeerimise abivahend, mitte täielik anonüümimine ega õiguslik garantii. Kasutaja vastutab jätkuvalt selle eest, et sisestatav info oleks töövoo jaoks vajalik ja et tal oleks selle töötlemiseks asjakohane alus.</p>"
     }
   },
   "workspace_feature_pages": {
@@ -574,22 +574,41 @@
         "assistant": "Vestlus assistendiga",
         "recipient": "Sobivad kontaktid",
         "draft": "Pöördumise mustand",
+        "assessment": "Eelkaardistus",
+        "assessment_review": "Vaata eelkaardistus enne saatmist üle",
         "receiving_settings": "Vastuvõtt",
         "received": "Saabunud eelpöördumised",
         "selected_received": "Valitud eelpöördumine",
+        "receiver_workflow": "Vastuvõtja tööplaan",
+        "received_assessment_review": "Eelkaardistuse struktureeritud eelinfo",
         "saved": "Minu eelpöördumised"
       },
       "fields": {
         "topic": "Teema",
         "situation": "Olukorra kirjeldus",
         "recipient_type": "Adressaadi tüüp",
-        "recipient_search": "Otsi adressaati"
+        "recipient_search": "Otsi adressaati",
+        "assessment_path": "Eelkaardistuse viis",
+        "concerns_about": "Kelle kohta pöördumine käib",
+        "urgency": "Kiireloomulisus",
+        "consent": "Nõusolek või pöördumise alus",
+        "municipality": "KOV või piirkond",
+        "existing_support": "Olemasolev abi",
+        "support_adequacy": "Kas abist piisab",
+        "person_wish": "Inimese enda soov",
+        "receiver_note": "Sisemine märge"
       },
       "placeholders": {
         "topic": "Lühike pealkiri",
         "situation": "Kirjelda olukorda, vajadust või küsimust.",
         "recipient": "KOV kontakt, teenuseosutaja või piirkond",
-        "draft": "Koostatud pöördumise tekst"
+        "draft": "Koostatud pöördumise tekst",
+        "municipality": "Näiteks Tallinn, Põltsamaa vald või piirkond",
+        "existing_support": "Kes või mis praegu aitab?",
+        "support_adequacy": "Näiteks piisab, ei piisa või abistaja on ülekoormatud",
+        "person_wish": "Mida inimene ise kõige rohkem soovib?",
+        "follow_up": "Vasta oma sõnadega. Võid jätta tühjaks, kui ei tea.",
+        "receiver_note": "Mida on vaja enne järgmist kontakti täpsustada või ette valmistada?"
       },
       "recipient": {
         "kov": "KOV kontakt",
@@ -607,6 +626,26 @@
         "admin_note": "Admini testvaade; salvestus käib ainult sinu kontole.",
         "provider_note": "Vastuvõtukanalid on teenuseprofiilis. Siin kuvatakse sulle adresseeritud eelpöördumised."
       },
+      "assessment": {
+        "note": "Eelkaardistus ei ole ametlik abivajaduse hindamine ega teenuse määramise otsus. See aitab olukorda läbi mõelda ja pöördumist ette valmistada.",
+        "child_note": "See eelkaardistus lähtub praegu täisealise inimese eluvaldkondade põhiküsimustest. Lapse või noore olukorra puhul kirjelda mure kindlasti ka oma sõnadega; eraldi lapse ja pere eelkaardistus vajab oma küsimustikku.",
+        "domains_title": "Eluvaldkonnad",
+        "extra_details": "Lisainfo ja taust",
+        "review_note": "Ülevaade koondab täpselt need eelkaardistuse vastused ja täpsustused, mis lähevad salvestatud eelpöördumise ning allalaaditava eelinfo juurde.",
+        "receiver_review_note": "Siin on eelpöördumise vastused struktureeritud kujul. Tekstiekspordi saad kasutada siis, kui vajad tervet eelinfot ühe kopeeritava plokina.",
+        "review_path": "Valitud rada",
+        "review_progress": "Põhiküsimuste ülevaade",
+        "review_answered": "vastatud",
+        "review_without_questionnaire": "Selles rajas jääb eelinfo olukorra kirjelduse ja valitud taustandmete juurde.",
+        "review_situation": "Olukorra kirjeldus",
+        "review_concerns": "Mured ja täpsustamist vajavad küsimused",
+        "review_strengths": "Toimivad vastused ja tugevused",
+        "review_unanswered": "Vastamata põhiküsimused",
+        "review_directions": "Võimalikud teenuse- või kontaktisuunad"
+      },
+      "routing": {
+        "confidence": "Kontaktisoovituse kindlus"
+      },
       "actions": {
         "save": "Salvesta",
         "copy": "Kopeeri",
@@ -623,6 +662,10 @@
         "assisting": "Koostan...",
         "start_assessment": "Alusta eelkaardistust",
         "prepare_draft": "Koosta kirja mustand",
+        "send_internal": "Saada platvormis",
+        "save_workflow": "Salvesta tööplaan",
+        "mark_ready": "Märgi vastuvõetuks",
+        "archive": "Arhiveeri",
         "show_more_contacts": "Vaata rohkem kontakte",
         "show_less_contacts": "Näita vähem"
       },
@@ -640,12 +683,18 @@
       "download_success": "Pöördumise tekst laaditi alla.",
       "accept_success": "Eelpöördumine märgiti vastuvõetuks.",
       "preferences_save_success": "Vastuvõtu seaded salvestati.",
+      "send_success": "Eelpöördumine saadetud.",
+      "received_download": "Laadi eelinfo alla",
+      "receiver_workflow_note": "Kasuta seda plokki kohtumise või järgmise kontakti ettevalmistamiseks. Märkmed on nähtavad vastuvõtja töövaates, mitte pöörduja mustandis.",
+      "workflow_save_success": "Vastuvõtja tööplaan salvestati.",
       "errors": {
         "load_failed": "Eelpöördumisi ei saanud laadida.",
         "save_failed": "Eelpöördumist ei saanud salvestada.",
         "assist_failed": "Assistent ei saanud eelpöördumist ette valmistada.",
         "accept_failed": "Eelpöördumist ei saanud vastu võtta.",
         "room_failed": "Vestlusruumi ei saanud avada.",
+        "internal_recipient_required": "Platvormis saatmiseks vali kontakt, kelle konto võtab eelpöördumisi vastu.",
+        "workflow_save_failed": "Vastuvõtja tööplaani ei saanud salvestada.",
         "preferences_load_failed": "Vastuvõtu seadeid ei saanud laadida.",
         "preferences_save_failed": "Vastuvõtu seadeid ei saanud salvestada."
       }
@@ -2249,12 +2298,12 @@
           "body": "<p>Olulisemad lingid leiad avalehe <a href=\"/#meist\">MEIST</a> paneelist.</p><ul><li><strong>Kasutusjuhend.</strong> Avab juhendi lehe.</li><li><strong>Kasutustingimused</strong> ja <strong>privaatsuspoliitika.</strong> Avavad platvormi tingimuste ja andmekasutuse lehed.</li><li><strong>Võimalused.</strong> Kirjeldab töölauda, teadmuspõhja, assistente, abisoove, abipakkumisi, süvauuringut, dokumente, eelpöördumisi, kovisiooni, materjale, teenusekaarti ja teenuseprofiili.</li><li><strong>Hinnastus.</strong> Avab hinnakirja ja pakettide võrdluse.</li><li><strong>Kontaktid.</strong> Avab SotsiaalAI kontaktivaate.</li></ul>"
         },
         "quickstart": {
-          "title": "12. Kiire ?levaade",
+          "title": "12. Kiire ülevaade",
           "body": "<p>Kui soovid kiiresti alustada, liigu nii:</p><ol><li><strong>Vali avalehel roll</strong> ja loo konto.</li><li><strong>Nõustu tingimustega</strong>, kinnita, et oled kasutusjuhendiga tutvunud, ja kinnita seejärel oma e-post.</li><li><strong>Aktiveeri tellimus või sponsoreeritud ligipääs.</strong> Kuutasu on pöördujale 7,99 € kuus ja sotsiaaltöö spetsialistile 14,99 € kuus. Sponsoreeritud ligipääs kehtib tavaliselt ühe kuu ja pärast seda saad vajadusel oma tellimuse aktiveerida.</li><li><strong>Logi sisse</strong> ja ava vestlusleht.</li><li><strong>Kirjuta küsimus</strong> või kirjelda olukorda.</li><li>Vajadusel ava plussmärgist kiirvalikud: abisoov, abipakkumine, süvauuring või dokumendi analüüs.</li><li>Kasuta vasakut ikooniriba vestluste jaoks ning paremat ikooniriba profiili, ruumide ja Töölaua avamiseks. Töölaualt leiad oma rollile sobivad töövahendid.</li><li>Funktsioonide kirjeldused on avalehe <a href=\"/#meist\">MEIST</a> paneelis lingi <a href=\"/voimalused\">Võimalused</a> all ning hinnakirja näed lehel <a href=\"/hinnastus\">Hinnastus</a>.</li><li>Seadeid, kontot ja tellimust saad hallata lehel <a href=\"/profiil\">Profiil</a>.</li></ol>"
         },
         "privacy_safety": {
           "title": "11. Privaatsushoiatused ja maskeerimine",
-          "body": "<p>Kui kirjutad vestlusesse, eelp??rdumisse, dokumendi koostamise juhisesse v?i abikuulutusse isikuandmeid, v?ib SotsiaalAI enne saatmist kuvada privaatsushoiatusse. See t?hendab, et tekstis v?idi tuvastada n?iteks nimi, isikukood, aadress, telefoninumber, e-posti aadress v?i muu tundlik detail.</p><ul><li><strong>Muudan teksti</strong> j?tab teksti sisestusv?ljale alles ja midagi ei saadeta edasi.</li><li><strong>Saada maskeeritult</strong> asendab tundlikud osad m?rgenditega, n?iteks [aadress] v?i [telefoninumber], ning saadab edasi maskeeritud versiooni.</li><li><strong>Saada siiski</strong> v?ib olla n?htav ainult privaatses v?i t??alases t??voos. Avalikus abisoovis v?i abipakkumises ei pruugi seda valikut olla.</li></ul><p>Dokumendi koostamisel v?ib s?steem maskeerida ka allikmaterjali enne AI-le v?i RAG-otsingule edastamist. See aitab v?hendada liigset andmet??tlust, kuid valmis mustand tuleb alati inimesel ?le vaadata.</p>"
+          "body": "<p>Kui privaatsuskontroll tuvastab vestlusesse, eelpöördumisse, dokumendi koostamise juhisesse või abikuulutusse sisestatud tekstis isikuandmete tunnuse, kuvab SotsiaalAI enne saatmist privaatsushoiatuse. Tunnus võib olla näiteks nimi, isikukood, aadress, telefoninumber, e-posti aadress või muu tundlik detail.</p><ul><li><strong>Muudan teksti</strong> jätab teksti sisestusväljale alles ja midagi ei saadeta edasi.</li><li><strong>Saada maskeeritult</strong> asendab tundlikud osad märgenditega, näiteks [aadress] või [telefoninumber], ning saadab edasi maskeeritud versiooni.</li><li><strong>Saada siiski</strong> kuvatakse ainult privaatses või tööalases töövoos. Avalikus abisoovis ja abipakkumises seda valikut ei kuvata.</li></ul><p>Dokumendi koostamisel võib süsteem maskeerida ka allikmaterjali enne AI-le või RAG-otsingule edastamist. See aitab vähendada liigset andmetöötlust, kuid valmis mustand tuleb alati inimesel üle vaadata.</p>"
         }
       }
     }

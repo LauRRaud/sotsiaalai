@@ -34,6 +34,8 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   const rightRail = read("components/chat/RightRail.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
+  const documentsMode = read("app/styles/components/documents-mode.css");
+  const serviceMap = read("app/styles/components/service-map.css");
   const loginModal = read("components/LoginModal.jsx");
   const inviteModal = read("components/invite/InviteModal.jsx");
 
@@ -57,7 +59,9 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.doesNotMatch(mono, /\.home-card-back-logo\s*\{[\s\S]*?filter:\s*grayscale\(1\)\s*saturate\(0\)/);
   assert.match(mono, /\.home-about-title\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
   assert.match(mono, /\.home-before-links \.home-quick-link,[\s\S]*?\.home-before-links \.home-quick-link svg\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
+  assert.match(mono, /\.homepage-root :is\([\s\S]*?\.home-link,[\s\S]*?\.home-scroll-cue-link,[\s\S]*?\.home-before-contact-copy a[\s\S]*?\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;[\s\S]*?-webkit-text-fill-color:\s*var\(--forest-title\) !important;/);
   assert.match(mono, /\.home-before-links \.home-quick-label\s*\{[\s\S]*?color:\s*var\(--forest-highlight\) !important;[\s\S]*?-webkit-text-fill-color:\s*var\(--forest-highlight\) !important;/);
+  assert.match(mono, /\.guide-policy-scroll a,[\s\S]*?\.guide-rich-link[\s\S]*?\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;[\s\S]*?-webkit-text-fill-color:\s*var\(--forest-title\) !important;/);
   assert.match(mono, /\.drawer-panel--chat-glass\s*\{[\s\S]*?--drawer-glass-bg:\s*var\(--glass-ring-surface-bg\)/);
   assert.match(mono, /\.drawer-panel--chat-glass \.drawer-title\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
   assert.match(mono, /--mono-field-hole-bg:\s*transparent;/);
@@ -66,6 +70,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /--mono-field-hole-shadow-hover:[\s\S]*?0 6px 16px rgba\(0,\s*0,\s*0,\s*0\.28\),[\s\S]*?0 18px 24px -18px rgba\(230,\s*230,\s*230,\s*0\.26\);/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;/);
   assert.match(inviteModal, /"invite-glow-field ui-glow-field service-map-toolbar__glow-field "/);
+  assert.match(inviteModal, /className=\{`\$\{inviteRefreshButtonClassName\} invite-primary-btn invite-refresh-btn`\}/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field,[\s\S]*?\.invite-glow-field\.ui-glow-field,[\s\S]*?\.update-pin-content \.ui-glow-field,[\s\S]*?\.update-email-content \.ui-glow-field[\s\S]*?\)\s*\{[\s\S]*?--card-bg:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
   assert.doesNotMatch(mono, /:is\([\s\S]*?\.register-input\.ui-glow-field,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field/);
   assert.match(mono, /\.ui-glow-option-card-frame\s*\{[\s\S]*?--seg-card-bg-hover:\s*var\(--seg-card-bg\) !important;[\s\S]*?--seg-card-shadow-hover:\s*var\(--seg-card-shadow\) !important;/);
@@ -108,8 +113,17 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.chat-tools-menu \.chat-tools-item :is\(svg, path, circle, rect, line, polyline, polygon\)\s*\{[\s\S]*?stroke:\s*var\(--forest-title\) !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) body \.chat-inputbar \.chat-send-btn[\s\S]*?--btn-primary-bg:\s*var\(--forest-orbit-surface\) !important/);
   assert.match(mono, /--home-title-color:\s*var\(--forest-title\)/);
+  assert.match(mono, /--home-scroll-cue-color:\s*var\(--forest-title\)/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?background:\s*var\(--btn-primary-bg\) !important/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.button, \.btn, \.invite-primary-btn[\s\S]*?:is\(:hover, :focus-visible\) \{[\s\S]*?color:\s*var\(--btn-primary-text-hover,\s*var\(--forest-title-soft\)\) !important/);
+  assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?:is\(\.invite-refresh-btn, \.materials-surface-button\)/);
+  assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\) \.materials-page-shell/);
+  assert.match(documentsMode, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.materials-page-shell\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\) !important;[\s\S]*?--input-bg:\s*var\(--forest-input-surface\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.documents-workspace\s*\{[\s\S]*?--documents-dropdown-bg:\s*var\(--forest-tooltip-surface\);[\s\S]*?--documents-dropdown-item-bg:\s*rgb\(28,\s*28,\s*28\);/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.documents-workspace \.documents-dropdown-menu,[\s\S]*?background-color:\s*rgb\(28,\s*28,\s*28\) !important;[\s\S]*?opacity:\s*1 !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-feature-dropdown:not\(\.pre-inquiry-dropdown\) \.documents-dropdown-menu\s*\{[\s\S]*?background-color:\s*rgb\(28,\s*28,\s*28\) !important;[\s\S]*?opacity:\s*1 !important;/);
+  assert.match(serviceMap, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.pre-inquiry-dropdown/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-feature-panel[\s\S]*?--workspace-feature-accent:\s*var\(--forest-title\)/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.drawer-panel--chat-glass :is\(\.drawer-close-btn--chat, \.drawer-close-btn--chat > span\)\s*\{[\s\S]*?color:\s*var\(--forest-title\) !important;/);
   assert.match(infoButton, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.trigger \{[\s\S]*?--page-info-ring-color:\s*var\(--forest-title,\s*#c57171\);[\s\S]*?--page-info-dot-color:\s*var\(--forest-title,\s*#c57171\);/);
@@ -117,6 +131,10 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(leftRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
   assert.match(rightRail, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.tooltip \{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);[\s\S]*?background:\s*linear-gradient\(180deg,\s*rgb\(48,\s*48,\s*48\)/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardIcon\s*\{[\s\S]*?color:\s*var\(--forest-title,\s*#c57171\);/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card\s*\{[\s\S]*?--border-glow-enter-duration:\s*1\.05s;[\s\S]*?--border-glow-exit-duration:\s*1\.35s;[\s\S]*?--glow-color:\s*rgba\(230,\s*230,\s*230,\s*0\.46\) !important;[\s\S]*?--glow-color-10:\s*rgba\(230,\s*230,\s*230,\s*0\.055\) !important;/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card\s*\{[\s\S]*?box-shadow 720ms cubic-bezier\(0\.16,\s*1,\s*0\.3,\s*1\)/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card::after\s*\{[\s\S]*?rgba\(245,\s*245,\s*245,\s*0\.58\)[\s\S]*?0 0 15px rgba\(230,\s*230,\s*230,\s*0\.1\)/);
+  assert.match(workspacePanel, /:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card > :global\(\[class\*="edgeLight"\]\)::before\s*\{[\s\S]*?0 0 16px 1px rgba\(230,\s*230,\s*230,\s*0\.13\)/);
   assert.match(workspacePanel, /:global\(:root\.theme-mono\) \.cardTitle\s*\{[\s\S]*?color:\s*var\(--forest-highlight,\s*#c8c8c8\);/);
   assert.match(orbital, /:root\.theme-mono[\s\S]*?var\(--forest-highlight,\s*#c8c8c8\)/);
   assert.match(orbital, /:root\.theme-mono:not\(\[data-contrast="hc"\]\)[\s\S]*?\.profile-orbit-menu__center\.dock-item\s*\{[\s\S]*?color:\s*var\(--orbit-accent,\s*#c57171\)/);

@@ -46,15 +46,59 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
 test("pre-inquiry assessment uses one questionnaire control set without quick action button rows", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
+  assert.doesNotMatch(source, /pre-inquiry-page-head/);
+  assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.creating_new/);
+  assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.editing_existing/);
   assert.doesNotMatch(source, /pre-inquiry-quick-actions/);
   assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.actions\.start_assessment/);
   assert.doesNotMatch(source, /workspace_feature_pages\.pre_inquiries\.actions\.prepare_draft/);
   assert.doesNotMatch(source, /name="pre-inquiry-subject"/);
   assert.doesNotMatch(source, /name="pre-inquiry-urgency"/);
   assert.doesNotMatch(source, /name="pre-inquiry-consent"/);
-  assert.match(source, /name="pre-inquiry-subject-select"/);
-  assert.match(source, /name="pre-inquiry-urgency-select"/);
-  assert.match(source, /name="pre-inquiry-consent-select"/);
+  assert.doesNotMatch(source, /pre-inquiry-select/);
+  assert.doesNotMatch(source, /<select[\s\S]*?pre-inquiry/);
+  assert.match(source, /pre-inquiry-dropdown--assessment-path/);
+  assert.match(source, /pre-inquiry-dropdown--subject/);
+  assert.match(source, /pre-inquiry-dropdown--urgency/);
+  assert.match(source, /pre-inquiry-dropdown--consent/);
+  assert.match(source, /menuClassName="pre-inquiry-dropdown pre-inquiry-dropdown-menu"/);
+  assert.match(source, /<DocumentsDropdown[\s\S]*?portal/);
+});
+
+test("pre-inquiry dropdowns are custom themed controls, not browser-native menus", () => {
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(css, /\.workspace-feature-dropdown\.pre-inquiry-dropdown \.documents-dropdown-trigger/);
+  assert.match(css, /\.workspace-feature-dropdown\.pre-inquiry-dropdown \.documents-dropdown-menu/);
+  assert.match(css, /:root\.theme-light:not\(\.theme-mid\) \.pre-inquiry-dropdown/);
+  assert.match(css, /:root\.theme-mid \.pre-inquiry-dropdown/);
+  assert.match(css, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.pre-inquiry-dropdown/);
+  assert.match(css, /:root\.theme-night \.pre-inquiry-dropdown/);
+  assert.match(css, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.pre-inquiry-dropdown/);
+  assert.match(css, /html\[data-contrast="hc"\] \.pre-inquiry-dropdown/);
+  assert.match(css, /\.pre-inquiry-field:has\(\.documents-dropdown\.is-open\)\s*\{[\s\S]*?z-index:\s*80/);
+  const fieldRule = css.match(/\.pre-inquiry-field\s*\{(?<body>[\s\S]*?)\}/);
+  assert.ok(fieldRule?.groups?.body);
+  assert.doesNotMatch(fieldRule.groups.body, /opacity/);
+  assert.match(css, /background-color:\s*var\(--pre-inquiry-dropdown-menu-bg\)\s*!important/);
+  assert.match(css, /opacity:\s*1\s*!important/);
+  assert.match(css, /\.documents-dropdown-menu\.pre-inquiry-dropdown-menu/);
+});
+
+test("pre-inquiry panels and extra detail fields keep readable spacing", () => {
+  const source = read("components/workspace/WorkspaceFeaturePage.jsx");
+  const css = read("app/styles/components/service-map.css");
+
+  assert.match(source, /pre-inquiry-extra-grid/);
+  assert.match(source, /pre-inquiry-section-card/);
+  assert.doesNotMatch(source, /md:grid-cols-3/);
+  assert.match(css, /\.pre-inquiry-workspace\s*\{[\s\S]*?row-gap:\s*clamp\(1\.35rem,\s*2\.4vw,\s*1\.85rem\)/);
+  assert.match(css, /\.pre-inquiry-workspace\s*>\s*:where\(\.workspace-feature-glow-card,\s*\.pre-inquiry-details\)\s*\+\s*:where\(\.workspace-feature-glow-card,\s*\.pre-inquiry-details\)/);
+  assert.match(css, /\.pre-inquiry-section-card\s*\{[\s\S]*?margin-block:\s*0\.12rem\s*!important/);
+  assert.match(css, /\.pre-inquiry-section-card\s*\+\s*\.pre-inquiry-section-card\s*\{[\s\S]*?margin-top:\s*clamp\(1rem,\s*1\.8vw,\s*1\.35rem\)\s*!important/);
+  assert.match(css, /\.pre-inquiry-extra-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(min\(100%,\s*20rem\),\s*1fr\)\)/);
+  assert.match(css, /\.pre-inquiry-extra-grid\s+\.documents-field--textarea\s*\{[\s\S]*?min-height:\s*8\.4rem/);
+  assert.match(css, /\.pre-inquiry-extra-grid\s+\.documents-field--textarea\s*\{[\s\S]*?resize:\s*none/);
 });
 
 test("pre-inquiry recipient type filter is optional and aligned with search", () => {

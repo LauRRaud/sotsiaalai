@@ -65,6 +65,26 @@ test("workspace i18n lookups used by role-specific dashboards exist", () => {
   }
 });
 
+test("pre-inquiry translation keys used by the workspace page exist", () => {
+  const source = readFileSync(
+    new URL("../../components/workspace/WorkspaceFeaturePage.jsx", import.meta.url),
+    "utf8"
+  );
+  const keys = [
+    ...source.matchAll(/readText\(t,\s*"((?:workspace_feature_pages\.)?pre_inquiries\.[^"]+|workspace_feature_pages\.pre_inquiries\.[^"]+)"/g)
+  ]
+    .map((match) => match[1])
+    .map((key) => key.startsWith("workspace_feature_pages.") ? key : `workspace_feature_pages.${key}`);
+  const uniqueKeys = [...new Set(keys)].sort();
+
+  for (const locale of locales) {
+    const messages = readMessages(locale);
+    for (const key of uniqueKeys) {
+      assert.notEqual(getMessage(messages, key), undefined, `${locale} is missing ${key}`);
+    }
+  }
+});
+
 test("pre-inquiry workflow is presented as assistant-led, not agent-led", () => {
   const messages = readMessages("et");
   const preInquiries = getMessage(messages, "workspace_feature_pages.pre_inquiries");

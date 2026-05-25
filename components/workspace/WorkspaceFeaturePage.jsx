@@ -793,11 +793,6 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     ? receiverInquiries.find((inquiry) => inquiry.id === activeInquiryId) || null
     : receiverInquiries[0] || null;
   const selectedAssessmentPath = PRE_INQUIRY_ASSESSMENT_PATHS.find((path) => path.id === normalizedAssessmentState.path) || PRE_INQUIRY_ASSESSMENT_PATHS[0];
-  const recipientTypeOptions = [
-    ["", readText(t, "workspace_feature_pages.pre_inquiries.recipient.all", "Kõik sobivad kontaktid")],
-    ["KOV_CONTACT", readText(t, "workspace_feature_pages.pre_inquiries.recipient.kov", "KOV kontakt")],
-    ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.pre_inquiries.recipient.provider", "Teenuseosutaja")]
-  ];
   const activeReceivedInquiryAssessmentReview = useMemo(
     () => activeReceivedInquiry?.assessmentState
       ? buildPreInquiryAssessmentReview(activeReceivedInquiry.assessmentState, {
@@ -1474,16 +1469,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
   return (
     <div className="pre-inquiry-workspace mx-auto grid w-full max-w-[64rem] gap-[0.82rem]">
-      <div className="pre-inquiry-page-head flex flex-wrap items-center justify-between gap-[0.5rem]">
-        <p className={cn(bodyTextClassName, "text-[0.96rem]")}>
-          {`${roleLabel(t, activeRole)} · ${activeInquiryId
-            ? readText(t, "workspace_feature_pages.pre_inquiries.editing_existing", "Avatud salvestatud eelpöördumine")
-            : readText(t, "workspace_feature_pages.pre_inquiries.creating_new", "Uus eelpöördumine")}`}
-        </p>
-        <Button type="button" size="sm" className="w-auto" onClick={handleNewInquiry}>
-          {readText(t, "workspace_feature_pages.pre_inquiries.actions.new", "Uus")}
-        </Button>
-      </div>
+      <Button type="button" size="sm" className="w-auto justify-self-end" onClick={handleNewInquiry}>
+        {readText(t, "workspace_feature_pages.pre_inquiries.actions.new", "Uus")}
+      </Button>
 
       {loading ? <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.loading", "Laen eelpöördumisi...")}</p> : null}
       {error ? (
@@ -1497,69 +1485,65 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </p>
       ) : null}
 
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
+      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.assessment.note", "Eelkaardistus ei ole ametlik abivajaduse hindamine ega teenuse määramise otsus. See aitab olukorda läbi mõelda ja pöördumist ette valmistada.")}
         </p>
         <div className="pre-inquiry-intro">
-          <Label>
+          <div className="pre-inquiry-field">
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.assessment_path", "Eelkaardistuse viis")}</span>
-            <select
-              className="pre-inquiry-select"
-              name="pre-inquiry-assessment-path"
+            <DocumentsDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.pre_inquiries.fields.assessment_path", "Eelkaardistuse viis")}
+              className="workspace-feature-dropdown pre-inquiry-dropdown pre-inquiry-dropdown--assessment-path"
+              menuClassName="pre-inquiry-dropdown pre-inquiry-dropdown-menu"
+              portal
               value={normalizedAssessmentState.path}
-              onChange={(event) => handleAssessmentPathChange(event.target.value)}
-            >
-              {PRE_INQUIRY_ASSESSMENT_PATHS.map((path) => (
-                <option key={path.id} value={path.id}>{path.title}</option>
-              ))}
-            </select>
+              onChange={handleAssessmentPathChange}
+              options={PRE_INQUIRY_ASSESSMENT_PATHS.map((path) => ({ value: path.id, label: path.title }))}
+            />
             {selectedAssessmentPath?.description ? (
               <span className="pre-inquiry-field-hint">{selectedAssessmentPath.description}</span>
             ) : null}
-          </Label>
+          </div>
         </div>
 
         <div className="pre-inquiry-compact-grid">
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pĆ¶Ć¶rdumine kĆ¤ib")}</span>
-            <select
-              className="pre-inquiry-select"
-              name="pre-inquiry-subject-select"
+          <div className="pre-inquiry-field">
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pöördumine käib")}</span>
+            <DocumentsDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pöördumine käib")}
+              className="workspace-feature-dropdown pre-inquiry-dropdown pre-inquiry-dropdown--subject"
+              menuClassName="pre-inquiry-dropdown pre-inquiry-dropdown-menu"
+              portal
               value={normalizedAssessmentState.subject.concernsAbout}
-              onChange={(event) => updateAssessmentSubject("concernsAbout", event.target.value)}
-            >
-              {PRE_INQUIRY_SUBJECT_OPTIONS.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          </Label>
-          <Label>
+              onChange={(value) => updateAssessmentSubject("concernsAbout", value)}
+              options={PRE_INQUIRY_SUBJECT_OPTIONS.map((option) => ({ value: option, label: option }))}
+            />
+          </div>
+          <div className="pre-inquiry-field">
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.urgency", "Kiireloomulisus")}</span>
-            <select
-              className="pre-inquiry-select"
-              name="pre-inquiry-urgency-select"
+            <DocumentsDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.pre_inquiries.fields.urgency", "Kiireloomulisus")}
+              className="workspace-feature-dropdown pre-inquiry-dropdown pre-inquiry-dropdown--urgency"
+              menuClassName="pre-inquiry-dropdown pre-inquiry-dropdown-menu"
+              portal
               value={normalizedAssessmentState.subject.urgency}
-              onChange={(event) => updateAssessmentSubject("urgency", event.target.value)}
-            >
-              {PRE_INQUIRY_URGENCY_OPTIONS.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.consent", "NĆµusolek vĆµi pĆ¶Ć¶rdumise alus")}</span>
-            <select
-              className="pre-inquiry-select"
-              name="pre-inquiry-consent-select"
+              onChange={(value) => updateAssessmentSubject("urgency", value)}
+              options={PRE_INQUIRY_URGENCY_OPTIONS.map((option) => ({ value: option, label: option }))}
+            />
+          </div>
+          <div className="pre-inquiry-field">
+            <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.consent", "Nõusolek või pöördumise alus")}</span>
+            <DocumentsDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.pre_inquiries.fields.consent", "Nõusolek või pöördumise alus")}
+              className="workspace-feature-dropdown pre-inquiry-dropdown pre-inquiry-dropdown--consent"
+              menuClassName="pre-inquiry-dropdown pre-inquiry-dropdown-menu"
+              portal
               value={normalizedAssessmentState.subject.consentStatus}
-              onChange={(event) => updateAssessmentSubject("consentStatus", event.target.value)}
-            >
-              {PRE_INQUIRY_CONSENT_OPTIONS.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          </Label>
+              onChange={(value) => updateAssessmentSubject("consentStatus", value)}
+              options={PRE_INQUIRY_CONSENT_OPTIONS.map((option) => ({ value: option, label: option }))}
+            />
+          </div>
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.municipality", "KOV või piirkond")}</span>
             <ServiceProfileInput
@@ -1664,7 +1648,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
 
         <details className="pre-inquiry-details">
           <summary>{readText(t, "workspace_feature_pages.pre_inquiries.assessment.extra_details", "Lisainfo ja taust")}</summary>
-          <div className="grid gap-[0.62rem] md:grid-cols-3">
+          <div className="pre-inquiry-extra-grid">
           <Label>
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.existing_support", "Olemasolev abi")}</span>
             <ServiceProfileTextarea
@@ -1708,7 +1692,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </details>
       <details className="pre-inquiry-details">
         <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}</summary>
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
+      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
             <BorderGlow
@@ -1821,7 +1805,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </details>
 
       <div className="pre-inquiry-output-grid">
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
+      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
@@ -1927,7 +1911,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </div>
       </SectionCard>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
+      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
         <Label>
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
@@ -1989,7 +1973,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </div>
 
       {showReceivedInquiries ? (
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
+        <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
           <div className="grid gap-[0.52rem]">
             {receivedInquiries.length ? receivedInquiries.map((inquiry) => (
               <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
@@ -2019,7 +2003,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </SectionCard>
       ) : null}
 
-      <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
+      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
         <div className="grid gap-[0.52rem]">
           {savedInquiries.length ? savedInquiries.map((inquiry) => (
             <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">

@@ -55,7 +55,7 @@
   --chat-analysis-preview-blur: 0px;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) {
   --home-panel-bg: rgba(16, 19, 24, 0.84);
   --chat-card-surface-standard-bg: radial-gradient(
     ellipse at top,
@@ -224,7 +224,7 @@
   backdrop-filter: none !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   .drawer-chat-sidebar
   .drawer-chat-card {
   background: var(--chat-card-surface-standard-bg) !important;
@@ -232,7 +232,7 @@
   border-color: var(--subpage-card-border) !important;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   :is(.invite-refresh-btn, .materials-surface-button) {
   --btn-primary-bg: radial-gradient(
       ellipse at top,
@@ -258,7 +258,7 @@
   --btn-primary-shadow-focus: 0 0 0 3px rgba(148, 163, 184, 0.14);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"])
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])
   .drawer-chat-sidebar
   .drawer-pill-btn {
   --btn-primary-bg: radial-gradient(
@@ -286,7 +286,7 @@
 }
 
 /* Materials page in dark mode: keep surfaces matte and remove glow artifacts. */
-:root:not(.theme-light):not(.theme-mid):not(.theme-night) .materials-page-shell {
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono) .materials-page-shell {
   --subpage-card-bg: var(--workspace-elevated-card-bg);
   --subpage-card-bg-hover: var(--workspace-elevated-card-bg-hover);
   --input-bg: rgba(14, 16, 22, 0.78);
@@ -306,7 +306,7 @@
   --framework-panel-shadow: none;
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night)
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono)
   .materials-page-shell
   :is(.materials-upload-choose-button, .materials-upload-submit-button) {
   --btn-primary-bg: radial-gradient(
