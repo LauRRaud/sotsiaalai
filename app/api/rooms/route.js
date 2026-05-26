@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
+import { serializeRoomOrigin } from "@/lib/rooms/origin";
 import { safeError } from "@/lib/privacy/safeError";
 
 export const runtime = "nodejs";
@@ -95,6 +96,10 @@ export async function GET() {
                 id: true,
                 title: true,
                 description: true,
+                originType: true,
+                originId: true,
+                originLabel: true,
+                originMeta: true,
                 helpMatch: {
                   select: {
                     id: true
@@ -175,6 +180,7 @@ export async function GET() {
           description: m.room.description || "",
           role: m.role,
           isHelpMatchRoom: Boolean(m.room.helpMatch?.id),
+          origin: serializeRoomOrigin(m.room),
           memberCount,
           lastMessage: last
             ? {

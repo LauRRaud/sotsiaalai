@@ -31,6 +31,7 @@ import {
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
+import { normalizePreInquiryJourneySharedInfo } from "@/lib/preInquiryJourneySharedInfo";
 import { normalizePreInquiryReceiverChecklist } from "@/lib/preInquiryReceiverWorkflow";
 import {
   PRE_INQUIRY_ASSESSMENT_PATHS,
@@ -532,6 +533,116 @@ function serviceMapEntryMatchesType(entry, entryType) {
   return entry?.type === entryType;
 }
 
+function getInquiryJourneySharedInfo(inquiry) {
+  return normalizePreInquiryJourneySharedInfo(inquiry?.assessmentState?.sharedJourneyInfo);
+}
+
+function isProviderInquiry(inquiry) {
+  return inquiry?.recipientType === "SERVICE_PROVIDER" || inquiry?.recipientEntry?.type === "SERVICE_PROVIDER";
+}
+
+function JourneySharedInfoBlock({ info, t, audience = "client", serviceLabel = "" }) {
+  const sharedInfo = normalizePreInquiryJourneySharedInfo(info);
+  if (!sharedInfo) return null;
+
+  const list = (items) => (Array.isArray(items) ? items.filter(Boolean) : []);
+  const domains = list(sharedInfo.domains);
+  const missingInfo = list(sharedInfo.missingInfo);
+  const suggestedActions = list(sharedInfo.suggestedActions);
+  const isProviderAudience = audience === "provider" || audience === "providerClient";
+  const titleKey = isProviderAudience ? "journey.providerContext.title" : "journey.sharedInfo.title";
+  const titleFallback = isProviderAudience ? "Teenusega seotud eelinfo" : "Teekonnast tulnud eelinfo";
+  const privacyKey =
+    audience === "provider"
+      ? "journey.providerContext.privacyNote"
+      : audience === "providerClient"
+        ? "journey.providerContext.clientPrivacyNote"
+        : audience === "receiver"
+          ? "journey.sharedInfo.receiverPrivacyNote"
+          : "journey.sharedInfo.clientPrivacyNote";
+  const privacyFallback =
+    audience === "provider"
+      ? "Näed ainult selle teenusega seotud kinnitatud eelinfot. Privaatset Teekonda ja assistendivestlust ei jagata automaatselt."
+      : audience === "providerClient"
+        ? "Teenuseosutaja näeb ainult seda infot, mille kinnitad ja saadad konkreetse teenuse kohta. Sinu privaatset Teekonda ega assistendivestlust ei jagata automaatselt."
+        : audience === "receiver"
+          ? "Näed ainult kasutaja kinnitatud eelpöördumise infot. Privaatset Teekonda ja assistendivestlust ei jagata automaatselt."
+          : "Spetsialist näeb ainult seda infot, mille kinnitasid eelpöördumise saatmisel. Privaatset Teekonda ei jagata automaatselt.";
+
+  return (
+    <div className="workspace-feature-list-card grid gap-[0.58rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem]">
+      <div className="grid gap-[0.22rem]">
+        <p className="m-0 text-[0.82rem] font-[760] uppercase tracking-[0.08em] text-[color:var(--title-color,var(--brand-primary,#c57171))]">
+          {readText(t, titleKey, titleFallback)}
+        </p>
+        <p className="m-0 text-[0.92rem] leading-[1.36] opacity-[0.82]">
+          {readText(t, privacyKey, privacyFallback)}
+        </p>
+      </div>
+      {sharedInfo.summary ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">
+            {readText(t, isProviderAudience ? "journey.providerContext.summary" : "journey.sharedInfo.summary", isProviderAudience ? "Olukorra teenusega seotud lühikokkuvõte" : "Olukorra kokkuvõte")}
+          </p>
+          <p className="m-0 whitespace-pre-wrap text-[0.94rem] leading-[1.34] opacity-[0.88]">{sharedInfo.summary}</p>
+        </div>
+      ) : null}
+      {isProviderAudience && serviceLabel ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">
+            {readText(t, "journey.providerContext.serviceQuestion", "Seotud teenus või profiil")}
+          </p>
+          <p className="m-0 text-[0.94rem] leading-[1.34] opacity-[0.88]">{serviceLabel}</p>
+        </div>
+      ) : null}
+      {sharedInfo.primaryPath ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">{readText(t, "journey.sharedInfo.primaryPath", "Võimalik valitud suund")}</p>
+          <p className="m-0 text-[0.94rem] leading-[1.34] opacity-[0.88]">
+            {readText(t, `journey.primary_paths.${sharedInfo.primaryPath}`, sharedInfo.primaryPath)}
+          </p>
+        </div>
+      ) : null}
+      {domains.length ? (
+        <div className="grid gap-[0.22rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">{readText(t, "journey.sharedInfo.domains", "Seotud teemad")}</p>
+          <div className="flex flex-wrap gap-[0.32rem]">
+            {domains.map((item) => (
+              <span key={item} className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">{item}</span>
+            ))}
+          </div>
+        </div>
+      ) : null}
+      {missingInfo.length ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">
+            {readText(t, isProviderAudience ? "journey.providerContext.missingInfo" : "journey.sharedInfo.missingInfo", isProviderAudience ? "Teenuse täpsustamiseks võib olla vaja" : "Võimalikud täpsustamist vajavad andmed")}
+          </p>
+          <ul className="m-0 grid gap-[0.18rem] pl-[1.05rem] text-[0.92rem] leading-[1.34] opacity-[0.86]">
+            {missingInfo.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      ) : null}
+      {suggestedActions.length ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">
+            {readText(t, isProviderAudience ? "journey.providerContext.nextStep" : "journey.sharedInfo.nextStep", "Kasutaja soovitud järgmine samm")}
+          </p>
+          <ul className="m-0 grid gap-[0.18rem] pl-[1.05rem] text-[0.92rem] leading-[1.34] opacity-[0.86]">
+            {suggestedActions.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </div>
+      ) : null}
+      {sharedInfo.contextNote ? (
+        <div className="grid gap-[0.18rem]">
+          <p className="m-0 text-[0.82rem] font-[720] leading-[1.2] opacity-[0.68]">{readText(t, "journey.sharedInfo.contextNote", "Eelpöördumise koostamisel kasutatud lühikontekst")}</p>
+          <p className="m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.34] opacity-[0.86]">{sharedInfo.contextNote}</p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
   const router = useRouter();
   const chatWindowRef = useRef(null);
@@ -800,6 +911,24 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const activeReceivedInquiry = activeInquiryId
     ? receiverInquiries.find((inquiry) => inquiry.id === activeInquiryId) || null
     : receiverInquiries[0] || null;
+  const activeReceivedJourneySharedInfo = useMemo(
+    () => getInquiryJourneySharedInfo(activeReceivedInquiry),
+    [activeReceivedInquiry]
+  );
+  const activeReceivedJourneySharedInfoAudience =
+    activeRole === "SERVICE_PROVIDER" ? "provider" : "receiver";
+  const shouldShowActiveReceivedJourneySharedInfo = Boolean(
+    activeReceivedJourneySharedInfo &&
+    (activeRole !== "SERVICE_PROVIDER" || isProviderInquiry(activeReceivedInquiry))
+  );
+  const activeDraftJourneySharedInfo = useMemo(
+    () => normalizePreInquiryJourneySharedInfo(normalizedAssessmentState.sharedJourneyInfo),
+    [normalizedAssessmentState.sharedJourneyInfo]
+  );
+  const activeDraftJourneySharedInfoAudience =
+    recipientType === "SERVICE_PROVIDER" || selectedRecipient?.type === "SERVICE_PROVIDER"
+      ? "providerClient"
+      : "client";
   const selectedAssessmentPath = PRE_INQUIRY_ASSESSMENT_PATHS.find((path) => path.id === normalizedAssessmentState.path) || PRE_INQUIRY_ASSESSMENT_PATHS[0];
   const activeReceivedInquiryAssessmentReview = useMemo(
     () => activeReceivedInquiry?.assessmentState
@@ -863,6 +992,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         nextAssessmentState.subject.municipalityText = String(prefill.municipality || "");
         nextAssessmentState.supportContext.personWish = String(prefill.personContext || "");
         nextAssessmentState.routing.contactSearchInput.municipalityText = String(prefill.municipality || "");
+        nextAssessmentState.sharedJourneyInfo = normalizePreInquiryJourneySharedInfo(prefill.sharedJourneyInfo);
 
         setActiveInquiryId("");
         setTopic(String(prefill.topic || ""));
@@ -1466,6 +1596,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                 </Button>
               </div>
               <p className={bodyTextClassName}>{activeReceivedInquiry.situation}</p>
+              {shouldShowActiveReceivedJourneySharedInfo ? (
+                <JourneySharedInfoBlock info={activeReceivedJourneySharedInfo} t={t} audience={activeReceivedJourneySharedInfoAudience} serviceLabel={activeReceivedInquiry.selectedRecipientName || ""} />
+              ) : null}
               {activeReceivedInquiry.assessmentState ? (
                 <ServiceProfileTextarea
                   readOnly
@@ -1990,6 +2123,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
         </Label>
         <ServiceProfileTextarea className="pre-inquiry-draft-textarea" value={draft} onChange={(event) => { setDraft(event.target.value); setDraftTouched(true); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.draft", "Koostatud pöördumise tekst")} />
+        {activeDraftJourneySharedInfo ? (
+          <JourneySharedInfoBlock info={activeDraftJourneySharedInfo} t={t} audience={activeDraftJourneySharedInfoAudience} serviceLabel={selectedRecipient?.title || ""} />
+        ) : null}
         {savePrivacyPrompt ? (
           <div className="grid gap-[0.58rem] rounded-[0.9rem] border border-[color:rgba(255,255,255,0.18)] bg-[color:rgba(0,0,0,0.18)] px-[0.82rem] py-[0.72rem] text-[0.94rem] leading-[1.36]">
             <p className="m-0 font-[650]">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { normalizeServiceMapAccessPath, serviceMapAccessPathHasDetails } from "@/lib/serviceMap/accessPath";
 
 const ESTONIA_BOUNDS = [
   [57.45, 21.35],
@@ -186,6 +187,106 @@ function feeLabel(value, t) {
   return "";
 }
 
+function accessPathValueLabel(t, group, value) {
+  const normalized = String(value || "UNKNOWN").toUpperCase();
+  return readText(t, `serviceMap.accessPath.${group}.${normalized}`, normalized);
+}
+
+function yesNoLabel(value, t) {
+  if (value === true) return readText(t, "serviceMap.accessPath.yes", "Jah");
+  if (value === false) return readText(t, "serviceMap.accessPath.no", "Ei");
+  return readText(t, "serviceMap.accessPath.unknownShort", "Teadmata");
+}
+
+function appendAccessPath(parent, entry, t) {
+  const accessPath = normalizeServiceMapAccessPath(entry?.accessPath);
+  const hasDetails = serviceMapAccessPathHasDetails(accessPath);
+  const isHealthContact =
+    accessPath.accessType === "HEALTH_CONTACT_FIRST" ||
+    accessPath.firstStep === "CONTACT_HEALTH_PROVIDER";
+  const section = document.createElement("div");
+  section.className = "service-map-popup__access-path";
+
+  if (isHealthContact) {
+    appendText(
+      section,
+      "p",
+      "service-map-popup__access-path-title",
+      readText(t, "serviceMap.healthContact.title", "Tervisekontakt")
+    );
+    appendText(
+      section,
+      "p",
+      "service-map-popup__access-path-body",
+      readText(t, "serviceMap.healthContact.description", "See kontakt võib sobida tervisega seotud küsimuse esmaseks täpsustamiseks.")
+    );
+    appendText(
+      section,
+      "p",
+      "service-map-popup__access-path-note",
+      readText(t, "serviceMap.healthContact.notMedicalPlatform", "SotsiaalAI ei anna meditsiinilist hinnangut, diagnoosi ega ravisoovitust.")
+    );
+  }
+
+  appendText(
+    section,
+    "p",
+    "service-map-popup__access-path-title",
+    readText(t, "serviceMap.accessPath.title", "Kuidas edasi liikuda?")
+  );
+  appendText(
+    section,
+    "p",
+    "service-map-popup__access-path-body",
+    hasDetails && accessPath.userExplanation
+      ? accessPath.userExplanation
+      : readText(t, "serviceMap.accessPath.unknown", "Teenusele jõudmise täpne loogika vajab kontrollimist. Vaata ametlikku allikat või võta ühendust vastava kontaktiga.")
+  );
+
+  const meta = document.createElement("div");
+  meta.className = "service-map-popup__access-path-meta";
+  appendMeta(meta, readText(t, "serviceMap.accessPath.firstStep", "Esimene samm"), accessPathValueLabel(t, "firstSteps", accessPath.firstStep));
+  if (hasDetails || accessPath.accessType !== "UNKNOWN") {
+    appendMeta(meta, readText(t, "serviceMap.accessPath.accessType", "Ligipääsu tüüp"), accessPathValueLabel(t, "accessTypes", accessPath.accessType));
+  }
+  if (accessPath.decisionBy !== "UNKNOWN") {
+    appendMeta(meta, readText(t, "serviceMap.accessPath.decisionBy", "Kes täpsustab või otsustab"), accessPathValueLabel(t, "decisionByValues", accessPath.decisionBy));
+  }
+  if (accessPath.requiresAssessment !== null) {
+    appendMeta(meta, readText(t, "serviceMap.accessPath.requiresAssessment", "Võib vajada hindamist"), yesNoLabel(accessPath.requiresAssessment, t));
+  }
+  if (accessPath.requiresDecision !== null) {
+    appendMeta(meta, readText(t, "serviceMap.accessPath.requiresDecision", "Võib vajada otsust"), yesNoLabel(accessPath.requiresDecision, t));
+  }
+  if (accessPath.requiresReferral !== null) {
+    appendMeta(meta, readText(t, "serviceMap.accessPath.requiresReferral", "Võib vajada suunamist"), yesNoLabel(accessPath.requiresReferral, t));
+  }
+  appendMeta(meta, readText(t, "serviceMap.accessPath.sourceStatus", "Allika seis"), accessPathValueLabel(t, "sourceStatuses", accessPath.sourceStatus));
+  appendMeta(meta, readText(t, "serviceMap.accessPath.checkedAt", "Viimati kontrollitud"), accessPath.checkedAt);
+  if (meta.childNodes.length) section.appendChild(meta);
+
+  const sourceUrl = safeWebsiteUrl(accessPath.sourceUrl || entry?.sourceUrl);
+  if (sourceUrl) {
+    const actions = document.createElement("div");
+    actions.className = "service-map-popup__actions";
+    appendActionLink(actions, sourceUrl, readText(t, "serviceMap.accessPath.source", "Ametlik allikas"), {
+      target: "_blank",
+      rel: "noreferrer"
+    });
+    section.appendChild(actions);
+  }
+
+  appendText(
+    section,
+    "p",
+    "service-map-popup__access-path-note",
+    readText(t, "serviceMap.accessPath.notDecision", "See info ei ole ametlik hindamine, otsus ega teenuse määramine.")
+  );
+
+  parent.appendChild(section);
+  return section;
+}
+
 function appendServiceItems(parent, entry, t) {
   const services = (entry?.providerProfile?.serviceItems || [])
     .filter((service) => service?.mapVisible !== false && String(service?.status || "PUBLISHED").toUpperCase() === "PUBLISHED")
@@ -237,6 +338,7 @@ function createPopupContent(entry, t) {
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.phone", "Telefon"), entry.phone);
   appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.email", "E-post"), entry.email);
   appendServiceItems(root, entry, t);
+  appendAccessPath(root, entry, t);
 
   const websiteUrl = safeWebsiteUrl(entry.website);
   if (websiteUrl || entry.email) {

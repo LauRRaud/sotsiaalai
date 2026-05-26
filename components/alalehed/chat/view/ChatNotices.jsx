@@ -36,10 +36,46 @@ const recordingNoticeClassName =
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:none] " +
   "border-0 bg-transparent shadow-none backdrop-blur-0 [-webkit-backdrop-filter:none]";
 
+const roomOriginNoticeClassName =
+  "mt-[0.18rem] mb-[0.28rem] self-center mx-auto text-center " +
+  "max-w-[min(34rem,calc(100%-2.2rem))] whitespace-normal " +
+  "border-0 bg-transparent px-0 py-0 shadow-none backdrop-blur-0 [-webkit-backdrop-filter:none] " +
+  "text-[0.82rem] font-[620] leading-[1.34] " +
+  "text-[color:var(--pt-220,var(--title-color,var(--brand-primary,#c57171)))]";
+
+function readText(t, key, fallback) {
+  if (typeof t !== "function") return fallback;
+  try {
+    const value = t(key);
+    return typeof value === "string" && value && value !== key ? value : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function roomOriginText(t, origin) {
+  const type = String(origin?.type || "").trim().toUpperCase();
+  const label = String(origin?.label || "").trim();
+  const textByType = {
+    MANUAL_INVITE: readText(t, "rooms.origin.manualInvite", "Ruum loodi käsitsi kutse kaudu."),
+    PRE_INQUIRY: readText(t, "rooms.origin.preInquiry", "Ruum loodi eelpöördumise järel."),
+    HELP_MATCH: readText(t, "rooms.origin.helpMatch", "Ruum loodi abisoovi ja abipakkumise sobituse põhjal."),
+    SERVICE_PROVIDER_INQUIRY: readText(t, "rooms.origin.serviceProviderInquiry", "Ruum loodi teenusega seotud pöördumise põhjal."),
+    JOURNEY: readText(t, "rooms.origin.journey", "Ruum on seotud Teekonna töövooga, kuid privaatset Teekonda ei jagata automaatselt."),
+    UNKNOWN: readText(t, "rooms.origin.unknown", "Ruumil ei ole määratud päritolu.")
+  };
+  return textByType[type] || label || textByType.UNKNOWN;
+}
+
+function shouldShowRoomOriginPrivacy(origin) {
+  return ["PRE_INQUIRY", "SERVICE_PROVIDER_INQUIRY", "JOURNEY"].includes(String(origin?.type || "").trim().toUpperCase());
+}
+
 export function ChatTopNotices({
-  t: _t,
+  t,
   isRoomMode,
   roomTitle,
+  roomOrigin,
   hideRoomTitle = false,
   isCrisis,
   crisisText,
@@ -58,6 +94,12 @@ export function ChatTopNotices({
     {isRoomMode && !hideRoomTitle && displayRoomTitle ? <AutoFitPageTitle as="div" className={roomTitleClassName} minFontPx={18} disableFit>
       {displayRoomTitle}
     </AutoFitPageTitle> : null}
+    {isRoomMode && roomOrigin ? <div className={roomOriginNoticeClassName}>
+      <span>{roomOriginText(t, roomOrigin)}</span>
+      {shouldShowRoomOriginPrivacy(roomOrigin) ? (
+        <span> {readText(t, "rooms.origin.privacyNote", "Ruumi liikmed näevad ainult ruumis jagatud infot ja kasutaja kinnitatud eelinfot. Privaatset Teekonda ega assistendivestlust ei jagata automaatselt.")}</span>
+      ) : null}
+    </div> : null}
     {isCrisis ? <div role="alert" className={chatAlertClassName}>
       {crisisText}
     </div> : null}

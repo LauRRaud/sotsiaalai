@@ -2560,6 +2560,37 @@ html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrap
   overflow-wrap: anywhere;
 }
 
+.service-map-popup__access-path {
+  display: grid;
+  gap: 0.34rem;
+  padding-top: 0.12rem;
+}
+
+.service-map-popup__access-path-title {
+  color: var(--workspace-feature-accent, #8f3d3d);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.service-map-popup__access-path-body,
+.service-map-popup__access-path-note {
+  color: var(--workspace-feature-muted, #475569);
+  font-size: 0.78rem;
+  line-height: 1.26;
+  overflow-wrap: anywhere;
+}
+
+.service-map-popup__access-path-note {
+  opacity: 0.86;
+}
+
+.service-map-popup__access-path-meta {
+  display: grid;
+  gap: 0.18rem;
+}
+
 .service-map-popup__actions {
   display: flex;
   flex-wrap: wrap;

@@ -40,7 +40,8 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
     roomId: String(roomId || ""),
     roomTitle: "",
     roomRole: "",
-    isHelpMatchRoom: initialIsHelpMatchRoom
+    isHelpMatchRoom: initialIsHelpMatchRoom,
+    roomOrigin: null
   });
   const [useSse, setUseSse] = useState(false);
   const cursorRef = useRef(null);
@@ -89,7 +90,8 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
       roomId: String(roomId || ""),
       roomTitle: String(data.roomTitle || ""),
       roomRole: String(data.roomRole || "").trim().toUpperCase(),
-      isHelpMatchRoom: data.isHelpMatchRoom === true
+      isHelpMatchRoom: data.isHelpMatchRoom === true,
+      roomOrigin: data.roomOrigin && typeof data.roomOrigin === "object" ? data.roomOrigin : null
     });
     const items = Array.isArray(data.messages) ? data.messages.slice().reverse() : [];
     if (reset) {
@@ -159,7 +161,8 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
         roomId: "",
         roomTitle: "",
         roomRole: "",
-        isHelpMatchRoom: false
+        isHelpMatchRoom: false,
+        roomOrigin: null
       });
       return;
     }
@@ -167,7 +170,8 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
       roomId: String(roomId || ""),
       roomTitle: "",
       roomRole: "",
-      isHelpMatchRoom: initialIsHelpMatchRoom
+      isHelpMatchRoom: initialIsHelpMatchRoom,
+      roomOrigin: null
     });
     setMessages([]);
     setBlocked(false);
@@ -191,6 +195,7 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
   const isHelpMatchRoom = metaMatchesRoom
     ? roomMeta.isHelpMatchRoom
     : initialIsHelpMatchRoom;
+  const roomOrigin = metaMatchesRoom ? roomMeta.roomOrigin : null;
   return {
     messages,
     blocked,
@@ -198,6 +203,7 @@ export function useRoomMessages(roomId, pollMs = 3000, options = {}) {
     roomTitle,
     roomRole,
     isHelpMatchRoom,
+    roomOrigin,
     reload: () => load(true),
     setMessages,
     useSse

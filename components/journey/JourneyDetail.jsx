@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Archive, Check, Edit3, FileText, ListChecks, Lock, Map, Route, Save, Send } from "lucide-react";
+import { Archive, Check, Edit3, FileText, HeartPulse, ListChecks, Lock, Map, Route, Save, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -22,6 +22,7 @@ import {
 import { pillInputBaseClassName, textAreaInputBaseClassName } from "@/components/ui/inputClassNames";
 import { localizePath } from "@/lib/localizePath";
 import { buildServiceMapHandoff } from "@/lib/journey/serviceMapHandoff";
+import { buildHealthContactQuestionsDraft, hasHealthContactSignal } from "@/lib/journey/healthContact";
 import { pushWithTransition } from "@/lib/routeTransition";
 
 const PRIMARY_PATH_VALUES = Object.freeze([
@@ -30,6 +31,8 @@ const PRIMARY_PATH_VALUES = Object.freeze([
   "DOCUMENT",
   "HELP_REQUEST",
   "ROOM",
+  "HEALTH_CONTACT",
+  "COMBINED_SOCIAL_HEALTH",
   "GENERAL_SUPPORT",
   "UNKNOWN"
 ]);
@@ -140,6 +143,125 @@ function createFormState(journey) {
   };
 }
 
+function readContextObject(context, key) {
+  const value = context && typeof context === "object" && !Array.isArray(context)
+    ? context[key]
+    : null;
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+
+function createServiceContinuityState(journey) {
+  const continuity = readContextObject(journey?.context, "serviceContinuity");
+  return {
+    serviceName: continuity.serviceName || "",
+    currentProvider: continuity.currentProvider || "",
+    municipality: continuity.municipality || "",
+    hasExistingService: continuity.hasExistingService === false ? "NO" : continuity.hasExistingService === true ? "YES" : "",
+    knownEndDate: continuity.knownEndDate === false ? "NO" : continuity.knownEndDate === true ? "YES" : "",
+    endDate: continuity.endDate || "",
+    hasDecisionOrPlan: continuity.hasDecisionOrPlan === false ? "NO" : continuity.hasDecisionOrPlan === true ? "YES" : "",
+    documentAttached: continuity.documentAttached === true ? "YES" : continuity.documentAttached === false ? "NO" : "",
+    kovAlreadyInvolved: continuity.kovAlreadyInvolved === true ? "YES" : continuity.kovAlreadyInvolved === false ? "NO" : "",
+    providerAlreadyInvolved: continuity.providerAlreadyInvolved === true ? "YES" : continuity.providerAlreadyInvolved === false ? "NO" : "",
+    userGoal: continuity.userGoal || ""
+  };
+}
+
+function toNullableBoolean(value) {
+  if (value === "YES") return true;
+  if (value === "NO") return false;
+  return null;
+}
+
+function mergeUniqueTextItems(existing, additions, maxItems = 12) {
+  const result = [];
+  const seen = new Set();
+  for (const item of [...(Array.isArray(existing) ? existing : []), ...additions]) {
+    const text = typeof item === "string" ? item : item?.title || "";
+    const normalized = String(text || "").trim();
+    const key = normalized.toLocaleLowerCase("et");
+    if (!normalized || seen.has(key)) continue;
+    seen.add(key);
+    result.push(normalized);
+    if (result.length >= maxItems) break;
+  }
+  return result;
+}
+
+function mergeUniqueActions(existing, additions, maxItems = 8) {
+  const result = [];
+  const seen = new Set();
+  for (const action of [...(Array.isArray(existing) ? existing : []), ...additions]) {
+    const title = typeof action === "string" ? action : action?.title || "";
+    const type = typeof action === "object" ? action?.type || "" : "";
+    const normalizedTitle = String(title || "").trim();
+    const normalizedType = String(type || "").trim();
+    const key = `${normalizedType}:${normalizedTitle}`.toLocaleLowerCase("et");
+    if (!normalizedTitle || seen.has(key)) continue;
+    seen.add(key);
+    result.push({
+      title: normalizedTitle,
+      ...(normalizedType ? { type: normalizedType } : {})
+    });
+    if (result.length >= maxItems) break;
+  }
+  return result;
+}
+
+function buildContinuityMissingInfo(form, t) {
+  const missing = [];
+  if (!form.serviceName.trim()) missing.push(t("journey.serviceContinuity.missingServiceName", "teenuse või toe nimetus"));
+  if (!form.currentProvider.trim()) missing.push(t("journey.serviceContinuity.missingCurrentProvider", "praegune teenuseosutaja või kontakt"));
+  if (!form.municipality.trim()) missing.push(t("journey.serviceContinuity.missingMunicipality", "KOV või piirkond"));
+  if (form.knownEndDate === "YES" && !form.endDate.trim()) missing.push(t("journey.serviceContinuity.missingEndDate", "teadaolev lõppkuupäev"));
+  if (!form.hasDecisionOrPlan) missing.push(t("journey.serviceContinuity.missingDecisionOrPlan", "otsus, teenuseplaan, leping, kiri või muu dokument"));
+  if (!form.kovAlreadyInvolved && !form.providerAlreadyInvolved) missing.push(t("journey.serviceContinuity.missingContactAlreadyInvolved", "kas KOV või teenuseosutaja on juba kaasatud"));
+  return missing;
+}
+
+function continuityMissingInfoLabels(t) {
+  return new Set([
+    t("journey.serviceContinuity.missingServiceName", "teenuse või toe nimetus"),
+    t("journey.serviceContinuity.missingCurrentProvider", "praegune teenuseosutaja või kontakt"),
+    t("journey.serviceContinuity.missingMunicipality", "KOV või piirkond"),
+    t("journey.serviceContinuity.missingEndDate", "teadaolev lõppkuupäev"),
+    t("journey.serviceContinuity.missingDecisionOrPlan", "otsus, teenuseplaan, leping, kiri või muu dokument"),
+    t("journey.serviceContinuity.missingContactAlreadyInvolved", "kas KOV või teenuseosutaja on juba kaasatud")
+  ].map((item) => String(item || "").trim().toLocaleLowerCase("et")));
+}
+
+function buildContinuityActions(form, t) {
+  const actions = [
+    {
+      type: "CREATE_PRE_INQUIRY",
+      title: t("journey.serviceContinuity.actionPreInquiry", "Koosta eelpöördumise mustand")
+    },
+    {
+      type: "OPEN_SERVICE_MAP",
+      title: t("journey.serviceContinuity.actionServiceMap", "Ava teenusekaart")
+    }
+  ];
+  if (form.hasDecisionOrPlan === "YES" || form.documentAttached === "NO") {
+    actions.push({
+      type: "ADD_DOCUMENT",
+      title: t("journey.serviceContinuity.actionAddDocument", "Lisa dokument analüüsiks")
+    });
+  }
+  if (form.currentProvider.trim()) {
+    actions.push({
+      type: "CONTACT_PROVIDER",
+      title: t("journey.serviceContinuity.actionContactProvider", "Täpsusta teenuseosutajaga")
+    });
+  }
+  if (form.municipality.trim()) {
+    actions.push({
+      type: "CONTACT_KOV",
+      title: t("journey.serviceContinuity.actionContactKov", "Täpsusta KOV-iga")
+    });
+  }
+  return actions;
+}
+
 function ContentList({ title, items, emptyText, icon: Icon }) {
   const normalized = Array.isArray(items) ? items : [];
   return (
@@ -183,6 +305,44 @@ function FormListField({ id, label, value, onChange, t }) {
   );
 }
 
+function ContinuityTextField({ id, label, value, onChange, placeholder = "", type = "text" }) {
+  return (
+    <div className="grid gap-[0.48rem]">
+      <label className={labelClassName} htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={inputClassName}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+}
+
+function ContinuityChoiceField({ id, label, value, onChange, t }) {
+  return (
+    <div className="grid gap-[0.48rem]">
+      <label className={labelClassName} htmlFor={id}>
+        {label}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={selectClassName}
+      >
+        <option value="">{t("journey.serviceContinuity.unknown", "Ei tea veel")}</option>
+        <option value="YES">{t("journey.serviceContinuity.yes", "Jah")}</option>
+        <option value="NO">{t("journey.serviceContinuity.no", "Ei")}</option>
+      </select>
+    </div>
+  );
+}
+
 export default function JourneyDetail({ journeyId }) {
   const { t, locale } = useI18n();
   const router = useRouter();
@@ -191,6 +351,10 @@ export default function JourneyDetail({ journeyId }) {
   const [form, setForm] = useState(createFormState(null));
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [continuityOpen, setContinuityOpen] = useState(false);
+  const [continuityForm, setContinuityForm] = useState(createServiceContinuityState(null));
+  const [healthDraftOpen, setHealthDraftOpen] = useState(false);
+  const [healthQuestionsDraft, setHealthQuestionsDraft] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [notFound, setNotFound] = useState(false);
@@ -206,6 +370,27 @@ export default function JourneyDetail({ journeyId }) {
   const preInquiryHref = journeyId
     ? localizePath(`/eelpoordumised?fromJourney=${encodeURIComponent(journeyId)}&workspaceRole=CLIENT`, locale)
     : localizePath("/eelpoordumised", locale);
+  const documentsHref = localizePath("/documents", locale);
+  const continuity = useMemo(
+    () => readContextObject(journey?.context, "serviceContinuity"),
+    [journey?.context]
+  );
+  const continuityMissingInfo = useMemo(
+    () => buildContinuityMissingInfo(continuityForm, t),
+    [continuityForm, t]
+  );
+  const continuityActions = useMemo(
+    () => buildContinuityActions(continuityForm, t),
+    [continuityForm, t]
+  );
+  const hasContinuity = useMemo(
+    () => Object.keys(continuity).some((key) => continuity[key] !== "" && continuity[key] !== null && continuity[key] !== undefined),
+    [continuity]
+  );
+  const showHealthContact = useMemo(
+    () => (journey ? hasHealthContactSignal(journey) : false),
+    [journey]
+  );
 
   const handleBack = useCallback(() => {
     pushWithTransition(router, localizePath("/teekond", locale), {
@@ -241,6 +426,7 @@ export default function JourneyDetail({ journeyId }) {
     }
     setJourney(payload.journey || null);
     setForm(createFormState(payload.journey));
+    setContinuityForm(createServiceContinuityState(payload.journey));
   }, [journeyId, status, t]);
 
   useEffect(() => {
@@ -252,6 +438,13 @@ export default function JourneyDetail({ journeyId }) {
 
   const updateForm = useCallback((field, value) => {
     setForm((current) => ({
+      ...current,
+      [field]: value
+    }));
+  }, []);
+
+  const updateContinuityForm = useCallback((field, value) => {
+    setContinuityForm((current) => ({
       ...current,
       [field]: value
     }));
@@ -284,6 +477,7 @@ export default function JourneyDetail({ journeyId }) {
       }
       setJourney(payload.journey);
       setForm(createFormState(payload.journey));
+      setContinuityForm(createServiceContinuityState(payload.journey));
       setEditing(false);
       setNotice(t("journey.messages.updated", "Journey updated."));
     } catch (saveError) {
@@ -313,6 +507,7 @@ export default function JourneyDetail({ journeyId }) {
       }
       setJourney(payload.journey);
       setForm(createFormState(payload.journey));
+      setContinuityForm(createServiceContinuityState(payload.journey));
       setEditing(false);
       setNotice(t("journey.messages.archived", "Journey archived."));
     } catch (archiveError) {
@@ -327,6 +522,84 @@ export default function JourneyDetail({ journeyId }) {
     setEditing(false);
     setError("");
   }, [journey]);
+
+  const handleSaveContinuity = useCallback(async (event) => {
+    event.preventDefault();
+    if (!journey || !journeyId) return;
+    setBusy(true);
+    setError("");
+    setNotice("");
+
+    const serviceContinuity = {
+      serviceName: continuityForm.serviceName.trim(),
+      currentProvider: continuityForm.currentProvider.trim(),
+      municipality: continuityForm.municipality.trim(),
+      hasExistingService: toNullableBoolean(continuityForm.hasExistingService),
+      knownEndDate: toNullableBoolean(continuityForm.knownEndDate),
+      endDate: continuityForm.knownEndDate === "YES" ? continuityForm.endDate.trim() : "",
+      hasDecisionOrPlan: toNullableBoolean(continuityForm.hasDecisionOrPlan),
+      documentAttached: toNullableBoolean(continuityForm.documentAttached),
+      kovAlreadyInvolved: toNullableBoolean(continuityForm.kovAlreadyInvolved),
+      providerAlreadyInvolved: toNullableBoolean(continuityForm.providerAlreadyInvolved),
+      userGoal: continuityForm.userGoal.trim(),
+      updatedAt: new Date().toISOString()
+    };
+    const missingInfo = buildContinuityMissingInfo(continuityForm, t);
+    const continuityMissingLabels = continuityMissingInfoLabels(t);
+    const existingMissingInfo = Array.isArray(journey.missingInfo)
+      ? journey.missingInfo.filter((item) => !continuityMissingLabels.has(String(item || "").trim().toLocaleLowerCase("et")))
+      : [];
+    const suggestedActions = buildContinuityActions(continuityForm, t);
+    const riskSignal = t(
+      "journey.serviceContinuity.riskSignal",
+      "Kasutaja märkis, et olemasolev teenus või tugi võib vajada jätkumise täpsustamist."
+    );
+
+    try {
+      const response = await fetch(`/api/journeys/${encodeURIComponent(journeyId)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          context: {
+            ...(journey.context || {}),
+            serviceContinuity
+          },
+          riskSignals: mergeUniqueTextItems(journey.riskSignals, [riskSignal], 8),
+          missingInfo: mergeUniqueTextItems(existingMissingInfo, missingInfo, 12),
+          suggestedActions: mergeUniqueActions(journey.suggestedActions, suggestedActions, 8)
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.message || t("journey.messages.save_failed", "Saving the journey failed."));
+      }
+      setJourney(payload.journey);
+      setForm(createFormState(payload.journey));
+      setContinuityForm(createServiceContinuityState(payload.journey));
+      setNotice(t("journey.serviceContinuity.saved", "Teenuse jätkumise kontroll salvestati Teekonda."));
+    } catch (continuityError) {
+      setError(continuityError.message || t("journey.messages.save_failed", "Saving the journey failed."));
+    } finally {
+      setBusy(false);
+    }
+  }, [continuityForm, journey, journeyId, t]);
+
+  const handleCreateHealthQuestions = useCallback(() => {
+    if (!journey) return;
+    setHealthQuestionsDraft(buildHealthContactQuestionsDraft(journey, {
+      title: t("journey.healthContact.questionsDraftTitle", "Health contact questions draft"),
+      situationLabel: t("journey.healthContact.draftSituationLabel", "Briefly describe my situation:"),
+      situationPlaceholder: t("journey.healthContact.draftSituationPlaceholder", "[add a short situation description]"),
+      clarificationLabel: t("journey.healthContact.draftClarificationLabel", "I would like to clarify:"),
+      clarificationPlaceholder: t("journey.healthContact.draftClarificationPlaceholder", "[add what you want to clarify with the health contact]"),
+      contactQuestion: t("journey.healthContact.draftContactQuestion", "Should I contact a family doctor center, health center, or official health advice contact about this question?"),
+      preparationQuestion: t("journey.healthContact.draftPreparationQuestion", "What information or document would be useful to prepare before contacting them?"),
+      dailyLifeQuestion: t("journey.healthContact.draftDailyLifeQuestion", "Could this topic affect my daily coping, work, study, or existing support?")
+    }));
+    setHealthDraftOpen(true);
+  }, [journey, t]);
 
   if (status === "loading") {
     return (
@@ -523,6 +796,265 @@ export default function JourneyDetail({ journeyId }) {
                   </Button>
                 </div>
               </section>
+
+              <section className={cardClassName}>
+                <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
+                  <div className="grid gap-[0.36rem]">
+                    <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+                      <ListChecks size={18} aria-hidden="true" />
+                      {t("journey.serviceContinuity.title", "Teenuse jätkumise kontroll")}
+                    </h2>
+                    <p className={bodyTextClassName}>
+                      {t("journey.serviceContinuity.description", "Kui sul on olemasolev teenus, tugi, otsus või plaan, mis võib vajada jätkumise täpsustamist, saad siin info korrastada ja vajadusel koostada eelpöördumise mustandi.")}
+                    </p>
+                    <p className={bodyTextClassName}>
+                      {t("journey.serviceContinuity.notOfficialAssessment", "See on info korrastamise abivahend, mitte ametlik hinnang, otsus ega teenuse määramine. Pädev asutus või spetsialist hindab ja otsustab.")}
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setContinuityOpen((current) => !current)}
+                    disabled={busy}
+                  >
+                    <ListChecks size={17} aria-hidden="true" />
+                    {continuityOpen
+                      ? t("journey.serviceContinuity.close", "Sulge kontroll")
+                      : t("journey.serviceContinuity.open", "Teenuse jätkumise kontroll")}
+                  </Button>
+                </div>
+
+                {hasContinuity ? (
+                  <div className="grid gap-[0.62rem]">
+                    <h3 className="m-0 text-[1rem] font-[720] leading-[1.2] text-[color:var(--glass-modal-text,var(--glass-surface-text,var(--pt-50)))]">
+                      {t("journey.serviceContinuity.summaryTitle", "Teenuse jätkumise kokkuvõte")}
+                    </h3>
+                    <div className="flex flex-wrap gap-[0.42rem]">
+                      {continuity.serviceName ? (
+                        <span className={badgeClassName}>{continuity.serviceName}</span>
+                      ) : null}
+                      {continuity.currentProvider ? (
+                        <span className={badgeClassName}>{continuity.currentProvider}</span>
+                      ) : null}
+                      {continuity.municipality ? (
+                        <span className={badgeClassName}>{continuity.municipality}</span>
+                      ) : null}
+                      {continuity.endDate ? (
+                        <span className={badgeClassName}>
+                          {t("journey.serviceContinuity.endDateValue", { date: continuity.endDate }, "Lõppkuupäev: {date}")}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className={bodyTextClassName}>
+                      {continuity.userGoal || t("journey.serviceContinuity.existingSummaryEmpty", "Kasutaja eesmärk vajab veel täpsustamist.")}
+                    </p>
+                    {continuityMissingInfo.length ? (
+                      <div className="grid gap-[0.42rem]">
+                        <p className={cn(labelClassName, "m-0")}>
+                          {t("journey.serviceContinuity.missingInfo", "Puuduolev info")}
+                        </p>
+                        <div className="flex flex-wrap gap-[0.42rem]">
+                          {continuityMissingInfo.map((item) => (
+                            <span key={item} className={badgeClassName}>{item}</span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                    <p className={bodyTextClassName}>
+                      {t("journey.serviceContinuity.privacyNote", "Kontrolli info jääb sinu privaatse Teekonna konteksti. Seda ei jagata spetsialisti, teenuseosutaja ega ruumi liikmetega enne sinu teadlikku kinnitamist.")}
+                    </p>
+                    <div className="flex flex-wrap gap-[0.56rem]">
+                      <Button as="a" href={preInquiryHref}>
+                        <Send size={17} aria-hidden="true" />
+                        {t("journey.serviceContinuity.createPreInquiry", "Koosta eelpöördumine")}
+                      </Button>
+                      <Button as="a" href={documentsHref} variant="secondary">
+                        <FileText size={17} aria-hidden="true" />
+                        {t("journey.serviceContinuity.addDocument", "Lisa dokument analüüsiks")}
+                      </Button>
+                      <Button as="a" href={serviceMapHref} variant="secondary">
+                        <Map size={17} aria-hidden="true" />
+                        {t("journey.serviceContinuity.openServiceMap", "Ava teenusekaart")}
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+
+                {continuityOpen ? (
+                  <form className="grid gap-[0.82rem]" onSubmit={handleSaveContinuity}>
+                    <div className="grid gap-[0.76rem] md:grid-cols-2">
+                      <ContinuityTextField
+                        id="journey-continuity-service-name"
+                        label={t("journey.serviceContinuity.serviceName", "Teenuse või toe nimetus")}
+                        value={continuityForm.serviceName}
+                        onChange={(value) => updateContinuityForm("serviceName", value)}
+                        placeholder={t("journey.serviceContinuity.serviceNamePlaceholder", "Näiteks koduteenus, tugiisik, rehabilitatsioon")}
+                      />
+                      <ContinuityTextField
+                        id="journey-continuity-provider"
+                        label={t("journey.serviceContinuity.currentProvider", "Praegune teenuseosutaja või kontakt")}
+                        value={continuityForm.currentProvider}
+                        onChange={(value) => updateContinuityForm("currentProvider", value)}
+                        placeholder={t("journey.serviceContinuity.currentProviderPlaceholder", "Teenuseosutaja, KOV kontakt või muu osapool")}
+                      />
+                      <ContinuityTextField
+                        id="journey-continuity-municipality"
+                        label={t("journey.serviceContinuity.municipality", "KOV või piirkond")}
+                        value={continuityForm.municipality}
+                        onChange={(value) => updateContinuityForm("municipality", value)}
+                        placeholder={t("journey.serviceContinuity.municipalityPlaceholder", "Näiteks Tartu linn või oma vald")}
+                      />
+                      <ContinuityTextField
+                        id="journey-continuity-end-date"
+                        label={t("journey.serviceContinuity.endDate", "Lõppkuupäev, kui teada")}
+                        value={continuityForm.endDate}
+                        onChange={(value) => updateContinuityForm("endDate", value)}
+                        placeholder={t("journey.serviceContinuity.endDatePlaceholder", "Kuupäev või vaba kirjeldus")}
+                      />
+                    </div>
+
+                    <div className="grid gap-[0.76rem] md:grid-cols-2">
+                      <ContinuityChoiceField
+                        id="journey-continuity-existing"
+                        label={t("journey.serviceContinuity.hasExistingService", "Kas teenus või tugi on praegu olemas?")}
+                        value={continuityForm.hasExistingService}
+                        onChange={(value) => updateContinuityForm("hasExistingService", value)}
+                        t={t}
+                      />
+                      <ContinuityChoiceField
+                        id="journey-continuity-known-end-date"
+                        label={t("journey.serviceContinuity.knownEndDate", "Kas lõppkuupäev on teada?")}
+                        value={continuityForm.knownEndDate}
+                        onChange={(value) => updateContinuityForm("knownEndDate", value)}
+                        t={t}
+                      />
+                      <ContinuityChoiceField
+                        id="journey-continuity-decision"
+                        label={t("journey.serviceContinuity.hasDecisionOrPlan", "Kas olemas on otsus, plaan, leping, kiri või muu dokument?")}
+                        value={continuityForm.hasDecisionOrPlan}
+                        onChange={(value) => updateContinuityForm("hasDecisionOrPlan", value)}
+                        t={t}
+                      />
+                      <ContinuityChoiceField
+                        id="journey-continuity-document"
+                        label={t("journey.serviceContinuity.documentAttached", "Kas dokument on juba platvormile lisatud?")}
+                        value={continuityForm.documentAttached}
+                        onChange={(value) => updateContinuityForm("documentAttached", value)}
+                        t={t}
+                      />
+                      <ContinuityChoiceField
+                        id="journey-continuity-kov"
+                        label={t("journey.serviceContinuity.kovAlreadyInvolved", "Kas KOV on juba kaasatud?")}
+                        value={continuityForm.kovAlreadyInvolved}
+                        onChange={(value) => updateContinuityForm("kovAlreadyInvolved", value)}
+                        t={t}
+                      />
+                      <ContinuityChoiceField
+                        id="journey-continuity-provider-involved"
+                        label={t("journey.serviceContinuity.providerAlreadyInvolved", "Kas teenuseosutaja on juba kaasatud?")}
+                        value={continuityForm.providerAlreadyInvolved}
+                        onChange={(value) => updateContinuityForm("providerAlreadyInvolved", value)}
+                        t={t}
+                      />
+                    </div>
+
+                    <div className="grid gap-[0.48rem]">
+                      <label className={labelClassName} htmlFor="journey-continuity-user-goal">
+                        {t("journey.serviceContinuity.userGoal", "Mida soovid täpsustada või ette valmistada?")}
+                      </label>
+                      <textarea
+                        id="journey-continuity-user-goal"
+                        value={continuityForm.userGoal}
+                        onChange={(event) => updateContinuityForm("userGoal", event.target.value)}
+                        className={cn(textareaClassName, "min-h-[7.5rem] text-[0.98rem] leading-[1.45]")}
+                        placeholder={t("journey.serviceContinuity.userGoalPlaceholder", "Näiteks soovin saada selgust, küsida jätkumise võimalust, koostada eelpöördumise või lisada dokumendi analüüsiks.")}
+                      />
+                    </div>
+
+                    <div className="grid gap-[0.42rem]">
+                      <p className={cn(labelClassName, "m-0")}>
+                        {t("journey.serviceContinuity.nextSteps", "Võimalikud järgmised sammud")}
+                      </p>
+                      <div className="flex flex-wrap gap-[0.42rem]">
+                        {continuityActions.map((action) => (
+                          <span key={`${action.type || ""}-${action.title}`} className={badgeClassName}>
+                            {action.title}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-[0.62rem]">
+                      <Button type="submit" disabled={busy}>
+                        <Save size={17} aria-hidden="true" />
+                        {t("journey.serviceContinuity.save", "Salvesta kontroll")}
+                      </Button>
+                      <Button type="button" variant="secondary" onClick={() => setContinuityOpen(false)} disabled={busy}>
+                        {t("journey.serviceContinuity.close", "Sulge kontroll")}
+                      </Button>
+                    </div>
+                  </form>
+                ) : null}
+              </section>
+
+              {showHealthContact ? (
+                <section className={cardClassName}>
+                  <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
+                    <div className="grid gap-[0.36rem]">
+                      <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+                        <HeartPulse size={18} aria-hidden="true" />
+                        {t("journey.healthContact.title", "Tervisekontakti võimalus")}
+                      </h2>
+                      <p className={bodyTextClassName}>
+                        {t("journey.healthContact.description", "Sinu kirjelduses võib olla tervisega seotud küsimus. Esmane järgmine samm võib olla perearstikeskus, tervisekeskus või ametlik tervisenõu kontakt.")}
+                      </p>
+                      <p className={bodyTextClassName}>
+                        {t("journey.healthContact.notMedicalAdvice", "SotsiaalAI ei anna meditsiinilist hinnangut, diagnoosi ega ravisoovitust, kuid saab aidata küsimused selgelt sõnastada. Kui on vahetu oht, tuleb pöörduda hädaabinumbrile või erakorralise abi poole.")}
+                      </p>
+                    </div>
+                    <Button type="button" variant="secondary" onClick={handleCreateHealthQuestions} disabled={busy}>
+                      <HeartPulse size={17} aria-hidden="true" />
+                      {t("journey.healthContact.createQuestions", "Koosta küsimused tervisekontaktile")}
+                    </Button>
+                  </div>
+
+                  <p className={bodyTextClassName}>
+                    {t("journey.healthContact.privateNote", "Küsimuste mustand jääb sinu kätte. Seda ei saadeta automaatselt perearstikeskusele, tervisekeskusele ega muule osapoolele.")}
+                  </p>
+
+                  <div className="flex flex-wrap gap-[0.56rem]">
+                    <Button as="a" href={serviceMapHref} variant="secondary">
+                      <Map size={17} aria-hidden="true" />
+                      {t("journey.healthContact.openServiceMap", "Ava teenusekaart")}
+                    </Button>
+                    <Button as="a" href={documentsHref} variant="secondary">
+                      <FileText size={17} aria-hidden="true" />
+                      {t("journey.serviceContinuity.addDocument", "Lisa dokument analüüsiks")}
+                    </Button>
+                    <Button as="a" href={preInquiryHref} variant="secondary">
+                      <Send size={17} aria-hidden="true" />
+                      {t("journey.healthContact.createPreInquiry", "Koosta eelpöördumine")}
+                    </Button>
+                  </div>
+
+                  {healthDraftOpen ? (
+                    <div className="grid gap-[0.48rem]">
+                      <label className={labelClassName} htmlFor="journey-health-contact-draft">
+                        {t("journey.healthContact.questionsDraftTitle", "Küsimuste mustand tervisekontaktile")}
+                      </label>
+                      <textarea
+                        id="journey-health-contact-draft"
+                        value={healthQuestionsDraft}
+                        onChange={(event) => setHealthQuestionsDraft(event.target.value)}
+                        className={cn(textareaClassName, "min-h-[13rem] text-[0.98rem] leading-[1.45]")}
+                      />
+                      <p className={bodyTextClassName}>
+                        {t("journey.healthContact.noAutomaticSharing", "Mustandit ei saadeta automaatselt. Vaata tekst üle, muuda seda vajadusel ja otsusta ise, kas kasutad seda väljaspool platvormi.")}
+                      </p>
+                    </div>
+                  ) : null}
+                </section>
+              ) : null}
 
               {editing ? (
                 <form className={cardClassName} onSubmit={handleSave}>

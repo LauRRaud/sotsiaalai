@@ -6,6 +6,7 @@ import { publishRoomEvent } from "@/lib/roomStream";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
 import { hasRoomBillingAccess } from "@/lib/rooms/access";
+import { serializeRoomOrigin } from "@/lib/rooms/origin";
 import { safeError } from "@/lib/privacy/safeError";
 import { evaluateTextPrivacy, privacyConfirmationResponsePayload } from "@/lib/privacy/privacyGuard";
 
@@ -188,6 +189,10 @@ export async function GET(req, { params }) {
     where: { id: roomId },
     select: {
       title: true,
+      originType: true,
+      originId: true,
+      originLabel: true,
+      originMeta: true,
       helpMatch: {
         select: {
           id: true
@@ -257,6 +262,7 @@ export async function GET(req, { params }) {
     roomTitle: room.title || "",
     roomRole: String(access.member?.role || auth.userRole || "").trim().toUpperCase(),
     isHelpMatchRoom: Boolean(room.helpMatch?.id),
+    roomOrigin: serializeRoomOrigin(room),
     messages: page.map(m => ({
       id: m.id,
       content: m.content,

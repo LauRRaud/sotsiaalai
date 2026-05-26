@@ -4,6 +4,7 @@ import { errorJson, json, localeFromRequest } from "@/lib/documents/server";
 import { getVisiblePreInquiry } from "@/lib/preInquiries";
 import { prisma } from "@/lib/prisma";
 import { safeError } from "@/lib/privacy/safeError";
+import { ROOM_ORIGIN_TYPES, buildRoomOrigin } from "@/lib/rooms/origin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -92,6 +93,16 @@ export async function POST(request, context) {
         ownerId: auth.userId,
         title: buildRoomTitle(inquiry),
         description: `${marker}\nSotsiaalAI eelpoordumise vestlusruum.`,
+        ...buildRoomOrigin({
+          originType: inquiry.recipientType === "SERVICE_PROVIDER"
+            ? ROOM_ORIGIN_TYPES.SERVICE_PROVIDER_INQUIRY
+            : ROOM_ORIGIN_TYPES.PRE_INQUIRY,
+          originId: inquiry.id,
+          originMeta: {
+            recipientType: inquiry.recipientType || "",
+            selectedRecipientName: inquiry.selectedRecipientName || ""
+          }
+        }),
         members: {
           create: uniqueParticipantIds.map((userId) => ({
             userId,

@@ -13,6 +13,7 @@ import {
   makeProviderPaymentId
 } from "@/lib/payments/maksekeskus";
 import { getInviteSponsoredPaymentKind } from "@/lib/payments/recurring";
+import { ROOM_ORIGIN_TYPES, buildRoomOrigin } from "@/lib/rooms/origin";
 import {
   formatEuroAmount,
   getRoleMonthlyAmount,
@@ -189,6 +190,9 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
       data: {
         ownerId: userId,
         title: trimmedTitle,
+        ...buildRoomOrigin({
+          originType: ROOM_ORIGIN_TYPES.MANUAL_INVITE
+        }),
         members: {
           create: {
             userId,
@@ -221,6 +225,9 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
     data: {
       ownerId: userId,
       title: fallbackTitle,
+      ...buildRoomOrigin({
+        originType: ROOM_ORIGIN_TYPES.MANUAL_INVITE
+      }),
       members: {
         create: {
           userId,

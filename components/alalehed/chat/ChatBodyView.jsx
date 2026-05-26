@@ -51,6 +51,7 @@ export default function ChatBodyView({
   analysis,
   isRoomMode,
   roomTitle,
+  roomOrigin,
   hideRoomTitle,
   allowAssistantForward,
   isHelpMatchRoom,
@@ -179,7 +180,7 @@ export default function ChatBodyView({
               {showChatInterface ? listingsPanelNode : null}
               {showChatInterface ? selectedListingContextNode : null}
 
-              {showChatInterface ? <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} hideRoomTitle={hideRoomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} /> : null}
+              {showChatInterface ? <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} roomOrigin={roomOrigin} hideRoomTitle={hideRoomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} /> : null}
 
               {showChatInterface ? roomCallNode : null}
 

@@ -64,14 +64,19 @@
 }
 
 .toolsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.58rem, 1.1vw, 0.84rem);
-  width: 100%;
-  padding: 0.2rem clamp(0.18rem, 0.7vw, 0.4rem) 0.35rem;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: stretch;
+  width: min(100%, clamp(38rem, 76vw, 56rem));
+  min-height: 0;
+  margin: 0 auto;
+  overflow: visible;
+  gap: clamp(0.56rem, 1.1vh, 0.84rem);
+  padding: clamp(0.22rem, 0.8vh, 0.45rem) clamp(0.4rem, 1vw, 0.72rem)
+    clamp(0.48rem, 1.5vh, 0.82rem);
 }
 
-.toolCard,
 .placeholderPanel {
   border: 1px solid var(--wellbeing-card-border) !important;
   background: var(--wellbeing-card-bg) !important;
@@ -79,35 +84,6 @@
   box-shadow: var(--wellbeing-card-shadow) !important;
 }
 
-.toolCard {
-  display: grid;
-  grid-template-columns: clamp(2.35rem, 4.4vw, 2.85rem) minmax(0, 1fr);
-  min-height: clamp(6.2rem, 12vh, 7.7rem);
-  align-items: center;
-  gap: clamp(0.62rem, 1.15vw, 0.86rem);
-  width: 100%;
-  appearance: none;
-  border-radius: 0.94rem;
-  padding: clamp(0.72rem, 1.2vw, 0.9rem);
-  text-align: left;
-  cursor: var(--cursor-pointer);
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.toolCard:hover,
-.toolCard:focus-visible {
-  border-color: var(--wellbeing-card-border-strong) !important;
-  background: var(--wellbeing-card-hover-bg) !important;
-  outline: none;
-  box-shadow:
-    var(--wellbeing-card-shadow),
-    0 0 0 3px var(--wellbeing-focus-ring) !important;
-}
-
-.toolIcon,
 .placeholderIcon {
   display: inline-flex;
   align-items: center;
@@ -115,36 +91,9 @@
   color: var(--title-color, var(--brand-primary, #c57171));
 }
 
-.toolIcon {
-  width: clamp(2.35rem, 4.4vw, 2.85rem);
-  height: clamp(2.35rem, 4.4vw, 2.85rem);
-}
-
-.toolIcon svg,
 .placeholderIcon svg {
   width: 100%;
   height: 100%;
-}
-
-.toolCopy {
-  display: grid;
-  min-width: 0;
-  gap: 0.34rem;
-}
-
-.toolTitle {
-  color: var(--wellbeing-strong-text);
-  font-size: clamp(1.02rem, 1.5vw, 1.16rem);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.12;
-}
-
-.toolDescription {
-  color: var(--wellbeing-muted);
-  font-size: clamp(0.88rem, 1.14vw, 0.96rem);
-  line-height: 1.34;
-  letter-spacing: 0;
 }
 
 .placeholderWrap {
@@ -199,6 +148,449 @@
   padding: 0.64rem 1.05rem !important;
 }
 
+.quickCheck {
+  display: grid;
+  gap: clamp(0.68rem, 1.4vh, 0.95rem);
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 0.2rem clamp(0.36rem, 1vw, 0.68rem) 0.72rem;
+  color: var(--wellbeing-text);
+}
+
+.quickCheckIntro,
+.quickCheckFieldset,
+.quickCheckToggleGroup,
+.quickCheckOutput,
+.quickCheckOutputCard {
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.86rem;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.032)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+}
+
+.quickCheckIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.44fr);
+  gap: clamp(0.72rem, 1.6vw, 1.1rem);
+  align-items: stretch;
+  padding: clamp(0.78rem, 1.6vw, 1rem);
+}
+
+.quickCheckIntro h2,
+.quickCheckOutput h3,
+.quickCheckOutputCard h4,
+.quickCheckFieldset legend,
+.quickCheckToggleGroup legend {
+  color: var(--wellbeing-strong-text);
+  font-family: var(--font-aino), Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.quickCheckIntro h2,
+.quickCheckOutput h3,
+.quickCheckOutputCard h4 {
+  margin: 0;
+}
+
+.quickCheckIntro h2 {
+  font-size: clamp(1.32rem, 2vw, 1.55rem);
+  font-weight: 640;
+  line-height: 1.08;
+}
+
+.quickCheckIntro p,
+.quickCheckOutputCard p,
+.quickCheckActions p,
+.quickCheckPrivacy {
+  margin: 0;
+  color: var(--wellbeing-muted);
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
+
+.quickCheckSignal {
+  display: grid;
+  align-content: center;
+  gap: 0.34rem;
+  border-radius: 0.7rem;
+  padding: 0.72rem;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.quickCheckSignal span {
+  color: var(--wellbeing-strong-text);
+  font-size: 1.12rem;
+  font-weight: 680;
+  line-height: 1;
+}
+
+.quickCheckSignal_green {
+  border: 1px solid rgba(76, 175, 124, 0.34);
+}
+
+.quickCheckSignal_clear,
+.quickCheckSignal_manageable,
+.quickCheckSignal_no_immediate_danger {
+  border: 1px solid rgba(76, 175, 124, 0.34);
+}
+
+.quickCheckSignal_yellow {
+  border: 1px solid rgba(231, 184, 95, 0.4);
+}
+
+.quickCheckSignal_prioritize,
+.quickCheckSignal_needs_attention,
+.quickCheckSignal_needs_clarification {
+  border: 1px solid rgba(231, 184, 95, 0.4);
+}
+
+.quickCheckSignal_red {
+  border: 1px solid rgba(213, 105, 105, 0.48);
+}
+
+.quickCheckSignal_needs_agreement,
+.quickCheckSignal_organizational_support,
+.quickCheckSignal_urgent_attention {
+  border: 1px solid rgba(213, 105, 105, 0.48);
+}
+
+.quickCheckGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.62rem, 1.2vw, 0.82rem);
+}
+
+.quickCheckFieldset,
+.quickCheckToggleGroup,
+.quickCheckOutput {
+  min-width: 0;
+  padding: clamp(0.72rem, 1.45vw, 0.96rem);
+}
+
+.quickCheckFieldset {
+  display: grid;
+  gap: 0.56rem;
+}
+
+.quickCheckFieldset legend,
+.quickCheckToggleGroup legend {
+  padding: 0 0.18rem;
+  font-size: 1rem;
+  font-weight: 640;
+}
+
+.quickCheckField {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(9.5rem, 0.54fr);
+  gap: 0.62rem;
+  align-items: center;
+  color: var(--wellbeing-text);
+  font-size: 0.93rem;
+  line-height: 1.2;
+}
+
+.quickCheckField select {
+  width: 100%;
+  min-height: 2.24rem;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.56rem;
+  background: rgba(12, 12, 14, 0.58);
+  color: var(--wellbeing-strong-text);
+  padding: 0.38rem 0.52rem;
+  font: inherit;
+}
+
+.quickCheckToggleGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.52rem 0.78rem;
+}
+
+.quickCheckToggleGroup label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: var(--wellbeing-text);
+  font-size: 0.94rem;
+}
+
+.quickCheckToggleGroup input {
+  accent-color: var(--title-color, var(--brand-primary, #c57171));
+}
+
+.quickCheckOutput {
+  display: grid;
+  gap: 0.68rem;
+}
+
+.quickCheckOutput h3 {
+  font-size: 1.08rem;
+  font-weight: 640;
+}
+
+.quickCheckOutputGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.56rem;
+}
+
+.quickCheckOutputCard {
+  display: grid;
+  align-content: start;
+  gap: 0.42rem;
+  padding: 0.64rem;
+}
+
+.quickCheckOutputCard h4 {
+  font-size: 0.94rem;
+  font-weight: 640;
+}
+
+.quickCheckOutputCard ul {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0;
+  padding-left: 1.08rem;
+  color: var(--wellbeing-muted);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.quickCheckOutputCard textarea {
+  width: 100%;
+  min-height: 8rem;
+  resize: vertical;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.72rem;
+  padding: 0.64rem 0.7rem;
+  color: var(--wellbeing-text);
+  background: rgba(0, 0, 0, 0.16);
+  font: inherit;
+  line-height: 1.38;
+}
+
+.quickCheckOutputCard pre {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  max-height: 18rem;
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--wellbeing-text);
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.38;
+}
+
+.quickCheckActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.quickCheckActions :global(.btn) {
+  min-height: 2.35rem !important;
+}
+
+.quickCheckPrivacy {
+  max-width: 44rem;
+}
+
+.quickCheckSaveStatus {
+  min-height: 1.2rem;
+  margin: -0.22rem 0 0;
+  color: var(--wellbeing-muted);
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.overviewWorkflow {
+  display: grid;
+  gap: clamp(0.68rem, 1.4vh, 0.95rem);
+  width: min(100%, 52rem);
+  margin: 0 auto;
+  padding: 0.2rem clamp(0.36rem, 1vw, 0.68rem) 0.72rem;
+  color: var(--wellbeing-text);
+}
+
+.overviewPeriodTabs {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-self: start;
+  width: min(100%, 24rem);
+  min-height: 2.38rem;
+  padding: 0.18rem;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.72rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.overviewPeriodTab {
+  min-width: 0;
+  min-height: 2rem;
+  border: 0;
+  border-radius: 0.54rem;
+  padding: 0.34rem 0.56rem;
+  color: var(--wellbeing-muted);
+  background: transparent;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 620;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.overviewPeriodTab:hover,
+.overviewPeriodTab:focus-visible {
+  color: var(--wellbeing-strong-text);
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.overviewPeriodTab_active {
+  color: var(--wellbeing-strong-text);
+  background: rgba(197, 113, 113, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(197, 113, 113, 0.28);
+}
+
+.overviewDemandCard {
+  border-color: rgba(231, 184, 95, 0.42);
+  background:
+    linear-gradient(145deg, rgba(231, 184, 95, 0.12), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+}
+
+.overviewResourceCard {
+  border-color: rgba(94, 178, 164, 0.4);
+  background:
+    linear-gradient(145deg, rgba(94, 178, 164, 0.12), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+}
+
+.overviewRiskCard {
+  border-color: rgba(213, 105, 105, 0.46);
+  background:
+    linear-gradient(145deg, rgba(213, 105, 105, 0.13), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+}
+
+.overviewActionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.overviewActionList li {
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 999px;
+  padding: 0.34rem 0.58rem;
+  color: var(--wellbeing-strong-text);
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 0.9rem;
+}
+
+.recoveryPlanGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.62rem;
+}
+
+.recoveryPlanGrid pre {
+  min-height: 13rem;
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.86rem;
+  padding: 0.78rem;
+  color: var(--wellbeing-text);
+  background: rgba(0, 0, 0, 0.18);
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.42;
+}
+
+.supportPanel {
+  display: grid;
+  gap: 0.72rem;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.92rem;
+  padding: clamp(0.76rem, 1.6vw, 1rem);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.supportPanelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.72rem;
+}
+
+.supportPanelHeader h3 {
+  margin: 0 0 0.24rem;
+  color: var(--wellbeing-strong-text);
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  line-height: 1.15;
+}
+
+.supportPanelHeader p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--wellbeing-muted);
+  font-size: 0.94rem;
+  line-height: 1.42;
+}
+
+.supportOptions,
+.supportActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.supportDraftEditor {
+  display: grid;
+  gap: 0.58rem;
+}
+
+.supportDraftEditor textarea {
+  width: 100%;
+  min-height: 13rem;
+  resize: vertical;
+  border: 1px solid var(--wellbeing-card-border);
+  border-radius: 0.72rem;
+  padding: 0.7rem 0.78rem;
+  color: var(--wellbeing-text);
+  background: rgba(0, 0, 0, 0.16);
+  font: inherit;
+  line-height: 1.42;
+}
+
+.supportReviewChecks {
+  display: grid;
+  gap: 0.42rem;
+  color: var(--wellbeing-muted);
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.supportReviewChecks label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.44rem;
+}
+
+.supportStatus {
+  margin-top: 0;
+}
+
 @media (max-width: 768px) {
   .page {
     --wellbeing-mobile-page-gap: clamp(0.18rem, 0.8vw, 0.32rem);
@@ -218,29 +610,54 @@
   }
 
   .toolsGrid {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    justify-content: stretch;
+    width: min(100%, 100%);
+    height: 100%;
+    min-height: 0;
+    margin-top: clamp(0.28rem, 0.82vh, 0.52rem);
+    gap: clamp(0.32rem, 0.9vh, 0.48rem);
+    padding: clamp(0.04rem, 0.2vh, 0.08rem) clamp(0.2rem, 1vw, 0.38rem)
+      clamp(0.18rem, 0.7vh, 0.38rem);
+  }
+
+  .quickCheck {
+    width: 100%;
+    gap: 0.58rem;
+    padding-inline: 0.08rem;
+  }
+
+  .overviewWorkflow {
+    width: 100%;
+    gap: 0.58rem;
+    padding-inline: 0.08rem;
+  }
+
+  .quickCheckIntro,
+  .quickCheckGrid,
+  .quickCheckOutputGrid,
+  .recoveryPlanGrid {
     grid-template-columns: 1fr;
-    gap: clamp(0.42rem, 1vh, 0.58rem);
-    padding-inline: 0.06rem;
   }
 
-  .toolCard {
-    grid-template-columns: 2.2rem minmax(0, 1fr);
-    min-height: 5.4rem;
-    border-radius: 0.82rem;
-    padding: 0.68rem;
+  .quickCheckField {
+    grid-template-columns: 1fr;
+    gap: 0.32rem;
   }
 
-  .toolIcon {
-    width: 2.2rem;
-    height: 2.2rem;
+  .quickCheckToggleGroup {
+    display: grid;
   }
 
-  .toolTitle {
-    font-size: 0.98rem;
+  .quickCheckActions {
+    display: grid;
   }
 
-  .toolDescription {
-    font-size: 0.88rem;
-    line-height: 1.28;
+  .supportPanelHeader,
+  .supportOptions,
+  .supportActions {
+    display: grid;
   }
 }

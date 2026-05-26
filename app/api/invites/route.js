@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { safeError } from "@/lib/privacy/safeError";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { getRequestIpFromRequest } from "@/lib/request-ip";
+import { ROOM_ORIGIN_TYPES, buildRoomOrigin } from "@/lib/rooms/origin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -186,6 +187,9 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
       data: {
         ownerId: userId,
         title: trimmedTitle,
+        ...buildRoomOrigin({
+          originType: ROOM_ORIGIN_TYPES.MANUAL_INVITE
+        }),
         members: {
           create: {
             userId,
@@ -211,6 +215,9 @@ async function ensureRoom(userId, roomId, roomTitle, ownerDisplayName, locale) {
     data: {
       ownerId: userId,
       title: fallbackTitle,
+      ...buildRoomOrigin({
+        originType: ROOM_ORIGIN_TYPES.MANUAL_INVITE
+      }),
       members: {
         create: {
           userId,

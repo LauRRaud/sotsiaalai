@@ -3,20 +3,23 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Activity,
+  BadgeCheck,
   BriefcaseBusiness,
+  BookOpenCheck,
+  CalendarClock,
   ChartNoAxesCombined,
   ClipboardCheck,
-  Clock,
+  ClipboardList,
   FileText,
   Gauge,
-  HeartHandshake,
-  HeartPulse,
+  Handshake,
+  MessageCircleWarning,
   MessageSquare,
-  Repeat,
+  OctagonAlert,
   ShieldAlert,
   TriangleAlert,
-  Users
+  Users,
+  Workflow
 } from "lucide-react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BorderGlow from "@/components/ui/BorderGlow";
@@ -34,25 +37,39 @@ import {
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import { WELLBEING_INFO_ID, wellbeingTools } from "@/lib/wellbeingTools";
+import workspaceStyles from "@/components/chat/WorkspacePanel.module.css";
+import HardCaseWorkflow from "./HardCaseWorkflow";
+import InterruptionsWorkflow from "./InterruptionsWorkflow";
+import OverviewWorkflow from "./OverviewWorkflow";
+import QuickCheckWorkflow from "./QuickCheckWorkflow";
+import RecoveryWorkflow from "./RecoveryWorkflow";
+import RoleBoundariesWorkflow from "./RoleBoundariesWorkflow";
+import StarterSupportWorkflow from "./StarterSupportWorkflow";
+import WorkplaceViolenceWorkflow from "./WorkplaceViolenceWorkflow";
+import WorkBoundariesWorkflow from "./WorkBoundariesWorkflow";
+import WorkProcessesWorkflow from "./WorkProcessesWorkflow";
 import styles from "./WellbeingPage.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
 const iconMap = {
-  Activity,
+  BadgeCheck,
   BriefcaseBusiness,
+  BookOpenCheck,
+  CalendarClock,
   ChartNoAxesCombined,
   ClipboardCheck,
-  Clock,
+  ClipboardList,
   FileText,
   Gauge,
-  HeartHandshake,
-  HeartPulse,
+  Handshake,
+  MessageCircleWarning,
   MessageSquare,
-  Repeat,
+  OctagonAlert,
   ShieldAlert,
   TriangleAlert,
-  Users
+  Users,
+  Workflow
 };
 
 const shellClassName =
@@ -67,7 +84,15 @@ const surfaceClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(49rem,100%)] content-start gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} mx-auto flex w-full max-w-[min(56rem,100%)] min-h-0 flex-1 flex-col gap-[0.7rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+
+const wellbeingToolRows = Object.freeze(
+  wellbeingTools.reduce((rows, tool, index) => {
+    if (index % 2 === 0) rows.push([tool]);
+    else rows[rows.length - 1].push(tool);
+    return rows;
+  }, [])
+);
 
 function markChatWorkspaceRestore() {
   if (typeof window === "undefined") return;
@@ -80,7 +105,7 @@ function markChatWorkspaceRestore() {
 }
 
 function ToolIcon({ name }) {
-  const Icon = iconMap[name] || HeartPulse;
+  const Icon = iconMap[name] || ClipboardList;
   return <Icon aria-hidden="true" focusable="false" strokeWidth={1.7} />;
 }
 
@@ -129,7 +154,27 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
             {title}
           </GlassSubpageHeader>
 
-          {activeTool ? (
+          {activeTool?.id === "quick-check" ? (
+            <QuickCheckWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "overview" ? (
+            <OverviewWorkflow />
+          ) : activeTool?.id === "hard-case" ? (
+            <HardCaseWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "workplace-violence" ? (
+            <WorkplaceViolenceWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "recovery" ? (
+            <RecoveryWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "work-boundaries" ? (
+            <WorkBoundariesWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "interruptions" ? (
+            <InterruptionsWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "work-processes" ? (
+            <WorkProcessesWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "role-boundaries" ? (
+            <RoleBoundariesWorkflow onNavigate={navigate} />
+          ) : activeTool?.id === "starter-support" ? (
+            <StarterSupportWorkflow onNavigate={navigate} />
+          ) : activeTool ? (
             <div className={styles.placeholderWrap}>
               <BorderGlow
                 as="section"
@@ -165,36 +210,42 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
             </div>
           ) : (
             <div
-              className={styles.toolsGrid}
+              className={cn(styles.toolsGrid, workspaceStyles.grid)}
               aria-label={t("chat.workspace.wellbeing_page.tools_label", "Tööheaolu tööriistad")}
             >
-              {wellbeingTools.map((tool) => (
-                <BorderGlow
-                  key={tool.id}
-                  as="button"
-                  type="button"
-                  className={styles.toolCard}
-                  onClick={() => navigate(tool.route)}
-                  edgeSensitivity={24}
-                  glowColor="358 82 72"
-                  backgroundColor="var(--wellbeing-card-bg, #120F17)"
-                  borderRadius={15}
-                  glowRadius={42}
-                  glowIntensity={0.62}
-                  coneSpread={20}
-                  colors={["#c084fc", "#f472b6", "#38bdf8"]}
-                  fillOpacity={0}
-                  edgeOnly
-                  aria-label={`${tool.title}. ${tool.description}`}
+              {wellbeingToolRows.map((row, index) => (
+                <div
+                  key={`wellbeing-row-${index + 1}`}
+                  className={cn(workspaceStyles.row, row.length === 1 && workspaceStyles.rowSingle)}
                 >
-                  <span className={styles.toolIcon}>
-                    <ToolIcon name={tool.icon} />
-                  </span>
-                  <span className={styles.toolCopy}>
-                    <span className={styles.toolTitle}>{tool.title}</span>
-                    <span className={styles.toolDescription}>{tool.description}</span>
-                  </span>
-                </BorderGlow>
+                  {row.map((tool) => (
+                    <BorderGlow
+                      key={tool.id}
+                      as="button"
+                      type="button"
+                      className={cn("workspace-dashboard-card", workspaceStyles.card)}
+                      onClick={() => navigate(tool.route)}
+                      edgeSensitivity={30}
+                      glowColor="358 82 72"
+                      backgroundColor="#120F17"
+                      borderRadius={13}
+                      glowRadius={42}
+                      glowIntensity={0.72}
+                      coneSpread={20}
+                      colors={["#c084fc", "#f472b6", "#38bdf8"]}
+                      fillOpacity={0}
+                      edgeOnly
+                      aria-label={`${tool.title}. ${tool.description}`}
+                    >
+                      <span className={workspaceStyles.cardIcon} aria-hidden="true">
+                        <ToolIcon name={tool.icon} />
+                      </span>
+                      <span className={workspaceStyles.cardCopy}>
+                        <span className={workspaceStyles.cardTitle}>{tool.title}</span>
+                      </span>
+                    </BorderGlow>
+                  ))}
+                </div>
               ))}
             </div>
           )}

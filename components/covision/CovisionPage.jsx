@@ -456,6 +456,52 @@ function PracticeCard({ item, onOpen }) {
   );
 }
 
+function WellbeingInputCard({ item, onUse, locale, t }) {
+  const text = item.editedText || item.generatedText || "";
+  return (
+    <BorderGlow
+      as="article"
+      className={cn(styles.card, "covision-glow-card grid gap-[0.58rem] rounded-[0.94rem] border px-[0.82rem] py-[0.78rem]")}
+      edgeSensitivity={24}
+      glowColor="358 82 72"
+      backgroundColor="var(--covision-card-bg, #120F17)"
+      borderRadius={15}
+      glowRadius={42}
+      glowIntensity={0.62}
+      coneSpread={20}
+      fillOpacity={0}
+      edgeOnly
+      style={fieldEdgeGlowStyle}
+    >
+      <div className="grid gap-[0.24rem]">
+        <h3 className="m-0 text-[1.04rem] font-[680] leading-[1.18]">
+          {t("covision.wellbeing_inputs.card_title", "Tööheaolu sisend")}
+        </h3>
+        <p className={cn(styles.meta, "m-0 text-[0.84rem]")}>
+          {item.sourceWorkflowType || t("covision.wellbeing_inputs.source_fallback", "tööheaolu")} · {formatDate(item.createdAt, locale)}
+        </p>
+      </div>
+      <p className={cn(mutedTextClassName, "line-clamp-4")}>
+        {text || t("covision.wellbeing_inputs.empty_preview", "Kinnitatud kovisiooni sisend vajab eelvaadet.")}
+      </p>
+      <div className="flex flex-wrap justify-end gap-[0.45rem]">
+        <Button type="button" variant="secondary" className={smallButtonClassName}>
+          {t("covision.wellbeing_inputs.open", "Ava")}
+        </Button>
+        <Button type="button" variant="secondary" className={smallButtonClassName}>
+          {t("covision.wellbeing_inputs.edit", "Muuda")}
+        </Button>
+        <Button type="button" onClick={() => onUse(item)} className={compactPrimaryButtonClassName}>
+          {t("covision.wellbeing_inputs.use", "Kasuta kovisioonis")}
+        </Button>
+        <Button type="button" variant="secondary" className={smallButtonClassName}>
+          {t("covision.wellbeing_inputs.keep_private", "Jäta privaatseks")}
+        </Button>
+      </div>
+    </BorderGlow>
+  );
+}
+
 function SummaryField({ label, value, onChange }) {
   return (
     <Field label={label}>
@@ -567,6 +613,7 @@ export default function CovisionPage() {
   const [view, setView] = useState("overview");
   const [cases, setCases] = useState([]);
   const [practices, setPractices] = useState([]);
+  const [wellbeingCovisionInputs, setWellbeingCovisionInputs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -634,9 +681,23 @@ export default function CovisionPage() {
     }
   }, [covisionFetch]);
 
+  const fetchWellbeingCovisionInputs = useCallback(async () => {
+    try {
+      const response = await covisionFetch("/api/wellbeing/output-drafts?outputType=covision_input&recipientType=covision", {
+        cache: "no-store"
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Tööheaolu sisendite laadimine ebaõnnestus.");
+      setWellbeingCovisionInputs(Array.isArray(payload.drafts) ? payload.drafts : []);
+    } catch {
+      setWellbeingCovisionInputs([]);
+    }
+  }, [covisionFetch]);
+
   useEffect(() => {
     void loadWorkspace();
-  }, [loadWorkspace]);
+    void fetchWellbeingCovisionInputs();
+  }, [fetchWellbeingCovisionInputs, loadWorkspace]);
 
   const filteredCases = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("et");
@@ -703,6 +764,32 @@ export default function CovisionPage() {
     setAnonymityIssues([]);
     setQuestionSuggestions([]);
     setNotice("");
+    setError("");
+    setView("case_form");
+  }
+
+  function startCaseFromWellbeingDraft(item) {
+    const text = item?.editedText || item?.generatedText || "";
+    setCaseForm({
+      ...emptyCaseForm(),
+      title: t("covision.wellbeing_inputs.case_title", "Tööheaolu sisendist alustatud kovisioon"),
+      summary: t("covision.wellbeing_inputs.case_summary", "Kasutaja kinnitatud tööheaolu sisend."),
+      anonymizedDescription: text,
+      centralQuestion: t(
+        "covision.wellbeing_inputs.case_question",
+        "Milline tugi või töökorralduslik kokkulepe aitaks olukorda edasi viia?"
+      ),
+      expectedHelpTypes: ["questions", "reflection"],
+      topics: ["töökoormus ja taastumine"],
+      tagText: "tööheaolu"
+    });
+    setCaseStep(1);
+    setAnonymityIssues([]);
+    setQuestionSuggestions([]);
+    setNotice(t(
+      "covision.wellbeing_inputs.case_notice",
+      "Tööheaolu sisend on toodud kovisiooni mustandisse. Vaata tekst enne salvestamist üle."
+    ));
     setError("");
     setView("case_form");
   }
@@ -1169,6 +1256,9 @@ export default function CovisionPage() {
                     <Button type="button" onClick={startCase} className={primaryButtonClassName}>
                       Alusta uut kovisiooni
                     </Button>
+                    <Button type="button" onClick={() => setView("wellbeing_inputs")} className={primaryButtonClassName}>
+                      {t("covision.wellbeing_inputs.start_from_wellbeing", "Alusta Tööheaolu sisendist")}
+                    </Button>
                     <Button type="button" onClick={() => startPractice()} className={primaryButtonClassName}>
                       Lisa praktikanäide
                     </Button>
@@ -1221,6 +1311,38 @@ export default function CovisionPage() {
                 </SectionPanel>
               </div>
             </>
+          ) : null}
+
+          {view === "wellbeing_inputs" ? (
+            <SectionPanel
+              title={t("covision.wellbeing_inputs.section_title", "Heaolu töövoogudest ette valmistatud sisendid")}
+              aside={
+                <Button type="button" variant="secondary" onClick={() => setView("overview")} className={smallButtonClassName}>
+                  {t("buttons.back", "Tagasi")}
+                </Button>
+              }
+            >
+              {wellbeingCovisionInputs.length ? (
+                <div className="grid gap-[0.66rem] md:grid-cols-2">
+                  {wellbeingCovisionInputs.map((item) => (
+                    <WellbeingInputCard
+                      key={item.id}
+                      item={item}
+                      onUse={startCaseFromWellbeingDraft}
+                      locale={locale}
+                      t={t}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p className={mutedTextClassName}>
+                  {t(
+                    "covision.wellbeing_inputs.empty",
+                    "Kinnitatud tööheaolu kovisiooni sisendeid veel ei ole. Koosta see tööheaolu töövoost ja kinnita tekst enne kasutamist."
+                  )}
+                </p>
+              )}
+            </SectionPanel>
           ) : null}
 
           {view === "case_form" ? (

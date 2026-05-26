@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Archive, Check, FileText, ListChecks, Lock, Map, Plus, Route, WandSparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
@@ -20,6 +21,7 @@ import {
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { pillInputBaseClassName, textAreaInputBaseClassName } from "@/components/ui/inputClassNames";
+import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -29,6 +31,8 @@ const PRIMARY_PATH_VALUES = Object.freeze([
   "DOCUMENT",
   "HELP_REQUEST",
   "ROOM",
+  "HEALTH_CONTACT",
+  "COMBINED_SOCIAL_HEALTH",
   "GENERAL_SUPPORT",
   "UNKNOWN"
 ]);
@@ -345,10 +349,103 @@ function ListField({ id, label, value, onChange, t }) {
   );
 }
 
+function RoleWorkspaceAction({ href, icon: Icon, title, description }) {
+  return (
+    <Button as="a" href={href} variant="secondary" className="min-h-[3.1rem] justify-start text-left">
+      <span className="inline-flex min-w-0 items-center gap-[0.58rem]">
+        {Icon ? <Icon size={17} aria-hidden="true" /> : null}
+        <span className="grid min-w-0 gap-[0.1rem]">
+          <span className="text-[0.98rem] font-[720] leading-[1.12]">{title}</span>
+          {description ? (
+            <span className="text-[0.78rem] font-[520] leading-[1.18] opacity-[0.72]">{description}</span>
+          ) : null}
+        </span>
+      </span>
+    </Button>
+  );
+}
+
+function RoleScopedWorkspace({ role, t, locale }) {
+  const isProvider = role === "SERVICE_PROVIDER";
+  const titleKey = isProvider ? "journey.workspace.provider.title" : "journey.workspace.specialist.title";
+  const descriptionKey = isProvider ? "journey.workspace.provider.description" : "journey.workspace.specialist.description";
+  const sharedInfoKey = isProvider ? "journey.workspace.provider.sharedInfoOnly" : "journey.workspace.specialist.sharedInfoOnly";
+  const titleFallback = isProvider ? "Teenusega seotud eelinfo" : "Kinnitatud eelinfo";
+  const descriptionFallback = isProvider
+    ? "Teenuseosutaja näeb ainult konkreetse teenuse või pöördumisega seotud kinnitatud infot."
+    : "Spetsialist näeb Teekonnaga seotud infot ainult eelpöördumiste ja muude kinnitatud töövoogude kaudu.";
+  const sharedInfoFallback = isProvider
+    ? "Privaatseid Teekondi ei kuvata. Teenuseosutaja ei näe kasutaja assistendivestlust ega kogu Teekonda."
+    : "Privaatseid Teekondi ei kuvata. Spetsialist ei näe kasutaja assistendivestlust ega kogu Teekonda.";
+  const preInquiryHref = localizePath("/eelpoordumised", locale);
+  const roomsHref = localizePath("/vestlus?rooms=1", locale);
+  const serviceProfileHref = localizePath("/teenuseprofiil", locale);
+  const documentsHref = localizePath("/documents", locale);
+
+  return (
+    <section className={cn(cardClassName, "gap-[0.9rem]")}>
+      <div className="grid gap-[0.46rem]">
+        <h1 className={titleClassName}>
+          {t(titleKey, titleFallback)}
+        </h1>
+        <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
+          {t(descriptionKey, descriptionFallback)}
+        </p>
+        <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
+          {t(sharedInfoKey, sharedInfoFallback)}
+        </p>
+      </div>
+
+      <div className="grid gap-[0.62rem] sm:grid-cols-2">
+        <RoleWorkspaceAction
+          href={preInquiryHref}
+          icon={FileText}
+          title={isProvider
+            ? t("journey.workspace.provider.serviceInquiries", "Saabunud pöördumised")
+            : t("journey.workspace.specialist.preInquiries", "Eelpöördumised")}
+          description={isProvider
+            ? t("journey.workspace.provider.serviceInquiriesDescription", "Ava teenusega seotud kinnitatud pöördumised.")
+            : t("journey.workspace.specialist.preInquiriesDescription", "Ava kasutaja kinnitatud eelpöördumised.")}
+        />
+        <RoleWorkspaceAction
+          href={roomsHref}
+          icon={Route}
+          title={t("journey.workspace.client.relatedRooms", "Vestlusruumid")}
+          description={t("journey.workspace.privateJourneysNotShared", "Privaatset Teekonda ei jagata automaatselt.")}
+        />
+        {isProvider ? (
+          <RoleWorkspaceAction
+            href={serviceProfileHref}
+            icon={Map}
+            title={t("journey.workspace.provider.serviceProfile", "Teenuseprofiil")}
+            description={t("journey.workspace.provider.serviceProfileDescription", "Halda teenuse nähtavust ja kontaktinfot.")}
+          />
+        ) : (
+          <RoleWorkspaceAction
+            href={documentsHref}
+            icon={FileText}
+            title={t("chat.workspace.cards.document_drafting.title", "Dokumendi koostamine")}
+            description={t("journey.workspace.specialist.documentsDescription", "Kasuta olemasolevaid dokumendi töövahendeid.")}
+          />
+        )}
+        <RoleWorkspaceAction
+          href={preInquiryHref}
+          icon={ListChecks}
+          title={isProvider
+            ? t("journey.workspace.provider.sharedInfoOnly", "Teenusega seotud kinnitatud eelinfo")
+            : t("journey.workspace.specialist.missingInfo", "Täpsustamist vajav info")}
+          description={t("journey.workspace.notAvailableForRole", "Privaatsete Teekondade nimekirja selles rollis ei kuvata.")}
+        />
+      </div>
+    </section>
+  );
+}
+
 export default function JourneyDashboard() {
   const { t, locale } = useI18n();
   const router = useRouter();
   const { status } = useSession();
+  const { effectiveRole, isAdmin, isRoleResolved, refresh: refreshEffectiveRole } = useEffectiveRole();
   const [journeys, setJourneys] = useState([]);
   const [mode, setMode] = useState("list");
   const [situation, setSituation] = useState("");
@@ -365,6 +462,28 @@ export default function JourneyDashboard() {
     () => journeys.filter((journey) => journey.status === "ARCHIVED"),
     [journeys]
   );
+  const normalizedRole = String(effectiveRole || "CLIENT").toUpperCase();
+  const isClientRole = normalizedRole === "CLIENT";
+  const latestJourney = activeJourneys[0] || journeys[0] || null;
+  const headerRightSlot = useMemo(() => (
+    <span className="inline-flex items-center gap-[0.52rem]">
+      {isAdmin ? (
+        <AdminRoleViewCycleButton
+          t={t}
+          locale={locale}
+          value={normalizedRole}
+          onRoleChanged={refreshEffectiveRole}
+          ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
+        />
+      ) : null}
+      <DashboardInfoTrigger
+        infoId="journey"
+        title={t("journey.title", "Teekond")}
+        label={t("journey.info.label", "Open journey info")}
+        className={dashboardInfoTriggerCornerClassName}
+      />
+    </span>
+  ), [isAdmin, locale, normalizedRole, refreshEffectiveRole, t]);
 
   const handleBack = useCallback(() => {
     const navigateBack = () => {
@@ -389,7 +508,7 @@ export default function JourneyDashboard() {
   }, [locale, router]);
 
   const loadJourneys = useCallback(async () => {
-    if (status !== "authenticated") return;
+    if (status !== "authenticated" || !isRoleResolved || !isClientRole) return;
     setError("");
     const response = await fetch("/api/journeys", {
       cache: "no-store"
@@ -399,14 +518,14 @@ export default function JourneyDashboard() {
       throw new Error(payload.message || t("journey.messages.load_failed", "Loading the journey failed."));
     }
     setJourneys(Array.isArray(payload.journeys) ? payload.journeys : []);
-  }, [status, t]);
+  }, [isClientRole, isRoleResolved, status, t]);
 
   useEffect(() => {
-    if (status !== "authenticated") return;
+    if (status !== "authenticated" || !isRoleResolved || !isClientRole) return;
     loadJourneys().catch((loadError) => {
       setError(loadError.message || t("journey.messages.load_failed", "Loading the journey failed."));
     });
-  }, [loadJourneys, status, t]);
+  }, [isClientRole, isRoleResolved, loadJourneys, status, t]);
 
   const handleDraftSubmit = useCallback(async (event) => {
     event.preventDefault();
@@ -511,7 +630,7 @@ export default function JourneyDashboard() {
     setError("");
   }, []);
 
-  if (status === "loading") {
+  if (status === "loading" || !isRoleResolved) {
     return (
       <main className={shellClassName}>
         <div className={panelClassName}>
@@ -521,14 +640,7 @@ export default function JourneyDashboard() {
               backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
               holdPressedVisualDisabled
               backClassName="workspace-scroll-back-button"
-              rightSlot={
-                <DashboardInfoTrigger
-                  infoId="journey"
-                  title={t("journey.title", "Teekond")}
-                  label={t("journey.info.label", "Open journey info")}
-                  className={dashboardInfoTriggerCornerClassName}
-                />
-              }
+              rightSlot={headerRightSlot}
             >
               {t("journey.title", "Teekond")}
             </GlassSubpageHeader>
@@ -553,14 +665,7 @@ export default function JourneyDashboard() {
               backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
               holdPressedVisualDisabled
               backClassName="workspace-scroll-back-button"
-              rightSlot={
-                <DashboardInfoTrigger
-                  infoId="journey"
-                  title={t("journey.title", "Teekond")}
-                  label={t("journey.info.label", "Open journey info")}
-                  className={dashboardInfoTriggerCornerClassName}
-                />
-              }
+              rightSlot={headerRightSlot}
             >
               {t("journey.title", "Teekond")}
             </GlassSubpageHeader>
@@ -591,18 +696,15 @@ export default function JourneyDashboard() {
           backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
           holdPressedVisualDisabled
           backClassName="workspace-scroll-back-button"
-          rightSlot={
-            <DashboardInfoTrigger
-              infoId="journey"
-              title={t("journey.title", "Teekond")}
-              label={t("journey.info.label", "Open journey info")}
-              className={dashboardInfoTriggerCornerClassName}
-            />
-          }
+          rightSlot={headerRightSlot}
         >
           {t("journey.title", "Teekond")}
         </GlassSubpageHeader>
 
+        {!isClientRole ? (
+          <RoleScopedWorkspace role={normalizedRole} t={t} locale={locale} />
+        ) : (
+          <>
         <header className={cn(cardClassName, "md:grid-cols-[1fr_auto] md:items-end")}>
           <div className="grid gap-[0.48rem]">
             <div className="flex flex-wrap items-center gap-[0.55rem] text-[0.82rem] font-[700] uppercase tracking-[0.08em] text-[color:var(--title-color,var(--brand-primary))]">
@@ -622,6 +724,44 @@ export default function JourneyDashboard() {
             {t("journey.actions.start_new", "Start journey")}
           </Button>
         </header>
+
+        {mode === "list" ? (
+          <section className={cn(cardClassName, "gap-[0.78rem]")}>
+            <div className="flex flex-wrap items-center justify-between gap-[0.7rem]">
+              <div className="grid gap-[0.26rem]">
+                <h2 className={sectionTitleClassName}>
+                  {t("journey.workspace.client.title", "Teekonna tööpind")}
+                </h2>
+                <p className={bodyTextClassName}>
+                  {t("journey.workspace.client.description", "Siin on sinu privaatsed Teekonnad ja järgmised sammud. Teekonda ei jagata enne sinu eraldi kinnitust.")}
+                </p>
+              </div>
+              {latestJourney ? (
+                <Button as="a" href={localizePath(`/teekond/${encodeURIComponent(latestJourney.id)}`, locale)} variant="secondary">
+                  {t("journey.workspace.client.continue", "Jätka viimast Teekonda")}
+                </Button>
+              ) : null}
+            </div>
+            <div className="flex flex-wrap gap-[0.56rem]">
+              <Button onClick={handleStartNew} variant="secondary" disabled={busy}>
+                <Plus size={17} aria-hidden="true" />
+                {t("journey.workspace.client.start", "Alusta Teekonda")}
+              </Button>
+              <Button as="a" href={localizePath("/eelpoordumised", locale)} variant="secondary">
+                {t("journey.workspace.client.relatedPreInquiries", "Eelpöördumised")}
+              </Button>
+              <Button as="a" href={localizePath("/teenusekaart", locale)} variant="secondary">
+                {t("chat.workspace.cards.service_map.title", "Teenusekaart")}
+              </Button>
+              <Button as="a" href={localizePath("/documents", locale)} variant="secondary">
+                {t("chat.workspace.cards.documents.title", "Dokumendid")}
+              </Button>
+            </div>
+            <p className={bodyTextClassName}>
+              {t("journey.workspace.privacyNote", "Teekond on privaatne. Spetsialist, teenuseosutaja või ruumi liige näeb ainult seda infot, mille sa eraldi kinnitad ja jagad.")}
+            </p>
+          </section>
+        ) : null}
 
         {error ? (
           <p className={softMessageClassName} role="alert">
@@ -758,6 +898,8 @@ export default function JourneyDashboard() {
             </aside>
           </div>
         ) : null}
+          </>
+        )}
       </div>
       </div>
     </main>

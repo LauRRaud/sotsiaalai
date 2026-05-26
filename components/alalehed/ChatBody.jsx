@@ -426,6 +426,7 @@ export default function ChatBody({
     roomTitle,
     roomRole,
     isHelpMatchRoom,
+    roomOrigin,
     sendToAssistant,
     setSendToAssistant,
     getVisibleMessages,
@@ -2559,6 +2560,7 @@ export default function ChatBody({
       analysis={analysis}
       isRoomMode={isRoomMode}
       roomTitle={roomTitle}
+      roomOrigin={roomOrigin}
       hideRoomTitle={hideRoomTitle}
       allowAssistantForward={allowAssistantForward}
       isHelpMatchRoom={isHelpMatchRoom}

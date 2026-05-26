@@ -549,6 +549,9 @@ model User {
   authoredPreInquiries    PreInquiry[]             @relation("PreInquiryAuthor")
   receivedPreInquiries    PreInquiry[]             @relation("PreInquiryRecipientOwner")
   journeys                Journey[]
+  wellbeingRecords        WellbeingRecord[]
+  wellbeingOutputDrafts   WellbeingOutputDraft[]
+  wellbeingPilotViewers   WellbeingPilotViewer[]
   covisionCasesOwned      CovisionCase[]           @relation("CovisionCaseOwner")
   covisionParticipants    CovisionParticipant[]    @relation("CovisionParticipantUser")
   covisionMessages        CovisionMessage[]        @relation("CovisionMessageAuthor")
@@ -890,6 +893,94 @@ model Journey {
   @@index([ownerUserId, updatedAt])
   @@index([ownerUserId, status, updatedAt])
   @@index([conversationId])
+}
+
+model WellbeingRecord {
+  id                  String   @id @default(cuid())
+  ownerUserId         String
+  schemaVersion       String   @default("1.0")
+  scoringVersion      String
+  workflowType        String
+  period              String?
+  roleGroup           String?
+  standardizedFields  Json
+  computedSignal      Json
+  loadFactors         Json
+  resourceFactors     Json
+  riskMarkers         Json
+  recommendedActions  Json
+  visibility          String   @default("private")
+  aggregationEligible Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  owner User @relation(fields: [ownerUserId], references: [id], onDelete: Cascade)
+
+  @@index([ownerUserId, workflowType, createdAt])
+  @@index([workflowType, createdAt])
+  @@index([aggregationEligible, workflowType, createdAt])
+}
+
+model WellbeingOutputDraft {
+  id                 String   @id @default(cuid())
+  userId             String
+  sourceWorkflowType String
+  sourceRecordId     String?
+  outputType         String
+  recipientType      String
+  generatedText      String   @db.Text
+  editedText         String?  @db.Text
+  userReviewed       Boolean  @default(false)
+  userConfirmed      Boolean  @default(false)
+  visibility         String   @default("private")
+  status             String   @default("draft")
+  schemaVersion      String   @default("1.0")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, outputType, createdAt])
+  @@index([userId, recipientType, createdAt])
+  @@index([sourceWorkflowType, outputType, createdAt])
+}
+
+model WellbeingPilotScope {
+  id               String   @id @default(cuid())
+  name             String
+  scopeType        String   @default("role_group")
+  municipalityId   String?
+  organizationId   String?
+  roleGroups       Json
+  minimumGroupSize Int      @default(3)
+  active           Boolean  @default(true)
+  startsAt         DateTime?
+  endsAt           DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  viewers WellbeingPilotViewer[]
+
+  @@index([active, scopeType])
+  @@index([municipalityId])
+  @@index([organizationId])
+  @@index([startsAt, endsAt])
+}
+
+model WellbeingPilotViewer {
+  id           String   @id @default(cuid())
+  pilotScopeId String
+  userId       String?
+  email        String?
+  createdAt    DateTime @default(now())
+
+  pilotScope WellbeingPilotScope @relation(fields: [pilotScopeId], references: [id], onDelete: Cascade)
+  user       User?                @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([pilotScopeId, userId])
+  @@unique([pilotScopeId, email])
+  @@index([userId])
+  @@index([email])
 }
 
 model ConversationMessage {
@@ -1342,6 +1433,7 @@ model ServiceMapEntry {
   sourceUrl         String?
   sourceDocId       String?
   checkedAt         DateTime?
+  accessPath        Json?
   providerProfileId String?                   @unique
   status            ServiceMapEntryStatus     @default(DRAFT)
   geocodingStatus   ServiceMapGeocodingStatus @default(PENDING)
@@ -1773,12 +1865,16 @@ model HelpMatch {
 }
 
 model Room {
-  id          String   @id @default(cuid())
-  ownerId     String
-  title       String?
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  ownerId       String
+  title         String?
+  description   String?
+  originType    String?
+  originId      String?
+  originLabel   String?
+  originMeta    Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   owner     User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   members   RoomMember[]
@@ -1788,6 +1884,8 @@ model Room {
   calls     CallSession[]
 
   @@index([ownerId])
+  @@index([originType])
+  @@index([originId])
 }
 
 model RoomMember {
