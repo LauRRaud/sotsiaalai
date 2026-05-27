@@ -98,6 +98,14 @@ test("workspace dashboard uses the same desktop glass sizing as workspace subpag
   assert.equal(workspaceMobileVars["--chat-diameter"], "var(--profile-diameter)");
 });
 
+test("workspace dashboard matches subpage side padding without widening the glass shell", () => {
+  const css = readSource("components/chat/WorkspacePanel.module.css");
+
+  assert.match(css, /--workspace-dashboard-panel-edge-x:\s*1\.1rem;/);
+  assert.match(css, /padding-right:\s*var\(--workspace-dashboard-panel-edge-x\);/);
+  assert.match(css, /padding-left:\s*var\(--workspace-dashboard-panel-edge-x\);/);
+});
+
 test("workspace subpage surfaces match the dashboard outer glass width and radius", () => {
   const helpersCss = readSource("app/styles/utilities/helpers.css");
   const chatFocusCss = readSource("app/styles/components/chat-focus.css");

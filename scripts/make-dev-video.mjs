@@ -10,16 +10,18 @@ const DEFAULTS = {
   inputFolder: path.resolve('dev-video/source'),
   outputFile: path.resolve('dev-video/output/sotsiaalai-1-aasta-arendus-test-1920x1080.mp4'),
   imageDuration: 1,
+  taggedImageDuration: 1.8,
   fadeDuration: 0,
   manifest: path.resolve('dev-video/categories.json'),
   resolution: '1920x1080',
   introCount: 3,
   introDuration: 3,
-  outroCount: 10,
+  outroCount: 0,
   outroDuration: 2,
   fps: 30,
   contactThumbWidth: 160,
   contactThumbHeight: 90,
+  backgroundColor: '#101010',
 };
 
 function parseArgs(argv) {
@@ -50,6 +52,9 @@ function parseArgs(argv) {
       case 'middleDuration':
         args.imageDuration = Number(nextValue);
         break;
+      case 'taggedImageDuration':
+        args.taggedImageDuration = Number(nextValue);
+        break;
       case 'fadeDuration':
         args.fadeDuration = Number(nextValue);
         break;
@@ -78,6 +83,9 @@ function parseArgs(argv) {
         break;
       case 'contactThumbHeight':
         args.contactThumbHeight = Number(nextValue);
+        break;
+      case 'backgroundColor':
+        args.backgroundColor = String(nextValue);
         break;
       default:
         throw new Error(`Unknown option: ${token}`);
@@ -212,31 +220,33 @@ async function createTempLinks(files, tempDir) {
 async function resolveOrderedFiles(options) {
   const folderGroups = await readCategorizedFilesFromFolders(options.inputFolder);
   if (folderGroups) {
-    return folderGroups.flatMap((group) => group.files);
+    return {
+      files: folderGroups.flatMap((group) => group.files),
+      sourceLabel: `folder order in ${options.inputFolder}`,
+    };
   }
 
   const manifestGroups = await readCategorizedFilesFromManifest(options.inputFolder, options.manifest);
   if (manifestGroups) {
-    return manifestGroups.flatMap((group) => group.files);
+    return {
+      files: manifestGroups.flatMap((group) => group.files),
+      sourceLabel: `manifest ${options.manifest}`,
+    };
   }
 
-  return readInputFiles(options.inputFolder);
+  return {
+    files: await readInputFiles(options.inputFolder),
+    sourceLabel: `filename order in ${options.inputFolder}`,
+  };
 }
 
-function buildImageFilterGraph(inputCount, width, height, fade, durations) {
+function buildImageFilterGraph(inputCount, width, height, fade, durations, backgroundColor) {
   const lines = [];
   for (let i = 0; i < inputCount; i += 1) {
     const duration = formatSeconds(durations[i]);
     lines.push(
-      `[${i}:v]trim=duration=${duration},setpts=PTS-STARTPTS,split=2[bgsrc${i}][fgsrc${i}]`
+      `[${i}:v]trim=duration=${duration},setpts=PTS-STARTPTS,scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2:color=${backgroundColor},format=yuv420p,setsar=1[slide${i}]`
     );
-    lines.push(
-      `[bgsrc${i}]scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height},boxblur=18:1,eq=brightness=-0.22:saturation=0.85,format=rgba,setsar=1[bg${i}]`
-    );
-    lines.push(
-      `[fgsrc${i}]scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2:color=black@0,format=rgba,setsar=1[fg${i}]`
-    );
-    lines.push(`[bg${i}][fg${i}]overlay=(W-w)/2:(H-h)/2:format=auto,format=yuv420p,setsar=1[slide${i}]`);
   }
 
   if (fade > 0) {
@@ -261,17 +271,26 @@ function buildImageFilterGraph(inputCount, width, height, fade, durations) {
   return lines.join(';\n');
 }
 
-function buildDurationMap(fileCount, middleDuration, tailCount, tailDuration) {
+function isTaggedFrame(filePath) {
+  const baseName = path.parse(filePath).name;
+  return /^[AX]\d+$/i.test(baseName);
+}
+
+function buildDurationMap(files, middleDuration, taggedImageDuration, tailCount, tailDuration) {
+  const fileCount = files.length;
   const effectiveLeadCount = Math.min(LEAD_DURATIONS.length, fileCount);
   const remainingAfterLead = Math.max(0, fileCount - effectiveLeadCount);
   const effectiveTailCount = Math.min(Math.max(tailCount, 0), remainingAfterLead);
   const tailStart = fileCount - effectiveTailCount;
-  return Array.from({ length: fileCount }, (_, index) => {
+  return files.map((file, index) => {
     if (index < effectiveLeadCount) {
       return LEAD_DURATIONS[index];
     }
     if (index >= tailStart) {
       return tailDuration;
+    }
+    if (isTaggedFrame(file)) {
+      return Math.max(middleDuration, taggedImageDuration);
     }
     return middleDuration;
   });
@@ -318,6 +337,9 @@ async function main() {
   if (!Number.isFinite(options.imageDuration) || options.imageDuration <= 0) {
     throw new Error('--image-duration must be a positive number.');
   }
+  if (!Number.isFinite(options.taggedImageDuration) || options.taggedImageDuration <= 0) {
+    throw new Error('--tagged-image-duration must be a positive number.');
+  }
   if (!Number.isFinite(options.fadeDuration) || options.fadeDuration < 0) {
     throw new Error('--fade-duration must be zero or a positive number.');
   }
@@ -328,7 +350,7 @@ async function main() {
     throw new Error('Resolution must be positive.');
   }
 
-  const inputFiles = await resolveOrderedFiles(options);
+  const { files: inputFiles, sourceLabel } = await resolveOrderedFiles(options);
   if (inputFiles.length === 0) {
     throw new Error(`No supported image files found in ${options.inputFolder}`);
   }
@@ -342,15 +364,23 @@ async function main() {
   const tempDir = await fs.mkdtemp(path.join(tempRoot, 'dev-video-'));
   try {
     const usedFiles = await createTempLinks(inputFiles, tempDir);
-    const durations = buildDurationMap(usedFiles.length, options.imageDuration, options.outroCount, options.outroDuration);
+    const durations = buildDurationMap(
+      inputFiles,
+      options.imageDuration,
+      options.taggedImageDuration,
+      options.outroCount,
+      options.outroDuration
+    );
     const totalDuration = durations.reduce((sum, value) => sum + value, 0) - Math.max(0, options.fadeDuration) * (durations.length - 1);
+    const taggedFrames = inputFiles.filter(isTaggedFrame).length;
 
     const videoFilterScript = buildImageFilterGraph(
       usedFiles.length,
       width,
       height,
       options.fadeDuration,
-      durations
+      durations,
+      options.backgroundColor
     );
     const videoFilterFile = path.join(tempDir, 'video-filtergraph.txt');
     await fs.writeFile(videoFilterFile, videoFilterScript, 'utf8');
@@ -380,8 +410,20 @@ async function main() {
     );
 
     console.log(`Building video from ${usedFiles.length} images`);
-    console.log(`Ordering source: ${options.manifest}`);
-    console.log('Timing profile: first 3 images = 3s, 2.5s, 2.5s; middle images = 1s; last images = 2s; fade = 0s');
+    console.log(`Ordering source: ${sourceLabel}`);
+    const tailLabel =
+      options.outroCount > 0
+        ? `; last images = ${formatSeconds(options.outroDuration)}s`
+        : '';
+    console.log(
+      `Timing profile: first 3 images = 3s, 2.5s, 2.5s; tagged A/X images = ${formatSeconds(
+        options.taggedImageDuration
+      )}s; middle images = ${formatSeconds(options.imageDuration)}s${tailLabel}; fade = ${formatSeconds(
+        options.fadeDuration
+      )}s`
+    );
+    console.log(`Tagged frames detected: ${taggedFrames}`);
+    console.log(`Background color: ${options.backgroundColor}`);
     console.log(`Target duration: about ${formatSeconds(totalDuration)}s`);
     await run('ffmpeg', videoArgs, 'FFmpeg video render');
 

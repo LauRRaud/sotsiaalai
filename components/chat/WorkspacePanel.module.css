@@ -88,11 +88,14 @@
 
 @media (min-width: 769px) {
   .panel {
+    --workspace-dashboard-panel-edge-x: 1.1rem;
     --workspace-subpage-back-left: 0.55rem;
     --workspace-subpage-back-top: 0.55rem;
     --workspace-subpage-header-margin-bottom: 0.35rem;
     --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
     --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
+    padding-right: var(--workspace-dashboard-panel-edge-x);
+    padding-left: var(--workspace-dashboard-panel-edge-x);
     padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
   }
 

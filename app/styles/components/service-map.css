@@ -1281,8 +1281,11 @@ html[data-contrast="hc"] body.service-map-page-active {
     var(--service-map-control-glass-bg)
   );
   --service-map-popup-glass-bg: var(
-    --workspace-feature-surface-strong,
-    rgba(0, 0, 0, 0.25)
+    --opaque-panel-bg,
+    var(
+      --workspace-feature-surface-strong,
+      var(--subpage-card-bg, rgba(0, 0, 0, 0.25))
+    )
   );
   --service-map-glass-shadow: var(
     --glass-shell-shadow,
@@ -2233,11 +2236,11 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-leaflet__popup .leaflet-popup-content-wrapper {
+  padding: 0 !important;
   border: 1px solid var(--service-map-glass-border, var(--workspace-feature-border));
   position: relative;
   isolation: isolate;
-  background-color: var(--opaque-panel-bg, var(--workspace-feature-surface-strong, #111827)) !important;
-  background-image: var(--glass-ring-sheen, none);
+  background: var(--service-map-popup-glass-bg) !important;
   color: var(--workspace-feature-text);
   border-radius: 0.9rem;
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
@@ -2253,8 +2256,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   inset: 0;
   z-index: 0;
   border-radius: inherit;
-  background-color: var(--opaque-panel-bg, var(--workspace-feature-surface-strong, #111827));
-  background-image: var(--glass-ring-sheen, none);
+  background: var(--service-map-popup-glass-bg);
   backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
   -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
   pointer-events: none;
@@ -2263,19 +2265,14 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-leaflet__popup .leaflet-popup-content {
   position: relative;
   z-index: 1;
-  margin: 0;
+  margin: 0 !important;
   width: fit-content !important;
   min-width: min(15.5rem, calc(100vw - 2.4rem));
-  max-width: min(24rem, calc(100vw - 2.4rem));
+  max-width: min(18rem, calc(100vw - 2.4rem));
 }
 
 .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: color-mix(
-    in srgb,
-    var(--service-map-glass-bg, var(--glass-ring-surface-bg, var(--workspace-feature-surface-strong))) 92%,
-    transparent
-  );
-  background-image: var(--glass-ring-sheen, none);
+  background: var(--service-map-popup-glass-bg) !important;
   box-shadow: var(--service-map-glass-shadow, var(--workspace-feature-shadow));
   backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
   -webkit-backdrop-filter: blur(var(--service-map-glass-blur, var(--glass-blur-radius, 1rem)));
@@ -2323,41 +2320,45 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 .service-map-popup {
   display: grid;
+  box-sizing: border-box;
   width: fit-content;
   min-width: min(15.5rem, calc(100vw - 2.4rem));
   max-width: min(17.5rem, calc(100vw - 2.4rem));
-  gap: 0.38rem;
-  padding: 0.98rem 1rem 0.96rem;
+  gap: 0.34rem;
+  padding: 0.86rem 0.58rem 0.78rem;
   color: var(--workspace-feature-text, #1f2937);
   font-family: var(--font-aino), system-ui, sans-serif;
 }
 
 .service-map-popup--group {
-  width: min(23.5rem, calc(100vw - 2.4rem));
-  min-width: min(19rem, calc(100vw - 2.4rem));
-  max-width: min(23.5rem, calc(100vw - 2.4rem));
+  width: min(17.6rem, calc(100vw - 2.4rem));
+  min-width: min(15.75rem, calc(100vw - 2.4rem));
+  max-width: min(17.6rem, calc(100vw - 2.4rem));
 }
 
 .service-map-popup__contacts {
   display: grid;
-  gap: 0.38rem;
+  gap: 0.32rem;
   max-height: min(11rem, calc(100vh - 18.5rem));
   overflow-y: auto;
   overscroll-behavior: contain;
+  margin-inline: 0;
   padding-inline: 0;
-  scrollbar-gutter: stable both-edges;
+  scrollbar-gutter: auto;
   scrollbar-width: thin;
 }
 
 .service-map-popup__contact {
   display: grid;
+  box-sizing: border-box;
+  width: 100%;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.28rem 0.42rem;
+  gap: 0.2rem 0.26rem;
   border: 1px solid color-mix(in srgb, var(--workspace-feature-text, #1f2937) 11%, transparent);
   border-radius: 0.72rem;
   background: var(--opaque-panel-bg, var(--workspace-feature-surface, #fff));
-  padding: 0.48rem 0.5rem;
+  padding: 0.4rem 0.34rem;
 }
 
 .service-map-popup__contact[data-selected="true"] {
@@ -2367,6 +2368,8 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 .service-map-popup__contact-button {
   display: grid;
+  grid-column: 1;
+  grid-row: 1;
   width: 100%;
   min-width: 0;
   gap: 0.18rem;
@@ -2398,56 +2401,62 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   overflow-wrap: anywhere;
 }
 
+.service-map-popup__contact-meta {
+  display: grid;
+  gap: 0.04rem;
+  grid-column: 1 / -1;
+  grid-row: 2;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.service-map-popup__contact-email {
+  white-space: nowrap;
+}
+
 .service-map-popup__contact-actions {
   grid-column: 2;
   grid-row: 1;
   align-self: center;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  gap: 0.26rem;
+  gap: 0.22rem;
   padding-top: 0;
 }
 
-.service-map-leaflet__popup .service-map-popup__contact-actions a {
-  min-height: 2rem;
-  padding: 0.34rem 0.62rem;
-  font-size: 0.82rem;
+.service-map-leaflet__popup .service-map-popup__actions.service-map-popup__contact-actions a {
+  min-height: 1.78rem;
+  padding: 0.28rem 0.42rem;
+  font-size: 0.76rem;
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background-color: rgb(255, 255, 255) !important;
-  background-image: var(--glass-ring-sheen, none);
+:root.theme-light:not(.theme-mid) .service-map-workspace {
+  --service-map-popup-glass-bg: rgb(255, 255, 255);
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
-  background-color: rgb(255, 255, 255);
-  background-image: var(--glass-ring-sheen, none);
+:root.theme-mid .service-map-workspace {
+  --service-map-popup-glass-bg: rgb(242, 232, 228);
 }
 
-:root.theme-light:not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: rgb(255, 255, 255);
-  background-image: var(--glass-ring-sheen, none);
+:root.theme-night .service-map-workspace {
+  --service-map-popup-glass-bg: var(
+    --chat-card-surface-night-standard-flat-bg,
+    var(--workspace-elevated-card-bg)
+  );
 }
 
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper {
-  background-color: rgb(242, 232, 228) !important;
-  background-image: var(--glass-ring-sheen, none);
+:root.theme-mono:not([data-contrast="hc"]) .service-map-workspace {
+  --service-map-popup-glass-bg: var(
+    --forest-floating-surface,
+    var(--workspace-elevated-card-bg)
+  );
 }
 
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-content-wrapper::before {
-  background-color: rgb(242, 232, 228);
-  background-image: var(--glass-ring-sheen, none);
-}
-
-:root.theme-mid .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: rgb(242, 232, 228);
-  background-image: var(--glass-ring-sheen, none);
-}
-
-:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper,
-:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-content-wrapper::before,
-:root:not(.theme-light):not(.theme-mid) .service-map-leaflet__popup .leaflet-popup-tip {
-  background-color: rgb(17, 24, 39) !important;
+:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) .service-map-workspace {
+  --service-map-popup-glass-bg: var(
+    --chat-card-surface-standard-flat-bg,
+    var(--workspace-elevated-card-bg)
+  );
 }
 
 html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrapper,
@@ -3219,8 +3228,8 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
 
 @media (max-width: 520px) {
   .service-map-popup--group {
-    width: min(19.5rem, calc(100vw - 2.4rem));
-    min-width: min(17rem, calc(100vw - 2.4rem));
+    width: min(16.4rem, calc(100vw - 2.4rem));
+    min-width: min(14.8rem, calc(100vw - 2.4rem));
   }
 
   .service-map-popup__contacts {

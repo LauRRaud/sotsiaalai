@@ -2699,6 +2699,20 @@
       "save_failed": "Could not save the covision workspace.",
       "schema_missing": "Covision database tables are missing or the server is using the wrong database. Run Prisma migrations and reload the page."
     },
+    "wellbeing_inputs": {
+      "start_from_wellbeing": "Start from Wellbeing input",
+      "section_title": "Inputs prepared from wellbeing workflows",
+      "empty": "There are no confirmed wellbeing covision inputs yet. Create one from a wellbeing workflow and confirm the text before using it.",
+      "card_title": "Wellbeing input",
+      "source_fallback": "wellbeing",
+      "empty_preview": "The confirmed covision input needs a preview.",
+      "use": "Use in covision",
+      "privacy_note": "The input stays private until you save it as a covision draft.",
+      "case_title": "Covision started from a wellbeing input",
+      "case_summary": "User-confirmed wellbeing input.",
+      "case_question": "What needs to be clarified in covision?",
+      "case_notice": "The wellbeing input was added to the covision draft. Review the text before saving."
+    },
     "workflow": {
       "steps": {
         "basic": "Basic information",
@@ -4067,6 +4081,10 @@
       "leave_private": "Keep private",
       "options_label": "Support request options",
       "open_recovery": "Open Recovery",
+      "manager_memo_meta": "Neutral summary for discussing with a manager",
+      "covision_input_meta": "Case, question and learning point for the group",
+      "support_request_meta": "Short input for asking for support or advice",
+      "recovery_meta": "The recovery plan stays under your control before sharing",
       "preview_label": "Shareable version preview",
       "reviewed": "I have reviewed the text and removed unnecessary details.",
       "confirmed": "I confirm that this version is suitable as shareable input.",

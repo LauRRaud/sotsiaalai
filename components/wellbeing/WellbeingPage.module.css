@@ -51,8 +51,22 @@
   background:
     var(--glass-ring-sheen, none),
     var(--glass-ring-surface-bg, var(--glass-surface-bg)) !important;
-  width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
-  max-width: var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem))) !important;
+  width: var(
+    --workspace-glass-shell-inline-size,
+    var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)))
+  ) !important;
+  inline-size: var(
+    --workspace-glass-shell-inline-size,
+    var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)))
+  ) !important;
+  min-width: var(
+    --workspace-glass-shell-inline-size,
+    var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)))
+  ) !important;
+  max-width: var(
+    --workspace-glass-shell-inline-size,
+    var(--workspace-glass-inline-size, min(calc(100vw - 2rem), clamp(36rem, 76vw, 54rem)))
+  ) !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -258,7 +272,7 @@
 
 .quickCheckGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: clamp(0.62rem, 1.2vw, 0.82rem);
 }
 
@@ -283,8 +297,8 @@
 
 .quickCheckField {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(9.5rem, 0.54fr);
-  gap: 0.62rem;
+  grid-template-columns: minmax(11rem, 0.58fr) minmax(12rem, 1fr);
+  gap: 0.7rem;
   align-items: center;
   color: var(--wellbeing-text);
   font-size: 0.93rem;
@@ -294,12 +308,22 @@
 .quickCheckField select {
   width: 100%;
   min-height: 2.24rem;
+  min-width: 0;
   border: 1px solid var(--wellbeing-card-border);
   border-radius: 0.56rem;
   background: rgba(12, 12, 14, 0.58);
   color: var(--wellbeing-strong-text);
-  padding: 0.38rem 0.52rem;
+  padding: 0.38rem 2rem 0.38rem 0.52rem;
   font: inherit;
+  text-overflow: ellipsis;
+}
+
+.quickCheckField input[type="checkbox"] {
+  justify-self: start;
+  width: 1.08rem;
+  height: 1.08rem;
+  margin: 0;
+  accent-color: var(--title-color, var(--brand-primary, #c57171));
 }
 
 .quickCheckToggleGroup {
@@ -332,15 +356,15 @@
 
 .quickCheckOutputGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.56rem;
+  grid-template-columns: 1fr;
+  gap: 0.62rem;
 }
 
 .quickCheckOutputCard {
   display: grid;
   align-content: start;
-  gap: 0.42rem;
-  padding: 0.64rem;
+  gap: 0.46rem;
+  padding: 0.68rem;
 }
 
 .quickCheckOutputCard h4 {
@@ -375,25 +399,74 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  max-height: 18rem;
+  max-height: 20rem;
   margin: 0;
   overflow: auto;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   color: var(--wellbeing-text);
   font: inherit;
-  font-size: 0.88rem;
-  line-height: 1.38;
+  font-size: 0.9rem;
+  line-height: 1.42;
 }
 
 .quickCheckActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.48rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.42rem;
+  max-width: 26rem;
 }
 
 .quickCheckActions :global(.btn) {
+  justify-content: flex-start !important;
   min-height: 2.35rem !important;
+  border-radius: 0.72rem !important;
+  padding: 0.48rem 0.76rem !important;
+  font-size: 0.96rem !important;
+  line-height: 1.15 !important;
+  text-align: left !important;
+}
+
+.quickCheckActionList {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.quickCheckActionButton {
+  display: grid;
+  gap: 0.18rem;
+  min-height: 3.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 0.72rem;
+  padding: 0.52rem 0.72rem;
+  color: var(--wellbeing-text);
+  background: rgba(255, 255, 255, 0.045);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.quickCheckActionButton:hover,
+.quickCheckActionButton:focus-visible {
+  border-color: rgba(217, 139, 139, 0.36);
+  background: rgba(255, 255, 255, 0.07);
+  outline: none;
+}
+
+.quickCheckActionButton span {
+  color: var(--wellbeing-strong-text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.14;
+}
+
+.quickCheckActionButton small {
+  color: var(--wellbeing-muted);
+  font-size: 0.76rem;
+  line-height: 1.24;
 }
 
 .quickCheckPrivacy {
@@ -498,7 +571,7 @@
 
 .recoveryPlanGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 0.62rem;
 }
 
@@ -519,24 +592,30 @@
 
 .supportPanel {
   display: grid;
-  gap: 0.72rem;
+  gap: 0.68rem;
   border: 1px solid var(--wellbeing-card-border);
-  border-radius: 0.92rem;
-  padding: clamp(0.76rem, 1.6vw, 1rem);
-  background: rgba(255, 255, 255, 0.055);
+  border-radius: 0.86rem;
+  padding: clamp(0.72rem, 1.4vw, 0.92rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.032)),
+    rgba(12, 12, 12, 0.34);
 }
 
 .supportPanelHeader {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.72rem;
+  gap: 0.82rem;
+}
+
+.supportPanelCopy {
+  min-width: 0;
 }
 
 .supportPanelHeader h3 {
-  margin: 0 0 0.24rem;
+  margin: 0 0 0.18rem;
   color: var(--wellbeing-strong-text);
-  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
   line-height: 1.15;
 }
 
@@ -544,11 +623,91 @@
   max-width: 42rem;
   margin: 0;
   color: var(--wellbeing-muted);
-  font-size: 0.94rem;
-  line-height: 1.42;
+  font-size: 0.88rem;
+  line-height: 1.36;
 }
 
-.supportOptions,
+.supportPrivateButton {
+  min-height: 2.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.62rem;
+  padding: 0.36rem 0.68rem;
+  color: var(--wellbeing-muted);
+  background: rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1.15;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.supportPrivateButton:hover,
+.supportPrivateButton:focus-visible {
+  border-color: rgba(217, 139, 139, 0.4);
+  color: var(--wellbeing-strong-text);
+  background: rgba(197, 113, 113, 0.11);
+  outline: none;
+}
+
+.supportOptionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.supportOptionButton {
+  display: grid;
+  align-content: center;
+  min-height: 3.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 0.72rem;
+  padding: 0.58rem 0.68rem;
+  color: var(--wellbeing-text);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.supportOptionButton:hover,
+.supportOptionButton:focus-visible {
+  border-color: rgba(217, 139, 139, 0.38);
+  background: rgba(255, 255, 255, 0.07);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.supportOptionButtonActive {
+  border-color: rgba(217, 139, 139, 0.48);
+  background: rgba(197, 113, 113, 0.13);
+}
+
+.supportOptionLabel {
+  overflow-wrap: anywhere;
+  color: var(--wellbeing-strong-text);
+  font-size: 0.9rem;
+  font-weight: 720;
+  line-height: 1.15;
+}
+
+.supportOptionMeta {
+  margin-top: 0.2rem;
+  color: var(--wellbeing-muted);
+  font-size: 0.76rem;
+  line-height: 1.24;
+}
+
 .supportActions {
   display: flex;
   flex-wrap: wrap;
@@ -656,8 +815,14 @@
   }
 
   .supportPanelHeader,
-  .supportOptions,
+  .supportOptionGrid,
   .supportActions {
     display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .supportPrivateButton {
+    justify-self: start;
+    white-space: normal;
   }
 }

@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { buildRoleBoundariesRecord } from "@/lib/wellbeing/roleBoundaries";
 import SupportRequestPanel from "./SupportRequestPanel";
+import WellbeingActionList from "./WellbeingActionList";
 import styles from "./WellbeingPage.module.css";
 
 const initialFields = {
@@ -256,16 +257,7 @@ export default function RoleBoundariesWorkflow({ onNavigate }) {
               ? t("wellbeing.role_boundaries.saving", "Salvestan...")
               : t("wellbeing.role_boundaries.save", "Salvesta rollipiiride selgitus")}
           </Button>
-          {record.recommendedActions.map((action) => (
-            <Button
-              key={action.workflowType}
-              type="button"
-              variant="secondary"
-              onClick={() => onNavigate?.(actionRoutes[action.workflowType] || "/tooheaolu")}
-            >
-              {action.label}
-            </Button>
-          ))}
+          <WellbeingActionList actions={record.recommendedActions} actionRoutes={actionRoutes} onNavigate={onNavigate} />
         </div>
         <p className={styles.quickCheckSaveStatus} role="status">
           {saveState === "saved"

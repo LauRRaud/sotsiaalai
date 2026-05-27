@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { buildQuickCheckRecord, formatQuickCheckFactor } from "@/lib/wellbeing/quickCheck";
 import SupportRequestPanel from "./SupportRequestPanel";
+import WellbeingActionList from "./WellbeingActionList";
 import styles from "./WellbeingPage.module.css";
 
 const fieldGroups = [
@@ -297,22 +298,16 @@ export default function QuickCheckWorkflow({ onNavigate }) {
               : t("wellbeing.quick_check.save", "Salvesta kiirkontroll")}
           </Button>
           {record.recommendedActions.length > 0 ? (
-            record.recommendedActions.map((action) => (
-              <Button
-                key={action.workflowType}
-                type="button"
-                variant="secondary"
-                onClick={() => {
-                  if (action.workflowType === "covision") {
-                    onNavigate?.("/kovisioon");
-                    return;
-                  }
-                  onNavigate?.(`/tooheaolu/${workflowSlug(action.workflowType)}`);
-                }}
-              >
-                {action.label}
-              </Button>
-            ))
+            <WellbeingActionList
+              actions={record.recommendedActions}
+              actionRoutes={Object.fromEntries(
+                record.recommendedActions.map((action) => [
+                  action.workflowType,
+                  action.workflowType === "covision" ? "/kovisioon" : `/tooheaolu/${workflowSlug(action.workflowType)}`
+                ])
+              )}
+              onNavigate={onNavigate}
+            />
           ) : (
             <p>{t("wellbeing.quick_check.no_actions", "Jätka praeguste kokkulepete hoidmist ja tee uus kiirkontroll hiljem.")}</p>
           )}

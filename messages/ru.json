@@ -2699,6 +2699,20 @@
       "save_failed": "Could not save the covision workspace.",
       "schema_missing": "Covision database tables are missing or the server is using the wrong database. Run Prisma migrations and reload the page."
     },
+    "wellbeing_inputs": {
+      "start_from_wellbeing": "Start from Wellbeing input",
+      "section_title": "Inputs prepared from wellbeing workflows",
+      "empty": "There are no confirmed wellbeing covision inputs yet. Create one from a wellbeing workflow and confirm the text before using it.",
+      "card_title": "Wellbeing input",
+      "source_fallback": "wellbeing",
+      "empty_preview": "The confirmed covision input needs a preview.",
+      "use": "Use in covision",
+      "privacy_note": "The input stays private until you save it as a covision draft.",
+      "case_title": "Covision started from a wellbeing input",
+      "case_summary": "User-confirmed wellbeing input.",
+      "case_question": "What needs to be clarified in covision?",
+      "case_notice": "The wellbeing input was added to the covision draft. Review the text before saving."
+    },
     "workflow": {
       "steps": {
         "basic": "Основная информация",
@@ -4067,6 +4081,10 @@
       "leave_private": "Оставить приватным",
       "options_label": "Варианты запроса поддержки",
       "open_recovery": "Открыть восстановление",
+      "manager_memo_meta": "Нейтральное резюме для обсуждения с руководителем",
+      "covision_input_meta": "Случай, вопрос и точка обучения для группы",
+      "support_request_meta": "Короткий текст для запроса поддержки или совета",
+      "recovery_meta": "План восстановления остается под вашим контролем до передачи",
       "preview_label": "Предпросмотр версии для передачи",
       "reviewed": "Я проверил(а) текст и удалил(а) лишние детали.",
       "confirmed": "Подтверждаю, что эта версия подходит как передаваемый материал.",

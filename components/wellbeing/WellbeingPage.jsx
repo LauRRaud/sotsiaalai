@@ -80,7 +80,7 @@ const surfaceClassName =
   `workspace-feature-panel workspace-scroll-surface wellbeing-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
-  `[--workspace-subpage-header-margin-bottom:0.04rem] [--workspace-subpage-title-margin-top:clamp(1rem,2.2vh,1.35rem)] [--workspace-subpage-title-margin-bottom:0.04rem] px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+  `[--workspace-subpage-header-margin-bottom:0.35rem] [--workspace-subpage-title-margin-top:clamp(2.15rem,5.4vh,3.25rem)] [--workspace-subpage-title-margin-bottom:clamp(0.35rem,1.4vh,0.8rem)] px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
@@ -112,7 +112,8 @@ function ToolIcon({ name }) {
 export default function WellbeingPage({ activeTool = null, locale = "et" }) {
   const router = useRouter();
   const { t } = useI18n();
-  const title = t("chat.workspace.wellbeing_page.title", "Tööheaolu");
+  const activeTitle = activeTool?.title || t("chat.workspace.wellbeing_page.title", "Tööheaolu");
+  const infoId = activeTool?.infoId || WELLBEING_INFO_ID;
 
   const navigate = useCallback((path) => {
     pushWithTransition(router, localizePath(path, locale));
@@ -144,14 +145,18 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
             titleId="wellbeing-title"
             rightSlot={
               <DashboardInfoTrigger
-                infoId={WELLBEING_INFO_ID}
-                title={title}
-                label={t("chat.workspace.wellbeing_page.info_label", "Ava Tööheaolu info")}
+                infoId={infoId}
+                title={activeTitle}
+                label={
+                  activeTool
+                    ? t("chat.workspace.wellbeing_page.tool_info_label", "Ava tööriista info")
+                    : t("chat.workspace.wellbeing_page.info_label", "Ava Tööheaolu info")
+                }
                 className={dashboardInfoTriggerCornerClassName}
               />
             }
           >
-            {title}
+            {activeTitle}
           </GlassSubpageHeader>
 
           {activeTool?.id === "quick-check" ? (

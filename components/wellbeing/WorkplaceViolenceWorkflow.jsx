@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { buildWorkplaceViolenceRecord } from "@/lib/wellbeing/workplaceViolence";
 import SupportRequestPanel from "./SupportRequestPanel";
+import WellbeingActionList from "./WellbeingActionList";
 import styles from "./WellbeingPage.module.css";
 
 const initialFields = {
@@ -264,16 +265,7 @@ export default function WorkplaceViolenceWorkflow({ onNavigate }) {
               ? t("wellbeing.workplace_violence.saving", "Salvestan...")
               : t("wellbeing.workplace_violence.save", "Salvesta töövägivalla järeltegevus")}
           </Button>
-          {record.recommendedActions.map((action) => (
-            <Button
-              key={action.workflowType}
-              type="button"
-              variant="secondary"
-              onClick={() => onNavigate?.(actionRoutes[action.workflowType] || "/tooheaolu")}
-            >
-              {action.label}
-            </Button>
-          ))}
+          <WellbeingActionList actions={record.recommendedActions} actionRoutes={actionRoutes} onNavigate={onNavigate} />
         </div>
         <p className={styles.quickCheckSaveStatus} role="status">
           {saveState === "saved"

@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { buildHardCaseRecord } from "../../lib/wellbeing/hardCase.js";
+import { buildInterruptionsRecord } from "../../lib/wellbeing/interruptions.js";
+import { buildRecoveryRecord } from "../../lib/wellbeing/recovery.js";
+import { buildRoleBoundariesRecord } from "../../lib/wellbeing/roleBoundaries.js";
+import { buildStarterSupportRecord } from "../../lib/wellbeing/starterSupport.js";
+import { buildWorkProcessesRecord } from "../../lib/wellbeing/workProcesses.js";
+import { buildWorkplaceViolenceRecord } from "../../lib/wellbeing/workplaceViolence.js";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -31,6 +38,126 @@ test("quick check offers user-controlled support drafts without automatic sharin
   assert.match(panel, /userConfirmed/);
   assert.match(panel, /Ava olemasolevas Kovisioonis/);
   assert.doesNotMatch(panel, /sendEmail|mailto:|automaatselt saadetakse/);
+});
+
+test("support request panel uses compact wellbeing action controls instead of oversized pill buttons", () => {
+  const panel = read("components/wellbeing/SupportRequestPanel.jsx");
+  const styles = read("components/wellbeing/WellbeingPage.module.css");
+
+  assert.match(panel, /supportOptionGrid/);
+  assert.match(panel, /supportOptionButton/);
+  assert.match(panel, /supportPrivateButton/);
+  assert.match(panel, /aria-pressed/);
+  assert.match(panel, /supportOptionMeta/);
+  assert.match(styles, /\.supportOptionGrid/);
+  assert.match(styles, /\.supportOptionButton/);
+  assert.match(styles, /\.supportPrivateButton/);
+  assert.match(styles, /min-height:\s*3\.15rem/);
+  assert.doesNotMatch(styles, /\.supportOptionButton[\s\S]*border-radius:\s*999px/);
+});
+
+test("wellbeing workflows use a readable vertical output and action layout in the desktop panel", () => {
+  const styles = read("components/wellbeing/WellbeingPage.module.css");
+
+  assert.match(styles, /\.quickCheckGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
+  assert.match(styles, /\.quickCheckOutputGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
+  assert.match(styles, /\.recoveryPlanGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
+  assert.match(styles, /\.quickCheckActions\s*{[\s\S]*display:\s*grid/);
+  assert.match(styles, /\.quickCheckActions :global\(\.btn\)\s*{[\s\S]*border-radius:\s*0\.72rem/);
+  assert.match(styles, /\.quickCheckActionButton/);
+  assert.match(read("components/wellbeing/WellbeingActionList.jsx"), /action\.reason/);
+});
+
+test("wellbeing output summaries show user-facing labels instead of internal enum keys", () => {
+  const outputs = [
+    buildRoleBoundariesRecord({
+      standardizedFields: {
+        expectationSource: "client_family",
+        expectedAction: "solve_partner_delay",
+        myRole: "case_worker",
+        outsideRole: "make_other_agency_decision",
+        neededResponsibility: "partner_agency",
+        roleConflict: "high",
+        availabilityPressure: "high",
+        counterpart: "partner_agency"
+      }
+    }).outputSummary,
+    buildWorkProcessesRecord({
+      standardizedFields: {
+        analysisFocus: "documentation_flow",
+        categories: ["documentation", "duplicate_entry"],
+        timeCostSources: ["same_data_multiple_places", "manual_status_updates"],
+        simplificationNeeds: ["single_entry", "shared_status_view"],
+        lowValueActivities: ["manual_copying"],
+        informationBlockers: ["unclear_owner", "missing_shared_view"],
+        unfinishedWork: ["client_followup", "case_notes"],
+        documentationDuplication: "high",
+        processImpact: "high",
+        counterpart: "manager"
+      }
+    }).outputSummary,
+    buildWorkplaceViolenceRecord({
+      standardizedFields: {
+        violenceType: "aggression",
+        dangerStatus: "ended",
+        locationOrChannel: "office",
+        documentedStatus: "not_yet",
+        safetyImpact: "some",
+        nextStepNeed: "manager_followup",
+        safetyAgreementNeed: "yes"
+      }
+    }).outputSummary,
+    buildHardCaseRecord({
+      standardizedFields: {
+        caseType: "emotionally_heavy",
+        professionalRole: "case_worker",
+        mainLoad: "emotional_load",
+        next24hNeeds: ["client_followup"],
+        recoveryNeed: "partial"
+      }
+    }).outputSummary,
+    buildInterruptionsRecord({
+      standardizedFields: {
+        interruptionClass: "wrong_channel",
+        sources: ["phone", "colleague_questions", "documentation_system"],
+        frequency: "very_often",
+        workImpact: "high",
+        immediateResponseNeed: "partial",
+        canWait: "many",
+        neededAgreement: "focus_time",
+        counterpart: "team",
+        wrongChannelShare: "some"
+      }
+    }).outputSummary,
+    buildStarterSupportRecord({
+      standardizedFields: {
+        experienceStage: "first_month",
+        roleArea: "child_protection",
+        unclearTopics: ["role_boundaries", "network_work"],
+        missingSupport: ["clear_documentation_routine"],
+        existingSupport: ["manager_check_in"],
+        covisionNeedSigns: ["role_uncertainty"],
+        supportUrgency: "soon"
+      }
+    }).outputSummary,
+    buildRecoveryRecord({
+      standardizedFields: {
+        nextCheckpoint: "tomorrow",
+        unavoidableTasks: ["kriitiline juhtumikontakt"]
+      }
+    }).outputSummary
+  ];
+  const text = outputs.map((output) => Object.values(output).join("\n")).join("\n");
+
+  assert.doesNotMatch(text, /client_family|solve_partner_delay|case_worker|make_other_agency_decision/);
+  assert.doesNotMatch(text, /documentation_flow|same_data_multiple_places|manual_status_updates|unclear_owner/);
+  assert.doesNotMatch(text, /manager_followup|not_yet|emotionally_heavy|emotional_load/);
+  assert.doesNotMatch(text, /wrong_channel|colleague_questions|documentation_system|first_month|child_protection/);
+  assert.match(text, /klient või pere/);
+  assert.match(text, /sama info mitmes kohas/);
+  assert.match(text, /juhiga järelkontakt/);
+  assert.match(text, /vale suhtluskanal/);
+  assert.match(text, /lastekaitse/);
 });
 
 test("overview tool renders a dedicated overview workflow that reads aggregate API data", () => {

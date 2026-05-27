@@ -71,3 +71,21 @@ test("covision room has invite, audio and request-to-speak surfaces outside crea
   assert.match(source, /S(?:õ|Ćµ)nasoovid/);
   assert.doesNotMatch(source, /SectionPanel title="7\. Keda kutsun arutelusse\?"/);
 });
+
+test("covision wellbeing input handoff has real translations and only working actions", () => {
+  const source = read("components/covision/CovisionPage.jsx");
+  const locales = ["et", "en", "ru"].map((locale) => JSON.parse(read(`messages/${locale}.json`)));
+
+  for (const messages of locales) {
+    assert.equal(typeof messages.covision?.wellbeing_inputs?.start_from_wellbeing, "string");
+    assert.equal(typeof messages.covision?.wellbeing_inputs?.section_title, "string");
+    assert.equal(typeof messages.covision?.wellbeing_inputs?.empty, "string");
+    assert.equal(typeof messages.covision?.wellbeing_inputs?.use, "string");
+    assert.equal(typeof messages.covision?.wellbeing_inputs?.privacy_note, "string");
+  }
+
+  assert.match(source, /covision\.wellbeing_inputs\.privacy_note/);
+  assert.doesNotMatch(source, /covision\.wellbeing_inputs\.open/);
+  assert.doesNotMatch(source, /covision\.wellbeing_inputs\.edit/);
+  assert.doesNotMatch(source, /covision\.wellbeing_inputs\.keep_private/);
+});

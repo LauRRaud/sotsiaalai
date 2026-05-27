@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { buildInterruptionsRecord } from "@/lib/wellbeing/interruptions";
 import SupportRequestPanel from "./SupportRequestPanel";
+import WellbeingActionList from "./WellbeingActionList";
 import styles from "./WellbeingPage.module.css";
 
 const initialFields = {
@@ -275,16 +276,7 @@ export default function InterruptionsWorkflow({ onNavigate }) {
               ? t("wellbeing.interruptions.saving", "Salvestan...")
               : t("wellbeing.interruptions.save", "Salvesta katkestuste kokkulepe")}
           </Button>
-          {record.recommendedActions.map((action) => (
-            <Button
-              key={action.workflowType}
-              type="button"
-              variant="secondary"
-              onClick={() => onNavigate?.(actionRoutes[action.workflowType] || "/tooheaolu")}
-            >
-              {action.label}
-            </Button>
-          ))}
+          <WellbeingActionList actions={record.recommendedActions} actionRoutes={actionRoutes} onNavigate={onNavigate} />
         </div>
         <p className={styles.quickCheckSaveStatus} role="status">
           {saveState === "saved"

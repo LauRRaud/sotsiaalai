@@ -33,7 +33,11 @@ test("service map Leaflet groups entries that share one coordinate", () => {
   assert.match(css, /\.service-map-leaflet__marker--group\s*\{/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?overflow-y:\s*auto/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?max-height:\s*min\(11rem,\s*calc\(100vh - 18\.5rem\)\)/);
-  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?scrollbar-gutter:\s*stable both-edges/);
+  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?scrollbar-gutter:\s*auto/);
+  assert.match(css, /\.service-map-popup__contact-meta\s*\{[\s\S]*?grid-column:\s*1 \/ -1/);
+  assert.match(css, /\.service-map-popup__contact-email\s*\{[\s\S]*?white-space:\s*nowrap/);
+  assert.match(leafletSource, /function appendContactMeta/);
+  assert.match(leafletSource, /appendText\(meta,\s*"span",\s*"service-map-popup__contact-email"/);
   assert.match(leafletSource, /offset:\s*\[0,\s*-18\]/);
 });
 
@@ -69,14 +73,16 @@ test("service map popup glass is applied on the wrapper immediately", () => {
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
   const workspaceSource = read("components/workspace/WorkspaceFeaturePage.jsx");
 
-  assert.match(css, /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/);
+  assert.match(css, /--service-map-popup-glass-bg:\s*var\(\s*--opaque-panel-bg,/);
   assert.match(
     css,
-    /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:[\s\S]*?var\(--opaque-panel-bg,[\s\S]*?var\(--workspace-feature-surface-strong,[\s\S]*?#111827[\s\S]*?\)\)\s*!important[\s\S]*?backdrop-filter:\s*blur/
+    /\.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background:\s*var\(--service-map-popup-glass-bg\)\s*!important[\s\S]*?backdrop-filter:\s*blur/
   );
-  assert.match(css, /:root\.theme-light:not\(\.theme-mid\) \.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:\s*rgb\(255,\s*255,\s*255\)\s*!important/);
-  assert.match(css, /:root\.theme-mid \.service-map-leaflet__popup \.leaflet-popup-content-wrapper\s*\{[\s\S]*?background-color:\s*rgb\(242,\s*232,\s*228\)\s*!important/);
-  assert.match(css, /:root:not\(\.theme-light\):not\(\.theme-mid\) \.service-map-leaflet__popup \.leaflet-popup-content-wrapper,[\s\S]*?background-color:\s*rgb\(17,\s*24,\s*39\)\s*!important/);
+  assert.match(css, /:root\.theme-light:not\(\.theme-mid\) \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*rgb\(255,\s*255,\s*255\)/);
+  assert.match(css, /:root\.theme-mid \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*rgb\(242,\s*232,\s*228\)/);
+  assert.match(css, /:root\.theme-night \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*var\(\s*--chat-card-surface-night-standard-flat-bg,/);
+  assert.match(css, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.service-map-workspace\s*\{[\s\S]*?--service-map-popup-glass-bg:\s*var\(\s*--forest-floating-surface,/);
+  assert.doesNotMatch(css, /rgb\(17,\s*24,\s*39\)/);
   assert.doesNotMatch(css, /theme-mid[\s\S]{0,120}rgba\(242,\s*232,\s*228,\s*0\./);
   assert.match(
     css,
@@ -457,7 +463,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
 
   assert.match(
     css,
-    /--service-map-popup-glass-bg:\s*var\(\s*--workspace-feature-surface-strong,/
+    /--service-map-popup-glass-bg:\s*var\(\s*--opaque-panel-bg,/
   );
   assert.match(
     css,

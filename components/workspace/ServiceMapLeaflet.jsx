@@ -125,6 +125,26 @@ function appendText(parent, tagName, className, text) {
   return element;
 }
 
+function appendContactMeta(parent, entry) {
+  const phone = String(entry?.phone || "").trim();
+  const email = String(entry?.email || "").trim();
+  if (!phone && !email) return null;
+
+  const meta = document.createElement("span");
+  meta.className = "service-map-popup__contact-meta";
+
+  if (phone) {
+    appendText(meta, "span", "service-map-popup__contact-phone", phone);
+  }
+
+  if (email) {
+    appendText(meta, "span", "service-map-popup__contact-email", email);
+  }
+
+  parent.appendChild(meta);
+  return meta;
+}
+
 function appendMeta(parent, label, value) {
   const text = String(value || "").trim();
   if (!text) return null;
@@ -385,13 +405,9 @@ function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntr
 
   appendText(button, "span", "service-map-popup__contact-title", entry.title);
   appendText(button, "span", "service-map-popup__contact-description", popupDescription(entry));
-  appendText(
-    button,
-    "span",
-    "service-map-popup__contact-meta",
-    [entry.phone, entry.email].filter(Boolean).join(" / ")
-  );
   item.appendChild(button);
+
+  appendContactMeta(item, entry);
 
   const websiteUrl = safeWebsiteUrl(entry.website);
   if (entry.email || websiteUrl) {

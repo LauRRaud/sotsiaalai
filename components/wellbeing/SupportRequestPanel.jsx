@@ -11,17 +11,23 @@ const supportOptions = [
   {
     outputType: "manager_memo",
     recipientType: "manager",
-    label: "Koosta juhiga arutelu memo"
+    label: "Koosta juhiga arutelu memo",
+    descriptionKey: "wellbeing.support.manager_memo_meta",
+    descriptionFallback: "Neutraalne kokkuvõte juhiga arutamiseks"
   },
   {
     outputType: "covision_input",
     recipientType: "covision",
-    label: "Koosta kovisiooni sisend"
+    label: "Koosta kovisiooni sisend",
+    descriptionKey: "wellbeing.support.covision_input_meta",
+    descriptionFallback: "Juhtum, küsimus ja õppimiskoht rühmale"
   },
   {
     outputType: "support_request",
     recipientType: "pilot_support_contact",
-    label: "Koosta abipalve"
+    label: "Koosta abipalve",
+    descriptionKey: "wellbeing.support.support_request_meta",
+    descriptionFallback: "Lühike sisend toe või nõu küsimiseks"
   }
 ];
 
@@ -119,7 +125,7 @@ export default function SupportRequestPanel({
   return (
     <section className={styles.supportPanel} aria-labelledby="support-request-heading">
       <div className={styles.supportPanelHeader}>
-        <div>
+        <div className={styles.supportPanelCopy}>
           <h3 id="support-request-heading">{t("wellbeing.support.title", "Soovin tuge küsida")}</h3>
           <p>
             {t(
@@ -128,25 +134,37 @@ export default function SupportRequestPanel({
             )}
           </p>
         </div>
-        <Button type="button" variant="secondary" onClick={leavePrivate}>
+        <button type="button" className={styles.supportPrivateButton} onClick={leavePrivate}>
           {t("wellbeing.support.leave_private", "Jäta privaatseks")}
-        </Button>
+        </button>
       </div>
 
-      <div className={styles.supportOptions} aria-label={t("wellbeing.support.options_label", "Toe küsimise valikud")}>
+      <div className={styles.supportOptionGrid} aria-label={t("wellbeing.support.options_label", "Toe küsimise valikud")}>
         {supportOptions.map((option) => (
-          <Button
+          <button
             key={option.outputType}
             type="button"
-            variant={selected?.outputType === option.outputType ? "primary" : "secondary"}
+            className={cn(
+              styles.supportOptionButton,
+              selected?.outputType === option.outputType && styles.supportOptionButtonActive
+            )}
+            aria-pressed={selected?.outputType === option.outputType}
             onClick={() => chooseOption(option)}
           >
-            {option.label}
-          </Button>
+            <span className={styles.supportOptionLabel}>{option.label}</span>
+            <span className={styles.supportOptionMeta}>{t(option.descriptionKey, option.descriptionFallback)}</span>
+          </button>
         ))}
-        <Button type="button" variant="secondary" onClick={() => onNavigate?.("/tooheaolu/taastumine")}>
-          {t("wellbeing.support.open_recovery", "Ava Taastumine")}
-        </Button>
+        <button
+          type="button"
+          className={styles.supportOptionButton}
+          onClick={() => onNavigate?.("/tooheaolu/taastumine")}
+        >
+          <span className={styles.supportOptionLabel}>{t("wellbeing.support.open_recovery", "Ava Taastumine")}</span>
+          <span className={styles.supportOptionMeta}>
+            {t("wellbeing.support.recovery_meta", "Taastumisplaan jääb enne jagamist sinu kontrolli alla")}
+          </span>
+        </button>
       </div>
 
       {selected ? (

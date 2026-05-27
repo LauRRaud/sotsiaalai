@@ -484,18 +484,12 @@ function WellbeingInputCard({ item, onUse, locale, t }) {
       <p className={cn(mutedTextClassName, "line-clamp-4")}>
         {text || t("covision.wellbeing_inputs.empty_preview", "Kinnitatud kovisiooni sisend vajab eelvaadet.")}
       </p>
-      <div className="flex flex-wrap justify-end gap-[0.45rem]">
-        <Button type="button" variant="secondary" className={smallButtonClassName}>
-          {t("covision.wellbeing_inputs.open", "Ava")}
-        </Button>
-        <Button type="button" variant="secondary" className={smallButtonClassName}>
-          {t("covision.wellbeing_inputs.edit", "Muuda")}
-        </Button>
+      <div className="flex flex-wrap items-center justify-between gap-[0.55rem]">
+        <span className={cn(styles.meta, "text-[0.84rem]")}>
+          {t("covision.wellbeing_inputs.privacy_note", "Sisend jääb privaatseks, kuni salvestad selle kovisiooni mustandina.")}
+        </span>
         <Button type="button" onClick={() => onUse(item)} className={compactPrimaryButtonClassName}>
           {t("covision.wellbeing_inputs.use", "Kasuta kovisioonis")}
-        </Button>
-        <Button type="button" variant="secondary" className={smallButtonClassName}>
-          {t("covision.wellbeing_inputs.keep_private", "Jäta privaatseks")}
         </Button>
       </div>
     </BorderGlow>

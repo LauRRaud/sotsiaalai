@@ -5,6 +5,7 @@ import {
   getWellbeingToolBySlug,
   wellbeingTools
 } from "../../lib/wellbeingTools.js";
+import { getDashboardInfoContent } from "../../lib/dashboardInfoContent.js";
 
 test("wellbeing workspace exposes the final ten tool cards in order", () => {
   assert.equal(wellbeingTools.length, 10);
@@ -33,6 +34,8 @@ test("wellbeing workspace exposes the final ten tool cards in order", () => {
     assert.equal(typeof tool.description, "string");
     assert.ok(tool.description.length > 12);
     assert.equal(typeof tool.icon, "string");
+    assert.match(tool.infoId, /^wellbeing_[a-z0-9_]+$/);
+    assert.equal(getDashboardInfoContent(null, tool.infoId)?.title, tool.title);
   }
 });
 
