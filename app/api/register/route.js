@@ -48,7 +48,7 @@ const REGISTER_RATE_LIMIT_PER_EMAIL = Number(
   process.env.REGISTER_RATE_LIMIT_PER_EMAIL || 4
 );
 const REGISTRATION_OPEN = !["false", "0", "off"].includes(
-  String(process.env.REGISTRATION_OPEN || "true").trim().toLowerCase()
+  String(process.env.REGISTRATION_OPEN || "false").trim().toLowerCase()
 );
 const EMAIL_VERIFY_IDENTIFIER_PREFIX = "email-verify:";
 

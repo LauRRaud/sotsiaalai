@@ -79,6 +79,8 @@ const lockedRoleCardClassName =
   `w-full ${registerControlWidthClassName} justify-center text-center max-[768px]:text-[1.15rem] max-[768px]:leading-[1.34]`;
 const registerButtonClassName =
   "register-submit px-[1.65rem] py-[0.9rem] text-[1.32rem] leading-[1.1]";
+const registerClosedNoticeClassName =
+  "w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]";
 const successButtonClassName =
   "register-success-button !min-h-[3.05rem] !px-[1.55rem] !py-[0.9rem] !text-[1.18rem] !leading-[1.12] !tracking-[0.02em] " +
   "max-[768px]:!min-h-[3.42rem] max-[768px]:!px-[1.7rem] max-[768px]:!py-[0.98rem] max-[768px]:!text-[1.32rem]";
@@ -91,7 +93,7 @@ const inputBaseClassName =
 const registerCredentialFieldClassName =
   registerControlWidthClassName;
 const isRegistrationOpen = !["false", "0", "off"].includes(
-  String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "true")
+  String(process.env.NEXT_PUBLIC_REGISTRATION_OPEN || "false")
     .trim()
     .toLowerCase(),
 );
@@ -840,6 +842,11 @@ export default function RegistreerimineBody({}) {
               <section
                 className={`${registerStepClassName} register-step--role ${getRegisterStepClassName(roleStepIndex)}`}
               >
+                {!isRegistrationOpen ? (
+                  <div role="status" className={registerClosedNoticeClassName}>
+                    {t("auth.register.closed_notice")}
+                  </div>
+                ) : null}
                 {!isRoleLocked ? (
                   <>
                     <div
@@ -1066,7 +1073,7 @@ export default function RegistreerimineBody({}) {
                     {!isRegistrationOpen && (
                       <div
                         role="status"
-                        className="w-full rounded-[0.95rem] border border-[rgba(251,191,36,0.45)] bg-[rgba(251,191,36,0.12)] px-[0.95rem] py-[0.78rem] text-[color:#fde68a] light:text-[color:#92400e] text-[1.08rem] leading-[1.4]"
+                        className={registerClosedNoticeClassName}
                       >
                         {t("auth.register.closed_notice")}
                       </div>

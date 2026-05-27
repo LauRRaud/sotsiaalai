@@ -60,6 +60,7 @@
     "encoding:fix": "node scripts/encoding/fix.mjs",
     "test:e2e": "playwright test",
     "payments:maksekeskus:e2e": "node scripts/maksekeskus-sandbox-e2e.mjs",
+    "payments:test-users": "node scripts/create-payment-test-users.mjs",
     "payments:alerts:dispatch": "node scripts/payment-alert-dispatch.mjs",
     "payments:renewals": "node scripts/subscription-renewals.mjs",
     "research:worker": "tsx --tsconfig jsconfig.json scripts/research-worker.mjs",

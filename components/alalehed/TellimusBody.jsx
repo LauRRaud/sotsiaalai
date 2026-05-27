@@ -77,6 +77,11 @@ const subscriptionInfoBlockClassName = "grid gap-[0.7rem]";
 const subscriptionStatusStackClassName = "grid gap-[0.2rem] pt-[0.1rem]";
 const authModalBackdropClassName =
   "fixed inset-0 z-[94] bg-[rgba(6,10,18,0.74)] backdrop-blur-[2px] pointer-events-auto";
+const subscriptionCheckoutDisabled = ["false", "0", "off"].includes(
+  String(process.env.NEXT_PUBLIC_SUBSCRIPTION_CHECKOUT_OPEN || "false")
+    .trim()
+    .toLowerCase(),
+);
 
 let maksekeskusScriptPromise = null;
 
@@ -123,7 +128,6 @@ function loadMaksekeskusCheckoutScript(scriptUrl) {
 
 export default function TellimusBody() {
   const router = useRouter();
-  const subscriptionCheckoutDisabled = true;
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [subActive, setSubActive] = useState(false);

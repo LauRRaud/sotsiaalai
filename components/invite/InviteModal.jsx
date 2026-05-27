@@ -37,7 +37,25 @@ function parseEmails(raw) {
     .filter(Boolean);
   return [...new Set(list)];
 }
+function formatEuroAmount(amount, locale = "et") {
+  try {
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  } catch {
+    return `${Number(amount || 0).toFixed(2)} EUR`;
+  }
+}
+
 const INVITE_TILT_CLOSE_MS = 540;
+const sponsoredCheckoutDisabled = ["false", "0", "off"].includes(
+  String(process.env.NEXT_PUBLIC_SPONSORED_INVITE_CHECKOUT_OPEN || "false")
+    .trim()
+    .toLowerCase(),
+);
 const inviteFieldInputClassName =
   `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
   "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";
@@ -73,7 +91,6 @@ function InviteGlowPanel({ children, className = "" }) {
 }
 
 export default function InviteModal() {
-  const sponsoredCheckoutDisabled = true;
   const { data: session } = useSession();
   const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
@@ -145,14 +162,19 @@ export default function InviteModal() {
   const invitePrimaryButtonClassName =
     "!min-h-[3.05rem] !px-[1.15rem] !py-[0.78rem] !text-[1.12rem] !tracking-[0.03rem] " +
     "max-[768px]:!min-h-[3.2rem] max-[768px]:!text-[1.18rem]";
+  const sponsoredAmount = Number(process.env.NEXT_PUBLIC_INVITE_SPONSORED_AMOUNT || 4);
+  const sponsoredAmountLabel = formatEuroAmount(
+    Number.isFinite(sponsoredAmount) && sponsoredAmount > 0 ? sponsoredAmount : 4,
+    locale,
+  );
   const sponsoredRoleOptions = [
     {
       value: "SOCIAL_WORKER",
-      label: t("invite.sponsored.role.worker"),
+      label: `${t("invite.sponsored.role.worker")} - ${sponsoredAmountLabel}`,
     },
     {
       value: "CLIENT",
-      label: t("invite.sponsored.role.client"),
+      label: `${t("invite.sponsored.role.client")} - ${sponsoredAmountLabel}`,
     },
   ];
   const inviteOptionButtonClassName = primarySegmentedButtonClassName;

@@ -16,9 +16,9 @@ import { getInviteSponsoredPaymentKind } from "@/lib/payments/recurring";
 import { ROOM_ORIGIN_TYPES, buildRoomOrigin } from "@/lib/rooms/origin";
 import {
   formatEuroAmount,
-  getRoleMonthlyAmount,
   getRolePlanDescription,
   getRolePlanKey,
+  getSponsoredInviteAmount,
   normalizeSubscriptionRole
 } from "@/lib/subscriptionPlans";
 import { isSubscriptionActive } from "@/lib/subscriptionStatus";
@@ -472,7 +472,7 @@ export async function POST(request) {
     }
 
     const plan = getRolePlanKey(targetRole);
-    const amount = getRoleMonthlyAmount(targetRole).toFixed(2);
+    const amount = getSponsoredInviteAmount(targetRole).toFixed(2);
     const currency = String(process.env.SUBSCRIPTION_CURRENCY || "EUR")
       .trim()
       .toUpperCase();
