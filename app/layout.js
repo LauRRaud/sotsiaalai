@@ -92,7 +92,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0d111b"
+  themeColor: "#111418"
 };
 const aino = localFont({
   src: [{

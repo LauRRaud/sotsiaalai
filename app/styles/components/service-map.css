@@ -2353,6 +2353,19 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   scrollbar-width: thin;
 }
 
+.service-map-popup__contacts::-webkit-scrollbar {
+  width: 0.34rem;
+}
+
+.service-map-popup__contacts::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.service-map-popup__contacts::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--workspace-feature-text, #1f2937) 18%, transparent);
+}
+
 .service-map-popup__contact {
   display: grid;
   box-sizing: border-box;

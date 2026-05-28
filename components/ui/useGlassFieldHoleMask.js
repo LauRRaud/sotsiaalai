@@ -31,7 +31,7 @@ function roundedRectPath(x, y, width, height, radius) {
   ].join(" ");
 }
 
-function localHoleRect(target, root) {
+function localHoleRect(target, root, rootScrollLeft = 0, rootScrollTop = 0) {
   const rect = target.getBoundingClientRect();
   const rootRect = root.getBoundingClientRect();
   const width = rect.width || target.offsetWidth || 0;
@@ -49,8 +49,8 @@ function localHoleRect(target, root) {
     0,
     Number.parseFloat(targetStyle.getPropertyValue("--glass-field-hole-inset-y")) || 0
   );
-  const x = clamp(rect.left - rootRect.left + insetX, 0, rootWidth);
-  const y = clamp(rect.top - rootRect.top + insetY, 0, rootHeight);
+  const x = clamp(rect.left - rootRect.left + rootScrollLeft + insetX, 0, rootWidth);
+  const y = clamp(rect.top - rootRect.top + rootScrollTop + insetY, 0, rootHeight);
   const w = clamp(width - insetX * 2, 0, rootWidth - x);
   const h = clamp(height - insetY * 2, 0, rootHeight - y);
   if (w <= 1 || h <= 1) return null;
@@ -145,6 +145,8 @@ export default function useGlassFieldHoleMask({
       maskLayerRef?.current?.style?.removeProperty("mask-image");
       maskLayerRef?.current?.style?.removeProperty("-webkit-clip-path");
       maskLayerRef?.current?.style?.removeProperty("clip-path");
+      maskLayerRef?.current?.style?.removeProperty("height");
+      maskLayerRef?.current?.style?.removeProperty("bottom");
     };
 
     const updateMask = () => {
@@ -154,7 +156,12 @@ export default function useGlassFieldHoleMask({
       }
       const rootRect = root.getBoundingClientRect();
       const rootWidth = rootRect.width || root.offsetWidth || 0;
-      const rootHeight = rootRect.height || root.offsetHeight || 0;
+      const rootScrollLeft = root.scrollLeft || 0;
+      const rootScrollTop = root.scrollTop || 0;
+      const rootHeight = Math.max(
+        rootRect.height || root.offsetHeight || 0,
+        root.scrollHeight || 0
+      );
       if (!rootWidth || !rootHeight) {
         if (!lastMask) clearMask();
         if (retryCount < 12) {
@@ -169,7 +176,7 @@ export default function useGlassFieldHoleMask({
       );
       bindScrollParents(targets);
       const holes = targets
-        .map((target) => localHoleRect(target, root))
+        .map((target) => localHoleRect(target, root, rootScrollLeft, rootScrollTop))
         .filter(Boolean);
       if (!holes.length && targets.length) {
         if (lastMask) {
@@ -190,6 +197,8 @@ export default function useGlassFieldHoleMask({
       const maskLayer = maskLayerRef?.current;
       if (maskLayer) {
         const clipPath = buildClipPath(rootWidth, rootHeight, holes);
+        maskLayer.style.setProperty("height", `${rootHeight}px`);
+        maskLayer.style.setProperty("bottom", "auto");
         maskLayer.style.setProperty("--glass-field-hole-mask", mask);
         maskLayer.style.setProperty("-webkit-mask-image", mask);
         maskLayer.style.setProperty("mask-image", mask);

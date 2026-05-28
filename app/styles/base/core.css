@@ -1,5 +1,10 @@
 html {
   --app-chrome-bg: #10151d;
+  --app-chrome-bg-image: radial-gradient(
+    ellipse at top,
+    #2b3037 0%,
+    #111418 100%
+  );
   font-family: var(--font-aino), Arial, sans-serif;
   font-size: calc(var(--base-rem, 16px) * var(--ui-scale, 1));
   --app-height: 100dvh;
@@ -9,23 +14,53 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   background-color: var(--app-chrome-bg);
+  background-image: var(--app-chrome-bg-image, none);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   cursor: var(--cursor-default);
 }
 
 html.theme-light {
   --app-chrome-bg: #f4f2ee;
+  --app-chrome-bg-image: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
 }
 
 html.theme-mid {
   --app-chrome-bg: #d7c6c0;
+  --app-chrome-bg-image: linear-gradient(
+    180deg,
+    var(--mid-bg-top, #9f807a) 0%,
+    var(--mid-bg-mid, #7e5f58) 58%,
+    var(--mid-bg-bottom, #644843) 100%
+  );
 }
 
 html.theme-night {
   --app-chrome-bg: #0e1420;
+  --app-chrome-bg-image: radial-gradient(
+    ellipse at top,
+    #1b2735 0%,
+    #090a0f 100%
+  );
+}
+
+html.theme-mono:not([data-contrast="hc"]) {
+  --app-chrome-bg: #101010;
+  --app-chrome-bg-image: linear-gradient(
+    180deg,
+    var(--forest-bg-top, #2f2f2f) 0%,
+    var(--forest-bg-mid, #1f1f1f) 54%,
+    var(--forest-bg-bottom, #101010) 100%
+  );
 }
 
 html[data-contrast="hc"] {
   --app-chrome-bg: #10151d;
+  --app-chrome-bg-image: radial-gradient(
+    ellipse at top,
+    #1a2736 0%,
+    #10151d 100%
+  );
 }
 *,
 *::before,
@@ -41,10 +76,35 @@ body {
   justify-content: flex-start;
   align-items: stretch;
   touch-action: pan-y;
-  background-image: none;
   background-color: var(--app-chrome-bg);
+  background-image: var(--app-chrome-bg-image, none);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   cursor: inherit;
 }
+
+html[data-display-mode="standalone"],
+html[data-display-mode="fullscreen"],
+html[data-display-mode="standalone"] body,
+html[data-display-mode="fullscreen"] body,
+body[data-display-mode="standalone"],
+body[data-display-mode="fullscreen"],
+html[data-display-mode="standalone"] .app-root,
+html[data-display-mode="fullscreen"] .app-root {
+  background-color: var(--app-chrome-bg, #10151d) !important;
+  background-image: var(--app-chrome-bg-image, none) !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+html[data-display-mode="standalone"] body.homepage::before,
+html[data-display-mode="fullscreen"] body.homepage::before,
+body[data-display-mode="standalone"].homepage::before,
+body[data-display-mode="fullscreen"].homepage::before {
+  content: none !important;
+  display: none !important;
+}
+
 .app-root {
   min-height: 100vh;
   min-height: var(--app-height, 100dvh);

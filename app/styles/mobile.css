@@ -78,32 +78,6 @@
     height: 0;
   }
 
-  html[data-display-mode="standalone"] body.homepage,
-  html[data-display-mode="fullscreen"] body.homepage,
-  body[data-display-mode="standalone"].homepage,
-  body[data-display-mode="fullscreen"].homepage {
-    background: var(--home-browser-base-bg, var(--app-chrome-bg, #10151d)) !important;
-    background-repeat: no-repeat !important;
-    background-size: 100% 100% !important;
-  }
-
-  html[data-display-mode="standalone"] body.homepage::before,
-  html[data-display-mode="fullscreen"] body.homepage::before,
-  body[data-display-mode="standalone"].homepage::before,
-  body[data-display-mode="fullscreen"].homepage::before {
-    content: "";
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    height: max(env(safe-area-inset-bottom, 0px), 5.25rem);
-    pointer-events: none;
-    background: var(--home-safe-area-bg, var(--app-chrome-bg, #111418));
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-  }
-
   .glass-mobile-only-close.modal-close-btn,
   .chat-mobile-close.modal-close-btn,
   .drawer-close-btn--chat.modal-close-btn {

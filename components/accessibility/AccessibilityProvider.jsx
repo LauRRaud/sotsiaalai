@@ -31,7 +31,7 @@ function resolveThemeChromeColor(theme, contrast = "normal") {
   if (theme === "mid") return "#d7c6c0";
   if (theme === "night") return "#0e1420";
   if (theme === "mono") return "#101010";
-  return "#10151d";
+  return "#111418";
 }
 
 function ensureMetaTag(name) {
