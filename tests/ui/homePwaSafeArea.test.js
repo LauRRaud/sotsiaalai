@@ -21,7 +21,10 @@ test("mobile PWA homepage paints the bottom safe area with the active theme back
   );
   assert.match(
     mobileCss,
-    /html\[data-display-mode="standalone"\] body\.homepage::before,[\s\S]*?body\[data-display-mode="fullscreen"\]\.homepage::before\s*\{[\s\S]*?height:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*4\.5rem\);[\s\S]*?background:\s*var\(--home-browser-base-bg,\s*var\(--app-chrome-bg,\s*#10151d\)\);/,
+    /html\[data-display-mode="standalone"\] body\.homepage::before,[\s\S]*?body\[data-display-mode="fullscreen"\]\.homepage::before\s*\{[\s\S]*?height:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*5\.25rem\);[\s\S]*?background:\s*var\(--home-safe-area-bg,\s*var\(--app-chrome-bg,\s*#111418\)\);/,
     "standalone/fullscreen PWA should not expose the manifest black fallback at the bottom edge"
   );
+  assert.match(mobileCss, /html\.theme-light\s*\{[\s\S]*?--home-safe-area-bg:\s*#e9e6df;/);
+  assert.match(mobileCss, /html\.theme-night\s*\{[\s\S]*?--home-safe-area-bg:\s*#090a0f;/);
+  assert.match(mobileCss, /html:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\)\s*\{[\s\S]*?--home-safe-area-bg:\s*#111418;/);
 });

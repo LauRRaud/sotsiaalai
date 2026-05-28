@@ -716,7 +716,10 @@ export default function ServiceMapLeaflet({
         onSelectEntryRef.current,
         selectedEntryIdRef.current
       ), {
-        className: "service-map-leaflet__popup",
+        className: [
+          "service-map-leaflet__popup",
+          group.entries.length > 1 ? "service-map-leaflet__popup--group" : "service-map-leaflet__popup--single"
+        ].join(" "),
         maxWidth: group.entries.length > 1 ? 460 : 296,
         minWidth: group.entries.length > 1 ? 320 : 216,
         offset: [0, -18],

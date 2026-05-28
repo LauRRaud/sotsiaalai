@@ -97,9 +97,9 @@
     right: 0;
     bottom: 0;
     z-index: 1;
-    height: max(env(safe-area-inset-bottom, 0px), 4.5rem);
+    height: max(env(safe-area-inset-bottom, 0px), 5.25rem);
     pointer-events: none;
-    background: var(--home-browser-base-bg, var(--app-chrome-bg, #10151d));
+    background: var(--home-safe-area-bg, var(--app-chrome-bg, #111418));
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
@@ -432,6 +432,7 @@
   }
   html.theme-light {
     --home-browser-base-bg: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
+    --home-safe-area-bg: #e9e6df;
   }
   html.theme-mid {
     --home-browser-base-bg: linear-gradient(
@@ -440,6 +441,7 @@
       var(--mid-bg-mid) 58%,
       var(--mid-bg-bottom) 100%
     );
+    --home-safe-area-bg: var(--mid-bg-bottom, #b7aaa7);
   }
   html.theme-night {
     --home-browser-base-bg: radial-gradient(
@@ -447,6 +449,7 @@
       #1b2735 0%,
       #090a0f 100%
     );
+    --home-safe-area-bg: #090a0f;
   }
   html:not(.theme-light):not(.theme-mid):not(.theme-night) {
     --home-browser-base-bg: radial-gradient(
@@ -454,6 +457,7 @@
       #2b3037 0%,
       #111418 100%
     );
+    --home-safe-area-bg: #111418;
   }
   @supports selector(html:has([data-bg-layer][data-page="home"])) {
     html.theme-light:has(
