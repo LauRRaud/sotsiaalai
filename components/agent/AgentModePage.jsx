@@ -140,9 +140,12 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   const isLightTheme = prefs?.theme === "light" || prefs?.theme === "mid"
   const roleScope = effectiveRole === "CLIENT" ? "client" : "worker"
   const defaultAudience = effectiveRole === "CLIENT" ? "client" : "worker"
+  const initialDocumentIdsSignature = Array.isArray(initialDocumentIds)
+    ? initialDocumentIds.map((value) => String(value || "").trim()).filter(Boolean).join("\u001f")
+    : String(initialDocumentIds || "").trim()
   const initialSelectedDocumentIds = useMemo(
-    () => Array.from(new Set(initialDocumentIds.map((value) => String(value || "").trim()).filter(Boolean))),
-    [initialDocumentIds]
+    () => Array.from(new Set(initialDocumentIdsSignature.split("\u001f").map((value) => value.trim()).filter(Boolean))),
+    [initialDocumentIdsSignature]
   )
   const chatWindowRef = useRef(null)
   const inputBarRef = useRef(null)
@@ -317,7 +320,15 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }, [audienceTouched, defaultAudience])
 
   useEffect(() => {
-    setSelectedDocumentIds(initialSelectedDocumentIds)
+    setSelectedDocumentIds((current) => {
+      if (
+        current.length === initialSelectedDocumentIds.length &&
+        current.every((id, index) => id === initialSelectedDocumentIds[index])
+      ) {
+        return current
+      }
+      return initialSelectedDocumentIds
+    })
   }, [initialSelectedDocumentIds])
 
   useEffect(() => {
