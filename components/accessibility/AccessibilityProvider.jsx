@@ -2,8 +2,12 @@
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import AccessibilityModal from "./AccessibilityModal";
+import dynamic from "next/dynamic";
 import { useI18n } from "@/components/i18n/I18nProvider";
+const AccessibilityModal = dynamic(() => import("./AccessibilityModal"), {
+  ssr: false,
+  loading: () => null
+});
 const A11yContext = createContext(null);
 const DEFAULT_PREFS = {
   uiScale: "md",

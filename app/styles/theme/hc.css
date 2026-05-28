@@ -2413,7 +2413,8 @@ html[data-contrast="hc"] .desc-ring-right .circular-text-line {
 html[data-contrast="hc"] .centered-back-right h2 {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] .centered-back-left h2 {
+html[data-contrast="hc"] .centered-back-left h2,
+html[data-contrast="hc"] .centered-back-left h2 span {
   color: #000 !important;
 }
 html[data-contrast="hc"] .desc-ring-left,

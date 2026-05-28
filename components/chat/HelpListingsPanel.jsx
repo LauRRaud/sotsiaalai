@@ -66,6 +66,14 @@ export default function HelpListingsPanel({
     return `motion-safe:animate-[${keyframe}_540ms_cubic-bezier(0.42,0,0.58,1)_both]`;
   }, [_side, closeTiltOverride]);
   const countLabel = `${items.length} ${items.length === 1 ? ui.listingSingular : ui.listingPlural}`;
+  const standaloneMobileSurfaceClassName = isWorkspaceReturn
+    ? ""
+    : "max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] " +
+      "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+      "max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
+      "max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
+      "max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
+      "max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
   const helpListingsContentClassName =
     `help-listings-modal-content mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(100%,76vw)] !max-w-[clamp(36rem,76vw,54rem)]"} ` +
     `relative !flex min-h-0 ${helpListingsDesktopSizeClassName} !flex-col overflow-x-hidden !overflow-hidden ${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.08rem] ` +
@@ -75,12 +83,7 @@ export default function HelpListingsPanel({
     `${isWorkspaceReturn ? "" : glassSubpageSurfaceScopeClassName} ` +
     `leading-[1.35] tracking-[0.024rem] mobile-keep-desktop-glass-cards ` +
     `max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] ` +
-    `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
-    `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-    `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
-    `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
-    `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
-    `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
+    `${standaloneMobileSurfaceClassName} ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
     `${embedded ? "help-listings-modal-content--embedded " : ""}` +
     `${isClosing ? `${isWorkspaceReturn ? "" : tiltAnimationClassName} pointer-events-none` : ""}`;

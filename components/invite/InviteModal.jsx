@@ -132,6 +132,14 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     ? "min-[769px]:!min-h-0"
     : "!h-[min(calc(100dvh-1.25rem),clamp(36rem,82vh,52rem))] !min-h-0 !max-h-[calc(100dvh-1.25rem)]";
   const inviteHeaderTitle = t("invite.eyebrow");
+  const standaloneMobileSurfaceClassName = isWorkspaceReturn
+    ? ""
+    : "max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] " +
+      "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
+      "max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
+      "max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
+      "max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
+      "max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
   const inviteModalContentClassName =
     `invite-modal-content person-invite-modal-content glass-field-hole-surface mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-hidden ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
@@ -140,12 +148,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     `[--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
     `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] shadow-[var(--glass-shell-shadow,none)] ` +
     `${isWorkspaceReturn ? "" : glassSubpageSurfaceScopeClassName} ` +
-    `max-[768px]:!max-w-none max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] ` +
-    `max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
-    `max-[768px]:rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
-    `max-[768px]:px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] ` +
-    `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
-    `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
+    `${standaloneMobileSurfaceClassName} ` +
     `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
     `${embedded ? "invite-modal-content--embedded " : ""}` +
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;

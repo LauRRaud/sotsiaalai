@@ -56,13 +56,14 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
-    height: 100dvh;
+    height: var(--glass-mobile-root-vh, 100dvh);
+    min-height: var(--glass-mobile-root-vh, 100dvh);
     overscroll-behavior: none;
   }
 
   .homepage-root {
-    height: 100dvh;
-    min-height: 100dvh;
+    height: var(--glass-mobile-root-vh, 100dvh);
+    min-height: var(--glass-mobile-root-vh, 100dvh);
     overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior-y: contain;
@@ -75,6 +76,32 @@
   .homepage-root::-webkit-scrollbar {
     width: 0;
     height: 0;
+  }
+
+  html[data-display-mode="standalone"] body.homepage,
+  html[data-display-mode="fullscreen"] body.homepage,
+  body[data-display-mode="standalone"].homepage,
+  body[data-display-mode="fullscreen"].homepage {
+    background: var(--home-browser-base-bg, var(--app-chrome-bg, #10151d)) !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% 100% !important;
+  }
+
+  html[data-display-mode="standalone"] body.homepage::before,
+  html[data-display-mode="fullscreen"] body.homepage::before,
+  body[data-display-mode="standalone"].homepage::before,
+  body[data-display-mode="fullscreen"].homepage::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: max(env(safe-area-inset-bottom, 0px), 4.5rem);
+    pointer-events: none;
+    background: var(--home-browser-base-bg, var(--app-chrome-bg, #10151d));
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
   }
 
   .glass-mobile-only-close.modal-close-btn,
@@ -748,6 +775,15 @@
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-layer {
     display: none !important;
+  }
+
+  .chat-page-shell
+    .chat-container[data-chat-layout="mobile"]:not(.chat-container--workspace-open) {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {

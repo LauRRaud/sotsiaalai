@@ -359,6 +359,15 @@
     --csp-scroll-fade-top: clamp(1.45rem, 4vh, 2.25rem);
     --csp-scroll-fade-bottom: clamp(4rem, 10.35vh, 5.75rem);
   }
+
+  .register-scroll.csp-container,
+  .a11y-csp-scroll.csp-container {
+    --csp-active-scale: 1.01;
+    --csp-neighbor-scale: 0.965;
+    --csp-hidden-scale: 0.94;
+    --csp-neighbor-opacity: 0.42;
+    --csp-hidden-opacity: 0.2;
+  }
 }
 
 .register-scroll.csp-container,
@@ -374,7 +383,9 @@
   mask-image: none !important;
 }
 
-.register-scroll.csp-container .register-step,
-.a11y-csp-scroll.csp-container .csp-step {
-  opacity: var(--csp-edge-opacity, 1);
+@media (min-width: 769px) {
+  .register-scroll.csp-container .register-step,
+  .a11y-csp-scroll.csp-container .csp-step {
+    opacity: var(--csp-edge-opacity, 1);
+  }
 }

@@ -6,7 +6,10 @@ import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { WORKSPACE_PANEL_MORPH_MS } from "@/lib/workspacePanelMorph";
 import dynamic from "next/dynamic";
-import ColorBends from "./ColorBends";
+const ColorBends = dynamic(() => import("./ColorBends"), {
+  ssr: false,
+  loading: () => null
+});
 const Particles = dynamic(() => import("./Particles"), {
   ssr: false
 });

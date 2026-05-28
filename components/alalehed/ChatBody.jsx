@@ -2473,7 +2473,8 @@ export default function ChatBody({
   };
   const useMaskedChatSurface =
     !workspaceOpen &&
-    (usesInputHoleSurface ||
+    (viewportIsMobile ||
+      usesInputHoleSurface ||
       (analysis.analysisPanelMode === "overlay" &&
         analysis.showAnalysisPanel));
   const chatRingSurfaceStyle = useMaskedChatSurface

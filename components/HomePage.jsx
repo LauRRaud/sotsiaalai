@@ -4,7 +4,6 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import LoginModal from "@/components/LoginModal";
 import { cn } from "@/components/ui/cn";
 import ChevronIcon from "@/components/ui/icons/ChevronIcon";
 import { CircularRingLeft, CircularRingRight } from "@/components/TextAnimations/CircularText/CircularText";
@@ -22,6 +21,10 @@ const HomeAboutSection = dynamic(
 const HomeFooter = dynamic(
   () => import("@/components/HomeSections/HomeFooter"),
   { loading: () => null }
+);
+const LoginModal = dynamic(
+  () => import("@/components/LoginModal"),
+  { ssr: false, loading: () => null }
 );
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const HOME_FULL_INTRO = "full";

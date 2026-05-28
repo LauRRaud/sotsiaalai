@@ -251,7 +251,7 @@ export default function RegistreerimineBody({}) {
   const proxyWheelToRegisterScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
-    passthroughNativeTargets: true,
+    passthroughNativeTargets: false,
   });
 
   useEffect(() => {
@@ -822,7 +822,7 @@ export default function RegistreerimineBody({}) {
             <div className={contentClassName}>
               <div
                 ref={scrollRef}
-                className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`}
+                className={`${scrollClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"}`}
                 style={{
                   "--csp-pad": `${scrollPad}px`,
                   "--csp-pad-top": `${scrollPadTop || scrollPad}px`,

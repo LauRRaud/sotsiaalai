@@ -27,6 +27,7 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   assert.match(componentSource, /workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
   assert.match(componentSource, /min-\[769px\]:!min-h-0/);
+  assert.match(componentSource, /const standaloneMobileSurfaceClassName = isWorkspaceReturn\s*\?\s*""\s*:/);
   assert.match(componentSource, /help-listings-modal-overlay--workspace/);
   assert.match(componentSource, /help-listings-modal-content--workspace/);
   assert.doesNotMatch(componentSource, /workspace-guide-panel--route-enter/);
@@ -61,6 +62,7 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   assert.match(componentSource, /isWorkspaceReturn/);
   assert.match(componentSource, /workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
+  assert.match(componentSource, /const standaloneMobileSurfaceClassName = isWorkspaceReturn\s*\?\s*""\s*:/);
   assert.match(componentSource, /invite-modal-overlay--workspace/);
   assert.match(componentSource, /invite-modal-content--workspace/);
   assert.match(componentSource, /inviteListCardClassName[\s\S]*?mt-\[1\.45rem\]/);

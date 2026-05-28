@@ -21,14 +21,30 @@ export default function ServiceWorkerRegistrar() {
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
     window.addEventListener("appinstalled", onAppInstalled);
 
+    const cleanup = () => {
+      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
+    };
+
     if (!("serviceWorker" in navigator) || !window.isSecureContext) {
       return () => {
-        window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
-        window.removeEventListener("appinstalled", onAppInstalled);
+        cleanup();
       };
     }
 
-    const controller = new AbortController();
+    if (process.env.NODE_ENV !== "production") {
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(registrations => {
+          registrations.forEach(registration => {
+            registration.unregister().catch(() => {});
+          });
+        })
+        .catch(() => {});
+
+      return cleanup;
+    }
+
     const register = async () => {
       try {
         await navigator.serviceWorker.register("/sw.js", {
@@ -41,9 +57,7 @@ export default function ServiceWorkerRegistrar() {
     const id = setTimeout(register, 0);
     return () => {
       clearTimeout(id);
-      controller.abort();
-      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
-      window.removeEventListener("appinstalled", onAppInstalled);
+      cleanup();
     };
   }, []);
   return null;

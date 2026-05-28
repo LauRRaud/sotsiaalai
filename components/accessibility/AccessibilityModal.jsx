@@ -126,7 +126,7 @@ export default function AccessibilityModal({
   const proxyWheelToModalScroll = useSmoothWheelProxy({
     scrollRef,
     disabled: isMobileViewport,
-    passthroughNativeTargets: true,
+    passthroughNativeTargets: false,
   });
   useEffect(() => {
     setUiScale(current => current ?? initialUiScale);
@@ -501,7 +501,7 @@ export default function AccessibilityModal({
           </span>
         </div></>
 
-        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"} ${isMobileViewport ? "[--csp-active-scale:1.01] [--csp-neighbor-scale:0.965] [--csp-hidden-scale:0.94] [--csp-neighbor-opacity:0.42] [--csp-hidden-opacity:0.2]" : ""}`.trim()} style={{
+        <div ref={scrollRef} className={`${scrollAreaClassName} ${scrollAreaMobileClassName} ${isMobileViewport ? "" : "csp-desktop-free-scroll"}`.trim()} style={{
         "--csp-pad": `${scrollPad}px`,
         "--csp-pad-top": `${scrollPadTop || scrollPad}px`,
         "--csp-pad-bottom": `${scrollPadBottom || scrollPad}px`,

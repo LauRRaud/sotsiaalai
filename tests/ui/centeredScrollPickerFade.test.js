@@ -49,7 +49,13 @@ test("register and accessibility dim only the edge item without scroll masks or 
   );
   assert.match(
     css,
-    /\.register-scroll\.csp-container \.register-step,[\s\S]*?\.a11y-csp-scroll\.csp-container \.csp-step\s*\{[\s\S]*?opacity:\s*var\(--csp-edge-opacity,\s*1\);/
+    /@media \(min-width:\s*769px\)\s*\{[\s\S]*?\.register-scroll\.csp-container \.register-step,[\s\S]*?\.a11y-csp-scroll\.csp-container \.csp-step\s*\{[\s\S]*?opacity:\s*var\(--csp-edge-opacity,\s*1\);[\s\S]*?\n\s*\}\s*\n\}/,
+    "desktop edge opacity should not override mobile active/neighbor/hidden item opacity"
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*768px\)\s*\{[\s\S]*?\.register-scroll\.csp-container,[\s\S]*?\.a11y-csp-scroll\.csp-container\s*\{[\s\S]*?--csp-neighbor-opacity:\s*0\.42;[\s\S]*?--csp-hidden-opacity:\s*0\.2;[\s\S]*?\n\s*\}/,
+    "mobile register/accessibility focus tuning should be real CSS, not Tailwind arbitrary classes"
   );
 
   const picker = readSource("components/CenteredScrollPicker.jsx");
@@ -65,6 +71,7 @@ test("register and accessibility dim only the edge item without scroll masks or 
   assert.match(register, /manageHiddenFocus:\s*isMobileViewport/);
   assert.match(register, /applyEdgeVisibility:\s*!isMobileViewport/);
   assert.match(register, /edgeVisibilityMin:\s*0\.06/);
+  assert.doesNotMatch(register, /\[--csp-hidden-opacity:/);
   assert.match(
     register,
     /const proxyWheelToRegisterScroll = useSmoothWheelProxy\(\{[\s\S]*?scrollRef,[\s\S]*?passthroughNativeTargets:\s*false,/
@@ -84,6 +91,7 @@ test("register and accessibility dim only the edge item without scroll masks or 
   assert.match(accessibility, /manageHiddenFocus:\s*isMobileViewport/);
   assert.match(accessibility, /applyEdgeVisibility:\s*!isMobileViewport/);
   assert.match(accessibility, /edgeVisibilityMin:\s*0\.06/);
+  assert.doesNotMatch(accessibility, /\[--csp-hidden-opacity:/);
   assert.match(
     accessibility,
     /useSmoothWheelProxy\(\{[\s\S]*?scrollRef,[\s\S]*?passthroughNativeTargets:\s*false,/
