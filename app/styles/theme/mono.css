@@ -99,8 +99,8 @@
   --home-card-back-mono-filter: grayscale(1) saturate(0) contrast(1.08) brightness(1.06);
   --home-card-circular-text-left: rgba(57, 57, 57, 0.6);
   --home-card-circular-text-right: rgba(230, 230, 230, 0.46);
-  --home-card-back-title-left: rgba(50, 50, 50, 0.86);
-  --home-card-back-title-right: rgba(230, 230, 230, 0.82);
+  --home-card-back-title-left: rgba(50, 50, 50, 0.78);
+  --home-card-back-title-right: rgba(230, 230, 230, 0.72);
 
   --workspace-elevated-card-bg:
     linear-gradient(145deg, rgba(214, 214, 214, 0.07), rgba(214, 214, 214, 0.028)),
@@ -342,12 +342,10 @@
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .centered-back-left h2 {
   color: var(--home-card-back-title-left) !important;
-  opacity: 1 !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .homepage-root .centered-back-right h2 {
   color: var(--home-card-back-title-right) !important;
-  opacity: 1 !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back),
