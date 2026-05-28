@@ -41,6 +41,10 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   );
   assert.match(
     workspaceCss,
+    /\.panel\s+:global\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
+  );
+  assert.match(
+    workspaceCss,
     /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?padding-top:\s*clamp\(0\.18rem,\s*0\.65vh,\s*0\.42rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*calc\(\s*var\(--workspace-subpage-back-top,\s*0\.55rem\) - var\(--chat-pad-top,\s*0rem\)\s*\)\s*!important;/
   );
   assert.doesNotMatch(
@@ -106,6 +110,27 @@ test("workspace dashboard matches subpage side padding without widening the glas
   assert.match(css, /padding-left:\s*var\(--workspace-dashboard-panel-edge-x\);/);
 });
 
+test("workspace dashboard disables the chat scroll edge fade", () => {
+  const css = readSource("app/styles/components/chat-focus.css");
+
+  assert.match(
+    css,
+    /\.chat-container--workspace-open \.chat-window__scroll\s*\{[\s\S]*?mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/
+  );
+});
+
+test("workspace cards keep drop shadows out of dark and mono themes", () => {
+  const css = readSource("components/chat/WorkspacePanel.module.css");
+  const baseCard = css.match(/\.card\s*\{[\s\S]*?\n\}/)?.[0] || "";
+  const baseHover = css.match(/\.card:hover,\s*\n\.card:focus-visible\s*\{[\s\S]*?\n\}/)?.[0] || "";
+  const monoCard = css.match(/:global\(:root\.theme-mono:not\(\[data-contrast="hc"\]\)\) \.card\s*\{[\s\S]*?\n\}/)?.[0] || "";
+
+  assert.doesNotMatch(baseCard, /0\s+10px\s+24px/);
+  assert.doesNotMatch(baseHover, /0\s+14px\s+28px/);
+  assert.doesNotMatch(monoCard, /0\s+10px\s+24px/);
+  assert.match(css, /:global\(:root\.theme-light[^}]*\.workspace-dashboard-card\)[\s\S]*?0 8px 20px rgba\(82,\s*50,\s*46,\s*0\.08\)/);
+});
+
 test("workspace subpage surfaces match the dashboard outer glass width and radius", () => {
   const helpersCss = readSource("app/styles/utilities/helpers.css");
   const chatFocusCss = readSource("app/styles/components/chat-focus.css");
@@ -161,7 +186,7 @@ test("restored workspace returns already settled without replaying the dashboard
   );
 });
 
-test("workspace card navigation prefetches routes and opens subpages without route morph markers", () => {
+test("workspace card navigation keeps supported subpages inside the same glass panel", () => {
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const navigateToMatch = workspaceSource.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
@@ -173,13 +198,23 @@ test("workspace card navigation prefetches routes and opens subpages without rou
     /onClose\?\.\(\);/,
     "workspace route navigation must not close the workspace before the new route takes over"
   );
-  assert.doesNotMatch(workspaceSource, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
   assert.doesNotMatch(workspaceSource, /setHandoffPending/);
   assert.doesNotMatch(workspaceSource, /workspace-dashboard-panel--route-handoff/);
   assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph/);
+  assert.doesNotMatch(workspaceSource, /WORKSPACE_ROUTE_HANDOFF_DELAY_MS/);
+  assert.doesNotMatch(workspaceSource, /workspacePanelMorph:\s*"content-handoff"/);
   assert.match(
     workspaceSource,
-    /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
+    /const EMBEDDED_WORKSPACE_FEATURES = Object\.freeze\(\{[\s\S]*?"\/documents":\s*"documents",[\s\S]*?"\/dokreziim":\s*"document_drafting",[\s\S]*?"\/materjalid":\s*"materials",[\s\S]*?\}\);/
+  );
+  assert.match(navigateToMatch[1], /const embeddedFeature = EMBEDDED_WORKSPACE_FEATURES\[path\];/);
+  assert.match(
+    navigateToMatch[1],
+    /if \(embeddedFeature\) \{[\s\S]*?setActiveEmbeddedFeature\(embeddedFeature\);[\s\S]*?url\.searchParams\.set\("workspace",\s*embeddedFeature\);[\s\S]*?window\.history\.pushState\([\s\S]*?\);[\s\S]*?return;[\s\S]*?\}/
+  );
+  assert.match(
+    workspaceSource,
+    /import \{ createWorkspaceDashboardRows,\s*WORKSPACE_ROUTE_PREFETCH_PATHS \} from "@\/lib\/workspaceDashboardCards";/
   );
   assert.match(
     workspaceSource,
@@ -189,14 +224,28 @@ test("workspace card navigation prefetches routes and opens subpages without rou
     workspaceSource,
     /for \(const path of WORKSPACE_ROUTE_PREFETCH_PATHS\) \{[\s\S]*?router\.prefetch\(localizePath\(path,\s*locale\)\);/
   );
-  assert.match(navigateToMatch[1], /pushWithTransition\(router,\s*href\);/);
-  assert.doesNotMatch(navigateToMatch[1], /delayMs:/);
-  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph/);
-
+  assert.match(
+    navigateToMatch[1],
+    /router\.push\(href\);/
+  );
+  assert.match(workspaceSource, /activeEmbeddedFeature === "documents"[\s\S]*?<DocumentsPage[\s\S]*?embedded/);
+  assert.match(workspaceSource, /activeEmbeddedFeature === "document_drafting"[\s\S]*?<AgentModePage[\s\S]*?embedded/);
+  assert.match(workspaceSource, /activeEmbeddedFeature === "kovision"[\s\S]*?<CovisionPage[\s\S]*?embedded/);
+  assert.match(workspaceSource, /activeEmbeddedFeature === "materials"[\s\S]*?<MaterialsPage[\s\S]*?embedded/);
+  assert.match(workspaceSource, /<WorkspaceFeaturePage[\s\S]*?feature=\{activeEmbeddedFeature\}[\s\S]*?embedded/);
   assert.match(
     workspaceSource,
-    /const openHelpPanel = useCallback\([\s\S]*?onClose\?\.\(\);/,
-    "same-page workspace panels should still close the dashboard"
+    /window\.addEventListener\("popstate",\s*syncEmbeddedFeatureFromUrl\);/
+  );
+
+  const openHelpPanelMatch = workspaceSource.match(
+    /const openHelpPanel = useCallback\([\s\S]*?\n\s*\);/
+  );
+  assert.ok(openHelpPanelMatch, "openHelpPanel callback should be present");
+  assert.doesNotMatch(
+    openHelpPanelMatch[0],
+    /onClose\?\.\(\);/,
+    "workspace help listings must not close the glass panel before opening"
   );
 });
 
@@ -215,14 +264,49 @@ test("workspace subpage routes do not use panel enter or collapse morph classes"
   }
 });
 
+test("workspace embedded subpages render content without nesting a second full-page glass shell", () => {
+  const workspaceFeatureSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
+  const documentsSource = readSource("components/documents/DocumentsPage.jsx");
+  const agentSource = readSource("components/agent/AgentModePage.jsx");
+  const materialsSource = readSource("components/materials/MaterialsPage.jsx");
+  const covisionSource = readSource("components/covision/CovisionPage.jsx");
+  const documentsCss = readSource("app/styles/components/documents-mode.css");
+
+  for (const source of [workspaceFeatureSource, documentsSource, agentSource, materialsSource, covisionSource]) {
+    assert.match(source, /embedded = false/);
+    assert.match(source, /onBack = null/);
+    assert.match(source, /if \(embedded\) return content/);
+  }
+
+  assert.match(workspaceFeatureSource, /embedded && "workspace-feature-embedded"/);
+  assert.match(workspaceFeatureSource, /className=\{embedded \? null : "workspace-feature-admin-role--floating workspace-feature-admin-role--viewport"\}/);
+  assert.match(documentsSource, /embedded \? "documents-workspace documents-workspace-page--library" : ""/);
+  assert.match(agentSource, /embedded \? "documents-workspace documents-workspace-page--library" : ""/);
+  assert.doesNotMatch(documentsSource, /embedded \? "documents-workspace-page--library documents-workspace-page--documents" : ""/);
+  assert.doesNotMatch(agentSource, /embedded \? "documents-workspace-page--library documents-workspace-page--agent" : ""/);
+  assert.match(documentsSource, /embedded \? "documents-workspace-shell--embedded" : workspaceGuidePanelClassName/);
+  assert.match(agentSource, /embedded \? "documents-workspace-shell--embedded" : workspaceGuidePanelClassName/);
+  assert.match(materialsSource, /if \(embedded\) return content/);
+  assert.match(covisionSource, /if \(embedded\) return content/);
+  assert.match(documentsCss, /\.documents-workspace-shell--embedded\s*\{[\s\S]*?height:\s*100%;[\s\S]*?flex:\s*1 1 auto;/);
+  assert.match(documentsCss, /\.documents-workspace-shell--embedded > \.documents-grid\s*\{[\s\S]*?overflow-y:\s*auto;/);
+});
+
 test("help listings opened from workspace return immediately without collapse morph", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
+  const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const helpListingsSource = readSource("components/chat/HelpListingsPanel.jsx");
   const backToWorkspaceMatch = chatBodySource.match(
     /const backToWorkspaceFromListingsPanel = useCallback\(\(\) => \{([\s\S]*?)\},\s*\[[^\]]*\]\);/
   );
 
   assert.ok(backToWorkspaceMatch, "workspace help-listing return callback should be present");
+  assert.match(chatBodySource, /onOpenHelpListings=\{openHelpPanelByKey\}/);
+  assert.match(chatBodyViewSource, /onOpenHelpListings/);
+  assert.match(chatBodyViewSource, /\{listingsPanelNode\}/);
+  assert.doesNotMatch(chatBodyViewSource, /\{showChatInterface \? listingsPanelNode : null\}/);
+  assert.match(workspaceSource, /onOpenHelpListings\(panelKey,\s*"workspace"\)/);
   assert.doesNotMatch(backToWorkspaceMatch[1], /markWorkspacePanelMorph/);
   assert.doesNotMatch(backToWorkspaceMatch[1], /delayMs:/);
   assert.match(backToWorkspaceMatch[1], /restoreWorkspaceFromSharedPanel\(\);/);
@@ -231,7 +315,7 @@ test("help listings opened from workspace return immediately without collapse mo
   assert.doesNotMatch(helpListingsSource, /workspace-guide-panel--collapse/);
 });
 
-test("workspace route handoff does not resize the desktop chat container", () => {
+test("workspace route navigation does not use handoff resize classes", () => {
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const cssSource = readSource("app/styles/components/chat-focus.css");
 
@@ -288,7 +372,7 @@ test("workspace route return restores the dashboard without collapse markers", a
   );
   assert.match(
     workspaceCss,
-    /\.panel\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\s+\.grid\s*\{[\s\S]*?z-index:\s*1;/
+    /\.panel\s+:global\(\.glass-subpage-header\),[\s\S]*?\.panel\s+\.grid,[\s\S]*?\.panel\s+\.embeddedContent\s*\{[\s\S]*?z-index:\s*1;/
   );
   assert.match(workspaceCss, /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;/);
   assert.match(

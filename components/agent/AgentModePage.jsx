@@ -128,7 +128,7 @@ function buildSourceAttachments(sources, t) {
     : []
 }
 
-export default function AgentModePage({ initialDocumentIds = [], initialArtifactId = "" }) {
+export default function AgentModePage({ initialDocumentIds = [], initialArtifactId = "", embedded = false, onBack = null, hideHeader = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
   const { prefs } = useAccessibility()
@@ -1609,6 +1609,10 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
   }
 
   const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack()
+      return
+    }
     markChatWorkspaceRestore()
     if (typeof window === "undefined") {
       pushWithTransition(router, backHref, {
@@ -1621,37 +1625,44 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         persistGlassRingTilt: false
       })
     })
-  }, [backHref, router])
+  }, [backHref, onBack, router])
 
-  return (
-    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      {isAdmin ? (
+  const agentShellClassName = `documents-workspace-shell documents-workspace-shell--agent workspace-scroll-surface ${
+    embedded ? "documents-workspace documents-workspace-page--library" : ""
+  } ${
+    embedded ? "documents-workspace-shell--embedded" : workspaceGuidePanelClassName
+  }`
+  const content = (
+    <>
+      {isAdmin && !embedded ? (
         <AdminRoleViewCycleButton
           t={t}
           locale={locale}
           value={effectiveRole}
           onRoleChanged={refreshEffectiveRole}
-          className="documents-admin-role-menu documents-admin-role-menu--viewport"
+          className={embedded ? "documents-admin-role-menu" : "documents-admin-role-menu documents-admin-role-menu--viewport"}
           ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
         />
       ) : null}
-      <div className={`documents-workspace-shell documents-workspace-shell--agent workspace-scroll-surface ${workspaceGuidePanelClassName}`}>
+      <div className={agentShellClassName}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
-          <GlassSubpageHeader
-            onBack={handleBack}
-            backAriaLabel={t("documents.agent_workspace.back_to_chat")}
-            anchorBack={false}
-            backClassName="workspace-scroll-back-button documents-scroll-back-button"
-            rightSlot={
-              <DashboardInfoTrigger
-                infoId="document_drafting"
-                title={t("chat.tools.agent_mode")}
-                className={dashboardInfoTriggerCornerClassName}
-              />
-            }
-          >
-            {t("chat.tools.agent_mode")}
-          </GlassSubpageHeader>
+          {!hideHeader ? (
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("documents.agent_workspace.back_to_chat")}
+              anchorBack={false}
+              backClassName="workspace-scroll-back-button documents-scroll-back-button"
+              rightSlot={
+                <DashboardInfoTrigger
+                  infoId="document_drafting"
+                  title={t("chat.tools.agent_mode")}
+                  className={dashboardInfoTriggerCornerClassName}
+                />
+              }
+            >
+              {t("chat.tools.agent_mode")}
+            </GlassSubpageHeader>
+          ) : null}
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
           {documentsError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{documentsError}</div> : null}
           {runError ? <div className="documents-notice documents-notice--error rounded-[1rem] px-[1rem] py-[0.95rem]">{runError}</div> : null}
@@ -2627,6 +2638,14 @@ export default function AgentModePage({ initialDocumentIds = [], initialArtifact
         </section>
         </div>
       </div>
+    </>
+  )
+
+  if (embedded) return content
+
+  return (
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--agent fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
+      {content}
     </section>
   )
 }

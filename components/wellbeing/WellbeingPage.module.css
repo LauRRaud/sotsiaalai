@@ -46,6 +46,23 @@
   --wellbeing-card-shadow: none;
 }
 
+.dashboardBody {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  scrollbar-gutter: auto !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.page :global(.workspace-guide-panel-scroll) {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
 .surface {
   color: var(--wellbeing-text) !important;
   background:

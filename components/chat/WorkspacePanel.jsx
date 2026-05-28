@@ -8,13 +8,72 @@ import { cn } from "@/components/ui/cn";
 import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import { AddPersonIcon } from "@/components/ui/icons/ChatIcons";
+import DocumentsPage from "@/components/documents/DocumentsPage";
+import MaterialsPage from "@/components/materials/MaterialsPage";
+import CovisionPage from "@/components/covision/CovisionPage";
+import AgentModePage from "@/components/agent/AgentModePage";
+import JourneyDashboard from "@/components/journey/JourneyDashboard";
+import InviteModal from "@/components/invite/InviteModal";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
 import { createWorkspaceDashboardRows, WORKSPACE_ROUTE_PREFETCH_PATHS } from "@/lib/workspaceDashboardCards";
 import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
+import WorkspaceFeaturePage from "@/components/workspace/WorkspaceFeaturePage";
 import styles from "./WorkspacePanel.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const EMBEDDED_WORKSPACE_FEATURES = Object.freeze({
+  "/documents": "documents",
+  "/dokreziim": "document_drafting",
+  "/eelpoordumised": "pre_inquiries",
+  "/kovisioon": "kovision",
+  "/materjalid": "materials",
+  "/teekond": "journey",
+  "/teenuseprofiil": "service_profile",
+  "__invite": "invite"
+});
+const EMBEDDED_WORKSPACE_FEATURE_VALUES = new Set(Object.values(EMBEDDED_WORKSPACE_FEATURES));
+const EMBEDDED_WORKSPACE_HEADER_META = Object.freeze({
+  documents: {
+    titleKey: "documents.page_title",
+    fallback: "Dokumendid",
+    infoId: "documents"
+  },
+  document_drafting: {
+    titleKey: "chat.tools.agent_mode",
+    fallback: "Dokumendi koostamine",
+    infoId: "document_drafting"
+  },
+  pre_inquiries: {
+    titleKey: "workspace_feature_pages.pre_inquiries.title",
+    fallback: "Eelpoordumine",
+    infoId: "intake"
+  },
+  kovision: {
+    titleKey: "chat.workspace.cards.kovision.title",
+    fallback: "Kovisioon",
+    infoId: "kovision"
+  },
+  materials: {
+    titleKey: "materials_page.title",
+    fallback: "Materjalid",
+    infoId: "materials"
+  },
+  journey: {
+    titleKey: "journey.title",
+    fallback: "Teekond",
+    infoId: "journey"
+  },
+  service_profile: {
+    titleKey: "workspace_feature_pages.service_profile.title",
+    fallback: "Teenuseprofiil",
+    infoId: "service_profile"
+  },
+  invite: {
+    titleKey: "invite.eyebrow",
+    fallback: "Grupivestlus",
+    infoId: "invites"
+  }
+});
 const DASHBOARD_VIEW_ROLES = Object.freeze([
   "CLIENT",
   "SOCIAL_WORKER",
@@ -153,6 +212,26 @@ function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
   return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
 }
 
+function dispatchWorkspaceEvent(eventName, detail = {}) {
+  if (typeof window === "undefined") return false;
+  try {
+    const CustomEventCtor = window.CustomEvent;
+    if (typeof CustomEventCtor === "function") {
+      return window.dispatchEvent(new CustomEventCtor(eventName, { detail }));
+    }
+    if (typeof document !== "undefined" && typeof document.createEvent === "function") {
+      const event = document.createEvent("CustomEvent");
+      event.initCustomEvent(eventName, false, false, detail);
+      return window.dispatchEvent(event);
+    }
+    const event = new Event(eventName);
+    Object.defineProperty(event, "detail", { value: detail });
+    return window.dispatchEvent(event);
+  } catch {
+    return false;
+  }
+}
+
 export default function WorkspacePanel({
   t,
   locale = "et",
@@ -161,6 +240,10 @@ export default function WorkspacePanel({
   isAdmin = false,
   subActive = false,
   onClose,
+  onOpenHelpListings,
+  embeddedPanelNode = null,
+  embeddedPanelMeta = null,
+  onEmbeddedPanelBack = null,
   visible = true
 }) {
   const router = useRouter();
@@ -172,10 +255,32 @@ export default function WorkspacePanel({
     return "SOCIAL_WORKER";
   }, [userActualRole, userRole]);
   const [dashboardRole, setDashboardRole] = useState(defaultDashboardRole);
+  const [activeEmbeddedFeature, setActiveEmbeddedFeature] = useState("");
   const [roleMenuPortalTarget, setRoleMenuPortalTarget] = useState(null);
+  const syncEmbeddedFeatureFromUrl = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const feature = new URL(window.location.href).searchParams.get("workspace") || "";
+      setActiveEmbeddedFeature(EMBEDDED_WORKSPACE_FEATURE_VALUES.has(feature) ? feature : "");
+    } catch {
+      setActiveEmbeddedFeature("");
+    }
+  }, []);
 
   const navigateTo = useCallback(
     path => {
+      const embeddedFeature = EMBEDDED_WORKSPACE_FEATURES[path];
+      if (embeddedFeature) {
+        setActiveEmbeddedFeature(embeddedFeature);
+        if (typeof window !== "undefined") {
+          try {
+            const url = new URL(window.location.href);
+            url.searchParams.set("workspace", embeddedFeature);
+            window.history.pushState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+          } catch {}
+        }
+        return;
+      }
       const shouldRestoreWorkspace = !String(path || "").startsWith("/vestlus");
       const href = localizePath(path, locale);
       if (shouldRestoreWorkspace && typeof window !== "undefined") {
@@ -189,41 +294,63 @@ export default function WorkspacePanel({
       try {
         router.prefetch?.(href);
       } catch {}
-      pushWithTransition(router, href);
+      router.push(href);
     },
     [locale, router]
   );
 
   const handleWorkspaceBack = useCallback(() => {
+    if (activeEmbeddedFeature) {
+      setActiveEmbeddedFeature("");
+      if (typeof window !== "undefined") {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.delete("workspace");
+          window.history.pushState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+        } catch {}
+      }
+      return;
+    }
     onClose?.();
-  }, [onClose]);
+  }, [activeEmbeddedFeature, onClose]);
+
+  useEffect(() => {
+    syncEmbeddedFeatureFromUrl();
+    if (typeof window === "undefined") return undefined;
+    window.addEventListener("popstate", syncEmbeddedFeatureFromUrl);
+    return () => window.removeEventListener("popstate", syncEmbeddedFeatureFromUrl);
+  }, [syncEmbeddedFeatureFromUrl]);
 
   const openHelpPanel = useCallback(
     panelKey => {
-      if (typeof window === "undefined") return;
-      onClose?.();
-      try {
-        window.dispatchEvent(
-          new CustomEvent("sotsiaalai:open-help-listings", {
-            detail: { panelKey, source: "workspace" }
-          })
-        );
-      } catch {}
+      if (typeof onOpenHelpListings === "function") {
+        onOpenHelpListings(panelKey, "workspace");
+        return;
+      }
+      dispatchWorkspaceEvent("sotsiaalai:open-help-listings", { panelKey, source: "workspace" });
     },
-    [onClose]
+    [onOpenHelpListings]
   );
 
+  const handleCardClickCapture = useCallback(event => {
+    const card = event.target?.closest?.("[data-workspace-card-key]");
+    const cardKey = card?.dataset?.workspaceCardKey || "";
+    if (cardKey !== "help_requests" && cardKey !== "help_offers") return;
+    event.preventDefault();
+    event.stopPropagation();
+    openHelpPanel(cardKey);
+  }, [openHelpPanel]);
+
   const openInvite = useCallback(() => {
-    if (typeof window === "undefined") return;
-    onClose?.();
-    try {
-      window.dispatchEvent(
-        new CustomEvent("sotsiaalai:open-invite", {
-          detail: { source: "workspace" }
-        })
-      );
-    } catch {}
-  }, [onClose]);
+    setActiveEmbeddedFeature("invite");
+    if (typeof window !== "undefined") {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("workspace", "invite");
+        window.history.pushState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+      } catch {}
+    }
+  }, []);
 
   useEffect(() => {
     setDashboardRole(defaultDashboardRole);
@@ -252,11 +379,11 @@ export default function WorkspacePanel({
     const onKeyDown = event => {
       if (event.key !== "Escape") return;
       event.preventDefault();
-      onClose?.();
+      handleWorkspaceBack();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
+  }, [handleWorkspaceBack]);
 
   const activeRole = isAdmin
     ? dashboardRole
@@ -271,6 +398,22 @@ export default function WorkspacePanel({
     openHelpPanel,
     openInvite
   }), [activeRole, hasPaidAccess, navigateTo, openHelpPanel, openInvite, t]);
+  const activeEmbeddedMeta = useMemo(() => {
+    if (!activeEmbeddedFeature) return null;
+    const meta = EMBEDDED_WORKSPACE_HEADER_META[activeEmbeddedFeature] || null;
+    if (!meta) return null;
+    return {
+      ...meta,
+      title: text(t, meta.titleKey, meta.fallback)
+    };
+  }, [activeEmbeddedFeature, t]);
+  const activeTitleId = embeddedPanelNode
+    ? "chat-workspace-embedded-panel-title"
+    : activeEmbeddedFeature
+    ? `chat-workspace-${activeEmbeddedFeature}-title`
+    : "chat-workspace-title";
+  const embeddedPanelTitle = embeddedPanelMeta?.title || "";
+  const embeddedPanelInfoId = embeddedPanelMeta?.infoId || "workspace";
 
   const roleMenu = isAdmin ? (
     <div className={styles.roleMenu}>
@@ -293,8 +436,103 @@ export default function WorkspacePanel({
         className={cn("workspace-dashboard-panel", styles.panel)}
         data-visible={visible ? "true" : "false"}
         role="region"
-        aria-labelledby="chat-workspace-title"
+        aria-labelledby={activeTitleId}
+        onClickCapture={handleCardClickCapture}
       >
+      {embeddedPanelNode ? (
+        <>
+          <GlassSubpageHeader
+            onBack={onEmbeddedPanelBack || handleWorkspaceBack}
+            backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
+            anchorBack={false}
+            backClassName={styles.backButton}
+            holdPressedVisualDisabled
+            titleId={activeTitleId}
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId={embeddedPanelInfoId}
+                title={embeddedPanelTitle || text(t, "chat.workspace.title", "Toolaud")}
+                className={dashboardInfoTriggerCornerClassName}
+                style={{ top: "0.475rem" }}
+              />
+            }
+          >
+            {embeddedPanelTitle || text(t, "chat.workspace.title", "Toolaud")}
+          </GlassSubpageHeader>
+          <div className={styles.embeddedContent}>
+            {embeddedPanelNode}
+          </div>
+        </>
+      ) : activeEmbeddedFeature ? (
+        <>
+          <GlassSubpageHeader
+            onBack={handleWorkspaceBack}
+            backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
+            anchorBack={false}
+            backClassName={styles.backButton}
+            holdPressedVisualDisabled
+            titleId={activeTitleId}
+            rightSlot={
+              <DashboardInfoTrigger
+                infoId={activeEmbeddedMeta?.infoId || "workspace"}
+                title={activeEmbeddedMeta?.title || text(t, "chat.workspace.title", "Toolaud")}
+                className={dashboardInfoTriggerCornerClassName}
+                style={{ top: "0.475rem" }}
+              />
+            }
+          >
+            {activeEmbeddedMeta?.title || text(t, "chat.workspace.title", "Toolaud")}
+          </GlassSubpageHeader>
+          <div className={styles.embeddedContent}>
+            {activeEmbeddedFeature === "documents" ? (
+              <DocumentsPage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "document_drafting" ? (
+              <AgentModePage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "kovision" ? (
+              <CovisionPage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "materials" ? (
+              <MaterialsPage
+                locale={locale}
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "journey" ? (
+              <JourneyDashboard
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "invite" ? (
+              <InviteModal
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : (
+              <WorkspaceFeaturePage
+                feature={activeEmbeddedFeature}
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <>
       <GlassSubpageHeader
         onBack={handleWorkspaceBack}
         backAriaLabel={text(t, "buttons.back_previous", "Tagasi")}
@@ -326,6 +564,7 @@ export default function WorkspacePanel({
                 as="button"
                 type="button"
                 className={cn("workspace-dashboard-card", styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
+                data-workspace-card-key={card.key}
                 onClick={card.disabled ? undefined : card.onClick}
                 disabled={card.disabled}
                 aria-disabled={card.disabled ? "true" : "false"}
@@ -351,6 +590,8 @@ export default function WorkspacePanel({
           </div>
         ))}
       </div>
+        </>
+      )}
       </section>
     </>
   );

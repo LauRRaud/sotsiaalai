@@ -259,6 +259,11 @@ html[data-contrast="hc"]
   }
 }
 
+.chat-container--workspace-open .chat-window__scroll {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
 .chat-container--input-focus .chat-window,
 .chat-page-shell
   .chat-container.chat-container--round.chat-layout-desktop:has(.chat-inputbar:focus-within)

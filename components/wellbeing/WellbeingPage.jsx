@@ -135,7 +135,7 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
         role="region"
         aria-labelledby="wellbeing-title"
       >
-        <div className={bodyClassName}>
+        <div className={cn(!activeTool && styles.dashboardBody, bodyClassName)}>
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("chat.workspace.wellbeing_page.back_label", "Tagasi")}

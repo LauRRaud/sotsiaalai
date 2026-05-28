@@ -3844,34 +3844,34 @@
     },
     "workspace": {
       "client": {
-        "title": "Teekonna t??pind",
-        "description": "Siin on sinu privaatsed Teekonnad ja j?rgmised sammud. Teekonda ei jagata enne sinu eraldi kinnitust.",
+        "title": "Teekonna tööpind",
+        "description": "Siin on sinu privaatsed Teekonnad ja järgmised sammud. Teekonda ei jagata enne sinu eraldi kinnitust.",
         "start": "Alusta Teekonda",
-        "continue": "J?tka viimast Teekonda",
+        "continue": "Jätka viimast Teekonda",
         "activeJourneys": "Aktiivsed Teekonnad",
         "archivedJourneys": "Arhiveeritud Teekonnad",
-        "relatedPreInquiries": "Eelp??rdumised",
+        "relatedPreInquiries": "Eelpöördumised",
         "relatedRooms": "Vestlusruumid"
       },
       "specialist": {
         "title": "Kinnitatud eelinfo",
-        "description": "Spetsialist n?eb Teekonnaga seotud infot ainult eelp??rdumiste ja muude kinnitatud t??voogude kaudu.",
-        "sharedInfoOnly": "Privaatseid Teekondi ei kuvata. Spetsialist ei n?e kasutaja assistendivestlust ega kogu Teekonda.",
-        "preInquiries": "Eelp??rdumised",
-        "preInquiriesDescription": "Ava kasutaja kinnitatud eelp??rdumised.",
-        "missingInfo": "T?psustamist vajav info",
-        "documentsDescription": "Kasuta olemasolevaid dokumendi t??vahendeid."
+        "description": "Spetsialist näeb Teekonnaga seotud infot ainult eelpöördumiste ja muude kinnitatud töövoogude kaudu.",
+        "sharedInfoOnly": "Privaatseid Teekondi ei kuvata. Spetsialist ei näe kasutaja assistendivestlust ega kogu Teekonda.",
+        "preInquiries": "Eelpöördumised",
+        "preInquiriesDescription": "Ava kasutaja kinnitatud eelpöördumised.",
+        "missingInfo": "Täpsustamist vajav info",
+        "documentsDescription": "Kasuta olemasolevaid dokumendi töövahendeid."
       },
       "provider": {
         "title": "Teenusega seotud eelinfo",
-        "description": "Teenuseosutaja n?eb ainult konkreetse teenuse v?i p??rdumisega seotud kinnitatud infot.",
-        "sharedInfoOnly": "Privaatseid Teekondi ei kuvata. Teenuseosutaja ei n?e kasutaja assistendivestlust ega kogu Teekonda.",
-        "serviceInquiries": "Saabunud p??rdumised",
-        "serviceInquiriesDescription": "Ava teenusega seotud kinnitatud p??rdumised.",
+        "description": "Teenuseosutaja näeb ainult konkreetse teenuse või pöördumisega seotud kinnitatud infot.",
+        "sharedInfoOnly": "Privaatseid Teekondi ei kuvata. Teenuseosutaja ei näe kasutaja assistendivestlust ega kogu Teekonda.",
+        "serviceInquiries": "Saabunud pöördumised",
+        "serviceInquiriesDescription": "Ava teenusega seotud kinnitatud pöördumised.",
         "serviceProfile": "Teenuseprofiil",
-        "serviceProfileDescription": "Halda teenuse n?htavust ja kontaktinfot."
+        "serviceProfileDescription": "Halda teenuse nähtavust ja kontaktinfot."
       },
-      "privacyNote": "Teekond on privaatne. Spetsialist, teenuseosutaja v?i ruumi liige n?eb ainult seda infot, mille sa eraldi kinnitad ja jagad.",
+      "privacyNote": "Teekond on privaatne. Spetsialist, teenuseosutaja või ruumi liige näeb ainult seda infot, mille sa eraldi kinnitad ja jagad.",
       "notAvailableForRole": "Privaatsete Teekondade nimekirja selles rollis ei kuvata.",
       "privateJourneysNotShared": "Privaatset Teekonda ei jagata automaatselt."
     }

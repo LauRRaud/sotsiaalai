@@ -90,11 +90,11 @@ function InviteGlowPanel({ children, className = "" }) {
   );
 }
 
-export default function InviteModal() {
+export default function InviteModal({ embedded = false, onBack = null, hideHeader = false } = {}) {
   const { data: session } = useSession();
   const { t, locale } = useI18n();
-  const [open, setOpen] = useState(false);
-  const [openSource, setOpenSource] = useState("");
+  const [open, setOpen] = useState(embedded);
+  const [openSource, setOpenSource] = useState(embedded ? "workspace" : "");
   const [roomId, setRoomId] = useState(null);
   const [roomTitle, setRoomTitle] = useState("");
   const [hostDisplayName, setHostDisplayName] = useState("");
@@ -127,7 +127,7 @@ export default function InviteModal() {
   };
   const sendLabel = formatSentenceCase(t("invite.send"));
   const sponsoredSelected = paymentMode === "SPONSORED_BY_HOST";
-  const isWorkspaceReturn = openSource === "workspace";
+  const isWorkspaceReturn = embedded || openSource === "workspace";
   const inviteDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
     : "!h-[min(calc(100dvh-1.25rem),clamp(36rem,82vh,52rem))] !min-h-0 !max-h-[calc(100dvh-1.25rem)]";
@@ -147,6 +147,7 @@ export default function InviteModal() {
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "invite-modal-content--workspace " : ""}` +
+    `${embedded ? "invite-modal-content--embedded " : ""}` +
     `${closing ? `pointer-events-none ${isWorkspaceReturn ? "" : "motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]"}` : ""}`;
   const inviteModalBodyClassName =
     `${isWorkspaceReturn ? workspaceGuidePanelScrollClassName : glassSubpageContentWideClassName} invite-modal-scroll flex min-h-0 flex-1 flex-col gap-[1.14rem] overflow-x-hidden overflow-y-visible overscroll-contain ${isWorkspaceReturn ? "" : "px-[0.78rem] pt-[0.98rem] pb-[0.5rem]"} max-[768px]:gap-[1.05rem] max-[768px]:px-[0.05rem]`;
@@ -255,6 +256,7 @@ export default function InviteModal() {
     [locale],
   );
   useEffect(() => {
+    if (embedded) return undefined;
     const handler = (e) => {
       setRoomId(e?.detail?.roomId || null);
       setOpenSource(String(e?.detail?.source || "").trim().toLowerCase());
@@ -267,8 +269,9 @@ export default function InviteModal() {
     };
     window.addEventListener("sotsiaalai:open-invite", handler);
     return () => window.removeEventListener("sotsiaalai:open-invite", handler);
-  }, []);
+  }, [embedded]);
   useEffect(() => {
+    if (embedded) return;
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     const invitePayment = String(params.get("invitePayment") || "")
@@ -288,7 +291,7 @@ export default function InviteModal() {
       setError(t("invite.sponsored.payment_failed"));
       setMessage("");
     }
-  }, [t]);
+  }, [embedded, t]);
   useEffect(() => {
     if (open && !roomId) {
       setRoomTitle("");
@@ -302,6 +305,7 @@ export default function InviteModal() {
     }
   }, [paymentMode]);
   useEffect(() => {
+    if (embedded) return undefined;
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", open);
     root.classList.toggle("modal-open", open);
@@ -313,7 +317,7 @@ export default function InviteModal() {
       document.body.classList.remove("invite-modal-open");
       root.classList.remove("invite-modal-open");
     };
-  }, [open]);
+  }, [embedded, open]);
   useEffect(() => {
     return () => {
       if (closeTimerRef.current && typeof window !== "undefined") {
@@ -338,6 +342,10 @@ export default function InviteModal() {
     setMaskRootReady(Boolean(node));
   }, []);
   const handleClose = useCallback(() => {
+    if (embedded) {
+      onBack?.();
+      return;
+    }
     const shouldReturnToWorkspace = isWorkspaceReturn;
     const restoreWorkspace = () => {
       if (!shouldReturnToWorkspace || typeof window === "undefined") return;
@@ -373,7 +381,7 @@ export default function InviteModal() {
       closeTimerRef.current = null;
       restoreWorkspace();
     }, INVITE_TILT_CLOSE_MS);
-  }, [isWorkspaceReturn, shouldReduceMotion]);
+  }, [embedded, isWorkspaceReturn, onBack, shouldReduceMotion]);
   const loadInvites = useCallback(async () => {
     if (!roomId) {
       setInvites([]);
@@ -567,38 +575,27 @@ export default function InviteModal() {
     return inv.status;
   }
   if (!open) return null;
-  return (
-    <Modal
-      open={open}
-      variant="glass"
-      onClose={handleClose}
-      closeOnOverlayClick={!closing}
-      aria-label={inviteHeaderTitle}
-      className={
-        open
-          ? `invite-modal-overlay person-invite-modal-overlay z-[140] ${isWorkspaceReturn ? "overflow-y-auto" : "overflow-hidden"} overscroll-contain ${isWorkspaceReturn ? "items-start" : "items-center"} py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "invite-modal-overlay--workspace" : ""}`
-          : undefined
-      }
-      contentClassName={inviteModalContentClassName}
-      contentRef={setModalContentRef}
-    >
+  const content = (
+    <div className={inviteModalContentClassName} ref={setModalContentRef}>
       <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
-      <GlassSubpageHeader
-        onBack={handleClose}
-        backAriaLabel={t("buttons.back")}
-        titleAs="h2"
-        backClassName="!z-[145]"
-        titleWrapClassName={isWorkspaceReturn ? "invite-workspace-title-wrap" : undefined}
-        rightSlot={
-          <DashboardInfoTrigger
-            infoId="invites"
-            title={inviteHeaderTitle}
-            className={`${dashboardInfoTriggerCornerClassName} !z-[146]`}
-          />
-        }
-      >
-        {inviteHeaderTitle}
-      </GlassSubpageHeader>
+      {!hideHeader ? (
+        <GlassSubpageHeader
+          onBack={handleClose}
+          backAriaLabel={t("buttons.back")}
+          titleAs="h2"
+          backClassName="!z-[145]"
+          titleWrapClassName={isWorkspaceReturn ? "invite-workspace-title-wrap" : undefined}
+          rightSlot={
+            <DashboardInfoTrigger
+              infoId="invites"
+              title={inviteHeaderTitle}
+              className={`${dashboardInfoTriggerCornerClassName} !z-[146]`}
+            />
+          }
+        >
+          {inviteHeaderTitle}
+        </GlassSubpageHeader>
+      ) : null}
 
       <div className={inviteModalBodyClassName}>
         {!session?.user?.id ? (
@@ -863,6 +860,33 @@ export default function InviteModal() {
           )}
         </InviteGlowPanel>
       </div>
+    </div>
+  );
+
+  if (embedded) {
+    return (
+      <div className="workspace-feature-embedded">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Modal
+      open={open}
+      variant="glass"
+      onClose={handleClose}
+      closeOnOverlayClick={!closing}
+      aria-label={inviteHeaderTitle}
+      className={
+        open
+          ? `invite-modal-overlay person-invite-modal-overlay z-[140] ${isWorkspaceReturn ? "overflow-y-auto" : "overflow-hidden"} overscroll-contain ${isWorkspaceReturn ? "items-start" : "items-center"} py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "invite-modal-overlay--workspace" : ""}`
+          : undefined
+      }
+      contentClassName={inviteModalContentClassName}
+      contentRef={setModalContentRef}
+    >
+      {content.props.children}
     </Modal>
   );
 }

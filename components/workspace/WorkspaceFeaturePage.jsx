@@ -643,7 +643,7 @@ function JourneySharedInfoBlock({ info, t, audience = "client", serviceLabel = "
   );
 }
 
-function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "" }) {
+function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", isAdmin = false, currentUserId = "", embedded = false }) {
   const router = useRouter();
   const chatWindowRef = useRef(null);
   const inputBarRef = useRef(null);
@@ -1506,7 +1506,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </p>
         ) : null}
 
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiving_settings", "Vastuvõtt")}>
+        <SectionCard flat={embedded} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiving_settings", "Vastuvõtt")}>
           {activeRole === "SOCIAL_WORKER" ? (
             <div className="grid gap-[0.48rem]">
               <FancyCheckbox
@@ -1537,7 +1537,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           )}
         </SectionCard>
 
-        <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
+        <SectionCard flat={embedded} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
           <div className="grid gap-[0.52rem]">
             {receiverInquiries.length ? receiverInquiries.map((inquiry) => (
               <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.38rem] rounded-[0.86rem] border px-[0.76rem] py-[0.68rem]">
@@ -1587,7 +1587,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </SectionCard>
 
         {activeReceivedInquiry ? (
-          <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.selected_received", "Valitud eelpöördumine")}>
+          <SectionCard flat={embedded} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.selected_received", "Valitud eelpöördumine")}>
             <div className="grid gap-[0.54rem]">
               <div className="flex flex-wrap items-center justify-between gap-[0.5rem]">
                 <p className="m-0 text-[1rem] font-[720] leading-[1.2]">{activeReceivedInquiry.topic || readText(t, "workspace_feature_pages.pre_inquiries.untitled", "Pealkirjata")}</p>
@@ -1619,7 +1619,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         ) : null}
 
         {activeReceivedInquiry ? (
-          <SectionCard title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiver_workflow", "Vastuvõtja tööplaan")}>
+          <SectionCard flat={embedded} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.receiver_workflow", "Vastuvõtja tööplaan")}>
             <p className={bodyTextClassName}>
               {readText(t, "workspace_feature_pages.pre_inquiries.receiver_workflow_note", "Kasuta seda plokki kohtumise või järgmise kontakti ettevalmistamiseks. Märkmed on nähtavad vastuvõtja töövaates, mitte pöörduja mustandis.")}
             </p>
@@ -1691,7 +1691,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </p>
       ) : null}
 
-      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.assessment.note", "Eelkaardistus ei ole ametlik abivajaduse hindamine ega teenuse määramise otsus. See aitab olukorda läbi mõelda ja pöördumist ette valmistada.")}
         </p>
@@ -1898,7 +1898,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </details>
       <details className="pre-inquiry-details">
         <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}</summary>
-      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
             <BorderGlow
@@ -2011,7 +2011,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </details>
 
       <div className="pre-inquiry-output-grid">
-      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
@@ -2117,7 +2117,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </div>
       </SectionCard>
 
-      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
         <Label>
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
@@ -2182,7 +2182,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </div>
 
       {showReceivedInquiries ? (
-        <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
+        <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.received", "Saabunud eelpöördumised")}>
           <div className="grid gap-[0.52rem]">
             {receivedInquiries.length ? receivedInquiries.map((inquiry) => (
               <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
@@ -2212,7 +2212,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </SectionCard>
       ) : null}
 
-      <SectionCard className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
         <div className="grid gap-[0.52rem]">
           {savedInquiries.length ? savedInquiries.map((inquiry) => (
             <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
@@ -3602,7 +3602,7 @@ function ServiceProfileSurface({ t }) {
   );
 }
 
-export default function WorkspaceFeaturePage({ feature }) {
+export default function WorkspaceFeaturePage({ feature, embedded = false, onBack = null, hideHeader = false }) {
   const router = useRouter();
   const { t, locale } = useI18n();
   const { data: session } = useSession();
@@ -3645,6 +3645,10 @@ export default function WorkspaceFeaturePage({ feature }) {
   }, [refreshEffectiveRole]);
 
   const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
     if (typeof window === "undefined") {
       workspaceReturn(locale, router, { persistGlassRingTilt: false });
       return;
@@ -3652,62 +3656,77 @@ export default function WorkspaceFeaturePage({ feature }) {
     window.requestAnimationFrame(() => {
       workspaceReturn(locale, router, { persistGlassRingTilt: false });
     });
-  }, [locale, router]);
+  }, [locale, onBack, router]);
 
   const title = readText(t, `workspace_feature_pages.${featureKey}.title`, "Workspace feature");
   const activeWorkspaceRole = isAdmin
     ? adminWorkspaceRole
     : normalizeWorkspaceRole(session?.user?.role);
-  const showAdminRoleSelector = isAdmin && (
+  const showAdminRoleSelector = !embedded && isAdmin && (
     featureKey === "pre_inquiries"
   );
   const isServiceMap = featureKey === "service_map";
   const infoId = getWorkspaceFeatureInfoId(featureKey, activeWorkspaceRole);
 
-  return (
-    <section className={shellClassName} lang={locale}>
+  const content = (
+    <>
       {showAdminRoleSelector ? (
         <AdminRoleSelector
           t={t}
           locale={locale}
           value={activeWorkspaceRole}
           onChange={handleAdminWorkspaceRoleChange}
-          className="workspace-feature-admin-role--floating workspace-feature-admin-role--viewport"
+          className={embedded ? null : "workspace-feature-admin-role--floating workspace-feature-admin-role--viewport"}
         />
       ) : null}
-      <div className={cn(
-        isServiceMap
-          ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
-          : cn(panelClassName, "workspace-scroll-surface"),
-      )}>
+      <div
+        className={cn(
+          embedded && "workspace-feature-embedded",
+          !embedded && (
+            isServiceMap
+              ? `workspace-feature-panel service-map-page-panel ${glassPrimaryButtonToneClassName} ${glassSubpageSurfaceScopeClassName}`
+              : cn(panelClassName, "workspace-scroll-surface")
+          )
+        )}
+      >
         <div className={cn(isServiceMap ? "workspace-feature-content service-map-page-content relative" : contentClassName)}>
-          <GlassSubpageHeader
-            onBack={handleBack}
-            backAriaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
-            showBack={!isServiceMap}
-            holdPressedVisualDisabled
-            anchorBack={isServiceMap}
-            backClassName={!isServiceMap ? "workspace-scroll-back-button" : null}
-            headerClassName={isServiceMap ? "service-map-page-header" : null}
-            titleWrapClassName={isServiceMap ? "service-map-page-title-wrap" : null}
-            titleClassName={isServiceMap ? "service-map-page-title" : null}
-            rightSlot={
-              isServiceMap ? null : (
-                <DashboardInfoTrigger
-                  infoId={infoId}
-                  title={title}
-                  className={dashboardInfoTriggerCornerClassName}
-                />
-              )
-            }
-          >
-            {title}
-          </GlassSubpageHeader>
-          {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} /> : null}
+          {!hideHeader ? (
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={readText(t, "workspace_feature_pages.back_to_workspace", "Back to workspace")}
+              showBack={embedded || !isServiceMap}
+              holdPressedVisualDisabled
+              anchorBack={!embedded && isServiceMap}
+              backClassName={embedded || !isServiceMap ? "workspace-scroll-back-button" : null}
+              headerClassName={isServiceMap ? "service-map-page-header" : null}
+              titleWrapClassName={isServiceMap ? "service-map-page-title-wrap" : null}
+              titleClassName={isServiceMap ? "service-map-page-title" : null}
+              rightSlot={
+                !embedded && isServiceMap ? null : (
+                  <DashboardInfoTrigger
+                    infoId={infoId}
+                    title={title}
+                    className={dashboardInfoTriggerCornerClassName}
+                  />
+                )
+              }
+            >
+              {title}
+            </GlassSubpageHeader>
+          ) : null}
+          {featureKey === "pre_inquiries" ? <PreInquiriesSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} currentUserId={session?.user?.id || ""} embedded={embedded} /> : null}
           {featureKey === "service_map" ? <ServiceMapSurface t={t} locale={locale} activeRole={activeWorkspaceRole} isAdmin={isAdmin} onRoleChange={handleAdminWorkspaceRoleChange} onBack={handleBack} /> : null}
           {featureKey === "service_profile" ? <ServiceProfileSurface t={t} /> : null}
         </div>
       </div>
+    </>
+  );
+
+  if (embedded) return content;
+
+  return (
+    <section className={shellClassName} lang={locale}>
+      {content}
     </section>
   );
 }

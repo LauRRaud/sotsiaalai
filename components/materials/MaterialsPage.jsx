@@ -13,7 +13,6 @@ import {
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
   glassPrimaryButtonToneClassName,
-  glassSubpageMobileReadableWidthClassName,
   glassSubpageContentWideClassName,
   glassSubpageCardClassName,
   workspaceGuidePanelClassName,
@@ -60,7 +59,7 @@ const surfaceClassName =
   `backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] px-[0.95rem] pt-[0.35rem] pb-[1.1rem] ` +
   `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] [--glass-modal-border:none] [--glass-modal-shadow:var(--glass-shell-shadow,none)] ` +
   `${workspaceGuidePanelClassName} max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.78rem] max-[768px]:pb-[0.95rem] ${glassPageMobileCardClassName}`
-export default function MaterialsPage({ locale = "et" }) {
+export default function MaterialsPage({ locale = "et", embedded = false, onBack = null, hideHeader = false }) {
   const router = useRouter()
   const { t, locale: activeLocale } = useI18n()
   const resolvedLocale = activeLocale || locale
@@ -114,6 +113,10 @@ export default function MaterialsPage({ locale = "et" }) {
   }
 
   const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack()
+      return
+    }
     markChatWorkspaceRestore()
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", resolvedLocale), {
@@ -126,28 +129,28 @@ export default function MaterialsPage({ locale = "et" }) {
         persistGlassRingTilt: false
       })
     })
-  }, [resolvedLocale, router])
+  }, [onBack, resolvedLocale, router])
 
-  return (
-    <div className={shellClassName}>
-      <div className={surfaceClassName}>
-        <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} ${glassSubpageMobileReadableWidthClassName} grid content-start gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
-          <GlassSubpageHeader
-            onBack={handleBack}
-            backAriaLabel={t("profile.back_to_chat")}
-            holdPressedVisualDisabled
-            anchorBack={false}
-            backClassName="workspace-scroll-back-button"
-            rightSlot={
-              <DashboardInfoTrigger
-                infoId="materials"
-                title={t("materials_page.title")}
-                className={dashboardInfoTriggerCornerClassName}
-              />
-            }
-          >
-            {t("materials_page.title")}
-          </GlassSubpageHeader>
+  const content = (
+    <div className={`materials-page-body relative ${workspaceGuidePanelScrollClassName} ${glassSubpageContentWideClassName} grid content-start gap-[0.66rem] px-[0.05rem] pt-[0.26rem] pb-[0.25rem] max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`}>
+          {!hideHeader ? (
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("profile.back_to_chat")}
+              holdPressedVisualDisabled
+              anchorBack={false}
+              backClassName="workspace-scroll-back-button"
+              rightSlot={
+                <DashboardInfoTrigger
+                  infoId="materials"
+                  title={t("materials_page.title")}
+                  className={dashboardInfoTriggerCornerClassName}
+                />
+              }
+            >
+              {t("materials_page.title")}
+            </GlassSubpageHeader>
+          ) : null}
 
           <section className={materialsUploadSectionClassName}>
             <form onSubmit={handleSubmit} className={`mt-[0.42rem] grid gap-[0.68rem] ${materialsDesktopReadableWidthClassName} ${materialsMobileInnerWidthClassName}`}>
@@ -213,7 +216,15 @@ export default function MaterialsPage({ locale = "et" }) {
               </div>
             </form>
           </section>
-        </div>
+    </div>
+  )
+
+  if (embedded) return content
+
+  return (
+    <div className={shellClassName}>
+      <div className={surfaceClassName}>
+        {content}
       </div>
     </div>
   )

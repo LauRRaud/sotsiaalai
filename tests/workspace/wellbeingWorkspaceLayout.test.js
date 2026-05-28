@@ -25,6 +25,25 @@ test("wellbeing dashboard uses the same desktop panel sizing and title spacing t
   );
 });
 
+test("wellbeing dashboard keeps the same flexible vertical card rhythm as workspace", () => {
+  const css = readFileSync(new URL("../../components/wellbeing/WellbeingPage.module.css", import.meta.url), "utf8");
+  const toolsGrid = css.match(/\.toolsGrid\s*\{[\s\S]*?\n\}/)?.[0] || "";
+  const dashboardBody = css.match(/\.dashboardBody\s*\{[\s\S]*?\n\}/)?.[0] || "";
+
+  assert.match(toolsGrid, /flex:\s*1 1 auto;/);
+  assert.match(toolsGrid, /min-height:\s*0;/);
+  assert.match(toolsGrid, /margin:\s*0 auto;/);
+  assert.doesNotMatch(toolsGrid, /height:\s*min\(41\.15rem/);
+  assert.match(dashboardBody, /max-width:\s*none\s*!important;/);
+  assert.match(dashboardBody, /gap:\s*0\s*!important;/);
+  assert.match(dashboardBody, /padding:\s*0\s*!important;/);
+  assert.match(dashboardBody, /overflow:\s*visible\s*!important;/);
+  assert.match(dashboardBody, /mask-image:\s*none\s*!important;/);
+  assert.match(dashboardBody, /-webkit-mask-image:\s*none\s*!important;/);
+  assert.match(css, /\.page :global\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?mask-image:\s*none\s*!important;/);
+  assert.match(css, /\.page :global\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?-webkit-mask-image:\s*none\s*!important;/);
+});
+
 test("wellbeing tool routes update the header title and info content", () => {
   const source = readFileSync(new URL("../../components/wellbeing/WellbeingPage.jsx", import.meta.url), "utf8");
 
@@ -33,4 +52,28 @@ test("wellbeing tool routes update the header title and info content", () => {
   assert.match(source, /infoId=\{infoId\}/);
   assert.match(source, /title=\{activeTitle\}/);
   assert.match(source, /\{activeTitle\}/);
+});
+
+test("workspace routes wellbeing through the real wellbeing page", () => {
+  const source = readFileSync(new URL("../../components/chat/WorkspacePanel.jsx", import.meta.url), "utf8");
+  const cards = readFileSync(new URL("../../lib/workspaceDashboardCards.js", import.meta.url), "utf8");
+
+  assert.match(cards, /onClick:\s*\(\) => navigateTo\?\.\("\/tooheaolu"\)/);
+  assert.match(source, /router\.push\(href\);/);
+  assert.doesNotMatch(source, /WellbeingEmbeddedPanel/);
+  assert.doesNotMatch(source, /wellbeingEmbeddedOpen/);
+  assert.doesNotMatch(source, /mirrorEmbeddedWellbeingUrl/);
+  assert.doesNotMatch(source, /workspacePanelMorph:\s*"content-handoff"/);
+  assert.doesNotMatch(cards, /openWellbeing/);
+});
+
+test("wellbeing direct page keeps one glass shell and no embedded sizing overrides", () => {
+  const source = readFileSync(new URL("../../components/wellbeing/WellbeingPage.jsx", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../../components/wellbeing/WellbeingPage.module.css", import.meta.url), "utf8");
+
+  assert.match(source, /styles\.dashboardBody/);
+  assert.match(source, /className=\{cn\(surfaceClassName,\s*styles\.surface\)\}/);
+  assert.match(source, /infoId=\{infoId\}/);
+  assert.match(source, /title=\{activeTitle\}/);
+  assert.doesNotMatch(css, /\.embeddedBody/);
 });

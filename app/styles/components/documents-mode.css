@@ -266,6 +266,55 @@
   width: min(100%, 48rem);
 }
 
+.documents-workspace-shell--embedded {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.documents-workspace-shell--embedded > .documents-grid {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.documents-workspace-shell--embedded .documents-surface-panel {
+  --documents-surface-panel-bg: transparent;
+  --documents-surface-panel-shadow: none;
+  --panel-secondary-bg: transparent;
+  --panel-secondary-shadow: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.documents-workspace-shell--embedded :is(
+  .documents-panel,
+  .documents-library-panel,
+  .documents-shell-surface,
+  .documents-subsection-stack
+) {
+  --documents-surface-panel-bg: transparent;
+  --documents-surface-panel-shadow: none;
+  --panel-secondary-bg: transparent;
+  --panel-secondary-shadow: none;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
 .documents-workspace-shell.workspace-guide-panel > .documents-grid {
   display: flex;
   width: 100%;
@@ -2340,6 +2389,38 @@ html[data-contrast="hc"] :is(.documents-agent-glow-window, .documents-agent-glow
 .documents-workspace-page--library .documents-page-shell.workspace-guide-panel-scroll > * {
   position: relative;
   z-index: 1;
+}
+
+.documents-workspace-shell--embedded > .documents-grid.workspace-guide-panel-scroll {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
+  height: 100% !important;
+  max-height: 100% !important;
+  flex: 1 1 auto;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding-top: 0 !important;
+  padding-bottom: clamp(0.55rem, 1.6vh, 0.9rem) !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.documents-workspace-shell--embedded
+  > .documents-grid.workspace-guide-panel-scroll
+  > .workspace-scroll-back-button {
+  left: var(--workspace-subpage-back-left, 0.55rem) !important;
+  top: 0.05rem !important;
+}
+
+.documents-workspace-shell--embedded
+  > .documents-grid.workspace-guide-panel-scroll
+  > .dashboard-info-trigger-corner {
+  right: var(--workspace-subpage-back-left, 0.55rem) !important;
+  top: 0.475rem !important;
 }
 
 .documents-workspace-shell.workspace-guide-panel

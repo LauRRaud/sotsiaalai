@@ -6,7 +6,7 @@ function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("workspace dashboard card navigation opens routes immediately without handoff morph", () => {
+test("workspace dashboard card navigation uses plain route push without tilt or morph classes", () => {
   const source = readSource("components/chat/WorkspacePanel.jsx");
   const navigateToMatch = source.match(
     /const navigateTo = useCallback\(\s*path => \{([\s\S]*?)\},\s*\[[^\]]*locale[\s\S]*?router[^\]]*\]\s*\);/
@@ -15,27 +15,29 @@ test("workspace dashboard card navigation opens routes immediately without hando
   assert.ok(navigateToMatch, "navigateTo callback should be present");
   assert.doesNotMatch(navigateToMatch[1], /onClose\?\.\(\);/);
   assert.doesNotMatch(navigateToMatch[1], /glassRingTilt|waitForGlassRingTilt/);
-  assert.doesNotMatch(source, /WORKSPACE_PANEL_MORPH_EXPAND_MS/);
   assert.doesNotMatch(source, /setHandoffPending/);
   assert.doesNotMatch(source, /workspace-dashboard-panel--route-handoff/);
   assert.doesNotMatch(navigateToMatch[1], /markWorkspacePanelMorph/);
+  assert.doesNotMatch(source, /WORKSPACE_ROUTE_HANDOFF_DELAY_MS/);
+  assert.doesNotMatch(source, /workspacePanelMorph:\s*"content-handoff"/);
   assert.match(
     source,
-    /const WORKSPACE_ROUTE_PREFETCH_PATHS = Object\.freeze\(\[/
+    /import \{ createWorkspaceDashboardRows,\s*WORKSPACE_ROUTE_PREFETCH_PATHS \} from "@\/lib\/workspaceDashboardCards";/
   );
   assert.match(
     source,
     /router\.prefetch\?\.\(href\)/
   );
-  assert.match(navigateToMatch[1], /pushWithTransition\(router,\s*href\);/);
-  assert.doesNotMatch(navigateToMatch[1], /delayMs:/);
-  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph:/);
+  assert.match(
+    navigateToMatch[1],
+    /router\.push\(href\);/
+  );
 });
 
 test("workspace dashboard back button closes the in-chat workspace", () => {
   const source = readSource("components/chat/WorkspacePanel.jsx");
 
-  assert.match(source, /import \{\s*pushWithTransition\s*\} from "@\/lib\/routeTransition";/);
+  assert.doesNotMatch(source, /from "@\/lib\/routeTransition";/);
   assert.match(source, /const handleWorkspaceBack = useCallback\(\s*\(\) => \{/);
   assert.match(source, /const handleWorkspaceBack = useCallback\(\s*\(\) => \{[\s\S]*?onClose\?\.\(\);[\s\S]*?\},\s*\[onClose\]\s*\);/);
   assert.doesNotMatch(source, /runWithTransition|resolveWorkspaceNavigationTiltDirection/);

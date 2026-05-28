@@ -54,7 +54,7 @@ const surfaceClassName =
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
-  `relative ${workspaceGuidePanelScrollClassName} mx-auto grid w-full max-w-[min(76rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
+  `relative ${workspaceGuidePanelScrollClassName} covision-page-body mx-auto grid w-full max-w-[min(76rem,100%)] content-start gap-[0.48rem] px-[0.05rem] pt-0 pb-[0.25rem] max-[768px]:max-w-none max-[768px]:gap-[0.58rem] max-[768px]:px-[0.05rem]`;
 
 const smallButtonClassName =
   "documents-secondary-button documents-primary-button--compact !min-h-[2.5rem] !px-[0.95rem] !py-[0.5rem] !text-[0.96rem] !leading-[1.15] !tracking-[0.01em]";
@@ -601,7 +601,7 @@ function ContributionList({ messages, locale, emptyText, onPromote, onNextStep }
   );
 }
 
-export default function CovisionPage() {
+export default function CovisionPage({ embedded = false, onBack = null, hideHeader = false }) {
   const router = useRouter();
   const { locale, t } = useI18n();
   const [view, setView] = useState("overview");
@@ -738,6 +738,10 @@ export default function CovisionPage() {
       setError("");
       return;
     }
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
     markChatWorkspaceRestore();
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
@@ -750,7 +754,7 @@ export default function CovisionPage() {
         persistGlassRingTilt: false
       });
     });
-  }, [locale, router, view]);
+  }, [locale, onBack, router, view]);
 
   function startCase() {
     setCaseForm(emptyCaseForm());
@@ -1199,32 +1203,27 @@ export default function CovisionPage() {
     }
   }
 
-  return (
-    <section className={cn(shellClassName, styles.page)} lang={locale} data-covision-page>
-      <div
-        className={cn(
-          surfaceClassName,
-          styles.surface,
-      )}
-      >
-        <div className={bodyClassName}>
-          <GlassSubpageHeader
-            onBack={handleBack}
-            backAriaLabel={t("buttons.back")}
-            holdPressedVisualDisabled
-            anchorBack={false}
-            backClassName="workspace-scroll-back-button"
-            rightSlot={
-              <DashboardInfoTrigger
-                infoId="kovision"
-                label="Ava info"
-                title={t("chat.workspace.cards.kovision.title", "Kovisioon")}
-                className={dashboardInfoTriggerCornerClassName}
-              />
-            }
-          >
-            {t("chat.workspace.cards.kovision.title", "Kovisioon")}
-          </GlassSubpageHeader>
+  const content = (
+    <div className={bodyClassName}>
+          {!hideHeader ? (
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("buttons.back")}
+              holdPressedVisualDisabled
+              anchorBack={false}
+              backClassName="workspace-scroll-back-button"
+              rightSlot={
+                <DashboardInfoTrigger
+                  infoId="kovision"
+                  label="Ava info"
+                  title={t("chat.workspace.cards.kovision.title", "Kovisioon")}
+                  className={dashboardInfoTriggerCornerClassName}
+                />
+              }
+            >
+              {t("chat.workspace.cards.kovision.title", "Kovisioon")}
+            </GlassSubpageHeader>
+          ) : null}
 
           <Notice type="error">{error}</Notice>
           <Notice>{notice}</Notice>
@@ -1879,7 +1878,20 @@ export default function CovisionPage() {
               </div>
             </form>
           ) : null}
-        </div>
+    </div>
+  );
+
+  if (embedded) return content;
+
+  return (
+    <section className={cn(shellClassName, styles.page)} lang={locale} data-covision-page>
+      <div
+        className={cn(
+          surfaceClassName,
+          styles.surface,
+      )}
+      >
+        {content}
       </div>
     </section>
   );

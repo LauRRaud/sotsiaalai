@@ -441,7 +441,7 @@ function RoleScopedWorkspace({ role, t, locale }) {
   );
 }
 
-export default function JourneyDashboard() {
+export default function JourneyDashboard({ embedded = false, onBack = null, hideHeader = false } = {}) {
   const { t, locale } = useI18n();
   const router = useRouter();
   const { status } = useSession();
@@ -486,6 +486,11 @@ export default function JourneyDashboard() {
   ), [isAdmin, locale, normalizedRole, refreshEffectiveRole, t]);
 
   const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack();
+      return;
+    }
+
     const navigateBack = () => {
       if (typeof window !== "undefined") {
         try {
@@ -505,7 +510,7 @@ export default function JourneyDashboard() {
       return;
     }
     window.requestAnimationFrame(navigateBack);
-  }, [locale, router]);
+  }, [locale, onBack, router]);
 
   const loadJourneys = useCallback(async () => {
     if (status !== "authenticated" || !isRoleResolved || !isClientRole) return;
@@ -630,46 +635,54 @@ export default function JourneyDashboard() {
     setError("");
   }, []);
 
-  if (status === "loading" || !isRoleResolved) {
+  const renderPage = (children) => {
+    const content = (
+      <div className={contentClassName}>
+        {!hideHeader ? (
+          <GlassSubpageHeader
+            onBack={handleBack}
+            backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
+            holdPressedVisualDisabled
+            backClassName="workspace-scroll-back-button"
+            rightSlot={headerRightSlot}
+          >
+            {t("journey.title", "Teekond")}
+          </GlassSubpageHeader>
+        ) : null}
+        {children}
+      </div>
+    );
+
+    if (embedded) {
+      return (
+        <div className="workspace-feature-embedded">
+          {content}
+        </div>
+      );
+    }
+
     return (
       <main className={shellClassName}>
         <div className={panelClassName}>
-          <div className={contentClassName}>
-            <GlassSubpageHeader
-              onBack={handleBack}
-              backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
-              holdPressedVisualDisabled
-              backClassName="workspace-scroll-back-button"
-              rightSlot={headerRightSlot}
-            >
-              {t("journey.title", "Teekond")}
-            </GlassSubpageHeader>
-            <div className="grid min-h-[14rem] place-items-center">
-            <p className={bodyTextClassName}>
-              {t("journey.messages.loading", "Loading journey...")}
-            </p>
-            </div>
-          </div>
+          {content}
         </div>
       </main>
+    );
+  };
+
+  if (status === "loading" || !isRoleResolved) {
+    return renderPage(
+      <div className="grid min-h-[14rem] place-items-center">
+        <p className={bodyTextClassName}>
+          {t("journey.messages.loading", "Loading journey...")}
+        </p>
+      </div>
     );
   }
 
   if (status !== "authenticated") {
-    return (
-      <main className={shellClassName}>
-        <div className={panelClassName}>
-          <div className={contentClassName}>
-            <GlassSubpageHeader
-              onBack={handleBack}
-              backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
-              holdPressedVisualDisabled
-              backClassName="workspace-scroll-back-button"
-              rightSlot={headerRightSlot}
-            >
-              {t("journey.title", "Teekond")}
-            </GlassSubpageHeader>
-          <section className={cn(cardClassName, "mx-auto w-full max-w-[42rem]")}>
+    return renderPage(
+      <section className={cn(cardClassName, "mx-auto w-full max-w-[42rem]")}>
             <div className="flex items-center gap-[0.65rem]">
               <Lock size={20} aria-hidden="true" />
               <h1 className="m-0 text-[1.38rem] font-[760] tracking-[0] text-[color:var(--title-color,var(--brand-primary))]">{t("journey.title", "Teekond")}</h1>
@@ -681,26 +694,11 @@ export default function JourneyDashboard() {
               {t("journey.actions.login", "Log in")}
             </Button>
           </section>
-          </div>
-        </div>
-      </main>
     );
   }
 
-  return (
-    <main className={shellClassName}>
-      <div className={panelClassName}>
-      <div className={contentClassName}>
-        <GlassSubpageHeader
-          onBack={handleBack}
-          backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
-          holdPressedVisualDisabled
-          backClassName="workspace-scroll-back-button"
-          rightSlot={headerRightSlot}
-        >
-          {t("journey.title", "Teekond")}
-        </GlassSubpageHeader>
-
+  return renderPage(
+    <>
         {!isClientRole ? (
           <RoleScopedWorkspace role={normalizedRole} t={t} locale={locale} />
         ) : (
@@ -900,8 +898,6 @@ export default function JourneyDashboard() {
         ) : null}
           </>
         )}
-      </div>
-      </div>
-    </main>
+      </>
   );
 }

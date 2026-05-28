@@ -71,6 +71,9 @@ export default function ChatBodyView({
   onJumpToBottom,
   messageItems,
   listingsPanelNode,
+  workspaceListingsPanelNode,
+  workspaceListingsPanelMeta,
+  onWorkspaceListingsPanelBack,
   selectedListingContextNode,
   onWindowDoubleClick,
   chatAnalysisPanelProps,
@@ -84,6 +87,7 @@ export default function ChatBodyView({
   userActualRole,
   isAdmin = false,
   subActive = false,
+  onOpenHelpListings,
   onStop,
   onSend,
   onActivateInfoMode,
@@ -173,12 +177,16 @@ export default function ChatBodyView({
                   userActualRole={userActualRole}
                   isAdmin={isAdmin}
                   subActive={subActive}
+                  onOpenHelpListings={onOpenHelpListings}
+                  embeddedPanelNode={workspaceListingsPanelNode}
+                  embeddedPanelMeta={workspaceListingsPanelMeta}
+                  onEmbeddedPanelBack={onWorkspaceListingsPanelBack}
                   onClose={onWorkspaceClose}
                   visible={workspaceSurfaceReady}
                 />
               ) : null}
-              {showChatInterface ? listingsPanelNode : null}
-              {showChatInterface ? selectedListingContextNode : null}
+              {listingsPanelNode}
+              {selectedListingContextNode}
 
               {showChatInterface ? <ChatTopNotices t={t} isRoomMode={isRoomMode} roomTitle={roomTitle} roomOrigin={roomOrigin} hideRoomTitle={hideRoomTitle} isCrisis={isCrisis} crisisText={crisisText} errorBanner={errorBanner} roomBlocked={roomBlocked} roomAuthRequired={roomAuthRequired} /> : null}
 

@@ -2180,6 +2180,8 @@ export default function ChatBody({
       error={listingsPanelState.error}
       nextOffset={listingsPanelState.nextOffset}
       emptyText={activeListingsPanel.emptyText}
+      embedded={activeListingsPanel?.returnToWorkspace}
+      hideHeader={activeListingsPanel?.returnToWorkspace}
       isClosing={listingsPanelClosing}
       onClose={closeListingsPanel}
       onBackToProfile={activeListingsPanel?.returnToProfile ? backToProfileFromListingsPanel : undefined}
@@ -2189,6 +2191,12 @@ export default function ChatBody({
       detailNode={inlineSelectedListingNode}
     />
   ) : null;
+  const workspaceListingsPanelNode = activeListingsPanel?.returnToWorkspace ? listingsPanelNode : null;
+  const workspaceListingsPanelMeta = activeListingsPanel?.returnToWorkspace ? {
+    title: activeListingsPanel.title,
+    infoId: activeListingsPanel.key
+  } : null;
+  const modalListingsPanelNode = activeListingsPanel?.returnToWorkspace ? null : listingsPanelNode;
   const selectedListingContextNode = !activeListingsPanel && selectedListingContextProps ? (
     <SelectedListingContext
       {...selectedListingContextProps}
@@ -2589,7 +2597,10 @@ export default function ChatBody({
       onHideOlder={hideOlder}
       onJumpToBottom={handleJumpToBottom}
       messageItems={messageItems}
-      listingsPanelNode={listingsPanelNode}
+      listingsPanelNode={modalListingsPanelNode}
+      workspaceListingsPanelNode={workspaceListingsPanelNode}
+      workspaceListingsPanelMeta={workspaceListingsPanelMeta}
+      onWorkspaceListingsPanelBack={backToWorkspaceFromListingsPanel}
       selectedListingContextNode={selectedListingContextNode}
       onWindowDoubleClick={handleChatWindowDoubleClick}
       chatAnalysisPanelProps={chatAnalysisPanelProps}
@@ -2603,6 +2614,7 @@ export default function ChatBody({
       userActualRole={userActualRole}
       isAdmin={userIsAdmin}
       subActive={Boolean(session?.user?.isAdmin || session?.subActive)}
+      onOpenHelpListings={openHelpPanelByKey}
       onStop={stop}
       onSend={handleSendMessage}
       onActivateInfoMode={activateInfoMode}

@@ -6,10 +6,23 @@ function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("workspace-launched help listings use workspace-sized desktop modal chrome", () => {
+test("workspace-launched help listings render inside the workspace panel", () => {
   const componentSource = readSource("components/chat/HelpListingsPanel.jsx");
-  const cssSource = readSource("app/styles/components/chat-focus.css");
+  const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
+  const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
+  const finalCssSource = readSource("app/styles/mobile.css");
 
+  assert.match(chatBodySource, /workspaceListingsPanelNode/);
+  assert.match(chatBodySource, /workspaceListingsPanelMeta/);
+  assert.match(chatBodySource, /modalListingsPanelNode/);
+  assert.match(chatBodyViewSource, /embeddedPanelNode=\{workspaceListingsPanelNode\}/);
+  assert.match(chatBodyViewSource, /embeddedPanelMeta=\{workspaceListingsPanelMeta\}/);
+  assert.match(componentSource, /hideHeader = false/);
+  assert.match(componentSource, /!\s*hideHeader\s*\?/);
+  assert.match(componentSource, /embedded = false/);
+  assert.match(componentSource, /if \(embedded\) return undefined;/);
+  assert.match(componentSource, /help-listings-modal-content--embedded/);
+  assert.match(componentSource, /<div className="workspace-feature-embedded">/);
   assert.match(componentSource, /isWorkspaceReturn/);
   assert.match(componentSource, /workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
@@ -18,17 +31,33 @@ test("workspace-launched help listings use workspace-sized desktop modal chrome"
   assert.match(componentSource, /help-listings-modal-content--workspace/);
   assert.doesNotMatch(componentSource, /workspace-guide-panel--route-enter/);
   assert.doesNotMatch(componentSource, /workspace-guide-panel--collapse/);
-  assert.match(cssSource, /\.help-listings-modal-overlay--workspace/);
-  assert.match(cssSource, /\.help-listings-modal-content--workspace/);
-  assert.match(cssSource, /--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/);
-  assert.match(cssSource, /height:\s*var\(--workspace-glass-block-size\)/);
-  assert.doesNotMatch(cssSource, /height:\s*var\(--chat-diameter\)\s*!important/);
+  assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\(/);
+  assert.match(finalCssSource, /help-listings-modal-content--embedded/);
+  assert.match(finalCssSource, /--glass-shell-shadow:\s*none\s*!important;/);
+  assert.match(finalCssSource, /mask-image:\s*none\s*!important;/);
+
+  const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
+  assert.match(
+    workspacePanelCss,
+    /\.embeddedContent\s*\{[\s\S]*?width:\s*min\(100%,\s*clamp\(38rem,\s*76vw,\s*56rem\)\);[\s\S]*?flex-direction:\s*column;/
+  );
+  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?background:\s*transparent\s*!important;/);
+  assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.workspace-feature-card\),[\s\S]*?box-shadow:\s*none\s*!important;/);
 });
 
-test("workspace-launched invite modal aligns with workspace desktop chrome", () => {
+test("workspace-launched invite renders inside the workspace panel", () => {
   const componentSource = readSource("components/invite/InviteModal.jsx");
-  const cssSource = readSource("app/styles/components/chat-focus.css");
+  const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
+  const finalCssSource = readSource("app/styles/mobile.css");
 
+  assert.match(workspaceSource, /"__invite":\s*"invite"/);
+  assert.match(workspaceSource, /setActiveEmbeddedFeature\("invite"\)/);
+  assert.match(workspaceSource, /<InviteModal[\s\S]*?embedded[\s\S]*?onBack=\{handleWorkspaceBack\}/);
+  assert.match(componentSource, /embedded = false/);
+  assert.match(componentSource, /const \[open,\s*setOpen\] = useState\(embedded\)/);
+  assert.match(componentSource, /if \(embedded\) return undefined;/);
+  assert.match(componentSource, /invite-modal-content--embedded/);
+  assert.match(componentSource, /<div className="workspace-feature-embedded">/);
   assert.match(componentSource, /isWorkspaceReturn/);
   assert.match(componentSource, /workspaceGuidePanelClassName/);
   assert.match(componentSource, /workspaceGuidePanelScrollClassName/);
@@ -39,20 +68,10 @@ test("workspace-launched invite modal aligns with workspace desktop chrome", () 
   assert.match(componentSource, /inviteListCardClassName[\s\S]*?max-\[768px\]:max-w-\[23rem\]/);
   assert.match(componentSource, /invites\.length === 0[\s\S]*?min-h-\[12rem\]/);
   assert.match(componentSource, /invites\.length === 0[\s\S]*?max-\[768px\]:min-h-\[10\.5rem\]/);
-  assert.match(
-    cssSource,
-    /\.invite-modal-overlay\.person-invite-modal-overlay\.invite-modal-overlay--workspace\s*\{[\s\S]*?align-items:\s*center\s*!important;[\s\S]*?align-content:\s*center\s*!important;[\s\S]*?padding-top:\s*0\s*!important;[\s\S]*?padding-bottom:\s*0\s*!important;/
-  );
-  assert.doesNotMatch(
-    cssSource,
-    /\.invite-modal-overlay\.person-invite-modal-overlay\.invite-modal-overlay--workspace\s*\{[\s\S]*?align-items:\s*start\s*!important;/
-  );
-  assert.doesNotMatch(
-    cssSource,
-    /\.invite-modal-content--workspace\s*\{[^}]*top:\s*0\s*!important;/
-  );
-  assert.match(cssSource, /height:\s*var\(--workspace-glass-block-size\)/);
-  assert.doesNotMatch(cssSource, /--invite-workspace-measured-height/);
+  assert.match(finalCssSource, /invite-modal-content--embedded/);
+  assert.match(finalCssSource, /--glass-modal-shadow:\s*none\s*!important;/);
+  assert.match(finalCssSource, /-webkit-mask-image:\s*none\s*!important;/);
+  assert.doesNotMatch(componentSource, /--invite-workspace-measured-height/);
 });
 
 test("PWA help listings fill the mobile viewport without artificial extra height", () => {

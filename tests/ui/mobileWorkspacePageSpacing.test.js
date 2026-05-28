@@ -120,7 +120,7 @@ test("documents and agent glass panels use the shared borderless surface", () =>
   );
   assert.match(
     css,
-    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-sheen\),\s*var\(--documents-glass-surface\)/
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.documents-workspace\.documents-workspace-page--library,[\s\S]*?:root\.theme-night \.documents-workspace\.documents-workspace-page--library,[\s\S]*?html\[data-contrast="hc"\] \.documents-workspace\.documents-workspace-page--library\s*\{[\s\S]*?--documents-glass-surface:\s*var\(--glass-ring-surface-bg,[\s\S]*?--documents-surface-panel-bg:\s*var\(--documents-glass-sheen\),\s*var\(--documents-glass-surface\)/
   );
   assert.ok(
     css.indexOf(":root.theme-night .documents-workspace.documents-workspace-page--library") >

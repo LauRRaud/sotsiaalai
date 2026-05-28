@@ -32,6 +32,14 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
   );
   assert.match(
     documentsCss,
+    /\.documents-workspace-shell--embedded :is\([\s\S]*?\.documents-panel,[\s\S]*?\.documents-library-panel,[\s\S]*?\.documents-shell-surface,[\s\S]*?\.documents-subsection-stack[\s\S]*?\)\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?backdrop-filter:\s*none\s*!important;/
+  );
+  assert.match(
+    read("app/styles/mobile.css"),
+    /\.workspace-dashboard-panel \.documents-workspace-shell--embedded :is\([\s\S]*?\.documents-panel,[\s\S]*?\.documents-surface-panel,[\s\S]*?\.documents-library-panel,[\s\S]*?\.documents-shell-surface[\s\S]*?\)\s*\{[\s\S]*?--tw-backdrop-blur:\s*;[\s\S]*?backdrop-filter:\s*none\s*!important;/
+  );
+  assert.match(
+    documentsCss,
     /\.documents-workspace-shell\.workspace-guide-panel > \.documents-grid\.workspace-guide-panel-scroll\s*\{[\s\S]*?overflow-y:\s*auto;/
   );
   assert.match(
@@ -72,10 +80,12 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button documents-scroll-back-button"/);
   assert.match(documentsSource, /documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface/);
   assert.match(agentSource, /documents-workspace-shell documents-workspace-shell--agent workspace-scroll-surface/);
-  assert.match(documentsSource, /className="documents-admin-role-menu documents-admin-role-menu--viewport"/);
-  assert.match(agentSource, /className="documents-admin-role-menu documents-admin-role-menu--viewport"/);
-  assert.match(documentsSource, /<section className=\{`documents-workspace[\s\S]*?isAdmin \? \([\s\S]*?className="documents-admin-role-menu documents-admin-role-menu--viewport"[\s\S]*?<div className=\{`documents-workspace-shell/);
-  assert.match(agentSource, /<section className=\{`documents-workspace[\s\S]*?isAdmin \? \([\s\S]*?className="documents-admin-role-menu documents-admin-role-menu--viewport"[\s\S]*?<div className=\{`documents-workspace-shell/);
+  assert.match(documentsSource, /isAdmin && !embedded \? \([\s\S]*?className="documents-admin-role-menu documents-admin-role-menu--viewport"/);
+  assert.match(agentSource, /isAdmin && !embedded \? \([\s\S]*?className=\{embedded \? "documents-admin-role-menu" : "documents-admin-role-menu documents-admin-role-menu--viewport"\}/);
+  assert.match(documentsSource, /const content = \([\s\S]*?isAdmin && !embedded \? \([\s\S]*?className="documents-admin-role-menu documents-admin-role-menu--viewport"[\s\S]*?<div className=\{documentsShellClassName\}/);
+  assert.match(agentSource, /const content = \([\s\S]*?isAdmin && !embedded \? \([\s\S]*?documents-admin-role-menu--viewport[\s\S]*?<div className=\{agentShellClassName\}/);
+  assert.match(documentsSource, /if \(embedded\) return content[\s\S]*?<section className=\{`documents-workspace/);
+  assert.match(agentSource, /if \(embedded\) return content[\s\S]*?<section className=\{`documents-workspace/);
   assert.doesNotMatch(documentsSource, /rightSlot=\{isAdmin \? \(/);
   assert.doesNotMatch(agentSource, /rightSlot=\{isAdmin \? \(/);
   assert.match(
@@ -137,14 +147,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
     agentSource,
     /documents-page-shell--content[\s\S]*?<GlassSubpageHeader[\s\S]*?>\s*\{t\("chat\.tools\.agent_mode"\)\}[\s\S]*?<section className="documents-panel documents-panel--primary documents-page-shell/
   );
-  assert.match(
-    agentSource,
-    /const heroBodyClassName =\s*\n\s*"grid gap-\[1\.05rem\] px-0 py-0/
-  );
-  assert.doesNotMatch(
-    agentSource,
-    /heroBodyClassName\s*=[\s\S]*?pt-\[0\.9rem\]/
-  );
+  assert.doesNotMatch(agentSource, /heroBodyClassName\s*=[\s\S]*?pt-\[0\.9rem\]/);
   assert.match(
     documentsCss,
     /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*0;/

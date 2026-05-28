@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/glassPageStyles"
 import { linkBrandInlineClass, linkRichTextBase } from "@/components/ui/linkStyles"
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName"
-import { ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, DOCUMENT_LIST_LIMIT, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
+import { ARTIFACT_LIST_LIMIT, ARTIFACT_LIST_LIMIT_ALL, DOCUMENT_KIND_VALUES, DOCUMENT_LIST_LIMIT, TEMPLATE_FOR_VALUES } from "@/lib/documents/constants"
 import {
   artifactStatusLabel,
   artifactTypeLabel,
@@ -132,7 +132,7 @@ const documentsPanelLinkClassName =
   "text-[clamp(1.02rem,1.25vw,1.14rem)] leading-[1.1] font-medium " +
   "[--link-brand-text:var(--documents-accent)] " +
   "max-[768px]:text-[clamp(1.02rem,4.2vw,1.18rem)] max-[768px]:leading-[1.12]"
-export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded = false }) {
+export default function DocumentsPage({ initialArtifactLimit = ARTIFACT_LIST_LIMIT, artifactsExpanded = false, embedded = false, onBack = null, hideHeader = false }) {
   const router = useRouter()
   const { t, locale } = useI18n()
   const { effectiveRole, isAdmin, isRoleResolved, refresh: refreshEffectiveRole } = useEffectiveRole()
@@ -340,8 +340,17 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     ? formatDate(frameworkAcceptance.acceptedAt, locale)
     : ""
   const frameworkPageHref = localizePath("/tooalase-kasutuse-raamistik", locale)
+  const documentsShellClassName = `documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${
+    embedded ? "documents-workspace documents-workspace-page--library" : ""
+  } ${
+    embedded ? "documents-workspace-shell--embedded" : workspaceGuidePanelClassName
+  } ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`
 
   const handleBack = useCallback(() => {
+    if (typeof onBack === "function") {
+      onBack()
+      return
+    }
     markChatWorkspaceRestore()
     if (typeof window === "undefined") {
       pushWithTransition(router, localizePath("/vestlus", locale), {
@@ -354,7 +363,7 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
         persistGlassRingTilt: false
       })
     })
-  }, [locale, router])
+  }, [locale, onBack, router])
 
   useEffect(() => {
     if (!isRoleResolved || !isClientRole) return
@@ -526,6 +535,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
   )
 
   if (isClientRole) {
+    if (embedded) {
+      return <div className="documents-workspace-shell documents-workspace-shell--documents documents-workspace-shell--embedded workspace-scroll-surface" />
+    }
     return (
       <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
         <div className={`documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${workspaceGuidePanelClassName}`} />
@@ -533,9 +545,9 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
     )
   }
 
-  return (
-    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
-      {isAdmin ? (
+  const content = (
+    <>
+      {isAdmin && !embedded ? (
         <AdminRoleViewCycleButton
           t={t}
           locale={locale}
@@ -545,24 +557,26 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
           ariaLabel={t("chat.workspace.view_role.label", "TĆ¶Ć¶laua vaade")}
         />
       ) : null}
-      <div className={`documents-workspace-shell documents-workspace-shell--documents workspace-scroll-surface ${workspaceGuidePanelClassName} ${isArtifactsExpanded ? "documents-workspace-shell--artifacts" : ""}`}>
+      <div className={documentsShellClassName}>
         <div className={`documents-grid documents-page-shell--content ${workspaceGuidePanelScrollClassName}`}>
-          <GlassSubpageHeader
-            onBack={handleBack}
-            backAriaLabel={t("buttons.back")}
-            anchorBack={false}
-            backClassName="workspace-scroll-back-button documents-scroll-back-button"
-            rightSlot={
-              <DashboardInfoTrigger
-                infoId="documents"
-                title={t("documents.page_title")}
-                className={dashboardInfoTriggerCornerClassName}
-                detailExtras={{ 3: frameworkInfoPanel }}
-              />
-            }
-          >
-            {t("documents.page_title")}
-          </GlassSubpageHeader>
+          {!hideHeader ? (
+            <GlassSubpageHeader
+              onBack={handleBack}
+              backAriaLabel={t("buttons.back")}
+              anchorBack={false}
+              backClassName="workspace-scroll-back-button documents-scroll-back-button"
+              rightSlot={
+                <DashboardInfoTrigger
+                  infoId="documents"
+                  title={t("documents.page_title")}
+                  className={dashboardInfoTriggerCornerClassName}
+                  detailExtras={{ 3: frameworkInfoPanel }}
+                />
+              }
+            >
+              {t("documents.page_title")}
+            </GlassSubpageHeader>
+          ) : null}
           <section className="documents-panel documents-panel--primary documents-page-shell !border-0 !shadow-none rounded-[1.3rem]">
             {successNotice ? (
               <div className="documents-notice documents-notice--info flex flex-wrap items-center justify-between gap-[0.7rem] rounded-[0.95rem] px-[0.95rem] py-[0.78rem] text-[0.95rem]">
@@ -933,6 +947,14 @@ export default function DocumentsPage({ initialArtifactLimit, artifactsExpanded 
           </Panel>
         </div>
       </div>
+    </>
+  )
+
+  if (embedded) return content
+
+  return (
+    <section className={`documents-workspace documents-workspace-page documents-workspace-page--library documents-workspace-page--documents fixed inset-0 isolate z-[30] bg-transparent ${glassPrimaryButtonToneClassName}`}>
+      {content}
     </section>
   )
 }

@@ -25,12 +25,15 @@ export default function HelpListingsPanel({
   items = [],
   loading = false,
   error = "",
+  emptyText = "",
   nextOffset = null,
   isClosing = false,
   onLoadMore,
   onSelectItem,
   detailNode = null,
   infoId,
+  embedded = false,
+  hideHeader = false,
   onClose,
   onBackToProfile,
   onBackToWorkspace
@@ -49,7 +52,7 @@ export default function HelpListingsPanel({
     [items]
   );
   const hasDetail = Boolean(detailNode);
-  const isWorkspaceReturn = Boolean(onBackToWorkspace);
+  const isWorkspaceReturn = embedded || Boolean(onBackToWorkspace);
   const [workspaceModalHeight, setWorkspaceModalHeight] = useState(null);
   const helpListingsDesktopSizeClassName = isWorkspaceReturn
     ? "min-[769px]:!min-h-0"
@@ -79,6 +82,7 @@ export default function HelpListingsPanel({
     `max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] ` +
     `max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)] ` +
     `${isWorkspaceReturn ? "help-listings-modal-content--workspace " : ""}` +
+    `${embedded ? "help-listings-modal-content--embedded " : ""}` +
     `${isClosing ? `${isWorkspaceReturn ? "" : tiltAnimationClassName} pointer-events-none` : ""}`;
   const listingsPanelClassName =
     "mt-0";
@@ -151,6 +155,7 @@ export default function HelpListingsPanel({
   }, [closeTiltOverride, isClosing]);
 
   useEffect(() => {
+    if (embedded) return undefined;
     if (!isMounted) return undefined;
     const root = document.documentElement;
     document.body.classList.toggle("modal-open", true);
@@ -163,7 +168,7 @@ export default function HelpListingsPanel({
       document.body.classList.remove("help-listings-modal-open");
       root.classList.remove("help-listings-modal-open");
     };
-  }, [isMounted]);
+  }, [embedded, isMounted]);
 
   if (!isMounted || typeof document === "undefined") {
     return null;
@@ -180,36 +185,29 @@ export default function HelpListingsPanel({
       ? t("workspace_feature_pages.back_to_workspace")
       : ui.close;
 
-  return createPortal(
-    <Modal
-      open
-      variant="glass"
-      onClose={onClose}
-      closeOnOverlayClick={!isClosing}
-      aria-label={title || ui.listingPlural}
-      className={`help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "help-listings-modal-overlay--workspace" : ""}`}
-      contentClassName={helpListingsContentClassName}
-      style={helpListingsWorkspaceStyle}
-    >
+  const content = (
+    <div className={helpListingsContentClassName} style={helpListingsWorkspaceStyle}>
       {hasDetail ? detailNode : (
         <>
-        <GlassSubpageHeader
-          onBack={handleBackClick}
-          backAriaLabel={backAriaLabel}
-          titleAs="h2"
-          titleWrapClassName={isWorkspaceReturn ? "help-listings-workspace-title-wrap" : undefined}
-          rightSlot={
-            infoId ? (
-              <DashboardInfoTrigger
-                infoId={infoId}
-                title={title}
-                className={dashboardInfoTriggerCornerClassName}
-              />
-            ) : null
-          }
-        >
-          {title}
-        </GlassSubpageHeader>
+        {!hideHeader ? (
+          <GlassSubpageHeader
+            onBack={handleBackClick}
+            backAriaLabel={backAriaLabel}
+            titleAs="h2"
+            titleWrapClassName={isWorkspaceReturn ? "help-listings-workspace-title-wrap" : undefined}
+            rightSlot={
+              infoId ? (
+                <DashboardInfoTrigger
+                  infoId={infoId}
+                  title={title}
+                  className={dashboardInfoTriggerCornerClassName}
+                />
+              ) : null
+            }
+          >
+            {title}
+          </GlassSubpageHeader>
+        ) : null}
 
         <div className="flex justify-center">
           <p className="mt-[0.34rem] text-center text-[1.22rem] font-[390] tracking-[0.012em] text-[color:var(--title-color,var(--brand-primary))] opacity-72 max-[768px]:mt-[0.28rem] max-[768px]:text-[1.18rem] max-[768px]:tracking-[0.01em]">
@@ -225,6 +223,11 @@ export default function HelpListingsPanel({
           >
             {loading ? <div className="px-2 py-4 text-[0.98rem] opacity-80">{ui.loading}</div> : null}
             {!loading && error ? <div className="px-2 py-4 text-[0.98rem] text-[#d68580] [.theme-night_&]:text-[rgba(226,182,180,0.96)]">{error}</div> : null}
+            {!loading && !error && !items.length ? (
+              <div className="px-2 py-4 text-center text-[1.02rem] leading-[1.42] opacity-75">
+                {emptyText || ui.empty || ""}
+              </div>
+            ) : null}
             {!loading && !error && items.length ? (
               <>
                 <div className={listingsScrollClassName}>
@@ -258,6 +261,29 @@ export default function HelpListingsPanel({
         </div>
         </>
       )}
+    </div>
+  );
+
+  if (embedded) {
+    return (
+      <div className="workspace-feature-embedded">
+        {content}
+      </div>
+    );
+  }
+
+  return createPortal(
+    <Modal
+      open
+      variant="glass"
+      onClose={onClose}
+      closeOnOverlayClick={!isClosing}
+      aria-label={title || ui.listingPlural}
+      className={`help-listings-modal-overlay z-[140] bg-transparent overflow-y-auto overscroll-contain items-start py-[clamp(1rem,3vh,1.75rem)] max-[768px]:p-0 max-[768px]:items-start ${isWorkspaceReturn ? "help-listings-modal-overlay--workspace" : ""}`}
+      contentClassName={helpListingsContentClassName}
+      style={helpListingsWorkspaceStyle}
+    >
+      {hasDetail ? detailNode : content.props.children}
     </Modal>,
     document.body
   );

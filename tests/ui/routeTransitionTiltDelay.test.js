@@ -130,3 +130,62 @@ test("explicit route-transition delays continue to override the tilt wait", asyn
     globalThis.document = previousDocument;
   }
 });
+
+test("workspace handoff delays are desktop-only", async () => {
+  const { pushWithTransition } = await import("../../lib/routeTransition.js");
+  const previousWindow = globalThis.window;
+  const previousDocument = globalThis.document;
+  const scheduledTimers = [];
+  const routerCalls = [];
+
+  globalThis.window = {
+    sessionStorage: {
+      setItem() {},
+      removeItem() {}
+    },
+    dispatchEvent() {},
+    setTimeout(callback, delay) {
+      scheduledTimers.push({ callback, delay });
+      return scheduledTimers.length;
+    },
+    clearTimeout() {},
+    matchMedia(query) {
+      return { matches: query.includes("max-width: 768px") };
+    },
+    innerWidth: 390
+  };
+  globalThis.document = {
+    documentElement: {
+      getAttribute() {
+        return "mobile";
+      }
+    },
+    body: {
+      getAttribute() {
+        return "mobile";
+      }
+    }
+  };
+
+  try {
+    pushWithTransition(
+      {
+        push(href) {
+          routerCalls.push(href);
+        }
+      },
+      "/tooheaolu",
+      {
+        delayMs: 120,
+        persistGlassRingTilt: false,
+        workspacePanelMorph: "test-morph"
+      }
+    );
+
+    assert.equal(scheduledTimers.length, 0);
+    assert.deepEqual(routerCalls, ["/tooheaolu"]);
+  } finally {
+    globalThis.window = previousWindow;
+    globalThis.document = previousDocument;
+  }
+});

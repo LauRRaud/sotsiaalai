@@ -32,12 +32,15 @@ test("wellbeing dashboard card is visible only for social workers", () => {
   assert.equal(providerCards.some((card) => card.key === "wellbeing"), false);
 });
 
-test("wellbeing dashboard card sits next to covision and opens the wellbeing workspace", () => {
+test("wellbeing dashboard card sits next to covision and routes to the real wellbeing page", () => {
+  let routedPath = null;
   const rows = createWorkspaceDashboardRows({
     activeRole: "SOCIAL_WORKER",
     hasPaidAccess: true,
     t,
-    navigateTo: noop,
+    navigateTo: (path) => {
+      routedPath = path;
+    },
     openHelpPanel: noop,
     openInvite: noop
   });
@@ -53,6 +56,8 @@ test("wellbeing dashboard card sits next to covision and opens the wellbeing wor
     wellbeing.description,
     "Märka töökoormust, vaata ülevaateid ning hoia fookuses taastumine, piirid ja tööprotsessid."
   );
+  wellbeing.onClick();
+  assert.equal(routedPath, "/tooheaolu");
 });
 
 test("wellbeing dashboard icon uses a social support mark instead of a medical pulse", () => {
