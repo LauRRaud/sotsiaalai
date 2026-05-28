@@ -11,7 +11,11 @@ test("glass field hole masks stay aligned inside scrollable surfaces", () => {
 
   assert.match(
     hook,
-    /function localHoleRect\(target,\s*root,\s*rootScrollLeft = 0,\s*rootScrollTop = 0\)/
+    /function localHoleRect\([\s\S]*?target,[\s\S]*?root,[\s\S]*?rootWidth,[\s\S]*?rootHeight,[\s\S]*?rootScrollLeft = 0,[\s\S]*?rootScrollTop = 0[\s\S]*?\)/
+  );
+  assert.doesNotMatch(
+    hook,
+    /function localHoleRect[\s\S]*?const rootHeight = rootRect\.height/
   );
   assert.match(
     hook,
@@ -20,6 +24,10 @@ test("glass field hole masks stay aligned inside scrollable surfaces", () => {
   assert.match(
     hook,
     /const rootHeight = Math\.max\([\s\S]*?rootRect\.height \|\| root\.offsetHeight \|\| 0,[\s\S]*?root\.scrollHeight \|\| 0[\s\S]*?\);/
+  );
+  assert.match(
+    hook,
+    /localHoleRect\([\s\S]*?target,[\s\S]*?root,[\s\S]*?rootWidth,[\s\S]*?rootHeight,[\s\S]*?rootScrollLeft,[\s\S]*?rootScrollTop[\s\S]*?\)/
   );
   assert.match(
     hook,

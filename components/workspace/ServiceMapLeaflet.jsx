@@ -722,7 +722,7 @@ export default function ServiceMapLeaflet({
         ].join(" "),
         maxWidth: group.entries.length > 1 ? 460 : 296,
         minWidth: group.entries.length > 1 ? 320 : 216,
-        offset: [0, -18],
+        offset: [0, -10],
         autoPan: true,
         keepInView: true,
         autoPanPaddingTopLeft: [28, 128],

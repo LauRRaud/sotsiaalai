@@ -77,9 +77,17 @@
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: clamp(0.22rem, 0.8vh, 0.45rem) clamp(0.4rem, 1vw, 0.72rem)
     clamp(0.48rem, 1.5vh, 0.82rem);
+  scrollbar-width: none;
+}
+
+.embeddedContent::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .panel :global(.workspace-guide-panel-scroll) {
@@ -93,13 +101,14 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  height: 100%;
+  height: auto !important;
   min-height: 0;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
 }
 
 .panel :global(.workspace-feature-embedded > .workspace-feature-content.workspace-guide-panel-scroll),
+.panel :global(.documents-workspace-shell--embedded > .documents-grid.workspace-guide-panel-scroll),
 .panel :global(.materials-page-body.workspace-guide-panel-scroll),
 .panel :global(.covision-page-body.workspace-guide-panel-scroll),
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded),
@@ -107,13 +116,13 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
-  height: 100%;
-  max-height: 100%;
-  flex: 1 1 auto;
+  height: auto !important;
+  max-height: none !important;
+  flex: 0 0 auto;
   margin-right: auto;
   margin-left: auto;
   overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow-y: visible !important;
 }
 
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded),
@@ -195,9 +204,11 @@
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
-  flex: 1 1 auto;
+  height: auto !important;
+  max-height: none !important;
+  flex: 0 0 auto;
   overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow-y: visible !important;
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }

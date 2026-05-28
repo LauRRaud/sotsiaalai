@@ -31,14 +31,19 @@ function roundedRectPath(x, y, width, height, radius) {
   ].join(" ");
 }
 
-function localHoleRect(target, root, rootScrollLeft = 0, rootScrollTop = 0) {
+function localHoleRect(
+  target,
+  root,
+  rootWidth,
+  rootHeight,
+  rootScrollLeft = 0,
+  rootScrollTop = 0
+) {
   const rect = target.getBoundingClientRect();
   const rootRect = root.getBoundingClientRect();
   const width = rect.width || target.offsetWidth || 0;
   const height = rect.height || target.offsetHeight || 0;
   if (width <= 1 || height <= 1) return null;
-  const rootWidth = rootRect.width || root.offsetWidth || 0;
-  const rootHeight = rootRect.height || root.offsetHeight || 0;
   if (!rootWidth || !rootHeight) return null;
   const targetStyle = getComputedStyle(target);
   const insetX = Math.max(
@@ -176,7 +181,16 @@ export default function useGlassFieldHoleMask({
       );
       bindScrollParents(targets);
       const holes = targets
-        .map((target) => localHoleRect(target, root, rootScrollLeft, rootScrollTop))
+        .map((target) =>
+          localHoleRect(
+            target,
+            root,
+            rootWidth,
+            rootHeight,
+            rootScrollLeft,
+            rootScrollTop
+          )
+        )
         .filter(Boolean);
       if (!holes.length && targets.length) {
         if (lastMask) {

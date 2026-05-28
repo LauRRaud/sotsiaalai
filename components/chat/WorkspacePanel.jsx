@@ -436,7 +436,7 @@ export default function WorkspacePanel({
         onClickCapture={handleCardClickCapture}
       >
       {embeddedPanelNode ? (
-        <>
+        <div className={styles.embeddedContent}>
           <GlassSubpageHeader
             onBack={onEmbeddedPanelBack || handleWorkspaceBack}
             backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
@@ -455,12 +455,10 @@ export default function WorkspacePanel({
           >
             {embeddedPanelTitle || text(t, "chat.workspace.title", "Toolaud")}
           </GlassSubpageHeader>
-          <div className={styles.embeddedContent}>
-            {embeddedPanelNode}
-          </div>
-        </>
+          {embeddedPanelNode}
+        </div>
       ) : activeEmbeddedFeature ? (
-        <>
+        <div className={styles.embeddedContent}>
           <GlassSubpageHeader
             onBack={handleWorkspaceBack}
             backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
@@ -479,54 +477,52 @@ export default function WorkspacePanel({
           >
             {activeEmbeddedMeta?.title || text(t, "chat.workspace.title", "Toolaud")}
           </GlassSubpageHeader>
-          <div className={styles.embeddedContent}>
-            {activeEmbeddedFeature === "documents" ? (
-              <DocumentsPage
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : activeEmbeddedFeature === "document_drafting" ? (
-              <AgentModePage
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : activeEmbeddedFeature === "kovision" ? (
-              <CovisionPage
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : activeEmbeddedFeature === "materials" ? (
-              <MaterialsPage
-                locale={locale}
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : activeEmbeddedFeature === "journey" ? (
-              <JourneyDashboard
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : activeEmbeddedFeature === "invite" ? (
-              <InviteModal
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            ) : (
-              <WorkspaceFeaturePage
-                feature={activeEmbeddedFeature}
-                embedded
-                hideHeader
-                onBack={handleWorkspaceBack}
-              />
-            )}
-          </div>
-        </>
+          {activeEmbeddedFeature === "documents" ? (
+            <DocumentsPage
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : activeEmbeddedFeature === "document_drafting" ? (
+            <AgentModePage
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : activeEmbeddedFeature === "kovision" ? (
+            <CovisionPage
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : activeEmbeddedFeature === "materials" ? (
+            <MaterialsPage
+              locale={locale}
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : activeEmbeddedFeature === "journey" ? (
+            <JourneyDashboard
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : activeEmbeddedFeature === "invite" ? (
+            <InviteModal
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          ) : (
+            <WorkspaceFeaturePage
+              feature={activeEmbeddedFeature}
+              embedded
+              hideHeader
+              onBack={handleWorkspaceBack}
+            />
+          )}
+        </div>
       ) : (
         <>
       <GlassSubpageHeader

@@ -2283,7 +2283,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-leaflet__popup.leaflet-popup {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.7rem;
 }
 
 .service-map-leaflet.leaflet-fade-anim .service-map-leaflet__popup.leaflet-popup {
@@ -2350,20 +2350,12 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   margin-inline: 0;
   padding: 0;
   scrollbar-gutter: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 
 .service-map-popup__contacts::-webkit-scrollbar {
-  width: 0.34rem;
-}
-
-.service-map-popup__contacts::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.service-map-popup__contacts::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--workspace-feature-text, #1f2937) 18%, transparent);
+  width: 0;
+  height: 0;
 }
 
 .service-map-popup__contact {
