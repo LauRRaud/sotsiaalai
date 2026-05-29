@@ -721,6 +721,45 @@
   color: var(--forest-highlight) !important;
 }
 
+:root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body {
+  --subpage-card-bg: var(--forest-input-surface) !important;
+  --subpage-card-bg-hover: var(--forest-input-surface-hover) !important;
+  --subpage-card-border: rgba(214, 214, 214, 0.16) !important;
+  --subpage-card-shadow: var(--mono-field-hole-shadow) !important;
+  --subpage-card-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
+  --input-bg: var(--forest-input-surface) !important;
+  --input-bg-hover: var(--forest-input-surface-hover) !important;
+  --input-bg-focus: var(--forest-input-surface-hover) !important;
+  --input-border: 1px solid rgba(214, 214, 214, 0.16) !important;
+  --input-shadow: var(--mono-field-hole-shadow) !important;
+  --input-shadow-hover: var(--mono-field-hole-shadow-hover) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body :is(
+  .materials-comment-glow-field.ui-glow-field,
+  .materials-comment-box,
+  .materials-comment-glow-field .ui-glow-control
+) {
+  --card-bg: var(--forest-input-surface) !important;
+  background: var(--forest-input-surface) !important;
+  background-image: var(--forest-input-surface) !important;
+  border-color: rgba(214, 214, 214, 0.16) !important;
+  box-shadow: var(--mono-field-hole-shadow) !important;
+  color: var(--forest-highlight) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .workspace-dashboard-panel .materials-page-body :is(
+  .materials-comment-glow-field.ui-glow-field:hover,
+  .materials-comment-glow-field.ui-glow-field:focus-within,
+  .materials-comment-box:is(:hover, :focus-visible, :focus-within),
+  .materials-comment-glow-field .ui-glow-control:is(:hover, :focus-visible, :focus-within)
+) {
+  --card-bg: var(--forest-input-surface-hover) !important;
+  background: var(--forest-input-surface-hover) !important;
+  background-image: var(--forest-input-surface-hover) !important;
+  box-shadow: var(--mono-field-hole-shadow-hover) !important;
+}
+
 :root.theme-mono:not([data-contrast="hc"]) .materials-page-shell :is(.materials-upload-choose-button, .materials-upload-submit-button, .materials-surface-button) {
   --btn-primary-bg: var(--forest-orbit-surface) !important;
   --btn-primary-bg-hover: var(--forest-orbit-surface-hover) !important;
@@ -1018,8 +1057,6 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ) {
@@ -1029,14 +1066,6 @@
   box-shadow: var(--mono-field-hole-shadow) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-glow-field.ui-glow-field,
-:root.theme-mono:not([data-contrast="hc"]) [data-glass-field-hole="invite"] .invite-glow-field.ui-glow-field,
-:root.theme-mono:not([data-contrast="hc"]) .invite-glow-field.ui-glow-field > span,
-:root.theme-mono:not([data-contrast="hc"]) .invite-glow-field.ui-glow-field > [class*="inner"] {
-  --card-bg: transparent !important;
-  background: transparent !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .glass-field-hole-surface {
@@ -1068,8 +1097,7 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   #login-modal .login-modal-shell,
-  .invite-modal-content,
-  .person-invite-modal-content
+  .drawer-panel--chat-glass
 ).glass-field-hole-surface > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
   position: relative;
   z-index: 1;
@@ -1086,8 +1114,6 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ):is(:hover, :focus-within) {
@@ -1098,8 +1124,6 @@
 
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ) :is(input, textarea, select, .ui-glow-control) {
@@ -1109,79 +1133,22 @@
   backdrop-filter: none !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .invite-glow-field.ui-glow-field :is(input, textarea, select, .ui-glow-control) {
-  --input-bg: transparent !important;
-  --input-bg-hover: transparent !important;
-  --input-bg-focus: transparent !important;
-  --input-flat-bg: transparent !important;
-  --input-flat-bg-hover: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-}
-
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 )::before,
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 )::after,
 :root.theme-mono:not([data-contrast="hc"]) :is(
   .drawer-panel--chat-glass .chat-sidebar-search-glow.ui-glow-field,
-  [data-glass-field-hole="invite"],
-  .invite-glow-field.ui-glow-field,
   .update-pin-content .ui-glow-field,
   .update-email-content .ui-glow-field
 ) > [class*="edgeLight"] {
   display: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal :is(
-  input[name="email"],
-  #otp-code-input,
-  #trusted-device-name
-) {
-  background: var(--mono-field-hole-bg) !important;
-  border: var(--mono-field-hole-border) !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal input[name="email"] {
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  font-size: clamp(1rem, 1.75vw, 1.12rem) !important;
-  letter-spacing: 0 !important;
-  box-shadow: 0 18px 24px -18px rgba(230, 230, 230, 0.22) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal :is(
-  input[name="email"],
-  #otp-code-input,
-  #trusted-device-name
-):is(:hover, :focus, :focus-visible) {
-  background: var(--mono-field-hole-bg) !important;
-  box-shadow: var(--mono-field-hole-shadow-hover) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal input[name="email"]:is(:hover, :focus, :focus-visible) {
-  box-shadow: 0 18px 24px -18px rgba(230, 230, 230, 0.26) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal.login-modal-box .login-modal-shell input.register-input.register-input-mid-shell[name="email"] {
-  box-shadow: 0 18px 24px -18px rgba(230, 230, 230, 0.22) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) #login-modal.login-modal-box .login-modal-shell input.register-input.register-input-mid-shell[name="email"]:is(:hover, :focus, :focus-visible) {
-  box-shadow: 0 18px 24px -18px rgba(230, 230, 230, 0.26) !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper,

@@ -91,10 +91,11 @@ body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"],
 html[data-display-mode="standalone"] .app-root,
 html[data-display-mode="fullscreen"] .app-root {
+  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   background-color: var(--app-chrome-bg, #10151d) !important;
   background-image: var(--app-chrome-bg-image, none) !important;
   background-repeat: no-repeat !important;
-  background-size: 100% 100% !important;
+  background-size: 100% max(100%, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
 }
 
 html[data-display-mode="standalone"] body.homepage::before,

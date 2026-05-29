@@ -80,11 +80,19 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   );
   assert.match(
     helpersCss,
-    /:root\.theme-light:not\(\.theme-mid\) \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*rgba\(251,\s*248,\s*246,\s*0\.64\)/
+    /:root\.theme-light:not\(\.theme-mid\) \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--btn-primary-bg\)/
   );
   assert.match(
     helpersCss,
-    /:root\.theme-mid \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*rgba\(232,\s*222,\s*218,\s*0\.42\)/
+    /:root\.theme-mid \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--mid-unified-surface-bg\)/
+  );
+  assert.match(
+    helpersCss,
+    /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.glass-subpage-surface\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\)/
+  );
+  assert.match(
+    helpersCss,
+    /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\)[\s\S]*?\.workspace-feature-panel\.glass-subpage-surface/
   );
   assert.match(
     helpersCss,
@@ -120,11 +128,13 @@ test("invite modal form controls align to the invite list panel width", () => {
     inviteSource,
     /inviteListCardClassName\s*=[\s\S]*?max-w-\[36rem\][\s\S]*?max-\[768px\]:max-w-\[23rem\]/
   );
-  assert.match(inviteSource, /const \[maskRootReady,\s*setMaskRootReady\]\s*=\s*useState\(false\)/);
-  assert.match(inviteSource, /enabled:\s*open && maskRootReady/);
-  assert.match(inviteSource, /contentRef=\{setModalContentRef\}/);
-  assert.match(inviteSource, /data-glass-field-hole="invite"/);
-  assert.match(
+  assert.doesNotMatch(inviteSource, /useGlassFieldHoleMask/);
+  assert.doesNotMatch(inviteSource, /maskRootReady/);
+  assert.doesNotMatch(inviteSource, /contentRef=\{setModalContentRef\}/);
+  assert.doesNotMatch(inviteSource, /data-glass-field-hole="invite"/);
+  assert.doesNotMatch(inviteSource, /glass-field-hole-surface/);
+  assert.doesNotMatch(inviteSource, /glass-hole-mask-layer/);
+  assert.doesNotMatch(
     mobileCss,
     /\.invite-modal-content\.glass-field-hole-surface > \.glass-hole-mask-layer\s*\{[\s\S]*?mask-image:\s*var\(--glass-field-hole-mask/
   );

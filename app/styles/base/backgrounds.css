@@ -70,10 +70,21 @@
 [data-bg-layer] {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: var(--app-height, 100dvh);
+  min-height: var(--app-height, 100dvh);
   z-index: 0;
   pointer-events: none !important;
   background-color: transparent;
   background-image: none;
+}
+
+html[data-display-mode="standalone"] [data-bg-layer],
+html[data-display-mode="fullscreen"] [data-bg-layer],
+body[data-display-mode="standalone"] [data-bg-layer],
+body[data-display-mode="fullscreen"] [data-bg-layer] {
+  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
+  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
 }
 [data-bg-layer],
 [data-bg-layer] *,

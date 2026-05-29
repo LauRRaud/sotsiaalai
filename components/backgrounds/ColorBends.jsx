@@ -319,9 +319,8 @@ export default function ColorBends({
       return () => {};
     }
 
-    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
     const updatePlaybackMode = () => {
-      const motionActive = !reducedMotion && (speedRef.current !== 0 || autoRotateRef.current !== 0);
+      const motionActive = speedRef.current !== 0 || autoRotateRef.current !== 0;
       animationEnabledRef.current = motionActive || interactiveRef.current;
     };
 

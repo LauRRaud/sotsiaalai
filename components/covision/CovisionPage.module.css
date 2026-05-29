@@ -378,6 +378,142 @@
   overflow: visible !important;
 }
 
+.overviewToolbar {
+  --covision-toolbar-gap: clamp(0.58rem, 1.2vw, 0.78rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0)),
+    var(--covision-panel-bg) !important;
+  border-color: var(--covision-card-border-strong) !important;
+}
+
+.toolbarInner {
+  display: grid;
+  gap: var(--covision-toolbar-gap);
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.52rem;
+  align-items: center;
+}
+
+.actionButton {
+  min-width: 0 !important;
+  min-height: 2.32rem !important;
+  justify-content: center !important;
+  gap: 0.34rem !important;
+  padding: 0.44rem 0.78rem !important;
+  font-size: 0.94rem !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+.actionButton svg {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+}
+
+.actionButton span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.actionButtonPrimary {
+  border-color: var(--covision-card-border-strong) !important;
+}
+
+.toolbarFilters {
+  display: grid;
+  grid-template-columns: minmax(15rem, 1fr) minmax(12rem, 0.74fr);
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.searchWrap,
+.filterWrap {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  align-items: center;
+}
+
+.searchWrap svg,
+.filterWrap > svg {
+  position: absolute;
+  left: 0.98rem;
+  z-index: 2;
+  color: var(--covision-muted);
+  pointer-events: none;
+}
+
+.searchWrap :global(.covision-glow-field),
+.filterWrap :global(.covision-glow-field) {
+  min-height: 3.05rem;
+}
+
+.searchInput {
+  padding-left: 2.55rem !important;
+}
+
+.filterWrap :global(.workspace-feature-dropdown .documents-dropdown-trigger) {
+  padding-left: 2.55rem !important;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.76fr);
+  gap: clamp(0.68rem, 1.3vw, 0.95rem);
+  align-items: start;
+}
+
+.emptyState {
+  display: grid;
+  gap: 0.34rem;
+  min-height: clamp(7.5rem, 16vh, 10.5rem);
+  align-content: center;
+  border: var(--covision-card-border-width) solid var(--covision-card-border);
+  border-radius: 0.92rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0)),
+    color-mix(in srgb, var(--covision-card-bg) 82%, transparent);
+  padding: clamp(0.82rem, 1.5vw, 1.05rem);
+}
+
+.emptyTitle {
+  margin: 0;
+  color: var(--covision-strong-text);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+@media (max-width: 1024px) {
+  .toolbarFilters,
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .overviewToolbar {
+    --covision-toolbar-gap: 0.56rem;
+  }
+
+  .actionButton {
+    min-height: 2.4rem !important;
+    flex: 1 1 calc(50% - 0.28rem);
+  }
+
+  .emptyState {
+    min-height: 7rem;
+  }
+}
+
 .card,
 .suggestionCard,
 .chip {

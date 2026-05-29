@@ -45,7 +45,7 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   );
   assert.match(
     workspaceCss,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?padding-top:\s*clamp\(0\.18rem,\s*0\.65vh,\s*0\.42rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*calc\(\s*var\(--workspace-subpage-back-top,\s*0\.55rem\) - var\(--chat-pad-top,\s*0rem\)\s*\)\s*!important;/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-subpage-back-top:\s*0\.55rem;[\s\S]*?--workspace-subpage-title-margin-top:\s*clamp\(2\.15rem,\s*5\.4vh,\s*3\.25rem\);[\s\S]*?padding-top:\s*clamp\(0\.18rem,\s*0\.65vh,\s*0\.42rem\);[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
   );
   assert.doesNotMatch(
     workspaceCss,
@@ -71,7 +71,7 @@ test("workspace dashboard uses the same desktop glass sizing as workspace subpag
   );
   assert.match(
     chatBodySource,
-    /const workspaceOpenRingPaddingStyle =[\s\S]*?workspaceOpen && !viewportIsMobile[\s\S]*?paddingTop:\s*"var\(--chat-pad-top\)"[\s\S]*?paddingBottom:\s*0/
+    /const workspaceOpenRingPaddingStyle =[\s\S]*?workspaceOpen && !viewportIsMobile[\s\S]*?paddingTop:\s*0[\s\S]*?paddingBottom:\s*0/
   );
   assert.match(
     chatBodySource,
@@ -288,8 +288,24 @@ test("workspace embedded subpages render content without nesting a second full-p
   assert.match(agentSource, /embedded \? "documents-workspace-shell--embedded" : workspaceGuidePanelClassName/);
   assert.match(materialsSource, /if \(embedded\) return content/);
   assert.match(covisionSource, /if \(embedded\) return content/);
-  assert.match(documentsCss, /\.documents-workspace-shell--embedded\s*\{[\s\S]*?height:\s*100%;[\s\S]*?flex:\s*1 1 auto;/);
-  assert.match(documentsCss, /\.documents-workspace-shell--embedded > \.documents-grid\s*\{[\s\S]*?overflow-y:\s*auto;/);
+  assert.match(documentsCss, /\.documents-workspace-shell--embedded\s*\{[\s\S]*?height:\s*auto;[\s\S]*?flex:\s*0 0 auto;/);
+  assert.match(documentsCss, /\.documents-workspace-shell--embedded > \.documents-grid\s*\{[\s\S]*?overflow:\s*visible;/);
+});
+
+test("workspace embedded subpages proxy wheel events to the full glass panel", () => {
+  const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
+  const workspaceCss = readSource("components/chat/WorkspacePanel.module.css");
+
+  assert.match(workspaceSource, /const panelRef = useRef\(null\);/);
+  assert.match(workspaceSource, /function shouldPreserveNestedWheel\([\s\S]*?target\.closest\("\.leaflet-container"\)/);
+  assert.match(workspaceSource, /const handleEmbeddedPanelWheelCapture = useCallback\(event => \{[\s\S]*?if \(!panel \|\| !\(embeddedPanelNode \|\| activeEmbeddedFeature\)\) return;/);
+  assert.match(workspaceSource, /shouldPreserveNestedWheel\(event\.target,\s*panel,\s*top,\s*left\)/);
+  assert.match(workspaceSource, /event\.preventDefault\(\);[\s\S]*?panel\.scrollTop = clamp\(panel\.scrollTop \+ top,\s*0,\s*maxTop\);/);
+  assert.match(workspaceSource, /ref=\{panelRef\}[\s\S]*?onWheelCapture=\{handleEmbeddedPanelWheelCapture\}/);
+  assert.match(
+    workspaceCss,
+    /\.panel\[data-embedded-active="true"\]\s*\{[\s\S]*?overflow-y:\s*auto;[\s\S]*?overscroll-behavior:\s*contain;[\s\S]*?padding-top:\s*0;[\s\S]*?padding-bottom:\s*0;/
+  );
 });
 
 test("help listings opened from workspace return immediately without collapse morph", () => {

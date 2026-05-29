@@ -16,7 +16,6 @@ import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { glassFormInputBaseClassName } from "@/components/ui/glassPageStyles";
 import { EmailEnvelopeStatusIcon, LockErrorIcon, SubmitArrowIcon } from "@/components/ui/icons/AuthIcons";
 import { linkBrandInlineClass } from "@/components/ui/linkStyles";
-import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
 const noteBaseClassName = "flex items-center justify-center text-center text-[1.06em] max-md:text-[1.12em]";
 const noteErrorClassName = "text-[#fca5a5] light:text-[#b44a4a]";
 const noteInfoClassName = "text-[color:var(--pt-120)]";
@@ -46,12 +45,6 @@ const MODAL_FOCUSABLE_SELECTOR = [
   "textarea:not([disabled])",
   "[tabindex]:not([tabindex='-1'])"
 ].join(", ");
-const LOGIN_FIELD_HOLE_SELECTORS = [
-  'input[name="email"]',
-  "#otp-code-input",
-  "#trusted-device-name"
-];
-
 function focusElementWithoutScroll(element) {
   if (!element?.focus) return;
   try {
@@ -242,7 +235,6 @@ export default function LoginModal({
   });
   const boxRef = useRef(null);
   const shellRef = useRef(null);
-  const maskLayerRef = useRef(null);
   const emailInputRef = useRef(null);
   const emailIconButtonRef = useRef(null);
   const hiddenInputRef = useRef(null);
@@ -279,12 +271,10 @@ export default function LoginModal({
   const otpInlineError = isOtpStep && error ? error : "";
   const managedByExternalAuthSuccess =
     suppressRedirect && typeof onAuthSuccess === "function";
-  useGlassFieldHoleMask({
-    rootRef: shellRef,
-    maskLayerRef,
-    selectors: LOGIN_FIELD_HOLE_SELECTORS,
-    enabled: open,
-  });
+  const isMidTheme = prefs?.theme === "mid";
+  const isNightTheme = prefs?.theme === "night";
+  const isMonoTheme = prefs?.theme === "mono";
+  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "mid";
   const pinMessageClass = [noteBaseClassName, "w-[var(--pin-grid-w)] max-w-full min-h-0 max-md:min-h-[0.38em] leading-[1.2]", "mt-[-0.08rem] max-md:mt-[0rem]", "mb-[-0.08rem] max-md:mb-[0rem]", showPinMessage ? "opacity-100" : "opacity-0", error ? noteErrorClassName : noteInfoClassName].filter(Boolean).join(" ");
   const headerWrapClass = ["flex", "flex-col", "items-center", "text-center", isAndroidPlatform ? "gap-[0.12rem] mt-[0.14rem] max-md:mt-[0.28rem]" : "gap-[0.02em] mt-[0.08rem] max-md:mt-[0.18rem]", "mb-0"].join(" ");
   const emailRowClass = [
@@ -1153,10 +1143,6 @@ export default function LoginModal({
     target.style.animationName = "";
   }, []);
   if (!open) return null;
-  const isMidTheme = prefs?.theme === "mid";
-  const isNightTheme = prefs?.theme === "night";
-  const isMonoTheme = prefs?.theme === "mono";
-  const isLightTheme = prefs?.theme === "light" || prefs?.theme === "mid";
   const isDarkKeypadTheme = !isLightTheme;
   const helpPopoverLinkStyle = isMidTheme
     ? {
@@ -1680,12 +1666,11 @@ export default function LoginModal({
             : "var(--login-pin-modal-w)",
         boxSizing: "border-box"
       }} tabIndex={-1} role="dialog" aria-modal="true" aria-label={isOtpStep ? t("auth.login.otp_title") : t("auth.login.title")} onClick={stopInside}>
-        <div ref={shellRef} className={`login-modal-shell glass-field-hole-surface glass-box w-full !my-0 !px-[clamp(1.25rem,3vw,1.55rem)] max-md:!px-[clamp(1.1rem,4.4vw,1.42rem)] !pt-[clamp(1.08rem,2.18vw,1.42rem)] max-md:!pt-[clamp(1rem,3vw,1.36rem)] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(21,21,21,0.5))] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:none] [box-shadow:var(--login-shell-shadow,none)] [filter:var(--login-shell-filter,none)] ${
+        <div ref={shellRef} className={`login-modal-shell glass-box w-full !my-0 !px-[clamp(1.25rem,3vw,1.55rem)] max-md:!px-[clamp(1.1rem,4.4vw,1.42rem)] !pt-[clamp(1.08rem,2.18vw,1.42rem)] max-md:!pt-[clamp(1rem,3vw,1.36rem)] [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(21,21,21,0.5))] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25))))] [border:none] [box-shadow:var(--login-shell-shadow,none)] [filter:var(--login-shell-filter,none)] ${
         isOtpStep
           ? "!pb-[clamp(0.78rem,2vw,1.2rem)] max-md:!pb-[clamp(0.7rem,2vw,1rem)]"
           : "!pb-[clamp(0.84rem,2.1vw,1.18rem)] max-md:!pb-[clamp(0.7rem,2.3vw,1.05rem)]"
       }`} style={loginShellStyle}>
-          <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
           <button className="login-modal-close modal-close-btn absolute z-[2] !w-[2.68rem] !h-[2.68rem] max-[768px]:!w-[2.66rem] max-[768px]:!h-[2.66rem] !rounded-[0.74rem] text-[#c57171] light:text-[#7a3a38]" onClick={onClose} aria-label={t("buttons.close")} type="button" />
 
           <div className={headerWrapClass}>

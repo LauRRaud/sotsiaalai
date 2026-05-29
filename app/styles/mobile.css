@@ -54,7 +54,7 @@
     isolation: isolate;
     background: var(--home-browser-base-bg, #0d111b);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% max(100%, var(--glass-mobile-root-vh, 100dvh));
     overflow: hidden;
     height: var(--glass-mobile-root-vh, 100dvh);
     min-height: var(--glass-mobile-root-vh, 100dvh);
@@ -401,8 +401,8 @@
     bottom: 0 !important;
     left: 0 !important;
     width: auto !important;
-    height: auto !important;
-    min-height: 0 !important;
+    height: var(--glass-mobile-root-vh, 100dvh) !important;
+    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
   html.theme-light {
     --home-browser-base-bg: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
@@ -425,7 +425,16 @@
     );
     --home-safe-area-bg: #090a0f;
   }
-  html:not(.theme-light):not(.theme-mid):not(.theme-night) {
+  html.theme-mono:not([data-contrast="hc"]) {
+    --home-browser-base-bg: linear-gradient(
+      180deg,
+      var(--forest-bg-top, #2f2f2f) 0%,
+      var(--forest-bg-mid, #1f1f1f) 54%,
+      var(--forest-bg-bottom, #101010) 100%
+    );
+    --home-safe-area-bg: #101010;
+  }
+  html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono) {
     --home-browser-base-bg: radial-gradient(
       ellipse at top,
       #2b3037 0%,
@@ -461,10 +470,17 @@
       body.app-root {
       background: var(--home-browser-base-bg);
     }
-    html:not(.theme-light):not(.theme-mid):not(.theme-night):has(
+    html.theme-mono:not([data-contrast="hc"]):has(
         [data-bg-layer][data-page="home"]
       ),
-    html:not(.theme-light):not(.theme-mid):not(.theme-night):has(
+    html.theme-mono:not([data-contrast="hc"]):has(
+        [data-bg-layer][data-page="home"]
+      )
+      body.app-root,
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):has(
+        [data-bg-layer][data-page="home"]
+      ),
+    html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):has(
         [data-bg-layer][data-page="home"]
       )
       body.app-root {
@@ -3728,86 +3744,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface {
-  background: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface > .glass-hole-mask-layer {
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  z-index: 1 !important;
-  pointer-events: none !important;
-  background:
-    var(--glass-ring-sheen, none),
-    var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-  backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-  -webkit-mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
-  mask-image: var(--glass-field-hole-mask, linear-gradient(#fff, #fff)) !important;
-  -webkit-mask-size: 100% 100% !important;
-  mask-size: 100% 100% !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] {
-  --card-bg: transparent !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: 0 solid transparent !important;
-  box-shadow: var(--mono-field-hole-shadow) !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]:is(:hover, :focus-within) {
-  --card-bg: transparent !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  box-shadow: var(--mono-field-hole-shadow-hover) !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] :is(
-  .ui-glow-control,
-  input,
-  textarea,
-  select,
-  [class*="inner"]
-) {
-  --card-bg: transparent !important;
-  --input-bg: transparent !important;
-  --input-bg-hover: transparent !important;
-  --input-bg-focus: transparent !important;
-  --input-flat-bg: transparent !important;
-  --input-flat-bg-hover: transparent !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]::before,
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"]::after,
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content .invite-glow-field[data-glass-field-hole="invite"] > [class*="edgeLight"] {
-  display: none !important;
-  opacity: 0 !important;
-}
-
-:root.theme-mono:not([data-contrast="hc"]) .invite-modal-content.glass-field-hole-surface
-  > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
-  position: relative;
-  z-index: 2;
-}
-
 .invite-modal-overlay.person-invite-modal-overlay:not(.invite-modal-overlay--workspace) {
   align-items: center !important;
   overflow: hidden !important;
@@ -3875,9 +3811,12 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   inline-size: 100% !important;
   min-width: 0 !important;
   max-width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
   min-height: 0 !important;
-  max-height: 100% !important;
+  max-height: none !important;
+  block-size: auto !important;
+  max-block-size: none !important;
+  flex: 0 0 auto !important;
   margin-inline: auto !important;
   padding: 0 !important;
   overflow: visible !important;
@@ -3891,16 +3830,68 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   -webkit-mask-image: none !important;
 }
 
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-panel,
+  .help-listings-empty,
+  .help-listings-item-card,
+  .invite-glow-panel,
+  .invite-list-panel,
+  .invite-list-row
+) {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-body,
+  .help-listings-panel,
+  .invite-modal-scroll,
+  .invite-list-panel
+) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-panel,
+  .help-listings-empty,
+  .help-listings-item-card,
+  .invite-list-panel,
+  .invite-list-row
+) {
+  border-width: var(--subpage-card-border-width, 1px) !important;
+  border-style: solid !important;
+  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
+  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
+  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded
+  .invite-glow-panel
+  > [class*="edgeLight"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded
+  .invite-list-panel {
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
 .workspace-dashboard-panel
   .workspace-feature-embedded
   > .help-listings-modal-content--embedded::before,
 .workspace-dashboard-panel
   .workspace-feature-embedded
-  > .invite-modal-content--embedded::before,
-.workspace-dashboard-panel
-  .workspace-feature-embedded
-  > .invite-modal-content--embedded
-  > .glass-hole-mask-layer {
+  > .invite-modal-content--embedded::before {
   display: none !important;
   content: none !important;
   opacity: 0 !important;

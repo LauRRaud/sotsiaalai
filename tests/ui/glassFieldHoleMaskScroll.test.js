@@ -34,4 +34,8 @@ test("glass field hole masks stay aligned inside scrollable surfaces", () => {
     /maskLayer\.style\.setProperty\("height", `\$\{rootHeight\}px`\);[\s\S]*?maskLayer\.style\.setProperty\("bottom", "auto"\);/
   );
   assert.match(hook, /removeProperty\("height"\);[\s\S]*?removeProperty\("bottom"\);/);
+  assert.match(
+    hook,
+    /if \(!enabled \|\| !Array\.isArray\(selectors\) \|\| selectors\.length === 0\) \{[\s\S]*?clearMask\(\);[\s\S]*?return;[\s\S]*?\}/
+  );
 });

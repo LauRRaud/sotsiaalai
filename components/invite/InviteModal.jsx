@@ -10,7 +10,6 @@ import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/com
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlowField, { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
-import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
 import Modal from "@/components/ui/Modal";
 import OptionCard from "@/components/ui/OptionCard";
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
@@ -27,7 +26,6 @@ import { localizePath } from "@/lib/localizePath";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const inviteLinkClassName =
   "font-[inherit] no-underline text-[color:var(--link-gold)] hover:text-[color:var(--link-gold-hover)] light:text-[color:var(--link-color)] light:hover:text-[color:var(--link-color)] hc:text-[color:var(--hc-accent)]";
-const INVITE_FIELD_HOLE_SELECTORS = ['.invite-glow-field[data-glass-field-hole="invite"]'];
 
 function parseEmails(raw) {
   if (!raw) return [];
@@ -108,16 +106,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
   const [invites, setInvites] = useState([]);
   const [loadingList, setLoadingList] = useState(false);
   const [sponsoredCheckoutAgreed, setSponsoredCheckoutAgreed] = useState(false);
-  const [maskRootReady, setMaskRootReady] = useState(false);
-  const modalContentRef = useRef(null);
-  const maskLayerRef = useRef(null);
   const closeTimerRef = useRef(null);
-  useGlassFieldHoleMask({
-    rootRef: modalContentRef,
-    maskLayerRef,
-    selectors: INVITE_FIELD_HOLE_SELECTORS,
-    enabled: open && maskRootReady,
-  });
   const formatSentenceCase = (text) => {
     const raw = typeof text === "string" ? text.trim() : "";
     if (!raw) return text;
@@ -141,7 +130,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
       "max-[768px]:pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
       "max-[768px]:pb-[calc(env(safe-area-inset-bottom,0px)+0.9rem)]";
   const inviteModalContentClassName =
-    `invite-modal-content person-invite-modal-content glass-field-hole-surface mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-hidden ` +
+    `invite-modal-content person-invite-modal-content mobile-keep-desktop-glass-cards mx-auto ${isWorkspaceReturn ? workspaceGuidePanelClassName : "glass-subpage-surface !w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))] !max-w-[min(calc(100vw-2rem),clamp(36rem,76vw,48rem))]"} relative !max-h-none !overflow-hidden ` +
     `!flex min-h-0 ${inviteDesktopSizeClassName} !flex-col overscroll-contain [-webkit-overflow-scrolling:touch] ` +
     `${isWorkspaceReturn ? "" : "pt-[0.35rem] !pb-[1rem]"} text-[1.12rem] leading-[1.35] tracking-[0.03rem] max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +
     `[--glass-modal-bg:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
@@ -339,10 +328,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
     } catch {
       return false;
     }
-  }, []);
-  const setModalContentRef = useCallback((node) => {
-    modalContentRef.current = node;
-    setMaskRootReady(Boolean(node));
   }, []);
   const handleClose = useCallback(() => {
     if (embedded) {
@@ -579,8 +564,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
   }
   if (!open) return null;
   const content = (
-    <div className={inviteModalContentClassName} ref={setModalContentRef}>
-      <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
+    <div className={inviteModalContentClassName}>
       {!hideHeader ? (
         <GlassSubpageHeader
           onBack={handleClose}
@@ -610,7 +594,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
             {!roomId ? (
               <>
                 <div className={inviteFieldWrapClassName}>
-                  <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
+                  <GlowField className={inviteFieldGlowClassName}>
                     <input
                       id="invite-room-title"
                       value={roomTitle}
@@ -623,7 +607,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
                   </GlowField>
                 </div>
                 <div className={inviteFieldWrapClassName}>
-                  <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
+                  <GlowField className={inviteFieldGlowClassName}>
                     <input
                       id="invite-host-name"
                       value={hostDisplayName}
@@ -638,7 +622,7 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
               </>
             ) : null}
             <div className={inviteFieldWrapClassName}>
-              <GlowField className={inviteFieldGlowClassName} data-glass-field-hole="invite">
+              <GlowField className={inviteFieldGlowClassName}>
                 <input
                   id="invite-emails"
                   value={emails}
@@ -887,7 +871,6 @@ export default function InviteModal({ embedded = false, onBack = null, hideHeade
           : undefined
       }
       contentClassName={inviteModalContentClassName}
-      contentRef={setModalContentRef}
     >
       {content.props.children}
     </Modal>

@@ -6,10 +6,7 @@ import { usePathname } from "next/navigation";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
 import { WORKSPACE_PANEL_MORPH_MS } from "@/lib/workspacePanelMorph";
 import dynamic from "next/dynamic";
-const ColorBends = dynamic(() => import("./ColorBends"), {
-  ssr: false,
-  loading: () => null
-});
+import ColorBends from "./ColorBends";
 const Particles = dynamic(() => import("./Particles"), {
   ssr: false
 });
@@ -31,8 +28,12 @@ const MOBILE_COLOR_BENDS_READY_PATHS = new Set([]);
 const COLOR_BENDS_OPACITY_DEFAULT = 0.78;
 const COLOR_BENDS_OPACITY_LIGHT = 0.77;
 const COLOR_BENDS_OPACITY_MONO = 0.78;
-const COLOR_BENDS_OPACITY_HC = 0.24;
+const COLOR_BENDS_OPACITY_HC = 0.18;
 const COLOR_BENDS_OPACITY_FULL = 1;
+const COLOR_BENDS_SPEED_DESKTOP = 0.15;
+const COLOR_BENDS_SPEED_MOBILE = 0;
+const COLOR_BENDS_ROTATION_SPEED_DESKTOP = 0;
+const COLOR_BENDS_ROTATION_SPEED_MOBILE = 0;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
 function stripLocaleFromPathname(pathname = "/") {
@@ -43,15 +44,11 @@ function stripLocaleFromPathname(pathname = "/") {
 function detectMobileLikeDevice() {
   if (typeof window === "undefined") return false;
   const mq = query => typeof window.matchMedia === "function" ? window.matchMedia(query)?.matches ?? false : false;
-  const coarse = mq("(pointer: coarse)");
-  const noHover = mq("(hover: none)");
   const small = mq("(max-width: 768px)") || window.innerWidth <= 768;
-  const desktopPointer = mq("(hover: hover) and (pointer: fine)");
-  const touchCapable = typeof navigator !== "undefined" && (navigator.maxTouchPoints || 0) > 0;
   const layoutMobile = document.documentElement?.getAttribute("data-layout") === "mobile" || document.body?.getAttribute("data-layout") === "mobile";
   const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
   const uaMobile = typeof navigator !== "undefined" ? navigator.userAgentData?.mobile ?? /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua) : false;
-  return coarse || noHover || small || layoutMobile || uaMobile || touchCapable && !desktopPointer;
+  return small || layoutMobile || uaMobile;
 }
 function onIdle(cb, timeout = 800) {
   if (typeof window === "undefined") return () => {};
@@ -84,11 +81,13 @@ function resolveThemeFromDom() {
   const html = document.documentElement;
   if (!html) return null;
   if (html.getAttribute("data-contrast") === "hc") return "dark";
+  const attrTheme = html.getAttribute("data-theme-mode");
+  if (attrTheme === "light" || attrTheme === "mid" || attrTheme === "dark" || attrTheme === "night" || attrTheme === "mono") return attrTheme;
   if (html.classList.contains("theme-mid")) return "mid";
   if (html.classList.contains("theme-night")) return "night";
   if (html.classList.contains("theme-mono")) return "mono";
   if (html.classList.contains("theme-light")) return "light";
-  return "dark";
+  return null;
 }
 const readDomContrast = () => {
   if (typeof document === "undefined") return null;
@@ -153,8 +152,6 @@ const BackgroundContent = memo(function BackgroundContent({
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const mql = q => typeof window.matchMedia === "function" ? window.matchMedia(q) : null;
-    const coarse = mql("(pointer: coarse)");
-    const noHover = mql("(hover: none)");
     const small = mql("(max-width: 768px)");
     const html = document.documentElement;
     const body = document.body;
@@ -191,7 +188,7 @@ const BackgroundContent = memo(function BackgroundContent({
       }
       return () => {};
     };
-    const cleanups = [attach(coarse), attach(noHover), attach(small)];
+    const cleanups = [attach(small)];
     window.addEventListener("resize", compute);
     return () => {
       layoutObserver.disconnect();
@@ -465,7 +462,7 @@ const BackgroundContent = memo(function BackgroundContent({
             <ColorBends
               colors={colorBendsColors}
               rotation={-58}
-              speed={reduceMotion ? 0 : mobileBackgroundMode ? 0 : 0.15}
+              speed={reduceMotion ? 0 : mobileBackgroundMode ? COLOR_BENDS_SPEED_MOBILE : COLOR_BENDS_SPEED_DESKTOP}
               phase={mobileBackgroundMode ? mobileColorBendsPhase : 0}
               scale={1}
               frequency={1}
@@ -477,7 +474,7 @@ const BackgroundContent = memo(function BackgroundContent({
               scrollContainerSelector={isHomepage ? ".homepage-root" : ""}
               noise={0}
               transparent
-              autoRotate={0}
+              autoRotate={reduceMotion ? 0 : mobileBackgroundMode ? COLOR_BENDS_ROTATION_SPEED_MOBILE : COLOR_BENDS_ROTATION_SPEED_DESKTOP}
               paused={colorBendsPaused}
             />
           </div>}
@@ -519,7 +516,7 @@ function BackgroundLayer() {
     const observer = new MutationObserver(apply);
     observer.observe(html, {
       attributes: true,
-      attributeFilter: ["class", "data-contrast", "data-reduce-motion"]
+      attributeFilter: ["class", "data-theme-mode", "data-contrast", "data-reduce-motion"]
     });
     return () => observer.disconnect();
   }, []);

@@ -17,12 +17,27 @@
   transition: none;
   animation: none;
   isolation: isolate;
+  box-sizing: border-box;
   padding: clamp(0.15rem, 0.6vh, 0.4rem) clamp(0.2rem, 0.8vw, 0.45rem)
     clamp(0.55rem, 1.6vh, 0.9rem);
 }
 
 .panel::before {
   display: none;
+}
+
+.panel[data-embedded-active="true"] {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: 0;
+  padding-bottom: 0;
+  scrollbar-width: none;
+}
+
+.panel[data-embedded-active="true"]::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .panel::after {
@@ -77,17 +92,10 @@
   min-width: 0;
   min-height: 0;
   margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  box-sizing: border-box;
+  overflow: visible;
   padding: clamp(0.22rem, 0.8vh, 0.45rem) clamp(0.4rem, 1vw, 0.72rem)
     clamp(0.48rem, 1.5vh, 0.82rem);
-  scrollbar-width: none;
-}
-
-.embeddedContent::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 
 .panel :global(.workspace-guide-panel-scroll) {
@@ -111,13 +119,19 @@
 .panel :global(.documents-workspace-shell--embedded > .documents-grid.workspace-guide-panel-scroll),
 .panel :global(.materials-page-body.workspace-guide-panel-scroll),
 .panel :global(.covision-page-body.workspace-guide-panel-scroll),
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--workspace),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace),
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded),
 .panel :global(.workspace-feature-embedded > .invite-modal-content--embedded) {
   width: 100% !important;
+  inline-size: 100% !important;
   max-width: 100% !important;
   min-width: 0;
   height: auto !important;
+  min-height: 0 !important;
   max-height: none !important;
+  block-size: auto !important;
+  max-block-size: none !important;
   flex: 0 0 auto;
   margin-right: auto;
   margin-left: auto;
@@ -125,8 +139,13 @@
   overflow-y: visible !important;
 }
 
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--workspace),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace),
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded),
 .panel :global(.workspace-feature-embedded > .invite-modal-content--embedded) {
+  --glass-shell-shadow: none !important;
+  --glass-modal-shadow: none !important;
+  --mid-shell-soft-shadow: none !important;
   border: none !important;
   border-radius: 0 !important;
   background: transparent !important;
@@ -140,12 +159,42 @@
 .panel :global(.workspace-feature-embedded .workspace-feature-card),
 .panel :global(.workspace-feature-embedded .workspace-feature-glow-card),
 .panel :global(.workspace-feature-embedded .workspace-feature-flat-section),
+.panel :global(.workspace-feature-embedded .help-listings-panel),
+.panel :global(.workspace-feature-embedded .help-listings-empty),
+.panel :global(.workspace-feature-embedded .help-listings-item-card),
+.panel :global(.workspace-feature-embedded .invite-glow-panel),
+.panel :global(.workspace-feature-embedded .invite-list-panel),
+.panel :global(.workspace-feature-embedded .invite-list-row),
 .panel :global(.documents-workspace-shell--embedded .documents-panel) {
   border-color: transparent !important;
   background: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+}
+
+.panel :global(.workspace-feature-embedded .help-listings-body),
+.panel :global(.workspace-feature-embedded .help-listings-panel),
+.panel :global(.workspace-feature-embedded .invite-modal-scroll),
+.panel :global(.workspace-feature-embedded .invite-list-panel) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.panel :global(.workspace-feature-embedded .help-listings-panel),
+.panel :global(.workspace-feature-embedded .help-listings-empty),
+.panel :global(.workspace-feature-embedded .help-listings-item-card),
+.panel :global(.workspace-feature-embedded .invite-list-panel),
+.panel :global(.workspace-feature-embedded .invite-list-row) {
+  border-width: var(--subpage-card-border-width, 1px) !important;
+  border-style: solid !important;
+  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
+  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
+  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
 }
 
 .panel :global(.workspace-feature-embedded .workspace-feature-flat-section) {
@@ -155,6 +204,8 @@
 
 .panel :global(.workspace-feature-embedded),
 .panel :global(.workspace-feature-embedded > .workspace-feature-content.workspace-guide-panel-scroll),
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--workspace),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace),
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded),
 .panel :global(.workspace-feature-embedded > .invite-modal-content--embedded),
 .panel :global(.documents-workspace-shell--embedded),
@@ -165,13 +216,21 @@
 }
 
 .panel :global(.workspace-feature-embedded .workspace-feature-card > [class*="edgeLight"]),
-.panel :global(.workspace-feature-embedded .workspace-feature-glow-card > [class*="edgeLight"]) {
+.panel :global(.workspace-feature-embedded .workspace-feature-glow-card > [class*="edgeLight"]),
+.panel :global(.workspace-feature-embedded .invite-glow-panel > [class*="edgeLight"]) {
   display: none !important;
   opacity: 0 !important;
 }
 
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--workspace::before),
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--workspace::after),
 .panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded::before),
+.panel :global(.workspace-feature-embedded > .help-listings-modal-content--embedded::after),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace::before),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace::after),
 .panel :global(.workspace-feature-embedded > .invite-modal-content--embedded::before),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--embedded::after),
+.panel :global(.workspace-feature-embedded > .invite-modal-content--workspace > .glass-hole-mask-layer),
 .panel :global(.workspace-feature-embedded > .invite-modal-content--embedded > .glass-hole-mask-layer) {
   display: none !important;
   content: none !important;
@@ -278,9 +337,7 @@
 
   .backButton {
     left: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: calc(
-      var(--workspace-subpage-back-top, 0.55rem) - var(--chat-pad-top, 0rem)
-    ) !important;
+    top: var(--workspace-subpage-back-top, 0.55rem) !important;
   }
 }
 

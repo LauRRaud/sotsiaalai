@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Route } from "lucide-react";
@@ -80,6 +80,49 @@ const DASHBOARD_VIEW_ROLES = Object.freeze([
   "SOCIAL_WORKER",
   "SERVICE_PROVIDER"
 ]);
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function wheelDeltaToPixels(event, scrollEl) {
+  const factor =
+    event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scrollEl.clientHeight : 1;
+  return {
+    left: (event.deltaX || 0) * factor,
+    top: (event.deltaY || 0) * factor
+  };
+}
+
+function canScrollFurther(node, deltaTop, deltaLeft) {
+  if (!(node instanceof HTMLElement)) return false;
+  const style = window.getComputedStyle(node);
+  const scrollableY =
+    /(auto|scroll|overlay)/.test(style.overflowY) &&
+    node.scrollHeight > node.clientHeight + 1;
+  const scrollableX =
+    /(auto|scroll|overlay)/.test(style.overflowX) &&
+    node.scrollWidth > node.clientWidth + 1;
+
+  if (scrollableY && deltaTop > 0 && node.scrollTop < node.scrollHeight - node.clientHeight - 1) return true;
+  if (scrollableY && deltaTop < 0 && node.scrollTop > 1) return true;
+  if (scrollableX && deltaLeft > 0 && node.scrollLeft < node.scrollWidth - node.clientWidth - 1) return true;
+  if (scrollableX && deltaLeft < 0 && node.scrollLeft > 1) return true;
+  return false;
+}
+
+function shouldPreserveNestedWheel(target, panel, deltaTop, deltaLeft) {
+  if (!(target instanceof Element)) return false;
+  if (target.closest(".leaflet-container")) return true;
+
+  let node = target;
+  while (node && node !== panel) {
+    if (canScrollFurther(node, deltaTop, deltaLeft)) return true;
+    node = node.parentElement;
+  }
+  return false;
+}
+
 function DashboardCardIcon({ type }) {
   const serviceMapId = useId().replaceAll(":", "");
   const serviceMapCutoutMaskId = `${serviceMapId}-service-map-cutout`;
@@ -243,6 +286,7 @@ export default function WorkspacePanel({
   visible = true
 }) {
   const router = useRouter();
+  const panelRef = useRef(null);
   const defaultDashboardRole = useMemo(() => {
     const actualRole = String(userActualRole || "").trim().toUpperCase();
     const currentRole = String(userRole || "").trim().toUpperCase();
@@ -337,6 +381,24 @@ export default function WorkspacePanel({
     openHelpPanel(cardKey);
   }, [openHelpPanel]);
 
+  const handleEmbeddedPanelWheelCapture = useCallback(event => {
+    const panel = panelRef.current;
+    if (!panel || !(embeddedPanelNode || activeEmbeddedFeature)) return;
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey) return;
+
+    const maxTop = Math.max(0, panel.scrollHeight - panel.clientHeight);
+    const maxLeft = Math.max(0, panel.scrollWidth - panel.clientWidth);
+    if (maxTop <= 1 && maxLeft <= 1) return;
+
+    const { top, left } = wheelDeltaToPixels(event, panel);
+    if (!top && !left) return;
+    if (shouldPreserveNestedWheel(event.target, panel, top, left)) return;
+
+    event.preventDefault();
+    if (top) panel.scrollTop = clamp(panel.scrollTop + top, 0, maxTop);
+    if (left) panel.scrollLeft = clamp(panel.scrollLeft + left, 0, maxLeft);
+  }, [activeEmbeddedFeature, embeddedPanelNode]);
+
   const openInvite = useCallback(() => {
     setActiveEmbeddedFeature("invite");
     if (typeof window !== "undefined") {
@@ -429,14 +491,17 @@ export default function WorkspacePanel({
         ? createPortal(roleMenu, roleMenuPortalTarget)
         : null}
       <section
+        ref={panelRef}
         className={cn("workspace-dashboard-panel", styles.panel)}
         data-visible={visible ? "true" : "false"}
+        data-embedded-active={embeddedPanelNode || activeEmbeddedFeature ? "true" : "false"}
         role="region"
         aria-labelledby={activeTitleId}
         onClickCapture={handleCardClickCapture}
+        onWheelCapture={handleEmbeddedPanelWheelCapture}
       >
       {embeddedPanelNode ? (
-        <div className={styles.embeddedContent}>
+        <>
           <GlassSubpageHeader
             onBack={onEmbeddedPanelBack || handleWorkspaceBack}
             backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
@@ -455,10 +520,12 @@ export default function WorkspacePanel({
           >
             {embeddedPanelTitle || text(t, "chat.workspace.title", "Toolaud")}
           </GlassSubpageHeader>
-          {embeddedPanelNode}
-        </div>
+          <div className={styles.embeddedContent}>
+            {embeddedPanelNode}
+          </div>
+        </>
       ) : activeEmbeddedFeature ? (
-        <div className={styles.embeddedContent}>
+        <>
           <GlassSubpageHeader
             onBack={handleWorkspaceBack}
             backAriaLabel={text(t, "workspace_feature_pages.back_to_workspace", "Tagasi toolauale")}
@@ -477,52 +544,54 @@ export default function WorkspacePanel({
           >
             {activeEmbeddedMeta?.title || text(t, "chat.workspace.title", "Toolaud")}
           </GlassSubpageHeader>
-          {activeEmbeddedFeature === "documents" ? (
-            <DocumentsPage
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : activeEmbeddedFeature === "document_drafting" ? (
-            <AgentModePage
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : activeEmbeddedFeature === "kovision" ? (
-            <CovisionPage
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : activeEmbeddedFeature === "materials" ? (
-            <MaterialsPage
-              locale={locale}
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : activeEmbeddedFeature === "journey" ? (
-            <JourneyDashboard
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : activeEmbeddedFeature === "invite" ? (
-            <InviteModal
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          ) : (
-            <WorkspaceFeaturePage
-              feature={activeEmbeddedFeature}
-              embedded
-              hideHeader
-              onBack={handleWorkspaceBack}
-            />
-          )}
-        </div>
+          <div className={styles.embeddedContent}>
+            {activeEmbeddedFeature === "documents" ? (
+              <DocumentsPage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "document_drafting" ? (
+              <AgentModePage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "kovision" ? (
+              <CovisionPage
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "materials" ? (
+              <MaterialsPage
+                locale={locale}
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "journey" ? (
+              <JourneyDashboard
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : activeEmbeddedFeature === "invite" ? (
+              <InviteModal
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            ) : (
+              <WorkspaceFeaturePage
+                feature={activeEmbeddedFeature}
+                embedded
+                hideHeader
+                onBack={handleWorkspaceBack}
+              />
+            )}
+          </div>
+        </>
       ) : (
         <>
       <GlassSubpageHeader

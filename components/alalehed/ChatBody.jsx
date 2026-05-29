@@ -2487,7 +2487,7 @@ export default function ChatBody({
   const workspaceOpenRingPaddingStyle =
     workspaceOpen && !viewportIsMobile
       ? {
-          paddingTop: "var(--chat-pad-top)",
+          paddingTop: 0,
           paddingBottom: 0
         }
       : null;

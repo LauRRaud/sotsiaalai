@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { BookOpen, Filter, Heart, Plus, Search } from "lucide-react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import BorderGlow from "@/components/ui/BorderGlow";
 import Button from "@/components/ui/Button";
@@ -1232,7 +1233,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
             <>
               <BorderGlow
                 as="section"
-                className={cn(styles.toolbar, "covision-glow-card mt-[0.16rem] grid content-start gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}
+                className={cn(styles.toolbar, styles.overviewToolbar, "covision-glow-card mt-[0.16rem] grid content-start gap-[0.72rem] rounded-[1.05rem] border px-[0.84rem] py-[0.82rem]")}
                 edgeSensitivity={24}
                 glowColor="358 82 72"
                 backgroundColor="var(--covision-card-bg, #120F17)"
@@ -1244,37 +1245,47 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                 edgeOnly
                 style={fieldEdgeGlowStyle}
               >
-                <div className="grid gap-[0.72rem]">
-                  <div className="flex flex-wrap gap-[0.52rem]">
-                    <Button type="button" onClick={startCase} className={primaryButtonClassName}>
-                      Alusta uut kovisiooni
+                <div className={styles.toolbarInner}>
+                  <div className={styles.toolbarActions} aria-label="Kovisiooni tegevused">
+                    <Button type="button" onClick={startCase} className={cn(primaryButtonClassName, styles.actionButton, styles.actionButtonPrimary)}>
+                      <Plus aria-hidden="true" size={18} strokeWidth={2.3} />
+                      <span>Uus kovisioon</span>
                     </Button>
-                    <Button type="button" onClick={() => setView("wellbeing_inputs")} className={primaryButtonClassName}>
-                      {t("covision.wellbeing_inputs.start_from_wellbeing", "Alusta Tööheaolu sisendist")}
+                    <Button type="button" onClick={() => setView("wellbeing_inputs")} className={cn(primaryButtonClassName, styles.actionButton)}>
+                      <Heart aria-hidden="true" size={18} strokeWidth={2.2} />
+                      <span>Tööheaolust</span>
                     </Button>
-                    <Button type="button" onClick={() => startPractice()} className={primaryButtonClassName}>
-                      Lisa praktikanäide
+                    <Button type="button" onClick={() => startPractice()} className={cn(primaryButtonClassName, styles.actionButton)}>
+                      <BookOpen aria-hidden="true" size={18} strokeWidth={2.2} />
+                      <span>Praktikanäide</span>
                     </Button>
                   </div>
-                  <div className="grid w-full gap-[0.5rem] sm:grid-cols-[1fr_0.82fr]">
-                    <CovisionInput
-                      value={query}
-                      onChange={(event) => setQuery(event.target.value)}
-                      placeholder="Otsi teema, sildi või küsimuse järgi"
-                      aria-label="Otsi"
-                    />
-                    <SelectField
-                      value={topicFilter}
-                      onChange={setTopicFilter}
-                      ariaLabel="Teemafilter"
-                      openDirection="down"
-                      options={[{ value: "", label: "Kõik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
-                    />
+                  <div className={styles.toolbarFilters}>
+                    <label className={styles.searchWrap}>
+                      <Search aria-hidden="true" size={18} strokeWidth={2.2} />
+                      <CovisionInput
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder="Otsi teema, sildi või küsimuse järgi"
+                        aria-label="Otsi"
+                        className={styles.searchInput}
+                      />
+                    </label>
+                    <div className={styles.filterWrap}>
+                      <Filter aria-hidden="true" size={18} strokeWidth={2.2} />
+                      <SelectField
+                        value={topicFilter}
+                        onChange={setTopicFilter}
+                        ariaLabel="Teemafilter"
+                        openDirection="down"
+                        options={[{ value: "", label: "Kõik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
+                      />
+                    </div>
                   </div>
                 </div>
               </BorderGlow>
 
-              <div className="grid gap-[0.95rem] lg:grid-cols-[1fr_0.82fr]">
+              <div className={styles.overviewGrid}>
                 <SectionPanel title="Minu kovisioonid">
                   {loading ? (
                     <p className={mutedTextClassName}>Laen kovisioone...</p>
@@ -1285,7 +1296,10 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                       ))}
                     </div>
                   ) : (
-                    <p className={mutedTextClassName}>Ühtegi kovisiooni pole veel loodud või valitud filter ei leidnud vasteid.</p>
+                    <div className={styles.emptyState}>
+                      <p className={styles.emptyTitle}>Kovisioone pole veel loodud</p>
+                      <p className={mutedTextClassName}>Alusta uus kovisioon või muuda filtrit, et olemasolevad tulemused uuesti nähtavaks teha.</p>
+                    </div>
                   )}
                 </SectionPanel>
 
@@ -1299,7 +1313,10 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                       ))}
                     </div>
                   ) : (
-                    <p className={mutedTextClassName}>Praktikanäiteid pole veel lisatud või valitud filter ei leidnud vasteid.</p>
+                    <div className={styles.emptyState}>
+                      <p className={styles.emptyTitle}>Praktikanäiteid pole lisatud</p>
+                      <p className={mutedTextClassName}>Lisa esimene näide või eemalda teemafilter, kui otsid varasemaid kogemusi.</p>
+                    </div>
                   )}
                 </SectionPanel>
               </div>

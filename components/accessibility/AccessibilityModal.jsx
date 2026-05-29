@@ -97,7 +97,7 @@ export default function AccessibilityModal({
   const initialUiProfile = requireInitialSelection ? null : prefs.uiProfile || normalizeUiProfile(prefs.uiScale);
   const initialLang = requireInitialSelection ? null : locale || "et";
   const initialContrast = requireInitialSelection ? null : prefs.contrast || "normal";
-  const initialTheme = requireInitialSelection ? null : prefs.theme || "dark";
+  const initialTheme = requireInitialSelection ? null : prefs.theme || "mono";
   const [uiScale, setUiScale] = useState(initialUiScale);
   const [uiProfile, setUiProfile] = useState(initialUiProfile);
   const [contrast, setContrast] = useState(initialContrast);
@@ -428,7 +428,7 @@ export default function AccessibilityModal({
       contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
       reduceTransparency,
-      theme: theme || prefs.theme || "dark"
+      theme: theme || prefs.theme || "mono"
     });
     if (typeof window !== "undefined" && lang && lang !== locale) {
       setLocale(lang);
@@ -459,7 +459,7 @@ export default function AccessibilityModal({
       contrast: contrast || prefs.contrast || "normal",
       reduceMotion,
       reduceTransparency,
-      theme: theme || prefs.theme || "dark"
+      theme: theme || prefs.theme || "mono"
     });
   }, [contrast, onPreview, prefs.contrast, prefs.theme, prefs.uiProfile, prefs.uiScale, reduceMotion, reduceTransparency, theme, uiProfile, uiScale]);
   useEffect(() => () => {

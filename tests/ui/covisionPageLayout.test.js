@@ -57,6 +57,18 @@ test("covision overview keeps the intro close to the action panel", () => {
   assert.doesNotMatch(source, /styles\.lead,[\s\S]*?pb-\[0\.18rem\]/);
 });
 
+test("covision overview actions stay compact instead of oversized pills", () => {
+  const source = read("components/covision/CovisionPage.jsx");
+  const css = read("components/covision/CovisionPage.module.css");
+  const actionButtonBlock = cssBlock(css, ".actionButton");
+
+  assert.match(source, /styles\.actionButton/);
+  assert.match(css, /\.toolbarActions\s*\{[\s\S]*?display:\s*flex;/);
+  assert.match(actionButtonBlock, /min-height:\s*2\.32rem\s*!important/);
+  assert.match(actionButtonBlock, /font-size:\s*0\.94rem\s*!important/);
+  assert.doesNotMatch(css, /\.toolbarActions\s*\{[\s\S]*?grid-template-columns:\s*minmax\(11rem/);
+});
+
 test("covision room exposes knowledge-base background support", () => {
   const source = read("components/covision/CovisionPage.jsx");
 

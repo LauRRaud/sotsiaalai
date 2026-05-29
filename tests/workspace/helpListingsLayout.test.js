@@ -11,6 +11,7 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
   const finalCssSource = readSource("app/styles/mobile.css");
+  const helpersCssSource = readSource("app/styles/utilities/helpers.css");
 
   assert.match(chatBodySource, /workspaceListingsPanelNode/);
   assert.match(chatBodySource, /workspaceListingsPanelMeta/);
@@ -36,13 +37,26 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   assert.match(finalCssSource, /help-listings-modal-content--embedded/);
   assert.match(finalCssSource, /--glass-shell-shadow:\s*none\s*!important;/);
   assert.match(finalCssSource, /mask-image:\s*none\s*!important;/);
+  assert.match(
+    helpersCssSource,
+    /\.workspace-dashboard-panel \.workspace-feature-embedded :is\([\s\S]*?\.help-listings-panel,[\s\S]*?\.invite-glow-panel,[\s\S]*?\.invite-list-panel[\s\S]*?\)\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?background-image:\s*none\s*!important;[\s\S]*?box-shadow:\s*none\s*!important;/
+  );
+  assert.match(
+    helpersCssSource,
+    /\.workspace-dashboard-panel \.workspace-feature-embedded :is\([\s\S]*?\.help-listings-panel,[\s\S]*?\.help-listings-empty,[\s\S]*?\.help-listings-item-card,[\s\S]*?\.invite-list-panel,[\s\S]*?\.invite-list-row[\s\S]*?\)\s*\{[\s\S]*?background:\s*var\(--subpage-card-bg,[\s\S]*?box-shadow:\s*var\(--subpage-card-shadow,/
+  );
+  assert.match(
+    helpersCssSource,
+    /\.workspace-dashboard-panel \.workspace-feature-embedded > :is\([\s\S]*?\.help-listings-modal-content--embedded,[\s\S]*?\.invite-modal-content--embedded[\s\S]*?\)\.workspace-guide-panel\.glass-subpage-surface::before,[\s\S]*?display:\s*none\s*!important;/
+  );
 
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   assert.match(
     workspacePanelCss,
     /\.embeddedContent\s*\{[\s\S]*?width:\s*min\(100%,\s*clamp\(38rem,\s*76vw,\s*56rem\)\);[\s\S]*?flex-direction:\s*column;/
   );
-  assert.doesNotMatch(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?background:\s*transparent\s*!important;/);
+  assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?background:\s*transparent\s*!important;/);
+  assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.help-listings-panel\),[\s\S]*?border-width:\s*var\(--subpage-card-border-width,[\s\S]*?background:\s*var\(--subpage-card-bg,/);
   assert.match(workspacePanelCss, /\.panel :global\(\.workspace-feature-embedded \.workspace-feature-card\),[\s\S]*?box-shadow:\s*none\s*!important;/);
 });
 
@@ -50,6 +64,7 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   const componentSource = readSource("components/invite/InviteModal.jsx");
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
   const finalCssSource = readSource("app/styles/mobile.css");
+  const helpersCssSource = readSource("app/styles/utilities/helpers.css");
 
   assert.match(workspaceSource, /"__invite":\s*"invite"/);
   assert.match(workspaceSource, /setActiveEmbeddedFeature\("invite"\)/);
@@ -73,6 +88,11 @@ test("workspace-launched invite renders inside the workspace panel", () => {
   assert.match(finalCssSource, /invite-modal-content--embedded/);
   assert.match(finalCssSource, /--glass-modal-shadow:\s*none\s*!important;/);
   assert.match(finalCssSource, /-webkit-mask-image:\s*none\s*!important;/);
+  assert.match(finalCssSource, /\.workspace-dashboard-panel \.workspace-feature-embedded :is\([\s\S]*?\.invite-list-panel,[\s\S]*?\.invite-list-row[\s\S]*?\)\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?box-shadow:\s*none\s*!important;/);
+  assert.match(
+    helpersCssSource,
+    /\.workspace-dashboard-panel \.workspace-feature-embedded[\s\S]*?:is\(\.invite-glow-panel,\s*\.invite-list-panel\)[\s\S]*?> \[class\*="edgeLight"\][\s\S]*?display:\s*none\s*!important;/
+  );
   assert.doesNotMatch(componentSource, /--invite-workspace-measured-height/);
 });
 

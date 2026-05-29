@@ -116,9 +116,9 @@ export default function useGlassFieldHoleMask({
   enabled = true
 }) {
   useLayoutEffect(() => {
-    if (!enabled || typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
     const root = rootRef?.current;
-    if (!root || !Array.isArray(selectors) || selectors.length === 0) return;
+    if (!root) return;
 
     let raf = 0;
     let lastMask = "";
@@ -153,6 +153,11 @@ export default function useGlassFieldHoleMask({
       maskLayerRef?.current?.style?.removeProperty("height");
       maskLayerRef?.current?.style?.removeProperty("bottom");
     };
+
+    if (!enabled || !Array.isArray(selectors) || selectors.length === 0) {
+      clearMask();
+      return;
+    }
 
     const updateMask = () => {
       if (freezeGeometryDuringTilt) {

@@ -69,7 +69,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /@media \(min-width:\s*769px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*calc\(\s*var\(--workspace-subpage-back-top,\s*0\.55rem\) - var\(--chat-pad-top,\s*0rem\)\s*\)\s*!important;/
+    /@media \(min-width:\s*769px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
   );
   assert.match(
     workspacePanelCss,

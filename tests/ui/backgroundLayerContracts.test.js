@@ -56,8 +56,8 @@ test("light theme uses dark color bends with extra transparency", () => {
   );
 });
 
-test("high contrast color bends are yellow and independent of mono theme", () => {
-  assert.match(source, /const COLOR_BENDS_OPACITY_HC = 0\.24;/);
+test("high contrast color bends are yellow but softer than standard bends", () => {
+  assert.match(source, /const COLOR_BENDS_OPACITY_HC = 0\.18;/);
   assert.match(source, /const readDomContrast = \(\) =>/);
   assert.match(source, /const \[domContrast, setDomContrast\] = useState\(readDomContrast\);/);
   assert.match(source, /setDomContrast\(html\.getAttribute\("data-contrast"\) \|\| "normal"\);/);
@@ -66,11 +66,28 @@ test("high contrast color bends are yellow and independent of mono theme", () =>
   assert.match(source, /const isHighContrast = effectiveContrast === "hc";/);
   assert.match(
     source,
+    /const showColorBends = !COLOR_BENDS_EXCLUDED_PATHS\.has\(normalizedPathname\);/
+  );
+  assert.match(
+    source,
     /isHighContrast\s*\?\s*\["#ffea00"\]\s*:\s*effectiveTheme === "mono"\s*\?\s*\["#3d3d3d"\]\s*:\s*effectiveTheme === "mid"\s*\?\s*\["#794f4c"\]\s*:\s*\["#7e4442"\]/
   );
   assert.match(
     source,
     /const colorBendsOpacity =\s*isHighContrast\s*\?\s*COLOR_BENDS_OPACITY_HC\s*:\s*effectiveTheme === "light"/
+  );
+});
+
+test("missing DOM theme class does not mask stored mono preference", () => {
+  assert.match(
+    source,
+    /function resolveThemeFromDom\(\)[\s\S]*?if \(html\.classList\.contains\("theme-light"\)\) return "light";\s*return null;[\s\S]*?const effectiveTheme = domTheme \|\| prefs\?\.theme;/
+  );
+  assert.match(source, /const attrTheme = html\.getAttribute\("data-theme-mode"\);/);
+  assert.match(source, /attributeFilter: \["class", "data-theme-mode", "data-contrast", "data-reduce-motion"\]/);
+  assert.doesNotMatch(
+    source,
+    /function resolveThemeFromDom\(\)[\s\S]*?if \(html\.classList\.contains\("theme-light"\)\) return "light";\s*return "dark";/
   );
 });
 
@@ -96,6 +113,12 @@ test("color bends fail closed when WebGL shader setup or rendering breaks", () =
   assert.match(colorBendsSource, /float resolveMonoChannel\(vec2 baseQ, float t, float channelOffset\)/);
 });
 
+test("color bends playback is controlled by app reduced-motion state only", () => {
+  assert.doesNotMatch(colorBendsSource, /prefers-reduced-motion/);
+  assert.match(colorBendsSource, /const motionActive = speedRef\.current !== 0 \|\| autoRotateRef\.current !== 0;/);
+  assert.doesNotMatch(colorBendsSource, /FRAME_WATCHDOG_MS/);
+});
+
 test("homepage color bends still fade on scroll when motion is reduced", () => {
   assert.match(
     source,
@@ -108,4 +131,36 @@ test("workspace route morph pauses animated color bends instead of repainting be
   assert.match(source, /event\?\.detail\?\.workspacePanelMorph/);
   assert.match(source, /setColorBendsPaused\(true\)/);
   assert.match(source, /paused=\{colorBendsPaused\}/);
+});
+
+test("color bends animate on desktop while mobile keeps a still frame", () => {
+  assert.match(source, /const COLOR_BENDS_SPEED_DESKTOP = 0\.15;/);
+  assert.match(source, /const COLOR_BENDS_SPEED_MOBILE = 0;/);
+  assert.match(source, /const COLOR_BENDS_ROTATION_SPEED_DESKTOP = 0;/);
+  assert.match(source, /const COLOR_BENDS_ROTATION_SPEED_MOBILE = 0;/);
+  assert.match(
+    source,
+    /speed=\{reduceMotion \? 0 : mobileBackgroundMode \? COLOR_BENDS_SPEED_MOBILE : COLOR_BENDS_SPEED_DESKTOP\}/
+  );
+  assert.match(
+    source,
+    /autoRotate=\{reduceMotion \? 0 : mobileBackgroundMode \? COLOR_BENDS_ROTATION_SPEED_MOBILE : COLOR_BENDS_ROTATION_SPEED_DESKTOP\}/
+  );
+});
+
+test("desktop touch capability does not force the still mobile background", () => {
+  assert.match(source, /return small \|\| layoutMobile \|\| uaMobile;/);
+  assert.doesNotMatch(source, /touchCapable/);
+  assert.doesNotMatch(source, /noHover/);
+  assert.doesNotMatch(source, /coarse \|\|/);
+});
+
+test("color bends are loaded with the background layer and update theme colors without remounting WebGL", () => {
+  assert.match(source, /import ColorBends from "\.\/ColorBends";/);
+  assert.doesNotMatch(source, /dynamic\(\(\) => import\("\.\/ColorBends"\)/);
+  assert.doesNotMatch(source, /key=\{colorBendsKey\}/);
+  assert.doesNotMatch(source, /colorBendsKey/);
+  assert.match(colorBendsSource, /colorsRef\.current = colors;/);
+  assert.match(colorBendsSource, /applyColorUniforms\(material, colors\);/);
+  assert.doesNotMatch(colorBendsSource, /material\.uniformsNeedUpdate = true;/);
 });

@@ -15,7 +15,7 @@ const DEFAULT_PREFS = {
   contrast: "normal",
   reduceMotion: false,
   reduceTransparency: false,
-  theme: "dark",
+  theme: "mono",
   colorTheme: "default"
 };
 const COLOR_THEME_KEYS = new Set(["default", "green", "blue", "neutral", "gold", "red", "purple"]);
@@ -104,6 +104,8 @@ function isLightBaseTheme(theme) {
   return theme === "light" || theme === "mid";
 }
 function resolveThemeFromDom(html) {
+  const attrTheme = html.getAttribute("data-theme-mode");
+  if (attrTheme === "light" || attrTheme === "mid" || attrTheme === "dark" || attrTheme === "night" || attrTheme === "mono") return attrTheme;
   const hasMid = html.classList.contains("theme-mid");
   const hasNight = html.classList.contains("theme-night");
   const hasMono = html.classList.contains("theme-mono");
@@ -112,7 +114,7 @@ function resolveThemeFromDom(html) {
   if (hasNight) return "night";
   if (hasMono) return "mono";
   if (hasLight) return "light";
-  return "dark";
+  return null;
 }
 function matchesThemeClasses(html, prefs) {
   const forceDark = prefs?.contrast === "hc";
@@ -195,7 +197,7 @@ function readInitialPrefsFromDom() {
   };
   const html = document.documentElement;
   const contrast = html.getAttribute("data-contrast") || DEFAULT_PREFS.contrast;
-  let theme = resolveThemeFromDom(html);
+  let theme = resolveThemeFromDom(html) || DEFAULT_PREFS.theme;
   if (contrast !== "hc") {
     try {
       const storedTheme = window.localStorage.getItem("theme");
@@ -245,7 +247,8 @@ function applyPrefsToDom(prefs) {
   html.setAttribute("data-color-theme", normalizeColorTheme(prefs.colorTheme));
   html.style.setProperty("--ui-scale", String(resolveUIScaleValue(uiScale, uiProfile)));
   const theme = normalizeTheme(prefs.theme);
-  const forceDark = prefs.contrast === "hc";
+  const forceDark = nextContrast === "hc";
+  html.setAttribute("data-theme-mode", forceDark ? "dark" : theme);
   const shouldBeLight = !forceDark && isLightBaseTheme(theme);
   const shouldBeMid = !forceDark && theme === "mid";
   const shouldBeNight = !forceDark && theme === "night";

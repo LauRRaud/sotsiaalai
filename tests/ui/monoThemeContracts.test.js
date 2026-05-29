@@ -13,7 +13,13 @@ test("mono theme is wired through globals, layout and accessibility provider", (
 
   assert.match(globals, /@import url\("\.\/theme\/mono\.css"\);/);
   assert.match(layout, /rawTheme === "mono"/);
-  assert.match(layout, /theme === "mono" \? "theme-mono"/);
+  assert.match(layout, /const initialTheme = initialA11yPrefs\?\.theme \|\| "mono";/);
+  assert.match(layout, /data-theme-mode=\{initialTheme\}/);
+  assert.match(layout, /initialTheme === "mono" \? "theme-mono"/);
+  assert.match(provider, /theme:\s*"mono"/);
+  assert.match(provider, /html\.setAttribute\("data-theme-mode", forceDark \? "dark" : theme\);/);
+  assert.match(provider, /const attrTheme = html\.getAttribute\("data-theme-mode"\);/);
+  assert.match(provider, /let theme = resolveThemeFromDom\(html\) \|\| DEFAULT_PREFS\.theme;/);
   assert.match(provider, /theme === "mono"/);
   assert.match(provider, /html\.classList\.toggle\("theme-mono", shouldBeMono\)/);
 });
@@ -71,11 +77,16 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field\s*\{[\s\S]*?min-height:\s*3\.12rem;[\s\S]*?border-radius:\s*999px !important;/);
   assert.match(inviteModal, /"invite-glow-field ui-glow-field service-map-toolbar__glow-field "/);
   assert.match(inviteModal, /className=\{`\$\{inviteRefreshButtonClassName\} invite-primary-btn invite-refresh-btn`\}/);
-  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field,[\s\S]*?\.invite-glow-field\.ui-glow-field,[\s\S]*?\.update-pin-content \.ui-glow-field,[\s\S]*?\.update-email-content \.ui-glow-field[\s\S]*?\)\s*\{[\s\S]*?--card-bg:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field,[\s\S]*?\.update-pin-content \.ui-glow-field,[\s\S]*?\.update-email-content \.ui-glow-field[\s\S]*?\)\s*\{[\s\S]*?--card-bg:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
+  assert.doesNotMatch(mono, /data-glass-field-hole="invite"/);
+  assert.doesNotMatch(mono, /data-glass-field-hole='invite'/);
   assert.doesNotMatch(mono, /:is\([\s\S]*?\.register-input\.ui-glow-field,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field/);
   assert.match(mono, /\.ui-glow-option-card-frame\s*\{[\s\S]*?--seg-card-bg-hover:\s*var\(--seg-card-bg\) !important;[\s\S]*?--seg-card-shadow-hover:\s*var\(--seg-card-shadow\) !important;/);
   assert.match(mono, /\.ui-glow-option-card-frame:is\(:hover, :focus-visible, :focus-within, :active\):not\(\.ui-glow-option-card-frame--disabled\)\s*\{[\s\S]*?background:\s*var\(--seg-card-bg\) !important;[\s\S]*?box-shadow:\s*var\(--seg-card-shadow\) !important;/);
-  assert.match(mono, /#login-modal :is\([\s\S]*?input\[name="email"\],[\s\S]*?#otp-code-input,[\s\S]*?#trusted-device-name[\s\S]*?\)\s*\{[\s\S]*?background:\s*var\(--mono-field-hole-bg\) !important;[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow\) !important;/);
+  assert.doesNotMatch(mono, /#login-modal :is\([\s\S]*?#otp-code-input[\s\S]*?#trusted-device-name/);
+  assert.doesNotMatch(loginModal, /useGlassFieldHoleMask/);
+  assert.doesNotMatch(loginModal, /glass-field-hole-surface/);
+  assert.doesNotMatch(loginModal, /glass-hole-mask-layer/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field::before,[\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field > \.edgeLight\s*\{[\s\S]*?display:\s*block !important;[\s\S]*?opacity:\s*1 !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\([\s\S]*?\.drawer-panel--chat-glass \.chat-sidebar-search-glow\.ui-glow-field[\s\S]*?\):is\(:hover, :focus-within\)\s*\{[\s\S]*?box-shadow:\s*var\(--mono-field-hole-shadow-hover\) !important;/);
   assert.match(mono, /\.drawer-panel--chat-glass \.chat-sidebar-search-input\s*\{[\s\S]*?min-height:\s*3\.12rem !important;[\s\S]*?background:\s*transparent !important;[\s\S]*?padding:\s*0\.74rem 1\.28rem !important;/);
@@ -120,6 +131,8 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   assert.match(darkTheme, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\) \.materials-page-shell/);
   assert.match(documentsMode, /:root:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\):not\(\[data-contrast="hc"\]\) \.documents-workspace-page--library/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.materials-page-shell\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\) !important;[\s\S]*?--input-bg:\s*var\(--forest-input-surface\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-dashboard-panel \.materials-page-body\s*\{[\s\S]*?--subpage-card-bg:\s*var\(--forest-input-surface\) !important;[\s\S]*?--input-bg:\s*var\(--forest-input-surface\) !important;/);
+  assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-dashboard-panel \.materials-page-body :is\([\s\S]*?\.materials-comment-glow-field\.ui-glow-field,[\s\S]*?\.materials-comment-box,[\s\S]*?\.materials-comment-glow-field \.ui-glow-control[\s\S]*?\)\s*\{[\s\S]*?background:\s*var\(--forest-input-surface\) !important;[\s\S]*?background-image:\s*var\(--forest-input-surface\) !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.documents-workspace\s*\{[\s\S]*?--documents-dropdown-bg:\s*var\(--forest-tooltip-surface\);[\s\S]*?--documents-dropdown-item-bg:\s*rgb\(28,\s*28,\s*28\);/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) :is\(\.documents-workspace \.documents-dropdown-menu,[\s\S]*?background-color:\s*rgb\(28,\s*28,\s*28\) !important;[\s\S]*?opacity:\s*1 !important;/);
   assert.match(mono, /:root\.theme-mono:not\(\[data-contrast="hc"\]\) \.workspace-feature-dropdown:not\(\.pre-inquiry-dropdown\) \.documents-dropdown-menu\s*\{[\s\S]*?background-color:\s*rgb\(28,\s*28,\s*28\) !important;[\s\S]*?opacity:\s*1 !important;/);

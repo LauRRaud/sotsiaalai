@@ -92,7 +92,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#111418"
+  themeColor: "#101010"
 };
 const aino = localFont({
   src: [{
@@ -158,7 +158,7 @@ function parseA11yPrefs(jar) {
       rawTheme === "night" ||
       rawTheme === "mono"
         ? rawTheme
-        : "dark";
+        : "mono";
     return {
       uiScale: obj?.uiScale ?? obj?.textScale,
       uiProfile: obj?.uiProfile ?? obj?.screenProfile ?? obj?.uiScale ?? obj?.textScale,
@@ -184,9 +184,10 @@ export default async function RootLayout({
   } catch {}
   const session = await getServerSession(authConfig).catch(() => null);
   const initialA11yPrefs = parseA11yPrefs(jar);
+  const initialTheme = initialA11yPrefs?.theme || "mono";
   const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
-  return <html lang={locale} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialA11yPrefs?.theme === "light" || initialA11yPrefs?.theme === "mid" ? "theme-light" : ""} ${initialA11yPrefs?.theme === "mid" ? "theme-mid" : ""} ${initialA11yPrefs?.theme === "night" ? "theme-night" : ""} ${initialA11yPrefs?.theme === "mono" ? "theme-mono" : ""}`.trim()} suppressHydrationWarning>
+  return <html lang={locale} data-theme-mode={initialTheme} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialTheme === "light" || initialTheme === "mid" ? "theme-light" : ""} ${initialTheme === "mid" ? "theme-mid" : ""} ${initialTheme === "night" ? "theme-night" : ""} ${initialTheme === "mono" ? "theme-mono" : ""}`.trim()} suppressHydrationWarning>
       <head>
         <meta
           name="format-detection"
