@@ -662,9 +662,17 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  .homepage-root .home-hero-section {
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - clamp(1.25rem, 5vh, 3rem)
+    );
+  }
+
   .home-hero-shell {
     position: relative;
-    transform: translateY(-0.75rem);
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(4rem, 10vh, 5.6rem));
+    padding-bottom: clamp(5.5rem, 13vw, 7.4rem);
+    transform: none;
   }
 
   html:not([data-contrast="hc"]) .homepage-root .left-card-primary .circular-text-line,

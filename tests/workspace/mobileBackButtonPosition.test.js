@@ -61,7 +61,11 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /padding:[\s\S]*?calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.08rem\)[\s\S]*?calc\(var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\) \+ clamp\(0\.55rem,\s*1\.7vh,\s*0\.9rem\)\)/
+    /padding:[\s\S]*?0\.08rem[\s\S]*?calc\(var\(--mobile-safe-bottom,\s*env\(safe-area-inset-bottom,\s*0px\)\) \+ clamp\(0\.55rem,\s*1\.7vh,\s*0\.9rem\)\)/
+  );
+  assert.doesNotMatch(
+    workspacePanelCss,
+    /padding:[\s\S]*?calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.08rem\)/
   );
   assert.match(
     workspacePanelCss,
@@ -73,7 +77,11 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2rem -[\s\S]*?var\(--chat-pad-top,\s*1rem\)[\s\S]*?\)\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
+  );
+  assert.doesNotMatch(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\)[\s\S]*?var\(--chat-pad-top,\s*1rem\)/
   );
   assert.match(
     workspacePanelCss,

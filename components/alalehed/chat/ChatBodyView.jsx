@@ -131,7 +131,7 @@ export default function ChatBodyView({
 
   return <>
     <InviteModal />
-    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[768px]:overflow-hidden [overflow-anchor:none] max-[768px]:overscroll-none max-[768px]:place-items-stretch", showVisibleAnalysisPanel && analysis.uploadPreview ? "chat-page-shell--analysis-scroll" : null, isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
+    <div className={cn("chat-page-shell grid place-items-center min-h-[100dvh] h-[100dvh] p-0 overflow-y-hidden overflow-x-visible max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] max-[768px]:h-[var(--glass-mobile-root-vh,100dvh)] max-[768px]:max-h-[var(--glass-mobile-root-vh,100dvh)] max-[768px]:overflow-hidden [overflow-anchor:none] max-[768px]:overscroll-none max-[768px]:place-items-stretch", showVisibleAnalysisPanel && analysis.uploadPreview ? "chat-page-shell--analysis-scroll" : null, isEntering ? "chat-entering" : null, focusActive ? "chat-page-shell--input-focus place-items-center pt-0 pb-0 [scroll-padding-top:0] [scroll-padding-bottom:0]" : null)}>
       <>
         {showChatFace ? <div className={chatFaceClass ?? undefined} aria-hidden={profileOpen ? "true" : "false"}>
           <div className="relative overflow-visible">

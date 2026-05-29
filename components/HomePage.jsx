@@ -698,7 +698,7 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
   }, [pendingExitSide, startExitToChat]);
   return <>
       <div ref={homeRootRef} className={cn("relative flex min-h-[100dvh] max-[768px]:min-h-[var(--glass-mobile-root-vh,100dvh)] w-full flex-col [overflow-y:visible]", "homepage-root", "homepage-scroll", introPending ? "intro-pending" : null)}>
-        <section onClick={handleBackgroundTap} className="relative touch-pan-y">
+        <section onClick={handleBackgroundTap} className="home-hero-section relative touch-pan-y">
           <div className={cn(
             "absolute left-1/2 top-[calc(env(safe-area-inset-top,0px)+clamp(1rem,3.6vh,2.5rem))] z-[60] -translate-x-1/2",
             "pointer-events-none select-none px-[clamp(1rem,3vw,1.55rem)] py-[0.48rem]",

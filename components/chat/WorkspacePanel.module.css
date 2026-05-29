@@ -919,17 +919,14 @@
     height: 100%;
     min-height: 0;
     padding:
-      calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.08rem)
+      0.08rem
       clamp(0.22rem, 1.2vw, 0.38rem)
       calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(0.55rem, 1.7vh, 0.9rem));
   }
 
   .backButton {
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
-    top: calc(
-      var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.2rem -
-        var(--chat-pad-top, 1rem)
-    ) !important;
+    top: 0.2rem !important;
   }
 
   .roleMenu {

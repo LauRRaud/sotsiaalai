@@ -108,6 +108,7 @@ test("mobile layout no longer applies PWA-specific display mode anchoring", () =
 test("mobile chat keyboard lift does not double-apply to scroll padding", () => {
   const mobileCss = read("app/styles/mobile.css");
   const conversationView = read("components/alalehed/chat/ConversationView.jsx");
+  const chatBodyView = read("components/alalehed/chat/ChatBodyView.jsx");
   const scrollRule = mobileCss.match(
     /\.chat-page-shell \.chat-container\[data-chat-layout="mobile"\] \.chat-window__scroll\s*\{[\s\S]*?\n\s*\}/
   )?.[0] || "";
@@ -119,6 +120,11 @@ test("mobile chat keyboard lift does not double-apply to scroll padding", () => 
   assert.doesNotMatch(scrollRule, /--chat-vk-offset/);
   assert.ok(scrollPaddingClasses, "expected chat scroll padding classes");
   assert.doesNotMatch(scrollPaddingClasses, /--chat-vk-offset/);
+  assert.match(
+    chatBodyView,
+    /max-\[768px\]:min-h-\[var\(--glass-mobile-root-vh,100dvh\)\][\s\S]*?max-\[768px\]:h-\[var\(--glass-mobile-root-vh,100dvh\)\][\s\S]*?max-\[768px\]:max-h-\[var\(--glass-mobile-root-vh,100dvh\)\]/,
+    "mobile chat shell should use the stable app height while the keyboard opens"
+  );
 });
 
 test("mobile chat keyboard offset is monotonic while the keyboard is open", () => {

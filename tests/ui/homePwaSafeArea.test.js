@@ -24,6 +24,16 @@ test("mobile PWA homepage paints the bottom safe area with the active theme back
     "homepage scroll root should share the measured mobile app height"
   );
   assert.match(
+    mobileCss,
+    /\.homepage-root \.home-hero-section\s*\{[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?clamp\(1\.25rem,\s*5vh,\s*3rem\)/,
+    "mobile homepage hero should reserve a stable first viewport before the next section"
+  );
+  assert.match(
+    mobileCss,
+    /\.home-hero-shell\s*\{[\s\S]*?padding-top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ clamp\(4rem,\s*10vh,\s*5\.6rem\)\);[\s\S]*?transform:\s*none;/,
+    "mobile homepage hero should not be pulled upward in PWA mode"
+  );
+  assert.match(
     coreCss,
     /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100% max\(100%,\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\) !important;/,
     "standalone/fullscreen PWA should paint every page's browser chrome with the active theme background"
