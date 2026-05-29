@@ -44,8 +44,6 @@ function applyDisplayModeFlag() {
   const mode = detectDisplayMode();
   root.setAttribute("data-display-mode", mode);
   body.setAttribute("data-display-mode", mode);
-  root.removeAttribute("data-display-mode-sticky");
-  body.removeAttribute("data-display-mode-sticky");
   return mode;
 }
 

@@ -90,18 +90,24 @@ test("mobile app height follows the measured viewport outside keyboard stabiliza
   assert.equal(height, 520);
 });
 
-test("mobile layout no longer applies PWA-specific display mode anchoring", () => {
+test("mobile chat PWA header removes the duplicated safe-area inset without legacy sticky display-mode state", () => {
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const mobileCss = read("app/styles/mobile.css");
+  const chatTopNav = read("components/alalehed/chat/view/ChatMobileTopNav.jsx");
 
   assert.match(viewportSetter, /function detectDisplayMode\(\)/);
   assert.match(viewportSetter, /matchMedia\?\.\("\(display-mode:\s*standalone\)"\)/);
   assert.match(viewportSetter, /setAttribute\("data-display-mode",\s*mode\)/);
-  assert.match(viewportSetter, /removeAttribute\("data-display-mode-sticky"\)/);
   assert.doesNotMatch(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
+  assert.doesNotMatch(viewportSetter, /data-display-mode-sticky|DISPLAY_MODE_STORAGE_KEY/);
+  assert.match(chatTopNav, /--chat-mobile-topnav-safe-top/);
+  assert.match(
+    mobileCss,
+    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;/
+  );
   assert.doesNotMatch(
     mobileCss,
-    /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
+    /data-display-mode-sticky|mobile-pwa/
   );
 });
 

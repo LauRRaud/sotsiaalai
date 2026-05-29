@@ -98,18 +98,31 @@ html[data-display-mode="fullscreen"] .app-root {
   background-size: 100% max(100%, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
 }
 
-html[data-display-mode="standalone"] body.homepage::before,
-html[data-display-mode="fullscreen"] body.homepage::before,
-body[data-display-mode="standalone"].homepage::before,
-body[data-display-mode="fullscreen"].homepage::before {
-  content: none !important;
-  display: none !important;
+html[data-display-mode="standalone"] body::after,
+html[data-display-mode="fullscreen"] body::after,
+body[data-display-mode="standalone"]::after,
+body[data-display-mode="fullscreen"]::after {
+  content: "";
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: max(env(safe-area-inset-bottom, 0px), 2.4rem);
+  background-color: var(--app-chrome-bg, #10151d);
+  background-image: var(--app-chrome-bg-image, none);
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 100% max(100%, var(--glass-mobile-root-vh, var(--app-height, 100dvh)));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .app-root {
   min-height: 100vh;
   min-height: var(--app-height, 100dvh);
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 .splash-cursor {
   position: fixed;

@@ -61,12 +61,12 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\) \+[\s\S]*?0\.2rem[\s\S]*?\)\s*!important;/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
   );
   assert.equal(mobileCss.includes('--mobile-common-title-top: 2.18rem;'), true);
   assert.match(
     mobileCss,
-    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.subscription-modal-content,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.216rem\)\s*!important;/
+    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.subscription-modal-content,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
   );
   assert.doesNotMatch(mobileCss, /\.policy-mobile-tall \.policy-mobile-title-wrap/);
   assert.equal(mobileCss.includes('html:not([data-platform="android"]) .policy-mobile-title-wrap'), false);

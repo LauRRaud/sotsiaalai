@@ -6,7 +6,7 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("workspace feature pages keep mobile safe areas without activating PWA layout mode", () => {
+test("workspace feature pages keep mobile safe areas without browser-mode layout forks", () => {
   const mobileCss = read("app/styles/mobile.css");
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
@@ -32,14 +32,16 @@ test("workspace feature pages keep mobile safe areas without activating PWA layo
     viewportSetter,
     /setAttribute\("data-display-mode",\s*mode\)/
   );
+  assert.doesNotMatch(viewportSetter, /data-display-mode-sticky|DISPLAY_MODE_STORAGE_KEY/);
   assert.match(
-    viewportSetter,
-    /removeAttribute\("data-display-mode-sticky"\)/
-  );
-  assert.doesNotMatch(
     mobileCss,
-    /data-display-mode="standalone"|data-display-mode="fullscreen"|data-display-mode-sticky|mobile-pwa/
+    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;/
   );
+  assert.match(
+    mobileCss,
+    /html\[data-display-mode="standalone"\] \.profile-container\.glass-ring :is\(\.back-button,\s*\.glass-subpage-back-button\),/
+  );
+  assert.doesNotMatch(mobileCss, /data-display-mode-sticky|mobile-pwa/);
   assert.doesNotMatch(
     mobileCss,
     /data-display-mode="browser"/

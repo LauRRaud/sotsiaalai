@@ -6,7 +6,7 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("mobile PWA homepage paints the bottom safe area with the active theme background", () => {
+test("mobile PWA pages paint the bottom safe area with the active theme background", () => {
   const mobileCss = read("app/styles/mobile.css");
   const coreCss = read("app/styles/base/core.css");
   const backgroundCss = read("app/styles/base/backgrounds.css");
@@ -25,13 +25,13 @@ test("mobile PWA homepage paints the bottom safe area with the active theme back
   );
   assert.match(
     mobileCss,
-    /\.homepage-root \.home-hero-section\s*\{[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?clamp\(1\.25rem,\s*5vh,\s*3rem\)/,
-    "mobile homepage hero should reserve a stable first viewport before the next section"
+    /\.homepage-root \.home-hero-section\s*\{[\s\S]*?min-height:\s*auto;/,
+    "mobile homepage hero should not push the cards downward in PWA mode"
   );
   assert.match(
     mobileCss,
-    /\.home-hero-shell\s*\{[\s\S]*?padding-top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ clamp\(4rem,\s*10vh,\s*5\.6rem\)\);[\s\S]*?transform:\s*none;/,
-    "mobile homepage hero should not be pulled upward in PWA mode"
+    /\.home-hero-shell\s*\{[\s\S]*?position:\s*relative;[\s\S]*?transform:\s*translateY\(-0\.75rem\);/,
+    "mobile homepage hero should keep the cards in their original upper position"
   );
   assert.match(
     coreCss,
@@ -39,23 +39,21 @@ test("mobile PWA homepage paints the bottom safe area with the active theme back
     "standalone/fullscreen PWA should paint every page's browser chrome with the active theme background"
   );
   assert.match(
+    coreCss,
+    /html\[data-display-mode="standalone"\] body::after,[\s\S]*?body\[data-display-mode="fullscreen"\]::after\s*\{[\s\S]*?height:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\);[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\);[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\);/,
+    "all PWA pages should paint the bottom safe area with the active theme background"
+  );
+  assert.match(
     backgroundCss,
     /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\s*\{[\s\S]*?height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);/,
     "PWA background layer should cover the measured mobile viewport height"
   );
-  assert.match(
-    coreCss,
-    /body\[data-display-mode="fullscreen"\]\.homepage::before\s*\{[\s\S]*?content:\s*none !important;[\s\S]*?display:\s*none !important;/,
-    "homepage should not use a bottom-only cover box in PWA mode"
-  );
+  assert.doesNotMatch(coreCss, /body\.homepage::before|body\.homepage::after/);
   assert.match(coreCss, /--app-chrome-bg-image:\s*radial-gradient\(/);
   assert.match(coreCss, /html\.theme-light\s*\{[\s\S]*?--app-chrome-bg-image:\s*linear-gradient\(180deg,\s*#f4f2ee 0%,\s*#e9e6df 100%\);/);
   assert.match(coreCss, /html\.theme-mono:not\(\[data-contrast="hc"\]\)\s*\{[\s\S]*?--app-chrome-bg:\s*#101010;/);
   assert.match(manifest, /"background_color": "#101010"/);
   assert.match(manifest, /"theme_color": "#101010"/);
   assert.match(layout, /themeColor:\s*"#101010"/);
-  assert.match(mobileCss, /html\.theme-light\s*\{[\s\S]*?--home-safe-area-bg:\s*#e9e6df;/);
-  assert.match(mobileCss, /html\.theme-night\s*\{[\s\S]*?--home-safe-area-bg:\s*#090a0f;/);
-  assert.match(mobileCss, /html\.theme-mono:not\(\[data-contrast="hc"\]\)\s*\{[\s\S]*?--home-safe-area-bg:\s*#101010;/);
-  assert.match(mobileCss, /html:not\(\.theme-light\):not\(\.theme-mid\):not\(\.theme-night\):not\(\.theme-mono\)\s*\{[\s\S]*?--home-safe-area-bg:\s*#111418;/);
+  assert.doesNotMatch(mobileCss, /--home-safe-area-bg/);
 });

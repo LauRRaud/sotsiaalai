@@ -406,7 +406,6 @@
   }
   html.theme-light {
     --home-browser-base-bg: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);
-    --home-safe-area-bg: #e9e6df;
   }
   html.theme-mid {
     --home-browser-base-bg: linear-gradient(
@@ -415,7 +414,6 @@
       var(--mid-bg-mid) 58%,
       var(--mid-bg-bottom) 100%
     );
-    --home-safe-area-bg: var(--mid-bg-bottom, #b7aaa7);
   }
   html.theme-night {
     --home-browser-base-bg: radial-gradient(
@@ -423,7 +421,6 @@
       #1b2735 0%,
       #090a0f 100%
     );
-    --home-safe-area-bg: #090a0f;
   }
   html.theme-mono:not([data-contrast="hc"]) {
     --home-browser-base-bg: linear-gradient(
@@ -432,7 +429,6 @@
       var(--forest-bg-mid, #1f1f1f) 54%,
       var(--forest-bg-bottom, #101010) 100%
     );
-    --home-safe-area-bg: #101010;
   }
   html:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono) {
     --home-browser-base-bg: radial-gradient(
@@ -440,7 +436,6 @@
       #2b3037 0%,
       #111418 100%
     );
-    --home-safe-area-bg: #111418;
   }
   @supports selector(html:has([data-bg-layer][data-page="home"])) {
     html.theme-light:has(
@@ -663,16 +658,17 @@
   }
 
   .homepage-root .home-hero-section {
-    min-height: calc(
-      var(--glass-mobile-root-vh, 100dvh) - clamp(1.25rem, 5vh, 3rem)
-    );
+    min-height: auto;
   }
 
   .home-hero-shell {
     position: relative;
-    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(4rem, 10vh, 5.6rem));
-    padding-bottom: clamp(5.5rem, 13vw, 7.4rem);
-    transform: none;
+    transform: translateY(-0.75rem);
+  }
+
+  .homepage-root {
+    position: relative;
+    z-index: 2;
   }
 
   html:not([data-contrast="hc"]) .homepage-root .left-card-primary .circular-text-line,
@@ -1619,6 +1615,20 @@
     pointer-events: none !important;
   }
 
+  html[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  html[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  body[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  body[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"] {
+    --chat-mobile-topnav-safe-top: 0px;
+  }
+
+  html[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  html[data-display-mode="fullscreen"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  body[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  body[data-display-mode="fullscreen"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button) {
+    top: 0.2rem !important;
+  }
+
   #login-modal {
     inset: 0 !important;
     top: 0 !important;
@@ -2391,6 +2401,28 @@
   html[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     margin-top: clamp(1.7rem, 6.8vw, 2.45rem) !important;
+    transform: none !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  body[data-display-mode="standalone"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button) {
+    top: 0.2rem !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row,
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-role-row,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row,
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(2.35rem, 9.2vw, 3.5rem)) !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(0.9rem, 4.2vw, 1.55rem) !important;
     transform: none !important;
   }
 }
@@ -3556,7 +3588,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .workspace-feature-panel.workspace-guide-panel
     )
     .glass-subpage-title-wrap {
-    padding-top: calc(var(--mobile-common-title-top) + 0.216rem) !important;
+    padding-top: calc(var(--mobile-common-title-top) + 0.396rem) !important;
   }
 
   .dashboard-info-panel--with-title-metrics
@@ -3702,10 +3734,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   .workspace-scroll-surface .workspace-scroll-back-button {
     position: absolute !important;
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: calc(
-      var(--workspace-guide-panel-overscan-top, 0px) +
-        0.2rem
-    ) !important;
+    top: 0.2rem !important;
     bottom: auto !important;
     margin-left: 0 !important;
     transform: none !important;
@@ -3734,6 +3763,20 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 
   .subscription-modal-content :is(.glass-subpage-back-button, .workspace-scroll-back-button) {
+    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
+    top: 0.2rem !important;
+  }
+
+  :is(
+      .direct-scroll-surface,
+      .policy-scroll-page-ring,
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
     top: 0.2rem !important;
   }

@@ -105,15 +105,15 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
     mobileCss,
     /:is\([\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\{[\s\S]*?--workspace-mobile-panel-gap:\s*var\(--mobile-glass-card-gap\);/
   );
-  assert.doesNotMatch(mobileCss, /data-display-mode="standalone"[\s\S]*?documents-workspace-shell/);
-  assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[\s\S]*?documents-workspace-shell/);
+  assert.doesNotMatch(mobileCss, /data-display-mode="standalone"[^{]*documents-workspace-shell/);
+  assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[^{]*documents-workspace-shell/);
   assert.doesNotMatch(
     mobileCss,
     /:is\(\.documents-workspace-page--documents,\s*\.documents-workspace-page--agent\)\s+\.documents-workspace-shell[^{]*\.workspace-scroll-back-button\s*\{/
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\) \+[\s\S]*?0\.2rem/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*0\.2rem\s*!important;/
   );
   assert.match(mobileCss, /\.policy-mobile-title--static\s*\{[\s\S]*?white-space:\s*normal\s*!important;[\s\S]*?text-wrap:\s*balance\s*!important;/);
   assert.match(documentsCss, /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/);

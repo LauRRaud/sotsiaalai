@@ -248,18 +248,18 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + clamp(2.78rem,10.8vw,3.02rem))",
         right: "calc(env(safe-area-inset-right,0px) + 0.1rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.12rem)"
+        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.12rem)"
       }
     : isAndroidPlatform
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.36rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.26rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.18rem)"
+        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.18rem)"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
-        top: "calc(env(safe-area-inset-top,0px) + 0.08rem)"
+        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.08rem)"
       };
 
   const labels = useMemo(

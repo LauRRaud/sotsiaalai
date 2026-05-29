@@ -24,8 +24,8 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   }
 
   assert.match(workspaceFeature, /workspace-scroll-surface/);
-  assert.match(workspaceFeature, /anchorBack=\{isServiceMap\}/);
-  assert.match(workspaceFeature, /backClassName=\{!isServiceMap \? "workspace-scroll-back-button" : null\}/);
+  assert.match(workspaceFeature, /anchorBack=\{!embedded && isServiceMap\}/);
+  assert.match(workspaceFeature, /backClassName=\{embedded \|\| !isServiceMap \? "workspace-scroll-back-button" : null\}/);
 
   assert.match(framework, /<GlassSubpageHeader[\s\S]*?anchorBack=\{false\}[\s\S]*?backClassName="workspace-scroll-back-button"/);
   for (const source of [framework, features, pricing, author]) {
@@ -74,10 +74,10 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   );
   assert.match(
     mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,\s*0px\) \+[\s\S]*?0\.2rem[\s\S]*?\)\s*!important;/
+    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?top:\s*0\.2rem\s*!important;/
   );
   assert.match(
     mobileCss,
-    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.materials-page-content\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.216rem\)\s*!important;/
+    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.materials-page-content\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel\.workspace-guide-panel[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
   );
 });
