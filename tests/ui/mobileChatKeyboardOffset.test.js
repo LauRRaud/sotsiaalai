@@ -158,3 +158,13 @@ test("mobile chat keyboard offset is monotonic while the keyboard is open", () =
     /offset > 0 &&[\s\S]*?lastAppliedOffset > 0 &&[\s\S]*?Math\.abs\(offset - lastAppliedOffset\) < MOBILE_KEYBOARD_OFFSET_JITTER_PX/
   );
 });
+
+test("mobile chat blur clears stale keyboard offset after the viewport settles", () => {
+  const chatBody = read("components/alalehed/ChatBody.jsx");
+
+  assert.match(chatBody, /const clearComposerFocus = \(\) => \{[\s\S]*?setInputFocused\(false\);[\s\S]*?--chat-vk-offset", "0px"/);
+  assert.match(
+    chatBody,
+    /if \(rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD\) \{[\s\S]*?blurTimerRef\.current = window\.setTimeout\(\(\) => \{[\s\S]*?const activeLater = document\.activeElement;[\s\S]*?clearComposerFocus\(\);[\s\S]*?\}, MOBILE_KEYBOARD_BLUR_SETTLE_MS\);/
+  );
+});

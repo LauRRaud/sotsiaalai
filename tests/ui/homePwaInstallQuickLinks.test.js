@@ -21,7 +21,7 @@ test("home quick links expose separate PWA install actions for desktop and mobil
   assert.match(source, /key:\s*"install-desktop"[\s\S]*?installTarget:\s*"desktop"/);
   assert.match(source, /key:\s*"install-mobile"[\s\S]*?installTarget:\s*"mobile"/);
   assert.match(source, /const \[quickInstallTarget, setQuickInstallTarget\] = useState\("desktop"\)/);
-  assert.match(source, /const \[quickInstallAvailable, setQuickInstallAvailable\] = useState\(true\)/);
+  assert.match(source, /const \[quickInstallAvailable, setQuickInstallAvailable\] = useState\(false\)/);
   assert.match(source, /window\.matchMedia\?\.\("\(max-width: 768px\)"\)/);
   assert.match(source, /window\.matchMedia\?\.\("\(display-mode: standalone\)"\)/);
   assert.match(source, /window\.matchMedia\?\.\("\(display-mode: fullscreen\)"\)/);
@@ -69,6 +69,8 @@ test("home quick carousel removes the installed PWA slot and keeps labels stable
   assert.match(source, /const quickCarouselSettleTimerRef = useRef\(0\)/);
   assert.match(source, /if \(quickCarouselProgrammaticRef\.current\) return;/);
   assert.match(source, /quickCarouselProgrammaticRef\.current = true;[\s\S]*?centerQuickItem\(list,\s*target,\s*behavior\);[\s\S]*?setTimeout\(\(\) => \{[\s\S]*?quickCarouselProgrammaticRef\.current = false;/);
+  assert.match(source, /const isMobileCarousel =[\s\S]*?window\.matchMedia\?\.\("\(max-width: 768px\)"\)/);
+  assert.match(source, /reduceMotion === "1" \|\| isMobileCarousel[\s\S]*?\? "auto"[\s\S]*?: "smooth"/);
   assert.match(source, /data-home-quick-type=\{item\.type \|\| "link"\}/);
   assert.match(source, /const quickLinkKeys = quickLinkSignature \? quickLinkSignature\.split\("\|"\) : \[\]/);
   assert.match(source, /const fallbackKey = quickLinkKeys\.includes\("privacy"\) \? "privacy" : quickLinkKeys\[0\]/);

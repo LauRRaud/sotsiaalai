@@ -535,17 +535,12 @@
   html[data-display-mode="fullscreen"] body.homepage,
   body.homepage[data-display-mode="standalone"],
   body.homepage[data-display-mode="fullscreen"] {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    height: calc(
-      var(--glass-mobile-root-vh, 100dvh) +
-        var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), 7.5rem))
-    ) !important;
-    min-height: calc(
-      var(--glass-mobile-root-vh, 100dvh) +
-        var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), 7.5rem))
-    ) !important;
+    background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d))) !important;
+    background-color: var(--app-chrome-bg, #10151d) !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% var(--glass-mobile-root-vh, 100dvh) !important;
+    height: var(--glass-mobile-root-vh, 100dvh) !important;
+    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
   html[data-display-mode="standalone"] body.homepage .homepage-root,
   html[data-display-mode="fullscreen"] body.homepage .homepage-root,
@@ -3866,8 +3861,8 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .covision-page-surface.workspace-guide-panel,
       .workspace-feature-panel.workspace-guide-panel
     ) {
-    --workspace-pwa-header-lift: 0.62rem;
-    --workspace-pwa-back-lift: 0.36rem;
+    --workspace-pwa-header-lift: 1.12rem;
+    --workspace-pwa-back-lift: 0.92rem;
   }
 
   html[data-display-mode="standalone"] :is(
@@ -3970,7 +3965,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     )
     > .workspace-guide-panel-scroll
     :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
-    top: calc(3.56rem - var(--workspace-pwa-back-lift, 0rem)) !important;
+    top: calc(3.24rem - var(--workspace-pwa-back-lift, 0rem)) !important;
   }
 
   html[data-display-mode="standalone"] :is(

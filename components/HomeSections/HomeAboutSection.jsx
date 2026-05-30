@@ -199,7 +199,7 @@ export default function HomeAboutSection({
   const activeQuickKeyRef = useRef("privacy");
   const [activeQuickKey, setActiveQuickKey] = useState("privacy");
   const [quickInstallTarget, setQuickInstallTarget] = useState("desktop");
-  const [quickInstallAvailable, setQuickInstallAvailable] = useState(true);
+  const [quickInstallAvailable, setQuickInstallAvailable] = useState(false);
   const [useQuickCarouselVisibility, setUseQuickCarouselVisibility] = useState(false);
   const quickCarouselProgrammaticRef = useRef(false);
   const quickCarouselSettleTimerRef = useRef(0);
@@ -597,8 +597,12 @@ export default function HomeAboutSection({
     );
     const targetIndex = Math.max(0, Math.min(items.length - 1, currentIndex + direction));
     const target = items[targetIndex];
+    const isMobileCarousel =
+      window.matchMedia?.("(max-width: 768px)")?.matches ?? window.innerWidth <= 768;
     const behavior =
-      window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth";
+      window.document?.documentElement?.dataset?.reduceMotion === "1" || isMobileCarousel
+        ? "auto"
+        : "smooth";
 
     if (quickCarouselSettleTimerRef.current) {
       window.clearTimeout(quickCarouselSettleTimerRef.current);
@@ -649,8 +653,12 @@ export default function HomeAboutSection({
       const target = event.key === "Home" ? items[0] : items[items.length - 1];
       if (!target) return;
 
+      const isMobileCarousel =
+        window.matchMedia?.("(max-width: 768px)")?.matches ?? window.innerWidth <= 768;
       const behavior =
-        window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth";
+        window.document?.documentElement?.dataset?.reduceMotion === "1" || isMobileCarousel
+          ? "auto"
+          : "smooth";
       centerQuickItem(list, target, behavior);
 
       const nextKey = target.dataset.homeQuickKey;

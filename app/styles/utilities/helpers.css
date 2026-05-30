@@ -1132,6 +1132,10 @@ body[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.g
     padding-right: 0 !important;
   }
 
+  .workspace-dashboard-panel .workspace-feature-embedded .invite-list-panel {
+    padding: 0.86rem 0.92rem !important;
+  }
+
   .workspace-dashboard-panel .workspace-feature-embedded :is(
     .help-listings-panel,
     .help-listings-empty,

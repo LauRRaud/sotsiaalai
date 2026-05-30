@@ -769,9 +769,23 @@ export default function ChatBody({
       const rawOffset = vv
         ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
         : 0;
-      if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) return;
-      setInputFocused(false);
-      blurTimerRef.current = 0;
+      const clearComposerFocus = () => {
+        setInputFocused(false);
+        node?.style.setProperty("--chat-vk-offset", "0px");
+        blurTimerRef.current = 0;
+      };
+      if (rawOffset > MOBILE_KEYBOARD_CLOSE_THRESHOLD) {
+        blurTimerRef.current = window.setTimeout(() => {
+          const activeLater = document.activeElement;
+          if (node?.contains(activeLater) && isEditableElement(activeLater)) {
+            blurTimerRef.current = 0;
+            return;
+          }
+          clearComposerFocus();
+        }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
+        return;
+      }
+      clearComposerFocus();
     }, MOBILE_KEYBOARD_BLUR_SETTLE_MS);
   }, [isMobile]);
   const [composerHasDraft, setComposerHasDraft] = useState(false);

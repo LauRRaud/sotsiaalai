@@ -185,6 +185,10 @@
   padding-left: 0 !important;
 }
 
+.panel :global(.workspace-feature-embedded .invite-list-panel) {
+  padding: 0.86rem 0.92rem !important;
+}
+
 .panel :global(.workspace-feature-embedded .help-listings-panel),
 .panel :global(.workspace-feature-embedded .help-listings-empty),
 .panel :global(.workspace-feature-embedded .help-listings-item-card),
@@ -914,8 +918,8 @@
 
 @media (max-width: 768px) {
   .panel {
-    --workspace-dashboard-mobile-header-lift: 0.62rem;
-    --workspace-dashboard-mobile-back-lift: 0.36rem;
+    --workspace-dashboard-mobile-header-lift: 1.12rem;
+    --workspace-dashboard-mobile-back-lift: 0.92rem;
     width: 100%;
     flex: 1 1 0;
     height: 100%;

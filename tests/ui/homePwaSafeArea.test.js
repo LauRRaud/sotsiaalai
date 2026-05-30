@@ -35,13 +35,13 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*7\.5rem\);[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
-    "standalone/fullscreen PWA should paint the browser chrome fallback with the active theme background"
+    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*7\.5rem\);[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
+    "standalone/fullscreen PWA should paint the chrome fallback without adding scrollable layout height"
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan,[\s\S]*?7\.5rem\)[\s\S]*?\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
-    "PWA app root should stay transparent so the real background layer remains visible"
+    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
+    "PWA app root should keep stable viewport height so keyboard focus cannot leave a bottom spacer"
   );
   assert.match(
     backgroundCss,
@@ -60,15 +60,15 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileCss,
-    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\) \+[\s\S]*?var\(--pwa-background-bottom-overscan,[\s\S]*?7\.5rem\)[\s\S]*?\) !important;/,
-    "installed homepage should not expose the flat browser base color below the app root"
+    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?height:\s*var\(--glass-mobile-root-vh,\s*100dvh\) !important;[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*100dvh\) !important;/,
+    "installed homepage should keep the themed base background without adding an overscan layout box"
   );
   assert.doesNotMatch(coreCss, /body::after|body\.homepage::before|body\.homepage::after/);
   assert.match(coreCss, /--app-chrome-bg-image:\s*radial-gradient\(/);
   assert.match(coreCss, /html\.theme-light\s*\{[\s\S]*?--app-chrome-bg-image:\s*linear-gradient\(180deg,\s*#f4f2ee 0%,\s*#e9e6df 100%\);/);
   assert.match(coreCss, /html\.theme-mono:not\(\[data-contrast="hc"\]\)\s*\{[\s\S]*?--app-chrome-bg:\s*#101010;/);
-  assert.match(manifest, /"background_color": "#101010"/);
-  assert.match(manifest, /"theme_color": "#101010"/);
-  assert.match(layout, /themeColor:\s*"#101010"/);
+  assert.match(manifest, /"background_color": "#f4f2ee"/);
+  assert.match(manifest, /"theme_color": "#f4f2ee"/);
+  assert.match(layout, /themeColor:\s*\[[\s\S]*?\{ media:\s*"\(prefers-color-scheme: light\)",\s*color:\s*"#f4f2ee" \}[\s\S]*?\{ media:\s*"\(prefers-color-scheme: dark\)",\s*color:\s*"#101010" \}/);
   assert.doesNotMatch(mobileCss, /--home-safe-area-bg/);
 });
