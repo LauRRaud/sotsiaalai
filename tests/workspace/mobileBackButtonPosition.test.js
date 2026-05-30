@@ -77,7 +77,23 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-dashboard-mobile-header-lift:\s*0\.42rem;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-dashboard-mobile-header-lift,\s*0rem\)\)\s*!important;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*>\s*\.backButton\s*\{[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-dashboard-mobile-header-lift,\s*0rem\)\)\s*!important;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*>\s*:global\(\.dashboard-info-trigger-corner\)\s*\{[\s\S]*?top:\s*calc\(0\.475rem - var\(--workspace-dashboard-mobile-header-lift,\s*0rem\)\)\s*!important;/
+  );
+  assert.match(
+    workspacePanelCss,
+    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*:global\(\.glass-subpage-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top,\s*2\.18rem\) - var\(--workspace-dashboard-mobile-header-lift,\s*0rem\)\)\s*!important;/
   );
   assert.doesNotMatch(
     workspacePanelCss,

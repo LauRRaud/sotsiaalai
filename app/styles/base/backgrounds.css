@@ -83,8 +83,12 @@ html[data-display-mode="standalone"] [data-bg-layer],
 html[data-display-mode="fullscreen"] [data-bg-layer],
 body[data-display-mode="standalone"] [data-bg-layer],
 body[data-display-mode="fullscreen"] [data-bg-layer] {
-  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
-  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
+  bottom: calc(0px - max(env(safe-area-inset-bottom, 0px), 2.4rem));
+  height: auto;
+  min-height: calc(
+    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+      max(env(safe-area-inset-bottom, 0px), 2.4rem)
+  );
 }
 [data-bg-layer],
 [data-bg-layer] *,

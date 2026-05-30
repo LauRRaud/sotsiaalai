@@ -88,9 +88,7 @@ html[data-display-mode="fullscreen"],
 html[data-display-mode="standalone"] body,
 html[data-display-mode="fullscreen"] body,
 body[data-display-mode="standalone"],
-body[data-display-mode="fullscreen"],
-html[data-display-mode="standalone"] .app-root,
-html[data-display-mode="fullscreen"] .app-root {
+body[data-display-mode="fullscreen"] {
   min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   background-color: var(--app-chrome-bg, #10151d) !important;
   background-image: var(--app-chrome-bg-image, none) !important;
@@ -98,23 +96,10 @@ html[data-display-mode="fullscreen"] .app-root {
   background-size: 100% max(100%, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
 }
 
-html[data-display-mode="standalone"] body::after,
-html[data-display-mode="fullscreen"] body::after,
-body[data-display-mode="standalone"]::after,
-body[data-display-mode="fullscreen"]::after {
-  content: "";
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: max(env(safe-area-inset-bottom, 0px), 2.4rem);
-  background-color: var(--app-chrome-bg, #10151d);
-  background-image: var(--app-chrome-bg-image, none);
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: 100% max(100%, var(--glass-mobile-root-vh, var(--app-height, 100dvh)));
-  pointer-events: none;
-  z-index: 1;
+html[data-display-mode="standalone"] .app-root,
+html[data-display-mode="fullscreen"] .app-root {
+  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  background: transparent !important;
 }
 
 .app-root {

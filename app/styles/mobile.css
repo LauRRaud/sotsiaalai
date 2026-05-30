@@ -502,6 +502,17 @@
     bottom: 0 !important;
     left: 0 !important;
   }
+  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
+  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
+  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
+  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
+    bottom: calc(0px - max(env(safe-area-inset-bottom, 0px), 2.4rem)) !important;
+    height: auto !important;
+    min-height: calc(
+      var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+        max(env(safe-area-inset-bottom, 0px), 2.4rem)
+    ) !important;
+  }
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,
   .homepage-root .home-about-scrollbox > * {

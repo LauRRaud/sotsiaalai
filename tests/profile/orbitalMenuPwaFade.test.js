@@ -10,6 +10,12 @@ test("mobile orbital stack list has no PWA-specific display mode override", () =
   const css = readCss("app/styles/mobile.css");
 
   assert.match(css, /\.profile-orbit-stack-list/);
-  assert.doesNotMatch(css, /data-display-mode="standalone"[\s\S]*?profile-orbit-stack-list/);
-  assert.doesNotMatch(css, /data-display-mode="fullscreen"[\s\S]*?profile-orbit-stack-list/);
+  assert.doesNotMatch(
+    css,
+    /(?:^|})\s*[^{}]*data-display-mode="(?:standalone|fullscreen)"[^{}]*profile-orbit-stack-list[^{}]*\{/
+  );
+  assert.doesNotMatch(
+    css,
+    /(?:^|})\s*[^{}]*profile-orbit-stack-list[^{}]*data-display-mode="(?:standalone|fullscreen)"[^{}]*\{/
+  );
 });

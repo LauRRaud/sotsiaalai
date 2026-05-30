@@ -35,20 +35,25 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100% max\(100%,\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\) !important;/,
-    "standalone/fullscreen PWA should paint every page's browser chrome with the active theme background"
+    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100% max\(100%,\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\) !important;/,
+    "standalone/fullscreen PWA should paint the browser chrome fallback with the active theme background"
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\] body::after,[\s\S]*?body\[data-display-mode="fullscreen"\]::after\s*\{[\s\S]*?height:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\);[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\);[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\);/,
-    "all PWA pages should paint the bottom safe area with the active theme background"
+    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
+    "PWA app root should stay transparent so the real background layer remains visible"
   );
   assert.match(
     backgroundCss,
-    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\s*\{[\s\S]*?height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);/,
-    "PWA background layer should cover the measured mobile viewport height"
+    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\s*\{[\s\S]*?bottom:\s*calc\(0px - max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\)\);[\s\S]*?height:\s*auto;[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\)[\s\S]*?\);/,
+    "PWA background layer should extend under the bottom safe area instead of using a cover box"
   );
-  assert.doesNotMatch(coreCss, /body\.homepage::before|body\.homepage::after/);
+  assert.match(
+    mobileCss,
+    /html\[data-display-mode="standalone"\] \[data-bg-layer\]\[data-page="home"\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?bottom:\s*calc\(0px - max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\)\)\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?max\(env\(safe-area-inset-bottom,\s*0px\),\s*2\.4rem\)[\s\S]*?\)\s*!important;/,
+    "homepage-specific mobile background rules should not override the PWA safe-area extension"
+  );
+  assert.doesNotMatch(coreCss, /body::after|body\.homepage::before|body\.homepage::after/);
   assert.match(coreCss, /--app-chrome-bg-image:\s*radial-gradient\(/);
   assert.match(coreCss, /html\.theme-light\s*\{[\s\S]*?--app-chrome-bg-image:\s*linear-gradient\(180deg,\s*#f4f2ee 0%,\s*#e9e6df 100%\);/);
   assert.match(coreCss, /html\.theme-mono:not\(\[data-contrast="hc"\]\)\s*\{[\s\S]*?--app-chrome-bg:\s*#101010;/);
