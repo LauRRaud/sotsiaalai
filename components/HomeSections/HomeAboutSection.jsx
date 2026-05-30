@@ -200,6 +200,8 @@ export default function HomeAboutSection({
   const [activeQuickKey, setActiveQuickKey] = useState("privacy");
   const [quickInstallTarget, setQuickInstallTarget] = useState("desktop");
   const [useQuickCarouselVisibility, setUseQuickCarouselVisibility] = useState(false);
+  const quickCarouselProgrammaticRef = useRef(false);
+  const quickCarouselSettleTimerRef = useRef(0);
   const [aboutIntroDone, setAboutIntroDone] = useState(() => !animateIntro);
   const [beforeIntroDone, setBeforeIntroDone] = useState(() => !animateIntro);
   const [aboutBlurReady, setAboutBlurReady] = useState(() => !animateIntro);
@@ -251,6 +253,12 @@ export default function HomeAboutSection({
     return () => {
       mobileQuery?.removeEventListener?.("change", updateInstallTarget);
     };
+  }, []);
+
+  useEffect(() => () => {
+    if (quickCarouselSettleTimerRef.current) {
+      window.clearTimeout(quickCarouselSettleTimerRef.current);
+    }
   }, []);
 
   useEffect(() => {
@@ -477,6 +485,7 @@ export default function HomeAboutSection({
     const updateActive = () => {
       rafId = 0;
       if (!isMobile()) return;
+      if (quickCarouselProgrammaticRef.current) return;
 
       const items = itemElements();
       if (!items.length) return;
@@ -556,7 +565,15 @@ export default function HomeAboutSection({
     const behavior =
       window.document?.documentElement?.dataset?.reduceMotion === "1" ? "auto" : "smooth";
 
+    if (quickCarouselSettleTimerRef.current) {
+      window.clearTimeout(quickCarouselSettleTimerRef.current);
+    }
+    quickCarouselProgrammaticRef.current = true;
     centerQuickItem(list, target, behavior);
+    quickCarouselSettleTimerRef.current = window.setTimeout(() => {
+      quickCarouselProgrammaticRef.current = false;
+      quickCarouselSettleTimerRef.current = 0;
+    }, behavior === "smooth" ? 480 : 0);
 
     const nextKey = target.dataset.homeQuickKey;
     if (nextKey) {
@@ -755,6 +772,7 @@ export default function HomeAboutSection({
                 <li
                   key={item.key}
                   data-home-quick-key={item.key}
+                  data-home-quick-type={item.type || "link"}
                   data-active={isActiveQuickItem ? "true" : "false"}
                   data-quick-visibility={quickVisibility}
                   aria-hidden={isVisibleQuickItem ? undefined : true}

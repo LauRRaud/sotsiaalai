@@ -56,6 +56,23 @@ test("home quick links fit the six public icons on one desktop row", () => {
   assert.match(source, /if \(!useQuickCarouselVisibility\) return "active"/);
 });
 
+test("home quick carousel keeps the installed PWA slot empty and labels stable while arrows scroll", () => {
+  const homeCss = readFileSync(
+    new URL("../../app/styles/components/home.css", import.meta.url),
+    "utf8"
+  );
+
+  assert.match(source, /const quickCarouselProgrammaticRef = useRef\(false\)/);
+  assert.match(source, /const quickCarouselSettleTimerRef = useRef\(0\)/);
+  assert.match(source, /if \(quickCarouselProgrammaticRef\.current\) return;/);
+  assert.match(source, /quickCarouselProgrammaticRef\.current = true;[\s\S]*?centerQuickItem\(list,\s*target,\s*behavior\);[\s\S]*?setTimeout\(\(\) => \{[\s\S]*?quickCarouselProgrammaticRef\.current = false;/);
+  assert.match(source, /data-home-quick-type=\{item\.type \|\| "link"\}/);
+  assert.match(
+    homeCss,
+    /html\[data-display-mode="standalone"\] \.homepage-root \.home-before-link-item\[data-home-quick-type="install"\] \.home-quick-link,[\s\S]*?body\[data-display-mode="fullscreen"\] \.homepage-root \.home-before-link-item\[data-home-quick-type="install"\] \.home-quick-label[\s\S]*?\{[\s\S]*?visibility:\s*hidden\s*!important;[\s\S]*?opacity:\s*0\s*!important;[\s\S]*?pointer-events:\s*none\s*!important;/
+  );
+});
+
 test("home quick link labels stay short in English and Russian", () => {
   assert.equal(enMessages.about.links.terms, "Terms");
   assert.equal(enMessages.about.links.privacy, "Privacy");

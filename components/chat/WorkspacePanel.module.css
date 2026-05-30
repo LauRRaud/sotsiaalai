@@ -914,7 +914,7 @@
 
 @media (max-width: 768px) {
   .panel {
-    --workspace-dashboard-mobile-header-lift: 0.42rem;
+    --workspace-dashboard-mobile-header-lift: 1.12rem;
     width: 100%;
     flex: 1 1 0;
     height: 100%;

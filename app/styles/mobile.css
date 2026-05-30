@@ -506,12 +506,30 @@
   html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
   body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
   body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
-    bottom: calc(0px - max(env(safe-area-inset-bottom, 0px), 2.4rem)) !important;
+    --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), 7.5rem);
+    bottom: calc(0px - var(--pwa-background-bottom-overscan)) !important;
     height: auto !important;
     min-height: calc(
       var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-        max(env(safe-area-inset-bottom, 0px), 2.4rem)
+        var(--pwa-background-bottom-overscan)
     ) !important;
+  }
+  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
+    top: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"] .particles-container,
+  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] .particles-container,
+  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"] .particles-container,
+  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] .particles-container {
+    bottom: calc(var(--bg-overscan, 0px) * -1) !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,
@@ -1631,6 +1649,7 @@
   body[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
   body[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"] {
     --chat-mobile-topnav-safe-top: 0px;
+    --chat-composer-mobile-bottom-base: 0.8rem;
   }
 
   html[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
@@ -3790,6 +3809,132 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
     top: 0.2rem !important;
+  }
+
+  html[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ),
+  html[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ),
+  body[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ),
+  body[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) {
+    --workspace-pwa-header-lift: 1.12rem;
+  }
+
+  html[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) .glass-subpage-title-wrap,
+  html[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) .glass-subpage-title-wrap,
+  body[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) .glass-subpage-title-wrap,
+  body[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) .glass-subpage-title-wrap {
+    padding-top: calc(
+      var(--mobile-common-title-top) + 0.396rem - var(--workspace-pwa-header-lift, 0rem)
+    ) !important;
+  }
+
+  html[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  html[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  body[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  body[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
+    top: calc(0.2rem - var(--workspace-pwa-header-lift, 0rem)) !important;
+  }
+
+  html[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) > .dashboard-info-trigger-corner,
+  html[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) > .dashboard-info-trigger-corner,
+  body[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) > .dashboard-info-trigger-corner,
+  body[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    ) > .dashboard-info-trigger-corner {
+    top: calc(0.475rem - var(--workspace-pwa-header-lift, 0rem)) !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)

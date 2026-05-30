@@ -77,7 +77,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-dashboard-mobile-header-lift:\s*0\.42rem;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-dashboard-mobile-header-lift:\s*1\.12rem;/
   );
   assert.match(
     workspacePanelCss,
@@ -106,6 +106,18 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   assert.match(
     glassPageStylesSource,
     /glassPageBackMobileBottomCenterClassName[\s\S]*?top-\[calc\(var\(--mobile-safe-top,env\(safe-area-inset-top,0px\)\)\+0\.2rem\)\]/
+  );
+  assert.match(
+    mobileCss,
+    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?--workspace-pwa-header-lift:\s*1\.12rem;/
+  );
+  assert.match(
+    mobileCss,
+    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-common-title-top\) \+ 0\.396rem - var\(--workspace-pwa-header-lift,\s*0rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    mobileCss,
+    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?:is\(\.glass-subpage-back-button,\s*\.workspace-scroll-back-button,\s*\.documents-scroll-back-button\)[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-pwa-header-lift,\s*0rem\)\)\s*!important;/
   );
 });
 
