@@ -21,8 +21,14 @@ test("home quick links expose separate PWA install actions for desktop and mobil
   assert.match(source, /key:\s*"install-desktop"[\s\S]*?installTarget:\s*"desktop"/);
   assert.match(source, /key:\s*"install-mobile"[\s\S]*?installTarget:\s*"mobile"/);
   assert.match(source, /const \[quickInstallTarget, setQuickInstallTarget\] = useState\("desktop"\)/);
+  assert.match(source, /const \[quickInstallAvailable, setQuickInstallAvailable\] = useState\(true\)/);
   assert.match(source, /window\.matchMedia\?\.\("\(max-width: 768px\)"\)/);
-  assert.match(source, /\.\.\(quickInstallTarget === "desktop"\s*\?/);
+  assert.match(source, /window\.matchMedia\?\.\("\(display-mode: standalone\)"\)/);
+  assert.match(source, /window\.matchMedia\?\.\("\(display-mode: fullscreen\)"\)/);
+  assert.match(source, /window\.navigator\?\.standalone === true/);
+  assert.match(source, /setQuickInstallAvailable\(!isStandaloneDisplay\(\)\)/);
+  assert.match(source, /window\.addEventListener\("appinstalled", handleAppInstalled\)/);
+  assert.match(source, /\.\.\(quickInstallAvailable[\s\S]*?\? quickInstallTarget === "desktop"/);
   assert.match(source, /<InstallAppLink[\s\S]*?variant="quickIcon"[\s\S]*?installTarget=\{item\.installTarget\}/);
 });
 
@@ -56,21 +62,17 @@ test("home quick links fit the six public icons on one desktop row", () => {
   assert.match(source, /if \(!useQuickCarouselVisibility\) return "active"/);
 });
 
-test("home quick carousel keeps the installed PWA slot empty and labels stable while arrows scroll", () => {
-  const homeCss = readFileSync(
-    new URL("../../app/styles/components/home.css", import.meta.url),
-    "utf8"
-  );
+test("home quick carousel removes the installed PWA slot and keeps labels stable while arrows scroll", () => {
+  const homeCss = readFileSync(new URL("../../app/styles/components/home.css", import.meta.url), "utf8");
 
   assert.match(source, /const quickCarouselProgrammaticRef = useRef\(false\)/);
   assert.match(source, /const quickCarouselSettleTimerRef = useRef\(0\)/);
   assert.match(source, /if \(quickCarouselProgrammaticRef\.current\) return;/);
   assert.match(source, /quickCarouselProgrammaticRef\.current = true;[\s\S]*?centerQuickItem\(list,\s*target,\s*behavior\);[\s\S]*?setTimeout\(\(\) => \{[\s\S]*?quickCarouselProgrammaticRef\.current = false;/);
   assert.match(source, /data-home-quick-type=\{item\.type \|\| "link"\}/);
-  assert.match(
-    homeCss,
-    /html\[data-display-mode="standalone"\] \.homepage-root \.home-before-link-item\[data-home-quick-type="install"\] \.home-quick-link,[\s\S]*?body\[data-display-mode="fullscreen"\] \.homepage-root \.home-before-link-item\[data-home-quick-type="install"\] \.home-quick-label[\s\S]*?\{[\s\S]*?visibility:\s*hidden\s*!important;[\s\S]*?opacity:\s*0\s*!important;[\s\S]*?pointer-events:\s*none\s*!important;/
-  );
+  assert.match(source, /const quickLinkKeys = quickLinkSignature \? quickLinkSignature\.split\("\|"\) : \[\]/);
+  assert.match(source, /const fallbackKey = quickLinkKeys\.includes\("privacy"\) \? "privacy" : quickLinkKeys\[0\]/);
+  assert.doesNotMatch(homeCss, /home-before-link-item\[data-home-quick-type="install"\][\s\S]*?visibility:\s*hidden\s*!important/);
 });
 
 test("home quick link labels stay short in English and Russian", () => {

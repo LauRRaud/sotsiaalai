@@ -199,6 +199,7 @@ export default function HomeAboutSection({
   const activeQuickKeyRef = useRef("privacy");
   const [activeQuickKey, setActiveQuickKey] = useState("privacy");
   const [quickInstallTarget, setQuickInstallTarget] = useState("desktop");
+  const [quickInstallAvailable, setQuickInstallAvailable] = useState(true);
   const [useQuickCarouselVisibility, setUseQuickCarouselVisibility] = useState(false);
   const quickCarouselProgrammaticRef = useRef(false);
   const quickCarouselSettleTimerRef = useRef(0);
@@ -242,16 +243,38 @@ export default function HomeAboutSection({
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     const mobileQuery = window.matchMedia?.("(max-width: 768px)");
+    const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
+    const fullscreenQuery = window.matchMedia?.("(display-mode: fullscreen)");
+    const isStandaloneDisplay = () =>
+      Boolean(
+        standaloneQuery?.matches ||
+          fullscreenQuery?.matches ||
+          window.navigator?.standalone === true ||
+          window.document?.documentElement?.dataset?.displayMode === "standalone" ||
+          window.document?.documentElement?.dataset?.displayMode === "fullscreen" ||
+          window.document?.body?.dataset?.displayMode === "standalone" ||
+          window.document?.body?.dataset?.displayMode === "fullscreen"
+      );
     const updateInstallTarget = () => {
       const isMobile = mobileQuery?.matches ?? false;
       setQuickInstallTarget(isMobile ? "mobile" : "desktop");
+      setQuickInstallAvailable(!isStandaloneDisplay());
       setUseQuickCarouselVisibility(isMobile);
+    };
+    const handleAppInstalled = () => {
+      setQuickInstallAvailable(false);
     };
 
     updateInstallTarget();
     mobileQuery?.addEventListener?.("change", updateInstallTarget);
+    standaloneQuery?.addEventListener?.("change", updateInstallTarget);
+    fullscreenQuery?.addEventListener?.("change", updateInstallTarget);
+    window.addEventListener("appinstalled", handleAppInstalled);
     return () => {
       mobileQuery?.removeEventListener?.("change", updateInstallTarget);
+      standaloneQuery?.removeEventListener?.("change", updateInstallTarget);
+      fullscreenQuery?.removeEventListener?.("change", updateInstallTarget);
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
@@ -378,27 +401,29 @@ export default function HomeAboutSection({
       icon: "tag",
       onClick: (event) => openGlassPage(event, "/hinnastus")
     },
-    ...(quickInstallTarget === "desktop"
-      ? [
-          {
-            key: "install-desktop",
-            label: installLabel,
-            ariaLabel: t("pwa.cta_desktop"),
-            icon: "install-desktop",
-            type: "install",
-            installTarget: "desktop"
-          }
-        ]
-      : [
-          {
-            key: "install-mobile",
-            label: installLabel,
-            ariaLabel: t("pwa.cta_mobile"),
-            icon: "install-mobile",
-            type: "install",
-            installTarget: "mobile"
-          }
-        ]),
+    ...(quickInstallAvailable
+      ? quickInstallTarget === "desktop"
+        ? [
+            {
+              key: "install-desktop",
+              label: installLabel,
+              ariaLabel: t("pwa.cta_desktop"),
+              icon: "install-desktop",
+              type: "install",
+              installTarget: "desktop"
+            }
+          ]
+        : [
+            {
+              key: "install-mobile",
+              label: installLabel,
+              ariaLabel: t("pwa.cta_mobile"),
+              icon: "install-mobile",
+              type: "install",
+              installTarget: "mobile"
+            }
+          ]
+      : []),
     {
       key: "contact",
       label: t("about.contact.title"),
@@ -430,6 +455,16 @@ export default function HomeAboutSection({
       : [])
   ];
   const quickLinkSignature = quickLinks.map((item) => item.key).join("|");
+  useEffect(() => {
+    const quickLinkKeys = quickLinkSignature ? quickLinkSignature.split("|") : [];
+    if (quickLinkKeys.includes(activeQuickKeyRef.current)) return;
+
+    const fallbackKey = quickLinkKeys.includes("privacy") ? "privacy" : quickLinkKeys[0];
+    if (!fallbackKey) return;
+
+    activeQuickKeyRef.current = fallbackKey;
+    setActiveQuickKey(fallbackKey);
+  }, [quickLinkSignature]);
   const activeQuickIndex = quickLinks.findIndex((item) => item.key === activeQuickKey);
   const activeQuickLabel = activeQuickIndex >= 0 ? quickLinks[activeQuickIndex]?.label || "" : "";
   const quickCarouselLabel =

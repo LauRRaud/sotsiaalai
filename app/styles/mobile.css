@@ -531,6 +531,30 @@
     height: auto !important;
     min-height: 0 !important;
   }
+  html[data-display-mode="standalone"] body.homepage,
+  html[data-display-mode="fullscreen"] body.homepage,
+  body.homepage[data-display-mode="standalone"],
+  body.homepage[data-display-mode="fullscreen"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) +
+        var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), 7.5rem))
+    ) !important;
+    min-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) +
+        var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), 7.5rem))
+    ) !important;
+  }
+  html[data-display-mode="standalone"] body.homepage .homepage-root,
+  html[data-display-mode="fullscreen"] body.homepage .homepage-root,
+  body.homepage[data-display-mode="standalone"] .homepage-root,
+  body.homepage[data-display-mode="fullscreen"] .homepage-root {
+    background: transparent !important;
+    height: var(--glass-mobile-root-vh, 100dvh) !important;
+    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
+  }
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,
   .homepage-root .home-about-scrollbox > * {
@@ -1649,7 +1673,7 @@
   body[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
   body[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"] {
     --chat-mobile-topnav-safe-top: 0px;
-    --chat-composer-mobile-bottom-base: 0.8rem;
+    --chat-composer-mobile-bottom-base: 0.15rem;
   }
 
   html[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
@@ -2237,11 +2261,14 @@
     min-width: var(--chat-mobile-rail-size) !important;
   }
 
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] {
+    --chat-composer-mobile-bottom-base: 2.5rem;
+  }
+
   .chat-input-row:not(.chat-input-row--embedded) {
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
-    --chat-composer-mobile-bottom-base: 2.5rem !important;
     --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px)) !important;
     margin-top: 0 !important;
@@ -3839,7 +3866,8 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .covision-page-surface.workspace-guide-panel,
       .workspace-feature-panel.workspace-guide-panel
     ) {
-    --workspace-pwa-header-lift: 1.12rem;
+    --workspace-pwa-header-lift: 0.62rem;
+    --workspace-pwa-back-lift: 0.36rem;
   }
 
   html[data-display-mode="standalone"] :is(
@@ -3903,7 +3931,46 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .covision-page-surface.workspace-guide-panel,
       .workspace-feature-panel.workspace-guide-panel
     ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
-    top: calc(0.2rem - var(--workspace-pwa-header-lift, 0rem)) !important;
+    top: calc(0.2rem - var(--workspace-pwa-back-lift, 0rem)) !important;
+  }
+
+  html[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    > .workspace-guide-panel-scroll
+    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  html[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    > .workspace-guide-panel-scroll
+    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  body[data-display-mode="standalone"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    > .workspace-guide-panel-scroll
+    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
+  body[data-display-mode="fullscreen"] :is(
+      .workspace-guide-panel.glass-subpage-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .covision-page-surface.workspace-guide-panel,
+      .workspace-feature-panel.workspace-guide-panel
+    )
+    > .workspace-guide-panel-scroll
+    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
+    top: calc(3.56rem - var(--workspace-pwa-back-lift, 0rem)) !important;
   }
 
   html[data-display-mode="standalone"] :is(
@@ -3934,7 +4001,7 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .covision-page-surface.workspace-guide-panel,
       .workspace-feature-panel.workspace-guide-panel
     ) > .dashboard-info-trigger-corner {
-    top: calc(0.475rem - var(--workspace-pwa-header-lift, 0rem)) !important;
+    top: calc(0.475rem - var(--workspace-pwa-back-lift, 0rem)) !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)

@@ -530,19 +530,6 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
     content: none !important;
   }
 
-  html[data-display-mode="standalone"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-link,
-  html[data-display-mode="fullscreen"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-link,
-  body[data-display-mode="standalone"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-link,
-  body[data-display-mode="fullscreen"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-link,
-  html[data-display-mode="standalone"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-label,
-  html[data-display-mode="fullscreen"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-label,
-  body[data-display-mode="standalone"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-label,
-  body[data-display-mode="fullscreen"] .homepage-root .home-before-link-item[data-home-quick-type="install"] .home-quick-label {
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
   .homepage-root .home-before-link-item[data-active="true"] .home-quick-label {
     opacity: 1 !important;
     transform: translate3d(-50%, 0, 0) !important;

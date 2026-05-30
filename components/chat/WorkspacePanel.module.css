@@ -914,7 +914,8 @@
 
 @media (max-width: 768px) {
   .panel {
-    --workspace-dashboard-mobile-header-lift: 1.12rem;
+    --workspace-dashboard-mobile-header-lift: 0.62rem;
+    --workspace-dashboard-mobile-back-lift: 0.36rem;
     width: 100%;
     flex: 1 1 0;
     height: 100%;
@@ -927,15 +928,15 @@
 
   .backButton {
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
-    top: calc(0.2rem - var(--workspace-dashboard-mobile-header-lift, 0rem)) !important;
+    top: calc(0.2rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
   }
 
   .panel > .backButton {
-    top: calc(0.2rem - var(--workspace-dashboard-mobile-header-lift, 0rem)) !important;
+    top: calc(0.2rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
   }
 
   .panel > :global(.dashboard-info-trigger-corner) {
-    top: calc(0.475rem - var(--workspace-dashboard-mobile-header-lift, 0rem)) !important;
+    top: calc(0.475rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
   }
 
   .panel :global(.glass-subpage-title-wrap) {

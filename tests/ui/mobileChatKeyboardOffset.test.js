@@ -103,7 +103,15 @@ test("mobile chat PWA header removes the duplicated safe-area inset without lega
   assert.match(chatTopNav, /--chat-mobile-topnav-safe-top/);
   assert.match(
     mobileCss,
-    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.8rem;/
+    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.15rem;/
+  );
+  assert.match(
+    mobileCss,
+    /\.chat-page-shell \.chat-container\[data-chat-layout="mobile"\]\s*\{[\s\S]*?--chat-composer-mobile-bottom-base:\s*2\.5rem;[\s\S]*?\}/
+  );
+  assert.doesNotMatch(
+    mobileCss,
+    /\.chat-input-row:not\(\.chat-input-row--embedded\)\s*\{[\s\S]*?--chat-composer-mobile-bottom-base:\s*2\.5rem\s*!important;/
   );
   assert.doesNotMatch(
     mobileCss,

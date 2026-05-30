@@ -35,12 +35,12 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*7\.5rem\);[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
+    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*7\.5rem\);[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\) !important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
     "standalone/fullscreen PWA should paint the browser chrome fallback with the active theme background"
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
+    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan,[\s\S]*?7\.5rem\)[\s\S]*?\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
     "PWA app root should stay transparent so the real background layer remains visible"
   );
   assert.match(
@@ -57,6 +57,11 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
     mobileCss,
     /html\[data-display-mode="standalone"\] \[data-bg-layer\]\[data-page="home"\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\),[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)[\s\S]*?\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;/,
     "homepage background child layers should follow the extended PWA layer instead of ending early"
+  );
+  assert.match(
+    mobileCss,
+    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\) \+[\s\S]*?var\(--pwa-background-bottom-overscan,[\s\S]*?7\.5rem\)[\s\S]*?\) !important;/,
+    "installed homepage should not expose the flat browser base color below the app root"
   );
   assert.doesNotMatch(coreCss, /body::after|body\.homepage::before|body\.homepage::after/);
   assert.match(coreCss, /--app-chrome-bg-image:\s*radial-gradient\(/);
