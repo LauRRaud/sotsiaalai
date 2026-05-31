@@ -1,3 +1,5 @@
+import "../../../styles/components/documents-workspace.shared.css";
+import "../../../styles/components/documents-ui.shared.css";
 import { serverT } from "@/lib/i18n/serverMessages";
 
 import RagAdminIngestScreen from "@/components/admin/rag/RagAdminIngestScreen";

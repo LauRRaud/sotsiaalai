@@ -1,6 +1,4 @@
 ﻿/*
- * Compatibility aggregator. The global import path still goes through
- * documents-mode.css while ownership is being split internally.
+ * Compatibility aggregator retained while documents CSS ownership reports are
+ * still referenced. Split files are now imported by route owners.
  */
-@import url("./documents-workspace.shared.css");
-@import url("./documents-ui.shared.css");

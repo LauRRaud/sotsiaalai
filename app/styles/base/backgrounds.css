@@ -83,7 +83,7 @@ html[data-display-mode="standalone"] [data-bg-layer],
 html[data-display-mode="fullscreen"] [data-bg-layer],
 body[data-display-mode="standalone"] [data-bg-layer],
 body[data-display-mode="fullscreen"] [data-bg-layer] {
-  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
+  --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem));
   bottom: calc(0px - var(--pwa-background-bottom-overscan));
   height: auto;
   min-height: calc(

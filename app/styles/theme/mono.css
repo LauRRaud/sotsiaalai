@@ -100,7 +100,7 @@
   --home-card-circular-text-left: rgba(57, 57, 57, 0.6);
   --home-card-circular-text-right: rgba(230, 230, 230, 0.46);
   --home-card-back-title-left: rgba(50, 50, 50, 0.78);
-  --home-card-back-title-right: rgba(230, 230, 230, 0.72);
+  --home-card-back-title-right: rgba(230, 230, 230, 0.8);
 
   --workspace-elevated-card-bg:
     linear-gradient(145deg, rgba(214, 214, 214, 0.07), rgba(214, 214, 214, 0.028)),

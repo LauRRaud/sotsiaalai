@@ -1,4 +1,6 @@
 import "../styles/components/chat-shell.css"
+import "../styles/components/documents-workspace.shared.css"
+import "../styles/components/documents-ui.shared.css"
 import "../styles/components/documents-agent.css"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"

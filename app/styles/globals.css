@@ -10,9 +10,7 @@
 @import url("./base/typography.css");
 @import url("./base/animations.css");
 @import url("./components/glass.css");
-@import url("./components/documents-mode.css");
 @import url("./components/home.css");
-@import url("./components/chat-focus.shared.css");
 @import url("./theme/mono.css");
 @import url("./theme/hc.css");
 @import url("./utilities/helpers.css");
