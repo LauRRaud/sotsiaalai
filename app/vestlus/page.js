@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+import "../styles/components/chat-shell.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
@@ -49,5 +50,4 @@ export default async function Page({ searchParams }) {
       />
     </>;
 }
-
 
