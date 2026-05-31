@@ -3,6 +3,4 @@
  * documents-mode.css while ownership is being split internally.
  */
 @import url("./documents-workspace.shared.css");
-@import url("./documents-library.css");
-@import url("./documents-agent.css");
 @import url("./documents-ui.shared.css");

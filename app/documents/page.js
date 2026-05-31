@@ -1,4 +1,5 @@
 import { cookies } from "next/headers"
+import "../styles/components/documents-library.css"
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authConfig } from "@/auth"

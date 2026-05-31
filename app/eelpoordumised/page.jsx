@@ -1,5 +1,6 @@
 import "../styles/components/chat-shell.css";
 import "../styles/components/service-map.css";
+import "../styles/components/documents-agent.css";
 import { cookies } from "next/headers";
 import WorkspaceFeaturePage from "@/components/workspace/WorkspaceFeaturePage";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

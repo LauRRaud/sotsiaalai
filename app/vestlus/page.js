@@ -5,6 +5,8 @@ import "../styles/components/workspace-help-listings.css";
 import "../styles/components/selected-listing.css";
 import "../styles/components/invite-modal.css";
 import "../styles/components/service-map.css";
+import "../styles/components/documents-agent.css";
+import "../styles/components/documents-library.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
