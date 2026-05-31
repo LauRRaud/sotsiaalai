@@ -1,4 +1,4 @@
-export const REMEDIATION_ACTION_LABELS = {
+const REMEDIATION_ACTION_LABELS = {
   add_or_link_form_source: {
     et: "Lisa või seo vormiallikas",
     en: "Add or link a form source"

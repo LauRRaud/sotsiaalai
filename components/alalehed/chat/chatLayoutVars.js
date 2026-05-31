@@ -218,4 +218,4 @@ function resolveChatLayoutVars({
   };
 }
 
-export { MOBILE_VIEWPORT_QUERY, detectMobileViewport, resolveChatLayoutVars };
+export { detectMobileViewport, resolveChatLayoutVars };

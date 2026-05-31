@@ -286,7 +286,7 @@ function buildInitialPrefs(initialPrefs) {
   const domPrefs = typeof document !== "undefined" ? readInitialPrefsFromDom() : null;
   if (initialPrefs) {
     const contrast = initialPrefs.contrast || DEFAULT_PREFS.contrast;
-    const theme = normalizeTheme(initialPrefs.theme);
+    const theme = normalizeTheme(domPrefs?.theme ?? initialPrefs.theme);
     const colorTheme = normalizeColorTheme(initialPrefs.colorTheme);
     return {
       ...DEFAULT_PREFS,
@@ -441,7 +441,9 @@ function AccessibilityProvider({
     const cookiePrefs = readPrefsFromCookie();
     const initial = cookiePrefs ? {
       ...domPrefs,
-      ...cookiePrefs
+      ...cookiePrefs,
+      theme: domPrefs.theme ?? cookiePrefs.theme,
+      colorTheme: domPrefs.colorTheme ?? cookiePrefs.colorTheme
     } : domPrefs;
     initial.uiScale = normalizeUIScale(cookiePrefs?.uiScale ?? domPrefs.uiScale);
     initial.uiProfile = normalizeUIProfile(cookiePrefs?.uiProfile ?? domPrefs.uiProfile ?? initial.uiScale);

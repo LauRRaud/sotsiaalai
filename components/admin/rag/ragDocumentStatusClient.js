@@ -1,6 +1,6 @@
 "use client";
 
-export function buildRagDocumentStatusFallback(docId, extras = {}) {
+function buildRagDocumentStatusFallback(docId, extras = {}) {
   const normalizedDocId = String(docId || "").trim();
 
   return {

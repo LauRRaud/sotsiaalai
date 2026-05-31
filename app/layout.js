@@ -68,6 +68,82 @@ const UI_SCALE_INIT_SCRIPT = `(function () {
   }
   apply(textScale || "md", profile || null);
 })();`;
+const THEME_INIT_SCRIPT = `(function () {
+  var root = document.documentElement;
+  if (!root) return;
+  var THEMES = { light: true, mid: true, dark: true, night: true, mono: true };
+  var COLOR_THEMES = { default: true, green: true, blue: true, neutral: true, gold: true, red: true, purple: true };
+  function normalizeTheme(value) {
+    return THEMES[value] ? value : null;
+  }
+  function normalizeColorTheme(value) {
+    return COLOR_THEMES[value] ? value : "default";
+  }
+  function readPrefs() {
+    try {
+      var raw = window.localStorage.getItem("a11y_prefs");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+  function readTheme(prefs) {
+    var theme = normalizeTheme(prefs && prefs.theme);
+    if (!theme) {
+      try {
+        theme = normalizeTheme(window.localStorage.getItem("theme"));
+      } catch {}
+    }
+    return theme || normalizeTheme(root.getAttribute("data-theme-mode")) || "mono";
+  }
+  function resolveChromeColor(theme, contrast) {
+    if (contrast === "hc") return "#10151d";
+    if (theme === "light") return "#f4f2ee";
+    if (theme === "mid") return "#d7c6c0";
+    if (theme === "night") return "#0e1420";
+    if (theme === "mono") return "#101010";
+    return "#111418";
+  }
+  function ensureMeta(name) {
+    var meta = document.querySelector('meta[name="' + name + '"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", name);
+      document.head.appendChild(meta);
+    }
+    return meta;
+  }
+  function applyHomeFlag() {
+    var pathname = window.location && window.location.pathname ? window.location.pathname : "/";
+    var normalized = pathname.replace(/^\\/(et|ru|en)(?=\\/|$)/, "") || "/";
+    if (normalized === "/") root.setAttribute("data-initial-page", "home");
+    else root.removeAttribute("data-initial-page");
+  }
+  var prefs = readPrefs();
+  var contrast = (prefs && prefs.contrast) || root.getAttribute("data-contrast") || "normal";
+  var theme = contrast === "hc" ? "dark" : readTheme(prefs);
+  var colorTheme = normalizeColorTheme((prefs && prefs.colorTheme) || root.getAttribute("data-color-theme"));
+  root.setAttribute("data-theme-mode", contrast === "hc" ? "dark" : theme);
+  root.setAttribute("data-color-theme", colorTheme);
+  root.setAttribute("data-contrast", contrast);
+  if (prefs) {
+    root.setAttribute("data-reduce-motion", prefs.reduceMotion ? "1" : "0");
+    root.setAttribute(
+      "data-reduce-transparency",
+      (prefs.reduceTransparency == null ? prefs.reduceMotion : prefs.reduceTransparency) ? "1" : "0"
+    );
+  }
+  root.classList.toggle("theme-light", contrast !== "hc" && (theme === "light" || theme === "mid"));
+  root.classList.toggle("theme-mid", contrast !== "hc" && theme === "mid");
+  root.classList.toggle("theme-night", contrast !== "hc" && theme === "night");
+  root.classList.toggle("theme-mono", contrast !== "hc" && theme === "mono");
+  ensureMeta("theme-color").setAttribute("content", resolveChromeColor(theme, contrast));
+  ensureMeta("apple-mobile-web-app-status-bar-style").setAttribute(
+    "content",
+    theme === "light" || theme === "mid" ? "default" : "black-translucent"
+  );
+  applyHomeFlag();
+})();`;
 export const metadata = {
   title: "SotsiaalAI",
   description: "Platvormil on kaks rollipõhist tehisintellekti assistenti: üks sotsiaalvaldkonna spetsialistidele ja teine eluküsimusega pöördujatele.",
@@ -198,6 +274,9 @@ export default async function RootLayout({
         />
         <Script id="ui-scale-init" strategy="beforeInteractive">
           {UI_SCALE_INIT_SCRIPT}
+        </Script>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
         </Script>
       </head>
       <body className="app-root">

@@ -4,7 +4,7 @@ import { authConfig } from "@/auth";
 import { requireSubscription, resolveSessionRoleState } from "@/lib/authz";
 import { canUseWellbeingRole } from "@/lib/wellbeingTools";
 
-export const NO_STORE_HEADERS = {
+const NO_STORE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
   "X-Content-Type-Options": "nosniff",
   Pragma: "no-cache",
