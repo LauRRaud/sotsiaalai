@@ -516,7 +516,7 @@
   html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
   body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
   body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
-    --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
+    --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem));
     bottom: calc(0px - var(--pwa-background-bottom-overscan)) !important;
     height: auto !important;
     min-height: calc(
@@ -553,7 +553,7 @@
         100%,
         calc(
           var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) +
-            var(--pwa-background-bottom-overscan, env(safe-area-inset-bottom, 0px))
+            var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem)))
         )
       ) !important;
     height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
@@ -620,6 +620,26 @@
   .glass-ring::before {
     opacity: 0 !important;
     filter: none !important;
+  }
+
+  .glass-field-hole-surface {
+    isolation: isolate;
+  }
+
+  .glass-field-hole-surface > .glass-hole-mask-layer {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .glass-field-hole-surface
+    > :not(.glass-hole-mask-layer):not(.modal-close-btn):not(.login-modal-close):not(.back-button) {
+    position: relative;
+    z-index: 1;
   }
 
   html,
@@ -2430,178 +2450,6 @@
     padding-bottom: clamp(2.2rem, 4.2vh, 3rem) !important;
   }
 
-  .glass-policy-scroll.glass-ring-scroll,
-  .glass-policy-scroll.glass-ring-scroll--open {
-    max-width: 100% !important;
-    width: 100% !important;
-    transform: translateX(0) !important;
-    padding-left: 0 !important;
-    padding-right: clamp(0.06rem, 0.4vw, 0.16rem) !important;
-  }
-
-  .policy-mobile-lower .glass-ring-content,
-  .policy-mobile-lower .glass-ring-content--open {
-    margin-top: var(--policy-mobile-content-drop, clamp(1rem, 2.6vh, 1.6rem)) !important;
-    padding-top: clamp(0.04rem, 0.2vh, 0.14rem) !important;
-    padding-bottom: clamp(0.2rem, 0.8vh, 0.5rem) !important;
-  }
-
-  .policy-mobile-lower {
-    --policy-mobile-content-drop: clamp(1.16rem, 3.05vh, 1.9rem);
-    --glass-ring-scroll-offset: clamp(2.05rem, 4.4vh, 2.8rem);
-    --glass-ring-scroll-offset-open: clamp(1.18rem, 2.3vh, 1.7rem);
-  }
-
-  .policy-mobile-lower.glass-ring-expandable,
-  .policy-mobile-lower.glass-ring-expandable--open {
-    --ring-pad-x: clamp(
-      calc(0.55 * var(--base-rem)),
-      2.2vw,
-      calc(0.85 * var(--base-rem))
-    ) !important;
-    transition: none !important;
-  }
-
-  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll,
-  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
-    padding-left: clamp(0.08rem, 0.45vw, 0.18rem) !important;
-    padding-right: clamp(0.08rem, 0.45vw, 0.18rem) !important;
-    padding-top: clamp(0.18rem, 0.65vh, 0.38rem) !important;
-    padding-bottom: clamp(1.15rem, 2.8vh, 1.85rem) !important;
-    max-height: calc(
-      100% - var(--glass-ring-scroll-offset-open, 1.7rem) -
-        var(--policy-mobile-content-drop, 1.6rem) +
-        clamp(1.25rem, 3vh, 1.85rem)
-    ) !important;
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 0.8%,
-      rgba(0, 0, 0, 0.24) 1.9%,
-      rgba(0, 0, 0, 0.5) 2.9%,
-      #000 4.2%,
-      #000 88.6%,
-      rgba(0, 0, 0, 0.9) 93.4%,
-      rgba(0, 0, 0, 0.56) 96.6%,
-      rgba(0, 0, 0, 0.18) 99%,
-      transparent 100%
-    ) !important;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 0.8%,
-      rgba(0, 0, 0, 0.24) 1.9%,
-      rgba(0, 0, 0, 0.5) 2.9%,
-      #000 4.2%,
-      #000 88.6%,
-      rgba(0, 0, 0, 0.9) 93.4%,
-      rgba(0, 0, 0, 0.56) 96.6%,
-      rgba(0, 0, 0, 0.18) 99%,
-      transparent 100%
-    ) !important;
-  }
-
-  .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
-  .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open {
-    padding-left: clamp(0.08rem, 0.45vw, 0.18rem) !important;
-    padding-right: clamp(0.08rem, 0.45vw, 0.18rem) !important;
-  }
-
-  .policy-page-content.glass-ring-content,
-  .policy-page-content.glass-ring-content--open,
-  .guide-policy-content.glass-ring-content,
-  .guide-policy-content.glass-ring-content--open,
-  .policy-mobile-lower .glass-policy-content--expanded,
-  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
-  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open,
-  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
-  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
-  .policy-mobile-lower .glass-policy-scroll--expanded {
-    transition: none !important;
-    transform: none !important;
-  }
-
-  .policy-mobile-lower .glass-policy-content--expanded {
-    padding-top: clamp(0.04rem, 0.2vh, 0.14rem) !important;
-    margin-top: var(--policy-mobile-content-drop, clamp(1rem, 2.6vh, 1.6rem)) !important;
-  }
-
-  .policy-mobile-lower .glass-policy-scroll--expanded {
-    margin-top: 0 !important;
-    padding-top: clamp(0.18rem, 0.65vh, 0.38rem) !important;
-  }
-
-  .policy-mobile-tall {
-    --policy-mobile-content-drop: clamp(0.54rem, 1.45vh, 0.96rem);
-    --glass-ring-scroll-offset: clamp(1.46rem, 3vh, 1.98rem);
-    --glass-ring-scroll-offset-open: clamp(0.72rem, 1.42vh, 1.04rem);
-  }
-
-  .policy-mobile-tall .glass-policy-scroll.glass-ring-scroll,
-  .policy-mobile-tall .glass-policy-scroll.glass-ring-scroll--open {
-    padding-bottom: clamp(1.9rem, 4.4vh, 2.9rem) !important;
-    max-height: calc(
-      100% - var(--glass-ring-scroll-offset-open, 1.16rem) -
-        var(--policy-mobile-content-drop, 1.18rem) +
-        clamp(2.16rem, 5vh, 3.05rem)
-    ) !important;
-  }
-
-  .policy-mobile-tall .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll
-    > footer,
-  .policy-mobile-tall
-    .policy-page-scroll.glass-policy-scroll.glass-ring-scroll
-    > footer.policy-page-footer {
-    margin-bottom: clamp(1.7rem, 3.9vh, 2.55rem) !important;
-  }
-
-  .guide-policy-content.glass-ring-content,
-  .guide-policy-content.glass-ring-content--open {
-    padding-top: clamp(0.16rem, 0.5vh, 0.36rem) !important;
-    margin-top: clamp(-0.04rem, 0.12vh, 0.08rem) !important;
-  }
-
-  .guide-rich-text ol {
-    list-style-position: inside;
-    padding-left: 0 !important;
-  }
-
-  .guide-rich-text ul {
-    padding-left: clamp(1.12rem, 5vw, 1.48rem) !important;
-  }
-
-  .guide-rich-text li {
-    padding-left: 0 !important;
-  }
-
-  .guide-quickstart-rich-text {
-    line-height: 1.5 !important;
-  }
-
-  .guide-quickstart-rich-text p,
-  .guide-quickstart-rich-text ol,
-  .guide-quickstart-rich-text ul {
-    margin-top: 0.16rem !important;
-    margin-bottom: 0.16rem !important;
-  }
-
-  .guide-quickstart-rich-text li {
-    margin-top: 0.08rem !important;
-    margin-bottom: 0.08rem !important;
-  }
-
-  .glass-ring-expandable .glass-ring-content,
-  .glass-ring-expandable .glass-ring-content--open {
-    margin-top: clamp(0.08rem, 0.6vh, 0.36rem) !important;
-    padding-top: clamp(0.26rem, 1.1vh, 0.78rem) !important;
-  }
-
-  .policy-mobile-lower.glass-ring-expandable .glass-ring-content,
-  .policy-mobile-lower.glass-ring-expandable .glass-ring-content--open {
-    margin-top: var(--policy-mobile-content-drop, clamp(1rem, 2.6vh, 1.6rem)) !important;
-    padding-top: clamp(0.06rem, 0.24vh, 0.16rem) !important;
-  }
-
   .register-content {
     padding-top: clamp(0.7rem, 2.2vh, 1.15rem);
   }
@@ -2901,34 +2749,6 @@
     transform: translateY(var(--profile-orbit-center-offset-y, 0rem))
       translateZ(0) scale(1);
   }
-}
-
-@media (max-width: 1024px) {
-  .policy-mobile-lower.glass-ring-expandable,
-  .policy-mobile-lower.glass-ring-expandable--open {
-    --ring-pad-x: clamp(
-      calc(0.45 * var(--base-rem)),
-      1.5vw,
-      calc(0.72 * var(--base-rem))
-    ) !important;
-  }
-
-  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll,
-  .policy-mobile-lower .glass-policy-scroll.glass-ring-scroll--open {
-    padding-bottom: clamp(1.15rem, 2.8vh, 1.85rem) !important;
-    max-height: calc(
-      100% - var(--glass-ring-scroll-offset-open, 1.7rem) -
-        var(--policy-mobile-content-drop, 1.6rem) +
-        clamp(1.25rem, 3vh, 1.85rem)
-    ) !important;
-  }
-
-  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) > footer,
-  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) > footer.policy-page-footer {
-    margin-top: clamp(2.95rem, 6.2vh, 4.05rem) !important;
-    margin-bottom: clamp(1.55rem, 3.4vh, 2.25rem) !important;
-  }
-
 }
 
 @media (max-width: 768px) {
@@ -3234,75 +3054,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   }
 }
 
-.policy-scroll-page-ring::before {
-  display: none !important;
-}
-
-.policy-scroll-page-ring .glass-policy-content,
-.policy-scroll-page-ring .glass-policy-content--expanded,
-.policy-scroll-page-ring .guide-policy-content,
-.policy-scroll-page-ring .policy-page-content {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: none !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 !important;
-  align-items: stretch !important;
-  overflow: visible !important;
-}
-
-.policy-scroll-page-scroller.glass-policy-scroll,
-.policy-scroll-page-scroller.glass-ring-scroll,
-.policy-scroll-page-scroller.glass-ring-scroll--open,
-.policy-scroll-page-scroller.glass-policy-scroll--expanded,
-.policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
-.policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
-.policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
-.policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
-  --policy-scroll-edge-pad-x: var(--ring-pad-x, var(--glass-ring-pad-x, 1rem));
-  --policy-scroll-edge-pad-top: var(--ring-pad-top, var(--glass-ring-pad-top, 0.6rem));
-  --policy-scroll-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
-  --policy-scroll-overscan-bottom: clamp(1.05rem, 2.4vh, 1.45rem);
-  --workspace-guide-panel-overscan-top: var(--policy-scroll-overscan-top);
-  --workspace-guide-panel-overscan-bottom: var(--policy-scroll-overscan-bottom);
-  box-sizing: border-box !important;
-  position: relative !important;
-  width: calc(
-    100% + var(--policy-scroll-edge-pad-x) + var(--policy-scroll-edge-pad-x)
-  ) !important;
-  max-width: none !important;
-  height: calc(
-    100% + var(--policy-scroll-edge-pad-top) +
-      var(--policy-scroll-overscan-top) +
-      var(--policy-scroll-overscan-bottom)
-  ) !important;
-  max-height: calc(
-    100% + var(--policy-scroll-edge-pad-top) +
-      var(--policy-scroll-overscan-top) +
-      var(--policy-scroll-overscan-bottom)
-  ) !important;
-  margin-top: calc(
-    0px - var(--policy-scroll-edge-pad-top) -
-      var(--policy-scroll-overscan-top)
-  ) !important;
-  margin-right: calc(0px - var(--policy-scroll-edge-pad-x)) !important;
-  margin-left: calc(0px - var(--policy-scroll-edge-pad-x)) !important;
-  padding: calc(
-      var(--policy-scroll-edge-pad-top) + var(--policy-scroll-overscan-top) +
-        clamp(0.35rem, 1.1vh, 0.72rem)
-    )
-    calc(var(--policy-scroll-edge-pad-x) + clamp(1rem, 2.4vw, 1.55rem))
-    var(--policy-scroll-overscan-bottom) !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  transform: none !important;
-  scrollbar-gutter: auto !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-}
-
 .direct-scroll-surface {
   --direct-scroll-surface-header-offset: 0px;
   padding-top: 0 !important;
@@ -3317,31 +3068,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 }
 
 @media (max-width: 768px) {
-  .policy-scroll-page-scroller.glass-policy-scroll,
-  .policy-scroll-page-scroller.glass-ring-scroll,
-  .policy-scroll-page-scroller.glass-ring-scroll--open,
-  .policy-scroll-page-scroller.glass-policy-scroll--expanded,
-  .policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
-  .policy-scroll-page-ring .policy-scroll-page-scroller.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
-  .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll,
-  .policy-scroll-page-ring .policy-scroll-page-scroller.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
-    --policy-scroll-overscan-top: clamp(2.2rem, 8vh, 3rem);
-    --policy-scroll-overscan-bottom: calc(
-      env(safe-area-inset-bottom, 0px) + clamp(0.9rem, 2.2vh, 1.35rem)
-    );
-    --workspace-guide-panel-overscan-top: var(--policy-scroll-overscan-top);
-    --workspace-guide-panel-overscan-bottom: var(--policy-scroll-overscan-bottom);
-    padding: calc(
-        var(--policy-scroll-edge-pad-top) + var(--policy-scroll-overscan-top) +
-          clamp(0.02rem, 0.35vh, 0.18rem)
-      )
-      calc(
-        var(--policy-scroll-edge-pad-x) +
-          var(--mobile-glass-card-gap, clamp(0.32rem, 1.35vw, 0.4rem))
-      )
-      0 !important;
-  }
-
 }
 
 .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {

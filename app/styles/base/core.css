@@ -26,7 +26,7 @@ html.theme-light {
 }
 
 html.theme-mid {
-  --app-chrome-bg: #d7c6c0;
+  --app-chrome-bg: #6f5853;
   --app-chrome-bg-image: linear-gradient(
     180deg,
     var(--mid-bg-top, #9f807a) 0%,
@@ -63,30 +63,10 @@ html[data-contrast="hc"] {
   );
 }
 
-html[data-app-prepaint]::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: calc(0px - env(safe-area-inset-bottom, 0px));
-  left: 0;
-  z-index: 2147483647;
+html[data-app-prepaint] main#main {
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  background-color: var(--app-chrome-bg, #10151d);
-  background-image: var(--app-chrome-bg-image, none);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-html[data-app-prepaint="leaving"]::before {
-  animation: app-prepaint-fade 220ms ease-out forwards;
-}
-
-@keyframes app-prepaint-fade {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
 }
 *,
 *::before,

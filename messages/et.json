@@ -2693,11 +2693,44 @@
     }
   },
   "covision": {
+    "common": {
+      "edit": "Muuda",
+      "next": "J?rgmine",
+      "open": "Ava",
+      "participants_count": "{count} osalejat",
+      "remove": "Eemalda",
+      "saving": "Salvestan..."
+    },
     "errors": {
       "request_failed": "Kovisiooni päring ebaõnnestus.",
       "load_failed": "Kovisiooni tööruumi laadimine ebaõnnestus.",
       "save_failed": "Kovisiooni salvestamine ebaõnnestus.",
       "schema_missing": "Kovisiooni andmetabelid puuduvad või server kasutab vale andmebaasi. Käivita Prisma migratsioonid ja laadi leht uuesti."
+    },
+    "knowledge": {
+      "intro": "Otsi teadmistebaasist seotud seadusi, juhendeid, metoodikamaterjale, praktikakirjeldusi, teenuseid ja toetusi.",
+      "unavailable": "Teadmistebaasi otsing ei ole selles keskkonnas seadistatud.",
+      "no_matches": "Teadmistebaasist ei leitud selle juhtumip?stituse p?hjal sobivaid vasteid.",
+      "open_source": "Ava allikas",
+      "results_count": "{count} vastet"
+    },
+    "overview": {
+      "actions_aria": "Kovisiooni tegevused",
+      "new_covision": "Uus kovisioon",
+      "from_wellbeing": "T??heaolust",
+      "practice_example": "Praktikan?ide",
+      "loading_covisions": "Laen kovisioone...",
+      "loading_practices": "Laen praktikakogemusi...",
+      "empty_covisions_title": "Kovisioone pole veel loodud",
+      "empty_covisions_body": "Alusta uus kovisioon v?i muuda filtrit, et olemasolevad tulemused uuesti n?htavaks teha.",
+      "empty_practices_title": "Praktikan?iteid pole lisatud",
+      "empty_practices_body": "Lisa esimene n?ide v?i eemalda teemafilter, kui otsid varasemaid kogemusi.",
+      "practice_missing_description": "?ldistatud praktikakogemus vajab veel kirjeldust."
+    },
+    "practice": {
+      "topics_heading": "Teemad",
+      "publish_notice": "Toimivat praktikat ei avaldata ilma anon??msuse kontrolli ja ?levaatuseta.",
+      "save": "Salvesta toimiv praktika"
     },
     "wellbeing_inputs": {
       "start_from_wellbeing": "Alusta Tööheaolu sisendist",
@@ -2714,6 +2747,9 @@
       "case_notice": "Tööheaolu sisend on toodud kovisiooni mustandisse. Vaata tekst enne salvestamist üle."
     },
     "workflow": {
+      "add_factor": "Lisa tegur",
+      "add_party": "Lisa osapool",
+      "add_step": "Lisa samm",
       "steps": {
         "basic": "Põhiinfo",
         "anonymous_description": "Anonüümne olukorrakirjeldus",
@@ -2724,14 +2760,46 @@
       },
       "anonymity_instruction": "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ära sisesta nime, isikukoodi, täpset aadressi, telefoninumbrit, täpset sündmuskohta ega muid tuvastamist võimaldavaid detaile.",
       "anonymity_confirmation": "Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.",
-      "save_open_room": "Salvesta ja ava kovisiooniruum"
+      "check_anonymity": "Kontrolli anon??msust",
+      "expectations_heading": "Mida ootan kovisioonilt?",
+      "missing_value": "Puudub",
+      "no_steps": "Etapid puuduvad",
+      "parties_factors_count": "{parties} osapoolt, {factors} tegurit",
+      "pending_clarification": "T?psustamisel",
+      "pending_clarification_lower": "t?psustamisel",
+      "process_flow_empty_hint": "Lisa t??protsessi etapid kaartidena. See ei ole inimese elulugu, vaid t??alase olukorra kulg.",
+      "process_flow_hint": "Kirjelda t??protsessi v?i olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. ?ra lisa tuvastatavaid kliendiandmeid.",
+      "review_anonymous_description": "Anon??mne olukorrakirjeldus",
+      "review_central_question": "Keskne k?simus",
+      "review_expectation": "Ootus kovisioonile",
+      "review_hint": "Kontrolli enne salvestamist uuesti, et kirjeldus ei sisaldaks tuvastatavaid kliendiandmeid. Kutsed lisatakse kovisiooniruumis.",
+      "review_network_risks": "V?rgustik, riskid ja kaitsetegurid",
+      "review_process_flow": "Olukorra kulg",
+      "review_title": "Pealkiri",
+      "save_open_room": "Salvesta ja ava kovisiooniruum",
+      "step_count": "{count} etappi",
+      "suggest_questions": "Paku k?simusi",
+      "topic_areas": "Teemavaldkonnad"
     },
     "room": {
       "canvas": "Juhtumilõuend",
       "audio_no_recording": "Kovisiooni helivestlust ei salvestata, ei transkribeerita ja heli ei saadeta AI-le.",
       "invite_participant": "Kutsu osaleja",
       "request_to_speak": "Soovin sõna",
-      "written_discussion": "Kirjalik arutelu"
+      "written_discussion": "Kirjalik arutelu",
+      "add_to_canvas": "Lisa l?uendile",
+      "add_to_discussion": "Lisa arutelusse",
+      "central_question_inline": "Keskne k?simus: {question}",
+      "convert_to_next_step": "Muuda j?rgmiseks sammuks",
+      "create_practice": "Loo toimiv praktika",
+      "discussion_empty": "Arutelu ei ole veel alanud.",
+      "draft_summary": "Koosta mustand",
+      "edit_case": "Muuda juhtumit",
+      "invite_notice": "Kutsutav ei n?e sisu enne autentimist ja ?iguste kontrolli.",
+      "participants_heading": "Osalejad",
+      "save_summary": "Salvesta kokkuv?te",
+      "speaking_requests_help": "S?nasoovide j?rjekord on heliriba detailides n?htav. Moderaator saab s?nasoovi lahendada ja osaleja saab selle t?histada.",
+      "summary_intro": "Kokkuv?te p?hineb juhtumil?uendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuv?tte koostamiseks."
     }
   },
   "api": {

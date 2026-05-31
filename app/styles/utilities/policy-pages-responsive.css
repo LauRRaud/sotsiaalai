@@ -1,0 +1,243 @@
+@media (min-width: 768px) and (max-width: 1440px) {
+  .policy-mobile-lower.glass-ring {
+    --policy-ring-scale: 1.09;
+    --policy-ring-open-scale: 1.09;
+    --policy-scroll-normal-top-shift: clamp(0.42rem, 0.95vh, 0.66rem);
+    --policy-scroll-normal-bottom-cut: 0rem;
+    --policy-scroll-bottom-curve-reveal: clamp(0.24rem, 0.56vh, 0.42rem);
+    --policy-scroll-open-top-lift: 0rem;
+    --policy-scroll-inline-gap: 1.3rem;
+    --policy-scroll-width: min(
+      clamp(
+        30rem,
+        calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.76),
+        40rem
+      ),
+      calc(100% - var(--policy-scroll-inline-gap))
+    );
+    --policy-scroll-open-inline-gap: 0.65rem;
+    --policy-scroll-open-width: min(
+      clamp(
+        43rem,
+        calc(var(--ring-diameter, var(--ring-diameter-default)) * 1.02),
+        66rem
+      ),
+      calc(100% - var(--policy-scroll-open-inline-gap))
+    );
+  }
+
+  .glass-policy-scroll-bottom-arc.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    padding-bottom: clamp(3rem, 5.9vh, 4.2rem) !important;
+  }
+
+  .glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    max-height: calc(
+      100% - clamp(0.12rem, 0.28vh, 0.28rem) + var(--policy-scroll-rise, 0rem) -
+        var(--policy-scroll-normal-bottom-cut, 0rem) -
+        var(--policy-scroll-bottom-curve-reveal, 0rem)
+    ) !important;
+    margin-top: calc(
+      (var(--policy-scroll-rise, 0rem) * -1) -
+        var(--policy-scroll-normal-top-shift, 0rem) +
+        clamp(-0.62rem, -1.08vh, -0.34rem)
+    ) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    transform: translateX(0) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.03) 0.4%,
+      rgba(0, 0, 0, 0.12) 0.9%,
+      rgba(0, 0, 0, 0.26) 1.7%,
+      #000 3%,
+      #000 71.8%,
+      rgba(0, 0, 0, 0.98) 78.4%,
+      rgba(0, 0, 0, 0.82) 84.2%,
+      rgba(0, 0, 0, 0.46) 91.2%,
+      rgba(0, 0, 0, 0.14) 96.8%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.03) 0.4%,
+      rgba(0, 0, 0, 0.12) 0.9%,
+      rgba(0, 0, 0, 0.26) 1.7%,
+      #000 3%,
+      #000 71.8%,
+      rgba(0, 0, 0, 0.98) 78.4%,
+      rgba(0, 0, 0, 0.82) 84.2%,
+      rgba(0, 0, 0, 0.46) 91.2%,
+      rgba(0, 0, 0, 0.14) 96.8%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+  }
+
+  .glass-policy-scroll.glass-ring-scroll--open {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-height: calc(
+      100% - var(--glass-ring-scroll-offset-open, 5rem) +
+        var(--policy-scroll-rise, 0rem) + var(--policy-scroll-open-top-lift, 0rem) +
+        var(--policy-scroll-open-top-raise, 0rem) + clamp(0.58rem, 1.04vh, 0.86rem) +
+        var(--policy-scroll-open-bottom-extend, clamp(1.25rem, 2.6vh, 1.9rem))
+    ) !important;
+    margin-top: calc(
+      (var(--policy-scroll-rise, 0rem) * -0.46) -
+        var(--policy-scroll-open-top-lift, 0rem) -
+        var(--policy-scroll-open-top-raise, 0rem) -
+        clamp(0.16rem, 0.32vh, 0.24rem) +
+        clamp(0.62rem, 1.12vh, 0.92rem)
+    ) !important;
+    padding-top: calc(
+      clamp(0.32rem, 0.9vh, 0.68rem) + var(--policy-first-line-drop, 0rem)
+    ) !important;
+    padding-bottom: clamp(1.2rem, 2.5vh, 2rem) !important;
+    width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    max-width: calc(100% - clamp(0.42rem, 0.9vw, 0.72rem)) !important;
+    padding-left: clamp(0.02rem, 0.08vw, 0.08rem) !important;
+    padding-right: clamp(0.12rem, 0.34vw, 0.24rem) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.08) 1%,
+      rgba(0, 0, 0, 0.16) 2.4%,
+      rgba(0, 0, 0, 0.3) 4.8%,
+      rgba(0, 0, 0, 0.48) 7.4%,
+      #000 10%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.9) 88.2%,
+      rgba(0, 0, 0, 0.6) 92.2%,
+      rgba(0, 0, 0, 0.28) 95.8%,
+      rgba(0, 0, 0, 0.07) 98.5%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.08) 1%,
+      rgba(0, 0, 0, 0.16) 2.4%,
+      rgba(0, 0, 0, 0.3) 4.8%,
+      rgba(0, 0, 0, 0.48) 7.4%,
+      #000 10%,
+      #000 83.8%,
+      rgba(0, 0, 0, 0.9) 88.2%,
+      rgba(0, 0, 0, 0.6) 92.2%,
+      rgba(0, 0, 0, 0.28) 95.8%,
+      rgba(0, 0, 0, 0.07) 98.5%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+  }
+}
+
+@media (min-width: 1440px) and (min-height: 928px) {
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    margin-top: calc(
+      (var(--policy-scroll-rise, 0rem) * -0.28) -
+        var(--policy-scroll-normal-top-shift, 0rem) +
+        clamp(0.08rem, 0.18vh, 0.16rem)
+    ) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .glass-ring-expandable {
+    --glass-ring-br-bottom: calc(
+      var(--ring-diameter, var(--ring-diameter-default)) / 2
+    );
+    border-radius: calc(var(--ring-diameter, var(--ring-diameter-default)) / 2)
+      calc(var(--ring-diameter, var(--ring-diameter-default)) / 2)
+      var(--glass-ring-br-bottom)
+      var(--glass-ring-br-bottom);
+  }
+
+  .glass-ring-expandable--open {
+    --glass-ring-br-bottom: clamp(1.6rem, 3.5vw, 2.4rem);
+  }
+
+}
+
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+  padding-bottom: clamp(2.3rem, 4.5vh, 3.4rem) !important;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.08) 0.6%,
+    rgba(0, 0, 0, 0.2) 1.4%,
+    rgba(0, 0, 0, 0.42) 2.7%,
+    #000 5.2%,
+    #000 84%,
+    rgba(0, 0, 0, 0.78) 89%,
+    rgba(0, 0, 0, 0.42) 94%,
+    rgba(0, 0, 0, 0.14) 97.4%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.08) 0.6%,
+    rgba(0, 0, 0, 0.2) 1.4%,
+    rgba(0, 0, 0, 0.42) 2.7%,
+    #000 5.2%,
+    #000 84%,
+    rgba(0, 0, 0, 0.78) 89%,
+    rgba(0, 0, 0, 0.42) 94%,
+    rgba(0, 0, 0, 0.14) 97.4%,
+    rgba(0, 0, 0, 0) 100%
+  ) !important;
+}
+
+.guide-policy-scroll > footer,
+.policy-page-scroll > footer.policy-page-footer {
+  margin-bottom: 0 !important;
+}
+
+.guide-policy-ring--layout-init,
+.guide-policy-ring--layout-init::before,
+.guide-policy-content--layout-init,
+.guide-policy-scroll--layout-init {
+  transition: none !important;
+  animation: none !important;
+}
+
+.guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+  > footer,
+.policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+  > footer.policy-page-footer {
+  margin-top: clamp(0.55rem, 1.2vh, 0.95rem) !important;
+  margin-bottom: clamp(1.15rem, 2.4vh, 1.85rem) !important;
+  transform: translateY(0);
+}
+
+@media (min-width: 769px) {
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open),
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open) {
+    padding-bottom: clamp(3.55rem, 6.4vh, 5rem) !important;
+  }
+
+  .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+    > footer,
+  .policy-page-scroll.glass-policy-scroll.glass-ring-scroll:not(.glass-ring-scroll--open)
+    > footer.policy-page-footer {
+    margin-top: clamp(3.45rem, 6.4vh, 4.25rem) !important;
+    margin-bottom: clamp(0.36rem, 0.92vh, 0.72rem) !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .glass-ring-expandable--open
+    .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
+  .glass-ring-expandable--open
+    .policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+    margin-top: calc(
+      (var(--policy-scroll-rise, 0rem) * -0.12) -
+        var(--policy-scroll-open-top-lift, 0rem) -
+        var(--policy-scroll-open-top-raise, 0rem) -
+        clamp(0.46rem, 0.92vh, 0.72rem)
+    ) !important;
+  }
+}
+

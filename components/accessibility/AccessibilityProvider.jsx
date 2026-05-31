@@ -28,7 +28,7 @@ let themeSwitchClearTimer = null;
 function resolveThemeChromeColor(theme, contrast = "normal") {
   if (contrast === "hc") return "#10151d";
   if (theme === "light") return "#f4f2ee";
-  if (theme === "mid") return "#d7c6c0";
+  if (theme === "mid") return "#6f5853";
   if (theme === "night") return "#0e1420";
   if (theme === "mono") return "#101010";
   return "#111418";

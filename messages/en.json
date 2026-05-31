@@ -2693,11 +2693,44 @@
     }
   },
   "covision": {
+    "common": {
+      "edit": "Edit",
+      "next": "Next",
+      "open": "Open",
+      "participants_count": "{count} participants",
+      "remove": "Remove",
+      "saving": "Saving..."
+    },
     "errors": {
       "request_failed": "The covision request failed.",
       "load_failed": "Could not load the covision workspace.",
       "save_failed": "Could not save the covision workspace.",
       "schema_missing": "Covision database tables are missing or the server is using the wrong database. Run Prisma migrations and reload the page."
+    },
+    "knowledge": {
+      "intro": "Search the knowledge base for relevant laws, guidelines, methods, practice descriptions, services, and support options.",
+      "unavailable": "Knowledge-base search is not configured in this environment.",
+      "no_matches": "No suitable matches were found in the knowledge base for this case framing.",
+      "open_source": "Open source",
+      "results_count": "{count} matches"
+    },
+    "overview": {
+      "actions_aria": "Covision actions",
+      "new_covision": "New covision",
+      "from_wellbeing": "From wellbeing",
+      "practice_example": "Practice example",
+      "loading_covisions": "Loading covisions...",
+      "loading_practices": "Loading practice examples...",
+      "empty_covisions_title": "No covisions created yet",
+      "empty_covisions_body": "Start a new covision or change the filter to reveal existing results again.",
+      "empty_practices_title": "No practice examples added",
+      "empty_practices_body": "Add the first example or remove the topic filter if you are looking for earlier experiences.",
+      "practice_missing_description": "This generalized practice example still needs a description."
+    },
+    "practice": {
+      "topics_heading": "Topics",
+      "publish_notice": "Effective practice is not published without anonymity review and approval.",
+      "save": "Save effective practice"
     },
     "wellbeing_inputs": {
       "start_from_wellbeing": "Start from Wellbeing input",
@@ -2714,6 +2747,9 @@
       "case_notice": "The wellbeing input was added to the covision draft. Review the text before saving."
     },
     "workflow": {
+      "add_factor": "Add factor",
+      "add_party": "Add participant",
+      "add_step": "Add step",
       "steps": {
         "basic": "Basic information",
         "anonymous_description": "Anonymous situation description",
@@ -2724,13 +2760,45 @@
       },
       "anonymity_instruction": "Describe the situation so that the person cannot be identified. Do not enter a name, personal ID code, exact address, phone number, exact event location or other details that could enable identification.",
       "anonymity_confirmation": "I confirm that the case framing is anonymous and does not intentionally include identifiable client data.",
-      "save_open_room": "Save and open covision room"
+      "check_anonymity": "Check anonymity",
+      "expectations_heading": "What do I expect from the covision?",
+      "missing_value": "Missing",
+      "no_steps": "No steps added",
+      "parties_factors_count": "{parties} parties, {factors} factors",
+      "pending_clarification": "Needs clarification",
+      "pending_clarification_lower": "needs clarification",
+      "process_flow_empty_hint": "Add work-process steps as cards. This is not a person's life story, but the flow of a work-related situation.",
+      "process_flow_hint": "Describe the work process or the flow of the situation. Focus on what has happened so far, what has been tried, what has worked, and what has become stuck. Do not include identifiable client data.",
+      "review_anonymous_description": "Anonymous situation description",
+      "review_central_question": "Central question",
+      "review_expectation": "Expectation for covision",
+      "review_hint": "Before saving, check again that the description does not contain identifiable client data. Invitations are added in the covision room.",
+      "review_network_risks": "Network, risks and protective factors",
+      "review_process_flow": "Situation flow",
+      "review_title": "Title",
+      "save_open_room": "Save and open covision room",
+      "step_count": "{count} steps",
+      "suggest_questions": "Suggest questions",
+      "topic_areas": "Topic areas"
     },
     "room": {
+      "add_to_canvas": "Add to canvas",
+      "add_to_discussion": "Add to discussion",
       "canvas": "Case canvas",
+      "central_question_inline": "Central question: {question}",
+      "convert_to_next_step": "Convert to next step",
+      "create_practice": "Create effective practice",
+      "discussion_empty": "The discussion has not started yet.",
+      "draft_summary": "Create draft",
+      "edit_case": "Edit case",
       "audio_no_recording": "Covision audio is not recorded, not transcribed, and audio is not sent to AI.",
+      "invite_notice": "The invited participant cannot see the content before authentication and permission checks.",
       "invite_participant": "Invite participant",
+      "participants_heading": "Participants",
       "request_to_speak": "Request to speak",
+      "save_summary": "Save summary",
+      "speaking_requests_help": "The order of speaking requests is visible in the audio bar details. The moderator can resolve a speaking request and the participant can cancel it.",
+      "summary_intro": "The summary is based on the case canvas and textually entered discussion. Covision audio is not recorded, transcribed, or used to prepare the summary.",
       "written_discussion": "Written discussion"
     }
   },
