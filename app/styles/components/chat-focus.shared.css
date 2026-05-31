@@ -1,0 +1,12 @@
+/* Cross-feature global modal state shared by chat, workspace, invite, and listing overlays. */
+
+body:is(
+    .invite-modal-open,
+    .help-listings-modal-open,
+    .selected-listing-modal-open
+  )
+  .chat-page-shell {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

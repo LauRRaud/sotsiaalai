@@ -1,0 +1,135 @@
+/* Workspace-owned help listings modal and embedded panel styles. */
+
+.help-listings-scroll {
+  --help-scroll-fade-top: clamp(1.08rem, 2.7vh, 1.62rem);
+  --help-scroll-fade-bottom: clamp(0.98rem, 2.45vh, 1.48rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),
+    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),
+    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),
+    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),
+    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),
+    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),
+    #000 calc(var(--help-scroll-fade-top) * 1.04),
+    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),
+    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),
+    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),
+    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),
+    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),
+    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),
+    #000 calc(var(--help-scroll-fade-top) * 1.04),
+    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.help-listings-scroll {
+  touch-action: pan-y;
+  --help-scroll-fade-top: clamp(1.24rem, 3.05vh, 1.84rem);
+  --help-scroll-fade-bottom: clamp(1.08rem, 2.75vh, 1.66rem);
+}
+
+.help-listings-scroll > *,
+.help-listings-item-card {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+:root:not(.theme-light):not(.theme-mid)
+  .help-listings-modal-content
+  .help-listings-panel {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.035)
+    ),
+    color-mix(
+      in srgb,
+      var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%,
+      transparent
+    ) !important;
+  border-color: transparent !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.08) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+html[data-contrast="hc"]
+  .help-listings-modal-content
+  .help-listings-panel {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00) !important;
+}
+
+.help-listings-modal-overlay {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center !important;
+  justify-items: center !important;
+  align-items: start !important;
+}
+
+.help-listings-modal-content {
+  justify-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 768px) {
+  .help-listings-modal-overlay.help-listings-modal-overlay--workspace {
+      align-items: center !important;
+      align-content: center !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      overflow: hidden !important;
+    }
+
+  .help-listings-modal-content--workspace {
+      --ring-scale: 1;
+      --ring-fit-pad: calc(1.3 * var(--base-rem));
+      --ring-ui-reserve: calc(2 * var(--base-rem));
+      --ring-base-min: calc(36 * var(--base-rem));
+      --ring-base-max: calc(54 * var(--base-rem));
+      --ring-desktop-max: calc(58 * var(--base-rem));
+      --chat-focus-diameter-scale: 1.06;
+      --help-listings-workspace-inline-size: var(--workspace-glass-shell-inline-size);
+      width: var(--help-listings-workspace-inline-size) !important;
+      inline-size: var(--help-listings-workspace-inline-size) !important;
+      min-width: var(--help-listings-workspace-inline-size) !important;
+      max-width: var(--help-listings-workspace-inline-size) !important;
+      height: var(--workspace-glass-block-size) !important;
+      min-height: var(--workspace-glass-block-size) !important;
+      max-height: var(--workspace-glass-block-size) !important;
+      block-size: var(--workspace-glass-block-size) !important;
+      border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+    }
+}

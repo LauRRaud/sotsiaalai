@@ -1,0 +1,91 @@
+/* Selected listing modal, body, and inline panel styles. */
+
+.selected-listing-body {
+  --help-scroll-fade-top: clamp(1.08rem, 2.7vh, 1.62rem);
+  --help-scroll-fade-bottom: clamp(0.98rem, 2.45vh, 1.48rem);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),
+    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),
+    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),
+    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),
+    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),
+    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),
+    #000 calc(var(--help-scroll-fade-top) * 1.04),
+    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),
+    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),
+    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),
+    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),
+    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),
+    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),
+    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),
+    #000 calc(var(--help-scroll-fade-top) * 1.04),
+    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),
+    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),
+    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),
+    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),
+    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),
+    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.selected-listing-body {
+  --help-scroll-fade-top: clamp(0.82rem, 2vh, 1.18rem);
+  --help-scroll-fade-bottom: clamp(0.72rem, 1.8vh, 1.08rem);
+}
+
+.selected-listing-body--inline {
+  --help-scroll-fade-top: clamp(0.22rem, 0.7vh, 0.42rem);
+  --help-scroll-fade-bottom: clamp(0.28rem, 0.8vh, 0.5rem);
+  scrollbar-gutter: auto !important;
+}
+
+.selected-listing-body--inline > *,
+.selected-listing-body--inline .selected-listing-panel--inline {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.selected-listing-modal-overlay {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center !important;
+  justify-items: center !important;
+  align-items: start !important;
+}
+
+.selected-listing-modal-content {
+  justify-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.selected-listing-body {
+  box-sizing: border-box;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  scrollbar-gutter: stable both-edges;
+}
+
+.selected-listing-body > * {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

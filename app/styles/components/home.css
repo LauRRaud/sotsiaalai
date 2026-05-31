@@ -45,6 +45,16 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
   }
 }
 
+@media (max-width: 768px) {
+  .homepage-root .home-footer-logo-wrap {
+    margin-top: clamp(4.2rem, 12vh, 7rem) !important;
+  }
+
+  .homepage-root .home-hero-section > footer {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.04rem);
+  }
+}
+
 [class*="home-logo-shine-rect"] {
   opacity: 0;
 }

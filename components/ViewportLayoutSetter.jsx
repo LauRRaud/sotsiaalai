@@ -94,6 +94,9 @@ function applyVhVar(previousStableLayoutHeight = 0) {
   root.style.setProperty("--keyboard-offset", `${keyboardOffset}px`);
   return layoutHeight || previousStableLayoutHeight || 0;
 }
+
+const LAUNCH_VIEWPORT_SYNC_DELAYS = [50, 160, 360, 720, 1200];
+
 export default function ViewportLayoutSetter() {
   const pathname = usePathname();
   const lastFocusedPathRef = useRef(null);
@@ -109,28 +112,39 @@ export default function ViewportLayoutSetter() {
     applyPlatformFlag();
     stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     const onMqChange = e => applyLayoutFlag(e.matches);
-    const onResize = () => {
+    const scheduleViewportSync = (delays = []) => {
       window.requestAnimationFrame(() => {
         applyDisplayModeFlag();
         applyPlatformFlag();
         stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
       });
+      delays.forEach(delay => {
+        window.setTimeout(() => {
+          applyDisplayModeFlag();
+          applyPlatformFlag();
+          stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+        }, delay);
+      });
+    };
+    scheduleViewportSync(LAUNCH_VIEWPORT_SYNC_DELAYS);
+    const onResize = () => {
+      scheduleViewportSync();
     };
     const onFocusChange = () => {
-      window.requestAnimationFrame(() => {
-        stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
-      });
+      scheduleViewportSync();
     };
     const onPageShow = () => {
       applyLayoutFlag(mql.matches);
-      applyDisplayModeFlag();
-      applyPlatformFlag();
-      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+      scheduleViewportSync(LAUNCH_VIEWPORT_SYNC_DELAYS);
     };
     const onDisplayModeChange = () => {
-      applyDisplayModeFlag();
-      applyPlatformFlag();
-      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+      scheduleViewportSync(LAUNCH_VIEWPORT_SYNC_DELAYS);
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        applyLayoutFlag(mql.matches);
+        scheduleViewportSync(LAUNCH_VIEWPORT_SYNC_DELAYS);
+      }
     };
     mql.addEventListener?.("change", onMqChange);
     standaloneMql.addEventListener?.("change", onDisplayModeChange);
@@ -138,7 +152,10 @@ export default function ViewportLayoutSetter() {
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onResize);
     window.addEventListener("pageshow", onPageShow);
+    window.addEventListener("load", onPageShow);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     window.visualViewport?.addEventListener("resize", onResize);
+    window.visualViewport?.addEventListener("scroll", onResize);
     window.addEventListener("focusin", onFocusChange);
     window.addEventListener("focusout", onFocusChange);
     return () => {
@@ -148,7 +165,10 @@ export default function ViewportLayoutSetter() {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
       window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("load", onPageShow);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.visualViewport?.removeEventListener("resize", onResize);
+      window.visualViewport?.removeEventListener("scroll", onResize);
       window.removeEventListener("focusin", onFocusChange);
       window.removeEventListener("focusout", onFocusChange);
     };

@@ -538,9 +538,17 @@
     background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d))) !important;
     background-color: var(--app-chrome-bg, #10151d) !important;
     background-repeat: no-repeat !important;
-    background-size: 100% var(--glass-mobile-root-vh, 100dvh) !important;
+    background-size: 100%
+      max(
+        100%,
+        calc(
+          var(--glass-mobile-root-vh, 100dvh) +
+            var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), 7.5rem))
+        )
+      ) !important;
     height: var(--glass-mobile-root-vh, 100dvh) !important;
     min-height: var(--glass-mobile-root-vh, 100dvh) !important;
+    max-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
   html[data-display-mode="standalone"] body.homepage .homepage-root,
   html[data-display-mode="fullscreen"] body.homepage .homepage-root,
@@ -549,6 +557,7 @@
     background: transparent !important;
     height: var(--glass-mobile-root-vh, 100dvh) !important;
     min-height: var(--glass-mobile-root-vh, 100dvh) !important;
+    max-height: var(--glass-mobile-root-vh, 100dvh) !important;
   }
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,

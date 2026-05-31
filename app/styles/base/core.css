@@ -90,7 +90,9 @@ html[data-display-mode="fullscreen"] body,
 body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"] {
   --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), 7.5rem);
+  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  max-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   background-color: var(--app-chrome-bg, #10151d) !important;
   background-image: var(--app-chrome-bg-image, none) !important;
   background-repeat: no-repeat !important;
@@ -106,8 +108,24 @@ body[data-display-mode="fullscreen"] {
 
 html[data-display-mode="standalone"] .app-root,
 html[data-display-mode="fullscreen"] .app-root {
+  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  max-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   background: transparent !important;
+}
+
+@media (max-width: 768px) {
+  html[data-display-mode="standalone"],
+  html[data-display-mode="fullscreen"],
+  html[data-display-mode="standalone"] body,
+  html[data-display-mode="fullscreen"] body,
+  body[data-display-mode="standalone"],
+  body[data-display-mode="fullscreen"],
+  html[data-display-mode="standalone"] .app-root,
+  html[data-display-mode="fullscreen"] .app-root {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
 }
 
 .app-root {
