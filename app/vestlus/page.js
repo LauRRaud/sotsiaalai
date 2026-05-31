@@ -4,6 +4,7 @@ import "../styles/components/chat-shell.css";
 import "../styles/components/workspace-help-listings.css";
 import "../styles/components/selected-listing.css";
 import "../styles/components/invite-modal.css";
+import "../styles/components/service-map.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";
