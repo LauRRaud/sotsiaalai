@@ -69,8 +69,5 @@ export default function WorkspaceRoleCycleButton({
 }
 
 export {
-  WORKSPACE_ROLE_CYCLE,
-  normalizeWorkspaceRole,
-  workspaceRoleLabel,
-  workspaceRoleShortLabel
+  normalizeWorkspaceRole
 };

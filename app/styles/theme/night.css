@@ -13,7 +13,6 @@
   );
 }
 
-:root.theme-night .site-footer-logo,
 :root.theme-night .home-footer-logo {
   opacity: 0.62 !important;
 }

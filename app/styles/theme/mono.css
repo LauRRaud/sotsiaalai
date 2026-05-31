@@ -348,20 +348,20 @@
   color: var(--home-card-back-title-right) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back),
+:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) {
   --back-arrow-color: var(--forest-title) !important;
   --back-dot-color: var(--forest-title) !important;
   color: var(--forest-title) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back) svg,
+:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) svg,
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) svg {
   --back-arrow-color: var(--forest-title) !important;
   --back-dot-color: var(--forest-title) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button, .glass-policy-back) :is(svg, path, circle, line, polyline),
+:root.theme-mono:not([data-contrast="hc"]) :is(.back-button, .chat-back-button, .workspace-scroll-back-button, .documents-scroll-back-button, .glass-subpage-back-button, .account-settings-back-button, .register-back-button) :is(svg, path, circle, line, polyline),
 :root.theme-mono:not([data-contrast="hc"]) button:has(.back-icon-arrow) :is(svg, path, circle, line, polyline) {
   color: var(--forest-title) !important;
 }
@@ -415,8 +415,7 @@
   box-shadow: var(--drawer-card-shadow) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within),
-:root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active {
+:root.theme-mono:not([data-contrast="hc"]) .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within) {
   background: var(--drawer-card-bg-hover) !important;
   border-color: var(--drawer-card-border-hover) !important;
   box-shadow: var(--drawer-card-shadow-hover) !important;
@@ -526,6 +525,41 @@
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn) :is(circle.back-icon-dot)[fill] {
   fill: var(--forest-title) !important;
   stroke: var(--forest-title) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
+  .chat-rail-icon-btn,
+  button,
+  [class*="Rail_item"],
+  [class*="Rail_iconBtn"]
+),
+:root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
+  .chat-rail-icon-btn,
+  button,
+  [class*="Rail_item"],
+  [class*="Rail_iconBtn"]
+):is(:hover, :focus-visible, :active),
+:root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
+  .chat-rail-icon-btn,
+  button,
+  [class*="Rail_item"],
+  [class*="Rail_iconBtn"]
+)::before,
+:root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
+  .chat-rail-icon-btn,
+  button,
+  [class*="Rail_item"],
+  [class*="Rail_iconBtn"]
+)::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 :root.theme-mono:not([data-contrast="hc"]) .modal-close-btn {
@@ -656,7 +690,7 @@
     0 6px 14px rgba(7, 7, 7, 0.22) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, .invite-primary-btn, .documents-primary-button, .workspace-feature-action-btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
+:root.theme-mono:not([data-contrast="hc"]) :is(.button, .btn, .invite-primary-btn, .documents-primary-button, .workspace-feature-action-btn, [data-variant="primary"]):not(.back-button):not(.chat-back-button):not(.profile-logout-button):not(.chat-rail-icon-btn):not(.chat-send-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-dictate-btn):not(.chat-side-control-btn):not(.chat-tools-btn):not(.chat-document-attach-btn) {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -856,14 +890,14 @@
   --input-shadow-hover: var(--mono-field-hole-shadow-hover);
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea) {
+:root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea) {
   background: var(--forest-input-surface) !important;
   border-color: rgba(214, 214, 214, 0.16) !important;
   box-shadow: var(--mono-field-hole-shadow) !important;
   color: var(--forest-highlight) !important;
 }
 
-:root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea):is(:hover, :focus-visible, :focus-within, .is-open) {
+:root.theme-mono:not([data-contrast="hc"]) .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea):is(:hover, :focus-visible, :focus-within, .is-open) {
   background: var(--forest-input-surface-hover) !important;
   box-shadow: var(--mono-field-hole-shadow-hover) !important;
 }

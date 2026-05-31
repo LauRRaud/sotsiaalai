@@ -15,7 +15,7 @@ import {
 import { getDashboardInfoContent } from "@/lib/dashboardInfoContent";
 import styles from "./PageInfoButton.module.css";
 
-export function InfoIcon({ className }) {
+function InfoIcon({ className }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -316,7 +316,7 @@ function renderDetail(section, extra) {
   );
 }
 
-export default function DashboardInfoOverlay({ open, onClose, infoId, label = "Ava info", title, surfaceStyle, detailExtras }) {
+function DashboardInfoOverlay({ open, onClose, infoId, label = "Ava info", title, surfaceStyle, detailExtras }) {
   const [portalRoot, setPortalRoot] = useState(null);
   const panelRef = useRef(null);
   const closeRef = useRef(null);

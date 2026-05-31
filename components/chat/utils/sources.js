@@ -1,4 +1,4 @@
-export function uniqueSortedPages(pages) {
+function uniqueSortedPages(pages) {
   if (!Array.isArray(pages)) return [];
   const nums = pages.map(p => Number(p)).filter(p => Number.isFinite(p) && p > 0);
   return [...new Set(nums)].sort((a, b) => a - b);
@@ -57,7 +57,7 @@ export function normalizePageRange(value) {
   }
   return normalized.join(", ");
 }
-export function asAuthorArray(v) {
+function asAuthorArray(v) {
   if (!v) return [];
   const clean = value => {
     const normalized = String(value || "").trim().toLowerCase();

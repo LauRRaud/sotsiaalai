@@ -37,21 +37,19 @@ export const inputClassName = "rounded-[12px] text-[0.95rem]";
 export const dropdownClassName = "w-full";
 export const compactDropdownClassName = "w-full max-w-[14rem]";
 export const formNoteClassName = "text-[0.82rem] text-[color:var(--admin-muted)]";
-export const ingestGridClassName = "grid gap-1.1 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))] items-start";
 export const ingestMainGridClassName = "grid gap-1.5 [grid-template-columns:minmax(0,1fr)]";
-export const ingestSupportStackClassName = "grid gap-1.5";
 export const panelStackClassName =
   "flex flex-col gap-[0.45rem] rounded-[12px] border border-[color:var(--admin-border)] bg-[color-mix(in_srgb,var(--admin-surface-2)_86%,transparent)] min-[769px]:backdrop-blur-[var(--glass-blur-radius,0.68rem)] min-[769px]:[-webkit-backdrop-filter:blur(var(--glass-blur-radius,0.68rem))] p-[10px] text-[color:var(--admin-text)]";
 export const metaActionsClassName = "flex flex-wrap items-center justify-start gap-2";
 export const labelClassName = "text-[0.95rem] font-semibold text-[color:var(--admin-text)]";
 export const badgeBaseClassName = "inline-flex items-center rounded-full border px-2 py-[2px] text-[12px] font-semibold";
-export const badgeYellowClassName =
+const badgeYellowClassName =
   "border-[#f59e0b] bg-[color-mix(in_srgb,#f59e0b_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#f59e0b_78%,var(--admin-text)_22%)]";
-export const badgeBlueClassName =
+const badgeBlueClassName =
   "border-[#38bdf8] bg-[color-mix(in_srgb,#38bdf8_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#38bdf8_78%,var(--admin-text)_22%)]";
-export const badgeGreenClassName =
+const badgeGreenClassName =
   "border-[#22c55e] bg-[color-mix(in_srgb,#22c55e_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#22c55e_78%,var(--admin-text)_22%)]";
-export const badgeRedClassName =
+const badgeRedClassName =
   "border-[#ef4444] bg-[color-mix(in_srgb,#ef4444_18%,var(--admin-surface-3)_82%)] text-[color-mix(in_srgb,#ef4444_78%,var(--admin-text)_22%)]";
 export const badgeGhostClassName =
   "border-transparent bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)] text-[color:var(--admin-accent)]";
@@ -89,9 +87,6 @@ export const metaTabActiveClassName =
   "border-[color:var(--admin-accent)] bg-[color-mix(in_srgb,var(--admin-accent)_18%,transparent)]";
 export const codeBlockClassName =
   "rounded-[12px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-3)] px-3 py-2 text-[0.85rem] leading-[1.5] text-[color:var(--admin-text)] shadow-[var(--admin-shadow-soft)]";
-export const hintClassName = "rounded-[14px] border border-[color:var(--admin-border)] bg-[color:var(--admin-surface-2)] p-3";
-export const hintTitleClassName = "text-[0.95rem] font-semibold text-[color:var(--admin-text)]";
-export const hintBodyClassName = "text-[0.9rem] leading-[1.4] text-[color:var(--admin-muted)]";
 export const articlesClassName =
   "grid gap-1.5 rounded-[14px] border border-[color:var(--admin-border-strong)] bg-[color:var(--admin-surface-2)] p-3";
 export const articlesHeadClassName = "flex flex-wrap items-start justify-between gap-3";
@@ -209,7 +204,7 @@ export const AUDIENCE_LABEL_KEYS = {
 };
 
 export const AUDIENCE_VALUES = ["SOCIAL_WORKER", "CLIENT", "BOTH"];
-export const DEFAULT_POLL_MS = 15000;
+const DEFAULT_POLL_MS = 15000;
 export const POLL_MS = Number(process.env.NEXT_PUBLIC_RAG_POLL_MS || DEFAULT_POLL_MS);
 export const PAGE_SIZE = 25;
 export const DOCS_FETCH_LIMIT = 100;

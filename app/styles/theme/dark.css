@@ -538,9 +538,6 @@
 :root:not(.theme-light):not(.theme-mid) .chat-listen-btn[data-speaking="true"] {
   box-shadow: none;
 }
-:root:not(.theme-light):not(.theme-mid)
-  .chat-inputbar
-  .chat-send-btn.chat-send-btn--active[data-recording="true"],
 :root:not(.theme-light):not(.theme-mid) .chat-inputbar .chat-send-btn[data-recording="true"],
 :root:not(.theme-light):not(.theme-mid)
   .chat-inputbar

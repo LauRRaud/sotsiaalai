@@ -556,7 +556,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-rail-icon-btn):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
+  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
   background: var(--btn-primary-bg, var(--form-surface, var(--hc-surface)));
   color: var(--btn-primary-text, var(--hc-text));
   border: var(--btn-primary-border, 2px solid var(--hc-border, rgba(255, 234, 0, 0.66)));
@@ -569,7 +569,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-rail-icon-btn):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):hover:not(
+  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.profile-logout-button):hover:not(
     :disabled
   ),
 html[data-contrast="hc"]
@@ -578,7 +578,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-rail-icon-btn):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):focus-visible {
+  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.profile-logout-button):focus-visible {
   background: var(--btn-primary-bg-hover, var(--form-surface-hover, var(--hc-surface)));
   border: var(--btn-primary-border-hover, 2px solid var(--hc-border-soft, rgba(188, 220, 255, 0.4)));
   color: var(--btn-primary-text, var(--hc-text));
@@ -590,7 +590,7 @@ html[data-contrast="hc"]
     button, [role="button"], .button, .btn, input[type="button"], input[type="submit"], input[type="reset"]
   ):not(.chat-rail-icon-btn):not(.chat-send-btn):not(
     .chat-side-control-btn
-  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button):active:not(
+  ):not(.chat-tools-btn):not(.chat-document-attach-btn):not(.chat-dictate-btn):not(.chat-listen-btn):not(.chat-assistant-action-btn):not(.chat-analysis-close-btn):not(.card-face):not(.dock-item):not(.back-button):not(.chat-back-button):not(.profile-logout-button):active:not(
     :disabled
   ) {
   background: var(--btn-primary-bg-active, var(--btn-primary-bg-hover, var(--form-surface-hover, var(--hc-surface))));
@@ -638,7 +638,6 @@ body .chat-analysis-close-btn:is(:hover, :focus-visible, :active) {
 html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
     .back-button,
-    .glass-policy-back,
     .chat-back-button,
     .profile-logout-button
   ) {
@@ -650,7 +649,6 @@ html[data-contrast="hc"] body :is(
 html[data-contrast="hc"] body :is(
     button:has(.back-icon-arrow),
     .back-button,
-    .glass-policy-back,
     .chat-back-button,
     .profile-logout-button
   ):is(:hover, :focus-visible, :active) {
@@ -658,20 +656,6 @@ html[data-contrast="hc"] body :is(
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
-}
-html[data-contrast="hc"] .glass-ring-expand-toggle,
-html[data-contrast="hc"] .glass-ring-expand-toggle:is(:hover, :focus-visible, :active) {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-html[data-contrast="hc"] .glass-ring-expand-toggle .glass-ring-expand-icon {
-  color: var(--hc-accent) !important;
-  opacity: 1 !important;
-}
-html[data-contrast="hc"] .glass-ring-expand-toggle .glass-ring-expand-icon :is(path, circle, line, rect, ellipse, polyline, polygon) {
-  stroke: currentColor !important;
 }
 html[data-contrast="hc"] .invite-modal-overlay.person-invite-modal-overlay {
   background: transparent !important;
@@ -793,13 +777,6 @@ html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item:focus-visible {
   border-color: rgba(255, 234, 0, 0.9) !important;
   box-shadow: none !important;
   outline: none !important;
-}
-html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled {
-  color: rgba(255, 234, 0, 0.52) !important;
-}
-html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:hover,
-html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item.chat-tools-item-disabled:focus-visible {
-  background: transparent !important;
 }
 html[data-contrast="hc"] body .chat-tools-menu .chat-tools-item svg :is(path, circle, line, rect, ellipse, polyline, polygon) {
   stroke: var(--hc-accent) !important;
@@ -1230,15 +1207,6 @@ html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card:is(:hover, 
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card:is(:hover, :focus-within)::before {
   content: none !important;
 }
-html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active {
-  border: 2px solid rgba(255, 234, 0, 0.95) !important;
-  outline: none !important;
-  background: var(--chat-card-surface-night-standard-flat-bg, var(--drawer-card-bg-active, rgba(14, 20, 32, 0.98))) !important;
-  box-shadow: none !important;
-}
-html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-card.drawer-chat-card--active::before {
-  content: none !important;
-}
 html[data-contrast="hc"] .drawer-panel--chat-glass .drawer-chat-sidebar .cs-delete {
   border-width: 2px !important;
   border-style: solid !important;
@@ -1368,12 +1336,12 @@ html[data-contrast="hc"] .subscription-content :is(
   ) {
   color: var(--hc-accent) !important;
 }
-html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
+html[data-contrast="hc"] .subscription-content :is(button, .button, .btn):not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
   color: var(--hc-accent) !important;
   border-color: rgba(255, 234, 0, 0.66) !important;
   box-shadow: var(--btn-primary-shadow) !important;
 }
-html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.glass-policy-back):not(.profile-logout-button) {
+html[data-contrast="hc"] .materials-page-content :is(button, .button, .btn)[data-variant="primary"]:not(.back-button):not(.chat-back-button):not(.profile-logout-button) {
   color: var(--hc-accent) !important;
   border: 2px solid rgba(255, 234, 0, 0.66) !important;
   background: var(--btn-primary-bg) !important;
@@ -2548,7 +2516,7 @@ html[data-contrast="hc"] :is(
   .invite-glow-field,
   .service-profile-glow-field,
   .workspace-feature-panel .workspace-feature-field,
-  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ) {
   background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;
@@ -2566,7 +2534,7 @@ html[data-contrast="hc"] :is(
   .invite-glow-field,
   .service-profile-glow-field,
   .workspace-feature-panel .workspace-feature-field,
-  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ):is(:hover, :focus, :focus-within, :focus-visible, :active) {
   background: var(--hc-field-bg-focus) !important;
   color: var(--hc-accent) !important;
@@ -2581,7 +2549,7 @@ html[data-contrast="hc"] :is(
   .invite-glow-field,
   .service-profile-glow-field,
   .workspace-feature-panel .workspace-feature-field,
-  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ) > :is(.edgeLight, [class*="edgeLight"]) {
   display: none !important;
   opacity: 0 !important;
@@ -2598,7 +2566,7 @@ html[data-contrast="hc"] :is(
   .invite-glow-field,
   .service-profile-glow-field,
   .workspace-feature-panel .workspace-feature-field,
-  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 )::placeholder {
   color: rgba(255, 234, 0, 0.92) !important;
   opacity: 1 !important;
@@ -2649,7 +2617,6 @@ html[data-contrast="hc"] :is(
 html[data-contrast="hc"] body :is(
   .back-button,
   .chat-back-button,
-  .glass-policy-back,
   .profile-logout-button,
   .service-map-toolbar__back,
   .service-map-workspace__toggle,
@@ -2810,7 +2777,7 @@ html[data-contrast="hc"] body :is(
   .invite-glow-field,
   .service-profile-glow-field,
   .workspace-feature-panel .workspace-feature-field,
-  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-agent-select, .documents-form-input, .documents-agent-textarea)
+  .documents-workspace :is(.documents-field, .documents-dropdown-trigger, .documents-form-input, .documents-agent-textarea)
 ):is([class*="BorderGlow-module"], [class*="ui-glow"]) {
   background: var(--hc-field-bg) !important;
   color: var(--hc-accent) !important;

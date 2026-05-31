@@ -6,17 +6,6 @@ export const glassPolicyRingClassName =
   "max-[768px]:[--glass-ring-scroll-offset:clamp(1.25rem,3.3vh,2.05rem)] " +
   "max-[768px]:[--glass-ring-scroll-offset-open:clamp(0.48rem,1.4vh,0.95rem)]";
 
-export const glassPolicyTitleOffsetClassName =
-  "min-[769px]:!mt-[clamp(2.6rem,5.5vh,3.7rem)]";
-
-export const glassPolicyTitleMobileLongClassName =
-  "max-[768px]:!ml-0 max-[768px]:!mr-auto max-[768px]:!w-full max-[768px]:!max-w-none " +
-  "max-[768px]:!pl-[clamp(4.15rem,15vw,4.95rem)] max-[768px]:!pr-[clamp(0.8rem,3.8vw,1.2rem)] " +
-  "max-[768px]:!text-left max-[768px]:!text-[clamp(1.96rem,7.8vw,2.46rem)] max-[768px]:!leading-[1.05] " +
-  "max-[768px]:!tracking-[0.01em] max-[768px]:[text-wrap:balance]";
-
-export const glassPolicyTitleExpandedClassName = "glass-policy-title--expanded";
-
 export const glassPolicyContentClassName =
   "glass-policy-content mt-[clamp(0.18rem,1.1vh,0.75rem)] flex w-full flex-1 flex-col items-center max-[768px]:mt-0 max-[768px]:w-full max-[768px]:max-w-full max-[768px]:px-0 max-[768px]:pt-[clamp(0.52rem,1.35vh,0.9rem)] max-[768px]:pb-[clamp(0.56rem,1.45vh,0.98rem)]";
 
@@ -27,9 +16,3 @@ export const glassPolicyScrollClassName =
 
 export const glassPolicyScrollExpandedClassName =
   "glass-policy-scroll--expanded";
-
-export const glassPolicyExpandToggleClassName =
-  "glass-ring-expand-toggle glass-ring-expand-toggle--overlay max-[768px]:hidden";
-
-export const glassPolicyBackButtonClassName =
-  "glass-policy-back glass-policy-back--compact hidden min-[769px]:inline-flex min-[769px]:!ml-[-0.74rem]";

@@ -67,6 +67,7 @@ export default defineConfig([
       "react-hooks/immutability": "off",
       "react-hooks/refs": "off",
       "react-hooks/unsupported-syntax": "warn",
+      "react-hooks/preserve-manual-memoization": "off",
     },
   },
   {

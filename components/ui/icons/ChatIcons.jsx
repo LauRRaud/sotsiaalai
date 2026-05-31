@@ -134,54 +134,6 @@ export function AddPersonIcon({ isLightTheme = false, className, strokeColor, ..
   );
 }
 
-export function MaterialsIcon({ isLightTheme = false, className, ...props }) {
-  const stroke = resolveThemeColor(isLightTheme);
-  return (
-    <svg
-      viewBox="0 0 28 24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-      shapeRendering="geometricPrecision"
-      {...props}
-    >
-      <path
-        d="M6.9 3.9h8.35l4.85 4.85V18.9a1.65 1.65 0 0 1-1.65 1.65H6.9A1.65 1.65 0 0 1 5.25 18.9V5.55A1.65 1.65 0 0 1 6.9 3.9Z"
-        stroke={stroke}
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        d="M15.25 3.9v4.85h4.85"
-        stroke={stroke}
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        d="M12.7 15.65V9.7"
-        stroke={stroke}
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-      <path
-        d="M10.15 12.2l2.55-2.55 2.55 2.55"
-        stroke={stroke}
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
-  );
-}
-
 export function WorkspaceIcon({
   isLightTheme = false,
   className,
@@ -384,25 +336,6 @@ export function HelpOfferIcon({ isLightTheme = false, className, strokeWidth = 1
   );
 }
 
-export function DictateWaveIcon({ className, ...props }) {
-  return (
-    <svg
-      viewBox="0 0 1024 1024"
-      fill="currentColor"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-      {...props}
-    >
-      <rect x="107" y="402" width="80" height="220" rx="40" />
-      <rect x="283" y="272" width="80" height="480" rx="40" />
-      <rect x="475" y="132" width="80" height="760" rx="40" />
-      <rect x="667" y="308" width="80" height="408" rx="40" />
-      <rect x="849" y="430" width="80" height="164" rx="40" />
-    </svg>
-  );
-}
-
 export function MicrophoneIcon({ className, ...props }) {
   return (
     <svg
@@ -438,46 +371,6 @@ export function MicrophoneIcon({ className, ...props }) {
         stroke="currentColor"
         strokeWidth="1.6"
         strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-export function ShowRailIcon({ isLightTheme = false, className, ...props }) {
-  const color = resolveThemeColor(isLightTheme);
-  return (
-    <svg
-      viewBox="0 0 24 17.8"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-      {...props}
-    >
-      <rect x="8.6" y="0.9" width="11.6" height="2" rx="1" fill={color} />
-      <rect x="5.4" y="7.9" width="11.6" height="2" rx="1" fill={color} />
-      <rect x="8.6" y="14.9" width="11.6" height="2" rx="1" fill={color} />
-    </svg>
-  );
-}
-
-export function PaperclipIcon({ isLightTheme = false, className, ...props }) {
-  const stroke = resolveThemeColor(isLightTheme);
-  return (
-    <svg
-      viewBox="0 0 464 824"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-      className={cn(className)}
-      {...props}
-    >
-      <path
-        d="M432 52v540c0 110.46-89.54 200-200 200S32 702.46 32 592V172C32 94.68 94.68 32 172 32s140 62.68 140 140v412c0 37.56-30.44 68-68 68-37.56 0-68-30.44-68-68V188"
-        stroke={stroke}
-        strokeWidth="64"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );

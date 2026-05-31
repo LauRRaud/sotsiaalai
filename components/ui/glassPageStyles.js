@@ -43,13 +43,6 @@ export const glassPageShellCenteredClassName =
 export const glassPageBackClassName =
   "absolute z-[8] left-[max(0px,calc(var(--glass-edge-left)-clamp(0.72rem,1.35vw,1.12rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)] min-[768px]:ml-[-0.42rem] max-[768px]:hidden min-[768px]:opacity-[0.85] light:min-[768px]:opacity-100";
 
-export const glassPageBackMobileCornerClassName =
-  `${glassPageBackClassName} ` +
-  "max-[768px]:!inline-flex max-[768px]:top-auto max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.2rem)] " +
-  "max-[768px]:bottom-[calc(env(safe-area-inset-bottom,0px)+0.2rem)] max-[768px]:transform-none " +
-  "max-[768px]:h-[3.35rem] max-[768px]:w-[3.35rem] max-[768px]:z-[92] " +
-  "max-[768px]:[&>svg]:h-[3.35rem] max-[768px]:[&>svg]:w-[3.35rem]";
-
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex max-[768px]:top-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
@@ -127,7 +120,3 @@ export const glassSubpagePanelWideClassName =
   "mx-auto w-full max-w-[min(41rem,100%)] max-[768px]:max-w-none";
 
 export const glassFormInputBaseClassName = pillInputBaseClassName;
-
-export const glassSubpageFieldInputClassName =
-  `${glassFormInputBaseClassName} text-[1.28rem] tracking-[0.02em] placeholder:text-[1.12rem] placeholder:tracking-[0.02em] ` +
-  "duration-[720ms] max-[768px]:text-[1.34rem] max-[768px]:tracking-[0.024em] max-[768px]:placeholder:text-[1.2rem] max-[768px]:placeholder:tracking-[0.022em] max-[768px]:min-h-[3.2rem] max-[768px]:py-[0.84rem]";

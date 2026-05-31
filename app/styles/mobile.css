@@ -79,14 +79,12 @@
   }
 
   .glass-mobile-only-close.modal-close-btn,
-  .chat-mobile-close.modal-close-btn,
   .drawer-close-btn--chat.modal-close-btn {
     width: 3.2rem !important;
     height: 3.2rem !important;
   }
 
   .glass-mobile-only-close.modal-close-btn::before,
-  .chat-mobile-close.modal-close-btn::before,
   .drawer-close-btn--chat.modal-close-btn::before {
     font-size: 2.45rem !important;
   }
@@ -366,9 +364,6 @@
 }
 
 @media (max-width: 768px) {
-  .sb-grain {
-    display: none !important;
-  }
   [data-bg-layer] .bg-bends-layer {
     top: 0 !important;
     right: 0 !important;
@@ -702,12 +697,6 @@
   }
   html[data-reduce-motion="1"] .homepage-root .three-d-card .card-wrapper {
     transition: none !important;
-  }
-  .home-footer-logo.defer-fade {
-    animation: none;
-    opacity: var(--end-op, 1);
-    visibility: visible;
-    transform: none;
   }
   .homepage-root .three-d-card {
     touch-action: pan-y;
@@ -1426,15 +1415,6 @@
     padding-right: clamp(0.12rem, 0.8vw, 0.32rem) !important;
   }
 
-  html[data-platform="android"] .chat-empty-intro,
-  body[data-platform="android"] .chat-empty-intro {
-    max-width: min(100%, 32ch);
-    font-size: clamp(1.05rem, 4vw, 1.14rem) !important;
-    line-height: 1.38 !important;
-    letter-spacing: 0.022em !important;
-    text-wrap: pretty;
-  }
-
   html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
   body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
     --orbit-size: min(88vw, 20.1rem) !important;
@@ -1637,31 +1617,6 @@
     margin-top: -0.22rem !important;
   }
 
-  .chat-mobile-close.chat-mobile-close--top-right.glass-mobile-only-close {
-    position: fixed !important;
-    top: calc(env(safe-area-inset-top, 0px) + 0.42rem) !important;
-    right: calc(env(safe-area-inset-right, 0px) + 0.56rem) !important;
-    z-index: 140 !important;
-    display: inline-flex !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-  }
-
-  :root:not(.theme-light) .chat-mobile-close.chat-mobile-close--top-right {
-    color: #c57171 !important;
-    opacity: 0.95 !important;
-  }
-
-  :root.theme-light .chat-mobile-close.chat-mobile-close--top-right {
-    color: #7a3a38 !important;
-    opacity: 0.95 !important;
-  }
-
-  body.conversation-drawer-open .chat-mobile-close.chat-mobile-close--top-right {
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
   body.conversation-drawer-open .chat-right-actions {
     opacity: 0 !important;
     pointer-events: none !important;
@@ -1860,10 +1815,6 @@
     padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
   }
 
-  .selected-listing-modal-content .selected-listing-eyebrow {
-    margin-top: calc(env(safe-area-inset-top, 0px) + 1rem) !important;
-  }
-
   :is(
       .subscription-modal-content,
       .materials-page-content,
@@ -1888,7 +1839,7 @@
   .help-listings-body,
   .help-listings-modal-content .glass-subpage-header,
   .help-listings-modal-content
-    :is(.help-listings-panel, .help-listings-item-card, .help-listings-empty),
+    :is(.help-listings-panel, .help-listings-item-card),
   .selected-listing-body,
   .selected-listing-modal-content :is(.glass-subpage-header + div, .panel) {
     max-width: none !important;
@@ -1919,14 +1870,6 @@
     background: transparent !important;
     border-color: transparent !important;
     box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00) !important;
-  }
-
-  .help-listings-modal-content .help-listings-empty {
-    border-radius: 1rem;
-    background: var(--subpage-card-bg);
-    border: 1px solid var(--subpage-card-border, transparent);
-    box-shadow: none !important;
-    padding: 1rem !important;
   }
 
   .help-listings-modal-content .help-listings-item-card {
@@ -2057,37 +2000,9 @@
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.3rem) !important;
   }
 
-  .register-mobile-ring .framework-content-shell {
-    width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
-        (2 * var(--mobile-glass-card-gap, 0.35rem))
-    ) !important;
-    max-width: none !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .register-mobile-ring .framework-panel-shell {
-    width: 100% !important;
-    max-width: none !important;
-    padding-left: clamp(0.5rem, 2vw, 0.8rem) !important;
-    padding-right: clamp(0.5rem, 2vw, 0.8rem) !important;
-    box-shadow: none !important;
-  }
-
-  .register-mobile-ring .framework-title {
-    max-width: none !important;
-    white-space: normal !important;
-  }
-
   .framework-page-shell .framework-body {
     width: min(100%, 27.8rem) !important;
     max-width: 27.8rem !important;
-  }
-
-  .framework-page-shell .framework-title {
-    max-width: none !important;
-    text-wrap: balance;
   }
 
   .framework-page-shell .framework-intro-card,
@@ -2500,10 +2415,6 @@
     padding-bottom: clamp(2.2rem, 4.2vh, 3rem) !important;
   }
 
-  .glass-ring-expand-toggle--overlay {
-    display: none !important;
-  }
-
   .glass-policy-scroll.glass-ring-scroll,
   .glass-policy-scroll.glass-ring-scroll--open {
     max-width: 100% !important;
@@ -2905,12 +2816,6 @@
     height: clamp(3.55rem, 15vw, 4.2rem) !important;
   }
 
-  .register-login-link {
-    font-size: clamp(1.56rem, 6.2vw, 2.02rem) !important;
-    letter-spacing: 0.016em;
-    line-height: 1.16;
-  }
-
   .register-scroll.csp-container,
   .rooms-scroll.csp-container {
     scroll-snap-type: y proximity !important;
@@ -3207,10 +3112,7 @@
     padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
   }
 
-  :is(
-      .glass-subpage-title,
-      .help-listings-mobile-title
-    ) {
+  .glass-subpage-title {
     font-size: clamp(1.72rem, 6.15vw, 2.14rem) !important;
     line-height: 1.05 !important;
     letter-spacing: 0.003em !important;
@@ -3386,15 +3288,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   -webkit-mask-image: none !important;
 }
 
-.policy-scroll-back-button {
-  position: absolute !important;
-  left: 0.55rem !important;
-  top: calc(var(--policy-scroll-overscan-top, 0px) + 0.55rem) !important;
-  bottom: auto !important;
-  margin-left: 0 !important;
-  transform: none !important;
-}
-
 .direct-scroll-surface {
   --direct-scroll-surface-header-offset: 0px;
   padding-top: 0 !important;
@@ -3406,12 +3299,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
 .direct-scroll-surface > .glass-subpage-back-button:first-child + .glass-subpage-header {
   margin-top: var(--direct-scroll-surface-header-offset) !important;
-}
-
-@media (min-width: 769px) {
-  .framework-surface-panel .policy-scroll-back-button {
-    left: calc(0.55rem - 0.9375rem) !important;
-  }
 }
 
 @media (max-width: 768px) {
@@ -3440,13 +3327,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       0 !important;
   }
 
-  .policy-scroll-back-button {
-    left: calc(env(safe-area-inset-left, 0px) + 0.02rem) !important;
-    top: calc(
-      var(--policy-scroll-overscan-top, 0px) +
-        0.18rem
-    ) !important;
-  }
 }
 
 .workspace-scroll-surface.workspace-guide-panel > .workspace-guide-panel-scroll {
@@ -3640,7 +3520,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .glass-subpage-title,
       .policy-mobile-title,
       .subpage-mobile-title,
-      .help-listings-mobile-title,
       .account-modal-title
     ) {
     width: 100% !important;
@@ -4083,7 +3962,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
 .workspace-dashboard-panel .workspace-feature-embedded :is(
   .help-listings-panel,
-  .help-listings-empty,
   .help-listings-item-card,
   .invite-glow-panel,
   .invite-list-panel,
@@ -4111,7 +3989,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 
 .workspace-dashboard-panel .workspace-feature-embedded :is(
   .help-listings-panel,
-  .help-listings-empty,
   .help-listings-item-card,
   .invite-list-panel,
   .invite-list-row
@@ -4229,17 +4106,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
 ) {
   padding: 0 !important;
   border-radius: 0 !important;
-}
-
-.workspace-dashboard-panel .workspace-feature-embedded :is(
-  .workspace-feature-flat-section,
-  .help-listings-empty-inline
-) {
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
 }
 
 .workspace-dashboard-panel :is(

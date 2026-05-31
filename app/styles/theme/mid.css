@@ -312,7 +312,6 @@
 }
 
 /* Home/footer brand marks in mid: keep softer presence over warm backdrop. */
-:root.theme-mid .site-footer-logo,
 :root.theme-mid .home-footer-logo {
   opacity: 0.58 !important;
 }
@@ -322,13 +321,6 @@
 :root.theme-mid .drawer-chat-card {
   background: var(--subpage-card-bg) !important;
   border-color: var(--subpage-card-border) !important;
-  box-shadow: none !important;
-}
-
-:root.theme-mid .drawer-panel .drawer-chat-card.drawer-chat-card--active,
-:root.theme-mid .drawer-chat-card.drawer-chat-card--active {
-  background: var(--subpage-card-bg-hover, var(--subpage-card-bg)) !important;
-  border-color: var(--subpage-card-border-hover, var(--subpage-card-border)) !important;
   box-shadow: none !important;
 }
 
@@ -550,19 +542,6 @@
 :root.theme-mid .chat-tools-menu .chat-tools-item:hover,
 :root.theme-mid .chat-tools-menu .chat-tools-item:focus-visible {
   background: rgba(122, 58, 56, 0.12) !important;
-}
-
-:root.theme-mid .chat-tools-menu .chat-tools-item.chat-tools-item-disabled {
-  color: rgba(63, 36, 31, 0.52) !important;
-}
-
-:root.theme-mid
-  .chat-tools-menu
-  .chat-tools-item.chat-tools-item-disabled:hover,
-:root.theme-mid
-  .chat-tools-menu
-  .chat-tools-item.chat-tools-item-disabled:focus-visible {
-  background: transparent !important;
 }
 
 :root.theme-mid .chat-analysis-upload-modal-card {

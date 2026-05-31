@@ -7,7 +7,7 @@ const VIEWBOX = 500;
 const DEFAULT_RADIUS = 200;
 const TOP_FRAC = 0.25;
 const TAU = Math.PI * 2;
-export default function CircularText({
+function CircularText({
   text,
   size = 420,
   duration = 130,

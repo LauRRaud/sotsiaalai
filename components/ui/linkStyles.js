@@ -30,7 +30,7 @@ export const linkBrandBase =
   "hc:!text-[color:var(--hc-accent)] hc:hover:!text-[color:var(--hc-accent)] " +
   "hc:active:!text-[color:var(--hc-accent)] hc:focus-visible:!text-[color:var(--hc-accent)]";
 
-export const linkBrandInline = "text-[0.95em] tracking-[0.02em] px-[0.18em]";
+const linkBrandInline = "text-[0.95em] tracking-[0.02em] px-[0.18em]";
 
 export const linkBrandInlineClass = `${linkBrandBase} ${linkBrandInline}`;
 

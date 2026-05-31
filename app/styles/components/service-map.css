@@ -418,16 +418,6 @@ html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-action-btn:
   color: inherit;
 }
 
-.workspace-feature-card--dashed {
-  border-style: dashed;
-  background: color-mix(
-    in srgb,
-    var(--workspace-feature-surface-strong, var(--workspace-feature-surface)) 76%,
-    transparent
-  );
-  box-shadow: none;
-}
-
 .workspace-feature-field {
   border: var(--workspace-feature-field-border);
   background: var(--workspace-feature-field-bg);
@@ -1381,10 +1371,6 @@ html[data-contrast="hc"] body.service-map-page-active {
   transform: translateX(-50%);
 }
 
-.service-map-workspace__mobile-back {
-  display: none !important;
-}
-
 .service-map-workspace__filters,
 .service-map-workspace__role,
 .service-map-workspace__status {
@@ -1562,15 +1548,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   .service-map-workspace__back {
     display: none !important;
   }
-}
-
-.service-map-toolbar__titleblock {
-  min-width: 0;
-}
-
-.service-map-toolbar__titleblock h2 {
-  font-size: 1.12rem;
-  line-height: 1.08;
 }
 
 .service-map-toolbar__body {
@@ -1799,23 +1776,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   -webkit-backdrop-filter: blur(18px);
 }
 
-.service-map-toolbar__head {
-  display: grid;
-  gap: 0.18rem;
-}
-
-.service-map-toolbar__head h2 {
-  font-size: 1.08rem;
-  line-height: 1.1;
-}
-
-.service-map-toolbar__head p,
-.service-map-toolbar__summary {
-  font-size: 0.88rem;
-  line-height: 1.22;
-  opacity: 0.82;
-}
-
 .service-map-toolbar__fields {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 13.6rem);
@@ -1920,25 +1880,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-toolbar__type-card .service-map-toolbar__type-label {
   width: 100%;
   justify-content: center;
-}
-
-.service-map-toolbar__summary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-  min-width: 0;
-  min-height: var(--service-map-summary-row-height);
-  max-width: min(38rem, 100%);
-  margin: 0;
-  text-align: center;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  border: 1px solid var(--workspace-feature-border);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--workspace-feature-surface) 94%, transparent);
-  padding: 0.4rem 0.66rem;
-  font-size: 0.86rem !important;
 }
 
 .service-map-toolbar__results {
@@ -2498,18 +2439,12 @@ html[data-contrast="hc"] .service-map-leaflet__popup .leaflet-popup-content-wrap
   overflow-wrap: anywhere;
 }
 
-.service-map-popup__type,
 .service-map-popup__body,
 .service-map-popup__meta {
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.22;
   letter-spacing: 0;
-}
-
-.service-map-popup__type {
-  color: var(--workspace-feature-accent, #8f3d3d);
-  font-weight: 760;
 }
 
 .service-map-popup__body {
@@ -2956,10 +2891,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     box-shadow: none;
   }
 
-  .service-map-workspace__mobile-back {
-    display: none !important;
-  }
-
   .service-map-workspace__filters {
     top: calc(env(safe-area-inset-top, 0px) + 0.56rem);
     right: calc(env(safe-area-inset-right, 0px) + 0.5rem);
@@ -3019,10 +2950,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     width: 100%;
     max-width: 100%;
     padding-right: 0;
-  }
-
-  .service-map-toolbar__titleblock h2 {
-    font-size: 1rem;
   }
 
   .service-map-toolbar__body {
@@ -3090,11 +3017,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     grid-template-columns: 1fr;
     gap: 0.48rem;
     min-height: 0;
-  }
-
-  .service-map-toolbar__summary {
-    max-width: 100%;
-    white-space: normal;
   }
 
   .service-map-workspace__toggle {
@@ -3282,10 +3204,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     transform: none;
   }
 
-  .service-map-workspace__mobile-back {
-    display: none !important;
-  }
-
   .service-map-workspace__filters--collapsed {
     right: calc(env(safe-area-inset-right, 0px) + 0.42rem);
     left: calc(env(safe-area-inset-left, 0px) + 0.42rem);
@@ -3334,10 +3252,6 @@ html[data-contrast="hc"] .service-map-leaflet__popup .service-map-popup__actions
     border-radius: 1.45rem;
     padding: 0.54rem 0.82rem;
     font-size: 16px !important;
-  }
-
-  .service-map-toolbar__summary {
-    padding: 0.3rem 0.56rem;
   }
 
   .service-map-workspace__toggle {
