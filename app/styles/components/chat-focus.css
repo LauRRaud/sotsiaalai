@@ -1115,28 +1115,3 @@ html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-action-bt
   border: 2px solid rgba(255, 234, 0, 0.95) !important;
   box-shadow: var(--btn-primary-shadow-active) !important;
 }
-
-html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type] {
-  --seg-card-border-width: 2px !important;
-  --seg-card-bg: var(--btn-primary-bg) !important;
-  --seg-card-bg-hover: var(--btn-primary-bg-hover) !important;
-  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;
-  --seg-card-bg-active: var(--btn-primary-bg-active) !important;
-  --seg-card-shadow: var(--btn-primary-shadow) !important;
-  --seg-card-shadow-hover: var(--btn-primary-shadow-hover) !important;
-  --seg-card-shadow-selected: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
-  --seg-card-shadow-active: var(--btn-primary-shadow-active) !important;
-  --seg-card-border: rgba(255, 234, 0, 0.62) !important;
-  --seg-card-border-hover: rgba(255, 234, 0, 0.9) !important;
-  --seg-card-border-selected: rgba(255, 234, 0, 0.94) !important;
-  --seg-card-border-active: rgba(255, 234, 0, 0.95) !important;
-  --seg-card-text: var(--hc-accent) !important;
-  --seg-card-text-hover: var(--hc-accent) !important;
-  --seg-card-text-selected: var(--hc-accent) !important;
-}
-
-html[data-contrast="hc"] body .chat-analysis-panel-card .chat-analysis-toggle-btn[data-control-type][data-checked="true"] {
-  background: rgba(255, 234, 0, 0.1) !important;
-  border-color: rgba(255, 234, 0, 0.94) !important;
-  box-shadow: 0 0 0 1px rgba(255, 234, 0, 0.64) !important;
-}

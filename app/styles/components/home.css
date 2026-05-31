@@ -49,6 +49,26 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
   opacity: 0;
 }
 
+.homepage-root :is(.home-card-bg-kerahele, .home-card-bg-keratume)::before {
+  background-image: var(--home-card-bg-image);
+}
+
+:root.theme-night .homepage-root .home-card-bg-kerahele::before,
+:root.theme-dark .homepage-root .home-card-bg-kerahele::before,
+:root.theme-night .homepage-root .home-card-bg-keratume::before,
+:root.theme-dark .homepage-root .home-card-bg-keratume::before,
+html[data-contrast="hc"] .homepage-root .home-card-bg-kerahele::before,
+html[data-contrast="hc"] .homepage-root .home-card-bg-keratume::before {
+  background-image: var(--home-card-bg-image-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light):not(.theme-mid) .homepage-root .home-card-bg-kerahele::before,
+  :root:not(.theme-light):not(.theme-mid) .homepage-root .home-card-bg-keratume::before {
+    background-image: var(--home-card-bg-image-dark);
+  }
+}
+
 .homepage-root .home-card-front-logo-ai [class*="home-logo-shine-rect"] {
   --home-logo-shine-x0: -28px;
   --home-logo-shine-y0: -260px;
@@ -908,24 +928,6 @@ html[data-contrast="hc"]:not(.theme-mid) .homepage-root .three-d-card:not(.is-au
   word-break: normal;
   -webkit-hyphens: auto;
   hyphens: auto;
-}
-
-@media (max-width: 768px) {
-  .homepage-root .home-about-scrollbox,
-  .homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
-    min-width: 0 !important;
-    max-width: 100% !important;
-    text-align: left !important;
-    white-space: normal !important;
-    overflow-wrap: break-word !important;
-    word-break: normal !important;
-    -webkit-hyphens: none !important;
-    hyphens: none !important;
-  }
-
-  .homepage-root .home-about-scrollbox .home-about-features-link-row {
-    text-align: center !important;
-  }
 }
 
 /* Homepage panel shadows: keep the lower "Meist" surface depth on dark/night/HC. */
