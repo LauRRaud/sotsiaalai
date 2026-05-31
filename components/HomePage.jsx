@@ -22,10 +22,6 @@ const HomeFooter = dynamic(
   () => import("@/components/HomeSections/HomeFooter"),
   { loading: () => null }
 );
-const LoginModal = dynamic(
-  () => import("@/components/LoginModal"),
-  { ssr: false, loading: () => null }
-);
 const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";
 const HOME_FULL_INTRO = "full";
 const HOME_SOFT_INTRO = "soft";
@@ -78,6 +74,7 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
   const [rightFadeDone, setRightFadeDone] = useState(false);
   const [introStart, setIntroStart] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [LoginModalComponent, setLoginModalComponent] = useState(null);
   const [leftFlipping, setLeftFlipping] = useState(false);
   const [rightFlipping, setRightFlipping] = useState(false);
   const [mobileFlipReady, setMobileFlipReady] = useState({
@@ -183,6 +180,18 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
     suppressFlipRef.current = true;
     router.push(localizePath("/vestlus", locale));
   }, [isAuthed, isLoginOpen, locale, markChatEnterFromHome, router, status]);
+  useEffect(() => {
+    if (!isLoginOpen || LoginModalComponent) return;
+    let cancelled = false;
+    import("@/components/LoginModal").then(module => {
+      if (!cancelled) {
+        setLoginModalComponent(() => module.default);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [LoginModalComponent, isLoginOpen]);
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
     check();
@@ -801,6 +810,6 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
             {showHomeFooter ? <HomeFooter /> : null}
           </div> : null}
       </div>
-      <LoginModal open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} />
+      {LoginModalComponent ? <LoginModalComponent open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} /> : null}
     </>;
 }
