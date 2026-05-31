@@ -89,7 +89,7 @@ html[data-display-mode="standalone"] body,
 html[data-display-mode="fullscreen"] body,
 body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"] {
-  --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), 7.5rem);
+  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
   height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
   max-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;

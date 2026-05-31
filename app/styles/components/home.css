@@ -47,11 +47,11 @@ html[data-reduce-motion="1"] .bottom-logo-breathe {
 
 @media (max-width: 768px) {
   .homepage-root .home-footer-logo-wrap {
-    margin-top: clamp(4.2rem, 12vh, 7rem) !important;
+    margin-top: clamp(1rem, 3.4vh, 2.2rem) !important;
   }
 
-  .homepage-root .home-hero-section > footer {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.04rem);
+  .homepage-root > div > footer {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.12rem);
   }
 }
 
