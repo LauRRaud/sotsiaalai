@@ -118,6 +118,30 @@ const BackgroundContent = memo(function BackgroundContent({
   const [mobileBendsVisible, setMobileBendsVisible] = useState(true);
   const [mobileParticlesVisible, setMobileParticlesVisible] = useState(false);
   const [colorBendsPaused, setColorBendsPaused] = useState(false);
+  useLayoutEffect(() => {
+    if (typeof document === "undefined" || typeof window === "undefined") return;
+    const root = document.documentElement;
+    if (!root?.hasAttribute("data-app-prepaint")) return;
+    let rafOne = 0;
+    let rafTwo = 0;
+    let removeTimer = 0;
+    rafOne = window.requestAnimationFrame(() => {
+      rafTwo = window.requestAnimationFrame(() => {
+        if (!root.hasAttribute("data-app-prepaint")) return;
+        root.setAttribute("data-app-prepaint", "leaving");
+        removeTimer = window.setTimeout(() => {
+          if (root.getAttribute("data-app-prepaint") === "leaving") {
+            root.removeAttribute("data-app-prepaint");
+          }
+        }, 260);
+      });
+    });
+    return () => {
+      if (rafOne) window.cancelAnimationFrame(rafOne);
+      if (rafTwo) window.cancelAnimationFrame(rafTwo);
+      if (removeTimer) window.clearTimeout(removeTimer);
+    };
+  }, []);
   // Keep initial server/client render identical; compute real value after mount.
   const [deviceProfileReady, setDeviceProfileReady] = useState(false);
   const [mobileLike, setMobileLike] = useState(false);

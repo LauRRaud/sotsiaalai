@@ -757,10 +757,11 @@ export default function ChatBody({
     const readKeyboardOffset = () =>
       vv ? Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop)) : 0;
     const clearSettledKeyboardState = () => {
+      const active = document.activeElement;
+      if (active && node.contains(active) && isEditableElement(active)) return;
       mobileKeyboardWasOpenRef.current = false;
       node.style.setProperty("--chat-vk-offset", "0px");
       setInputFocused(false);
-      inputRef.current?.blur?.();
       refreshMask({
         immediate: true,
         mobileImmediate: true
