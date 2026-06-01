@@ -36,14 +36,11 @@ html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
 body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
 body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
   --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
-  --pwa-viewport-fill-height: calc(
-    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-      var(--pwa-background-bottom-overscan)
-  );
+  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
   inset: 0 !important;
   height: var(--pwa-viewport-fill-height) !important;
-  min-height: var(--pwa-viewport-fill-height) !important;
-  max-height: var(--pwa-viewport-fill-height) !important;
+  min-height: calc(var(--pwa-viewport-fill-height) + var(--pwa-background-bottom-overscan)) !important;
+  max-height: none !important;
 }
 
 html[data-display-mode="standalone"],
@@ -55,10 +52,7 @@ body[data-display-mode="fullscreen"],
 html[data-display-mode="standalone"] .app-root,
 html[data-display-mode="fullscreen"] .app-root {
   --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
-  --pwa-viewport-fill-height: calc(
-    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-      var(--pwa-background-bottom-overscan)
-  );
+  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
   height: var(--pwa-viewport-fill-height) !important;
   min-height: var(--pwa-viewport-fill-height) !important;
   max-height: var(--pwa-viewport-fill-height) !important;
@@ -187,14 +181,14 @@ body[data-display-mode="fullscreen"]
   height: calc(
     var(--pwa-viewport-fill-height, var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh))) -
       var(--glass-mobile-safe-top, 0px) -
-      var(--mobile-glass-card-gap, 0.35rem)
+      (2 * var(--mobile-glass-card-gap, 0.35rem))
   ) !important;
   max-height: calc(
     var(--pwa-viewport-fill-height, var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh))) -
       var(--glass-mobile-safe-top, 0px) -
-      var(--mobile-glass-card-gap, 0.35rem)
+      (2 * var(--mobile-glass-card-gap, 0.35rem))
   ) !important;
-  margin-bottom: 0 !important;
+  margin-bottom: var(--mobile-glass-card-gap, 0.35rem) !important;
 }
 
 [data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,

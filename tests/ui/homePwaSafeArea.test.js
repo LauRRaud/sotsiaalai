@@ -41,7 +41,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
+    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\(var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+ var\(--pwa-background-bottom-overscan\)\)/,
     "standalone/fullscreen PWA should paint the chrome fallback without adding scrollable layout height"
   );
   assert.match(
@@ -55,11 +55,11 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   assert.match(mobileBackgroundCss, /html\[data-app-prepaint\][\s\S]*?background:\s*var\(--mobile-background-prepaint\)\s*!important;/);
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
+    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?min-height:\s*calc\(var\(--pwa-viewport-fill-height\) \+ var\(--pwa-background-bottom-overscan\)\)\s*!important;/
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
+    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
   );
   assert.match(
     mobileBackgroundCss,
@@ -70,7 +70,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
     /html\[data-display-mode="standalone"\] \[data-bg-layer\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\),[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)[\s\S]*?\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;/,
     "homepage background child layers should stay inside the measured viewport"
   );
-  assert.match(backgroundLayer, /const INITIAL_PREPAINT_MAX_MS = 1200;/);
+  assert.match(backgroundLayer, /const INITIAL_PREPAINT_MAX_MS = 2400;/);
   assert.match(
     backgroundLayer,
     /window\.setTimeout\(\(\) => \{[\s\S]*?root\.removeAttribute\("data-app-prepaint"\);[\s\S]*?\}, INITIAL_PREPAINT_MAX_MS\)/
@@ -87,7 +87,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;[\s\S]*?height:\s*calc\([\s\S]*?var\(--pwa-viewport-fill-height,[\s\S]*?var\(--mobile-glass-card-gap,\s*0\.35rem\)[\s\S]*?\)\s*!important;/,
+    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;[\s\S]*?height:\s*calc\([\s\S]*?var\(--pwa-viewport-fill-height,[\s\S]*?\(2 \* var\(--mobile-glass-card-gap,\s*0\.35rem\)\)[\s\S]*?\)\s*!important;[\s\S]*?margin-bottom:\s*var\(--mobile-glass-card-gap,\s*0\.35rem\)\s*!important;/,
     "installed mobile glass panels should not subtract the iOS bottom safe area twice"
   );
   assert.match(

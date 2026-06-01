@@ -155,7 +155,6 @@ export default function ViewportLayoutSetter() {
     window.addEventListener("load", onPageShow);
     document.addEventListener("visibilitychange", onVisibilityChange);
     window.visualViewport?.addEventListener("resize", onResize);
-    window.visualViewport?.addEventListener("scroll", onResize);
     window.addEventListener("focusin", onFocusChange);
     window.addEventListener("focusout", onFocusChange);
     return () => {
@@ -168,7 +167,6 @@ export default function ViewportLayoutSetter() {
       window.removeEventListener("load", onPageShow);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.visualViewport?.removeEventListener("resize", onResize);
-      window.visualViewport?.removeEventListener("scroll", onResize);
       window.removeEventListener("focusin", onFocusChange);
       window.removeEventListener("focusout", onFocusChange);
     };

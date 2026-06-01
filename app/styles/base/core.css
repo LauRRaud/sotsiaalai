@@ -96,10 +96,7 @@ html[data-display-mode="fullscreen"] body,
 body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"] {
   --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
-  --pwa-viewport-fill-height: calc(
-    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-      var(--pwa-background-bottom-overscan)
-  );
+  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
   height: var(--pwa-viewport-fill-height) !important;
   min-height: var(--pwa-viewport-fill-height) !important;
   max-height: var(--pwa-viewport-fill-height) !important;
@@ -109,10 +106,7 @@ body[data-display-mode="fullscreen"] {
   background-size: 100%
     max(
       100%,
-      calc(
-        var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-          var(--pwa-background-bottom-overscan)
-      )
+      calc(var(--glass-mobile-root-vh, var(--app-height, 100dvh)) + var(--pwa-background-bottom-overscan))
     ) !important;
 }
 
