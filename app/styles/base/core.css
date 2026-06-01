@@ -173,6 +173,20 @@ html[data-display-mode="fullscreen"] .app-root {
   opacity: 1;
   animation: click-pulse 0.9s ease-in-out infinite;
 }
+
+@media (hover: none), (pointer: coarse) {
+  .click-pulse-cursor {
+    display: none !important;
+  }
+}
+
+html[data-display-mode="standalone"] .click-pulse-cursor,
+html[data-display-mode="fullscreen"] .click-pulse-cursor,
+body[data-display-mode="standalone"] .click-pulse-cursor,
+body[data-display-mode="fullscreen"] .click-pulse-cursor {
+  display: none !important;
+}
+
 @media (min-width: 769px) {
   html[data-ui-scale="mac"] .click-pulse-cursor,
   html[data-ui-scale="lg"] .click-pulse-cursor {

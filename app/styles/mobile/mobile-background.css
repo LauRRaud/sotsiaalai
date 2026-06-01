@@ -87,9 +87,86 @@ html[data-display-mode="fullscreen"] body.homepage .homepage-root,
 body.homepage[data-display-mode="standalone"] .homepage-root,
 body.homepage[data-display-mode="fullscreen"] .homepage-root {
   background: transparent !important;
-  height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  height: auto !important;
   min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-  max-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+}
+
+html[data-display-mode="standalone"]
+  :is(
+    .glass-ring,
+    .chat-container[data-chat-layout="mobile"],
+    .profile-container,
+    .workspace-dashboard-panel,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .wellbeing-page-surface,
+    .policy-scroll-page-ring,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content
+  ),
+html[data-display-mode="fullscreen"]
+  :is(
+    .glass-ring,
+    .chat-container[data-chat-layout="mobile"],
+    .profile-container,
+    .workspace-dashboard-panel,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .wellbeing-page-surface,
+    .policy-scroll-page-ring,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content
+  ),
+body[data-display-mode="standalone"]
+  :is(
+    .glass-ring,
+    .chat-container[data-chat-layout="mobile"],
+    .profile-container,
+    .workspace-dashboard-panel,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .wellbeing-page-surface,
+    .policy-scroll-page-ring,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content
+  ),
+body[data-display-mode="fullscreen"]
+  :is(
+    .glass-ring,
+    .chat-container[data-chat-layout="mobile"],
+    .profile-container,
+    .workspace-dashboard-panel,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .wellbeing-page-surface,
+    .policy-scroll-page-ring,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content
+  ) {
+  --glass-mobile-safe-bottom: 0px;
+  --mobile-safe-bottom: 0px;
 }
 
 [data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,

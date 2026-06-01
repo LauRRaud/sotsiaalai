@@ -77,6 +77,16 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
     "installed homepage should keep the themed base background without adding an overscan layout box"
   );
   assert.match(
+    mobileBackgroundCss,
+    /html\[data-display-mode="standalone"\] body\.homepage \.homepage-root,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\] \.homepage-root\s*\{[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height,[\s\S]*?max-height:\s*none\s*!important;[\s\S]*?overflow-y:\s*auto\s*!important;/,
+    "installed homepage scroll root should allow footer/logo content below the first viewport"
+  );
+  assert.match(
+    mobileBackgroundCss,
+    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;/,
+    "installed mobile glass panels should not subtract the iOS bottom safe area twice"
+  );
+  assert.match(
     clickPulseCursor,
     /window\.matchMedia\?\.\("\(hover: hover\) and \(pointer: fine\)"\)/
   );

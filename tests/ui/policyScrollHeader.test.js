@@ -73,7 +73,11 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileHeaderCss,
-    /\.policy-scroll-page-ring[\s\S]*?:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)[\s\S]*?padding-top:\s*var\(--mobile-header-title-top\)\s*!important;/
+    /\.policy-scroll-page-ring[\s\S]*?:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    mobileHeaderCss,
+    /html\[data-display-mode="standalone"\] \.policy-scroll-page-ring,[\s\S]*?body\[data-display-mode="fullscreen"\] \.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-pwa-y-offset:\s*-0\.82rem;/
   );
   assert.doesNotMatch(mobileCss, /\.policy-mobile-tall \.policy-mobile-title-wrap/);
   assert.equal(mobileCss.includes('html:not([data-platform="android"]) .policy-mobile-title-wrap'), false);
@@ -85,7 +89,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileHeaderCss,
-    /:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*var\(--mobile-header-control-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     policyMobileCss,

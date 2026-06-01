@@ -82,11 +82,15 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   assert.doesNotMatch(workspacePanelCss, /\.panel\s*>\s*:global\(\.dashboard-info-trigger-corner\)\s*\{/);
   assert.match(
     mobileHeaderCss,
-    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-header-title-top\)\s*!important;/
+    /html\[data-display-mode="browser"\][\s\S]*?:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel\.workspace-scroll-surface[\s\S]*?\)[\s\S]*?\{[\s\S]*?--mobile-header-browser-y-offset:\s*0\.34rem;/
   );
   assert.match(
     mobileHeaderCss,
-    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\([\s\S]*?\.glass-subpage-back-button[\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?top:\s*var\(--mobile-header-control-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\([\s\S]*?\.glass-subpage-back-button[\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.doesNotMatch(
     workspacePanelCss,

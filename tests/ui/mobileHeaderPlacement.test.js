@@ -20,6 +20,8 @@ test("mobile title, back and info placement is centralized", () => {
   assert.match(headerCss, /--mobile-header-back-top:\s*0\.2rem;/);
   assert.match(headerCss, /--mobile-header-info-top:\s*0\.475rem;/);
   assert.match(headerCss, /--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/);
+  assert.match(headerCss, /--mobile-header-browser-y-offset:\s*0rem;/);
+  assert.match(headerCss, /--mobile-header-pwa-y-offset:\s*0rem;/);
   assert.match(
     headerCss,
     /\.glass-ring,[\s\S]*?\.subscription-modal-content\s*\{[\s\S]*?--mobile-header-title-top:\s*2\.355rem;/
@@ -30,7 +32,15 @@ test("mobile title, back and info placement is centralized", () => {
   );
   assert.match(
     headerCss,
+    /html\[data-display-mode="standalone"\] \.policy-scroll-page-ring,[\s\S]*?body\[data-display-mode="fullscreen"\] \.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-pwa-y-offset:\s*-0\.82rem;/
+  );
+  assert.match(
+    headerCss,
     /\.workspace-dashboard-panel,[\s\S]*?\.workspace-dashboard-panel \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*1\.96rem;/
+  );
+  assert.match(
+    headerCss,
+    /html\[data-display-mode="browser"\][\s\S]*?:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel\.workspace-scroll-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel[\s\S]*?\)[\s\S]*?\{[\s\S]*?--mobile-header-browser-y-offset:\s*0\.34rem;/
   );
   assert.doesNotMatch(headerCss, /--mobile-header-title-top:\s*calc\([\s\S]*?safe-area-inset-top/);
   assert.match(
@@ -43,15 +53,15 @@ test("mobile title, back and info placement is centralized", () => {
   );
   assert.match(
     headerCss,
-    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-header-title-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     headerCss,
-    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.invite-modal-content,[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*var\(--mobile-header-control-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.invite-modal-content,[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     headerCss,
-    /\.dashboard-info-trigger-corner\s*\{[\s\S]*?top:\s*var\(--mobile-header-control-info-top\)\s*!important;/
+    /\.dashboard-info-trigger-corner\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-info-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.doesNotMatch(
     policyCss,
