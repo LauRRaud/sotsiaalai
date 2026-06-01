@@ -37,7 +37,7 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   assert.doesNotMatch(pageInfoCss, /page-info-corner-reveal/);
   assert.match(
     workspaceCss,
-    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/
+    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--mobile-header-control-top,\s*0\.05rem\)\s*!important;/
   );
   assert.match(
     workspaceCss,
@@ -128,7 +128,7 @@ test("workspace cards keep drop shadows out of dark and mono themes", () => {
   assert.doesNotMatch(baseCard, /0\s+10px\s+24px/);
   assert.doesNotMatch(baseHover, /0\s+14px\s+28px/);
   assert.doesNotMatch(monoCard, /0\s+10px\s+24px/);
-  assert.match(css, /:global\(:root\.theme-light[^}]*\.workspace-dashboard-card\)[\s\S]*?0 8px 20px rgba\(82,\s*50,\s*46,\s*0\.08\)/);
+  assert.match(css, /:global\(:root\.theme-light\) \.card[\s\S]*?0 8px 20px rgba\(82,\s*50,\s*46,\s*0\.08\)/);
 });
 
 test("workspace subpage surfaces match the dashboard outer glass width and radius", () => {

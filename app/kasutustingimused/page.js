@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import "../styles/utilities/policy-pages.css";
 import "../styles/utilities/policy-pages-responsive.css";
-import "../styles/utilities/policy-pages-mobile.css";
+import "../styles/mobile/policy-scroll.css";
 import KasutustingimusedBody from "@/components/alalehed/KasutustingimusedBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

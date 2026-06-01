@@ -1,0 +1,5545 @@
+{
+  "statistics": {
+    "detectionDate": "2026-06-01T17:30:40.498Z",
+    "formats": {
+      "css": {
+        "sources": {
+          "components/covision/CovisionPage.module.css": {
+            "lines": 821,
+            "tokens": 7601,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/wellbeing/WellbeingPage.module.css": {
+            "lines": 844,
+            "tokens": 6480,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 27,
+            "duplicatedTokens": 269,
+            "percentage": 3.2,
+            "percentageTokens": 4.15,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/ui/SotsiaalAILoader.module.css": {
+            "lines": 70,
+            "tokens": 453,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/ui/PageInfoButton.module.css": {
+            "lines": 236,
+            "tokens": 1838,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 242,
+            "percentage": 6.78,
+            "percentageTokens": 13.17,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/ui/BorderGlow.module.css": {
+            "lines": 352,
+            "tokens": 4610,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 13,
+            "duplicatedTokens": 243,
+            "percentage": 3.69,
+            "percentageTokens": 5.27,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/chat/WorkspacePanel.module.css": {
+            "lines": 1012,
+            "tokens": 9423,
+            "sources": 1,
+            "clones": 26,
+            "duplicatedLines": 272,
+            "duplicatedTokens": 3472,
+            "percentage": 26.88,
+            "percentageTokens": 36.85,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/chat/RightRail.module.css": {
+            "lines": 553,
+            "tokens": 4161,
+            "sources": 1,
+            "clones": 11,
+            "duplicatedLines": 266,
+            "duplicatedTokens": 2080,
+            "percentage": 48.1,
+            "percentageTokens": 49.99,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "components/chat/LeftRail.module.css": {
+            "lines": 520,
+            "tokens": 3968,
+            "sources": 1,
+            "clones": 11,
+            "duplicatedLines": 266,
+            "duplicatedTokens": 2080,
+            "percentage": 51.15,
+            "percentageTokens": 52.42,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/utilities/policy-pages.css": {
+            "lines": 672,
+            "tokens": 6317,
+            "sources": 1,
+            "clones": 16,
+            "duplicatedLines": 255,
+            "duplicatedTokens": 2772,
+            "percentage": 37.95,
+            "percentageTokens": 43.88,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/utilities/policy-pages-responsive.css": {
+            "lines": 241,
+            "tokens": 2459,
+            "sources": 1,
+            "clones": 6,
+            "duplicatedLines": 84,
+            "duplicatedTokens": 1138,
+            "percentage": 34.85,
+            "percentageTokens": 46.28,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/utilities/helpers-invite-scrollbar.css": {
+            "lines": 3,
+            "tokens": 19,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/utilities/helpers-core.css": {
+            "lines": 1143,
+            "tokens": 9889,
+            "sources": 1,
+            "clones": 25,
+            "duplicatedLines": 412,
+            "duplicatedTokens": 4105,
+            "percentage": 36.05,
+            "percentageTokens": 41.51,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/utilities/glass-ring-stable.shared.css": {
+            "lines": 36,
+            "tokens": 354,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/workspace-help-listings.css": {
+            "lines": 134,
+            "tokens": 1644,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 136,
+            "duplicatedTokens": 2392,
+            "percentage": 101.49,
+            "percentageTokens": 145.5,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/service-map.css": {
+            "lines": 3373,
+            "tokens": 26812,
+            "sources": 1,
+            "clones": 32,
+            "duplicatedLines": 300,
+            "duplicatedTokens": 3911,
+            "percentage": 8.89,
+            "percentageTokens": 14.59,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/selected-listing.css": {
+            "lines": 90,
+            "tokens": 1212,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 47,
+            "duplicatedTokens": 934,
+            "percentage": 52.22,
+            "percentageTokens": 77.06,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/invite-modal.css": {
+            "lines": 44,
+            "tokens": 392,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 19,
+            "duplicatedTokens": 230,
+            "percentage": 43.18,
+            "percentageTokens": 58.67,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/home.css": {
+            "lines": 961,
+            "tokens": 6181,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 36,
+            "duplicatedTokens": 168,
+            "percentage": 3.75,
+            "percentageTokens": 2.72,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/glass.css": {
+            "lines": 1175,
+            "tokens": 11528,
+            "sources": 1,
+            "clones": 40,
+            "duplicatedLines": 324,
+            "duplicatedTokens": 5049,
+            "percentage": 27.57,
+            "percentageTokens": 43.8,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/documents-workspace.shared.css": {
+            "lines": 799,
+            "tokens": 11244,
+            "sources": 1,
+            "clones": 16,
+            "duplicatedLines": 158,
+            "duplicatedTokens": 2442,
+            "percentage": 19.77,
+            "percentageTokens": 21.72,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/documents-ui.shared.css": {
+            "lines": 1246,
+            "tokens": 10395,
+            "sources": 1,
+            "clones": 6,
+            "duplicatedLines": 52,
+            "duplicatedTokens": 672,
+            "percentage": 4.17,
+            "percentageTokens": 6.46,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/documents-mode.css": {
+            "lines": 3,
+            "tokens": 1,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/documents-library.css": {
+            "lines": 374,
+            "tokens": 2493,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/documents-agent.css": {
+            "lines": 663,
+            "tokens": 4804,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 28,
+            "duplicatedTokens": 311,
+            "percentage": 4.22,
+            "percentageTokens": 6.47,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/chat-shell.css": {
+            "lines": 930,
+            "tokens": 10345,
+            "sources": 1,
+            "clones": 7,
+            "duplicatedLines": 91,
+            "duplicatedTokens": 2249,
+            "percentage": 9.78,
+            "percentageTokens": 21.74,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/chat-focus.shared.css": {
+            "lines": 11,
+            "tokens": 43,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/components/chat-focus.css": {
+            "lines": 8,
+            "tokens": 25,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/base/typography.css": {
+            "lines": 69,
+            "tokens": 367,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/base/layout.css": {
+            "lines": 82,
+            "tokens": 626,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 16,
+            "duplicatedTokens": 180,
+            "percentage": 19.51,
+            "percentageTokens": 28.75,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/base/core.css": {
+            "lines": 383,
+            "tokens": 2559,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 9,
+            "duplicatedTokens": 86,
+            "percentage": 2.35,
+            "percentageTokens": 3.36,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/base/backgrounds.css": {
+            "lines": 218,
+            "tokens": 1527,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/base/animations.css": {
+            "lines": 335,
+            "tokens": 2045,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/touch-controls.css": {
+            "lines": 230,
+            "tokens": 1846,
+            "sources": 1,
+            "clones": 18,
+            "duplicatedLines": 154,
+            "duplicatedTokens": 1420,
+            "percentage": 66.96,
+            "percentageTokens": 76.92,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/title-sizing.css": {
+            "lines": 253,
+            "tokens": 1942,
+            "sources": 1,
+            "clones": 4,
+            "duplicatedLines": 52,
+            "duplicatedTokens": 446,
+            "percentage": 20.55,
+            "percentageTokens": 22.97,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/scroll-panels.css": {
+            "lines": 370,
+            "tokens": 3278,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 52,
+            "duplicatedTokens": 543,
+            "percentage": 14.05,
+            "percentageTokens": 16.56,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/profile-orbit.css": {
+            "lines": 622,
+            "tokens": 5538,
+            "sources": 1,
+            "clones": 13,
+            "duplicatedLines": 122,
+            "duplicatedTokens": 1900,
+            "percentage": 19.61,
+            "percentageTokens": 34.31,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/policy-scroll.css": {
+            "lines": 384,
+            "tokens": 2771,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 26,
+            "duplicatedTokens": 320,
+            "percentage": 6.77,
+            "percentageTokens": 11.55,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/platform-android.css": {
+            "lines": 216,
+            "tokens": 2033,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 18,
+            "duplicatedTokens": 240,
+            "percentage": 8.33,
+            "percentageTokens": 11.81,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/motion.css": {
+            "lines": 21,
+            "tokens": 138,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/modal-chat-accessibility.css": {
+            "lines": 782,
+            "tokens": 6922,
+            "sources": 1,
+            "clones": 8,
+            "duplicatedLines": 116,
+            "duplicatedTokens": 1504,
+            "percentage": 14.83,
+            "percentageTokens": 21.73,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/mobile-title-backbutton-info.css": {
+            "lines": 155,
+            "tokens": 776,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/mobile-background.css": {
+            "lines": 192,
+            "tokens": 1011,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 9,
+            "duplicatedTokens": 86,
+            "percentage": 4.69,
+            "percentageTokens": 8.51,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/invite-workspace.css": {
+            "lines": 271,
+            "tokens": 1748,
+            "sources": 1,
+            "clones": 3,
+            "duplicatedLines": 34,
+            "duplicatedTokens": 334,
+            "percentage": 12.55,
+            "percentageTokens": 19.11,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/home-scroll.css": {
+            "lines": 63,
+            "tokens": 372,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/foundations.css": {
+            "lines": 133,
+            "tokens": 950,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/background-home.css": {
+            "lines": 365,
+            "tokens": 2258,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile/accessibility-touch.css": {
+            "lines": 310,
+            "tokens": 2830,
+            "sources": 1,
+            "clones": 2,
+            "duplicatedLines": 26,
+            "duplicatedTokens": 242,
+            "percentage": 8.39,
+            "percentageTokens": 8.55,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile.css": {
+            "lines": 12,
+            "tokens": 60,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 21780,
+          "tokens": 186288,
+          "sources": 48,
+          "clones": 137,
+          "duplicatedLines": 1718,
+          "duplicatedTokens": 21030,
+          "percentage": 7.89,
+          "percentageTokens": 11.29,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 21780,
+      "tokens": 186288,
+      "sources": 48,
+      "clones": 137,
+      "duplicatedLines": 1718,
+      "duplicatedTokens": 21030,
+      "percentage": 7.89,
+      "percentageTokens": 11.29,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": " {\n  display: grid;\n  gap: clamp(0.68rem, 1.4vh, 0.95rem);\n  width: min(100%, 52rem);\n  margin: 0 auto;\n  padding: 0.2rem clamp(0.36rem, 1vw, 0.68rem) 0.72rem;\n  color: var(--wellbeing-text);\n}\n\n.overviewPeriodTabs",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\wellbeing\\WellbeingPage.module.css",
+        "start": 501,
+        "end": 510,
+        "startLoc": {
+          "line": 501,
+          "column": 18,
+          "position": 3759
+        },
+        "endLoc": {
+          "line": 510,
+          "column": 20,
+          "position": 3845
+        }
+      },
+      "secondFile": {
+        "name": "components\\wellbeing\\WellbeingPage.module.css",
+        "start": 182,
+        "end": 191,
+        "startLoc": {
+          "line": 182,
+          "column": 12,
+          "position": 1650
+        },
+        "endLoc": {
+          "line": 191,
+          "column": 17,
+          "position": 1736
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": ".modalContent {\n  --page-info-bg: #151c27;\n  --page-info-text: rgba(242, 247, 255, 0.96);\n  --page-info-strong: #f6f9ff;\n  --page-info-border: rgba(248, 253, 255, 0.16);\n  --page-info-close-bg: rgba(255, 255, 255, 0.055);\n  --page-info-close-bg-hover: rgba(255, 255, 255, 0.095);\n  --page-info-shadow: 0 20px 46px rgba(0, 0, 0, 0.34);\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\ui\\PageInfoButton.module.css",
+        "start": 214,
+        "end": 222,
+        "startLoc": {
+          "line": 214,
+          "column": 53,
+          "position": 1591
+        },
+        "endLoc": {
+          "line": 222,
+          "column": 2,
+          "position": 1712
+        }
+      },
+      "secondFile": {
+        "name": "components\\ui\\PageInfoButton.module.css",
+        "start": 136,
+        "end": 144,
+        "startLoc": {
+          "line": 136,
+          "column": 1,
+          "position": 908
+        },
+        "endLoc": {
+          "line": 144,
+          "column": 15,
+          "position": 1030
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "::after {\n  background:\n    linear-gradient(\n      90deg,\n      transparent 0%,\n      rgba(122, 58, 56, 0.08) 10%,\n      rgba(197, 113, 113, 0.34) 42%,\n      rgba(197, 113, 113, 0.2) 72%,\n      transparent 100%\n    ) !important",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 658,
+        "end": 667,
+        "startLoc": {
+          "line": 658,
+          "column": 79,
+          "position": 5571
+        },
+        "endLoc": {
+          "line": 667,
+          "column": 17,
+          "position": 5655
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 616,
+        "end": 625,
+        "startLoc": {
+          "line": 616,
+          "column": 33,
+          "position": 5163
+        },
+        "endLoc": {
+          "line": 625,
+          "column": 7,
+          "position": 5246
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "::after {\n  background:\n    linear-gradient(\n      90deg,\n      transparent 0%,\n      rgba(255, 255, 255, 0.16) 10%,\n      rgba(255, 255, 255, 0.58) 42%,\n      rgba(255, 255, 255, 0.26) 72%,\n      transparent 100%\n    ) !important",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 673,
+        "end": 682,
+        "startLoc": {
+          "line": 673,
+          "column": 77,
+          "position": 5714
+        },
+        "endLoc": {
+          "line": 682,
+          "column": 17,
+          "position": 5798
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 631,
+        "end": 640,
+        "startLoc": {
+          "line": 631,
+          "column": 31,
+          "position": 5304
+        },
+        "endLoc": {
+          "line": 640,
+          "column": 7,
+          "position": 5387
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " .card {\n  --glow-color: rgba(197, 113, 113, 0.52) !important;\n  --glow-color-60: rgba(197, 113, 113, 0.34) !important;\n  --glow-color-50: rgba(197, 113, 113, 0.28) !important;\n  --glow-color-40: rgba(197, 113, 113, 0.22) !important;\n  --glow-color-30: rgba(197, 113, 113, 0.16) !important;\n  --glow-color-20: rgba(197, 113, 113, 0.11) !important;\n  --glow-color-10: rgba(197, 113, 113, 0.07) !important;\n  box-shadow:\n    inset 0 0 0 1px rgba(122, 58, 56, 0.08),\n    0 8px 20px rgba(82, 50, 46, 0.08) !important;\n}\n\n:global(:root.theme-light:not([data-contrast=\"hc\"]) body) .card:is(:hover, :focus-visible)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 710,
+        "end": 723,
+        "startLoc": {
+          "line": 710,
+          "column": 58,
+          "position": 6251
+        },
+        "endLoc": {
+          "line": 723,
+          "column": 91,
+          "position": 6463
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 589,
+        "end": 602,
+        "startLoc": {
+          "line": 589,
+          "column": 27,
+          "position": 4714
+        },
+        "endLoc": {
+          "line": 602,
+          "column": 25,
+          "position": 4926
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": "::after {\n  background:\n    linear-gradient(\n      90deg,\n      transparent 0%,\n      rgba(122, 58, 56, 0.08) 10%,\n      rgba(197, 113, 113, 0.34) 42%,\n      rgba(197, 113, 113, 0.2) 72%,\n      transparent 100%\n    ) !important;\n  box-shadow:\n    0 0 5px rgba(122, 58, 56, 0.14),\n    0 0 14px rgba(197, 113, 113, 0.1) !important;\n}\n\n:global(:root.theme-mid:not([data-contrast=\"hc\"]) body)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 730,
+        "end": 745,
+        "startLoc": {
+          "line": 730,
+          "column": 106,
+          "position": 6533
+        },
+        "endLoc": {
+          "line": 745,
+          "column": 56,
+          "position": 6675
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 616,
+        "end": 673,
+        "startLoc": {
+          "line": 616,
+          "column": 33,
+          "position": 5163
+        },
+        "endLoc": {
+          "line": 673,
+          "column": 77,
+          "position": 5713
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": " .card {\n  --glow-color: rgba(255, 255, 255, 0.5) !important;\n  --glow-color-60: rgba(255, 255, 255, 0.34) !important;\n  --glow-color-50: rgba(255, 255, 255, 0.28) !important;\n  --glow-color-40: rgba(255, 255, 255, 0.22) !important;\n  --glow-color-30: rgba(255, 255, 255, 0.16) !important;\n  --glow-color-20: rgba(255, 255, 255, 0.11) !important;\n  --glow-color-10: rgba(255, 255, 255, 0.07) !important;\n  box-shadow",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 745,
+        "end": 753,
+        "startLoc": {
+          "line": 745,
+          "column": 56,
+          "position": 6676
+        },
+        "endLoc": {
+          "line": 753,
+          "column": 13,
+          "position": 6829
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 602,
+        "end": 610,
+        "startLoc": {
+          "line": 602,
+          "column": 25,
+          "position": 4927
+        },
+        "endLoc": {
+          "line": 610,
+          "column": 13,
+          "position": 5080
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": " {\n  --glow-color: rgba(197, 113, 113, 0.52) !important;\n  --glow-color-60: rgba(197, 113, 113, 0.34) !important;\n  --glow-color-50: rgba(197, 113, 113, 0.28) !important;\n  --glow-color-40: rgba(197, 113, 113, 0.22) !important;\n  --glow-color-30: rgba(197, 113, 113, 0.16) !important;\n  --glow-color-20: rgba(197, 113, 113, 0.11) !important;\n  --glow-color-10: rgba(197, 113, 113, 0.07) !important;\n  box-shadow:\n    inset 0 0 0 1px rgba(255",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 758,
+        "end": 767,
+        "startLoc": {
+          "line": 758,
+          "column": 89,
+          "position": 6889
+        },
+        "endLoc": {
+          "line": 767,
+          "column": 29,
+          "position": 7057
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 589,
+        "end": 598,
+        "startLoc": {
+          "line": 589,
+          "column": 33,
+          "position": 4716
+        },
+        "endLoc": {
+          "line": 598,
+          "column": 29,
+          "position": 4884
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": " .card::after {\n  background:\n    linear-gradient(\n      90deg,\n      transparent 0%,\n      rgba(255, 255, 255, 0.16) 10%,\n      rgba(255, 255, 255, 0.58) 42%,\n      rgba(255, 255, 255, 0.26) 72%,\n      transparent 100%\n    ) !important;\n  box-shadow:\n    0 0 5px rgba(255, 255, 255, 0.18),\n    0 0 15px rgba(255, 255, 255, 0.1) !important;\n}\n\n:global(:root.theme-mid:not([data-contrast=\"hc\"]) body) .card:not(:disabled):is(:hover, :focus-visible)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 771,
+        "end": 786,
+        "startLoc": {
+          "line": 771,
+          "column": 56,
+          "position": 7100
+        },
+        "endLoc": {
+          "line": 786,
+          "column": 104,
+          "position": 7244
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 631,
+        "end": 688,
+        "startLoc": {
+          "line": 631,
+          "column": 25,
+          "position": 5302
+        },
+        "endLoc": {
+          "line": 688,
+          "column": 70,
+          "position": 5856
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": "::after {\n  background:\n    linear-gradient(\n      90deg,\n      transparent 0%,\n      rgba(122, 58, 56, 0.08) 10%,\n      rgba(197, 113, 113, 0.34) 42%,\n      rgba(197, 113, 113, 0.2) 72%,\n      transparent 100%\n    ) !important;\n  box-shadow:\n    0 0 5px rgba(122, 58, 56, 0.14),\n    0 0 14px rgba(197, 113, 113, 0.1) !important;\n}\n\n:global(:root.theme-mid:not([data-contrast=\"hc\"]) body) .card:is(:hover, :focus-visible) > :global([class*=\"edgeLight\"])",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 786,
+        "end": 801,
+        "startLoc": {
+          "line": 786,
+          "column": 104,
+          "position": 7245
+        },
+        "endLoc": {
+          "line": 801,
+          "column": 121,
+          "position": 7387
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 616,
+        "end": 673,
+        "startLoc": {
+          "line": 616,
+          "column": 33,
+          "position": 5163
+        },
+        "endLoc": {
+          "line": 673,
+          "column": 77,
+          "position": 5713
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 12,
+      "fragment": "::before {\n  box-shadow:\n    inset 0 0 0 1px rgba(122, 58, 56, 0.18),\n    inset 0 0 4px 0 rgba(197, 113, 113, 0.12),\n    inset 0 0 10px 0 rgba(197, 113, 113, 0.07),\n    0 0 2px 0 rgba(122, 58, 56, 0.2),\n    0 0 8px 0 rgba(197, 113, 113, 0.14),\n    0 0 18px 1px rgba(197, 113, 113, 0.08),\n    0 0 30px 2px rgba(197, 113, 113, 0.045) !important;\n}\n\n:global(:root.theme-light)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 801,
+        "end": 812,
+        "startLoc": {
+          "line": 801,
+          "column": 121,
+          "position": 7388
+        },
+        "endLoc": {
+          "line": 812,
+          "column": 27,
+          "position": 7584
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 688,
+        "end": 699,
+        "startLoc": {
+          "line": 688,
+          "column": 70,
+          "position": 5857
+        },
+        "endLoc": {
+          "line": 699,
+          "column": 68,
+          "position": 6053
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ";\n    height: 100%;\n    min-height: 0;\n    margin-top: clamp(0.28rem, 0.82vh, 0.52rem);\n    gap: clamp(0.32rem, 0.9vh, 0.48rem);\n    padding: clamp(0.04rem, 0.2vh, 0.08rem) clamp(0.2rem, 1vw, 0.38rem)\n      clamp(0.18rem, 0.7vh, 0.38rem);\n  }\n\n  .row",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 948,
+        "end": 957,
+        "startLoc": {
+          "line": 948,
+          "column": 16,
+          "position": 8995
+        },
+        "endLoc": {
+          "line": 957,
+          "column": 7,
+          "position": 9092
+        }
+      },
+      "secondFile": {
+        "name": "components\\wellbeing\\WellbeingPage.module.css",
+        "start": 793,
+        "end": 802,
+        "startLoc": {
+          "line": 793,
+          "column": 27,
+          "position": 6190
+        },
+        "endLoc": {
+          "line": 802,
+          "column": 14,
+          "position": 6287
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": ".slot {\n  position: absolute;\n  top: calc(50% + var(--glass-center-offset, 0px));\n  height: 0;\n  width: 100%;\n  align-self: stretch;\n  z-index: 70;\n  pointer-events: none;\n  overflow: visible;\n}\n\n.pointerBlocked {\n  pointer-events: none;\n}\n\n.slotInputFocused",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 1,
+        "end": 16,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 16,
+          "column": 18,
+          "position": 90
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 1,
+        "end": 15,
+        "startLoc": {
+          "line": 1,
+          "column": 1,
+          "position": 0
+        },
+        "endLoc": {
+          "line": 15,
+          "column": 22,
+          "position": 89
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 19,
+      "fragment": "clamp(4.6rem, 8vw, 5.8rem));\n  height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));\n  pointer-events: none;\n  outline: none;\n  z-index: 70;\n  --rail-profile-scale: 1;\n  --rail-item-size: var(--hud-icon, 3rem);\n  --rail-icon-scale: 0.79;\n  --rail-step-factor: 1.12;\n  --rail-edge-offset: calc(var(--rail-item-size) * 0.5);\n  --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));\n  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));\n  overflow: visible;\n  overscroll-behavior: contain;\n  -webkit-mask-image: none;\n  mask-image: none;\n}\n\n.leftRailInputFocused",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 34,
+        "end": 52,
+        "startLoc": {
+          "line": 34,
+          "column": 33,
+          "position": 231
+        },
+        "endLoc": {
+          "line": 52,
+          "column": 22,
+          "position": 412
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 51,
+        "end": 69,
+        "startLoc": {
+          "line": 51,
+          "column": 34,
+          "position": 338
+        },
+        "endLoc": {
+          "line": 69,
+          "column": 37,
+          "position": 519
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 29,
+      "fragment": ");\n  width: var(--rail-item-size);\n  height: var(--rail-item-size);\n  min-width: var(--rail-item-size);\n  min-height: var(--rail-item-size);\n  display: grid;\n  place-items: center;\n  border-radius: 999px;\n  border: 0;\n  padding: 0;\n  background: transparent;\n  color: inherit;\n  transition:\n    transform 180ms ease,\n    opacity 180ms ease,\n    background-color 180ms ease,\n    box-shadow 180ms ease;\n  will-change: transform, opacity;\n  transform-origin: center;\n  pointer-events: auto;\n}\n\n.tooltipAnchor {\n  pointer-events: none;\n  transition: none !important;\n  will-change: auto !important;\n}\n\n.itemBack",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 81,
+        "end": 109,
+        "startLoc": {
+          "line": 81,
+          "column": 31,
+          "position": 548
+        },
+        "endLoc": {
+          "line": 109,
+          "column": 10,
+          "position": 736
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 83,
+        "end": 111,
+        "startLoc": {
+          "line": 83,
+          "column": 44,
+          "position": 598
+        },
+        "endLoc": {
+          "line": 111,
+          "column": 6,
+          "position": 786
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 37,
+      "fragment": ";\n}\n\n.item:focus-visible {\n  outline: 2px solid rgba(255, 255, 255, 0.14);\n  outline-offset: 3px;\n}\n\n.isActive {\n  opacity: 1;\n}\n\n.iconBtn {\n  appearance: none;\n  border: 0;\n  padding: 0;\n  background: transparent;\n  color: inherit;\n  cursor: var(--cursor-pointer);\n  line-height: 0;\n  pointer-events: auto;\n}\n\n:global(html[data-contrast=\"hc\"] body) .item,\n:global(html[data-contrast=\"hc\"] body) .item:hover,\n:global(html[data-contrast=\"hc\"] body) .item:focus-visible,\n:global(html[data-contrast=\"hc\"] body) .item:active,\n:global(html[data-contrast=\"hc\"] body) .iconBtn,\n:global(html[data-contrast=\"hc\"] body) .iconBtn:hover,\n:global(html[data-contrast=\"hc\"] body) .iconBtn:focus-visible,\n:global(html[data-contrast=\"hc\"] body) .iconBtn:active {\n  background: transparent !important;\n  border: 0 !important;\n  box-shadow: none !important;\n}\n\n.iconBtn:hover img",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 113,
+        "end": 149,
+        "startLoc": {
+          "line": 113,
+          "column": 49,
+          "position": 806
+        },
+        "endLoc": {
+          "line": 149,
+          "column": 19,
+          "position": 1003
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 108,
+        "end": 145,
+        "startLoc": {
+          "line": 108,
+          "column": 31,
+          "position": 781
+        },
+        "endLoc": {
+          "line": 145,
+          "column": 1,
+          "position": 978
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 15,
+      "fragment": "!important;\n}\n\n.iconSvg {\n  width: calc(100% * var(--rail-icon-scale));\n  height: calc(100% * var(--rail-icon-scale));\n  display: block;\n}\n\n.iconChats {\n  width: calc(100% * (var(--rail-icon-scale) - 0.04));\n  height: calc(100% * (var(--rail-icon-scale) - 0.04));\n}\n\n.newChatIconWrap",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 154,
+        "end": 168,
+        "startLoc": {
+          "line": 154,
+          "column": 16,
+          "position": 1038
+        },
+        "endLoc": {
+          "line": 168,
+          "column": 17,
+          "position": 1145
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 152,
+        "end": 166,
+        "startLoc": {
+          "line": 152,
+          "column": 35,
+          "position": 1028
+        },
+        "endLoc": {
+          "line": 166,
+          "column": 11,
+          "position": 1135
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 44,
+      "fragment": "), -50%);\n  opacity: 0;\n  padding: 0.24rem 0.6rem;\n  border-radius: 0.7rem;\n  white-space: nowrap;\n  font-weight: 450;\n  font-size: 1.12rem;\n  line-height: 1.1;\n  letter-spacing: 0.02em;\n  color: var(--brand-primary, #c57171);\n  background: var(--rail-tooltip-bg, rgba(28, 31, 38, 0.99));\n  -webkit-backdrop-filter: none;\n  backdrop-filter: none;\n  filter: none !important;\n  border: 0;\n  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(0, 0, 0, 0.18));\n  pointer-events: none;\n  z-index: 80;\n  isolation: isolate;\n  overflow: hidden;\n  will-change: auto;\n  transition: none;\n  text-shadow: none;\n  text-rendering: geometricPrecision;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  backface-visibility: hidden;\n}\n\n:global(html[data-contrast=\"hc\"]) .tooltip {\n  border: 2px solid var(--rail-tooltip-border, rgba(255, 234, 0, 0.72));\n  background-clip: padding-box;\n}\n\n:global(html[data-ui-profile=\"mac\"]) .tooltip,\n:global(html[data-ui-scale=\"mac\"]) .tooltip,\n:global(html[data-ui-profile=\"lg\"]) .tooltip,\n:global(html[data-ui-scale=\"lg\"]) .tooltip {\n  --rail-profile-scale: 1.2;\n}\n\n.tooltipVisible {\n  opacity: 1;\n  transform: translate(var",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 245,
+        "end": 288,
+        "startLoc": {
+          "line": 245,
+          "column": 46,
+          "position": 1735
+        },
+        "endLoc": {
+          "line": 288,
+          "column": 27,
+          "position": 2074
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 225,
+        "end": 268,
+        "startLoc": {
+          "line": 225,
+          "column": 57,
+          "position": 1586
+        },
+        "endLoc": {
+          "line": 268,
+          "column": 28,
+          "position": 1925
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 33,
+      "fragment": ";\n}\n\n:global(:root.theme-night) .tooltip {\n  color: var(--brand-primary, #c57171);\n  background: var(\n    --chat-card-surface-night-flat-bg,\n    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))\n  );\n  border: 0;\n  -webkit-backdrop-filter: none;\n  backdrop-filter: none;\n  box-shadow: var(--rail-tooltip-shadow, 0 8px 18px rgba(0, 0, 0, 0.24));\n}\n\n:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night)) .tooltip {\n  background: var(\n    --chat-card-surface-flat-bg,\n    var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))\n  );\n  border: 0;\n  -webkit-backdrop-filter: none;\n  backdrop-filter: none;\n}\n\n:global(:root.theme-mono:not([data-contrast=\"hc\"])) .tooltip {\n  color: var(--forest-highlight, #c8c8c8);\n  background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;\n  border: 0;\n  box-shadow: 0 10px 22px rgba(7, 7, 7, 0.3);\n}\n\n:global(:root.theme-mono:not([data-contrast=\"hc\"])) .iconBack :global(.back-icon-arrow)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 293,
+        "end": 325,
+        "startLoc": {
+          "line": 293,
+          "column": 54,
+          "position": 2114
+        },
+        "endLoc": {
+          "line": 325,
+          "column": 88,
+          "position": 2378
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 305,
+        "end": 337,
+        "startLoc": {
+          "line": 305,
+          "column": 31,
+          "position": 2273
+        },
+        "endLoc": {
+          "line": 337,
+          "column": 34,
+          "position": 2537
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 27,
+      "fragment": ";\n}\n\n:global(:root.theme-light) .tooltip {\n  color: var(--title-color, var(--link-color, #7a3a38));\n  font-size: 1.12rem;\n  font-weight: 450;\n  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgba(255, 250, 248, 0.92)));\n  border: 0;\n  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.18));\n}\n\n:global(:root.theme-mid) .tooltip {\n  color: var(--title-color, var(--link-color, #7a3a38));\n  font-size: 1.12rem;\n  font-weight: 450;\n  background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));\n  border: 0;\n  box-shadow: var(--rail-tooltip-shadow, 0 10px 24px rgba(82, 50, 46, 0.12));\n}\n\n:global(html[data-contrast=\"hc\"]) .tooltip {\n  border: 2px solid rgba(255, 234, 0, 0.72) !important;\n  background-clip: padding-box;\n}\n\n:global(html[data-contrast=\"hc\"])",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 332,
+        "end": 358,
+        "startLoc": {
+          "line": 332,
+          "column": 50,
+          "position": 2443
+        },
+        "endLoc": {
+          "line": 358,
+          "column": 34,
+          "position": 2699
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 282,
+        "end": 308,
+        "startLoc": {
+          "line": 282,
+          "column": 16,
+          "position": 2022
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 27,
+          "position": 2278
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 13,
+      "fragment": ";\n}\n\n:global(html[data-contrast=\"hc\"]) .tooltip {\n  color: var(--hc-accent, #ffea00);\n  background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));\n  -webkit-backdrop-filter: none;\n  backdrop-filter: none;\n  border: 1.5px solid var(--hc-accent, #ffea00);\n  box-shadow: none;\n}\n\n@supports",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 355,
+        "end": 367,
+        "startLoc": {
+          "line": 355,
+          "column": 31,
+          "position": 2694
+        },
+        "endLoc": {
+          "line": 367,
+          "column": 10,
+          "position": 2779
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 334,
+        "end": 346,
+        "startLoc": {
+          "line": 334,
+          "column": 45,
+          "position": 2532
+        },
+        "endLoc": {
+          "line": 346,
+          "column": 27,
+          "position": 2617
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 34,
+      "fragment": ": none;\n}\n\n@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {\n  .tooltip {\n    background: var(--rail-tooltip-bg, rgb(28, 31, 38));\n    -webkit-backdrop-filter: none;\n    backdrop-filter: none;\n  }\n\n  :global(:root.theme-night) .tooltip {\n    background: var(\n      --chat-card-surface-night-flat-bg,\n      var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)))\n    );\n    -webkit-backdrop-filter: none;\n    backdrop-filter: none;\n  }\n\n  :global(:root.theme-light) .tooltip {\n    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, rgb(255, 250, 248)));\n  }\n\n  :global(:root.theme-mid) .tooltip {\n    background: var(--chat-rail-tooltip-bg, var(--rail-tooltip-bg, var(--input-bg)));\n  }\n\n  :global(:root.theme-mono:not([data-contrast=\"hc\"])) .tooltip {\n    background: linear-gradient(180deg, rgb(48, 48, 48) 0%, rgb(28, 28, 28) 100%) !important;\n  }\n\n  :global(html[data-contrast=\"hc\"]) .tooltip {\n    background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 364,
+        "end": 397,
+        "startLoc": {
+          "line": 364,
+          "column": 13,
+          "position": 2771
+        },
+        "endLoc": {
+          "line": 397,
+          "column": 4,
+          "position": 3054
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 347,
+        "end": 380,
+        "startLoc": {
+          "line": 347,
+          "column": 10,
+          "position": 2626
+        },
+        "endLoc": {
+          "line": 380,
+          "column": 28,
+          "position": 2909
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ": 0 !important;\n    transform: none !important;\n    width: auto !important;\n    height: auto !important;\n    display: flex !important;\n    flex-direction: row !important;\n    justify-content: flex-end !important;\n    align-items: center !important;\n    gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;\n    overflow",
+      "tokens": 0,
+      "firstFile": {
+        "name": "components\\chat\\LeftRail.module.css",
+        "start": 447,
+        "end": 456,
+        "startLoc": {
+          "line": 447,
+          "column": 9,
+          "position": 3450
+        },
+        "endLoc": {
+          "line": 456,
+          "column": 13,
+          "position": 3540
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\RightRail.module.css",
+        "start": 493,
+        "end": 502,
+        "startLoc": {
+          "line": 493,
+          "column": 10,
+          "position": 3666
+        },
+        "endLoc": {
+          "line": 502,
+          "column": 16,
+          "position": 3756
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ": linear-gradient(\n    to bottom,\n    rgba(0, 0, 0, 0) 0%,\n    rgba(0, 0, 0, 0.16) 3%,\n    #000 7%,\n    #000 82%,\n    rgba(0, 0, 0, 0.25) 92%,\n    transparent 100%\n  );\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 107,
+        "end": 116,
+        "startLoc": {
+          "line": 107,
+          "column": 21,
+          "position": 1091
+        },
+        "endLoc": {
+          "line": 116,
+          "column": 2,
+          "position": 1176
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 98,
+        "end": 107,
+        "startLoc": {
+          "line": 98,
+          "column": 13,
+          "position": 1004
+        },
+        "endLoc": {
+          "line": 107,
+          "column": 21,
+          "position": 1090
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 20,
+      "fragment": ";\n  mask-image: linear-gradient(\n    to bottom,\n    rgba(0, 0, 0, 0) 0%,\n    rgba(0, 0, 0, 0.16) 3%,\n    #000 7%,\n    #000 82%,\n    rgba(0, 0, 0, 0.25) 92%,\n    transparent 100%\n  );\n  -webkit-mask-image: linear-gradient(\n    to bottom,\n    rgba(0, 0, 0, 0) 0%,\n    rgba(0, 0, 0, 0.16) 3%,\n    #000 7%,\n    #000 82%,\n    rgba(0, 0, 0, 0.25) 92%,\n    transparent 100%\n  );\n  transform",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 127,
+        "end": 146,
+        "startLoc": {
+          "line": 127,
+          "column": 18,
+          "position": 1297
+        },
+        "endLoc": {
+          "line": 146,
+          "column": 12,
+          "position": 1474
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 97,
+        "end": 107,
+        "startLoc": {
+          "line": 97,
+          "column": 49,
+          "position": 1000
+        },
+        "endLoc": {
+          "line": 107,
+          "column": 21,
+          "position": 1090
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 15,
+      "fragment": ": linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.03) 0.6%,\n      rgba(0, 0, 0, 0.12) 1.5%,\n      rgba(0, 0, 0, 0.26) 2.8%,\n      #000 4.8%,\n      #000 78.4%,\n      rgba(0, 0, 0, 0.84) 84.8%,\n      rgba(0, 0, 0, 0.42) 91.4%,\n      rgba(0, 0, 0, 0.1) 96%,\n      rgba(0, 0, 0, 0.01) 98.8%,\n      transparent 100%\n    );\n    mask-repeat",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 196,
+        "end": 210,
+        "startLoc": {
+          "line": 196,
+          "column": 23,
+          "position": 1970
+        },
+        "endLoc": {
+          "line": 210,
+          "column": 16,
+          "position": 2146
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 182,
+        "end": 196,
+        "startLoc": {
+          "line": 182,
+          "column": 15,
+          "position": 1793
+        },
+        "endLoc": {
+          "line": 196,
+          "column": 23,
+          "position": 1969
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 13,
+      "fragment": ": linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.08) 1.4%,\n      rgba(0, 0, 0, 0.16) 3.2%,\n      rgba(0, 0, 0, 0.3) 5.8%,\n      #000 8.8%,\n      #000 89.8%,\n      rgba(0, 0, 0, 0.4) 94.2%,\n      rgba(0, 0, 0, 0.12) 97.2%,\n      rgba(0, 0, 0, 0) 100%\n    );\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 244,
+        "end": 256,
+        "startLoc": {
+          "line": 244,
+          "column": 23,
+          "position": 2571
+        },
+        "endLoc": {
+          "line": 256,
+          "column": 4,
+          "position": 2723
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 232,
+        "end": 244,
+        "startLoc": {
+          "line": 232,
+          "column": 15,
+          "position": 2418
+        },
+        "endLoc": {
+          "line": 244,
+          "column": 23,
+          "position": 2570
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": ": var(\n    --policy-scroll-open-width,\n    min(\n      var(\n        --policy-scroll-open-max-width,\n        clamp(\n          39rem,\n          calc(var(--ring-diameter, var(--ring-diameter-default)) * 0.93),\n          60rem\n        )\n      ),\n      calc(\n        100% - var(--policy-scroll-open-inline-gap, clamp(1.9rem, 3.9vw, 3.2rem))\n      )\n    )\n  ) !important;\n  margin-top",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 558,
+        "end": 574,
+        "startLoc": {
+          "line": 558,
+          "column": 12,
+          "position": 5145
+        },
+        "endLoc": {
+          "line": 574,
+          "column": 13,
+          "position": 5241
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 542,
+        "end": 558,
+        "startLoc": {
+          "line": 542,
+          "column": 8,
+          "position": 5048
+        },
+        "endLoc": {
+          "line": 558,
+          "column": 12,
+          "position": 5144
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": ": linear-gradient(\n    to bottom,\n    rgba(0, 0, 0, 0) 0%,\n    rgba(0, 0, 0, 0.06) 1%,\n    rgba(0, 0, 0, 0.14) 2.3%,\n    rgba(0, 0, 0, 0.26) 4.2%,\n    rgba(0, 0, 0, 0.48) 6.8%,\n    #000 9.2%,\n    #000 79.2%,\n    rgba(0, 0, 0, 0.92) 85.2%,\n    rgba(0, 0, 0, 0.64) 91%,\n    rgba(0, 0, 0, 0.3) 95.4%,\n    rgba(0, 0, 0, 0.08) 98.4%,\n    rgba(0, 0, 0, 0) 100%\n  ) !important;\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 599,
+        "end": 614,
+        "startLoc": {
+          "line": 599,
+          "column": 21,
+          "position": 5575
+        },
+        "endLoc": {
+          "line": 614,
+          "column": 2,
+          "position": 5782
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 584,
+        "end": 599,
+        "startLoc": {
+          "line": 584,
+          "column": 13,
+          "position": 5366
+        },
+        "endLoc": {
+          "line": 599,
+          "column": 21,
+          "position": 5574
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 15,
+      "fragment": ": linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.03) 0.4%,\n      rgba(0, 0, 0, 0.12) 0.9%,\n      rgba(0, 0, 0, 0.26) 1.7%,\n      #000 3%,\n      #000 71.8%,\n      rgba(0, 0, 0, 0.98) 78.4%,\n      rgba(0, 0, 0, 0.82) 84.2%,\n      rgba(0, 0, 0, 0.46) 91.2%,\n      rgba(0, 0, 0, 0.14) 96.8%,\n      rgba(0, 0, 0, 0) 100%\n    ) !important;\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 61,
+        "end": 75,
+        "startLoc": {
+          "line": 61,
+          "column": 23,
+          "position": 605
+        },
+        "endLoc": {
+          "line": 75,
+          "column": 4,
+          "position": 795
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 47,
+        "end": 61,
+        "startLoc": {
+          "line": 47,
+          "column": 15,
+          "position": 414
+        },
+        "endLoc": {
+          "line": 61,
+          "column": 23,
+          "position": 604
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": ": linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.08) 1%,\n      rgba(0, 0, 0, 0.16) 2.4%,\n      rgba(0, 0, 0, 0.3) 4.8%,\n      rgba(0, 0, 0, 0.48) 7.4%,\n      #000 10%,\n      #000 83.8%,\n      rgba(0, 0, 0, 0.9) 88.2%,\n      rgba(0, 0, 0, 0.6) 92.2%,\n      rgba(0, 0, 0, 0.28) 95.8%,\n      rgba(0, 0, 0, 0.07) 98.5%,\n      rgba(0, 0, 0, 0) 100%\n    ) !important;\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 116,
+        "end": 131,
+        "startLoc": {
+          "line": 116,
+          "column": 23,
+          "position": 1350
+        },
+        "endLoc": {
+          "line": 131,
+          "column": 4,
+          "position": 1558
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 101,
+        "end": 116,
+        "startLoc": {
+          "line": 101,
+          "column": 15,
+          "position": 1141
+        },
+        "endLoc": {
+          "line": 116,
+          "column": 23,
+          "position": 1349
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n    to bottom,\n    rgba(0, 0, 0, 0) 0%,\n    rgba(0, 0, 0, 0.08) 0.6%,\n    rgba(0, 0, 0, 0.2) 1.4%,\n    rgba(0, 0, 0, 0.42) 2.7%,\n    #000 5.2%,\n    #000 84%,\n    rgba(0, 0, 0, 0.78) 89%,\n    rgba(0, 0, 0, 0.42) 94%,\n    rgba(0, 0, 0, 0.14) 97.4%,\n    rgba(0, 0, 0, 0) 100%\n  ) !important;\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 178,
+        "end": 191,
+        "startLoc": {
+          "line": 178,
+          "column": 21,
+          "position": 1981
+        },
+        "endLoc": {
+          "line": 191,
+          "column": 2,
+          "position": 2152
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages-responsive.css",
+        "start": 165,
+        "end": 178,
+        "startLoc": {
+          "line": 165,
+          "column": 13,
+          "position": 1808
+        },
+        "endLoc": {
+          "line": 178,
+          "column": 21,
+          "position": 1980
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 21,
+      "fragment": ": var(\n      --glass-ring-edge-stroke-desktop,\n      conic-gradient(\n        from -104deg at 50% 50%,\n        rgba(255, 255, 255, 0) 0deg,\n        rgba(255, 255, 255, 0) 18deg,\n        rgba(255, 255, 255, 0.01) 30deg,\n        rgba(255, 255, 255, 0.04) 42deg,\n        rgba(255, 255, 255, 0.11) 50deg,\n        rgba(255, 255, 255, 0.22) 58deg,\n        rgba(255, 255, 255, 0.3) 62deg,\n        rgba(255, 255, 255, 0.2) 70deg,\n        rgba(255, 255, 255, 0.08) 80deg,\n        rgba(255, 255, 255, 0.02) 90deg,\n        rgba(255, 255, 255, 0) 102deg,\n        rgba(255, 255, 255, 0) 360deg\n      )\n    );\n  }\n\n  .scroll-reactive-back",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 150,
+        "end": 170,
+        "startLoc": {
+          "line": 150,
+          "column": 29,
+          "position": 976
+        },
+        "endLoc": {
+          "line": 170,
+          "column": 24,
+          "position": 1230
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 37,
+        "end": 57,
+        "startLoc": {
+          "line": 37,
+          "column": 32,
+          "position": 276
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 48,
+          "position": 530
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 23,
+      "fragment": "::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  z-index: 2;\n  pointer-events: none;\n  border-radius: inherit;\n  padding: var(--glass-ring-edge-stroke-width, 0px);\n  background: var(--glass-ring-edge-stroke, none);\n  opacity: var(--glass-ring-edge-stroke-opacity, 0);\n  filter: blur(var(--glass-ring-edge-stroke-blur, 0px));\n  box-sizing: border-box;\n  mask:\n    linear-gradient(#000 0 0) content-box,\n    linear-gradient(#000 0 0);\n  -webkit-mask:\n    linear-gradient(#000 0 0) content-box,\n    linear-gradient(#000 0 0);\n  -webkit-mask-composite: xor;\n  mask-composite: exclude;\n}\n\n.glass-subpage-surface",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 398,
+        "end": 420,
+        "startLoc": {
+          "line": 398,
+          "column": 12,
+          "position": 3504
+        },
+        "endLoc": {
+          "line": 420,
+          "column": 23,
+          "position": 3681
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 83,
+        "end": 105,
+        "startLoc": {
+          "line": 83,
+          "column": 18,
+          "position": 488
+        },
+        "endLoc": {
+          "line": 105,
+          "column": 5,
+          "position": 665
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 13,
+      "fragment": "0px));\n  box-sizing: border-box;\n  mask:\n    linear-gradient(#000 0 0) content-box,\n    linear-gradient(#000 0 0);\n  -webkit-mask:\n    linear-gradient(#000 0 0) content-box,\n    linear-gradient(#000 0 0);\n  -webkit-mask-composite: xor;\n  mask-composite: exclude;\n}\n\n:root",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 453,
+        "end": 465,
+        "startLoc": {
+          "line": 453,
+          "column": 54,
+          "position": 3987
+        },
+        "endLoc": {
+          "line": 465,
+          "column": 6,
+          "position": 4071
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 93,
+        "end": 105,
+        "startLoc": {
+          "line": 93,
+          "column": 51,
+          "position": 581
+        },
+        "endLoc": {
+          "line": 105,
+          "column": 5,
+          "position": 665
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": ");\n  --input-bg: var(--subpage-card-bg);\n  --input-bg-hover: var(--subpage-card-bg-hover);\n  --input-bg-focus: var(--subpage-card-bg-hover);\n  --opaque-panel-bg: var(--subpage-card-bg);\n  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);\n  --opaque-panel-border: var(--subpage-card-border);\n  --opaque-panel-shadow: var(--subpage-card-shadow);\n}\n\n:root.theme-mono",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 487,
+        "end": 497,
+        "startLoc": {
+          "line": 487,
+          "column": 70,
+          "position": 4312
+        },
+        "endLoc": {
+          "line": 497,
+          "column": 17,
+          "position": 4389
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 471,
+        "end": 481,
+        "startLoc": {
+          "line": 471,
+          "column": 62,
+          "position": 4154
+        },
+        "endLoc": {
+          "line": 481,
+          "column": 16,
+          "position": 4231
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": ");\n  --input-bg: var(--subpage-card-bg);\n  --input-bg-hover: var(--subpage-card-bg-hover);\n  --input-bg-focus: var(--subpage-card-bg-hover);\n  --opaque-panel-bg: var(--subpage-card-bg);\n  --opaque-panel-bg-hover: var(--subpage-card-bg-hover);\n  --opaque-panel-border: var(--subpage-card-border);\n  --opaque-panel-shadow: var(--subpage-card-shadow);\n}\n\n.glass-subpage-surface",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 503,
+        "end": 513,
+        "startLoc": {
+          "line": 503,
+          "column": 56,
+          "position": 4471
+        },
+        "endLoc": {
+          "line": 513,
+          "column": 23,
+          "position": 4547
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 471,
+        "end": 481,
+        "startLoc": {
+          "line": 471,
+          "column": 62,
+          "position": 4154
+        },
+        "endLoc": {
+          "line": 481,
+          "column": 6,
+          "position": 4230
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 6,
+      "fragment": "{\n  border-width: var(--subpage-card-border-width, 1px) !important;\n  border-style: solid !important;\n  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;\n  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;\n  background-image",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 519,
+        "end": 524,
+        "startLoc": {
+          "line": 519,
+          "column": 5,
+          "position": 4560
+        },
+        "endLoc": {
+          "line": 524,
+          "column": 19,
+          "position": 4644
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 196,
+        "end": 201,
+        "startLoc": {
+          "line": 196,
+          "column": 62,
+          "position": 1470
+        },
+        "endLoc": {
+          "line": 201,
+          "column": 13,
+          "position": 1554
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 34,
+      "fragment": " {\n    --glass-ring-edge-stroke-width: var(\n      --glass-ring-edge-stroke-width-desktop,\n      1.18px\n    );\n    --glass-ring-edge-stroke-opacity: var(\n      --glass-ring-edge-stroke-opacity-desktop,\n      0.72\n    );\n    --glass-ring-edge-stroke-blur: var(\n      --glass-ring-edge-stroke-blur-desktop,\n      0.18px\n    );\n    --glass-ring-edge-stroke: var(\n      --glass-ring-edge-stroke-desktop,\n      conic-gradient(\n        from -104deg at 50% 50%,\n        rgba(255, 255, 255, 0) 0deg,\n        rgba(255, 255, 255, 0) 18deg,\n        rgba(255, 255, 255, 0.01) 30deg,\n        rgba(255, 255, 255, 0.04) 42deg,\n        rgba(255, 255, 255, 0.11) 50deg,\n        rgba(255, 255, 255, 0.22) 58deg,\n        rgba(255, 255, 255, 0.3) 62deg,\n        rgba(255, 255, 255, 0.2) 70deg,\n        rgba(255, 255, 255, 0.08) 80deg,\n        rgba(255, 255, 255, 0.02) 90deg,\n        rgba(255, 255, 255, 0) 102deg,\n        rgba(255, 255, 255, 0) 360deg\n      )\n    );\n  }\n\n  .glass-subpage-surface",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 543,
+        "end": 576,
+        "startLoc": {
+          "line": 543,
+          "column": 14,
+          "position": 4876
+        },
+        "endLoc": {
+          "line": 576,
+          "column": 25,
+          "position": 5188
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 137,
+        "end": 57,
+        "startLoc": {
+          "line": 137,
+          "column": 20,
+          "position": 918
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 48,
+          "position": 530
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 35,
+      "fragment": ")\n    );\n    --glass-subpage-edge-stroke-width: var(\n      --glass-ring-edge-stroke-width-desktop,\n      1.18px\n    );\n    --glass-subpage-edge-stroke-opacity: var(\n      --glass-ring-edge-stroke-opacity-desktop,\n      0.72\n    );\n    --glass-subpage-edge-stroke-blur: var(\n      --glass-ring-edge-stroke-blur-desktop,\n      0.18px\n    );\n    --glass-subpage-edge-stroke: var(\n      --glass-ring-edge-stroke-desktop,\n      conic-gradient(\n        from -104deg at 50% 50%,\n        rgba(255, 255, 255, 0) 0deg,\n        rgba(255, 255, 255, 0) 18deg,\n        rgba(255, 255, 255, 0.01) 30deg,\n        rgba(255, 255, 255, 0.04) 42deg,\n        rgba(255, 255, 255, 0.11) 50deg,\n        rgba(255, 255, 255, 0.22) 58deg,\n        rgba(255, 255, 255, 0.3) 62deg,\n        rgba(255, 255, 255, 0.2) 70deg,\n        rgba(255, 255, 255, 0.08) 80deg,\n        rgba(255, 255, 255, 0.02) 90deg,\n        rgba(255, 255, 255, 0) 102deg,\n        rgba(255, 255, 255, 0) 360deg\n      )\n    );\n  }\n\n  .materials-page-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 613,
+        "end": 647,
+        "startLoc": {
+          "line": 613,
+          "column": 37,
+          "position": 5556
+        },
+        "endLoc": {
+          "line": 647,
+          "column": 24,
+          "position": 5871
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 23,
+        "end": 57,
+        "startLoc": {
+          "line": 23,
+          "column": 70,
+          "position": 215
+        },
+        "endLoc": {
+          "line": 57,
+          "column": 48,
+          "position": 530
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "width: var(--workspace-glass-shell-inline-size) !important;\n    inline-size: var(--workspace-glass-shell-inline-size) !important;\n    min-width: var(--workspace-glass-shell-inline-size) !important;\n    max-width: var(--workspace-glass-shell-inline-size) !important;\n    height: var(--workspace-glass-block-size) !important;\n    min-height: var(--workspace-glass-block-size) !important;\n    max-height: var(--workspace-glass-block-size) !important;\n    margin-top: 0 !important;\n    margin-bottom: 0 !important;\n    padding",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 882,
+        "end": 891,
+        "startLoc": {
+          "line": 882,
+          "column": 5,
+          "position": 7936
+        },
+        "endLoc": {
+          "line": 891,
+          "column": 12,
+          "position": 8038
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 655,
+        "end": 664,
+        "startLoc": {
+          "line": 655,
+          "column": 5,
+          "position": 5915
+        },
+        "endLoc": {
+          "line": 664,
+          "column": 18,
+          "position": 6017
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ",\n    .help-listings-item-card,\n    .invite-list-panel,\n    .invite-list-row\n  ) {\n    border-width: var(--subpage-card-border-width, 1px) !important;\n    border-style: solid !important;\n    border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;\n    background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;\n    background-image: none !important;\n    box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;\n  }\n\n  .workspace-guide-panel.glass-subpage-surface",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 1047,
+        "end": 1060,
+        "startLoc": {
+          "line": 1047,
+          "column": 25,
+          "position": 8934
+        },
+        "endLoc": {
+          "line": 1060,
+          "column": 47,
+          "position": 9077
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 515,
+        "end": 528,
+        "startLoc": {
+          "line": 515,
+          "column": 25,
+          "position": 4553
+        },
+        "endLoc": {
+          "line": 528,
+          "column": 6,
+          "position": 4694
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": ";\n    mask-image: linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.06) 1%,\n      rgba(0, 0, 0, 0.14) 2.3%,\n      rgba(0, 0, 0, 0.26) 4.2%,\n      rgba(0, 0, 0, 0.48) 6.8%,\n      #000 9.2%,\n      #000 79.2%,\n      rgba(0, 0, 0, 0.92) 85.2%,\n      rgba(0, 0, 0, 0.64) 91%,\n      rgba(0, 0, 0, 0.3) 95.4%,\n      rgba(0, 0, 0, 0.08) 98.4%,\n      rgba(0, 0, 0, 0) 100%\n    );",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 1091,
+        "end": 1106,
+        "startLoc": {
+          "line": 1091,
+          "column": 50,
+          "position": 9367
+        },
+        "endLoc": {
+          "line": 1106,
+          "column": 7,
+          "position": 9574
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 583,
+        "end": 598,
+        "startLoc": {
+          "line": 583,
+          "column": 59,
+          "position": 5362
+        },
+        "endLoc": {
+          "line": 598,
+          "column": 15,
+          "position": 5570
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": ";\n    -webkit-mask-image: linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.06) 1%,\n      rgba(0, 0, 0, 0.14) 2.3%,\n      rgba(0, 0, 0, 0.26) 4.2%,\n      rgba(0, 0, 0, 0.48) 6.8%,\n      #000 9.2%,\n      #000 79.2%,\n      rgba(0, 0, 0, 0.92) 85.2%,\n      rgba(0, 0, 0, 0.64) 91%,\n      rgba(0, 0, 0, 0.3) 95.4%,\n      rgba(0, 0, 0, 0.08) 98.4%,\n      rgba(0, 0, 0, 0) 100%\n    );\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 1106,
+        "end": 1122,
+        "startLoc": {
+          "line": 1106,
+          "column": 6,
+          "position": 9574
+        },
+        "endLoc": {
+          "line": 1122,
+          "column": 4,
+          "position": 9784
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\policy-pages.css",
+        "start": 598,
+        "end": 1107,
+        "startLoc": {
+          "line": 598,
+          "column": 15,
+          "position": 5571
+        },
+        "endLoc": {
+          "line": 1107,
+          "column": 23,
+          "position": 9577
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 20,
+      "fragment": ": linear-gradient(\n    to bottom,\n    transparent 0%,\n    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),\n    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),\n    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),\n    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),\n    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),\n    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),\n    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),\n    #000 calc(var(--help-scroll-fade-top) * 1.04),\n    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),\n    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),\n    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),\n    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),\n    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),\n    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),\n    transparent 100%\n  );\n  -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 25,
+        "end": 44,
+        "startLoc": {
+          "line": 25,
+          "column": 13,
+          "position": 474
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 20,
+          "position": 904
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 6,
+        "end": 25,
+        "startLoc": {
+          "line": 6,
+          "column": 21,
+          "position": 43
+        },
+        "endLoc": {
+          "line": 25,
+          "column": 13,
+          "position": 473
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": ";\n      --ring-fit-pad: calc(1.3 * var(--base-rem));\n      --ring-ui-reserve: calc(2 * var(--base-rem));\n      --ring-base-min: calc(36 * var(--base-rem));\n      --ring-base-max: calc(54 * var(--base-rem));\n      --ring-desktop-max: calc(58 * var(--base-rem));\n      --chat-focus-diameter-scale: 1.06;\n      --help-listings-workspace-inline-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 117,
+        "end": 124,
+        "startLoc": {
+          "line": 117,
+          "column": 22,
+          "position": 1422
+        },
+        "endLoc": {
+          "line": 124,
+          "column": 44,
+          "position": 1517
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 749,
+        "end": 756,
+        "startLoc": {
+          "line": 749,
+          "column": 72,
+          "position": 6709
+        },
+        "endLoc": {
+          "line": 756,
+          "column": 32,
+          "position": 6804
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    --ring-scale: 1;\n    --ring-fit-pad: calc(1.3 * var(--base-rem));\n    --ring-ui-reserve: calc(2 * var(--base-rem));\n    --ring-base-min: calc(36 * var(--base-rem));\n    --ring-base-max: calc(54 * var(--base-rem));\n    --ring-desktop-max: calc(58 * var(--base-rem));\n    --chat-focus-inline-extra",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 55,
+        "end": 62,
+        "startLoc": {
+          "line": 55,
+          "column": 56,
+          "position": 473
+        },
+        "endLoc": {
+          "line": 62,
+          "column": 30,
+          "position": 569
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 116,
+        "end": 755,
+        "startLoc": {
+          "line": 116,
+          "column": 42,
+          "position": 1414
+        },
+        "endLoc": {
+          "line": 755,
+          "column": 30,
+          "position": 6797
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 6,
+      "fragment": " {\n  position: fixed;\n  top: calc(env(safe-area-inset-top, 0px) + clamp(0.72rem, 2.2vh, 1.15rem));\n  right: calc(env(safe-area-inset-right, 0px) + clamp(0.72rem, 2vw, 1.15rem));\n  z-index: 92;\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 946,
+        "end": 951,
+        "startLoc": {
+          "line": 946,
+          "column": 40,
+          "position": 8100
+        },
+        "endLoc": {
+          "line": 951,
+          "column": 2,
+          "position": 8177
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 67,
+        "end": 72,
+        "startLoc": {
+          "line": 67,
+          "column": 10,
+          "position": 594
+        },
+        "endLoc": {
+          "line": 72,
+          "column": 10,
+          "position": 672
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": " {\r\n  background: rgba(255, 255, 255, 0.92);\r\n  color: var(--title-color, #8a4b49);\r\n  box-shadow:\r\n    inset 0 0 0 1px rgba(122, 58, 56, 0.08),\r\n    0 8px 20px rgba(82, 50, 46, 0.08);\r\n}\r\n\r\n.workspace-feature-dropdown",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 975,
+        "end": 983,
+        "startLoc": {
+          "line": 975,
+          "column": 85,
+          "position": 8442
+        },
+        "endLoc": {
+          "line": 983,
+          "column": 28,
+          "position": 8542
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 819,
+        "end": 827,
+        "startLoc": {
+          "line": 819,
+          "column": 73,
+          "position": 7614
+        },
+        "endLoc": {
+          "line": 827,
+          "column": 27,
+          "position": 7706
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": ";\n  transform: none !important;\n  transition:\n    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    opacity 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;\n}\n\n.service-map-toolbar__results",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 1930,
+        "end": 1940,
+        "startLoc": {
+          "line": 1930,
+          "column": 21,
+          "position": 15372
+        },
+        "endLoc": {
+          "line": 1940,
+          "column": 30,
+          "position": 15497
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 803,
+        "end": 813,
+        "startLoc": {
+          "line": 803,
+          "column": 92,
+          "position": 7041
+        },
+        "endLoc": {
+          "line": 813,
+          "column": 6,
+          "position": 7166
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ";\n  }\n\n  .service-map-workspace--toolbar-feedback .service-map-toolbar__identity {\n    position: absolute;\n    top: calc(var(--service-map-toolbar-control-top) + ((var(--service-map-toolbar-control-size) - var(--service-map-toolbar-back-hit-size)) / 2));\n    left: calc(var(--service-map-toolbar-icon-edge-gap) + var(--service-map-toolbar-icon-inner-nudge));\n  }\n\n  .service-map-workspace--toolbar-feedback",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2780,
+        "end": 2789,
+        "startLoc": {
+          "line": 2780,
+          "column": 18,
+          "position": 22065
+        },
+        "endLoc": {
+          "line": 2789,
+          "column": 43,
+          "position": 22145
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 1475,
+        "end": 1484,
+        "startLoc": {
+          "line": 1475,
+          "column": 16,
+          "position": 12034
+        },
+        "endLoc": {
+          "line": 1484,
+          "column": 27,
+          "position": 12110
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);\n    background: var(--service-map-control-glass-bg);\n    color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));\n    box-shadow: var(--service-map-mobile-toggle-shadow);\n    backdrop-filter: blur(26px) saturate(160%);\n    -webkit-backdrop-filter: blur(26px) saturate(160%);\n    transform: translateX(-50%);\n  }\n\n  .service-map-workspace__filters--collapsed",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3042,
+        "end": 3051,
+        "startLoc": {
+          "line": 3042,
+          "column": 5,
+          "position": 24102
+        },
+        "endLoc": {
+          "line": 3051,
+          "column": 45,
+          "position": 24218
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3030,
+        "end": 3039,
+        "startLoc": {
+          "line": 3030,
+          "column": 5,
+          "position": 23964
+        },
+        "endLoc": {
+          "line": 3039,
+          "column": 34,
+          "position": 24082
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": ".service-map-workspace__toggle {\n    top: var(--service-map-mobile-control-top);\n    right: auto;\n    left: 50%;\n    width: var(--service-map-mobile-control-size);\n    height: var(--service-map-mobile-control-size);\n    min-width: var(--service-map-mobile-control-size);\n    min-height: var(--service-map-mobile-control-size);\n    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);\n    background: var(--service-map-control-glass-bg);\n    color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));\n    box-shadow: var(--service-map-mobile-toggle-shadow);\n    backdrop-filter: blur(26px) saturate(160%);\r\n    -webkit-backdrop-filter: blur(26px) saturate(160%);\r\n    transform: translateX(-50%);\n    pointer-events",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3051,
+        "end": 3066,
+        "startLoc": {
+          "line": 3051,
+          "column": 46,
+          "position": 24220
+        },
+        "endLoc": {
+          "line": 3066,
+          "column": 19,
+          "position": 24403
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3022,
+        "end": 3037,
+        "startLoc": {
+          "line": 3022,
+          "column": 3,
+          "position": 23895
+        },
+        "endLoc": {
+          "line": 3037,
+          "column": 4,
+          "position": 24077
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 20,
+      "fragment": ";\r\n    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);\n    background: var(--service-map-control-glass-bg);\n    color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));\n    box-shadow: var(--service-map-mobile-toggle-shadow);\n    backdrop-filter: blur(26px) saturate(160%);\r\n    -webkit-backdrop-filter: blur(26px) saturate(160%);\r\n    transform: translateX(-50%);\n  }\n\r\n  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle,\n  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:hover,\n  .service-map-workspace__filters:not(.service-map-workspace__filters--collapsed) .service-map-workspace__toggle:focus-visible {\n    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);\n    background: var(--service-map-control-glass-bg);\n    color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));\n    box-shadow: var(--service-map-mobile-toggle-shadow);\n    backdrop-filter: blur(26px) saturate(160%);\r\n    -webkit-backdrop-filter: blur(26px) saturate(160%);\r\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3265,
+        "end": 3284,
+        "startLoc": {
+          "line": 3265,
+          "column": 15,
+          "position": 25778
+        },
+        "endLoc": {
+          "line": 3284,
+          "column": 4,
+          "position": 26024
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3029,
+        "end": 3036,
+        "startLoc": {
+          "line": 3029,
+          "column": 55,
+          "position": 23961
+        },
+        "endLoc": {
+          "line": 3036,
+          "column": 14,
+          "position": 24066
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": ": var(--service-map-mobile-control-size);\n    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent);\n    background: var(--service-map-control-glass-bg);\n    color: var(--seg-card-text-selected, var(--title-color, var(--brand-primary, #c57171)));\n    box-shadow: var(--service-map-mobile-toggle-shadow);\n    backdrop-filter: blur(26px) saturate(160%);\r\n    -webkit-backdrop-filter: blur(26px) saturate(160%);\r\n    transform: translateX(-50%);\n    pointer-events: auto;\n  }\n\r\n  .service-map-workspace__toggle svg {\n    width: 2.72rem;\n    height: 2.72rem;\n  }\n\n  .service-map-leaflet",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3293,
+        "end": 3309,
+        "startLoc": {
+          "line": 3293,
+          "column": 14,
+          "position": 26092
+        },
+        "endLoc": {
+          "line": 3309,
+          "column": 23,
+          "position": 26252
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3029,
+        "end": 3074,
+        "startLoc": {
+          "line": 3029,
+          "column": 15,
+          "position": 23955
+        },
+        "endLoc": {
+          "line": 3074,
+          "column": 32,
+          "position": 24441
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": " {\n    border: 1px solid color-mix(in srgb, var(--workspace-feature-text) 14%, transparent) !important;\n    background: var(--service-map-control-glass-bg) !important;\n    box-shadow: var(--service-map-mobile-toggle-shadow) !important;\n    backdrop-filter: blur(26px) saturate(160%) !important;\n    -webkit-backdrop-filter: blur(26px) saturate(160%) !important;\n  }\n\n  .service-map-workspace__filters-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3357,
+        "end": 3365,
+        "startLoc": {
+          "line": 3357,
+          "column": 127,
+          "position": 26633
+        },
+        "endLoc": {
+          "line": 3365,
+          "column": 40,
+          "position": 26730
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3330,
+        "end": 3338,
+        "startLoc": {
+          "line": 3330,
+          "column": 76,
+          "position": 26403
+        },
+        "endLoc": {
+          "line": 3338,
+          "column": 59,
+          "position": 26500
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "background:\n      var(--glass-ring-sheen, none),\n      var(--service-map-panel-glass-bg) !important;\n    box-shadow: var(--service-map-panel-shadow) !important;\n    backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;\n    -webkit-backdrop-filter: blur(var(--service-map-glass-blur)) saturate(160%) !important;\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 3366,
+        "end": 3372,
+        "startLoc": {
+          "line": 3366,
+          "column": 5,
+          "position": 26735
+        },
+        "endLoc": {
+          "line": 3372,
+          "column": 4,
+          "position": 26809
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2926,
+        "end": 2932,
+        "startLoc": {
+          "line": 2926,
+          "column": 5,
+          "position": 23294
+        },
+        "endLoc": {
+          "line": 2932,
+          "column": 13,
+          "position": 23368
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 48,
+      "fragment": " {\n  --help-scroll-fade-top: clamp(1.08rem, 2.7vh, 1.62rem);\n  --help-scroll-fade-bottom: clamp(0.98rem, 2.45vh, 1.48rem);\n  -webkit-mask-image: linear-gradient(\n    to bottom,\n    transparent 0%,\n    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),\n    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),\n    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),\n    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),\n    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),\n    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),\n    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),\n    #000 calc(var(--help-scroll-fade-top) * 1.04),\n    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),\n    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),\n    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),\n    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),\n    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),\n    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),\n    transparent 100%\n  );\n  mask-image: linear-gradient(\n    to bottom,\n    transparent 0%,\n    rgba(0, 0, 0, 0.015) calc(var(--help-scroll-fade-top) * 0.08),\n    rgba(0, 0, 0, 0.06) calc(var(--help-scroll-fade-top) * 0.18),\n    rgba(0, 0, 0, 0.14) calc(var(--help-scroll-fade-top) * 0.3),\n    rgba(0, 0, 0, 0.28) calc(var(--help-scroll-fade-top) * 0.44),\n    rgba(0, 0, 0, 0.46) calc(var(--help-scroll-fade-top) * 0.6),\n    rgba(0, 0, 0, 0.66) calc(var(--help-scroll-fade-top) * 0.76),\n    rgba(0, 0, 0, 0.84) calc(var(--help-scroll-fade-top) * 0.92),\n    #000 calc(var(--help-scroll-fade-top) * 1.04),\n    #000 calc(100% - (var(--help-scroll-fade-bottom) * 1.04)),\n    rgba(0, 0, 0, 0.9) calc(100% - (var(--help-scroll-fade-bottom) * 0.9)),\n    rgba(0, 0, 0, 0.74) calc(100% - (var(--help-scroll-fade-bottom) * 0.72)),\n    rgba(0, 0, 0, 0.52) calc(100% - (var(--help-scroll-fade-bottom) * 0.52)),\n    rgba(0, 0, 0, 0.28) calc(100% - (var(--help-scroll-fade-bottom) * 0.32)),\n    rgba(0, 0, 0, 0.08) calc(100% - (var(--help-scroll-fade-bottom) * 0.14)),\n    transparent 100%\n  );\n  -webkit-mask-size: 100% 100%;\n  mask-size: 100% 100%;\n  -webkit-mask-repeat: no-repeat;\n  mask-repeat: no-repeat;\n}\n\n.selected-listing-body",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\selected-listing.css",
+        "start": 3,
+        "end": 50,
+        "startLoc": {
+          "line": 3,
+          "column": 23,
+          "position": 4
+        },
+        "endLoc": {
+          "line": 50,
+          "column": 23,
+          "position": 938
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 3,
+        "end": 50,
+        "startLoc": {
+          "line": 3,
+          "column": 22,
+          "position": 4
+        },
+        "endLoc": {
+          "line": 50,
+          "column": 22,
+          "position": 938
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 20,
+      "fragment": " {\n      --ring-scale: 1;\n      --ring-fit-pad: calc(1.3 * var(--base-rem));\n      --ring-ui-reserve: calc(2 * var(--base-rem));\n      --ring-base-min: calc(36 * var(--base-rem));\n      --ring-base-max: calc(54 * var(--base-rem));\n      --ring-desktop-max: calc(58 * var(--base-rem));\n      --chat-focus-diameter-scale: 1.06;\n      --help-listings-workspace-inline-size: var(--workspace-glass-shell-inline-size);\n      width: var(--help-listings-workspace-inline-size) !important;\n      inline-size: var(--help-listings-workspace-inline-size) !important;\n      min-width: var(--help-listings-workspace-inline-size) !important;\n      max-width: var(--help-listings-workspace-inline-size) !important;\n      height: var(--workspace-glass-block-size) !important;\n      min-height: var(--workspace-glass-block-size) !important;\n      max-height: var(--workspace-glass-block-size) !important;\n      block-size: var(--workspace-glass-block-size) !important;\n      border-radius: clamp(1.6rem, 3.5vw, 2.4rem) !important;\n    }\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\invite-modal.css",
+        "start": 26,
+        "end": 45,
+        "startLoc": {
+          "line": 26,
+          "column": 35,
+          "position": 162
+        },
+        "endLoc": {
+          "line": 45,
+          "column": 2,
+          "position": 392
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 116,
+        "end": 135,
+        "startLoc": {
+          "line": 116,
+          "column": 42,
+          "position": 1414
+        },
+        "endLoc": {
+          "line": 135,
+          "column": 2,
+          "position": 1644
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 19,
+      "fragment": "{\n  from {\n    transform: rotateY(0deg);\n  }\n\n  27.777% {\n    transform: rotateY(180deg);\n  }\n\n  72.222% {\n    transform: rotateY(180deg);\n  }\n\n  to {\n    transform: rotateY(360deg);\n  }\n}\n\n.homepage-root",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\home.css",
+        "start": 881,
+        "end": 899,
+        "startLoc": {
+          "line": 881,
+          "column": 37,
+          "position": 5665
+        },
+        "endLoc": {
+          "line": 899,
+          "column": 15,
+          "position": 5749
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\home.css",
+        "start": 863,
+        "end": 881,
+        "startLoc": {
+          "line": 863,
+          "column": 31,
+          "position": 5576
+        },
+        "endLoc": {
+          "line": 881,
+          "column": 11,
+          "position": 5660
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": "{\n  box-shadow:\n    var(--btn-primary-shadow),\n    inset 0 0 0 1px rgba(255, 122, 126, 0),\n    inset 0 0 7px rgba(255, 122, 126, 0),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0) !important;\n}\n\n:root",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 298,
+        "end": 308,
+        "startLoc": {
+          "line": 298,
+          "column": 63,
+          "position": 2473
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 6,
+          "position": 2612
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2596,
+        "end": 2606,
+        "startLoc": {
+          "line": 2596,
+          "column": 99,
+          "position": 20326
+        },
+        "endLoc": {
+          "line": 2606,
+          "column": 28,
+          "position": 20466
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "box-shadow:\n    var(--btn-primary-shadow-hover),\n    inset 0 0 4px rgba(255, 122, 126, 0.11),\n    inset 0 0 9px rgba(255, 122, 126, 0.045),\n    0 0 3px rgba(255, 122, 126, 0.14),\n    0 0 10px rgba(255, 122, 126, 0.08),\n    0 0 20px rgba(255, 122, 126, 0.04) !important;\n}\n\n:root",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 310,
+        "end": 319,
+        "startLoc": {
+          "line": 310,
+          "column": 3,
+          "position": 2635
+        },
+        "endLoc": {
+          "line": 319,
+          "column": 6,
+          "position": 2769
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2623,
+        "end": 2632,
+        "startLoc": {
+          "line": 2623,
+          "column": 3,
+          "position": 20616
+        },
+        "endLoc": {
+          "line": 2632,
+          "column": 5,
+          "position": 20750
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "),\n    inset 0 0 0 1px rgba(255, 122, 126, 0),\n    inset 0 0 7px rgba(255, 122, 126, 0),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0) !important;\n}\n\n:root.theme-light",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 321,
+        "end": 329,
+        "startLoc": {
+          "line": 321,
+          "column": 35,
+          "position": 2785
+        },
+        "endLoc": {
+          "line": 329,
+          "column": 18,
+          "position": 2915
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2598,
+        "end": 308,
+        "startLoc": {
+          "line": 2598,
+          "column": 29,
+          "position": 20336
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 105,
+          "position": 2613
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "),\n    0 0 3px rgba(255, 122, 126, 0.14),\n    0 0 10px rgba(255, 122, 126, 0.08),\n    0 0 20px rgba(255, 122, 126, 0.04) !important;\n}\n\n:root.theme-light",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 433,
+        "end": 439,
+        "startLoc": {
+          "line": 433,
+          "column": 34,
+          "position": 3930
+        },
+        "endLoc": {
+          "line": 439,
+          "column": 18,
+          "position": 4008
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 313,
+        "end": 319,
+        "startLoc": {
+          "line": 313,
+          "column": 44,
+          "position": 2692
+        },
+        "endLoc": {
+          "line": 319,
+          "column": 40,
+          "position": 2770
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "),\n    0 0 3px rgba(122, 58, 56, 0.13),\n    0 0 9px rgba(197, 113, 113, 0.095),\n    0 0 18px rgba(197, 113, 113, 0.055) !important;\n}\n\n:root.theme-mid",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 458,
+        "end": 464,
+        "startLoc": {
+          "line": 458,
+          "column": 127,
+          "position": 4264
+        },
+        "endLoc": {
+          "line": 464,
+          "column": 16,
+          "position": 4342
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 351,
+        "end": 357,
+        "startLoc": {
+          "line": 351,
+          "column": 35,
+          "position": 3128
+        },
+        "endLoc": {
+          "line": 357,
+          "column": 18,
+          "position": 3206
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "),\n    inset 0 0 0 1px rgba(255, 122, 126, 0),\n    inset 0 0 7px rgba(255, 122, 126, 0),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0) !important;\n}\n\n:root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame:hover:not(.ui-glow-option-card-frame--disabled)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 523,
+        "end": 531,
+        "startLoc": {
+          "line": 523,
+          "column": 53,
+          "position": 4981
+        },
+        "endLoc": {
+          "line": 531,
+          "column": 115,
+          "position": 5111
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2598,
+        "end": 308,
+        "startLoc": {
+          "line": 2598,
+          "column": 29,
+          "position": 20336
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 105,
+          "position": 2613
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "),\n    inset 0 0 4px rgba(255, 122, 126, 0.11),\n    inset 0 0 9px rgba(255, 122, 126, 0.045),\n    0 0 3px rgba(255, 122, 126, 0.14),\n    0 0 10px rgba(255, 122, 126, 0.08),\n    0 0 20px rgba(255, 122, 126, 0.04) !important;\n}\n\n:root:not(.theme-light):not(.theme-mid) .ui-glow-option-card-frame[data-focus-visible=\"true\"]:not(:hover)",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 534,
+        "end": 542,
+        "startLoc": {
+          "line": 534,
+          "column": 65,
+          "position": 5150
+        },
+        "endLoc": {
+          "line": 542,
+          "column": 106,
+          "position": 5278
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2624,
+        "end": 319,
+        "startLoc": {
+          "line": 2624,
+          "column": 35,
+          "position": 20623
+        },
+        "endLoc": {
+          "line": 319,
+          "column": 40,
+          "position": 2770
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": ")),\n    inset 0 0 0 1px rgba(255, 122, 126, 0),\n    inset 0 0 7px rgba(255, 122, 126, 0),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0) !important;\n}\n\n:root.theme-light .ui-glow-option-card-frame",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 544,
+        "end": 552,
+        "startLoc": {
+          "line": 544,
+          "column": 64,
+          "position": 5294
+        },
+        "endLoc": {
+          "line": 552,
+          "column": 45,
+          "position": 5427
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 523,
+        "end": 329,
+        "startLoc": {
+          "line": 523,
+          "column": 52,
+          "position": 4980
+        },
+        "endLoc": {
+          "line": 329,
+          "column": 40,
+          "position": 2917
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "))),\n    0 0 2px rgba(122, 58, 56, 0),\n    0 0 10px rgba(197, 113, 113, 0),\n    0 0 22px rgba(197, 113, 113, 0) !important;\n}\n\n:root.theme-mid",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 592,
+        "end": 598,
+        "startLoc": {
+          "line": 592,
+          "column": 88,
+          "position": 5902
+        },
+        "endLoc": {
+          "line": 598,
+          "column": 16,
+          "position": 5982
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 445,
+        "end": 451,
+        "startLoc": {
+          "line": 445,
+          "column": 88,
+          "position": 4089
+        },
+        "endLoc": {
+          "line": 451,
+          "column": 18,
+          "position": 4169
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ")))),\n    0 0 3px rgba(122, 58, 56, 0.13),\n    0 0 9px rgba(197, 113, 113, 0.095),\n    0 0 18px rgba(197, 113, 113, 0.055) !important;\n}\n\n:root.theme-mid .ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 613,
+        "end": 619,
+        "startLoc": {
+          "line": 613,
+          "column": 123,
+          "position": 6223
+        },
+        "endLoc": {
+          "line": 619,
+          "column": 31,
+          "position": 6306
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 458,
+        "end": 464,
+        "startLoc": {
+          "line": 458,
+          "column": 124,
+          "position": 4261
+        },
+        "endLoc": {
+          "line": 464,
+          "column": 35,
+          "position": 4344
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ":hover {\n  border-color: transparent !important;\n  background:\n    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),\n    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;\n  box-shadow:\n    var(--chat-inputbar-shadow-hover, var(--mid-pill-surface-shadow-hover, var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 619,
+        "end": 625,
+        "startLoc": {
+          "line": 619,
+          "column": 31,
+          "position": 6307
+        },
+        "endLoc": {
+          "line": 625,
+          "column": 161,
+          "position": 6383
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 202,
+        "end": 208,
+        "startLoc": {
+          "line": 202,
+          "column": 44,
+          "position": 1904
+        },
+        "endLoc": {
+          "line": 208,
+          "column": 179,
+          "position": 1980
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ")))),\n    0 0 3px rgba(122, 58, 56, 0.13),\n    0 0 9px rgba(197, 113, 113, 0.095),\n    0 0 18px rgba(197, 113, 113, 0.055) !important;\n}\n\n:root.theme-light .ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 625,
+        "end": 631,
+        "startLoc": {
+          "line": 625,
+          "column": 197,
+          "position": 6407
+        },
+        "endLoc": {
+          "line": 631,
+          "column": 33,
+          "position": 6490
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 458,
+        "end": 357,
+        "startLoc": {
+          "line": 458,
+          "column": 124,
+          "position": 4261
+        },
+        "endLoc": {
+          "line": 357,
+          "column": 40,
+          "position": 3208
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "inset 0 0 0 2px rgba(255, 234, 0, 0.72),\n    0 0 2px rgba(255, 234, 0, 0.28),\n    0 0 12px rgba(255, 234, 0, 0.14),\n    0 0 24px rgba(255, 234, 0, 0.08) !important;\n}\n\n.invite-glow-field.ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 675,
+        "end": 681,
+        "startLoc": {
+          "line": 675,
+          "column": 5,
+          "position": 6968
+        },
+        "endLoc": {
+          "line": 681,
+          "column": 33,
+          "position": 7068
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2635,
+        "end": 2641,
+        "startLoc": {
+          "line": 2635,
+          "column": 5,
+          "position": 20773
+        },
+        "endLoc": {
+          "line": 2641,
+          "column": 28,
+          "position": 20874
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": "box-shadow:\n    inset 0 0 0 1px rgba(255, 255, 255, 0.12),\n    inset 0 0 8px rgba(255, 122, 126, 0),\n    0 4px 10px rgba(0, 0, 0, 0.12),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0) !important;\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 682,
+        "end": 689,
+        "startLoc": {
+          "line": 682,
+          "column": 3,
+          "position": 7073
+        },
+        "endLoc": {
+          "line": 689,
+          "column": 2,
+          "position": 7223
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 416,
+        "end": 423,
+        "startLoc": {
+          "line": 416,
+          "column": 3,
+          "position": 3646
+        },
+        "endLoc": {
+          "line": 423,
+          "column": 13,
+          "position": 3797
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": ":focus-within {\n  box-shadow:\n    inset 0 0 4px rgba(255, 122, 126, 0.11),\n    inset 0 0 9px rgba(255, 122, 126, 0.045),\n    0 5px 12px rgba(0, 0, 0, 0.14),\n    0 0 3px rgba(255, 122, 126, 0.14),\n    0 0 10px rgba(255, 122, 126, 0.08),\n    0 0 20px rgba(255, 122, 126, 0.04) !important;\n}\n\n:root.theme-light .invite-glow-field.ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 692,
+        "end": 702,
+        "startLoc": {
+          "line": 692,
+          "column": 33,
+          "position": 7230
+        },
+        "endLoc": {
+          "line": 702,
+          "column": 51,
+          "position": 7389
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 429,
+        "end": 439,
+        "startLoc": {
+          "line": 429,
+          "column": 19,
+          "position": 3851
+        },
+        "endLoc": {
+          "line": 439,
+          "column": 37,
+          "position": 4010
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 12,
+      "fragment": " {\n  border-color: transparent !important;\n  background-clip: padding-box;\n  background: rgba(255, 255, 255, 0.72) !important;\n  box-shadow:\n    var(--input-shadow-composite, var(--input-shadow, 0 4px 10px rgba(82, 50, 46, 0.065))),\n    0 0 2px rgba(122, 58, 56, 0),\n    0 0 10px rgba(197, 113, 113, 0),\n    0 0 22px rgba(197, 113, 113, 0) !important;\n}\n\n:root.theme-mid .invite-glow-field.ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 702,
+        "end": 713,
+        "startLoc": {
+          "line": 702,
+          "column": 51,
+          "position": 7390
+        },
+        "endLoc": {
+          "line": 713,
+          "column": 49,
+          "position": 7545
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 440,
+        "end": 598,
+        "startLoc": {
+          "line": 440,
+          "column": 35,
+          "position": 4016
+        },
+        "endLoc": {
+          "line": 598,
+          "column": 31,
+          "position": 5984
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "))),\n    0 0 2px rgba(122, 58, 56, 0),\n    0 0 10px rgba(197, 113, 113, 0),\n    0 0 22px rgba(197, 113, 113, 0) !important;\n}\n\n:root.theme-light .invite-glow-field.ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 718,
+        "end": 724,
+        "startLoc": {
+          "line": 718,
+          "column": 149,
+          "position": 7630
+        },
+        "endLoc": {
+          "line": 724,
+          "column": 51,
+          "position": 7712
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 445,
+        "end": 451,
+        "startLoc": {
+          "line": 445,
+          "column": 88,
+          "position": 4089
+        },
+        "endLoc": {
+          "line": 451,
+          "column": 37,
+          "position": 4171
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": ":focus-within {\n  border-color: transparent !important;\n  background: rgba(255, 255, 255, 0.82) !important;\n  box-shadow:\n    var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 5px 12px rgba(82, 50, 46, 0.095)))),\n    0 0 3px rgba(122, 58, 56, 0.13),\n    0 0 9px rgba(197, 113, 113, 0.095),\n    0 0 18px rgba(197, 113, 113, 0.055) !important;\n}\n\n:root.theme-mid .invite-glow-field.ui-glow-field",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 725,
+        "end": 735,
+        "startLoc": {
+          "line": 725,
+          "column": 51,
+          "position": 7719
+        },
+        "endLoc": {
+          "line": 735,
+          "column": 49,
+          "position": 7873
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 454,
+        "end": 464,
+        "startLoc": {
+          "line": 454,
+          "column": 35,
+          "position": 4190
+        },
+        "endLoc": {
+          "line": 464,
+          "column": 35,
+          "position": 4344
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": " {\n  border-color: transparent !important;\n  background:\n    var(--chat-inputbar-overlay-bg, var(--mid-pill-surface-bg-hover, var(--input-bg-hover))),\n    var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;\n  box-shadow:\n    var(--chat-inputbar-shadow-hover, var(--mid-pill-surface-shadow-hover, var(--input-shadow-hover-composite, var(--input-shadow-composite, var(--input-shadow, 0 5",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 736,
+        "end": 742,
+        "startLoc": {
+          "line": 736,
+          "column": 62,
+          "position": 7881
+        },
+        "endLoc": {
+          "line": 742,
+          "column": 165,
+          "position": 7960
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 202,
+        "end": 625,
+        "startLoc": {
+          "line": 202,
+          "column": 50,
+          "position": 1905
+        },
+        "endLoc": {
+          "line": 625,
+          "column": 166,
+          "position": 6387
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ")))))),\n    0 0 3px rgba(122, 58, 56, 0.13),\n    0 0 9px rgba(197, 113, 113, 0.095),\n    0 0 18px rgba(197, 113, 113, 0.055) !important;\n}\n\nhtml[data-contrast=\"hc\"] .ui-glow-button-frame",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 742,
+        "end": 748,
+        "startLoc": {
+          "line": 742,
+          "column": 195,
+          "position": 7978
+        },
+        "endLoc": {
+          "line": 748,
+          "column": 47,
+          "position": 8063
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 625,
+        "end": 582,
+        "startLoc": {
+          "line": 625,
+          "column": 195,
+          "position": 6405
+        },
+        "endLoc": {
+          "line": 582,
+          "column": 52,
+          "position": 5801
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": " {\n  box-shadow:\n    var(--btn-primary-shadow-hover),\n    inset 0 0 0 2px rgba(255, 234, 0, 0.72),\n    0 0 2px rgba(255, 234, 0, 0.28),\n    0 0 12px rgba(255, 234, 0, 0.14),\n    0 0 24px rgba(255, 234, 0, 0.08) !important;\n}\n\nhtml",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 748,
+        "end": 757,
+        "startLoc": {
+          "line": 748,
+          "column": 90,
+          "position": 8066
+        },
+        "endLoc": {
+          "line": 757,
+          "column": 5,
+          "position": 8181
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2632,
+        "end": 2641,
+        "startLoc": {
+          "line": 2632,
+          "column": 110,
+          "position": 20758
+        },
+        "endLoc": {
+          "line": 2641,
+          "column": 28,
+          "position": 20874
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": "),\n    inset 0 0 0 2px rgba(255, 234, 0, 0.72),\n    0 0 2px rgba(255, 234, 0, 0.28),\n    0 0 12px rgba(255, 234, 0, 0.14),\n    0 0 24px rgba(255, 234, 0, 0.08) !important;\n}\n\nhtml[data-contrast=\"hc\"] .ui-glow-option-card-frame[data-checked=\"true\"]",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 759,
+        "end": 766,
+        "startLoc": {
+          "line": 759,
+          "column": 65,
+          "position": 8203
+        },
+        "endLoc": {
+          "line": 766,
+          "column": 73,
+          "position": 8311
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2634,
+        "end": 757,
+        "startLoc": {
+          "line": 2634,
+          "column": 35,
+          "position": 20769
+        },
+        "endLoc": {
+          "line": 757,
+          "column": 58,
+          "position": 8185
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": rgba(255, 234, 0, 0.1) !important;\n  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;\n  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;\n  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;\n  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;\n  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;\n  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;\n  background: rgba(255, 234, 0, 0.1) !important;\n  background-color: rgba(255, 234, 0, 0.1) !important;\n  border-color: rgba(255, 234, 0, 0.94) !important;\n  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;\n}\n\nhtml",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 773,
+        "end": 786,
+        "startLoc": {
+          "line": 773,
+          "column": 12,
+          "position": 8401
+        },
+        "endLoc": {
+          "line": 786,
+          "column": 5,
+          "position": 8644
+        }
+      },
+      "secondFile": {
+        "name": "components\\ui\\BorderGlow.module.css",
+        "start": 288,
+        "end": 302,
+        "startLoc": {
+          "line": 288,
+          "column": 25,
+          "position": 3741
+        },
+        "endLoc": {
+          "line": 302,
+          "column": 34,
+          "position": 3985
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": ";\n  transition:\n    background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    border-color 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    box-shadow 560ms cubic-bezier(0.22, 0.61, 0.36, 1),\n    color 560ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;\n}\n\n.register-role-options",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 958,
+        "end": 966,
+        "startLoc": {
+          "line": 958,
+          "column": 43,
+          "position": 9805
+        },
+        "endLoc": {
+          "line": 966,
+          "column": 23,
+          "position": 9900
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 804,
+        "end": 874,
+        "startLoc": {
+          "line": 804,
+          "column": 29,
+          "position": 7050
+        },
+        "endLoc": {
+          "line": 874,
+          "column": 6,
+          "position": 9283
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 19,
+      "fragment": "[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"],\nhtml[data-contrast=\"hc\"] .register-role-options .register-role-button.register-option-card[data-checked=\"true\"]:hover {\n  --seg-card-bg: rgba(255, 234, 0, 0.1) !important;\n  --seg-card-bg-hover: rgba(255, 234, 0, 0.12) !important;\n  --seg-card-bg-selected: rgba(255, 234, 0, 0.1) !important;\n  --card-bg: rgba(255, 234, 0, 0.1) !important;\n  --hc-control-bg: rgba(255, 234, 0, 0.1) !important;\n  --hc-control-bg-hover: rgba(255, 234, 0, 0.12) !important;\n  --hc-control-bg-active: rgba(255, 234, 0, 0.14) !important;\n  --btn-primary-bg: rgba(255, 234, 0, 0.1) !important;\n  --btn-primary-bg-hover: rgba(255, 234, 0, 0.12) !important;\n  --btn-primary-bg-active: rgba(255, 234, 0, 0.14) !important;\n  background: rgba(255, 234, 0, 0.1) !important;\n  background-color: rgba(255, 234, 0, 0.1) !important;\n  border-color: rgba(255, 234, 0, 0.94) !important;\n  box-shadow: inset 0 0 0 1px rgba(255, 234, 0, 0.64) !important;\n}\n\nhtml[data-contrast=\"hc\"] .register-role-options",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 1029,
+        "end": 1047,
+        "startLoc": {
+          "line": 1029,
+          "column": 5,
+          "position": 10371
+        },
+        "endLoc": {
+          "line": 1047,
+          "column": 48,
+          "position": 10699
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 768,
+        "end": 786,
+        "startLoc": {
+          "line": 768,
+          "column": 5,
+          "position": 8319
+        },
+        "endLoc": {
+          "line": 786,
+          "column": 52,
+          "position": 8647
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 6,
+      "fragment": ");\r\n  --documents-elevated-bg:\r\n    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),\r\n    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);\r\n  --documents-elevated-bg-hover: var(--documents-elevated-bg);\r\n  --documents-elevated-border: rgba",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 231,
+        "end": 236,
+        "startLoc": {
+          "line": 231,
+          "column": 63,
+          "position": 4201
+        },
+        "endLoc": {
+          "line": 236,
+          "column": 36,
+          "position": 4297
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 71,
+        "end": 76,
+        "startLoc": {
+          "line": 71,
+          "column": 60,
+          "position": 1243
+        },
+        "endLoc": {
+          "line": 76,
+          "column": 41,
+          "position": 1339
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 32,
+      "fragment": ";\r\n  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;\r\n  max-width: none !important;\r\n  height: calc(\r\n    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +\r\n      var(--workspace-guide-panel-overscan-top) +\r\n      var(--workspace-guide-panel-overscan-bottom)\r\n  ) !important;\r\n  max-height: calc(\r\n    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +\r\n      var(--workspace-guide-panel-overscan-top) +\r\n      var(--workspace-guide-panel-overscan-bottom)\r\n  ) !important;\r\n  margin-top: calc(\r\n    0px - var(--workspace-guide-panel-pad-top, 0.6rem) -\r\n      var(--workspace-guide-panel-overscan-top)\r\n  ) !important;\r\n  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;\r\n  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;\r\n  padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;\r\n  padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;\r\n  padding-top: calc(\r\n    var(--workspace-guide-panel-pad-top, 0.6rem) +\r\n      var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)\r\n  ) !important;\r\n  padding-bottom: var(--workspace-guide-panel-overscan-bottom) !important;\r\n  mask-image: none !important;\r\n  -webkit-mask-image: none !important;\r\n  scrollbar-gutter: auto !important;\r\n}\r\n\r\n.documents-workspace-page--library",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 341,
+        "end": 372,
+        "startLoc": {
+          "line": 341,
+          "column": 25,
+          "position": 5091
+        },
+        "endLoc": {
+          "line": 372,
+          "column": 35,
+          "position": 5446
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 835,
+        "end": 866,
+        "startLoc": {
+          "line": 835,
+          "column": 21,
+          "position": 7458
+        },
+        "endLoc": {
+          "line": 866,
+          "column": 26,
+          "position": 7782
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ".documents-workspace-page--library {\r\n  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));\r\n  --documents-panel-bg: var(--documents-glass-surface);\r\n  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);\r\n  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);\r\n  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);\r\n  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-agent-thread-bg: color-mix(in srgb, var(--documents-glass-surface) 84%, transparent);\r\n  --documents-agent-thread-border",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 471,
+        "end": 480,
+        "startLoc": {
+          "line": 471,
+          "column": 19,
+          "position": 6594
+        },
+        "endLoc": {
+          "line": 480,
+          "column": 34,
+          "position": 6779
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 445,
+        "end": 454,
+        "startLoc": {
+          "line": 445,
+          "column": 1,
+          "position": 6120
+        },
+        "endLoc": {
+          "line": 454,
+          "column": 32,
+          "position": 6305
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": " .documents-workspace-page--library {\r\n  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));\r\n  --documents-panel-bg: var(--documents-glass-surface);\r\n  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);\r\n  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);\r\n  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);\r\n  --documents-agent-stage-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-agent-stage-border",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 502,
+        "end": 510,
+        "startLoc": {
+          "line": 502,
+          "column": 16,
+          "position": 7203
+        },
+        "endLoc": {
+          "line": 510,
+          "column": 33,
+          "position": 7366
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 471,
+        "end": 453,
+        "startLoc": {
+          "line": 471,
+          "column": 18,
+          "position": 6593
+        },
+        "endLoc": {
+          "line": 453,
+          "column": 30,
+          "position": 6282
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ");\r\n  --documents-panel-bg: var(--documents-glass-surface);\r\n  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);\r\n  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);\r\n  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);\r\n  --documents-panel-border",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 535,
+        "end": 541,
+        "startLoc": {
+          "line": 535,
+          "column": 51,
+          "position": 7913
+        },
+        "endLoc": {
+          "line": 541,
+          "column": 27,
+          "position": 8021
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 446,
+        "end": 452,
+        "startLoc": {
+          "line": 446,
+          "column": 103,
+          "position": 6151
+        },
+        "endLoc": {
+          "line": 452,
+          "column": 29,
+          "position": 6259
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ");\r\n  --documents-panel-border: rgba(255, 255, 255, 0.06);\r\n  --documents-card-border: rgba(255, 255, 255, 0.055);\r\n  --documents-subpanel-border: rgba(255, 255, 255, 0.055);\r\n  --documents-content-border: rgba(255, 255, 255, 0.055);\r\n  --documents-muted-border: rgba(255, 255, 255, 0.055);\r\n  --documents-chip-bg",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 540,
+        "end": 546,
+        "startLoc": {
+          "line": 540,
+          "column": 91,
+          "position": 8016
+        },
+        "endLoc": {
+          "line": 546,
+          "column": 22,
+          "position": 8121
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 455,
+        "end": 461,
+        "startLoc": {
+          "line": 455,
+          "column": 73,
+          "position": 6334
+        },
+        "endLoc": {
+          "line": 461,
+          "column": 26,
+          "position": 6439
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": ");\r\n  --documents-panel-bg: var(--documents-glass-surface);\r\n  --documents-card-bg: color-mix(in srgb, var(--documents-glass-surface) 92%, transparent);\r\n  --documents-subpanel-bg: color-mix(in srgb, var(--documents-glass-surface) 88%, transparent);\r\n  --documents-content-bg: color-mix(in srgb, var(--documents-glass-surface) 86%, transparent);\r\n  --documents-muted-bg: color-mix(in srgb, var(--documents-glass-surface) 80%, transparent);\r\n  --documents-panel-border: rgba(133",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 606,
+        "end": 612,
+        "startLoc": {
+          "line": 606,
+          "column": 51,
+          "position": 9190
+        },
+        "endLoc": {
+          "line": 612,
+          "column": 37,
+          "position": 9303
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 446,
+        "end": 541,
+        "startLoc": {
+          "line": 446,
+          "column": 103,
+          "position": 6151
+        },
+        "endLoc": {
+          "line": 541,
+          "column": 37,
+          "position": 8026
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " {\r\n  --documents-glass-surface: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)));\r\n  --documents-glass-sheen: var(--glass-ring-sheen, none);\r\n  --documents-glass-backdrop-filter: blur(var(--glass-blur-radius, 1rem));\r\n  --documents-panel-bg: var(--documents-glass-surface);\r\n  --documents-card-bg: var(--documents-glass-surface);\r\n  --documents-subpanel-bg: var(--documents-glass-surface);\r\n  --documents-content-bg: var(--documents-glass-surface);\r\n  --documents-muted-bg: var(--documents-glass-surface);\r\n  --documents-agent-stage-bg: var(--documents-glass-surface);\r\n  --documents-agent-thread-bg: var(--documents-glass-surface);\r\n  --documents-agent-composer-bg: var(--documents-glass-surface);\r\n  --documents-agent-composer-bg-hover: var(--documents-glass-surface);\r\n  --documents-hc-panel-bg",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 678,
+        "end": 691,
+        "startLoc": {
+          "line": 678,
+          "column": 80,
+          "position": 10313
+        },
+        "endLoc": {
+          "line": 691,
+          "column": 26,
+          "position": 10477
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 654,
+        "end": 667,
+        "startLoc": {
+          "line": 654,
+          "column": 35,
+          "position": 10059
+        },
+        "endLoc": {
+          "line": 667,
+          "column": 31,
+          "position": 10223
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\r\n  position: fixed;\r\n  top: calc(env(safe-area-inset-top, 0px) + clamp(0.72rem, 2.2vh, 1.15rem));\r\n  right: calc(env(safe-area-inset-right, 0px) + clamp(0.72rem, 2vw, 1.15rem));\r\n  z-index: 92;\r\n}\r\n\r\n.documents-admin-role-menu",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 110,
+        "end": 117,
+        "startLoc": {
+          "line": 110,
+          "column": 37,
+          "position": 821
+        },
+        "endLoc": {
+          "line": 117,
+          "column": 27,
+          "position": 908
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 67,
+        "end": 953,
+        "startLoc": {
+          "line": 67,
+          "column": 10,
+          "position": 594
+        },
+        "endLoc": {
+          "line": 953,
+          "column": 40,
+          "position": 8180
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": " {\r\n  display: inline-grid;\r\n  width: 2.42rem;\r\n  height: 2.42rem;\r\n  min-width: 2.42rem;\r\n  place-items: center;\r\n  appearance: none;\r\n  border: 1px solid rgba(255, 255, 255, 0.12);\r\n  border-radius: 999px;\r\n  background: rgba(255, 255, 255, 0.86);\r\n  color: var(--documents-accent,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 117,
+        "end": 127,
+        "startLoc": {
+          "line": 117,
+          "column": 56,
+          "position": 911
+        },
+        "endLoc": {
+          "line": 127,
+          "column": 33,
+          "position": 1026
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 348,
+        "end": 358,
+        "startLoc": {
+          "line": 348,
+          "column": 48,
+          "position": 2587
+        },
+        "endLoc": {
+          "line": 358,
+          "column": 28,
+          "position": 2692
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 13,
+      "fragment": "#8f3d3d));\r\n  font-size: 1rem;\r\n  font-weight: 760;\r\n  letter-spacing: 0;\r\n  line-height: 1;\r\n  box-shadow:\r\n    inset 0 0 0 1px rgba(122, 58, 56, 0.08),\r\n    0 8px 20px rgba(82, 50, 46, 0.1);\r\n  cursor: var(--cursor-pointer);\r\n  transition:\r\n    background 160ms ease,\r\n    color 160ms ease,\r\n    box-shadow 160ms ease,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 127,
+        "end": 139,
+        "startLoc": {
+          "line": 127,
+          "column": 53,
+          "position": 1032
+        },
+        "endLoc": {
+          "line": 139,
+          "column": 27,
+          "position": 1169
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 358,
+        "end": 370,
+        "startLoc": {
+          "line": 358,
+          "column": 50,
+          "position": 2698
+        },
+        "endLoc": {
+          "line": 370,
+          "column": 26,
+          "position": 2823
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "{\r\n    border: 0 !important;\r\n    border-radius: var(--documents-mobile-panel-radius) !important;\r\n    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;\r\n    box-shadow: var(--glass-shell-shadow, none) !important;\r\n    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;\r\n    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;\r\n  }\r\n\r\n  .documents-workspace-page--documents",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 660,
+        "end": 669,
+        "startLoc": {
+          "line": 660,
+          "column": 119,
+          "position": 5663
+        },
+        "endLoc": {
+          "line": 669,
+          "column": 39,
+          "position": 5791
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 651,
+        "end": 660,
+        "startLoc": {
+          "line": 651,
+          "column": 5,
+          "position": 5531
+        },
+        "endLoc": {
+          "line": 660,
+          "column": 73,
+          "position": 5659
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": " {\r\n  background:\r\n    linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.052)),\r\n    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 60%, transparent) !important;\r\n  box-shadow:\r\n    inset 0 0 0 1px rgba(255, 255, 255, 0.14),\r\n    0 6",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-agent.css",
+        "start": 376,
+        "end": 382,
+        "startLoc": {
+          "line": 376,
+          "column": 44,
+          "position": 2797
+        },
+        "endLoc": {
+          "line": 382,
+          "column": 8,
+          "position": 2916
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 129,
+        "end": 135,
+        "startLoc": {
+          "line": 129,
+          "column": 34,
+          "position": 1218
+        },
+        "endLoc": {
+          "line": 135,
+          "column": 9,
+          "position": 1332
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 12,
+      "fragment": " {\r\n  padding: 0.95rem 1rem;\r\n  border: 1px dashed var(--documents-elevated-border);\r\n  border-radius: 1rem;\r\n  background: var(--documents-elevated-bg);\r\n  box-shadow: var(--documents-elevated-shadow);\r\n  color: var(--documents-page-strong);\r\n  font-size: 1.12rem;\r\n  line-height: 1.6;\r\n}\r\n\r\n.documents-agent-result-empty",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\documents-agent.css",
+        "start": 507,
+        "end": 518,
+        "startLoc": {
+          "line": 507,
+          "column": 30,
+          "position": 3717
+        },
+        "endLoc": {
+          "line": 518,
+          "column": 30,
+          "position": 3813
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-agent.css",
+        "start": 492,
+        "end": 503,
+        "startLoc": {
+          "line": 492,
+          "column": 28,
+          "position": 3602
+        },
+        "endLoc": {
+          "line": 503,
+          "column": 28,
+          "position": 3698
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 24,
+      "fragment": ": linear-gradient(\n    to bottom,\n    transparent 0%,\n    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.06 + var(--chat-window-scroll-top-fade-start-active) * 0.16),\n    rgba(0, 0, 0, 0) calc(var(--chat-window-fade-top-active) * 0.14 + var(--chat-window-scroll-top-fade-start-active) * 0.32),\n    rgba(0, 0, 0, 0.001) calc(var(--chat-window-fade-top-active) * 0.24 + var(--chat-window-scroll-top-fade-start-active) * 0.5),\n    rgba(0, 0, 0, 0.004) calc(var(--chat-window-fade-top-active) * 0.36 + var(--chat-window-scroll-top-fade-start-active) * 0.7),\n    rgba(0, 0, 0, 0.014) calc(var(--chat-window-fade-top-active) * 0.52 + var(--chat-window-scroll-top-fade-mid-active) * 0.44),\n    rgba(0, 0, 0, 0.04) calc(var(--chat-window-fade-top-active) * 0.7 + var(--chat-window-scroll-top-fade-mid-active) * 0.62),\n    rgba(0, 0, 0, 0.095) calc(var(--chat-window-fade-top-active) * 0.9 + var(--chat-window-scroll-top-fade-mid-active) * 0.82),\n    rgba(0, 0, 0, 0.2) calc(var(--chat-window-fade-top-active) * 1.1 + var(--chat-window-scroll-top-fade-end-active) * 0.58),\n    rgba(0, 0, 0, 0.37) calc(var(--chat-window-fade-top-active) * 1.28 + var(--chat-window-scroll-top-fade-end-active) * 0.74),\n    rgba(0, 0, 0, 0.6) calc(var(--chat-window-fade-top-active) * 1.44 + var(--chat-window-scroll-top-fade-end-active) * 0.9),\n    rgba(0, 0, 0, 0.86) calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.02),\n    #000 calc(var(--chat-window-fade-top-active) * 1.58 + var(--chat-window-scroll-top-fade-end-active) * 1.08),\n    #000 calc(100% - (var(--chat-window-fade-bottom-active) * 1.02)),\n    rgba(0, 0, 0, 0.62) calc(100% - (var(--chat-window-fade-bottom-active) * 0.78)),\n    rgba(0, 0, 0, 0.28) calc(100% - (var(--chat-window-fade-bottom-active) * 0.58)),\n    rgba(0, 0, 0, 0.1) calc(100% - (var(--chat-window-fade-bottom-active) * 0.38)),\n    rgba(0, 0, 0, 0.025) calc(100% - (var(--chat-window-fade-bottom-active) * 0.2)),\n    rgba(0, 0, 0, 0) calc(100% - (var(--chat-window-fade-bottom-active) * 0.08)),\n    transparent 100%\n  ) !important;\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 126,
+        "end": 149,
+        "startLoc": {
+          "line": 126,
+          "column": 21,
+          "position": 1443
+        },
+        "endLoc": {
+          "line": 149,
+          "column": 2,
+          "position": 2118
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 103,
+        "end": 126,
+        "startLoc": {
+          "line": 103,
+          "column": 13,
+          "position": 766
+        },
+        "endLoc": {
+          "line": 126,
+          "column": 21,
+          "position": 1442
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n    to bottom,\n    transparent 0%,\n    rgba(0, 0, 0, 0.18) calc(var(--drawer-sidebar-fade-top) * 0.16),\n    rgba(0, 0, 0, 0.52) calc(var(--drawer-sidebar-fade-top) * 0.42),\n    rgba(0, 0, 0, 0.82) calc(var(--drawer-sidebar-fade-top) * 0.72),\n    #000 calc(var(--drawer-sidebar-fade-top) * 1.02),\n    #000 calc(100% - (var(--drawer-sidebar-fade-bottom) * 1.02)),\n    rgba(0, 0, 0, 0.82) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.72)),\n    rgba(0, 0, 0, 0.52) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.42)),\n    rgba(0, 0, 0, 0.18) calc(100% - (var(--drawer-sidebar-fade-bottom) * 0.16)),\n    transparent 100%\n  );\n  -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 169,
+        "end": 182,
+        "startLoc": {
+          "line": 169,
+          "column": 13,
+          "position": 2448
+        },
+        "endLoc": {
+          "line": 182,
+          "column": 20,
+          "position": 2698
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 156,
+        "end": 169,
+        "startLoc": {
+          "line": 156,
+          "column": 21,
+          "position": 2197
+        },
+        "endLoc": {
+          "line": 169,
+          "column": 13,
+          "position": 2447
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 6,
+      "fragment": "inset 0 0 0 1px rgba(255, 122, 126, 0),\n    inset 0 0 7px rgba(255, 122, 126, 0),\n    0 0 2px rgba(255, 122, 126, 0),\n    0 0 12px rgba(255, 122, 126, 0),\n    0 0 26px rgba(255, 122, 126, 0),\n    0 6",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 573,
+        "end": 578,
+        "startLoc": {
+          "line": 573,
+          "column": 5,
+          "position": 6643
+        },
+        "endLoc": {
+          "line": 578,
+          "column": 8,
+          "position": 6766
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\service-map.css",
+        "start": 2599,
+        "end": 239,
+        "startLoc": {
+          "line": 2599,
+          "column": 5,
+          "position": 20340
+        },
+        "endLoc": {
+          "line": 239,
+          "column": 9,
+          "position": 2050
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "box-shadow:\n    inset 0 0 4px rgba(255, 122, 126, 0.11),\n    inset 0 0 9px rgba(255, 122, 126, 0.045),\n    0 0 3px rgba(255, 122, 126, 0.14),\n    0 0 10px rgba(255, 122, 126, 0.08),\n    0 0 20px rgba(255, 122, 126, 0.04),\n    0 6",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 589,
+        "end": 595,
+        "startLoc": {
+          "line": 589,
+          "column": 3,
+          "position": 6909
+        },
+        "endLoc": {
+          "line": 595,
+          "column": 8,
+          "position": 7034
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 223,
+        "end": 229,
+        "startLoc": {
+          "line": 223,
+          "column": 3,
+          "position": 1766
+        },
+        "endLoc": {
+          "line": 229,
+          "column": 9,
+          "position": 1891
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": " {\n  --glow-color: rgba(255, 234, 0, 0.64) !important;\n  --glow-color-60: rgba(255, 234, 0, 0.4) !important;\n  --glow-color-50: rgba(255, 234, 0, 0.34) !important;\n  --glow-color-40: rgba(255, 234, 0, 0.27) !important;\n  --glow-color-30: rgba(255, 234, 0, 0.2) !important;\n  --glow-color-20: rgba(255, 234, 0, 0.13) !important;\n  --glow-color-10: rgba(255, 234, 0, 0.08) !important;\n  box-shadow",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\components\\chat-shell.css",
+        "start": 647,
+        "end": 655,
+        "startLoc": {
+          "line": 647,
+          "column": 51,
+          "position": 7516
+        },
+        "endLoc": {
+          "line": 655,
+          "column": 13,
+          "position": 7667
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\glass.css",
+        "start": 662,
+        "end": 670,
+        "startLoc": {
+          "line": 662,
+          "column": 96,
+          "position": 6778
+        },
+        "endLoc": {
+          "line": 670,
+          "column": 2,
+          "position": 6928
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": ": linear-gradient(\n    0deg,\n    rgba(0, 0, 0, 1) 0%,\n    rgba(0, 0, 0, 0.96) 24%,\n    rgba(0, 0, 0, 0.7) 54%,\n    rgba(0, 0, 0, 0.22) 82%,\n    transparent 100%\n  );\n}",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\base\\layout.css",
+        "start": 72,
+        "end": 80,
+        "startLoc": {
+          "line": 72,
+          "column": 13,
+          "position": 519
+        },
+        "endLoc": {
+          "line": 80,
+          "column": 2,
+          "position": 609
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\base\\layout.css",
+        "start": 64,
+        "end": 72,
+        "startLoc": {
+          "line": 64,
+          "column": 21,
+          "position": 427
+        },
+        "endLoc": {
+          "line": 72,
+          "column": 13,
+          "position": 518
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .register-content [data-control-type][data-checked=\"true\"]:active",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 59,
+        "end": 66,
+        "startLoc": {
+          "line": 59,
+          "column": 68,
+          "position": 461
+        },
+        "endLoc": {
+          "line": 66,
+          "column": 68,
+          "position": 536
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 37,
+        "end": 44,
+        "startLoc": {
+          "line": 37,
+          "column": 61,
+          "position": 279
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 69,
+          "position": 354
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .invite-modal-content",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 83,
+        "end": 90,
+        "startLoc": {
+          "line": 83,
+          "column": 65,
+          "position": 630
+        },
+        "endLoc": {
+          "line": 90,
+          "column": 24,
+          "position": 706
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 11,
+        "end": 18,
+        "startLoc": {
+          "line": 11,
+          "column": 126,
+          "position": 86
+        },
+        "endLoc": {
+          "line": 18,
+          "column": 78,
+          "position": 162
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": " [data-control-type] {\n    --seg-card-bg-selected: var(--seg-card-bg);\n    --seg-card-bg-active: var(--seg-card-bg);\n    --seg-card-shadow-selected: var(\n      --seg-card-shadow-hover,\n      var(--seg-card-shadow)\n    );\n    --seg-card-shadow-active: var(--seg-card-shadow);\n    --seg-card-border-selected: var(\n      --seg-card-border-hover,\n      var(--seg-card-border)\n    );\n    --seg-card-border-active: var(--seg-card-border);\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 116,
+        "end": 131,
+        "startLoc": {
+          "line": 116,
+          "column": 37,
+          "position": 929
+        },
+        "endLoc": {
+          "line": 131,
+          "column": 20,
+          "position": 1019
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 22,
+        "end": 37,
+        "startLoc": {
+          "line": 22,
+          "column": 20,
+          "position": 185
+        },
+        "endLoc": {
+          "line": 37,
+          "column": 20,
+          "position": 275
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"] {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 131,
+        "end": 138,
+        "startLoc": {
+          "line": 131,
+          "column": 37,
+          "position": 1022
+        },
+        "endLoc": {
+          "line": 138,
+          "column": 20,
+          "position": 1096
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 37,
+        "end": 44,
+        "startLoc": {
+          "line": 37,
+          "column": 20,
+          "position": 276
+        },
+        "endLoc": {
+          "line": 44,
+          "column": 20,
+          "position": 350
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"]:active {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 153,
+        "end": 160,
+        "startLoc": {
+          "line": 153,
+          "column": 37,
+          "position": 1211
+        },
+        "endLoc": {
+          "line": 160,
+          "column": 20,
+          "position": 1286
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 59,
+        "end": 66,
+        "startLoc": {
+          "line": 59,
+          "column": 20,
+          "position": 457
+        },
+        "endLoc": {
+          "line": 66,
+          "column": 20,
+          "position": 532
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked=\"true\"]:active",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 153,
+        "end": 160,
+        "startLoc": {
+          "line": 153,
+          "column": 85,
+          "position": 1215
+        },
+        "endLoc": {
+          "line": 160,
+          "column": 85,
+          "position": 1292
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 131,
+        "end": 138,
+        "startLoc": {
+          "line": 131,
+          "column": 78,
+          "position": 1025
+        },
+        "endLoc": {
+          "line": 138,
+          "column": 86,
+          "position": 1102
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " [data-control-type] {\n    --seg-card-bg-selected: var(--seg-card-bg);\n    --seg-card-bg-active: var(--seg-card-bg);\n    --seg-card-shadow-selected: var(\n      --seg-card-shadow-hover,\n      var(--seg-card-shadow)\n    );\n    --seg-card-shadow-active: var(--seg-card-shadow);\n    --seg-card-border-selected: var(\n      --seg-card-border-hover,\n      var(--seg-card-border)\n    );\n    --seg-card-border-active: var(--seg-card-border);\n    --seg-card-bg-hover",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 164,
+        "end": 177,
+        "startLoc": {
+          "line": 164,
+          "column": 25,
+          "position": 1312
+        },
+        "endLoc": {
+          "line": 177,
+          "column": 24,
+          "position": 1398
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 22,
+        "end": 35,
+        "startLoc": {
+          "line": 22,
+          "column": 20,
+          "position": 185
+        },
+        "endLoc": {
+          "line": 35,
+          "column": 4,
+          "position": 271
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"] {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .chat-analysis-overlay",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 183,
+        "end": 190,
+        "startLoc": {
+          "line": 183,
+          "column": 25,
+          "position": 1440
+        },
+        "endLoc": {
+          "line": 190,
+          "column": 25,
+          "position": 1519
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 83,
+        "end": 18,
+        "startLoc": {
+          "line": 83,
+          "column": 24,
+          "position": 627
+        },
+        "endLoc": {
+          "line": 18,
+          "column": 78,
+          "position": 162
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .chat-analysis-overlay .chat-analysis-action-btn.button",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 218,
+        "end": 225,
+        "startLoc": {
+          "line": 218,
+          "column": 127,
+          "position": 1730
+        },
+        "endLoc": {
+          "line": 225,
+          "column": 58,
+          "position": 1808
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\touch-controls.css",
+        "start": 11,
+        "end": 190,
+        "startLoc": {
+          "line": 11,
+          "column": 126,
+          "position": 86
+        },
+        "endLoc": {
+          "line": 190,
+          "column": 45,
+          "position": 1521
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": "!important;\n    margin-left: calc(\n      -1 *\n        var(\n          --glass-ring-pad-x,\n          clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))\n        )\n    ) !important;\n    margin-right: calc(\n      -1 *\n        var(\n          --glass-ring-pad-x,\n          clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))\n        )\n    ) !important;\n    padding-left: var(\n      --policy-title-inline-start,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\title-sizing.css",
+        "start": 138,
+        "end": 154,
+        "startLoc": {
+          "line": 138,
+          "column": 18,
+          "position": 1047
+        },
+        "endLoc": {
+          "line": 154,
+          "column": 35,
+          "position": 1180
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\title-sizing.css",
+        "start": 46,
+        "end": 62,
+        "startLoc": {
+          "line": 46,
+          "column": 7,
+          "position": 280
+        },
+        "endLoc": {
+          "line": 62,
+          "column": 37,
+          "position": 413
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": " {\n    width: 100% !important;\n    max-width: 100% !important;\n    min-height: auto !important;\n    white-space: normal !important;\n    text-wrap: balance !important;\n    overflow-wrap: normal !important;\n    word-break: normal !important;\n    hyphens: manual !important;\n    overflow: visible !important;\n    font-size: clamp(1.94",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\title-sizing.css",
+        "start": 177,
+        "end": 187,
+        "startLoc": {
+          "line": 177,
+          "column": 31,
+          "position": 1352
+        },
+        "endLoc": {
+          "line": 187,
+          "column": 26,
+          "position": 1442
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\title-sizing.css",
+        "start": 86,
+        "end": 96,
+        "startLoc": {
+          "line": 86,
+          "column": 32,
+          "position": 633
+        },
+        "endLoc": {
+          "line": 96,
+          "column": 26,
+          "position": 723
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 32,
+      "fragment": ";\n  width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;\n  max-width: none !important;\n  height: calc(\n    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +\n      var(--workspace-guide-panel-overscan-top) +\n      var(--workspace-guide-panel-overscan-bottom)\n  ) !important;\n  max-height: calc(\n    100% + var(--workspace-guide-panel-pad-top, 0.6rem) +\n      var(--workspace-guide-panel-overscan-top) +\n      var(--workspace-guide-panel-overscan-bottom)\n  ) !important;\n  margin-top: calc(\n    0px - var(--workspace-guide-panel-pad-top, 0.6rem) -\n      var(--workspace-guide-panel-overscan-top)\n  ) !important;\n  margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;\n  margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;\n  padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;\n  padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;\n  padding-top: calc(\n    var(--workspace-guide-panel-pad-top, 0.6rem) +\n      var(--workspace-guide-panel-overscan-top) + clamp(0.18rem, 0.65vh, 0.42rem)\n  ) !important;\n  padding-bottom: var(--workspace-guide-panel-overscan-bottom) !important;\n  mask-image: none !important;\n  -webkit-mask-image: none !important;\n  scrollbar-gutter: auto !important;\n}\n\n.invite-modal-content--workspace.workspace-guide-panel.glass-subpage-surface",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\scroll-panels.css",
+        "start": 7,
+        "end": 38,
+        "startLoc": {
+          "line": 7,
+          "column": 32,
+          "position": 59
+        },
+        "endLoc": {
+          "line": 38,
+          "column": 77,
+          "position": 383
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 835,
+        "end": 866,
+        "startLoc": {
+          "line": 835,
+          "column": 21,
+          "position": 7458
+        },
+        "endLoc": {
+          "line": 866,
+          "column": 26,
+          "position": 7782
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 22,
+      "fragment": "!important;\n    height: calc(\n      100% + var(--glass-ring-pad-top, 0.6rem) +\n        var(--workspace-guide-panel-overscan-top) +\n        var(--workspace-guide-panel-overscan-bottom)\n    ) !important;\n    max-height: calc(\n      100% + var(--glass-ring-pad-top, 0.6rem) +\n        var(--workspace-guide-panel-overscan-top) +\n        var(--workspace-guide-panel-overscan-bottom)\n    ) !important;\n    margin-top: calc(\n      0px - var(--glass-ring-pad-top, 0.6rem) -\n        var(--workspace-guide-panel-overscan-top)\n    ) !important;\n    margin-right: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;\n    margin-left: calc(0px - var(--glass-ring-pad-x, 1rem)) !important;\n    padding-right: var(--glass-ring-pad-x, 1rem) !important;\n    padding-left: var(--glass-ring-pad-x, 1rem) !important;\n    padding-top: calc(\n      var(--glass-ring-pad-top, 0.6rem) +\n        var(--workspace-guide-panel-overscan-top,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\scroll-panels.css",
+        "start": 288,
+        "end": 309,
+        "startLoc": {
+          "line": 288,
+          "column": 21,
+          "position": 2667
+        },
+        "endLoc": {
+          "line": 309,
+          "column": 50,
+          "position": 2886
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-workspace.shared.css",
+        "start": 390,
+        "end": 411,
+        "startLoc": {
+          "line": 390,
+          "column": 87,
+          "position": 5629
+        },
+        "endLoc": {
+          "line": 411,
+          "column": 49,
+          "position": 5869
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 6,
+      "fragment": "background:\n      var(--glass-ring-sheen, none),\n      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;\n    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    -webkit-mask-image",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 70,
+        "end": 75,
+        "startLoc": {
+          "line": 70,
+          "column": 5,
+          "position": 470
+        },
+        "endLoc": {
+          "line": 75,
+          "column": 23,
+          "position": 547
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\documents-ui.shared.css",
+        "start": 181,
+        "end": 186,
+        "startLoc": {
+          "line": 181,
+          "column": 3,
+          "position": 1550
+        },
+        "endLoc": {
+          "line": 186,
+          "column": 2,
+          "position": 1631
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": " .profile-mask-layer {\n    background:\n      var(--glass-ring-sheen, none),\n      var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;\n    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    opacity",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 104,
+        "end": 110,
+        "startLoc": {
+          "line": 104,
+          "column": 56,
+          "position": 804
+        },
+        "endLoc": {
+          "line": 110,
+          "column": 12,
+          "position": 882
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 91,
+        "end": 97,
+        "startLoc": {
+          "line": 91,
+          "column": 32,
+          "position": 684
+        },
+        "endLoc": {
+          "line": 97,
+          "column": 4,
+          "position": 762
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "{\n      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n        scale3d(1, 1, 1);\n      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n        scale3d(1, 1, 1);\n    }\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 230,
+        "end": 236,
+        "startLoc": {
+          "line": 230,
+          "column": 10,
+          "position": 1801
+        },
+        "endLoc": {
+          "line": 236,
+          "column": 4,
+          "position": 1877
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 218,
+        "end": 224,
+        "startLoc": {
+          "line": 218,
+          "column": 8,
+          "position": 1647
+        },
+        "endLoc": {
+          "line": 224,
+          "column": 9,
+          "position": 1723
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": ";\n    width: calc(\n      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -\n        (2 * var(--mobile-glass-card-gap, 0.35rem))\n    );\n    max-width: calc(\n      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -\n        (2 * var(--mobile-glass-card-gap, 0.35rem))\n    );\n    height: calc",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 324,
+        "end": 333,
+        "startLoc": {
+          "line": 324,
+          "column": 21,
+          "position": 2502
+        },
+        "endLoc": {
+          "line": 333,
+          "column": 17,
+          "position": 2612
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 700,
+        "end": 709,
+        "startLoc": {
+          "line": 700,
+          "column": 40,
+          "position": 6248
+        },
+        "endLoc": {
+          "line": 709,
+          "column": 16,
+          "position": 6358
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n      to bottom,\n      transparent 0%,\n      rgba(0, 0, 0, 0.18) calc(var(--orbit-stack-panel-fade-top) * 0.16),\n      rgba(0, 0, 0, 0.52) calc(var(--orbit-stack-panel-fade-top) * 0.42),\n      rgba(0, 0, 0, 0.82) calc(var(--orbit-stack-panel-fade-top) * 0.72),\n      #000 calc(var(--orbit-stack-panel-fade-top) * 1.02),\n      #000 calc(100% - (var(--orbit-stack-panel-fade-bottom) * 1.02)),\n      rgba(0, 0, 0, 0.82) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.72)),\n      rgba(0, 0, 0, 0.52) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.42)),\n      rgba(0, 0, 0, 0.18) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.16)),\n      transparent 100%\n    );\n    -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 360,
+        "end": 373,
+        "startLoc": {
+          "line": 360,
+          "column": 15,
+          "position": 3077
+        },
+        "endLoc": {
+          "line": 373,
+          "column": 22,
+          "position": 3327
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 347,
+        "end": 360,
+        "startLoc": {
+          "line": 347,
+          "column": 23,
+          "position": 2826
+        },
+        "endLoc": {
+          "line": 360,
+          "column": 15,
+          "position": 3076
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "deg,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.18) 0%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.1) 18%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.045) 42%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.012) 68%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0) 100%\n    ) !important;\n  }\n  .profile-orbit-stack-list",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 404,
+        "end": 412,
+        "startLoc": {
+          "line": 404,
+          "column": 8,
+          "position": 3606
+        },
+        "endLoc": {
+          "line": 412,
+          "column": 28,
+          "position": 3722
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 393,
+        "end": 401,
+        "startLoc": {
+          "line": 393,
+          "column": 10,
+          "position": 3470
+        },
+        "endLoc": {
+          "line": 401,
+          "column": 36,
+          "position": 3586
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n      to bottom,\n      transparent 0%,\n      rgba(0, 0, 0, 0.18) calc(var(--stack-edge-fade) * 0.16),\n      rgba(0, 0, 0, 0.52) calc(var(--stack-edge-fade) * 0.42),\n      rgba(0, 0, 0, 0.82) calc(var(--stack-edge-fade) * 0.72),\n      #000 calc(var(--stack-edge-fade) * 1.02),\n      #000 calc(100% - (var(--stack-edge-fade) * 1.02)),\n      rgba(0, 0, 0, 0.82) calc(100% - (var(--stack-edge-fade) * 0.72)),\n      rgba(0, 0, 0, 0.52) calc(100% - (var(--stack-edge-fade) * 0.42)),\n      rgba(0, 0, 0, 0.18) calc(100% - (var(--stack-edge-fade) * 0.16)),\n      transparent 100%\n    );\n    -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 449,
+        "end": 462,
+        "startLoc": {
+          "line": 449,
+          "column": 15,
+          "position": 4200
+        },
+        "endLoc": {
+          "line": 462,
+          "column": 22,
+          "position": 4450
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 436,
+        "end": 449,
+        "startLoc": {
+          "line": 436,
+          "column": 23,
+          "position": 3949
+        },
+        "endLoc": {
+          "line": 449,
+          "column": 15,
+          "position": 4199
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n      to bottom,\n      rgba(0, 0, 0, 0) 0%,\n      rgba(0, 0, 0, 0.08) 0.8%,\n      rgba(0, 0, 0, 0.24) 1.9%,\n      rgba(0, 0, 0, 0.5) 2.9%,\n      #000 4.2%,\n      #000 88.6%,\n      rgba(0, 0, 0, 0.9) 93.4%,\n      rgba(0, 0, 0, 0.56) 96.6%,\n      rgba(0, 0, 0, 0.18) 99%,\n      transparent 100%\n    ) !important;\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\policy-scroll.css",
+        "start": 58,
+        "end": 71,
+        "startLoc": {
+          "line": 58,
+          "column": 23,
+          "position": 590
+        },
+        "endLoc": {
+          "line": 71,
+          "column": 4,
+          "position": 750
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\policy-scroll.css",
+        "start": 45,
+        "end": 58,
+        "startLoc": {
+          "line": 45,
+          "column": 15,
+          "position": 429
+        },
+        "endLoc": {
+          "line": 58,
+          "column": 23,
+          "position": 589
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "deg,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.46) 0%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 18%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.13) 42%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.045) 68%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%\n    ) !important;\n  }\n\n  html[data-platform=\"android\"] .profile-orbit-stack-item",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\platform-android.css",
+        "start": 115,
+        "end": 124,
+        "startLoc": {
+          "line": 115,
+          "column": 8,
+          "position": 1135
+        },
+        "endLoc": {
+          "line": 124,
+          "column": 58,
+          "position": 1255
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\platform-android.css",
+        "start": 103,
+        "end": 112,
+        "startLoc": {
+          "line": 103,
+          "column": 10,
+          "position": 998
+        },
+        "endLoc": {
+          "line": 112,
+          "column": 66,
+          "position": 1118
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 21,
+      "fragment": " {\n    width: calc(\n      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    max-width: none !important;\n    height: calc(\n      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    max-height: calc(\n      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;\n    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;\n    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;\n    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;\n    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;\n    border: 0 !important;\n    box-shadow",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 132,
+        "end": 152,
+        "startLoc": {
+          "line": 132,
+          "column": 34,
+          "position": 1255
+        },
+        "endLoc": {
+          "line": 152,
+          "column": 15,
+          "position": 1583
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 85,
+        "end": 105,
+        "startLoc": {
+          "line": 85,
+          "column": 24,
+          "position": 642
+        },
+        "endLoc": {
+          "line": 105,
+          "column": 15,
+          "position": 970
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": "!important;\n    overflow-y: auto !important;\n    -webkit-overflow-scrolling: touch;\n    overscroll-behavior: contain;\n    padding-top: var(\n      --glass-ring-pad-top,\n      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))\n    ) !important;\n    padding-right: var(\n      --glass-ring-pad-x,\n      clamp(calc(1.15",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 152,
+        "end": 162,
+        "startLoc": {
+          "line": 152,
+          "column": 22,
+          "position": 1588
+        },
+        "endLoc": {
+          "line": 162,
+          "column": 22,
+          "position": 1677
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 111,
+        "end": 121,
+        "startLoc": {
+          "line": 111,
+          "column": 59,
+          "position": 1052
+        },
+        "endLoc": {
+          "line": 121,
+          "column": 21,
+          "position": 1141
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 19,
+      "fragment": ".help-listings-panel {\n    background:\n      linear-gradient(\n        145deg,\n        rgba(255, 255, 255, 0.08),\n        rgba(255, 255, 255, 0.035)\n      ),\n      color-mix(\n        in srgb,\n        var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%,\n        transparent\n      ) !important;\n    border-color: transparent !important;\n    box-shadow:\n      inset 0 0 0 1px rgba(255, 255, 255, 0.08),\n      0 10px 24px rgba(0, 0, 0, 0.08) !important;\n    -webkit-backdrop-filter: none !important;\n    backdrop-filter: none !important;\n    padding",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 245,
+        "end": 263,
+        "startLoc": {
+          "line": 245,
+          "column": 32,
+          "position": 2213
+        },
+        "endLoc": {
+          "line": 263,
+          "column": 12,
+          "position": 2390
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\components\\workspace-help-listings.css",
+        "start": 65,
+        "end": 83,
+        "startLoc": {
+          "line": 65,
+          "column": 3,
+          "position": 1021
+        },
+        "endLoc": {
+          "line": 83,
+          "column": 2,
+          "position": 1197
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 12,
+      "fragment": " {\n    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;\n    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;\n    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;\n    --chat-mobile-action-cluster-width: calc(\n      (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)\n    ) !important;\n    position: absolute !important;\n    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;\n    left: auto !important;\n    right: calc(\n      env(safe-area-inset-right, 0px) + 0.42rem +",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 481,
+        "end": 492,
+        "startLoc": {
+          "line": 481,
+          "column": 21,
+          "position": 4217
+        },
+        "endLoc": {
+          "line": 492,
+          "column": 50,
+          "position": 4377
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 464,
+        "end": 474,
+        "startLoc": {
+          "line": 464,
+          "column": 22,
+          "position": 4013
+        },
+        "endLoc": {
+          "line": 474,
+          "column": 59,
+          "position": 4170
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": "rem);\n    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n      scale3d(1, 1, 1) !important;\n    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n      scale3d(1, 1, 1) !important;\n    transform-origin: center center !important;\n    -webkit-transform-origin: center center !important;\n    -webkit-animation: none !important;\n    animation: none !important;\n    -webkit-backface-visibility: hidden !important;\n    backface-visibility: hidden !important;\n    -webkit-transform-style: preserve-3d !important;\n    transform-style: preserve-3d !important;\n    will-change: transform !important;\n  }\n\n  .profile-container.glass-ring ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\modal-chat-accessibility.css",
+        "start": 723,
+        "end": 739,
+        "startLoc": {
+          "line": 723,
+          "column": 65,
+          "position": 6404
+        },
+        "endLoc": {
+          "line": 739,
+          "column": 33,
+          "position": 6577
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\profile-orbit.css",
+        "start": 263,
+        "end": 280,
+        "startLoc": {
+          "line": 263,
+          "column": 67,
+          "position": 2048
+        },
+        "endLoc": {
+          "line": 280,
+          "column": 5,
+          "position": 2221
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": " {\n  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);\n  --pwa-viewport-fill-height: calc(\n    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +\n      var(--pwa-background-bottom-overscan)\n  );\n  height: var(--pwa-viewport-fill-height) !important;\n  min-height: var(--pwa-viewport-fill-height) !important;\n  max-height: var(--pwa-viewport-fill-height) !important;\n  background-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\mobile-background.css",
+        "start": 46,
+        "end": 55,
+        "startLoc": {
+          "line": 46,
+          "column": 47,
+          "position": 253
+        },
+        "endLoc": {
+          "line": 55,
+          "column": 18,
+          "position": 339
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\base\\core.css",
+        "start": 97,
+        "end": 106,
+        "startLoc": {
+          "line": 97,
+          "column": 37,
+          "position": 593
+        },
+        "endLoc": {
+          "line": 106,
+          "column": 19,
+          "position": 679
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": "{\n  --glass-shell-shadow: none !important;\n  --glass-modal-shadow: none !important;\n  --mid-shell-soft-shadow: none !important;\n  width: 100% !important;\n  inline-size: 100% !important;\n  min-width: 0 !important;\n  max-width: 100% !important;\n  height: auto !important;\n  min-height: 0 !important;\n  max-height: none !important;\n  block-size: auto !important;\n  max-block-size: none !important;\n  flex",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\invite-workspace.css",
+        "start": 70,
+        "end": 83,
+        "startLoc": {
+          "line": 70,
+          "column": 3,
+          "position": 553
+        },
+        "endLoc": {
+          "line": 83,
+          "column": 7,
+          "position": 664
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 936,
+        "end": 949,
+        "startLoc": {
+          "line": 936,
+          "column": 51,
+          "position": 8312
+        },
+        "endLoc": {
+          "line": 949,
+          "column": 11,
+          "position": 8423
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": "auto !important;\n  padding: 0 !important;\n  overflow: visible !important;\n  border: none !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  -webkit-backdrop-filter: none !important;\n  backdrop-filter: none !important;\n  mask-image: none !important;\n  -webkit-mask-image: none !important;\n}\n\n.workspace-dashboard-panel",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\invite-workspace.css",
+        "start": 84,
+        "end": 97,
+        "startLoc": {
+          "line": 84,
+          "column": 18,
+          "position": 680
+        },
+        "endLoc": {
+          "line": 97,
+          "column": 27,
+          "position": 778
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\utilities\\helpers-core.css",
+        "start": 949,
+        "end": 962,
+        "startLoc": {
+          "line": 949,
+          "column": 15,
+          "position": 8428
+        },
+        "endLoc": {
+          "line": 962,
+          "column": 30,
+          "position": 8528
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "{\n  border-width: var(--subpage-card-border-width, 1px) !important;\n  border-style: solid !important;\n  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;\n  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;\n  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;\n}\n\n.workspace-dashboard-panel",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\invite-workspace.css",
+        "start": 129,
+        "end": 137,
+        "startLoc": {
+          "line": 129,
+          "column": 3,
+          "position": 922
+        },
+        "endLoc": {
+          "line": 137,
+          "column": 27,
+          "position": 1047
+        }
+      },
+      "secondFile": {
+        "name": "components\\chat\\WorkspacePanel.module.css",
+        "start": 196,
+        "end": 204,
+        "startLoc": {
+          "line": 196,
+          "column": 62,
+          "position": 1470
+        },
+        "endLoc": {
+          "line": 204,
+          "column": 7,
+          "position": 1595
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " {\n    scroll-snap-type: y proximity !important;\n    overscroll-behavior-y: contain !important;\n    overscroll-behavior-x: none !important;\n    overflow-x: hidden !important;\n    touch-action: pan-y !important;\n    scroll-padding-top: var(--csp-pad-top, var(--csp-pad, 0px)) !important;\n    scroll-padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px)) !important;\n    scroll-behavior: auto !important;\n    -webkit-overflow-scrolling: touch !important;\n    --csp-transition-ms: 420ms;\n  }\n\n  .register-scroll.csp-container",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile\\accessibility-touch.css",
+        "start": 276,
+        "end": 289,
+        "startLoc": {
+          "line": 276,
+          "column": 33,
+          "position": 2582
+        },
+        "endLoc": {
+          "line": 289,
+          "column": 33,
+          "position": 2703
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile\\accessibility-touch.css",
+        "start": 263,
+        "end": 276,
+        "startLoc": {
+          "line": 263,
+          "column": 30,
+          "position": 2460
+        },
+        "endLoc": {
+          "line": 276,
+          "column": 33,
+          "position": 2581
+        }
+      }
+    }
+  ]
+}

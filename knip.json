@@ -12,6 +12,7 @@
     "pm2"
   ],
   "entry": [
+    "eslint.config.{js,mjs,cjs,ts}",
     "next.config.{js,mjs,cjs,ts}",
     "proxy.{js,jsx,ts,tsx}",
     "auth.{js,mjs,cjs,ts}",

@@ -1,0 +1,272 @@
+/* Invite modal and embedded workspace panel layout carried from the legacy mobile bundle. */
+
+@media (max-width: 768px) {
+  .help-listings-modal-content {
+    height: var(--glass-mobile-root-vh, 100dvh) !important;
+    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
+    max-height: var(--glass-mobile-root-vh, 100dvh) !important;
+  }
+}
+
+.invite-modal-overlay.person-invite-modal-overlay:not(.invite-modal-overlay--workspace) {
+  align-items: center !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  padding-top: clamp(0.5rem, 1.6vh, 0.75rem) !important;
+  padding-bottom: clamp(0.5rem, 1.6vh, 0.75rem) !important;
+}
+
+.invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+  height: min(calc(100dvh - 1.25rem), clamp(36rem, 82vh, 52rem)) !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - 1.25rem) !important;
+  overflow: hidden !important;
+}
+
+.invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace)
+  > .invite-modal-scroll:not(.workspace-guide-panel-scroll) {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  scrollbar-gutter: auto !important;
+}
+
+.invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace)
+  .invite-list-panel {
+  flex: 1 1 auto !important;
+  align-self: center !important;
+  width: min(36rem, 100%) !important;
+  min-height: clamp(7.5rem, 18vh, 11rem) !important;
+  max-height: min(24dvh, 13rem) !important;
+  overflow-y: auto !important;
+}
+
+@media (max-height: 760px) and (min-width: 769px) {
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace) {
+    height: calc(100dvh - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
+    padding-top: 0.24rem !important;
+    padding-bottom: 0.72rem !important;
+  }
+
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace)
+    > .invite-modal-scroll:not(.workspace-guide-panel-scroll) {
+    gap: 0.72rem !important;
+    padding-top: 0.52rem !important;
+    padding-bottom: 0.22rem !important;
+  }
+
+  .invite-modal-content.person-invite-modal-content.glass-subpage-surface:not(.invite-modal-content--workspace)
+    .invite-list-panel {
+    margin-top: 0.68rem !important;
+    min-height: 5.25rem !important;
+    max-height: min(18dvh, 8.5rem) !important;
+  }
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded > :is(
+  .help-listings-modal-content--embedded,
+  .invite-modal-content--embedded
+) {
+  --glass-shell-shadow: none !important;
+  --glass-modal-shadow: none !important;
+  --mid-shell-soft-shadow: none !important;
+  width: 100% !important;
+  inline-size: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  block-size: auto !important;
+  max-block-size: none !important;
+  flex: 0 0 auto !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-panel,
+  .help-listings-item-card,
+  .invite-glow-panel,
+  .invite-list-panel,
+  .invite-list-row
+) {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-body,
+  .help-listings-panel,
+  .invite-modal-scroll,
+  .invite-list-panel
+) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-panel,
+  .help-listings-item-card,
+  .invite-list-panel,
+  .invite-list-row
+) {
+  border-width: var(--subpage-card-border-width, 1px) !important;
+  border-style: solid !important;
+  border-color: var(--subpage-card-border, rgba(126, 95, 88, 0.18)) !important;
+  background: var(--subpage-card-bg, var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.72))) !important;
+  box-shadow: var(--subpage-card-shadow, var(--workspace-elevated-card-shadow, 0 10px 24px rgba(38, 24, 22, 0.12))) !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded
+  .invite-glow-panel
+  > [class*="edgeLight"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded
+  .invite-list-panel {
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.workspace-dashboard-panel
+  .workspace-feature-embedded
+  > .help-listings-modal-content--embedded::before,
+.workspace-dashboard-panel
+  .workspace-feature-embedded
+  > .invite-modal-content--embedded::before {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-modal-content--embedded .help-listings-body,
+  .invite-modal-content--embedded .invite-modal-scroll
+) {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.workspace-dashboard-panel .workspace-feature-embedded :is(
+  .help-listings-modal-content--embedded .help-listings-scroll,
+  .help-listings-modal-content--embedded .selected-listing-body,
+  .invite-modal-content--embedded .invite-modal-scroll
+) {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.workspace-dashboard-panel .covision-page-body.workspace-guide-panel-scroll {
+  --covision-panel-bg: transparent;
+  --covision-card-shadow: none;
+}
+
+.workspace-dashboard-panel .covision-page-body .covision-glow-card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.workspace-dashboard-panel .covision-page-body .covision-glow-card > [class*="edgeLight"] {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.workspace-dashboard-panel
+  .documents-workspace-shell--embedded
+  > .documents-grid.workspace-guide-panel-scroll,
+.workspace-dashboard-panel .materials-page-body.workspace-guide-panel-scroll {
+  padding-top: 0 !important;
+}
+
+.workspace-dashboard-panel
+  .documents-workspace-shell--embedded
+  > .documents-grid.workspace-guide-panel-scroll
+  > .workspace-scroll-back-button {
+  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
+}
+
+.workspace-dashboard-panel
+  .documents-workspace-shell--embedded
+  > .documents-grid.workspace-guide-panel-scroll
+  > .dashboard-info-trigger-corner {
+  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-info-top, 0.475rem) !important;
+}
+
+.workspace-dashboard-panel .documents-workspace-shell--embedded :is(
+  .documents-panel,
+  .documents-surface-panel,
+  .documents-library-panel,
+  .documents-shell-surface
+) {
+  --tw-backdrop-blur: ;
+  --tw-backdrop-saturate: ;
+  --documents-surface-panel-bg: transparent !important;
+  --documents-surface-panel-shadow: none !important;
+  --panel-secondary-bg: transparent !important;
+  --panel-secondary-shadow: none !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.workspace-dashboard-panel .documents-workspace-shell--embedded :is(
+  .documents-library-panel,
+  .documents-shell-surface
+) {
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.workspace-dashboard-panel :is(
+  .workspace-feature-embedded,
+  .workspace-feature-embedded > .workspace-feature-content.workspace-guide-panel-scroll,
+  .workspace-feature-embedded > .help-listings-modal-content--embedded,
+  .workspace-feature-embedded > .invite-modal-content--embedded,
+  .documents-workspace-shell--embedded,
+  .documents-workspace-shell--embedded > .documents-grid.workspace-guide-panel-scroll,
+  .materials-page-body.workspace-guide-panel-scroll,
+  .covision-page-body.workspace-guide-panel-scroll
+) {
+  position: static !important;
+}
+
+.workspace-dashboard-panel:has(
+  :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
+) :is(.workspace-scroll-back-button.glass-subpage-back-button, .documents-scroll-back-button.glass-subpage-back-button) {
+  position: absolute !important;
+  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
+}
+
+.workspace-dashboard-panel:has(
+  :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
+) .dashboard-info-trigger-corner {
+  position: absolute !important;
+  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-info-top, 0.475rem) !important;
+}

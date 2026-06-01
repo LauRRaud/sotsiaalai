@@ -39,7 +39,7 @@ test("workspace dashboard back button closes the in-chat workspace", () => {
 
   assert.doesNotMatch(source, /from "@\/lib\/routeTransition";/);
   assert.match(source, /const handleWorkspaceBack = useCallback\(\s*\(\) => \{/);
-  assert.match(source, /const handleWorkspaceBack = useCallback\(\s*\(\) => \{[\s\S]*?onClose\?\.\(\);[\s\S]*?\},\s*\[onClose\]\s*\);/);
+  assert.match(source, /const handleWorkspaceBack = useCallback\(\s*\(\) => \{[\s\S]*?onClose\?\.\(\);[\s\S]*?\},\s*\[[^\]]*onClose[^\]]*\]\s*\);/);
   assert.doesNotMatch(source, /runWithTransition|resolveWorkspaceNavigationTiltDirection/);
   assert.match(
     source,
@@ -67,7 +67,7 @@ test("workspace subpage back buttons return instantly without collapse morphs", 
     /workspaceReturn\(locale,\s*router,\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/
   );
   assert.match(
-    readSource("app/styles/components/documents-mode.css"),
+    readSource("app/styles/components/documents-workspace.shared.css"),
     /\.documents-workspace-shell--agent\s*\{[\s\S]*?--glass-ring-tilt-perspective:\s*4200px;[\s\S]*?--glass-ring-tilt-angle-left:\s*-0\.85deg;[\s\S]*?--glass-ring-tilt-angle-right:\s*0\.85deg;/
   );
 

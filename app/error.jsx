@@ -6,9 +6,8 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 const pageShellClassName = glassPageShellCenteredClassName;
 const ringClassName = cn(glassPageRingCenteredClassName, "justify-start", "glass-ring--desktop-stable");
@@ -39,10 +38,8 @@ export default function Error({
     } catch {}
     return pushWithTransition(router, localizePath("/", locale));
   };
-  const handleClose = () => pushWithTransition(router, localizePath("/", locale));
   return <section className={`${pageShellClassName} error-page-shell`}>
       <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={glassPageBackClassName} />
         <div className={textBlockClassName}>
           <h1 className={titleClassName}>{t("errors.title")}</h1>

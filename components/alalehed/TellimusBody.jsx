@@ -6,11 +6,10 @@ import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import LoginModal from "@/components/LoginModal";
-import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import FancyCheckbox from "@/components/ui/FancyCheckbox";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
-import { glassPageCloseClassName, glassPageShellCenteredClassName, glassSubpageContentWideClassName, glassSubpageMobileReadableWidthClassName, glassSubpagePanelWideClassName } from "@/components/ui/glassPageStyles";
+import { glassPageShellCenteredClassName, glassSubpageContentWideClassName, glassSubpageMobileReadableWidthClassName, glassSubpagePanelWideClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -224,15 +223,6 @@ export default function TellimusBody() {
     }
     pushWithTransition(router, localizePath("/", locale), transitionOptions);
   };
-  const handleClose = () => {
-    if (closing) return;
-    setClosing(true);
-    if (returnToProfile) {
-      pushWithTransition(router, profileReturnPath, transitionOptions);
-      return;
-    }
-    pushWithTransition(router, localizePath("/profiil", locale), transitionOptions);
-  };
   const subscriptionCardClassName = cn(
     subscriptionCardBaseClassName,
     closing ? "pointer-events-none motion-safe:animate-[glassRingTiltFromLeft_540ms_cubic-bezier(0.42,0,0.58,1)_both]" : null
@@ -388,7 +378,6 @@ export default function TellimusBody() {
   if (loading) {
     return <section lang={locale} className={pageShellClassName}>
         <div className={subscriptionCardClassName}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={backLabel}
@@ -415,7 +404,6 @@ export default function TellimusBody() {
       : t("profile.login_to_manage_sub");
     return <section lang={locale} className={pageShellClassName}>
         <div className={cn(subscriptionCardClassName, loginOpen ? "opacity-0 pointer-events-none" : "opacity-100", "transition-opacity duration-200 ease-out")} aria-hidden={loginOpen ? "true" : undefined}>
-          <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={backLabel}
@@ -452,7 +440,6 @@ export default function TellimusBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <div className={subscriptionCardClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "absolute right-[0.4rem] top-[0.35rem] z-[3] max-[768px]:hidden")} />
         <GlassSubpageHeader
           onBack={handleBack}
           backAriaLabel={backLabel}

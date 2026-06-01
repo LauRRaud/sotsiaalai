@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -8,15 +10,18 @@ function read(path) {
 
 test("mobile title, back and info placement is centralized", () => {
   const globalsCss = read("app/styles/globals.css");
+  const mobileIndexCss = read("app/styles/mobile/index.css");
   const headerCss = read("app/styles/mobile/mobile-title-backbutton-info.css");
-  const policyCss = read("app/styles/utilities/policy-pages-mobile.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const policyCss = read("app/styles/mobile/policy-scroll.css");
+  const mobileCss = readMobileCssBundle();
   const workspacePanelCss = read("components/chat/WorkspacePanel.module.css");
 
   assert.match(
     globalsCss,
-    /@import url\("\.\/mobile\/mobile-title-backbutton-info\.css"\) screen and \(max-width: 768px\);/
+    /@import url\("\.\/mobile\/index\.css"\) screen and \(max-width: 768px\);/
   );
+  assert.match(mobileIndexCss, /@import url\("\.\.\/mobile\.css"\);/);
+  assert.match(mobileIndexCss, /@import url\("\.\/mobile-title-backbutton-info\.css"\);/);
   assert.match(headerCss, /--mobile-header-back-top:\s*0\.2rem;/);
   assert.match(headerCss, /--mobile-header-info-top:\s*0\.475rem;/);
   assert.match(headerCss, /--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/);
@@ -30,18 +35,12 @@ test("mobile title, back and info placement is centralized", () => {
     headerCss,
     /\.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/
   );
-  assert.match(
-    headerCss,
-    /html\[data-display-mode="standalone"\] \.policy-scroll-page-ring,[\s\S]*?body\[data-display-mode="fullscreen"\] \.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-pwa-y-offset:\s*-0\.82rem;/
-  );
+  assert.doesNotMatch(headerCss, /\.policy-scroll-page-ring[\s\S]*?--mobile-header-pwa-y-offset:\s*-/);
   assert.match(
     headerCss,
     /\.workspace-dashboard-panel,[\s\S]*?\.workspace-dashboard-panel \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*1\.96rem;/
   );
-  assert.match(
-    headerCss,
-    /html\[data-display-mode="browser"\][\s\S]*?:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel\.workspace-scroll-surface,[\s\S]*?\.documents-workspace-shell\.workspace-guide-panel,[\s\S]*?\.covision-page-surface\.workspace-guide-panel[\s\S]*?\)[\s\S]*?\{[\s\S]*?--mobile-header-browser-y-offset:\s*0\.34rem;/
-  );
+  assert.doesNotMatch(headerCss, /data-display-mode="browser"[\s\S]*?--mobile-header-browser-y-offset/);
   assert.doesNotMatch(headerCss, /--mobile-header-title-top:\s*calc\([\s\S]*?safe-area-inset-top/);
   assert.match(
     headerCss,

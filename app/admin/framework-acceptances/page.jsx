@@ -1,5 +1,6 @@
 import "../../styles/components/documents-workspace.shared.css";
 import "../../styles/components/documents-ui.shared.css";
+import "../../styles/theme/mono.documents.css";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
@@ -57,7 +58,7 @@ export const metadata = {
   }
 };
 
-function getPageCopy(locale) {
+function _getPageCopy(locale) {
   if (locale === "et") {
     return {
       heading: "Tööalase kasutuse kinnitused",

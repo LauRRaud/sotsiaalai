@@ -1,0 +1,783 @@
+/* Mobile accessibility, chat, login and invite modal layout. */
+
+@media (max-width: 768px) {
+  .a11y-language-fieldset--single {
+    padding-bottom: 6.9rem !important;
+  }
+
+  .a11y-textscale-fieldset {
+    padding-top: 1.45rem !important;
+    gap: 0.72rem !important;
+  }
+
+  .a11y-contrast-fieldset {
+    margin-top: -0.22rem !important;
+  }
+
+  body.conversation-drawer-open .chat-right-actions {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.conversation-drawer-open .chat-mobile-topnav {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  html[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  html[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  body[data-display-mode="standalone"] .chat-page-shell .chat-container[data-chat-layout="mobile"],
+  body[data-display-mode="fullscreen"] .chat-page-shell .chat-container[data-chat-layout="mobile"] {
+    --chat-mobile-topnav-safe-top: 0px;
+    --chat-composer-mobile-bottom-base: 0.15rem;
+  }
+
+  html[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  html[data-display-mode="fullscreen"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  body[data-display-mode="standalone"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button),
+  body[data-display-mode="fullscreen"] .chat-page-shell .chat-mobile-topnav :is(.back-button, .chat-back-button) {
+    top: 0.2rem !important;
+  }
+
+  #login-modal {
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    max-height: calc(var(--app-vh, var(--vh, 1vh)) * 100) !important;
+    margin: 0 !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.4rem) !important;
+    padding-right: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.4rem) !important;
+    padding-left: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    overflow: hidden !important;
+  }
+
+  .login-modal-box .login-modal-close.modal-close-btn {
+    top: 0.22rem !important;
+    right: 0.76rem !important;
+  }
+
+  .login-modal-box .login-modal-close.modal-close-btn::before {
+    font-size: 2.62rem !important;
+  }
+
+  .invite-modal-overlay.person-invite-modal-overlay {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .invite-modal-content.person-invite-modal-content {
+    --glass-ring-pad-x: clamp(1.15rem, 3.4vw, 1.85rem);
+  }
+
+  .invite-modal-content {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-width: none !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 0 !important;
+    background: var(
+      --glass-modal-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    ) !important;
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    ) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    ) !important;
+  }
+
+  .subscription-modal-content,
+  .help-listings-modal-content,
+  .selected-listing-modal-content {
+    width: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-width: none !important;
+    height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        (var(--mobile-glass-card-gap, 0.35rem) * 2)
+    ) !important;
+    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    ) !important;
+    padding-right: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    ) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem) !important;
+    padding-left: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.15 * var(--base-rem)), 3.4vw, calc(1.85 * var(--base-rem)))
+    ) !important;
+  }
+
+  .subscription-modal-content,
+  .help-listings-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25)))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .selected-listing-modal-content {
+    background: var(
+      --glass-modal-bg,
+      var(--subpage-card-bg, var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))))
+    ) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .subscription-page-shell,
+  .materials-page-shell {
+    padding: 0 !important;
+  }
+
+  .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.34rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
+  :is(
+      .subscription-modal-content,
+      .materials-page-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content
+    )
+    .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.34rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
+  :is(.subscription-modal-content, .materials-page-content) .policy-mobile-title-wrap {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 1.18rem) !important;
+  }
+
+  :is(
+      .subscription-modal-content,
+      .materials-page-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content
+    )
+    :is(.glass-page-title, .subpage-mobile-title, .policy-mobile-title--static) {
+    line-height: 1.05 !important;
+  }
+
+  .subscription-content,
+  .materials-page-body,
+  .materials-page-content
+    :is(
+      .materials-upload-panel,
+      .materials-admin-panel,
+      .materials-upload-panel > div,
+      .materials-upload-panel form,
+      .materials-upload-panel textarea,
+      .materials-admin-panel > div
+    ),
+  .help-listings-body,
+  .help-listings-modal-content .glass-subpage-header,
+  .help-listings-modal-content
+    :is(.help-listings-panel, .help-listings-item-card),
+  .selected-listing-body,
+  .selected-listing-modal-content :is(.glass-subpage-header + div, .panel) {
+    max-width: none !important;
+  }
+
+  .help-listings-modal-content .help-listings-panel {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.035)
+      ),
+      color-mix(
+        in srgb,
+        var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%,
+        transparent
+      ) !important;
+    border-color: transparent !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 10px 24px rgba(0, 0, 0, 0.08) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 0.28rem !important;
+  }
+
+  html[data-contrast="hc"] .help-listings-modal-content .help-listings-panel {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: inset 0 0 0 1.5px var(--hc-accent, #ffea00) !important;
+  }
+
+  .help-listings-modal-content .help-listings-item-card {
+    width: 100%;
+    border-radius: 1rem !important;
+    padding: 0.9rem !important;
+    box-shadow: none !important;
+  }
+
+  :root.theme-light:not(.theme-mid) .invite-modal-content {
+    color: var(--text-strong, #1f2937) !important;
+  }
+
+  :root.theme-light:not(.theme-mid) .mobile-keep-desktop-glass-cards {
+    --subpage-card-bg: var(--btn-primary-bg);
+    --subpage-card-bg-hover: var(--btn-primary-bg-hover);
+    --subpage-card-border: rgba(255, 255, 255, 0.5);
+    --subpage-card-border-hover: rgba(255, 255, 255, 0.58);
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+  }
+
+  :root.theme-mid .mobile-keep-desktop-glass-cards {
+    --glass-surface-bg: rgba(253, 249, 247, 0.36);
+    --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
+    --glass-modal-bg: var(--glass-ring-surface-bg);
+    --panel-secondary-bg: var(--btn-primary-bg);
+    --panel-secondary-border: transparent;
+    --panel-secondary-shadow: none;
+    --subpage-card-bg:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(249, 241, 238, 0.56) 0%,
+        rgba(242, 232, 228, 0.48) 42%,
+        rgba(233, 221, 216, 0.42) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(244, 235, 231, 0.36) 0%,
+        rgba(236, 226, 222, 0.3) 100%
+      );
+    --subpage-card-bg-hover:
+      radial-gradient(
+        92% 88% at 50% 16%,
+        rgba(247, 239, 236, 0.54) 0%,
+        rgba(240, 230, 226, 0.46) 44%,
+        rgba(232, 221, 216, 0.4) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(241, 232, 228, 0.34) 0%,
+        rgba(233, 223, 219, 0.3) 100%
+      );
+    --subpage-card-border: transparent;
+    --subpage-card-border-hover: transparent;
+    --subpage-card-shadow: none;
+    --subpage-card-shadow-hover: none;
+  }
+
+  :root.theme-mid
+    :is(
+      .invite-modal-content,
+      .person-invite-modal-content,
+      .update-pin-content,
+      .update-email-content,
+      .reset-password-content,
+      .register-content
+    )
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ) {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: var(--input-bg, var(--subpage-card-bg)) !important;
+    border: var(--input-border, var(--subpage-card-border, 0 solid transparent)) !important;
+    box-shadow: var(
+      --input-shadow-composite,
+      var(--input-shadow, var(--subpage-card-shadow))
+    ) !important;
+    color: var(--input-text, var(--subpage-card-text)) !important;
+    opacity: 1 !important;
+  }
+
+  :root.theme-mid
+    :is(
+      .invite-modal-content,
+      .person-invite-modal-content,
+      .update-pin-content,
+      .update-email-content,
+      .reset-password-content,
+      .register-content
+    )
+    :is(
+      input:not([type="button"]):not([type="submit"]):not([type="reset"]):not(
+          [type="checkbox"]
+        ):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+      select,
+      textarea
+    ):is(:hover, :focus, :focus-visible, :active) {
+    background: var(
+      --input-bg-focus,
+      var(--input-bg-hover, var(--subpage-card-bg-hover, var(--subpage-card-bg)))
+    ) !important;
+    box-shadow: var(
+      --input-shadow-focus-composite,
+      var(
+        --input-shadow-hover-composite,
+        var(--input-shadow-hover, var(--subpage-card-shadow-hover, var(--subpage-card-shadow)))
+      )
+    ) !important;
+  }
+
+  .invite-modal-content .invite-modal-scroll {
+    gap: clamp(1rem, 2.6vh, 1.4rem) !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.8rem) !important;
+    padding-left: clamp(0.2rem, 1.1vw, 0.42rem) !important;
+    padding-right: clamp(0.2rem, 1.1vw, 0.42rem) !important;
+  }
+
+  .account-settings-modal-content .invite-modal-scroll {
+    gap: clamp(2.1rem, 5.2vh, 2.85rem) !important;
+    padding-top: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.3rem) !important;
+  }
+
+  .framework-page-shell .framework-body {
+    width: min(100%, 27.8rem) !important;
+    max-width: 27.8rem !important;
+  }
+
+  .framework-page-shell .framework-intro-card,
+  .framework-page-shell .framework-document-card {
+    box-shadow: none !important;
+  }
+
+  .drawer-overlay {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .drawer-panel--chat-glass {
+    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    width: auto !important;
+    max-width: none !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 0 !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .drawer-panel--chat-glass::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem) !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-close-btn--chat {
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.06rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
+    left: auto !important;
+    color: #c57171 !important;
+    z-index: 150 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat {
+    color: #7a3a38 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass {
+    color: var(--text-strong, #1f2937) !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-content {
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+  }
+
+  .chat-right-actions {
+    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;
+    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
+    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;
+    --chat-mobile-action-cluster-width: calc(
+      (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)
+    ) !important;
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
+    left: auto !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
+    width: auto !important;
+    height: auto !important;
+    z-index: 94 !important;
+    pointer-events: none !important;
+  }
+
+  .chat-left-actions {
+    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;
+    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
+    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;
+    --chat-mobile-action-cluster-width: calc(
+      (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)
+    ) !important;
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
+    left: auto !important;
+    right: calc(
+      env(safe-area-inset-right, 0px) + 0.42rem +
+        var(--chat-mobile-action-cluster-width) +
+        var(--chat-mobile-cluster-gap)
+    ) !important;
+    width: auto !important;
+    height: auto !important;
+    z-index: 94 !important;
+    pointer-events: none !important;
+  }
+
+  .chat-window__scroll {
+    position: relative;
+    padding-left: calc(var(--chat-window-pad-x, 0.7rem) - 0.04rem) !important;
+    padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-preview-wrap {
+    padding-right: clamp(0.72rem, 3.4vw, 1rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-preview {
+    padding-right: calc(
+      var(--analysis-preview-pad-right, 0.35rem) + clamp(0.3rem, 1.4vw, 0.5rem)
+    ) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-scroll-track {
+    right: clamp(0.08rem, 0.9vw, 0.24rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+
+  .chat-msg-user {
+    margin-right: -0.04rem !important;
+  }
+
+  .chat-right-actions > nav {
+    width: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: var(--chat-mobile-action-gap) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  .chat-right-actions > nav button {
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    width: var(--chat-mobile-rail-size) !important;
+    min-width: var(--chat-mobile-rail-size) !important;
+  }
+
+  .chat-left-actions > nav {
+    width: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: var(--chat-mobile-action-gap) !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  .chat-left-actions > nav button {
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    width: var(--chat-mobile-rail-size) !important;
+    min-width: var(--chat-mobile-rail-size) !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] {
+    --chat-composer-mobile-bottom-base: 2.5rem;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px)) !important;
+    margin-top: 0 !important;
+    transform: none !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: clamp(0.34rem, 1.9vw, 0.58rem) !important;
+    padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
+    padding-right: clamp(0.7rem, 3vw, 1rem) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-side-controls {
+    align-self: flex-end !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
+    flex: 0 0 auto !important;
+    transform: none !important;
+    margin-left: 0 !important;
+    margin-right: clamp(0.18rem, 0.9vw, 0.3rem) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-tools-btn {
+    transform: none !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
+    width: auto !important;
+    max-width: min(100%, var(--chat-input-max-w)) !important;
+    flex: 1 1 auto !important;
+    transform: none !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-window__scroll {
+    padding-bottom: max(
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+    ) !important;
+    scroll-padding-bottom: max(
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+    ) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded),
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) {
+    --chat-input-available-inline: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+    ) !important;
+    --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem) !important;
+    --chat-input-side-controls-inline: calc(
+      var(--chat-composer-side-control-size) + clamp(0.24rem, 1vw, 0.4rem)
+    ) !important;
+    --chat-input-max-w: min(
+      100%,
+      calc(
+        var(--chat-input-available-inline) -
+          var(--chat-input-side-controls-inline) -
+          (var(--chat-input-row-edge-pad) * 2) -
+          0.6rem
+      )
+    ) !important;
+    gap: clamp(0.22rem, 1vw, 0.36rem) !important;
+    padding-left: var(--chat-input-row-edge-pad) !important;
+    padding-right: calc(
+      var(--chat-input-row-edge-pad) + clamp(0.12rem, 0.55vw, 0.22rem)
+    ) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
+    margin-left: 0 !important;
+    margin-right: clamp(0.08rem, 0.4vw, 0.16rem) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
+    width: min(100%, var(--chat-input-max-w)) !important;
+    max-width: min(100%, var(--chat-input-max-w)) !important;
+  }
+
+  html[data-platform="android"] body .chat-inputbar .chat-listen-btn,
+  html[data-platform="android"] body .chat-inputbar .chat-send-btn,
+  body[data-platform="android"] .chat-inputbar .chat-listen-btn,
+  body[data-platform="android"] .chat-inputbar .chat-send-btn {
+    width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+  }
+
+  html[data-platform="android"] body .chat-inputbar .chat-send-btn,
+  body[data-platform="android"] .chat-inputbar .chat-send-btn {
+    width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+  }
+
+  .chat-input-row--embedded {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-top: 0 !important;
+    transform: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .chat-input-row--embedded .chat-inputbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+    transform: none !important;
+  }
+
+  .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(3.15rem, 12.4vw, 4.6rem)) !important;
+  }
+
+  .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.45rem, 5.9vw, 2.1rem) !important;
+    transform: none !important;
+  }
+
+  html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.7rem, 6.8vw, 2.45rem) !important;
+    transform: none !important;
+  }
+
+  .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell {
+    --profile-orbit-center-offset-y: clamp(-0.76rem, -3vw, -0.42rem);
+    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
+    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
+      scale3d(1, 1, 1) !important;
+    transform-origin: center center !important;
+    -webkit-transform-origin: center center !important;
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+    -webkit-transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
+    will-change: transform !important;
+  }
+
+  .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon {
+    animation: none !important;
+    transform-origin: center !important;
+    will-change: auto !important;
+  }
+
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.45rem, 2.8vw, 0.95rem)) !important;
+  }
+
+  html.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.45rem, 5.9vw, 2.1rem) !important;
+    transform: none !important;
+  }
+
+  html[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.7rem, 6.8vw, 2.45rem) !important;
+    transform: none !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  body[data-display-mode="standalone"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button),
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring :is(.back-button, .glass-subpage-back-button) {
+    top: 0.2rem !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row,
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-role-row,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-role-row,
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(2.35rem, 9.2vw, 3.5rem)) !important;
+  }
+
+  html[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  html[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="standalone"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-display-mode="fullscreen"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(0.9rem, 4.2vw, 1.55rem) !important;
+    transform: none !important;
+  }
+}

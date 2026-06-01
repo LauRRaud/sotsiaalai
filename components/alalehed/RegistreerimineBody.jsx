@@ -6,7 +6,6 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import OptionCard, { optionEdgeGlowStyle } from "@/components/ui/OptionCard";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import BorderGlow from "@/components/ui/BorderGlow";
 import GlassRing from "@/components/ui/GlassRing";
@@ -16,7 +15,6 @@ import { cn } from "@/components/ui/cn";
 import {
   glassPageBackClassName,
   glassPageBackMobileBottomCenterClassName,
-  glassPageCloseClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName,
 } from "@/components/ui/glassPageStyles";
@@ -745,11 +743,6 @@ export default function RegistreerimineBody({}) {
         />
         {showSuccessState ? (
           <>
-            <CloseButton
-              onClick={handleClose}
-              ariaLabel={t("buttons.close")}
-              className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
-            />
             <div className={successTitleWrapClassName}>
               <h1 className={successTitleClassName}>
                 {t("auth.register.title")}

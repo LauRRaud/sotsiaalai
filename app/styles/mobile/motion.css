@@ -1,0 +1,22 @@
+/* Reduced motion and mobile keyframes. */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-scroll-cue-arrow {
+    animation: none;
+  }
+}
+
+@keyframes profile-orbit-mobile-hub-pulse {
+  0% {
+    transform: translateY(var(--profile-orbit-center-offset-y, 0rem))
+      translateZ(0) scale(1);
+  }
+  50% {
+    transform: translateY(var(--profile-orbit-center-offset-y, 0rem))
+      translateZ(0) scale(0.95);
+  }
+  100% {
+    transform: translateY(var(--profile-orbit-center-offset-y, 0rem))
+      translateZ(0) scale(1);
+  }
+}

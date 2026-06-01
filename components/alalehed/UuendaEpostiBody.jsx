@@ -8,12 +8,11 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import GlowField from "@/components/ui/GlowField";
 import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
-import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
@@ -71,15 +70,6 @@ export default function UuendaEpostiBody() {
     waitForGlassRingTilt: true,
     persistGlassRingTilt: false
   }) : typeof window !== "undefined" && window.history.length > 1 ? backWithTransition(router, {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  }) : pushWithTransition(router, localizePath("/profiil", locale), {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  });
-  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
     glassRingTilt: "left",
     waitForGlassRingTilt: true,
     persistGlassRingTilt: false
@@ -177,7 +167,6 @@ export default function UuendaEpostiBody() {
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing ref={ringRef} className={cn(ringClassName, "glass-field-hole-surface")}>
         <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} holdPressedVisualDisabled className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`} />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>

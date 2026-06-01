@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -47,15 +49,15 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   assert.match(inviteSource, /invite-modal-content[\s\S]*?!overflow-hidden/);
   assert.match(inviteSource, /invite-modal-scroll[\s\S]*?overflow-y-visible/);
   assert.match(
-    read("app/styles/mobile.css"),
+    readMobileCssBundle(),
     /\.invite-modal-content\.person-invite-modal-content\.glass-subpage-surface:not\(\.invite-modal-content--workspace\)\s*\{[\s\S]*?max-height:\s*calc\(100dvh - 1\.25rem\) !important;[\s\S]*?overflow:\s*hidden !important;/
   );
   assert.match(
-    read("app/styles/mobile.css"),
+    readMobileCssBundle(),
     /> \.invite-modal-scroll:not\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?flex:\s*1 1 auto !important;[\s\S]*?overflow:\s*visible !important;/
   );
   assert.match(
-    read("app/styles/mobile.css"),
+    readMobileCssBundle(),
     /\.invite-modal-content\.person-invite-modal-content\.glass-subpage-surface:not\(\.invite-modal-content--workspace\)[\s\S]*?\.invite-list-panel\s*\{[\s\S]*?overflow-y:\s*auto !important;/
   );
   assert.match(surfaceBlock, /--glass-subpage-edge-stroke-width:\s*0px/);
@@ -114,7 +116,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
 
 test("invite modal form controls align to the invite list panel width", () => {
   const inviteSource = read("components/invite/InviteModal.jsx");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
 
   assert.match(
     inviteSource,
@@ -148,7 +150,7 @@ test("invite modal form controls align to the invite list panel width", () => {
 
 test("register ring surface matches chat and profile glass surface token", () => {
   const registerSource = read("components/alalehed/RegistreerimineBody.jsx");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
 
   assert.match(registerSource, /registerRingClassName[\s\S]*?glass-ring--desktop-stable/);
   assert.match(

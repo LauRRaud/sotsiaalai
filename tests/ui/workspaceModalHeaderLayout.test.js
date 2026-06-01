@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -11,7 +13,7 @@ test("workspace modal headers use the shared glass subpage title contract", () =
   const helpListings = read("components/chat/HelpListingsPanel.jsx");
   const selectedListing = read("components/chat/SelectedListingContext.jsx");
   const helpersCss = read("app/styles/utilities/helpers.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const hcCss = read("app/styles/theme/hc.css");
 
   assert.match(glassStyles, /text-\[2\.15rem\]/);

@@ -1,17 +1,19 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
 test("mobile PWA pages paint the bottom safe area with the active theme background", () => {
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
+  const mobileIndexCss = read("app/styles/mobile/index.css");
   const mobileBackgroundCss = read("app/styles/mobile/mobile-background.css");
   const globalsCss = read("app/styles/globals.css");
   const coreCss = read("app/styles/base/core.css");
-  const backgroundCss = read("app/styles/base/backgrounds.css");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const clickPulseCursor = read("components/ClickPulseCursor.jsx");
   const manifest = read("public/site.webmanifest");
@@ -39,7 +41,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*max\(env\(safe-area-inset-bottom,\s*0px\),\s*clamp\(5rem,\s*10vh,\s*7\.5rem\)\);[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
+    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\)/,
     "standalone/fullscreen PWA should paint the chrome fallback without adding scrollable layout height"
   );
   assert.match(
@@ -47,15 +49,17 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
     /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height,\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
     "PWA app root should keep stable viewport height so keyboard focus cannot leave a bottom spacer"
   );
-  assert.match(globalsCss, /@import url\("\.\/mobile\/mobile-background\.css"\) screen and \(max-width: 768px\);/);
+  assert.match(globalsCss, /@import url\("\.\/mobile\/index\.css"\) screen and \(max-width: 768px\);/);
+  assert.match(mobileIndexCss, /@import url\("\.\.\/mobile\.css"\);/);
+  assert.match(mobileIndexCss, /@import url\("\.\/mobile-background\.css"\);/);
   assert.match(mobileBackgroundCss, /html\[data-app-prepaint\][\s\S]*?background:\s*var\(--mobile-background-prepaint\)\s*!important;/);
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*0px;[\s\S]*?inset:\s*0\s*!important;[\s\S]*?height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\s*!important;/
+    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*none\s*!important;/
+    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\+[\s\S]*?var\(--pwa-background-bottom-overscan\)[\s\S]*?\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
   );
   assert.match(
     mobileBackgroundCss,
@@ -73,7 +77,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--home-mobile-safe-bottom:\s*0px;[\s\S]*?--home-mobile-canvas-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?background-size:\s*100%\s*100%\s*!important;[\s\S]*?height:\s*var\(--home-mobile-canvas-height\)\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\)\s*!important;/,
+    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--home-mobile-safe-bottom:\s*0px;[\s\S]*?--home-mobile-canvas-height:\s*var\(--pwa-viewport-fill-height,[\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\);[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?background-size:\s*100%\s*100%\s*!important;[\s\S]*?height:\s*var\(--home-mobile-canvas-height\)\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\)\s*!important;/,
     "installed homepage should keep the themed base background without adding an overscan layout box"
   );
   assert.match(
@@ -83,7 +87,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;/,
+    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;[\s\S]*?height:\s*calc\([\s\S]*?var\(--pwa-viewport-fill-height,[\s\S]*?var\(--mobile-glass-card-gap,\s*0\.35rem\)[\s\S]*?\)\s*!important;/,
     "installed mobile glass panels should not subtract the iOS bottom safe area twice"
   );
   assert.match(

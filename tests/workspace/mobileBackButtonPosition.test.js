@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -13,7 +15,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const anchorSelectorSource = headerSource.match(/const BACK_ANCHOR_SELECTOR = \[[\s\S]*?\]\.join/)?.[0] || "";
   const glassPageStylesSource = readSource("components/ui/glassPageStyles.js");
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
-  const mobileCss = readSource("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const mobileHeaderCss = readSource("app/styles/mobile/mobile-title-backbutton-info.css");
 
   assert.match(
@@ -80,9 +82,9 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   assert.doesNotMatch(workspacePanelCss, /--workspace-dashboard-mobile-back-lift/);
   assert.doesNotMatch(workspacePanelCss, /0\.04rem - 1rem/);
   assert.doesNotMatch(workspacePanelCss, /\.panel\s*>\s*:global\(\.dashboard-info-trigger-corner\)\s*\{/);
-  assert.match(
+  assert.doesNotMatch(
     mobileHeaderCss,
-    /html\[data-display-mode="browser"\][\s\S]*?:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel\.workspace-scroll-surface[\s\S]*?\)[\s\S]*?\{[\s\S]*?--mobile-header-browser-y-offset:\s*0\.34rem;/
+    /data-display-mode="browser"[\s\S]*?--mobile-header-browser-y-offset/
   );
   assert.match(
     mobileHeaderCss,

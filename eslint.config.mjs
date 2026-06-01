@@ -15,6 +15,8 @@ export default defineConfig([
       "build/**",
       "coverage/**",
       "generated/**",
+      "public/vendor/**",
+      "tmp/**",
     ],
   },
   {

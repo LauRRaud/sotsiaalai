@@ -10,6 +10,8 @@ import "../styles/components/documents-workspace.shared.css";
 import "../styles/components/documents-ui.shared.css";
 import "../styles/components/documents-agent.css";
 import "../styles/components/documents-library.css";
+import "../styles/theme/mono.chat.css";
+import "../styles/theme/mono.documents.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

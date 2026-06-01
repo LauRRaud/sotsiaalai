@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -10,7 +12,7 @@ test("workspace-launched help listings render inside the workspace panel", () =>
   const componentSource = readSource("components/chat/HelpListingsPanel.jsx");
   const chatBodySource = readSource("components/alalehed/ChatBody.jsx");
   const chatBodyViewSource = readSource("components/alalehed/chat/ChatBodyView.jsx");
-  const finalCssSource = readSource("app/styles/mobile.css");
+  const finalCssSource = readMobileCssBundle();
   const helpersCssSource = readSource("app/styles/utilities/helpers.css");
 
   assert.match(chatBodySource, /workspaceListingsPanelNode/);
@@ -63,7 +65,7 @@ test("workspace-launched help listings render inside the workspace panel", () =>
 test("workspace-launched invite renders inside the workspace panel", () => {
   const componentSource = readSource("components/invite/InviteModal.jsx");
   const workspaceSource = readSource("components/chat/WorkspacePanel.jsx");
-  const finalCssSource = readSource("app/styles/mobile.css");
+  const finalCssSource = readMobileCssBundle();
   const helpersCssSource = readSource("app/styles/utilities/helpers.css");
 
   assert.match(workspaceSource, /"__invite":\s*"invite"/);
@@ -98,7 +100,7 @@ test("workspace-launched invite renders inside the workspace panel", () => {
 
 test("PWA help listings fill the mobile viewport without artificial extra height", () => {
   const componentSource = readSource("components/chat/HelpListingsPanel.jsx");
-  const cssSource = readSource("app/styles/mobile.css");
+  const cssSource = readMobileCssBundle();
 
   assert.doesNotMatch(componentSource, /max-\[768px\]:!min-h-\[calc\(100dvh-env\(safe-area-inset-top/);
   assert.match(cssSource, /\.help-listings-modal-content[\s\S]*height:\s*var\(--glass-mobile-root-vh,\s*100dvh\)\s*!important/);

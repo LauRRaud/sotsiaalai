@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 import {
   resolveMobileChatKeyboardOffset,
@@ -92,7 +94,7 @@ test("mobile app height follows the measured viewport outside keyboard stabiliza
 
 test("mobile chat PWA header removes the duplicated safe-area inset without legacy sticky display-mode state", () => {
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const chatTopNav = read("components/alalehed/chat/view/ChatMobileTopNav.jsx");
 
   assert.match(viewportSetter, /function detectDisplayMode\(\)/);
@@ -120,7 +122,7 @@ test("mobile chat PWA header removes the duplicated safe-area inset without lega
 });
 
 test("mobile chat keyboard lift does not double-apply to scroll padding", () => {
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const conversationView = read("components/alalehed/chat/ConversationView.jsx");
   const chatBodyView = read("components/alalehed/chat/ChatBodyView.jsx");
   const scrollRule = mobileCss.match(

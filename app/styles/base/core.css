@@ -95,7 +95,7 @@ html[data-display-mode="standalone"] body,
 html[data-display-mode="fullscreen"] body,
 body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"] {
-  --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem));
+  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
   --pwa-viewport-fill-height: calc(
     var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
       var(--pwa-background-bottom-overscan)

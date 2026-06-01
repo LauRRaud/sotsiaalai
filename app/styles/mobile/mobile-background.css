@@ -25,11 +25,15 @@ html[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
 html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
 body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
 body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
-  --pwa-background-bottom-overscan: 0px;
+  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
+  --pwa-viewport-fill-height: calc(
+    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+      var(--pwa-background-bottom-overscan)
+  );
   inset: 0 !important;
-  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
-  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
-  max-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  height: var(--pwa-viewport-fill-height) !important;
+  min-height: var(--pwa-viewport-fill-height) !important;
+  max-height: var(--pwa-viewport-fill-height) !important;
 }
 
 html[data-display-mode="standalone"],
@@ -40,11 +44,14 @@ body[data-display-mode="standalone"],
 body[data-display-mode="fullscreen"],
 html[data-display-mode="standalone"] .app-root,
 html[data-display-mode="fullscreen"] .app-root {
-  --pwa-background-bottom-overscan: 0px;
-  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
-  height: auto !important;
+  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
+  --pwa-viewport-fill-height: calc(
+    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+      var(--pwa-background-bottom-overscan)
+  );
+  height: var(--pwa-viewport-fill-height) !important;
   min-height: var(--pwa-viewport-fill-height) !important;
-  max-height: none !important;
+  max-height: var(--pwa-viewport-fill-height) !important;
   background-size: 100% 100% !important;
 }
 
@@ -72,7 +79,7 @@ html[data-display-mode="fullscreen"] body.homepage,
 body.homepage[data-display-mode="standalone"],
 body.homepage[data-display-mode="fullscreen"] {
   --home-mobile-safe-bottom: 0px;
-  --home-mobile-canvas-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
+  --home-mobile-canvas-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, var(--app-height, 100dvh)));
   background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d))) !important;
   background-color: var(--app-chrome-bg, #10151d) !important;
   background-repeat: no-repeat !important;
@@ -168,12 +175,12 @@ body[data-display-mode="fullscreen"]
   --glass-mobile-safe-bottom: 0px;
   --mobile-safe-bottom: 0px;
   height: calc(
-    var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh)) -
+    var(--pwa-viewport-fill-height, var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh))) -
       var(--glass-mobile-safe-top, 0px) -
       var(--mobile-glass-card-gap, 0.35rem)
   ) !important;
   max-height: calc(
-    var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh)) -
+    var(--pwa-viewport-fill-height, var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh))) -
       var(--glass-mobile-safe-top, 0px) -
       var(--mobile-glass-card-gap, 0.35rem)
   ) !important;

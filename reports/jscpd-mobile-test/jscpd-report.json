@@ -1,0 +1,853 @@
+{
+  "statistics": {
+    "detectionDate": "2026-06-01T16:36:32.029Z",
+    "formats": {
+      "css": {
+        "sources": {
+          "app/styles/mobile/mobile-background.css": {
+            "lines": 192,
+            "tokens": 1011,
+            "sources": 1,
+            "clones": 0,
+            "duplicatedLines": 0,
+            "duplicatedTokens": 0,
+            "percentage": 0,
+            "percentageTokens": 0,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          },
+          "app/styles/mobile.css": {
+            "lines": 3654,
+            "tokens": 29950,
+            "sources": 1,
+            "clones": 44,
+            "duplicatedLines": 456,
+            "duplicatedTokens": 5388,
+            "percentage": 12.48,
+            "percentageTokens": 17.99,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 3846,
+          "tokens": 30961,
+          "sources": 2,
+          "clones": 22,
+          "duplicatedLines": 228,
+          "duplicatedTokens": 2694,
+          "percentage": 5.93,
+          "percentageTokens": 8.7,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 3846,
+      "tokens": 30961,
+      "sources": 2,
+      "clones": 22,
+      "duplicatedLines": 228,
+      "duplicatedTokens": 2694,
+      "percentage": 5.93,
+      "percentageTokens": 8.7,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    }
+  },
+  "duplicates": [
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .register-content [data-control-type][data-checked=\"true\"]:active",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 207,
+        "end": 214,
+        "startLoc": {
+          "line": 207,
+          "column": 68,
+          "position": 1491
+        },
+        "endLoc": {
+          "line": 214,
+          "column": 68,
+          "position": 1566
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 185,
+        "end": 192,
+        "startLoc": {
+          "line": 185,
+          "column": 61,
+          "position": 1309
+        },
+        "endLoc": {
+          "line": 192,
+          "column": 69,
+          "position": 1384
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .invite-modal-content",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 231,
+        "end": 238,
+        "startLoc": {
+          "line": 231,
+          "column": 65,
+          "position": 1660
+        },
+        "endLoc": {
+          "line": 238,
+          "column": 24,
+          "position": 1736
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 159,
+        "end": 166,
+        "startLoc": {
+          "line": 159,
+          "column": 126,
+          "position": 1116
+        },
+        "endLoc": {
+          "line": 166,
+          "column": 78,
+          "position": 1192
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 16,
+      "fragment": " [data-control-type] {\n    --seg-card-bg-selected: var(--seg-card-bg);\n    --seg-card-bg-active: var(--seg-card-bg);\n    --seg-card-shadow-selected: var(\n      --seg-card-shadow-hover,\n      var(--seg-card-shadow)\n    );\n    --seg-card-shadow-active: var(--seg-card-shadow);\n    --seg-card-border-selected: var(\n      --seg-card-border-hover,\n      var(--seg-card-border)\n    );\n    --seg-card-border-active: var(--seg-card-border);\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 264,
+        "end": 279,
+        "startLoc": {
+          "line": 264,
+          "column": 37,
+          "position": 1959
+        },
+        "endLoc": {
+          "line": 279,
+          "column": 20,
+          "position": 2049
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 170,
+        "end": 185,
+        "startLoc": {
+          "line": 170,
+          "column": 20,
+          "position": 1215
+        },
+        "endLoc": {
+          "line": 185,
+          "column": 20,
+          "position": 1305
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"] {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 279,
+        "end": 286,
+        "startLoc": {
+          "line": 279,
+          "column": 37,
+          "position": 2052
+        },
+        "endLoc": {
+          "line": 286,
+          "column": 20,
+          "position": 2126
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 185,
+        "end": 192,
+        "startLoc": {
+          "line": 185,
+          "column": 20,
+          "position": 1306
+        },
+        "endLoc": {
+          "line": 192,
+          "column": 20,
+          "position": 1380
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"]:active {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 301,
+        "end": 308,
+        "startLoc": {
+          "line": 301,
+          "column": 37,
+          "position": 2241
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 20,
+          "position": 2316
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 207,
+        "end": 214,
+        "startLoc": {
+          "line": 207,
+          "column": 20,
+          "position": 1487
+        },
+        "endLoc": {
+          "line": 214,
+          "column": 20,
+          "position": 1562
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked=\"true\"]:active",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 301,
+        "end": 308,
+        "startLoc": {
+          "line": 301,
+          "column": 85,
+          "position": 2245
+        },
+        "endLoc": {
+          "line": 308,
+          "column": 85,
+          "position": 2322
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 279,
+        "end": 286,
+        "startLoc": {
+          "line": 279,
+          "column": 78,
+          "position": 2055
+        },
+        "endLoc": {
+          "line": 286,
+          "column": 86,
+          "position": 2132
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " [data-control-type] {\n    --seg-card-bg-selected: var(--seg-card-bg);\n    --seg-card-bg-active: var(--seg-card-bg);\n    --seg-card-shadow-selected: var(\n      --seg-card-shadow-hover,\n      var(--seg-card-shadow)\n    );\n    --seg-card-shadow-active: var(--seg-card-shadow);\n    --seg-card-border-selected: var(\n      --seg-card-border-hover,\n      var(--seg-card-border)\n    );\n    --seg-card-border-active: var(--seg-card-border);\n    --seg-card-bg-hover",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 312,
+        "end": 325,
+        "startLoc": {
+          "line": 312,
+          "column": 25,
+          "position": 2342
+        },
+        "endLoc": {
+          "line": 325,
+          "column": 24,
+          "position": 2428
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 170,
+        "end": 183,
+        "startLoc": {
+          "line": 170,
+          "column": 20,
+          "position": 1215
+        },
+        "endLoc": {
+          "line": 183,
+          "column": 4,
+          "position": 1301
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " [data-control-type][data-checked=\"true\"] {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .chat-analysis-overlay",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 331,
+        "end": 338,
+        "startLoc": {
+          "line": 331,
+          "column": 25,
+          "position": 2470
+        },
+        "endLoc": {
+          "line": 338,
+          "column": 25,
+          "position": 2549
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 231,
+        "end": 166,
+        "startLoc": {
+          "line": 231,
+          "column": 24,
+          "position": 1657
+        },
+        "endLoc": {
+          "line": 166,
+          "column": 78,
+          "position": 1192
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 8,
+      "fragment": " {\n    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;\n    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;\n    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;\n    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;\n  }\n\n  .chat-analysis-overlay .chat-analysis-action-btn.button",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 366,
+        "end": 373,
+        "startLoc": {
+          "line": 366,
+          "column": 127,
+          "position": 2760
+        },
+        "endLoc": {
+          "line": 373,
+          "column": 58,
+          "position": 2838
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 159,
+        "end": 338,
+        "startLoc": {
+          "line": 159,
+          "column": 126,
+          "position": 1116
+        },
+        "endLoc": {
+          "line": 338,
+          "column": 45,
+          "position": 2551
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": " .profile-mask-layer {\n    background:\n      var(--glass-ring-sheen, none),\n      var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;\n    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;\n    opacity",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 847,
+        "end": 853,
+        "startLoc": {
+          "line": 847,
+          "column": 56,
+          "position": 5938
+        },
+        "endLoc": {
+          "line": 853,
+          "column": 12,
+          "position": 6016
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 834,
+        "end": 840,
+        "startLoc": {
+          "line": 834,
+          "column": 32,
+          "position": 5818
+        },
+        "endLoc": {
+          "line": 840,
+          "column": 4,
+          "position": 5896
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 7,
+      "fragment": "{\n      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n        scale3d(1, 1, 1);\n      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n        scale3d(1, 1, 1);\n    }\n  }",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 973,
+        "end": 979,
+        "startLoc": {
+          "line": 973,
+          "column": 10,
+          "position": 6935
+        },
+        "endLoc": {
+          "line": 979,
+          "column": 4,
+          "position": 7011
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 961,
+        "end": 967,
+        "startLoc": {
+          "line": 961,
+          "column": 8,
+          "position": 6781
+        },
+        "endLoc": {
+          "line": 967,
+          "column": 9,
+          "position": 6857
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n      to bottom,\n      transparent 0%,\n      rgba(0, 0, 0, 0.18) calc(var(--orbit-stack-panel-fade-top) * 0.16),\n      rgba(0, 0, 0, 0.52) calc(var(--orbit-stack-panel-fade-top) * 0.42),\n      rgba(0, 0, 0, 0.82) calc(var(--orbit-stack-panel-fade-top) * 0.72),\n      #000 calc(var(--orbit-stack-panel-fade-top) * 1.02),\n      #000 calc(100% - (var(--orbit-stack-panel-fade-bottom) * 1.02)),\n      rgba(0, 0, 0, 0.82) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.72)),\n      rgba(0, 0, 0, 0.52) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.42)),\n      rgba(0, 0, 0, 0.18) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.16)),\n      transparent 100%\n    );\n    -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1103,
+        "end": 1116,
+        "startLoc": {
+          "line": 1103,
+          "column": 15,
+          "position": 8211
+        },
+        "endLoc": {
+          "line": 1116,
+          "column": 22,
+          "position": 8461
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1090,
+        "end": 1103,
+        "startLoc": {
+          "line": 1090,
+          "column": 23,
+          "position": 7960
+        },
+        "endLoc": {
+          "line": 1103,
+          "column": 15,
+          "position": 8210
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 9,
+      "fragment": "deg,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.18) 0%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.1) 18%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.045) 42%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.012) 68%,\n      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0) 100%\n    ) !important;\n  }\n  .profile-orbit-stack-list",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1147,
+        "end": 1155,
+        "startLoc": {
+          "line": 1147,
+          "column": 8,
+          "position": 8740
+        },
+        "endLoc": {
+          "line": 1155,
+          "column": 28,
+          "position": 8856
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1136,
+        "end": 1144,
+        "startLoc": {
+          "line": 1136,
+          "column": 10,
+          "position": 8604
+        },
+        "endLoc": {
+          "line": 1144,
+          "column": 36,
+          "position": 8720
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": ": linear-gradient(\n      to bottom,\n      transparent 0%,\n      rgba(0, 0, 0, 0.18) calc(var(--stack-edge-fade) * 0.16),\n      rgba(0, 0, 0, 0.52) calc(var(--stack-edge-fade) * 0.42),\n      rgba(0, 0, 0, 0.82) calc(var(--stack-edge-fade) * 0.72),\n      #000 calc(var(--stack-edge-fade) * 1.02),\n      #000 calc(100% - (var(--stack-edge-fade) * 1.02)),\n      rgba(0, 0, 0, 0.82) calc(100% - (var(--stack-edge-fade) * 0.72)),\n      rgba(0, 0, 0, 0.52) calc(100% - (var(--stack-edge-fade) * 0.42)),\n      rgba(0, 0, 0, 0.18) calc(100% - (var(--stack-edge-fade) * 0.16)),\n      transparent 100%\n    );\n    -webkit-mask-size",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1192,
+        "end": 1205,
+        "startLoc": {
+          "line": 1192,
+          "column": 15,
+          "position": 9334
+        },
+        "endLoc": {
+          "line": 1205,
+          "column": 22,
+          "position": 9584
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1179,
+        "end": 1192,
+        "startLoc": {
+          "line": 1179,
+          "column": 23,
+          "position": 9083
+        },
+        "endLoc": {
+          "line": 1192,
+          "column": 15,
+          "position": 9333
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 10,
+      "fragment": "deg,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.46) 0%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 18%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.13) 42%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.045) 68%,\n      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%\n    ) !important;\n  }\n\n  html[data-platform=\"android\"] .profile-orbit-stack-item",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1480,
+        "end": 1489,
+        "startLoc": {
+          "line": 1480,
+          "column": 8,
+          "position": 11807
+        },
+        "endLoc": {
+          "line": 1489,
+          "column": 58,
+          "position": 11927
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1468,
+        "end": 1477,
+        "startLoc": {
+          "line": 1468,
+          "column": 10,
+          "position": 11670
+        },
+        "endLoc": {
+          "line": 1477,
+          "column": 66,
+          "position": 11790
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 21,
+      "fragment": " {\n    width: calc(\n      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    max-width: none !important;\n    height: calc(\n      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    max-height: calc(\n      var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -\n        (var(--mobile-glass-card-gap, 0.35rem) * 2)\n    ) !important;\n    margin-top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;\n    margin-right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;\n    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;\n    margin-left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;\n    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;\n    border: 0 !important;\n    box-shadow",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1713,
+        "end": 1733,
+        "startLoc": {
+          "line": 1713,
+          "column": 34,
+          "position": 13960
+        },
+        "endLoc": {
+          "line": 1733,
+          "column": 15,
+          "position": 14288
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1666,
+        "end": 1686,
+        "startLoc": {
+          "line": 1666,
+          "column": 24,
+          "position": 13347
+        },
+        "endLoc": {
+          "line": 1686,
+          "column": 15,
+          "position": 13675
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": "!important;\n    overflow-y: auto !important;\n    -webkit-overflow-scrolling: touch;\n    overscroll-behavior: contain;\n    padding-top: var(\n      --glass-ring-pad-top,\n      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))\n    ) !important;\n    padding-right: var(\n      --glass-ring-pad-x,\n      clamp(calc(1.15",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1733,
+        "end": 1743,
+        "startLoc": {
+          "line": 1733,
+          "column": 22,
+          "position": 14293
+        },
+        "endLoc": {
+          "line": 1743,
+          "column": 22,
+          "position": 14382
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1692,
+        "end": 1702,
+        "startLoc": {
+          "line": 1692,
+          "column": 59,
+          "position": 13757
+        },
+        "endLoc": {
+          "line": 1702,
+          "column": 21,
+          "position": 13846
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 12,
+      "fragment": " {\n    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;\n    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;\n    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;\n    --chat-mobile-action-cluster-width: calc(\n      (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)\n    ) !important;\n    position: absolute !important;\n    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;\n    left: auto !important;\n    right: calc(\n      env(safe-area-inset-right, 0px) + 0.42rem +",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2062,
+        "end": 2073,
+        "startLoc": {
+          "line": 2062,
+          "column": 21,
+          "position": 16922
+        },
+        "endLoc": {
+          "line": 2073,
+          "column": 50,
+          "position": 17082
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2045,
+        "end": 2055,
+        "startLoc": {
+          "line": 2045,
+          "column": 22,
+          "position": 16718
+        },
+        "endLoc": {
+          "line": 2055,
+          "column": 59,
+          "position": 16875
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": "rem);\n    -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n      scale3d(1, 1, 1) !important;\n    transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)\n      scale3d(1, 1, 1) !important;\n    transform-origin: center center !important;\n    -webkit-transform-origin: center center !important;\n    -webkit-animation: none !important;\n    animation: none !important;\n    -webkit-backface-visibility: hidden !important;\n    backface-visibility: hidden !important;\n    -webkit-transform-style: preserve-3d !important;\n    transform-style: preserve-3d !important;\n    will-change: transform !important;\n  }\n\n  .profile-container.glass-ring ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2304,
+        "end": 2320,
+        "startLoc": {
+          "line": 2304,
+          "column": 65,
+          "position": 19109
+        },
+        "endLoc": {
+          "line": 2320,
+          "column": 33,
+          "position": 19282
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 1006,
+        "end": 1023,
+        "startLoc": {
+          "line": 1006,
+          "column": 67,
+          "position": 7182
+        },
+        "endLoc": {
+          "line": 1023,
+          "column": 5,
+          "position": 7355
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 14,
+      "fragment": " {\n    scroll-snap-type: y proximity !important;\n    overscroll-behavior-y: contain !important;\n    overscroll-behavior-x: none !important;\n    overflow-x: hidden !important;\n    touch-action: pan-y !important;\n    scroll-padding-top: var(--csp-pad-top, var(--csp-pad, 0px)) !important;\n    scroll-padding-bottom: var(--csp-pad-bottom, var(--csp-pad, 0px)) !important;\n    scroll-behavior: auto !important;\n    -webkit-overflow-scrolling: touch !important;\n    --csp-transition-ms: 420ms;\n  }\n\n  .register-scroll.csp-container",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2639,
+        "end": 2652,
+        "startLoc": {
+          "line": 2639,
+          "column": 33,
+          "position": 22209
+        },
+        "endLoc": {
+          "line": 2652,
+          "column": 33,
+          "position": 22330
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2626,
+        "end": 2639,
+        "startLoc": {
+          "line": 2626,
+          "column": 30,
+          "position": 22087
+        },
+        "endLoc": {
+          "line": 2639,
+          "column": 33,
+          "position": 22208
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 17,
+      "fragment": "!important;\n    margin-left: calc(\n      -1 *\n        var(\n          --glass-ring-pad-x,\n          clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))\n        )\n    ) !important;\n    margin-right: calc(\n      -1 *\n        var(\n          --glass-ring-pad-x,\n          clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))\n        )\n    ) !important;\n    padding-left: var(\n      --policy-title-inline-start,",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2832,
+        "end": 2848,
+        "startLoc": {
+          "line": 2832,
+          "column": 18,
+          "position": 23642
+        },
+        "endLoc": {
+          "line": 2848,
+          "column": 35,
+          "position": 23775
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2740,
+        "end": 2756,
+        "startLoc": {
+          "line": 2740,
+          "column": 7,
+          "position": 22875
+        },
+        "endLoc": {
+          "line": 2756,
+          "column": 37,
+          "position": 23008
+        }
+      }
+    },
+    {
+      "format": "css",
+      "lines": 11,
+      "fragment": " {\n    width: 100% !important;\n    max-width: 100% !important;\n    min-height: auto !important;\n    white-space: normal !important;\n    text-wrap: balance !important;\n    overflow-wrap: normal !important;\n    word-break: normal !important;\n    hyphens: manual !important;\n    overflow: visible !important;\n    font-size: clamp(1.94",
+      "tokens": 0,
+      "firstFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2871,
+        "end": 2881,
+        "startLoc": {
+          "line": 2871,
+          "column": 31,
+          "position": 23947
+        },
+        "endLoc": {
+          "line": 2881,
+          "column": 26,
+          "position": 24037
+        }
+      },
+      "secondFile": {
+        "name": "app\\styles\\mobile.css",
+        "start": 2780,
+        "end": 2790,
+        "startLoc": {
+          "line": 2780,
+          "column": 32,
+          "position": 23228
+        },
+        "endLoc": {
+          "line": 2790,
+          "column": 26,
+          "position": 23318
+        }
+      }
+    }
+  ]
+}

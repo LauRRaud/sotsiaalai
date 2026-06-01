@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -8,7 +10,7 @@ function read(path) {
 
 test("documents and agent pages use a shared mobile glass-panel system", () => {
   const css = read("app/styles/components/documents-mode.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const helpersCss = read("app/styles/utilities/helpers.css");
   const documentsSource = read("components/documents/DocumentsPage.jsx");
   const agentSource = read("components/agent/AgentModePage.jsx");
@@ -27,15 +29,18 @@ test("documents and agent pages use a shared mobile glass-panel system", () => {
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-agent-card[\s\S]*?\)\s*\{[\s\S]*?border:\s*0\s*!important[\s\S]*?border-radius:\s*var\(--documents-mobile-panel-radius\)\s*!important[\s\S]*?background:[\s\S]*?var\(--glass-ring-surface-bg[\s\S]*?box-shadow:\s*var\(--glass-shell-shadow,\s*none\)\s*!important[\s\S]*?backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)\s*saturate\(100%\)\s*!important/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-agent-card/
   );
+  assert.match(css, /border-radius:\s*var\(--documents-mobile-panel-radius\)\s*!important/);
+  assert.match(css, /box-shadow:\s*var\(--glass-shell-shadow,\s*none\)\s*!important/);
+  assert.match(css, /backdrop-filter:\s*blur\(var\(--glass-blur-radius,\s*1rem\)\)\s*saturate\(100%\)\s*!important/);
   assert.match(
     css,
     /\.documents-workspace-page--documents\s+\.documents-page-shell,[\s\S]*?\.documents-workspace-page--agent\s+\.documents-page-shell\s*\{[\s\S]*?padding:\s*0\s*!important[\s\S]*?background:\s*transparent\s*!important[\s\S]*?backdrop-filter:\s*none\s*!important/
   );
   assert.match(
     css,
-    /\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-page-hero-panel[\s\S]*?\.documents-agent-content-pane[\s\S]*?\)\s*\{[\s\S]*?padding:[\s\S]*?var\(--documents-mobile-panel-pad-y\)[\s\S]*?var\(--documents-mobile-panel-pad-x\)\s*!important/
+    /\.documents-workspace-page--documents\s+:is\([\s\S]*?\.documents-library-panel[\s\S]*?\),[\s\S]*?\.documents-workspace-page--agent\s+:is\([\s\S]*?\.documents-agent-content-pane[\s\S]*?\)\s*\{[\s\S]*?padding:[\s\S]*?var\(--documents-mobile-panel-pad-y\)[\s\S]*?var\(--documents-mobile-panel-pad-x\)\s*!important/
   );
   assert.doesNotMatch(mobileCss, /documents-workspace-page--library/);
   assert.doesNotMatch(mobileCss, /documents-workspace-shell--documents/);

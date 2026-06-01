@@ -1,13 +1,15 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
 test("workspace feature pages keep mobile safe areas without browser-mode layout forks", () => {
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const particles = read("components/backgrounds/Particles.jsx");

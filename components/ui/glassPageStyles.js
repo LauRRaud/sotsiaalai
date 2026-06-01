@@ -62,9 +62,6 @@ export const glassSubpageBackButtonClassName =
 export const glassPageBackRightClassName =
   "absolute z-[8] right-[max(0px,calc(var(--glass-edge-right)-clamp(0.35rem,0.9vw,0.7rem)))] top-[calc(50%+var(--glass-center-offset,0px)-3.2rem)]";
 
-export const glassPageCloseClassName =
-  "glass-mobile-only-close text-[#c57171] opacity-90 light:text-[#7a3a38]";
-
 export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";
 

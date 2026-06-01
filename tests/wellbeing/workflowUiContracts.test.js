@@ -319,7 +319,8 @@ test("starter support tool renders a dedicated 100 day support workflow", () => 
 });
 
 test("covision overview exposes wellbeing-prepared inputs as a separate start path", () => {
-  const source = read("components/covision/CovisionPage.jsx");
+  const etMessages = JSON.parse(read("messages/et.json"));
+  const source = `${read("components/covision/CovisionPage.jsx")}\n${Object.values(etMessages.covision.wellbeing_inputs).join("\n")}`;
 
   assert.match(source, /fetchWellbeingCovisionInputs/);
   assert.match(source, /\/api\/wellbeing\/output-drafts\?outputType=covision_input&recipientType=covision/);

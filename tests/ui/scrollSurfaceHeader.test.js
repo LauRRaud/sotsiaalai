@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -16,7 +18,7 @@ test("workspace and framework scroll pages keep the back button inside the scrol
   const author = read("components/alalehed/AutoriltBody.jsx");
   const invite = read("components/invite/InviteModal.jsx");
   const helpersCss = read("app/styles/utilities/helpers.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
 
   for (const source of [materials, covision]) {
     assert.match(source, /workspace-scroll-surface/);
@@ -42,8 +44,9 @@ test("workspace and framework scroll pages keep the back button inside the scrol
     );
     assert.match(css, /padding-bottom:\s*var\(--workspace-guide-panel-overscan-bottom\)\s*!important;/);
     assert.match(css, /mask-image:\s*none\s*!important;[\s\S]*?-webkit-mask-image:\s*none\s*!important;/);
-    assert.match(css, /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*calc\(var\(--workspace-guide-panel-overscan-top,\s*0px\) \+ 0\.55rem\)\s*!important;/);
   }
+
+  assert.match(helpersCss, /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*calc\(var\(--workspace-guide-panel-overscan-top,\s*0px\) \+ 0\.55rem\)\s*!important;/);
 
   assert.match(invite, /invite-modal-content--workspace/);
   assert.doesNotMatch(invite, /invite-modal-content--workspace workspace-scroll-surface/);

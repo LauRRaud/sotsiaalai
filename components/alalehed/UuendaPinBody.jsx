@@ -8,7 +8,6 @@ import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import LoginModal from "@/components/LoginModal";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import GlowField from "@/components/ui/GlowField";
@@ -16,7 +15,6 @@ import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
 import {
   glassFormInputBaseClassName,
   glassPageBackMobileBottomCenterClassName,
-  glassPageCloseClassName,
   glassPageRingCenteredClassName,
   glassPageShellCenteredClassName,
   glassPageTitleClassName
@@ -88,19 +86,6 @@ export default function UuendaPinBody() {
             waitForGlassRingTilt: true,
             persistGlassRingTilt: false
           });
-  const handleClose = () =>
-    returnToProfile
-      ? pushWithTransition(router, profileReturnPath, {
-          glassRingTilt: "left",
-          waitForGlassRingTilt: true,
-          persistGlassRingTilt: false
-        })
-      : pushWithTransition(router, localizePath("/profiil", locale), {
-          glassRingTilt: "left",
-          waitForGlassRingTilt: true,
-          persistGlassRingTilt: false
-        });
-
   const pinLabel = t("profile.new_pin_label");
   const currentPinLabel = t("profile.current_pin_label");
   const confirmPinLabel = t("profile.confirm_pin_label");
@@ -183,11 +168,6 @@ export default function UuendaPinBody() {
     <section lang={locale} className={pageShellClassName}>
       <GlassRing ref={ringRef} className={cn(ringClassName, "glass-field-hole-surface")}>
         <div ref={maskLayerRef} className="glass-hole-mask-layer" aria-hidden="true" />
-        <CloseButton
-          onClick={handleClose}
-          ariaLabel={t("buttons.close")}
-          className={cn(glassPageCloseClassName, "max-[768px]:hidden")}
-        />
         <BackButton
           onClick={handleBack}
           ariaLabel={backLabel}

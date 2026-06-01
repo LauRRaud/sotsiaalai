@@ -43,6 +43,7 @@ function formatValue(value) {
 }
 
 function statusText(status) {
+  if (status?.disabled) return "Välja lülitatud";
   if (!status?.reportExists) return "Kontrollimata";
   if ((status?.report?.baselineMissing || 0) > 0) return "Vajab baasjoont";
   if ((status?.report?.changedSources || 0) > 0) return "Lehed muutunud";
@@ -123,6 +124,7 @@ export default function RagAdminKovSourceMonitorPanel() {
 
   const items = useMemo(() => status?.report?.items || [], [status]);
   const canApply = Boolean(status?.reportExists && (status?.report?.candidatesWritten || 0) > 0);
+  const sourceMonitorDisabled = Boolean(status?.disabled);
 
   return (
     <section className={panelClassName} aria-label="KOV veebiallikate seire">
@@ -162,10 +164,10 @@ export default function RagAdminKovSourceMonitorPanel() {
         <button type="button" className={buttonClassName} onClick={loadStatus} disabled={busy}>
           Kontrolli seisu
         </button>
-        <button type="button" className={primaryButtonClassName} onClick={runWebCheck} disabled={busy}>
+        <button type="button" className={primaryButtonClassName} onClick={runWebCheck} disabled={busy || sourceMonitorDisabled}>
           Käivita allikakontroll
         </button>
-        <button type="button" className={buttonClassName} onClick={applyCheck} disabled={busy || !canApply}>
+        <button type="button" className={buttonClassName} onClick={applyCheck} disabled={busy || sourceMonitorDisabled || !canApply}>
           Kinnita allikate baasjoon
         </button>
       </div>

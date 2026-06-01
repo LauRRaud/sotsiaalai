@@ -92,8 +92,9 @@ test("missing DOM theme class does not mask stored mono preference", () => {
 });
 
 test("color bends do not render one frame at fallback strength", () => {
-  assert.match(source, /const \[mobileBendsVisible, setMobileBendsVisible\] = useState\(true\);/);
-  assert.doesNotMatch(source, /setMobileBendsVisible\(false\)/);
+  assert.match(source, /const \[mobileBendsVisible, setMobileBendsVisible\] = useState\(false\);/);
+  assert.match(source, /setMobileBendsVisible\(true\)/);
+  assert.match(source, /data-mobile-bends=\{forceMobileBendsVisible \|\| mobileBendsVisible \? "ready" : "pending"\}/);
   assert.match(source, /style=\{\{\s*"--saai-bends-opacity": colorBendsOpacity\s*\}\}/);
   assert.match(backgroundCss, /html\[data-theme-switching="1"\]\s+\[data-bg-layer\]\s+\.bg-bends-layer\s*\{[\s\S]*?transition:\s*none\s*!important;/);
   assert.match(accessibilityProviderSource, /const hadContrast = html\.getAttribute\("data-contrast"\) \|\| DEFAULT_PREFS\.contrast;/);

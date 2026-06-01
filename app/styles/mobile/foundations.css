@@ -1,0 +1,134 @@
+/* Mobile foundations: theme tokens, viewport variables, homepage root and coarse button feedback. */
+
+@media (max-width: 768px) {
+  :root.theme-light {
+    --glass-surface-bg: rgba(252, 251, 249, 0.7);
+    --glass-ring-surface-bg: rgba(251, 250, 248, 0.78);
+    --glass-modal-bg: var(--glass-ring-surface-bg);
+    --panel-secondary-bg: var(--btn-primary-bg);
+    --subpage-card-bg: var(--btn-primary-bg);
+    --subpage-card-bg-hover: var(--btn-primary-bg-hover);
+  }
+
+  :root.theme-mid {
+    --glass-surface-bg: rgba(253, 249, 247, 0.36);
+    --glass-ring-surface-bg: rgba(251, 245, 242, 0.4);
+    --glass-modal-bg: rgba(251, 245, 242, 0.4);
+    --panel-secondary-bg: var(
+      --mid-pill-surface-bg,
+      var(--input-flat-bg, var(--input-bg))
+    );
+    --panel-secondary-border: var(--mid-pill-surface-border, transparent);
+    --panel-secondary-shadow: var(
+      --mid-pill-surface-shadow,
+      var(--input-shadow)
+    );
+    --subpage-card-bg: var(
+      --mid-pill-surface-bg,
+      var(--input-flat-bg, var(--input-bg))
+    );
+    --subpage-card-bg-hover: var(
+      --mid-pill-surface-bg-hover,
+      var(--input-flat-bg-hover, var(--input-bg-hover))
+    );
+    --subpage-card-border: var(--mid-pill-surface-border, transparent);
+    --subpage-card-border-hover: var(
+      --mid-pill-surface-border-hover,
+      transparent
+    );
+    --subpage-card-shadow: var(
+      --mid-pill-surface-shadow,
+      var(--input-shadow)
+    );
+    --subpage-card-shadow-hover: var(
+      --mid-pill-surface-shadow-hover,
+      var(--input-shadow-hover)
+    );
+  }
+
+  body.homepage,
+  html[data-initial-page="home"] body.app-root {
+    --home-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --home-mobile-canvas-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) + var(--home-mobile-safe-bottom)
+    );
+    position: relative;
+    isolation: isolate;
+    background: var(--home-browser-base-bg, #0d111b);
+    background-repeat: no-repeat;
+    background-size: 100% max(100%, var(--home-mobile-canvas-height));
+    overflow: hidden;
+    height: var(--home-mobile-canvas-height);
+    min-height: var(--home-mobile-canvas-height);
+    overscroll-behavior: none;
+  }
+
+  html[data-initial-page="home"] {
+    background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d)));
+    background-repeat: no-repeat;
+    background-size: 100%
+      max(
+        100%,
+        calc(var(--glass-mobile-root-vh, 100dvh) + env(safe-area-inset-bottom, 0px))
+      );
+  }
+
+  .homepage-root {
+    height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
+    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  .homepage-root::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .drawer-close-btn--chat.modal-close-btn {
+    width: 3.2rem !important;
+    height: 3.2rem !important;
+  }
+
+  .drawer-close-btn--chat.modal-close-btn::before {
+    font-size: 2.45rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --bg-overscan: clamp(96px, 14svh, 180px);
+    --mobile-safe-top: env(safe-area-inset-top, 0px);
+    --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --card-size: clamp(11.875rem, 76vw, 16.625rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .click-pulse-cursor {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :is(button.button, a.button)[data-variant="primary"] {
+    transition: none !important;
+    --btn-primary-bg-active: var(--btn-primary-bg);
+    --btn-primary-shadow-active: var(--btn-primary-shadow);
+    --btn-primary-border-active: var(--btn-primary-border);
+  }
+
+  :is(button.button, a.button)[data-variant="primary"]:active::before {
+    opacity: 0 !important;
+  }
+}

@@ -8,9 +8,8 @@ import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageBackClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackClassName, glassPageRingCenteredClassName, glassPageShellClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 import { getFooterNote } from "@/lib/footerNote";
@@ -107,7 +106,6 @@ export default function ResetPasswordForm({
   return (
     <section className={pageShellClassName} lang={locale}>
       <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={glassPageCloseClassName} />
         <BackButton
           onClick={handleBack}
           ariaLabel={backLabel}

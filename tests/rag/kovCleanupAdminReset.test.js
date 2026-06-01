@@ -35,7 +35,7 @@ function adminRow(overrides = {}) {
   };
 }
 
-test("KOV cleanup admin reset moves stale INGESTED workflow state back to ready for ingest", () => {
+test("KOV cleanup admin reset moves stale INGESTED workflow state back to manual review", () => {
   const plan = buildKovAdminStatusResetPlan({
     row: adminRow(),
     municipality: fixtureMunicipality,
@@ -51,8 +51,8 @@ test("KOV cleanup admin reset moves stale INGESTED workflow state back to ready 
 
   assert.equal(plan.staleAdminIngested, true);
   assert.equal(plan.removes_top_level_ingested_status, true);
-  assert.equal(plan.after.adminStatus, "READY_FOR_INGEST");
-  assert.equal(plan.after.readyForIngest, true);
+  assert.equal(plan.after.adminStatus, "NEEDS_REVIEW");
+  assert.equal(plan.after.readyForIngest, false);
   assert.equal(plan.after.ingestStatus, "NOT_INGESTED");
   assert.equal(plan.after.rtIngestStatus, "NOT_INGESTED");
   assert.equal(plan.after.lastIngestedAt, null);

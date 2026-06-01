@@ -29,16 +29,16 @@ test("service map Leaflet groups entries that share one coordinate", () => {
   assert.match(leafletSource, /createGroupedPopupContent/);
   assert.match(leafletSource, /service-map-popup--group/);
   assert.doesNotMatch(leafletSource, /group\.entries\.length > 99 \? "99\+"/);
-  assert.match(leafletSource, /function markerIconHtml/);
+  assert.match(leafletSource, /function markerHtml/);
   assert.match(css, /\.service-map-leaflet__marker--group\s*\{/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?overflow-y:\s*auto/);
-  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?max-height:\s*min\(11rem,\s*calc\(100vh - 18\.5rem\)\)/);
+  assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?max-height:\s*min\(15\.5rem,\s*calc\(100vh - 13rem\)\)/);
   assert.match(css, /\.service-map-popup__contacts\s*\{[\s\S]*?scrollbar-gutter:\s*auto/);
   assert.match(css, /\.service-map-popup__contact-meta\s*\{[\s\S]*?grid-column:\s*1 \/ -1/);
   assert.match(css, /\.service-map-popup__contact-email\s*\{[\s\S]*?white-space:\s*nowrap/);
   assert.match(leafletSource, /function appendContactMeta/);
   assert.match(leafletSource, /appendText\(meta,\s*"span",\s*"service-map-popup__contact-email"/);
-  assert.match(leafletSource, /offset:\s*\[0,\s*-18\]/);
+  assert.match(leafletSource, /offset:\s*\[0,\s*-10\]/);
 });
 
 test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
@@ -52,18 +52,18 @@ test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
   const providerMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--provider");
   const selectedMarkerBlock = cssBlock(css, ".service-map-leaflet__marker--selected");
 
-  assert.match(leafletSource, /IconBuildingBank\.mjs/);
+  assert.match(leafletSource, /function markerLabelText/);
+  assert.match(leafletSource, /return "K";/);
   assert.doesNotMatch(leafletSource, /IconBuildingCommunity\.mjs/);
   assert.match(markerBlock, /border-radius:\s*50% 50% 50% 0\.28rem/);
-  assert.match(markerBlock, /box-shadow:\s*0 0 0 2px rgba\(255,\s*255,\s*255,\s*0\.92\)/);
+  assert.match(markerBlock, /box-shadow:[\s\S]*0 0 0 1\.35px var\(--service-map-marker-ring/);
   assert.match(markerBlock, /transform:\s*rotate\(-45deg\)/);
   assert.doesNotMatch(markerBlock, /inset\s+-/);
-  assert.match(markerSvgBlock, /transform:\s*translate\(var\(--service-map-marker-icon-x\),\s*var\(--service-map-marker-icon-y\)\) rotate\(45deg\)/);
-  assert.match(legendMarkerSvgBlock, /--service-map-legend-marker-icon-size/);
-  assert.match(kovMarkerBlock, /--service-map-marker-icon-size:\s*1\.56rem/);
-  assert.match(kovMarkerBlock, /--service-map-marker-icon-y:\s*0rem/);
-  assert.match(providerMarkerBlock, /--service-map-marker-icon-size:\s*1\.64rem/);
-  assert.match(providerMarkerBlock, /--service-map-marker-icon-y:\s*0rem/);
+  assert.equal(markerSvgBlock, "");
+  assert.equal(legendMarkerSvgBlock, "");
+  assert.match(css, /\.service-map-leaflet__marker-label\s*\{[\s\S]*?transform:\s*rotate\(45deg\)/);
+  assert.match(kovMarkerBlock, /background:\s*#2f5f8f/);
+  assert.match(providerMarkerBlock, /background:\s*#168a72/);
   assert.doesNotMatch(legendMarkerBlock, /inset\s+-/);
   assert.doesNotMatch(selectedMarkerBlock, /inset\s+-/);
 });
@@ -215,11 +215,8 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
     /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}[\s\S]*?backAriaLabel=\{text\(t,\s*"buttons\.back_previous",\s*"Tagasi"\)\}/
   );
   assert.match(source, /backClassName=\{styles\.backButton\}/);
-  assert.match(css, /^\.backButton\s*\{[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/m);
-  assert.match(
-    css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.2rem -[\s\S]*?var\(--chat-pad-top,\s*1rem\)[\s\S]*?\)\s*!important;/
-  );
+  assert.match(css, /^\.backButton\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--mobile-header-control-top,\s*0\.05rem\)\s*!important;/m);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{/);
   assert.doesNotMatch(source, /glassPageBackTopLeftClassName/);
 });
 
@@ -273,7 +270,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?display:\s*grid[\s\S]*?grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(10\.5rem,\s*1fr\)\)[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.32rem/
+    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__results\s*\{[\s\S]*?grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(10\.5rem,\s*1fr\)\)/
   );
   assert.match(source, /const SERVICE_MAP_RESULT_BUTTON_LIMIT = 56;/);
   assert.match(source, /filteredEntries\.slice\(0,\s*SERVICE_MAP_RESULT_BUTTON_LIMIT\)\.map/);
@@ -396,10 +393,7 @@ test("service map results do not force oversized panel bottom padding", () => {
     css,
     /\.service-map-toolbar__resultsblock\s*\{[\s\S]*?transform:\s*none/
   );
-  assert.match(
-    css,
-    /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*min\(10\.4rem,[\s\S]*?padding:\s*0\.12rem 0\.24rem 0\.32rem/
-  );
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?height:\s*auto[\s\S]*?max-height:\s*11\.75rem[\s\S]*?padding:\s*0\.12rem 0 0\.32rem/);
   assert.match(
     css,
     /\.service-map-workspace--toolbar-feedback \.service-map-workspace__filters-shell\s*\{[\s\S]*?padding-bottom:\s*0\.38rem/
@@ -437,10 +431,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.doesNotMatch(source, /hasToolbarFeedback/);
   assert.match(source, /"service-map-workspace--toolbar-feedback"/);
   assert.match(source, /"service-map-workspace__filters-shell--toolbar-feedback"/);
-  assert.doesNotMatch(
-    source,
-    /<div className="service-map-toolbar__resultsblock">[\s\S]*?loading \|\| error/
-  );
+  assert.match(source, /const showResults = !loading && !error && hasResultFilter && filteredEntries\.length > 0;/);
   assert.match(
     source,
     /\{error \? \(\s*<div className="service-map-workspace__status" role="status" aria-live="polite">/
@@ -454,7 +445,7 @@ test("service map results do not force oversized panel bottom padding", () => {
   assert.match(css, /\.service-map-workspace__filters\s*\{[\s\S]*?width:\s*fit-content/);
   assert.match(css, /\.service-map-workspace__filters-shell\s*\{[\s\S]*?width:\s*auto/);
   assert.match(css, /\.service-map-toolbar__content\s*\{[\s\S]*?width:\s*100%/);
-  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*center[\s\S]*?overflow-x:\s*hidden[\s\S]*?overflow-y:\s*auto/);
+  assert.match(css, /\.service-map-toolbar__results\s*\{[\s\S]*?justify-content:\s*stretch[\s\S]*?overflow-x:\s*hidden[\s\S]*?overflow-y:\s*auto/);
 });
 
 test("service map popup and desktop one-line toolbar preserve glass and back alignment", () => {

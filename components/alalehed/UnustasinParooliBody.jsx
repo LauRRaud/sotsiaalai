@@ -5,11 +5,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import BackButton from "@/components/ui/BackButton";
-import CloseButton from "@/components/ui/CloseButton";
 import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
-import { glassPageBackMobileBottomCenterClassName, glassPageCloseClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { localizePath } from "@/lib/localizePath";
 import { backWithTransition, pushWithTransition } from "@/lib/routeTransition";
@@ -58,15 +57,6 @@ export default function UnustasinParooliBody() {
     waitForGlassRingTilt: true,
     persistGlassRingTilt: false
   });
-  const handleClose = () => returnToProfile ? pushWithTransition(router, profileReturnPath, {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  }) : pushWithTransition(router, localizePath("/profiil", locale), {
-    glassRingTilt: "left",
-    waitForGlassRingTilt: true,
-    persistGlassRingTilt: false
-  });
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -105,7 +95,6 @@ export default function UnustasinParooliBody() {
   }
   return <section lang={locale} className={pageShellClassName}>
       <GlassRing className={ringClassName}>
-        <CloseButton onClick={handleClose} ariaLabel={t("buttons.close")} className={cn(glassPageCloseClassName, "max-[768px]:hidden")} />
         <BackButton onClick={handleBack} ariaLabel={backLabel} className={`${glassPageBackMobileBottomCenterClassName} scroll-reactive-back`} />
         <div className={mobileTitleWrapClassName}>
           <h1 className={titleClassName}>

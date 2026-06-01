@@ -1,0 +1,64 @@
+/* Mobile profile stack fades, home about text and direct scroll helpers. */
+
+@media (max-width: 768px) {
+  .profile-orbit-stack-fade {
+    display: block !important;
+  }
+
+  .profile-orbit-stack-panel::before,
+  .profile-orbit-stack-panel::after,
+  html[data-platform="android"] .profile-orbit-stack-panel::before,
+  html[data-platform="android"] .profile-orbit-stack-panel::after,
+  body[data-platform="android"] .profile-orbit-stack-panel::before,
+  body[data-platform="android"] .profile-orbit-stack-panel::after {
+    content: none !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    pointer-events: none !important;
+    z-index: 6 !important;
+  }
+
+  .profile-orbit-stack-panel::before,
+  html[data-platform="android"] .profile-orbit-stack-panel::before,
+  body[data-platform="android"] .profile-orbit-stack-panel::before {
+    top: 0 !important;
+  }
+
+  .profile-orbit-stack-panel::after,
+  html[data-platform="android"] .profile-orbit-stack-panel::after,
+  body[data-platform="android"] .profile-orbit-stack-panel::after {
+    bottom: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage-root .home-about-scrollbox,
+  .homepage-root .home-about-scrollbox :is(p, div, strong, b, a, span) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
+  }
+
+  .homepage-root .home-about-scrollbox .home-about-features-link-row {
+    text-align: center !important;
+  }
+}
+
+.direct-scroll-surface {
+  --direct-scroll-surface-header-offset: 0px;
+  padding-top: 0 !important;
+}
+
+.direct-scroll-surface > .glass-subpage-header:first-child {
+  margin-top: var(--direct-scroll-surface-header-offset) !important;
+}
+
+.direct-scroll-surface > .glass-subpage-back-button:first-child + .glass-subpage-header {
+  margin-top: var(--direct-scroll-surface-header-offset) !important;
+}

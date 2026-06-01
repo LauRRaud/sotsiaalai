@@ -46,7 +46,7 @@ test("materials page uses the shared workspace subpage header spacing", () => {
   const helpersCss = readSource("app/styles/utilities/helpers.css")
 
   assert.doesNotMatch(materialsPage, /compact-workspace-subpage-title/)
-  assert.match(materialsPage, /<p className="m-0 text-\[1\.08rem\]/)
+  assert.match(materialsPage, /<section className=\{materialsUploadSectionClassName\}/)
   assert.match(
     glassPageStyles,
     /min-\[769px\]:!mt-\[var\(--glass-subpage-title-margin-top\)\][\s\S]*min-\[769px\]:!mb-\[var\(--glass-subpage-title-margin-bottom\)\]/

@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -25,7 +27,7 @@ test("dashboard info overlay uses the same close button system as the conversati
   const sharedStyle = read("components/ui/chatDrawerCloseButtonStyles.js");
   const helpersCss = read("app/styles/utilities/helpers.css");
   const helpersCoreCss = read("app/styles/utilities/helpers-core.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
 
   assert.match(overlay, /import IconButton from "@\/components\/ui\/IconButton"/);
   assert.match(read("components/ui/IconButton.jsx"), /from "lucide-react"/);

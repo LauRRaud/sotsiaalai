@@ -216,7 +216,6 @@ export function upgradeKovBundle(entry, options = {}) {
   const meta = readJson(paths.meta);
   const checkedAt = data.checkedAt || data.checked_at || sourcesDoc.checkedAt || sourcesDoc.checked_at || meta.checkedAt || meta.checked_at || UPGRADE_DATE;
   const items = cleanArray(data.items);
-  const itemById = new Map(items.map(item => [item.id, item]));
   const itemIdsByUrl = new Map();
   for (const item of items) {
     if (!item.officialUrl) continue;
@@ -327,7 +326,6 @@ export function upgradeKovBundle(entry, options = {}) {
     existingSourceKeys.add(sourceKey);
   }
 
-  const sourceKeys = new Set(upgradedSources.flatMap(source => [source.key, source.source_key].filter(Boolean).map(String)));
   const sourceKeysByUrl = new Map();
   for (const source of upgradedSources) {
     if (!source.url) continue;

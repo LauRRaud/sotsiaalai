@@ -39,10 +39,10 @@ test("workspace dashboard light card uses red edge glow without a large card sha
     /:global\(:root\.theme-light\) \.card:is\(:hover, :focus-visible\)\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
   const lightEdgeBlock = source.match(
-    /:global\(:root\.theme-light body \.workspace-dashboard-card\) > :global\(\[class\*="edgeLight"\]\)::before\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-light body\) \.card > :global\(\[class\*="edgeLight"\]\)::before\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
   const lightGlobalHoverBlock = source.match(
-    /:global\(:root\.theme-light:not\(\[data-contrast="hc"\]\) body \.workspace-dashboard-card:is\(:hover, :focus-visible\)\)\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-light:not\(\[data-contrast="hc"\]\) body\) \.card:is\(:hover, :focus-visible\)\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
 
   assert.match(lightAfterBlock, /rgba\(197,\s*113,\s*113,\s*0\.34\)/);
@@ -56,16 +56,16 @@ test("workspace dashboard light card uses red edge glow without a large card sha
 test("workspace dashboard mid card is neutral idle and red only on hover", () => {
   const source = read("components/chat/WorkspacePanel.module.css");
   const midAfterBlock = source.match(
-    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body \.workspace-dashboard-card::after\)\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body\) \.card::after\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
   const midHoverAfterBlock = source.match(
-    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body \.workspace-dashboard-card:not\(:disabled\):is\(:hover, :focus-visible\)::after\)\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body\) \.card:not\(:disabled\):is\(:hover, :focus-visible\)::after\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
   const midHoverCardBlock = source.match(
-    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body \.workspace-dashboard-card:is\(:hover, :focus-visible\)\)\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body\) \.card:is\(:hover, :focus-visible\)\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
   const midHoverEdgeBlock = source.match(
-    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body \.workspace-dashboard-card:is\(:hover, :focus-visible\)\) > :global\(\[class\*="edgeLight"\]\)::before\s*\{([\s\S]*?)\n\}/
+    /:global\(:root\.theme-mid:not\(\[data-contrast="hc"\]\) body\) \.card:is\(:hover, :focus-visible\) > :global\(\[class\*="edgeLight"\]\)::before\s*\{([\s\S]*?)\n\}/
   )?.[1] || "";
 
   assert.match(midAfterBlock, /rgba\(255,\s*255,\s*255,\s*0\.58\)/);

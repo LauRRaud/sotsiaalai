@@ -1,13 +1,9 @@
-import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
-
-function readCss(path) {
-  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
-}
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 test("mobile orbital stack list has no PWA-specific display mode override", () => {
-  const css = readCss("app/styles/mobile.css");
+  const css = readMobileCssBundle();
 
   assert.match(css, /\.profile-orbit-stack-list/);
   assert.doesNotMatch(

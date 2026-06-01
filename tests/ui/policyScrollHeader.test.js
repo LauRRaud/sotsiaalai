@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -10,8 +12,8 @@ test("policy pages use the scroll-surface back header pattern", () => {
   const guide = read("components/alalehed/KasutusjuhendBody.jsx");
   const terms = read("components/alalehed/KasutustingimusedBody.jsx");
   const privacy = read("components/alalehed/PrivaatsusBody.jsx");
-  const mobileCss = read("app/styles/mobile.css");
-  const policyMobileCss = read("app/styles/utilities/policy-pages-mobile.css");
+  const mobileCss = readMobileCssBundle();
+  const policyMobileCss = read("app/styles/mobile/policy-scroll.css");
   const mobileHeaderCss = read("app/styles/mobile/mobile-title-backbutton-info.css");
 
   for (const source of [guide, terms, privacy]) {
@@ -75,9 +77,9 @@ test("policy pages use the scroll-surface back header pattern", () => {
     mobileHeaderCss,
     /\.policy-scroll-page-ring[\s\S]*?:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
-  assert.match(
+  assert.doesNotMatch(
     mobileHeaderCss,
-    /html\[data-display-mode="standalone"\] \.policy-scroll-page-ring,[\s\S]*?body\[data-display-mode="fullscreen"\] \.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-pwa-y-offset:\s*-0\.82rem;/
+    /\.policy-scroll-page-ring[\s\S]*?--mobile-header-pwa-y-offset:\s*-/
   );
   assert.doesNotMatch(mobileCss, /\.policy-mobile-tall \.policy-mobile-title-wrap/);
   assert.equal(mobileCss.includes('html:not([data-platform="android"]) .policy-mobile-title-wrap'), false);

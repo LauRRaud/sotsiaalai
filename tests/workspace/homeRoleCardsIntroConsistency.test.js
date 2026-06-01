@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function readSource(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -8,7 +10,7 @@ function readSource(path) {
 
 test("home role card blur backdrop fades with the same intro on desktop and mobile", () => {
   const homeCss = readSource("app/styles/components/home.css");
-  const mobileCss = readSource("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
   const homePage = readSource("components/HomePage.jsx");
 
   assert.match(homePage, /home-card-rotating-backdrop-ready/);

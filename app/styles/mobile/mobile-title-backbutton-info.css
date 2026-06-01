@@ -30,13 +30,6 @@
   --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
 }
 
-html[data-display-mode="standalone"] .policy-scroll-page-ring,
-html[data-display-mode="fullscreen"] .policy-scroll-page-ring,
-body[data-display-mode="standalone"] .policy-scroll-page-ring,
-body[data-display-mode="fullscreen"] .policy-scroll-page-ring {
-  --mobile-header-pwa-y-offset: -0.82rem;
-}
-
 .workspace-guide-panel-scroll {
   --mobile-header-control-top: calc(
     var(--glass-ring-pad-top, 0px) +
@@ -61,27 +54,6 @@ body[data-display-mode="fullscreen"] .policy-scroll-page-ring {
   --mobile-header-control-info-top: calc(
     var(--mobile-header-info-top) - 1.05rem
   );
-}
-
-html[data-display-mode="browser"]
-  :is(
-    .workspace-dashboard-panel,
-    .workspace-feature-panel.workspace-scroll-surface,
-    .documents-workspace-shell.workspace-guide-panel,
-    .materials-page-content.workspace-guide-panel,
-    .materials-page-content.glass-subpage-surface,
-    .covision-page-surface.workspace-guide-panel
-  ),
-body[data-display-mode="browser"]
-  :is(
-    .workspace-dashboard-panel,
-    .workspace-feature-panel.workspace-scroll-surface,
-    .documents-workspace-shell.workspace-guide-panel,
-    .materials-page-content.workspace-guide-panel,
-    .materials-page-content.glass-subpage-surface,
-    .covision-page-surface.workspace-guide-panel
-  ) {
-  --mobile-header-browser-y-offset: 0.34rem;
 }
 
 :is(

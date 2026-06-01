@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -35,7 +37,7 @@ test("documents workspace routes keep the outer page fixed and scroll inside the
     /\.documents-workspace-shell--embedded :is\([\s\S]*?\.documents-panel,[\s\S]*?\.documents-library-panel,[\s\S]*?\.documents-shell-surface,[\s\S]*?\.documents-subsection-stack[\s\S]*?\)\s*\{[\s\S]*?background:\s*transparent\s*!important;[\s\S]*?backdrop-filter:\s*none\s*!important;/
   );
   assert.match(
-    read("app/styles/mobile.css"),
+    readMobileCssBundle(),
     /\.workspace-dashboard-panel \.documents-workspace-shell--embedded :is\([\s\S]*?\.documents-panel,[\s\S]*?\.documents-surface-panel,[\s\S]*?\.documents-library-panel,[\s\S]*?\.documents-shell-surface[\s\S]*?\)\s*\{[\s\S]*?--tw-backdrop-blur:\s*;[\s\S]*?backdrop-filter:\s*none\s*!important;/
   );
   assert.match(
@@ -70,7 +72,7 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   const css = read("app/styles/utilities/helpers.css");
   const glassCss = read("app/styles/components/glass.css");
   const documentsCss = read("app/styles/components/documents-mode.css");
-  const mobileCss = read("app/styles/mobile.css");
+  const mobileCss = readMobileCssBundle();
 
   assert.match(documentsSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("buttons\.back"\)\}/);
   assert.match(agentSource, /<GlassSubpageHeader[\s\S]*?onBack=\{handleBack\}[\s\S]*?backAriaLabel=\{t\("documents\.agent_workspace\.back_to_chat"\)\}/);
@@ -150,11 +152,11 @@ test("documents and dokreziim hero controls use the shared glass subpage header"
   assert.doesNotMatch(agentSource, /heroBodyClassName\s*=[\s\S]*?pt-\[0\.9rem\]/);
   assert.match(
     documentsCss,
-    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*0;/
+    /\.documents-workspace-shell\s*\{[\s\S]*?padding:\s*0;/
   );
   assert.doesNotMatch(
     documentsCss,
-    /\.documents-page-hero-panel--agent\s*\{[\s\S]*?margin-top:\s*-/
+    /\.documents-agent-layout\s*\{[\s\S]*?margin-top:\s*-/
   );
   assert.doesNotMatch(documentsCss, /documents-page-shell-title-row|documents-mobile-title-wrap|agent-mobile-title-wrap/);
   assert.doesNotMatch(
