@@ -19,19 +19,20 @@ test("mobile title, back and info placement is centralized", () => {
   );
   assert.match(headerCss, /--mobile-header-back-top:\s*0\.2rem;/);
   assert.match(headerCss, /--mobile-header-info-top:\s*0\.475rem;/);
-  assert.match(headerCss, /--mobile-header-title-top:\s*calc\(/);
+  assert.match(headerCss, /--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/);
   assert.match(
     headerCss,
-    /\.glass-ring,[\s\S]*?\.subscription-modal-content\s*\{[\s\S]*?--mobile-header-title-top:\s*calc\([\s\S]*?\+ 2\.355rem[\s\S]*?\);/
+    /\.glass-ring,[\s\S]*?\.subscription-modal-content\s*\{[\s\S]*?--mobile-header-title-top:\s*2\.355rem;/
   );
   assert.match(
     headerCss,
-    /\.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-title-top:\s*calc\([\s\S]*?\+ 2\.18rem[\s\S]*?\);/
+    /\.policy-scroll-page-ring\s*\{[\s\S]*?--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/
   );
   assert.match(
     headerCss,
-    /\.workspace-dashboard-panel,[\s\S]*?\.workspace-dashboard-panel \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*calc\([\s\S]*?\+ 1\.96rem[\s\S]*?\);/
+    /\.workspace-dashboard-panel,[\s\S]*?\.workspace-dashboard-panel \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*1\.96rem;/
   );
+  assert.doesNotMatch(headerCss, /--mobile-header-title-top:\s*calc\([\s\S]*?safe-area-inset-top/);
   assert.match(
     headerCss,
     /\.policy-scroll-page-scroller\s*\{[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?--policy-scroll-edge-pad-top[\s\S]*?--policy-scroll-overscan-top[\s\S]*?- 0\.54rem/

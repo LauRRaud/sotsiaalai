@@ -13,6 +13,7 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   const coreCss = read("app/styles/base/core.css");
   const backgroundCss = read("app/styles/base/backgrounds.css");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
+  const clickPulseCursor = read("components/ClickPulseCursor.jsx");
   const manifest = read("public/site.webmanifest");
   const layout = read("app/layout.js");
 
@@ -54,6 +55,10 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileBackgroundCss,
+    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*none\s*!important;/
+  );
+  assert.match(
+    mobileBackgroundCss,
     /\[data-bg-layer\]\[data-mobile-bends="ready"\] \.bg-bends-layer,[\s\S]*?\.bg-particles-layer\[data-mobile-visible="ready"\][\s\S]*?transition-duration:\s*var\(--mobile-background-reveal-duration\),\s*0s\s*!important;/
   );
   assert.match(
@@ -68,8 +73,24 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   );
   assert.match(
     mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?background-size:\s*100%\s*100%\s*!important;[\s\S]*?height:\s*var\(--pwa-viewport-fill-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\) !important;[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\) !important;/,
+    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--home-mobile-safe-bottom:\s*0px;[\s\S]*?--home-mobile-canvas-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?background-size:\s*100%\s*100%\s*!important;[\s\S]*?height:\s*var\(--home-mobile-canvas-height\)\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\)\s*!important;/,
     "installed homepage should keep the themed base background without adding an overscan layout box"
+  );
+  assert.match(
+    clickPulseCursor,
+    /window\.matchMedia\?\.\("\(hover: hover\) and \(pointer: fine\)"\)/
+  );
+  assert.match(clickPulseCursor, /window\.matchMedia\?\.\("\(pointer: coarse\)"\)/);
+  assert.match(clickPulseCursor, /window\.matchMedia\?\.\("\(display-mode: standalone\)"\)/);
+  assert.match(clickPulseCursor, /window\.matchMedia\?\.\("\(display-mode: fullscreen\)"\)/);
+  assert.match(clickPulseCursor, /if \(!enabled\) return null;/);
+  assert.match(
+    coreCss,
+    /@media \(hover: none\), \(pointer: coarse\) \{[\s\S]*?\.click-pulse-cursor\s*\{[\s\S]*?display:\s*none\s*!important;/
+  );
+  assert.match(
+    coreCss,
+    /html\[data-display-mode="standalone"\] \.click-pulse-cursor,[\s\S]*?body\[data-display-mode="fullscreen"\] \.click-pulse-cursor\s*\{[\s\S]*?display:\s*none\s*!important;/
   );
   assert.doesNotMatch(mobileCss, /--pwa-background-bottom-overscan/);
   assert.doesNotMatch(coreCss, /body::after|body\.homepage::before|body\.homepage::after/);

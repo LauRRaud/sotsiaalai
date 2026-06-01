@@ -13,10 +13,34 @@ export default function ClickPulseCursor({
     y: -200
   });
   const [active, setActive] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const activeRef = useRef(false);
   const refreshRef = useRef(null);
   const pathname = usePathname();
   useEffect(() => {
+    if (typeof window === "undefined" || typeof navigator === "undefined") return undefined;
+    const finePointer = window.matchMedia?.("(hover: hover) and (pointer: fine)");
+    const coarsePointer = window.matchMedia?.("(pointer: coarse)");
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    const standalone = window.matchMedia?.("(display-mode: standalone)");
+    const fullscreen = window.matchMedia?.("(display-mode: fullscreen)");
+    const getStandalone = () => Boolean(standalone?.matches || fullscreen?.matches || navigator.standalone);
+    const update = () => {
+      setEnabled(Boolean(finePointer?.matches && !coarsePointer?.matches && !reduceMotion?.matches && !getStandalone()));
+    };
+    update();
+    const queries = [finePointer, coarsePointer, reduceMotion, standalone, fullscreen].filter(Boolean);
+    queries.forEach(query => query.addEventListener?.("change", update));
+    window.addEventListener("resize", update, {
+      passive: true
+    });
+    return () => {
+      queries.forEach(query => query.removeEventListener?.("change", update));
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+  useEffect(() => {
+    if (!enabled) return undefined;
     if (typeof window === "undefined" || typeof document === "undefined") return undefined;
     const prefersReduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (prefersReduce) return undefined;
@@ -118,10 +142,12 @@ export default function ClickPulseCursor({
       window.removeEventListener("popstate", onScroll);
       window.removeEventListener("hashchange", onScroll);
     };
-  }, []);
+  }, [enabled]);
   useEffect(() => {
+    if (!enabled) return;
     refreshRef.current?.();
-  }, [pathname]);
+  }, [enabled, pathname]);
+  if (!enabled) return null;
   return <div ref={dotRef} className={`click-pulse-cursor${active ? " is-active" : ""}`} style={{
     width: `var(--click-pulse-size, ${size}px)`,
     height: `var(--click-pulse-size, ${size}px)`

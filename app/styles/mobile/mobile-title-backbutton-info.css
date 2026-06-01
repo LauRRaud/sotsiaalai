@@ -5,9 +5,7 @@
   --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
   --mobile-header-info-top: 0.475rem;
   --mobile-header-control-info-top: var(--mobile-header-info-top);
-  --mobile-header-title-top: calc(
-    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.18rem
-  );
+  --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
   --mobile-header-title-bottom: var(
     --mobile-common-title-bottom,
     clamp(0.18rem, 0.9vh, 0.42rem)
@@ -23,15 +21,11 @@
 
 .glass-ring,
 .subscription-modal-content {
-  --mobile-header-title-top: calc(
-    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.355rem
-  );
+  --mobile-header-title-top: 2.355rem;
 }
 
 .policy-scroll-page-ring {
-  --mobile-header-title-top: calc(
-    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.18rem
-  );
+  --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
 }
 
 .workspace-guide-panel-scroll {
@@ -49,9 +43,7 @@
 
 .workspace-dashboard-panel,
 .workspace-dashboard-panel .workspace-guide-panel-scroll {
-  --mobile-header-title-top: calc(
-    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.96rem
-  );
+  --mobile-header-title-top: 1.96rem;
   --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem);
   --mobile-header-control-top: calc(
     var(--mobile-header-back-top) - 1.05rem

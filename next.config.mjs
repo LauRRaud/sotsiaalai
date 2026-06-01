@@ -10,6 +10,7 @@ const baseConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: true,
+  devIndicators: false,
 
   compiler: { styledComponents: true },
 

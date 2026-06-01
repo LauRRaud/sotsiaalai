@@ -280,6 +280,19 @@ body::-webkit-scrollbar {
   }
 }
 
+@media (hover: none), (pointer: coarse) {
+  .click-pulse-cursor {
+    display: none !important;
+  }
+}
+
+html[data-display-mode="standalone"] .click-pulse-cursor,
+html[data-display-mode="fullscreen"] .click-pulse-cursor,
+body[data-display-mode="standalone"] .click-pulse-cursor,
+body[data-display-mode="fullscreen"] .click-pulse-cursor {
+  display: none !important;
+}
+
 html[data-reduce-transparency="1"],
 body[data-reduce-transparency="1"] {
   --glass-blur-radius: 0px !important;

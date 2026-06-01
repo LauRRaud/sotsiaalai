@@ -349,4 +349,37 @@
         var(--policy-mobile-browser-bottom-clearance)
     ) !important;
   }
+
+  html[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  html[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  html[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  html[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  html[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open,
+  html[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open,
+  body[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  body[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  body[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  body[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  body[data-display-mode="standalone"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open,
+  body[data-display-mode="fullscreen"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open {
+    --policy-mobile-pwa-bottom-clearance: calc(
+      env(safe-area-inset-bottom, 0px) + clamp(2.35rem, 7vh, 4.2rem)
+    );
+    padding-bottom: calc(
+      var(--policy-scroll-overscan-bottom) +
+        var(--policy-mobile-pwa-bottom-clearance)
+    ) !important;
+  }
 }
