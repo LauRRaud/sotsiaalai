@@ -512,63 +512,6 @@
     bottom: 0 !important;
     left: 0 !important;
   }
-  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
-  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
-  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
-  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
-    --pwa-background-bottom-overscan: max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem));
-    bottom: calc(0px - var(--pwa-background-bottom-overscan)) !important;
-    height: auto !important;
-    min-height: calc(
-      var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) +
-        var(--pwa-background-bottom-overscan)
-    ) !important;
-  }
-  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
-  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
-  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
-  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
-    top: 0 !important;
-    bottom: 0 !important;
-    height: auto !important;
-    min-height: 0 !important;
-  }
-  html[data-display-mode="standalone"] [data-bg-layer][data-page="home"] .particles-container,
-  html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] .particles-container,
-  body[data-display-mode="standalone"] [data-bg-layer][data-page="home"] .particles-container,
-  body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] .particles-container {
-    bottom: calc(var(--bg-overscan, 0px) * -1) !important;
-    height: auto !important;
-    min-height: 0 !important;
-  }
-  html[data-display-mode="standalone"] body.homepage,
-  html[data-display-mode="fullscreen"] body.homepage,
-  body.homepage[data-display-mode="standalone"],
-  body.homepage[data-display-mode="fullscreen"] {
-    background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d))) !important;
-    background-color: var(--app-chrome-bg, #10151d) !important;
-    background-repeat: no-repeat !important;
-    background-size: 100%
-      max(
-        100%,
-        calc(
-          var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) +
-            var(--pwa-background-bottom-overscan, max(env(safe-area-inset-bottom, 0px), clamp(5rem, 10vh, 7.5rem)))
-        )
-      ) !important;
-    height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-    max-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-  }
-  html[data-display-mode="standalone"] body.homepage .homepage-root,
-  html[data-display-mode="fullscreen"] body.homepage .homepage-root,
-  body.homepage[data-display-mode="standalone"] .homepage-root,
-  body.homepage[data-display-mode="fullscreen"] .homepage-root {
-    background: transparent !important;
-    height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-    max-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
-  }
   .homepage-root .home-about-panel,
   .homepage-root .home-about-scrollbox,
   .homepage-root .home-about-scrollbox > * {
@@ -3398,7 +3341,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
       .glass-subpage-back-button,
       .workspace-scroll-back-button,
       .documents-scroll-back-button,
-      .policy-scroll-back-button,
       .scroll-reactive-back,
       .account-settings-back-button
     ) {
@@ -3433,172 +3375,6 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
     :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
     left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
     top: 0.2rem !important;
-  }
-
-  html[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ),
-  html[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ),
-  body[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ),
-  body[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) {
-    --workspace-pwa-header-lift: 1.12rem;
-    --workspace-pwa-back-lift: 0.92rem;
-  }
-
-  html[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) .glass-subpage-title-wrap,
-  html[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) .glass-subpage-title-wrap,
-  body[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) .glass-subpage-title-wrap,
-  body[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) .glass-subpage-title-wrap {
-    padding-top: calc(
-      var(--mobile-common-title-top) + 0.396rem - var(--workspace-pwa-header-lift, 0rem)
-    ) !important;
-  }
-
-  html[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  html[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  body[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  body[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
-    top: calc(0.2rem - var(--workspace-pwa-back-lift, 0rem)) !important;
-  }
-
-  html[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    > .workspace-guide-panel-scroll
-    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  html[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    > .workspace-guide-panel-scroll
-    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  body[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    > .workspace-guide-panel-scroll
-    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button),
-  body[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    > .workspace-guide-panel-scroll
-    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
-    top: calc(3.24rem - var(--workspace-pwa-back-lift, 0rem)) !important;
-  }
-
-  html[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) > .dashboard-info-trigger-corner,
-  html[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) > .dashboard-info-trigger-corner,
-  body[data-display-mode="standalone"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) > .dashboard-info-trigger-corner,
-  body[data-display-mode="fullscreen"] :is(
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    ) > .dashboard-info-trigger-corner {
-    top: calc(0.475rem - var(--workspace-pwa-back-lift, 0rem)) !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)
@@ -3810,16 +3586,16 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   .documents-workspace-shell--embedded
   > .documents-grid.workspace-guide-panel-scroll
   > .workspace-scroll-back-button {
-  left: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.05rem !important;
+  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
 }
 
 .workspace-dashboard-panel
   .documents-workspace-shell--embedded
   > .documents-grid.workspace-guide-panel-scroll
   > .dashboard-info-trigger-corner {
-  right: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.475rem !important;
+  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-info-top, 0.475rem) !important;
 }
 
 .workspace-dashboard-panel .documents-workspace-shell--embedded :is(
@@ -3866,14 +3642,14 @@ body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .
   :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
 ) :is(.workspace-scroll-back-button.glass-subpage-back-button, .documents-scroll-back-button.glass-subpage-back-button) {
   position: absolute !important;
-  left: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.05rem !important;
+  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
 }
 
 .workspace-dashboard-panel:has(
   :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
 ) .dashboard-info-trigger-corner {
   position: absolute !important;
-  right: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.475rem !important;
+  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-info-top, 0.475rem) !important;
 }

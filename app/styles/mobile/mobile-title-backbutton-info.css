@@ -1,0 +1,129 @@
+:root {
+  --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem);
+  --mobile-header-back-top: 0.2rem;
+  --mobile-header-control-top: var(--mobile-header-back-top);
+  --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
+  --mobile-header-info-top: 0.475rem;
+  --mobile-header-control-info-top: var(--mobile-header-info-top);
+  --mobile-header-title-top: calc(
+    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.18rem
+  );
+  --mobile-header-title-bottom: var(
+    --mobile-common-title-bottom,
+    clamp(0.18rem, 0.9vh, 0.42rem)
+  );
+}
+
+.policy-scroll-page-scroller {
+  --mobile-header-control-top: calc(
+    var(--policy-scroll-edge-pad-top, 0px) +
+      var(--policy-scroll-overscan-top, 0px) - 0.54rem
+  );
+}
+
+.glass-ring,
+.subscription-modal-content {
+  --mobile-header-title-top: calc(
+    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.355rem
+  );
+}
+
+.policy-scroll-page-ring {
+  --mobile-header-title-top: calc(
+    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 2.18rem
+  );
+}
+
+.workspace-guide-panel-scroll {
+  --mobile-header-control-top: calc(
+    var(--glass-ring-pad-top, 0px) +
+      var(--workspace-guide-panel-overscan-top, 0px) +
+      var(--mobile-header-back-top) - 0.74rem
+  );
+  --mobile-header-control-info-top: calc(
+    var(--glass-ring-pad-top, 0px) +
+      var(--workspace-guide-panel-overscan-top, 0px) +
+      var(--mobile-header-info-top) - 0.74rem
+  );
+}
+
+.workspace-dashboard-panel,
+.workspace-dashboard-panel .workspace-guide-panel-scroll {
+  --mobile-header-title-top: calc(
+    var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.96rem
+  );
+  --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem);
+  --mobile-header-control-top: calc(
+    var(--mobile-header-back-top) - 1.05rem
+  );
+  --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem - 1rem);
+  --mobile-header-control-info-top: calc(
+    var(--mobile-header-info-top) - 1.05rem
+  );
+}
+
+:is(
+    .glass-ring,
+    .workspace-dashboard-panel,
+    .workspace-guide-panel.glass-subpage-surface,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content,
+    .policy-scroll-page-ring
+  )
+  :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
+  padding-top: var(--mobile-header-title-top) !important;
+  padding-bottom: var(--mobile-header-title-bottom) !important;
+}
+
+:is(
+    .glass-ring,
+    .workspace-dashboard-panel,
+    .workspace-guide-panel.glass-subpage-surface,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .subscription-modal-content,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content,
+    .policy-scroll-page-ring
+  )
+  :is(
+    .glass-subpage-back-button,
+    .workspace-scroll-back-button,
+    .documents-scroll-back-button,
+    .scroll-reactive-back
+  ) {
+  left: var(--mobile-header-back-left) !important;
+  top: var(--mobile-header-control-top) !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin-left: 0 !important;
+  transform: none !important;
+}
+
+:is(
+    .workspace-dashboard-panel,
+    .workspace-guide-panel.glass-subpage-surface,
+    .workspace-feature-panel.workspace-scroll-surface,
+    .documents-workspace-shell.workspace-guide-panel,
+    .materials-page-content.workspace-guide-panel,
+    .materials-page-content.glass-subpage-surface,
+    .covision-page-surface.workspace-guide-panel,
+    .help-listings-modal-content,
+    .selected-listing-modal-content,
+    .invite-modal-content
+  )
+  .dashboard-info-trigger-corner {
+  right: var(--mobile-header-info-right) !important;
+  top: var(--mobile-header-control-info-top) !important;
+}

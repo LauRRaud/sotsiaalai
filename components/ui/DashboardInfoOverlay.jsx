@@ -529,8 +529,8 @@ export function DashboardInfoTrigger({
         className={cn(styles.trigger, triggerClassName, className)}
         style={usesCornerPosition ? {
           position: "absolute",
-          right: "var(--workspace-subpage-back-left, 0.55rem)",
-          top: "calc(var(--workspace-guide-panel-overscan-top, 0px) + var(--workspace-subpage-back-top, 0.55rem) + 0.425rem)",
+          right: "var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem))",
+          top: "var(--mobile-header-control-info-top, calc(var(--workspace-guide-panel-overscan-top, 0px) + var(--workspace-subpage-back-top, 0.55rem) + 0.425rem))",
           zIndex: 35,
           ...style
         } : style}

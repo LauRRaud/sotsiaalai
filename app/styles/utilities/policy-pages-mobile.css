@@ -291,6 +291,62 @@
         var(--policy-scroll-edge-pad-x) +
           var(--mobile-glass-card-gap, clamp(0.32rem, 1.35vw, 0.4rem))
       )
-      0 !important;
+      var(--policy-scroll-overscan-bottom) !important;
+  }
+
+  html[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  html[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  html[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open,
+  html[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-policy-scroll--expanded,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-policy-scroll,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-ring-scroll,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-ring-scroll--open,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-scroller.glass-policy-scroll--expanded {
+    --policy-mobile-browser-bottom-clearance: clamp(4.25rem, 13vh, 6.5rem);
+    padding: calc(
+        var(--policy-scroll-edge-pad-top) + var(--policy-scroll-overscan-top) +
+          clamp(0.02rem, 0.35vh, 0.18rem)
+      )
+      calc(
+        var(--policy-scroll-edge-pad-x) +
+          var(--mobile-glass-card-gap, clamp(0.32rem, 1.35vw, 0.4rem))
+      )
+      calc(
+        var(--policy-scroll-overscan-bottom) +
+          var(--policy-mobile-browser-bottom-clearance)
+      ) !important;
+  }
+
+  html[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-ring-scroll,
+  html[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-ring-scroll--open,
+  html[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-policy-scroll--expanded,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-ring-scroll,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-ring-scroll--open,
+  body[data-display-mode="browser"]
+    .policy-scroll-page-ring
+    .policy-scroll-page-scroller.glass-policy-scroll.glass-policy-scroll--expanded {
+    --policy-mobile-browser-bottom-clearance: clamp(4.25rem, 13vh, 6.5rem);
+    padding-bottom: calc(
+      var(--policy-scroll-overscan-bottom) +
+        var(--policy-mobile-browser-bottom-clearance)
+    ) !important;
   }
 }

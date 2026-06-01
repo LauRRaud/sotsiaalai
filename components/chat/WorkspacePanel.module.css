@@ -243,8 +243,8 @@
 .panel :global(.workspace-feature-embedded .glass-subpage-back-button),
 .panel :global(.documents-workspace-shell--embedded .glass-subpage-back-button) {
   position: absolute !important;
-  left: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.05rem !important;
+  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
   bottom: auto !important;
   margin-left: 0 !important;
   transform: none !important;
@@ -253,8 +253,8 @@
 .panel :global(.workspace-feature-embedded .dashboard-info-trigger-corner),
 .panel :global(.documents-workspace-shell--embedded .dashboard-info-trigger-corner) {
   position: absolute !important;
-  right: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.475rem !important;
+  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
+  top: var(--mobile-header-control-info-top, 0.475rem) !important;
 }
 
 .panel :global(.workspace-feature-embedded .help-listings-workspace-title-wrap),
@@ -300,8 +300,8 @@
 
 .backButton {
   position: absolute !important;
-  left: 0.55rem !important;
-  top: 0.05rem !important;
+  left: var(--mobile-header-back-left, 0.55rem) !important;
+  top: var(--mobile-header-control-top, 0.05rem) !important;
   bottom: auto !important;
   margin-left: 0 !important;
   transform: none !important;
@@ -918,8 +918,6 @@
 
 @media (max-width: 768px) {
   .panel {
-    --workspace-dashboard-mobile-header-lift: 1.12rem;
-    --workspace-dashboard-mobile-back-lift: 0.92rem;
     width: 100%;
     flex: 1 1 0;
     height: 100%;
@@ -928,23 +926,6 @@
       0.08rem
       clamp(0.22rem, 1.2vw, 0.38rem)
       calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(0.55rem, 1.7vh, 0.9rem));
-  }
-
-  .backButton {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem) !important;
-    top: calc(0.2rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
-  }
-
-  .panel > .backButton {
-    top: calc(0.2rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
-  }
-
-  .panel > :global(.dashboard-info-trigger-corner) {
-    top: calc(0.475rem - var(--workspace-dashboard-mobile-back-lift, 0rem)) !important;
-  }
-
-  .panel :global(.glass-subpage-title-wrap) {
-    padding-top: calc(var(--mobile-common-title-top, 2.18rem) - var(--workspace-dashboard-mobile-header-lift, 0rem)) !important;
   }
 
   .roleMenu {

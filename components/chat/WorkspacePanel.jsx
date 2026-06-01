@@ -514,7 +514,6 @@ export default function WorkspacePanel({
                 infoId={embeddedPanelInfoId}
                 title={embeddedPanelTitle || text(t, "chat.workspace.title", "Toolaud")}
                 className={dashboardInfoTriggerCornerClassName}
-                style={{ top: "0.475rem" }}
               />
             }
           >
@@ -538,7 +537,6 @@ export default function WorkspacePanel({
                 infoId={activeEmbeddedMeta?.infoId || "workspace"}
                 title={activeEmbeddedMeta?.title || text(t, "chat.workspace.title", "Toolaud")}
                 className={dashboardInfoTriggerCornerClassName}
-                style={{ top: "0.475rem" }}
               />
             }
           >
@@ -606,7 +604,6 @@ export default function WorkspacePanel({
             infoId="workspace"
             title={text(t, "chat.workspace.title", "Töölaud")}
             className={dashboardInfoTriggerCornerClassName}
-            style={{ top: "0.475rem" }}
           />
         }
       >

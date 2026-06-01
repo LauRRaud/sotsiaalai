@@ -14,6 +14,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const glassPageStylesSource = readSource("components/ui/glassPageStyles.js");
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   const mobileCss = readSource("app/styles/mobile.css");
+  const mobileHeaderCss = readSource("app/styles/mobile/mobile-title-backbutton-info.css");
 
   assert.match(
     workspaceSource,
@@ -69,31 +70,23 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*0\.55rem\s*!important;[\s\S]*?top:\s*0\.05rem\s*!important;/
+    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--mobile-header-control-top,\s*0\.05rem\)\s*!important;/
   );
   assert.match(
     workspacePanelCss,
     /@media \(min-width:\s*769px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--workspace-subpage-back-top,\s*0\.55rem\)\s*!important;/
   );
+  assert.doesNotMatch(workspacePanelCss, /--workspace-dashboard-mobile-header-lift/);
+  assert.doesNotMatch(workspacePanelCss, /--workspace-dashboard-mobile-back-lift/);
+  assert.doesNotMatch(workspacePanelCss, /0\.04rem - 1rem/);
+  assert.doesNotMatch(workspacePanelCss, /\.panel\s*>\s*:global\(\.dashboard-info-trigger-corner\)\s*\{/);
   assert.match(
-    workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{[\s\S]*?--workspace-dashboard-mobile-header-lift:\s*1\.12rem;[\s\S]*?--workspace-dashboard-mobile-back-lift:\s*0\.92rem;/
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-header-title-top\)\s*!important;/
   );
   assert.match(
-    workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.backButton\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem - 1rem\)\s*!important;[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-dashboard-mobile-back-lift,\s*0rem\)\)\s*!important;/
-  );
-  assert.match(
-    workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*>\s*\.backButton\s*\{[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-dashboard-mobile-back-lift,\s*0rem\)\)\s*!important;/
-  );
-  assert.match(
-    workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*>\s*:global\(\.dashboard-info-trigger-corner\)\s*\{[\s\S]*?top:\s*calc\(0\.475rem - var\(--workspace-dashboard-mobile-back-lift,\s*0rem\)\)\s*!important;/
-  );
-  assert.match(
-    workspacePanelCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*:global\(\.glass-subpage-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top,\s*2\.18rem\) - var\(--workspace-dashboard-mobile-header-lift,\s*0rem\)\)\s*!important;/
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.workspace-dashboard-panel[\s\S]*?\)\s*:is\([\s\S]*?\.glass-subpage-back-button[\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?top:\s*var\(--mobile-header-control-top\)\s*!important;/
   );
   assert.doesNotMatch(
     workspacePanelCss,
@@ -107,22 +100,8 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
     glassPageStylesSource,
     /glassPageBackMobileBottomCenterClassName[\s\S]*?top-\[calc\(var\(--mobile-safe-top,env\(safe-area-inset-top,0px\)\)\+0\.2rem\)\]/
   );
-  assert.match(
-    mobileCss,
-    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?--workspace-pwa-header-lift:\s*1\.12rem;[\s\S]*?--workspace-pwa-back-lift:\s*0\.92rem;/
-  );
-  assert.match(
-    mobileCss,
-    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-common-title-top\) \+ 0\.396rem - var\(--workspace-pwa-header-lift,\s*0rem\)[\s\S]*?\)\s*!important;/
-  );
-  assert.match(
-    mobileCss,
-    /data-display-mode="standalone"[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?:is\(\.glass-subpage-back-button,\s*\.workspace-scroll-back-button,\s*\.documents-scroll-back-button\)[\s\S]*?top:\s*calc\(0\.2rem - var\(--workspace-pwa-back-lift,\s*0rem\)\)\s*!important;/
-  );
-  assert.match(
-    mobileCss,
-    /data-display-mode="standalone"[\s\S]*?> \.workspace-guide-panel-scroll[\s\S]*?:is\(\.glass-subpage-back-button,\s*\.workspace-scroll-back-button,\s*\.documents-scroll-back-button\)[\s\S]*?top:\s*calc\(3\.24rem - var\(--workspace-pwa-back-lift,\s*0rem\)\)\s*!important;/
-  );
+  assert.doesNotMatch(mobileCss, /--workspace-pwa-header-lift/);
+  assert.doesNotMatch(mobileCss, /--workspace-pwa-back-lift/);
 });
 
 test("shared subpage header keeps back icons in the scroll flow by default", () => {

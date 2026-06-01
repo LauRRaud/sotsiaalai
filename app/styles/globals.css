@@ -15,3 +15,5 @@
 @import url("./theme/hc.css");
 @import url("./utilities/helpers.css");
 @import url("./mobile.css") screen and (max-width: 768px);
+@import url("./mobile/mobile-title-backbutton-info.css") screen and (max-width: 768px);
+@import url("./mobile/mobile-background.css") screen and (max-width: 768px);

@@ -1,0 +1,96 @@
+:root {
+  --mobile-background-prepaint: #000;
+  --mobile-background-reveal-duration: 900ms;
+}
+
+html[data-app-prepaint],
+html[data-app-prepaint] body,
+html[data-app-prepaint] .app-root,
+html[data-app-prepaint] [data-bg-layer] {
+  background: var(--mobile-background-prepaint) !important;
+  background-image: none !important;
+}
+
+html[data-app-prepaint] [data-bg-layer] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: none !important;
+}
+
+html[data-display-mode="standalone"] [data-bg-layer],
+html[data-display-mode="fullscreen"] [data-bg-layer],
+body[data-display-mode="standalone"] [data-bg-layer],
+body[data-display-mode="fullscreen"] [data-bg-layer],
+html[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
+html[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"],
+body[data-display-mode="standalone"] [data-bg-layer][data-page="home"],
+body[data-display-mode="fullscreen"] [data-bg-layer][data-page="home"] {
+  --pwa-background-bottom-overscan: 0px;
+  inset: 0 !important;
+  height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  min-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+  max-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh)) !important;
+}
+
+html[data-display-mode="standalone"],
+html[data-display-mode="fullscreen"],
+html[data-display-mode="standalone"] body,
+html[data-display-mode="fullscreen"] body,
+body[data-display-mode="standalone"],
+body[data-display-mode="fullscreen"],
+html[data-display-mode="standalone"] .app-root,
+html[data-display-mode="fullscreen"] .app-root {
+  --pwa-background-bottom-overscan: 0px;
+  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
+  height: var(--pwa-viewport-fill-height) !important;
+  min-height: var(--pwa-viewport-fill-height) !important;
+  max-height: var(--pwa-viewport-fill-height) !important;
+  background-size: 100% 100% !important;
+}
+
+html[data-display-mode="standalone"] [data-bg-layer] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+html[data-display-mode="fullscreen"] [data-bg-layer] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+body[data-display-mode="standalone"] [data-bg-layer] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+body[data-display-mode="fullscreen"] [data-bg-layer] :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
+  top: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+}
+
+html[data-display-mode="standalone"] [data-bg-layer] .particles-container,
+html[data-display-mode="fullscreen"] [data-bg-layer] .particles-container,
+body[data-display-mode="standalone"] [data-bg-layer] .particles-container,
+body[data-display-mode="fullscreen"] [data-bg-layer] .particles-container {
+  top: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+html[data-display-mode="standalone"] body.homepage,
+html[data-display-mode="fullscreen"] body.homepage,
+body.homepage[data-display-mode="standalone"],
+body.homepage[data-display-mode="fullscreen"] {
+  background: var(--home-browser-base-bg, var(--app-chrome-bg-image, var(--app-chrome-bg, #10151d))) !important;
+  background-color: var(--app-chrome-bg, #10151d) !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+  height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  min-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  max-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+}
+
+html[data-display-mode="standalone"] body.homepage .homepage-root,
+html[data-display-mode="fullscreen"] body.homepage .homepage-root,
+body.homepage[data-display-mode="standalone"] .homepage-root,
+body.homepage[data-display-mode="fullscreen"] .homepage-root {
+  background: transparent !important;
+  height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  min-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+  max-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+}
+
+[data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,
+[data-bg-layer] .bg-particles-layer[data-mobile-visible="ready"] {
+  transition-duration: var(--mobile-background-reveal-duration), 0s !important;
+}

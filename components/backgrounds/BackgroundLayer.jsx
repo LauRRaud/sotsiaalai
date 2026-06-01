@@ -36,6 +36,7 @@ const COLOR_BENDS_ROTATION_SPEED_DESKTOP = 0;
 const COLOR_BENDS_ROTATION_SPEED_MOBILE = 0;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
+const INITIAL_PREPAINT_MAX_MS = 1200;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -136,6 +137,15 @@ const BackgroundContent = memo(function BackgroundContent({
   // parallax feel unstable, so keep particles static there.
   const particlesParallaxActive = false;
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (!mounted || typeof document === "undefined" || typeof window === "undefined") return;
+    const root = document.documentElement;
+    if (!root?.hasAttribute("data-app-prepaint")) return;
+    const timeoutId = window.setTimeout(() => {
+      root.removeAttribute("data-app-prepaint");
+    }, INITIAL_PREPAINT_MAX_MS);
+    return () => window.clearTimeout(timeoutId);
+  }, [mounted]);
   useLayoutEffect(() => {
     if (
       !backgroundReadyForInitialReveal ||

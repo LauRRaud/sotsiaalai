@@ -24,6 +24,7 @@ test("dashboard info overlay uses the same close button system as the conversati
   const drawer = read("components/alalehed/ConversationDrawer.jsx");
   const sharedStyle = read("components/ui/chatDrawerCloseButtonStyles.js");
   const helpersCss = read("app/styles/utilities/helpers.css");
+  const helpersCoreCss = read("app/styles/utilities/helpers-core.css");
   const mobileCss = read("app/styles/mobile.css");
 
   assert.match(overlay, /import IconButton from "@\/components\/ui\/IconButton"/);
@@ -48,10 +49,11 @@ test("dashboard info overlay uses the same close button system as the conversati
   assert.match(overlay, /dashboard-info-panel--with-title-metrics/);
   assert.match(overlay, /<IconButton[\s\S]*?style=\{overlayCloseStyle\}[\s\S]*?\/>\s*<div className=\{contentClassName\}/);
   assert.doesNotMatch(overlay, /<div className=\{contentClassName\}[\s\S]*?<IconButton[\s\S]*?style=\{overlayCloseStyle\}/);
-  assert.match(helpersCss, /--dashboard-info-surface-background/);
-  assert.match(helpersCss, /\.dashboard-info-panel\.workspace-guide-panel\.glass-subpage-surface\s*>\s*\.dashboard-info-content\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/);
-  assert.match(helpersCss, /var\(--dashboard-info-title-wrap-extra-top,\s*0px\)/);
-  assert.match(helpersCss, /\.dashboard-info-panel--with-title-metrics[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*var\(--dashboard-info-title-wrap-padding-top\)\s*!important;/);
+  assert.match(helpersCss, /@import url\("\.\/helpers-core\.css"\);/);
+  assert.match(helpersCoreCss, /--dashboard-info-surface-background/);
+  assert.match(helpersCoreCss, /\.dashboard-info-panel\.workspace-guide-panel\.glass-subpage-surface\s*>\s*\.dashboard-info-content\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-pad-top,\s*0\.6rem\)[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/);
+  assert.match(helpersCoreCss, /var\(--dashboard-info-title-wrap-extra-top,\s*0px\)/);
+  assert.match(helpersCoreCss, /\.dashboard-info-panel--with-title-metrics[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*var\(--dashboard-info-title-wrap-padding-top\)\s*!important;/);
   assert.match(mobileCss, /\.dashboard-info-panel--with-title-metrics[\s\S]*?\.glass-subpage-title-wrap[\s\S]*?padding-top:\s*var\(--dashboard-info-title-wrap-padding-top\)\s*!important;/);
   assert.match(sharedStyle, /drawer-close-btn--chat/);
   assert.match(drawer, /chatDrawerCloseButtonClassName/);
