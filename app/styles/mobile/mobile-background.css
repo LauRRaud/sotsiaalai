@@ -167,6 +167,17 @@ body[data-display-mode="fullscreen"]
   ) {
   --glass-mobile-safe-bottom: 0px;
   --mobile-safe-bottom: 0px;
+  height: calc(
+    var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh)) -
+      var(--glass-mobile-safe-top, 0px) -
+      var(--mobile-glass-card-gap, 0.35rem)
+  ) !important;
+  max-height: calc(
+    var(--glass-mobile-vh, var(--glass-mobile-root-vh, 100dvh)) -
+      var(--glass-mobile-safe-top, 0px) -
+      var(--mobile-glass-card-gap, 0.35rem)
+  ) !important;
+  margin-bottom: 0 !important;
 }
 
 [data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,
