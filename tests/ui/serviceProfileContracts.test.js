@@ -1,13 +1,14 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
 test("service profile toggle cards keep checkbox text readable across themes", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,

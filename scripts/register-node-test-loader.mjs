@@ -14,6 +14,7 @@ const legacyCssBundles = new Map([
     [
       path.join(repoRoot, "app", "styles", "components", "documents-workspace.shared.css"),
       path.join(repoRoot, "app", "styles", "components", "documents-ui.shared.css"),
+      path.join(repoRoot, "app", "styles", "components", "documents-ui.mobile.css"),
       path.join(repoRoot, "app", "styles", "components", "documents-agent.css"),
       path.join(repoRoot, "app", "styles", "components", "documents-library.css")
     ]

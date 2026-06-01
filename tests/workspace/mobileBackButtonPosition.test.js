@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -147,7 +148,7 @@ test("shared subpage header keeps back icons in the scroll flow by default", () 
 
 test("service map mobile back icon matches the workspace visual inset", () => {
   const serviceMapSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
-  const serviceMapCss = readSource("app/styles/components/service-map.css");
+  const serviceMapCss = readServiceMapCssBundle();
 
   assert.match(
     serviceMapSource,
@@ -164,7 +165,7 @@ test("service map mobile back icon matches the workspace visual inset", () => {
 });
 
 test("service map mobile filter toggle is larger with a larger arrow and narrow shadow", () => {
-  const serviceMapCss = readSource("app/styles/components/service-map.css");
+  const serviceMapCss = readServiceMapCssBundle();
   const serviceMapSource = readSource("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(

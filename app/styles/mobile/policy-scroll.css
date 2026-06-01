@@ -1,3 +1,35 @@
+@media (max-width: 768px) {
+  :root {
+    --policy-content-fade-top-open: clamp(0.42rem, 0.95vh, 0.7rem);
+    --policy-content-fade-bottom: clamp(3.7rem, 7vh, 4.9rem);
+    --policy-content-fade-bottom-open: clamp(4.8rem, 8.8vh, 6.4rem);
+  }
+
+  :root.theme-light:not(.theme-mid) {
+    --policy-content-fade-top-open: clamp(0.44rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(3.9rem, 7.2vh, 5rem);
+    --policy-content-fade-bottom-open: clamp(4.9rem, 9vh, 6.5rem);
+  }
+
+  :root.theme-mid {
+    --policy-content-fade-top-open: clamp(0.44rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(3.9rem, 7.2vh, 5rem);
+    --policy-content-fade-bottom-open: clamp(4.9rem, 9vh, 6.5rem);
+  }
+
+  :root.theme-night {
+    --policy-content-fade-top-open: clamp(0.36rem, 0.85vh, 0.62rem);
+    --policy-content-fade-bottom: clamp(3.5rem, 6.6vh, 4.7rem);
+    --policy-content-fade-bottom-open: clamp(4.6rem, 8.5vh, 6rem);
+  }
+
+  html[data-contrast="hc"] {
+    --policy-content-fade-top-open: clamp(0.48rem, 1vh, 0.72rem);
+    --policy-content-fade-bottom: clamp(4rem, 7.4vh, 5.2rem);
+    --policy-content-fade-bottom-open: clamp(5.1rem, 9.2vh, 6.6rem);
+  }
+}
+
 @media (max-width: 768px) and (pointer: coarse) {
   .glass-policy-scroll.glass-ring-scroll,
   .glass-policy-scroll.glass-ring-scroll--open {

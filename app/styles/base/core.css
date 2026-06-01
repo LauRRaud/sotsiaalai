@@ -124,20 +124,6 @@ html[data-display-mode="fullscreen"] .app-root {
   background: transparent !important;
 }
 
-@media (max-width: 768px) {
-  html[data-display-mode="standalone"],
-  html[data-display-mode="fullscreen"],
-  html[data-display-mode="standalone"] body,
-  html[data-display-mode="fullscreen"] body,
-  body[data-display-mode="standalone"],
-  body[data-display-mode="fullscreen"],
-  html[data-display-mode="standalone"] .app-root,
-  html[data-display-mode="fullscreen"] .app-root {
-    overflow: hidden !important;
-    overscroll-behavior: none !important;
-  }
-}
-
 .app-root {
   min-height: 100vh;
   min-height: var(--app-height, 100dvh);
@@ -174,11 +160,6 @@ html[data-display-mode="fullscreen"] .app-root {
   animation: click-pulse 0.9s ease-in-out infinite;
 }
 
-@media (hover: none), (pointer: coarse) {
-  .click-pulse-cursor {
-    display: none !important;
-  }
-}
 
 html[data-display-mode="standalone"] .click-pulse-cursor,
 html[data-display-mode="fullscreen"] .click-pulse-cursor,

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import "../styles/components/documents-workspace.shared.css"
 import "../styles/components/documents-ui.shared.css"
+import "../styles/components/documents-ui.mobile.css";
 import "../styles/components/documents-library.css"
 import "../styles/theme/mono.documents.css"
 import { redirect } from "next/navigation"

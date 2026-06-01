@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -17,7 +18,7 @@ test("pre-inquiry assistant renders assessment details inside the conversation m
 
 test("pre-inquiry draft and recipient selection have clear visible contracts", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(source, /PRE_INQUIRY_ASSESSMENT_PATHS\.map/);
   assert.match(source, /definition\.primaryQuestions\.map/);
@@ -66,7 +67,7 @@ test("pre-inquiry assessment uses one questionnaire control set without quick ac
 });
 
 test("pre-inquiry dropdowns are custom themed controls, not browser-native menus", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(css, /\.workspace-feature-dropdown\.pre-inquiry-dropdown \.documents-dropdown-trigger/);
   assert.match(css, /\.workspace-feature-dropdown\.pre-inquiry-dropdown \.documents-dropdown-menu/);
@@ -87,7 +88,7 @@ test("pre-inquiry dropdowns are custom themed controls, not browser-native menus
 
 test("pre-inquiry panels and extra detail fields keep readable spacing", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(source, /pre-inquiry-extra-grid/);
   assert.match(source, /pre-inquiry-section-card/);
@@ -103,7 +104,7 @@ test("pre-inquiry panels and extra detail fields keep readable spacing", () => {
 
 test("pre-inquiry recipient type filter is optional and aligned with search", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(source, /const \[recipientType, setRecipientType\] = useState\(""\)/);
   assert.match(source, /type="checkbox"[\s\S]*?name="pre-inquiry-recipient-type"/);
@@ -143,7 +144,7 @@ test("pre-inquiry assistant conversation surfaces non-urgent workflow warnings",
 });
 
 test("pre-inquiry assistant conversation and input shadows stay close to the element", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,
@@ -161,7 +162,7 @@ test("pre-inquiry assistant conversation and input shadows stay close to the ele
 
 test("workspace feature pages are anchored to the viewport", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(source, /workspace-feature-page-shell/);
   assert.match(source, /fixed inset-0 isolate z-\[30\]/);

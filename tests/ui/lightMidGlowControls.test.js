@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function readCss(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -99,7 +100,7 @@ test("light and mid buttons use an outer glow ring without inset double edges", 
 
 test("light and mid input fields keep edge glow without inset double edges", () => {
   const css = readCss("app/styles/components/glass.css");
-  const serviceMapCss = readCss("app/styles/components/service-map.css");
+  const serviceMapCss = readServiceMapCssBundle();
   const lightFieldIdleBlock = css.match(
     /:root\.theme-light \.ui-glow-field\s*\{([\s\S]*?)\n\}/
   );

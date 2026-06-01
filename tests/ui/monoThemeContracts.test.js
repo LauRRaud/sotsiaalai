@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -41,7 +42,7 @@ test("mono theme renders black and gray glass, icons, controls and home/about to
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
   const documentsMode = read("app/styles/components/documents-workspace.shared.css");
-  const serviceMap = read("app/styles/components/service-map.css");
+  const serviceMap = readServiceMapCssBundle();
   const loginModal = read("components/LoginModal.jsx");
   const inviteModal = read("components/invite/InviteModal.jsx");
 

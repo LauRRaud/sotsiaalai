@@ -1,0 +1,27 @@
+/* Register-page mobile language fitting. Desktop/shared register rules stay in app/styles/components/glass.css. */
+
+@media (max-width: 768px) {
+  section[lang="ru"] .register-checkbox-card {
+    font-size: 1.22rem;
+  }
+
+  section[lang="ru"] .register-agree-card {
+    font-size: 1.28rem;
+  }
+
+  section[lang="ru"] .register-guide-card {
+    font-size: 1.2rem;
+  }
+
+  section[lang="en"] .register-checkbox-card {
+    font-size: 1.24rem;
+  }
+
+  section[lang="en"] .register-guide-card {
+    font-size: 1.3rem;
+  }
+
+  section[lang="et"] .register-checkbox-card {
+    font-size: 1.04rem;
+  }
+}

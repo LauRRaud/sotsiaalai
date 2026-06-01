@@ -2,6 +2,8 @@
 @import url("./mobile/foundations.css");
 @import url("./mobile/touch-controls.css");
 @import url("./mobile/background-home.css");
+@import url("./mobile/home-page.css");
+@import url("./mobile/register.css");
 @import url("./mobile/profile-orbit.css");
 @import url("./mobile/platform-android.css");
 @import url("./mobile/modal-chat-accessibility.css");

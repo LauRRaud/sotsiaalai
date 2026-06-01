@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -12,7 +13,7 @@ function cssBlock(css, selector) {
 }
 
 test("service map Leaflet markers do not inherit the default div icon plate", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,
@@ -21,7 +22,7 @@ test("service map Leaflet markers do not inherit the default div icon plate", ()
 });
 
 test("service map Leaflet groups entries that share one coordinate", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
 
   assert.match(leafletSource, /function groupedEntriesByCoordinates/);
@@ -42,7 +43,7 @@ test("service map Leaflet groups entries that share one coordinate", () => {
 });
 
 test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
   const markerBlock = cssBlock(css, ".service-map-leaflet__marker");
   const legendMarkerBlock = cssBlock(css, ".service-map-leaflet__legend .service-map-leaflet__marker");
@@ -69,7 +70,7 @@ test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
 });
 
 test("service map popup glass is applied on the wrapper immediately", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const leafletSource = read("components/workspace/ServiceMapLeaflet.jsx");
   const workspaceSource = read("components/workspace/WorkspaceFeaturePage.jsx");
 
@@ -117,7 +118,7 @@ test("service map popup glass is applied on the wrapper immediately", () => {
 });
 
 test("service map close button and toolbar controls keep the intended brand/control surfaces", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,
@@ -131,7 +132,7 @@ test("service map close button and toolbar controls keep the intended brand/cont
 });
 
 test("service map toolbar controls inherit shared glow and option-card interaction contracts", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const glassCss = read("app/styles/components/glass.css");
   const typeCardBlock = cssBlock(css, ".service-map-toolbar__type-card");
 
@@ -169,7 +170,7 @@ test("service map toolbar controls inherit shared glow and option-card interacti
 
 test("service map back button uses desktop toolbar panel and mobile page anchor", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     source,
@@ -221,7 +222,7 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
 });
 
 test("service map multi-line mobile toolbar stays compact and gives provider tab enough width", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
@@ -282,7 +283,7 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
 });
 
 test("service map result cards use toolbar control styling without shadows", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
   const resultButton = cssBlock(css, ".service-map-toolbar__results .service-map-toolbar__result-button");
 
@@ -324,7 +325,7 @@ test("service map result cards use toolbar control styling without shadows", () 
 
 test("service map mobile route keeps the glass page panel, removes particles, and lets the map fill the panel", () => {
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const colorBendsExcludedPaths = backgroundLayer.match(
     /const COLOR_BENDS_EXCLUDED_PATHS = new Set\(\[([\s\S]*?)\]\);/
   )?.[1] || "";
@@ -361,7 +362,7 @@ test("service map clears its global page-active state before delayed back naviga
 });
 
 test("service map mobile inputs keep 16px text to avoid browser focus zoom", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,
@@ -374,7 +375,7 @@ test("service map mobile inputs keep 16px text to avoid browser focus zoom", () 
 });
 
 test("service map results do not force oversized panel bottom padding", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
@@ -449,7 +450,7 @@ test("service map results do not force oversized panel bottom padding", () => {
 });
 
 test("service map popup and desktop one-line toolbar preserve glass and back alignment", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(
@@ -553,7 +554,7 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
 });
 
 test("service map mobile map edge does not expose a blue Leaflet fallback seam", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.doesNotMatch(css, /background:\s*#a8d5e0\s*!important/);
   assert.match(css, /--service-map-map-bg:\s*#eef0ef/);
@@ -564,7 +565,7 @@ test("service map mobile map edge does not expose a blue Leaflet fallback seam",
 });
 
 test("service map legend stays left on desktop and uses the lower right mobile corner without attribution", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
 
   assert.match(
     css,
@@ -589,7 +590,7 @@ test("service map legend stays left on desktop and uses the lower right mobile c
 });
 
 test("service map toolbar uses flat glass while map canvas stays edge-free", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const filtersShell = cssBlock(css, ".service-map-workspace__filters-shell");
   const mapFrame = cssBlock(css, ".service-map-workspace__map");
   const leafletShell = cssBlock(css, ".service-map-leaflet-shell");
@@ -614,7 +615,7 @@ test("service map toolbar uses flat glass while map canvas stays edge-free", () 
 });
 
 test("service map filter panel uses shared glass background in standard themes, while high contrast remains black", () => {
-  const css = read("app/styles/components/service-map.css");
+  const css = readServiceMapCssBundle();
   const rootBlock = cssBlock(css, ".service-map-workspace");
   const filtersShell = cssBlock(css, ".service-map-workspace__filters-shell");
 

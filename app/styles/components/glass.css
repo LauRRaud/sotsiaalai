@@ -1127,32 +1127,6 @@ section[lang="en"] .register-guide-card {
   line-height: 1.3;
 }
 
-@media (max-width: 768px) {
-  section[lang="ru"] .register-checkbox-card {
-    font-size: 1.22rem;
-  }
-
-  section[lang="ru"] .register-agree-card {
-    font-size: 1.28rem;
-  }
-
-  section[lang="ru"] .register-guide-card {
-    font-size: 1.2rem;
-  }
-
-  section[lang="en"] .register-checkbox-card {
-    font-size: 1.24rem;
-  }
-
-  section[lang="en"] .register-guide-card {
-    font-size: 1.3rem;
-  }
-
-  section[lang="et"] .register-checkbox-card {
-    font-size: 1.04rem;
-  }
-}
-
 @media (min-width: 769px) {
   section[lang="ru"] .register-guide-card {
     width: calc(100% - clamp(1.7rem, calc(var(--ring-diameter, 52rem) / 26), 2.2rem)) !important;

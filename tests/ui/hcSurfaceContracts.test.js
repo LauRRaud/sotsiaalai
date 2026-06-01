@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 
 function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -84,7 +85,7 @@ test("HC global button reset excludes chat composer icon controls", () => {
 
 test("HC panels define actual yellow borders, not only border color", () => {
   const hc = read("app/styles/theme/hc.css");
-  const serviceMap = read("app/styles/components/service-map.css");
+  const serviceMap = readServiceMapCssBundle();
   const documents = read("app/styles/components/documents-mode.css");
   const covision = read("components/covision/CovisionPage.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.jsx");
@@ -198,7 +199,7 @@ test("HC left and right rail icon buttons stay transparent", () => {
 
 test("HC invite selected payment cards and workspace action buttons have clear outlines", () => {
   const hc = read("app/styles/theme/hc.css");
-  const serviceMap = read("app/styles/components/service-map.css");
+  const serviceMap = readServiceMapCssBundle();
   const workspace = read("components/workspace/WorkspaceFeaturePage.jsx");
 
   assert.match(hc, /\.invite-modal-content \[data-control-type\]\[data-checked="true"\][\s\S]*?background:\s*rgba\(255,\s*234,\s*0,\s*0\.1\)\s*!important/);

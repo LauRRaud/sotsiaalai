@@ -1,6 +1,14 @@
 /* Mobile subpage title fitting and OTP close placement. */
 
 @media (max-width: 768px) {
+  .glass-title-register {
+    font-size: clamp(1.8rem, 7.2vw, 2.34rem) !important;
+  }
+
+  .glass-title-register-ru {
+    font-size: clamp(1.58rem, 6.6vw, 2.12rem) !important;
+  }
+
   .subpage-mobile-title[data-fit-ready="0"],
   .policy-mobile-title[data-fit-ready="0"] {
     font-size: var(--fit-title-preload-px, 17px) !important;

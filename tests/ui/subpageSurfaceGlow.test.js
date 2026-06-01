@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { readServiceMapCssBundle } from "../helpers/serviceMapCssBundle.mjs";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
@@ -22,7 +23,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
   const inviteSource = read("components/invite/InviteModal.jsx");
   const materialsSource = read("components/materials/MaterialsPage.jsx");
   const workspaceFeatureSource = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const serviceMapCss = read("app/styles/components/service-map.css");
+  const serviceMapCss = readServiceMapCssBundle();
   const surfaceBlock = cssBlock(helpersCss, ".glass-subpage-surface");
   const surfaceBeforeBlock = cssBlock(helpersCss, ".glass-subpage-surface::before");
 
@@ -69,7 +70,7 @@ test("workspace subpage surfaces reuse the shared glass shell edge shine", () =>
     /@media \(min-width:\s*769px\)[\s\S]*?\.glass-subpage-surface\s*\{[\s\S]*?--glass-subpage-edge-stroke:\s*var\(\s*--glass-ring-edge-stroke-desktop/
   );
   assert.match(
-    helpersCss,
+    readMobileCssBundle(),
     /@media \(max-width:\s*768px\)[\s\S]*?\.glass-subpage-surface::before\s*\{[\s\S]*?display:\s*none/
   );
   assert.match(

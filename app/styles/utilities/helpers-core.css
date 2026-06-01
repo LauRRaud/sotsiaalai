@@ -123,16 +123,6 @@ body[data-a11y-scroll-lock="1"] .profile-orbit-menu__center-pulse {
   letter-spacing: 0.01em !important;
 }
 
-@media (max-width: 768px) {
-  .glass-title-register {
-    font-size: clamp(1.8rem, 7.2vw, 2.34rem) !important;
-  }
-
-  .glass-title-register-ru {
-    font-size: clamp(1.58rem, 6.6vw, 2.12rem) !important;
-  }
-}
-
 @media (min-width: 769px) {
   .a11y-modal-shell {
     --glass-ring-edge-stroke-width: var(
@@ -689,57 +679,6 @@ html[data-contrast="hc"] {
     height: auto;
   }
 }
-@media (max-width: 768px) {
-  .glass-subpage-surface::before {
-    display: none;
-  }
-
-  .glass-ring {
-    --glass-ring-sheen: none;
-    --glass-ring-edge-stroke-width: 0px;
-    --glass-ring-edge-stroke-opacity: 0;
-    width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
-        (2 * var(--mobile-glass-card-gap, 0.35rem))
-    );
-    max-width: calc(
-      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
-        (2 * var(--mobile-glass-card-gap, 0.35rem))
-    );
-    height: var(
-      --glass-mobile-height,
-      calc(
-        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
-          env(safe-area-inset-bottom, 0px) -
-          (2 * var(--mobile-glass-card-gap, 0.35rem))
-      )
-    );
-    max-height: var(
-      --glass-mobile-height,
-      calc(
-        var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) -
-          env(safe-area-inset-bottom, 0px) -
-          (2 * var(--mobile-glass-card-gap, 0.35rem))
-      )
-    );
-    min-width: 0;
-    min-height: 0;
-    aspect-ratio: auto;
-    --glass-ring-radius: var(
-      --mobile-glass-card-radius,
-      clamp(calc(1.05 * var(--base-rem)), 3.8vw, calc(1.45 * var(--base-rem)))
-    );
-    overflow: hidden;
-    margin-top: var(--mobile-glass-card-gap, calc(0.35 * var(--base-rem)));
-    margin-bottom: var(--mobile-glass-card-gap, calc(0.35 * var(--base-rem)));
-    --ring-pad-top: clamp(
-      calc(0.4 * var(--base-rem)),
-      1.4vh,
-      calc(1.1 * var(--base-rem))
-    );
-  }
-}
-
 html[data-contrast="hc"] .glass-subpage-surface::before {
   display: none !important;
 }
