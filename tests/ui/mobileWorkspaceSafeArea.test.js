@@ -35,13 +35,13 @@ test("workspace feature pages keep mobile safe areas without browser-mode layout
     /setAttribute\("data-display-mode",\s*mode\)/
   );
   assert.doesNotMatch(viewportSetter, /data-display-mode-sticky|DISPLAY_MODE_STORAGE_KEY/);
-  assert.match(
+  assert.doesNotMatch(
     mobileCss,
-    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;/
+    /data-display-mode="standalone"[\s\S]{0,240}(?:chat-page-shell|profile-container|workspace|documents|materials|covision|glass-ring)/
   );
-  assert.match(
+  assert.doesNotMatch(
     mobileCss,
-    /html\[data-display-mode="standalone"\] \.profile-container\.glass-ring :is\(\.back-button,\s*\.glass-subpage-back-button\),/
+    /(?:chat-page-shell|profile-container|workspace|documents|materials|covision|glass-ring)[\s\S]{0,240}data-display-mode="standalone"/
   );
   assert.doesNotMatch(mobileCss, /data-display-mode-sticky|mobile-pwa/);
   assert.doesNotMatch(

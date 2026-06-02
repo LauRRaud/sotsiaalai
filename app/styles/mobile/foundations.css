@@ -56,11 +56,14 @@
     isolation: isolate;
     background: var(--home-browser-base-bg, #0d111b);
     background-repeat: no-repeat;
-    background-size: 100% max(100%, var(--home-mobile-canvas-height));
-    overflow: hidden;
-    height: var(--home-mobile-canvas-height);
+    background-size: 100% max(100%, 100dvh);
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
     min-height: var(--home-mobile-canvas-height);
-    overscroll-behavior: none;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   html[data-initial-page="home"] {
@@ -74,13 +77,12 @@
   }
 
   .homepage-root {
-    height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
+    height: auto;
     min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh));
-    overflow-y: auto;
+    overflow-y: visible;
     overflow-x: hidden;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: auto;
     overscroll-behavior-x: none;
-    -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     scrollbar-width: none;
   }
@@ -105,18 +107,6 @@
     --bg-overscan: clamp(96px, 14svh, 180px);
     --mobile-safe-top: env(safe-area-inset-top, 0px);
     --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
-  }
-
-  html[data-display-mode="standalone"],
-  html[data-display-mode="fullscreen"],
-  html[data-display-mode="standalone"] body,
-  html[data-display-mode="fullscreen"] body,
-  body[data-display-mode="standalone"],
-  body[data-display-mode="fullscreen"],
-  html[data-display-mode="standalone"] .app-root,
-  html[data-display-mode="fullscreen"] .app-root {
-    overflow: hidden !important;
-    overscroll-behavior: none !important;
   }
 }
 

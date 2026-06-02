@@ -1,5 +1,31 @@
 /* Mobile background layers, home cards, glass boxes and landing typography. */
 
+:root {
+  --mobile-background-prepaint: #000;
+  --mobile-background-reveal-duration: 900ms;
+}
+
+html[data-app-prepaint],
+html[data-app-prepaint] body,
+html[data-app-prepaint] .app-root,
+html[data-app-prepaint] [data-bg-layer] {
+  background: var(--mobile-background-prepaint) !important;
+  background-image: none !important;
+}
+
+html[data-app-prepaint]
+  [data-bg-layer]
+  :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: none !important;
+}
+
+[data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,
+[data-bg-layer] .bg-particles-layer[data-mobile-visible="ready"] {
+  transition-duration: var(--mobile-background-reveal-duration), 0s !important;
+}
+
 @media (max-width: 768px) {
   [data-bg-layer] .bg-bends-layer {
     top: 0 !important;
@@ -15,6 +41,14 @@
     backface-visibility: visible !important;
     -webkit-backface-visibility: visible !important;
   }
+  [data-bg-layer] .bg-bends-layer {
+    transition-duration: 4000ms, 0s;
+  }
+
+  [data-bg-layer] .bg-particles-layer {
+    transition-duration: 4500ms, 0s;
+  }
+
   [data-bg-layer][data-page="home"] {
     overflow: hidden;
   }

@@ -79,18 +79,6 @@
   background-image: none;
 }
 
-html[data-display-mode="standalone"] [data-bg-layer],
-html[data-display-mode="fullscreen"] [data-bg-layer],
-body[data-display-mode="standalone"] [data-bg-layer],
-body[data-display-mode="fullscreen"] [data-bg-layer] {
-  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
-  bottom: calc(0px - var(--pwa-background-bottom-overscan));
-  height: auto;
-  min-height: calc(
-    var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
-      var(--pwa-background-bottom-overscan)
-  );
-}
 [data-bg-layer],
 [data-bg-layer] *,
 [data-bg-layer] canvas {

@@ -1,27 +1,44 @@
 /* Touch-device control feedback overrides for segmented/options controls. */
 
 @media (hover: none) and (pointer: coarse) {
-  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type][data-checked="false"]:active {
+  :is(
+      .person-invite-modal-content,
+      .register-content,
+      .a11y-modal-shell .a11y-csp-scroll,
+      .invite-modal-content
+    ) [data-control-type][data-checked="false"]:active {
     background: var(--seg-card-bg) !important;
     border-color: var(--seg-card-border) !important;
     box-shadow: var(--seg-card-shadow) !important;
     color: var(--seg-card-text) !important;
   }
 
-  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type][data-checked="true"]:active {
-    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  :is(.register-content, .invite-modal-content, .person-invite-modal-content) [data-control-type]:active::before {
+  :is(
+      .person-invite-modal-content,
+      .register-content,
+      .a11y-modal-shell .a11y-csp-scroll,
+      .invite-modal-content
+    ) [data-control-type][data-checked="false"]:active::before {
     opacity: 0 !important;
   }
 
-  .register-content [data-control-type] {
+  .person-invite-modal-content [data-control-type]:active::before {
+    opacity: 0 !important;
+  }
+
+  :is(.register-content, .a11y-modal-shell .a11y-csp-scroll, .chat-analysis-overlay)
+    [data-control-type] {
     --seg-card-bg-selected: var(--seg-card-bg);
     --seg-card-bg-active: var(--seg-card-bg);
+  }
+
+  :is(
+      .register-content,
+      .a11y-modal-shell .a11y-csp-scroll,
+      .invite-modal-content,
+      .chat-analysis-overlay
+    )
+    [data-control-type] {
     --seg-card-shadow-selected: var(
       --seg-card-shadow-hover,
       var(--seg-card-shadow)
@@ -34,71 +51,37 @@
     --seg-card-border-active: var(--seg-card-border);
   }
 
-  .register-content [data-control-type][data-checked="true"] {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  .register-content [data-control-type][data-checked="true"]::before {
-    opacity: 1 !important;
-  }
-
-  .register-content [data-control-type][data-checked="false"]:active {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border) !important;
-    box-shadow: var(--seg-card-shadow) !important;
-    color: var(--seg-card-text) !important;
-  }
-
-  .register-content [data-control-type][data-checked="false"]:active::before {
-    opacity: 0 !important;
-  }
-
-  .register-content [data-control-type][data-checked="true"]:active {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  .register-content [data-control-type][data-checked="true"]:active::before {
-    opacity: 1 !important;
-  }
-
-  .invite-modal-content [data-control-type] {
-    --seg-card-shadow-selected: var(
-      --seg-card-shadow-hover,
-      var(--seg-card-shadow)
-    );
-    --seg-card-shadow-active: var(--seg-card-shadow);
-    --seg-card-border-selected: var(
-      --seg-card-border-hover,
-      var(--seg-card-border)
-    );
-    --seg-card-border-active: var(--seg-card-border);
-  }
-
-  .invite-modal-content [data-control-type][data-checked="true"] {
+  :is(
+      .person-invite-modal-content [data-control-type][data-checked="true"]:active,
+      .register-content [data-control-type][data-checked="true"],
+      .register-content [data-control-type][data-checked="true"]:active,
+      .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"],
+      .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]:active,
+      .invite-modal-content [data-control-type][data-checked="true"],
+      .chat-analysis-overlay [data-control-type][data-checked="true"],
+      .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type][data-checked="true"]:is(:hover, :focus-visible, :active)
+    ) {
     background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
     border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
     box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
     color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
+  }
+
+  :is(
+      .register-content,
+      .a11y-modal-shell .a11y-csp-scroll,
+      .chat-analysis-overlay
+    )
+    [data-control-type][data-checked="true"]::before {
+    opacity: 1 !important;
+  }
+
+  :is(.register-content, .a11y-modal-shell .a11y-csp-scroll)
+    [data-control-type][data-checked="true"]:active::before {
+    opacity: 1 !important;
   }
 
   .invite-modal-content [data-control-type][data-checked="true"]::before {
-    opacity: 0 !important;
-  }
-
-  .invite-modal-content [data-control-type][data-checked="false"]:active {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border) !important;
-    box-shadow: var(--seg-card-shadow) !important;
-    color: var(--seg-card-text) !important;
-  }
-
-  .invite-modal-content [data-control-type][data-checked="false"]:active::before {
     opacity: 0 !important;
   }
 
@@ -113,82 +96,11 @@
     opacity: 0 !important;
   }
 
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type] {
-    --seg-card-bg-selected: var(--seg-card-bg);
-    --seg-card-bg-active: var(--seg-card-bg);
-    --seg-card-shadow-selected: var(
-      --seg-card-shadow-hover,
-      var(--seg-card-shadow)
-    );
-    --seg-card-shadow-active: var(--seg-card-shadow);
-    --seg-card-border-selected: var(
-      --seg-card-border-hover,
-      var(--seg-card-border)
-    );
-    --seg-card-border-active: var(--seg-card-border);
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"] {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]::before {
-    opacity: 1 !important;
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"]:active {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border) !important;
-    box-shadow: var(--seg-card-shadow) !important;
-    color: var(--seg-card-text) !important;
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="false"]:active::before {
-    opacity: 0 !important;
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]:active {
-    background: var(--seg-card-bg) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  .a11y-modal-shell .a11y-csp-scroll [data-control-type][data-checked="true"]:active::before {
-    opacity: 1 !important;
-  }
-
   .chat-analysis-overlay [data-control-type] {
-    --seg-card-bg-selected: var(--seg-card-bg);
-    --seg-card-bg-active: var(--seg-card-bg);
-    --seg-card-shadow-selected: var(
-      --seg-card-shadow-hover,
-      var(--seg-card-shadow)
-    );
-    --seg-card-shadow-active: var(--seg-card-shadow);
-    --seg-card-border-selected: var(
-      --seg-card-border-hover,
-      var(--seg-card-border)
-    );
-    --seg-card-border-active: var(--seg-card-border);
     --seg-card-bg-hover: var(--seg-card-bg);
     --seg-card-shadow-hover: var(--seg-card-shadow);
     --seg-card-border-hover: var(--seg-card-border);
     -webkit-tap-highlight-color: transparent;
-  }
-
-  .chat-analysis-overlay [data-control-type][data-checked="true"] {
-    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
-  }
-
-  .chat-analysis-overlay [data-control-type][data-checked="true"]::before {
-    opacity: 1 !important;
   }
 
   .chat-analysis-overlay :is(button.button, a.button)[data-variant="primary"] {
@@ -213,13 +125,6 @@
     transition-duration: 560ms !important;
     transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1) !important;
     -webkit-tap-highlight-color: transparent;
-  }
-
-  .chat-analysis-overlay .chat-analysis-toggle-btn[data-control-type][data-checked="true"]:is(:hover, :focus-visible, :active) {
-    background: var(--seg-card-bg-selected, var(--seg-card-bg)) !important;
-    border-color: var(--seg-card-border-selected, var(--seg-card-border)) !important;
-    box-shadow: var(--seg-card-shadow-selected, var(--seg-card-shadow)) !important;
-    color: var(--seg-card-text-selected, var(--seg-card-text)) !important;
   }
 
   .chat-analysis-overlay .chat-analysis-action-btn.button[data-variant="primary"]:active,

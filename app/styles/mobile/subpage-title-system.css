@@ -1,0 +1,288 @@
+/* Mobile shared subpage and policy title fitting. */
+
+@media (max-width: 768px) {
+  :root {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem);
+    --mobile-header-back-top: 0.2rem;
+    --mobile-header-control-top: var(--mobile-header-back-top);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
+    --mobile-header-info-top: 0.475rem;
+    --mobile-header-control-info-top: var(--mobile-header-info-top);
+    --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
+    --mobile-header-browser-y-offset: 0rem;
+    --mobile-header-pwa-y-offset: 0rem;
+    --mobile-header-title-bottom: var(
+      --mobile-common-title-bottom,
+      clamp(0.18rem, 0.9vh, 0.42rem)
+    );
+  }
+
+  .policy-scroll-page-scroller {
+    --mobile-header-control-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) - 0.54rem
+    );
+  }
+
+  .glass-ring,
+  .subscription-modal-content {
+    --mobile-header-title-top: 2.355rem;
+  }
+
+  .policy-scroll-page-ring {
+    --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
+  }
+
+  .workspace-guide-panel-scroll {
+    --mobile-header-control-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.74rem
+    );
+  }
+
+  .workspace-dashboard-panel,
+  .workspace-dashboard-panel .workspace-guide-panel-scroll {
+    --mobile-header-title-top: 1.96rem;
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem);
+    --mobile-header-control-top: calc(
+      var(--mobile-header-back-top) - 1.05rem
+    );
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem - 1rem);
+    --mobile-header-control-info-top: calc(
+      var(--mobile-header-info-top) - 1.05rem
+    );
+  }
+
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .workspace-guide-panel.glass-subpage-surface,
+      .workspace-feature-panel.workspace-scroll-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .materials-page-content.glass-subpage-surface,
+      .covision-page-surface.workspace-guide-panel,
+      .subscription-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring
+    )
+    :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
+    padding-top: calc(
+      var(--mobile-header-title-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    ) !important;
+    padding-bottom: var(--mobile-header-title-bottom) !important;
+  }
+
+  :is(
+      .glass-ring,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-dashboard-panel,
+      .workspace-guide-panel.glass-subpage-surface,
+      .workspace-feature-panel.workspace-scroll-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .materials-page-content.glass-subpage-surface,
+      .covision-page-surface.workspace-guide-panel,
+      .subscription-modal-content,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content,
+      .policy-scroll-page-ring
+    )
+    :is(
+      .glass-subpage-back-button,
+      .workspace-scroll-back-button,
+      .documents-scroll-back-button,
+      .scroll-reactive-back
+    ) {
+    left: var(--mobile-header-back-left) !important;
+    top: calc(
+      var(--mobile-header-control-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    ) !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+
+  :is(
+      .workspace-dashboard-panel,
+      .direct-scroll-surface,
+      .workspace-scroll-surface,
+      .workspace-guide-panel.glass-subpage-surface,
+      .workspace-feature-panel.workspace-scroll-surface,
+      .documents-workspace-shell.workspace-guide-panel,
+      .materials-page-content.workspace-guide-panel,
+      .materials-page-content.glass-subpage-surface,
+      .covision-page-surface.workspace-guide-panel,
+      .help-listings-modal-content,
+      .selected-listing-modal-content,
+      .invite-modal-content
+    )
+    .dashboard-info-trigger-corner {
+    right: var(--mobile-header-info-right) !important;
+    top: calc(
+      var(--mobile-header-control-info-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    ) !important;
+  }
+
+  .glass-title-register {
+    font-size: clamp(1.8rem, 7.2vw, 2.34rem) !important;
+  }
+
+  .glass-title-register-ru {
+    font-size: clamp(1.58rem, 6.6vw, 2.12rem) !important;
+  }
+
+  .subpage-mobile-title[data-fit-ready="0"],
+  .policy-mobile-title[data-fit-ready="0"] {
+    font-size: var(--fit-title-preload-px, 17px) !important;
+    transform: none !important;
+  }
+
+  :is(.subpage-mobile-title, .policy-mobile-title-wrap) {
+    --mobile-title-pad-x: var(
+      --glass-ring-pad-x,
+      clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
+    );
+    --mobile-title-wide: calc(100% + (2 * var(--mobile-title-pad-x)));
+    --mobile-title-offset-x: calc(-1 * var(--mobile-title-pad-x));
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    width: var(--mobile-title-wide) !important;
+    max-width: var(--mobile-title-wide) !important;
+    margin-left: var(--mobile-title-offset-x) !important;
+    margin-right: var(--mobile-title-offset-x) !important;
+  }
+
+  .subpage-mobile-title {
+    --fit-title-max-px: 44 !important;
+    --fit-title-buffer-px: 6 !important;
+    --fit-title-min-scale-x: 0.94 !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 2 !important;
+    padding-left: var(
+      --subpage-title-start-reserve,
+      clamp(3.15rem, 10.4vw, 3.7rem)
+    ) !important;
+    padding-right: var(
+      --subpage-title-end-reserve,
+      var(--subpage-title-start-reserve)
+    ) !important;
+    min-height: var(--subpage-title-row-height, clamp(1.9rem, 6.6vw, 2.5rem)) !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    font-size: var(--subpage-title-font, clamp(2.04rem, 7.3vw, 2.58rem)) !important;
+    line-height: 1.06 !important;
+    letter-spacing: var(--subpage-title-tracking, 0.008em) !important;
+    overflow: hidden !important;
+    transition: none !important;
+    transform: none !important;
+    will-change: auto !important;
+    text-shadow: none !important;
+  }
+
+  :is(.subpage-mobile-title--static, .policy-mobile-title--static) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    white-space: normal !important;
+    text-wrap: balance !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: manual !important;
+    overflow: visible !important;
+    letter-spacing: 0.004em !important;
+  }
+
+  .subpage-mobile-title--static {
+    font-size: clamp(1.72rem, 6.2vw, 2.12rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  html:not([data-platform="android"]) .subpage-mobile-title {
+    --subpage-title-start-reserve: clamp(3.15rem, 10.4vw, 3.7rem) !important;
+    --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
+  }
+
+  html[data-platform="android"] .subpage-mobile-title,
+  body[data-platform="android"] .subpage-mobile-title {
+    --fit-title-max-px: 35 !important;
+    --fit-title-min-scale-x: 0.935 !important;
+    --subpage-title-start-reserve: clamp(2.82rem, 9.4vw, 3.32rem) !important;
+    --subpage-title-end-reserve: var(--subpage-title-start-reserve) !important;
+    font-size: var(--subpage-title-font, clamp(1.58rem, 5.35vw, 1.94rem)) !important;
+    letter-spacing: var(--subpage-title-tracking, 0.006em) !important;
+  }
+
+  html[data-platform="android"] .subpage-mobile-title--static,
+  body[data-platform="android"] .subpage-mobile-title--static {
+    font-size: clamp(1.56rem, 5.2vw, 1.84rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .policy-mobile-title-wrap {
+    padding-left: var(
+      --policy-title-inline-start,
+      clamp(2.95rem, 9.8vw, 3.45rem)
+    ) !important;
+    padding-right: var(
+      --policy-title-inline-end,
+      var(--policy-title-inline-start)
+    ) !important;
+  }
+
+  .policy-mobile-title {
+    --fit-title-buffer-px: 6 !important;
+    --fit-title-min-scale-x: 0.9 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: var(--policy-title-row-height, clamp(1.9rem, 6.6vw, 2.5rem)) !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .policy-mobile-title--static {
+    font-size: clamp(1.94rem, 6.95vw, 2.4rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  :is(
+      .glass-subpage-title-wrap
+    ) {
+    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.18rem) !important;
+    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
+  }
+
+  .glass-subpage-title {
+    font-size: clamp(1.72rem, 6.15vw, 2.14rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.003em !important;
+  }
+}

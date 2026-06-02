@@ -41,54 +41,8 @@
     backdrop-filter: none !important;
   }
 
-  .chat-page-shell .chat-container .chat-mask-layer,
-  .chat-page-shell .chat-container .chat-mask-tilt-fallback {
-    contain: paint;
-    isolation: isolate;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform, opacity;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-layer {
-    display: none !important;
-  }
-
-  .chat-page-shell
-    .chat-container[data-chat-layout="mobile"]:not(.chat-container--workspace-open) {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-
-  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {
-    display: block !important;
-    background:
-      var(--glass-ring-sheen, none),
-      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    -webkit-mask-image: var(--chat-input-hole-mask, none) !important;
-    mask-image: var(--chat-input-hole-mask, none) !important;
-    -webkit-mask-size: 100% 100% !important;
-    mask-size: 100% 100% !important;
-    -webkit-mask-repeat: no-repeat !important;
-    mask-repeat: no-repeat !important;
-    contain: none !important;
-    isolation: auto !important;
-    will-change: auto !important;
-    transform: none !important;
-    -webkit-transform: none !important;
-    backface-visibility: visible !important;
-    -webkit-backface-visibility: visible !important;
-  }
-
-
-  .profile-container.glass-ring .profile-mask-layer {
+  .profile-container.glass-ring .profile-mask-layer,
+  .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
     background:
       var(--glass-ring-sheen, none),
       var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
@@ -102,11 +56,6 @@
   }
 
   .profile-container.glass-ring[data-orbit-open="true"] .profile-mask-layer {
-    background:
-      var(--glass-ring-sheen, none),
-      var(--glass-surface-bg, rgba(0, 0, 0, 0.25)) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
     opacity: 1 !important;
   }
 
@@ -215,7 +164,8 @@
 
 @media (max-width: 768px) {
   @keyframes profile-orbit-hub-mobile-pulse {
-    0% {
+    0%,
+    100% {
       -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
         scale3d(1, 1, 1);
       transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
@@ -226,12 +176,6 @@
         scale3d(0.95, 0.95, 1);
       transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
         scale3d(0.95, 0.95, 1);
-    }
-    100% {
-      -webkit-transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(1, 1, 1);
-      transform: translate3d(0, var(--profile-orbit-center-offset-y), 0)
-        scale3d(1, 1, 1);
     }
   }
 
@@ -344,7 +288,7 @@
     padding-right: clamp(0.8rem, 3vw, 1rem);
     --orbit-stack-panel-fade-top: clamp(2.2rem, 6.2vh, 3.35rem);
     --orbit-stack-panel-fade-bottom: clamp(2.2rem, 6.2vh, 3.35rem);
-    -webkit-mask-image: linear-gradient(
+    --orbit-stack-panel-mask: linear-gradient(
       to bottom,
       transparent 0%,
       rgba(0, 0, 0, 0.18) calc(var(--orbit-stack-panel-fade-top) * 0.16),
@@ -357,25 +301,15 @@
       rgba(0, 0, 0, 0.18) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.16)),
       transparent 100%
     );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0, 0, 0, 0.18) calc(var(--orbit-stack-panel-fade-top) * 0.16),
-      rgba(0, 0, 0, 0.52) calc(var(--orbit-stack-panel-fade-top) * 0.42),
-      rgba(0, 0, 0, 0.82) calc(var(--orbit-stack-panel-fade-top) * 0.72),
-      #000 calc(var(--orbit-stack-panel-fade-top) * 1.02),
-      #000 calc(100% - (var(--orbit-stack-panel-fade-bottom) * 1.02)),
-      rgba(0, 0, 0, 0.82) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.72)),
-      rgba(0, 0, 0, 0.52) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.42)),
-      rgba(0, 0, 0, 0.18) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.16)),
-      transparent 100%
-    );
+    -webkit-mask-image: var(--orbit-stack-panel-mask);
+    mask-image: var(--orbit-stack-panel-mask);
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
   }
   .profile-orbit-stack-fade {
+    --profile-orbit-stack-fade-angle: 180deg;
     display: block;
     position: absolute;
     left: 0;
@@ -386,28 +320,21 @@
     opacity: 1;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+    background: linear-gradient(
+      var(--profile-orbit-stack-fade-angle),
+      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.18) 0%,
+      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.1) 18%,
+      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.045) 42%,
+      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.012) 68%,
+      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0) 100%
+    ) !important;
   }
   .profile-orbit-stack-fade--top {
     top: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.18) 0%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.1) 18%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.045) 42%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.012) 68%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0) 100%
-    ) !important;
   }
   .profile-orbit-stack-fade--bottom {
+    --profile-orbit-stack-fade-angle: 0deg;
     bottom: 0;
-    background: linear-gradient(
-      0deg,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.18) 0%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.1) 18%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.045) 42%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0.012) 68%,
-      rgba(var(--orbit-stack-fade-rgb, 0 0 0), 0) 100%
-    ) !important;
   }
   .profile-orbit-stack-list {
     --stack-edge-fade: clamp(2.2rem, 6.2vh, 3.35rem);
@@ -433,7 +360,7 @@
     scroll-snap-type: none;
     scroll-padding-top: var(--stack-safe-pad-top);
     scroll-padding-bottom: var(--stack-safe-pad-bottom);
-    -webkit-mask-image: linear-gradient(
+    --orbit-stack-list-mask: linear-gradient(
       to bottom,
       transparent 0%,
       rgba(0, 0, 0, 0.18) calc(var(--stack-edge-fade) * 0.16),
@@ -446,19 +373,8 @@
       rgba(0, 0, 0, 0.18) calc(100% - (var(--stack-edge-fade) * 0.16)),
       transparent 100%
     );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0, 0, 0, 0.18) calc(var(--stack-edge-fade) * 0.16),
-      rgba(0, 0, 0, 0.52) calc(var(--stack-edge-fade) * 0.42),
-      rgba(0, 0, 0, 0.82) calc(var(--stack-edge-fade) * 0.72),
-      #000 calc(var(--stack-edge-fade) * 1.02),
-      #000 calc(100% - (var(--stack-edge-fade) * 1.02)),
-      rgba(0, 0, 0, 0.82) calc(100% - (var(--stack-edge-fade) * 0.72)),
-      rgba(0, 0, 0, 0.52) calc(100% - (var(--stack-edge-fade) * 0.42)),
-      rgba(0, 0, 0, 0.18) calc(100% - (var(--stack-edge-fade) * 0.16)),
-      transparent 100%
-    );
+    -webkit-mask-image: var(--orbit-stack-list-mask);
+    mask-image: var(--orbit-stack-list-mask);
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
@@ -571,19 +487,12 @@
       0 12px 22px rgba(20, 12, 10, 0.14),
       0 6px 12px -8px rgba(80, 42, 36, 0.24) !important;
   }
-  :root:not(.theme-light):not(.theme-mid):not(.theme-night):not(
-      [data-contrast="hc"]
+  :is(
+      :root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]),
+      :root.theme-night
     )
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
     .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active),
-  :root.theme-night
-    .profile-email-dock-wrapper.profile-orbit-menu-wrapper
-    .profile-orbit-stack-bubble.dock-item:is(:hover, :focus-visible, :active) {
-    box-shadow: var(
-      --orbit-keypad-shadow-item,
-      var(--orbit-keypad-shadow)
-    ) !important;
-  }
   html[data-contrast="hc"]
     body
     .profile-email-dock-wrapper.profile-orbit-menu-wrapper
@@ -603,8 +512,6 @@
     overflow-wrap: anywhere;
     word-break: break-word;
     hyphens: auto;
-  }
-  .profile-orbit-stack-label {
     opacity: 1;
     max-height: none;
     margin-top: clamp(0.72rem, 2.5vw, 1.15rem);
@@ -620,4 +527,55 @@
     max-height: none;
   }
 
+  .profile-container.glass-ring .profile-role-row {
+    transform: translateY(clamp(3.15rem, 12.4vw, 4.6rem)) !important;
+  }
+
+  .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.45rem, 5.9vw, 2.1rem) !important;
+    transform: none !important;
+  }
+
+  html[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"] .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.7rem, 6.8vw, 2.45rem) !important;
+    transform: none !important;
+  }
+
+  .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell {
+    --profile-orbit-center-offset-y: clamp(-0.76rem, -3vw, -0.42rem);
+  }
+
+  .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__center::before,
+  .profile-container.glass-ring .profile-orbit-menu:not(.is-open) .profile-orbit-menu__hub-icon {
+    animation: none !important;
+    transform-origin: center !important;
+    will-change: auto !important;
+  }
+
+  .profile-container.glass-ring .profile-nav-overlay .profile-logout-wrap {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(0.45rem, 2.8vw, 0.95rem)) !important;
+  }
+
+  html.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body.profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.45rem, 5.9vw, 2.1rem) !important;
+    transform: none !important;
+  }
+
+  html[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+  body[data-platform="android"].profile-orbit-open .profile-container.glass-ring .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+    margin-top: clamp(1.7rem, 6.8vw, 2.45rem) !important;
+    transform: none !important;
+  }
+
+}
+
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center-shell,
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center,
+html[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before,
+body[data-reduce-motion="1"] .profile-container.glass-ring .profile-orbit-menu .profile-orbit-menu__center::before {
+  animation: none !important;
 }

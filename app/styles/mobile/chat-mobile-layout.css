@@ -1,0 +1,329 @@
+/* Mobile chat drawer, rails and composer layout. */
+
+@media (max-width: 768px) {
+  body.conversation-drawer-open .chat-right-actions {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.conversation-drawer-open .chat-mobile-topnav {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .drawer-overlay {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .drawer-panel--chat-glass {
+    left: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-left, 0px)) !important;
+    right: max(var(--mobile-glass-card-gap, 0.35rem), env(safe-area-inset-right, 0px)) !important;
+    top: calc(env(safe-area-inset-top, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--mobile-glass-card-gap, 0.35rem)) !important;
+    width: auto !important;
+    max-width: none !important;
+    border-radius: var(--mobile-glass-card-radius, clamp(1.05rem, 3.8vw, 1.45rem)) !important;
+    border: 0 !important;
+    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+  }
+
+  .drawer-panel--chat-glass::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.6rem) !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-close-btn--chat {
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.06rem) !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.12rem) !important;
+    left: auto !important;
+    color: #c57171 !important;
+    z-index: 150 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass .drawer-close-btn--chat {
+    color: #7a3a38 !important;
+  }
+
+  :root.theme-light .drawer-panel--chat-glass {
+    color: var(--text-strong, #1f2937) !important;
+  }
+
+  .chat-page-shell .chat-container .chat-mask-layer,
+  .chat-page-shell .chat-container .chat-mask-tilt-fallback {
+    contain: paint;
+    isolation: isolate;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-layer {
+    display: none !important;
+  }
+
+  .chat-page-shell
+    .chat-container[data-chat-layout="mobile"]:not(.chat-container--workspace-open) {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {
+    display: block !important;
+    background:
+      var(--glass-ring-sheen, none),
+      var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
+    -webkit-mask-image: var(--chat-input-hole-mask, none) !important;
+    mask-image: var(--chat-input-hole-mask, none) !important;
+    -webkit-mask-size: 100% 100% !important;
+    mask-size: 100% 100% !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    contain: none !important;
+    isolation: auto !important;
+    will-change: auto !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+
+  .drawer-panel--chat-glass .drawer-content {
+    padding-left: clamp(0.8rem, 3vw, 1rem) !important;
+    padding-right: clamp(0.8rem, 3vw, 1rem) !important;
+  }
+
+  .chat-right-actions,
+  .chat-left-actions {
+    --chat-mobile-rail-size: clamp(2rem, 6.2vw, 2.22rem) !important;
+    --chat-mobile-action-gap: clamp(0.14rem, 0.8vw, 0.24rem) !important;
+    --chat-mobile-cluster-gap: clamp(0.02rem, 0.3vw, 0.08rem) !important;
+    --chat-mobile-action-cluster-width: calc(
+      (var(--chat-mobile-rail-size) * 3) + (var(--chat-mobile-action-gap) * 2)
+    ) !important;
+    position: absolute !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.48rem) !important;
+    left: auto !important;
+    right: calc(env(safe-area-inset-right, 0px) + 0.42rem) !important;
+    width: auto !important;
+    height: auto !important;
+    z-index: 94 !important;
+    pointer-events: none !important;
+  }
+
+  .chat-left-actions {
+    right: calc(
+      env(safe-area-inset-right, 0px) + 0.42rem +
+        var(--chat-mobile-action-cluster-width) +
+        var(--chat-mobile-cluster-gap)
+    ) !important;
+  }
+
+  .chat-window__scroll {
+    position: relative;
+    padding-left: calc(var(--chat-window-pad-x, 0.7rem) - 0.04rem) !important;
+    padding-right: calc(var(--chat-window-pad-x, 0.7rem) - 0.06rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-preview-wrap {
+    padding-right: clamp(0.72rem, 3.4vw, 1rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-preview {
+    padding-right: calc(
+      var(--analysis-preview-pad-right, 0.35rem) + clamp(0.3rem, 1.4vw, 0.5rem)
+    ) !important;
+  }
+
+  .chat-page-shell--analysis-scroll .chat-analysis-scroll-track {
+    right: clamp(0.08rem, 0.9vw, 0.24rem) !important;
+  }
+
+  .chat-page-shell--analysis-scroll {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: auto !important;
+    overscroll-behavior-x: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+
+  .chat-msg-user {
+    margin-right: -0.04rem !important;
+  }
+
+  .chat-right-actions > nav,
+  .chat-left-actions > nav {
+    width: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: var(--chat-mobile-action-gap) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  .chat-left-actions > nav {
+    padding: 0 !important;
+  }
+
+  .chat-right-actions > nav button,
+  .chat-left-actions > nav button {
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    width: var(--chat-mobile-rail-size) !important;
+    min-width: var(--chat-mobile-rail-size) !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] {
+    --chat-composer-mobile-bottom-base: 2.5rem;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    --chat-input-max-w: min(100%, calc(100vw - 6.45rem)) !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--chat-composer-mobile-bottom-base) + var(--chat-vk-offset, 0px)) !important;
+    margin-top: 0 !important;
+    transform: none !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: clamp(0.34rem, 1.9vw, 0.58rem) !important;
+    padding-left: clamp(0.36rem, 1.8vw, 0.62rem) !important;
+    padding-right: clamp(0.7rem, 3vw, 1rem) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-side-controls {
+    align-self: flex-end !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
+    flex: 0 0 auto !important;
+    transform: none !important;
+    margin-left: 0 !important;
+    margin-right: clamp(0.18rem, 0.9vw, 0.3rem) !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-tools-btn {
+    transform: none !important;
+  }
+
+  .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
+    width: auto !important;
+    max-width: min(100%, var(--chat-input-max-w)) !important;
+    flex: 1 1 auto !important;
+    transform: none !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-window__scroll {
+    padding-bottom: max(
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+    ) !important;
+    scroll-padding-bottom: max(
+      0px,
+      calc((var(--chat-composer-dynamic-extra, 0px) * 0.45) - 0.35rem)
+    ) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded),
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) {
+    --chat-input-available-inline: calc(
+      100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+    ) !important;
+    --chat-input-row-edge-pad: clamp(0.72rem, 3.2vw, 1rem) !important;
+    --chat-input-side-controls-inline: calc(
+      var(--chat-composer-side-control-size) + clamp(0.24rem, 1vw, 0.4rem)
+    ) !important;
+    --chat-input-max-w: min(
+      100%,
+      calc(
+        var(--chat-input-available-inline) -
+          var(--chat-input-side-controls-inline) -
+          (var(--chat-input-row-edge-pad) * 2) -
+          0.6rem
+      )
+    ) !important;
+    gap: clamp(0.22rem, 1vw, 0.36rem) !important;
+    padding-left: var(--chat-input-row-edge-pad) !important;
+    padding-right: calc(
+      var(--chat-input-row-edge-pad) + clamp(0.12rem, 0.55vw, 0.22rem)
+    ) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-side-control-btn {
+    margin-left: 0 !important;
+    margin-right: clamp(0.08rem, 0.4vw, 0.16rem) !important;
+  }
+
+  html[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar,
+  body[data-platform="android"] .chat-input-row:not(.chat-input-row--embedded) .chat-inputbar {
+    width: min(100%, var(--chat-input-max-w)) !important;
+    max-width: min(100%, var(--chat-input-max-w)) !important;
+  }
+
+  html[data-platform="android"] body .chat-inputbar .chat-listen-btn,
+  html[data-platform="android"] body .chat-inputbar .chat-send-btn,
+  body[data-platform="android"] .chat-inputbar .chat-listen-btn,
+  body[data-platform="android"] .chat-inputbar .chat-send-btn {
+    width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-action-size, var(--chat-composer-main-control-size))) !important;
+  }
+
+  html[data-platform="android"] body .chat-inputbar .chat-send-btn,
+  body[data-platform="android"] .chat-inputbar .chat-send-btn {
+    width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-width: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    min-height: var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+    flex: 0 0 var(--inputbar-h, var(--chat-composer-send-control-size, var(--chat-action-size))) !important;
+  }
+
+  .chat-input-row--embedded {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-top: 0 !important;
+    transform: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .chat-input-row--embedded .chat-inputbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+    transform: none !important;
+  }
+}

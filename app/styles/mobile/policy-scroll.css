@@ -74,7 +74,7 @@
         var(--policy-mobile-content-drop, 1.6rem) +
         clamp(1.25rem, 3vh, 1.85rem)
     ) !important;
-    mask-image: linear-gradient(
+    --policy-scroll-mask: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 0.08) 0.8%,
@@ -86,20 +86,9 @@
       rgba(0, 0, 0, 0.56) 96.6%,
       rgba(0, 0, 0, 0.18) 99%,
       transparent 100%
-    ) !important;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.08) 0.8%,
-      rgba(0, 0, 0, 0.24) 1.9%,
-      rgba(0, 0, 0, 0.5) 2.9%,
-      #000 4.2%,
-      #000 88.6%,
-      rgba(0, 0, 0, 0.9) 93.4%,
-      rgba(0, 0, 0, 0.56) 96.6%,
-      rgba(0, 0, 0, 0.18) 99%,
-      transparent 100%
-    ) !important;
+    );
+    mask-image: var(--policy-scroll-mask) !important;
+    -webkit-mask-image: var(--policy-scroll-mask) !important;
   }
 
   .guide-policy-ring.policy-mobile-lower .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll,
@@ -382,36 +371,4 @@
     ) !important;
   }
 
-  html[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-policy-scroll,
-  html[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-policy-scroll,
-  html[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-ring-scroll,
-  html[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-ring-scroll,
-  html[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-ring-scroll--open,
-  html[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-ring-scroll--open,
-  body[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-policy-scroll,
-  body[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-policy-scroll,
-  body[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-ring-scroll,
-  body[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-ring-scroll,
-  body[data-display-mode="standalone"]
-    .policy-scroll-page-scroller.glass-ring-scroll--open,
-  body[data-display-mode="fullscreen"]
-    .policy-scroll-page-scroller.glass-ring-scroll--open {
-    --policy-mobile-pwa-bottom-clearance: calc(
-      env(safe-area-inset-bottom, 0px) + clamp(2.35rem, 7vh, 4.2rem)
-    );
-    padding-bottom: calc(
-      var(--policy-scroll-overscan-bottom) +
-        var(--policy-mobile-pwa-bottom-clearance)
-    ) !important;
-  }
 }

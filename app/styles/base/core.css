@@ -89,35 +89,6 @@ body {
   cursor: inherit;
 }
 
-html[data-display-mode="standalone"],
-html[data-display-mode="fullscreen"],
-html[data-display-mode="standalone"] body,
-html[data-display-mode="fullscreen"] body,
-body[data-display-mode="standalone"],
-body[data-display-mode="fullscreen"] {
-  --pwa-background-bottom-overscan: env(safe-area-inset-bottom, 0px);
-  --pwa-viewport-fill-height: var(--glass-mobile-root-vh, var(--app-height, 100dvh));
-  height: var(--pwa-viewport-fill-height) !important;
-  min-height: var(--pwa-viewport-fill-height) !important;
-  max-height: var(--pwa-viewport-fill-height) !important;
-  background-color: var(--app-chrome-bg, #10151d) !important;
-  background-image: var(--app-chrome-bg-image, none) !important;
-  background-repeat: no-repeat !important;
-  background-size: 100%
-    max(
-      100%,
-      calc(var(--glass-mobile-root-vh, var(--app-height, 100dvh)) + var(--pwa-background-bottom-overscan))
-    ) !important;
-}
-
-html[data-display-mode="standalone"] .app-root,
-html[data-display-mode="fullscreen"] .app-root {
-  height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
-  min-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
-  max-height: var(--pwa-viewport-fill-height, var(--glass-mobile-root-vh, var(--app-height, 100dvh))) !important;
-  background: transparent !important;
-}
-
 .app-root {
   min-height: 100vh;
   min-height: var(--app-height, 100dvh);
@@ -154,13 +125,6 @@ html[data-display-mode="fullscreen"] .app-root {
   animation: click-pulse 0.9s ease-in-out infinite;
 }
 
-
-html[data-display-mode="standalone"] .click-pulse-cursor,
-html[data-display-mode="fullscreen"] .click-pulse-cursor,
-body[data-display-mode="standalone"] .click-pulse-cursor,
-body[data-display-mode="fullscreen"] .click-pulse-cursor {
-  display: none !important;
-}
 
 @media (min-width: 769px) {
   html[data-ui-scale="mac"] .click-pulse-cursor,
@@ -273,13 +237,6 @@ body::-webkit-scrollbar {
   .click-pulse-cursor {
     display: none !important;
   }
-}
-
-html[data-display-mode="standalone"] .click-pulse-cursor,
-html[data-display-mode="fullscreen"] .click-pulse-cursor,
-body[data-display-mode="standalone"] .click-pulse-cursor,
-body[data-display-mode="fullscreen"] .click-pulse-cursor {
-  display: none !important;
 }
 
 html[data-reduce-transparency="1"],

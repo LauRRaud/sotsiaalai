@@ -92,7 +92,7 @@ test("mobile app height follows the measured viewport outside keyboard stabiliza
   assert.equal(height, 520);
 });
 
-test("mobile chat PWA header removes the duplicated safe-area inset without legacy sticky display-mode state", () => {
+test("mobile chat header does not ship standalone display-mode layout overrides", () => {
   const viewportSetter = read("components/ViewportLayoutSetter.jsx");
   const mobileCss = readMobileCssBundle();
   const chatTopNav = read("components/alalehed/chat/view/ChatMobileTopNav.jsx");
@@ -103,10 +103,8 @@ test("mobile chat PWA header removes the duplicated safe-area inset without lega
   assert.doesNotMatch(viewportSetter, /sessionStorage\.setItem\(DISPLAY_MODE_STORAGE_KEY,\s*mode\)/);
   assert.doesNotMatch(viewportSetter, /data-display-mode-sticky|DISPLAY_MODE_STORAGE_KEY/);
   assert.match(chatTopNav, /--chat-mobile-topnav-safe-top/);
-  assert.match(
-    mobileCss,
-    /html\[data-display-mode="standalone"\] \.chat-page-shell \.chat-container\[data-chat-layout="mobile"\],[\s\S]*?--chat-mobile-topnav-safe-top:\s*0px;[\s\S]*?--chat-composer-mobile-bottom-base:\s*0\.15rem;/
-  );
+  assert.doesNotMatch(mobileCss, /data-display-mode="standalone"[\s\S]*?chat-page-shell/);
+  assert.doesNotMatch(mobileCss, /data-display-mode="fullscreen"[\s\S]*?chat-page-shell/);
   assert.match(
     mobileCss,
     /\.chat-page-shell \.chat-container\[data-chat-layout="mobile"\]\s*\{[\s\S]*?--chat-composer-mobile-bottom-base:\s*2\.5rem;[\s\S]*?\}/

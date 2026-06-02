@@ -14,7 +14,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
   const privacy = read("components/alalehed/PrivaatsusBody.jsx");
   const mobileCss = readMobileCssBundle();
   const policyMobileCss = read("app/styles/mobile/policy-scroll.css");
-  const mobileHeaderCss = read("app/styles/mobile/mobile-title-backbutton-info.css");
+  const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
 
   for (const source of [guide, terms, privacy]) {
     assert.match(source, /policy-scroll-page-ring/);

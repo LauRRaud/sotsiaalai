@@ -17,7 +17,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   const glassPageStylesSource = readSource("components/ui/glassPageStyles.js");
   const workspacePanelCss = readSource("components/chat/WorkspacePanel.module.css");
   const mobileCss = readMobileCssBundle();
-  const mobileHeaderCss = readSource("app/styles/mobile/mobile-title-backbutton-info.css");
+  const mobileHeaderCss = readSource("app/styles/mobile/subpage-title-system.css");
 
   assert.match(
     workspaceSource,

@@ -1,0 +1,16 @@
+/* Mobile spacing for accessibility modal fieldsets. */
+
+@media (max-width: 768px) {
+  .a11y-language-fieldset--single {
+    padding-bottom: 6.9rem !important;
+  }
+
+  .a11y-textscale-fieldset {
+    padding-top: 1.45rem !important;
+    gap: 0.72rem !important;
+  }
+
+  .a11y-contrast-fieldset {
+    margin-top: -0.22rem !important;
+  }
+}

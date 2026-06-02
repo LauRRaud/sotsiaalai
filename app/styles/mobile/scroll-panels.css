@@ -145,71 +145,6 @@
     backdrop-filter: blur(var(--glass-blur-radius, 1rem)) !important;
   }
 
-  :is(
-      .policy-mobile-title-wrap,
-      .glass-subpage-title-wrap,
-      .workspace-guide-panel .glass-subpage-title-wrap,
-      .workspace-feature-panel .glass-subpage-title-wrap
-    ) {
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-top: var(--mobile-common-title-top) !important;
-    padding-right: clamp(3rem, 10vw, 3.6rem) !important;
-    padding-bottom: var(--mobile-common-title-bottom) !important;
-    padding-left: clamp(3rem, 10vw, 3.6rem) !important;
-  }
-
-  :is(
-      .direct-scroll-surface,
-      .subscription-modal-content,
-      .policy-scroll-page-ring,
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    .glass-subpage-title-wrap {
-    padding-top: calc(var(--mobile-common-title-top) + 0.396rem) !important;
-  }
-
-  .dashboard-info-panel--with-title-metrics
-    .glass-subpage-title-wrap {
-    padding-top: var(--dashboard-info-title-wrap-padding-top) !important;
-    padding-bottom: var(--dashboard-info-title-wrap-padding-bottom) !important;
-  }
-
-  .subscription-modal-content .glass-subpage-title-wrap.policy-mobile-title-wrap {
-    padding-top: calc(var(--mobile-common-title-top) + 0.396rem) !important;
-  }
-
-  :is(
-      .glass-page-title,
-      .glass-subpage-title,
-      .policy-mobile-title,
-      .subpage-mobile-title,
-      .account-modal-title
-    ) {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: var(--title-color, var(--brand-primary)) !important;
-    font-size: var(--mobile-common-title-font) !important;
-    line-height: 1.1 !important;
-    letter-spacing: 0.004em !important;
-    text-align: center !important;
-    text-shadow: var(--glass-modal-title-shadow, none) !important;
-    white-space: normal !important;
-    text-wrap: balance !important;
-    overflow: visible !important;
-    transform: none !important;
-  }
-
   :is(.documents-workspace-page--documents, .documents-workspace-page--agent) {
     align-items: flex-start !important;
     justify-content: flex-start !important;
@@ -313,55 +248,6 @@
     mask-image: none !important;
     -webkit-mask-image: none !important;
     scrollbar-gutter: auto !important;
-  }
-
-  .workspace-scroll-surface .workspace-scroll-back-button {
-    position: absolute !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: 0.2rem !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
-  }
-
-  :is(
-      .glass-subpage-back-button,
-      .workspace-scroll-back-button,
-      .documents-scroll-back-button,
-      .scroll-reactive-back,
-      .account-settings-back-button
-    ) {
-    position: absolute !important;
-    left: calc(env(safe-area-inset-left, 0px) + 0.02rem) !important;
-    top: calc(
-      var(
-          --workspace-guide-panel-overscan-top,
-          var(--policy-scroll-overscan-top, 0px)
-        ) + 0.18rem
-    ) !important;
-    right: auto !important;
-    bottom: auto !important;
-    margin-left: 0 !important;
-    transform: none !important;
-  }
-
-  .subscription-modal-content :is(.glass-subpage-back-button, .workspace-scroll-back-button) {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: 0.2rem !important;
-  }
-
-  :is(
-      .direct-scroll-surface,
-      .policy-scroll-page-ring,
-      .workspace-guide-panel.glass-subpage-surface,
-      .documents-workspace-shell.workspace-guide-panel,
-      .materials-page-content.workspace-guide-panel,
-      .covision-page-surface.workspace-guide-panel,
-      .workspace-feature-panel.workspace-guide-panel
-    )
-    :is(.glass-subpage-back-button, .workspace-scroll-back-button, .documents-scroll-back-button) {
-    left: calc(env(safe-area-inset-left, 0px) + 0.04rem) !important;
-    top: 0.2rem !important;
   }
 
   :is(.documents-workspace-shell.workspace-guide-panel, .workspace-feature-panel.workspace-guide-panel)

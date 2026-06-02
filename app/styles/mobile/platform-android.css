@@ -99,20 +99,18 @@
 
   html[data-platform="android"] .profile-orbit-stack-fade--top,
   body[data-platform="android"] .profile-orbit-stack-fade--top {
-    background: linear-gradient(
-      180deg,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.46) 0%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 18%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.13) 42%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.045) 68%,
-      rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0) 100%
-    ) !important;
+    --profile-orbit-stack-fade-angle: 180deg;
   }
 
   html[data-platform="android"] .profile-orbit-stack-fade--bottom,
   body[data-platform="android"] .profile-orbit-stack-fade--bottom {
+    --profile-orbit-stack-fade-angle: 0deg;
+  }
+
+  html[data-platform="android"] :is(.profile-orbit-stack-fade--top, .profile-orbit-stack-fade--bottom),
+  body[data-platform="android"] :is(.profile-orbit-stack-fade--top, .profile-orbit-stack-fade--bottom) {
     background: linear-gradient(
-      0deg,
+      var(--profile-orbit-stack-fade-angle),
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.46) 0%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.28) 18%,
       rgba(var(--policy-bottom-fade-rgb, 3 8 18), 0.13) 42%,

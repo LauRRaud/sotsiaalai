@@ -8,26 +8,41 @@ function read(path) {
   return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
 }
 
-test("mobile PWA pages paint the bottom safe area with the active theme background", () => {
+test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", () => {
   const mobileCss = readMobileCssBundle();
   const mobileIndexCss = read("app/styles/mobile/index.css");
-  const mobileBackgroundCss = read("app/styles/mobile/mobile-background.css");
+  const mobileBackgroundCss = read("app/styles/mobile/background-home.css");
+  const mobileFoundationsCss = read("app/styles/mobile/foundations.css");
+  const mobilePolicyScrollCss = read("app/styles/mobile/policy-scroll.css");
+  const mobileModalSurfaceCss = read("app/styles/mobile/modal-surfaces.css");
+  const mobileChatLayoutCss = read("app/styles/mobile/chat-mobile-layout.css");
   const globalsCss = read("app/styles/globals.css");
   const coreCss = read("app/styles/base/core.css");
+  const baseBackgroundsCss = read("app/styles/base/backgrounds.css");
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const clickPulseCursor = read("components/ClickPulseCursor.jsx");
+  const viewportLayoutSetter = read("components/ViewportLayoutSetter.jsx");
   const manifest = read("public/site.webmanifest");
   const layout = read("app/layout.js");
+  const cssFilesWithoutPwaLayout = [
+    coreCss,
+    baseBackgroundsCss,
+    mobileBackgroundCss,
+    mobileFoundationsCss,
+    mobilePolicyScrollCss,
+    mobileModalSurfaceCss,
+    mobileChatLayoutCss
+  ].join("\n");
 
   assert.match(
     mobileCss,
-    /body\.homepage,[\s\S]*?html\[data-initial-page="home"\] body\.app-root\s*\{[\s\S]*?--home-mobile-canvas-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?\+ var\(--home-mobile-safe-bottom\)[\s\S]*?\);[\s\S]*?height:\s*var\(--home-mobile-canvas-height\);[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\);/,
-    "homepage body should use the measured mobile app height instead of raw 100dvh"
+    /body\.homepage,[\s\S]*?html\[data-initial-page="home"\] body\.app-root\s*\{[\s\S]*?--home-mobile-canvas-height:\s*calc\([\s\S]*?var\(--glass-mobile-root-vh,\s*100dvh\)[\s\S]*?\+ var\(--home-mobile-safe-bottom\)[\s\S]*?\);[\s\S]*?overflow-y:\s*auto;[\s\S]*?height:\s*auto;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\);/,
+    "homepage body should own mobile scrolling so footer content remains reachable"
   );
   assert.match(
     mobileCss,
-    /\.homepage-root\s*\{[\s\S]*?height:\s*var\(--home-mobile-canvas-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\);[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\);/,
-    "homepage scroll root should share the measured mobile app height"
+    /\.homepage-root\s*\{[\s\S]*?height:\s*auto;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height,\s*var\(--glass-mobile-root-vh,\s*100dvh\)\);[\s\S]*?overflow-y:\s*visible;/,
+    "homepage root should not create a competing inner scroll container"
   );
   assert.match(
     mobileCss,
@@ -39,57 +54,25 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
     /\.home-hero-shell\s*\{[\s\S]*?position:\s*relative;[\s\S]*?transform:\s*translateY\(-0\.75rem\);/,
     "mobile homepage hero should keep the cards in their original upper position"
   );
-  assert.match(
-    coreCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?body\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?background-color:\s*var\(--app-chrome-bg,\s*#10151d\) !important;[\s\S]*?background-image:\s*var\(--app-chrome-bg-image,\s*none\) !important;[\s\S]*?background-size:\s*100%[\s\S]*?calc\(var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\) \+ var\(--pwa-background-bottom-overscan\)\)/,
-    "standalone/fullscreen PWA should paint the chrome fallback without adding scrollable layout height"
-  );
-  assert.match(
-    coreCss,
-    /html\[data-display-mode="standalone"\] \.app-root,[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?min-height:\s*var\(--pwa-viewport-fill-height,\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\)\) !important;[\s\S]*?background:\s*transparent\s*!important;/,
-    "PWA app root should keep stable viewport height so keyboard focus cannot leave a bottom spacer"
-  );
   assert.match(globalsCss, /@import url\("\.\/mobile\/index\.css"\) screen and \(max-width: 768px\);/);
   assert.match(mobileIndexCss, /@import url\("\.\.\/mobile\.css"\);/);
-  assert.match(mobileIndexCss, /@import url\("\.\/mobile-background\.css"\);/);
+  assert.doesNotMatch(mobileIndexCss, /mobile-background\.css/);
+  assert.match(mobileCss, /--mobile-background-prepaint:\s*#000;/);
   assert.match(mobileBackgroundCss, /html\[data-app-prepaint\][\s\S]*?background:\s*var\(--mobile-background-prepaint\)\s*!important;/);
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] \[data-bg-layer\],[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\]\[data-page="home"\]\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?min-height:\s*calc\(var\(--pwa-viewport-fill-height\) \+ var\(--pwa-background-bottom-overscan\)\)\s*!important;/
-  );
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\],[\s\S]*?html\[data-display-mode="fullscreen"\] \.app-root\s*\{[\s\S]*?--pwa-background-bottom-overscan:\s*env\(safe-area-inset-bottom,\s*0px\);[\s\S]*?--pwa-viewport-fill-height:\s*var\(--glass-mobile-root-vh,\s*var\(--app-height,\s*100dvh\)\);[\s\S]*?height:\s*var\(--pwa-viewport-fill-height\)\s*!important;[\s\S]*?max-height:\s*var\(--pwa-viewport-fill-height\)\s*!important;/
-  );
+  assert.doesNotMatch(cssFilesWithoutPwaLayout, /data-display-mode="standalone"/);
+  assert.doesNotMatch(cssFilesWithoutPwaLayout, /data-display-mode="fullscreen"/);
+  assert.doesNotMatch(cssFilesWithoutPwaLayout, /--pwa-/);
   assert.match(
     mobileBackgroundCss,
     /\[data-bg-layer\]\[data-mobile-bends="ready"\] \.bg-bends-layer,[\s\S]*?\.bg-particles-layer\[data-mobile-visible="ready"\][\s\S]*?transition-duration:\s*var\(--mobile-background-reveal-duration\),\s*0s\s*!important;/
-  );
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] \[data-bg-layer\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\),[\s\S]*?body\[data-display-mode="fullscreen"\] \[data-bg-layer\] :is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)[\s\S]*?\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;/,
-    "homepage background child layers should stay inside the measured viewport"
   );
   assert.match(backgroundLayer, /const INITIAL_PREPAINT_MAX_MS = 2400;/);
   assert.match(
     backgroundLayer,
     /window\.setTimeout\(\(\) => \{[\s\S]*?root\.removeAttribute\("data-app-prepaint"\);[\s\S]*?\}, INITIAL_PREPAINT_MAX_MS\)/
   );
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] body\.homepage,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\]\s*\{[\s\S]*?--home-mobile-safe-bottom:\s*0px;[\s\S]*?--home-mobile-canvas-height:\s*var\(--pwa-viewport-fill-height,[\s\S]*?var\(--glass-mobile-root-vh,[\s\S]*?\);[\s\S]*?background:\s*var\(--home-browser-base-bg,[\s\S]*?\) !important;[\s\S]*?background-size:\s*100%\s*100%\s*!important;[\s\S]*?height:\s*var\(--home-mobile-canvas-height\)\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height\)\s*!important;/,
-    "installed homepage should keep the themed base background without adding an overscan layout box"
-  );
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\] body\.homepage \.homepage-root,[\s\S]*?body\.homepage\[data-display-mode="fullscreen"\] \.homepage-root\s*\{[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*var\(--home-mobile-canvas-height,[\s\S]*?max-height:\s*none\s*!important;[\s\S]*?overflow-y:\s*auto\s*!important;/,
-    "installed homepage scroll root should allow footer/logo content below the first viewport"
-  );
-  assert.match(
-    mobileBackgroundCss,
-    /html\[data-display-mode="standalone"\][\s\S]*?:is\([\s\S]*?\.glass-ring,[\s\S]*?\.chat-container\[data-chat-layout="mobile"\],[\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)[\s\S]*?\{[\s\S]*?--glass-mobile-safe-bottom:\s*0px;[\s\S]*?--mobile-safe-bottom:\s*0px;[\s\S]*?height:\s*calc\([\s\S]*?var\(--pwa-viewport-fill-height,[\s\S]*?\(2 \* var\(--mobile-glass-card-gap,\s*0\.35rem\)\)[\s\S]*?\)\s*!important;[\s\S]*?margin-bottom:\s*var\(--mobile-glass-card-gap,\s*0\.35rem\)\s*!important;/,
-    "installed mobile glass panels should not subtract the iOS bottom safe area twice"
-  );
+  assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.addEventListener\("scroll"/);
+  assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.removeEventListener\("scroll"/);
   assert.match(
     clickPulseCursor,
     /window\.matchMedia\?\.\("\(hover: hover\) and \(pointer: fine\)"\)/
@@ -101,10 +84,6 @@ test("mobile PWA pages paint the bottom safe area with the active theme backgrou
   assert.match(
     coreCss,
     /@media \(hover: none\), \(pointer: coarse\) \{[\s\S]*?\.click-pulse-cursor\s*\{[\s\S]*?display:\s*none\s*!important;/
-  );
-  assert.match(
-    coreCss,
-    /html\[data-display-mode="standalone"\] \.click-pulse-cursor,[\s\S]*?body\[data-display-mode="fullscreen"\] \.click-pulse-cursor\s*\{[\s\S]*?display:\s*none\s*!important;/
   );
   assert.doesNotMatch(mobileCss, /--pwa-background-bottom-overscan/);
   assert.doesNotMatch(coreCss, /body::after|body\.homepage::before|body\.homepage::after/);

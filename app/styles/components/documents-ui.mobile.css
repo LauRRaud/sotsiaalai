@@ -41,21 +41,13 @@
     .documents-shell-surface,
     .documents-framework-banner.documents-notice
   ),
+  .documents-workspace-page--documents.documents-workspace-page--library .documents-framework-banner.documents-notice,
   .documents-workspace-page--agent :is(
     .documents-agent-card,
     .documents-agent-content-pane,
     .documents-agent-result,
     .documents-shell-surface
   ) {
-    border: 0 !important;
-    border-radius: var(--documents-mobile-panel-radius) !important;
-    background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;
-    box-shadow: var(--glass-shell-shadow, none) !important;
-    -webkit-backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
-    backdrop-filter: blur(var(--glass-blur-radius, 1rem)) saturate(100%) !important;
-  }
-
-  .documents-workspace-page--documents.documents-workspace-page--library .documents-framework-banner.documents-notice {
     border: 0 !important;
     border-radius: var(--documents-mobile-panel-radius) !important;
     background: var(--glass-ring-surface-bg, var(--glass-surface-bg, rgba(0, 0, 0, 0.25))) !important;

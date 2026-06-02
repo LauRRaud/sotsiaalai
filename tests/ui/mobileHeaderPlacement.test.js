@@ -11,7 +11,7 @@ function read(path) {
 test("mobile title, back and info placement is centralized", () => {
   const globalsCss = read("app/styles/globals.css");
   const mobileIndexCss = read("app/styles/mobile/index.css");
-  const headerCss = read("app/styles/mobile/mobile-title-backbutton-info.css");
+  const headerCss = read("app/styles/mobile/subpage-title-system.css");
   const policyCss = read("app/styles/mobile/policy-scroll.css");
   const mobileCss = readMobileCssBundle();
   const workspacePanelCss = read("components/chat/WorkspacePanel.module.css");
@@ -21,7 +21,8 @@ test("mobile title, back and info placement is centralized", () => {
     /@import url\("\.\/mobile\/index\.css"\) screen and \(max-width: 768px\);/
   );
   assert.match(mobileIndexCss, /@import url\("\.\.\/mobile\.css"\);/);
-  assert.match(mobileIndexCss, /@import url\("\.\/mobile-title-backbutton-info\.css"\);/);
+  assert.doesNotMatch(mobileIndexCss, /mobile-title-backbutton-info\.css/);
+  assert.match(mobileCss, /--mobile-header-back-top:\s*0\.2rem;/);
   assert.match(headerCss, /--mobile-header-back-top:\s*0\.2rem;/);
   assert.match(headerCss, /--mobile-header-info-top:\s*0\.475rem;/);
   assert.match(headerCss, /--mobile-header-title-top:\s*var\(--mobile-common-title-top,\s*2\.18rem\);/);
