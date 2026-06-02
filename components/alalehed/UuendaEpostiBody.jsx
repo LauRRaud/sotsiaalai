@@ -12,14 +12,13 @@ import Button from "@/components/ui/Button";
 import GlassRing from "@/components/ui/GlassRing";
 import GlowField from "@/components/ui/GlowField";
 import useGlassFieldHoleMask from "@/components/ui/useGlassFieldHoleMask";
-import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassFormInputBaseClassName, glassPageBackMobileBottomCenterClassName, glassPageRingCenteredClassName, glassPageShellCenteredClassName, glassSubpageTitleWrapClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 import { cn } from "@/components/ui/cn";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
 const titleClassName =
-  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const mobileTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static`;
+const mobileTitleWrapClassName = glassSubpageTitleWrapClassName;
 const ringClassName = cn(
   glassPageRingCenteredClassName,
   "glass-ring--desktop-stable mobile-keep-desktop-glass-cards [--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]"

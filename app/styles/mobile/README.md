@@ -10,8 +10,8 @@
 - `modal-surfaces.css` owns mobile glass modal surfaces for invite, subscription, help listings, materials and framework pages.
 - `chat-mobile-layout.css` owns mobile chat drawer, rails and composer placement.
 - `policy-scroll.css` is route-owned by the public policy pages and is imported only by those routes.
-- `app/styles/components/service-map.mobile.css` is route-owned by service-map workspace pages and is imported next to `service-map.css`.
-- `app/styles/components/documents-ui.mobile.css` is route-owned by documents/agent workspace pages and is imported next to `documents-ui.shared.css`.
+- `app/styles/mobile/service-map.css` is route-owned by service-map workspace pages and is imported next to `service-map.css`.
+- `app/styles/mobile/documents-ui.css` is route-owned by documents/agent workspace pages and is imported next to `documents-ui.shared.css`.
 - Component CSS modules keep their own mobile rules when the rules are local to that component.
 
 PWA `standalone`/`fullscreen` layout overrides are intentionally disabled. Installed PWA mode should inherit the normal mobile layout until a new PWA layer is rebuilt with a single owner.

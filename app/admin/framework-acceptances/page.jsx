@@ -1,6 +1,6 @@
 import "../../styles/components/documents-workspace.shared.css";
 import "../../styles/components/documents-ui.shared.css";
-import "../../styles/components/documents-ui.mobile.css";
+import "../../styles/mobile/documents-ui.css";
 import "../../styles/theme/mono.documents.css";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -13,6 +13,7 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import {
   glassPageBackTopLeftClassName,
   glassPageMobileCardClassName,
+  glassSubpageTitleWrapClassName,
   glassPageTitleClassName
 } from "@/components/ui/glassPageStyles";
 import { getLocaleFromCookies } from "@/lib/i18n";
@@ -33,11 +34,10 @@ const pageHeaderClassName =
   "invite-modal-title-wrap mb-[0.35rem] flex w-full items-start justify-center gap-[0.75rem]";
 const headerInnerClassName =
   "grid w-full max-w-[clamp(52rem,78vw,78rem)] gap-[0.75rem] px-[0.15rem] max-[768px]:max-w-none max-[768px]:px-[0.1rem]";
-const mobileTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+const mobileTitleWrapClassName = glassSubpageTitleWrapClassName;
 const headingClassName =
   `rooms-page-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ` +
-  `${glassPageTitleClassName} w-full max-[768px]:!mt-0 max-[768px]:!mb-0`;
+  `${glassPageTitleClassName} w-full`;
 const subtitleClassName =
   "m-0 text-left text-[1.02rem] leading-[1.68] text-[color:var(--documents-page-text)]/85 max-[768px]:text-[1.02rem]";
 const backButtonClassName = `${glassPageBackTopLeftClassName} scroll-reactive-back !z-[30] pointer-events-auto`;

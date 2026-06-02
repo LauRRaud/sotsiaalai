@@ -243,8 +243,6 @@
 .panel :global(.workspace-feature-embedded .glass-subpage-back-button),
 .panel :global(.documents-workspace-shell--embedded .glass-subpage-back-button) {
   position: absolute !important;
-  left: var(--mobile-header-back-left, var(--workspace-subpage-back-left, 0.55rem)) !important;
-  top: var(--mobile-header-control-top, 0.05rem) !important;
   bottom: auto !important;
   margin-left: 0 !important;
   transform: none !important;
@@ -253,8 +251,6 @@
 .panel :global(.workspace-feature-embedded .dashboard-info-trigger-corner),
 .panel :global(.documents-workspace-shell--embedded .dashboard-info-trigger-corner) {
   position: absolute !important;
-  right: var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem)) !important;
-  top: var(--mobile-header-control-info-top, 0.475rem) !important;
 }
 
 .panel :global(.workspace-feature-embedded .help-listings-workspace-title-wrap),
@@ -300,8 +296,6 @@
 
 .backButton {
   position: absolute !important;
-  left: var(--mobile-header-back-left, 0.55rem) !important;
-  top: var(--mobile-header-control-top, 0.05rem) !important;
   bottom: auto !important;
   margin-left: 0 !important;
   transform: none !important;
@@ -342,6 +336,18 @@
   .backButton {
     left: var(--workspace-subpage-back-left, 0.55rem) !important;
     top: var(--workspace-subpage-back-top, 0.55rem) !important;
+  }
+
+  .panel :global(.workspace-feature-embedded .glass-subpage-back-button),
+  .panel :global(.documents-workspace-shell--embedded .glass-subpage-back-button) {
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: var(--workspace-subpage-back-top, 0.55rem) !important;
+  }
+
+  .panel :global(.workspace-feature-embedded .dashboard-info-trigger-corner),
+  .panel :global(.documents-workspace-shell--embedded .dashboard-info-trigger-corner) {
+    right: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: calc(var(--workspace-subpage-back-top, 0.55rem) + 0.425rem) !important;
   }
 }
 

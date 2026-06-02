@@ -802,13 +802,15 @@ body[data-reduce-transparency="1"] .dashboard-info-panel.workspace-guide-panel.g
   scrollbar-gutter: auto !important;
 }
 
-.workspace-scroll-surface .workspace-scroll-back-button {
-  position: absolute !important;
-  left: 0.55rem !important;
-  top: calc(var(--workspace-guide-panel-overscan-top, 0px) + 0.55rem) !important;
-  bottom: auto !important;
-  margin-left: 0 !important;
-  transform: none !important;
+@media (min-width: 769px) {
+  .workspace-scroll-surface .workspace-scroll-back-button {
+    position: absolute !important;
+    left: 0.55rem !important;
+    top: calc(var(--workspace-guide-panel-overscan-top, 0px) + 0.55rem) !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
 }
 
 @media (min-width: 769px) {

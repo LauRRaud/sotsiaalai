@@ -1,13 +1,13 @@
 import { pillInputBaseClassName } from "@/components/ui/inputClassNames";
 
 export const glassPageTitleClassName =
-  "glass-page-title mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15rem] max-[768px]:text-[clamp(1.78rem,6.6vw,2.18rem)] leading-[1.12] tracking-[0.03em] " +
-  "w-full max-w-full max-[768px]:mx-auto max-[768px]:pb-[0.12em] max-[768px]:tracking-[0.012em] max-[768px]:leading-[1.14] max-[768px]:mt-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+4.05rem)] max-[768px]:mb-[clamp(0.2rem,0.9vh,0.55rem)] " +
+  "glass-page-title mt-[clamp(2.15rem,5.4vh,3.25rem)] mb-[clamp(0.35rem,1.4vh,0.8rem)] text-center text-[2.15rem] leading-[1.12] tracking-[0.03em] " +
+  "w-full max-w-full " +
   "text-[color:var(--title-color,var(--brand-primary))] [text-shadow:var(--glass-modal-title-shadow)] " +
   "[font-family:var(--font-aino-headline),var(--font-aino),Arial,sans-serif] font-[400]";
 
 export const glassPageTitleMobileHeaderClassName =
-  "max-[768px]:!mt-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+2.3rem)] max-[768px]:!mb-[clamp(0.24rem,1vh,0.58rem)]";
+  "glass-page-title--mobile-header";
 
 export const glassPageTitleProminentClassName =
   "min-[769px]:!text-[2.6rem] max-[768px]:!text-[clamp(2.28rem,9.25vw,3.08rem)]";
@@ -16,11 +16,11 @@ export const glassSubpageHeaderClassName =
   "glass-subpage-header relative mb-[0.35rem] flex w-full shrink-0 items-start justify-center gap-[0.75rem]";
 
 export const glassSubpageTitleWrapClassName =
-  "glass-subpage-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  "glass-subpage-title-wrap policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center";
 
 export const glassSubpageTitleClassName =
   `glass-subpage-title invite-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
-  "w-full min-[769px]:!mt-[var(--glass-subpage-title-margin-top)] min-[769px]:!mb-[var(--glass-subpage-title-margin-bottom)] max-[768px]:!mt-0 max-[768px]:!mb-0";
+  "w-full min-[769px]:!mt-[var(--glass-subpage-title-margin-top)] min-[769px]:!mb-[var(--glass-subpage-title-margin-bottom)]";
 
 export const glassPrimaryButtonToneClassName =
   "[--btn-primary-border:0_solid_transparent] " +
@@ -45,7 +45,7 @@ export const glassPageBackClassName =
 
 export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
-  "max-[768px]:!inline-flex max-[768px]:top-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+0.2rem)] max-[768px]:left-[calc(env(safe-area-inset-left,0px)+0.04rem)] " +
+  "max-[768px]:!inline-flex " +
   "max-[768px]:transform-none max-[768px]:bottom-auto " +
   "max-[768px]:h-[4.2rem] max-[768px]:w-[4.2rem] max-[768px]:z-[92] " +
   "max-[768px]:[&>svg]:h-[4.2rem] max-[768px]:[&>svg]:w-[4.2rem]";
@@ -66,25 +66,10 @@ export const glassPageRingCenteredClassName =
   "glass-ring md:mt-0 md:mb-0 [--ring-ui-reserve:var(--ring-ui-reserve-page)]";
 
 export const glassPageMobileCardClassName =
-  `${glassPrimaryButtonToneClassName} ` +
-  "max-[768px]:[--glass-mobile-vh:var(--glass-mobile-root-vh,100dvh)] " +
-  "max-[768px]:[--glass-mobile-safe-top:var(--mobile-safe-top,env(safe-area-inset-top,0px))] " +
-  "max-[768px]:[--glass-mobile-safe-bottom:var(--mobile-safe-bottom,env(safe-area-inset-bottom,0px))] " +
-  "max-[768px]:!w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!max-w-none max-[768px]:!h-[calc(var(--glass-mobile-vh)-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!max-h-[calc(var(--glass-mobile-vh)-var(--glass-mobile-safe-top)-var(--glass-mobile-safe-bottom)-(var(--mobile-glass-card-gap,0.35rem)*2))] " +
-  "max-[768px]:!mt-[calc(var(--glass-mobile-safe-top)+var(--mobile-glass-card-gap,0.35rem))] " +
-  "max-[768px]:!mr-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-right,0px))] " +
-  "max-[768px]:!mb-[calc(var(--glass-mobile-safe-bottom)+var(--mobile-glass-card-gap,0.35rem))] " +
-  "max-[768px]:!ml-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] " +
-  "max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] " +
-  "max-[768px]:!px-[var(--glass-ring-pad-x,clamp(calc(1.8*var(--base-rem)),5vw,calc(3.2*var(--base-rem))))] " +
-  "max-[768px]:!pt-[var(--glass-ring-pad-top,clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem))))] " +
-  "max-[768px]:!pb-[calc(var(--mobile-safe-bottom,env(safe-area-inset-bottom,0px))+0.9rem)]";
+  `${glassPrimaryButtonToneClassName} glass-mobile-card`;
 
 export const glassFullPanelMobileHeaderClassName =
-  "max-[768px]:py-0 " +
-  "max-[768px]:[--glass-ring-pad-top:calc(clamp(calc(0.4*var(--base-rem)),1.4vh,calc(1.1*var(--base-rem)))+0.18rem)]";
+  "glass-full-panel-mobile-header";
 
 export const glassSubpageCardClassName =
   "rounded-[var(--subpage-card-radius)] [border-width:var(--subpage-card-border-width,1px)] border-solid border-[color:var(--subpage-card-border)] " +

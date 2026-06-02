@@ -16,6 +16,7 @@ import {
   glassPageBackClassName,
   glassPageBackMobileBottomCenterClassName,
   glassPageShellCenteredClassName,
+  glassSubpageTitleWrapClassName,
   glassPageTitleClassName,
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
@@ -34,11 +35,10 @@ import {
 import { pushWithTransition } from "@/lib/routeTransition";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 const pageShellClassName = glassPageShellCenteredClassName;
-const titleClassName = `${glassPageTitleClassName} glass-title-register max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!mt-0 max-[768px]:!mb-0 max-[768px]:!px-0`;
+const titleClassName = `${glassPageTitleClassName} glass-title-register max-[768px]:!text-[clamp(2.2rem,8.7vw,3rem)] max-[768px]:!leading-[1.06] max-[768px]:!px-0`;
 const successTitleClassName =
-  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static max-[768px]:!mt-0 max-[768px]:!mb-0`;
-const successTitleWrapClassName =
-  "policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]";
+  `${glassPageTitleClassName} subpage-mobile-title policy-mobile-title policy-mobile-title--static`;
+const successTitleWrapClassName = glassSubpageTitleWrapClassName;
 const contentClassName =
   "register-content relative z-[1] mt-0 flex w-full flex-1 min-h-0 flex-col items-center pb-[clamp(1rem,3vh,1.8rem)]";
 const successContentClassName =

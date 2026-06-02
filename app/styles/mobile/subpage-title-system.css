@@ -8,9 +8,8 @@
     --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
     --mobile-header-info-top: 0.475rem;
     --mobile-header-control-info-top: var(--mobile-header-info-top);
-    --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
+    --mobile-header-title-top: var(--mobile-common-title-top, 1.42rem);
     --mobile-header-browser-y-offset: 0rem;
-    --mobile-header-pwa-y-offset: 0rem;
     --mobile-header-title-bottom: var(
       --mobile-common-title-bottom,
       clamp(0.18rem, 0.9vh, 0.42rem)
@@ -24,13 +23,8 @@
     );
   }
 
-  .glass-ring,
-  .subscription-modal-content {
-    --mobile-header-title-top: 2.355rem;
-  }
-
   .policy-scroll-page-ring {
-    --mobile-header-title-top: var(--mobile-common-title-top, 2.18rem);
+    --mobile-header-title-top: var(--mobile-common-title-top, 1.42rem);
   }
 
   .workspace-guide-panel-scroll {
@@ -43,19 +37,6 @@
       var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
         var(--mobile-header-info-top) - 0.74rem
-    );
-  }
-
-  .workspace-dashboard-panel,
-  .workspace-dashboard-panel .workspace-guide-panel-scroll {
-    --mobile-header-title-top: 1.96rem;
-    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem - 1rem);
-    --mobile-header-control-top: calc(
-      var(--mobile-header-back-top) - 1.05rem
-    );
-    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem - 1rem);
-    --mobile-header-control-info-top: calc(
-      var(--mobile-header-info-top) - 1.05rem
     );
   }
 
@@ -79,8 +60,7 @@
     :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
     padding-top: calc(
       var(--mobile-header-title-top) +
-        var(--mobile-header-browser-y-offset, 0rem) +
-        var(--mobile-header-pwa-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem)
     ) !important;
     padding-bottom: var(--mobile-header-title-bottom) !important;
   }
@@ -106,13 +86,14 @@
       .glass-subpage-back-button,
       .workspace-scroll-back-button,
       .documents-scroll-back-button,
+      .account-settings-back-button,
+      .service-map-workspace__back,
       .scroll-reactive-back
     ) {
     left: var(--mobile-header-back-left) !important;
     top: calc(
       var(--mobile-header-control-top) +
-        var(--mobile-header-browser-y-offset, 0rem) +
-        var(--mobile-header-pwa-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem)
     ) !important;
     right: auto !important;
     bottom: auto !important;
@@ -134,13 +115,14 @@
       .selected-listing-modal-content,
       .invite-modal-content
     )
-    .dashboard-info-trigger-corner {
+    :is(.dashboard-info-trigger-corner, .service-map-workspace__info) {
+    position: absolute !important;
     right: var(--mobile-header-info-right) !important;
     top: calc(
       var(--mobile-header-control-info-top) +
-        var(--mobile-header-browser-y-offset, 0rem) +
-        var(--mobile-header-pwa-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem)
     ) !important;
+    z-index: 35 !important;
   }
 
   .glass-title-register {
@@ -157,7 +139,7 @@
     transform: none !important;
   }
 
-  :is(.subpage-mobile-title, .policy-mobile-title-wrap) {
+  .subpage-mobile-title {
     --mobile-title-pad-x: var(
       --glass-ring-pad-x,
       clamp(calc(1.8 * var(--base-rem)), 5vw, calc(3.2 * var(--base-rem)))
@@ -244,13 +226,19 @@
   }
 
   .policy-mobile-title-wrap {
+    --policy-title-inline-reserve: clamp(2.95rem, 9.8vw, 3.45rem);
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     padding-left: var(
       --policy-title-inline-start,
-      clamp(2.95rem, 9.8vw, 3.45rem)
+      var(--policy-title-inline-reserve)
     ) !important;
     padding-right: var(
       --policy-title-inline-end,
-      var(--policy-title-inline-start)
+      var(--policy-title-inline-start, var(--policy-title-inline-reserve))
     ) !important;
   }
 
@@ -271,13 +259,6 @@
   .policy-mobile-title--static {
     font-size: clamp(1.94rem, 6.95vw, 2.4rem) !important;
     line-height: 1.04 !important;
-  }
-
-  :is(
-      .glass-subpage-title-wrap
-    ) {
-    padding-top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 1.18rem) !important;
-    padding-bottom: clamp(0.12rem, 0.7vh, 0.34rem) !important;
   }
 
   .glass-subpage-title {

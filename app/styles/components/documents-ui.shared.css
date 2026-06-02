@@ -65,18 +65,20 @@
   -webkit-mask-image: none !important;
 }
 
-.documents-workspace-shell--embedded
-  > .documents-grid.workspace-guide-panel-scroll
-  > .workspace-scroll-back-button {
-  left: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.05rem !important;
-}
+@media (min-width: 769px) {
+  .documents-workspace-shell--embedded
+    > .documents-grid.workspace-guide-panel-scroll
+    > .workspace-scroll-back-button {
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: 0.05rem !important;
+  }
 
-.documents-workspace-shell--embedded
-  > .documents-grid.workspace-guide-panel-scroll
-  > .dashboard-info-trigger-corner {
-  right: var(--workspace-subpage-back-left, 0.55rem) !important;
-  top: 0.475rem !important;
+  .documents-workspace-shell--embedded
+    > .documents-grid.workspace-guide-panel-scroll
+    > .dashboard-info-trigger-corner {
+    right: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: 0.475rem !important;
+  }
 }
 
 .documents-workspace-shell.workspace-guide-panel

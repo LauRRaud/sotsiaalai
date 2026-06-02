@@ -415,7 +415,7 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
       setShowHomeFooter(true);
       return;
     }
-    const shouldShow = !isLoginOpen && cardsIntroDone;
+    const shouldShow = !isLoginOpen && (isMobile || cardsIntroDone);
     if (!shouldShow) {
       setShowHomeBottomSections(false);
       setShowHomeFooter(false);
@@ -427,7 +427,7 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
       HOME_FOOTER_STAGGER_MS
     );
     return () => clearRegisteredTimeout(footerTimer);
-  }, [cardsIntroDone, clearRegisteredTimeout, introMode, isLoginOpen, prefs.reduceMotion, registerTimeout]);
+  }, [cardsIntroDone, clearRegisteredTimeout, introMode, isLoginOpen, isMobile, prefs.reduceMotion, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
   const cardInteractionAllowed = flipAllowed && !autoPreviewActive;
   const autoPreviewBackInteractive = !isMobile && flipAllowed && autoPreviewActive && autoPreviewBackVisible;

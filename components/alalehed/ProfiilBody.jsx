@@ -24,7 +24,7 @@ import BackIcon from "@/components/ui/icons/BackIcon";
 import { PowerExitIcon } from "@/components/ui/icons/AuthIcons";
 import EuroIcon from "@/components/ui/icons/EuroIcon";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
-import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
+import { glassPageBackMobileBottomCenterClassName, glassPageBackRightClassName, glassPageMobileCardClassName, glassPageShellCenteredClassName, glassSubpageTitleWrapClassName, glassPageTitleClassName } from "@/components/ui/glassPageStyles";
 const TILT_ACTIVE_FLAG_KEY = "__SOTSIAALAI_GLASS_RING_TILT_ACTIVE";
 const ROUTE_TILT_STATE_EVENT = "sotsiaalai:glass-ring-tilt-state";
 const CHAT_SKIP_ENTRY_SETTLE_KEY = "sotsiaalai:chat:skip-entry-settle";
@@ -136,7 +136,7 @@ const logoutLabelClassName =
 const mobileLogoutLabelClassName =
   "absolute left-1/2 text-center -translate-x-1/2 text-[color:var(--profile-logout-label,#c57171)] light:text-[color:var(--profile-logout-label-light,#7A3A38)] hc:text-[color:var(--hc-accent)] pointer-events-none whitespace-nowrap transition-opacity duration-[220ms] ease-out";
 const profileBackButtonClassName =
-  `${glassPageBackMobileBottomCenterClassName} ` +
+  `${glassPageBackMobileBottomCenterClassName} glass-subpage-back-button profile-back-button ` +
   "max-[48em]:!z-[95]";
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
@@ -169,11 +169,11 @@ const accountModalContentClassName =
 const accountModalHeadClassName =
   "mb-0 flex items-start justify-center gap-[0.75rem]";
 const accountModalBackButtonClassName =
-  `${glassPageBackMobileBottomCenterClassName} account-settings-back-button !z-[145]`;
+  `${glassPageBackMobileBottomCenterClassName} glass-subpage-back-button account-settings-back-button !z-[145]`;
 const accountModalTitleWrapClassName =
   "account-modal-title-wrap grid w-full max-w-[30rem] gap-[0.5rem] px-[2.6rem] text-center max-[768px]:max-w-none max-[768px]:px-[clamp(1rem,4vw,1.4rem)]";
 const accountModalTitleClassName =
-  `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} max-[768px]:!mt-0 max-[768px]:!mb-0 ` +
+  `account-modal-title subpage-mobile-title policy-mobile-title policy-mobile-title--static ${glassPageTitleClassName} ` +
   "";
 const accountModalActionStackClassName =
   "invite-modal-scroll mx-auto grid min-h-0 w-full max-w-[clamp(17rem,42vw,27rem)] overflow-y-auto overscroll-contain touch-pan-y px-[1.15rem] pt-0 pb-[0.3rem] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0 max-[768px]:max-w-none max-[768px]:px-0";
@@ -1329,7 +1329,7 @@ export default function ProfiilBody({
               className={accountModalBackButtonClassName}
             />
             <div className={accountModalTitleWrapClassName}>
-              <div className="policy-mobile-title-wrap relative z-[4] flex w-full items-center justify-center max-[768px]:pt-[calc(env(safe-area-inset-top,0px)+2.18rem)] max-[768px]:pb-[clamp(0.18rem,0.9vh,0.42rem)]">
+              <div className={glassSubpageTitleWrapClassName}>
                 <h2 className={accountModalTitleClassName}>{t("profile.account_settings")}</h2>
               </div>
             </div>

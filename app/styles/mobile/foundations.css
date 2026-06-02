@@ -49,9 +49,7 @@
   body.homepage,
   html[data-initial-page="home"] body.app-root {
     --home-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
-    --home-mobile-canvas-height: calc(
-      var(--glass-mobile-root-vh, 100dvh) + var(--home-mobile-safe-bottom)
-    );
+    --home-mobile-canvas-height: var(--glass-mobile-root-vh, 100dvh);
     position: relative;
     isolation: isolate;
     background: var(--home-browser-base-bg, #0d111b);

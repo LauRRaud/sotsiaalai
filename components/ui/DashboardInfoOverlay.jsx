@@ -513,7 +513,6 @@ export function DashboardInfoTrigger({
 }) {
   const [open, setOpen] = useState(false);
   const [surfaceStyle, setSurfaceStyle] = useState(undefined);
-  const usesCornerPosition = String(className || "").includes(styles.cornerTrigger);
 
   return (
     <>
@@ -527,13 +526,7 @@ export function DashboardInfoTrigger({
           setOpen(true);
         }}
         className={cn(styles.trigger, triggerClassName, className)}
-        style={usesCornerPosition ? {
-          position: "absolute",
-          right: "var(--mobile-header-info-right, var(--workspace-subpage-back-left, 0.55rem))",
-          top: "var(--mobile-header-control-info-top, calc(var(--workspace-guide-panel-overscan-top, 0px) + var(--workspace-subpage-back-top, 0.55rem) + 0.425rem))",
-          zIndex: 35,
-          ...style
-        } : style}
+        style={style}
       >
         <InfoIcon className="h-full w-full overflow-visible" />
       </button>
