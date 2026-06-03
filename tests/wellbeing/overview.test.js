@@ -190,12 +190,13 @@ test("overview aggregates records across wellbeing workflows and builds a genera
     { workflowType: "work-processes", label: "Tööprotsessid", count: 1 }
   ]);
   assert.deepEqual(overview.riskMarkers, [
-    { key: "processes.high_value_loss", label: "processes.high_value_loss", count: 1 },
-    { key: "starter_support.not_to_carry_alone", label: "starter_support.not_to_carry_alone", count: 1 }
+    { key: "processes.high_value_loss", label: "oluline töö jääb madala väärtusega tegevuste taha", count: 1 },
+    { key: "starter_support.not_to_carry_alone", label: "olukorda ei peaks üksi kandma", count: 1 }
   ]);
   assert.match(overview.managerMemo.title, /Juhiga jagatav memo/);
   assert.match(overview.managerMemo.text, /Koondatud tööheaolu ülevaade/);
   assert.match(overview.managerMemo.text, /Töövoogude arv: 3/);
+  assert.match(overview.managerMemo.text, /Perioodi signaal: punane/);
   assert.match(overview.managerMemo.text, /Korduvad koormustegurid/);
-  assert.doesNotMatch(overview.managerMemo.text, /complex_family_case|same_data_multiple_places/);
+  assert.doesNotMatch(overview.managerMemo.text, /complex_family_case|same_data_multiple_places|needs_organizational_change/);
 });

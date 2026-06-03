@@ -774,15 +774,18 @@
         "body": "Enter the information people need before contacting you: services, area, contact channels and pre-inquiry settings."
       },
       "summary": {
+        "label": "Profile status",
         "status": "Status",
         "price": "Price",
+        "pricing": "Pricing",
         "map_status": "Service map",
         "map_ready": "Ready for map",
-        "map_not_ready": "Not shown on map yet"
+        "map_not_ready": "Not shown on map"
       },
       "sections": {
-        "profile": "Service information",
-        "services": "Services under this provider",
+        "profile": "Provider basics",
+        "services": "Services",
+        "services_locations": "Services and locations",
         "locations": "Service locations",
         "map_profile": "Map profile",
         "outputs": "Outputs",
@@ -794,6 +797,7 @@
         "organization": "Organization name",
         "short_description": "Short description",
         "services": "Services",
+        "services_overview": "Service summary",
         "categories": "Categories",
         "target_groups": "Target groups",
         "service_area": "Service area",
@@ -806,14 +810,14 @@
         "languages": "Languages",
         "accessibility_info": "Accessibility info",
         "status": "Status",
-        "fee_type": "Price"
+        "fee_type": "Pricing"
       },
       "visibility": {
-        "visible": "Visible on service map",
-        "visible_help": "The service is shown on the map only when the profile is published and the address has a reliable match."
+        "visible": "Publish on service map",
+        "visible_help": "The service map shows the profile only when the status is published and at least one map-visible service location has an official address match."
       },
       "status": {
-        "draft": "Draft",
+        "draft": "Unpublished",
         "review": "Review",
         "published": "Published",
         "hidden": "Hidden"
@@ -839,7 +843,7 @@
         "target_groups": "Target groups",
         "service_area": "Service area",
         "locations": "Service locations",
-        "fee_type": "Price",
+        "fee_type": "Pricing",
         "price_description": "Price note",
         "contact_name": "Contact person",
         "visible_in_profile": "Visible under map marker",
@@ -865,12 +869,46 @@
         "failed": "The address could not be matched yet. The marker is not shown on the map."
       },
       "address_search": {
+        "placeholder": "Start typing an address",
+        "hint": "Official address matches appear as you type. Select a suggestion before showing it on the map.",
         "loading": "Searching addresses...",
         "selected": "Official address match selected:",
         "error": "Address suggestions could not be loaded."
       },
+      "field_help": {
+        "categories": "Categories are standard choices. They are used in service map search and pre-inquiry matching.",
+        "target_groups": "Target groups are also standard choices, so a typo does not keep a service out of filters or pre-inquiries.",
+        "services_locations": "A service location is the basis for a map marker. The address field suggests official matches while typing; select a match so the marker has a reliable location.",
+        "area": "Service area describes where people are served. Enter map marker addresses in the service locations block."
+      },
+      "category_options": {
+        "unspecified": "Unspecified",
+        "transport": "Transport",
+        "daily_tasks": "Daily assistance",
+        "home_help": "Home help",
+        "digital_help": "Digital help",
+        "care_support": "Care and support",
+        "child_youth_support": "Support for children and youth",
+        "learning_guidance": "Learning and guidance support",
+        "social_support": "Companionship and social support",
+        "admin_form_help": "Administrative and forms help",
+        "other": "Other help"
+      },
+      "target_group_options": {
+        "child": "Child",
+        "youth": "Youth",
+        "adult": "Adult",
+        "elder": "Older person",
+        "disability": "Disability or special need"
+      },
+      "language_options": {
+        "et": "Estonian",
+        "en": "English",
+        "ru": "Russian",
+        "other": "Other"
+      },
       "map_preview_empty": "Address match preview appears after geocoding.",
-      "publish_help": "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears.",
+      "publish_help": "Unpublished and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears.",
       "outputs": {
         "public_profile": "Public profile",
         "map_marker": "Service map marker",

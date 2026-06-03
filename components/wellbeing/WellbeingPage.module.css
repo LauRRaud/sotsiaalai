@@ -1,7 +1,11 @@
 .page {
-  --wellbeing-text: var(--subpage-card-text, var(--glass-modal-text, #f2f7ff));
-  --wellbeing-strong-text: var(--wellbeing-text);
-  --wellbeing-muted: rgba(226, 232, 240, 0.86);
+  --wellbeing-text: rgba(255, 255, 255, 0.9);
+  --wellbeing-strong-text: rgba(255, 255, 255, 0.95);
+  --wellbeing-muted: rgba(255, 255, 255, 0.78);
+  --wellbeing-base-font-size: 1rem;
+  --wellbeing-small-font-size: 0.96rem;
+  --wellbeing-tiny-font-size: 0.92rem;
+  --wellbeing-output-font-size: 1rem;
   --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(15, 18, 24, 0.7)) 34%, transparent);
   --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(15, 18, 24, 0.7)) 42%, transparent);
   --wellbeing-inner-bg: transparent;
@@ -12,7 +16,11 @@
   --wellbeing-field-bg-hover: rgba(18, 21, 28, 0.58);
   --wellbeing-dropdown-bg: rgb(22, 27, 36);
   --wellbeing-dropdown-bg-hover: rgb(31, 38, 50);
+  --wellbeing-dropdown-item-bg: rgb(31, 38, 50);
+  --wellbeing-dropdown-item-bg-hover: rgb(38, 46, 60);
+  --wellbeing-dropdown-selected-bg: rgb(8, 12, 18);
   --wellbeing-dropdown-text: var(--wellbeing-text);
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
   --wellbeing-checkbox-bg: transparent;
   --wellbeing-checkbox-bg-checked: color-mix(in srgb, var(--title-color, #c57171) 18%, transparent);
   --wellbeing-checkbox-border: color-mix(in srgb, var(--title-color, #c57171) 76%, transparent);
@@ -21,16 +29,24 @@
   --wellbeing-secondary-button-text: var(--wellbeing-strong-text);
   --wellbeing-disabled-button-text: color-mix(in srgb, var(--wellbeing-strong-text) 58%, transparent);
   --wellbeing-focus-ring: var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28));
+  --wellbeing-signal-green-bg: color-mix(in srgb, #2f8f67 30%, var(--wellbeing-card-bg));
+  --wellbeing-signal-yellow-bg: color-mix(in srgb, #e6ad3e 34%, var(--wellbeing-card-bg));
+  --wellbeing-signal-red-bg: color-mix(in srgb, #bd4e4e 30%, var(--wellbeing-card-bg));
+  --wellbeing-overview-demand-bg: color-mix(in srgb, #e7b85f 18%, var(--wellbeing-card-bg));
+  --wellbeing-overview-resource-bg: color-mix(in srgb, #5eb2a4 18%, var(--wellbeing-card-bg));
+  --wellbeing-overview-risk-bg: color-mix(in srgb, #d56969 18%, var(--wellbeing-card-bg));
   --btn-primary-text: var(--wellbeing-primary-button-text);
   color: var(--wellbeing-text);
+  font-size: var(--wellbeing-base-font-size);
+  line-height: 1.45;
   width: 100vw !important;
   max-width: 100vw !important;
 }
 
 :global(:root.theme-light:not(.theme-mid)) .page {
-  --wellbeing-text: #253246;
-  --wellbeing-strong-text: #1d2939;
-  --wellbeing-muted: #44546a;
+  --wellbeing-text: rgba(0, 0, 0, 0.9);
+  --wellbeing-strong-text: rgba(0, 0, 0, 0.94);
+  --wellbeing-muted: rgba(0, 0, 0, 0.72);
   --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.88)) 56%, transparent);
   --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.94)) 66%, transparent);
   --wellbeing-inner-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.88)) 18%, transparent);
@@ -41,31 +57,39 @@
   --wellbeing-field-bg-hover: rgba(255, 255, 255, 0.66);
   --wellbeing-dropdown-bg: rgb(250, 246, 243);
   --wellbeing-dropdown-bg-hover: rgb(255, 255, 255);
+  --wellbeing-dropdown-item-bg: rgb(255, 255, 255);
+  --wellbeing-dropdown-item-bg-hover: rgb(248, 244, 241);
+  --wellbeing-dropdown-selected-bg: rgba(26, 31, 40, 0.92);
   --wellbeing-dropdown-text: #253246;
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
 }
 
 :global(:root.theme-mid) .page {
-  --wellbeing-text: #263244;
-  --wellbeing-strong-text: #202a3a;
-  --wellbeing-muted: #445067;
-  --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 16%, transparent);
-  --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 22%, transparent);
-  --wellbeing-inner-bg: transparent;
-  --wellbeing-card-border: rgba(255, 255, 255, 0.42);
-  --wellbeing-card-border-strong: rgba(255, 255, 255, 0.6);
+  --wellbeing-text: rgba(0, 0, 0, 0.9);
+  --wellbeing-strong-text: rgba(0, 0, 0, 0.94);
+  --wellbeing-muted: rgba(0, 0, 0, 0.72);
+  --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 30%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 38%, transparent);
+  --wellbeing-inner-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 14%, transparent);
+  --wellbeing-card-border: rgba(255, 255, 255, 0.48);
+  --wellbeing-card-border-strong: rgba(255, 255, 255, 0.66);
   --wellbeing-card-shadow: none;
   --wellbeing-field-bg: rgba(255, 255, 255, 0.16);
   --wellbeing-field-bg-hover: rgba(255, 255, 255, 0.23);
   --wellbeing-dropdown-bg: rgb(223, 211, 203);
   --wellbeing-dropdown-bg-hover: rgb(234, 224, 217);
+  --wellbeing-dropdown-item-bg: rgb(239, 230, 224);
+  --wellbeing-dropdown-item-bg-hover: rgb(248, 241, 237);
+  --wellbeing-dropdown-selected-bg: rgba(31, 38, 50, 0.9);
   --wellbeing-dropdown-text: #1f2a39;
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
   --wellbeing-checkbox-bg-checked: rgba(122, 58, 56, 0.16);
 }
 
 :global(:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])) .page {
-  --wellbeing-text: rgba(238, 244, 255, 0.94);
-  --wellbeing-strong-text: #f5f8ff;
-  --wellbeing-muted: rgba(218, 228, 244, 0.82);
+  --wellbeing-text: rgba(255, 255, 255, 0.9);
+  --wellbeing-strong-text: rgba(255, 255, 255, 0.95);
+  --wellbeing-muted: rgba(255, 255, 255, 0.78);
   --wellbeing-card-bg: color-mix(in srgb, rgba(12, 18, 27, 0.78) 36%, transparent);
   --wellbeing-card-hover-bg: color-mix(in srgb, rgba(20, 27, 38, 0.82) 44%, transparent);
   --wellbeing-inner-bg: transparent;
@@ -73,12 +97,15 @@
   --wellbeing-card-border-strong: rgba(205, 133, 133, 0.26);
   --wellbeing-dropdown-bg: rgb(30, 33, 38);
   --wellbeing-dropdown-bg-hover: rgb(39, 42, 48);
+  --wellbeing-dropdown-item-bg: rgb(39, 42, 48);
+  --wellbeing-dropdown-item-bg-hover: rgb(47, 51, 59);
+  --wellbeing-dropdown-selected-bg: rgb(10, 13, 18);
 }
 
 :global(:root.theme-night) .page {
-  --wellbeing-text: rgba(234, 238, 245, 0.94);
-  --wellbeing-strong-text: #f3f8ff;
-  --wellbeing-muted: rgba(215, 226, 245, 0.84);
+  --wellbeing-text: rgba(255, 255, 255, 0.9);
+  --wellbeing-strong-text: rgba(255, 255, 255, 0.95);
+  --wellbeing-muted: rgba(255, 255, 255, 0.78);
   --wellbeing-card-bg: color-mix(in srgb, rgba(13, 20, 32, 0.84) 32%, transparent);
   --wellbeing-card-hover-bg: color-mix(in srgb, rgba(20, 30, 45, 0.88) 42%, transparent);
   --wellbeing-inner-bg: transparent;
@@ -86,12 +113,15 @@
   --wellbeing-card-border-strong: rgba(205, 133, 133, 0.32);
   --wellbeing-dropdown-bg: rgb(18, 26, 40);
   --wellbeing-dropdown-bg-hover: rgb(29, 41, 59);
+  --wellbeing-dropdown-item-bg: rgb(29, 41, 59);
+  --wellbeing-dropdown-item-bg-hover: rgb(37, 52, 74);
+  --wellbeing-dropdown-selected-bg: rgb(8, 14, 24);
 }
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .page {
-  --wellbeing-text: var(--forest-title-soft, #e7efdf);
-  --wellbeing-strong-text: var(--forest-highlight, #f4f7ed);
-  --wellbeing-muted: color-mix(in srgb, var(--forest-title-soft, #e7efdf) 78%, transparent);
+  --wellbeing-text: rgba(255, 255, 255, 0.9);
+  --wellbeing-strong-text: rgba(255, 255, 255, 0.95);
+  --wellbeing-muted: rgba(255, 255, 255, 0.78);
   --wellbeing-card-bg: color-mix(in srgb, rgb(22, 24, 22) 38%, transparent);
   --wellbeing-card-hover-bg: color-mix(in srgb, rgb(31, 33, 31) 44%, transparent);
   --wellbeing-inner-bg: transparent;
@@ -101,7 +131,11 @@
   --wellbeing-field-bg-hover: rgba(28, 29, 28, 0.64);
   --wellbeing-dropdown-bg: rgb(28, 28, 28);
   --wellbeing-dropdown-bg-hover: rgb(38, 38, 38);
+  --wellbeing-dropdown-item-bg: rgb(38, 38, 38);
+  --wellbeing-dropdown-item-bg-hover: rgb(48, 48, 48);
+  --wellbeing-dropdown-selected-bg: rgb(10, 10, 10);
   --wellbeing-dropdown-text: var(--forest-highlight, #f4f7ed);
+  --wellbeing-dropdown-selected-text: var(--forest-highlight, #f4f7ed);
   --wellbeing-checkbox-border: var(--forest-highlight, #f4f7ed);
   --wellbeing-checkbox-tick: var(--forest-highlight, #f4f7ed);
   --wellbeing-checkbox-bg-checked: rgba(232, 238, 224, 0.14);
@@ -121,7 +155,11 @@
   --wellbeing-field-bg-hover: rgba(255, 234, 0, 0.1);
   --wellbeing-dropdown-bg: rgb(9, 14, 24);
   --wellbeing-dropdown-bg-hover: rgb(36, 34, 16);
+  --wellbeing-dropdown-item-bg: #000;
+  --wellbeing-dropdown-item-bg-hover: #111;
+  --wellbeing-dropdown-selected-bg: var(--hc-accent, #ffea00);
   --wellbeing-dropdown-text: var(--hc-accent, #ffea00);
+  --wellbeing-dropdown-selected-text: #000;
   --wellbeing-checkbox-border: var(--hc-accent, #ffea00);
   --wellbeing-checkbox-tick: var(--hc-accent, #ffea00);
   --wellbeing-checkbox-bg-checked: rgba(255, 234, 0, 0.16);
@@ -129,6 +167,72 @@
   --wellbeing-secondary-button-text: var(--hc-accent, #ffea00);
   --wellbeing-disabled-button-text: var(--hc-accent, #ffea00);
   --btn-primary-text: var(--hc-accent, #ffea00);
+}
+
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(22, 27, 36);
+  --wellbeing-dropdown-bg-hover: rgb(31, 38, 50);
+  --wellbeing-dropdown-item-bg: rgb(31, 38, 50);
+  --wellbeing-dropdown-item-bg-hover: rgb(38, 46, 60);
+  --wellbeing-dropdown-selected-bg: rgb(8, 12, 18);
+  --wellbeing-dropdown-text: rgba(255, 255, 255, 0.9);
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
+}
+
+:global(:root.theme-light:not(.theme-mid) .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(250, 246, 243);
+  --wellbeing-dropdown-bg-hover: rgb(255, 255, 255);
+  --wellbeing-dropdown-item-bg: rgb(255, 255, 255);
+  --wellbeing-dropdown-item-bg-hover: rgb(248, 244, 241);
+  --wellbeing-dropdown-selected-bg: rgba(26, 31, 40, 0.92);
+  --wellbeing-dropdown-text: #253246;
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
+}
+
+:global(:root.theme-mid .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(223, 211, 203);
+  --wellbeing-dropdown-bg-hover: rgb(234, 224, 217);
+  --wellbeing-dropdown-item-bg: rgb(239, 230, 224);
+  --wellbeing-dropdown-item-bg-hover: rgb(248, 241, 237);
+  --wellbeing-dropdown-selected-bg: rgba(31, 38, 50, 0.9);
+  --wellbeing-dropdown-text: #1f2a39;
+  --wellbeing-dropdown-selected-text: rgba(255, 255, 255, 0.96);
+}
+
+:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"]) .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(30, 33, 38);
+  --wellbeing-dropdown-bg-hover: rgb(39, 42, 48);
+  --wellbeing-dropdown-item-bg: rgb(39, 42, 48);
+  --wellbeing-dropdown-item-bg-hover: rgb(47, 51, 59);
+  --wellbeing-dropdown-selected-bg: rgb(10, 13, 18);
+}
+
+:global(:root.theme-night .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(18, 26, 40);
+  --wellbeing-dropdown-bg-hover: rgb(29, 41, 59);
+  --wellbeing-dropdown-item-bg: rgb(29, 41, 59);
+  --wellbeing-dropdown-item-bg-hover: rgb(37, 52, 74);
+  --wellbeing-dropdown-selected-bg: rgb(8, 14, 24);
+}
+
+:global(:root.theme-mono:not([data-contrast="hc"]) .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(28, 28, 28);
+  --wellbeing-dropdown-bg-hover: rgb(38, 38, 38);
+  --wellbeing-dropdown-item-bg: rgb(38, 38, 38);
+  --wellbeing-dropdown-item-bg-hover: rgb(48, 48, 48);
+  --wellbeing-dropdown-selected-bg: rgb(10, 10, 10);
+  --wellbeing-dropdown-text: var(--forest-highlight, #f4f7ed);
+  --wellbeing-dropdown-selected-text: var(--forest-highlight, #f4f7ed);
+}
+
+:global(html[data-contrast="hc"] .documents-dropdown-menu.wellbeing-dropdown-menu) {
+  --wellbeing-dropdown-bg: rgb(9, 14, 24);
+  --wellbeing-dropdown-bg-hover: rgb(36, 34, 16);
+  --wellbeing-dropdown-item-bg: #000;
+  --wellbeing-dropdown-item-bg-hover: #111;
+  --wellbeing-dropdown-selected-bg: var(--hc-accent, #ffea00);
+  --wellbeing-dropdown-text: var(--hc-accent, #ffea00);
+  --wellbeing-dropdown-selected-text: #000;
 }
 
 .dashboardBody {
@@ -273,11 +377,8 @@
   color: var(--wellbeing-text);
 }
 
-.quickCheckIntro,
 .quickCheckFieldset,
-.quickCheckToggleGroup,
-.quickCheckOutput,
-.quickCheckOutputCard {
+.quickCheckToggleGroup {
   border: 1px solid var(--wellbeing-card-border);
   border-radius: 0.86rem;
   background: var(--wellbeing-card-bg);
@@ -289,7 +390,7 @@
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(0.72rem, 1.6vw, 1.1rem);
   align-items: stretch;
-  padding: clamp(0.78rem, 1.6vw, 1rem);
+  padding: 0.12rem 0.08rem 0.28rem;
 }
 
 .quickCheckIntro h2,
@@ -324,8 +425,8 @@
 .quickCheckPrivacy {
   margin: 0;
   color: var(--wellbeing-muted);
-  font-size: 0.94rem;
-  line-height: 1.35;
+  font-size: var(--wellbeing-base-font-size);
+  line-height: 1.45;
 }
 
 .quickCheckSignal {
@@ -333,8 +434,7 @@
   align-content: center;
   gap: 0.34rem;
   border-radius: 0.7rem;
-  padding: 0.72rem;
-  background: var(--wellbeing-inner-bg);
+  padding: 0.62rem 0.72rem;
   color: var(--wellbeing-strong-text);
 }
 
@@ -350,45 +450,45 @@
 }
 
 .quickCheckSignal_green {
-  border: 1px solid rgba(32, 100, 73, 0.78);
-  background: #2f8f67;
-  color: #f6fff9;
+  border: 1px solid rgba(47, 143, 103, 0.58);
+  background: var(--wellbeing-signal-green-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal_clear,
 .quickCheckSignal_manageable,
 .quickCheckSignal_no_immediate_danger {
-  border: 1px solid rgba(32, 100, 73, 0.78);
-  background: #2f8f67;
-  color: #f6fff9;
+  border: 1px solid rgba(47, 143, 103, 0.58);
+  background: var(--wellbeing-signal-green-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal_yellow {
-  border: 1px solid rgba(170, 112, 20, 0.82);
-  background: #f0bd56;
-  color: #1d2838;
+  border: 1px solid rgba(190, 127, 24, 0.58);
+  background: var(--wellbeing-signal-yellow-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal_prioritize,
 .quickCheckSignal_needs_attention,
 .quickCheckSignal_needs_clarification {
-  border: 1px solid rgba(170, 112, 20, 0.82);
-  background: #f0bd56;
-  color: #1d2838;
+  border: 1px solid rgba(190, 127, 24, 0.58);
+  background: var(--wellbeing-signal-yellow-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal_red {
-  border: 1px solid rgba(118, 31, 31, 0.82);
-  background: #bd4e4e;
-  color: #fff7f7;
+  border: 1px solid rgba(189, 78, 78, 0.62);
+  background: var(--wellbeing-signal-red-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal_needs_agreement,
 .quickCheckSignal_organizational_support,
 .quickCheckSignal_urgent_attention {
-  border: 1px solid rgba(118, 31, 31, 0.82);
-  background: #bd4e4e;
-  color: #fff7f7;
+  border: 1px solid rgba(189, 78, 78, 0.62);
+  background: var(--wellbeing-signal-red-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckGrid {
@@ -416,9 +516,9 @@
   width: 100%;
   margin: 0 0 0.42rem;
   padding: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 640;
-  line-height: 1.18;
+  line-height: 1.22;
 }
 
 .quickCheckFieldset legend + *,
@@ -432,8 +532,8 @@
   gap: 0.7rem;
   align-items: center;
   color: var(--wellbeing-text);
-  font-size: 0.93rem;
-  line-height: 1.2;
+  font-size: var(--wellbeing-base-font-size);
+  line-height: 1.32;
 }
 
 .quickCheckField select {
@@ -492,8 +592,8 @@
   height: auto !important;
   min-height: 0 !important;
   color: var(--wellbeing-strong-text);
-  font-size: 0.96rem;
-  line-height: 1.2;
+  font-size: var(--wellbeing-base-font-size);
+  line-height: 1.28;
   letter-spacing: 0;
   text-align: left !important;
 }
@@ -506,10 +606,11 @@
   opacity: 0.9;
 }
 
-.page :global(.wellbeing-dropdown .documents-dropdown-menu) {
+.page :global(.wellbeing-dropdown .documents-dropdown-menu),
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu) {
   display: grid !important;
   grid-template-columns: 1fr;
-  gap: 0;
+  gap: 0.18rem;
   z-index: 120;
   width: 100%;
   min-width: 100%;
@@ -520,6 +621,7 @@
   border-radius: 0.78rem;
   background: var(--wellbeing-dropdown-bg);
   background-color: var(--wellbeing-dropdown-bg);
+  padding: 0.28rem;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     0 14px 30px rgba(20, 14, 14, 0.18);
@@ -528,25 +630,52 @@
   backdrop-filter: none;
 }
 
-.page :global(.wellbeing-dropdown .documents-dropdown-item) {
+.page :global(.wellbeing-dropdown .documents-dropdown-item),
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item) {
   display: flex !important;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   min-height: 2.2rem;
   border: 0;
-  background: var(--wellbeing-dropdown-bg);
-  color: var(--wellbeing-dropdown-text);
+  border-radius: 0.56rem;
+  background: var(--wellbeing-dropdown-item-bg) !important;
+  color: var(--wellbeing-dropdown-text) !important;
   padding: 0.5rem 0.68rem;
-  font-size: 0.98rem;
-  line-height: 1.18;
+  font-size: var(--wellbeing-base-font-size);
+  line-height: 1.24;
   letter-spacing: 0;
   text-align: left;
 }
 
-.page :global(.wellbeing-dropdown .documents-dropdown-item:is(:hover, :focus-visible, .is-active)) {
-  background: var(--wellbeing-dropdown-bg-hover);
-  color: var(--wellbeing-dropdown-text);
+.page :global(.wellbeing-dropdown .documents-dropdown-item:is(:hover, :focus-visible)),
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible)) {
+  background: var(--wellbeing-dropdown-item-bg-hover) !important;
+  color: var(--wellbeing-dropdown-text) !important;
+}
+
+.page :global(.wellbeing-dropdown .documents-dropdown-item.is-active),
+.page :global(.wellbeing-dropdown .documents-dropdown-item.is-active:is(:hover, :focus-visible)),
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item.is-active),
+:global(.documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item.is-active:is(:hover, :focus-visible)) {
+  background: var(--wellbeing-dropdown-selected-bg) !important;
+  color: var(--wellbeing-dropdown-selected-text) !important;
+}
+
+:global(:root .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item) {
+  background: var(--wellbeing-dropdown-item-bg) !important;
+  color: var(--wellbeing-dropdown-text) !important;
+}
+
+:global(:root .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible)) {
+  background: var(--wellbeing-dropdown-item-bg-hover) !important;
+  color: var(--wellbeing-dropdown-text) !important;
+}
+
+:global(:root .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item.is-active),
+:global(:root .workspace-feature-dropdown:not(.pre-inquiry-dropdown) .documents-dropdown-menu.wellbeing-dropdown-menu .documents-dropdown-item.is-active:is(:hover, :focus-visible)) {
+  background: var(--wellbeing-dropdown-selected-bg) !important;
+  color: var(--wellbeing-dropdown-selected-text) !important;
 }
 
 .page :global(.button[data-variant="primary"]) {
@@ -625,7 +754,7 @@
   align-items: center;
   gap: 0.42rem;
   color: var(--wellbeing-text);
-  font-size: 0.94rem;
+  font-size: var(--wellbeing-base-font-size);
 }
 
 .quickCheckToggleGroup input {
@@ -635,30 +764,40 @@
 .quickCheckOutput {
   display: grid;
   gap: 0.68rem;
+  min-width: 0;
+  padding: clamp(0.72rem, 1.45vw, 0.96rem) 0;
+  border-top: 1px solid var(--wellbeing-card-border);
 }
 
 .quickCheckOutput h3 {
-  font-size: 1.08rem;
+  font-size: 1.16rem;
   font-weight: 640;
 }
 
 .quickCheckOutputGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.62rem;
+  gap: 0;
 }
 
 .quickCheckOutputCard {
   display: grid;
   align-content: start;
   gap: 0.46rem;
-  padding: 0.68rem;
-  background: var(--wellbeing-inner-bg);
+  padding: 0.72rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--wellbeing-card-border) 70%, transparent);
+  color: var(--wellbeing-text);
+  background: transparent;
   box-shadow: none;
 }
 
+.quickCheckOutputCard:first-child {
+  border-top: 0;
+  padding-top: 0.1rem;
+}
+
 .quickCheckOutputCard h4 {
-  font-size: 0.94rem;
+  font-size: 1rem;
   font-weight: 640;
 }
 
@@ -668,8 +807,8 @@
   margin: 0;
   padding-left: 1.08rem;
   color: var(--wellbeing-muted);
-  font-size: 0.9rem;
-  line-height: 1.3;
+  font-size: var(--wellbeing-small-font-size);
+  line-height: 1.38;
 }
 
 .quickCheckOutputCard textarea {
@@ -689,15 +828,15 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  max-height: 20rem;
+  max-height: none;
   margin: 0;
   overflow: auto;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   color: var(--wellbeing-text);
   font: inherit;
-  font-size: 0.9rem;
-  line-height: 1.42;
+  font-size: var(--wellbeing-output-font-size);
+  line-height: 1.48;
 }
 
 .quickCheckActions {
@@ -714,7 +853,7 @@
   min-height: 2.35rem !important;
   border-radius: 0.72rem !important;
   padding: 0.48rem 0.76rem !important;
-  font-size: 0.96rem !important;
+  font-size: var(--wellbeing-base-font-size) !important;
   line-height: 1.15 !important;
   text-align: center !important;
 }
@@ -750,15 +889,15 @@
 
 .quickCheckActionButton span {
   color: var(--wellbeing-strong-text);
-  font-size: 0.92rem;
+  font-size: var(--wellbeing-small-font-size);
   font-weight: 700;
-  line-height: 1.14;
+  line-height: 1.22;
 }
 
 .quickCheckActionButton small {
   color: var(--wellbeing-muted);
-  font-size: 0.76rem;
-  line-height: 1.24;
+  font-size: var(--wellbeing-tiny-font-size);
+  line-height: 1.34;
 }
 
 .quickCheckPrivacy {
@@ -769,8 +908,8 @@
   min-height: 1.2rem;
   margin: -0.22rem 0 0;
   color: var(--wellbeing-muted);
-  font-size: 0.9rem;
-  line-height: 1.25;
+  font-size: var(--wellbeing-small-font-size);
+  line-height: 1.34;
 }
 
 .overviewWorkflow {
@@ -803,7 +942,7 @@
   color: var(--wellbeing-muted);
   background: transparent;
   font: inherit;
-  font-size: 0.92rem;
+  font-size: var(--wellbeing-small-font-size);
   font-weight: 620;
   line-height: 1;
   cursor: pointer;
@@ -823,24 +962,18 @@
 }
 
 .overviewDemandCard {
-  border-color: rgba(231, 184, 95, 0.42);
-  background:
-    linear-gradient(145deg, rgba(231, 184, 95, 0.12), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+  border-color: rgba(190, 127, 24, 0.5);
+  background: var(--wellbeing-overview-demand-bg);
 }
 
 .overviewResourceCard {
-  border-color: rgba(94, 178, 164, 0.4);
-  background:
-    linear-gradient(145deg, rgba(94, 178, 164, 0.12), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+  border-color: rgba(94, 178, 164, 0.5);
+  background: var(--wellbeing-overview-resource-bg);
 }
 
 .overviewRiskCard {
-  border-color: rgba(213, 105, 105, 0.46);
-  background:
-    linear-gradient(145deg, rgba(213, 105, 105, 0.13), rgba(255, 255, 255, 0.035)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 66%, transparent);
+  border-color: rgba(213, 105, 105, 0.54);
+  background: var(--wellbeing-overview-risk-bg);
 }
 
 .overviewActionList {
@@ -858,7 +991,7 @@
   padding: 0.34rem 0.58rem;
   color: var(--wellbeing-strong-text);
   background: var(--wellbeing-inner-bg);
-  font-size: 0.9rem;
+  font-size: var(--wellbeing-small-font-size);
 }
 
 .recoveryPlanGrid {
@@ -878,8 +1011,8 @@
   color: var(--wellbeing-text);
   background: var(--wellbeing-field-bg);
   font: inherit;
-  font-size: 0.92rem;
-  line-height: 1.42;
+  font-size: var(--wellbeing-output-font-size);
+  line-height: 1.5;
 }
 
 .supportPanel {
@@ -910,16 +1043,16 @@
 .supportPanelHeader h3 {
   margin: 0 0 0.18rem;
   color: var(--wellbeing-strong-text);
-  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
-  line-height: 1.15;
+  font-size: clamp(1.06rem, 1.25vw, 1.16rem);
+  line-height: 1.2;
 }
 
 .supportPanelHeader p {
   max-width: 42rem;
   margin: 0;
   color: var(--wellbeing-muted);
-  font-size: 0.88rem;
-  line-height: 1.36;
+  font-size: var(--wellbeing-small-font-size);
+  line-height: 1.42;
 }
 
 .supportPrivateButton {
@@ -931,7 +1064,7 @@
   background: var(--wellbeing-field-bg);
   box-shadow: none;
   font: inherit;
-  font-size: 0.84rem;
+  font-size: var(--wellbeing-small-font-size);
   font-weight: 650;
   line-height: 1.15;
   white-space: nowrap;
@@ -991,16 +1124,16 @@
 .supportOptionLabel {
   overflow-wrap: anywhere;
   color: var(--wellbeing-strong-text);
-  font-size: 0.9rem;
+  font-size: var(--wellbeing-small-font-size);
   font-weight: 720;
-  line-height: 1.15;
+  line-height: 1.22;
 }
 
 .supportOptionMeta {
   margin-top: 0.2rem;
   color: var(--wellbeing-muted);
-  font-size: 0.76rem;
-  line-height: 1.24;
+  font-size: var(--wellbeing-tiny-font-size);
+  line-height: 1.34;
 }
 
 .supportActions {
@@ -1015,7 +1148,7 @@
   min-height: 2.42rem !important;
   border-radius: 0.76rem !important;
   padding: 0.5rem 0.84rem !important;
-  font-size: 0.96rem !important;
+  font-size: var(--wellbeing-base-font-size) !important;
   line-height: 1.15 !important;
 }
 
@@ -1051,8 +1184,8 @@
   display: grid;
   gap: 0.42rem;
   color: var(--wellbeing-muted);
-  font-size: 0.92rem;
-  line-height: 1.3;
+  font-size: var(--wellbeing-small-font-size);
+  line-height: 1.38;
 }
 
 .supportReviewChecks label {

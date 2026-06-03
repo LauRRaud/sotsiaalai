@@ -207,6 +207,15 @@ function SectionCard({ title, children, className }) {
   );
 }
 
+function ServiceProfileSection({ title, children, className }) {
+  return (
+    <section className={cn("service-profile-section", className)}>
+      <h2 className="service-profile-section-title">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
 function Label({ children, className }) {
   return (
     <label className={cn("grid gap-[0.34rem] text-[0.9rem] font-[620] leading-[1.2] opacity-[0.9]", className)}>
@@ -2634,6 +2643,47 @@ function splitList(value) {
     .filter(Boolean);
 }
 
+function toggleListValue(value, optionValue) {
+  const selected = new Set(splitList(value));
+  if (selected.has(optionValue)) selected.delete(optionValue);
+  else selected.add(optionValue);
+  return [...selected].join(", ");
+}
+
+function serviceProfileCategoryOptions(t) {
+  return [
+    { value: "Transport", label: readText(t, "workspace_feature_pages.service_profile.category_options.transport", "Transport") },
+    { value: "Igapäevaabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.daily_tasks", "Igapäevaabi") },
+    { value: "Koduabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.home_help", "Koduabi") },
+    { value: "Digiabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.digital_help", "Digiabi") },
+    { value: "Tugi ja hooldus", label: readText(t, "workspace_feature_pages.service_profile.category_options.care_support", "Tugi ja hooldus") },
+    { value: "Laste ja noorte tugi", label: readText(t, "workspace_feature_pages.service_profile.category_options.child_youth_support", "Laste ja noorte tugi") },
+    { value: "Õppimise ja juhendamise abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.learning_guidance", "Õppimise ja juhendamise abi") },
+    { value: "Seltskond ja sotsiaalne tugi", label: readText(t, "workspace_feature_pages.service_profile.category_options.social_support", "Seltskond ja sotsiaalne tugi") },
+    { value: "Asjaajamise ja vormide abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.admin_form_help", "Asjaajamise ja vormide abi") },
+    { value: "Muu abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.other", "Muu abi") }
+  ];
+}
+
+function serviceProfileTargetGroupOptions(t) {
+  return [
+    { value: "Laps", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.child", "Laps") },
+    { value: "Noor", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.youth", "Noor") },
+    { value: "Täiskasvanu", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.adult", "Täiskasvanu") },
+    { value: "Eakas", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.elder", "Eakas") },
+    { value: "Erivajadus", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.disability", "Erivajadus") }
+  ];
+}
+
+function serviceProfileLanguageOptions(t) {
+  return [
+    { value: "eesti", label: readText(t, "workspace_feature_pages.service_profile.language_options.et", "Eesti") },
+    { value: "inglise", label: readText(t, "workspace_feature_pages.service_profile.language_options.en", "Inglise") },
+    { value: "vene", label: readText(t, "workspace_feature_pages.service_profile.language_options.ru", "Vene") },
+    { value: "muu", label: readText(t, "workspace_feature_pages.service_profile.language_options.other", "Muu") }
+  ];
+}
+
 function createServiceProfileLocationForm(location = null, index = 0, profile = null) {
   const mapEntry = profile?.serviceMapEntry || null;
   return {
@@ -2720,29 +2770,12 @@ function createServiceProfileForm(profile = null) {
   };
 }
 
-function serviceProfileStatusLabel(t, status) {
-  const normalized = String(status || "DRAFT").toUpperCase();
-  if (normalized === "PUBLISHED") return readText(t, "workspace_feature_pages.service_profile.status.published", "Published");
-  if (normalized === "REVIEW") return readText(t, "workspace_feature_pages.service_profile.status.review", "Review");
-  if (normalized === "HIDDEN") return readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden");
-  return readText(t, "workspace_feature_pages.service_profile.status.draft", "Draft");
-}
-
-function serviceProfileFeeLabel(t, feeType) {
-  const normalized = String(feeType || "UNKNOWN").toUpperCase();
-  if (normalized === "FREE") return readText(t, "workspace_feature_pages.service_profile.fee.free", "Free");
-  if (normalized === "PAID") return readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid");
-  if (normalized === "AGREEMENT") return readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement");
-  if (normalized === "MIXED") return readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed");
-  return readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown");
-}
-
 function serviceProfileMapStatusText(t, mapEntry) {
   if (!mapEntry) {
     return readText(
       t,
       "workspace_feature_pages.service_profile.map_status.empty",
-      "A map location can be prepared after the address is saved."
+      "Kaardiasukoha saab ette valmistada pärast aadressi salvestamist."
     );
   }
 
@@ -2751,24 +2784,24 @@ function serviceProfileMapStatusText(t, mapEntry) {
     return readText(
       t,
       "workspace_feature_pages.service_profile.map_status.matched",
-      "Address has been matched and can be shown on the service map when the profile is published."
+      "Aadressil on vaste olemas ja seda saab avaldatud profiili korral teenusekaardil kuvada."
     );
   }
   if (geocodingStatus === "AMBIGUOUS") {
     return readText(
       t,
       "workspace_feature_pages.service_profile.map_status.ambiguous",
-      "The address needs clarification before it can be shown on the map."
+      "Aadress vajab enne kaardil kuvamist täpsustamist."
     );
   }
   if (geocodingStatus === "FAILED") {
     return readText(
       t,
       "workspace_feature_pages.service_profile.map_status.failed",
-      "The address could not be matched yet. The marker is not shown on the map."
+      "Aadressile ei leitud veel vastet. Markerit kaardil ei kuvata."
     );
   }
-  return readText(t, "workspace_feature_pages.service_profile.map_status.pending", "The address is waiting for matching.");
+  return readText(t, "workspace_feature_pages.service_profile.map_status.pending", "Aadress ootab vastendamist.");
 }
 
 function ToggleRow({ checked, onChange, title, body, className }) {
@@ -2812,6 +2845,49 @@ function ServiceProfileGlowField({ children, className, style }) {
   );
 }
 
+function ServiceProfileDropdown({ ariaLabel, value, onChange, options, openDirection = "down" }) {
+  return (
+    <ServiceProfileGlowField>
+      <DocumentsDropdown
+        ariaLabel={ariaLabel}
+        value={value}
+        onChange={onChange}
+        options={options}
+        openDirection={openDirection}
+        portal
+        className="workspace-feature-dropdown service-profile-glow-dropdown"
+        menuClassName="service-profile-glow-dropdown-menu"
+      />
+    </ServiceProfileGlowField>
+  );
+}
+
+function ServiceProfileChoiceChips({ value, options, onChange, ariaLabel }) {
+  const selected = new Set(splitList(value));
+  return (
+    <div className="service-profile-choice-chips" role="group" aria-label={ariaLabel}>
+      {options.map((option) => {
+        const checked = selected.has(option.value);
+        return (
+          <button
+            key={option.value}
+            type="button"
+            className={cn("service-profile-choice-chip", checked && "is-selected")}
+            aria-pressed={checked ? "true" : "false"}
+            onClick={() => onChange(toggleListValue(value, option.value))}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ServiceProfileFieldHelp({ children }) {
+  return <p className="service-profile-field-help">{children}</p>;
+}
+
 function ServiceProfileInput({ className, ...props }) {
   return (
     <ServiceProfileGlowField>
@@ -2831,6 +2907,17 @@ function ServiceProfileTextarea({ className, ...props }) {
         {...props}
       />
     </ServiceProfileGlowField>
+  );
+}
+
+function ServiceProfileLocationChoice({ checked, onChange, children }) {
+  return (
+    <FancyCheckbox
+      checked={checked}
+      onChange={(value) => onChange(Boolean(value))}
+      className="service-profile-location-choice workspace-feature-fancy-checkbox fancy-checkbox--multiline"
+      label={<span>{children}</span>}
+    />
   );
 }
 
@@ -2879,7 +2966,7 @@ function ServiceProfileAddressInput({ t, form, onTyping, onSelect }) {
       } catch (suggestionError) {
         if (suggestionError?.name !== "AbortError") {
           setSuggestions([]);
-          setError(readText(t, "workspace_feature_pages.service_profile.address_search.error", "Address suggestions could not be loaded."));
+          setError(readText(t, "workspace_feature_pages.service_profile.address_search.error", "Aadressisoovitusi ei saanud laadida."));
         }
       } finally {
         if (!controller.signal.aborted) setLoading(false);
@@ -2897,14 +2984,22 @@ function ServiceProfileAddressInput({ t, form, onTyping, onSelect }) {
       <ServiceProfileInput
         value={query}
         autoComplete="off"
+        placeholder={readText(t, "workspace_feature_pages.service_profile.address_search.placeholder", "Alusta aadressi kirjutamist")}
         onFocus={() => setOpen(true)}
         onChange={(event) => onTyping(event.target.value)}
       />
+      <p className="service-profile-address-hint">
+        {readText(
+          t,
+          "workspace_feature_pages.service_profile.address_search.hint",
+          "Kirjutamisel pakutakse ametlikke aadressivasteid. Kaardil kuvamiseks vali soovitus."
+        )}
+      </p>
       {open && (loading || error || suggestions.length > 0) ? (
         <div className="service-profile-address-suggestions" role="listbox">
           {loading ? (
             <p className="service-profile-address-suggestions__state">
-              {readText(t, "workspace_feature_pages.service_profile.address_search.loading", "Searching addresses...")}
+              {readText(t, "workspace_feature_pages.service_profile.address_search.loading", "Otsin aadresse...")}
             </p>
           ) : null}
           {error ? <p className="service-profile-address-suggestions__state">{error}</p> : null}
@@ -2925,7 +3020,7 @@ function ServiceProfileAddressInput({ t, form, onTyping, onSelect }) {
       ) : null}
       {selectedAddress ? (
         <p className="service-profile-address-selected">
-          {readText(t, "workspace_feature_pages.service_profile.address_search.selected", "Official address match selected:")} {selectedAddress}
+          {readText(t, "workspace_feature_pages.service_profile.address_search.selected", "Valitud ametlik aadressivaste:")} {selectedAddress}
         </p>
       ) : null}
     </div>
@@ -2941,20 +3036,30 @@ function ServiceProfileSurface({ t }) {
   const [error, setError] = useState("");
   const feeOptions = useMemo(
     () => [
-      { value: "UNKNOWN", label: readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Unknown") },
-      { value: "FREE", label: readText(t, "workspace_feature_pages.service_profile.fee.free", "Free") },
-      { value: "PAID", label: readText(t, "workspace_feature_pages.service_profile.fee.paid", "Paid") },
-      { value: "AGREEMENT", label: readText(t, "workspace_feature_pages.service_profile.fee.agreement", "By agreement") },
-      { value: "MIXED", label: readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mixed") }
+      { value: "UNKNOWN", label: readText(t, "workspace_feature_pages.service_profile.fee.unknown", "Täpsustamata") },
+      { value: "FREE", label: readText(t, "workspace_feature_pages.service_profile.fee.free", "Tasuta") },
+      { value: "PAID", label: readText(t, "workspace_feature_pages.service_profile.fee.paid", "Tasuline") },
+      { value: "AGREEMENT", label: readText(t, "workspace_feature_pages.service_profile.fee.agreement", "Kokkuleppel") },
+      { value: "MIXED", label: readText(t, "workspace_feature_pages.service_profile.fee.mixed", "Mitu tüüpi") }
     ],
     [t]
   );
   const statusOptions = useMemo(
     () => [
-      { value: "DRAFT", label: readText(t, "workspace_feature_pages.service_profile.status.draft", "Draft") },
-      { value: "REVIEW", label: readText(t, "workspace_feature_pages.service_profile.status.review", "Review") },
-      { value: "PUBLISHED", label: readText(t, "workspace_feature_pages.service_profile.status.published", "Published") },
-      { value: "HIDDEN", label: readText(t, "workspace_feature_pages.service_profile.status.hidden", "Hidden") }
+      { value: "DRAFT", label: readText(t, "workspace_feature_pages.service_profile.status.draft", "Avaldamata") },
+      { value: "REVIEW", label: readText(t, "workspace_feature_pages.service_profile.status.review", "Ülevaatusel") },
+      { value: "PUBLISHED", label: readText(t, "workspace_feature_pages.service_profile.status.published", "Avaldatud") },
+      { value: "HIDDEN", label: readText(t, "workspace_feature_pages.service_profile.status.hidden", "Peidetud") }
+    ],
+    [t]
+  );
+  const categoryOptions = useMemo(() => serviceProfileCategoryOptions(t), [t]);
+  const targetGroupOptions = useMemo(() => serviceProfileTargetGroupOptions(t), [t]);
+  const languageOptions = useMemo(() => serviceProfileLanguageOptions(t), [t]);
+  const serviceCategoryOptions = useMemo(
+    () => [
+      { value: "", label: readText(t, "workspace_feature_pages.service_profile.category_options.unspecified", "Täpsustamata") },
+      ...serviceProfileCategoryOptions(t)
     ],
     [t]
   );
@@ -2968,7 +3073,7 @@ function ServiceProfileSurface({ t }) {
         const response = await fetch("/api/service-provider/profile", { cache: "no-store" });
         const payload = await response.json().catch(() => ({}));
         if (!response.ok) {
-          throw new Error(payload?.message || readText(t, "workspace_feature_pages.service_profile.errors.load_failed", "Service profile could not be loaded."));
+          throw new Error(payload?.message || readText(t, "workspace_feature_pages.service_profile.errors.load_failed", "Teenuseprofiili ei saanud laadida."));
         }
         if (!cancelled) {
           const loadedProfile = payload?.profile || null;
@@ -2978,7 +3083,7 @@ function ServiceProfileSurface({ t }) {
       } catch (loadError) {
         if (!cancelled) {
           setProfile(null);
-          setError(loadError?.message || readText(t, "workspace_feature_pages.service_profile.errors.load_failed", "Service profile could not be loaded."));
+          setError(loadError?.message || readText(t, "workspace_feature_pages.service_profile.errors.load_failed", "Teenuseprofiili ei saanud laadida."));
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -3081,29 +3186,6 @@ function ServiceProfileSurface({ t }) {
         .map((item, itemIndex) => ({ ...item, sortOrder: itemIndex }))
     }));
   }, []);
-  const updateAddressTyping = useCallback((value) => {
-    setForm((current) => ({
-      ...current,
-      address: value,
-      normalizedAddress: "",
-      latitude: "",
-      longitude: "",
-      adsObjectId: "",
-      geocodingProvider: ""
-    }));
-  }, []);
-  const selectAddressSuggestion = useCallback((suggestion) => {
-    setForm((current) => ({
-      ...current,
-      address: suggestion.normalizedAddress || suggestion.label || current.address,
-      normalizedAddress: suggestion.normalizedAddress || suggestion.label || current.address,
-      latitude: suggestion.latitude ?? "",
-      longitude: suggestion.longitude ?? "",
-      adsObjectId: suggestion.adsObjectId || "",
-      geocodingProvider: suggestion.provider || "maaruum"
-    }));
-  }, []);
-
   async function handleSubmit(event) {
     event.preventDefault();
     if (saving) return;
@@ -3113,6 +3195,11 @@ function ServiceProfileSurface({ t }) {
     setError("");
 
     try {
+      const primaryMapLocation =
+        form.serviceLocations.find((item) =>
+          item.mapVisible !== false &&
+          String(item.address || item.normalizedAddress || "").trim()
+        ) || form.serviceLocations.find((item) => String(item.address || item.normalizedAddress || "").trim()) || null;
       const response = await fetch("/api/service-provider/profile", {
         method: "PUT",
         headers: {
@@ -3120,6 +3207,13 @@ function ServiceProfileSurface({ t }) {
         },
         body: JSON.stringify({
           ...form,
+          address: primaryMapLocation?.address || form.address,
+          normalizedAddress: primaryMapLocation?.normalizedAddress || form.normalizedAddress,
+          latitude: primaryMapLocation?.latitude || form.latitude,
+          longitude: primaryMapLocation?.longitude || form.longitude,
+          adsObjectId: primaryMapLocation?.adsObjectId || form.adsObjectId,
+          geocodingProvider: primaryMapLocation?.geocodingProvider || form.geocodingProvider,
+          county: primaryMapLocation?.county || form.county,
           services: splitList(form.services),
           serviceCategories: splitList(form.serviceCategories),
           targetGroups: splitList(form.targetGroups),
@@ -3145,81 +3239,28 @@ function ServiceProfileSurface({ t }) {
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(payload?.message || readText(t, "workspace_feature_pages.service_profile.errors.save_failed", "Service profile could not be saved."));
+        throw new Error(payload?.message || readText(t, "workspace_feature_pages.service_profile.errors.save_failed", "Teenuseprofiili ei saanud salvestada."));
       }
       const savedProfile = payload?.profile || null;
       setProfile(savedProfile);
       setForm(createServiceProfileForm(savedProfile));
-      setNotice(readText(t, "workspace_feature_pages.service_profile.save_success", "Service profile saved."));
+      setNotice(readText(t, "workspace_feature_pages.service_profile.save_success", "Teenuseprofiil salvestati."));
     } catch (saveError) {
-      setError(saveError?.message || readText(t, "workspace_feature_pages.service_profile.errors.save_failed", "Service profile could not be saved."));
+      setError(saveError?.message || readText(t, "workspace_feature_pages.service_profile.errors.save_failed", "Teenuseprofiili ei saanud salvestada."));
     } finally {
       setSaving(false);
     }
   }
 
   const mapEntry = profile?.serviceMapEntry || null;
-  const canPublishToMap =
-    form.mapVisible &&
-    form.status === "PUBLISHED" &&
-    (String(mapEntry?.geocodingStatus || "").toUpperCase() === "MATCHED" ||
-      String(mapEntry?.geocodingStatus || "").toUpperCase() === "MANUALLY_CONFIRMED");
   const saveLabel = saving
-    ? readText(t, "workspace_feature_pages.service_profile.actions.saving", "Saving...")
-    : readText(t, "workspace_feature_pages.service_profile.actions.save", "Save changes");
+    ? readText(t, "workspace_feature_pages.service_profile.actions.saving", "Salvestan...")
+    : readText(t, "workspace_feature_pages.service_profile.actions.save", "Salvesta muudatused");
 
   return (
     <form onSubmit={handleSubmit} className="service-profile-form mx-auto grid w-full max-w-[58rem] gap-[1rem]">
-      <div className="grid gap-[0.72rem] pb-[0.9rem]">
-        <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
-          <div className="grid max-w-[42rem] gap-[0.3rem]">
-            <p className="m-0 text-[1.02rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
-              {readText(t, "workspace_feature_pages.service_profile.overview.title", "Service provider workspace")}
-            </p>
-            <p className={bodyTextClassName}>
-              {readText(
-                t,
-                "workspace_feature_pages.service_profile.overview.body",
-                "Manage the information people need before contacting you: services, area, contact channels and whether pre-inquiries are accepted."
-              )}
-            </p>
-          </div>
-          <Button type="submit" disabled={loading || saving || !form.organizationName.trim()}>
-            {saveLabel}
-          </Button>
-        </div>
-        <div className="grid gap-[0.56rem] sm:grid-cols-3">
-          <div className="workspace-feature-inline-stat">
-            <span className="workspace-feature-inline-stat__label">
-              {readText(t, "workspace_feature_pages.service_profile.summary.status", "Status")}
-            </span>
-            <strong className="workspace-feature-inline-stat__value">
-              {serviceProfileStatusLabel(t, form.status)}
-            </strong>
-          </div>
-          <div className="workspace-feature-inline-stat">
-            <span className="workspace-feature-inline-stat__label">
-              {readText(t, "workspace_feature_pages.service_profile.summary.price", "Price")}
-            </span>
-            <strong className="workspace-feature-inline-stat__value">
-              {serviceProfileFeeLabel(t, form.feeType)}
-            </strong>
-          </div>
-          <div className="workspace-feature-inline-stat">
-            <span className="workspace-feature-inline-stat__label">
-              {readText(t, "workspace_feature_pages.service_profile.summary.map_status", "Teenusekaart")}
-            </span>
-            <strong className={cn("workspace-feature-inline-stat__value", canPublishToMap && "text-[color:var(--workspace-feature-accent)]")}>
-              {canPublishToMap
-                ? readText(t, "workspace_feature_pages.service_profile.summary.map_ready", "Map ready")
-                : readText(t, "workspace_feature_pages.service_profile.summary.map_not_ready", "Map not shown yet")}
-            </strong>
-          </div>
-        </div>
-      </div>
-
       {loading ? (
-        <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.service_profile.loading", "Loading service profile...")}</p>
+        <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.service_profile.loading", "Teenuseprofiili laadimine...")}</p>
       ) : null}
       {error ? (
         <p className="rounded-[1rem] border border-[rgba(208,116,108,0.22)] bg-[rgba(58,22,25,0.82)] px-[0.86rem] py-[0.58rem] text-[0.96rem] leading-[1.35] text-[rgba(255,223,218,0.96)] light:bg-[rgba(255,249,248,0.94)] light:text-[#b2615d]">
@@ -3232,66 +3273,101 @@ function ServiceProfileSurface({ t }) {
         </p>
       ) : null}
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Service information")}>
-        <div className="grid gap-[0.72rem] sm:grid-cols-2">
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Teenuseosutaja pohiinfo")}>
+        <div className="service-profile-field-stack">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization", "Organization name")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization", "Organisatsiooni nimi")}</span>
             <ServiceProfileInput value={form.organizationName} onChange={(event) => updateField("organizationName", event.target.value)} />
           </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.categories", "Categories")}</span>
-            <ServiceProfileInput value={form.serviceCategories} onChange={(event) => updateField("serviceCategories", event.target.value)} />
-          </Label>
+          <div className="service-profile-field-group">
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.categories", "Kategooriad")}</span>
+            <ServiceProfileChoiceChips
+              value={form.serviceCategories}
+              options={categoryOptions}
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.categories", "Kategooriad")}
+              onChange={(nextValue) => updateField("serviceCategories", nextValue)}
+            />
+            <ServiceProfileFieldHelp>
+              {readText(
+                t,
+                "workspace_feature_pages.service_profile.field_help.categories",
+                "Kategooriad on standardvalikud. Neid kasutatakse teenusekaardi otsingus ja eelpöördumiste sobitamises."
+              )}
+            </ServiceProfileFieldHelp>
+          </div>
         </div>
         <Label>
-          <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Short description")}</span>
+          <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Lühikirjeldus")}</span>
           <ServiceProfileTextarea
             className="min-h-[7rem]"
             value={form.shortDescription}
             onChange={(event) => updateField("shortDescription", event.target.value)}
           />
         </Label>
-        <div className="grid gap-[0.72rem] sm:grid-cols-2">
+        <div className="service-profile-field-stack">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.services", "Services")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.services_overview", "Teenuste luhikokkuvote")}</span>
             <ServiceProfileTextarea className="min-h-[6.2rem]" value={form.services} onChange={(event) => updateField("services", event.target.value)} />
           </Label>
+          <div className="service-profile-field-group">
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Sihtrühmad")}</span>
+            <ServiceProfileChoiceChips
+              value={form.targetGroups}
+              options={targetGroupOptions}
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Sihtrühmad")}
+              onChange={(nextValue) => updateField("targetGroups", nextValue)}
+            />
+            <ServiceProfileFieldHelp>
+              {readText(
+                t,
+                "workspace_feature_pages.service_profile.field_help.target_groups",
+                "Sihtrühmad on samuti standardvalikud, et sama teenus ei jääks kirjavea tõttu filtrist või eelpöördumisest välja."
+              )}
+            </ServiceProfileFieldHelp>
+          </div>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Target groups")}</span>
-            <ServiceProfileTextarea className="min-h-[6.2rem]" value={form.targetGroups} onChange={(event) => updateField("targetGroups", event.target.value)} />
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Hinnastus")}</span>
+            <ServiceProfileDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Hinnastus")}
+              value={form.feeType}
+              onChange={(nextValue) => updateField("feeType", nextValue)}
+              options={feeOptions}
+            />
           </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}</span>
-            <ServiceProfileGlowField>
-              <DocumentsDropdown
-                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Price")}
-                value={form.feeType}
-                onChange={(nextValue) => updateField("feeType", nextValue)}
-                options={feeOptions}
-                className="workspace-feature-dropdown service-profile-glow-dropdown"
-              />
-            </ServiceProfileGlowField>
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Languages")}</span>
-            <ServiceProfileInput value={form.languages} onChange={(event) => updateField("languages", event.target.value)} />
-          </Label>
+          <div className="service-profile-field-group">
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Keeled")}</span>
+            <ServiceProfileChoiceChips
+              value={form.languages}
+              options={languageOptions}
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.languages", "Keeled")}
+              onChange={(nextValue) => updateField("languages", nextValue)}
+            />
+          </div>
         </div>
-      </SectionCard>
+      </ServiceProfileSection>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.locations", "Teeninduskohad")}>
-        <div className="grid gap-[0.82rem]">
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.services_locations", "Teenused ja teeninduskohad")}>
+        <ServiceProfileFieldHelp>
+          {readText(
+            t,
+            "workspace_feature_pages.service_profile.field_help.services_locations",
+            "Teeninduskoht on kaardimarkeri alus. Aadressiväli pakub kirjutamisel ametlikke vasteid; vali vaste, et marker saaks usaldusväärse asukoha."
+          )}
+        </ServiceProfileFieldHelp>
+        <div className="service-profile-subsection">
+          <h3 className="service-profile-subsection-title">{readText(t, "workspace_feature_pages.service_profile.sections.locations", "Teeninduskohad")}</h3>
+          <div className="grid gap-[0.82rem]">
           {form.serviceLocations.length ? form.serviceLocations.map((location, index) => (
-            <div key={location.clientId || `location-${index}`} className="grid gap-[0.72rem] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.045)] p-[0.82rem]">
+            <div key={location.clientId || `location-${index}`} className="service-profile-nested-card">
               <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
                 <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
                   {readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} {index + 1}
                 </p>
-                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="!min-h-[2.4rem] !px-[0.95rem] !py-[0.55rem] !text-[0.92rem]">
+                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="service-profile-secondary-action">
                   {readText(t, "workspace_feature_pages.service_profile.locations.remove", "Eemalda")}
                 </Button>
               </div>
-              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+              <div className="service-profile-field-stack">
                 <Label>
                   <span>{readText(t, "workspace_feature_pages.service_profile.locations.label", "Nimetus")}</span>
                   <ServiceProfileInput value={location.label} onChange={(event) => updateServiceLocation(index, "label", event.target.value)} />
@@ -3306,17 +3382,17 @@ function ServiceProfileSurface({ t }) {
                   />
                 </Label>
               </div>
-              <div className="grid gap-[0.72rem] sm:grid-cols-3">
+              <div className="service-profile-field-stack">
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
                   <ServiceProfileInput value={location.phone} onChange={(event) => updateServiceLocation(index, "phone", event.target.value)} />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
                   <ServiceProfileInput type="email" value={location.email} onChange={(event) => updateServiceLocation(index, "email", event.target.value)} />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Website")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
                   <ServiceProfileInput value={location.website} onChange={(event) => updateServiceLocation(index, "website", event.target.value)} />
                 </Label>
               </div>
@@ -3336,54 +3412,60 @@ function ServiceProfileSurface({ t }) {
             {readText(t, "workspace_feature_pages.service_profile.locations.add", "Lisa teeninduskoht")}
           </Button>
         </div>
-      </SectionCard>
-
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.services", "Services under this provider")}>
-        <div className="grid gap-[0.82rem]">
+        </div>
+        <div className="service-profile-subsection">
+          <h3 className="service-profile-subsection-title">{readText(t, "workspace_feature_pages.service_profile.sections.services", "Teenused")}</h3>
+          <div className="grid gap-[0.82rem]">
           {form.serviceItems.length ? form.serviceItems.map((service, index) => (
-            <div key={`service-item-${index}`} className="grid gap-[0.72rem] rounded-[1rem] border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.045)] p-[0.82rem]">
+            <div key={`service-item-${index}`} className="service-profile-nested-card">
               <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
                 <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
-                  {readText(t, "workspace_feature_pages.service_profile.service_items.item_title", "Service")} {index + 1}
+                  {readText(t, "workspace_feature_pages.service_profile.service_items.item_title", "Teenus")} {index + 1}
                 </p>
                 <Button
                   type="button"
                   variant="secondary"
                   onClick={() => removeServiceItem(index)}
-                  className="!min-h-[2.4rem] !px-[0.95rem] !py-[0.55rem] !text-[0.92rem]"
+                  className="service-profile-secondary-action"
                 >
-                  {readText(t, "workspace_feature_pages.service_profile.service_items.remove", "Remove")}
+                  {readText(t, "workspace_feature_pages.service_profile.service_items.remove", "Eemalda")}
                 </Button>
               </div>
-              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+              <div className="service-profile-field-stack">
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.name", "Service name")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.name", "Teenuse nimi")}</span>
                   <ServiceProfileInput value={service.name} onChange={(event) => updateServiceItem(index, "name", event.target.value)} />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.category", "Category")}</span>
-                  <ServiceProfileInput value={service.category} onChange={(event) => updateServiceItem(index, "category", event.target.value)} />
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.category", "Kategooria")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.category", "Kategooria")}
+                    value={service.category}
+                    onChange={(nextValue) => updateServiceItem(index, "category", nextValue)}
+                    options={serviceCategoryOptions}
+                  />
                 </Label>
               </div>
               <Label>
-                <span>{readText(t, "workspace_feature_pages.service_profile.service_items.description", "Description")}</span>
+                <span>{readText(t, "workspace_feature_pages.service_profile.service_items.description", "Kirjeldus")}</span>
                 <ServiceProfileTextarea
                   className="min-h-[5.8rem]"
                   value={service.description}
                   onChange={(event) => updateServiceItem(index, "description", event.target.value)}
                 />
               </Label>
-              <div className="grid gap-[0.72rem] sm:grid-cols-2">
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Target groups")}</span>
-                  <ServiceProfileTextarea
-                    className="min-h-[5.2rem]"
+              <div className="service-profile-field-stack">
+                <div className="service-profile-field-group">
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Sihtrühmad")}</span>
+                  <ServiceProfileChoiceChips
                     value={service.targetGroups}
-                    onChange={(event) => updateServiceItem(index, "targetGroups", event.target.value)}
+                    options={targetGroupOptions}
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Sihtrühmad")}
+                    onChange={(nextValue) => updateServiceItem(index, "targetGroups", nextValue)}
                   />
-                </Label>
+                </div>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.service_area", "Service area")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.service_area", "Teeninduspiirkond")}</span>
                   <ServiceProfileTextarea
                     className="min-h-[5.2rem]"
                     value={service.serviceArea}
@@ -3396,175 +3478,151 @@ function ServiceProfileSurface({ t }) {
                   <p className="m-0 text-[0.92rem] font-[640] leading-[1.2]">
                     {readText(t, "workspace_feature_pages.service_profile.service_items.locations", "Teeninduskohad")}
                   </p>
-                  <div className="flex flex-wrap gap-[0.42rem]">
+                  <div className="service-profile-location-choice-list">
                     {form.serviceLocations.map((location, locationIndex) => {
                       const locationId = location.clientId || `location-${locationIndex + 1}`;
                       const checked = (service.locationIds || []).includes(locationId);
                       return (
-                        <label key={locationId} className="inline-flex items-center gap-[0.36rem] rounded-full border border-[rgba(255,255,255,0.14)] px-[0.68rem] py-[0.34rem] text-[0.86rem]">
-                          <input
-                            type="checkbox"
-                            checked={checked}
-                            onChange={(event) => {
-                              const currentIds = new Set(service.locationIds || []);
-                              if (event.target.checked) currentIds.add(locationId);
-                              else currentIds.delete(locationId);
-                              updateServiceItem(index, "locationIds", [...currentIds]);
-                            }}
-                          />
-                          <span>{location.label || location.normalizedAddress || location.address || `${readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} ${locationIndex + 1}`}</span>
-                        </label>
+                        <ServiceProfileLocationChoice
+                          key={locationId}
+                          checked={checked}
+                          onChange={(nextChecked) => {
+                            const currentIds = new Set(service.locationIds || []);
+                            if (nextChecked) currentIds.add(locationId);
+                            else currentIds.delete(locationId);
+                            updateServiceItem(index, "locationIds", [...currentIds]);
+                          }}
+                        >
+                          {location.label || location.normalizedAddress || location.address || `${readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} ${locationIndex + 1}`}
+                        </ServiceProfileLocationChoice>
                       );
                     })}
                   </div>
                 </div>
               ) : null}
-              <div className="grid gap-[0.72rem] sm:grid-cols-2">
+              <div className="service-profile-field-stack">
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Price")}</span>
-                  <ServiceProfileGlowField>
-                    <DocumentsDropdown
-                      ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Price")}
-                      value={service.feeType}
-                      onChange={(nextValue) => updateServiceItem(index, "feeType", nextValue)}
-                      options={feeOptions}
-                      className="workspace-feature-dropdown service-profile-glow-dropdown"
-                    />
-                  </ServiceProfileGlowField>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Hinnastus")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Hinnastus")}
+                    value={service.feeType}
+                    onChange={(nextValue) => updateServiceItem(index, "feeType", nextValue)}
+                    options={feeOptions}
+                  />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.price_description", "Price note")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.price_description", "Hinna täpsustus")}</span>
                   <ServiceProfileInput value={service.priceDescription} onChange={(event) => updateServiceItem(index, "priceDescription", event.target.value)} />
                 </Label>
               </div>
-              <div className="grid gap-[0.72rem] sm:grid-cols-3">
+              <div className="service-profile-field-stack">
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_name", "Contact person")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_name", "Kontaktisik")}</span>
                   <ServiceProfileInput value={service.contactName} onChange={(event) => updateServiceItem(index, "contactName", event.target.value)} />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
                   <ServiceProfileInput value={service.phone} onChange={(event) => updateServiceItem(index, "phone", event.target.value)} />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
                   <ServiceProfileInput type="email" value={service.email} onChange={(event) => updateServiceItem(index, "email", event.target.value)} />
                 </Label>
               </div>
-              <div className="grid gap-[0.64rem] sm:grid-cols-3">
+              <div className="grid gap-[0.64rem]">
                 <ToggleRow
                   checked={service.mapVisible}
                   onChange={(value) => updateServiceItem(index, "mapVisible", value)}
-                  title={readText(t, "workspace_feature_pages.service_profile.service_items.visible_in_profile", "Visible under map marker")}
+                  title={readText(t, "workspace_feature_pages.service_profile.service_items.visible_in_profile", "Nähtav kaardimarkeri all")}
                   className="workspace-feature-toggle-row--flat"
                 />
                 <ToggleRow
                   checked={service.acceptsPlatformPreInquiries}
                   onChange={(value) => updateServiceItem(index, "acceptsPlatformPreInquiries", value)}
-                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}
+                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Võtab vastu SotsiaalAI siseseid eelpöördumisi")}
                   className="workspace-feature-toggle-row--flat"
                 />
                 <ToggleRow
                   checked={service.acceptsEmailPreInquiries}
                   onChange={(value) => updateServiceItem(index, "acceptsEmailPreInquiries", value)}
-                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}
+                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Võtab vastu e-posti mustandeid")}
                   className="workspace-feature-toggle-row--flat"
                 />
               </div>
             </div>
           )) : (
             <p className={bodyTextClassName}>
-              {readText(t, "workspace_feature_pages.service_profile.service_items.empty", "No separate services have been added yet.")}
+              {readText(t, "workspace_feature_pages.service_profile.service_items.empty", "Eraldi teenuseid ei ole veel lisatud.")}
             </p>
           )}
           <Button type="button" variant="secondary" onClick={addServiceItem} className="justify-self-start">
-            {readText(t, "workspace_feature_pages.service_profile.service_items.add", "Add service")}
+            {readText(t, "workspace_feature_pages.service_profile.service_items.add", "Lisa teenus")}
           </Button>
         </div>
-      </SectionCard>
+        </div>
+      </ServiceProfileSection>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.area", "Service area and location")}>
-        <div className="grid gap-[0.72rem] sm:grid-cols-2">
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.area", "Teeninduspiirkond ja asukoht")}>
+        <ServiceProfileFieldHelp>
+          {readText(
+            t,
+            "workspace_feature_pages.service_profile.field_help.area",
+            "Teeninduspiirkond kirjeldab, kust inimesi teenindatakse. Kaardimarkerite aadressid sisesta teeninduskohtade plokis."
+          )}
+        </ServiceProfileFieldHelp>
+        <div className="service-profile-field-stack">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Service area")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Teeninduspiirkond")}</span>
             <ServiceProfileInput value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
           </Label>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "Municipality IDs or names")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "KOV-id või piirkonnad")}</span>
             <ServiceProfileInput value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
           </Label>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "County")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "Maakond")}</span>
             <ServiceProfileInput value={form.county} onChange={(event) => updateField("county", event.target.value)} />
           </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.address", "Address or reception location")}</span>
-            <ServiceProfileAddressInput
-              t={t}
-              form={form}
-              onTyping={updateAddressTyping}
-              onSelect={selectAddressSuggestion}
-            />
-          </Label>
         </div>
-        <ToggleRow
-          checked={form.mapVisible}
-          onChange={(value) => updateField("mapVisible", value)}
-          title={readText(t, "workspace_feature_pages.service_profile.visibility.visible", "Visible on service map")}
-          body={readText(
-            t,
-            "workspace_feature_pages.service_profile.visibility.visible_help",
-            "The service is shown on the map only when the profile is published and the address has a reliable match."
-          )}
-        />
-        <div className="grid gap-[0.22rem] pt-[0.72rem]">
-          <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
-            {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Address status")}
-          </p>
-          <p className={bodyTextClassName}>{serviceProfileMapStatusText(t, mapEntry)}</p>
-          {mapEntry?.normalizedAddress || mapEntry?.address ? (
-            <p className={bodyTextClassName}>{mapEntry.normalizedAddress || mapEntry.address}</p>
-          ) : null}
-        </div>
-      </SectionCard>
+      </ServiceProfileSection>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.contact", "Contact and pre-inquiries")}>
-        <div className="grid gap-[0.72rem] sm:grid-cols-3">
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.contact", "Kontakt ja eelpöördumised")}>
+        <div className="service-profile-field-stack">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Phone")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
             <ServiceProfileInput value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
           </Label>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Email")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
             <ServiceProfileInput type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
           </Label>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Website")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
             <ServiceProfileInput value={form.website} onChange={(event) => updateField("website", event.target.value)} />
           </Label>
         </div>
-        <div className="grid gap-[0.64rem] pt-[0.72rem] sm:grid-cols-2">
+        <div className="grid gap-[0.64rem] pt-[0.72rem]">
           <ToggleRow
             checked={form.acceptsPlatformPreInquiries}
             onChange={(value) => updateField("acceptsPlatformPreInquiries", value)}
-            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Accept pre-inquiries in SotsiaalAI")}
-            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.platform_help", "People can send an internal pre-inquiry to this provider account.")}
+            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_platform", "Võtab vastu SotsiaalAI siseseid eelpöördumisi")}
+            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.platform_help", "Inimene saab saata sisemise eelpöördumise selle teenuseosutaja kontole.")}
             className="workspace-feature-toggle-row--flat"
           />
           <ToggleRow
             checked={form.acceptsEmailPreInquiries}
             onChange={(value) => updateField("acceptsEmailPreInquiries", value)}
-            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Accept pre-inquiries by email")}
-            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "The workflow can prepare an email draft for the contact address.")}
+            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Võtab vastu e-posti mustandeid")}
+            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "Töövoog saab koostada e-kirja mustandi kontaktmeili jaoks.")}
             className="workspace-feature-toggle-row--flat"
           />
         </div>
-      </SectionCard>
+      </ServiceProfileSection>
 
-      <SectionCard title={readText(t, "workspace_feature_pages.service_profile.sections.publish", "Publishing")}>
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.publish", "Avaldamine")}>
         <div className="service-profile-publish-layout">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Accessibility info")}</span>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Ligipääsetavuse info")}</span>
             <ServiceProfileTextarea
               className="min-h-[6.6rem]"
               value={form.accessibilityInfo}
@@ -3573,31 +3631,48 @@ function ServiceProfileSurface({ t }) {
           </Label>
           <div className="service-profile-publish-side">
             <Label>
-              <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}</span>
-              <ServiceProfileGlowField>
-                <DocumentsDropdown
-                  ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Status")}
-                  value={form.status}
-                  onChange={(nextValue) => updateField("status", nextValue)}
-                  options={statusOptions}
-                  openDirection="up"
-                  className="workspace-feature-dropdown service-profile-glow-dropdown"
-                />
-              </ServiceProfileGlowField>
+              <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Staatus")}</span>
+              <ServiceProfileDropdown
+                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Staatus")}
+                value={form.status}
+                onChange={(nextValue) => updateField("status", nextValue)}
+                options={statusOptions}
+                openDirection="up"
+              />
             </Label>
+            <ToggleRow
+              checked={form.mapVisible}
+              onChange={(value) => updateField("mapVisible", value)}
+              title={readText(t, "workspace_feature_pages.service_profile.visibility.visible", "Avalda teenusekaardil")}
+              body={readText(
+                t,
+                "workspace_feature_pages.service_profile.visibility.visible_help",
+                "Teenusekaart kuvab profiili ainult siis, kui staatus on avaldatud ja vähemalt ühel kaardil nähtaval teeninduskohal on ametlik aadressivaste."
+              )}
+              className="workspace-feature-toggle-row--flat"
+            />
             <p className={`${bodyTextClassName} service-profile-publish-help`}>
               {readText(
                 t,
                 "workspace_feature_pages.service_profile.publish_help",
-                "Draft and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears."
+                "Avaldamata ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet."
               )}
             </p>
+            <div className="service-profile-map-state">
+              <p className="service-profile-map-state__label">
+                {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Aadressi seis")}
+              </p>
+              <p className={bodyTextClassName}>{serviceProfileMapStatusText(t, mapEntry)}</p>
+              {mapEntry?.normalizedAddress || mapEntry?.address ? (
+                <p className={bodyTextClassName}>{mapEntry.normalizedAddress || mapEntry.address}</p>
+              ) : null}
+            </div>
             <Button type="submit" disabled={loading || saving || !form.organizationName.trim()} className="service-profile-publish-save justify-self-start">
               {saveLabel}
             </Button>
           </div>
         </div>
-      </SectionCard>
+      </ServiceProfileSection>
     </form>
   );
 }

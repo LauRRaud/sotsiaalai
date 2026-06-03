@@ -774,15 +774,18 @@
         "body": "Sisesta info, mida inimene vajab enne ühendust võtmist: teenused, piirkond, kontaktkanalid ja eelpöördumiste vastuvõtt."
       },
       "summary": {
+        "label": "Profiili seis",
         "status": "Staatus",
         "price": "Hind",
+        "pricing": "Hinnastus",
         "map_status": "Teenusekaart",
         "map_ready": "Kaardil kuvamiseks valmis",
-        "map_not_ready": "Kaardil veel ei kuvata"
+        "map_not_ready": "Kaardil kuvamata"
       },
       "sections": {
-        "profile": "Teenuse info",
-        "services": "Teenused selle teenuseosutaja all",
+        "profile": "Teenuseosutaja põhainfo",
+        "services": "Teenused",
+        "services_locations": "Teenused ja teeninduskohad",
         "locations": "Teeninduskohad",
         "map_profile": "Kaardiprofiil",
         "outputs": "Väljundid",
@@ -794,6 +797,7 @@
         "organization": "Organisatsiooni nimi",
         "short_description": "Lühikirjeldus",
         "services": "Teenused",
+        "services_overview": "Teenuste lühikokkuvõte",
         "categories": "Kategooriad",
         "target_groups": "Sihtrühmad",
         "service_area": "Teeninduspiirkond",
@@ -806,14 +810,14 @@
         "languages": "Keeled",
         "accessibility_info": "Ligipääsetavuse info",
         "status": "Staatus",
-        "fee_type": "Hind"
+        "fee_type": "Hinnastus"
       },
       "visibility": {
-        "visible": "Teenusekaardil nähtav",
-        "visible_help": "Teenus kuvatakse kaardil ainult siis, kui profiil on avaldatud ja aadressil on usaldusväärne vaste."
+        "visible": "Avalda teenusekaardil",
+        "visible_help": "Teenusekaart kuvab profiili ainult siis, kui staatus on avaldatud ja vähemalt ühel kaardil nähtaval teeninduskohal on ametlik aadressivaste."
       },
       "status": {
-        "draft": "Mustand",
+        "draft": "Avaldamata",
         "review": "Ülevaatusel",
         "published": "Avaldatud",
         "hidden": "Peidetud"
@@ -839,7 +843,7 @@
         "target_groups": "Sihtrühmad",
         "service_area": "Teeninduspiirkond",
         "locations": "Teeninduskohad",
-        "fee_type": "Hind",
+        "fee_type": "Hinnastus",
         "price_description": "Hinna täpsustus",
         "contact_name": "Kontaktisik",
         "visible_in_profile": "Nähtav kaardimarkeri all",
@@ -865,12 +869,46 @@
         "failed": "Aadressile ei leitud veel vastet. Markerit kaardil ei kuvata."
       },
       "address_search": {
+        "placeholder": "Alusta aadressi kirjutamist",
+        "hint": "Kirjutamisel pakutakse ametlikke aadressivasteid. Kaardil kuvamiseks vali soovitus.",
         "loading": "Otsin aadresse...",
         "selected": "Valitud ametlik aadressivaste:",
         "error": "Aadressisoovitusi ei saanud laadida."
       },
+      "field_help": {
+        "categories": "Kategooriad on standardvalikud. Neid kasutatakse teenusekaardi otsingus ja eelpöördumiste sobitamises.",
+        "target_groups": "Sihtrühmad on samuti standardvalikud, et sama teenus ei jääks kirjavea tõttu filtrist või eelpöördumisest välja.",
+        "services_locations": "Teeninduskoht on kaardimarkeri alus. Aadressiväli pakub kirjutamisel ametlikke vasteid; vali vaste, et marker saaks usaldusväärse asukoha.",
+        "area": "Teeninduspiirkond kirjeldab, kust inimesi teenindatakse. Kaardimarkerite aadressid sisesta teeninduskohtade plokis."
+      },
+      "category_options": {
+        "unspecified": "Täpsustamata",
+        "transport": "Transport",
+        "daily_tasks": "Igapäevaabi",
+        "home_help": "Koduabi",
+        "digital_help": "Digiabi",
+        "care_support": "Tugi ja hooldus",
+        "child_youth_support": "Laste ja noorte tugi",
+        "learning_guidance": "Õppimise ja juhendamise abi",
+        "social_support": "Seltskond ja sotsiaalne tugi",
+        "admin_form_help": "Asjaajamise ja vormide abi",
+        "other": "Muu abi"
+      },
+      "target_group_options": {
+        "child": "Laps",
+        "youth": "Noor",
+        "adult": "Täiskasvanu",
+        "elder": "Eakas",
+        "disability": "Erivajadus"
+      },
+      "language_options": {
+        "et": "Eesti",
+        "en": "Inglise",
+        "ru": "Vene",
+        "other": "Muu"
+      },
       "map_preview_empty": "Aadressi vaste eelvaade ilmub pärast geokodeerimist.",
-      "publish_help": "Mustand ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet.",
+      "publish_help": "Avaldamata ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet.",
       "outputs": {
         "public_profile": "Avalik profiil",
         "map_marker": "Teenusekaardi marker",

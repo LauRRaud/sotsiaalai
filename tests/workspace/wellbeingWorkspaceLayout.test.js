@@ -77,3 +77,43 @@ test("wellbeing direct page keeps one glass shell and no embedded sizing overrid
   assert.match(source, /title=\{activeTitle\}/);
   assert.doesNotMatch(css, /\.embeddedBody/);
 });
+
+test("wellbeing quick check output uses separators instead of nested cards", () => {
+  const css = readFileSync(new URL("../../components/wellbeing/WellbeingPage.module.css", import.meta.url), "utf8");
+  const sharedCardSelector = css.match(/\.quickCheckFieldset,[\s\S]*?\.quickCheckToggleGroup\s*\{[\s\S]*?\n\}/)?.[0] || "";
+  const outputBlocks = [...css.matchAll(/\.quickCheckOutput\s*\{[^}]*\}/g)].map((match) => match[0]);
+  const outputCardBlocks = [...css.matchAll(/\.quickCheckOutputCard\s*\{[^}]*\}/g)].map((match) => match[0]);
+  const output = outputBlocks.find((block) => block.includes("border-top")) || "";
+  const outputCard = outputCardBlocks.find((block) => block.includes("background: transparent")) || "";
+
+  assert.match(sharedCardSelector, /\.quickCheckFieldset,/);
+  assert.match(sharedCardSelector, /\.quickCheckToggleGroup/);
+  assert.doesNotMatch(sharedCardSelector, /\.quickCheckIntro/);
+  assert.doesNotMatch(sharedCardSelector, /\.quickCheckOutput/);
+  assert.doesNotMatch(sharedCardSelector, /\.quickCheckOutputCard/);
+  assert.match(output, /border-top:\s*1px solid var\(--wellbeing-card-border\)/);
+  assert.doesNotMatch(output, /background:/);
+  assert.match(outputCard, /background:\s*transparent/);
+  assert.match(outputCard, /border-top:\s*1px solid/);
+  assert.match(outputCard, /box-shadow:\s*none/);
+});
+
+test("wellbeing dropdown shows the selected item darker than unselected choices", () => {
+  const css = readFileSync(new URL("../../components/wellbeing/WellbeingPage.module.css", import.meta.url), "utf8");
+
+  assert.match(css, /--wellbeing-dropdown-item-bg:\s*rgb\(239,\s*230,\s*224\)/);
+  assert.match(css, /--wellbeing-dropdown-selected-bg:\s*rgba\(31,\s*38,\s*50,\s*0\.9\)/);
+  assert.match(css, /:global\(:root\.theme-mid \.documents-dropdown-menu\.wellbeing-dropdown-menu\)\s*\{[\s\S]*?--wellbeing-dropdown-selected-bg:\s*rgba\(31,\s*38,\s*50,\s*0\.9\)/);
+  assert.match(
+    css,
+    /:global\(\.documents-dropdown-menu\.wellbeing-dropdown-menu \.documents-dropdown-item\)[\s\S]*?background:\s*var\(--wellbeing-dropdown-item-bg\)/
+  );
+  assert.match(
+    css,
+    /:global\(\.documents-dropdown-menu\.wellbeing-dropdown-menu \.documents-dropdown-item\.is-active\)[\s\S]*?background:\s*var\(--wellbeing-dropdown-selected-bg\)/
+  );
+  assert.doesNotMatch(
+    css,
+    /\.page :global\(\.wellbeing-dropdown \.documents-dropdown-item:is\(:hover, :focus-visible, \.is-active\)\)/
+  );
+});

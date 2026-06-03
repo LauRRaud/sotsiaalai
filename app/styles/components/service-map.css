@@ -49,6 +49,7 @@
   --workspace-feature-accent: var(--title-color, var(--brand-primary, #c57171));
   --workspace-feature-option-bg: var(--chat-ui-solid-surface, var(--opaque-panel-bg, #171a20));
   --workspace-feature-option-text: var(--workspace-feature-text);
+  --workspace-feature-button-text: rgba(255, 255, 255, 0.92);
 }
 
 @media (min-width: 769px) {
@@ -176,6 +177,46 @@
   color: color-mix(in srgb, currentColor 72%, transparent);
 }
 
+.service-profile-glow-dropdown-menu {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 0;
+  width: 100%;
+  min-width: 100%;
+  max-height: min(17rem, calc(100vh - 7rem));
+  overflow-y: auto;
+  border: 1px solid rgba(248, 253, 255, 0.26) !important;
+  border-radius: 0.9rem !important;
+  background: rgb(22, 27, 36) !important;
+  background-color: rgb(22, 27, 36) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 16px 34px rgba(15, 13, 18, 0.3) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.service-profile-glow-dropdown-menu .documents-dropdown-item {
+  display: flex !important;
+  min-height: 2.55rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0.58rem 0.76rem;
+  font-size: 1rem;
+  line-height: 1.24;
+  text-align: left;
+}
+
+.service-profile-glow-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible, .is-active) {
+  background: rgb(31, 38, 50) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
 :root.theme-light .service-profile-glow-field {
   border-color: transparent !important;
   background-clip: padding-box;
@@ -184,12 +225,52 @@
     var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 8px 20px rgba(82, 50, 46, 0.08)))) !important;
 }
 
+:root.theme-light:not(.theme-mid) .workspace-feature-panel,
+:root.theme-light:not(.theme-mid) .service-profile-form {
+  --workspace-feature-button-text: rgba(0, 0, 0, 0.88);
+}
+
+:root.theme-light:not(.theme-mid) .service-profile-glow-dropdown-menu {
+  border-color: rgba(122, 58, 56, 0.2) !important;
+  background: rgb(250, 246, 243) !important;
+  background-color: rgb(250, 246, 243) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.44),
+    0 16px 34px rgba(82, 50, 46, 0.16) !important;
+}
+
+:root.theme-light:not(.theme-mid) .service-profile-glow-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible, .is-active) {
+  background: rgb(255, 255, 255) !important;
+  color: rgba(0, 0, 0, 0.94) !important;
+}
+
 :root.theme-mid .service-profile-glow-field {
   border-color: transparent !important;
   background-clip: padding-box;
   background: var(--chat-inputbar-bg, var(--mid-pill-surface-bg, var(--input-bg))) !important;
   box-shadow:
     var(--chat-inputbar-shadow, var(--mid-pill-surface-shadow, var(--input-shadow-composite, var(--workspace-feature-field-shadow, var(--input-shadow, 0 8px 20px rgba(82, 50, 46, 0.08)))))) !important;
+}
+
+:root.theme-mid .workspace-feature-panel,
+:root.theme-mid .service-profile-form {
+  --workspace-feature-button-text: rgba(0, 0, 0, 0.88);
+}
+
+:root.theme-mid .service-profile-glow-dropdown-menu {
+  border-color: rgba(255, 255, 255, 0.58) !important;
+  background: rgb(223, 211, 203) !important;
+  background-color: rgb(223, 211, 203) !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.36),
+    0 16px 34px rgba(82, 50, 46, 0.14) !important;
+}
+
+:root.theme-mid .service-profile-glow-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible, .is-active) {
+  background: rgb(234, 224, 217) !important;
+  color: rgba(0, 0, 0, 0.94) !important;
 }
 
 :root.theme-light .service-profile-glow-field:hover {
@@ -220,6 +301,19 @@ html[data-contrast="hc"] .service-profile-glow-field {
 
 html[data-contrast="hc"] .service-profile-glow-field > .edgeLight {
   display: block !important;
+}
+
+html[data-contrast="hc"] .service-profile-glow-dropdown-menu {
+  border-color: var(--hc-accent, #ffea00) !important;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: var(--hc-accent, #ffea00) !important;
+  box-shadow: none !important;
+}
+
+html[data-contrast="hc"] .service-profile-glow-dropdown-menu .documents-dropdown-item:is(:hover, :focus-visible, .is-active) {
+  background: rgba(255, 234, 0, 0.12) !important;
+  color: var(--hc-accent, #ffea00) !important;
 }
 
 .service-profile-address-field {
@@ -279,6 +373,211 @@ html[data-contrast="hc"] .service-profile-glow-field > .edgeLight {
 
 .service-profile-address-selected {
   padding-inline: 0.08rem;
+}
+
+.service-profile-form {
+  color: var(--workspace-feature-text);
+}
+
+.service-profile-section {
+  display: grid;
+  gap: 0.82rem;
+  min-width: 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--workspace-feature-border);
+}
+
+.service-profile-section-title {
+  margin: 0;
+  color: var(--workspace-feature-text);
+  font-size: clamp(1.12rem, 1.7vw, 1.32rem);
+  font-weight: 720;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.service-profile-subsection {
+  display: grid;
+  gap: 0.72rem;
+  min-width: 0;
+  padding: 0.2rem 0 0.92rem;
+  border-bottom: 1px solid var(--workspace-feature-border);
+}
+
+.service-profile-subsection:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.service-profile-subsection-title {
+  margin: 0;
+  color: var(--workspace-feature-text);
+  font-size: 1.02rem;
+  font-weight: 690;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.service-profile-form :is(button.button, a.button) {
+  color: var(--workspace-feature-button-text) !important;
+}
+
+.service-profile-form :is(button.button, a.button) > span {
+  color: inherit !important;
+}
+
+.service-profile-form :is(button.button, a.button)[data-variant="secondary"] {
+  min-height: 2.55rem !important;
+  border-color: var(--workspace-feature-border-strong) !important;
+  background: var(--workspace-feature-field-bg) !important;
+  box-shadow: var(--workspace-feature-field-shadow) !important;
+}
+
+.service-profile-form :is(button.button, a.button)[data-variant="secondary"]:is(:hover, :focus-visible) {
+  background: var(--workspace-feature-field-bg-hover) !important;
+}
+
+.service-profile-field-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.72rem;
+}
+
+.service-profile-field-group {
+  display: grid;
+  gap: 0.34rem;
+  color: var(--workspace-feature-text);
+  font-size: 0.9rem;
+  font-weight: 620;
+  line-height: 1.2;
+  opacity: 0.9;
+}
+
+.service-profile-nested-card {
+  display: grid;
+  gap: 0.72rem;
+  border: 0;
+  border-top: 1px solid var(--workspace-feature-border);
+  border-radius: 0;
+  background: transparent;
+  padding: 0.82rem 0 0;
+  box-shadow: none;
+}
+
+.service-profile-nested-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.72rem;
+}
+
+.service-profile-secondary-action {
+  min-height: 2.35rem !important;
+  padding: 0.5rem 0.88rem !important;
+  font-size: 0.96rem !important;
+  line-height: 1.15 !important;
+}
+
+.service-profile-subsection > .grid > .button,
+.service-profile-add-action,
+.service-profile-empty-action {
+  justify-self: start !important;
+  min-height: 2.45rem !important;
+  border-color: var(--workspace-feature-border-strong) !important;
+  background: var(--workspace-feature-field-bg) !important;
+  box-shadow: var(--workspace-feature-field-shadow) !important;
+}
+
+.service-profile-location-choice-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.42rem;
+}
+
+.service-profile-location-choice {
+  min-height: 2.6rem !important;
+  border: 1px solid var(--workspace-feature-border);
+  border-radius: 0.78rem;
+  background: var(--workspace-feature-field-bg);
+  padding: 0.44rem 0.64rem;
+}
+
+.service-profile-location-choice .box {
+  width: 1.28rem;
+  height: 1.28rem;
+  border-radius: 0.36rem;
+}
+
+.service-profile-location-choice .svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.service-profile-location-choice .text {
+  color: var(--workspace-feature-checkbox-text);
+  font-size: 0.96rem;
+  font-weight: 620;
+  line-height: 1.24;
+}
+
+.service-profile-field-help,
+.service-profile-address-hint {
+  margin: 0;
+  color: var(--workspace-feature-muted);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.service-profile-address-hint {
+  padding: 0.38rem 0.08rem 0;
+}
+
+.service-profile-choice-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  min-width: 0;
+}
+
+.service-profile-choice-chip {
+  min-height: 2.28rem;
+  border: 1px solid var(--workspace-feature-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--workspace-feature-field-bg) 72%, transparent);
+  color: var(--workspace-feature-text);
+  padding: 0.46rem 0.72rem;
+  font-size: 0.94rem;
+  font-weight: 620;
+  line-height: 1.15;
+  letter-spacing: 0;
+  box-shadow: none;
+}
+
+.service-profile-choice-chip:is(:hover, :focus-visible) {
+  border-color: var(--workspace-feature-border-strong);
+  background: var(--workspace-feature-field-bg-hover);
+}
+
+.service-profile-choice-chip.is-selected {
+  border-color: color-mix(in srgb, var(--workspace-feature-accent) 58%, var(--workspace-feature-border-strong));
+  background: color-mix(in srgb, var(--workspace-feature-accent) 18%, var(--workspace-feature-field-bg));
+  color: var(--workspace-feature-text);
+}
+
+.service-profile-map-state {
+  display: grid;
+  gap: 0.22rem;
+  padding-top: 0.1rem;
+}
+
+.service-profile-map-state__label {
+  margin: 0;
+  color: var(--workspace-feature-text);
+  font-size: 0.98rem;
+  font-weight: 680;
+  line-height: 1.25;
 }
 
 :root.theme-light .service-profile-address-suggestions,
@@ -1040,7 +1339,7 @@ html[data-contrast="hc"] .pre-inquiry-dropdown {
 .service-profile-publish-layout {
   display: grid;
   gap: 0.9rem;
-  grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.88fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -1165,6 +1464,48 @@ html[data-contrast="hc"] .workspace-feature-panel .workspace-feature-fancy-check
 .workspace-feature-fancy-checkbox:focus-within .box {
   background: transparent;
   border-color: var(--workspace-feature-accent);
+}
+
+.service-profile-form .workspace-feature-toggle-row.workspace-feature-fancy-checkbox,
+.service-profile-form .service-profile-location-choice.workspace-feature-fancy-checkbox {
+  min-height: 2.42rem !important;
+  gap: 0.52rem;
+  border-radius: 0.72rem !important;
+  padding: 0.48rem 0.62rem !important;
+}
+
+.service-profile-form .workspace-feature-fancy-checkbox .box {
+  width: 1.12rem;
+  height: 1.12rem;
+  border-radius: 0.3rem;
+}
+
+.service-profile-form .workspace-feature-fancy-checkbox .svg {
+  width: 0.88rem;
+  height: 0.88rem;
+}
+
+.service-profile-form .workspace-feature-fancy-checkbox .tick {
+  stroke-width: 3.2;
+}
+
+.service-profile-form .workspace-feature-toggle-row .text {
+  line-height: 1.22;
+}
+
+.service-profile-form .workspace-feature-toggle-row .text > span > span:first-child {
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.service-profile-form .workspace-feature-toggle-row .text > span > span:last-child:not(:first-child) {
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.service-profile-form .service-profile-location-choice .text {
+  font-size: 0.94rem;
+  line-height: 1.2;
 }
 
 .workspace-feature-badge {
