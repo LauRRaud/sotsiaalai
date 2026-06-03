@@ -2,12 +2,26 @@
   --wellbeing-text: var(--subpage-card-text, var(--glass-modal-text, #f2f7ff));
   --wellbeing-strong-text: var(--wellbeing-text);
   --wellbeing-muted: rgba(226, 232, 240, 0.86);
-  --wellbeing-card-bg: var(--workspace-elevated-card-bg, rgba(255, 255, 255, 0.075));
-  --wellbeing-card-hover-bg: var(--workspace-elevated-card-bg-hover, rgba(255, 255, 255, 0.095));
-  --wellbeing-card-border: rgba(248, 253, 255, 0.12);
-  --wellbeing-card-border-strong: rgba(248, 253, 255, 0.18);
+  --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(15, 18, 24, 0.7)) 34%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(15, 18, 24, 0.7)) 42%, transparent);
+  --wellbeing-inner-bg: transparent;
+  --wellbeing-card-border: rgba(248, 253, 255, 0.2);
+  --wellbeing-card-border-strong: rgba(248, 253, 255, 0.3);
   --wellbeing-card-shadow: none;
+  --wellbeing-field-bg: rgba(12, 14, 18, 0.48);
+  --wellbeing-field-bg-hover: rgba(18, 21, 28, 0.58);
+  --wellbeing-dropdown-bg: rgb(22, 27, 36);
+  --wellbeing-dropdown-bg-hover: rgb(31, 38, 50);
+  --wellbeing-dropdown-text: var(--wellbeing-text);
+  --wellbeing-checkbox-bg: transparent;
+  --wellbeing-checkbox-bg-checked: color-mix(in srgb, var(--title-color, #c57171) 18%, transparent);
+  --wellbeing-checkbox-border: color-mix(in srgb, var(--title-color, #c57171) 76%, transparent);
+  --wellbeing-checkbox-tick: var(--title-color, #c57171);
+  --wellbeing-primary-button-text: #243244;
+  --wellbeing-secondary-button-text: var(--wellbeing-strong-text);
+  --wellbeing-disabled-button-text: color-mix(in srgb, var(--wellbeing-strong-text) 58%, transparent);
   --wellbeing-focus-ring: var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28));
+  --btn-primary-text: var(--wellbeing-primary-button-text);
   color: var(--wellbeing-text);
   width: 100vw !important;
   max-width: 100vw !important;
@@ -17,22 +31,80 @@
   --wellbeing-text: #253246;
   --wellbeing-strong-text: #1d2939;
   --wellbeing-muted: #44546a;
-  --wellbeing-card-bg: rgba(255, 255, 255, 0.84);
-  --wellbeing-card-hover-bg: rgba(255, 255, 255, 0.94);
-  --wellbeing-card-border: rgba(122, 58, 56, 0.14);
-  --wellbeing-card-border-strong: rgba(122, 58, 56, 0.22);
-  --wellbeing-card-shadow: 0 10px 24px rgba(82, 50, 46, 0.1);
+  --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.88)) 56%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.94)) 66%, transparent);
+  --wellbeing-inner-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(255, 255, 255, 0.88)) 18%, transparent);
+  --wellbeing-card-border: rgba(122, 58, 56, 0.18);
+  --wellbeing-card-border-strong: rgba(122, 58, 56, 0.28);
+  --wellbeing-card-shadow: 0 8px 20px rgba(82, 50, 46, 0.07);
+  --wellbeing-field-bg: rgba(255, 255, 255, 0.5);
+  --wellbeing-field-bg-hover: rgba(255, 255, 255, 0.66);
+  --wellbeing-dropdown-bg: rgb(250, 246, 243);
+  --wellbeing-dropdown-bg-hover: rgb(255, 255, 255);
+  --wellbeing-dropdown-text: #253246;
 }
 
 :global(:root.theme-mid) .page {
   --wellbeing-text: #263244;
   --wellbeing-strong-text: #202a3a;
   --wellbeing-muted: #445067;
-  --wellbeing-card-bg: rgba(255, 250, 248, 0.72);
-  --wellbeing-card-hover-bg: rgba(255, 250, 248, 0.86);
-  --wellbeing-card-border: rgba(126, 95, 88, 0.18);
-  --wellbeing-card-border-strong: rgba(126, 95, 88, 0.26);
-  --wellbeing-card-shadow: 0 10px 24px rgba(38, 24, 22, 0.12);
+  --wellbeing-card-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 16%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, var(--glass-ring-surface-bg, rgba(214, 198, 189, 0.78)) 22%, transparent);
+  --wellbeing-inner-bg: transparent;
+  --wellbeing-card-border: rgba(255, 255, 255, 0.42);
+  --wellbeing-card-border-strong: rgba(255, 255, 255, 0.6);
+  --wellbeing-card-shadow: none;
+  --wellbeing-field-bg: rgba(255, 255, 255, 0.16);
+  --wellbeing-field-bg-hover: rgba(255, 255, 255, 0.23);
+  --wellbeing-dropdown-bg: rgb(223, 211, 203);
+  --wellbeing-dropdown-bg-hover: rgb(234, 224, 217);
+  --wellbeing-dropdown-text: #1f2a39;
+  --wellbeing-checkbox-bg-checked: rgba(122, 58, 56, 0.16);
+}
+
+:global(:root:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])) .page {
+  --wellbeing-text: rgba(238, 244, 255, 0.94);
+  --wellbeing-strong-text: #f5f8ff;
+  --wellbeing-muted: rgba(218, 228, 244, 0.82);
+  --wellbeing-card-bg: color-mix(in srgb, rgba(12, 18, 27, 0.78) 36%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, rgba(20, 27, 38, 0.82) 44%, transparent);
+  --wellbeing-inner-bg: transparent;
+  --wellbeing-card-border: rgba(255, 255, 255, 0.13);
+  --wellbeing-card-border-strong: rgba(205, 133, 133, 0.26);
+  --wellbeing-dropdown-bg: rgb(30, 33, 38);
+  --wellbeing-dropdown-bg-hover: rgb(39, 42, 48);
+}
+
+:global(:root.theme-night) .page {
+  --wellbeing-text: rgba(234, 238, 245, 0.94);
+  --wellbeing-strong-text: #f3f8ff;
+  --wellbeing-muted: rgba(215, 226, 245, 0.84);
+  --wellbeing-card-bg: color-mix(in srgb, rgba(13, 20, 32, 0.84) 32%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, rgba(20, 30, 45, 0.88) 42%, transparent);
+  --wellbeing-inner-bg: transparent;
+  --wellbeing-card-border: rgba(133, 164, 216, 0.18);
+  --wellbeing-card-border-strong: rgba(205, 133, 133, 0.32);
+  --wellbeing-dropdown-bg: rgb(18, 26, 40);
+  --wellbeing-dropdown-bg-hover: rgb(29, 41, 59);
+}
+
+:global(:root.theme-mono:not([data-contrast="hc"])) .page {
+  --wellbeing-text: var(--forest-title-soft, #e7efdf);
+  --wellbeing-strong-text: var(--forest-highlight, #f4f7ed);
+  --wellbeing-muted: color-mix(in srgb, var(--forest-title-soft, #e7efdf) 78%, transparent);
+  --wellbeing-card-bg: color-mix(in srgb, rgb(22, 24, 22) 38%, transparent);
+  --wellbeing-card-hover-bg: color-mix(in srgb, rgb(31, 33, 31) 44%, transparent);
+  --wellbeing-inner-bg: transparent;
+  --wellbeing-card-border: rgba(232, 238, 224, 0.22);
+  --wellbeing-card-border-strong: rgba(232, 238, 224, 0.34);
+  --wellbeing-field-bg: rgba(18, 19, 18, 0.58);
+  --wellbeing-field-bg-hover: rgba(28, 29, 28, 0.64);
+  --wellbeing-dropdown-bg: rgb(28, 28, 28);
+  --wellbeing-dropdown-bg-hover: rgb(38, 38, 38);
+  --wellbeing-dropdown-text: var(--forest-highlight, #f4f7ed);
+  --wellbeing-checkbox-border: var(--forest-highlight, #f4f7ed);
+  --wellbeing-checkbox-tick: var(--forest-highlight, #f4f7ed);
+  --wellbeing-checkbox-bg-checked: rgba(232, 238, 224, 0.14);
 }
 
 :global(html[data-contrast="hc"]) .page {
@@ -41,9 +113,22 @@
   --wellbeing-muted: var(--hc-accent, #ffea00);
   --wellbeing-card-bg: var(--workspace-elevated-card-bg, var(--hc-panel-bg, rgba(15, 14, 17, 0.35)));
   --wellbeing-card-hover-bg: rgba(255, 234, 0, 0.08);
+  --wellbeing-inner-bg: transparent;
   --wellbeing-card-border: var(--hc-accent, #ffea00);
   --wellbeing-card-border-strong: var(--hc-accent, #ffea00);
   --wellbeing-card-shadow: none;
+  --wellbeing-field-bg: var(--hc-field-bg, rgba(9, 14, 24, 0.62));
+  --wellbeing-field-bg-hover: rgba(255, 234, 0, 0.1);
+  --wellbeing-dropdown-bg: rgb(9, 14, 24);
+  --wellbeing-dropdown-bg-hover: rgb(36, 34, 16);
+  --wellbeing-dropdown-text: var(--hc-accent, #ffea00);
+  --wellbeing-checkbox-border: var(--hc-accent, #ffea00);
+  --wellbeing-checkbox-tick: var(--hc-accent, #ffea00);
+  --wellbeing-checkbox-bg-checked: rgba(255, 234, 0, 0.16);
+  --wellbeing-primary-button-text: var(--hc-accent, #ffea00);
+  --wellbeing-secondary-button-text: var(--hc-accent, #ffea00);
+  --wellbeing-disabled-button-text: var(--hc-accent, #ffea00);
+  --btn-primary-text: var(--hc-accent, #ffea00);
 }
 
 .dashboardBody {
@@ -195,15 +280,13 @@
 .quickCheckOutputCard {
   border: 1px solid var(--wellbeing-card-border);
   border-radius: 0.86rem;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.032)),
-    color-mix(in srgb, var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25)) 64%, transparent);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.055);
+  background: var(--wellbeing-card-bg);
+  box-shadow: var(--wellbeing-card-shadow);
 }
 
 .quickCheckIntro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.44fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(0.72rem, 1.6vw, 1.1rem);
   align-items: stretch;
   padding: clamp(0.78rem, 1.6vw, 1rem);
@@ -226,9 +309,13 @@
 }
 
 .quickCheckIntro h2 {
-  font-size: clamp(1.32rem, 2vw, 1.55rem);
-  font-weight: 640;
-  line-height: 1.08;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .quickCheckIntro p,
@@ -247,44 +334,61 @@
   gap: 0.34rem;
   border-radius: 0.7rem;
   padding: 0.72rem;
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--wellbeing-inner-bg);
+  color: var(--wellbeing-strong-text);
 }
 
 .quickCheckSignal span {
-  color: var(--wellbeing-strong-text);
+  color: inherit;
   font-size: 1.12rem;
   font-weight: 680;
   line-height: 1;
 }
 
+.quickCheckSignal p {
+  color: inherit;
+}
+
 .quickCheckSignal_green {
-  border: 1px solid rgba(76, 175, 124, 0.34);
+  border: 1px solid rgba(32, 100, 73, 0.78);
+  background: #2f8f67;
+  color: #f6fff9;
 }
 
 .quickCheckSignal_clear,
 .quickCheckSignal_manageable,
 .quickCheckSignal_no_immediate_danger {
-  border: 1px solid rgba(76, 175, 124, 0.34);
+  border: 1px solid rgba(32, 100, 73, 0.78);
+  background: #2f8f67;
+  color: #f6fff9;
 }
 
 .quickCheckSignal_yellow {
-  border: 1px solid rgba(231, 184, 95, 0.4);
+  border: 1px solid rgba(170, 112, 20, 0.82);
+  background: #f0bd56;
+  color: #1d2838;
 }
 
 .quickCheckSignal_prioritize,
 .quickCheckSignal_needs_attention,
 .quickCheckSignal_needs_clarification {
-  border: 1px solid rgba(231, 184, 95, 0.4);
+  border: 1px solid rgba(170, 112, 20, 0.82);
+  background: #f0bd56;
+  color: #1d2838;
 }
 
 .quickCheckSignal_red {
-  border: 1px solid rgba(213, 105, 105, 0.48);
+  border: 1px solid rgba(118, 31, 31, 0.82);
+  background: #bd4e4e;
+  color: #fff7f7;
 }
 
 .quickCheckSignal_needs_agreement,
 .quickCheckSignal_organizational_support,
 .quickCheckSignal_urgent_attention {
-  border: 1px solid rgba(213, 105, 105, 0.48);
+  border: 1px solid rgba(118, 31, 31, 0.82);
+  background: #bd4e4e;
+  color: #fff7f7;
 }
 
 .quickCheckGrid {
@@ -303,13 +407,23 @@
 .quickCheckFieldset {
   display: grid;
   gap: 0.56rem;
+  overflow: visible;
 }
 
 .quickCheckFieldset legend,
 .quickCheckToggleGroup legend {
-  padding: 0 0.18rem;
+  float: left;
+  width: 100%;
+  margin: 0 0 0.42rem;
+  padding: 0;
   font-size: 1rem;
   font-weight: 640;
+  line-height: 1.18;
+}
+
+.quickCheckFieldset legend + *,
+.quickCheckToggleGroup legend + * {
+  clear: both;
 }
 
 .quickCheckField {
@@ -335,18 +449,175 @@
   text-overflow: ellipsis;
 }
 
-.quickCheckField input[type="checkbox"] {
+.quickCheckField:has(:global(.documents-dropdown.is-open)),
+.quickCheckFieldset:has(:global(.documents-dropdown.is-open)),
+.quickCheckOutputCard:has(:global(.documents-dropdown.is-open)) {
+  position: relative;
+  z-index: 90;
+  overflow: visible;
+}
+
+.quickCheckField :global(.wellbeing-dropdown) {
+  width: 100%;
+  min-width: 0;
+}
+
+.quickCheckField :global(.wellbeing-dropdown .documents-dropdown-trigger) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  min-height: 2.62rem;
+  border: 1px solid var(--wellbeing-card-border-strong);
+  border-radius: 0.72rem;
+  background: var(--wellbeing-field-bg);
+  color: var(--wellbeing-strong-text);
+  box-shadow: none;
+  padding: 0.46rem 0.78rem;
+  text-align: left;
+  letter-spacing: 0;
+}
+
+.quickCheckField :global(.wellbeing-dropdown .documents-dropdown-trigger:is(:hover, :focus-visible, .is-open)) {
+  border-color: var(--wellbeing-card-border-strong);
+  background: var(--wellbeing-field-bg-hover);
+  box-shadow: 0 0 0 3px var(--wellbeing-focus-ring);
+}
+
+.quickCheckField :global(.wellbeing-dropdown .documents-dropdown-label) {
+  display: block !important;
+  flex: 1 1 auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  color: var(--wellbeing-strong-text);
+  font-size: 0.96rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: left !important;
+}
+
+.quickCheckField :global(.wellbeing-dropdown .documents-dropdown-icon) {
+  flex: 0 0 auto !important;
+  width: 1.08rem !important;
+  height: 1.08rem !important;
+  color: var(--wellbeing-strong-text);
+  opacity: 0.9;
+}
+
+.page :global(.wellbeing-dropdown .documents-dropdown-menu) {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 0;
+  z-index: 120;
+  width: 100%;
+  min-width: 100%;
+  max-width: min(100%, 28rem);
+  max-height: min(17rem, calc(100vh - 7rem));
+  overflow-y: auto;
+  border: 1px solid var(--wellbeing-card-border-strong);
+  border-radius: 0.78rem;
+  background: var(--wellbeing-dropdown-bg);
+  background-color: var(--wellbeing-dropdown-bg);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 14px 30px rgba(20, 14, 14, 0.18);
+  opacity: 1;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.page :global(.wellbeing-dropdown .documents-dropdown-item) {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 2.2rem;
+  border: 0;
+  background: var(--wellbeing-dropdown-bg);
+  color: var(--wellbeing-dropdown-text);
+  padding: 0.5rem 0.68rem;
+  font-size: 0.98rem;
+  line-height: 1.18;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.page :global(.wellbeing-dropdown .documents-dropdown-item:is(:hover, :focus-visible, .is-active)) {
+  background: var(--wellbeing-dropdown-bg-hover);
+  color: var(--wellbeing-dropdown-text);
+}
+
+.page :global(.button[data-variant="primary"]) {
+  color: var(--wellbeing-primary-button-text) !important;
+}
+
+.page :global(.button[data-variant="secondary"]) {
+  color: var(--wellbeing-secondary-button-text) !important;
+}
+
+.page :global(.button:disabled),
+.page :global(.button[aria-disabled="true"]) {
+  color: var(--wellbeing-disabled-button-text) !important;
+}
+
+.page :global(.button[data-variant="primary"] span),
+.page :global(.button[data-variant="secondary"] span) {
+  color: inherit !important;
+}
+
+.page input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: 0 0 auto;
   justify-self: start;
-  width: 1.08rem;
-  height: 1.08rem;
+  width: 1.12rem;
+  height: 1.12rem;
   margin: 0;
-  accent-color: var(--title-color, var(--brand-primary, #c57171));
+  border: 2px solid var(--wellbeing-checkbox-border);
+  border-radius: 0.28rem;
+  background: var(--wellbeing-checkbox-bg);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.page input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  left: 0.29rem;
+  top: 0.13rem;
+  width: 0.34rem;
+  height: 0.6rem;
+  border-right: 3px solid var(--wellbeing-checkbox-tick);
+  border-bottom: 3px solid var(--wellbeing-checkbox-tick);
+  opacity: 0;
+  transform: rotate(42deg) scale(0.76);
+  transform-origin: center;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.page input[type="checkbox"]:checked {
+  border-color: var(--wellbeing-checkbox-tick);
+  background: var(--wellbeing-checkbox-bg-checked);
+}
+
+.page input[type="checkbox"]:checked::after {
+  opacity: 1;
+  transform: rotate(42deg) scale(1.08);
+}
+
+.page input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--wellbeing-focus-ring);
+  outline-offset: 3px;
 }
 
 .quickCheckToggleGroup {
   display: flex;
   flex-wrap: wrap;
   gap: 0.52rem 0.78rem;
+  overflow: visible;
 }
 
 .quickCheckToggleGroup label {
@@ -382,6 +653,8 @@
   align-content: start;
   gap: 0.46rem;
   padding: 0.68rem;
+  background: var(--wellbeing-inner-bg);
+  box-shadow: none;
 }
 
 .quickCheckOutputCard h4 {
@@ -403,11 +676,11 @@
   width: 100%;
   min-height: 8rem;
   resize: vertical;
-  border: 1px solid var(--wellbeing-card-border);
+  border: 1px solid var(--wellbeing-card-border-strong);
   border-radius: 0.72rem;
   padding: 0.64rem 0.7rem;
   color: var(--wellbeing-text);
-  background: rgba(0, 0, 0, 0.16);
+  background: var(--wellbeing-field-bg);
   font: inherit;
   line-height: 1.38;
 }
@@ -428,20 +701,22 @@
 }
 
 .quickCheckActions {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.42rem;
-  max-width: 26rem;
+  max-width: 100%;
 }
 
-.quickCheckActions :global(.btn) {
-  justify-content: flex-start !important;
+.quickCheckActions :global(.button) {
+  width: auto !important;
+  min-width: min(100%, 13.5rem) !important;
+  justify-content: center !important;
   min-height: 2.35rem !important;
   border-radius: 0.72rem !important;
   padding: 0.48rem 0.76rem !important;
   font-size: 0.96rem !important;
   line-height: 1.15 !important;
-  text-align: left !important;
+  text-align: center !important;
 }
 
 .quickCheckActionList {
@@ -457,7 +732,7 @@
   border-radius: 0.72rem;
   padding: 0.52rem 0.72rem;
   color: var(--wellbeing-text);
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--wellbeing-inner-bg);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -516,7 +791,7 @@
   padding: 0.18rem;
   border: 1px solid var(--wellbeing-card-border);
   border-radius: 0.72rem;
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--wellbeing-inner-bg);
 }
 
 .overviewPeriodTab {
@@ -582,7 +857,7 @@
   border-radius: 999px;
   padding: 0.34rem 0.58rem;
   color: var(--wellbeing-strong-text);
-  background: rgba(255, 255, 255, 0.055);
+  background: var(--wellbeing-inner-bg);
   font-size: 0.9rem;
 }
 
@@ -601,7 +876,7 @@
   border-radius: 0.86rem;
   padding: 0.78rem;
   color: var(--wellbeing-text);
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--wellbeing-field-bg);
   font: inherit;
   font-size: 0.92rem;
   line-height: 1.42;
@@ -610,12 +885,15 @@
 .supportPanel {
   display: grid;
   gap: 0.68rem;
-  border: 1px solid var(--wellbeing-card-border);
+  border: 1px solid var(--wellbeing-card-border-strong);
   border-radius: 0.86rem;
   padding: clamp(0.72rem, 1.4vw, 0.92rem);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.032)),
-    rgba(12, 12, 12, 0.34);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    var(--wellbeing-card-bg);
+  box-shadow:
+    var(--wellbeing-card-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045);
 }
 
 .supportPanelHeader {
@@ -646,12 +924,12 @@
 
 .supportPrivateButton {
   min-height: 2.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--wellbeing-card-border-strong);
   border-radius: 0.62rem;
   padding: 0.36rem 0.68rem;
-  color: var(--wellbeing-muted);
-  background: rgba(0, 0, 0, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--wellbeing-strong-text);
+  background: var(--wellbeing-field-bg);
+  box-shadow: none;
   font: inherit;
   font-size: 0.84rem;
   font-weight: 650;
@@ -682,12 +960,12 @@
   display: grid;
   align-content: center;
   min-height: 3.15rem;
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid var(--wellbeing-card-border-strong);
   border-radius: 0.72rem;
   padding: 0.58rem 0.68rem;
   color: var(--wellbeing-text);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  background: var(--wellbeing-field-bg);
+  box-shadow: none;
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -731,9 +1009,29 @@
   gap: 0.48rem;
 }
 
+.supportActions :global(.button) {
+  width: auto !important;
+  min-width: min(100%, 12.5rem) !important;
+  min-height: 2.42rem !important;
+  border-radius: 0.76rem !important;
+  padding: 0.5rem 0.84rem !important;
+  font-size: 0.96rem !important;
+  line-height: 1.15 !important;
+}
+
 .supportDraftEditor {
   display: grid;
   gap: 0.58rem;
+}
+
+.supportDraftEditor .quickCheckField {
+  grid-template-columns: 1fr;
+  gap: 0.36rem;
+}
+
+.supportDraftEditor .quickCheckField > span {
+  color: var(--wellbeing-strong-text);
+  font-weight: 640;
 }
 
 .supportDraftEditor textarea {
@@ -744,7 +1042,7 @@
   border-radius: 0.72rem;
   padding: 0.7rem 0.78rem;
   color: var(--wellbeing-text);
-  background: rgba(0, 0, 0, 0.16);
+  background: var(--wellbeing-field-bg);
   font: inherit;
   line-height: 1.42;
 }

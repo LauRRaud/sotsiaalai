@@ -261,6 +261,33 @@
   :root.theme-night:not(.theme-mid) .homepage-root .home-about-panel {
     --home-panel-bg: rgba(12, 17, 27, 0.76);
   }
+
+  .homepage-root .home-about-panel {
+    height: auto !important;
+    max-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) - var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) - clamp(2.4rem, 10vh, 4.6rem)
+    ) !important;
+    overflow: hidden !important;
+  }
+
+  .homepage-root .home-about-scrollbox {
+    height: auto !important;
+    max-height: min(
+      var(--about-scroll-max-height, 76vh),
+      calc(
+        var(--glass-mobile-root-vh, 100dvh) -
+          var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+          var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+          clamp(4.6rem, 13vh, 6.8rem)
+      )
+    ) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
 }
 
 @media (max-width: 768px) {

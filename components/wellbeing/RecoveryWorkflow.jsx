@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { buildRecoveryRecord } from "@/lib/wellbeing/recovery";
 import SupportRequestPanel from "./SupportRequestPanel";
+import { WellbeingOutputCard as OutputCard, WellbeingSelectField as SelectField } from "./WellbeingControls";
 import styles from "./WellbeingPage.module.css";
 
 const initialFields = {
@@ -181,14 +182,7 @@ export default function RecoveryWorkflow({ onNavigate }) {
         <fieldset className={styles.quickCheckFieldset}>
           <legend>{t("wellbeing.recovery.situation", "Olukord")}</legend>
           {selectFields.map((field) => (
-            <label key={field.key} className={styles.quickCheckField}>
-              <span>{field.label}</span>
-              <select value={fields[field.key]} onChange={(event) => updateField(field.key, event.target.value)}>
-                {field.options.map(([value, label]) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
-            </label>
+            <SelectField key={field.key} field={field} value={fields[field.key]} onChange={updateField} />
           ))}
         </fieldset>
 
@@ -241,8 +235,8 @@ export default function RecoveryWorkflow({ onNavigate }) {
       <section className={styles.quickCheckOutput} aria-labelledby="recovery-output-heading">
         <h3 id="recovery-output-heading">{t("wellbeing.recovery.output_heading", "Praktiline väljund")}</h3>
         <div className={styles.recoveryPlanGrid}>
-          <pre>{record.outputSummary.recoveryPlan72h}</pre>
-          <pre>{record.outputSummary.managerMemo}</pre>
+          <OutputCard title="24-72h taastumisplaan" value={record.outputSummary.recoveryPlan72h} />
+          <OutputCard title="Juhiga arutelu memo" value={record.outputSummary.managerMemo} />
         </div>
         <div className={styles.quickCheckActions}>
           <Button type="button" variant="primary" onClick={saveRecoveryPlan} disabled={saveState === "saving"}>

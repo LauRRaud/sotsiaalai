@@ -64,9 +64,6 @@
       --glass-surface-bg,
       var(--glass-ring-surface-bg, rgba(0, 0, 0, 0.25))
     );
-    --mobile-common-title-top: 1.42rem;
-    --mobile-common-title-bottom: clamp(0.18rem, 0.9vh, 0.42rem);
-    --mobile-common-title-font: clamp(1.78rem, 6.6vw, 2.18rem);
   }
 
   :is(

@@ -720,6 +720,7 @@ export default function ChatMobileTopNav({
         ariaLabel={labels.back}
         className={cn(
           glassPageBackMobileBottomCenterClassName,
+          "glass-subpage-back-button chat-back-button",
           "pointer-events-auto !z-[123] rounded-full"
         )}
         iconClassName="!h-[100%] !w-[100%]"
@@ -827,16 +828,13 @@ export default function ChatMobileTopNav({
               );
             })}
           </div>
-
-          <div
-            className="pointer-events-none absolute inset-x-0 top-[4.32rem] flex justify-center px-[0.45rem] text-center"
-            style={{ transform: `translateX(${centerOffsetRem}rem)` }}
-          >
-            <span className={cn("max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isCompactAndroidViewport ? "text-[clamp(1.26rem,5.2vw,1.46rem)]" : isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
-              {labels[previewFocusedItem.key]}
-            </span>
-          </div>
         </div>
+      </div>
+
+      <div className="mobile-shared-topnav-title-wrap pointer-events-none absolute inset-x-0 top-[4.32rem] flex justify-center px-[0.45rem] text-center">
+        <span className={cn("mobile-shared-topnav-title max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isCompactAndroidViewport ? "text-[clamp(1.26rem,5.2vw,1.46rem)]" : isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
+          {labels[previewFocusedItem.key]}
+        </span>
       </div>
     </div>
   );

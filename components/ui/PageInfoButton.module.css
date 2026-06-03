@@ -86,8 +86,8 @@
 
 @media (max-width: 768px) {
   .cornerTrigger {
-    right: 0.04rem;
-    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.625rem);
+    right: var(--mobile-header-info-right, calc(env(safe-area-inset-right, 0px) + 0.55rem));
+    top: var(--mobile-header-control-info-top, var(--mobile-header-info-top, 0.475rem));
   }
 
   .infoContent {

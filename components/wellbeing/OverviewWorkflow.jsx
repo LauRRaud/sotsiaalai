@@ -5,6 +5,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import Button from "@/components/ui/Button";
 import { cn } from "@/components/ui/cn";
 import { formatQuickCheckFactor } from "@/lib/wellbeing/quickCheck";
+import { WellbeingOutputCard as OutputCard } from "./WellbeingControls";
 import styles from "./WellbeingPage.module.css";
 
 const signalLabels = {
@@ -26,6 +27,11 @@ const workflowLabels = {
   "starter-support": "Alustaja tugi",
   covision: "Kovisioon"
 };
+
+function stripManagerMemoHeading(value) {
+  const text = String(value || "").trim();
+  return text.replace(/^Juhiga jagatav memo\s*/i, "").trimStart();
+}
 
 export default function OverviewWorkflow() {
   const { t } = useI18n();
@@ -81,7 +87,7 @@ export default function OverviewWorkflow() {
   const quickCheckCount = overview?.quickCheckCount || 0;
   const signalCounts = overview?.signalCounts || { green: 0, yellow: 0, red: 0 };
   const managerMemo = overview?.managerMemo;
-  const memoText = editedMemo || managerMemo?.text || "";
+  const memoText = editedMemo || stripManagerMemoHeading(managerMemo?.text || "");
 
   async function saveManagerMemoDraft() {
     if (!managerMemo?.text || draftStatus === "saving") return;
@@ -101,7 +107,7 @@ export default function OverviewWorkflow() {
       const payload = await response.json().catch(() => ({}));
       if (!response.ok || !payload?.ok) throw new Error(payload?.message || "wellbeing.errors.output_draft_failed");
       setDraft(payload.draft);
-      setEditedMemo(payload.draft?.generatedText || managerMemo.text);
+      setEditedMemo(stripManagerMemoHeading(payload.draft?.generatedText || managerMemo.text));
       setUserReviewed(false);
       setUserConfirmed(false);
       setDraftStatus("draft_saved");
@@ -212,10 +218,11 @@ export default function OverviewWorkflow() {
           {t("wellbeing.overview.manager_memo", "Juhiga jagatav memo")}
         </h3>
         <div className={styles.recoveryPlanGrid}>
-          <article className={styles.quickCheckOutputCard}>
-            <h4>{managerMemo?.title || "Juhiga jagatav memo"}</h4>
-            <pre>{managerMemo?.text || t("wellbeing.overview.no_manager_memo", "Memo tekib siis, kui tööheaolu kirjeid on olemas.")}</pre>
-          </article>
+          <OutputCard
+            title={t("wellbeing.overview.manager_memo_summary", "Koondatud ülevaade")}
+            value={managerMemo?.text || t("wellbeing.overview.no_manager_memo", "Memo tekib siis, kui tööheaolu kirjeid on olemas.")}
+            stripTitles={["Juhiga jagatav memo"]}
+          />
         </div>
         <div className={styles.supportDraftEditor}>
           <label className={styles.quickCheckField}>

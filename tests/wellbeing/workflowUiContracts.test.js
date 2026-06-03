@@ -62,8 +62,8 @@ test("wellbeing workflows use a readable vertical output and action layout in th
   assert.match(styles, /\.quickCheckGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
   assert.match(styles, /\.quickCheckOutputGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
   assert.match(styles, /\.recoveryPlanGrid\s*{[\s\S]*grid-template-columns:\s*1fr/);
-  assert.match(styles, /\.quickCheckActions\s*{[\s\S]*display:\s*grid/);
-  assert.match(styles, /\.quickCheckActions :global\(\.btn\)\s*{[\s\S]*border-radius:\s*0\.72rem/);
+  assert.match(styles, /\.quickCheckActions\s*{[\s\S]*display:\s*flex/);
+  assert.match(styles, /\.quickCheckActions :global\(\.button\)\s*{[\s\S]*border-radius:\s*0\.72rem/);
   assert.match(styles, /\.quickCheckActionButton/);
   assert.match(read("components/wellbeing/WellbeingActionList.jsx"), /action\.reason/);
 });

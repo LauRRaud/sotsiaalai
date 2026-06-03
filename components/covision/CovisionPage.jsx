@@ -51,7 +51,7 @@ const surfaceClassName =
   `documents-workspace workspace-feature-panel workspace-scroll-surface covision-page-surface mobile-keep-desktop-glass-cards relative z-[21] mx-auto mt-[clamp(1rem,3vh,1.75rem)] mb-[clamp(0.35rem,1.8vh,1rem)] max-h-[calc(100dvh-2rem)] overflow-hidden overscroll-contain rounded-[2rem] ` +
   `[border:none] [background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))] ` +
   `shadow-[var(--glass-shell-shadow,none)] backdrop-blur-[var(--glass-modal-blur,var(--glass-blur-radius,1rem))] [-webkit-backdrop-filter:blur(var(--glass-modal-blur,var(--glass-blur-radius,1rem)))] ` +
-  `[--workspace-subpage-header-margin-bottom:0.04rem] [--workspace-subpage-title-margin-top:clamp(1rem,2.2vh,1.35rem)] [--workspace-subpage-title-margin-bottom:0.04rem] px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
+  `min-[769px]:[--workspace-subpage-header-margin-bottom:0.04rem] min-[769px]:[--workspace-subpage-title-margin-top:clamp(1rem,2.2vh,1.35rem)] min-[769px]:[--workspace-subpage-title-margin-bottom:0.04rem] px-[1.1rem] pt-[0.35rem] pb-[1.15rem] max-[768px]:mx-[max(var(--mobile-glass-card-gap,0.35rem),env(safe-area-inset-left,0px))] max-[768px]:w-[calc(100vw-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)-(var(--mobile-glass-card-gap,0.35rem)*2))] ` +
   `max-[768px]:[scrollbar-gutter:auto] max-[768px]:[--glass-ring-pad-x:clamp(0.78rem,3vw,0.94rem)] max-[768px]:!max-w-none max-[768px]:rounded-[1.45rem] max-[768px]:px-[0.82rem] ${glassPageMobileCardClassName} ${workspaceGuidePanelClassName}`;
 
 const bodyClassName =
@@ -86,12 +86,12 @@ const mutedTextClassName =
   cn(styles.muted, "m-0 text-[0.98rem] leading-[1.5] tracking-[0]");
 
 const caseCreationSteps = Object.freeze([
-  { key: "basic", label: "PĆµhiinfo" },
-  { key: "anonymous_description", label: "AnonĆ¼Ć¼mne olukorrakirjeldus" },
+  { key: "basic", label: "Põhiinfo" },
+  { key: "anonymous_description", label: "Anonüümne olukorrakirjeldus" },
   { key: "process_flow", label: "Olukorra kulg" },
-  { key: "network_risks", label: "VĆµrgustik, riskid ja kaitsetegurid" },
-  { key: "central_question", label: "Keskne kĆ¼simus ja ootus" },
-  { key: "review", label: "Ćlevaade ja salvesta" }
+  { key: "network_risks", label: "Võrgustik, riskid ja kaitsetegurid" },
+  { key: "central_question", label: "Keskne küsimus ja ootus" },
+  { key: "review", label: "Ülevaade ja salvesta" }
 ]);
 
 const journeyFocusBlocks = Object.freeze([
@@ -105,9 +105,9 @@ const journeyFocusBlocks = Object.freeze([
 const contributionStatuses = Object.freeze([
   ["NEW", "uus"],
   ["DISCUSSED", "arutatud"],
-  ["ADDED_TO_CANVAS", "lisatud lĆµuendile"],
-  ["CONVERTED_TO_NEXT_STEP", "muudetud jĆ¤rgmiseks sammuks"],
-  ["DISMISSED", "kĆµrvale jĆ¤etud"]
+  ["ADDED_TO_CANVAS", "lisatud lõuendile"],
+  ["CONVERTED_TO_NEXT_STEP", "muudetud järgmiseks sammuks"],
+  ["DISMISSED", "kõrvale jäetud"]
 ]);
 
 function messageTypeLabel(value) {
@@ -446,7 +446,7 @@ function PracticeCard({ item, onOpen, t }) {
         <StatusBadge status={item.status} type="practice" />
       </div>
       <p className={cn(mutedTextClassName, "line-clamp-3")}>
-        {item.background || item.whatHelped || t("covision.overview.practice_missing_description", "Ćldistatud praktikakogemus vajab veel kirjeldust.")}
+        {item.background || item.whatHelped || t("covision.overview.practice_missing_description", "Üldistatud praktikakogemus vajab veel kirjeldust.")}
       </p>
       <div className="flex justify-end">
         <Button type="button" onClick={() => onOpen(item)} className={compactPrimaryButtonClassName}>
@@ -476,10 +476,10 @@ function WellbeingInputCard({ item, onUse, locale, t }) {
     >
       <div className="grid gap-[0.24rem]">
         <h3 className="m-0 text-[1.04rem] font-[680] leading-[1.18]">
-          {t("covision.wellbeing_inputs.card_title", "TĆ¶Ć¶heaolu sisend")}
+          {t("covision.wellbeing_inputs.card_title", "Tööheaolu sisend")}
         </h3>
         <p className={cn(styles.meta, "m-0 text-[0.84rem]")}>
-          {item.sourceWorkflowType || t("covision.wellbeing_inputs.source_fallback", "tĆ¶Ć¶heaolu")} Ā· {formatDate(item.createdAt, locale)}
+          {item.sourceWorkflowType || t("covision.wellbeing_inputs.source_fallback", "tööheaolu")} · {formatDate(item.createdAt, locale)}
         </p>
       </div>
       <p className={cn(mutedTextClassName, "line-clamp-4")}>
@@ -487,7 +487,7 @@ function WellbeingInputCard({ item, onUse, locale, t }) {
       </p>
       <div className="flex flex-wrap items-center justify-between gap-[0.55rem]">
         <span className={cn(styles.meta, "text-[0.84rem]")}>
-          {t("covision.wellbeing_inputs.privacy_note", "Sisend jĆ¤Ć¤b privaatseks, kuni salvestad selle kovisiooni mustandina.")}
+          {t("covision.wellbeing_inputs.privacy_note", "Sisend jääb privaatseks, kuni salvestad selle kovisiooni mustandina.")}
         </span>
         <Button type="button" onClick={() => onUse(item)} className={compactPrimaryButtonClassName}>
           {t("covision.wellbeing_inputs.use", "Kasuta kovisioonis")}
@@ -511,10 +511,10 @@ function SummaryField({ label, value, onChange }) {
 }
 
 function knowledgeCategoryLabel(category) {
-  if (category === "legal") return "Ć•igusraam";
-  if (category === "guidance") return "Juhend vĆµi metoodika";
+  if (category === "legal") return "Õigusraam";
+  if (category === "guidance") return "Juhend või metoodika";
   if (category === "practice") return "Praktika";
-  if (category === "service") return "Teenus vĆµi toetus";
+  if (category === "service") return "Teenus või toetus";
   return "Taustainfo";
 }
 
@@ -537,7 +537,7 @@ function KnowledgeSupportPanel({ support, t }) {
   if (!items.length) {
     return (
       <p className={mutedTextClassName}>
-        {t("covision.knowledge.no_matches", "Teadmistebaasist ei leitud selle juhtumipĆ¼stituse pĆµhjal sobivaid vasteid.")}
+        {t("covision.knowledge.no_matches", "Teadmistebaasist ei leitud selle juhtumipüstituse põhjal sobivaid vasteid.")}
       </p>
     );
   }
@@ -564,7 +564,7 @@ function KnowledgeSupportPanel({ support, t }) {
   );
 }
 
-function CanvasSection({ title, children, meta = "viimane muutja: alustaja Ā· muutmise aeg: tĆ¶Ć¶ruumis" }) {
+function CanvasSection({ title, children, meta = "viimane muutja: alustaja · muutmise aeg: tööruumis" }) {
   return (
     <article className={cn(styles.subtleCard, "grid gap-[0.42rem] rounded-[0.86rem] border px-[0.74rem] py-[0.64rem]")}>
       <div className="flex flex-wrap items-start justify-between gap-[0.45rem]">
@@ -583,7 +583,7 @@ function ContributionList({ messages, locale, emptyText, onPromote, onNextStep, 
       {messages.map((message) => (
         <article key={message.id} className={cn(styles.message, "grid gap-[0.3rem] rounded-[0.78rem] border px-[0.66rem] py-[0.58rem]")}>
           <div className={cn(styles.meta, "flex flex-wrap items-center justify-between gap-[0.45rem] text-[0.78rem]")}>
-            <span>{message.author?.name || message.author?.email || "Osaleja"} Ā· {messageTypeLabel(message.messageType)}</span>
+            <span>{message.author?.name || message.author?.email || "Osaleja"} · {messageTypeLabel(message.messageType)}</span>
             <span>{formatDate(message.createdAt, locale)}</span>
           </div>
           <p className="m-0 whitespace-pre-wrap text-[0.92rem] leading-[1.4]">{message.body}</p>
@@ -593,8 +593,8 @@ function ContributionList({ messages, locale, emptyText, onPromote, onNextStep, 
             ))}
           </div>
           <div className="flex flex-wrap justify-end gap-[0.36rem]">
-            <Button type="button" variant="secondary" onClick={() => onPromote?.(message)} className={smallButtonClassName}>{t("covision.room.add_to_canvas", "Lisa lĆµuendile")}</Button>
-            <Button type="button" variant="secondary" onClick={() => onNextStep?.(message)} className={smallButtonClassName}>{t("covision.room.convert_to_next_step", "Muuda jĆ¤rgmiseks sammuks")}</Button>
+            <Button type="button" variant="secondary" onClick={() => onPromote?.(message)} className={smallButtonClassName}>{t("covision.room.add_to_canvas", "Lisa lõuendile")}</Button>
+            <Button type="button" variant="secondary" onClick={() => onNextStep?.(message)} className={smallButtonClassName}>{t("covision.room.convert_to_next_step", "Muuda järgmiseks sammuks")}</Button>
           </div>
         </article>
       ))}
@@ -663,14 +663,14 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
       const response = await covisionFetch("/api/covision", { cache: "no-store" });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(payload?.message || "Kovisiooni tĆ¶Ć¶ruumi laadimine ebaĆµnnestus.");
+        throw new Error(payload?.message || "Kovisiooni tööruumi laadimine ebaõnnestus.");
       }
       setCases(Array.isArray(payload?.cases) ? payload.cases : []);
       setPractices(Array.isArray(payload?.practices) ? payload.practices : []);
     } catch (loadError) {
       setCases([]);
       setPractices([]);
-      setError(loadError?.message || "Kovisiooni tĆ¶Ć¶ruumi laadimine ebaĆµnnestus.");
+      setError(loadError?.message || "Kovisiooni tööruumi laadimine ebaõnnestus.");
     } finally {
       setLoading(false);
     }
@@ -682,7 +682,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         cache: "no-store"
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "TĆ¶Ć¶heaolu sisendite laadimine ebaĆµnnestus.");
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Tööheaolu sisendite laadimine ebaõnnestus.");
       setWellbeingCovisionInputs(Array.isArray(payload.drafts) ? payload.drafts : []);
     } catch {
       setWellbeingCovisionInputs([]);
@@ -771,23 +771,23 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
     const text = item?.editedText || item?.generatedText || "";
     setCaseForm({
       ...emptyCaseForm(),
-      title: t("covision.wellbeing_inputs.case_title", "TĆ¶Ć¶heaolu sisendist alustatud kovisioon"),
-      summary: t("covision.wellbeing_inputs.case_summary", "Kasutaja kinnitatud tĆ¶Ć¶heaolu sisend."),
+      title: t("covision.wellbeing_inputs.case_title", "Tööheaolu sisendist alustatud kovisioon"),
+      summary: t("covision.wellbeing_inputs.case_summary", "Kasutaja kinnitatud tööheaolu sisend."),
       anonymizedDescription: text,
       centralQuestion: t(
         "covision.wellbeing_inputs.case_question",
-        "Milline tugi vĆµi tĆ¶Ć¶korralduslik kokkulepe aitaks olukorda edasi viia?"
+        "Milline tugi või töökorralduslik kokkulepe aitaks olukorda edasi viia?"
       ),
       expectedHelpTypes: ["questions", "reflection"],
-      topics: ["tĆ¶Ć¶koormus ja taastumine"],
-      tagText: "tĆ¶Ć¶heaolu"
+      topics: ["töökoormus ja taastumine"],
+      tagText: "tööheaolu"
     });
     setCaseStep(1);
     setAnonymityIssues([]);
     setQuestionSuggestions([]);
     setNotice(t(
       "covision.wellbeing_inputs.case_notice",
-      "TĆ¶Ć¶heaolu sisend on toodud kovisiooni mustandisse. Vaata tekst enne salvestamist Ć¼le."
+      "Tööheaolu sisend on toodud kovisiooni mustandisse. Vaata tekst enne salvestamist üle."
     ));
     setError("");
     setView("case_form");
@@ -809,13 +809,13 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
     try {
       const response = await covisionFetch(`/api/covision/${encodeURIComponent(item.id)}`, { cache: "no-store" });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "Kovisiooni avamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Kovisiooni avamine ebaõnnestus.");
       setActiveCase(payload.case);
       setSummaryForm(payload.case?.summaryRecord || {});
       setKnowledgeSupport(null);
       setView("room");
     } catch (openError) {
-      setError(openError?.message || "Kovisiooni avamine ebaĆµnnestus.");
+      setError(openError?.message || "Kovisiooni avamine ebaõnnestus.");
     }
   }
 
@@ -949,13 +949,13 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "Kutse lisamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Kutse lisamine ebaõnnestus.");
       setActiveCase(payload.case);
       setParticipantEmail("");
-      setNotice("Osaleja kutse lisatud. Sisu avaneb pĆ¤rast autentimist ja Ćµiguste kontrolli.");
+      setNotice("Osaleja kutse lisatud. Sisu avaneb pärast autentimist ja õiguste kontrolli.");
       await loadWorkspace();
     } catch (inviteError) {
-      setError(inviteError?.message || "Kutse lisamine ebaĆµnnestus.");
+      setError(inviteError?.message || "Kutse lisamine ebaõnnestus.");
     } finally {
       setSaving(false);
     }
@@ -973,14 +973,14 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "AnonĆ¼Ć¼msuse kontroll ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Anonüümsuse kontroll ebaõnnestus.");
       setAnonymityIssues(Array.isArray(payload.issues) ? payload.issues : []);
       if (!caseForm.topics.length && Array.isArray(payload.topics)) {
         updateCaseForm("topics", payload.topics);
       }
-      setNotice(payload.issues?.length ? "Kontroll leidis detailid, mis vajavad Ć¼levaatust." : "AnonĆ¼Ć¼msuse kontroll ei leidnud selgeid tuvastavaid detaile.");
+      setNotice(payload.issues?.length ? "Kontroll leidis detailid, mis vajavad ülevaatust." : "Anonüümsuse kontroll ei leidnud selgeid tuvastavaid detaile.");
     } catch (assistError) {
-      setError(assistError?.message || "AnonĆ¼Ć¼msuse kontroll ebaĆµnnestus.");
+      setError(assistError?.message || "Anonüümsuse kontroll ebaõnnestus.");
     }
   }
 
@@ -1000,10 +1000,10 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "KĆ¼simuste pakkumine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Küsimuste pakkumine ebaõnnestus.");
       setQuestionSuggestions(Array.isArray(payload.questions) ? payload.questions : []);
     } catch (assistError) {
-      setError(assistError?.message || "KĆ¼simuste pakkumine ebaĆµnnestus.");
+      setError(assistError?.message || "Küsimuste pakkumine ebaõnnestus.");
     }
   }
 
@@ -1011,7 +1011,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
     event.preventDefault();
     if (saving) return;
     if (!caseForm.anonymityConfirmed) {
-      setError("Kovisiooni salvestamiseks kinnita, et juhtumipĆ¼stitus on anonĆ¼Ć¼mne.");
+      setError("Kovisiooni salvestamiseks kinnita, et juhtumipüstitus on anonüümne.");
       setCaseStep(1);
       return;
     }
@@ -1030,15 +1030,15 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify(payload)
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.message || "Kovisiooni salvestamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(data?.message || "Kovisiooni salvestamine ebaõnnestus.");
       await loadWorkspace();
       setActiveCase(data.case);
       setSummaryForm(data.case?.summaryRecord || {});
       setKnowledgeSupport(null);
-      setNotice("Kovisiooni juhtumipĆ¼stitus salvestatud.");
+      setNotice("Kovisiooni juhtumipüstitus salvestatud.");
       setView("room");
     } catch (saveError) {
-      setError(saveError?.message || "Kovisiooni salvestamine ebaĆµnnestus.");
+      setError(saveError?.message || "Kovisiooni salvestamine ebaõnnestus.");
     } finally {
       setSaving(false);
     }
@@ -1056,7 +1056,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify({ messageType, body: messageBody, sectionKey: messageSectionKey, status: "NEW" })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "SĆµnumi lisamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Sõnumi lisamine ebaõnnestus.");
       setActiveCase((current) => ({
         ...current,
         status: current?.status === "draft" ? "active" : current?.status,
@@ -1064,18 +1064,18 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
       }));
       setMessageBody("");
     } catch (sendError) {
-      setError(sendError?.message || "SĆµnumi lisamine ebaĆµnnestus.");
+      setError(sendError?.message || "Sõnumi lisamine ebaõnnestus.");
     } finally {
       setSaving(false);
     }
   }
 
   function promoteContribution(message) {
-    setNotice(`Arutelusisend mĆ¤rgitud lĆµuendile lisamiseks: ${messageTypeLabel(message.messageType)}.`);
+    setNotice(`Arutelusisend märgitud lõuendile lisamiseks: ${messageTypeLabel(message.messageType)}.`);
   }
 
   function convertContributionToNextStep(message) {
-    setNotice(`JĆ¤rgmine samm on eraldi objektina ette valmistatud sisendist: ${message.body?.slice(0, 80) || ""}`);
+    setNotice(`Järgmine samm on eraldi objektina ette valmistatud sisendist: ${message.body?.slice(0, 80) || ""}`);
   }
 
   async function draftSummary() {
@@ -1088,11 +1088,11 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify({ action: "summary", caseId: activeCase.id })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "KokkuvĆµtte mustandi koostamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Kokkuvõtte mustandi koostamine ebaõnnestus.");
       setSummaryForm(payload.summary || {});
-      setNotice("KokkuvĆµtte mustand koostatud. Vaata see enne salvestamist Ć¼le.");
+      setNotice("Kokkuvõtte mustand koostatud. Vaata see enne salvestamist üle.");
     } catch (assistError) {
-      setError(assistError?.message || "KokkuvĆµtte mustandi koostamine ebaĆµnnestus.");
+      setError(assistError?.message || "Kokkuvõtte mustandi koostamine ebaõnnestus.");
     }
   }
 
@@ -1107,7 +1107,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify({ action: "knowledge", caseId: activeCase.id, topK: 8 })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "Teadmistebaasi taustainfo otsimine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Teadmistebaasi taustainfo otsimine ebaõnnestus.");
       setKnowledgeSupport(payload.knowledge || { available: true, results: [] });
       if (payload.knowledge?.available === false) {
         setNotice("Teadmistebaasi otsing ei ole selles keskkonnas seadistatud.");
@@ -1115,7 +1115,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         setNotice("Teadmistebaasi taustainfo uuendatud. Kontrolli allikaid enne kasutamist.");
       }
     } catch (knowledgeError) {
-      setError(knowledgeError?.message || "Teadmistebaasi taustainfo otsimine ebaĆµnnestus.");
+      setError(knowledgeError?.message || "Teadmistebaasi taustainfo otsimine ebaõnnestus.");
     } finally {
       setKnowledgeLoading(false);
     }
@@ -1132,16 +1132,16 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify(summaryForm)
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "KokkuvĆµtte salvestamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Kokkuvõtte salvestamine ebaõnnestus.");
       setActiveCase((current) => ({
         ...current,
         status: "summary_ready",
         summaryRecord: payload.summary
       }));
-      setNotice("Kovisiooni kokkuvĆµte salvestatud.");
+      setNotice("Kovisiooni kokkuvõte salvestatud.");
       await loadWorkspace();
     } catch (summaryError) {
-      setError(summaryError?.message || "KokkuvĆµtte salvestamine ebaĆµnnestus.");
+      setError(summaryError?.message || "Kokkuvõtte salvestamine ebaõnnestus.");
     } finally {
       setSaving(false);
     }
@@ -1157,14 +1157,14 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify({ action: "practice", caseId: activeCase.id })
       });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload?.message || "Toimiva praktika mustandi alustamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(payload?.message || "Toimiva praktika mustandi alustamine ebaõnnestus.");
       setPracticeForm({
         ...practiceToForm(payload.practice),
         sourceCovisionCaseId: activeCase.id
       });
       setView("practice_form");
     } catch (practiceError) {
-      setError(practiceError?.message || "Toimiva praktika mustandi alustamine ebaĆµnnestus.");
+      setError(practiceError?.message || "Toimiva praktika mustandi alustamine ebaõnnestus.");
     }
   }
 
@@ -1192,13 +1192,13 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
         body: JSON.stringify(payload)
       });
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.message || "Toimiva praktika salvestamine ebaĆµnnestus.");
+      if (!response.ok) throw new Error(data?.message || "Toimiva praktika salvestamine ebaõnnestus.");
       await loadWorkspace();
       setNotice("Toimiva praktika kirje salvestatud.");
       setPracticeForm(practiceToForm(data.practice));
       setView("overview");
     } catch (practiceError) {
-      setError(practiceError?.message || "Toimiva praktika salvestamine ebaĆµnnestus.");
+      setError(practiceError?.message || "Toimiva praktika salvestamine ebaõnnestus.");
     } finally {
       setSaving(false);
     }
@@ -1253,11 +1253,11 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     </Button>
                     <Button type="button" onClick={() => setView("wellbeing_inputs")} className={cn(primaryButtonClassName, styles.actionButton)}>
                       <Heart aria-hidden="true" size={18} strokeWidth={2.2} />
-                      <span>{t("covision.overview.from_wellbeing", "TĆ¶Ć¶heaolust")}</span>
+                      <span>{t("covision.overview.from_wellbeing", "Tööheaolust")}</span>
                     </Button>
                     <Button type="button" onClick={() => startPractice()} className={cn(primaryButtonClassName, styles.actionButton)}>
                       <BookOpen aria-hidden="true" size={18} strokeWidth={2.2} />
-                      <span>{t("covision.overview.practice_example", "PraktikanĆ¤ide")}</span>
+                      <span>{t("covision.overview.practice_example", "Praktikanäide")}</span>
                     </Button>
                   </div>
                   <div className={styles.toolbarFilters}>
@@ -1266,7 +1266,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                       <CovisionInput
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
-                        placeholder="Otsi teema, sildi vĆµi kĆ¼simuse jĆ¤rgi"
+                        placeholder="Otsi teema, sildi või küsimuse järgi"
                         aria-label="Otsi"
                         className={styles.searchInput}
                       />
@@ -1278,7 +1278,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                         onChange={setTopicFilter}
                         ariaLabel="Teemafilter"
                         openDirection="down"
-                        options={[{ value: "", label: "KĆµik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
+                        options={[{ value: "", label: "Kõik teemad" }, ...COVISION_TOPICS.map((topic) => ({ value: topic, label: topic }))]}
                       />
                     </div>
                   </div>
@@ -1298,12 +1298,12 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                   ) : (
                     <div className={styles.emptyState}>
                       <p className={styles.emptyTitle}>{t("covision.overview.empty_covisions_title", "Kovisioone pole veel loodud")}</p>
-                      <p className={mutedTextClassName}>{t("covision.overview.empty_covisions_body", "Alusta uus kovisioon vĆµi muuda filtrit, et olemasolevad tulemused uuesti nĆ¤htavaks teha.")}</p>
+                      <p className={mutedTextClassName}>{t("covision.overview.empty_covisions_body", "Alusta uus kovisioon või muuda filtrit, et olemasolevad tulemused uuesti nähtavaks teha.")}</p>
                     </div>
                   )}
                 </SectionPanel>
 
-                <SectionPanel title="PraktikanĆ¤ited">
+                <SectionPanel title="Praktikanäited">
                   {loading ? (
                     <p className={mutedTextClassName}>{t("covision.overview.loading_practices", "Laen praktikakogemusi...")}</p>
                   ) : filteredPractices.length ? (
@@ -1314,8 +1314,8 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     </div>
                   ) : (
                     <div className={styles.emptyState}>
-                      <p className={styles.emptyTitle}>{t("covision.overview.empty_practices_title", "PraktikanĆ¤iteid pole lisatud")}</p>
-                      <p className={mutedTextClassName}>{t("covision.overview.empty_practices_body", "Lisa esimene nĆ¤ide vĆµi eemalda teemafilter, kui otsid varasemaid kogemusi.")}</p>
+                      <p className={styles.emptyTitle}>{t("covision.overview.empty_practices_title", "Praktikanäiteid pole lisatud")}</p>
+                      <p className={mutedTextClassName}>{t("covision.overview.empty_practices_body", "Lisa esimene näide või eemalda teemafilter, kui otsid varasemaid kogemusi.")}</p>
                     </div>
                   )}
                 </SectionPanel>
@@ -1325,7 +1325,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
           {view === "wellbeing_inputs" ? (
             <SectionPanel
-              title={t("covision.wellbeing_inputs.section_title", "Heaolu tĆ¶Ć¶voogudest ette valmistatud sisendid")}
+              title={t("covision.wellbeing_inputs.section_title", "Heaolu töövoogudest ette valmistatud sisendid")}
               aside={
                 <Button type="button" variant="secondary" onClick={() => setView("overview")} className={smallButtonClassName}>
                   {t("buttons.back", "Tagasi")}
@@ -1348,7 +1348,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                 <p className={mutedTextClassName}>
                   {t(
                     "covision.wellbeing_inputs.empty",
-                    "Kinnitatud tĆ¶Ć¶heaolu kovisiooni sisendeid veel ei ole. Koosta see tĆ¶Ć¶heaolu tĆ¶Ć¶voost ja kinnita tekst enne kasutamist."
+                    "Kinnitatud tööheaolu kovisiooni sisendeid veel ei ole. Koosta see tööheaolu töövoost ja kinnita tekst enne kasutamist."
                   )}
                 </p>
               )}
@@ -1372,7 +1372,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               </div>
 
               {caseStep === 0 ? (
-              <SectionPanel title={`1. ${t("covision.workflow.steps.basic", "PĆµhiinfo")}`}>
+              <SectionPanel title={`1. ${t("covision.workflow.steps.basic", "Põhiinfo")}`}>
                 <div className="grid gap-[0.68rem] md:grid-cols-[1fr_0.82fr]">
                   <Field label="Pealkiri">
                     <CovisionInput value={caseForm.title} onChange={(event) => updateCaseForm("title", event.target.value)} required />
@@ -1381,7 +1381,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     <SelectField value={caseForm.status} onChange={(value) => updateCaseForm("status", value)} ariaLabel="Staatus" options={COVISION_CASE_STATUSES} />
                   </Field>
                 </div>
-                <Field label="LĆ¼hikirjeldus">
+                <Field label="Lühikirjeldus">
                   <CovisionTextarea value={caseForm.summary} onChange={(event) => updateCaseForm("summary", event.target.value)} rows={3} />
                 </Field>
                 <div className="grid gap-[0.5rem]">
@@ -1396,20 +1396,20 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
               {caseStep === 1 ? (
               <SectionPanel
-                title={`2. ${t("covision.workflow.steps.anonymous_description", "AnonĆ¼Ć¼mne olukorrakirjeldus")}`}
-                aside={<Button type="button" variant="secondary" onClick={runAnonymityCheck} className={smallButtonClassName}>{t("covision.workflow.check_anonymity", "Kontrolli anonĆ¼Ć¼msust")}</Button>}
+                title={`2. ${t("covision.workflow.steps.anonymous_description", "Anonüümne olukorrakirjeldus")}`}
+                aside={<Button type="button" variant="secondary" onClick={runAnonymityCheck} className={smallButtonClassName}>{t("covision.workflow.check_anonymity", "Kontrolli anonüümsust")}</Button>}
               >
                 <p className={mutedTextClassName}>
                   {t(
                     "covision.workflow.anonymity_instruction",
-                    "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ć„ra sisesta nime, isikukoodi, tĆ¤pset aadressi, telefoninumbrit, tĆ¤pset sĆ¼ndmuskohta ega muid tuvastamist vĆµimaldavaid detaile."
+                    "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ära sisesta nime, isikukoodi, täpset aadressi, telefoninumbrit, täpset sündmuskohta ega muid tuvastamist võimaldavaid detaile."
                   )}
                 </p>
                 <CovisionTextarea
                   value={caseForm.anonymizedDescription}
                   onChange={(event) => updateCaseForm("anonymizedDescription", event.target.value)}
                   rows={8}
-                  placeholder="Kirjelda tĆ¶Ć¶alast olukorda ilma tuvastatavate kliendiandmeteta."
+                  placeholder="Kirjelda tööalast olukorda ilma tuvastatavate kliendiandmeteta."
                 />
                 {anonymityIssues.length ? (
                   <div className="grid gap-[0.42rem]">
@@ -1429,7 +1429,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     checked={caseForm.anonymityConfirmed}
                     onChange={(event) => updateCaseForm("anonymityConfirmed", event.target.checked)}
                   />
-                  <span>{t("covision.workflow.anonymity_confirmation", "Kinnitan, et juhtumipĆ¼stitus on anonĆ¼Ć¼mne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.")}</span>
+                  <span>{t("covision.workflow.anonymity_confirmation", "Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.")}</span>
                 </label>
               </SectionPanel>
               ) : null}
@@ -1437,27 +1437,27 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               {caseStep === 2 ? (
               <SectionPanel title={`3. ${t("covision.workflow.steps.process_flow", "Olukorra kulg")}`} aside={<Button type="button" variant="secondary" onClick={addJourneyStep} className={smallButtonClassName}>{t("covision.workflow.add_step", "Lisa samm")}</Button>}>
                 <p className={mutedTextClassName}>
-                  {t("covision.workflow.process_flow_hint", "Kirjelda tĆ¶Ć¶protsessi vĆµi olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. Ć„ra lisa tuvastatavaid kliendiandmeid.")}
+                  {t("covision.workflow.process_flow_hint", "Kirjelda tööprotsessi või olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. Ära lisa tuvastatavaid kliendiandmeid.")}
                 </p>
                 {caseForm.journeySteps.length ? (
                   <div className="grid gap-[0.58rem]">
                     {caseForm.journeySteps.map((step, index) => (
                       <div key={`step-${index}`} className={cn(styles.subtleCard, "grid gap-[0.52rem] rounded-[0.86rem] border px-[0.72rem] py-[0.68rem]")}>
                         <div className="grid gap-[0.52rem] md:grid-cols-[0.75fr_1fr_0.55fr_auto]">
-                          <SelectField value={step.type || COVISION_JOURNEY_STEP_TYPES[0]} onChange={(value) => updateJourneyStep(index, "type", value)} ariaLabel="Sammu tĆ¼Ć¼p" options={COVISION_JOURNEY_STEP_TYPES} />
-                          <CovisionInput value={step.title || ""} onChange={(event) => updateJourneyStep(index, "title", event.target.value)} placeholder="LĆ¼hike pealkiri" />
+                          <SelectField value={step.type || COVISION_JOURNEY_STEP_TYPES[0]} onChange={(value) => updateJourneyStep(index, "type", value)} ariaLabel="Sammu tüüp" options={COVISION_JOURNEY_STEP_TYPES} />
+                          <CovisionInput value={step.title || ""} onChange={(event) => updateJourneyStep(index, "title", event.target.value)} placeholder="Lühike pealkiri" />
                           <CovisionInput value={step.dateLabel || ""} onChange={(event) => updateJourneyStep(index, "dateLabel", event.target.value)} placeholder="Periood" />
                           <Button type="button" variant="danger" onClick={() => removeJourneyStep(index)} className={dangerButtonClassName}>{t("covision.common.remove", "Eemalda")}</Button>
                         </div>
-                        <CovisionTextarea value={step.description || ""} onChange={(event) => updateJourneyStep(index, "description", event.target.value)} rows={2} placeholder="LĆ¼hikirjeldus" />
+                        <CovisionTextarea value={step.description || ""} onChange={(event) => updateJourneyStep(index, "description", event.target.value)} rows={2} placeholder="Lühikirjeldus" />
                         <div className="grid gap-[0.52rem] md:grid-cols-[1fr_0.6fr]">
-                          <CovisionInput value={step.notes || ""} onChange={(event) => updateJourneyStep(index, "notes", event.target.value)} placeholder="MĆ¤rkused" />
+                          <CovisionInput value={step.notes || ""} onChange={(event) => updateJourneyStep(index, "notes", event.target.value)} placeholder="Märkused" />
                           <SelectField
                             value={step.status || "needs_clarification"}
                             onChange={(value) => updateJourneyStep(index, "status", value)}
                             ariaLabel="Sammu seis"
                             options={[
-                              { value: "needs_clarification", label: "vajab tĆ¤psustamist" },
+                              { value: "needs_clarification", label: "vajab täpsustamist" },
                               { value: "confirmed", label: "kinnitatud" }
                             ]}
                           />
@@ -1497,9 +1497,9 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                         <CovisionInput value={party.label || ""} onChange={(event) => updateParty(index, "label", event.target.value)} />
                         <div className="grid gap-[0.45rem] sm:grid-cols-2">
                           <SelectField value={party.involvementStatus || "info puudub"} onChange={(value) => updateParty(index, "involvementStatus", value)} ariaLabel="Kaasamise seis" options={COVISION_PARTY_STATUSES} />
-                          <SelectField value={party.cooperationStatus || "info puudub"} onChange={(value) => updateParty(index, "cooperationStatus", value)} ariaLabel="KoostĆ¶Ć¶ seis" options={COVISION_PARTY_STATUSES} />
+                          <SelectField value={party.cooperationStatus || "info puudub"} onChange={(value) => updateParty(index, "cooperationStatus", value)} ariaLabel="Koostöö seis" options={COVISION_PARTY_STATUSES} />
                         </div>
-                        <CovisionTextarea value={party.note || ""} onChange={(event) => updateParty(index, "note", event.target.value)} rows={2} placeholder="LĆ¼himĆ¤rkus" />
+                        <CovisionTextarea value={party.note || ""} onChange={(event) => updateParty(index, "note", event.target.value)} rows={2} placeholder="Lühimärkus" />
                         <Button type="button" variant="danger" onClick={() => updateCaseForm("parties", caseForm.parties.filter((_, partyIndex) => partyIndex !== index))} className={dangerButtonClassName}>{t("covision.common.remove", "Eemalda")}</Button>
                       </div>
                     ))}
@@ -1515,7 +1515,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                       setRiskKind(value);
                       setRiskLabel(value === "risk" ? COVISION_RISK_OPTIONS[0] : COVISION_PROTECTIVE_OPTIONS[0]);
                     }}
-                    ariaLabel="Teguri tĆ¼Ć¼p"
+                    ariaLabel="Teguri tüüp"
                     options={[
                       { value: "risk", label: "risk" },
                       { value: "protective", label: "kaitsetegur" }
@@ -1529,7 +1529,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     options={[
                       { value: "low", label: "madal" },
                       { value: "medium", label: "keskmine" },
-                      { value: "high", label: "kĆµrge" }
+                      { value: "high", label: "kõrge" }
                     ]}
                   />
                 </div>
@@ -1539,9 +1539,9 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                       <div key={`factor-${index}`} className={cn(styles.subtleCard, "grid gap-[0.45rem] rounded-[0.86rem] border px-[0.72rem] py-[0.68rem]")}>
                         <div className="flex flex-wrap items-center justify-between gap-[0.5rem]">
                           <strong className="text-[0.98rem] leading-[1.2]">{factor.label}</strong>
-                          <span className={cn(styles.meta, "text-[0.84rem]")}>{factor.type === "protective" ? "kaitsetegur" : "risk"} Ā· {factor.severity}</span>
+                          <span className={cn(styles.meta, "text-[0.84rem]")}>{factor.type === "protective" ? "kaitsetegur" : "risk"} · {factor.severity}</span>
                         </div>
-                        <CovisionTextarea value={factor.note || ""} onChange={(event) => updateRiskFactor(index, "note", event.target.value)} rows={2} placeholder="MĆ¤rkus" />
+                        <CovisionTextarea value={factor.note || ""} onChange={(event) => updateRiskFactor(index, "note", event.target.value)} rows={2} placeholder="Märkus" />
                         <Button type="button" variant="danger" onClick={() => updateCaseForm("riskFactors", caseForm.riskFactors.filter((_, factorIndex) => factorIndex !== index))} className={dangerButtonClassName}>{t("covision.common.remove", "Eemalda")}</Button>
                       </div>
                     ))}
@@ -1553,10 +1553,10 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
 
               {caseStep === 4 ? (
               <SectionPanel
-                title={`5. ${t("covision.workflow.steps.central_question", "Keskne kĆ¼simus ja ootus")}`}
+                title={`5. ${t("covision.workflow.steps.central_question", "Keskne küsimus ja ootus")}`}
                 aside={<Button type="button" variant="secondary" onClick={runQuestionAssist} className={smallButtonClassName}>{t("covision.workflow.suggest_questions", "Paku küsimusi")}</Button>}
               >
-                <CovisionTextarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="SĆµnasta Ć¼ks keskne kĆ¼simus kolleegidele." />
+                <CovisionTextarea value={caseForm.centralQuestion} onChange={(event) => updateCaseForm("centralQuestion", event.target.value)} rows={3} placeholder="Sõnasta üks keskne küsimus kolleegidele." />
                 {questionSuggestions.length ? (
                   <div className="grid gap-[0.42rem]">
                     {questionSuggestions.map((question) => (
@@ -1579,7 +1579,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               ) : null}
 
               {caseStep === 5 ? (
-              <SectionPanel title={`6. ${t("covision.workflow.steps.review", "Ćlevaade ja salvesta")}`}>
+              <SectionPanel title={`6. ${t("covision.workflow.steps.review", "Ülevaade ja salvesta")}`}>
                 <p className={mutedTextClassName}>{t("covision.workflow.review_hint", "Kontrolli enne salvestamist uuesti, et kirjeldus ei sisaldaks tuvastatavaid kliendiandmeid. Kutsed lisatakse kovisiooniruumis.")}</p>
                 <div className="grid gap-[0.58rem] md:grid-cols-2">
                   <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}><strong>{t("covision.workflow.review_title", "Pealkiri")}</strong><p className={mutedTextClassName}>{caseForm.title || t("covision.workflow.missing_value", "Puudub")}</p></div>
@@ -1620,7 +1620,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     <CardTags tags={activeCase.topics} />
                   </div>
                   <div className="flex flex-wrap gap-[0.5rem]">
-                    <Button type="button" variant="secondary" className={smallButtonClassName}>{t("covision.room.request_to_speak", "Soovin sĆµna")}</Button>
+                    <Button type="button" variant="secondary" className={smallButtonClassName}>{t("covision.room.request_to_speak", "Soovin sõna")}</Button>
                     <Button type="button" variant="secondary" onClick={loadKnowledgeSupport} disabled={knowledgeLoading} className={smallButtonClassName}>
                       {knowledgeLoading ? "Otsin taustainfot..." : "Otsi taustainfot"}
                     </Button>
@@ -1639,33 +1639,33 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               </div>
 
               <div className="grid gap-[0.92rem] xl:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
-                <SectionPanel title={t("covision.room.canvas", "JuhtumilĆµuend")} className="xl:row-span-2">
+                <SectionPanel title={t("covision.room.canvas", "Juhtumilõuend")} className="xl:row-span-2">
                   <div className="grid gap-[0.58rem] md:grid-cols-2">
-                    <CanvasSection title="1. Keskne kĆ¼simus">{activeCase.centralQuestion || "TĆ¤psustamisel"}</CanvasSection>
-                    <CanvasSection title="2. AnonĆ¼Ć¼mne olukorrakirjeldus">{activeCase.anonymizedDescription || activeCase.summary || "Puudub"}</CanvasSection>
-                    <CanvasSection title="3. Olukorra kulg / tĆ¶Ć¶protsessi etapid">
+                    <CanvasSection title="1. Keskne küsimus">{activeCase.centralQuestion || "Täpsustamisel"}</CanvasSection>
+                    <CanvasSection title="2. Anonüümne olukorrakirjeldus">{activeCase.anonymizedDescription || activeCase.summary || "Puudub"}</CanvasSection>
+                    <CanvasSection title="3. Olukorra kulg / tööprotsessi etapid">
                       {(activeCase.journeySteps || []).length
                         ? activeCase.journeySteps.map((step) => `- ${step.title || step.type}: ${step.description || step.notes || ""}`).join("\n")
-                        : "Olukorra kulg vajab tĆ¤psustamist."}
+                        : "Olukorra kulg vajab täpsustamist."}
                     </CanvasSection>
-                    <CanvasSection title="4. VĆµrgustik ja osapooled">
+                    <CanvasSection title="4. Võrgustik ja osapooled">
                       {(activeCase.parties || []).length
-                        ? activeCase.parties.map((party) => `- ${party.label} (${party.involvementStatus || "seis tĆ¤psustamisel"})`).join("\n")
+                        ? activeCase.parties.map((party) => `- ${party.label} (${party.involvementStatus || "seis täpsustamisel"})`).join("\n")
                         : "Osapooled sisestatakse rollidena, mitte nimedena."}
                     </CanvasSection>
                     <CanvasSection title="5. Riskid ja kaitsetegurid">
                       {(activeCase.riskFactors || []).length
                         ? activeCase.riskFactors.map((factor) => `- ${factor.type === "protective" ? "Kaitsetegur" : "Risk"}: ${factor.label} (${factor.severity})`).join("\n")
-                        : "Riskid ja kaitsetegurid puuduvad vĆµi vajavad lisamist."}
+                        : "Riskid ja kaitsetegurid puuduvad või vajavad lisamist."}
                     </CanvasSection>
                     <CanvasSection title="6. Kolleegide küsimused"><ContributionList messages={roomQuestions} locale={locale} emptyText="Küsimusi pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} t={t} /></CanvasSection>
                     <CanvasSection title="7. Peegeldused ja võimalikud seletused"><ContributionList messages={roomReflections} locale={locale} emptyText="Peegeldusi pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} t={t} /></CanvasSection>
                     <CanvasSection title="8. Ettepanekud"><ContributionList messages={roomSuggestions} locale={locale} emptyText="Ettepanekuid pole veel lisatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} t={t} /></CanvasSection>
-                    <CanvasSection title="9. JĆ¤rgmised sammud">
+                    <CanvasSection title="9. Järgmised sammud">
                       <ContributionList messages={roomNextSteps} locale={locale} emptyText="Järgmine samm on eraldi objekt; ettepanekuid pole veel kinnitatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} t={t} />
                     </CanvasSection>
                     <CanvasSection title="10. Lahtised küsimused"><ContributionList messages={roomOpenQuestions} locale={locale} emptyText="Lahtiseid küsimusi pole veel koondatud." onPromote={promoteContribution} onNextStep={convertContributionToNextStep} t={t} /></CanvasSection>
-                    <CanvasSection title="11. KokkuvĆµte">{summaryForm.content || "KokkuvĆµte tĆ¤idetakse kĆ¤sitsi juhtumilĆµuendi ja tekstiliste sisendite pĆµhjal. Heli ei kasutata."}</CanvasSection>
+                    <CanvasSection title="11. Kokkuvõte">{summaryForm.content || "Kokkuvõte täidetakse käsitsi juhtumilõuendi ja tekstiliste sisendite põhjal. Heli ei kasutata."}</CanvasSection>
                   </div>
                 </SectionPanel>
 
@@ -1674,7 +1674,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     <div className="flex flex-wrap gap-[0.32rem]">
                       {(activeCase.participants || []).map((participant) => (
                         <span key={participant.id} className={cn(styles.tag, "rounded-full border px-[0.56rem] py-[0.2rem] text-[0.82rem]")}>
-                          {participant.user?.name || participant.email || participant.role} Ā· {optionLabel(COVISION_PARTICIPANT_ROLES, participant.role)}
+                          {participant.user?.name || participant.email || participant.role} · {optionLabel(COVISION_PARTICIPANT_ROLES, participant.role)}
                         </span>
                       ))}
                     </div>
@@ -1687,7 +1687,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                   </div>
                 </SectionPanel>
 
-                <SectionPanel title="SĆµnasoovid">
+                <SectionPanel title="Sõnasoovid">
                   <p className={mutedTextClassName}>{t("covision.room.speaking_requests_help", "Sõnasoovide järjekord on heliriba detailides nähtav. Moderaator saab sõnasoovi lahendada ja osaleja saab selle tühistada.")}</p>
                 </SectionPanel>
 
@@ -1696,7 +1696,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     {(activeCase.messages || []).length ? activeCase.messages.map((message) => (
                       <article key={message.id} className={cn(styles.message, "grid gap-[0.24rem] rounded-[0.86rem] border px-[0.72rem] py-[0.62rem]")}>
                         <div className={cn(styles.meta, "flex flex-wrap items-center justify-between gap-[0.45rem] text-[0.8rem]")}>
-                          <span>{message.author?.name || message.author?.email || "Osaleja"} Ā· {messageTypeLabel(message.messageType)}</span>
+                          <span>{message.author?.name || message.author?.email || "Osaleja"} · {messageTypeLabel(message.messageType)}</span>
                           <span>{formatDate(message.createdAt, locale)}</span>
                         </div>
                         <p className="m-0 whitespace-pre-wrap text-[0.98rem] leading-[1.45]">{message.body}</p>
@@ -1707,22 +1707,22 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                   </div>
                   <form onSubmit={sendMessage} className={cn(styles.discussionForm, "grid gap-[0.52rem] border-t pt-[0.72rem]")}>
                     <div className="grid gap-[0.52rem] md:grid-cols-2">
-                      <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sisendi tĆ¼Ć¼p" options={COVISION_MESSAGE_TYPES} />
+                      <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sisendi tüüp" options={COVISION_MESSAGE_TYPES} />
                       <SelectField
                         value={messageSectionKey}
                         onChange={setMessageSectionKey}
-                        ariaLabel="Seos juhtumilĆµuendi sektsiooniga"
+                        ariaLabel="Seos juhtumilõuendi sektsiooniga"
                         options={[
-                          { value: "questions", label: "Kolleegide kĆ¼simused" },
+                          { value: "questions", label: "Kolleegide küsimused" },
                           { value: "reflections", label: "Peegeldused" },
                           { value: "suggestions", label: "Ettepanekud" },
                           { value: "risks", label: "Riskid ja kaitsetegurid" },
-                          { value: "next_steps", label: "JĆ¤rgmised sammud" },
-                          { value: "open_questions", label: "Lahtised kĆ¼simused" }
+                          { value: "next_steps", label: "Järgmised sammud" },
+                          { value: "open_questions", label: "Lahtised küsimused" }
                         ]}
                       />
                     </div>
-                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa kĆ¼simus, peegeldus, ettepanek, risk vĆµi jĆ¤rgmise sammu ettepanek." />
+                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa küsimus, peegeldus, ettepanek, risk või järgmise sammu ettepanek." />
                     <div className="flex justify-end">
                       <Button type="submit" disabled={saving || !messageBody.trim()} className={compactPrimaryButtonClassName}>{t("covision.room.add_to_discussion", "Lisa arutelusse")}</Button>
                     </div>
@@ -1731,19 +1731,19 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               </div>
 
               <SectionPanel
-                title="Kovisiooni kokkuvĆµte"
+                title="Kovisiooni kokkuvõte"
                 aside={<Button type="button" variant="secondary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
               >
                 <p className={mutedTextClassName}>
                   {t("covision.room.summary_intro", "Kokkuvõte põhineb juhtumilõuendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuvõtte koostamiseks.")}
                 </p>
                 <div className="grid gap-[0.58rem] md:grid-cols-2">
-                  <SummaryField label="Peamised tĆ¤helepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
-                  <SummaryField label="Kolleegide kĆ¼simused" value={summaryForm.questions} onChange={(value) => setSummaryForm((current) => ({ ...current, questions: value }))} />
-                  <SummaryField label="Riskid, mis vajavad tĆ¤helepanu" value={summaryForm.risks} onChange={(value) => setSummaryForm((current) => ({ ...current, risks: value }))} />
+                  <SummaryField label="Peamised tähelepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
+                  <SummaryField label="Kolleegide küsimused" value={summaryForm.questions} onChange={(value) => setSummaryForm((current) => ({ ...current, questions: value }))} />
+                  <SummaryField label="Riskid, mis vajavad tähelepanu" value={summaryForm.risks} onChange={(value) => setSummaryForm((current) => ({ ...current, risks: value }))} />
                   <SummaryField label="Kaitsetegurid" value={summaryForm.protectiveFactors} onChange={(value) => setSummaryForm((current) => ({ ...current, protectiveFactors: value }))} />
-                  <SummaryField label="Kinnitatud jĆ¤rgmised sammud" value={summaryForm.possibleNextSteps} onChange={(value) => setSummaryForm((current) => ({ ...current, possibleNextSteps: value }))} />
-                  <SummaryField label="Lahtised kĆ¼simused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
+                  <SummaryField label="Kinnitatud järgmised sammud" value={summaryForm.possibleNextSteps} onChange={(value) => setSummaryForm((current) => ({ ...current, possibleNextSteps: value }))} />
+                  <SummaryField label="Lahtised küsimused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
                 </div>
                 <div className="flex justify-end">
                   <Button type="button" onClick={saveSummary} disabled={saving} className={compactPrimaryButtonClassName}>{t("covision.room.save_summary", "Salvesta kokkuvõte")}</Button>
@@ -1769,12 +1769,12 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               </div>
 
               <div className="grid gap-[0.92rem] xl:grid-cols-[0.82fr_1.18fr]">
-                <SectionPanel title="JuhtumipĆ¼stituse kokkuvĆµte">
+                <SectionPanel title="Juhtumipüstituse kokkuvõte">
                   <div className="grid gap-[0.58rem]">
-                    <p className={mutedTextClassName}>{activeCase.summary || "LĆ¼hikirjeldus puudub."}</p>
+                    <p className={mutedTextClassName}>{activeCase.summary || "Lühikirjeldus puudub."}</p>
                     <div className={cn(styles.subtleCard, "rounded-[0.86rem] border px-[0.74rem] py-[0.62rem]")}>
                       <p className="m-0 text-[0.9rem] font-[680]">{t("covision.workflow.review_central_question", "Keskne küsimus")}</p>
-                      <p className={mutedTextClassName}>{activeCase.centralQuestion || "TĆ¤psustamisel"}</p>
+                      <p className={mutedTextClassName}>{activeCase.centralQuestion || "Täpsustamisel"}</p>
                     </div>
                     <div className="grid gap-[0.46rem]">
                       <p className="m-0 text-[0.9rem] font-[680]">{t("covision.workflow.review_network_risks", "Riskid ja kaitsetegurid")}</p>
@@ -1804,7 +1804,7 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     {(activeCase.messages || []).length ? activeCase.messages.map((message) => (
                       <article key={message.id} className={cn(styles.message, "grid gap-[0.24rem] rounded-[0.86rem] border px-[0.72rem] py-[0.62rem]")}>
                         <div className={cn(styles.meta, "flex flex-wrap items-center justify-between gap-[0.45rem] text-[0.8rem]")}>
-                          <span>{message.author?.name || message.author?.email || "Osaleja"} Ā· {optionLabel(COVISION_MESSAGE_TYPES, message.messageType)}</span>
+                          <span>{message.author?.name || message.author?.email || "Osaleja"} · {optionLabel(COVISION_MESSAGE_TYPES, message.messageType)}</span>
                           <span>{formatDate(message.createdAt, locale)}</span>
                         </div>
                         <p className="m-0 whitespace-pre-wrap text-[0.98rem] leading-[1.45]">{message.body}</p>
@@ -1814,8 +1814,8 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                     )}
                   </div>
                   <form onSubmit={sendMessage} className={cn(styles.discussionForm, "grid gap-[0.52rem] border-t pt-[0.72rem]")}>
-                    <SelectField value={messageType} onChange={setMessageType} ariaLabel="SĆµnumi tĆ¼Ć¼p" options={COVISION_MESSAGE_TYPES} />
-                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa mĆµte, kĆ¼simus vĆµi struktureeritud tĆ¤helepanek." />
+                    <SelectField value={messageType} onChange={setMessageType} ariaLabel="Sõnumi tüüp" options={COVISION_MESSAGE_TYPES} />
+                    <CovisionTextarea value={messageBody} onChange={(event) => setMessageBody(event.target.value)} rows={3} placeholder="Lisa mõte, küsimus või struktureeritud tähelepanek." />
                     <div className="flex justify-end">
                       <Button type="submit" disabled={saving || !messageBody.trim()} className={compactPrimaryButtonClassName}>{t("covision.room.add_to_discussion", "Lisa arutelusse")}</Button>
                     </div>
@@ -1835,20 +1835,20 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
               </SectionPanel>
 
               <SectionPanel
-                title="Kovisiooni kokkuvĆµte"
+                title="Kovisiooni kokkuvõte"
                 aside={<Button type="button" variant="secondary" onClick={draftSummary} className={smallButtonClassName}>{t("covision.room.draft_summary", "Koosta mustand")}</Button>}
               >
                 <div className="grid gap-[0.58rem] md:grid-cols-2">
-                  <SummaryField label="Peamised tĆ¤helepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
-                  <SummaryField label="Kolleegide kĆ¼simused" value={summaryForm.questions} onChange={(value) => setSummaryForm((current) => ({ ...current, questions: value }))} />
-                  <SummaryField label="Riskid, mis vajavad tĆ¤helepanu" value={summaryForm.risks} onChange={(value) => setSummaryForm((current) => ({ ...current, risks: value }))} />
+                  <SummaryField label="Peamised tähelepanekud" value={summaryForm.keyObservations} onChange={(value) => setSummaryForm((current) => ({ ...current, keyObservations: value }))} />
+                  <SummaryField label="Kolleegide küsimused" value={summaryForm.questions} onChange={(value) => setSummaryForm((current) => ({ ...current, questions: value }))} />
+                  <SummaryField label="Riskid, mis vajavad tähelepanu" value={summaryForm.risks} onChange={(value) => setSummaryForm((current) => ({ ...current, risks: value }))} />
                   <SummaryField label="Kaitsetegurid" value={summaryForm.protectiveFactors} onChange={(value) => setSummaryForm((current) => ({ ...current, protectiveFactors: value }))} />
-                  <SummaryField label="VĆµimalikud jĆ¤rgmised tĆ¶Ć¶alased sammud" value={summaryForm.possibleNextSteps} onChange={(value) => setSummaryForm((current) => ({ ...current, possibleNextSteps: value }))} />
-                  <SummaryField label="Eetilised vĆµi metoodilised kĆ¼simused" value={summaryForm.ethicalNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, ethicalNotes: value }))} />
-                  <SummaryField label="Dokumenteerimise tĆ¤helepanekud" value={summaryForm.documentationNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, documentationNotes: value }))} />
-                  <SummaryField label="VĆµrgustikutĆ¶Ć¶ mĆµtted" value={summaryForm.networkNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, networkNotes: value }))} />
-                  <SummaryField label="Mida juhtumi pĆ¼stitaja kaasa vĆµtab" value={summaryForm.takeaways} onChange={(value) => setSummaryForm((current) => ({ ...current, takeaways: value }))} />
-                  <SummaryField label="Lahtised kĆ¼simused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
+                  <SummaryField label="Võimalikud järgmised tööalased sammud" value={summaryForm.possibleNextSteps} onChange={(value) => setSummaryForm((current) => ({ ...current, possibleNextSteps: value }))} />
+                  <SummaryField label="Eetilised või metoodilised küsimused" value={summaryForm.ethicalNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, ethicalNotes: value }))} />
+                  <SummaryField label="Dokumenteerimise tähelepanekud" value={summaryForm.documentationNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, documentationNotes: value }))} />
+                  <SummaryField label="Võrgustikutöö mõtted" value={summaryForm.networkNotes} onChange={(value) => setSummaryForm((current) => ({ ...current, networkNotes: value }))} />
+                  <SummaryField label="Mida juhtumi püstitaja kaasa võtab" value={summaryForm.takeaways} onChange={(value) => setSummaryForm((current) => ({ ...current, takeaways: value }))} />
+                  <SummaryField label="Lahtised küsimused" value={summaryForm.openQuestions} onChange={(value) => setSummaryForm((current) => ({ ...current, openQuestions: value }))} />
                 </div>
                 <div className="flex justify-end">
                   <Button type="button" onClick={saveSummary} disabled={saving} className={compactPrimaryButtonClassName}>{t("covision.room.save_summary", "Salvesta kokkuvõte")}</Button>
@@ -1877,14 +1877,14 @@ export default function CovisionPage({ embedded = false, onBack = null, hideHead
                   <CovisionInput value={practiceForm.tagText} onChange={(event) => updatePracticeForm("tagText", event.target.value)} placeholder="eralda komaga" />
                 </Field>
                 <div className="grid gap-[0.62rem] md:grid-cols-2">
-                  <SummaryField label="Olukorra Ć¼ldine taust" value={practiceForm.background} onChange={(value) => updatePracticeForm("background", value)} />
+                  <SummaryField label="Olukorra üldine taust" value={practiceForm.background} onChange={(value) => updatePracticeForm("background", value)} />
                   <SummaryField label="Peamine takistus" value={practiceForm.mainChallenge} onChange={(value) => updatePracticeForm("mainChallenge", value)} />
                   <SummaryField label="Mis aitas" value={practiceForm.whatHelped} onChange={(value) => updatePracticeForm("whatHelped", value)} />
-                  <SummaryField label="Milline vĆµrgustik vĆµi teenus oli oluline" value={practiceForm.networkOrServiceRole} onChange={(value) => updatePracticeForm("networkOrServiceRole", value)} />
+                  <SummaryField label="Milline võrgustik või teenus oli oluline" value={practiceForm.networkOrServiceRole} onChange={(value) => updatePracticeForm("networkOrServiceRole", value)} />
                   <SummaryField label="Milline oli tulemus" value={practiceForm.outcome} onChange={(value) => updatePracticeForm("outcome", value)} />
-                  <SummaryField label="Mida teine spetsialist saab Ćµppida" value={practiceForm.learningPoints} onChange={(value) => updatePracticeForm("learningPoints", value)} />
-                  <SummaryField label="Millal see lĆ¤henemine ei pruugi sobida" value={practiceForm.limitations} onChange={(value) => updatePracticeForm("limitations", value)} />
-                  <SummaryField label="Seotud allikad vĆµi juhised" value={practiceForm.sources} onChange={(value) => updatePracticeForm("sources", value)} />
+                  <SummaryField label="Mida teine spetsialist saab õppida" value={practiceForm.learningPoints} onChange={(value) => updatePracticeForm("learningPoints", value)} />
+                  <SummaryField label="Millal see lähenemine ei pruugi sobida" value={practiceForm.limitations} onChange={(value) => updatePracticeForm("limitations", value)} />
+                  <SummaryField label="Seotud allikad või juhised" value={practiceForm.sources} onChange={(value) => updatePracticeForm("sources", value)} />
                 </div>
                 <p className={mutedTextClassName}>{t("covision.practice.publish_notice", "Toimivat praktikat ei avaldata ilma anonüümsuse kontrolli ja ülevaatuseta.")}</p>
               </SectionPanel>

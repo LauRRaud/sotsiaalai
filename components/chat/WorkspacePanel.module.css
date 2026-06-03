@@ -240,19 +240,6 @@
   content: none !important;
 }
 
-.panel :global(.workspace-feature-embedded .glass-subpage-back-button),
-.panel :global(.documents-workspace-shell--embedded .glass-subpage-back-button) {
-  position: absolute !important;
-  bottom: auto !important;
-  margin-left: 0 !important;
-  transform: none !important;
-}
-
-.panel :global(.workspace-feature-embedded .dashboard-info-trigger-corner),
-.panel :global(.documents-workspace-shell--embedded .dashboard-info-trigger-corner) {
-  position: absolute !important;
-}
-
 .panel :global(.workspace-feature-embedded .help-listings-workspace-title-wrap),
 .panel :global(.workspace-feature-embedded .invite-workspace-title-wrap) {
   padding-top: 0 !important;
@@ -313,42 +300,11 @@
 @media (min-width: 769px) {
   .panel {
     --workspace-dashboard-panel-edge-x: 1.1rem;
-    --workspace-subpage-back-left: 0.55rem;
-    --workspace-subpage-back-top: 0.55rem;
-    --workspace-subpage-header-margin-bottom: 0.35rem;
-    --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
-    --workspace-subpage-title-margin-bottom: clamp(0.35rem, 1.4vh, 0.8rem);
     padding-right: var(--workspace-dashboard-panel-edge-x);
     padding-left: var(--workspace-dashboard-panel-edge-x);
     padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
   }
 
-  .panel :global(.glass-subpage-header) {
-    margin-top: 0;
-    margin-bottom: var(--workspace-subpage-header-margin-bottom, 0.35rem) !important;
-  }
-
-  .panel :global(.glass-subpage-title) {
-    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem)) !important;
-    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.35rem, 1.4vh, 0.8rem)) !important;
-  }
-
-  .backButton {
-    left: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: var(--workspace-subpage-back-top, 0.55rem) !important;
-  }
-
-  .panel :global(.workspace-feature-embedded .glass-subpage-back-button),
-  .panel :global(.documents-workspace-shell--embedded .glass-subpage-back-button) {
-    left: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: var(--workspace-subpage-back-top, 0.55rem) !important;
-  }
-
-  .panel :global(.workspace-feature-embedded .dashboard-info-trigger-corner),
-  .panel :global(.documents-workspace-shell--embedded .dashboard-info-trigger-corner) {
-    right: var(--workspace-subpage-back-left, 0.55rem) !important;
-    top: calc(var(--workspace-subpage-back-top, 0.55rem) + 0.425rem) !important;
-  }
 }
 
 .roleMenu :global(.workspace-role-cycle-button) {
@@ -932,6 +888,10 @@
       0.08rem
       clamp(0.22rem, 1.2vw, 0.38rem)
       calc(var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) + clamp(0.55rem, 1.7vh, 0.9rem));
+  }
+
+  .panel[data-embedded-active="true"] {
+    padding-top: 0.08rem;
   }
 
   .roleMenu {

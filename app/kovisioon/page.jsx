@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import "../styles/components/documents-workspace.shared.css";
 import "../styles/components/documents-ui.shared.css";
-import "../styles/mobile/documents-ui.css";
 import "../styles/theme/mono.documents.css";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";

@@ -51,16 +51,7 @@
 }
 
 .direct-scroll-surface {
-  --direct-scroll-surface-header-offset: 0px;
   padding-top: 0 !important;
-}
-
-.direct-scroll-surface > .glass-subpage-header:first-child {
-  margin-top: var(--direct-scroll-surface-header-offset) !important;
-}
-
-.direct-scroll-surface > .glass-subpage-back-button:first-child + .glass-subpage-header {
-  margin-top: var(--direct-scroll-surface-header-offset) !important;
 }
 
 @keyframes home-scroll-blink {

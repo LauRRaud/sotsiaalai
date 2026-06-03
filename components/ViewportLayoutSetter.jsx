@@ -65,12 +65,13 @@ function applyVhVar(previousStableLayoutHeight = 0) {
   if (typeof window === "undefined") return;
   const root = document.documentElement;
   if (!root) return previousStableLayoutHeight || 0;
+  const displayMode = detectDisplayMode();
   const vv = window.visualViewport;
   const offsetTop = vv ? vv.offsetTop : 0;
   const rawKeyboard = vv ? window.innerHeight - vv.height - offsetTop : 0;
   const active = document.activeElement;
   const isEditable = !!active && (active.tagName === "TEXTAREA" || active.tagName === "INPUT" || active.isContentEditable);
-  const layoutHeight = resolveStableMobileAppHeight({
+  let layoutHeight = resolveStableMobileAppHeight({
     windowInnerHeight: window.innerHeight || 0,
     documentElementClientHeight: document.documentElement?.clientHeight || 0,
     visualViewportHeight: vv?.height,
@@ -80,8 +81,15 @@ function applyVhVar(previousStableLayoutHeight = 0) {
     stabilizeForKeyboard: true,
     previousStableLayoutHeight
   });
-  const height = vv ? vv.height : layoutHeight;
-  const vh = height * 0.01;
+  const previousStable = Math.max(0, Number(previousStableLayoutHeight) || 0);
+  if (
+    previousStable > 0 &&
+    (displayMode === "standalone" || displayMode === "fullscreen") &&
+    Math.abs(layoutHeight - previousStable) <= 96
+  ) {
+    layoutHeight = previousStable;
+  }
+  const vh = layoutHeight * 0.01;
   if (vh) root.style.setProperty("--vh", `${vh}px`);
   const appVh = layoutHeight * 0.01;
   if (appVh) {

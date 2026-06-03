@@ -1,6 +1,12 @@
 /* Mobile chat drawer, rails and composer layout. */
 
 @media (max-width: 768px) {
+  body.conversation-drawer-open .chat-page-shell {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   body.conversation-drawer-open .chat-right-actions {
     opacity: 0 !important;
     pointer-events: none !important;
@@ -9,6 +15,34 @@
   body.conversation-drawer-open .chat-mobile-topnav {
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round {
+    --chat-nav-top: clamp(2.8rem, 11vw, 4.2rem);
+    --chat-pad-top: clamp(0.75rem, 2vh, 1.1rem);
+    --chat-pad-bottom: clamp(0.5rem, 1.8vh, 0.9rem);
+    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem);
+    --chat-window-scroll-top-fade-start-focus: 0.2rem;
+    --chat-window-scroll-top-fade-mid-focus: 0.45rem;
+    --chat-window-scroll-top-fade-end-focus: 0.82rem;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round.chat-container--input-focus {
+    --chat-window-fade-top: clamp(0.42rem, 1.1vh, 0.72rem) !important;
+    --chat-window-fade-top-focus: clamp(0.42rem, 1.1vh, 0.72rem) !important;
+    --chat-window-scroll-top-fade-start-focus: 0.2rem !important;
+    --chat-window-scroll-top-fade-mid-focus: 0.45rem !important;
+    --chat-window-scroll-top-fade-end-focus: 0.82rem !important;
+  }
+
+  .chat-page-shell .chat-container.chat-container--round.chat-container--workspace-open {
+    --chat-pad-top: var(
+      --glass-ring-pad-top,
+      clamp(calc(0.4 * var(--base-rem)), 1.4vh, calc(1.1 * var(--base-rem)))
+    );
+    --chat-pad-bottom: 0rem;
+    padding-top: var(--chat-pad-top) !important;
+    padding-bottom: 0 !important;
   }
 
   .drawer-overlay {
@@ -82,6 +116,11 @@
     background-image: none !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  .chat-page-shell .chat-container[data-chat-layout="mobile"].chat-container--workspace-open {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
   }
 
   .chat-page-shell .chat-container[data-chat-layout="mobile"] .chat-mask-tilt-fallback {

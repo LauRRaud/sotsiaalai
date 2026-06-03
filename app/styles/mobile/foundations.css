@@ -50,11 +50,14 @@
   html[data-initial-page="home"] body.app-root {
     --home-mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
     --home-mobile-canvas-height: var(--glass-mobile-root-vh, 100dvh);
+    --home-mobile-bg-height: calc(
+      var(--home-mobile-canvas-height) + var(--home-mobile-safe-bottom)
+    );
     position: relative;
     isolation: isolate;
     background: var(--home-browser-base-bg, #0d111b);
     background-repeat: no-repeat;
-    background-size: 100% max(100%, 100dvh);
+    background-size: 100% max(100%, var(--home-mobile-bg-height));
     overflow-x: hidden;
     overflow-y: auto;
     height: auto;
@@ -72,6 +75,67 @@
         100%,
         calc(var(--glass-mobile-root-vh, 100dvh) + env(safe-area-inset-bottom, 0px))
       );
+  }
+
+  html[data-layout="mobile"],
+  body[data-layout="mobile"] {
+    min-height: var(--glass-mobile-root-vh, 100dvh);
+    background-repeat: no-repeat;
+    background-size: 100%
+      max(
+        100%,
+        calc(var(--glass-mobile-root-vh, 100dvh) + env(safe-area-inset-bottom, 0px))
+      );
+  }
+
+  html[data-layout="mobile"] body,
+  body[data-layout="mobile"] .app-root {
+    min-height: var(--glass-mobile-root-vh, 100dvh);
+  }
+
+  html[data-layout="mobile"] main#main {
+    min-height: var(--glass-mobile-root-vh, 100dvh);
+  }
+
+  html[data-layout="mobile"] [data-bg-layer],
+  body[data-layout="mobile"] [data-bg-layer] {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: auto !important;
+    height: calc(
+      var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+        env(safe-area-inset-bottom, 0px)
+    ) !important;
+    min-height: calc(
+      var(--glass-mobile-root-vh, var(--app-height, 100dvh)) +
+        env(safe-area-inset-bottom, 0px)
+    ) !important;
+    max-height: none !important;
+    overflow: hidden;
+  }
+
+  html[data-layout="mobile"]
+    [data-bg-layer]
+    :is(
+      .bg-space-layer,
+      .space-backdrop,
+      .bg-bends-layer,
+      .bg-particles-layer,
+      .particles-container
+    ),
+  body[data-layout="mobile"]
+    [data-bg-layer]
+    :is(
+      .bg-space-layer,
+      .space-backdrop,
+      .bg-bends-layer,
+      .bg-particles-layer,
+      .particles-container
+    ) {
+    height: 100% !important;
+    min-height: 100% !important;
   }
 
   .homepage-root {

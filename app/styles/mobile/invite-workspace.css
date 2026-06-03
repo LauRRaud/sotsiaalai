@@ -199,20 +199,6 @@
   padding-top: 0 !important;
 }
 
-.workspace-dashboard-panel
-  .documents-workspace-shell--embedded
-  > .documents-grid.workspace-guide-panel-scroll
-  > .workspace-scroll-back-button {
-  position: absolute !important;
-}
-
-.workspace-dashboard-panel
-  .documents-workspace-shell--embedded
-  > .documents-grid.workspace-guide-panel-scroll
-  > .dashboard-info-trigger-corner {
-  position: absolute !important;
-}
-
 .workspace-dashboard-panel .documents-workspace-shell--embedded :is(
   .documents-panel,
   .documents-surface-panel,
@@ -251,16 +237,4 @@
   .covision-page-body.workspace-guide-panel-scroll
 ) {
   position: static !important;
-}
-
-.workspace-dashboard-panel:has(
-  :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
-) :is(.workspace-scroll-back-button.glass-subpage-back-button, .documents-scroll-back-button.glass-subpage-back-button) {
-  position: absolute !important;
-}
-
-.workspace-dashboard-panel:has(
-  :is(.workspace-feature-embedded, .documents-workspace-shell--embedded)
-) .dashboard-info-trigger-corner {
-  position: absolute !important;
 }

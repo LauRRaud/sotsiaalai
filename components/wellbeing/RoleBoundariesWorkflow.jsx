@@ -7,6 +7,7 @@ import { cn } from "@/components/ui/cn";
 import { buildRoleBoundariesRecord } from "@/lib/wellbeing/roleBoundaries";
 import SupportRequestPanel from "./SupportRequestPanel";
 import WellbeingActionList from "./WellbeingActionList";
+import { WellbeingOutputCard as OutputCard, WellbeingSelectField as SelectField } from "./WellbeingControls";
 import styles from "./WellbeingPage.module.css";
 
 const initialFields = {
@@ -274,27 +275,5 @@ export default function RoleBoundariesWorkflow({ onNavigate }) {
         onNavigate={onNavigate}
       />
     </div>
-  );
-}
-
-function SelectField({ field, value, onChange }) {
-  return (
-    <label className={styles.quickCheckField}>
-      <span>{field.label}</span>
-      <select value={value} onChange={(event) => onChange(field.key, event.target.value)}>
-        {field.options.map(([optionValue, label]) => (
-          <option key={optionValue} value={optionValue}>{label}</option>
-        ))}
-      </select>
-    </label>
-  );
-}
-
-function OutputCard({ title, value }) {
-  return (
-    <article className={styles.quickCheckOutputCard}>
-      <h4>{title}</h4>
-      <pre>{value}</pre>
-    </article>
   );
 }

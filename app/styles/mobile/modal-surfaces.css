@@ -96,16 +96,6 @@
     padding: 0 !important;
   }
 
-  :is(
-      .subscription-modal-content,
-      .materials-page-content,
-      .help-listings-modal-content,
-      .selected-listing-modal-content
-    )
-    :is(.glass-page-title, .subpage-mobile-title, .policy-mobile-title--static) {
-    line-height: 1.05 !important;
-  }
-
   .subscription-content,
   .materials-page-body,
   .materials-page-content

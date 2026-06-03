@@ -432,11 +432,11 @@
   },
   "privacy_guard": {
     "title": "Tekst sisaldab isikuandmeid",
-    "body": "Enne saatmist vali, kas muudad teksti, saadad maskeeritult vĆµi jĆ¤tkad originaaliga, kui see tĆ¶Ć¶voog seda lubab.",
+    "body": "Enne saatmist vali, kas muudad teksti, saadad maskeeritult või jätkad originaaliga, kui see töövoog seda lubab.",
     "edit": "Muudan teksti",
     "send_redacted": "Saada maskeeritult",
     "send_original": "Saada siiski",
-    "unavailable": "Privaatsuskontroll ei Ćµnnestunud. Proovi uuesti."
+    "unavailable": "Privaatsuskontroll ei õnnestunud. Proovi uuesti."
   },
   "privacy": {
     "title": "Privaatsus",
@@ -1664,7 +1664,7 @@
       "artifact_title_placeholder": "Tulemuse pealkiri (valikuline)",
       "title_label": "Pealkiri",
       "dropzone_idle": "Lohista fail siia või vajuta faili valimiseks",
-      "dropzone_active": "Vabasta fail siia ?leslaadimiseks"
+      "dropzone_active": "Vabasta fail siia üleslaadimiseks"
     },
     "actions": {
       "upload": "Laadi üles",
@@ -2695,7 +2695,7 @@
   "covision": {
     "common": {
       "edit": "Muuda",
-      "next": "J?rgmine",
+      "next": "Järgmine",
       "open": "Ava",
       "participants_count": "{count} osalejat",
       "remove": "Eemalda",
@@ -2710,26 +2710,26 @@
     "knowledge": {
       "intro": "Otsi teadmistebaasist seotud seadusi, juhendeid, metoodikamaterjale, praktikakirjeldusi, teenuseid ja toetusi.",
       "unavailable": "Teadmistebaasi otsing ei ole selles keskkonnas seadistatud.",
-      "no_matches": "Teadmistebaasist ei leitud selle juhtumip?stituse p?hjal sobivaid vasteid.",
+      "no_matches": "Teadmistebaasist ei leitud selle juhtumipüstituse põhjal sobivaid vasteid.",
       "open_source": "Ava allikas",
       "results_count": "{count} vastet"
     },
     "overview": {
       "actions_aria": "Kovisiooni tegevused",
       "new_covision": "Uus kovisioon",
-      "from_wellbeing": "T??heaolust",
-      "practice_example": "Praktikan?ide",
+      "from_wellbeing": "Tööheaolust",
+      "practice_example": "Praktikanäide",
       "loading_covisions": "Laen kovisioone...",
       "loading_practices": "Laen praktikakogemusi...",
       "empty_covisions_title": "Kovisioone pole veel loodud",
-      "empty_covisions_body": "Alusta uus kovisioon v?i muuda filtrit, et olemasolevad tulemused uuesti n?htavaks teha.",
-      "empty_practices_title": "Praktikan?iteid pole lisatud",
-      "empty_practices_body": "Lisa esimene n?ide v?i eemalda teemafilter, kui otsid varasemaid kogemusi.",
-      "practice_missing_description": "?ldistatud praktikakogemus vajab veel kirjeldust."
+      "empty_covisions_body": "Alusta uus kovisioon või muuda filtrit, et olemasolevad tulemused uuesti nähtavaks teha.",
+      "empty_practices_title": "Praktikanäiteid pole lisatud",
+      "empty_practices_body": "Lisa esimene näide või eemalda teemafilter, kui otsid varasemaid kogemusi.",
+      "practice_missing_description": "Üldistatud praktikakogemus vajab veel kirjeldust."
     },
     "practice": {
       "topics_heading": "Teemad",
-      "publish_notice": "Toimivat praktikat ei avaldata ilma anon??msuse kontrolli ja ?levaatuseta.",
+      "publish_notice": "Toimivat praktikat ei avaldata ilma anonüümsuse kontrolli ja ülevaatuseta.",
       "save": "Salvesta toimiv praktika"
     },
     "wellbeing_inputs": {
@@ -2760,25 +2760,25 @@
       },
       "anonymity_instruction": "Kirjelda olukorda nii, et inimene ei oleks tuvastatav. Ära sisesta nime, isikukoodi, täpset aadressi, telefoninumbrit, täpset sündmuskohta ega muid tuvastamist võimaldavaid detaile.",
       "anonymity_confirmation": "Kinnitan, et juhtumipüstitus on anonüümne ja ei sisalda tahtlikult tuvastatavaid kliendiandmeid.",
-      "check_anonymity": "Kontrolli anon??msust",
+      "check_anonymity": "Kontrolli anonüümsust",
       "expectations_heading": "Mida ootan kovisioonilt?",
       "missing_value": "Puudub",
       "no_steps": "Etapid puuduvad",
       "parties_factors_count": "{parties} osapoolt, {factors} tegurit",
-      "pending_clarification": "T?psustamisel",
-      "pending_clarification_lower": "t?psustamisel",
-      "process_flow_empty_hint": "Lisa t??protsessi etapid kaartidena. See ei ole inimese elulugu, vaid t??alase olukorra kulg.",
-      "process_flow_hint": "Kirjelda t??protsessi v?i olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. ?ra lisa tuvastatavaid kliendiandmeid.",
-      "review_anonymous_description": "Anon??mne olukorrakirjeldus",
-      "review_central_question": "Keskne k?simus",
+      "pending_clarification": "Täpsustamisel",
+      "pending_clarification_lower": "täpsustamisel",
+      "process_flow_empty_hint": "Lisa tööprotsessi etapid kaartidena. See ei ole inimese elulugu, vaid tööalase olukorra kulg.",
+      "process_flow_hint": "Kirjelda tööprotsessi või olukorra kulgu. Keskendu sellele, mis on seni toimunud, mida on proovitud, mis on toiminud ja mis on takerdunud. Ära lisa tuvastatavaid kliendiandmeid.",
+      "review_anonymous_description": "Anonüümne olukorrakirjeldus",
+      "review_central_question": "Keskne küsimus",
       "review_expectation": "Ootus kovisioonile",
       "review_hint": "Kontrolli enne salvestamist uuesti, et kirjeldus ei sisaldaks tuvastatavaid kliendiandmeid. Kutsed lisatakse kovisiooniruumis.",
-      "review_network_risks": "V?rgustik, riskid ja kaitsetegurid",
+      "review_network_risks": "Võrgustik, riskid ja kaitsetegurid",
       "review_process_flow": "Olukorra kulg",
       "review_title": "Pealkiri",
       "save_open_room": "Salvesta ja ava kovisiooniruum",
       "step_count": "{count} etappi",
-      "suggest_questions": "Paku k?simusi",
+      "suggest_questions": "Paku küsimusi",
       "topic_areas": "Teemavaldkonnad"
     },
     "room": {
@@ -2787,19 +2787,19 @@
       "invite_participant": "Kutsu osaleja",
       "request_to_speak": "Soovin sõna",
       "written_discussion": "Kirjalik arutelu",
-      "add_to_canvas": "Lisa l?uendile",
+      "add_to_canvas": "Lisa lõuendile",
       "add_to_discussion": "Lisa arutelusse",
-      "central_question_inline": "Keskne k?simus: {question}",
-      "convert_to_next_step": "Muuda j?rgmiseks sammuks",
+      "central_question_inline": "Keskne küsimus: {question}",
+      "convert_to_next_step": "Muuda järgmiseks sammuks",
       "create_practice": "Loo toimiv praktika",
       "discussion_empty": "Arutelu ei ole veel alanud.",
       "draft_summary": "Koosta mustand",
       "edit_case": "Muuda juhtumit",
-      "invite_notice": "Kutsutav ei n?e sisu enne autentimist ja ?iguste kontrolli.",
+      "invite_notice": "Kutsutav ei näe sisu enne autentimist ja õiguste kontrolli.",
       "participants_heading": "Osalejad",
-      "save_summary": "Salvesta kokkuv?te",
-      "speaking_requests_help": "S?nasoovide j?rjekord on heliriba detailides n?htav. Moderaator saab s?nasoovi lahendada ja osaleja saab selle t?histada.",
-      "summary_intro": "Kokkuv?te p?hineb juhtumil?uendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuv?tte koostamiseks."
+      "save_summary": "Salvesta kokkuvõte",
+      "speaking_requests_help": "Sõnasoovide järjekord on heliriba detailides nähtav. Moderaator saab sõnasoovi lahendada ja osaleja saab selle tühistada.",
+      "summary_intro": "Kokkuvõte põhineb juhtumilõuendil ja tekstiliselt sisestatud arutelul. Kovisiooni heli ei salvestata, ei transkribeerita ja seda ei kasutata kokkuvõtte koostamiseks."
     }
   },
   "api": {

@@ -7,6 +7,7 @@ import { cn } from "@/components/ui/cn";
 import { buildQuickCheckRecord, formatQuickCheckFactor } from "@/lib/wellbeing/quickCheck";
 import SupportRequestPanel from "./SupportRequestPanel";
 import WellbeingActionList from "./WellbeingActionList";
+import { WellbeingSelectField } from "./WellbeingControls";
 import styles from "./WellbeingPage.module.css";
 
 const fieldGroups = [
@@ -225,14 +226,7 @@ export default function QuickCheckWorkflow({ onNavigate }) {
           <fieldset key={group.title} className={styles.quickCheckFieldset}>
             <legend>{group.title}</legend>
             {group.fields.map((field) => (
-              <label key={field.key} className={styles.quickCheckField}>
-                <span>{field.label}</span>
-                <select value={fields[field.key]} onChange={(event) => updateField(field.key, event.target.value)}>
-                  {field.options.map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-              </label>
+              <WellbeingSelectField key={field.key} field={field} value={fields[field.key]} onChange={updateField} />
             ))}
           </fieldset>
         ))}
