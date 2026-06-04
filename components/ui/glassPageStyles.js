@@ -47,6 +47,7 @@ export const glassPageBackMobileBottomCenterClassName =
   `${glassPageBackClassName} ` +
   "max-[768px]:!inline-flex " +
   "max-[768px]:transform-none max-[768px]:bottom-auto " +
+  "max-[768px]:top-[calc(var(--mobile-safe-top,env(safe-area-inset-top,0px))+0.2rem)] " +
   "max-[768px]:h-[4.2rem] max-[768px]:w-[4.2rem] max-[768px]:z-[92] " +
   "max-[768px]:[&>svg]:h-[4.2rem] max-[768px]:[&>svg]:w-[4.2rem]";
 

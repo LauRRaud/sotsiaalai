@@ -5,19 +5,19 @@ import {
 import { primarySegmentedButtonClassName } from "@/components/ui/primarySegmentedButtonClassName";
 
 export const ragAdminPageShellClassName =
-  "documents-workspace mx-auto w-full px-[clamp(0.35rem,1.4vw,0.8rem)] py-[clamp(0.4rem,1.5vw,0.8rem)]";
+  "rag-admin-page-shell documents-workspace mx-auto w-full px-[clamp(0.35rem,1.4vw,0.8rem)] py-[clamp(0.4rem,1.5vw,0.8rem)]";
 
 export const ragAdminShellInnerClassName =
   "mx-auto flex w-full flex-col gap-3 px-[clamp(0.45rem,1.2vw,0.8rem)] py-[clamp(0.45rem,1.2vw,0.8rem)]";
 
 export const ragAdminShellCardClassName =
-  `relative isolate flex w-full flex-col gap-3 rounded-[1.6rem] px-[clamp(0.95rem,2.2vw,1.4rem)] py-[clamp(0.85rem,2vw,1.15rem)] ` +
+  `rag-admin-shell-card relative isolate flex w-full flex-col gap-3 rounded-[1.6rem] px-[clamp(0.95rem,2.2vw,1.4rem)] py-[clamp(0.85rem,2vw,1.15rem)] ` +
   `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
   `[border:none] text-[color:var(--documents-page-text)] shadow-[0_7px_18px_rgba(0,0,0,0.10)] ` +
   `backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] ${glassSubpageSurfaceScopeClassName}`;
 
 export const ragAdminShellTitleClassName =
-  `${glassPageTitleClassName} !mt-0 !mb-0 w-full text-center text-[color:var(--title-color,var(--brand-primary))]`;
+  `rag-admin-shell-title ${glassPageTitleClassName} !mt-0 !mb-0 w-full text-center text-[color:var(--title-color,var(--brand-primary))]`;
 
 export const ragAdminShellSubtitleClassName =
   "mx-auto max-w-[62ch] text-center text-[0.95rem] leading-[1.5] text-[color:var(--documents-page-muted)]";

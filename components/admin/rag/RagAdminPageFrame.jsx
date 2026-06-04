@@ -67,7 +67,7 @@ export default function RagAdminPageFrame({
         <div className={ragAdminShellCardClassName}>
           <BackButton
             ariaLabel={locale?.startsWith("et") ? "Tagasi" : "Back"}
-            className={glassPageBackTopLeftClassName}
+            className={`${glassPageBackTopLeftClassName} rag-admin-shell-back`}
             onClick={() => router.push(localizePath("/", locale))}
           />
 

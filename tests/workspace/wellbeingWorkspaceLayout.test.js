@@ -28,19 +28,22 @@ test("wellbeing dashboard uses the same desktop panel sizing and title spacing t
   );
 });
 
-test("wellbeing dashboard keeps the same flexible vertical card rhythm as workspace", () => {
+test("wellbeing dashboard keeps the same compact two-column mobile grid rhythm as workspace", () => {
   const css = readFileSync(new URL("../../components/wellbeing/WellbeingPage.module.css", import.meta.url), "utf8");
-  const toolsGrid = css.match(/\.toolsGrid\s*\{[\s\S]*?\n\}/)?.[0] || "";
+  const workspaceCss = readFileSync(new URL("../../components/chat/WorkspacePanel.module.css", import.meta.url), "utf8");
   const dashboardBody = css.match(/\.dashboardBody\s*\{[\s\S]*?\n\}/)?.[0] || "";
 
-  assert.match(toolsGrid, /flex:\s*1 1 auto;/);
-  assert.match(toolsGrid, /min-height:\s*0;/);
-  assert.match(toolsGrid, /margin:\s*0 auto;/);
-  assert.match(
-    toolsGrid,
-    /padding:\s*clamp\(0\.22rem,\s*0\.8vh,\s*0\.45rem\)\s*clamp\(0\.4rem,\s*1vw,\s*0\.72rem\)\s*clamp\(0\.36rem,\s*0\.85vh,\s*0\.46rem\);/
-  );
-  assert.doesNotMatch(toolsGrid, /height:\s*min\(41\.15rem/);
+  assert.match(workspaceCss, /@media \(max-width:\s*768px\)[\s\S]*?--workspace-dashboard-mobile-edge-pad:\s*clamp\(0\.58rem,\s*2\.7vw,\s*0\.82rem\);/);
+  assert.match(workspaceCss, /@media \(max-width:\s*768px\)[\s\S]*?\.grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/);
+  assert.match(workspaceCss, /@media \(max-width:\s*768px\)[\s\S]*?\.grid\s*\{[\s\S]*?padding:[\s\S]*?var\(--workspace-dashboard-mobile-edge-pad\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid\s*\{[\s\S]*?display:\s*grid;/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid\s*\{[\s\S]*?grid-auto-rows:\s*minmax\(5\.15rem,\s*1fr\);/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?--workspace-dashboard-mobile-edge-pad:\s*clamp\(0\.58rem,\s*2\.7vw,\s*0\.82rem\);/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid\s*\{[\s\S]*?padding:[\s\S]*?var\(--workspace-dashboard-mobile-edge-pad\)/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid :global\(\.workspace-dashboard-card\)\s*\{[\s\S]*?--workspace-card-icon-size:\s*clamp\(2\.08rem,\s*8\.8vw,\s*2\.58rem\);/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid :global\(\.workspace-dashboard-card\) \[class\*="cardIcon"\]\s*\{[\s\S]*?grid-column:\s*1;/);
+  assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.toolsGrid :global\(\.workspace-dashboard-card\) \[class\*="cardCopy"\]\s*\{[\s\S]*?grid-row:\s*2;/);
   assert.match(dashboardBody, /max-width:\s*none\s*!important;/);
   assert.match(dashboardBody, /gap:\s*0\s*!important;/);
   assert.match(dashboardBody, /padding:\s*0\s*!important;/);
@@ -66,7 +69,14 @@ test("workspace routes wellbeing through the real wellbeing page", () => {
   const cards = readFileSync(new URL("../../lib/workspaceDashboardCards.js", import.meta.url), "utf8");
 
   assert.match(cards, /onClick:\s*\(\) => navigateTo\?\.\("\/tooheaolu"\)/);
+  assert.match(source, /const activateDashboardCard = useCallback\(cardKey => \{/);
+  assert.match(source, /wellbeing:\s*"\/tooheaolu"/);
+  assert.match(source, /const route = routeByCardKey\[cardKey\];[\s\S]*?if \(route\) navigateTo\(route\);/);
+  assert.match(source, /onClick=\{card\.disabled \? undefined : handleCardDirectClick\}/);
+  assert.match(source, /onPointerUp=\{card\.disabled \? undefined : handleCardDirectPointerUp\}/);
+  assert.match(source, /window\.location\.assign\(href\);/);
   assert.match(source, /router\.push\(href\);/);
+  assert.doesNotMatch(source, /workspacePanelMorph:\s*"mobile-workspace-route"/);
   assert.doesNotMatch(source, /WellbeingEmbeddedPanel/);
   assert.doesNotMatch(source, /wellbeingEmbeddedOpen/);
   assert.doesNotMatch(source, /mirrorEmbeddedWellbeingUrl/);
@@ -83,6 +93,16 @@ test("wellbeing direct page keeps one glass shell and no embedded sizing overrid
   assert.match(source, /infoId=\{infoId\}/);
   assert.match(source, /title=\{activeTitle\}/);
   assert.doesNotMatch(css, /\.embeddedBody/);
+});
+
+test("wellbeing server pages pass admin access into role gate", () => {
+  const page = readFileSync(new URL("../../app/tooheaolu/page.jsx", import.meta.url), "utf8");
+  const toolPage = readFileSync(new URL("../../app/tooheaolu/[tool]/page.jsx", import.meta.url), "utf8");
+
+  assert.match(page, /canUseWellbeingRole\(roleState\.effectiveRole,\s*Boolean\(roleState\.isAdmin\)\)/);
+  assert.match(toolPage, /canUseWellbeingRole\(roleState\.effectiveRole,\s*Boolean\(roleState\.isAdmin\)\)/);
+  assert.doesNotMatch(page, /canUseWellbeingRole\(roleState\.effectiveRole,\s*false\)/);
+  assert.doesNotMatch(toolPage, /canUseWellbeingRole\(roleState\.effectiveRole,\s*false\)/);
 });
 
 test("wellbeing quick check output uses separators instead of nested cards", () => {

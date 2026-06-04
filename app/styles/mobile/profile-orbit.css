@@ -265,7 +265,7 @@
     box-shadow: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    overflow: hidden;
+    overflow: visible;
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
@@ -286,23 +286,11 @@
     padding-bottom: clamp(0.34rem, 1.1vh, 0.6rem);
     padding-left: clamp(0.8rem, 3vw, 1rem);
     padding-right: clamp(0.8rem, 3vw, 1rem);
-    --orbit-stack-panel-fade-top: clamp(2.2rem, 6.2vh, 3.35rem);
-    --orbit-stack-panel-fade-bottom: clamp(2.2rem, 6.2vh, 3.35rem);
-    --orbit-stack-panel-mask: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0, 0, 0, 0.18) calc(var(--orbit-stack-panel-fade-top) * 0.16),
-      rgba(0, 0, 0, 0.52) calc(var(--orbit-stack-panel-fade-top) * 0.42),
-      rgba(0, 0, 0, 0.82) calc(var(--orbit-stack-panel-fade-top) * 0.72),
-      #000 calc(var(--orbit-stack-panel-fade-top) * 1.02),
-      #000 calc(100% - (var(--orbit-stack-panel-fade-bottom) * 1.02)),
-      rgba(0, 0, 0, 0.82) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.72)),
-      rgba(0, 0, 0, 0.52) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.42)),
-      rgba(0, 0, 0, 0.18) calc(100% - (var(--orbit-stack-panel-fade-bottom) * 0.16)),
-      transparent 100%
-    );
-    -webkit-mask-image: var(--orbit-stack-panel-mask);
-    mask-image: var(--orbit-stack-panel-mask);
+    --orbit-stack-panel-fade-top: 0rem;
+    --orbit-stack-panel-fade-bottom: 0rem;
+    --orbit-stack-panel-mask: none;
+    -webkit-mask-image: none;
+    mask-image: none;
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;
@@ -310,14 +298,14 @@
   }
   .profile-orbit-stack-fade {
     --profile-orbit-stack-fade-angle: 180deg;
-    display: block;
+    display: none;
     position: absolute;
     left: 0;
     right: 0;
     height: clamp(2.35rem, 5.6vh, 3.3rem);
     z-index: 4;
     pointer-events: none;
-    opacity: 1;
+    opacity: 0;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: linear-gradient(
@@ -337,7 +325,7 @@
     bottom: 0;
   }
   .profile-orbit-stack-list {
-    --stack-edge-fade: clamp(2.2rem, 6.2vh, 3.35rem);
+    --stack-edge-fade: 0rem;
     --stack-safe-pad-top: calc(
       var(--stack-edge-fade) + clamp(0.14rem, 0.45vh, 0.32rem)
     );
@@ -352,29 +340,17 @@
     overflow-y: auto;
     overscroll-behavior-y: contain;
     scroll-behavior: auto;
-    padding-top: var(--stack-safe-pad-top);
-    padding-bottom: var(--stack-safe-pad-bottom);
+    padding-top: 0;
+    padding-bottom: 0;
     gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: none;
     scroll-padding-top: var(--stack-safe-pad-top);
     scroll-padding-bottom: var(--stack-safe-pad-bottom);
-    --orbit-stack-list-mask: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0, 0, 0, 0.18) calc(var(--stack-edge-fade) * 0.16),
-      rgba(0, 0, 0, 0.52) calc(var(--stack-edge-fade) * 0.42),
-      rgba(0, 0, 0, 0.82) calc(var(--stack-edge-fade) * 0.72),
-      #000 calc(var(--stack-edge-fade) * 1.02),
-      #000 calc(100% - (var(--stack-edge-fade) * 1.02)),
-      rgba(0, 0, 0, 0.82) calc(100% - (var(--stack-edge-fade) * 0.72)),
-      rgba(0, 0, 0, 0.52) calc(100% - (var(--stack-edge-fade) * 0.42)),
-      rgba(0, 0, 0, 0.18) calc(100% - (var(--stack-edge-fade) * 0.16)),
-      transparent 100%
-    );
-    -webkit-mask-image: var(--orbit-stack-list-mask);
-    mask-image: var(--orbit-stack-list-mask);
+    --orbit-stack-list-mask: none;
+    -webkit-mask-image: none;
+    mask-image: none;
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;

@@ -21,7 +21,6 @@ import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleB
 import WorkspaceFeaturePage from "@/components/workspace/WorkspaceFeaturePage";
 import styles from "./WorkspacePanel.module.css";
 
-const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 const EMBEDDED_WORKSPACE_FEATURES = Object.freeze({
   "/documents": "documents",
   "/dokreziim": "document_drafting",
@@ -300,6 +299,7 @@ export default function WorkspacePanel({
 }) {
   const router = useRouter();
   const panelRef = useRef(null);
+  const cardActivationGuardRef = useRef({ key: "", ts: 0 });
   const defaultDashboardRole = useMemo(() => {
     const actualRole = String(userActualRole || "").trim().toUpperCase();
     const currentRole = String(userRole || "").trim().toUpperCase();
@@ -334,19 +334,14 @@ export default function WorkspacePanel({
         }
         return;
       }
-      const shouldRestoreWorkspace = !String(path || "").startsWith("/vestlus");
       const href = localizePath(path, locale);
-      if (shouldRestoreWorkspace && typeof window !== "undefined") {
-        try {
-          window.sessionStorage.setItem(
-            CHAT_WORKSPACE_RESTORE_STORAGE_KEY,
-            JSON.stringify({ ts: Date.now() })
-          );
-        } catch {}
-      }
       try {
         router.prefetch?.(href);
       } catch {}
+      if (typeof window !== "undefined") {
+        window.location.assign(href);
+        return;
+      }
       router.push(href);
     },
     [locale, router]
@@ -385,15 +380,6 @@ export default function WorkspacePanel({
     [onOpenHelpListings]
   );
 
-  const handleCardClickCapture = useCallback(event => {
-    const card = event.target?.closest?.("[data-workspace-card-key]");
-    const cardKey = card?.dataset?.workspaceCardKey || "";
-    if (cardKey !== "help_requests" && cardKey !== "help_offers") return;
-    event.preventDefault();
-    event.stopPropagation();
-    openHelpPanel(cardKey);
-  }, [openHelpPanel]);
-
   const handleEmbeddedPanelWheelCapture = useCallback(event => {
     const panel = panelRef.current;
     if (!panel || !(embeddedPanelNode || activeEmbeddedFeature)) return;
@@ -422,6 +408,59 @@ export default function WorkspacePanel({
       } catch {}
     }
   }, []);
+
+  const activateDashboardCard = useCallback(cardKey => {
+    const routeByCardKey = {
+      documents: "/documents",
+      document_drafting: "/dokreziim",
+      journey: "/teekond",
+      kovision: "/kovisioon",
+      materials: "/materjalid",
+      pre_inquiries: "/eelpoordumised",
+      service_map: "/teenusekaart",
+      service_profile: "/teenuseprofiil",
+      wellbeing: "/tooheaolu"
+    };
+
+    if (cardKey === "help_requests" || cardKey === "help_offers") {
+      openHelpPanel(cardKey);
+      return;
+    }
+    if (cardKey === "add_person") {
+      openInvite();
+      return;
+    }
+
+    const route = routeByCardKey[cardKey];
+    if (route) navigateTo(route);
+  }, [navigateTo, openHelpPanel, openInvite]);
+
+  const handleCardDirectClick = useCallback(event => {
+    const card = event.currentTarget;
+    const cardKey = card?.dataset?.workspaceCardKey || "";
+    if (!cardKey || card?.disabled || card?.getAttribute?.("aria-disabled") === "true") return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const guard = cardActivationGuardRef.current;
+    if (guard.key === cardKey && Date.now() - guard.ts < 350) return;
+    cardActivationGuardRef.current = { key: cardKey, ts: Date.now() };
+    activateDashboardCard(cardKey);
+  }, [activateDashboardCard]);
+
+  const handleCardDirectPointerUp = useCallback(event => {
+    if (event.button != null && event.button !== 0) return;
+    const card = event.currentTarget;
+    const cardKey = card?.dataset?.workspaceCardKey || "";
+    if (!cardKey || card?.disabled || card?.getAttribute?.("aria-disabled") === "true") return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    cardActivationGuardRef.current = { key: cardKey, ts: Date.now() };
+    activateDashboardCard(cardKey);
+  }, [activateDashboardCard]);
 
   useEffect(() => {
     setDashboardRole(defaultDashboardRole);
@@ -512,7 +551,6 @@ export default function WorkspacePanel({
         data-embedded-active={embeddedPanelNode || activeEmbeddedFeature ? "true" : "false"}
         role="region"
         aria-labelledby={activeTitleId}
-        onClickCapture={handleCardClickCapture}
         onWheelCapture={handleEmbeddedPanelWheelCapture}
       >
       {embeddedPanelNode ? (
@@ -639,7 +677,8 @@ export default function WorkspacePanel({
                 type="button"
                 className={cn("workspace-dashboard-card", styles.card, styles[`card_${card.key}`], card.disabled && styles.cardDisabled)}
                 data-workspace-card-key={card.key}
-                onClick={card.disabled ? undefined : card.onClick}
+                onClick={card.disabled ? undefined : handleCardDirectClick}
+                onPointerUp={card.disabled ? undefined : handleCardDirectPointerUp}
                 disabled={card.disabled}
                 aria-label={formatDashboardCardAriaLabel(card)}
                 aria-disabled={card.disabled ? "true" : "false"}

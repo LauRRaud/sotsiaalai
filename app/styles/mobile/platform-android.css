@@ -91,8 +91,8 @@
 
   html[data-platform="android"] .profile-orbit-stack-fade,
   body[data-platform="android"] .profile-orbit-stack-fade {
-    display: block !important;
-    opacity: 1 !important;
+    display: none !important;
+    opacity: 0 !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
