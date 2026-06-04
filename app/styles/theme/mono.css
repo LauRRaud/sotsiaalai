@@ -379,6 +379,10 @@
   fill: none !important;
 }
 
+:root.theme-mono:not([data-contrast="hc"]) button:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline {
+  fill: var(--forest-title) !important;
+}
+
 :root.theme-mono:not([data-contrast="hc"]) .modal-close-btn {
   color: var(--forest-title) !important;
   -webkit-text-fill-color: var(--forest-title) !important;
