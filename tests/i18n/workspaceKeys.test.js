@@ -92,7 +92,7 @@ test("pre-inquiry workflow is presented as assistant-led, not agent-led", () => 
 
   assert.equal(
     getMessage(messages, "workspace_feature_pages.pre_inquiries.sections.assistant"),
-    "Vestlus assistendiga"
+    "Täpsusta eelinfot"
   );
   assert.doesNotMatch(serialized, /\bagent/i);
   assert.doesNotMatch(serialized, /\bagendi/i);

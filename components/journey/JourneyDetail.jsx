@@ -99,7 +99,12 @@ function primaryPathLabel(t, value) {
 }
 
 function statusLabel(t, status) {
-  return t(`journey.status.${status || "ACTIVE"}`, t("journey.status.ACTIVE", "Active"));
+  const fallback = status === "ARCHIVED"
+    ? "arhiveeritud"
+    : status === "DRAFT"
+      ? "info täpsustamisel"
+      : "alustatud";
+  return t(`journey.status.${status || "ACTIVE"}`, fallback);
 }
 
 function textToLines(value) {
@@ -148,6 +153,57 @@ function readContextObject(context, key) {
     ? context[key]
     : null;
   return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+
+function readContextArray(context, key) {
+  const value = context && typeof context === "object" && !Array.isArray(context)
+    ? context[key]
+    : null;
+  return Array.isArray(value) ? value : [];
+}
+
+function normalizeDisplayItems(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => (typeof item === "string" ? item : item?.title || item?.name || item?.label || item?.id || ""))
+    .map((item) => String(item || "").trim())
+    .filter(Boolean);
+}
+
+function getJourneyLifeDomains(journey) {
+  const domains = normalizeDisplayItems(readContextArray(journey?.context, "lifeDomains"));
+  return domains.length ? domains : ["igapäevaelu toimingud", "võrgustik ja kõrvalabi"];
+}
+
+function hasMunicipalitySignal(journey, serviceMapHandoff) {
+  if (serviceMapHandoff?.filters?.municipalityName) return true;
+  const context = journey?.context && typeof journey.context === "object" && !Array.isArray(journey.context)
+    ? journey.context
+    : {};
+  return Boolean(context.municipalityText || context.municipalityId || context.municipality || context.county || context.region);
+}
+
+function journeyActivityItems(journey, t, locale) {
+  const contextItems = readContextArray(journey?.context, "activityLog")
+    .map((item) => ({
+      title: typeof item === "string" ? item : item?.title || "",
+      date: typeof item === "object" ? item?.date || item?.createdAt || "" : ""
+    }))
+    .filter((item) => item.title);
+  const base = [
+    {
+      title: t("journey.activity.created", "teekond loodud"),
+      date: journey?.createdAt
+    },
+    {
+      title: t("journey.activity.saved", "ülevaade salvestatud"),
+      date: journey?.updatedAt
+    }
+  ];
+  return [...base, ...contextItems].slice(0, 8).map((item) => ({
+    ...item,
+    dateLabel: formatDate(item.date, locale)
+  }));
 }
 
 function createServiceContinuityState(journey) {
@@ -234,7 +290,7 @@ function buildContinuityActions(form, t) {
   const actions = [
     {
       type: "CREATE_PRE_INQUIRY",
-      title: t("journey.serviceContinuity.actionPreInquiry", "Koosta eelpöördumise mustand")
+      title: t("journey.serviceContinuity.actionPreInquiry", "Koosta eelpöördumine")
     },
     {
       type: "OPEN_SERVICE_MAP",
@@ -284,6 +340,160 @@ function ContentList({ title, items, emptyText, icon: Icon }) {
       ) : (
         <p className={bodyTextClassName}>{emptyText}</p>
       )}
+    </section>
+  );
+}
+
+function JourneyRoadmap({ journey, t }) {
+  const steps = [
+    { title: t("journey.roadmap.situation", "Olukord kirjeldatud"), state: "done" },
+    { title: t("journey.roadmap.saved", "Ülevaade salvestatud"), state: "done" },
+    { title: t("journey.roadmap.contact", "Kontakt või teenus otsitud"), state: journey?.primaryPath === "SERVICE_MAP" ? "next" : "todo" },
+    { title: t("journey.roadmap.pre_inquiry", "Eelpöördumine koostatud"), state: journey?.primaryPath === "PRE_INQUIRY" ? "next" : "todo" },
+    { title: t("journey.roadmap.response", "Vastus või jätkusuhtlus"), state: "todo" },
+    { title: t("journey.roadmap.next", "Järgmine samm"), state: "todo" }
+  ];
+
+  const stateLabels = {
+    done: t("journey.roadmap.done", "tehtud"),
+    current: t("journey.roadmap.current", "pooleli"),
+    next: t("journey.roadmap.next_recommended", "järgmine soovitatud samm"),
+    todo: t("journey.roadmap.todo", "mitte alustatud")
+  };
+
+  return (
+    <section className={cn(cardClassName, "overflow-hidden")}>
+      <div className="flex flex-wrap items-center justify-between gap-[0.7rem]">
+        <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+          <Route size={18} aria-hidden="true" />
+          {t("journey.roadmap.title", "Teekonnarada")}
+        </h2>
+        <span className={badgeClassName}>{statusLabel(t, journey?.status)}</span>
+      </div>
+      <ol className="grid gap-[0.58rem] md:grid-cols-6" aria-label={t("journey.roadmap.title", "Teekonnarada")}>
+        {steps.map((step, index) => {
+          const done = step.state === "done";
+          const next = step.state === "next";
+          return (
+            <li
+              key={step.title}
+              className={cn(
+                "relative grid gap-[0.38rem] rounded-[0.8rem] border px-[0.66rem] py-[0.7rem]",
+                done
+                  ? "border-[color:var(--title-color,var(--brand-primary))] [background:color-mix(in_srgb,var(--title-color,var(--brand-primary))_14%,transparent)]"
+                  : next
+                    ? "border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))]"
+                    : "border-[color:var(--subpage-card-border)] opacity-[0.72]"
+              )}
+            >
+              <span className="inline-flex size-[1.8rem] items-center justify-center rounded-full border border-current text-[0.78rem] font-[760]">
+                {done ? <Check size={14} aria-hidden="true" /> : index + 1}
+              </span>
+              <span className="text-[0.88rem] font-[720] leading-[1.16]">{step.title}</span>
+              <span className="text-[0.72rem] font-[650] leading-[1.12] opacity-[0.68]">{stateLabels[step.state]}</span>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function ActivityHistory({ journey, t, locale }) {
+  const items = journeyActivityItems(journey, t, locale);
+  return (
+    <section className={cn(cardClassName, "content-start gap-[0.72rem]")}>
+      <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+        <ListChecks size={18} aria-hidden="true" />
+        {t("journey.activity.title", "Tehtud sammud")}
+      </h2>
+      <ol className="grid gap-[0.44rem]">
+        {items.map((item, index) => (
+          <li key={`${item.title}-${index}`} className="flex flex-wrap items-center justify-between gap-[0.5rem] rounded-[0.75rem] border border-[color:var(--subpage-card-border)] px-[0.68rem] py-[0.52rem]">
+            <span className="text-[0.92rem] font-[650] leading-[1.2]">{item.title}</span>
+            {item.dateLabel ? <span className="text-[0.78rem] leading-[1.15] opacity-[0.62]">{item.dateLabel}</span> : null}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+function RelatedObjectsPanel({ journey, t }) {
+  const context = journey?.context && typeof journey.context === "object" && !Array.isArray(journey.context)
+    ? journey.context
+    : {};
+  const groups = [
+    ["linkedPreInquiryIds", t("journey.related.pre_inquiries", "Seotud eelpöördumised")],
+    ["linkedDocumentIds", t("journey.related.documents", "Seotud dokumendid")],
+    ["linkedServiceMapEntryIds", t("journey.related.service_contacts", "Seotud teenusekaardi kontaktid")],
+    ["linkedHelpRequestIds", t("journey.related.help_requests", "Seotud abisoovid")],
+    ["linkedRoomIds", t("journey.related.rooms", "Seotud ruumid")]
+  ];
+
+  return (
+    <section className={cn(cardClassName, "content-start gap-[0.76rem]")}>
+      <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+        <FileText size={18} aria-hidden="true" />
+        {t("journey.related.title", "Seotud asjad")}
+      </h2>
+      <div className="grid gap-[0.62rem] md:grid-cols-2">
+        {groups.map(([key, title]) => {
+          const items = normalizeDisplayItems(context[key]);
+          return (
+            <div key={key} className={cn(compactCardClassName, "grid gap-[0.45rem]")}>
+              <h3 className="m-0 text-[0.96rem] font-[720] leading-[1.18]">{title}</h3>
+              {items.length ? (
+                <div className="flex flex-wrap gap-[0.38rem]">
+                  {items.map((item) => <span key={item} className={badgeClassName}>{item}</span>)}
+                </div>
+              ) : (
+                <p className={bodyTextClassName}>
+                  {t("journey.related.empty", "Siia ilmuvad eelpöördumised, dokumendid või kontaktid, mille seod selle teekonnaga.")}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function PreInquirySharePanel({ journey, href, t }) {
+  const shareOptions = [
+    ["summary", t("journey.share.summary", "olukorra kokkuvõte"), Boolean(journey?.summary)],
+    ["domains", t("journey.share.domains", "seotud teemad"), Boolean(journey?.domains?.length)],
+    ["missingInfo", t("journey.share.missing_info", "puuduolev info"), Boolean(journey?.missingInfo?.length)],
+    ["wish", t("journey.share.wish", "inimese soov"), true],
+    ["serviceContact", t("journey.share.service_contact", "valitud teenusekaardi kontakt"), false],
+    ["document", t("journey.share.document", "seotud dokument"), false]
+  ];
+
+  return (
+    <section className={cn(compactCardClassName, "grid gap-[0.7rem]")}>
+      <div className="grid gap-[0.3rem]">
+        <h3 className="m-0 text-[1rem] font-[740] leading-[1.18]">
+          {t("journey.share.title", "Vali, millist infot soovid eelpöördumises kasutada.")}
+        </h3>
+        <p className={bodyTextClassName}>
+          {t("journey.share.privacy", "Teekonnast ei jagata automaatselt kogu infot. Vaatad järgmises sammus teksti üle enne saatmist.")}
+        </p>
+      </div>
+      <div className="grid gap-[0.42rem] sm:grid-cols-2">
+        {shareOptions.map(([key, label, checked]) => (
+          <label key={key} className="flex items-center gap-[0.48rem] rounded-[0.72rem] border border-[color:var(--subpage-card-border)] px-[0.62rem] py-[0.52rem] text-[0.92rem] font-[650] leading-[1.18]">
+            <input type="checkbox" defaultChecked={checked} />
+            <span>{label}</span>
+          </label>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-[0.52rem]">
+        <Button as="a" href={href}>
+          <Send size={17} aria-hidden="true" />
+          {t("journey.share.continue", "Jätka eelpöördumise koostamisega")}
+        </Button>
+      </div>
     </section>
   );
 }
@@ -355,6 +565,7 @@ export default function JourneyDetail({ journeyId }) {
   const [continuityForm, setContinuityForm] = useState(createServiceContinuityState(null));
   const [healthDraftOpen, setHealthDraftOpen] = useState(false);
   const [healthQuestionsDraft, setHealthQuestionsDraft] = useState("");
+  const [preInquiryShareOpen, setPreInquiryShareOpen] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [notFound, setNotFound] = useState(false);
@@ -390,6 +601,11 @@ export default function JourneyDetail({ journeyId }) {
   const showHealthContact = useMemo(
     () => (journey ? hasHealthContactSignal(journey) : false),
     [journey]
+  );
+  const lifeDomains = useMemo(() => getJourneyLifeDomains(journey), [journey]);
+  const serviceMapHasMunicipality = useMemo(
+    () => hasMunicipalitySignal(journey, serviceMapHandoff),
+    [journey, serviceMapHandoff]
   );
 
   const handleBack = useCallback(() => {
@@ -589,14 +805,14 @@ export default function JourneyDetail({ journeyId }) {
   const handleCreateHealthQuestions = useCallback(() => {
     if (!journey) return;
     setHealthQuestionsDraft(buildHealthContactQuestionsDraft(journey, {
-      title: t("journey.healthContact.questionsDraftTitle", "Health contact questions draft"),
-      situationLabel: t("journey.healthContact.draftSituationLabel", "Briefly describe my situation:"),
-      situationPlaceholder: t("journey.healthContact.draftSituationPlaceholder", "[add a short situation description]"),
-      clarificationLabel: t("journey.healthContact.draftClarificationLabel", "I would like to clarify:"),
-      clarificationPlaceholder: t("journey.healthContact.draftClarificationPlaceholder", "[add what you want to clarify with the health contact]"),
-      contactQuestion: t("journey.healthContact.draftContactQuestion", "Should I contact a family doctor center, health center, or official health advice contact about this question?"),
-      preparationQuestion: t("journey.healthContact.draftPreparationQuestion", "What information or document would be useful to prepare before contacting them?"),
-      dailyLifeQuestion: t("journey.healthContact.draftDailyLifeQuestion", "Could this topic affect my daily coping, work, study, or existing support?")
+      title: t("journey.healthContact.questionsDraftTitle", "Küsimused tervisekontaktile"),
+      situationLabel: t("journey.healthContact.draftSituationLabel", "Kirjeldan lühidalt oma olukorda:"),
+      situationPlaceholder: t("journey.healthContact.draftSituationPlaceholder", "[lisa lühike olukorra kirjeldus]"),
+      clarificationLabel: t("journey.healthContact.draftClarificationLabel", "Soovin täpsustada:"),
+      clarificationPlaceholder: t("journey.healthContact.draftClarificationPlaceholder", "[lisa, mida soovid tervisekontaktiga täpsustada]"),
+      contactQuestion: t("journey.healthContact.draftContactQuestion", "Kas peaksin selle küsimusega pöörduma perearstikeskuse, tervisekeskuse või ametliku tervisenõu kontakti poole?"),
+      preparationQuestion: t("journey.healthContact.draftPreparationQuestion", "Milline info või dokument oleks enne pöördumist kasulik ette valmistada?"),
+      dailyLifeQuestion: t("journey.healthContact.draftDailyLifeQuestion", "Kas see teema võib mõjutada minu igapäevast toimetulekut, tööd, õppimist või olemasolevat tuge?")
     }));
     setHealthDraftOpen(true);
   }, [journey, t]);
@@ -615,7 +831,7 @@ export default function JourneyDetail({ journeyId }) {
             >
               {t("journey.title", "Teekond")}
             </GlassSubpageHeader>
-            <p className={softMessageClassName}>{t("journey.messages.loading", "Loading journey...")}</p>
+            <p className={softMessageClassName}>{t("journey.messages.loading", "Laen teekonda...")}</p>
           </div>
         </div>
       </main>
@@ -669,7 +885,7 @@ export default function JourneyDetail({ journeyId }) {
               {t("journey.title", "Teekond")}
             </GlassSubpageHeader>
             <section className={cn(cardClassName, "mx-auto w-full max-w-[42rem]")}>
-              <h1 className={sectionTitleClassName}>{t("journey.messages.not_found_title", "Journey was not found")}</h1>
+              <h1 className={sectionTitleClassName}>{t("journey.messages.not_found_title", "Teekonda ei leitud")}</h1>
               <p className={bodyTextClassName}>
                 {t("journey.messages.not_found", "This journey is not available or does not belong to your account.")}
               </p>
@@ -701,7 +917,7 @@ export default function JourneyDetail({ journeyId }) {
           {notice ? <p className={softMessageClassName} role="status">{notice}</p> : null}
 
           {!journey ? (
-            <p className={softMessageClassName}>{t("journey.messages.loading", "Loading journey...")}</p>
+            <p className={softMessageClassName}>{t("journey.messages.loading", "Laen teekonda...")}</p>
           ) : (
             <>
               <section className={cardClassName}>
@@ -746,32 +962,39 @@ export default function JourneyDetail({ journeyId }) {
               <section className={cn(cardClassName, "border-[color:var(--title-color,var(--brand-primary))]")}>
                 <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
                   <Lock size={18} aria-hidden="true" />
-                  {t("journey.privacy.title", "Journey is private")}
+                  {t("journey.privacy.title", "Teekond on privaatne")}
                 </h2>
                 <p className={bodyTextClassName}>
-                  {t("journey.privacy.description", "This journey is private. Information is not shared with a specialist, service provider, or another party before you confirm and share it yourself.")}
+                  {t("journey.privacy.description", "Midagi ei jagata enne sinu kinnitust. Teised näevad ainult seda infot, mille sa hiljem eraldi kinnitad ja jagad.")}
                 </p>
               </section>
+
+              <JourneyRoadmap journey={journey} t={t} />
 
               <section className={cardClassName}>
                 <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
                   <div className="grid gap-[0.36rem]">
                     <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
                       <Map size={18} aria-hidden="true" />
-                      {t("journey.service_map.title", "Open service map")}
+                      {t("journey.service_map.title", "Ava teenusekaart nende teemade põhjal")}
                     </h2>
                     <p className={bodyTextClassName}>
                       {serviceMapHandoff?.hasFilter
-                        ? t("journey.service_map.filtered_description", "The service map opens with filters based on this journey.")
-                        : t("journey.service_map.fallback_description", "The region is missing, so the service map opens in the general view.")}
+                        ? t("journey.service_map.filtered_description", "Teenusekaart avaneb teekonna teemade ja piirkonna signaalidega.")
+                        : t("journey.service_map.fallback_description", "Teenusekaart avaneb üldvaates. Täpsemaks avamiseks lisa KOV või piirkond.")}
                     </p>
+                    {!serviceMapHasMunicipality ? (
+                      <p className={bodyTextClassName}>
+                        {t("journey.service_map.missing_municipality", "Teenusekaardi täpsemaks avamiseks lisa KOV või piirkond.")}
+                      </p>
+                    ) : null}
                     <p className={bodyTextClassName}>
-                      {t("journey.service_map.privacy_note", "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step.")}
+                      {t("journey.service_map.privacy_note", "Teenusekaart ei jaga sinu teekonda ühegi osapoolega. See aitab leida sobiva kontakti või järgmise sammu.")}
                     </p>
                   </div>
                   <Button as="a" href={serviceMapHref}>
                     <Map size={17} aria-hidden="true" />
-                    {t("journey.service_map.open", "Open service map")}
+                    {t("journey.service_map.open", "Ava teenusekaart")}
                   </Button>
                 </div>
               </section>
@@ -781,20 +1004,23 @@ export default function JourneyDetail({ journeyId }) {
                   <div className="grid gap-[0.36rem]">
                     <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
                       <Send size={18} aria-hidden="true" />
-                      {t("journey.pre_inquiry.title", "Pre-inquiry draft")}
+                      {t("journey.pre_inquiry.title", "Koosta eelpöördumine selle olukorra põhjal")}
                     </h2>
                     <p className={bodyTextClassName}>
-                      {t("journey.pre_inquiry.description", "A pre-inquiry draft is prepared from this journey. You can review and edit all text before sending.")}
+                      {t("journey.pre_inquiry.description", "Enne eelpöördumise koostamist valid, millist teekonna infot soovid kaasa võtta. Saad teksti enne saatmist üle vaadata ja muuta.")}
                     </p>
                     <p className={bodyTextClassName}>
-                      {t("journey.pre_inquiry.privacy_note", "The journey is not shared automatically. The receiver sees only the pre-inquiry you confirm and send.")}
+                      {t("journey.pre_inquiry.privacy_note", "Teekonda ei jagata automaatselt. Vastuvõtja näeb ainult sinu kinnitatud eelpöördumist.")}
                     </p>
                   </div>
-                  <Button as="a" href={preInquiryHref}>
+                  <Button type="button" onClick={() => setPreInquiryShareOpen((current) => !current)}>
                     <Send size={17} aria-hidden="true" />
-                    {t("journey.pre_inquiry.open", "Create pre-inquiry")}
+                    {t("journey.pre_inquiry.open", "Koosta eelpöördumine")}
                   </Button>
                 </div>
+                {preInquiryShareOpen ? (
+                  <PreInquirySharePanel journey={journey} href={preInquiryHref} t={t} />
+                ) : null}
               </section>
 
               <section className={cardClassName}>
@@ -805,7 +1031,7 @@ export default function JourneyDetail({ journeyId }) {
                       {t("journey.serviceContinuity.title", "Teenuse jätkumise kontroll")}
                     </h2>
                     <p className={bodyTextClassName}>
-                      {t("journey.serviceContinuity.description", "Kui sul on olemasolev teenus, tugi, otsus või plaan, mis võib vajada jätkumise täpsustamist, saad siin info korrastada ja vajadusel koostada eelpöördumise mustandi.")}
+                      {t("journey.serviceContinuity.description", "Kui sul on olemasolev teenus, tugi, otsus või plaan, mis võib vajada jätkumise täpsustamist, saad siin info korrastada ja vajadusel koostada eelpöördumise.")}
                     </p>
                     <p className={bodyTextClassName}>
                       {t("journey.serviceContinuity.notOfficialAssessment", "See on info korrastamise abivahend, mitte ametlik hinnang, otsus ega teenuse määramine. Pädev asutus või spetsialist hindab ja otsustab.")}
@@ -1019,7 +1245,7 @@ export default function JourneyDetail({ journeyId }) {
                   </div>
 
                   <p className={bodyTextClassName}>
-                    {t("journey.healthContact.privateNote", "Küsimuste mustand jääb sinu kätte. Seda ei saadeta automaatselt perearstikeskusele, tervisekeskusele ega muule osapoolele.")}
+                    {t("journey.healthContact.privateNote", "Küsimused jäävad sinu kätte. Neid ei saadeta automaatselt perearstikeskusele, tervisekeskusele ega muule osapoolele.")}
                   </p>
 
                   <div className="flex flex-wrap gap-[0.56rem]">
@@ -1040,7 +1266,7 @@ export default function JourneyDetail({ journeyId }) {
                   {healthDraftOpen ? (
                     <div className="grid gap-[0.48rem]">
                       <label className={labelClassName} htmlFor="journey-health-contact-draft">
-                        {t("journey.healthContact.questionsDraftTitle", "Küsimuste mustand tervisekontaktile")}
+                        {t("journey.healthContact.questionsDraftTitle", "Küsimused tervisekontaktile")}
                       </label>
                       <textarea
                         id="journey-health-contact-draft"
@@ -1147,29 +1373,39 @@ export default function JourneyDetail({ journeyId }) {
 
                   <div className="grid gap-[1rem] lg:grid-cols-2">
                     <ContentList
-                      title={t("journey.labels.domains", "Related topics")}
+                      title={t("journey.labels.domains", "Seotud teemad")}
                       items={journey.domains}
-                      emptyText={t("journey.messages.empty_domains", "No related topics have been added.")}
+                      emptyText={t("journey.messages.empty_domains", "Seotud teemasid ei ole veel lisatud.")}
                       icon={Map}
                     />
                     <ContentList
-                      title={t("journey.labels.missing_info", "Missing information")}
+                      title={t("journey.review.life_domains", "Eluvaldkonnad")}
+                      items={lifeDomains}
+                      emptyText={t("journey.review.empty_life_domains", "Eluvaldkonnad täpsustuvad hiljem.")}
+                      icon={Route}
+                    />
+                    <ContentList
+                      title={t("journey.labels.missing_info", "Puuduolev info")}
                       items={journey.missingInfo}
-                      emptyText={t("journey.messages.empty_missing_info", "No missing information has been added.")}
+                      emptyText={t("journey.messages.empty_missing_info", "Puuduolevat infot ei ole veel lisatud.")}
                       icon={ListChecks}
                     />
                     <ContentList
-                      title={t("journey.labels.risk_signals", "Careful notes")}
+                      title={t("journey.labels.risk_signals", "Ettevaatlikud tähelepanekud")}
                       items={journey.riskSignals}
-                      emptyText={t("journey.messages.empty_risk_signals", "No careful notes have been added.")}
+                      emptyText={t("journey.messages.empty_risk_signals", "Ettevaatlikke tähelepanekuid ei ole lisatud.")}
                       icon={Lock}
                     />
                     <ContentList
-                      title={t("journey.labels.suggested_actions", "Suggested next steps")}
+                      title={t("journey.labels.suggested_actions", "Võimalikud järgmised sammud")}
                       items={journey.suggestedActions}
-                      emptyText={t("journey.messages.empty_suggested_actions", "No suggested next steps have been added.")}
+                      emptyText={t("journey.messages.empty_suggested_actions", "Järgmised sammud täpsustuvad hiljem.")}
                       icon={Check}
                     />
+                  </div>
+                  <div className="grid gap-[1rem] lg:grid-cols-[0.9fr_1.1fr]">
+                    <ActivityHistory journey={journey} t={t} locale={locale} />
+                    <RelatedObjectsPanel journey={journey} t={t} />
                   </div>
                 </>
               )}

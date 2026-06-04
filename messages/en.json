@@ -683,6 +683,7 @@
       "empty_received": "Pre-inquiries addressed to you appear here.",
       "empty_saved": "Saved pre-inquiries appear here.",
       "save_success": "Pre-inquiry saved.",
+      "archive_success": "Pre-inquiry archived.",
       "copy_success": "Inquiry text copied.",
       "download_success": "Inquiry text downloaded.",
       "accept_success": "Pre-inquiry marked as accepted.",
@@ -795,7 +796,11 @@
       },
       "fields": {
         "organization": "Organization name",
+        "organization_type": "Organization type",
+        "registry_code": "Registry code",
+        "primary_contact_name": "Primary contact",
         "short_description": "Short description",
+        "long_description": "Long description",
         "services": "Services",
         "services_overview": "Service summary",
         "categories": "Categories",
@@ -809,6 +814,7 @@
         "website": "Website",
         "languages": "Languages",
         "accessibility_info": "Accessibility info",
+        "general_accessibility_note": "Accessibility note",
         "status": "Status",
         "fee_type": "Pricing"
       },
@@ -831,34 +837,65 @@
       },
       "pre_inquiries": {
         "accepts_platform": "Accept internal SotsiaalAI pre-inquiries",
-        "accepts_email": "Accept email drafts",
+        "accepts_email": "Allow email composition",
         "platform_help": "People can send an internal pre-inquiry to this provider account.",
-        "email_help": "The workflow can prepare an email draft for the contact address."
+        "email_help": "The user can compose an email preview and review it before sending.",
+        "assistant_recommendation_allowed": "Allow the assistant to recommend published services",
+        "assistant_recommendation_help": "Published service records are added to the AI knowledge layer only when this is enabled."
       },
       "service_items": {
         "item_title": "Service",
         "name": "Service name",
         "category": "Category",
+        "categories": "Service categories",
         "description": "Description",
+        "long_description": "Long description",
+        "includes_text": "What the service includes",
+        "excludes_text": "What the service does not include",
+        "additional_info": "Additional information",
+        "age_groups": "Age groups",
         "target_groups": "Target groups",
+        "requester_roles": "Who may contact",
+        "need_tags": "Needs and situations",
+        "life_domains": "Life domains",
+        "delivery_modes": "Delivery modes",
         "service_area": "Service area",
+        "service_area_type": "Area type",
+        "municipality_ids": "Municipalities or regions",
+        "area_description": "Area note",
+        "service_languages": "Service languages",
+        "inquiry_languages": "Inquiry languages",
+        "communication_support": "Communication support",
         "locations": "Service locations",
         "fee_type": "Pricing",
         "price_description": "Price note",
+        "availability_status": "Availability",
+        "availability_description": "Availability note",
+        "direct_contact_allowed": "Direct contact allowed",
+        "requires_kov_assessment": "Requires municipal assessment",
+        "requires_kov_decision": "Requires municipal decision",
+        "requires_ska_referral": "Requires national referral",
+        "requires_specialist_referral": "Requires specialist referral",
+        "required_documents_note": "Required documents",
+        "referral_notes": "Inquiry conditions",
+        "contact_mode": "Contact mode",
         "contact_name": "Contact person",
         "visible_in_profile": "Visible under map marker",
         "add": "Add service",
         "remove": "Remove",
-        "empty": "No separate services have been added yet."
+        "empty": "No separate services have been added yet.",
+        "location_empty_hint": "Add a service location first if you want to show this service on the map. A service can also exist without a physical location when it is delivered online, by phone, at the person's home, or regionally."
       },
       "locations": {
         "item_title": "Service location",
         "label": "Label",
         "address": "Address",
+        "opening_hours": "Opening hours",
         "visible_on_map": "Show on service map",
         "add": "Add service location",
         "remove": "Remove",
-        "empty": "No service locations have been added yet."
+        "empty": "No service locations have been added yet.",
+        "new_item_title": "New service location"
       },
       "map_status": {
         "title": "Address status",
@@ -879,11 +916,13 @@
         "categories": "Categories are standard choices. They are used in service map search and pre-inquiry matching.",
         "target_groups": "Target groups are also standard choices, so a typo does not keep a service out of filters or pre-inquiries.",
         "services_locations": "A service location is the basis for a map marker. The address field suggests official matches while typing; select a match so the marker has a reliable location.",
-        "area": "Service area describes where people are served. Enter map marker addresses in the service locations block."
+        "area": "Service area describes where people are served. Enter map marker addresses in the service locations block.",
+        "services": "Describe concrete services here. Categories, target groups, languages, and referral conditions are saved at service level.",
+        "locations": "A service location is the basis for a map marker. Add only real service locations with a name and address."
       },
       "category_options": {
         "unspecified": "Unspecified",
-        "transport": "Transport",
+        "transport": "Transport and mobility support",
         "daily_tasks": "Daily assistance",
         "home_help": "Home help",
         "digital_help": "Digital help",
@@ -892,14 +931,39 @@
         "learning_guidance": "Learning and guidance support",
         "social_support": "Companionship and social support",
         "admin_form_help": "Administrative and forms help",
-        "other": "Other help"
+        "other": "Other service",
+        "kov_social_service": "Municipal social service",
+        "counselling_guidance": "Counselling and guidance",
+        "family_child_youth": "Family, child and youth support",
+        "disability_rehabilitation": "Disability, rehabilitation and assistive devices",
+        "home_care": "Home help and care",
+        "coping_debt": "Coping support and debt counselling",
+        "housing_safety": "Housing and safety",
+        "work_learning_participation": "Work, learning and participation",
+        "digital_admin_help": "Digital and administrative help"
       },
       "target_group_options": {
         "child": "Child",
         "youth": "Youth",
         "adult": "Adult",
         "elder": "Older person",
-        "disability": "Disability or special need"
+        "disability": "Disability or special need",
+        "disabled_person": "Disabled person",
+        "psychosocial_disability": "Person with psychosocial disability",
+        "intellectual_disability": "Person with intellectual disability",
+        "mental_health_concern": "Person with mental health concern",
+        "coping_difficulty": "Person with coping difficulties",
+        "housing_difficulty": "Person with housing difficulties",
+        "debt_difficulty": "Person with debts",
+        "addiction_concern": "Person with addiction concern",
+        "violence_crisis_experience": "Person with violence or crisis experience",
+        "caregiver_close_person": "Caregiver or close person",
+        "parent": "Parent",
+        "family": "Family",
+        "guardian": "Guardian",
+        "unemployed_jobseeker": "Unemployed person or jobseeker",
+        "socially_isolated": "Socially isolated person",
+        "other": "Other target group"
       },
       "language_options": {
         "et": "Estonian",
@@ -909,6 +973,84 @@
       },
       "map_preview_empty": "Address match preview appears after geocoding.",
       "publish_help": "Unpublished and review profiles are not shown on the service map. Published profiles still need a reliable address match before a marker appears.",
+      "age_group_options": {
+        "child": "Child",
+        "youth": "Youth",
+        "working_age": "Working-age person",
+        "adult": "Adult person",
+        "elder": "Older person"
+      },
+      "requester_role_options": {
+        "self": "Person themselves",
+        "parent_guardian": "Parent or guardian",
+        "close_person": "Close person",
+        "specialist": "Specialist"
+      },
+      "need_options": {
+        "care_need": "Care need",
+        "coping": "Difficulty coping",
+        "caregiver_burden": "Caregiver burden",
+        "child_wellbeing": "Child wellbeing",
+        "mental_health": "Mental health",
+        "mobility_transport": "Mobility and transport",
+        "administration": "Administration"
+      },
+      "life_domain_options": {
+        "home_daily": "Home and daily life",
+        "health": "Health",
+        "family": "Family and relationships",
+        "education": "Education",
+        "work": "Work and employment",
+        "housing": "Housing"
+      },
+      "delivery_mode_options": {
+        "onsite": "On site",
+        "home": "At the person's home",
+        "online": "Online",
+        "phone": "By phone",
+        "regional": "Regional"
+      },
+      "communication_support_options": {
+        "simple_language": "Plain-language explanation",
+        "interpreter": "Interpreter or language support",
+        "accessible": "Accessible communication"
+      },
+      "organization_type_options": {
+        "unspecified": "Unspecified",
+        "ngo": "NGO",
+        "foundation": "Foundation",
+        "company": "Company",
+        "public": "Public institution",
+        "other": "Other"
+      },
+      "area_type_options": {
+        "unspecified": "Unspecified",
+        "national": "National",
+        "county": "County-based",
+        "municipality": "Municipality-based",
+        "location": "Location-based",
+        "online": "Online service"
+      },
+      "availability_options": {
+        "unspecified": "Unspecified",
+        "available": "Available",
+        "queue": "Waiting list",
+        "limited": "Limited intake",
+        "paused": "Paused"
+      },
+      "requirement_options": {
+        "unspecified": "Unspecified",
+        "no": "No",
+        "yes": "Yes",
+        "depends": "Depends on the situation"
+      },
+      "contact_mode_options": {
+        "unspecified": "Unspecified",
+        "platform": "Internal pre-inquiry",
+        "email": "Email",
+        "phone": "Phone",
+        "form": "Web form"
+      },
       "outputs": {
         "public_profile": "Public profile",
         "map_marker": "Service map marker",
@@ -924,6 +1066,32 @@
         "load_failed": "Service profile could not be loaded.",
         "save_failed": "Service profile could not be saved.",
         "address_suggestions_failed": "Address suggestions could not be loaded."
+      },
+      "choice_summary": {
+        "selected": "Selected",
+        "empty": "-"
+      },
+      "contact_strategy": {
+        "label": "Service contact",
+        "organization": "Use organization primary contact",
+        "custom": "Set a separate service contact",
+        "inherited_help": "Pre-inquiry contact selection uses this order: service contact, service location contact, organization primary contact. This service currently uses the organization primary contact.",
+        "priority_help": "Pre-inquiry contact selection uses this order: service contact, service location contact, organization primary contact. Enter primary contact details in organization information."
+      },
+      "publish_checks": {
+        "title": "Publishing check",
+        "status_published": "Profile status is published.",
+        "status_not_published": "Set profile status to published if you want to show it publicly.",
+        "map_visible": "Profile is marked visible on the service map.",
+        "map_hidden": "Service map visibility is turned off.",
+        "service_ready": "At least one service is ready for publishing.",
+        "service_missing": "Add at least one publishable service.",
+        "location_ready": "At least one service location is map-visible and has an address.",
+        "location_missing": "Add a service location with an address if you want a map marker.",
+        "contact_ready": "General email or phone is present.",
+        "contact_missing": "Add a general email or phone.",
+        "assistant_allowed": "The assistant may recommend published services.",
+        "assistant_blocked": "The assistant will not recommend these services until permission is enabled."
       }
     },
     "admin_role": {
@@ -3737,7 +3905,7 @@
     "title": "Teekond",
     "meta": {
       "title": "Teekond",
-      "description": "A private place to describe a situation and confirm a journey draft."
+      "description": "A private place to describe a situation and confirm a journey overview."
     },
     "chatTool": {
       "label": "Teekond",
@@ -3746,16 +3914,16 @@
     "workflow": {
       "startTitle": "Journey mode",
       "startBody": "Journey mode. Describe the situation in your own words. I will help create an initial journey map. The journey stays private and is not shared before you confirm it.",
-      "draftTitle": "Journey draft",
-      "privacyNote": "This is a draft. It is not saved or shared before you confirm it.",
+      "draftTitle": "Journey overview",
+      "privacyNote": "This is an overview before saving. It is not saved or shared before you confirm it.",
       "save": "Save journey",
       "refine": "Clarify more",
       "cancel": "Cancel",
       "openSaved": "Open journey",
       "savedSuccess": "Private journey was saved.",
       "nextPrompt": "Write more details, or answer: save, clarify, or cancel.",
-      "refinePrompt": "Add the detail you want to clarify or change. I will update the draft.",
-      "cancelled": "Journey draft was cancelled. Nothing was saved."
+      "refinePrompt": "Add the detail you want to clarify or change. I will update the overview.",
+      "cancelled": "The journey overview was discarded. Nothing was saved."
     },
     "sharedInfo": {
       "title": "Information from Teekond",
@@ -3791,9 +3959,9 @@
       "COMBINED_SOCIAL_HEALTH": "Social and health direction"
     },
     "status": {
-      "ACTIVE": "Active",
-      "ARCHIVED": "Archived",
-      "DRAFT": "Draft"
+      "ACTIVE": "started",
+      "ARCHIVED": "archived",
+      "DRAFT": "clarifying information"
     },
     "labels": {
       "private": "Private",
@@ -3811,7 +3979,7 @@
     "actions": {
       "archive": "Archive",
       "archive_named": "Archive journey {title}",
-      "save_private": "Save private journey",
+      "save_private": "Save journey",
       "save_changes": "Save changes",
       "back": "Back",
       "back_to_list": "Back to journey",
@@ -3820,14 +3988,16 @@
       "open": "Open journey",
       "edit": "Edit",
       "close_edit": "Close editing",
-      "create_draft": "Create draft",
-      "cancel": "Cancel"
+      "create_draft": "Create journey overview",
+      "cancel": "Cancel",
+      "edit_description": "Edit description",
+      "decline": "Discard"
     },
     "messages": {
       "loading": "Loading journey...",
       "auth_required": "The journey is private. Log in to continue.",
       "load_failed": "Loading the journey failed.",
-      "draft_failed": "Creating the draft failed.",
+      "draft_failed": "Creating the journey overview failed.",
       "save_failed": "Saving the journey failed.",
       "archive_failed": "Archiving the journey failed.",
       "saved": "Private journey saved.",
@@ -3854,32 +4024,34 @@
       "open": "Open service map",
       "filtered_description": "The service map opens with filters based on this journey.",
       "fallback_description": "The region is missing, so the service map opens in the general view.",
-      "privacy_note": "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step."
+      "privacy_note": "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step.",
+      "missing_municipality": "Add a municipality or region to open the service map more precisely."
     },
     "pre_inquiry": {
-      "title": "Pre-inquiry draft",
+      "title": "Prepare a pre-inquiry from this situation",
       "open": "Create pre-inquiry",
-      "description": "A pre-inquiry draft is prepared from this journey. You can review and edit all text before sending.",
+      "description": "Before preparing the pre-inquiry, choose which journey information you want to include. You can review and edit the text before sending.",
       "privacy_note": "The journey is not shared automatically. The receiver sees only the pre-inquiry you confirm and send."
     },
     "header": {
       "eyebrow": "Private journey layer",
-      "description": "Describe the situation, review the draft, and save it as a private journey. The draft is not saved before confirmation."
+      "description": "Describe the situation, review the prepared overview, and save it as a private journey. Nothing is shared automatically."
     },
     "sections": {
-      "start_title": "Describe the situation",
-      "start_description": "This creates only a temporary structured draft. The database Journey object is created only after save confirmation.",
-      "review_title": "Review the draft",
-      "review_description": "Edit the fields before saving. The private journey is saved only after confirmation.",
+      "start_title": "Hello. Let us start your journey.",
+      "start_description": "Describe your situation in your own words. You do not need to know everything or phrase it perfectly. SotsiaalAI helps prepare a private overview that you can review before saving.",
+      "review_title": "Overview before saving",
+      "review_description": "Review whether SotsiaalAI organized the situation correctly. The journey is saved only when you confirm.",
       "active_title": "Active journey",
-      "archived_title": "Previous journeys"
+      "archived_title": "Previous journeys",
+      "start_privacy": "The overview is saved only when you confirm. Nothing is shared automatically."
     },
     "placeholders": {
-      "situation": "For example: I need help arranging care for a family member and do not know which service or local contact to approach..."
+      "situation": "For example: I care for my mother and cannot manage alone anymore. She needs help washing and preparing food. I do not know whether to contact the municipality or a service provider."
     },
     "serviceContinuity": {
       "title": "Service continuity check",
-      "description": "If an existing service, support, decision, or plan may need continuity clarification, you can organize the information here and prepare a pre-inquiry draft if needed.",
+      "description": "If an existing service, support, decision, or plan may need continuity clarification, you can organize the information here and prepare a pre-inquiry if needed.",
       "serviceName": "Service or support name",
       "serviceNamePlaceholder": "For example home care, support person, rehabilitation",
       "currentProvider": "Current provider or contact",
@@ -3919,7 +4091,7 @@
       "missingEndDate": "known end date",
       "missingDecisionOrPlan": "decision, service plan, contract, letter, or another document",
       "missingContactAlreadyInvolved": "whether the municipality or service provider is already involved",
-      "actionPreInquiry": "Prepare a pre-inquiry draft",
+      "actionPreInquiry": "Prepare a pre-inquiry",
       "actionServiceMap": "Open service map",
       "actionAddDocument": "Add document for analysis",
       "actionContactProvider": "Clarify with the service provider",
@@ -3930,10 +4102,10 @@
       "title": "Health contact option",
       "description": "Your description may include a health-related question. A possible first step may be a family doctor center, health center, or official health advice contact.",
       "notMedicalAdvice": "SotsiaalAI does not provide medical assessment, diagnosis, or treatment advice, but can help phrase questions clearly. If there is immediate danger, use emergency or urgent care channels.",
-      "createQuestions": "Draft questions for a health contact",
-      "questionsDraftTitle": "Question draft for a health contact",
-      "privateNote": "The question draft stays with you. It is not sent automatically to a family doctor center, health center, or any other party.",
-      "noAutomaticSharing": "The draft is not sent automatically. Review and edit it, then decide yourself whether to use it outside the platform.",
+      "createQuestions": "Create questions for a health contact",
+      "questionsDraftTitle": "Questions for a health contact",
+      "privateNote": "The questions stay with you. They are not sent automatically to a family doctor center, health center, or any other party.",
+      "noAutomaticSharing": "The questions are not sent automatically. Review and edit the text, then decide yourself whether to use it outside the platform.",
       "openServiceMap": "Open service map",
       "sourceNeedsCheck": "Health contact information needs checking against an official source.",
       "familyDoctorCenter": "Family doctor center",
@@ -3980,6 +4152,59 @@
       "privacyNote": "Journey is private. A specialist, service provider, or room member sees only information you separately confirm and share.",
       "notAvailableForRole": "The private Journey list is not shown for this role.",
       "privateJourneysNotShared": "Private Journey is not shared automatically."
+    },
+    "empty_start": {
+      "label": "Start journey"
+    },
+    "review": {
+      "summary_title": "Situation summary",
+      "summary_label": "Adjust the summary if needed",
+      "life_domains": "Life domains",
+      "empty_life_domains": "Life domains can be clarified later.",
+      "life_domains_note": "This only helps organize the situation. It is not an official assessment.",
+      "missing_title": "What may still be missing?",
+      "actions_title": "Possible next steps",
+      "add_document": "Add document",
+      "create_help_request": "Create help request",
+      "privacy_note": "The journey is private. Others see only the information you later separately confirm and share."
+    },
+    "roadmap": {
+      "title": "Journey path",
+      "situation": "Situation described",
+      "saved": "Overview saved",
+      "contact": "Contact or service searched",
+      "pre_inquiry": "Pre-inquiry prepared",
+      "response": "Response or follow-up",
+      "next": "Next step",
+      "done": "done",
+      "current": "in progress",
+      "next_recommended": "next recommended step",
+      "todo": "not started"
+    },
+    "activity": {
+      "title": "Completed steps",
+      "created": "journey created",
+      "saved": "overview saved"
+    },
+    "related": {
+      "title": "Related items",
+      "pre_inquiries": "Related pre-inquiries",
+      "documents": "Related documents",
+      "service_contacts": "Related service-map contacts",
+      "help_requests": "Related help requests",
+      "rooms": "Related rooms",
+      "empty": "Pre-inquiries, documents, or contacts linked to this journey will appear here."
+    },
+    "share": {
+      "title": "Choose which information to use in the pre-inquiry.",
+      "privacy": "The full journey is not shared automatically. You review the text in the next step before sending.",
+      "summary": "situation summary",
+      "domains": "related topics",
+      "missing_info": "missing information",
+      "wish": "person?s wish",
+      "service_contact": "selected service-map contact",
+      "document": "related document",
+      "continue": "Continue preparing the pre-inquiry"
     }
   },
   "footer": {

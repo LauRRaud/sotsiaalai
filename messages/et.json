@@ -575,11 +575,11 @@
       },
       "sections": {
         "input": "Pöördumise sisend",
-        "assistant": "Vestlus assistendiga",
+        "assistant": "Täpsusta eelinfot",
         "recipient": "Sobivad kontaktid",
-        "draft": "Pöördumise mustand",
+        "draft": "Pöördumise eelvaade",
         "assessment": "Eelkaardistus",
-        "assessment_review": "Vaata eelkaardistus enne saatmist üle",
+        "assessment_review": "Vaata eelinfo üle",
         "receiving_settings": "Vastuvõtt",
         "received": "Saabunud eelpöördumised",
         "selected_received": "Valitud eelpöördumine",
@@ -651,8 +651,8 @@
         "confidence": "Kontaktisoovituse kindlus"
       },
       "actions": {
-        "save": "Salvesta",
-        "copy": "Kopeeri",
+        "save": "Salvesta eelpöördumine",
+        "copy": "Kopeeri tekst",
         "download": "Laadi alla",
         "new": "Uus",
         "open": "Ava",
@@ -660,12 +660,12 @@
         "open_room": "Ava vestlusruum",
         "opening_room": "Avan...",
         "write_email": "Kirjuta e-kiri",
-        "open_email": "Ava e-kiri",
+        "open_email": "Ava e-kirjana",
         "save_preferences": "Salvesta vastuvõtt",
         "saving": "Salvestan...",
         "assisting": "Koostan...",
         "start_assessment": "Alusta eelkaardistust",
-        "prepare_draft": "Koosta kirja mustand",
+        "prepare_draft": "Koosta pöördumise eelvaade",
         "send_internal": "Saada platvormis",
         "save_workflow": "Salvesta tööplaan",
         "mark_ready": "Märgi vastuvõetuks",
@@ -681,8 +681,9 @@
       "editing_existing": "Avatud salvestatud eelpöördumine",
       "empty_recipients": "Kontaktid ilmuvad siia pärast eelkaardistuse vastuseid või otsingusõna sisestamist.",
       "empty_received": "Sulle adresseeritud eelpöördumised ilmuvad siia.",
-      "empty_saved": "Salvestatud eelpöördumised ilmuvad siia.",
+      "empty_saved": "Sul ei ole veel salvestatud eelpöördumisi.",
       "save_success": "Eelpöördumine salvestati.",
+      "archive_success": "Eelpöördumine arhiveeriti.",
       "copy_success": "Pöördumise tekst kopeeriti.",
       "download_success": "Pöördumise tekst laaditi alla.",
       "accept_success": "Eelpöördumine märgiti vastuvõetuks.",
@@ -795,6 +796,9 @@
       },
       "fields": {
         "organization": "Organisatsiooni nimi",
+        "organization_type": "Organisatsiooni tüüp",
+        "registry_code": "Registrikood",
+        "primary_contact_name": "Põhikontakt",
         "short_description": "Lühikirjeldus",
         "services": "Teenused",
         "services_overview": "Teenuste lühikokkuvõte",
@@ -808,9 +812,11 @@
         "email": "E-post",
         "website": "Veebileht",
         "languages": "Keeled",
-        "accessibility_info": "Ligipääsetavuse info",
-        "status": "Staatus",
-        "fee_type": "Hinnastus"
+        "accessibility_info": "Üldine ligipääsetavuse info",
+        "status": "Profiili staatus",
+        "fee_type": "Hinnastus",
+        "long_description": "Pikem kirjeldus",
+        "general_accessibility_note": "Ligipääsetavuse täpsustus"
       },
       "visibility": {
         "visible": "Avalda teenusekaardil",
@@ -831,25 +837,54 @@
       },
       "pre_inquiries": {
         "accepts_platform": "Võtab vastu SotsiaalAI siseseid eelpöördumisi",
-        "accepts_email": "Võtab vastu e-posti mustandeid",
+        "accepts_email": "Lubab e-kirja koostamist",
         "platform_help": "Inimene saab saata sisemise eelpöördumise selle teenuseosutaja kontole.",
-        "email_help": "Töövoog saab koostada e-kirja mustandi kontaktmeili jaoks."
+        "email_help": "Kasutaja saab koostada e-kirja eelvaate, mille ta vaatab enne saatmist üle.",
+        "assistant_recommendation_allowed": "Luba assistendil avaldatud teenuseid soovitada",
+        "assistant_recommendation_help": "Avaldatud teenusekirjed lisatakse AI teadmuskihile ainult selle valiku korral."
       },
       "service_items": {
         "item_title": "Teenus",
         "name": "Teenuse nimi",
         "category": "Kategooria",
+        "categories": "Teenuse kategooriad",
         "description": "Kirjeldus",
+        "long_description": "Pikem kirjeldus",
+        "includes_text": "Mida teenus sisaldab",
+        "excludes_text": "Mida teenus ei sisalda",
+        "additional_info": "Lisainfo",
+        "age_groups": "Vanusegrupid",
         "target_groups": "Sihtrühmad",
         "service_area": "Teeninduspiirkond",
         "locations": "Teeninduskohad",
         "fee_type": "Hinnastus",
         "price_description": "Hinna täpsustus",
+        "availability_status": "Kättesaadavus",
+        "availability_description": "Kättesaadavuse täpsustus",
+        "direct_contact_allowed": "Otsekontakt lubatud",
+        "requires_kov_assessment": "Vajab KOV hindamist",
+        "requires_kov_decision": "Vajab KOV otsust",
+        "requires_ska_referral": "Vajab SKA suunamist",
+        "requires_specialist_referral": "Vajab spetsialisti suunamist",
+        "required_documents_note": "Vajalikud dokumendid",
+        "referral_notes": "Pöördumise tingimused",
+        "contact_mode": "Kontaktiviis",
         "contact_name": "Kontaktisik",
         "visible_in_profile": "Nähtav kaardimarkeri all",
         "add": "Lisa teenus",
         "remove": "Eemalda",
-        "empty": "Eraldi teenuseid ei ole veel lisatud."
+        "empty": "Eraldi teenuseid ei ole veel lisatud.",
+        "requester_roles": "Kes võib pöörduda",
+        "need_tags": "Vajadused ja olukorrad",
+        "life_domains": "Eluvaldkonnad",
+        "delivery_modes": "Osutamise viisid",
+        "service_area_type": "Piirkonna tüüp",
+        "municipality_ids": "KOV-id või piirkonnad",
+        "area_description": "Piirkonna täpsustus",
+        "service_languages": "Teenuse osutamise keeled",
+        "inquiry_languages": "Pöördumise keeled",
+        "communication_support": "Suhtlustugi",
+        "location_empty_hint": "Lisa esmalt teeninduskoht, kui soovid teenust kaardil kuvada. Teenus võib olla ka ilma füüsilise teeninduskohata, kui osutamise viis on veebis, telefoni teel, inimese kodus või piirkondlikult."
       },
       "locations": {
         "item_title": "Teeninduskoht",
@@ -858,7 +893,9 @@
         "visible_on_map": "Näita teenusekaardil",
         "add": "Lisa teeninduskoht",
         "remove": "Eemalda",
-        "empty": "Teeninduskohti ei ole veel lisatud."
+        "empty": "Teeninduskohti ei ole veel lisatud.",
+        "opening_hours": "Lahtiolekuajad",
+        "new_item_title": "Uus teeninduskoht"
       },
       "map_status": {
         "title": "Aadressi seis",
@@ -879,11 +916,13 @@
         "categories": "Kategooriad on standardvalikud. Neid kasutatakse teenusekaardi otsingus ja eelpöördumiste sobitamises.",
         "target_groups": "Sihtrühmad on samuti standardvalikud, et sama teenus ei jääks kirjavea tõttu filtrist või eelpöördumisest välja.",
         "services_locations": "Teeninduskoht on kaardimarkeri alus. Aadressiväli pakub kirjutamisel ametlikke vasteid; vali vaste, et marker saaks usaldusväärse asukoha.",
-        "area": "Teeninduspiirkond kirjeldab, kust inimesi teenindatakse. Kaardimarkerite aadressid sisesta teeninduskohtade plokis."
+        "area": "Teeninduspiirkond kirjeldab, kust inimesi teenindatakse. Kaardimarkerite aadressid sisesta teeninduskohtade plokis.",
+        "services": "Kirjelda siin konkreetseid teenuseid. Kategooriad, sihtrühmad, keeled ja pöördumise tingimused salvestuvad teenuse tasemele.",
+        "locations": "Teeninduskoht on kaardimarkeri alus. Lisa siia ainult päris teeninduskohad nime ja aadressiga."
       },
       "category_options": {
         "unspecified": "Täpsustamata",
-        "transport": "Transport",
+        "transport": "Transport ja liikumisabi",
         "daily_tasks": "Igapäevaabi",
         "home_help": "Koduabi",
         "digital_help": "Digiabi",
@@ -892,14 +931,39 @@
         "learning_guidance": "Õppimise ja juhendamise abi",
         "social_support": "Seltskond ja sotsiaalne tugi",
         "admin_form_help": "Asjaajamise ja vormide abi",
-        "other": "Muu abi"
+        "other": "Muu teenus",
+        "kov_social_service": "KOV sotsiaalteenus",
+        "counselling_guidance": "Nõustamine ja juhendamine",
+        "family_child_youth": "Pere, lapse ja noore tugi",
+        "disability_rehabilitation": "Puue, rehabilitatsioon ja abivahendid",
+        "home_care": "Kodune abi ja hooldus",
+        "coping_debt": "Toimetulek ja võlanõustamine",
+        "housing_safety": "Eluase ja turvalisus",
+        "work_learning_participation": "Töö, õppimine ja osalemine",
+        "digital_admin_help": "Digi- ja asjaajamisabi"
       },
       "target_group_options": {
         "child": "Laps",
         "youth": "Noor",
         "adult": "Täiskasvanu",
         "elder": "Eakas",
-        "disability": "Erivajadus"
+        "disability": "Erivajadus",
+        "disabled_person": "Puudega inimene",
+        "psychosocial_disability": "Psüühilise erivajadusega inimene",
+        "intellectual_disability": "Intellektipuudega inimene",
+        "mental_health_concern": "Vaimse tervise murega inimene",
+        "coping_difficulty": "Toimetulekuraskustes inimene",
+        "housing_difficulty": "Eluasemeraskustes inimene",
+        "debt_difficulty": "Võlgadega inimene",
+        "addiction_concern": "Sõltuvusprobleemiga inimene",
+        "violence_crisis_experience": "Vägivalla või kriisiolukorra kogemusega inimene",
+        "caregiver_close_person": "Hooldaja või lähedane",
+        "parent": "Lapsevanem",
+        "family": "Pere",
+        "guardian": "Eestkostja",
+        "unemployed_jobseeker": "Töötu või tööotsija",
+        "socially_isolated": "Sotsiaalselt isoleeritud inimene",
+        "other": "Muu sihtrühm"
       },
       "language_options": {
         "et": "Eesti",
@@ -909,6 +973,84 @@
       },
       "map_preview_empty": "Aadressi vaste eelvaade ilmub pärast geokodeerimist.",
       "publish_help": "Avaldamata ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet.",
+      "age_group_options": {
+        "child": "Laps",
+        "youth": "Noor",
+        "working_age": "Tööealine inimene",
+        "adult": "Täisealine inimene",
+        "elder": "Eakas inimene"
+      },
+      "requester_role_options": {
+        "self": "Inimene ise",
+        "parent_guardian": "Lapsevanem või eestkostja",
+        "close_person": "Lähedane",
+        "specialist": "Spetsialist"
+      },
+      "need_options": {
+        "care_need": "Hooldusvajadus",
+        "coping": "Toimetulekuraskus",
+        "caregiver_burden": "Hoolduskoormus",
+        "child_wellbeing": "Lapse heaolu",
+        "mental_health": "Vaimne tervis",
+        "mobility_transport": "Liikumine ja transport",
+        "administration": "Asjaajamine"
+      },
+      "life_domain_options": {
+        "home_daily": "Kodu ja igapäevaelu",
+        "health": "Tervis",
+        "family": "Pere ja suhted",
+        "education": "Haridus",
+        "work": "Töö ja hõive",
+        "housing": "Eluase"
+      },
+      "delivery_mode_options": {
+        "onsite": "Kohapeal",
+        "home": "Inimese kodus",
+        "online": "Veebis",
+        "phone": "Telefonitsi",
+        "regional": "Piirkondlikult"
+      },
+      "communication_support_options": {
+        "simple_language": "Lihtsas keeles selgitus",
+        "interpreter": "Tõlk või keeleabi",
+        "accessible": "Ligipääsetav suhtlus"
+      },
+      "organization_type_options": {
+        "unspecified": "Täpsustamata",
+        "ngo": "MTÜ",
+        "foundation": "SA",
+        "company": "Ettevõte",
+        "public": "Avalik asutus",
+        "other": "Muu"
+      },
+      "area_type_options": {
+        "unspecified": "Täpsustamata",
+        "national": "Üleriigiline",
+        "county": "Maakondlik",
+        "municipality": "KOV põhine",
+        "location": "Teeninduskoha põhine",
+        "online": "Veebiteenus"
+      },
+      "availability_options": {
+        "unspecified": "Täpsustamata",
+        "available": "Saadaval",
+        "queue": "Järjekord",
+        "limited": "Piiratud vastuvõtt",
+        "paused": "Peatatud"
+      },
+      "requirement_options": {
+        "unspecified": "Täpsustamata",
+        "no": "Ei",
+        "yes": "Jah",
+        "depends": "Sõltub olukorrast"
+      },
+      "contact_mode_options": {
+        "unspecified": "Täpsustamata",
+        "platform": "Platvormisisene eelpöördumine",
+        "email": "E-post",
+        "phone": "Telefon",
+        "form": "Veebivorm"
+      },
       "outputs": {
         "public_profile": "Avalik profiil",
         "map_marker": "Teenusekaardi marker",
@@ -924,6 +1066,32 @@
         "load_failed": "Teenuseprofiili laadimine ebaõnnestus.",
         "save_failed": "Teenuseprofiili salvestamine ebaõnnestus.",
         "address_suggestions_failed": "Aadressisoovitusi ei saanud laadida."
+      },
+      "choice_summary": {
+        "selected": "Valitud",
+        "empty": "-"
+      },
+      "contact_strategy": {
+        "label": "Teenuse kontakt",
+        "organization": "Kasuta organisatsiooni põhikontakti",
+        "custom": "Määra teenusele eraldi kontakt",
+        "inherited_help": "Eelpöördumise kontaktivalik kasutab järjekorda: teenuse kontakt, teeninduskoha kontakt, organisatsiooni põhikontakt. Selle teenuse puhul kasutatakse praegu organisatsiooni põhikontakti.",
+        "priority_help": "Eelpöördumise kontaktivalik kasutab järjekorda: teenuse kontakt, teeninduskoha kontakt, organisatsiooni põhikontakt. Põhikontakti andmed sisesta organisatsiooni põhiinfos."
+      },
+      "publish_checks": {
+        "title": "Avaldamise kontroll",
+        "status_published": "Profiili staatus on avaldatud.",
+        "status_not_published": "Muuda profiili staatus avaldatuks, kui soovid seda avalikus vaates kuvada.",
+        "map_visible": "Profiil on teenusekaardil nähtavaks märgitud.",
+        "map_hidden": "Teenusekaardi nähtavus on välja lülitatud.",
+        "service_ready": "Vähemalt üks teenus on avaldamiseks olemas.",
+        "service_missing": "Lisa vähemalt üks avaldatav teenus.",
+        "location_ready": "Vähemalt üks teeninduskoht on kaardil nähtav ja aadressiga.",
+        "location_missing": "Lisa teeninduskoht koos aadressiga, kui soovid kaardimarkerit.",
+        "contact_ready": "Üldine e-post või telefon on olemas.",
+        "contact_missing": "Lisa üldine e-post või telefon.",
+        "assistant_allowed": "Assistent võib avaldatud teenuseid soovitada.",
+        "assistant_blocked": "Assistent ei soovita neid teenuseid enne eraldi loa andmist."
       }
     },
     "admin_role": {
@@ -1085,10 +1253,10 @@
         },
         "pre_inquiries": {
           "title": "Eelpöördumine",
-          "meta": "Pöördumise mustand",
+          "meta": "Pöördumise eelvaade",
           "title_client": "Eelpöördumine",
           "title_staff": "Pöördumised",
-          "meta_client": "Pöördumise mustand",
+          "meta_client": "Pöördumise eelvaade",
           "meta_staff": "Saabunud ja saadetud"
         },
         "help_requests": {
@@ -3737,7 +3905,7 @@
     "title": "Teekond",
     "meta": {
       "title": "Teekond",
-      "description": "Privaatne koht olukorra kirjeldamiseks ja teekonna mustandi kinnitamiseks."
+      "description": "Privaatne koht olukorra kirjeldamiseks ja teekonna ülevaate kinnitamiseks."
     },
     "chatTool": {
       "label": "Teekond",
@@ -3746,16 +3914,16 @@
     "workflow": {
       "startTitle": "Teekonna režiim",
       "startBody": "Teekonna režiim. Kirjelda olukorda oma sõnadega. Aitan selle põhjal koostada esialgse teekonnakaardi. Teekond jääb privaatseks ja seda ei jagata enne, kui sa ise kinnitad.",
-      "draftTitle": "Teekonna mustand",
-      "privacyNote": "See on mustand. Seda ei salvestata ega jagata enne, kui sa selle kinnitad.",
+      "draftTitle": "Teekonna ülevaade",
+      "privacyNote": "See on ülevaade enne salvestamist. Seda ei salvestata ega jagata enne, kui sa kinnitad.",
       "save": "Salvesta teekond",
       "refine": "Täpsustan veel",
       "cancel": "Tühista",
       "openSaved": "Ava teekond",
       "savedSuccess": "Privaatne teekond salvestati.",
       "nextPrompt": "Kirjuta lisainfot või vasta: salvesta, täpsustan või tühista.",
-      "refinePrompt": "Lisa täpsustus, mida soovid muuta või täiendada. Uuendan selle põhjal mustandit.",
-      "cancelled": "Teekonna mustand tühistati. Midagi ei salvestatud."
+      "refinePrompt": "Lisa täpsustus, mida soovid muuta või täiendada. Uuendan selle põhjal ülevaadet.",
+      "cancelled": "Teekonna ülevaatest loobuti. Midagi ei salvestatud."
     },
     "sharedInfo": {
       "title": "Teekonnast tulnud eelinfo",
@@ -3791,27 +3959,27 @@
       "COMBINED_SOCIAL_HEALTH": "Sotsiaal- ja tervisesuund"
     },
     "status": {
-      "ACTIVE": "Aktiivne",
-      "ARCHIVED": "Arhiveeritud",
-      "DRAFT": "Mustand"
+      "ACTIVE": "alustatud",
+      "ARCHIVED": "arhiveeritud",
+      "DRAFT": "info täpsustamisel"
     },
     "labels": {
       "private": "Privaatne",
       "updated_at": "Uuendatud {date}",
-      "title": "Pealkiri",
+      "title": "Teekonna pealkiri",
       "summary": "Olukorra kokkuvõte",
-      "primary_path": "Esmane suund",
+      "primary_path": "Võimalik suund",
       "domains": "Seotud teemad",
       "missing_info": "Puuduolev info",
       "risk_signals": "Ettevaatlikud tähelepanekud",
-      "suggested_actions": "Soovitatud järgmised sammud",
+      "suggested_actions": "Võimalikud järgmised sammud",
       "situation": "Olukorra kirjeldus",
       "one_item_per_line": "Üks kirje reale"
     },
     "actions": {
       "archive": "Arhiveeri",
       "archive_named": "Arhiveeri teekond {title}",
-      "save_private": "Salvesta privaatne teekond",
+      "save_private": "Salvesta teekond",
       "save_changes": "Salvesta muudatused",
       "back": "Tagasi",
       "back_to_list": "Tagasi teekonda",
@@ -3820,14 +3988,16 @@
       "open": "Ava teekond",
       "edit": "Muuda",
       "close_edit": "Sulge muutmine",
-      "create_draft": "Koosta mustand",
-      "cancel": "Tühista"
+      "create_draft": "Koosta teekonna ülevaade",
+      "cancel": "Tühista",
+      "edit_description": "Muuda kirjeldust",
+      "decline": "Loobu"
     },
     "messages": {
       "loading": "Laen teekonda...",
       "auth_required": "Teekond on privaatne. Jätkamiseks logi sisse.",
       "load_failed": "Teekonna laadimine ebaõnnestus.",
-      "draft_failed": "Mustandi koostamine ebaõnnestus.",
+      "draft_failed": "Teekonna ülevaate koostamine ebaõnnestus.",
       "save_failed": "Teekonna salvestamine ebaõnnestus.",
       "archive_failed": "Teekonna arhiveerimine ebaõnnestus.",
       "saved": "Privaatne teekond salvestati.",
@@ -3840,46 +4010,48 @@
       "empty_domains": "Seotud teemasid ei ole lisatud.",
       "empty_missing_info": "Puuduolevat infot ei ole lisatud.",
       "empty_risk_signals": "Ettevaatlikke tähelepanekuid ei ole lisatud.",
-      "empty_suggested_actions": "Soovitatud järgmisi samme ei ole lisatud."
+      "empty_suggested_actions": "Järgmised sammud täpsustuvad hiljem."
     },
     "privacy": {
       "title": "Teekond on privaatne",
-      "description": "See teekond on privaatne. Teavet ei jagata spetsialisti, teenuseosutaja ega muu osapoolega enne, kui sa selle ise kinnitad ja jagad."
+      "description": "Midagi ei jagata enne sinu kinnitust. Teised näevad ainult seda infot, mille sa hiljem eraldi kinnitad ja jagad."
     },
     "info": {
       "label": "Ava teekonna info"
     },
     "service_map": {
-      "title": "Teenusekaart avaneb teekonna põhjal",
+      "title": "Ava teenusekaart nende teemade põhjal",
       "open": "Ava teenusekaart",
-      "filtered_description": "Teenusekaart avaneb teekonna põhjal eelfiltriga.",
-      "fallback_description": "Piirkond puudub, avan teenusekaardi üldvaates.",
-      "privacy_note": "Teenusekaart ei jaga sinu teekonda ühegi osapoolega. See on abivahend sobiva kontakti või järgmise sammu leidmiseks."
+      "filtered_description": "Teenusekaart avaneb teekonna teemade ja piirkonna signaalidega.",
+      "fallback_description": "Teenusekaart avaneb üldvaates. Täpsemaks avamiseks lisa KOV või piirkond.",
+      "privacy_note": "Teenusekaart ei jaga sinu teekonda ühegi osapoolega. See aitab leida sobiva kontakti või järgmise sammu.",
+      "missing_municipality": "Teenusekaardi täpsemaks avamiseks lisa KOV või piirkond."
     },
     "pre_inquiry": {
-      "title": "Eelpöördumise mustand",
+      "title": "Koosta eelpöördumine selle olukorra põhjal",
       "open": "Koosta eelpöördumine",
-      "description": "Eelpöördumise mustand koostatakse sinu teekonna põhjal. Enne saatmist saad kogu teksti üle vaadata ja muuta.",
+      "description": "Enne eelpöördumise koostamist valid, millist teekonna infot soovid kaasa võtta. Saad teksti enne saatmist üle vaadata ja muuta.",
       "privacy_note": "Teekonda ei jagata automaatselt. Vastuvõtja näeb ainult sinu kinnitatud eelpöördumist."
     },
     "header": {
       "eyebrow": "Privaatne teekonnakiht",
-      "description": "Kirjelda olukorda, vaata koostatud mustand üle ja salvesta see privaatse teekonnana. Mustand ei salvestu enne kinnitamist."
+      "description": "Kirjelda olukorda, vaata koostatud ülevaade üle ja salvesta see privaatse teekonnana. Midagi ei jagata automaatselt."
     },
     "sections": {
-      "start_title": "Kirjelda olukorda",
-      "start_description": "Siin tekib ainult ajutine struktureeritud mustand. Andmebaasi Journey objekt luuakse alles pärast salvestamise kinnitamist.",
-      "review_title": "Vaata mustand üle",
-      "review_description": "Muuda välju enne salvestamist. Privaatne teekond salvestub alles kinnituse järel.",
+      "start_title": "Tere. Alustame sinu teekonda.",
+      "start_description": "Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama. SotsiaalAI aitab sellest koostada privaatse ülevaate, mille saad enne salvestamist üle vaadata.",
+      "review_title": "Ülevaade enne salvestamist",
+      "review_description": "Vaata üle, kas SotsiaalAI korrastas olukorra õigesti. Teekond salvestatakse alles siis, kui kinnitad.",
       "active_title": "Aktiivne teekond",
-      "archived_title": "Varasemad teekonnad"
+      "archived_title": "Varasemad teekonnad",
+      "start_privacy": "Ülevaade salvestatakse ainult siis, kui kinnitad. Midagi ei jagata automaatselt."
     },
     "placeholders": {
-      "situation": "Näiteks: vajan abi lähedase hoolduse korraldamisel, ei tea millise teenuse või KOV kontakti poole pöörduda..."
+      "situation": "Näiteks: hooldan ema ja ei jaksa enam üksi. Ta vajab abi pesemisel ja söögi tegemisel. Ma ei tea, kas peaksin pöörduma KOV-i või teenuseosutaja poole."
     },
     "serviceContinuity": {
       "title": "Teenuse jätkumise kontroll",
-      "description": "Kui sul on olemasolev teenus, tugi, otsus või plaan, mis võib vajada jätkumise täpsustamist, saad siin info korrastada ja vajadusel koostada eelpöördumise mustandi.",
+      "description": "Kui sul on olemasolev teenus, tugi, otsus või plaan, mis võib vajada jätkumise täpsustamist, saad siin info korrastada ja vajadusel koostada eelpöördumise.",
       "serviceName": "Teenuse või toe nimetus",
       "serviceNamePlaceholder": "Näiteks koduteenus, tugiisik, rehabilitatsioon",
       "currentProvider": "Praegune teenuseosutaja või kontakt",
@@ -3919,7 +4091,7 @@
       "missingEndDate": "teadaolev lõppkuupäev",
       "missingDecisionOrPlan": "otsus, teenuseplaan, leping, kiri või muu dokument",
       "missingContactAlreadyInvolved": "kas KOV või teenuseosutaja on juba kaasatud",
-      "actionPreInquiry": "Koosta eelpöördumise mustand",
+      "actionPreInquiry": "Koosta eelpöördumine",
       "actionServiceMap": "Ava teenusekaart",
       "actionAddDocument": "Lisa dokument analüüsiks",
       "actionContactProvider": "Täpsusta teenuseosutajaga",
@@ -3931,9 +4103,9 @@
       "description": "Sinu kirjelduses võib olla tervisega seotud küsimus. Esmane järgmine samm võib olla perearstikeskus, tervisekeskus või ametlik tervisenõu kontakt.",
       "notMedicalAdvice": "SotsiaalAI ei anna meditsiinilist hinnangut, diagnoosi ega ravisoovitust, kuid saab aidata küsimused selgelt sõnastada. Kui on vahetu oht, tuleb pöörduda hädaabinumbrile või erakorralise abi poole.",
       "createQuestions": "Koosta küsimused tervisekontaktile",
-      "questionsDraftTitle": "Küsimuste mustand tervisekontaktile",
-      "privateNote": "Küsimuste mustand jääb sinu kätte. Seda ei saadeta automaatselt perearstikeskusele, tervisekeskusele ega muule osapoolele.",
-      "noAutomaticSharing": "Mustandit ei saadeta automaatselt. Vaata tekst üle, muuda seda vajadusel ja otsusta ise, kas kasutad seda väljaspool platvormi.",
+      "questionsDraftTitle": "Küsimused tervisekontaktile",
+      "privateNote": "Küsimused jäävad sinu kätte. Neid ei saadeta automaatselt perearstikeskusele, tervisekeskusele ega muule osapoolele.",
+      "noAutomaticSharing": "Küsimusi ei saadeta automaatselt. Vaata tekst üle, muuda seda vajadusel ja otsusta ise, kas kasutad seda väljaspool platvormi.",
       "openServiceMap": "Ava teenusekaart",
       "sourceNeedsCheck": "Tervisekontakti info vajab ametlikust allikast kontrollimist.",
       "familyDoctorCenter": "Perearstikeskus",
@@ -3980,6 +4152,59 @@
       "privacyNote": "Teekond on privaatne. Spetsialist, teenuseosutaja või ruumi liige näeb ainult seda infot, mille sa eraldi kinnitad ja jagad.",
       "notAvailableForRole": "Privaatsete Teekondade nimekirja selles rollis ei kuvata.",
       "privateJourneysNotShared": "Privaatset Teekonda ei jagata automaatselt."
+    },
+    "empty_start": {
+      "label": "Alusta teekonda"
+    },
+    "review": {
+      "summary_title": "Olukorra kokkuvõte",
+      "summary_label": "Täpsusta kokkuvõtet, kui soovid",
+      "life_domains": "Eluvaldkonnad",
+      "empty_life_domains": "Eluvaldkonnad täpsustuvad hiljem.",
+      "life_domains_note": "See on ainult olukorra korrastamise abikiht, mitte ametlik hinnang.",
+      "missing_title": "Mis võib veel puudu olla?",
+      "actions_title": "Võimalikud järgmised sammud",
+      "add_document": "Lisa dokument",
+      "create_help_request": "Loo abisoov",
+      "privacy_note": "Teekond on privaatne. Teised näevad ainult seda infot, mille sa hiljem eraldi kinnitad ja jagad."
+    },
+    "roadmap": {
+      "title": "Teekonnarada",
+      "situation": "Olukord kirjeldatud",
+      "saved": "Ülevaade salvestatud",
+      "contact": "Kontakt või teenus otsitud",
+      "pre_inquiry": "Eelpöördumine koostatud",
+      "response": "Vastus või jätkusuhtlus",
+      "next": "Järgmine samm",
+      "done": "tehtud",
+      "current": "pooleli",
+      "next_recommended": "järgmine soovitatud samm",
+      "todo": "mitte alustatud"
+    },
+    "activity": {
+      "title": "Tehtud sammud",
+      "created": "teekond loodud",
+      "saved": "Ülevaade salvestatud"
+    },
+    "related": {
+      "title": "Seotud asjad",
+      "pre_inquiries": "Seotud eelpöördumised",
+      "documents": "Seotud dokumendid",
+      "service_contacts": "Seotud teenusekaardi kontaktid",
+      "help_requests": "Seotud abisoovid",
+      "rooms": "Seotud ruumid",
+      "empty": "Siia ilmuvad eelpöördumised, dokumendid või kontaktid, mille seod selle teekonnaga."
+    },
+    "share": {
+      "title": "Vali, millist infot soovid eelpöördumises kasutada.",
+      "privacy": "Teekonnast ei jagata automaatselt kogu infot. Vaatad järgmises sammus teksti üle enne saatmist.",
+      "summary": "olukorra kokkuvõte",
+      "domains": "seotud teemad",
+      "missing_info": "puuduolev info",
+      "wish": "inimese soov",
+      "service_contact": "valitud teenusekaardi kontakt",
+      "document": "seotud dokument",
+      "continue": "Jätka eelpöördumise koostamisega"
     }
   },
   "footer": {

@@ -1299,7 +1299,10 @@ model ServiceProviderProfile {
   id                          String                       @id @default(cuid())
   ownerId                     String
   organizationName            String
+  organizationType            String?
+  registryCode                String?
   shortDescription            String?                      @db.Text
+  longDescription             String?                      @db.Text
   services                    String[]                     @default([])
   serviceCategories           String[]                     @default([])
   targetGroups                String[]                     @default([])
@@ -1311,12 +1314,15 @@ model ServiceProviderProfile {
   phone                       String?
   email                       String?
   website                     String?
+  primaryContactName          String?
   languages                   String[]                     @default([])
   accessibilityInfo           String?                      @db.Text
+  generalAccessibilityNote    String?                      @db.Text
   feeType                     ServiceProviderFeeType       @default(UNKNOWN)
   mapVisible                  Boolean                      @default(false)
   acceptsPlatformPreInquiries Boolean                      @default(true)
   acceptsEmailPreInquiries    Boolean                      @default(true)
+  assistantRecommendationAllowed Boolean                   @default(false)
   status                      ServiceProviderProfileStatus @default(DRAFT)
   publicSlug                  String?                      @unique
   publishedAt                 DateTime?
@@ -1347,11 +1353,38 @@ model ServiceProviderService {
   providerProfile             ServiceProviderProfile       @relation(fields: [providerProfileId], references: [id], onDelete: Cascade)
   name                        String
   description                 String?                      @db.Text
+  longDescription             String?                      @db.Text
+  includesText                String?                      @db.Text
+  excludesText                String?                      @db.Text
+  additionalInfo              String?                      @db.Text
   category                    String?
+  categories                  String[]                     @default([])
+  ageGroups                   String[]                     @default([])
   targetGroups                String[]                     @default([])
+  requesterRoles              String[]                     @default([])
+  needTags                    String[]                     @default([])
+  lifeDomains                 String[]                     @default([])
+  deliveryModes               String[]                     @default([])
   serviceArea                 String?                      @db.Text
+  serviceAreaType             String?
+  county                      String?
+  municipalityIds             String[]                     @default([])
+  areaDescription             String?                      @db.Text
+  serviceLanguages            String[]                     @default([])
+  inquiryLanguages            String[]                     @default([])
+  communicationSupport        String[]                     @default([])
   feeType                     ServiceProviderFeeType       @default(UNKNOWN)
   priceDescription            String?                      @db.Text
+  availabilityStatus          String?
+  availabilityDescription     String?                      @db.Text
+  directContactAllowed        String?
+  requiresKovAssessment       String?
+  requiresKovDecision         String?
+  requiresSkaReferral         String?
+  requiresSpecialistReferral  String?
+  requiredDocumentsNote       String?                      @db.Text
+  referralNotes               String?                      @db.Text
+  contactMode                 String?
   contactName                 String?
   phone                       String?
   email                       String?
@@ -1389,6 +1422,7 @@ model ServiceProviderLocation {
   phone             String?
   email             String?
   website           String?
+  openingHours      String?                      @db.Text
   accessibilityInfo String?                      @db.Text
   mapVisible        Boolean                      @default(true)
   status            ServiceProviderProfileStatus @default(PUBLISHED)

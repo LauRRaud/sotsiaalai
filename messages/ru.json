@@ -683,6 +683,7 @@
       "empty_received": "Адресованные вам предобращения появятся здесь.",
       "empty_saved": "Сохраненные предобращения появятся здесь.",
       "save_success": "Предобращение сохранено.",
+      "archive_success": "Предобращение архивировано.",
       "copy_success": "Текст обращения скопирован.",
       "download_success": "Текст обращения скачан.",
       "accept_success": "Предобращение отмечено принятым.",
@@ -810,7 +811,12 @@
         "languages": "Языки",
         "accessibility_info": "Информация о доступности",
         "status": "Статус",
-        "fee_type": "Стоимость"
+        "fee_type": "Стоимость",
+        "organization_type": "Organization type",
+        "registry_code": "Registry code",
+        "primary_contact_name": "Primary contact",
+        "long_description": "Long description",
+        "general_accessibility_note": "Accessibility note"
       },
       "visibility": {
         "visible": "Опубликовать на карте услуг",
@@ -831,9 +837,11 @@
       },
       "pre_inquiries": {
         "accepts_platform": "Принимать внутренние предварительные обращения SotsiaalAI",
-        "accepts_email": "Принимать черновики по э-почте",
+        "accepts_email": "Allow email composition",
         "platform_help": "Человек сможет отправить внутреннее предварительное обращение на этот аккаунт поставщика.",
-        "email_help": "Рабочий процесс сможет подготовить черновик письма для контактного адреса."
+        "email_help": "The user can compose an email preview and review it before sending.",
+        "assistant_recommendation_allowed": "Allow the assistant to recommend published services",
+        "assistant_recommendation_help": "Published service records are added to the AI knowledge layer only when this is enabled."
       },
       "service_items": {
         "item_title": "Услуга",
@@ -849,7 +857,34 @@
         "add": "Добавить услугу",
         "remove": "Удалить",
         "empty": "Отдельные услуги пока не добавлены.",
-        "locations": "Места оказания услуг"
+        "locations": "Места оказания услуг",
+        "categories": "Service categories",
+        "long_description": "Long description",
+        "includes_text": "What the service includes",
+        "excludes_text": "What the service does not include",
+        "additional_info": "Additional information",
+        "age_groups": "Age groups",
+        "requester_roles": "Who may contact",
+        "need_tags": "Needs and situations",
+        "life_domains": "Life domains",
+        "delivery_modes": "Delivery modes",
+        "service_area_type": "Area type",
+        "municipality_ids": "Municipalities or regions",
+        "area_description": "Area note",
+        "service_languages": "Service languages",
+        "inquiry_languages": "Inquiry languages",
+        "communication_support": "Communication support",
+        "availability_status": "Availability",
+        "availability_description": "Availability note",
+        "direct_contact_allowed": "Direct contact allowed",
+        "requires_kov_assessment": "Requires municipal assessment",
+        "requires_kov_decision": "Requires municipal decision",
+        "requires_ska_referral": "Requires national referral",
+        "requires_specialist_referral": "Requires specialist referral",
+        "required_documents_note": "Required documents",
+        "referral_notes": "Inquiry conditions",
+        "contact_mode": "Contact mode",
+        "location_empty_hint": "Add a service location first if you want to show this service on the map. A service can also exist without a physical location when it is delivered online, by phone, at the person's home, or regionally."
       },
       "map_status": {
         "title": "Статус адреса",
@@ -870,11 +905,13 @@
         "categories": "Категории выбираются из стандартного списка. Они используются в поиске на карте услуг и при сопоставлении предварительных обращений.",
         "target_groups": "Целевые группы также выбираются из стандартного списка, чтобы опечатка не исключила услугу из фильтров или обращений.",
         "services_locations": "Место оказания услуги является основой маркера на карте. Поле адреса предлагает официальные варианты при вводе; выберите вариант для надежного местоположения.",
-        "area": "Территория обслуживания описывает, откуда принимаются люди. Адреса для маркеров карты указываются в блоке мест оказания услуг."
+        "area": "Территория обслуживания описывает, откуда принимаются люди. Адреса для маркеров карты указываются в блоке мест оказания услуг.",
+        "services": "Describe concrete services here. Categories, target groups, languages, and referral conditions are saved at service level.",
+        "locations": "A service location is the basis for a map marker. Add only real service locations with a name and address."
       },
       "category_options": {
         "unspecified": "Не указано",
-        "transport": "Транспорт",
+        "transport": "Transport and mobility support",
         "daily_tasks": "Повседневная помощь",
         "home_help": "Помощь на дому",
         "digital_help": "Цифровая помощь",
@@ -883,14 +920,39 @@
         "learning_guidance": "Помощь в обучении и наставничестве",
         "social_support": "Общение и социальная поддержка",
         "admin_form_help": "Помощь с документами и формами",
-        "other": "Другая помощь"
+        "other": "Other service",
+        "kov_social_service": "Municipal social service",
+        "counselling_guidance": "Counselling and guidance",
+        "family_child_youth": "Family, child and youth support",
+        "disability_rehabilitation": "Disability, rehabilitation and assistive devices",
+        "home_care": "Home help and care",
+        "coping_debt": "Coping support and debt counselling",
+        "housing_safety": "Housing and safety",
+        "work_learning_participation": "Work, learning and participation",
+        "digital_admin_help": "Digital and administrative help"
       },
       "target_group_options": {
         "child": "Ребенок",
         "youth": "Молодежь",
         "adult": "Взрослый",
         "elder": "Пожилой человек",
-        "disability": "Инвалидность или особая потребность"
+        "disability": "Инвалидность или особая потребность",
+        "disabled_person": "Disabled person",
+        "psychosocial_disability": "Person with psychosocial disability",
+        "intellectual_disability": "Person with intellectual disability",
+        "mental_health_concern": "Person with mental health concern",
+        "coping_difficulty": "Person with coping difficulties",
+        "housing_difficulty": "Person with housing difficulties",
+        "debt_difficulty": "Person with debts",
+        "addiction_concern": "Person with addiction concern",
+        "violence_crisis_experience": "Person with violence or crisis experience",
+        "caregiver_close_person": "Caregiver or close person",
+        "parent": "Parent",
+        "family": "Family",
+        "guardian": "Guardian",
+        "unemployed_jobseeker": "Unemployed person or jobseeker",
+        "socially_isolated": "Socially isolated person",
+        "other": "Other target group"
       },
       "language_options": {
         "et": "Эстонский",
@@ -923,7 +985,113 @@
         "visible_on_map": "Показывать на карте услуг",
         "add": "Добавить место оказания услуги",
         "remove": "Удалить",
-        "empty": "Места оказания услуг еще не добавлены."
+        "empty": "Места оказания услуг еще не добавлены.",
+        "opening_hours": "Opening hours",
+        "new_item_title": "New service location"
+      },
+      "age_group_options": {
+        "child": "Child",
+        "youth": "Youth",
+        "working_age": "Working-age person",
+        "adult": "Adult person",
+        "elder": "Older person"
+      },
+      "requester_role_options": {
+        "self": "Person themselves",
+        "parent_guardian": "Parent or guardian",
+        "close_person": "Close person",
+        "specialist": "Specialist"
+      },
+      "need_options": {
+        "care_need": "Care need",
+        "coping": "Difficulty coping",
+        "caregiver_burden": "Caregiver burden",
+        "child_wellbeing": "Child wellbeing",
+        "mental_health": "Mental health",
+        "mobility_transport": "Mobility and transport",
+        "administration": "Administration"
+      },
+      "life_domain_options": {
+        "home_daily": "Home and daily life",
+        "health": "Health",
+        "family": "Family and relationships",
+        "education": "Education",
+        "work": "Work and employment",
+        "housing": "Housing"
+      },
+      "delivery_mode_options": {
+        "onsite": "On site",
+        "home": "At the person's home",
+        "online": "Online",
+        "phone": "By phone",
+        "regional": "Regional"
+      },
+      "communication_support_options": {
+        "simple_language": "Plain-language explanation",
+        "interpreter": "Interpreter or language support",
+        "accessible": "Accessible communication"
+      },
+      "organization_type_options": {
+        "unspecified": "Unspecified",
+        "ngo": "NGO",
+        "foundation": "Foundation",
+        "company": "Company",
+        "public": "Public institution",
+        "other": "Other"
+      },
+      "area_type_options": {
+        "unspecified": "Unspecified",
+        "national": "National",
+        "county": "County-based",
+        "municipality": "Municipality-based",
+        "location": "Location-based",
+        "online": "Online service"
+      },
+      "availability_options": {
+        "unspecified": "Unspecified",
+        "available": "Available",
+        "queue": "Waiting list",
+        "limited": "Limited intake",
+        "paused": "Paused"
+      },
+      "requirement_options": {
+        "unspecified": "Unspecified",
+        "no": "No",
+        "yes": "Yes",
+        "depends": "Depends on the situation"
+      },
+      "contact_mode_options": {
+        "unspecified": "Unspecified",
+        "platform": "Internal pre-inquiry",
+        "email": "Email",
+        "phone": "Phone",
+        "form": "Web form"
+      },
+      "choice_summary": {
+        "selected": "Selected",
+        "empty": "-"
+      },
+      "contact_strategy": {
+        "label": "Service contact",
+        "organization": "Use organization primary contact",
+        "custom": "Set a separate service contact",
+        "inherited_help": "Pre-inquiry contact selection uses this order: service contact, service location contact, organization primary contact. This service currently uses the organization primary contact.",
+        "priority_help": "Pre-inquiry contact selection uses this order: service contact, service location contact, organization primary contact. Enter primary contact details in organization information."
+      },
+      "publish_checks": {
+        "title": "Publishing check",
+        "status_published": "Profile status is published.",
+        "status_not_published": "Set profile status to published if you want to show it publicly.",
+        "map_visible": "Profile is marked visible on the service map.",
+        "map_hidden": "Service map visibility is turned off.",
+        "service_ready": "At least one service is ready for publishing.",
+        "service_missing": "Add at least one publishable service.",
+        "location_ready": "At least one service location is map-visible and has an address.",
+        "location_missing": "Add a service location with an address if you want a map marker.",
+        "contact_ready": "General email or phone is present.",
+        "contact_missing": "Add a general email or phone.",
+        "assistant_allowed": "The assistant may recommend published services.",
+        "assistant_blocked": "The assistant will not recommend these services until permission is enabled."
       }
     },
     "admin_role": {
@@ -3811,7 +3979,7 @@
     "actions": {
       "archive": "Archive",
       "archive_named": "Archive journey {title}",
-      "save_private": "Save private journey",
+      "save_private": "????????? ????",
       "save_changes": "Save changes",
       "back": "Back",
       "back_to_list": "Back to journey",
@@ -3820,8 +3988,10 @@
       "open": "Open journey",
       "edit": "Edit",
       "close_edit": "Close editing",
-      "create_draft": "Create draft",
-      "cancel": "Cancel"
+      "create_draft": "????????? ????? ????",
+      "cancel": "Cancel",
+      "edit_description": "???????? ????????",
+      "decline": "??????????"
     },
     "messages": {
       "loading": "Loading journey...",
@@ -3854,7 +4024,8 @@
       "open": "Open service map",
       "filtered_description": "The service map opens with filters based on this journey.",
       "fallback_description": "The region is missing, so the service map opens in the general view.",
-      "privacy_note": "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step."
+      "privacy_note": "The service map does not share your journey with any party. It is a tool for finding a suitable contact or next step.",
+      "missing_municipality": "???????? ????????????? ??? ??????, ????? ?????? ??????? ????? ?????."
     },
     "pre_inquiry": {
       "title": "Pre-inquiry draft",
@@ -3868,11 +4039,12 @@
     },
     "sections": {
       "start_title": "Describe the situation",
-      "start_description": "This creates only a temporary structured draft. The database Journey object is created only after save confirmation.",
-      "review_title": "Review the draft",
-      "review_description": "Edit the fields before saving. The private journey is saved only after confirmation.",
+      "start_description": "??????? ???? ???????? ?????? ???????. ?? ????? ????? ??? ??????? ??? ????????????? ????????. SotsiaalAI ??????? ????????? ????????? ?????, ??????? ?? ??????? ????????? ????? ???????????.",
+      "review_title": "????? ????? ???????????",
+      "review_description": "?????????, ????????? ?? SotsiaalAI ?????????? ????????. ???? ??????????? ?????? ????? ?????? ?????????????.",
       "active_title": "Active journey",
-      "archived_title": "Previous journeys"
+      "archived_title": "Previous journeys",
+      "start_privacy": "????? ??????????? ?????? ????? ?????? ?????????????. ?????? ?? ?????????? ?????????????."
     },
     "placeholders": {
       "situation": "For example: I need help arranging care for a family member and do not know which service or local contact to approach..."
@@ -3980,6 +4152,59 @@
       "privacyNote": "??????? ?????????. ??????????, ????????? ?????? ??? ???????? ??????? ????? ?????? ??????????, ??????? ?? ???????? ??????????? ? ????????.",
       "notAvailableForRole": "?????? ????????? ????????? ?? ???????????? ??? ???? ????.",
       "privateJourneysNotShared": "????????? ??????? ?? ?????????? ?????????????."
+    },
+    "empty_start": {
+      "label": "?????? ????"
+    },
+    "review": {
+      "summary_title": "??????? ???????? ????????",
+      "summary_label": "??? ????????????? ???????? ????????",
+      "life_domains": "????? ?????",
+      "empty_life_domains": "????? ????? ????? ???????? ?????.",
+      "life_domains_note": "??? ?????? ??????????????? ???? ??? ?????????????? ????????, ?? ??????????? ??????.",
+      "missing_title": "??? ??? ????? ???? ?? ????????",
+      "actions_title": "????????? ????????? ????",
+      "add_document": "???????? ????????",
+      "create_help_request": "??????? ??????? ? ??????",
+      "privacy_note": "???? ???????? ?????????. ?????? ?????? ?????? ?? ??????????, ??????? ?? ????? ???????? ??????????? ? ??????????."
+    },
+    "roadmap": {
+      "title": "??????? ????",
+      "situation": "???????? ???????",
+      "saved": "????? ????????",
+      "contact": "??????? ??? ?????? ???????",
+      "pre_inquiry": "????????????? ????????????",
+      "response": "????? ??? ??????????? ???????",
+      "next": "????????? ???",
+      "done": "???????",
+      "current": "? ????????",
+      "next_recommended": "????????? ????????????? ???",
+      "todo": "?? ??????"
+    },
+    "activity": {
+      "title": "??????????? ????",
+      "created": "???? ??????",
+      "saved": "????? ????????"
+    },
+    "related": {
+      "title": "????????? ????????",
+      "pre_inquiries": "????????? ?????????????",
+      "documents": "????????? ?????????",
+      "service_contacts": "????????? ???????? ????? ?????",
+      "help_requests": "????????? ??????? ? ??????",
+      "rooms": "????????? ???????",
+      "empty": "????? ???????? ?????????????, ????????? ??? ????????, ??????? ?? ??????? ? ???? ?????."
+    },
+    "share": {
+      "title": "????????, ????? ?????????? ???????????? ? ?????????????.",
+      "privacy": "???? ???? ????????????? ?? ??????????. ?? ????????? ???? ?? ????????? ????? ????? ?????????.",
+      "summary": "??????? ???????? ????????",
+      "domains": "????????? ????",
+      "missing_info": "??????????? ??????????",
+      "wish": "??????? ????????",
+      "service_contact": "????????? ??????? ????? ?????",
+      "document": "????????? ????????",
+      "continue": "?????????? ??????????? ?????????????"
     }
   },
   "footer": {

@@ -1,0 +1,59 @@
+.journey-morph-panel {
+  animation: journey-morph-panel-in 520ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.journey-review-panel {
+  animation: journey-review-panel-in 280ms ease-out both;
+}
+
+@keyframes journey-morph-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.42);
+    border-radius: 999px;
+    filter: blur(0.35rem);
+  }
+
+  62% {
+    opacity: 1;
+    border-radius: 1.25rem;
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    border-radius: 1rem;
+    filter: blur(0);
+  }
+}
+
+@keyframes journey-review-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-morph-panel,
+  .journey-review-panel {
+    animation-name: journey-fade-panel-in;
+    animation-duration: 140ms;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes journey-fade-panel-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}

@@ -42,7 +42,7 @@ test("service profile toggle cards keep checkbox text readable across themes", (
 
 test("service profile page keeps the shared workspace feature desktop width", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
-  const css = read("app/styles/utilities/helpers.css");
+  const css = read("app/styles/utilities/helpers-core.css");
 
   assert.match(source, /workspaceGuidePanelClassName/);
   assert.match(css, /\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-base-max:\s*calc\(54 \* var\(--base-rem\)\)/);
@@ -80,11 +80,12 @@ test("service profile keeps publishing state inside the publish section and un-n
   assert.doesNotMatch(source, /className="service-profile-status-rail"/);
   assert.doesNotMatch(css, /\.service-profile-status-rail\s*\{/);
   assert.doesNotMatch(source, /workspace_feature_pages\.service_profile\.summary\.pricing/);
-  assert.match(source, /workspace_feature_pages\.service_profile\.sections\.services_locations/);
-  assert.match(source, /workspace_feature_pages\.service_profile\.fields\.services_overview/);
+  assert.match(source, /workspace_feature_pages\.service_profile\.sections\.services/);
+  assert.match(source, /workspace_feature_pages\.service_profile\.sections\.locations/);
   assert.match(source, /workspace_feature_pages\.service_profile\.visibility\.visible/);
   assert.match(source, /workspace_feature_pages\.service_profile\.map_status\.title/);
-  assert.match(source, /<ServiceProfileSection title=\{readText\(t, "workspace_feature_pages\.service_profile\.sections\.services_locations"/);
+  assert.match(source, /workspace_feature_pages\.service_profile\.publish_checks\.title/);
+  assert.doesNotMatch(source, /<ServiceProfileSection title=\{readText\(t, "workspace_feature_pages\.service_profile\.sections\.services_locations"/);
   assert.doesNotMatch(source, /<SectionCard title=\{readText\(t, "workspace_feature_pages\.service_profile\.sections/);
   assert.doesNotMatch(source, /workspace_feature_pages\.service_profile\.overview\.body/);
 
@@ -93,7 +94,7 @@ test("service profile keeps publishing state inside the publish section and un-n
   assert.match(css, /\.service-profile-subsection > \.grid > \.button,/);
 });
 
-test("service profile uses controlled choices for categories, target groups and languages", () => {
+test("service profile uses controlled service-level choices for categories, target groups and languages", () => {
   const source = read("components/workspace/WorkspaceFeaturePage.jsx");
   const css = readServiceMapCssBundle();
 
@@ -101,15 +102,20 @@ test("service profile uses controlled choices for categories, target groups and 
   assert.match(source, /serviceProfileCategoryOptions/);
   assert.match(source, /serviceProfileTargetGroupOptions/);
   assert.match(source, /serviceProfileLanguageOptions/);
-  assert.match(source, /value=\{form\.serviceCategories\}/);
-  assert.match(source, /value=\{form\.targetGroups\}/);
-  assert.match(source, /value=\{form\.languages\}/);
+  assert.match(source, /value=\{service\.categories\}/);
+  assert.match(source, /value=\{service\.targetGroups\}/);
+  assert.match(source, /value=\{service\.serviceLanguages\}/);
+  assert.match(source, /value=\{service\.inquiryLanguages\}/);
   assert.match(source, /value=\{service\.category\}/);
-  assert.doesNotMatch(source, /value=\{form\.serviceCategories\} onChange=\{\(event\) => updateField\("serviceCategories"/);
-  assert.doesNotMatch(source, /value=\{form\.languages\} onChange=\{\(event\) => updateField\("languages"/);
+  assert.doesNotMatch(source, /value=\{form\.serviceCategories\}/);
+  assert.doesNotMatch(source, /value=\{form\.targetGroups\}/);
+  assert.doesNotMatch(source, /value=\{form\.languages\}/);
+  assert.doesNotMatch(source, /target_group_options\.disability/);
 
   assert.match(css, /\.service-profile-choice-chips\s*\{/);
   assert.match(css, /\.service-profile-choice-chip\.is-selected\s*\{/);
+  assert.match(css, /\.service-profile-choice-chip__mark\s*\{/);
+  assert.match(css, /\.service-profile-chip-summary\s*\{/);
 });
 
 test("service profile translation files expose publishing status and combined-section labels", () => {
@@ -119,17 +125,19 @@ test("service profile translation files expose publishing status and combined-se
 
     assert.equal(typeof serviceProfile.summary.label, "string");
     assert.equal(typeof serviceProfile.summary.map_not_ready, "string");
-    assert.equal(typeof serviceProfile.sections.services_locations, "string");
-    assert.equal(typeof serviceProfile.fields.services_overview, "string");
-    assert.equal(typeof serviceProfile.field_help.categories, "string");
-    assert.equal(typeof serviceProfile.field_help.target_groups, "string");
-    assert.equal(typeof serviceProfile.field_help.services_locations, "string");
-    assert.equal(typeof serviceProfile.category_options.transport, "string");
-    assert.equal(typeof serviceProfile.target_group_options.child, "string");
+    assert.equal(typeof serviceProfile.sections.services, "string");
+    assert.equal(typeof serviceProfile.sections.locations, "string");
+    assert.equal(typeof serviceProfile.field_help.services, "string");
+    assert.equal(typeof serviceProfile.field_help.locations, "string");
+    assert.equal(typeof serviceProfile.category_options.kov_social_service, "string");
+    assert.equal(typeof serviceProfile.target_group_options.disabled_person, "string");
+    assert.equal(typeof serviceProfile.age_group_options.working_age, "string");
     assert.equal(typeof serviceProfile.language_options.et, "string");
     assert.equal(typeof serviceProfile.address_search.hint, "string");
     assert.equal(typeof serviceProfile.fields.fee_type, "string");
     assert.equal(typeof serviceProfile.service_items.fee_type, "string");
+    assert.equal(typeof serviceProfile.contact_strategy.organization, "string");
+    assert.equal(typeof serviceProfile.publish_checks.location_missing, "string");
     assert.notEqual(serviceProfile.status.draft, serviceProfile.summary.price);
     assert.notEqual(serviceProfile.fields.fee_type, serviceProfile.summary.price);
   }

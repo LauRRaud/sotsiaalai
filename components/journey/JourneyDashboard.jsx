@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Archive, Check, FileText, ListChecks, Lock, Map, Plus, Route, WandSparkles } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Archive, Check, Compass, FileText, ListChecks, Lock, Map, Plus, Route, WandSparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
@@ -25,18 +25,6 @@ import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleB
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
-const PRIMARY_PATH_VALUES = Object.freeze([
-  "SERVICE_MAP",
-  "PRE_INQUIRY",
-  "DOCUMENT",
-  "HELP_REQUEST",
-  "ROOM",
-  "HEALTH_CONTACT",
-  "COMBINED_SOCIAL_HEALTH",
-  "GENERAL_SUPPORT",
-  "UNKNOWN"
-]);
-
 const DEFAULT_DRAFT = Object.freeze({
   title: "",
   summary: "",
@@ -47,6 +35,18 @@ const DEFAULT_DRAFT = Object.freeze({
   suggestedActions: [],
   context: {}
 });
+
+const DEFAULT_LIFE_DOMAINS = Object.freeze([
+  "suhtlemine",
+  "vaimne tervis",
+  "füüsiline tervis",
+  "elukeskkond",
+  "hõivatus",
+  "vaba aeg ja huvitegevus",
+  "igapäevaelu toimingud",
+  "võrgustik ja kõrvalabi",
+  "kriis ja turvalisus"
+]);
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
 
@@ -85,9 +85,7 @@ const labelClassName =
   "text-[0.86rem] font-[700] leading-[1.2] text-[color:var(--glass-modal-text,var(--glass-surface-text,var(--pt-50)))] opacity-[0.86]";
 
 const inputClassName = `${pillInputBaseClassName} rounded-[0.72rem]`;
-const selectClassName = `${pillInputBaseClassName} rounded-[0.72rem]`;
 const textareaClassName = `${textAreaInputBaseClassName} rounded-[0.72rem]`;
-const listTextareaClassName = `${textAreaInputBaseClassName} min-h-[7.2rem] rounded-[0.72rem] text-[0.95rem] leading-[1.42]`;
 
 const badgeClassName =
   "inline-flex items-center gap-[0.28rem] rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] px-[0.58rem] py-[0.28rem] text-[0.78rem] font-[650] leading-[1.1] text-[color:var(--seg-card-text,var(--subpage-card-text))] shadow-[var(--seg-card-shadow,none)]";
@@ -98,34 +96,36 @@ const softMessageClassName =
 const iconBubbleClassName =
   "mt-[0.15rem] inline-flex size-[2.35rem] shrink-0 items-center justify-center rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] text-[color:var(--title-color,var(--brand-primary))]";
 
-function arrayToText(value) {
-  if (!Array.isArray(value)) return "";
+function normalizeListItems(value) {
+  if (!Array.isArray(value)) return [];
   return value
-    .map((item) => {
-      if (typeof item === "string") return item;
-      return item?.title || "";
-    })
-    .filter(Boolean)
-    .join("\n");
-}
-
-function textToLines(value) {
-  return String(value || "")
-    .split(/\r?\n/)
-    .map((line) => line.trim())
+    .map((item) => (typeof item === "string" ? item : item?.title || item?.description || ""))
+    .map((item) => String(item || "").trim())
     .filter(Boolean);
 }
 
-function actionsToText(value) {
-  if (!Array.isArray(value)) return "";
-  return value
-    .map((item) => item?.title || item)
-    .filter(Boolean)
-    .join("\n");
+function readDraftLifeDomains(draft) {
+  const context = draft?.context && typeof draft.context === "object" && !Array.isArray(draft.context)
+    ? draft.context
+    : {};
+  const lifeDomains = normalizeListItems(context.lifeDomains);
+  return lifeDomains.length ? lifeDomains : DEFAULT_LIFE_DOMAINS.slice(0, 4);
 }
 
-function textToActions(value) {
-  return textToLines(value).map((title) => ({ title }));
+function ensureDraftActivityLog(draft) {
+  const context = draft?.context && typeof draft.context === "object" && !Array.isArray(draft.context)
+    ? draft.context
+    : {};
+  const existing = Array.isArray(context.activityLog) ? context.activityLog : [];
+  return {
+    ...draft,
+    context: {
+      ...context,
+      activityLog: existing.length
+        ? existing
+        : [{ type: "created_overview", title: "teekonna ülevaade koostatud" }]
+    }
+  };
 }
 
 function formatDate(value, locale = "et") {
@@ -220,7 +220,35 @@ function JourneyCard({ journey, onArchive, busy, t, locale }) {
   );
 }
 
-function DraftReview({ draft, setDraft, onSave, onCancel, busy, t }) {
+function DraftChipList({ items, emptyText }) {
+  const normalized = normalizeListItems(items);
+  if (!normalized.length) {
+    return <p className={bodyTextClassName}>{emptyText}</p>;
+  }
+  return (
+    <div className="flex flex-wrap gap-[0.42rem]">
+      {normalized.map((item) => (
+        <span key={item} className={badgeClassName}>
+          {item}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ReviewBlock({ title, children, icon: Icon }) {
+  return (
+    <section className={cn(compactCardClassName, "grid gap-[0.62rem]")}>
+      <h3 className={cn(sectionTitleClassName, "flex items-center gap-[0.48rem] text-[1.02rem]")}>
+        {Icon ? <Icon size={17} aria-hidden="true" /> : null}
+        {title}
+      </h3>
+      {children}
+    </section>
+  );
+}
+
+function DraftReview({ draft, setDraft, onSave, onEditDescription, onDecline, busy, t }) {
   const updateField = useCallback((field, value) => {
     setDraft((current) => ({
       ...current,
@@ -228,26 +256,14 @@ function DraftReview({ draft, setDraft, onSave, onCancel, busy, t }) {
     }));
   }, [setDraft]);
 
-  const fields = useMemo(() => ({
-    domains: arrayToText(draft.domains),
-    missingInfo: arrayToText(draft.missingInfo),
-    riskSignals: arrayToText(draft.riskSignals),
-    suggestedActions: actionsToText(draft.suggestedActions)
-  }), [draft.domains, draft.missingInfo, draft.riskSignals, draft.suggestedActions]);
-
-  const handleTextareaListChange = useCallback((field, value) => {
-    updateField(field, textToLines(value));
-  }, [updateField]);
-
-  const handleActionsChange = useCallback((value) => {
-    updateField("suggestedActions", textToActions(value));
-  }, [updateField]);
+  const lifeDomains = useMemo(() => readDraftLifeDomains(draft), [draft]);
+  const suggestedActions = useMemo(() => normalizeListItems(draft.suggestedActions), [draft.suggestedActions]);
 
   return (
     <form className="grid gap-[1rem]" onSubmit={onSave}>
-      <div className="grid gap-[0.48rem]">
+      <div className="grid gap-[0.48rem] md:max-w-[32rem]">
         <label className={labelClassName} htmlFor="journey-title">
-          {t("journey.labels.title", "Title")}
+          {t("journey.labels.title", "Teekonna pealkiri")}
         </label>
         <input
           id="journey-title"
@@ -259,93 +275,84 @@ function DraftReview({ draft, setDraft, onSave, onCancel, busy, t }) {
         />
       </div>
 
-      <div className="grid gap-[0.48rem]">
+      <ReviewBlock title={t("journey.review.summary_title", "Olukorra kokkuvõte")} icon={FileText}>
         <label className={labelClassName} htmlFor="journey-summary">
-          {t("journey.labels.summary", "Situation summary")}
+          {t("journey.review.summary_label", "Täpsusta kokkuvõtet, kui soovid")}
         </label>
         <textarea
           id="journey-summary"
           value={draft.summary}
           onChange={(event) => updateField("summary", event.target.value)}
-          className={cn(textareaClassName, "min-h-[10rem] text-[1rem] leading-[1.48]")}
+          className={cn(textareaClassName, "min-h-[8rem] text-[1rem] leading-[1.5]")}
           required
         />
+      </ReviewBlock>
+
+      <div className="grid gap-[0.76rem] lg:grid-cols-2">
+        <ReviewBlock title={t("journey.labels.domains", "Seotud teemad")} icon={Map}>
+          <DraftChipList
+            items={draft.domains}
+            emptyText={t("journey.messages.empty_domains", "Seotud teemasid ei ole veel lisatud.")}
+          />
+        </ReviewBlock>
+        <ReviewBlock title={t("journey.review.life_domains", "Eluvaldkonnad")} icon={Route}>
+          <DraftChipList items={lifeDomains} emptyText={t("journey.review.empty_life_domains", "Eluvaldkonnad täpsustuvad hiljem.")} />
+          <p className={bodyTextClassName}>
+            {t("journey.review.life_domains_note", "See on ainult olukorra korrastamise abikiht, mitte ametlik hinnang.")}
+          </p>
+        </ReviewBlock>
+        <ReviewBlock title={t("journey.review.missing_title", "Mis võib veel puudu olla?")} icon={ListChecks}>
+          <DraftChipList
+            items={draft.missingInfo}
+            emptyText={t("journey.messages.empty_missing_info", "Puuduolevat infot ei ole veel lisatud.")}
+          />
+        </ReviewBlock>
+        <ReviewBlock title={t("journey.review.actions_title", "Võimalikud järgmised sammud")} icon={Check}>
+          {suggestedActions.length ? (
+            <div className="grid gap-[0.46rem]">
+              {suggestedActions.map((action) => (
+                <p key={action} className={bodyTextClassName}>{action}</p>
+              ))}
+            </div>
+          ) : (
+            <p className={bodyTextClassName}>
+              {t("journey.messages.empty_suggested_actions", "Järgmised sammud täpsustuvad pärast salvestamist.")}
+            </p>
+          )}
+          <div className="flex flex-wrap gap-[0.5rem] pt-[0.15rem]">
+            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "SERVICE_MAP")}>
+              {t("journey.service_map.open", "Ava teenusekaart")}
+            </Button>
+            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "PRE_INQUIRY")}>
+              {t("journey.pre_inquiry.open", "Koosta eelpöördumine")}
+            </Button>
+            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "DOCUMENT")}>
+              {t("journey.review.add_document", "Lisa dokument")}
+            </Button>
+            <Button type="button" variant="secondary" size="sm" onClick={() => updateField("primaryPath", "HELP_REQUEST")}>
+              {t("journey.review.create_help_request", "Loo abisoov")}
+            </Button>
+          </div>
+        </ReviewBlock>
       </div>
 
-      <div className="grid gap-[0.48rem]">
-        <label className={labelClassName} htmlFor="journey-primary-path">
-          {t("journey.labels.primary_path", "Primary direction")}
-        </label>
-        <select
-          id="journey-primary-path"
-          value={draft.primaryPath || "UNKNOWN"}
-          onChange={(event) => updateField("primaryPath", event.target.value)}
-          className={selectClassName}
-        >
-          {PRIMARY_PATH_VALUES.map((value) => (
-            <option key={value} value={value}>{primaryPathLabel(t, value)}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="grid gap-[0.76rem] md:grid-cols-2">
-        <ListField
-          id="journey-domains"
-          label={t("journey.labels.domains", "Related topics")}
-          value={fields.domains}
-          onChange={(value) => handleTextareaListChange("domains", value)}
-          t={t}
-        />
-        <ListField
-          id="journey-missing-info"
-          label={t("journey.labels.missing_info", "Missing information")}
-          value={fields.missingInfo}
-          onChange={(value) => handleTextareaListChange("missingInfo", value)}
-          t={t}
-        />
-        <ListField
-          id="journey-risk-signals"
-          label={t("journey.labels.risk_signals", "Careful notes")}
-          value={fields.riskSignals}
-          onChange={(value) => handleTextareaListChange("riskSignals", value)}
-          t={t}
-        />
-        <ListField
-          id="journey-actions"
-          label={t("journey.labels.suggested_actions", "Suggested next steps")}
-          value={fields.suggestedActions}
-          onChange={handleActionsChange}
-          t={t}
-        />
-      </div>
+      <p className={softMessageClassName}>
+        {t("journey.review.privacy_note", "Teekond on privaatne. Teised näevad ainult seda infot, mille sa hiljem eraldi kinnitad ja jagad.")}
+      </p>
 
       <div className="flex flex-wrap gap-[0.62rem]">
         <Button type="submit" disabled={busy}>
           <Check size={17} aria-hidden="true" />
-          {t("journey.actions.save_private", "Save private journey")}
+          {t("journey.actions.save_private", "Salvesta teekond")}
         </Button>
-        <Button variant="secondary" onClick={onCancel} disabled={busy}>
-          {t("journey.actions.back", "Back")}
+        <Button type="button" variant="secondary" onClick={onEditDescription} disabled={busy}>
+          {t("journey.actions.edit_description", "Muuda kirjeldust")}
+        </Button>
+        <Button type="button" variant="secondary" onClick={onDecline} disabled={busy}>
+          {t("journey.actions.decline", "Loobu")}
         </Button>
       </div>
     </form>
-  );
-}
-
-function ListField({ id, label, value, onChange, t }) {
-  return (
-    <div className="grid gap-[0.48rem]">
-      <label className={labelClassName} htmlFor={id}>
-        {label}
-      </label>
-      <textarea
-        id={id}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className={listTextareaClassName}
-        placeholder={t("journey.labels.one_item_per_line", "One item per line")}
-      />
-    </div>
   );
 }
 
@@ -441,6 +448,28 @@ function RoleScopedWorkspace({ role, t, locale }) {
   );
 }
 
+function EmptyJourneyStart({ onStart, disabled, t }) {
+  return (
+    <section className="grid min-h-[min(32rem,calc(100dvh-5rem))] place-items-center">
+      <button
+        type="button"
+        className="group relative grid size-[clamp(8.8rem,28vw,13rem)] place-items-center rounded-full border border-[color:var(--subpage-card-border,var(--glass-modal-border,rgba(255,255,255,0.25)))] [background:radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.28),rgba(255,255,255,0.08)_42%,rgba(255,255,255,0.03)_72%)] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_1.5rem_4rem_rgba(15,23,42,0.18)] outline-none backdrop-blur-[1.2rem] transition-[transform,box-shadow,border-color,opacity] duration-500 ease-out hover:scale-[1.035] hover:shadow-[0_1.8rem_5rem_rgba(15,23,42,0.24)] focus-visible:scale-[1.035] focus-visible:ring-2 focus-visible:ring-[color:var(--title-color,var(--brand-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:scale-[0.98] motion-reduce:transition-opacity motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100"
+        onClick={onStart}
+        disabled={disabled}
+        aria-label={t("journey.empty_start.label", "Alusta teekonda")}
+      >
+        <span className="absolute inset-[16%] rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] opacity-[0.72]" aria-hidden="true" />
+        <span className="absolute left-[24%] top-[60%] h-[2px] w-[52%] origin-left rotate-[-24deg] rounded-full bg-current opacity-[0.28]" aria-hidden="true" />
+        <span className="absolute left-[30%] top-[58%] size-[0.7rem] rounded-full bg-current opacity-[0.62] shadow-[1.8rem_-1.15rem_0_-0.1rem_current,3.8rem_-2.1rem_0_-0.16rem_current]" aria-hidden="true" />
+        <Compass size={58} strokeWidth={1.45} aria-hidden="true" className="relative z-[1] drop-shadow-[0_0.65rem_1.6rem_rgba(0,0,0,0.16)]" />
+        <span className="pointer-events-none absolute top-[calc(100%+0.85rem)] whitespace-nowrap rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] px-[0.78rem] py-[0.38rem] text-[0.88rem] font-[720] leading-[1.1] text-[color:var(--seg-card-text,var(--subpage-card-text))] opacity-0 shadow-[var(--seg-card-shadow,none)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+          {t("journey.empty_start.label", "Alusta teekonda")}
+        </span>
+      </button>
+    </section>
+  );
+}
+
 export default function JourneyDashboard({ embedded = false, onBack = null, hideHeader = false } = {}) {
   const { t, locale } = useI18n();
   const router = useRouter();
@@ -453,6 +482,7 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const situationInputRef = useRef(null);
 
   const activeJourneys = useMemo(
     () => journeys.filter((journey) => journey.status !== "ARCHIVED"),
@@ -532,6 +562,14 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
     });
   }, [isClientRole, isRoleResolved, loadJourneys, status, t]);
 
+  useEffect(() => {
+    if (mode !== "start") return;
+    const frame = window.requestAnimationFrame(() => {
+      situationInputRef.current?.focus?.();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [mode]);
+
   const handleDraftSubmit = useCallback(async (event) => {
     event.preventDefault();
     setBusy(true);
@@ -548,15 +586,15 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok || !payload.ok) {
-        throw new Error(payload.message || t("journey.messages.draft_failed", "Creating the draft failed."));
+        throw new Error(payload.message || t("journey.messages.draft_failed", "Teekonna ülevaate koostamine ebaõnnestus."));
       }
-      setDraft({
+      setDraft(ensureDraftActivityLog({
         ...DEFAULT_DRAFT,
         ...payload.draft
-      });
+      }));
       setMode("review");
     } catch (draftError) {
-      setError(draftError.message || t("journey.messages.draft_failed", "Creating the draft failed."));
+      setError(draftError.message || t("journey.messages.draft_failed", "Teekonna ülevaate koostamine ebaõnnestus."));
     } finally {
       setBusy(false);
     }
@@ -575,7 +613,7 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          ...draft,
+          ...ensureDraftActivityLog(draft),
           status: "ACTIVE",
           sharingStatus: "PRIVATE"
         })
@@ -587,14 +625,15 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
       setSituation("");
       setDraft(DEFAULT_DRAFT);
       setMode("list");
-      setNotice(t("journey.messages.saved", "Private journey saved."));
-      await loadJourneys();
+      pushWithTransition(router, localizePath(`/teekond/${encodeURIComponent(payload.journey.id)}`, locale), {
+        persistGlassRingTilt: false
+      });
     } catch (saveError) {
       setError(saveError.message || t("journey.messages.save_failed", "Saving the journey failed."));
     } finally {
       setBusy(false);
     }
-  }, [draft, loadJourneys, t]);
+  }, [draft, locale, router, t]);
 
   const handleArchive = useCallback(async (journeyId) => {
     setBusy(true);
@@ -635,10 +674,17 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
     setError("");
   }, []);
 
-  const renderPage = (children) => {
+  const handleEditDescription = useCallback(() => {
+    setMode("start");
+    setError("");
+    setNotice("");
+  }, []);
+
+  const renderPage = (children, options = {}) => {
+    const minimal = options.minimal === true;
     const content = (
-      <div className={contentClassName}>
-        {!hideHeader ? (
+      <div className={cn(contentClassName, minimal ? "min-h-[min(34rem,calc(100dvh-4rem))] place-items-center content-center" : null)}>
+        {!hideHeader && !minimal ? (
           <GlassSubpageHeader
             onBack={handleBack}
             backAriaLabel={t("workspace_feature_pages.back_to_workspace", "Back to workspace")}
@@ -674,7 +720,7 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
     return renderPage(
       <div className="grid min-h-[14rem] place-items-center">
         <p className={bodyTextClassName}>
-          {t("journey.messages.loading", "Loading journey...")}
+          {t("journey.messages.loading", "Laen teekonda...")}
         </p>
       </div>
     );
@@ -697,6 +743,20 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
     );
   }
 
+  if (isClientRole && mode === "list" && !activeJourneys.length && !archivedJourneys.length) {
+    return renderPage(
+      <>
+        {error ? (
+          <p className={softMessageClassName} role="alert">
+            {error}
+          </p>
+        ) : null}
+        <EmptyJourneyStart onStart={handleStartNew} disabled={busy} t={t} />
+      </>,
+      { minimal: true }
+    );
+  }
+
   return renderPage(
     <>
         {!isClientRole ? (
@@ -713,7 +773,7 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
               {t("journey.title", "Teekond")}
             </h1>
             <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
-              {t("journey.header.description", "Describe the situation, review the draft, and save it as a private journey. The draft is not saved before confirmation.")}
+              {t("journey.header.description", "Kirjelda olukorda, vaata koostatud ülevaade üle ja salvesta see privaatse teekonnana. Midagi ei jagata automaatselt.")}
             </p>
           </div>
 
@@ -774,17 +834,20 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         ) : null}
 
         {mode === "start" ? (
-          <section className={cardClassName}>
+          <section className={cn(cardClassName, "journey-morph-panel origin-center")}>
             <div className="flex items-start gap-[0.72rem]">
               <span className={iconBubbleClassName}>
                 <WandSparkles size={19} aria-hidden="true" />
               </span>
               <div className="grid gap-[0.34rem]">
                 <h2 className={sectionTitleClassName}>
-                  {t("journey.sections.start_title", "Describe the situation")}
+                  {t("journey.sections.start_title", "Tere. Alustame sinu teekonda.")}
                 </h2>
                 <p className={bodyTextClassName}>
-                  {t("journey.sections.start_description", "This creates only a temporary structured draft. The database Journey object is created only after save confirmation.")}
+                  {t("journey.sections.start_description", "Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama. SotsiaalAI aitab sellest koostada privaatse ülevaate, mille saad enne salvestamist üle vaadata.")}
+                </p>
+                <p className={bodyTextClassName}>
+                  {t("journey.sections.start_privacy", "Ülevaade salvestatakse ainult siis, kui kinnitad. Midagi ei jagata automaatselt.")}
                 </p>
               </div>
             </div>
@@ -794,10 +857,11 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
                 {t("journey.labels.situation", "Situation description")}
                 <textarea
                   id="journey-situation"
+                  ref={situationInputRef}
                   value={situation}
                   onChange={(event) => setSituation(event.target.value)}
-                  className={cn(textareaClassName, "min-h-[12rem] text-[1rem] font-[500] leading-[1.5]")}
-                  placeholder={t("journey.placeholders.situation", "For example: I need help arranging care for a family member and do not know which service or local contact to approach...")}
+                  className={cn(textareaClassName, "min-h-[12rem] text-[1rem] font-[500] leading-[1.5] transition-opacity duration-500 motion-reduce:transition-opacity")}
+                  placeholder={t("journey.placeholders.situation", "Näiteks: hooldan ema ja ei jaksa enam üksi. Ta vajab abi pesemisel ja söögi tegemisel. Ma ei tea, kas peaksin pöörduma KOV-i või teenuseosutaja poole.")}
                   required
                 />
               </label>
@@ -805,10 +869,10 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
               <div className="flex flex-wrap gap-[0.62rem]">
                 <Button type="submit" disabled={busy || !situation.trim()}>
                   <WandSparkles size={17} aria-hidden="true" />
-                  {t("journey.actions.create_draft", "Create draft")}
+                  {t("journey.actions.create_draft", "Koosta teekonna ülevaade")}
                 </Button>
                 <Button variant="secondary" onClick={handleCancel} disabled={busy}>
-                  {t("journey.actions.cancel", "Cancel")}
+                  {t("journey.actions.cancel", "Tühista")}
                 </Button>
               </div>
             </form>
@@ -816,17 +880,17 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         ) : null}
 
         {mode === "review" ? (
-          <section className={cardClassName}>
+          <section className={cn(cardClassName, "journey-review-panel")}>
             <div className="flex items-start gap-[0.72rem]">
               <span className={iconBubbleClassName}>
                 <FileText size={19} aria-hidden="true" />
               </span>
               <div className="grid gap-[0.34rem]">
                 <h2 className={sectionTitleClassName}>
-                  {t("journey.sections.review_title", "Review the draft")}
+                  {t("journey.sections.review_title", "Ülevaade enne salvestamist")}
                 </h2>
                 <p className={bodyTextClassName}>
-                  {t("journey.sections.review_description", "Edit the fields before saving. The private journey is saved only after confirmation.")}
+                  {t("journey.sections.review_description", "Vaata üle, kas SotsiaalAI korrastas olukorra õigesti. Teekond salvestatakse alles siis, kui kinnitad.")}
                 </p>
               </div>
             </div>
@@ -835,7 +899,8 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
               draft={draft}
               setDraft={setDraft}
               onSave={handleSaveDraft}
-              onCancel={handleCancel}
+              onEditDescription={handleEditDescription}
+              onDecline={handleCancel}
               busy={busy}
               t={t}
             />

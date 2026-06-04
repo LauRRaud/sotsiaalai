@@ -31,13 +31,14 @@ test("pre-inquiry draft and recipient selection have clear visible contracts", (
   assert.match(source, /urgencyLevel:\s*assessmentAssistContext\.urgencyLevel/);
   assert.match(source, /assistantRoutingConfidence/);
   assert.match(source, /entry\.routingReason/);
-  assert.match(source, /Vaata eelkaardistus enne saatmist üle/);
+  assert.match(source, /Vaata eelinfo üle/);
   assert.match(source, /review\.unansweredQuestions\.map/);
   assert.match(source, /review=\{assessmentReview\}/);
   assert.match(source, /assessmentDraftSummary:\s*assessmentDraftSummary/);
-  assert.match(source, /assessmentState:\s*normalizedAssessmentState/);
+  assert.match(source, /assessmentState:\s*assessmentStateForSave/);
   assert.match(source, /Saada platvormis/);
-  assert.match(source, /aria-pressed=\{isSelectedRecipient \? "true" : "false"\}/);
+  assert.match(source, /handleSelectRecipient\(entry\)/);
+  assert.match(source, /Vali see kontakt/);
   assert.match(source, /data-selected=\{isSelectedRecipient \? "true" : undefined\}/);
   assert.match(source, /className="pre-inquiry-draft-textarea"/);
   assert.match(css, /\.pre-inquiry-draft-textarea\s*\{[\s\S]*?min-height:\s*clamp\(24rem,\s*54vh,\s*34rem\)/);

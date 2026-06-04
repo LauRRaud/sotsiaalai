@@ -129,6 +129,32 @@ const ADMIN_WORKSPACE_ROLES = Object.freeze([
   "SERVICE_PROVIDER"
 ]);
 
+const PRE_INQUIRY_WORKFLOW_STEPS = Object.freeze([
+  { id: "collect", label: "Täpsusta eelinfot" },
+  { id: "review", label: "Eelinfo ülevaade" },
+  { id: "recipient", label: "Adressaat" },
+  { id: "preview", label: "Pöördumise eelvaade" },
+  { id: "saved", label: "Minu eelpöördumised" }
+]);
+
+const PRE_INQUIRY_START_OPTIONS = Object.freeze([
+  {
+    id: "find_recipient",
+    title: "Aita mul leida, kelle poole pöörduda",
+    description: "Kirjelda olukorda. SotsiaalAI küsib vajadusel täpsustusi ja aitab leida sobiva KOV kontakti, lastekaitse kontakti või teenuseosutaja."
+  },
+  {
+    id: "known_contact",
+    title: "Mul on kontakt juba olemas",
+    description: "Vali kontakt Teenusekaardilt või otsi adressaati nime, KOV-i, teenuse või piirkonna järgi."
+  },
+  {
+    id: "journey",
+    title: "Jätkan Teekonnast",
+    description: "Kasuta oma privaatses Teekonnas salvestatud infot ja vali, mida soovid eelpöördumises jagada."
+  }
+]);
+
 function readText(t, key, fallback) {
   return typeof t === "function" ? t(key, fallback) : fallback;
 }
@@ -483,6 +509,58 @@ function getPreInquiryRecipientSubtitle(entry) {
   return entry.description || entry.address || "Sotsiaalvaldkonna kontakt";
 }
 
+function getPreInquiryRecipientRegion(entry) {
+  return [
+    entry?.municipalityName,
+    entry?.county,
+    entry?.providerProfile?.serviceArea,
+    entry?.address
+  ].filter(Boolean).join(" · ");
+}
+
+function getPreInquiryRecipientReason(entry, fallback = "") {
+  if (entry?.routingReason) return entry.routingReason;
+  if (entry?.type === "SERVICE_PROVIDER") {
+    const services = entry.providerProfile?.services || entry.providerProfile?.serviceItems?.map((item) => item.name).filter(Boolean) || [];
+    if (services.length) {
+      return `Võib sobida, sest profiilis on seotud teenused: ${services.slice(0, 3).join(", ")}.`;
+    }
+    return "Võib sobida teenuseosutajana, kui kirjeldatud olukord kattub teenuse vastuvõtutingimustega.";
+  }
+  if (entry?.type === "KOV_GENERAL_CONTACT") {
+    return "Võib sobida KOV üldkontaktina, kui vajad abi õige sotsiaalvaldkonna või lastekaitse kontakti leidmisel.";
+  }
+  return fallback || "Võib sobida piirkonna sotsiaalvaldkonna esmase kontaktina.";
+}
+
+function getPreInquiryReferralNotice(entry) {
+  const serviceItems = entry?.providerProfile?.serviceItems || [];
+  const requiresReferral = serviceItems.some((item) => (
+    item?.requiresKovAssessment ||
+    item?.requiresKovDecision ||
+    item?.requiresSkaReferral ||
+    item?.requiresSpecialistReferral
+  ));
+  if (!requiresReferral) return "";
+  return "Selle teenuse saamine võib vajada KOV-i otsust, SKA suunamist või spetsialisti hinnangut.";
+}
+
+function getPreInquiryStatusLabel(status) {
+  switch (status) {
+    case "READY":
+      return "valmis ülevaatamiseks";
+    case "SENT":
+      return "saadetud";
+    case "DOWNLOADED":
+      return "alla laaditud";
+    case "ARCHIVED":
+      return "arhiveeritud";
+    case "DRAFT":
+    default:
+      return "koostamisel";
+  }
+}
+
 function buildPreInquiryDownloadName(topic) {
   const slug = String(topic || "eelpoordumine")
     .toLocaleLowerCase("et")
@@ -544,6 +622,23 @@ function serviceMapEntryMatchesType(entry, entryType) {
 
 function getInquiryJourneySharedInfo(inquiry) {
   return normalizePreInquiryJourneySharedInfo(inquiry?.assessmentState?.sharedJourneyInfo);
+}
+
+function filterJourneySharedInfoForPreInquiry(sharedInfo, selections = []) {
+  const normalized = normalizePreInquiryJourneySharedInfo(sharedInfo);
+  if (!normalized) return null;
+  const selected = new Set(selections);
+  const next = {
+    ...normalized,
+    summary: selected.has("summary") ? normalized.summary : "",
+    domains: selected.has("domains") ? normalized.domains : [],
+    missingInfo: selected.has("missingInfo") ? normalized.missingInfo : [],
+    suggestedActions: selected.has("personWish") ? normalized.suggestedActions : [],
+    primaryPath: selected.has("domains") ? normalized.primaryPath : "",
+    contextNote: selected.has("document") ? normalized.contextNote : "",
+    userConfirmed: true
+  };
+  return normalizePreInquiryJourneySharedInfo(next);
 }
 
 function isProviderInquiry(inquiry) {
@@ -694,7 +789,12 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [savePrivacyPrompt, setSavePrivacyPrompt] = useState(null);
+  const [workflowMode, setWorkflowMode] = useState("");
+  const [activeWorkflowStep, setActiveWorkflowStep] = useState("collect");
+  const [assessmentPathChosen, setAssessmentPathChosen] = useState(false);
+  const [journeyShareSelections, setJourneyShareSelections] = useState(["summary", "domains", "personWish", "missingInfo"]);
   const journeyPrefillLoadedRef = useRef(false);
+  const recipientPrefillLoadedRef = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -780,7 +880,8 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     () => buildPreInquiryAssessmentAssistContext(normalizedAssessmentState),
     [normalizedAssessmentState]
   );
-  const effectiveSituation = situation.trim() || assessmentSituation;
+  const effectiveAssessmentSituation = assessmentPathChosen ? assessmentSituation : "";
+  const effectiveSituation = situation.trim() || effectiveAssessmentSituation;
   const selectedRecipientMailto = useMemo(
     () => buildPreInquiryRecipientMailto({
       recipient: selectedRecipient,
@@ -819,11 +920,13 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     if (tags.length) {
       lines.push("", `Märksõnad: ${tags.join(", ")}`);
     }
-    if (assessmentQuestions.length) {
+    const questionAuditLines = assessmentQuestions.map((question) => `- ${question}`);
+    const nextQuestionLine = questionAuditLines[0] || "";
+    if (nextQuestionLine) {
       lines.push(
         "",
         "Vasta järgmistele küsimustele:",
-        ...assessmentQuestions.map((question) => `- ${question}`)
+        nextQuestionLine
       );
     }
     if (urgentWarnings.length) {
@@ -939,6 +1042,60 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       ? "providerClient"
       : "client";
   const selectedAssessmentPath = PRE_INQUIRY_ASSESSMENT_PATHS.find((path) => path.id === normalizedAssessmentState.path) || PRE_INQUIRY_ASSESSMENT_PATHS[0];
+  const preInquiryOverviewRows = useMemo(() => {
+    const rows = [
+      ["Kelle kohta pöördumine käib", normalizedAssessmentState.subject.concernsAbout],
+      ["Kes pöördub", normalizedAssessmentState.subject.consentStatus === "Pöördun enda kohta" ? "Inimene ise" : normalizedAssessmentState.subject.consentStatus],
+      ["KOV või piirkond", normalizedAssessmentState.subject.municipalityText || normalizedAssessmentState.routing?.contactSearchInput?.municipalityText],
+      ["Kiireloomulisus", normalizedAssessmentState.subject.urgency],
+      ["Nõusolek või pöördumise alus", normalizedAssessmentState.subject.consentStatus],
+      ["Olukorra kokkuvõte", effectiveSituation],
+      ["Olemasolev abi", normalizedAssessmentState.supportContext.existingSupport],
+      ["Kas abist piisab", normalizedAssessmentState.supportContext.supportAdequacy],
+      ["Inimese enda soov", normalizedAssessmentState.supportContext.personWish],
+      ["Seotud teemad", [...assessmentLifeDomains, ...assessmentTargetGroups].filter(Boolean).join(", ")],
+      ["Eluvaldkonnad", assessmentReview?.possibleDirections?.join(", ")]
+    ];
+    return rows.filter(([, value]) => String(value || "").trim());
+  }, [
+    assessmentLifeDomains,
+    assessmentReview?.possibleDirections,
+    assessmentTargetGroups,
+    effectiveSituation,
+    normalizedAssessmentState
+  ]);
+  const preInquiryMissingInfo = useMemo(() => {
+    const missing = [];
+    if (!assessmentPathChosen) missing.push("eelkaardistuse viis");
+    if (!normalizedAssessmentState.subject.municipalityText?.trim()) missing.push("KOV või piirkond");
+    if (!effectiveSituation.trim()) missing.push("lühike olukorra kirjeldus");
+    if (!normalizedAssessmentState.subject.concernsAbout?.trim()) missing.push("kelle kohta pöördumine käib");
+    if (!normalizedAssessmentState.subject.urgency?.trim()) missing.push("kas olukord on kiire");
+    if (!normalizedAssessmentState.subject.consentStatus?.trim()) missing.push("nõusolek või pöördumise alus");
+    if (!selectedRecipient) missing.push("adressaat");
+    return missing;
+  }, [
+    assessmentPathChosen,
+    effectiveSituation,
+    normalizedAssessmentState.subject.concernsAbout,
+    normalizedAssessmentState.subject.consentStatus,
+    normalizedAssessmentState.subject.municipalityText,
+    normalizedAssessmentState.subject.urgency,
+    selectedRecipient
+  ]);
+  const canUseJourneyPrefill = useMemo(() => {
+    if (activeDraftJourneySharedInfo) return true;
+    if (typeof window === "undefined") return false;
+    return Boolean(new URLSearchParams(window.location.search || "").get("fromJourney"));
+  }, [activeDraftJourneySharedInfo]);
+  const selectedRecipientReferralNotice = getPreInquiryReferralNotice(selectedRecipient);
+  const selectedRecipientSupportsPlatform =
+    selectedRecipient?.deliveryChannel === "INTERNAL" ||
+    selectedRecipient?.providerProfile?.acceptsPlatformPreInquiries === true;
+  const selectedRecipientSupportsEmail =
+    Boolean(selectedRecipientMailto) ||
+    selectedRecipient?.providerProfile?.acceptsEmailPreInquiries !== false ||
+    Boolean(selectedRecipient?.email);
   const activeReceivedInquiryAssessmentReview = useMemo(
     () => activeReceivedInquiry?.assessmentState
       ? buildPreInquiryAssessmentReview(activeReceivedInquiry.assessmentState, {
@@ -1023,6 +1180,10 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         setShowMoreContacts(false);
         setDraftTouched(Boolean(prefill.suggestedMessageDraft));
         setSavePrivacyPrompt(null);
+        setWorkflowMode("journey");
+        setActiveWorkflowStep("journey");
+        setAssessmentPathChosen(false);
+        setJourneyShareSelections(["summary", "domains", "personWish", "missingInfo"]);
         setNotice(readText(t, "workspace_feature_pages.pre_inquiries.journey_prefill.loaded", "A pre-inquiry draft was prepared from the journey. Review and edit it before sending."));
       } catch (prefillError) {
         if (!cancelled) {
@@ -1037,6 +1198,47 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     };
   }, [t]);
 
+  useEffect(() => {
+    if (recipientPrefillLoadedRef.current || typeof window === "undefined" || !entries.length) return;
+    const params = new URLSearchParams(window.location.search || "");
+    const requestedRecipientId = [
+      "recipientEntryId",
+      "serviceMapEntryId",
+      "entryId",
+      "recipientId",
+      "selectedRecipientId"
+    ].map((key) => String(params.get(key) || "").trim()).find(Boolean);
+    if (!requestedRecipientId) return;
+
+    const entry = entries.find((item) => item.id === requestedRecipientId);
+    if (!entry) return;
+    recipientPrefillLoadedRef.current = true;
+    setSelectedRecipientId(entry.id);
+    setRecipientType(entry.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
+    setRecipientQuery(entry.municipalityName || entry.county || entry.title || "");
+    setAssessmentState((current) => {
+      const normalized = normalizePreInquiryAssessmentState(current);
+      return normalizePreInquiryAssessmentState({
+        ...normalized,
+        subject: {
+          ...normalized.subject,
+          municipalityText: entry.municipalityName || entry.county || ""
+        },
+        routing: {
+          ...normalized.routing,
+          contactSearchInput: {
+            ...normalized.routing?.contactSearchInput,
+            municipalityText: entry.municipalityName || entry.county || ""
+          }
+        }
+      });
+    });
+    setWorkflowMode("known_contact");
+    setActiveWorkflowStep("collect");
+    setAssessmentPathChosen(false);
+    setNotice("Valitud adressaat on eelpöördumise töövoogu kaasa võetud. Saad seda enne saatmist muuta.");
+  }, [entries]);
+
   function updateAssessmentState(updater) {
     setAssessmentState((current) => {
       const normalized = normalizePreInquiryAssessmentState(current);
@@ -1047,6 +1249,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }
 
   function handleAssessmentPathChange(pathId) {
+    setAssessmentPathChosen(true);
     updateAssessmentState((current) => ({
       ...createEmptyPreInquiryAssessmentState(pathId),
       subject: current.subject,
@@ -1055,6 +1258,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   }
 
   function updateAssessmentSubject(field, value) {
+    if (field === "municipalityText" && !recipientQuery.trim()) {
+      setRecipientQuery(value);
+    }
     updateAssessmentState((current) => ({
       ...current,
       subject: {
@@ -1142,6 +1348,10 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(false);
+    setWorkflowMode("");
+    setActiveWorkflowStep("collect");
+    setAssessmentPathChosen(false);
+    setJourneyShareSelections(["summary", "domains", "personWish", "missingInfo"]);
     setNotice("");
     setError("");
   }
@@ -1166,13 +1376,17 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setAssistantSuggestions([]);
     setShowMoreContacts(false);
     setDraftTouched(true);
+    setWorkflowMode("existing");
+    setActiveWorkflowStep("preview");
+    setAssessmentPathChosen(Boolean(inquiry.assessmentState?.path));
+    setJourneyShareSelections(["summary", "domains", "personWish", "missingInfo"]);
     setNotice("");
     setError("");
   }
 
   async function handleSave(event, options = {}) {
     event?.preventDefault?.();
-    const saveSituation = situation.trim() || assessmentSituation;
+    const saveSituation = situation.trim() || effectiveAssessmentSituation;
     const nextStatus = options?.status || "DRAFT";
     if (saving || !saveSituation.trim()) return;
 
@@ -1182,6 +1396,13 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     setSavePrivacyPrompt(null);
 
     try {
+      const assessmentStateForSave = normalizePreInquiryAssessmentState({
+        ...normalizedAssessmentState,
+        sharedJourneyInfo: filterJourneySharedInfoForPreInquiry(
+          normalizedAssessmentState.sharedJourneyInfo,
+          journeyShareSelections
+        )
+      });
       const response = await fetch(activeInquiryId ? `/api/pre-inquiries/${activeInquiryId}` : "/api/pre-inquiries", {
         method: activeInquiryId ? "PATCH" : "POST",
         headers: {
@@ -1190,7 +1411,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         body: JSON.stringify({
           topic,
           situation: saveSituation,
-          assessmentState: normalizedAssessmentState,
+          assessmentState: assessmentStateForSave,
           recipientType,
           recipientEntryId: selectedRecipient?.id || null,
           selectedRecipientName: selectedRecipient?.title || "",
@@ -1266,6 +1487,45 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     const content = assessmentExportText || draft;
     if (downloadTextFile(content, buildPreInquiryDownloadName(topic))) {
       setNotice(readText(t, "workspace_feature_pages.pre_inquiries.download_success", "Draft downloaded."));
+    }
+  }
+
+  async function handleArchiveAuthoredInquiry(inquiry) {
+    const inquiryId = String(inquiry?.id || "").trim();
+    if (!inquiryId || saving || inquiry.status === "SENT" || inquiry.status === "ARCHIVED") return;
+    setSaving(true);
+    setNotice("");
+    setError("");
+    try {
+      const response = await fetch(`/api/pre-inquiries/${encodeURIComponent(inquiryId)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          topic: inquiry.topic || "",
+          situation: inquiry.situation || "",
+          assessmentState: inquiry.assessmentState || null,
+          recipientType: inquiry.recipientType || "",
+          recipientEntryId: inquiry.recipientEntryId || null,
+          selectedRecipientName: inquiry.selectedRecipientName || "",
+          selectedRecipientEmail: inquiry.selectedRecipientEmail || "",
+          userEditedDraft: inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "",
+          status: "ARCHIVED"
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.save_failed", "Pre-inquiry could not be saved."));
+      }
+      if (payload?.inquiry) {
+        setInquiries((current) => current.map((item) => item.id === inquiryId ? payload.inquiry : item));
+      }
+      setNotice(readText(t, "workspace_feature_pages.pre_inquiries.archive_success", "Eelpöördumine arhiveeriti."));
+    } catch (archiveError) {
+      setError(archiveError?.message || readText(t, "workspace_feature_pages.pre_inquiries.errors.save_failed", "Pre-inquiry could not be saved."));
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -1411,7 +1671,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
   async function handleAskAssistant(event, overrideMessage = "", options = {}) {
     event?.preventDefault();
     const message = String(overrideMessage || assistantInput).trim();
-    const baseSituation = situation.trim() || assessmentSituation;
+    const baseSituation = situation.trim() || effectiveAssessmentSituation;
     if (assisting || (!message && !baseSituation.trim())) return;
     const shouldAppendMessage = options.appendMessage !== false;
     const nextSituation = shouldAppendMessage
@@ -1492,6 +1752,69 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       preventDefault() {}
     }, String(message || ""), options);
     return true;
+  }
+
+  function handleStartWorkflow(mode) {
+    setWorkflowMode(mode);
+    setNotice("");
+    setError("");
+    if (mode === "known_contact") {
+      setActiveWorkflowStep("recipient");
+      return;
+    }
+    if (mode === "journey") {
+      setActiveWorkflowStep("journey");
+      return;
+    }
+    setActiveWorkflowStep("collect");
+  }
+
+  function handleSelectRecipient(entry) {
+    if (!entry?.id) return;
+    setSelectedRecipientId(entry.id);
+    setRecipientType(entry.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
+    setDraftTouched(false);
+    setActiveWorkflowStep("preview");
+  }
+
+  if (!isRecipientRole && !workflowMode) {
+    return (
+      <div className="pre-inquiry-workspace mx-auto grid w-full max-w-[64rem] gap-[0.82rem]">
+        <section className="pre-inquiry-start-panel grid gap-[0.92rem]">
+          <div className="grid gap-[0.34rem]">
+            <h1 className="m-0 text-[clamp(1.65rem,3.4vw,2.45rem)] font-[760] leading-[1.04] tracking-[0]">
+              Koosta eelpöördumine
+            </h1>
+            <p className={cn(bodyTextClassName, "max-w-[54rem]")}>
+              Eelpöördumine aitab olukorra arusaadavalt kirja panna ja valida, kelle poole pöörduda. See ei ole ametlik hindamine ega teenuse määramise otsus.
+            </p>
+          </div>
+          <div className="pre-inquiry-start-options">
+            {PRE_INQUIRY_START_OPTIONS.map((option) => {
+              const disabled = option.id === "journey" && !canUseJourneyPrefill;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  className="workspace-feature-list-card pre-inquiry-start-card grid gap-[0.42rem] rounded-[0.98rem] border px-[0.92rem] py-[0.84rem] text-left transition"
+                  disabled={disabled}
+                  aria-disabled={disabled ? "true" : "false"}
+                  onClick={() => !disabled && handleStartWorkflow(option.id)}
+                >
+                  <span className="text-[1.06rem] font-[760] leading-[1.16]">{option.title}</span>
+                  <span className="text-[0.93rem] leading-[1.38] opacity-[0.8]">{option.description}</span>
+                  {disabled ? (
+                    <span className="text-[0.84rem] font-[680] leading-[1.3] opacity-[0.66]">
+                      Teekonnast jätkamiseks ava eelpöördumine konkreetse Teekonna vaatest.
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      </div>
+    );
   }
 
   if (isRecipientRole) {
@@ -1700,10 +2023,108 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </p>
       ) : null}
 
-      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment", "Eelkaardistus")}>
+      <div className="pre-inquiry-stepbar" aria-label="Eelpöördumise sammud">
+        {PRE_INQUIRY_WORKFLOW_STEPS.map((step, index) => (
+          <button
+            key={step.id}
+            type="button"
+            className="pre-inquiry-step"
+            data-active={activeWorkflowStep === step.id ? "true" : undefined}
+            onClick={() => setActiveWorkflowStep(step.id)}
+          >
+            <span>{index + 1}</span>
+            <strong>{step.label}</strong>
+          </button>
+        ))}
+      </div>
+
+      <div className="pre-inquiry-guided-layout">
+        <aside className="pre-inquiry-overview-card workspace-feature-list-card grid gap-[0.62rem] rounded-[1rem] border px-[0.86rem] py-[0.78rem]">
+          <div className="grid gap-[0.2rem]">
+            <h2 className="m-0 text-[1.02rem] font-[760] leading-[1.16]">Eelinfo ülevaade</h2>
+            <p className="m-0 text-[0.88rem] leading-[1.34] opacity-[0.76]">
+              Siin näed infot, mida kasutatakse pöördumise koostamiseks. Enne saatmist saad kõike muuta.
+            </p>
+          </div>
+          {preInquiryOverviewRows.length ? (
+            <dl className="m-0 grid gap-[0.42rem]">
+              {preInquiryOverviewRows.slice(0, 8).map(([label, value]) => (
+                <div key={label} className="grid gap-[0.1rem]">
+                  <dt className="text-[0.76rem] font-[760] leading-[1.15] opacity-[0.62]">{label}</dt>
+                  <dd className="m-0 line-clamp-3 text-[0.9rem] leading-[1.32] opacity-[0.9]">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p className="m-0 text-[0.9rem] leading-[1.34] opacity-[0.76]">
+              Eelinfo täitub töövoo käigus.
+            </p>
+          )}
+          {preInquiryMissingInfo.length ? (
+            <div className="grid gap-[0.28rem]">
+              <p className="m-0 text-[0.82rem] font-[720] leading-[1.22] opacity-[0.72]">
+                Need andmed võivad aidata sobivamat kontakti leida, kuid sa ei pea kõike lisama.
+              </p>
+              <ul className="m-0 grid gap-[0.16rem] pl-[1rem] text-[0.86rem] leading-[1.3] opacity-[0.78]">
+                {preInquiryMissingInfo.slice(0, 6).map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </div>
+          ) : null}
+        </aside>
+        <div className="pre-inquiry-active-step grid gap-[0.82rem]">
+
+      {activeWorkflowStep === "journey" ? (
+        <SectionCard flat={embedded} className="pre-inquiry-section-card" title="Vali, mida soovid eelpöördumises kasutada">
+          <p className={bodyTextClassName}>
+            Teekonna info on privaatne. Märgi ainult need osad, mida soovid selle eelpöördumise koostamisel kasutada.
+          </p>
+          {activeDraftJourneySharedInfo ? (
+            <JourneySharedInfoBlock info={activeDraftJourneySharedInfo} t={t} audience={activeDraftJourneySharedInfoAudience} serviceLabel={selectedRecipient?.title || ""} />
+          ) : (
+            <p className={bodyTextClassName}>Teekonna kokkuvõtet ei ole veel kaasa tulnud. Ava eelpöördumine konkreetse Teekonna vaatest või jätka uut eelpöördumist.</p>
+          )}
+          <div className="grid gap-[0.42rem]">
+            {[
+              ["summary", "olukorra kokkuvõte"],
+              ["domains", "seotud teemad"],
+              ["personWish", "inimese soov"],
+              ["missingInfo", "puuduolev info"],
+              ["document", "seotud dokument või kontekst"]
+            ].map(([id, label]) => (
+              <FancyCheckbox
+                key={id}
+                checked={journeyShareSelections.includes(id)}
+                onChange={(checked) => {
+                  setJourneyShareSelections((current) => checked
+                    ? [...new Set([...current, id])]
+                    : current.filter((item) => item !== id));
+                }}
+                className="fancy-checkbox--multiline"
+                label={label}
+              />
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-end gap-[0.54rem]">
+            <Button type="button" size="sm" variant="ghost" onClick={() => setActiveWorkflowStep("recipient")}>
+              Vali adressaat
+            </Button>
+            <Button type="button" size="sm" onClick={() => setActiveWorkflowStep("collect")}>
+              Täpsusta eelinfot
+            </Button>
+          </div>
+        </SectionCard>
+      ) : null}
+
+      {activeWorkflowStep === "collect" ? (
+      <>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title="Aitan sul pöördumise ette valmistada">
+        <p className={bodyTextClassName}>
+          Tere. Kirjelda lühidalt, mis olukord on. Sa ei pea kõike õigesti sõnastama. Küsin vajadusel ainult neid täpsustusi, mis aitavad pöördumise selgemaks teha ja sobiva kontakti leida.
+        </p>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.assessment.note", "Eelkaardistus ei ole ametlik abivajaduse hindamine ega teenuse määramise otsus. See aitab olukorda läbi mõelda ja pöördumist ette valmistada.")}
         </p>
+        {assessmentPathChosen ? (
         <div className="pre-inquiry-intro">
           <div className="pre-inquiry-field">
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.assessment_path", "Eelkaardistuse viis")}</span>
@@ -1721,7 +2142,24 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             ) : null}
           </div>
         </div>
+        ) : (
+          <div className="pre-inquiry-path-grid">
+            {PRE_INQUIRY_ASSESSMENT_PATHS.map((path) => (
+              <button
+                key={path.id}
+                type="button"
+                className="workspace-feature-list-card pre-inquiry-path-card grid gap-[0.34rem] rounded-[0.92rem] border px-[0.82rem] py-[0.72rem] text-left transition"
+                onClick={() => handleAssessmentPathChange(path.id)}
+              >
+                <span className="text-[1rem] font-[740] leading-[1.16]">{path.title}</span>
+                <span className="text-[0.88rem] leading-[1.34] opacity-[0.76]">{path.description}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
+        {assessmentPathChosen ? (
+        <>
         <div className="pre-inquiry-compact-grid">
           <div className="pre-inquiry-field">
             <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.concerns_about", "Kelle kohta pöördumine käib")}</span>
@@ -1893,21 +2331,34 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           </Label>
           </div>
         </details>
+        </>
+        ) : null}
       </SectionCard>
 
-      <details className="pre-inquiry-details">
-        <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelkaardistus enne saatmist üle")}</summary>
+      <div className="flex flex-wrap justify-end gap-[0.54rem]">
+        <Button type="button" size="sm" variant="ghost" onClick={() => setActiveWorkflowStep("review")}>
+          Vaata eelinfo üle
+        </Button>
+        <Button type="button" size="sm" onClick={() => setActiveWorkflowStep("recipient")}>
+          Vali adressaat
+        </Button>
+      </div>
+      </>
+      ) : null}
+
+      <details className="pre-inquiry-details" open style={{ display: activeWorkflowStep === "review" ? undefined : "none" }}>
+        <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelinfo üle")}</summary>
       <PreInquiryAssessmentReviewSection
         t={t}
-        title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelkaardistus enne saatmist üle")}
+        title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assessment_review", "Vaata eelinfo üle")}
         review={assessmentReview}
         situation={effectiveSituation}
         note={readText(t, "workspace_feature_pages.pre_inquiries.assessment.review_note", "Ülevaade koondab täpselt need eelkaardistuse vastused ja täpsustused, mis lähevad salvestatud eelpöördumise ning allalaaditava eelinfo juurde.")}
       />
       </details>
-      <details className="pre-inquiry-details">
-        <summary>{readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}</summary>
-      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.assistant", "Vestlus assistendiga")}>
+      <details className="pre-inquiry-details" open style={{ display: activeWorkflowStep === "collect" ? undefined : "none" }}>
+        <summary>Täpsusta eelinfot</summary>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title="Aita pöördumist selgemaks teha">
         <div className="documents-workspace documents-workspace-page--library pre-inquiry-agent-chat">
           <div className="documents-agent-conversation-shell">
             <BorderGlow
@@ -2019,8 +2470,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
       </SectionCard>
       </details>
 
-      <div className="pre-inquiry-output-grid">
-      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
+      <div className="pre-inquiry-output-grid" style={{ display: activeWorkflowStep === "recipient" || activeWorkflowStep === "preview" ? undefined : "none" }}>
+      {activeWorkflowStep === "recipient" ? (
+      <SectionCard flat={embedded} className={cn("pre-inquiry-section-card", activeWorkflowStep !== "recipient" && "hidden")} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.recipient", "Sobivad kontaktid")}>
         <p className={bodyTextClassName}>
           {readText(t, "workspace_feature_pages.pre_inquiries.recipients_lead", "Kontaktid tulevad teenusekaardi struktureeritud andmekihist pärast seda, kui olukord, piirkond ja soovitud pöördumise suund on piisavalt selged. SotsiaalAI ei ole selles nimekirjas eelpöördumise adressaat.")}
         </p>
@@ -2072,20 +2524,13 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           {visibleRecommendedRecipients.length ? visibleRecommendedRecipients.map((entry) => {
             const isSelectedRecipient = selectedRecipientId === entry.id;
             return (
-              <button
+              <article
                 key={entry.id}
-                type="button"
-                aria-pressed={isSelectedRecipient ? "true" : "false"}
                 data-selected={isSelectedRecipient ? "true" : undefined}
                 className={cn(
                   "workspace-feature-list-card grid gap-[0.32rem] rounded-[0.92rem] border px-[0.82rem] py-[0.68rem] text-left transition",
                   isSelectedRecipient && "pre-inquiry-recipient-card--selected ring-2 ring-[color:var(--title-color,var(--brand-primary,#c57171))]"
                 )}
-                onClick={() => {
-                  setSelectedRecipientId(entry.id);
-                  setRecipientType(entry.type === "SERVICE_PROVIDER" ? "SERVICE_PROVIDER" : "KOV_CONTACT");
-                  setDraftTouched(false);
-                }}
               >
                 <span className="flex flex-wrap items-center justify-between gap-[0.5rem]">
                   <span className="text-[1.02rem] font-[720] leading-[1.16]">{entry.title}</span>
@@ -2094,9 +2539,17 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   </span>
                 </span>
                 <span className="text-[0.92rem] leading-[1.28] opacity-[0.78]">{getPreInquiryRecipientSubtitle(entry)}</span>
+                <span className="text-[0.88rem] leading-[1.32] opacity-[0.82]">
+                  {getPreInquiryRecipientReason(entry)}
+                </span>
                 {entry.routingReason ? (
                   <span className="text-[0.88rem] leading-[1.32] opacity-[0.82]">
                     {entry.routingReason}
+                  </span>
+                ) : null}
+                {getPreInquiryRecipientRegion(entry) ? (
+                  <span className="text-[0.86rem] leading-[1.25] opacity-[0.7]">
+                    {getPreInquiryRecipientRegion(entry)}
                   </span>
                 ) : null}
                 <span className="text-[0.86rem] leading-[1.25] opacity-[0.7]">
@@ -2111,10 +2564,28 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                     {readText(t, "workspace_feature_pages.pre_inquiries.recipient.selected", "Valitud kontakt")}
                   </span>
                 ) : null}
-              </button>
+                {getPreInquiryReferralNotice(entry) ? (
+                  <span className="rounded-[0.78rem] border border-[rgba(218,182,94,0.24)] px-[0.62rem] py-[0.46rem] text-[0.84rem] leading-[1.3] opacity-[0.84]">
+                    {getPreInquiryReferralNotice(entry)}
+                  </span>
+                ) : null}
+                <span className="flex flex-wrap gap-[0.44rem] pt-[0.18rem]">
+                  <Button type="button" size="sm" onClick={() => handleSelectRecipient(entry)}>
+                    Vali see kontakt
+                  </Button>
+                  <Button as="a" href={localizePath(`/teenusekaart?entryId=${encodeURIComponent(entry.id)}`, locale)} size="sm" variant="ghost">
+                    Vaata teenusekaardil
+                  </Button>
+                  {entry.providerProfileId ? (
+                    <Button as="a" href={localizePath(`/teenuseprofiil?profileId=${encodeURIComponent(entry.providerProfileId)}`, locale)} size="sm" variant="ghost">
+                      Vaata profiili
+                    </Button>
+                  ) : null}
+                </span>
+              </article>
             );
           }) : (
-            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_recipients", "Kontaktid ilmuvad siia pärast eelkaardistuse vastuseid või otsingusõna sisestamist.")}</p>
+            <p className={bodyTextClassName}>Kontaktide soovitamiseks lisa v?hemalt piirkond v?i KOV ning l?hike olukorra kirjeldus.</p>
           )}
           {recommendedRecipients.length > 3 ? (
             <Button type="button" size="sm" className="justify-self-start" onClick={() => setShowMoreContacts((value) => !value)}>
@@ -2125,8 +2596,10 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           ) : null}
         </div>
       </SectionCard>
+      ) : null}
 
-      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.draft", "Pöördumise mustand")}>
+      <div className={cn(activeWorkflowStep !== "preview" && "hidden")}>
+      <SectionCard flat={embedded} className="pre-inquiry-section-card" title="Pöördumise eelvaade">
         <Label>
           <span>{readText(t, "workspace_feature_pages.pre_inquiries.fields.topic", "Teema")}</span>
           <ServiceProfileInput value={topic} onChange={(event) => { setTopic(event.target.value); setDraftTouched(false); }} placeholder={readText(t, "workspace_feature_pages.pre_inquiries.placeholders.topic", "Lühike pealkiri")} />
@@ -2166,28 +2639,43 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
             </div>
           </div>
         ) : null}
+        <div className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.92rem] border px-[0.82rem] py-[0.68rem]">
+          <p className="m-0 text-[0.9rem] font-[720] leading-[1.24]">Midagi ei saadeta automaatselt.</p>
+          <p className="m-0 text-[0.88rem] leading-[1.34] opacity-[0.78]">
+            Enne kinnitamist kontrolli adressaati, saatmise viisi, pöördumise teksti ja eelinfot. Platvormisisene pöördumine jõuab vastuvõtja Pöördumiste vaatesse; e-kirja tekst avaneb sinu e-posti rakenduses ülevaatamiseks.
+          </p>
+          {selectedRecipient ? (
+            <p className="m-0 text-[0.86rem] leading-[1.3] opacity-[0.72]">
+              Adressaat: {selectedRecipient.title}. Saatmise viis: {selectedRecipientSupportsPlatform ? "platvormisisene eelpöördumine" : selectedRecipientSupportsEmail ? "e-kirja tekst" : "salvestamine, kopeerimine või allalaadimine"}.
+            </p>
+          ) : null}
+          {selectedRecipientReferralNotice ? (
+            <p className="m-0 text-[0.86rem] leading-[1.3] opacity-[0.78]">{selectedRecipientReferralNotice} Sa saad teenuseosutajalt küsida lisainfot või pöörduda KOV-i poole.</p>
+          ) : null}
+        </div>
         <div className="flex flex-wrap justify-end gap-[0.54rem]">
           {selectedRecipientMailto ? (
             <Button as="a" href={selectedRecipientMailto} size="sm">
-              {readText(t, "workspace_feature_pages.pre_inquiries.actions.open_email", "Ava e-kiri")}
+              {readText(t, "workspace_feature_pages.pre_inquiries.actions.open_email", "Ava e-kirjana")}
             </Button>
           ) : null}
           <Button type="button" size="sm" disabled={saving || !effectiveSituation.trim()} onClick={handleSave}>
             {saving
               ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
-              : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Salvesta")}
+              : readText(t, "workspace_feature_pages.pre_inquiries.actions.save", "Salvesta eelpöördumine")}
           </Button>
-          {selectedRecipientId ? (
+          {selectedRecipientId && selectedRecipientSupportsPlatform ? (
             <Button type="button" size="sm" disabled={saving || !effectiveSituation.trim()} onClick={(event) => handleSave(event, { status: "SENT" })}>
               {saving
                 ? readText(t, "workspace_feature_pages.pre_inquiries.actions.saving", "Salvestan...")
                 : readText(t, "workspace_feature_pages.pre_inquiries.actions.send_internal", "Saada platvormis")}
             </Button>
           ) : null}
-          <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri")}</Button>
+          <Button type="button" size="sm" disabled={!draft.trim()} onClick={handleCopy}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.copy", "Kopeeri tekst")}</Button>
           <Button type="button" size="sm" disabled={!draft.trim() && !effectiveSituation.trim()} onClick={handleDownload}>{readText(t, "workspace_feature_pages.pre_inquiries.actions.download", "Laadi alla")}</Button>
         </div>
       </SectionCard>
+      </div>
       </div>
 
       {showReceivedInquiries ? (
@@ -2221,7 +2709,7 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
         </SectionCard>
       ) : null}
 
-      <SectionCard flat={embedded} className="pre-inquiry-section-card" title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
+      <SectionCard flat={embedded} className={cn("pre-inquiry-section-card", activeWorkflowStep !== "saved" && "hidden")} title={readText(t, "workspace_feature_pages.pre_inquiries.sections.saved", "Minu eelpöördumised")}>
         <div className="grid gap-[0.52rem]">
           {savedInquiries.length ? savedInquiries.map((inquiry) => (
             <article key={inquiry.id} className="workspace-feature-list-card grid gap-[0.28rem] rounded-[0.86rem] border px-[0.76rem] py-[0.6rem] sm:grid-cols-[1fr_auto] sm:items-center">
@@ -2231,24 +2719,48 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
                   {[
                     inquiry.selectedRecipientName,
                     inquiry.selectedRecipientEmail,
-                    formatDate(inquiry.updatedAt)
+                    inquiry.createdAt ? `loodud ${formatDate(inquiry.createdAt, locale)}` : "",
+                    inquiry.updatedAt ? `muudetud ${formatDate(inquiry.updatedAt, locale)}` : ""
                   ].filter(Boolean).join(" · ")}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[0.44rem] sm:justify-end">
                 <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
-                  {inquiry.status || "DRAFT"}
+                  {getPreInquiryStatusLabel(inquiry.status)}
+                </span>
+                <span className="workspace-feature-badge rounded-full px-[0.56rem] py-[0.22rem] text-[0.78rem] font-[700] leading-[1.1]">
+                  {getPreInquiryChannelLabel(t, inquiry.deliveryChannel)}
                 </span>
                 <Button type="button" size="sm" onClick={() => handleOpenInquiry(inquiry)}>
                   {readText(t, "workspace_feature_pages.pre_inquiries.actions.open", "Ava")}
                 </Button>
+                <Button type="button" size="sm" variant="ghost" onClick={() => handleOpenInquiry(inquiry)}>
+                  Muuda
+                </Button>
+                <Button type="button" size="sm" variant="ghost" onClick={() => navigator?.clipboard?.writeText(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "")}>
+                  Kopeeri
+                </Button>
+                <Button type="button" size="sm" variant="ghost" onClick={() => downloadTextFile(inquiry.userEditedDraft || inquiry.generatedDraft || inquiry.situation || "", buildPreInquiryDownloadName(inquiry.topic))}>
+                  Laadi alla
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  disabled={saving || inquiry.status === "SENT" || inquiry.status === "ARCHIVED"}
+                  onClick={() => handleArchiveAuthoredInquiry(inquiry)}
+                >
+                  {readText(t, "workspace_feature_pages.pre_inquiries.actions.archive", "Arhiveeri")}
+                </Button>
               </div>
             </article>
           )) : (
-            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_saved", "Salvestatud eelpöördumised ilmuvad siia.")}</p>
+            <p className={bodyTextClassName}>{readText(t, "workspace_feature_pages.pre_inquiries.empty_saved", "Sul ei ole veel salvestatud eelpöördumisi.")}</p>
           )}
         </div>
       </SectionCard>
+        </div>
+      </div>
     </div>
   );
 }
@@ -2650,28 +3162,46 @@ function toggleListValue(value, optionValue) {
   return [...selected].join(", ");
 }
 
+function serviceProfileSelectedOptionLabels(value, options) {
+  const selected = splitList(value);
+  const labelByValue = new Map(options.map((option) => [option.value, option.label]));
+  return selected.map((item) => labelByValue.get(item) || item);
+}
+
 function serviceProfileCategoryOptions(t) {
   return [
-    { value: "Transport", label: readText(t, "workspace_feature_pages.service_profile.category_options.transport", "Transport") },
-    { value: "Igapäevaabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.daily_tasks", "Igapäevaabi") },
-    { value: "Koduabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.home_help", "Koduabi") },
-    { value: "Digiabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.digital_help", "Digiabi") },
-    { value: "Tugi ja hooldus", label: readText(t, "workspace_feature_pages.service_profile.category_options.care_support", "Tugi ja hooldus") },
-    { value: "Laste ja noorte tugi", label: readText(t, "workspace_feature_pages.service_profile.category_options.child_youth_support", "Laste ja noorte tugi") },
-    { value: "Õppimise ja juhendamise abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.learning_guidance", "Õppimise ja juhendamise abi") },
-    { value: "Seltskond ja sotsiaalne tugi", label: readText(t, "workspace_feature_pages.service_profile.category_options.social_support", "Seltskond ja sotsiaalne tugi") },
-    { value: "Asjaajamise ja vormide abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.admin_form_help", "Asjaajamise ja vormide abi") },
-    { value: "Muu abi", label: readText(t, "workspace_feature_pages.service_profile.category_options.other", "Muu abi") }
+    { value: "KOV sotsiaalteenus", label: readText(t, "workspace_feature_pages.service_profile.category_options.kov_social_service", "KOV sotsiaalteenus") },
+    { value: "Nõustamine ja juhendamine", label: readText(t, "workspace_feature_pages.service_profile.category_options.counselling_guidance", "Nõustamine ja juhendamine") },
+    { value: "Pere, lapse ja noore tugi", label: readText(t, "workspace_feature_pages.service_profile.category_options.family_child_youth", "Pere, lapse ja noore tugi") },
+    { value: "Puue, rehabilitatsioon ja abivahendid", label: readText(t, "workspace_feature_pages.service_profile.category_options.disability_rehabilitation", "Puue, rehabilitatsioon ja abivahendid") },
+    { value: "Kodune abi ja hooldus", label: readText(t, "workspace_feature_pages.service_profile.category_options.home_care", "Kodune abi ja hooldus") },
+    { value: "Toimetulek ja võlanõustamine", label: readText(t, "workspace_feature_pages.service_profile.category_options.coping_debt", "Toimetulek ja võlanõustamine") },
+    { value: "Eluase ja turvalisus", label: readText(t, "workspace_feature_pages.service_profile.category_options.housing_safety", "Eluase ja turvalisus") },
+    { value: "Transport ja liikumisabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.transport", "Transport ja liikumisabi") },
+    { value: "Töö, õppimine ja osalemine", label: readText(t, "workspace_feature_pages.service_profile.category_options.work_learning_participation", "Töö, õppimine ja osalemine") },
+    { value: "Digi- ja asjaajamisabi", label: readText(t, "workspace_feature_pages.service_profile.category_options.digital_admin_help", "Digi- ja asjaajamisabi") },
+    { value: "Muu teenus", label: readText(t, "workspace_feature_pages.service_profile.category_options.other", "Muu teenus") }
   ];
 }
 
 function serviceProfileTargetGroupOptions(t) {
   return [
-    { value: "Laps", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.child", "Laps") },
-    { value: "Noor", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.youth", "Noor") },
-    { value: "Täiskasvanu", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.adult", "Täiskasvanu") },
-    { value: "Eakas", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.elder", "Eakas") },
-    { value: "Erivajadus", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.disability", "Erivajadus") }
+    { value: "Puudega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.disabled_person", "Puudega inimene") },
+    { value: "Psüühilise erivajadusega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.psychosocial_disability", "Psüühilise erivajadusega inimene") },
+    { value: "Intellektipuudega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.intellectual_disability", "Intellektipuudega inimene") },
+    { value: "Vaimse tervise murega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.mental_health_concern", "Vaimse tervise murega inimene") },
+    { value: "Toimetulekuraskustes inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.coping_difficulty", "Toimetulekuraskustes inimene") },
+    { value: "Eluasemeraskustes inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.housing_difficulty", "Eluasemeraskustes inimene") },
+    { value: "Võlgadega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.debt_difficulty", "Võlgadega inimene") },
+    { value: "Sõltuvusprobleemiga inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.addiction_concern", "Sõltuvusprobleemiga inimene") },
+    { value: "Vägivalla või kriisiolukorra kogemusega inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.violence_crisis_experience", "Vägivalla või kriisiolukorra kogemusega inimene") },
+    { value: "Hooldaja või lähedane", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.caregiver_close_person", "Hooldaja või lähedane") },
+    { value: "Lapsevanem", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.parent", "Lapsevanem") },
+    { value: "Pere", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.family", "Pere") },
+    { value: "Eestkostja", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.guardian", "Eestkostja") },
+    { value: "Töötu või tööotsija", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.unemployed_jobseeker", "Töötu või tööotsija") },
+    { value: "Sotsiaalselt isoleeritud inimene", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.socially_isolated", "Sotsiaalselt isoleeritud inimene") },
+    { value: "Muu sihtrühm", label: readText(t, "workspace_feature_pages.service_profile.target_group_options.other", "Muu sihtrühm") }
   ];
 }
 
@@ -2681,6 +3211,117 @@ function serviceProfileLanguageOptions(t) {
     { value: "inglise", label: readText(t, "workspace_feature_pages.service_profile.language_options.en", "Inglise") },
     { value: "vene", label: readText(t, "workspace_feature_pages.service_profile.language_options.ru", "Vene") },
     { value: "muu", label: readText(t, "workspace_feature_pages.service_profile.language_options.other", "Muu") }
+  ];
+}
+
+function serviceProfileAgeGroupOptions(t) {
+  return [
+    { value: "Laps", label: readText(t, "workspace_feature_pages.service_profile.age_group_options.child", "Laps") },
+    { value: "Noor", label: readText(t, "workspace_feature_pages.service_profile.age_group_options.youth", "Noor") },
+    { value: "Tööealine inimene", label: readText(t, "workspace_feature_pages.service_profile.age_group_options.working_age", "Tööealine inimene") },
+    { value: "Täisealine inimene", label: readText(t, "workspace_feature_pages.service_profile.age_group_options.adult", "Täisealine inimene") },
+    { value: "Eakas inimene", label: readText(t, "workspace_feature_pages.service_profile.age_group_options.elder", "Eakas inimene") }
+  ];
+}
+
+function serviceProfileRequesterRoleOptions(t) {
+  return [
+    { value: "Inimene ise", label: readText(t, "workspace_feature_pages.service_profile.requester_role_options.self", "Inimene ise") },
+    { value: "Lapsevanem või eestkostja", label: readText(t, "workspace_feature_pages.service_profile.requester_role_options.parent_guardian", "Lapsevanem või eestkostja") },
+    { value: "Lähedane", label: readText(t, "workspace_feature_pages.service_profile.requester_role_options.close_person", "Lähedane") },
+    { value: "Spetsialist", label: readText(t, "workspace_feature_pages.service_profile.requester_role_options.specialist", "Spetsialist") }
+  ];
+}
+
+function serviceProfileNeedTagOptions(t) {
+  return [
+    { value: "Hooldusvajadus", label: readText(t, "workspace_feature_pages.service_profile.need_options.care_need", "Hooldusvajadus") },
+    { value: "Toimetulekuraskus", label: readText(t, "workspace_feature_pages.service_profile.need_options.coping", "Toimetulekuraskus") },
+    { value: "Hoolduskoormus", label: readText(t, "workspace_feature_pages.service_profile.need_options.caregiver_burden", "Hoolduskoormus") },
+    { value: "Lapse heaolu", label: readText(t, "workspace_feature_pages.service_profile.need_options.child_wellbeing", "Lapse heaolu") },
+    { value: "Vaimne tervis", label: readText(t, "workspace_feature_pages.service_profile.need_options.mental_health", "Vaimne tervis") },
+    { value: "Liikumine ja transport", label: readText(t, "workspace_feature_pages.service_profile.need_options.mobility_transport", "Liikumine ja transport") },
+    { value: "Asjaajamine", label: readText(t, "workspace_feature_pages.service_profile.need_options.administration", "Asjaajamine") }
+  ];
+}
+
+function serviceProfileLifeDomainOptions(t) {
+  return [
+    { value: "Kodu ja igapäevaelu", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.home_daily", "Kodu ja igapäevaelu") },
+    { value: "Tervis", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.health", "Tervis") },
+    { value: "Pere ja suhted", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.family", "Pere ja suhted") },
+    { value: "Haridus", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.education", "Haridus") },
+    { value: "Töö ja hõive", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.work", "Töö ja hõive") },
+    { value: "Eluase", label: readText(t, "workspace_feature_pages.service_profile.life_domain_options.housing", "Eluase") }
+  ];
+}
+
+function serviceProfileDeliveryModeOptions(t) {
+  return [
+    { value: "Kohapeal", label: readText(t, "workspace_feature_pages.service_profile.delivery_mode_options.onsite", "Kohapeal") },
+    { value: "Inimese kodus", label: readText(t, "workspace_feature_pages.service_profile.delivery_mode_options.home", "Inimese kodus") },
+    { value: "Veebis", label: readText(t, "workspace_feature_pages.service_profile.delivery_mode_options.online", "Veebis") },
+    { value: "Telefonitsi", label: readText(t, "workspace_feature_pages.service_profile.delivery_mode_options.phone", "Telefonitsi") },
+    { value: "Piirkondlikult", label: readText(t, "workspace_feature_pages.service_profile.delivery_mode_options.regional", "Piirkondlikult") }
+  ];
+}
+
+function serviceProfileCommunicationSupportOptions(t) {
+  return [
+    { value: "Lihtsas keeles selgitus", label: readText(t, "workspace_feature_pages.service_profile.communication_support_options.simple_language", "Lihtsas keeles selgitus") },
+    { value: "Tõlk või keeleabi", label: readText(t, "workspace_feature_pages.service_profile.communication_support_options.interpreter", "Tõlk või keeleabi") },
+    { value: "Ligipääsetav suhtlus", label: readText(t, "workspace_feature_pages.service_profile.communication_support_options.accessible", "Ligipääsetav suhtlus") }
+  ];
+}
+
+function serviceProfileOrganizationTypeOptions(t) {
+  return [
+    { value: "", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.unspecified", "Täpsustamata") },
+    { value: "MTÜ", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.ngo", "MTÜ") },
+    { value: "SA", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.foundation", "SA") },
+    { value: "Ettevõte", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.company", "Ettevõte") },
+    { value: "Avalik asutus", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.public", "Avalik asutus") },
+    { value: "Muu", label: readText(t, "workspace_feature_pages.service_profile.organization_type_options.other", "Muu") }
+  ];
+}
+
+function serviceProfileServiceAreaTypeOptions(t) {
+  return [
+    { value: "", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.unspecified", "Täpsustamata") },
+    { value: "Üleriigiline", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.national", "Üleriigiline") },
+    { value: "Maakondlik", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.county", "Maakondlik") },
+    { value: "KOV põhine", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.municipality", "KOV põhine") },
+    { value: "Teeninduskoha põhine", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.location", "Teeninduskoha põhine") },
+    { value: "Veebiteenus", label: readText(t, "workspace_feature_pages.service_profile.area_type_options.online", "Veebiteenus") }
+  ];
+}
+
+function serviceProfileAvailabilityOptions(t) {
+  return [
+    { value: "", label: readText(t, "workspace_feature_pages.service_profile.availability_options.unspecified", "Täpsustamata") },
+    { value: "Saadaval", label: readText(t, "workspace_feature_pages.service_profile.availability_options.available", "Saadaval") },
+    { value: "Järjekord", label: readText(t, "workspace_feature_pages.service_profile.availability_options.queue", "Järjekord") },
+    { value: "Piiratud vastuvõtt", label: readText(t, "workspace_feature_pages.service_profile.availability_options.limited", "Piiratud vastuvõtt") },
+    { value: "Peatatud", label: readText(t, "workspace_feature_pages.service_profile.availability_options.paused", "Peatatud") }
+  ];
+}
+
+function serviceProfileRequirementOptions(t) {
+  return [
+    { value: "", label: readText(t, "workspace_feature_pages.service_profile.requirement_options.unspecified", "Täpsustamata") },
+    { value: "Ei", label: readText(t, "workspace_feature_pages.service_profile.requirement_options.no", "Ei") },
+    { value: "Jah", label: readText(t, "workspace_feature_pages.service_profile.requirement_options.yes", "Jah") },
+    { value: "Sõltub olukorrast", label: readText(t, "workspace_feature_pages.service_profile.requirement_options.depends", "Sõltub olukorrast") }
+  ];
+}
+
+function serviceProfileContactModeOptions(t) {
+  return [
+    { value: "", label: readText(t, "workspace_feature_pages.service_profile.contact_mode_options.unspecified", "Täpsustamata") },
+    { value: "Platvormisisene eelpöördumine", label: readText(t, "workspace_feature_pages.service_profile.contact_mode_options.platform", "Platvormisisene eelpöördumine") },
+    { value: "E-post", label: readText(t, "workspace_feature_pages.service_profile.contact_mode_options.email", "E-post") },
+    { value: "Telefon", label: readText(t, "workspace_feature_pages.service_profile.contact_mode_options.phone", "Telefon") },
+    { value: "Veebivorm", label: readText(t, "workspace_feature_pages.service_profile.contact_mode_options.form", "Veebivorm") }
   ];
 }
 
@@ -2699,6 +3340,7 @@ function createServiceProfileLocationForm(location = null, index = 0, profile = 
     phone: location?.phone || "",
     email: location?.email || "",
     website: location?.website || "",
+    openingHours: location?.openingHours || "",
     accessibilityInfo: location?.accessibilityInfo || "",
     mapVisible: location?.mapVisible !== false,
     status: location?.status || (profile?.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT"),
@@ -2707,14 +3349,48 @@ function createServiceProfileLocationForm(location = null, index = 0, profile = 
 }
 
 function createServiceProfileServiceForm(service = null, index = 0, profile = null) {
+  const hasServiceContact = Boolean(
+    String(service?.contactName || "").trim() ||
+    String(service?.phone || "").trim() ||
+    String(service?.email || "").trim() ||
+    String(service?.website || "").trim()
+  );
   return {
     name: service?.name || "",
     description: service?.description || "",
+    longDescription: service?.longDescription || "",
+    includesText: service?.includesText || "",
+    excludesText: service?.excludesText || "",
+    additionalInfo: service?.additionalInfo || "",
     category: service?.category || "",
+    categories: joinList(service?.categories),
+    ageGroups: joinList(service?.ageGroups),
     targetGroups: joinList(service?.targetGroups),
+    requesterRoles: joinList(service?.requesterRoles),
+    needTags: joinList(service?.needTags),
+    lifeDomains: joinList(service?.lifeDomains),
+    deliveryModes: joinList(service?.deliveryModes),
     serviceArea: service?.serviceArea || profile?.serviceArea || "",
+    serviceAreaType: service?.serviceAreaType || "",
+    county: service?.county || profile?.county || "",
+    municipalityIds: joinList(service?.municipalityIds),
+    areaDescription: service?.areaDescription || "",
+    serviceLanguages: joinList(service?.serviceLanguages),
+    inquiryLanguages: joinList(service?.inquiryLanguages),
+    communicationSupport: joinList(service?.communicationSupport),
     feeType: service?.feeType || profile?.feeType || "UNKNOWN",
     priceDescription: service?.priceDescription || "",
+    availabilityStatus: service?.availabilityStatus || "",
+    availabilityDescription: service?.availabilityDescription || "",
+    directContactAllowed: service?.directContactAllowed || "",
+    requiresKovAssessment: service?.requiresKovAssessment || "",
+    requiresKovDecision: service?.requiresKovDecision || "",
+    requiresSkaReferral: service?.requiresSkaReferral || "",
+    requiresSpecialistReferral: service?.requiresSpecialistReferral || "",
+    requiredDocumentsNote: service?.requiredDocumentsNote || "",
+    referralNotes: service?.referralNotes || "",
+    contactMode: service?.contactMode || "",
+    contactStrategy: hasServiceContact ? "CUSTOM" : "ORGANIZATION",
     contactName: service?.contactName || "",
     phone: service?.phone || "",
     email: service?.email || "",
@@ -2742,7 +3418,10 @@ function createServiceProfileForm(profile = null) {
       );
   return {
     organizationName: profile?.organizationName || "",
+    organizationType: profile?.organizationType || "",
+    registryCode: profile?.registryCode || "",
     shortDescription: profile?.shortDescription || "",
+    longDescription: profile?.longDescription || "",
     services: joinList(profile?.services),
     serviceCategories: joinList(profile?.serviceCategories),
     targetGroups: joinList(profile?.targetGroups),
@@ -2758,12 +3437,15 @@ function createServiceProfileForm(profile = null) {
     phone: profile?.phone || "",
     email: profile?.email || "",
     website: profile?.website || "",
+    primaryContactName: profile?.primaryContactName || "",
     languages: joinList(profile?.languages),
     accessibilityInfo: profile?.accessibilityInfo || "",
+    generalAccessibilityNote: profile?.generalAccessibilityNote || "",
     feeType: profile?.feeType || "UNKNOWN",
     mapVisible: Boolean(profile?.mapVisible),
     acceptsPlatformPreInquiries: profile?.acceptsPlatformPreInquiries !== false,
     acceptsEmailPreInquiries: profile?.acceptsEmailPreInquiries !== false,
+    assistantRecommendationAllowed: profile?.assistantRecommendationAllowed === true,
     status: profile?.status || "DRAFT",
     serviceItems,
     serviceLocations
@@ -2876,7 +3558,8 @@ function ServiceProfileChoiceChips({ value, options, onChange, ariaLabel }) {
             aria-pressed={checked ? "true" : "false"}
             onClick={() => onChange(toggleListValue(value, option.value))}
           >
-            {option.label}
+            {checked ? <span aria-hidden="true" className="service-profile-choice-chip__mark">✓</span> : null}
+            <span>{option.label}</span>
           </button>
         );
       })}
@@ -2886,6 +3569,34 @@ function ServiceProfileChoiceChips({ value, options, onChange, ariaLabel }) {
 
 function ServiceProfileFieldHelp({ children }) {
   return <p className="service-profile-field-help">{children}</p>;
+}
+
+function ServiceProfileChipField({
+  label,
+  value,
+  options,
+  ariaLabel,
+  onChange,
+  selectedLabel = "",
+  selectedEmptyLabel = "-"
+}) {
+  const selectedLabels = serviceProfileSelectedOptionLabels(value, options);
+  return (
+    <div className="service-profile-field-group">
+      <span>{label}</span>
+      <ServiceProfileChoiceChips
+        value={value}
+        options={options}
+        ariaLabel={ariaLabel || label}
+        onChange={onChange}
+      />
+      <p className="service-profile-chip-summary">
+        {selectedLabels.length
+          ? `${selectedLabel}: ${selectedLabels.join(", ")}`
+          : `${selectedLabel}: ${selectedEmptyLabel}`}
+      </p>
+    </div>
+  );
 }
 
 function ServiceProfileInput({ className, ...props }) {
@@ -3056,6 +3767,17 @@ function ServiceProfileSurface({ t }) {
   const categoryOptions = useMemo(() => serviceProfileCategoryOptions(t), [t]);
   const targetGroupOptions = useMemo(() => serviceProfileTargetGroupOptions(t), [t]);
   const languageOptions = useMemo(() => serviceProfileLanguageOptions(t), [t]);
+  const ageGroupOptions = useMemo(() => serviceProfileAgeGroupOptions(t), [t]);
+  const requesterRoleOptions = useMemo(() => serviceProfileRequesterRoleOptions(t), [t]);
+  const needTagOptions = useMemo(() => serviceProfileNeedTagOptions(t), [t]);
+  const lifeDomainOptions = useMemo(() => serviceProfileLifeDomainOptions(t), [t]);
+  const deliveryModeOptions = useMemo(() => serviceProfileDeliveryModeOptions(t), [t]);
+  const communicationSupportOptions = useMemo(() => serviceProfileCommunicationSupportOptions(t), [t]);
+  const organizationTypeOptions = useMemo(() => serviceProfileOrganizationTypeOptions(t), [t]);
+  const serviceAreaTypeOptions = useMemo(() => serviceProfileServiceAreaTypeOptions(t), [t]);
+  const availabilityOptions = useMemo(() => serviceProfileAvailabilityOptions(t), [t]);
+  const requirementOptions = useMemo(() => serviceProfileRequirementOptions(t), [t]);
+  const contactModeOptions = useMemo(() => serviceProfileContactModeOptions(t), [t]);
   const serviceCategoryOptions = useMemo(
     () => [
       { value: "", label: readText(t, "workspace_feature_pages.service_profile.category_options.unspecified", "Täpsustamata") },
@@ -3063,6 +3785,15 @@ function ServiceProfileSurface({ t }) {
     ],
     [t]
   );
+  const contactStrategyOptions = useMemo(
+    () => [
+      { value: "ORGANIZATION", label: readText(t, "workspace_feature_pages.service_profile.contact_strategy.organization", "Kasuta organisatsiooni põhikontakti") },
+      { value: "CUSTOM", label: readText(t, "workspace_feature_pages.service_profile.contact_strategy.custom", "Määra teenusele eraldi kontakt") }
+    ],
+    [t]
+  );
+  const selectedSummaryLabel = readText(t, "workspace_feature_pages.service_profile.choice_summary.selected", "Valitud");
+  const selectedSummaryEmptyLabel = readText(t, "workspace_feature_pages.service_profile.choice_summary.empty", "-");
 
   useEffect(() => {
     let cancelled = false;
@@ -3214,11 +3945,11 @@ function ServiceProfileSurface({ t }) {
           adsObjectId: primaryMapLocation?.adsObjectId || form.adsObjectId,
           geocodingProvider: primaryMapLocation?.geocodingProvider || form.geocodingProvider,
           county: primaryMapLocation?.county || form.county,
-          services: splitList(form.services),
-          serviceCategories: splitList(form.serviceCategories),
-          targetGroups: splitList(form.targetGroups),
+          services: [],
+          serviceCategories: [],
+          targetGroups: [],
           serviceAreaMunicipalityIds: splitList(form.serviceAreaMunicipalityIds),
-          languages: splitList(form.languages),
+          languages: [],
           serviceLocations: form.serviceLocations
             .map((item, index) => ({
               ...item,
@@ -3229,7 +3960,21 @@ function ServiceProfileSurface({ t }) {
           serviceItems: form.serviceItems
             .map((item, index) => ({
               ...item,
+              contactName: item.contactStrategy === "CUSTOM" ? item.contactName : "",
+              phone: item.contactStrategy === "CUSTOM" ? item.phone : "",
+              email: item.contactStrategy === "CUSTOM" ? item.email : "",
+              website: item.contactStrategy === "CUSTOM" ? item.website : "",
+              categories: splitList(item.categories),
+              ageGroups: splitList(item.ageGroups),
               targetGroups: splitList(item.targetGroups),
+              requesterRoles: splitList(item.requesterRoles),
+              needTags: splitList(item.needTags),
+              lifeDomains: splitList(item.lifeDomains),
+              deliveryModes: splitList(item.deliveryModes),
+              municipalityIds: splitList(item.municipalityIds),
+              serviceLanguages: splitList(item.serviceLanguages),
+              inquiryLanguages: splitList(item.inquiryLanguages),
+              communicationSupport: splitList(item.communicationSupport),
               locationIds: Array.isArray(item.locationIds) ? item.locationIds : [],
               status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
               sortOrder: index
@@ -3256,6 +4001,57 @@ function ServiceProfileSurface({ t }) {
   const saveLabel = saving
     ? readText(t, "workspace_feature_pages.service_profile.actions.saving", "Salvestan...")
     : readText(t, "workspace_feature_pages.service_profile.actions.save", "Salvesta muudatused");
+  const realServiceLocations = form.serviceLocations.filter((location) =>
+    String(location.label || location.address || location.normalizedAddress || "").trim()
+  );
+  const hasPublishableService = form.serviceItems.some((service) =>
+    String(service.name || "").trim() &&
+    service.mapVisible !== false &&
+    String(service.status || form.status || "").toUpperCase() !== "HIDDEN"
+  );
+  const hasMappableLocation = form.serviceLocations.some((location) =>
+    location.mapVisible !== false &&
+    String(location.address || location.normalizedAddress || "").trim()
+  );
+  const hasContact = Boolean(String(form.email || form.phone || "").trim());
+  const publishChecks = [
+    {
+      ok: form.status === "PUBLISHED",
+      text: form.status === "PUBLISHED"
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.status_published", "Profiili staatus on avaldatud.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.status_not_published", "Muuda profiili staatus avaldatuks, kui soovid seda avalikus vaates kuvada.")
+    },
+    {
+      ok: form.mapVisible,
+      text: form.mapVisible
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.map_visible", "Profiil on teenusekaardil nähtavaks märgitud.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.map_hidden", "Teenusekaardi nähtavus on välja lülitatud.")
+    },
+    {
+      ok: hasPublishableService,
+      text: hasPublishableService
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.service_ready", "Vähemalt üks teenus on avaldamiseks olemas.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.service_missing", "Lisa vähemalt üks avaldatav teenus.")
+    },
+    {
+      ok: hasMappableLocation,
+      text: hasMappableLocation
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.location_ready", "Vähemalt üks teeninduskoht on kaardil nähtav ja aadressiga.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.location_missing", "Lisa teeninduskoht koos aadressiga, kui soovid kaardimarkerit.")
+    },
+    {
+      ok: hasContact,
+      text: hasContact
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.contact_ready", "Üldine e-post või telefon on olemas.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.contact_missing", "Lisa üldine e-post või telefon.")
+    },
+    {
+      ok: form.assistantRecommendationAllowed,
+      text: form.assistantRecommendationAllowed
+        ? readText(t, "workspace_feature_pages.service_profile.publish_checks.assistant_allowed", "Assistent võib avaldatud teenuseid soovitada.")
+        : readText(t, "workspace_feature_pages.service_profile.publish_checks.assistant_blocked", "Assistent ei soovita neid teenuseid enne eraldi loa andmist.")
+    }
+  ];
 
   return (
     <form onSubmit={handleSubmit} className="service-profile-form mx-auto grid w-full max-w-[58rem] gap-[1rem]">
@@ -3273,28 +4069,25 @@ function ServiceProfileSurface({ t }) {
         </p>
       ) : null}
 
-      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Teenuseosutaja pohiinfo")}>
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.profile", "Teenuseosutaja põhainfo")}>
         <div className="service-profile-field-stack">
           <Label>
             <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization", "Organisatsiooni nimi")}</span>
             <ServiceProfileInput value={form.organizationName} onChange={(event) => updateField("organizationName", event.target.value)} />
           </Label>
-          <div className="service-profile-field-group">
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.categories", "Kategooriad")}</span>
-            <ServiceProfileChoiceChips
-              value={form.serviceCategories}
-              options={categoryOptions}
-              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.categories", "Kategooriad")}
-              onChange={(nextValue) => updateField("serviceCategories", nextValue)}
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.organization_type", "Organisatsiooni tüüp")}</span>
+            <ServiceProfileDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.organization_type", "Organisatsiooni tüüp")}
+              value={form.organizationType}
+              onChange={(nextValue) => updateField("organizationType", nextValue)}
+              options={organizationTypeOptions}
             />
-            <ServiceProfileFieldHelp>
-              {readText(
-                t,
-                "workspace_feature_pages.service_profile.field_help.categories",
-                "Kategooriad on standardvalikud. Neid kasutatakse teenusekaardi otsingus ja eelpöördumiste sobitamises."
-              )}
-            </ServiceProfileFieldHelp>
-          </div>
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.registry_code", "Registrikood")}</span>
+            <ServiceProfileInput value={form.registryCode} onChange={(event) => updateField("registryCode", event.target.value)} />
+          </Label>
         </div>
         <Label>
           <span>{readText(t, "workspace_feature_pages.service_profile.fields.short_description", "Lühikirjeldus")}</span>
@@ -3304,117 +4097,80 @@ function ServiceProfileSurface({ t }) {
             onChange={(event) => updateField("shortDescription", event.target.value)}
           />
         </Label>
+        <Label>
+          <span>{readText(t, "workspace_feature_pages.service_profile.fields.long_description", "Pikem kirjeldus")}</span>
+          <ServiceProfileTextarea
+            className="min-h-[7rem]"
+            value={form.longDescription}
+            onChange={(event) => updateField("longDescription", event.target.value)}
+          />
+        </Label>
         <div className="service-profile-field-stack">
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.services_overview", "Teenuste luhikokkuvote")}</span>
-            <ServiceProfileTextarea className="min-h-[6.2rem]" value={form.services} onChange={(event) => updateField("services", event.target.value)} />
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
+            <ServiceProfileInput value={form.website} onChange={(event) => updateField("website", event.target.value)} />
           </Label>
-          <div className="service-profile-field-group">
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Sihtrühmad")}</span>
-            <ServiceProfileChoiceChips
-              value={form.targetGroups}
-              options={targetGroupOptions}
-              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.target_groups", "Sihtrühmad")}
-              onChange={(nextValue) => updateField("targetGroups", nextValue)}
-            />
-            <ServiceProfileFieldHelp>
-              {readText(
-                t,
-                "workspace_feature_pages.service_profile.field_help.target_groups",
-                "Sihtrühmad on samuti standardvalikud, et sama teenus ei jääks kirjavea tõttu filtrist või eelpöördumisest välja."
-              )}
-            </ServiceProfileFieldHelp>
-          </div>
           <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Hinnastus")}</span>
-            <ServiceProfileDropdown
-              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.fee_type", "Hinnastus")}
-              value={form.feeType}
-              onChange={(nextValue) => updateField("feeType", nextValue)}
-              options={feeOptions}
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "Üldine e-post")}</span>
+            <ServiceProfileInput type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Üldtelefon")}</span>
+            <ServiceProfileInput value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.primary_contact_name", "Põhikontakt")}</span>
+            <ServiceProfileInput value={form.primaryContactName} onChange={(event) => updateField("primaryContactName", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Üldine tegevuspiirkond")}</span>
+            <ServiceProfileInput value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "KOV-id või piirkonnad")}</span>
+            <ServiceProfileInput value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "Maakond")}</span>
+            <ServiceProfileInput value={form.county} onChange={(event) => updateField("county", event.target.value)} />
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Üldine ligipääsetavuse info")}</span>
+            <ServiceProfileTextarea
+              className="min-h-[5.4rem]"
+              value={form.accessibilityInfo}
+              onChange={(event) => updateField("accessibilityInfo", event.target.value)}
             />
           </Label>
-          <div className="service-profile-field-group">
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.languages", "Keeled")}</span>
-            <ServiceProfileChoiceChips
-              value={form.languages}
-              options={languageOptions}
-              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.languages", "Keeled")}
-              onChange={(nextValue) => updateField("languages", nextValue)}
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.general_accessibility_note", "Ligipääsetavuse täpsustus")}</span>
+            <ServiceProfileTextarea
+              className="min-h-[5.4rem]"
+              value={form.generalAccessibilityNote}
+              onChange={(event) => updateField("generalAccessibilityNote", event.target.value)}
             />
-          </div>
+          </Label>
+          <Label>
+            <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Profiili staatus")}</span>
+            <ServiceProfileDropdown
+              ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Profiili staatus")}
+              value={form.status}
+              onChange={(nextValue) => updateField("status", nextValue)}
+              options={statusOptions}
+            />
+          </Label>
         </div>
       </ServiceProfileSection>
 
-      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.services_locations", "Teenused ja teeninduskohad")}>
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.services", "Teenused")}>
         <ServiceProfileFieldHelp>
           {readText(
             t,
-            "workspace_feature_pages.service_profile.field_help.services_locations",
-            "Teeninduskoht on kaardimarkeri alus. Aadressiväli pakub kirjutamisel ametlikke vasteid; vali vaste, et marker saaks usaldusväärse asukoha."
+            "workspace_feature_pages.service_profile.field_help.services",
+            "Kirjelda siin konkreetseid teenuseid. Kategooriad, sihtrühmad, keeled ja pöördumise tingimused salvestuvad teenuse tasemele."
           )}
         </ServiceProfileFieldHelp>
         <div className="service-profile-subsection">
-          <h3 className="service-profile-subsection-title">{readText(t, "workspace_feature_pages.service_profile.sections.locations", "Teeninduskohad")}</h3>
-          <div className="grid gap-[0.82rem]">
-          {form.serviceLocations.length ? form.serviceLocations.map((location, index) => (
-            <div key={location.clientId || `location-${index}`} className="service-profile-nested-card">
-              <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
-                <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
-                  {readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} {index + 1}
-                </p>
-                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="service-profile-secondary-action">
-                  {readText(t, "workspace_feature_pages.service_profile.locations.remove", "Eemalda")}
-                </Button>
-              </div>
-              <div className="service-profile-field-stack">
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.label", "Nimetus")}</span>
-                  <ServiceProfileInput value={location.label} onChange={(event) => updateServiceLocation(index, "label", event.target.value)} />
-                </Label>
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.address", "Aadress")}</span>
-                  <ServiceProfileAddressInput
-                    t={t}
-                    form={{ ...form, ...location, county: location.county || form.county }}
-                    onTyping={(value) => updateServiceLocationAddressTyping(index, value)}
-                    onSelect={(suggestion) => selectServiceLocationAddress(index, suggestion)}
-                  />
-                </Label>
-              </div>
-              <div className="service-profile-field-stack">
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
-                  <ServiceProfileInput value={location.phone} onChange={(event) => updateServiceLocation(index, "phone", event.target.value)} />
-                </Label>
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
-                  <ServiceProfileInput type="email" value={location.email} onChange={(event) => updateServiceLocation(index, "email", event.target.value)} />
-                </Label>
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
-                  <ServiceProfileInput value={location.website} onChange={(event) => updateServiceLocation(index, "website", event.target.value)} />
-                </Label>
-              </div>
-              <ToggleRow
-                checked={location.mapVisible}
-                onChange={(value) => updateServiceLocation(index, "mapVisible", value)}
-                title={readText(t, "workspace_feature_pages.service_profile.locations.visible_on_map", "Näita teenusekaardil")}
-                className="workspace-feature-toggle-row--flat"
-              />
-            </div>
-          )) : (
-            <p className={bodyTextClassName}>
-              {readText(t, "workspace_feature_pages.service_profile.locations.empty", "Teeninduskohti ei ole veel lisatud.")}
-            </p>
-          )}
-          <Button type="button" variant="secondary" onClick={addServiceLocation} className="justify-self-start">
-            {readText(t, "workspace_feature_pages.service_profile.locations.add", "Lisa teeninduskoht")}
-          </Button>
-        </div>
-        </div>
-        <div className="service-profile-subsection">
-          <h3 className="service-profile-subsection-title">{readText(t, "workspace_feature_pages.service_profile.sections.services", "Teenused")}</h3>
           <div className="grid gap-[0.82rem]">
           {form.serviceItems.length ? form.serviceItems.map((service, index) => (
             <div key={`service-item-${index}`} className="service-profile-nested-card">
@@ -3455,15 +4211,88 @@ function ServiceProfileSurface({ t }) {
                 />
               </Label>
               <div className="service-profile-field-stack">
-                <div className="service-profile-field-group">
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Sihtrühmad")}</span>
-                  <ServiceProfileChoiceChips
-                    value={service.targetGroups}
-                    options={targetGroupOptions}
-                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Sihtrühmad")}
-                    onChange={(nextValue) => updateServiceItem(index, "targetGroups", nextValue)}
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.long_description", "Pikem kirjeldus")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.8rem]"
+                    value={service.longDescription}
+                    onChange={(event) => updateServiceItem(index, "longDescription", event.target.value)}
                   />
-                </div>
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.includes_text", "Mida teenus sisaldab")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.includesText}
+                    onChange={(event) => updateServiceItem(index, "includesText", event.target.value)}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.excludes_text", "Mida teenus ei sisalda")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.excludesText}
+                    onChange={(event) => updateServiceItem(index, "excludesText", event.target.value)}
+                  />
+                </Label>
+              </div>
+              <div className="service-profile-field-stack">
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.categories", "Teenuse kategooriad")}
+                  value={service.categories}
+                  options={categoryOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "categories", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.target_groups", "Sihtrühmad")}
+                  value={service.targetGroups}
+                  options={targetGroupOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "targetGroups", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.age_groups", "Vanusegrupid")}
+                  value={service.ageGroups}
+                  options={ageGroupOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "ageGroups", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.requester_roles", "Kes võib pöörduda")}
+                  value={service.requesterRoles}
+                  options={requesterRoleOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "requesterRoles", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.need_tags", "Vajadused ja olukorrad")}
+                  value={service.needTags}
+                  options={needTagOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "needTags", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.life_domains", "Eluvaldkonnad")}
+                  value={service.lifeDomains}
+                  options={lifeDomainOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "lifeDomains", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.delivery_modes", "Osutamise viisid")}
+                  value={service.deliveryModes}
+                  options={deliveryModeOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "deliveryModes", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
                 <Label>
                   <span>{readText(t, "workspace_feature_pages.service_profile.service_items.service_area", "Teeninduspiirkond")}</span>
                   <ServiceProfileTextarea
@@ -3472,14 +4301,39 @@ function ServiceProfileSurface({ t }) {
                     onChange={(event) => updateServiceItem(index, "serviceArea", event.target.value)}
                   />
                 </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.service_area_type", "Piirkonna tüüp")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.service_area_type", "Piirkonna tüüp")}
+                    value={service.serviceAreaType}
+                    onChange={(nextValue) => updateServiceItem(index, "serviceAreaType", nextValue)}
+                    options={serviceAreaTypeOptions}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "Maakond")}</span>
+                  <ServiceProfileInput value={service.county} onChange={(event) => updateServiceItem(index, "county", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.municipality_ids", "KOV-id või piirkonnad")}</span>
+                  <ServiceProfileInput value={service.municipalityIds} onChange={(event) => updateServiceItem(index, "municipalityIds", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.area_description", "Piirkonna täpsustus")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.areaDescription}
+                    onChange={(event) => updateServiceItem(index, "areaDescription", event.target.value)}
+                  />
+                </Label>
               </div>
-              {form.serviceLocations.length ? (
+              {realServiceLocations.length ? (
                 <div className="grid gap-[0.42rem]">
                   <p className="m-0 text-[0.92rem] font-[640] leading-[1.2]">
                     {readText(t, "workspace_feature_pages.service_profile.service_items.locations", "Teeninduskohad")}
                   </p>
                   <div className="service-profile-location-choice-list">
-                    {form.serviceLocations.map((location, locationIndex) => {
+                    {realServiceLocations.map((location, locationIndex) => {
                       const locationId = location.clientId || `location-${locationIndex + 1}`;
                       const checked = (service.locationIds || []).includes(locationId);
                       return (
@@ -3493,13 +4347,17 @@ function ServiceProfileSurface({ t }) {
                             updateServiceItem(index, "locationIds", [...currentIds]);
                           }}
                         >
-                          {location.label || location.normalizedAddress || location.address || `${readText(t, "workspace_feature_pages.service_profile.locations.item_title", "Teeninduskoht")} ${locationIndex + 1}`}
+                          {location.label || location.normalizedAddress || location.address}
                         </ServiceProfileLocationChoice>
                       );
                     })}
                   </div>
                 </div>
-              ) : null}
+              ) : (
+                <p className={bodyTextClassName}>
+                  {readText(t, "workspace_feature_pages.service_profile.service_items.location_empty_hint", "Lisa esmalt teeninduskoht, kui soovid teenust kaardil kuvada. Teenus võib olla ka ilma füüsilise teeninduskohata, kui osutamise viis on veebis, telefoni teel, inimese kodus või piirkondlikult.")}
+                </p>
+              )}
               <div className="service-profile-field-stack">
                 <Label>
                   <span>{readText(t, "workspace_feature_pages.service_profile.service_items.fee_type", "Hinnastus")}</span>
@@ -3516,18 +4374,166 @@ function ServiceProfileSurface({ t }) {
                 </Label>
               </div>
               <div className="service-profile-field-stack">
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.service_languages", "Teenuse osutamise keeled")}
+                  value={service.serviceLanguages}
+                  options={languageOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "serviceLanguages", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.inquiry_languages", "Pöördumise keeled")}
+                  value={service.inquiryLanguages}
+                  options={languageOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "inquiryLanguages", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
+                <ServiceProfileChipField
+                  label={readText(t, "workspace_feature_pages.service_profile.service_items.communication_support", "Suhtlustugi")}
+                  value={service.communicationSupport}
+                  options={communicationSupportOptions}
+                  onChange={(nextValue) => updateServiceItem(index, "communicationSupport", nextValue)}
+                  selectedLabel={selectedSummaryLabel}
+                  selectedEmptyLabel={selectedSummaryEmptyLabel}
+                />
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_name", "Kontaktisik")}</span>
-                  <ServiceProfileInput value={service.contactName} onChange={(event) => updateServiceItem(index, "contactName", event.target.value)} />
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.availability_status", "Kättesaadavus")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.availability_status", "Kättesaadavus")}
+                    value={service.availabilityStatus}
+                    onChange={(nextValue) => updateServiceItem(index, "availabilityStatus", nextValue)}
+                    options={availabilityOptions}
+                  />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
-                  <ServiceProfileInput value={service.phone} onChange={(event) => updateServiceItem(index, "phone", event.target.value)} />
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.availability_description", "Kättesaadavuse täpsustus")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.availabilityDescription}
+                    onChange={(event) => updateServiceItem(index, "availabilityDescription", event.target.value)}
+                  />
+                </Label>
+              </div>
+              <div className="service-profile-field-stack">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.direct_contact_allowed", "Otsekontakt lubatud")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.direct_contact_allowed", "Otsekontakt lubatud")}
+                    value={service.directContactAllowed}
+                    onChange={(nextValue) => updateServiceItem(index, "directContactAllowed", nextValue)}
+                    options={requirementOptions}
+                  />
                 </Label>
                 <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
-                  <ServiceProfileInput type="email" value={service.email} onChange={(event) => updateServiceItem(index, "email", event.target.value)} />
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.requires_kov_assessment", "Vajab KOV hindamist")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.requires_kov_assessment", "Vajab KOV hindamist")}
+                    value={service.requiresKovAssessment}
+                    onChange={(nextValue) => updateServiceItem(index, "requiresKovAssessment", nextValue)}
+                    options={requirementOptions}
+                  />
                 </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.requires_kov_decision", "Vajab KOV otsust")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.requires_kov_decision", "Vajab KOV otsust")}
+                    value={service.requiresKovDecision}
+                    onChange={(nextValue) => updateServiceItem(index, "requiresKovDecision", nextValue)}
+                    options={requirementOptions}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.requires_ska_referral", "Vajab SKA suunamist")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.requires_ska_referral", "Vajab SKA suunamist")}
+                    value={service.requiresSkaReferral}
+                    onChange={(nextValue) => updateServiceItem(index, "requiresSkaReferral", nextValue)}
+                    options={requirementOptions}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.requires_specialist_referral", "Vajab spetsialisti suunamist")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.requires_specialist_referral", "Vajab spetsialisti suunamist")}
+                    value={service.requiresSpecialistReferral}
+                    onChange={(nextValue) => updateServiceItem(index, "requiresSpecialistReferral", nextValue)}
+                    options={requirementOptions}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_mode", "Kontaktiviis")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.contact_mode", "Kontaktiviis")}
+                    value={service.contactMode}
+                    onChange={(nextValue) => updateServiceItem(index, "contactMode", nextValue)}
+                    options={contactModeOptions}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.required_documents_note", "Vajalikud dokumendid")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.requiredDocumentsNote}
+                    onChange={(event) => updateServiceItem(index, "requiredDocumentsNote", event.target.value)}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.referral_notes", "Pöördumise tingimused")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.referralNotes}
+                    onChange={(event) => updateServiceItem(index, "referralNotes", event.target.value)}
+                  />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.additional_info", "Lisainfo")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={service.additionalInfo}
+                    onChange={(event) => updateServiceItem(index, "additionalInfo", event.target.value)}
+                  />
+                </Label>
+              </div>
+              <div className="service-profile-field-stack">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.contact_strategy.label", "Teenuse kontakt")}</span>
+                  <ServiceProfileDropdown
+                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.contact_strategy.label", "Teenuse kontakt")}
+                    value={service.contactStrategy}
+                    onChange={(nextValue) => {
+                      updateServiceItem(index, "contactStrategy", nextValue);
+                      if (nextValue === "ORGANIZATION") {
+                        updateServiceItem(index, "contactName", "");
+                        updateServiceItem(index, "phone", "");
+                        updateServiceItem(index, "email", "");
+                        updateServiceItem(index, "website", "");
+                      }
+                    }}
+                    options={contactStrategyOptions}
+                  />
+                </Label>
+                {service.contactStrategy === "CUSTOM" ? (
+                  <>
+                    <Label>
+                      <span>{readText(t, "workspace_feature_pages.service_profile.service_items.contact_name", "Kontaktisik")}</span>
+                      <ServiceProfileInput value={service.contactName} onChange={(event) => updateServiceItem(index, "contactName", event.target.value)} />
+                    </Label>
+                    <Label>
+                      <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
+                      <ServiceProfileInput value={service.phone} onChange={(event) => updateServiceItem(index, "phone", event.target.value)} />
+                    </Label>
+                    <Label>
+                      <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
+                      <ServiceProfileInput type="email" value={service.email} onChange={(event) => updateServiceItem(index, "email", event.target.value)} />
+                    </Label>
+                  </>
+                ) : (
+                  <ServiceProfileFieldHelp>
+                    {readText(t, "workspace_feature_pages.service_profile.contact_strategy.inherited_help", "Eelpöördumise kontaktivalik kasutab järjekorda: teenuse kontakt, teeninduskoha kontakt, organisatsiooni põhikontakt. Selle teenuse puhul kasutatakse praegu organisatsiooni põhikontakti.")}
+                  </ServiceProfileFieldHelp>
+                )}
               </div>
               <div className="grid gap-[0.64rem]">
                 <ToggleRow
@@ -3545,7 +4551,7 @@ function ServiceProfileSurface({ t }) {
                 <ToggleRow
                   checked={service.acceptsEmailPreInquiries}
                   onChange={(value) => updateServiceItem(index, "acceptsEmailPreInquiries", value)}
-                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Võtab vastu e-posti mustandeid")}
+                  title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Lubab e-kirja koostamist")}
                   className="workspace-feature-toggle-row--flat"
                 />
               </div>
@@ -3562,45 +4568,84 @@ function ServiceProfileSurface({ t }) {
         </div>
       </ServiceProfileSection>
 
-      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.area", "Teeninduspiirkond ja asukoht")}>
+      <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.locations", "Teeninduskohad")}>
         <ServiceProfileFieldHelp>
           {readText(
             t,
-            "workspace_feature_pages.service_profile.field_help.area",
-            "Teeninduspiirkond kirjeldab, kust inimesi teenindatakse. Kaardimarkerite aadressid sisesta teeninduskohtade plokis."
+            "workspace_feature_pages.service_profile.field_help.locations",
+            "Teeninduskoht on kaardimarkeri alus. Lisa siia ainult päris teeninduskohad nime ja aadressiga."
           )}
         </ServiceProfileFieldHelp>
-        <div className="service-profile-field-stack">
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.service_area", "Teeninduspiirkond")}</span>
-            <ServiceProfileInput value={form.serviceArea} onChange={(event) => updateField("serviceArea", event.target.value)} />
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.municipalities", "KOV-id või piirkonnad")}</span>
-            <ServiceProfileInput value={form.serviceAreaMunicipalityIds} onChange={(event) => updateField("serviceAreaMunicipalityIds", event.target.value)} />
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.county", "Maakond")}</span>
-            <ServiceProfileInput value={form.county} onChange={(event) => updateField("county", event.target.value)} />
-          </Label>
+        <div className="grid gap-[0.82rem]">
+          {form.serviceLocations.length ? form.serviceLocations.map((location, index) => (
+            <div key={location.clientId || `location-${index}`} className="service-profile-nested-card">
+              <div className="flex flex-wrap items-start justify-between gap-[0.72rem]">
+                <p className="m-0 text-[0.98rem] font-[680] leading-[1.25] text-[color:var(--glass-modal-text,var(--glass-surface-text,#f2f2f2))]">
+                  {location.label || location.normalizedAddress || location.address || readText(t, "workspace_feature_pages.service_profile.locations.new_item_title", "Uus teeninduskoht")}
+                </p>
+                <Button type="button" variant="secondary" onClick={() => removeServiceLocation(index)} className="service-profile-secondary-action">
+                  {readText(t, "workspace_feature_pages.service_profile.locations.remove", "Eemalda")}
+                </Button>
+              </div>
+              <div className="service-profile-field-stack">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.label", "Nimetus")}</span>
+                  <ServiceProfileInput value={location.label} onChange={(event) => updateServiceLocation(index, "label", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.address", "Aadress")}</span>
+                  <ServiceProfileAddressInput
+                    t={t}
+                    form={{ ...form, ...location, county: location.county || form.county }}
+                    onTyping={(value) => updateServiceLocationAddressTyping(index, value)}
+                    onSelect={(suggestion) => selectServiceLocationAddress(index, suggestion)}
+                  />
+                </Label>
+              </div>
+              <div className="service-profile-field-stack">
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
+                  <ServiceProfileInput value={location.phone} onChange={(event) => updateServiceLocation(index, "phone", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
+                  <ServiceProfileInput type="email" value={location.email} onChange={(event) => updateServiceLocation(index, "email", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
+                  <ServiceProfileInput value={location.website} onChange={(event) => updateServiceLocation(index, "website", event.target.value)} />
+                </Label>
+                <Label>
+                  <span>{readText(t, "workspace_feature_pages.service_profile.locations.opening_hours", "Lahtiolekuajad")}</span>
+                  <ServiceProfileTextarea
+                    className="min-h-[5.2rem]"
+                    value={location.openingHours}
+                    onChange={(event) => updateServiceLocation(index, "openingHours", event.target.value)}
+                  />
+                </Label>
+              </div>
+              <ToggleRow
+                checked={location.mapVisible}
+                onChange={(value) => updateServiceLocation(index, "mapVisible", value)}
+                title={readText(t, "workspace_feature_pages.service_profile.locations.visible_on_map", "Näita teenusekaardil")}
+                className="workspace-feature-toggle-row--flat"
+              />
+            </div>
+          )) : (
+            <p className={bodyTextClassName}>
+              {readText(t, "workspace_feature_pages.service_profile.locations.empty", "Teeninduskohti ei ole veel lisatud.")}
+            </p>
+          )}
+          <Button type="button" variant="secondary" onClick={addServiceLocation} className="justify-self-start">
+            {readText(t, "workspace_feature_pages.service_profile.locations.add", "Lisa teeninduskoht")}
+          </Button>
         </div>
       </ServiceProfileSection>
 
       <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.contact", "Kontakt ja eelpöördumised")}>
-        <div className="service-profile-field-stack">
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.phone", "Telefon")}</span>
-            <ServiceProfileInput value={form.phone} onChange={(event) => updateField("phone", event.target.value)} />
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.email", "E-post")}</span>
-            <ServiceProfileInput type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} />
-          </Label>
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.website", "Veebileht")}</span>
-            <ServiceProfileInput value={form.website} onChange={(event) => updateField("website", event.target.value)} />
-          </Label>
-        </div>
+        <ServiceProfileFieldHelp>
+          {readText(t, "workspace_feature_pages.service_profile.contact_strategy.priority_help", "Eelpöördumise kontaktivalik kasutab järjekorda: teenuse kontakt, teeninduskoha kontakt, organisatsiooni põhikontakt. Põhikontakti andmed sisesta organisatsiooni põhiinfos.")}
+        </ServiceProfileFieldHelp>
         <div className="grid gap-[0.64rem] pt-[0.72rem]">
           <ToggleRow
             checked={form.acceptsPlatformPreInquiries}
@@ -3612,8 +4657,8 @@ function ServiceProfileSurface({ t }) {
           <ToggleRow
             checked={form.acceptsEmailPreInquiries}
             onChange={(value) => updateField("acceptsEmailPreInquiries", value)}
-            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Võtab vastu e-posti mustandeid")}
-            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "Töövoog saab koostada e-kirja mustandi kontaktmeili jaoks.")}
+            title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.accepts_email", "Lubab e-kirja koostamist")}
+            body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.email_help", "Kasutaja saab koostada e-kirja eelvaate, mille ta vaatab enne saatmist üle.")}
             className="workspace-feature-toggle-row--flat"
           />
         </div>
@@ -3621,25 +4666,7 @@ function ServiceProfileSurface({ t }) {
 
       <ServiceProfileSection title={readText(t, "workspace_feature_pages.service_profile.sections.publish", "Avaldamine")}>
         <div className="service-profile-publish-layout">
-          <Label>
-            <span>{readText(t, "workspace_feature_pages.service_profile.fields.accessibility_info", "Ligipääsetavuse info")}</span>
-            <ServiceProfileTextarea
-              className="min-h-[6.6rem]"
-              value={form.accessibilityInfo}
-              onChange={(event) => updateField("accessibilityInfo", event.target.value)}
-            />
-          </Label>
           <div className="service-profile-publish-side">
-            <Label>
-              <span>{readText(t, "workspace_feature_pages.service_profile.fields.status", "Staatus")}</span>
-              <ServiceProfileDropdown
-                ariaLabel={readText(t, "workspace_feature_pages.service_profile.fields.status", "Staatus")}
-                value={form.status}
-                onChange={(nextValue) => updateField("status", nextValue)}
-                options={statusOptions}
-                openDirection="up"
-              />
-            </Label>
             <ToggleRow
               checked={form.mapVisible}
               onChange={(value) => updateField("mapVisible", value)}
@@ -3651,6 +4678,13 @@ function ServiceProfileSurface({ t }) {
               )}
               className="workspace-feature-toggle-row--flat"
             />
+            <ToggleRow
+              checked={form.assistantRecommendationAllowed}
+              onChange={(value) => updateField("assistantRecommendationAllowed", value)}
+              title={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.assistant_recommendation_allowed", "Luba assistendil avaldatud teenuseid soovitada")}
+              body={readText(t, "workspace_feature_pages.service_profile.pre_inquiries.assistant_recommendation_help", "Avaldatud teenusekirjed lisatakse AI teadmuskihile ainult selle valiku korral.")}
+              className="workspace-feature-toggle-row--flat"
+            />
             <p className={`${bodyTextClassName} service-profile-publish-help`}>
               {readText(
                 t,
@@ -3658,6 +4692,17 @@ function ServiceProfileSurface({ t }) {
                 "Avaldamata ja ülevaatusel profiil ei ilmu teenusekaardile. Avaldatud profiil vajab markeriks ka usaldusväärset aadressivastet."
               )}
             </p>
+            <div className="service-profile-publish-checks" aria-label={readText(t, "workspace_feature_pages.service_profile.publish_checks.title", "Avaldamise kontroll")}>
+              <p className="service-profile-map-state__label">
+                {readText(t, "workspace_feature_pages.service_profile.publish_checks.title", "Avaldamise kontroll")}
+              </p>
+              {publishChecks.map((item) => (
+                <p key={item.text} className={cn("service-profile-publish-check", item.ok ? "is-ok" : "is-warning")}>
+                  <span aria-hidden="true">{item.ok ? "✓" : "!"}</span>
+                  <span>{item.text}</span>
+                </p>
+              ))}
+            </div>
             <div className="service-profile-map-state">
               <p className="service-profile-map-state__label">
                 {readText(t, "workspace_feature_pages.service_profile.map_status.title", "Aadressi seis")}
