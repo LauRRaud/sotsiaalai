@@ -87,6 +87,7 @@ export default function ChatBodyView({
   userActualRole,
   isAdmin = false,
   subActive = false,
+  dashboardBadges = null,
   onOpenHelpListings,
   onStop,
   onSend,
@@ -175,6 +176,7 @@ export default function ChatBodyView({
                   userActualRole={userActualRole}
                   isAdmin={isAdmin}
                   subActive={subActive}
+                  dashboardBadges={dashboardBadges}
                   onOpenHelpListings={onOpenHelpListings}
                   embeddedPanelNode={workspaceListingsPanelNode}
                   embeddedPanelMeta={workspaceListingsPanelMeta}

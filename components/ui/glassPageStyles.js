@@ -53,8 +53,8 @@ export const glassPageBackMobileBottomCenterClassName =
 export const glassPageBackTopLeftClassName =
   `${glassPageBackMobileBottomCenterClassName} ` +
   "min-[769px]:top-[0.55rem] min-[769px]:left-[0.55rem] min-[769px]:bottom-auto " +
-  "min-[769px]:ml-0 min-[769px]:!h-[5rem] min-[769px]:!w-[5rem] " +
-  "min-[769px]:[&>svg]:!h-[5rem] min-[769px]:[&>svg]:!w-[5rem]";
+  "min-[769px]:ml-0 min-[769px]:!h-[4.65rem] min-[769px]:!w-[4.65rem] " +
+  "min-[769px]:[&>svg]:!h-[4.65rem] min-[769px]:[&>svg]:!w-[4.65rem]";
 
 export const glassSubpageBackButtonClassName =
   `${glassPageBackTopLeftClassName} glass-subpage-back-button !z-[30] pointer-events-auto`;

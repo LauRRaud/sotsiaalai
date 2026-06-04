@@ -283,6 +283,29 @@
   max-height: var(--workspace-glass-block-size, calc(100dvh - 2rem)) !important;
 }
 
+@media (min-width: 769px) {
+  .surface.surface > :global(.workspace-guide-panel-scroll) {
+    margin-top: calc(
+      0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
+        var(--workspace-guide-panel-overscan-top, 0px) - 0.75rem
+    ) !important;
+  }
+
+  .surface.surface :global(.workspace-scroll-back-button) {
+    top: calc(
+      var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--workspace-subpage-back-top, 0.55rem) + 0.75rem
+    ) !important;
+  }
+
+  .surface.surface :global(.dashboard-info-trigger-corner) {
+    top: calc(
+      var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--workspace-subpage-back-top, 0.55rem) + 1.175rem
+    ) !important;
+  }
+}
+
 .toolsGrid {
   display: flex;
   flex: 1 1 auto;
@@ -294,7 +317,7 @@
   overflow: visible;
   gap: clamp(0.56rem, 1.1vh, 0.84rem);
   padding: clamp(0.22rem, 0.8vh, 0.45rem) clamp(0.4rem, 1vw, 0.72rem)
-    clamp(0.48rem, 1.5vh, 0.82rem);
+    clamp(0.36rem, 0.85vh, 0.46rem);
 }
 
 .placeholderPanel {

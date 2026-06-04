@@ -1135,6 +1135,10 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
     const params = new URLSearchParams(window.location.search);
     const fromJourney = String(params.get("fromJourney") || "").trim();
     if (!fromJourney) return;
+    const shareKeys = String(params.get("share") || "")
+      .split(/[,;\s]+/u)
+      .map((item) => item.trim())
+      .filter(Boolean);
 
     journeyPrefillLoadedRef.current = true;
     let cancelled = false;
@@ -1148,6 +1152,9 @@ function PreInquiriesSurface({ t, locale = "et", activeRole = "SOCIAL_WORKER", i
           headers: {
             "Content-Type": "application/json"
           },
+          body: JSON.stringify({
+            shareKeys
+          }),
           cache: "no-store"
         });
         const payload = await response.json().catch(() => ({}));

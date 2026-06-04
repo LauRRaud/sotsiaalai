@@ -742,7 +742,14 @@ export default function LeftRail({
                   />
                 ) : null}
                 {item.key === "back" ? (
-                  <BackIcon className={cn(styles.iconSvg, styles.iconBack)} />
+                  <BackIcon
+                    className={cn(styles.iconSvg, styles.iconBack)}
+                    dotFilled={false}
+                    dotStroke="var(--back-arrow-color)"
+                    dotStrokeWidth={2.35}
+                    glyphScale={0.74}
+                    strokeWidth={3}
+                  />
                 ) : null}
               </button>
             );

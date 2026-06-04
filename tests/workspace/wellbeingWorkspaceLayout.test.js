@@ -18,6 +18,9 @@ test("wellbeing dashboard uses the same desktop panel sizing and title spacing t
   assert.match(source, /\[--workspace-subpage-header-margin-bottom:0\.35rem\]/);
   assert.match(source, /\[--workspace-subpage-title-margin-top:clamp\(2\.15rem,5\.4vh,3\.25rem\)\]/);
   assert.match(source, /\[--workspace-subpage-title-margin-bottom:clamp\(0\.35rem,1\.4vh,0\.8rem\)\]/);
+  assert.match(css, /\.surface\.surface > :global\(\.workspace-guide-panel-scroll\)\s*\{[\s\S]*?0\.75rem[\s\S]*?\}\s*\}/);
+  assert.match(css, /\.surface\.surface :global\(\.workspace-scroll-back-button\)\s*\{[\s\S]*?0\.75rem[\s\S]*?\}/);
+  assert.match(css, /\.surface\.surface :global\(\.dashboard-info-trigger-corner\)\s*\{[\s\S]*?1\.175rem[\s\S]*?\}/);
   assert.match(css, /--workspace-glass-shell-inline-size/);
   assert.doesNotMatch(
     css,
@@ -33,6 +36,10 @@ test("wellbeing dashboard keeps the same flexible vertical card rhythm as worksp
   assert.match(toolsGrid, /flex:\s*1 1 auto;/);
   assert.match(toolsGrid, /min-height:\s*0;/);
   assert.match(toolsGrid, /margin:\s*0 auto;/);
+  assert.match(
+    toolsGrid,
+    /padding:\s*clamp\(0\.22rem,\s*0\.8vh,\s*0\.45rem\)\s*clamp\(0\.4rem,\s*1vw,\s*0\.72rem\)\s*clamp\(0\.36rem,\s*0\.85vh,\s*0\.46rem\);/
+  );
   assert.doesNotMatch(toolsGrid, /height:\s*min\(41\.15rem/);
   assert.match(dashboardBody, /max-width:\s*none\s*!important;/);
   assert.match(dashboardBody, /gap:\s*0\s*!important;/);

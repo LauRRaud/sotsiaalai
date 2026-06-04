@@ -4193,6 +4193,7 @@
       "documents": "Related documents",
       "service_contacts": "Related service-map contacts",
       "help_requests": "Related help requests",
+      "help_offers": "Related help offers",
       "rooms": "Related rooms",
       "empty": "Pre-inquiries, documents, or contacts linked to this journey will appear here."
     },
@@ -4205,7 +4206,46 @@
       "wish": "person?s wish",
       "service_contact": "selected service-map contact",
       "document": "related document",
+      "assistive_devices": "assistive devices and adaptations",
       "continue": "Continue preparing the pre-inquiry"
+    },
+    "assistiveDevices": {
+      "title": "Assistive Devices and Adaptations",
+      "description": "This collects information about assistive devices, home adaptations, or support with using a device.",
+      "safetyNote": "SotsiaalAI does not officially prescribe an assistive device or decide reimbursement. When needed, clarify suitability with the local government, a specialist, a rehabilitation team, or an assistive-device provider.",
+      "addDocument": "Add document",
+      "createPracticalHelpRequest": "Create help request for practical support",
+      "status": {
+        "NEEDED": "needed",
+        "EXISTING": "existing",
+        "NOT_WORKING": "not working or unsuitable",
+        "NOT_USED": "not used",
+        "UNSURE": "needs clarification"
+      }
+    },
+    "helpMediation": {
+      "title": "Help mediation",
+      "checkingOffers": "Checking suitable help offers...",
+      "offersFoundHint": "Your description points to a practical support need. We found possible help offers you can review.",
+      "noOffersHint": "Your description points to a practical support need. No suitable help offers were found right now, but you can create a help request.",
+      "noRegionHint": "Adding a region helps find suitable help offers more accurately.",
+      "privacy": "The Journey does not publish anything automatically. When creating a help request, you separately choose which information to include and what is shown on the map.",
+      "serviceHint": "A similar need may also relate to a local government service or service-provider contact.",
+      "viewOffers": "View help offers",
+      "createRequest": "Create help request",
+      "viewRequests": "View help requests",
+      "createOffer": "Create help offer",
+      "share": {
+        "title": "Choose which information to use in the help request.",
+        "privacy": "The full Journey is not copied into the listing. You review the help request before publishing and separately confirm what is shown on the map.",
+        "summary": "short situation summary",
+        "category": "type of help",
+        "region": "region",
+        "timing": "time or frequency",
+        "conditions": "conditions",
+        "ownWords": "the user's own wording of the need",
+        "continue": "Start help request"
+      }
     }
   },
   "footer": {
@@ -4307,6 +4347,24 @@
       "memo_draft_saved": "The memo draft was saved privately. Confirm the shareable version before using it.",
       "memo_draft_ready": "The manager memo is confirmed, but it is not sent automatically.",
       "memo_draft_error": "Saving or confirming the memo draft failed."
+    },
+    "quick_check": {
+      "title": "Quick check",
+      "intro": "Quick check helps you quickly notice work strain, recovery needs, and emotional pressure, then choose the next small step.",
+      "risk_support": "Risk markers and support needs",
+      "difficult_case_marker": "This is a difficult case that should not be carried alone",
+      "covision_need": "Needs covision or colleague support",
+      "support_need": "Needs an agreed support step with the manager",
+      "output_heading": "Practical output",
+      "load_factors": "Load factors",
+      "no_load_factors": "No high load factors were identified.",
+      "resource_factors": "Missing resources",
+      "no_resource_factors": "Core resources appear to be in place.",
+      "risk_markers": "Risk markers",
+      "no_risk_markers": "No separate risk marker was selected.",
+      "save": "Save quick check",
+      "no_actions": "Keep the current agreements in place and run another quick check later.",
+      "privacy": "Quick check is saved privately. Share conclusions from it only after you have reviewed the content."
     },
     "hard_case": {
       "title": "Difficult case",

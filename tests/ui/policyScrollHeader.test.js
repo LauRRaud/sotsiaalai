@@ -17,6 +17,8 @@ test("policy pages use the scroll-surface back header pattern", () => {
   const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
 
   for (const source of [guide, terms, privacy]) {
+    assert.match(source, /workspaceGuidePanelClassName/);
+    assert.match(source, /workspaceGuidePanelScrollClassName/);
     assert.match(source, /policy-scroll-page-ring/);
     assert.match(source, /policy-scroll-page-scroller/);
     assert.match(source, /workspace-scroll-surface/);
@@ -61,13 +63,17 @@ test("policy pages use the scroll-surface back header pattern", () => {
   assert.doesNotMatch(mobileCss, /scroll-snap-type:\s*y mandatory\s*!important;/);
   assert.doesNotMatch(mobileCss, /\.policy-scroll-back-button\s*\{/);
   assert.match(
-    mobileCss,
-    /\.workspace-scroll-surface \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
+    mobileHeaderCss,
+    /--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\);/
   );
-  assert.equal(mobileCss.includes('--mobile-common-title-top: 2.18rem;'), true);
   assert.match(
-    mobileCss,
-    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.subscription-modal-content,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\)\s*\.glass-subpage-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.workspace-scroll-surface,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.policy-scroll-page-scroller[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?\)\s*!important;/
+  );
+  assert.equal(mobileHeaderCss.includes('--mobile-header-title-top: 1.76rem;'), true);
+  assert.match(
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.direct-scroll-surface,[\s\S]*?\.subscription-modal-content,[\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.workspace-guide-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     mobileHeaderCss,
@@ -75,7 +81,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileHeaderCss,
-    /\.policy-scroll-page-ring[\s\S]*?:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+    /:is\([\s\S]*?\.policy-scroll-page-ring[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.doesNotMatch(
     mobileHeaderCss,
@@ -91,14 +97,57 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileHeaderCss,
-    /:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
+    /:is\([\s\S]*?\.policy-scroll-page-ring,[\s\S]*?\.policy-scroll-page-scroller[\s\S]*?\)\s*:is\([\s\S]*?\.workspace-scroll-back-button,[\s\S]*?\.scroll-reactive-back[\s\S]*?\)\s*\{[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
+  assert.doesNotMatch(policyMobileCss, /--policy-mobile-browser-bottom-clearance/);
   assert.match(
     policyMobileCss,
-    /html\[data-display-mode="browser"\][\s\S]*?\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?--policy-mobile-browser-bottom-clearance:\s*clamp\(4\.25rem,\s*13vh,\s*6\.5rem\);[\s\S]*?padding:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top\)[\s\S]*?calc\([\s\S]*?var\(--policy-scroll-edge-pad-x\)[\s\S]*?calc\([\s\S]*?var\(--policy-scroll-overscan-bottom\) \+[\s\S]*?var\(--policy-mobile-browser-bottom-clearance\)[\s\S]*?\)\s*!important;/
+    /@media \(max-width:\s*768px\)[\s\S]*?\.policy-scroll-page-scroller\.glass-policy-scroll,[\s\S]*?padding:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top\)[\s\S]*?var\(--policy-scroll-overscan-top\)[\s\S]*?\)[\s\S]*?calc\([\s\S]*?var\(--policy-scroll-edge-pad-x\)[\s\S]*?\)[\s\S]*?var\(--policy-scroll-overscan-bottom\)\s*!important;/
+  );
+});
+
+test("policy desktop pages use the workspace panel scroll geometry", () => {
+  const policyDesktopCss = read("app/styles/utilities/policy-pages-responsive.css");
+
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?--ring-diameter:\s*var\(--workspace-glass-diameter\);[\s\S]*?--workspace-glass-block-size:\s*var\(--workspace-glass-diameter\);/
   );
   assert.match(
-    policyMobileCss,
-    /html\[data-display-mode="browser"\][\s\S]*?\.policy-scroll-page-ring[\s\S]*?\.policy-scroll-page-scroller\.glass-policy-scroll\.glass-ring-scroll,[\s\S]*?padding-bottom:\s*calc\([\s\S]*?var\(--policy-scroll-overscan-bottom\) \+[\s\S]*?var\(--policy-mobile-browser-bottom-clearance\)[\s\S]*?\)\s*!important;/
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface\s*\{[\s\S]*?isolation:\s*isolate;/
   );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface::after\s*\{[\s\S]*?content:\s*"";[\s\S]*?z-index:\s*15;[\s\S]*?padding:\s*var\(--glass-subpage-edge-stroke-width,[\s\S]*?background:\s*var\([\s\S]*?--glass-subpage-edge-stroke,[\s\S]*?mask-composite:\s*exclude;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.glass-policy-content\.glass-ring-content\s*\{[\s\S]*?position:\s*relative\s*!important;[\s\S]*?z-index:\s*1\s*!important;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /html\[data-contrast="hc"\][\s\S]*?\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface::after\s*\{[\s\S]*?display:\s*none\s*!important;[\s\S]*?content:\s*none\s*!important;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.glass-policy-content\.glass-ring-content[\s\S]*?> \.policy-scroll-page-scroller\.workspace-guide-panel-scroll\s*\{[\s\S]*?--workspace-guide-panel-overscan-top:\s*clamp\(1\.6rem,\s*4\.8vh,\s*2\.4rem\);[\s\S]*?margin-top:\s*calc\([\s\S]*?0px - var\(--workspace-guide-panel-pad-top,[\s\S]*?var\(--workspace-guide-panel-overscan-top\)[\s\S]*?\)\s*!important;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.glass-policy-content\.glass-ring-content[\s\S]*?> \.policy-scroll-page-scroller\.workspace-guide-panel-scroll\s*\{[\s\S]*?padding-top:\s*var\(--workspace-guide-panel-overscan-top\)\s*!important;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?> \.glass-policy-content\.glass-ring-content[\s\S]*?> \.policy-scroll-page-scroller\.workspace-guide-panel-scroll\s*\{[\s\S]*?--policy-desktop-text-inset-left:\s*clamp\(0\.4rem,\s*0\.68vw,\s*0\.6rem\);/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.policy-scroll-page-scroller\.workspace-guide-panel-scroll[\s\S]*?:is\(\.policy-section-heading,\s*\.policy-section-body\)\s*\{[\s\S]*?padding-left:\s*var\(--policy-desktop-text-inset-left\)\s*!important;/
+  );
+  assert.match(
+    policyDesktopCss,
+    /\.policy-scroll-page-ring\.workspace-guide-panel\.glass-subpage-surface[\s\S]*?\.policy-scroll-page-scroller\.workspace-guide-panel-scroll[\s\S]*?> \.workspace-scroll-back-button\s*\{[\s\S]*?left:\s*var\(--workspace-subpage-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--workspace-guide-panel-overscan-top,[\s\S]*?var\(--workspace-subpage-back-top,\s*0\.55rem\)[\s\S]*?\)\s*!important;/
+  );
+  assert.doesNotMatch(policyDesktopCss, /left:\s*calc\(5% \+ var\(--workspace-subpage-back-left/);
 });

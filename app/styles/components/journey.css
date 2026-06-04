@@ -6,6 +6,69 @@
   animation: journey-review-panel-in 280ms ease-out both;
 }
 
+.journey-empty-start {
+  --orbit-center-size: clamp(8.2rem, 15vw, 10.4rem);
+  --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.46);
+  --pin-border-w: 1.45px;
+  --pin-shadow: 0.11;
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper {
+  --orbit-center-size: clamp(8.2rem, 15vw, 10.4rem);
+  --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.46);
+  --pin-border-w: 1.45px;
+  --pin-shadow: 0.11;
+  display: grid;
+  place-items: center;
+  width: var(--orbit-center-size);
+  min-height: var(--orbit-center-size);
+  cursor: var(--cursor-pointer);
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper
+  .journey-empty-orbit-label {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  color: var(--orbit-accent, #c57171);
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper
+  .journey-empty-orbit-icon {
+  color: var(--orbit-accent, #c57171);
+  opacity: 0.92;
+  filter:
+    drop-shadow(0 0.16rem 0.08rem rgba(8, 9, 11, 0.64))
+    drop-shadow(0 0 0.58rem rgba(197, 113, 113, 0.24));
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper
+  .profile-orbit-menu__center.dock-item:is(:hover, :focus-visible)
+  .journey-empty-orbit-icon {
+  opacity: 1;
+  filter:
+    drop-shadow(0 0.18rem 0.1rem rgba(8, 9, 11, 0.72))
+    drop-shadow(0 0 0.72rem rgba(197, 113, 113, 0.34));
+}
+
+.profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper
+  .profile-orbit-menu__center.dock-item:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+@media (max-width: 48em) {
+  .journey-empty-start,
+  .profile-email-dock-wrapper.profile-orbit-menu-wrapper.journey-empty-orbit-wrapper {
+    --orbit-center-size: clamp(10.2rem, 44vw, 12rem);
+    --orbit-center-icon-size: calc(var(--orbit-center-size) * 0.45);
+  }
+}
+
 @keyframes journey-morph-panel-in {
   from {
     opacity: 0;

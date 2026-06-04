@@ -726,7 +726,7 @@
       },
       "types": {
         "all": "Kõik",
-        "kov": "KOV kontakt",
+        "kov": "KOV",
         "kov_social": "KOV sotsiaalhoolekanne",
         "provider": "Teenuseosutaja"
       },
@@ -4193,6 +4193,7 @@
       "documents": "Seotud dokumendid",
       "service_contacts": "Seotud teenusekaardi kontaktid",
       "help_requests": "Seotud abisoovid",
+      "help_offers": "Seotud abipakkumised",
       "rooms": "Seotud ruumid",
       "empty": "Siia ilmuvad eelpöördumised, dokumendid või kontaktid, mille seod selle teekonnaga."
     },
@@ -4205,7 +4206,46 @@
       "wish": "inimese soov",
       "service_contact": "valitud teenusekaardi kontakt",
       "document": "seotud dokument",
+      "assistive_devices": "abivahendid ja kohandused",
       "continue": "Jätka eelpöördumise koostamisega"
+    },
+    "assistiveDevices": {
+      "title": "Abivahendid ja kohandused",
+      "description": "Siia saab koondada info abivahendite, kodukohanduse või abivahendi kasutamise toe kohta.",
+      "safetyNote": "SotsiaalAI ei määra ametlikult abivahendit ega otsusta hüvitamist. Vajadusel täpsusta sobivust KOV-i, spetsialisti, rehabilitatsioonimeeskonna või abivahendi teenuseosutajaga.",
+      "addDocument": "Lisa dokument",
+      "createPracticalHelpRequest": "Loo abisoov praktiliseks abiks",
+      "status": {
+        "NEEDED": "vajalik",
+        "EXISTING": "olemas",
+        "NOT_WORKING": "ei tööta või ei sobi",
+        "NOT_USED": "ei kasutata",
+        "UNSURE": "vajab täpsustamist"
+      }
+    },
+    "helpMediation": {
+      "title": "Abivahendus",
+      "checkingOffers": "Kontrollin sobivaid abipakkumisi...",
+      "offersFoundHint": "Sinu kirjeldus viitab praktilisele abivajadusele. Leidsime võimalikke abipakkumisi, mida saad vaadata.",
+      "noOffersHint": "Sinu kirjeldus viitab praktilisele abivajadusele. Praegu sobivaid abipakkumisi ei leitud, kuid saad luua abisoovi.",
+      "noRegionHint": "Piirkonna lisamine aitab sobivaid abipakkumisi täpsemalt leida.",
+      "privacy": "Teekond ei avalda midagi automaatselt. Abisoovi loomisel valid eraldi, millise info kaasa võtad ja mida kaardil näidatakse.",
+      "serviceHint": "Sarnase vajadusega võib olla seotud ka KOV teenus või teenuseosutaja kontakt.",
+      "viewOffers": "Vaata abipakkumisi",
+      "createRequest": "Loo abisoov",
+      "viewRequests": "Vaata abisoove",
+      "createOffer": "Loo abipakkumine",
+      "share": {
+        "title": "Vali, millist infot soovid abisoovis kasutada.",
+        "privacy": "Kogu Teekonda ei kopeerita kuulutusse. Vaatad abisoovi enne avaldamist üle ja kinnitad eraldi, mida kaardil näidatakse.",
+        "summary": "olukorra lühikokkuvõte",
+        "category": "abi liik",
+        "region": "piirkond",
+        "timing": "aeg või sagedus",
+        "conditions": "tingimused",
+        "ownWords": "kasutaja enda sõnastatud vajadus",
+        "continue": "Alusta abisoovi"
+      }
     }
   },
   "footer": {
@@ -4307,6 +4347,24 @@
       "memo_draft_saved": "Memo mustand salvestati privaatselt. Enne kasutamist kinnita jagatav versioon.",
       "memo_draft_ready": "Juhiga jagatav memo on kinnitatud, kuid seda ei saadeta automaatselt.",
       "memo_draft_error": "Memo mustandi salvestamine või kinnitamine ebaõnnestus."
+    },
+    "quick_check": {
+      "title": "Kiirkontroll",
+      "intro": "Kiirkontroll aitab kiiresti m?rgata t??koormuse, taastumise ja emotsionaalse pinge seisu ning valida j?rgmise v?ikese sammu.",
+      "risk_support": "Riskim?rgid ja toe vajadus",
+      "difficult_case_marker": "Raske juhtum, mida ei peaks ?ksi kandma",
+      "covision_need": "Vajab kovisiooni v?i kolleegituge",
+      "support_need": "Vajab juhiga toe kokkulepet",
+      "output_heading": "Praktiline v?ljund",
+      "load_factors": "Koormustegurid",
+      "no_load_factors": "K?rgeid koormustegureid ei ilmnenud.",
+      "resource_factors": "Puuduvad ressursid",
+      "no_resource_factors": "P?hiressursid paistavad olemas.",
+      "risk_markers": "Riskim?rgid",
+      "no_risk_markers": "Eraldi riskim?rki ei m?rgitud.",
+      "save": "Salvesta kiirkontroll",
+      "no_actions": "J?tka praeguste kokkulepete hoidmist ja tee uus kiirkontroll hiljem.",
+      "privacy": "Kiirkontroll salvestub privaatselt. Jaga selle p?hjal tehtud t?helepanekuid alles siis, kui oled sisu ?le vaadanud."
     },
     "hard_case": {
       "title": "Raske juhtum",

@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
 import { useI18n } from "@/components/i18n/I18nProvider";
+import "@/components/effects/Components/OrbitalMenu/OrbitalMenu.css";
 import Button from "@/components/ui/Button";
+import BorderGlow from "@/components/ui/BorderGlow";
 import { cn } from "@/components/ui/cn";
 import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
+import { fieldEdgeGlowStyle } from "@/components/ui/GlowField";
 import {
   glassPageMobileCardClassName,
   glassPageShellCenteredClassName,
@@ -21,7 +24,6 @@ import {
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { pillInputBaseClassName, textAreaInputBaseClassName } from "@/components/ui/inputClassNames";
-import AdminRoleViewCycleButton from "@/components/workspace/AdminRoleViewCycleButton";
 import { localizePath } from "@/lib/localizePath";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -35,6 +37,34 @@ const DEFAULT_DRAFT = Object.freeze({
   suggestedActions: [],
   context: {}
 });
+
+const ORBIT_BUTTON_GLOW_PROPS = {
+  backgroundColor: "transparent",
+  borderRadius: 999,
+  coneSpread: 20,
+  edgeOnly: true,
+  fillOpacity: 0,
+  glowColor: "358 82 72",
+  glowIntensity: 0.68,
+  glowRadius: 42,
+  edgeSensitivity: 20
+};
+
+const ORBIT_BUTTON_GLOW_STYLE = {
+  ...fieldEdgeGlowStyle,
+  "--edge-only-hot-end": "4%",
+  "--edge-only-bright-end": "8%",
+  "--edge-only-soft-end": "15%",
+  "--edge-only-fade-end": "34%",
+  "--edge-only-tail-end": "62%",
+  "--edge-only-gap-start": "58%",
+  "--edge-only-return-start": "58%",
+  "--edge-only-return-soft": "72%",
+  "--edge-only-return-bright": "86%",
+  "--edge-only-bottom-line-left": "18%",
+  "--edge-only-bottom-line-right": "18%",
+  "--edge-only-bottom-tail-start": "36%"
+};
 
 const DEFAULT_LIFE_DOMAINS = Object.freeze([
   "suhtlemine",
@@ -449,29 +479,49 @@ function RoleScopedWorkspace({ role, t, locale }) {
 }
 
 function EmptyJourneyStart({ onStart, disabled, t }) {
+  const label = t("journey.empty_start.label", "Alusta teekonda");
+
   return (
-    <section className="grid min-h-[min(24rem,calc(100dvh-7rem))] place-items-center">
-      <button
-        type="button"
-        className="group relative grid size-[clamp(4.35rem,12vw,5.15rem)] place-items-center rounded-full border border-[color:var(--subpage-card-border,var(--glass-modal-border,rgba(255,255,255,0.24)))] [background:linear-gradient(145deg,rgba(255,255,255,0.18),rgba(255,255,255,0.055)),var(--seg-card-bg,var(--subpage-card-bg))] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_0.9rem_2.2rem_rgba(15,23,42,0.16),inset_0_0_0_1px_rgba(255,255,255,0.08)] outline-none backdrop-blur-[1rem] transition-[transform,box-shadow,border-color,opacity] duration-300 ease-out hover:scale-[1.045] hover:shadow-[0_1.05rem_2.6rem_rgba(15,23,42,0.22),inset_0_0_0_1px_rgba(255,255,255,0.12)] focus-visible:scale-[1.045] focus-visible:ring-2 focus-visible:ring-[color:var(--title-color,var(--brand-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:scale-[0.97] motion-reduce:transition-opacity motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100"
-        onClick={onStart}
-        disabled={disabled}
-        aria-label={t("journey.empty_start.label", "Alusta teekonda")}
-      >
-        <Route size={30} strokeWidth={1.72} aria-hidden="true" className="relative z-[1]" />
-        <span className="pointer-events-none absolute top-[calc(100%+0.68rem)] whitespace-nowrap rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] px-[0.72rem] py-[0.34rem] text-[0.84rem] font-[720] leading-[1.1] text-[color:var(--seg-card-text,var(--subpage-card-text))] opacity-0 shadow-[var(--seg-card-shadow,none)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-          {t("journey.empty_start.label", "Alusta teekonda")}
-        </span>
-      </button>
+    <section className="journey-empty-start grid min-h-[min(24rem,calc(100dvh-7rem))] place-items-center">
+      <div className="profile-email-dock-wrapper profile-orbit-menu-wrapper journey-empty-orbit-wrapper pointer-events-auto">
+        <div className="profile-orbit-menu journey-empty-orbit-menu relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)]">
+          <div className="profile-orbit-menu__center-shell group relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
+            <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible">
+              <BorderGlow
+                as="button"
+                type="button"
+                {...ORBIT_BUTTON_GLOW_PROPS}
+                style={ORBIT_BUTTON_GLOW_STYLE}
+                className="ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-[var(--cursor-pointer)] [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]"
+                onClick={onStart}
+                disabled={disabled}
+                aria-label={label}
+              >
+                <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
+                  <Route
+                    className="journey-empty-orbit-icon absolute left-1/2 top-1/2 block h-[var(--orbit-center-icon-size)] w-[var(--orbit-center-icon-size)] -translate-x-1/2 -translate-y-1/2 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
+                    strokeWidth={1.72}
+                    aria-hidden="true"
+                    focusable="false"
+                  />
+                </span>
+              </BorderGlow>
+            </div>
+            <span className="dock-label profile-orbit-item-label journey-empty-orbit-label absolute left-1/2 top-[calc(100%+0.86rem)] -translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none w-max max-w-[8.2rem] whitespace-normal leading-[1.05] text-[clamp(1.05rem,2.4vw,1.3rem)] tracking-[0.02em] text-center [text-align-last:center] antialiased z-[20] transition-opacity duration-[260ms] ease-out">
+              {label}
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
 
-export default function JourneyDashboard({ embedded = false, onBack = null, hideHeader = false } = {}) {
+export default function JourneyDashboard({ embedded = false, onBack = null, hideHeader = false, roleOverride = "" } = {}) {
   const { t, locale } = useI18n();
   const router = useRouter();
   const { status } = useSession();
-  const { effectiveRole, isAdmin, isRoleResolved, refresh: refreshEffectiveRole } = useEffectiveRole();
+  const { effectiveRole, isRoleResolved } = useEffectiveRole();
   const [journeys, setJourneys] = useState([]);
   const [mode, setMode] = useState("list");
   const [situation, setSituation] = useState("");
@@ -489,20 +539,11 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
     () => journeys.filter((journey) => journey.status === "ARCHIVED"),
     [journeys]
   );
-  const normalizedRole = String(effectiveRole || "CLIENT").toUpperCase();
+  const normalizedRole = String(roleOverride || effectiveRole || "CLIENT").toUpperCase();
   const isClientRole = normalizedRole === "CLIENT";
   const latestJourney = activeJourneys[0] || journeys[0] || null;
   const headerRightSlot = useMemo(() => (
     <span className="inline-flex items-center gap-[0.52rem]">
-      {isAdmin ? (
-        <AdminRoleViewCycleButton
-          t={t}
-          locale={locale}
-          value={normalizedRole}
-          onRoleChanged={refreshEffectiveRole}
-          ariaLabel={t("chat.workspace.view_role.label", "Töölaua vaade")}
-        />
-      ) : null}
       <DashboardInfoTrigger
         infoId="journey"
         title={t("journey.title", "Teekond")}
@@ -510,7 +551,7 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         className={dashboardInfoTriggerCornerClassName}
       />
     </span>
-  ), [isAdmin, locale, normalizedRole, refreshEffectiveRole, t]);
+  ), [t]);
 
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {

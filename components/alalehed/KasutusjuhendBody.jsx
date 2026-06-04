@@ -8,7 +8,7 @@ import CloseButton from "@/components/ui/CloseButton";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import Modal from "@/components/ui/Modal";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPageRingCenteredClassName, glassPageShellCenteredClassName, workspaceGuidePanelClassName, workspaceGuidePanelScrollClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
@@ -111,11 +111,12 @@ export default function KasutusjuhendBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", "guide-policy-ring", !layoutReady ? "guide-policy-ring--layout-init" : null, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, workspaceGuidePanelClassName, "workspace-scroll-surface", "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", "guide-policy-ring", !layoutReady ? "guide-policy-ring--layout-init" : null, isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="kasutusjuhend-title">
         <div className={cn(contentClassName, "relative", "glass-ring-content", "guide-policy-content", !layoutReady ? "guide-policy-content--layout-init" : null, isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
             className={cn(
               scrollClassName,
+              workspaceGuidePanelScrollClassName,
               "guide-policy-scroll",
               "policy-scroll-page-scroller",
               "workspace-scroll-surface",

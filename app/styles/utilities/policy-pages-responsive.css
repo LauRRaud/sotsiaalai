@@ -228,16 +228,121 @@
 }
 
 @media (min-width: 769px) {
-  .glass-ring-expandable--open
-    .guide-policy-scroll.glass-policy-scroll.glass-ring-scroll--open,
-  .glass-ring-expandable--open
-    .policy-page-scroll.glass-policy-scroll.glass-ring-scroll--open {
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface {
+    --ring-diameter: var(--workspace-glass-diameter);
+    --workspace-glass-inline-size: var(--workspace-glass-diameter);
+    --workspace-glass-shell-inline-size: calc(
+      var(--workspace-glass-inline-size) + var(--chat-focus-inline-extra, 0px)
+    );
+    --workspace-glass-block-size: var(--workspace-glass-diameter);
+    isolation: isolate;
+  }
+
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+    display: block;
+    border-radius: inherit;
+    padding: var(--glass-subpage-edge-stroke-width, var(--glass-ring-edge-stroke-width, 0px));
+    pointer-events: none;
+    background: var(
+      --glass-subpage-edge-stroke,
+      var(--glass-ring-edge-stroke, none)
+    );
+    opacity: var(
+      --glass-subpage-edge-stroke-opacity,
+      var(--glass-ring-edge-stroke-opacity, 0)
+    );
+    filter: blur(
+      var(
+        --glass-subpage-edge-stroke-blur,
+        var(--glass-ring-edge-stroke-blur, 0px)
+      )
+    );
+    box-sizing: border-box;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface
+    > .glass-policy-content.glass-ring-content {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+  }
+
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface
+    > .glass-policy-content.glass-ring-content
+    > .policy-scroll-page-scroller.workspace-guide-panel-scroll {
+    --workspace-guide-panel-overscan-top: clamp(1.6rem, 4.8vh, 2.4rem);
+    --workspace-guide-panel-overscan-bottom: clamp(1.05rem, 2.4vh, 1.45rem);
+    --policy-desktop-text-inset-left: clamp(0.4rem, 0.68vw, 0.6rem);
+    box-sizing: border-box !important;
+    position: relative !important;
+    width: calc(100% + var(--workspace-guide-panel-pad-x, 1rem) + var(--workspace-guide-panel-pad-x, 1rem)) !important;
+    max-width: none !important;
+    height: calc(
+      100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    ) !important;
+    max-height: calc(
+      100% + var(--workspace-guide-panel-pad-top, 0.6rem) +
+        var(--workspace-guide-panel-overscan-top) +
+        var(--workspace-guide-panel-overscan-bottom)
+    ) !important;
     margin-top: calc(
-      (var(--policy-scroll-rise, 0rem) * -0.12) -
-        var(--policy-scroll-open-top-lift, 0rem) -
-        var(--policy-scroll-open-top-raise, 0rem) -
-        clamp(0.46rem, 0.92vh, 0.72rem)
+      0px - var(--workspace-guide-panel-pad-top, 0.6rem) -
+        var(--workspace-guide-panel-overscan-top)
+    ) !important;
+    margin-right: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+    margin-left: calc(0px - var(--workspace-guide-panel-pad-x, 1rem)) !important;
+    padding-right: var(--workspace-guide-panel-pad-x, 1rem) !important;
+    padding-left: var(--workspace-guide-panel-pad-x, 1rem) !important;
+    padding-top: var(--workspace-guide-panel-overscan-top) !important;
+    padding-bottom: var(--workspace-guide-panel-overscan-bottom) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    scrollbar-gutter: auto !important;
+  }
+
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface
+    .policy-scroll-page-scroller.workspace-guide-panel-scroll
+    :is(.policy-section-heading, .policy-section-body) {
+    box-sizing: border-box;
+    padding-left: var(--policy-desktop-text-inset-left) !important;
+  }
+
+  .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface
+    .policy-scroll-page-scroller.workspace-guide-panel-scroll
+    > .workspace-scroll-back-button {
+    left: var(--workspace-subpage-back-left, 0.55rem) !important;
+    top: calc(
+      var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--workspace-subpage-back-top, 0.55rem)
     ) !important;
   }
-}
 
+  html[data-contrast="hc"]
+    .policy-scroll-page-ring.workspace-guide-panel.glass-subpage-surface::after {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+  }
+}

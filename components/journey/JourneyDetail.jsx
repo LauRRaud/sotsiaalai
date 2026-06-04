@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Archive, Check, Edit3, FileText, HeartPulse, ListChecks, Lock, Map, Route, Save, Send } from "lucide-react";
+import { Archive, Check, Edit3, FileText, HeartPulse, ListChecks, Lock, Map, Route, Save, Send, Wrench } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useI18n } from "@/components/i18n/I18nProvider";
@@ -22,6 +22,7 @@ import {
 import { pillInputBaseClassName, textAreaInputBaseClassName } from "@/components/ui/inputClassNames";
 import { localizePath } from "@/lib/localizePath";
 import { buildServiceMapHandoff } from "@/lib/journey/serviceMapHandoff";
+import { buildAssistiveDevicesHandoff } from "@/lib/journey/assistiveDevices";
 import { buildHelpMediationHandoff } from "@/lib/journey/helpMediationHandoff";
 import { buildHealthContactQuestionsDraft, hasHealthContactSignal } from "@/lib/journey/healthContact";
 import { pushWithTransition } from "@/lib/routeTransition";
@@ -182,6 +183,17 @@ function hasMunicipalitySignal(journey, serviceMapHandoff) {
     ? journey.context
     : {};
   return Boolean(context.municipalityText || context.municipalityId || context.municipality || context.county || context.region);
+}
+
+function buildHelpOfferMatchApiHref(handoff) {
+  if (!handoff?.hasPracticalNeed) return "";
+  const params = new URLSearchParams();
+  params.set("type", "HELP_OFFER");
+  params.set("limit", "1");
+  const keyword = handoff.taxonomy?.needTags?.[0] || handoff.categoryCode || "";
+  if (keyword) params.set("q", keyword);
+  if (handoff.municipalityName) params.set("municipalityName", handoff.municipalityName);
+  return `/api/service-map/entries?${params.toString()}`;
 }
 
 function journeyActivityItems(journey, t, locale) {
@@ -463,10 +475,32 @@ function RelatedObjectsPanel({ journey, t }) {
 }
 
 function PreInquirySharePanel({ journey, href, t }) {
+  const assistiveDevices = buildAssistiveDevicesHandoff(journey);
+  const [selectedShareKeys, setSelectedShareKeys] = useState(["summary", "domains", "missingInfo", "wish"]);
+  const reviewedHref = useMemo(() => {
+    const selected = selectedShareKeys.filter(Boolean);
+    const [path, query = ""] = String(href || "").split("?");
+    const params = new URLSearchParams(query);
+    params.set("shareReview", "1");
+    if (selected.length) params.set("share", selected.join(","));
+    else params.delete("share");
+    const serialized = params.toString();
+    return serialized ? `${path}?${serialized}` : path;
+  }, [href, selectedShareKeys]);
+  const toggleShareKey = (key) => {
+    setSelectedShareKeys((current) => (
+      current.includes(key)
+        ? current.filter((item) => item !== key)
+        : [...current, key]
+    ));
+  };
   const shareOptions = [
     ["summary", t("journey.share.summary", "olukorra kokkuvõte"), Boolean(journey?.summary)],
     ["domains", t("journey.share.domains", "seotud teemad"), Boolean(journey?.domains?.length)],
     ["missingInfo", t("journey.share.missing_info", "puuduolev info"), Boolean(journey?.missingInfo?.length)],
+    ...(assistiveDevices.hasAssistiveDeviceNeed
+      ? [["assistiveDevices", t("journey.share.assistive_devices", "abivahendid ja kohandused"), true]]
+      : []),
     ["wish", t("journey.share.wish", "inimese soov"), true],
     ["serviceContact", t("journey.share.service_contact", "valitud teenusekaardi kontakt"), false],
     ["document", t("journey.share.document", "seotud dokument"), false]
@@ -483,15 +517,19 @@ function PreInquirySharePanel({ journey, href, t }) {
         </p>
       </div>
       <div className="grid gap-[0.42rem] sm:grid-cols-2">
-        {shareOptions.map(([key, label, checked]) => (
+        {shareOptions.map(([key, label]) => (
           <label key={key} className="flex items-center gap-[0.48rem] rounded-[0.72rem] border border-[color:var(--subpage-card-border)] px-[0.62rem] py-[0.52rem] text-[0.92rem] font-[650] leading-[1.18]">
-            <input type="checkbox" defaultChecked={checked} />
+            <input
+              type="checkbox"
+              checked={selectedShareKeys.includes(key)}
+              onChange={() => toggleShareKey(key)}
+            />
             <span>{label}</span>
           </label>
         ))}
       </div>
       <div className="flex flex-wrap gap-[0.52rem]">
-        <Button as="a" href={href}>
+        <Button as="a" href={reviewedHref} disabled={!selectedShareKeys.length}>
           <Send size={17} aria-hidden="true" />
           {t("journey.share.continue", "Jätka eelpöördumise koostamisega")}
         </Button>
@@ -501,6 +539,24 @@ function PreInquirySharePanel({ journey, href, t }) {
 }
 
 function HelpRequestSharePanel({ journey, href, t }) {
+  const [selectedShareKeys, setSelectedShareKeys] = useState(["summary", "category", "region", "ownWords"]);
+  const reviewedHref = useMemo(() => {
+    const selected = selectedShareKeys.filter(Boolean);
+    const [path, query = ""] = String(href || "").split("?");
+    const params = new URLSearchParams(query);
+    params.set("shareReview", "1");
+    if (selected.length) params.set("share", selected.join(","));
+    else params.delete("share");
+    const serialized = params.toString();
+    return serialized ? `${path}?${serialized}` : path;
+  }, [href, selectedShareKeys]);
+  const toggleShareKey = (key) => {
+    setSelectedShareKeys((current) => (
+      current.includes(key)
+        ? current.filter((item) => item !== key)
+        : [...current, key]
+    ));
+  };
   const shareOptions = [
     ["summary", t("journey.helpMediation.share.summary", "olukorra lühikokkuvõte"), Boolean(journey?.summary)],
     ["category", t("journey.helpMediation.share.category", "abi liik"), true],
@@ -521,15 +577,19 @@ function HelpRequestSharePanel({ journey, href, t }) {
         </p>
       </div>
       <div className="grid gap-[0.42rem] sm:grid-cols-2">
-        {shareOptions.map(([key, label, checked]) => (
+        {shareOptions.map(([key, label]) => (
           <label key={key} className="flex items-center gap-[0.48rem] rounded-[0.72rem] border border-[color:var(--subpage-card-border)] px-[0.62rem] py-[0.52rem] text-[0.92rem] font-[650] leading-[1.18]">
-            <input type="checkbox" defaultChecked={checked} />
+            <input
+              type="checkbox"
+              checked={selectedShareKeys.includes(key)}
+              onChange={() => toggleShareKey(key)}
+            />
             <span>{label}</span>
           </label>
         ))}
       </div>
       <div className="flex flex-wrap gap-[0.52rem]">
-        <Button as="a" href={href}>
+        <Button as="a" href={reviewedHref} disabled={!selectedShareKeys.length}>
           <HeartPulse size={17} aria-hidden="true" />
           {t("journey.helpMediation.share.continue", "Alusta abisoovi")}
         </Button>
@@ -605,8 +665,12 @@ export default function JourneyDetail({ journeyId }) {
   const [continuityForm, setContinuityForm] = useState(createServiceContinuityState(null));
   const [healthDraftOpen, setHealthDraftOpen] = useState(false);
   const [healthQuestionsDraft, setHealthQuestionsDraft] = useState("");
+  const [assistivePreInquiryShareOpen, setAssistivePreInquiryShareOpen] = useState(false);
   const [preInquiryShareOpen, setPreInquiryShareOpen] = useState(false);
   const [helpRequestShareOpen, setHelpRequestShareOpen] = useState(false);
+  const [assistiveHelpRequestShareOpen, setAssistiveHelpRequestShareOpen] = useState(false);
+  const [helpOfferMatchCount, setHelpOfferMatchCount] = useState(null);
+  const [helpOfferMatchLoading, setHelpOfferMatchLoading] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [notFound, setNotFound] = useState(false);
@@ -616,12 +680,20 @@ export default function JourneyDetail({ journeyId }) {
     () => (journey ? buildServiceMapHandoff(journey) : null),
     [journey]
   );
+  const assistiveDevicesHandoff = useMemo(
+    () => (journey ? buildAssistiveDevicesHandoff(journey) : null),
+    [journey]
+  );
   const serviceMapHref = serviceMapHandoff?.href
     ? localizePath(serviceMapHandoff.href, locale)
     : localizePath("/teenusekaart", locale);
   const helpMediationHandoff = useMemo(
     () => (journey ? buildHelpMediationHandoff(journey) : null),
     [journey]
+  );
+  const helpOfferMatchApiHref = useMemo(
+    () => buildHelpOfferMatchApiHref(helpMediationHandoff),
+    [helpMediationHandoff]
   );
   const helpOffersHref = localizePath(helpMediationHandoff?.viewOffersHref || "/teenusekaart?type=HELP_OFFER", locale);
   const helpRequestsHref = localizePath(helpMediationHandoff?.browseRequestsHref || "/teenusekaart?type=HELP_REQUEST", locale);
@@ -656,6 +728,7 @@ export default function JourneyDetail({ journeyId }) {
     () => hasMunicipalitySignal(journey, serviceMapHandoff),
     [journey, serviceMapHandoff]
   );
+  const hasHelpOfferMatches = Number(helpOfferMatchCount) > 0;
 
   const handleBack = useCallback(() => {
     pushWithTransition(router, localizePath("/teekond", locale), {
@@ -700,6 +773,38 @@ export default function JourneyDetail({ journeyId }) {
       setError(loadError.message || t("journey.messages.load_failed", "Loading the journey failed."));
     });
   }, [loadJourney, status, t]);
+
+  useEffect(() => {
+    if (!helpOfferMatchApiHref) {
+      setHelpOfferMatchCount(null);
+      setHelpOfferMatchLoading(false);
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    setHelpOfferMatchLoading(true);
+    setHelpOfferMatchCount(null);
+
+    fetch(helpOfferMatchApiHref, {
+      cache: "no-store",
+      signal: controller.signal
+    })
+      .then((response) => response.json().catch(() => ({})))
+      .then((payload) => {
+        if (controller.signal.aborted) return;
+        const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+        setHelpOfferMatchCount(entries.length);
+      })
+      .catch(() => {
+        if (controller.signal.aborted) return;
+        setHelpOfferMatchCount(0);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setHelpOfferMatchLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [helpOfferMatchApiHref]);
 
   const updateForm = useCallback((field, value) => {
     setForm((current) => ({
@@ -1048,6 +1153,67 @@ export default function JourneyDetail({ journeyId }) {
                 </div>
               </section>
 
+              {assistiveDevicesHandoff?.hasAssistiveDeviceNeed ? (
+                <section className={cardClassName}>
+                  <div className="grid gap-[0.82rem]">
+                    <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
+                      <div className="grid gap-[0.36rem]">
+                        <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+                          <Wrench size={18} aria-hidden="true" />
+                          {t("journey.assistiveDevices.title", "Abivahendid ja kohandused")}
+                        </h2>
+                        <p className={bodyTextClassName}>
+                          {t("journey.assistiveDevices.description", "Siia saab koondada info abivahendite, kodukohanduse või abivahendi kasutamise toe kohta.")}
+                        </p>
+                        <p className={bodyTextClassName}>
+                          {t("journey.assistiveDevices.safetyNote", "SotsiaalAI ei määra ametlikult abivahendit ega otsusta hüvitamist. Vajadusel täpsusta sobivust KOV-i, spetsialisti, rehabilitatsioonimeeskonna või abivahendi teenuseosutajaga.")}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap justify-end gap-[0.52rem]">
+                        <Button as="a" href={serviceMapHref} variant="secondary">
+                          <Map size={17} aria-hidden="true" />
+                          {t("journey.service_map.open", "Ava teenusekaart")}
+                        </Button>
+                        <Button type="button" onClick={() => setAssistivePreInquiryShareOpen((current) => !current)}>
+                          <Send size={17} aria-hidden="true" />
+                          {t("journey.pre_inquiry.open", "Koosta eelpöördumine")}
+                        </Button>
+                        <Button as="a" href={documentsHref} variant="secondary">
+                          <FileText size={17} aria-hidden="true" />
+                          {t("journey.assistiveDevices.addDocument", "Lisa dokument")}
+                        </Button>
+                        <Button type="button" variant="secondary" onClick={() => setAssistiveHelpRequestShareOpen((current) => !current)}>
+                          <HeartPulse size={17} aria-hidden="true" />
+                          {t("journey.assistiveDevices.createPracticalHelpRequest", "Loo abisoov praktiliseks abiks")}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="grid gap-[0.52rem]">
+                      {assistiveDevicesHandoff.devices.map((item) => (
+                        <div key={item.id} className={cn(compactCardClassName, "grid gap-[0.36rem]")}>
+                          <div className="flex flex-wrap items-center gap-[0.42rem]">
+                            <strong>{item.name}</strong>
+                            <span className={badgeClassName}>{t(`journey.assistiveDevices.status.${item.status}`, item.status)}</span>
+                          </div>
+                          {item.supportNeed ? <p className={bodyTextClassName}>{item.supportNeed}</p> : null}
+                          {item.relatedNeedTags?.length ? (
+                            <div className="flex flex-wrap gap-[0.36rem]">
+                              {item.relatedNeedTags.map((tag) => <span key={tag} className={badgeClassName}>{tag}</span>)}
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                    {assistivePreInquiryShareOpen ? (
+                      <PreInquirySharePanel journey={journey} href={preInquiryHref} t={t} />
+                    ) : null}
+                    {assistiveHelpRequestShareOpen ? (
+                      <HelpRequestSharePanel journey={journey} href={createHelpRequestHref} t={t} />
+                    ) : null}
+                  </div>
+                </section>
+              ) : null}
+
               {helpMediationHandoff?.hasPracticalNeed ? (
                 <section className={cardClassName}>
                   <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
@@ -1057,10 +1223,17 @@ export default function JourneyDetail({ journeyId }) {
                         {t("journey.helpMediation.title", "Abivahendus")}
                       </h2>
                       <p className={bodyTextClassName}>
-                        {helpMediationHandoff.municipalityName
-                          ? t("journey.helpMediation.offersFoundHint", "Teekonna signaalid viitavad praktilisele abivajadusele. Vaata esmalt sobivaid abipakkumisi sinu piirkonnas.")
-                          : t("journey.helpMediation.noRegionHint", "Teekonna signaalid viitavad praktilisele abivajadusele. Piirkonna lisamine aitab sobivaid abipakkumisi täpsemalt leida.")}
+                        {helpOfferMatchLoading
+                          ? t("journey.helpMediation.checkingOffers", "Kontrollin sobivaid abipakkumisi...")
+                          : hasHelpOfferMatches
+                            ? t("journey.helpMediation.offersFoundHint", "Sinu kirjeldus viitab praktilisele abivajadusele. Leidsime võimalikke abipakkumisi, mida saad vaadata.")
+                            : t("journey.helpMediation.noOffersHint", "Sinu kirjeldus viitab praktilisele abivajadusele. Praegu sobivaid abipakkumisi ei leitud, kuid saad luua abisoovi.")}
                       </p>
+                      {!helpMediationHandoff.municipalityName ? (
+                        <p className={bodyTextClassName}>
+                          {t("journey.helpMediation.noRegionHint", "Piirkonna lisamine aitab sobivaid abipakkumisi täpsemalt leida.")}
+                        </p>
+                      ) : null}
                       <p className={bodyTextClassName}>
                         {t("journey.helpMediation.privacy", "Teekond ei avalda midagi automaatselt. Abisoovi loomisel valid eraldi, millise info kaasa võtad ja mida kaardil näidatakse.")}
                       </p>
@@ -1071,10 +1244,12 @@ export default function JourneyDetail({ journeyId }) {
                       ) : null}
                     </div>
                     <div className="flex flex-wrap justify-end gap-[0.52rem]">
-                      <Button as="a" href={helpOffersHref} variant="secondary">
-                        <Map size={17} aria-hidden="true" />
-                        {t("journey.helpMediation.viewOffers", "Vaata abipakkumisi")}
-                      </Button>
+                      {hasHelpOfferMatches ? (
+                        <Button as="a" href={helpOffersHref} variant="secondary">
+                          <Map size={17} aria-hidden="true" />
+                          {t("journey.helpMediation.viewOffers", "Vaata abipakkumisi")}
+                        </Button>
+                      ) : null}
                       <Button type="button" onClick={() => setHelpRequestShareOpen((current) => !current)}>
                         <HeartPulse size={17} aria-hidden="true" />
                         {t("journey.helpMediation.createRequest", "Loo abisoov")}

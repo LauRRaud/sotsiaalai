@@ -2631,6 +2631,7 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   --service-map-marker-label-padding: 3px;
   --service-map-marker-label-max-size: calc(var(--service-map-marker-hole-diameter) - (2 * var(--service-map-marker-label-padding)));
   --service-map-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
+  --service-map-marker-label-weight: 820;
   --service-map-marker-label-tracking: 0;
   --service-map-legend-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
   --service-map-marker-ring: rgba(15, 23, 42, 0.52);
@@ -2664,12 +2665,19 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-leaflet__marker-label {
   fill: currentColor;
   font-size: var(--service-map-marker-label-size);
-  font-weight: 820;
+  font-weight: var(--service-map-marker-label-weight);
   letter-spacing: var(--service-map-marker-label-tracking);
   dominant-baseline: central;
   text-anchor: middle;
   pointer-events: none;
   text-transform: uppercase;
+}
+
+.service-map-leaflet__marker--help-offer .service-map-leaflet__marker-label {
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translate(0.35px, -0.25px);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .service-map-leaflet__marker--kov {
@@ -2685,11 +2693,18 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-leaflet__marker--help-request {
   --service-map-marker-fill: #b45309;
   --service-map-marker-ring: rgba(146, 64, 14, 0.95);
+  --service-map-marker-label-padding: 0px;
+  --service-map-marker-label-size: min(24.2px, var(--service-map-marker-label-max-size));
+  --service-map-legend-marker-label-size: min(22.8px, var(--service-map-marker-label-max-size));
 }
 
 .service-map-leaflet__marker--help-offer {
-  --service-map-marker-fill: #7c3aed;
-  --service-map-marker-ring: rgba(91, 33, 182, 0.92);
+  --service-map-marker-fill: #a23b72;
+  --service-map-marker-ring: rgba(111, 36, 78, 0.94);
+  --service-map-marker-label-padding: 0px;
+  --service-map-marker-label-size: 35px;
+  --service-map-marker-label-weight: 500;
+  --service-map-legend-marker-label-size: 32px;
 }
 
 .service-map-leaflet__marker--mixed {

@@ -32,7 +32,7 @@ import { localizePath, stripLocaleFromPath } from "@/lib/localizePath";
 import { buildRoomChatPath } from "@/lib/roomPath";
 import { isActiveDocumentWorkflowState } from "@/lib/chat/documentWorkflowState";
 import { getHelpListingsReturnTarget } from "@/lib/chat/helpListingsReturnTarget";
-import { isActiveHelpWorkflowState } from "@/lib/help/workflowState";
+import { createHelpWorkflowDraftState, isActiveHelpWorkflowState } from "@/lib/help/workflowState";
 import { getCompactRoomTitle } from "./chat/view/ChatNotices";
 import {
   resolveMobileChatKeyboardOffset,
@@ -118,6 +118,38 @@ function createEmptySelectedListingState() {
 function normalizeActiveWorkflow(value) {
   const normalized = String(value || "").trim().toLowerCase();
   return ACTIVE_CHAT_WORKFLOW_VALUES.includes(normalized) ? normalized : "default";
+}
+
+function readWorkflowFromSearchParams(searchParams) {
+  if (typeof searchParams?.get !== "function") return "default";
+  return normalizeActiveWorkflow(searchParams.get("workflow"));
+}
+
+function buildHelpWorkflowPrefillState(searchParams) {
+  const workflow = readWorkflowFromSearchParams(searchParams);
+  if (workflow !== "help_request" && workflow !== "help_offer") return null;
+  const intent = workflow === "help_request" ? "create_help_request" : "create_help_offer";
+  const categoryCode = String(searchParams.get("category") || "").trim().toUpperCase();
+  const municipalityName = String(searchParams.get("municipalityName") || "").trim();
+  const fromJourney = String(searchParams.get("fromJourney") || "").trim();
+  const share = String(searchParams.get("share") || "").trim();
+
+  return createHelpWorkflowDraftState({
+    intent,
+    step: "collect_required_fields",
+    flowLocked: true,
+    municipalityLabel: municipalityName,
+    sourceMessage: fromJourney ? "journey_help_prefill" : "",
+    draft: {
+      categoryCode,
+      category: categoryCode,
+      rawPlace: municipalityName,
+      extraNotes: [
+        fromJourney ? `fromJourney:${fromJourney}` : "",
+        share ? `share:${share}` : ""
+      ].filter(Boolean).join("; ")
+    }
+  });
 }
 
 function getEmptyIntroMessage(t, workflow) {
@@ -360,7 +392,11 @@ export default function ChatBody({
   } = useChatMobileRail();
   const [errorBanner, setErrorBanner] = useState(null);
   const [isCrisis, setIsCrisis] = useState(false);
-  const [activeWorkflow, setActiveWorkflow] = useState("default");
+  const [activeWorkflow, setActiveWorkflow] = useState(() => readWorkflowFromSearchParams(searchParams));
+  const helpWorkflowPrefillState = useMemo(
+    () => buildHelpWorkflowPrefillState(searchParams),
+    [searchParams]
+  );
   const [journeyWorkflowDraft, setJourneyWorkflowDraft] = useState(null);
   const [isJourneyGenerating, setIsJourneyGenerating] = useState(false);
   const [showSourcesPanel, setShowSourcesPanel] = useState(false);
@@ -390,6 +426,7 @@ export default function ChatBody({
   const viewportIsMobile = hasHydrated ? isMobile : false;
   const [layoutTransitionsReady, setLayoutTransitionsReady] = useState(false);
   const listingsPanelCloseTimerRef = useRef(null);
+  const searchWorkflowHandledRef = useRef("");
   const maskRefreshRef = useRef(null);
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -474,6 +511,20 @@ export default function ChatBody({
       inputRef.current?.blur?.();
     } catch {}
   }, []);
+  useIsomorphicLayoutEffect(() => {
+    if (typeof searchParams?.get !== "function") return;
+    const workspaceParam = String(searchParams.get("workspace") || "").trim();
+    if (!workspaceParam) return;
+    workspaceRestoredOpenRef.current = true;
+    setWorkspaceSuppressOpenTransition(true);
+    setWorkspaceOpen(true);
+    setWorkspaceSurfaceReady(true);
+    setShowSourcesPanel(false);
+    setInputFocused(false);
+    try {
+      inputRef.current?.blur?.();
+    } catch {}
+  }, [searchParams]);
   useEffect(() => {
     clearStaleScrollLock();
   }, []);
@@ -1123,6 +1174,11 @@ export default function ChatBody({
     }
     return null;
   }, [visibleMessages]);
+  const effectiveHelpWorkflowState = latestHelpWorkflowState || helpWorkflowPrefillState;
+  const getEffectiveLatestHelpWorkflowState = useCallback(
+    () => getLatestHelpWorkflowState() || helpWorkflowPrefillState,
+    [getLatestHelpWorkflowState, helpWorkflowPrefillState]
+  );
   const renderLimitStorageKey = useMemo(() => getConversationRenderLimitStorageKey({
     convId,
     userId: sessionUserId,
@@ -1924,8 +1980,8 @@ export default function ChatBody({
     } catch {}
   }, []);
   const helpFlowActive = useMemo(
-    () => isActiveHelpWorkflowState(latestHelpWorkflowState),
-    [latestHelpWorkflowState]
+    () => isActiveHelpWorkflowState(effectiveHelpWorkflowState),
+    [effectiveHelpWorkflowState]
   );
   const handleAssistantMessageCreated = useCallback((messageId) => {
     onAssistantMessageCreated?.(messageId);
@@ -1960,8 +2016,8 @@ export default function ChatBody({
     userRole,
     locale,
     activeWorkflow,
-    helpWorkflowState: latestHelpWorkflowState,
-    getLatestHelpWorkflowState,
+    helpWorkflowState: effectiveHelpWorkflowState,
+    getLatestHelpWorkflowState: getEffectiveLatestHelpWorkflowState,
     docOnlyMode: analysis.docOnlyMode,
     ephemeralChunks: analysis.ephemeralChunks,
     ephemeralSource: analysis.ephemeralSource,
@@ -2022,6 +2078,18 @@ export default function ChatBody({
 
     return nextConvId;
   }, [analysis, setConvId, setIsCrisis, setMessages, stop]);
+  useEffect(() => {
+    if (isRoomMode) return;
+    const workflow = readWorkflowFromSearchParams(searchParams);
+    if (workflow !== "help_request" && workflow !== "help_offer") return;
+    const key = `${workflow}:${typeof searchParams?.toString === "function" ? searchParams.toString() : ""}`;
+    if (searchWorkflowHandledRef.current === key) return;
+    searchWorkflowHandledRef.current = key;
+    if (activeWorkflow === workflow && visibleMessages.length === 0) return;
+    startFreshConversation(workflow, {
+      closeAnalysis: false
+    });
+  }, [activeWorkflow, isRoomMode, searchParams, startFreshConversation, visibleMessages.length]);
   const activateInfoMode = useCallback((options = null) => {
     const preserveConversation = Boolean(options?.preserveConversation);
     const stopActiveRun = Boolean(options?.stopActiveRun);

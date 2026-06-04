@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
 
 
 function read(path) {
@@ -35,18 +34,25 @@ test("home quick links route to the checked public glass subpages", () => {
 
 test("subscription page uses the shared subpage back button class on mobile", () => {
   const subscription = read("components/alalehed/TellimusBody.jsx");
-  const mobileCss = readMobileCssBundle();
+  const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
 
   assert.match(
     subscription,
     /<GlassSubpageHeader[\s\S]*?backClassName="workspace-scroll-back-button z-\[3\]"/
   );
   assert.match(
-    mobileCss,
-    /\.subscription-modal-content \.glass-subpage-title-wrap\.policy-mobile-title-wrap\s*\{[\s\S]*?padding-top:\s*calc\(var\(--mobile-common-title-top\) \+ 0\.396rem\)\s*!important;/
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.subscription-modal-content[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
-    mobileCss,
-    /\.subscription-modal-content :is\(\.glass-subpage-back-button,\s*\.workspace-scroll-back-button\)\s*\{[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.04rem\)\s*!important;[\s\S]*?top:\s*0\.2rem\s*!important;/
+    mobileHeaderCss,
+    /:is\([\s\S]*?\.subscription-modal-content[\s\S]*?\)\s*:is\([\s\S]*?\.glass-subpage-back-button,[\s\S]*?\.workspace-scroll-back-button[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?\)\s*!important;/
   );
+});
+
+test("subscription page does not add a desktop-only header offset", () => {
+  const subscription = read("components/alalehed/TellimusBody.jsx");
+
+  assert.match(subscription, /subscription-modal-content[\s\S]*?px-\[0\.95rem\] pt-0 pb-\[1rem\]/);
+  assert.doesNotMatch(subscription, /subscription-modal-content[\s\S]*?px-\[0\.95rem\] pt-\[0\.35rem\] pb-\[1rem\]/);
 });

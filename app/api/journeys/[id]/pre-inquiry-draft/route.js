@@ -34,16 +34,19 @@ async function resolveParams(context) {
   return await context?.params;
 }
 
-export async function POST(_request, context) {
+export async function POST(request, context) {
   const auth = await requireJourneyUser();
   if (!auth) {
     return json({ ok: false, message: "api.common.unauthorized" }, 401);
   }
 
   try {
+    const body = await request.json().catch(() => ({}));
     const params = await resolveParams(context);
     const journey = await getJourneyForUser(auth.userId, params?.id);
-    const prefill = buildPreInquiryPrefillFromJourney(journey);
+    const prefill = buildPreInquiryPrefillFromJourney(journey, {
+      shareKeys: body?.shareKeys || body?.share || []
+    });
     return json({
       ok: true,
       prefill,

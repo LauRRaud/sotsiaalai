@@ -18,6 +18,21 @@
   animation: none;
   isolation: isolate;
   box-sizing: border-box;
+  --workspace-card-badge-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
+    color-mix(in srgb, var(--title-color, var(--brand-primary, #c57171)) 82%, rgba(18, 15, 23, 0.92));
+  --workspace-card-badge-attention-bg:
+    linear-gradient(145deg, rgba(255, 246, 180, 0.34), rgba(255, 255, 255, 0.08)),
+    color-mix(in srgb, #f59e0b 78%, rgba(18, 15, 23, 0.92));
+  --workspace-card-badge-border: rgba(255, 255, 255, 0.32);
+  --workspace-card-badge-text: #fff;
+  --workspace-card-badge-shadow:
+    0 0 0 1px rgba(18, 15, 23, 0.28),
+    0 5px 14px rgba(18, 15, 23, 0.24);
+  --workspace-card-badge-tooltip-bg: rgba(18, 15, 23, 0.92);
+  --workspace-card-badge-tooltip-border: rgba(255, 255, 255, 0.16);
+  --workspace-card-badge-tooltip-text: var(--glass-surface-text, #f2f2f2);
+  --workspace-card-badge-tooltip-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
   padding: clamp(0.15rem, 0.6vh, 0.4rem) clamp(0.2rem, 0.8vw, 0.45rem)
     clamp(0.55rem, 1.6vh, 0.9rem);
 }
@@ -302,7 +317,7 @@
     --workspace-dashboard-panel-edge-x: 1.1rem;
     padding-right: var(--workspace-dashboard-panel-edge-x);
     padding-left: var(--workspace-dashboard-panel-edge-x);
-    padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
+    padding-top: 0;
   }
 
 }
@@ -349,7 +364,7 @@
   margin: 0 auto;
   overflow: visible;
   padding: clamp(0.22rem, 0.8vh, 0.45rem) clamp(0.4rem, 1vw, 0.72rem)
-    clamp(0.48rem, 1.5vh, 0.82rem);
+    clamp(0.58rem, 1.7vh, 0.92rem);
 }
 
 .row {
@@ -366,6 +381,7 @@
 }
 
 .card {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0.28rem, 0.52rem) var(--workspace-card-icon-size) minmax(0, 1fr);
   justify-content: stretch;
@@ -467,9 +483,31 @@
   box-shadow: none;
 }
 
+.mailboxInlineIcon {
+  width: 104% !important;
+  height: 104% !important;
+  margin: -2%;
+}
+
 .cardIcon svg {
   width: 100%;
   height: 100%;
+}
+
+.dashboardCardIcon {
+  overflow: visible;
+}
+
+.dashboardCardIcon svg {
+  width: 114%;
+  height: 114%;
+  margin: -7%;
+}
+
+.dashboardCardIcon[data-workspace-card-icon="map"] .serviceMapInlineIcon {
+  width: 156% !important;
+  height: 156% !important;
+  margin: -28% !important;
 }
 
 .serviceMapInlineIcon {
@@ -528,6 +566,70 @@
   text-wrap: pretty;
 }
 
+.cardBadge {
+  position: absolute;
+  top: clamp(0.38rem, 1vw, 0.52rem);
+  right: clamp(0.38rem, 1vw, 0.52rem);
+  z-index: 2;
+  display: inline-grid;
+  min-width: 0.76rem;
+  height: 0.76rem;
+  place-items: center;
+  border: 1px solid var(--workspace-card-badge-border);
+  border-radius: 999px;
+  background: var(--workspace-card-badge-bg);
+  color: var(--workspace-card-badge-text);
+  box-shadow: var(--workspace-card-badge-shadow);
+  pointer-events: none;
+}
+
+.cardBadge[data-badge-type="number"],
+.cardBadge[data-badge-type="attention"] {
+  min-width: 1.22rem;
+  height: 1.22rem;
+  padding: 0 0.28rem;
+}
+
+.cardBadge[data-badge-type="attention"] {
+  background: var(--workspace-card-badge-attention-bg);
+}
+
+.cardBadgeValue {
+  font-size: 0.67rem;
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.cardBadgeTooltip {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.36rem);
+  width: max-content;
+  max-width: min(14rem, 58vw);
+  padding: 0.34rem 0.48rem;
+  border: 1px solid var(--workspace-card-badge-tooltip-border);
+  border-radius: 0.48rem;
+  background: var(--workspace-card-badge-tooltip-bg);
+  color: var(--workspace-card-badge-tooltip-text);
+  box-shadow: var(--workspace-card-badge-tooltip-shadow);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.18;
+  opacity: 0;
+  transform: translateY(-0.12rem);
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+  visibility: hidden;
+}
+
+.card:not(.cardDisabled):is(:hover, :focus-visible) .cardBadgeTooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
 .card_document_drafting .cardTitle {
   max-width: 7.35em;
 }
@@ -536,6 +638,42 @@
 :global(:root.theme-mid) .panel {
   color: var(--text-strong, #1f2937);
   background: transparent;
+}
+
+:global(:root.theme-light) .panel {
+  --workspace-card-badge-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06)),
+    color-mix(in srgb, var(--title-color, #8a4b49) 86%, #2f1f1e);
+  --workspace-card-badge-attention-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28), rgba(255, 246, 180, 0.12)),
+    color-mix(in srgb, #b45309 86%, #2f1f1e);
+  --workspace-card-badge-border: rgba(122, 58, 56, 0.16);
+  --workspace-card-badge-text: #fff;
+  --workspace-card-badge-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.34),
+    0 6px 14px rgba(82, 50, 46, 0.14);
+  --workspace-card-badge-tooltip-bg: rgba(255, 255, 255, 0.96);
+  --workspace-card-badge-tooltip-border: rgba(122, 58, 56, 0.12);
+  --workspace-card-badge-tooltip-text: var(--text-strong, #1f2937);
+  --workspace-card-badge-tooltip-shadow: 0 10px 24px rgba(82, 50, 46, 0.14);
+}
+
+:global(:root.theme-mid) .panel {
+  --workspace-card-badge-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.08)),
+    color-mix(in srgb, var(--title-color, #8a4b49) 78%, #403631);
+  --workspace-card-badge-attention-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.28), rgba(255, 246, 180, 0.12)),
+    color-mix(in srgb, #a16207 84%, #403631);
+  --workspace-card-badge-border: rgba(255, 255, 255, 0.28);
+  --workspace-card-badge-text: #fff;
+  --workspace-card-badge-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.26),
+    0 6px 14px rgba(38, 24, 22, 0.12);
+  --workspace-card-badge-tooltip-bg: rgba(253, 250, 248, 0.96);
+  --workspace-card-badge-tooltip-border: rgba(122, 58, 56, 0.1);
+  --workspace-card-badge-tooltip-text: var(--text-strong, #1f2937);
+  --workspace-card-badge-tooltip-shadow: 0 10px 24px rgba(38, 24, 22, 0.12);
 }
 
 :global(:root.theme-light) .card,
@@ -795,6 +933,25 @@
   color: var(--forest-title, #c57171);
 }
 
+:global(:root.theme-mono) .panel {
+  --workspace-card-badge-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04)),
+    rgba(230, 230, 230, 0.9);
+  --workspace-card-badge-attention-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(245, 207, 90, 0.1)),
+    rgba(245, 207, 90, 0.92);
+  --workspace-card-badge-border: rgba(230, 230, 230, 0.46);
+  --workspace-card-badge-text: #141414;
+  --workspace-card-badge-shadow:
+    0 0 0 1px rgba(10, 10, 10, 0.34),
+    0 6px 14px rgba(0, 0, 0, 0.22);
+  --workspace-card-badge-tooltip-bg: rgba(18, 18, 18, 0.96);
+  --workspace-card-badge-tooltip-border: rgba(230, 230, 230, 0.24);
+  --workspace-card-badge-tooltip-text: var(--forest-highlight, #c8c8c8);
+  --workspace-card-badge-tooltip-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+}
+
+
 :global(:root.theme-mono:not([data-contrast="hc"])) .card {
   --card-bg: var(--workspace-elevated-card-bg, rgba(20, 20, 20, 0.62)) !important;
   --border-glow-enter-duration: 1.05s;
@@ -858,6 +1015,15 @@
   color: var(--hc-text, #fff);
   background: transparent;
   box-shadow: none;
+  --workspace-card-badge-bg: var(--hc-bg, #090a0f);
+  --workspace-card-badge-attention-bg: var(--hc-bg, #090a0f);
+  --workspace-card-badge-border: var(--hc-accent, #ffea00);
+  --workspace-card-badge-text: var(--hc-accent, #ffea00);
+  --workspace-card-badge-shadow: none;
+  --workspace-card-badge-tooltip-bg: var(--hc-bg, #090a0f);
+  --workspace-card-badge-tooltip-border: var(--hc-accent, #ffea00);
+  --workspace-card-badge-tooltip-text: var(--hc-accent, #ffea00);
+  --workspace-card-badge-tooltip-shadow: none;
 }
 
 :global(html[data-contrast="hc"]) .card,
@@ -949,6 +1115,11 @@
   .cardTitle {
     font-size: 1.06rem;
     line-height: 1.08;
+  }
+
+  .cardBadge {
+    top: 0.34rem;
+    right: 0.42rem;
   }
 
   .rowSingle .card {

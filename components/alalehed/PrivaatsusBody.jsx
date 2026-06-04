@@ -5,7 +5,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import RichText from "@/components/i18n/RichText";
 import { GlassSubpageHeader } from "@/components/ui/GlassSubpageHeader";
 import GlassRing from "@/components/ui/GlassRing";
-import { glassPageRingCenteredClassName, glassPageShellCenteredClassName } from "@/components/ui/glassPageStyles";
+import { glassPageRingCenteredClassName, glassPageShellCenteredClassName, workspaceGuidePanelClassName, workspaceGuidePanelScrollClassName } from "@/components/ui/glassPageStyles";
 import { glassPolicyContentClassName, glassPolicyContentExpandedClassName, glassPolicyRingClassName, glassPolicyScrollClassName, glassPolicyScrollExpandedClassName } from "@/components/ui/glassPolicyPageStyles";
 import { cn } from "@/components/ui/cn";
 import { linkRichTextBase } from "@/components/ui/linkStyles";
@@ -127,10 +127,10 @@ export default function PrivaatsusBody() {
   };
   return <section className={pageShellClassName} lang={locale}>
       <div className="relative flex flex-col items-center">
-        <GlassRing className={cn(glassPageRingCenteredClassName, "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
+        <GlassRing className={cn(glassPageRingCenteredClassName, workspaceGuidePanelClassName, "workspace-scroll-surface", "glass-ring--desktop-stable", "[--glass-ring-surface-bg:var(--glass-surface-bg,rgba(0,0,0,0.25))]", glassPolicyRingClassName, "policy-scroll-page-ring", "policy-mobile-lower", "policy-mobile-tall", isExpandedLayout ? "glass-ring-expandable--open" : null)} role="region" aria-labelledby="privacy-title">
         <div className={cn(contentClassName, "relative", "glass-ring-content", "policy-page-content", "privacy-page-content", isExpandedLayout ? "glass-ring-content--open" : null, isExpandedLayout ? glassPolicyContentExpandedClassName : null)}>
           <div
-            className={cn(scrollClassName, "policy-page-scroll", "policy-scroll-page-scroller", "workspace-scroll-surface", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
+            className={cn(scrollClassName, workspaceGuidePanelScrollClassName, "policy-page-scroll", "policy-scroll-page-scroller", "workspace-scroll-surface", isExpandedLayout ? "glass-ring-scroll--open" : null, isExpandedLayout ? glassPolicyScrollExpandedClassName : null)}
             style={{ zIndex: 0 }}
             tabIndex={0}
             aria-labelledby="privacy-title"

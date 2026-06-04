@@ -141,7 +141,7 @@ const profileBackButtonClassName =
 const profileNavOverlayClassName =
   "profile-nav-overlay absolute inset-0 z-[3] pointer-events-none";
 const profileLogoutWrapClassName =
-  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] ` +
+  `${glassPageBackRightClassName} profile-logout-wrap pointer-events-auto translate-x-[-0.68rem] translate-y-[0.75rem] ` +
   "max-[48em]:!hidden max-[48em]:z-[95]";
 const noteClassName =
   "bg-transparent border-0 shadow-none text-[color:var(--glass-surface-text,#f2f2f2)] " +
@@ -478,6 +478,7 @@ export default function ProfiilBody({
   const [loginOpen, setLoginOpen] = useState(false);
   const initialOrbitRequestedRef = useRef(Boolean(initialOrbitRequested && initialIsMobileProfileMenu));
   const [orbitOpen, setOrbitOpen] = useState(initialOrbitRequestedRef.current);
+  const [orbitNavigating, setOrbitNavigating] = useState(false);
   const orbitQueryConsumedRef = useRef(initialOrbitRequestedRef.current);
   const accountSettingsReturnToOrbitRef = useRef(false);
   const a11yReturnToOrbitRef = useRef(false);
@@ -994,6 +995,28 @@ export default function ProfiilBody({
     a11yReturnToOrbitRef.current = false;
   }, [isA11yModalOpen, isMobileProfileMenu]);
   useEffect(() => {
+    if (orbitOpen) setOrbitNavigating(false);
+  }, [orbitOpen]);
+  const navigateFromOrbit = useCallback(path => {
+    const href = localizePath(path, locale);
+    setOrbitNavigating(true);
+    setOrbitOpen(false);
+    const navigate = () => {
+      try {
+        pushWithTransition(router, href);
+      } finally {
+        if (typeof window !== "undefined") {
+          window.setTimeout(() => setOrbitNavigating(false), 900);
+        }
+      }
+    };
+    if (typeof window !== "undefined" && typeof window.requestAnimationFrame === "function") {
+      window.requestAnimationFrame(navigate);
+      return;
+    }
+    navigate();
+  }, [locale, router]);
+  useEffect(() => {
     if (embedded || orbitOpen || !orbitQueryConsumedRef.current || typeof window === "undefined") return;
     const url = new URL(window.location.href);
     if (!url.searchParams.has("orbit")) {
@@ -1017,14 +1040,14 @@ export default function ProfiilBody({
     label: t("profile.change_password_cta"),
     labelPos: "up",
     closeOnMobileAction: false,
-    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-pin?return=profile&orbit=1" : `/uuenda-pin${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => navigateFromOrbit(isMobileProfileMenu ? "/uuenda-pin?return=profile&orbit=1" : `/uuenda-pin${embedded ? "?return=profile" : ""}`)
   }, {
     key: "email",
     icon: <EmailDockIcon />,
     label: t("profile.update_email_cta"),
     labelPos: "up",
     closeOnMobileAction: false,
-    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/uuenda-epost?return=profile&orbit=1" : `/uuenda-epost${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => navigateFromOrbit(isMobileProfileMenu ? "/uuenda-epost?return=profile&orbit=1" : `/uuenda-epost${embedded ? "?return=profile" : ""}`)
   }, {
     key: "account",
     icon: <AccountSettingsDockIcon />,
@@ -1042,7 +1065,7 @@ export default function ProfiilBody({
     label: t("profile.manage_subscription"),
     labelPos: "down",
     closeOnMobileAction: false,
-    onClick: () => pushWithTransition(router, localizePath(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`, locale))
+    onClick: () => navigateFromOrbit(isMobileProfileMenu ? "/tellimus?return=profile&orbit=1" : `/tellimus${embedded ? "?return=profile" : ""}`)
   }, {
     key: "preferences",
     icon: <PreferencesDockIcon />,
@@ -1052,7 +1075,7 @@ export default function ProfiilBody({
       a11yReturnToOrbitRef.current = isMobileProfileMenu;
       openA11y?.();
     }
-  }], [embedded, handleModeSwitch, isMobileProfileMenu, locale, nextModeIcon, nextModeLabel, openA11y, router, t]);
+  }], [embedded, handleModeSwitch, isMobileProfileMenu, navigateFromOrbit, nextModeIcon, nextModeLabel, openA11y, t]);
   const handleBack = useCallback(() => {
     if (typeof onBack === "function") {
       onBack();
@@ -1231,7 +1254,7 @@ export default function ProfiilBody({
       </div>
 
       {!showAccountSettings && !profileHelpPanel ? (
-        <div className={orbitLayerClassName}>
+        <div className={cn(orbitLayerClassName, orbitNavigating ? "!opacity-0 !pointer-events-none" : null)} aria-hidden={orbitNavigating ? "true" : undefined}>
           <div className={orbitWrapperClassName} style={{ marginTop: 0, marginBottom: 0 }}>
             <OrbitalMenu
               key={orbitMenuRenderKey}

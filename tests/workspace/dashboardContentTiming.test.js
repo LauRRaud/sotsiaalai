@@ -108,6 +108,10 @@ test("workspace dashboard matches subpage side padding without widening the glas
   assert.match(css, /--workspace-dashboard-panel-edge-x:\s*1\.1rem;/);
   assert.match(css, /padding-right:\s*var\(--workspace-dashboard-panel-edge-x\);/);
   assert.match(css, /padding-left:\s*var\(--workspace-dashboard-panel-edge-x\);/);
+  assert.match(
+    css,
+    /\.grid\s*\{[\s\S]*?padding:\s*clamp\(0\.22rem,\s*0\.8vh,\s*0\.45rem\)\s*clamp\(0\.4rem,\s*1vw,\s*0\.72rem\)\s*clamp\(0\.58rem,\s*1\.7vh,\s*0\.92rem\);/
+  );
 });
 
 test("workspace dashboard disables the chat scroll edge fade", () => {

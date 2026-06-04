@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
-import { Route } from "lucide-react";
+import { Mail, Route } from "lucide-react";
 import BorderGlow from "@/components/ui/BorderGlow";
 import { cn } from "@/components/ui/cn";
 import { DashboardInfoTrigger, dashboardInfoTriggerCornerClassName } from "@/components/ui/DashboardInfoOverlay";
@@ -167,6 +167,11 @@ function DashboardCardIcon({ type }) {
       <Route className={styles.journeyInlineIcon} strokeWidth={1.72} aria-hidden="true" focusable="false" />
     );
   }
+  if (type === "mailbox") {
+    return (
+      <Mail className={styles.mailboxInlineIcon} strokeWidth={1.62} aria-hidden="true" focusable="false" />
+    );
+  }
   if (type === "map") {
     return (
       <svg className={styles.serviceMapInlineIcon} viewBox="0 0 34.12 32.89" fill="none" aria-hidden="true" focusable="false">
@@ -251,6 +256,13 @@ function normalizeDashboardRole(role, fallback = "SOCIAL_WORKER") {
   return DASHBOARD_VIEW_ROLES.includes(normalized) ? normalized : fallback;
 }
 
+function formatDashboardCardAriaLabel(card) {
+  const title = String(card?.title || "").trim();
+  const badgeLabel = String(card?.badge?.label || "").trim();
+  if (!title) return badgeLabel || undefined;
+  return badgeLabel ? `${title}: ${badgeLabel}` : title;
+}
+
 function dispatchWorkspaceEvent(eventName, detail = {}) {
   if (typeof window === "undefined") return false;
   try {
@@ -283,6 +295,7 @@ export default function WorkspacePanel({
   embeddedPanelNode = null,
   embeddedPanelMeta = null,
   onEmbeddedPanelBack = null,
+  dashboardBadges = null,
   visible = true
 }) {
   const router = useRouter();
@@ -454,8 +467,9 @@ export default function WorkspacePanel({
     t,
     navigateTo,
     openHelpPanel,
-    openInvite
-  }), [activeRole, hasPaidAccess, navigateTo, openHelpPanel, openInvite, t]);
+    openInvite,
+    dashboardBadges
+  }), [activeRole, dashboardBadges, hasPaidAccess, navigateTo, openHelpPanel, openInvite, t]);
   const activeEmbeddedMeta = useMemo(() => {
     if (!activeEmbeddedFeature) return null;
     const meta = EMBEDDED_WORKSPACE_HEADER_META[activeEmbeddedFeature] || null;
@@ -473,7 +487,8 @@ export default function WorkspacePanel({
   const embeddedPanelTitle = embeddedPanelMeta?.title || "";
   const embeddedPanelInfoId = embeddedPanelMeta?.infoId || "workspace";
 
-  const roleMenu = isAdmin ? (
+  const showRoleMenu = isAdmin && activeEmbeddedFeature !== "journey";
+  const roleMenu = showRoleMenu ? (
     <div className={styles.roleMenu}>
       <AdminRoleViewCycleButton
         t={t}
@@ -573,6 +588,7 @@ export default function WorkspacePanel({
                 embedded
                 hideHeader
                 onBack={handleWorkspaceBack}
+                roleOverride={isAdmin ? "CLIENT" : ""}
               />
             ) : activeEmbeddedFeature === "invite" ? (
               <InviteModal
@@ -625,6 +641,7 @@ export default function WorkspacePanel({
                 data-workspace-card-key={card.key}
                 onClick={card.disabled ? undefined : card.onClick}
                 disabled={card.disabled}
+                aria-label={formatDashboardCardAriaLabel(card)}
                 aria-disabled={card.disabled ? "true" : "false"}
                 edgeSensitivity={30}
                 glowColor="358 82 72"
@@ -637,12 +654,28 @@ export default function WorkspacePanel({
                 fillOpacity={0}
                 edgeOnly
               >
-                <span className={styles.cardIcon} aria-hidden="true">
+                <span
+                  className={cn(styles.cardIcon, styles.dashboardCardIcon)}
+                  data-workspace-card-icon={card.icon}
+                  aria-hidden="true"
+                >
                   <DashboardCardIcon type={card.icon} />
                 </span>
                 <span className={styles.cardCopy}>
                   <span className={styles.cardTitle}>{card.title}</span>
                 </span>
+                {card.badge ? (
+                  <span
+                    className={styles.cardBadge}
+                    data-badge-type={card.badge.type}
+                    aria-hidden="true"
+                  >
+                    <span className={styles.cardBadgeValue}>{card.badge.value}</span>
+                    {card.badge.tooltip ? (
+                      <span className={styles.cardBadgeTooltip}>{card.badge.tooltip}</span>
+                    ) : null}
+                  </span>
+                ) : null}
               </BorderGlow>
             ))}
           </div>

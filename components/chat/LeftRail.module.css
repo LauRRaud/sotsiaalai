@@ -332,6 +332,10 @@
   stroke: var(--forest-title, #c57171) !important;
 }
 
+:global(:root.theme-mono:not([data-contrast="hc"])) .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
+  fill: none !important;
+}
+
 :global(:root.theme-light) .tooltip {
   color: var(--title-color, var(--link-color, #7a3a38));
   font-size: 1.12rem;

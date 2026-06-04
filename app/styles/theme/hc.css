@@ -489,6 +489,11 @@ html[data-contrast="hc"] .back-icon-dot {
   fill: var(--hc-accent) !important;
 }
 
+html[data-contrast="hc"] .back-icon-dot.back-icon-dot--outline {
+  fill: none !important;
+  stroke: var(--hc-accent) !important;
+}
+
 html[data-contrast="hc"] .error-page-shell .error-page-description {
   color: var(--hc-accent) !important;
 }
