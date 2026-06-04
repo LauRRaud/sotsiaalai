@@ -69,7 +69,14 @@ test("workspace routes wellbeing through the real wellbeing page", () => {
   const cards = readFileSync(new URL("../../lib/workspaceDashboardCards.js", import.meta.url), "utf8");
 
   assert.match(cards, /onClick:\s*\(\) => navigateTo\?\.\("\/tooheaolu"\)/);
+  assert.match(source, /const activateDashboardCard = useCallback\(cardKey => \{/);
+  assert.match(source, /wellbeing:\s*"\/tooheaolu"/);
+  assert.match(source, /const route = routeByCardKey\[cardKey\];[\s\S]*?if \(route\) navigateTo\(route\);/);
+  assert.match(source, /onClick=\{card\.disabled \? undefined : handleCardDirectClick\}/);
+  assert.match(source, /onPointerUp=\{card\.disabled \? undefined : handleCardDirectPointerUp\}/);
+  assert.match(source, /window\.location\.assign\(href\);/);
   assert.match(source, /router\.push\(href\);/);
+  assert.doesNotMatch(source, /workspacePanelMorph:\s*"mobile-workspace-route"/);
   assert.doesNotMatch(source, /WellbeingEmbeddedPanel/);
   assert.doesNotMatch(source, /wellbeingEmbeddedOpen/);
   assert.doesNotMatch(source, /mirrorEmbeddedWellbeingUrl/);
@@ -86,6 +93,16 @@ test("wellbeing direct page keeps one glass shell and no embedded sizing overrid
   assert.match(source, /infoId=\{infoId\}/);
   assert.match(source, /title=\{activeTitle\}/);
   assert.doesNotMatch(css, /\.embeddedBody/);
+});
+
+test("wellbeing server pages pass admin access into role gate", () => {
+  const page = readFileSync(new URL("../../app/tooheaolu/page.jsx", import.meta.url), "utf8");
+  const toolPage = readFileSync(new URL("../../app/tooheaolu/[tool]/page.jsx", import.meta.url), "utf8");
+
+  assert.match(page, /canUseWellbeingRole\(roleState\.effectiveRole,\s*Boolean\(roleState\.isAdmin\)\)/);
+  assert.match(toolPage, /canUseWellbeingRole\(roleState\.effectiveRole,\s*Boolean\(roleState\.isAdmin\)\)/);
+  assert.doesNotMatch(page, /canUseWellbeingRole\(roleState\.effectiveRole,\s*false\)/);
+  assert.doesNotMatch(toolPage, /canUseWellbeingRole\(roleState\.effectiveRole,\s*false\)/);
 });
 
 test("wellbeing quick check output uses separators instead of nested cards", () => {

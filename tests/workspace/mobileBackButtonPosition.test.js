@@ -61,7 +61,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     mobileCss,
-    /:is\([\s\S]*?\.policy-mobile-title-wrap,[\s\S]*?\.glass-subpage-title-wrap,[\s\S]*?\.workspace-guide-panel \.glass-subpage-title-wrap,[\s\S]*?\.workspace-feature-panel \.glass-subpage-title-wrap[\s\S]*?\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-common-title-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-guide-panel,[\s\S]*?\.workspace-feature-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     workspacePanelCss,
@@ -101,7 +101,7 @@ test("workspace dashboard mobile back icon is not offset from the shared chat ba
   );
   assert.match(
     workspacePanelCss,
-    /\.roleMenu\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) \+ 0\.42rem\);/
+    /\.roleMenu\s*\{[\s\S]*?top:\s*calc\(var\(--mobile-safe-top,\s*env\(safe-area-inset-top,\s*0px\)\) - 0\.36rem\);/
   );
   assert.match(
     glassPageStylesSource,
@@ -156,7 +156,7 @@ test("service map mobile back icon matches the workspace visual inset", () => {
   );
   assert.match(
     serviceMapCss,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.53rem\)\s*!important[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.37rem\)\s*!important/
+    /:is\([\s\S]*?\.service-map-workspace[\s\S]*?\)\s*:is\([\s\S]*?\.service-map-workspace__back[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.doesNotMatch(
     serviceMapCss,

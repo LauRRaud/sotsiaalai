@@ -23,7 +23,11 @@ test("mobile title, back and info placement is centralized without PWA-only offs
   assert.match(headerCss, /--mobile-header-pwa-y-offset:\s*0rem;/);
   assert.match(
     headerCss,
-    /\.workspace-dashboard-panel,[\s\S]*?\.wellbeing-page-surface \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*0\.92rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?- 1\.64rem/
+    /\.workspace-dashboard-panel,[\s\S]*?\.wellbeing-page-surface \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-title-top:\s*0\.92rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?- 2\.45rem/
+  );
+  assert.match(
+    headerCss,
+    /\.wellbeing-page-surface,[\s\S]*?\.wellbeing-page-surface \.workspace-guide-panel-scroll\s*\{[\s\S]*?--mobile-header-back-left:[\s\S]*?0\.82rem[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?- 1\.1rem/
   );
   assert.match(
     headerCss,

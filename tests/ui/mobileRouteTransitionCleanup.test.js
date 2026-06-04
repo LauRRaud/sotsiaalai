@@ -20,3 +20,17 @@ test("mobile route transitions clean workspace restore and background pause stat
   assert.match(backgroundLayer, /useEffect\(\(\) => \{[\s\S]*?setColorBendsPaused\(false\);[\s\S]*?\}, \[routeKey\]\);/);
   assert.match(backgroundLayer, /routeKey=\{normalizedPathname\}/);
 });
+
+test("mobile chat home return does not wait for glass tilt before routing", () => {
+  const chatBody = read("components/alalehed/ChatBody.jsx");
+  const handleBackHomeBlock =
+    chatBody.match(/const handleBackHome = useCallback\(async \(\) => \{[\s\S]*?\n  \}, \[[^\]]+\]\);/)?.[0] || "";
+
+  assert.match(handleBackHomeBlock, /const transitionOptions = isMobile/);
+  assert.match(handleBackHomeBlock, /persistGlassRingTilt:\s*false/);
+  assert.match(handleBackHomeBlock, /isMobile \? 1800 : 960/);
+  assert.match(
+    handleBackHomeBlock,
+    /const transitionOptions = isMobile\s*\?\s*\{\s*persistGlassRingTilt:\s*false\s*\}\s*:\s*\{[\s\S]*?waitForGlassRingTilt:\s*true/
+  );
+});

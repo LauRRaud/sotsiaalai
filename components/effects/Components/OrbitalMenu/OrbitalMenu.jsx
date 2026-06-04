@@ -515,18 +515,7 @@ export default function OrbitalMenu({
       });
     };
     const computePad = () => {
-      const viewportHeight =
-        typeof window !== "undefined" ? window.innerHeight || 0 : 0;
-      const fadeClearance = Math.max(72, Math.round(viewportHeight * 0.12));
-      const firstStackItem = stackItemRefs.current?.find(Boolean);
-      const firstBubble = firstStackItem?.querySelector?.(".profile-orbit-stack-bubble");
-      const bubbleHeight =
-        firstBubble instanceof HTMLElement
-          ? firstBubble.offsetHeight || 0
-          : firstStackItem?.offsetHeight || 0;
-      // Keep the first/last stack button glow clear of the panel edge fade.
-      const glowClearance = bubbleHeight ? Math.ceil(bubbleHeight / 2 + 40) : 0;
-      setStackPad(Math.max(fadeClearance, glowClearance));
+      setStackPad(0);
     };
     computePad();
     resetStackScroll();

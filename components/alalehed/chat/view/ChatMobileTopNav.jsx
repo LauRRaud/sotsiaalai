@@ -119,9 +119,9 @@ function getEdgeFadeOpacity(distance) {
   return 1 - (distance - 2.25) / 0.65;
 }
 
-function isTopNavButtonTarget(target) {
-  if (!(target instanceof Element)) return false;
-  return Boolean(target.closest("[data-chat-mobile-topnav-button='1']"));
+function getTopNavButtonTargetKey(target) {
+  if (!(target instanceof Element)) return "";
+  return target.closest("[data-chat-mobile-topnav-button='1']")?.getAttribute("data-key") || "";
 }
 
 export default function ChatMobileTopNav({
@@ -496,11 +496,12 @@ export default function ChatMobileTopNav({
     dragStateRef.current.gestureAxis = null;
     dragStateRef.current.cancelTap = false;
     dragStateRef.current.startedOnButton = false;
+    dragStateRef.current.startedButtonKey = "";
     setDragOffsetPx(0);
     setIsDragging(false);
   }, []);
 
-  const beginSwipe = useCallback((clientX, clientY, startedOnButton = false) => {
+  const beginSwipe = useCallback((clientX, clientY, startedButtonKey = "") => {
     dragStateRef.current.startX = clientX;
     dragStateRef.current.startY = clientY;
     dragStateRef.current.currentX = clientX;
@@ -508,7 +509,8 @@ export default function ChatMobileTopNav({
     dragStateRef.current.moved = false;
     dragStateRef.current.gestureAxis = null;
     dragStateRef.current.cancelTap = false;
-    dragStateRef.current.startedOnButton = startedOnButton;
+    dragStateRef.current.startedOnButton = Boolean(startedButtonKey);
+    dragStateRef.current.startedButtonKey = startedButtonKey;
     setDragOffsetPx(0);
     setIsDragging(false);
   }, []);
@@ -622,13 +624,19 @@ export default function ChatMobileTopNav({
         return;
       }
       const startedOnButton = dragStateRef.current.startedOnButton;
+      const startedButtonKey = dragStateRef.current.startedButtonKey;
       resetSwipeState();
       if (startedOnButton) {
+        if (startedButtonKey) {
+          suppressClickUntilRef.current =
+            typeof performance !== "undefined" ? performance.now() + 220 : Date.now() + 220;
+          handleItemActivation(startedButtonKey, event);
+        }
         return;
       }
       activateIndex(getClosestVisibleIndex(clientX), event);
     },
-    [activateIndex, getClosestVisibleIndex, handleTrackPointerEnd, resetSwipeState]
+    [activateIndex, getClosestVisibleIndex, handleItemActivation, handleTrackPointerEnd, resetSwipeState]
   );
 
   const renderNavButton = (item, index) => {
@@ -744,7 +752,7 @@ export default function ChatMobileTopNav({
             beginSwipe(
               event.clientX,
               event.clientY,
-              isTopNavButtonTarget(event.target)
+              getTopNavButtonTargetKey(event.target)
             );
           }}
           onPointerMove={event => {
@@ -780,7 +788,7 @@ export default function ChatMobileTopNav({
             beginSwipe(
               touch.clientX,
               touch.clientY,
-              isTopNavButtonTarget(event.target)
+              getTopNavButtonTargetKey(event.target)
             );
           }}
           onTouchMove={event => {

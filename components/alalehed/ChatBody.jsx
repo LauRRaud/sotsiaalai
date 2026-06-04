@@ -2540,21 +2540,26 @@ export default function ChatBody({
         return;
       }
     const homePath = localizePath("/", locale);
+    const transitionOptions = isMobile
+      ? {
+          persistGlassRingTilt: false
+        }
+      : {
+          glassRingTilt: "left",
+          waitForGlassRingTilt: true,
+          persistGlassRingTilt: false
+        };
     window.requestAnimationFrame(() => {
-      pushWithTransition(router, homePath, {
-        glassRingTilt: "left",
-        waitForGlassRingTilt: true,
-        persistGlassRingTilt: false
-      });
+      pushWithTransition(router, homePath, transitionOptions);
     });
     if (typeof window !== "undefined") {
       window.setTimeout(() => {
         if (stripLocaleFromPath(window.location.pathname).startsWith("/vestlus")) {
           window.location.assign(homePath);
         }
-      }, 760);
+      }, isMobile ? 1800 : 960);
     }
-  }, [locale, onBackHome, router, setShowSourcesPanel, waitForComposerCollapse]);
+  }, [isMobile, locale, onBackHome, router, setShowSourcesPanel, waitForComposerCollapse]);
   const handleComposerFocus = useCallback(() => {
     if (blurTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(blurTimerRef.current);

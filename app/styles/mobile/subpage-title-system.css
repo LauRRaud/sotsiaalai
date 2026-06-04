@@ -52,14 +52,14 @@
     --mobile-header-title-bottom: 0.1rem;
     --mobile-header-wrap-correction: -0.18rem;
     --mobile-header-control-top: calc(
-      var(--glass-ring-pad-top, 0px) +
+        var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-back-top) - 1.64rem
+        var(--mobile-header-back-top) - 2.45rem
     );
     --mobile-header-control-info-top: calc(
       var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-info-top) - 1.64rem
+        var(--mobile-header-info-top) - 2.45rem
     );
   }
 
@@ -67,6 +67,25 @@
     :is(.glass-subpage-title, .subpage-mobile-title, .policy-mobile-title, .glass-page-title) {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+  }
+
+  .workspace-dashboard-panel {
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 2.55rem);
+  }
+
+  .wellbeing-page-surface,
+  .wellbeing-page-surface .workspace-guide-panel-scroll {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.82rem);
+    --mobile-header-control-top: calc(
+        var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 1.1rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 1.1rem
+    );
   }
 
   .rag-admin-shell-card {

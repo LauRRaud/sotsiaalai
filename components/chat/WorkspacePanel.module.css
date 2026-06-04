@@ -330,6 +330,11 @@
     top: var(--workspace-subpage-back-top, 0.55rem) !important;
   }
 
+  .panel :global(.glass-subpage-title) {
+    --glass-subpage-title-margin-top: var(--workspace-subpage-title-margin-top, clamp(2.15rem, 5.4vh, 3.25rem));
+    --glass-subpage-title-margin-bottom: var(--workspace-subpage-title-margin-bottom, clamp(0.18rem, 0.9vh, 0.42rem));
+  }
+
 }
 
 .roleMenu :global(.workspace-role-cycle-button) {
@@ -1074,15 +1079,15 @@
   }
 
   .roleMenu {
-    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) + 0.42rem);
-    right: calc(env(safe-area-inset-right, 0px) + clamp(0.52rem, 2vw, 0.72rem));
+    top: calc(var(--mobile-safe-top, env(safe-area-inset-top, 0px)) - 0.36rem);
+    right: calc(env(safe-area-inset-right, 0px) - 0.04rem);
   }
 
   .roleMenu :global(.workspace-role-cycle-button) {
-    width: 2.26rem;
-    height: 2.26rem;
-    min-width: 2.26rem;
-    font-size: 0.9rem;
+    width: 2.02rem;
+    height: 2.02rem;
+    min-width: 2.02rem;
+    font-size: 0.82rem;
   }
 
   .grid {

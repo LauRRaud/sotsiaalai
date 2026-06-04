@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { readMobileCssBundle } from "../helpers/mobileCssBundle.mjs";
+
+function read(path) {
+  return readFileSync(new URL(`../../${path}`, import.meta.url), "utf8");
+}
 
 test("mobile orbital stack list has no PWA-specific display mode override", () => {
   const css = readMobileCssBundle();
@@ -26,4 +31,13 @@ test("mobile orbital stack list has no PWA-specific display mode override", () =
     css,
     /(?:^|})\s*[^{}]*profile-orbit-stack-list[^{}]*data-display-mode="(?:standalone|fullscreen)"[^{}]*\{/
   );
+});
+
+test("mobile orbital stack does not add inline fade clearance padding", () => {
+  const source = read("components/effects/Components/OrbitalMenu/OrbitalMenu.jsx");
+
+  assert.match(source, /const \[stackPad,\s*setStackPad\] = useState\(0\);/);
+  assert.match(source, /const computePad = \(\) => \{\s*setStackPad\(0\);\s*\};/);
+  assert.doesNotMatch(source, /fadeClearance/);
+  assert.doesNotMatch(source, /glowClearance/);
 });

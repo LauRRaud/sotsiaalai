@@ -42,3 +42,24 @@ test("mobile chat top nav keeps the active label under the focused icon", () => 
     /\.chat-mobile-topnav \.mobile-shared-topnav-title\s*\{[\s\S]*?font-size:\s*clamp\(1\.16rem,\s*4\.65vw,\s*1\.34rem\)\s*!important;/
   );
 });
+
+test("mobile chat top nav activates button taps from the swipe surface", () => {
+  const source = read("components/alalehed/chat/view/ChatMobileTopNav.jsx");
+
+  assert.match(
+    source,
+    /function getTopNavButtonTargetKey\(target\)[\s\S]*?data-chat-mobile-topnav-button/
+  );
+  assert.match(
+    source,
+    /dragStateRef\.current\.startedButtonKey = startedButtonKey;/
+  );
+  assert.match(
+    source,
+    /if \(startedOnButton\) \{[\s\S]*?suppressClickUntilRef\.current[\s\S]*?handleItemActivation\(startedButtonKey, event\);/
+  );
+  assert.match(
+    source,
+    /beginSwipe\([\s\S]*?getTopNavButtonTargetKey\(event\.target\)/
+  );
+});

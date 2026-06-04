@@ -2,7 +2,8 @@
 
 @media (max-width: 768px) {
   .profile-orbit-stack-fade {
-    display: block !important;
+    display: none !important;
+    opacity: 0 !important;
   }
 
   .profile-orbit-stack-panel::before,

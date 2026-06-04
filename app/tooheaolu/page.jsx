@@ -32,7 +32,7 @@ export default async function TooheaoluPage() {
     redirect(localizePath(gate.redirect || "/tellimus", locale));
   }
 
-  if (!canUseWellbeingRole(roleState.effectiveRole, false)) {
+  if (!canUseWellbeingRole(roleState.effectiveRole, Boolean(roleState.isAdmin))) {
     redirect(localizePath("/vestlus", locale));
   }
 

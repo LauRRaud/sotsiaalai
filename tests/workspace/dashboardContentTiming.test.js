@@ -228,10 +228,9 @@ test("workspace card navigation keeps supported subpages inside the same glass p
     workspaceSource,
     /for \(const path of WORKSPACE_ROUTE_PREFETCH_PATHS\) \{[\s\S]*?router\.prefetch\(localizePath\(path,\s*locale\)\);/
   );
-  assert.match(
-    navigateToMatch[1],
-    /router\.push\(href\);/
-  );
+  assert.match(navigateToMatch[1], /router\.push\(href\);/);
+  assert.match(navigateToMatch[1], /window\.location\.assign\(href\);/);
+  assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph/);
   assert.match(workspaceSource, /activeEmbeddedFeature === "documents"[\s\S]*?<DocumentsPage[\s\S]*?embedded/);
   assert.match(workspaceSource, /activeEmbeddedFeature === "document_drafting"[\s\S]*?<AgentModePage[\s\S]*?embedded/);
   assert.match(workspaceSource, /activeEmbeddedFeature === "kovision"[\s\S]*?<CovisionPage[\s\S]*?embedded/);
