@@ -2627,11 +2627,12 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   user-select: none;
   --service-map-marker-fill: #475569;
   --service-map-marker-hole-diameter: 28.4px;
-  --service-map-marker-label-padding: 4px;
+  --service-map-marker-hole-bg: rgba(255, 255, 255, 0.68);
+  --service-map-marker-label-padding: 3px;
   --service-map-marker-label-max-size: calc(var(--service-map-marker-hole-diameter) - (2 * var(--service-map-marker-label-padding)));
-  --service-map-marker-label-size: min(19.4px, var(--service-map-marker-label-max-size));
+  --service-map-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
   --service-map-marker-label-tracking: 0;
-  --service-map-legend-marker-label-size: min(17.4px, var(--service-map-marker-label-max-size));
+  --service-map-legend-marker-label-size: min(20.2px, var(--service-map-marker-label-max-size));
   --service-map-marker-ring: rgba(15, 23, 42, 0.52);
 }
 
@@ -2653,6 +2654,11 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   stroke: var(--service-map-marker-ring, rgba(15, 23, 42, 0.52));
   stroke-width: 1.35;
   vector-effect: non-scaling-stroke;
+}
+
+.service-map-leaflet__marker-hole {
+  fill: var(--service-map-marker-hole-bg);
+  pointer-events: none;
 }
 
 .service-map-leaflet__marker-label {
