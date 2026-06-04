@@ -90,6 +90,9 @@ function shortText(value, maxLength = 240) {
 }
 
 function popupDescription(entry) {
+  if (entry?.type === "HELP_REQUEST" || entry?.type === "HELP_OFFER") {
+    return shortText(entry?.description || "", 170);
+  }
   if (entry?.type !== "SERVICE_PROVIDER") return "";
   const raw = String(entry?.description || entry?.providerProfile?.shortDescription || "").replace(/\s+/g, " ").trim();
   if (!raw) return "";
@@ -98,6 +101,10 @@ function popupDescription(entry) {
     .trim();
   const firstSentence = withoutOperationalNotes.match(/^.*?[.!?](?=\s|$)/u)?.[0]?.trim() || withoutOperationalNotes;
   return shortText(firstSentence, 150);
+}
+
+function isHelpMapEntry(entry) {
+  return entry?.type === "HELP_REQUEST" || entry?.type === "HELP_OFFER";
 }
 
 function safeWebsiteUrl(value) {
@@ -196,6 +203,32 @@ function appendActionLink(parent, href, label, options = {}) {
 
   parent.appendChild(link);
   return link;
+}
+
+function appendActionButton(parent, label, onClick, options = {}) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "service-map-popup__action";
+  if (options.disabled) button.disabled = true;
+  const stopMapInteraction = (event) => {
+    event.stopPropagation();
+  };
+  button.addEventListener("pointerdown", stopMapInteraction);
+  button.addEventListener("mousedown", stopMapInteraction);
+  button.addEventListener("mouseup", stopMapInteraction);
+  button.addEventListener("touchstart", stopMapInteraction, { passive: true });
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!options.disabled) onClick?.(event);
+  });
+
+  const labelElement = document.createElement("span");
+  labelElement.textContent = label;
+  button.appendChild(labelElement);
+
+  parent.appendChild(button);
+  return button;
 }
 
 function feeLabel(value, t) {
@@ -342,7 +375,62 @@ function appendServiceItems(parent, entry, t) {
   return section;
 }
 
-function createPopupContent(entry, t) {
+function helpListingTypeLabel(entry, t) {
+  if (entry?.type === "HELP_OFFER") {
+    return readText(t, "workspace_feature_pages.service_map.popup.help_offer", "Abipakkumine");
+  }
+  return readText(t, "workspace_feature_pages.service_map.popup.help_request", "Abisoov");
+}
+
+function helpMapRegionText(entry) {
+  return [
+    entry?.regionLabel,
+    entry?.serviceArea,
+    entry?.municipalityName,
+    entry?.county
+  ].filter(Boolean)[0] || "";
+}
+
+function appendHelpListingActions(parent, entry, t, onConnectHelpEntry) {
+  const actions = document.createElement("div");
+  actions.className = "service-map-popup__actions";
+  appendActionButton(
+    actions,
+    entry?.isOwn
+      ? readText(t, "workspace_feature_pages.service_map.popup.own_listing", "Sinu kuulutus")
+      : readText(t, "workspace_feature_pages.service_map.popup.connect", "Võta ühendust"),
+    () => onConnectHelpEntry?.(entry),
+    { disabled: entry?.isOwn }
+  );
+  parent.appendChild(actions);
+  return actions;
+}
+
+function createHelpListingPopupContent(entry, t, onConnectHelpEntry) {
+  const root = document.createElement("article");
+  root.className = "service-map-popup service-map-popup--help";
+
+  appendText(root, "p", "service-map-popup__eyebrow", helpListingTypeLabel(entry, t));
+  appendText(root, "h3", "service-map-popup__title", entry.title);
+  appendText(root, "p", "service-map-popup__body", popupDescription(entry));
+
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.help_type", "Abi liik"), entry.categoryLabel || entry.helpTypeLabel);
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.region", "Piirkond"), helpMapRegionText(entry));
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.time", "Aeg"), entry.availabilityOrStart || entry.timeTypeLabel);
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.compensation", "Tasu või tingimus"), entry.compensationDetails || entry.helpTypeLabel);
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.target_groups", "Sihtrühm"), Array.isArray(entry.targetGroupLabels) ? entry.targetGroupLabels.join(", ") : "");
+  appendMeta(root, readText(t, "workspace_feature_pages.service_map.popup.contact_mode", "Kontakt"), readText(t, "workspace_feature_pages.service_map.popup.platform_contact", "Platvormisisene"));
+  appendText(root, "p", "service-map-popup__privacy-note", entry.privacyNote || readText(t, "workspace_feature_pages.service_map.popup.no_public_contacts", "Täpseid kontaktandmeid ei kuvata avalikult."));
+  appendHelpListingActions(root, entry, t, onConnectHelpEntry);
+
+  return root;
+}
+
+function createPopupContent(entry, t, onConnectHelpEntry) {
+  if (isHelpMapEntry(entry)) {
+    return createHelpListingPopupContent(entry, t, onConnectHelpEntry);
+  }
+
   const root = document.createElement("article");
   root.className = "service-map-popup";
 
@@ -389,7 +477,7 @@ function createPopupContent(entry, t) {
   return root;
 }
 
-function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntryId) {
+function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntryId, onConnectHelpEntry) {
   const item = document.createElement("article");
   item.className = "service-map-popup__contact";
   if (entry?.id === selectedEntryId) item.dataset.selected = "true";
@@ -410,7 +498,16 @@ function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntr
   appendContactMeta(item, entry);
 
   const websiteUrl = safeWebsiteUrl(entry.website);
-  if (entry.email || websiteUrl) {
+  if (isHelpMapEntry(entry) && !entry?.isOwn) {
+    const actions = document.createElement("div");
+    actions.className = "service-map-popup__actions service-map-popup__contact-actions";
+    appendActionButton(
+      actions,
+      readText(t, "workspace_feature_pages.service_map.popup.connect", "Võta ühendust"),
+      () => onConnectHelpEntry?.(entry)
+    );
+    item.appendChild(actions);
+  } else if (entry.email || websiteUrl) {
     const actions = document.createElement("div");
     actions.className = "service-map-popup__actions service-map-popup__contact-actions";
 
@@ -439,9 +536,9 @@ function appendGroupedPopupContact(parent, entry, t, onSelectEntry, selectedEntr
   return item;
 }
 
-function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId) {
+function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId, onConnectHelpEntry) {
   if (!group || group.entries.length <= 1) {
-    return createPopupContent(group?.primaryEntry || group?.entries?.[0] || {}, t);
+    return createPopupContent(group?.primaryEntry || group?.entries?.[0] || {}, t, onConnectHelpEntry);
   }
 
   const root = document.createElement("article");
@@ -461,7 +558,7 @@ function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId) {
   const list = document.createElement("div");
   list.className = "service-map-popup__contacts";
   for (const entry of group.entries) {
-    appendGroupedPopupContact(list, entry, t, onSelectEntry, selectedEntryId);
+    appendGroupedPopupContact(list, entry, t, onSelectEntry, selectedEntryId, onConnectHelpEntry);
   }
   root.appendChild(list);
 
@@ -470,13 +567,17 @@ function createGroupedPopupContent(group, t, onSelectEntry, selectedEntryId) {
 
 function markerClassName(group, selected) {
   const entries = Array.isArray(group?.entries) ? group.entries : [];
+  const allHelpRequests = entries.length > 0 && entries.every((entry) => entry?.type === "HELP_REQUEST");
+  const allHelpOffers = entries.length > 0 && entries.every((entry) => entry?.type === "HELP_OFFER");
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
-  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER");
+  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER" && !isHelpMapEntry(entry));
   return [
     "service-map-leaflet__marker",
+    allHelpRequests ? "service-map-leaflet__marker--help-request" : "",
+    allHelpOffers ? "service-map-leaflet__marker--help-offer" : "",
     allProviders ? "service-map-leaflet__marker--provider" : "",
     allKov ? "service-map-leaflet__marker--kov" : "",
-    !allProviders && !allKov ? "service-map-leaflet__marker--mixed" : "",
+    !allHelpRequests && !allHelpOffers && !allProviders && !allKov ? "service-map-leaflet__marker--mixed" : "",
     entries.length > 1 ? "service-map-leaflet__marker--group" : "",
     selected ? "service-map-leaflet__marker--selected" : ""
   ]
@@ -486,9 +587,13 @@ function markerClassName(group, selected) {
 
 function markerLabelText(group) {
   const entries = Array.isArray(group?.entries) ? group.entries : [];
+  const allHelpRequests = entries.length > 0 && entries.every((entry) => entry?.type === "HELP_REQUEST");
+  const allHelpOffers = entries.length > 0 && entries.every((entry) => entry?.type === "HELP_OFFER");
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
-  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER");
+  const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER" && !isHelpMapEntry(entry));
 
+  if (allHelpRequests) return "A?";
+  if (allHelpOffers) return "A+";
   if (allProviders) return "T";
   if (allKov) return "K";
   return "KT";
@@ -557,6 +662,7 @@ export default function ServiceMapLeaflet({
   entries = [],
   selectedEntryId = "",
   onSelectEntry,
+  onConnectHelpEntry,
   t
 }) {
   const containerRef = useRef(null);
@@ -567,6 +673,7 @@ export default function ServiceMapLeaflet({
   const popupOpenFrameRef = useRef(0);
   const selectedEntryIdRef = useRef(selectedEntryId);
   const onSelectEntryRef = useRef(onSelectEntry);
+  const onConnectHelpEntryRef = useRef(onConnectHelpEntry);
   const tRef = useRef(t);
   const [leaflet, setLeaflet] = useState(null);
   const [ready, setReady] = useState(false);
@@ -583,6 +690,10 @@ export default function ServiceMapLeaflet({
   useEffect(() => {
     onSelectEntryRef.current = onSelectEntry;
   }, [onSelectEntry]);
+
+  useEffect(() => {
+    onConnectHelpEntryRef.current = onConnectHelpEntry;
+  }, [onConnectHelpEntry]);
 
   useEffect(() => {
     let cancelled = false;
@@ -723,7 +834,8 @@ export default function ServiceMapLeaflet({
         group,
         tRef.current,
         onSelectEntryRef.current,
-        selectedEntryIdRef.current
+        selectedEntryIdRef.current,
+        onConnectHelpEntryRef.current
       ), {
         className: [
           "service-map-leaflet__popup",
@@ -795,7 +907,8 @@ export default function ServiceMapLeaflet({
           selectedGroup,
           tRef.current,
           onSelectEntryRef.current,
-          selectedEntryId
+          selectedEntryId,
+          onConnectHelpEntryRef.current
         ));
         return;
       }
@@ -845,6 +958,22 @@ export default function ServiceMapLeaflet({
             dangerouslySetInnerHTML={{ __html: markerHtml({ entries: [{ type: "SERVICE_PROVIDER" }] }, false) }}
           />
           <span>{readText(t, "workspace_feature_pages.service_map.marker_provider", "Teenuseosutaja")}</span>
+        </span>
+        <span className="service-map-leaflet__legend-item">
+          <span
+            className="service-map-leaflet__legend-marker"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: markerHtml({ entries: [{ type: "HELP_REQUEST" }] }, false) }}
+          />
+          <span>{readText(t, "workspace_feature_pages.service_map.marker_help_request", "Abisoov")}</span>
+        </span>
+        <span className="service-map-leaflet__legend-item">
+          <span
+            className="service-map-leaflet__legend-marker"
+            aria-hidden="true"
+            dangerouslySetInnerHTML={{ __html: markerHtml({ entries: [{ type: "HELP_OFFER" }] }, false) }}
+          />
+          <span>{readText(t, "workspace_feature_pages.service_map.marker_help_offer", "Abipakkumine")}</span>
         </span>
       </div>
       {!ready || mapError ? (

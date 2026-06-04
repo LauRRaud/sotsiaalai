@@ -106,7 +106,9 @@ test("service profile uses controlled service-level choices for categories, targ
   assert.match(source, /value=\{service\.targetGroups\}/);
   assert.match(source, /value=\{service\.serviceLanguages\}/);
   assert.match(source, /value=\{service\.inquiryLanguages\}/);
-  assert.match(source, /value=\{service\.category\}/);
+  assert.match(source, /category:\s*categories\[0\]\s*\|\|\s*""/);
+  assert.doesNotMatch(source, /value=\{service\.category\}/);
+  assert.doesNotMatch(source, /updateServiceItem\(index,\s*"category"/);
   assert.doesNotMatch(source, /value=\{form\.serviceCategories\}/);
   assert.doesNotMatch(source, /value=\{form\.targetGroups\}/);
   assert.doesNotMatch(source, /value=\{form\.languages\}/);

@@ -389,6 +389,34 @@ enum TimeType {
   FLEXIBLE
 }
 
+enum HelpMapEntryKind {
+  HELP_REQUEST
+  HELP_OFFER
+}
+
+enum HelpMapMode {
+  PHYSICAL
+  AREA
+  AT_HOME
+  ONLINE_PHONE
+}
+
+enum HelpMapContactMode {
+  PLATFORM
+  PHONE
+  EMAIL
+  OTHER
+}
+
+enum HelpMapEntryStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  CLOSED
+  HIDDEN
+  EXPIRED
+}
+
 enum ClassificationSource {
   AI
   USER
@@ -1773,6 +1801,7 @@ model HelpRequest {
   classificationSource     ClassificationSource @default(AI)
   classificationConfidence Float?
   userConfirmedAt          DateTime?
+  expiresAt                DateTime?
   createdAt                DateTime             @default(now())
   updatedAt                DateTime             @updatedAt
 
@@ -1782,11 +1811,13 @@ model HelpRequest {
   categoryLinks    HelpRequestCategory[]
   targetGroupLinks HelpRequestTargetGroup[]
   matches          HelpMatch[]
+  mapEntry         HelpMapEntry?
 
   @@index([userId])
   @@index([municipalityId])
   @@index([primaryCategoryId])
   @@index([status])
+  @@index([expiresAt])
   @@index([createdAt])
 }
 
@@ -1811,6 +1842,7 @@ model HelpOffer {
   classificationSource      ClassificationSource @default(AI)
   classificationConfidence  Float?
   userConfirmedAt           DateTime?
+  expiresAt                 DateTime?
   createdAt                 DateTime             @default(now())
   updatedAt                 DateTime             @updatedAt
 
@@ -1820,12 +1852,54 @@ model HelpOffer {
   categoryLinks    HelpOfferCategory[]
   targetGroupLinks HelpOfferTargetGroup[]
   matches          HelpMatch[]
+  mapEntry         HelpMapEntry?
 
   @@index([userId])
   @@index([municipalityId])
   @@index([primaryCategoryId])
   @@index([status])
+  @@index([expiresAt])
   @@index([createdAt])
+}
+
+model HelpMapEntry {
+  id                String                    @id @default(cuid())
+  kind              HelpMapEntryKind
+  requestId         String?                   @unique
+  offerId           String?                   @unique
+  mapVisible        Boolean                   @default(false)
+  mapMode           HelpMapMode               @default(AREA)
+  address           String?
+  normalizedAddress String?
+  latitude          Float?
+  longitude         Float?
+  geocodingStatus   ServiceMapGeocodingStatus @default(PENDING)
+  geocodingRaw      Json?
+  county            String?
+  municipalityIds   String[]                  @default([])
+  serviceArea       String?
+  categoryCode      String?
+  helpType          HelpType?
+  targetGroupCodes  String[]                  @default([])
+  needTags          String[]                  @default([])
+  deliveryModes     String[]                  @default([])
+  contactMode       HelpMapContactMode        @default(PLATFORM)
+  status            HelpMapEntryStatus        @default(REVIEW)
+  expiresAt         DateTime?
+  privacyNote       String?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+
+  request HelpRequest? @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  offer   HelpOffer?   @relation(fields: [offerId], references: [id], onDelete: Cascade)
+
+  @@index([kind])
+  @@index([mapVisible])
+  @@index([mapMode])
+  @@index([status])
+  @@index([geocodingStatus])
+  @@index([expiresAt])
+  @@index([county])
 }
 
 model HelpRequestCategory {

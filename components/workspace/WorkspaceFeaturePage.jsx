@@ -616,6 +616,8 @@ function isKovServiceMapEntry(entry) {
 
 function serviceMapEntryMatchesType(entry, entryType) {
   if (!entryType || entryType === "ALL") return true;
+  if (entryType === "SERVICES_CONTACTS") return entry?.type !== "HELP_REQUEST" && entry?.type !== "HELP_OFFER";
+  if (entryType === "HELP_REQUEST" || entryType === "HELP_OFFER") return entry?.type === entryType;
   if (entryType === "KOV_SOCIAL_CONTACT" || entryType === "KOV_CONTACT") return isKovServiceMapEntry(entry);
   return entry?.type === entryType;
 }
@@ -2773,14 +2775,14 @@ function hasServiceMapCoordinates(entry) {
 
 function readInitialServiceMapFilters() {
   if (typeof window === "undefined") {
-    return { keyword: "", region: "", entryType: "ALL" };
+    return { keyword: "", region: "", entryType: "SERVICES_CONTACTS" };
   }
   const params = new URLSearchParams(window.location.search || "");
-  const entryType = String(params.get("type") || "ALL").trim().toUpperCase();
+  const entryType = String(params.get("type") || "SERVICES_CONTACTS").trim().toUpperCase();
   return {
     keyword: params.get("q") || params.get("keyword") || "",
     region: params.get("municipalityName") || params.get("municipality") || params.get("county") || "",
-    entryType: ["KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "ALL"].includes(entryType) ? entryType : "ALL"
+    entryType: ["SERVICES_CONTACTS", "KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "HELP_REQUEST", "HELP_OFFER", "ALL"].includes(entryType) ? entryType : "SERVICES_CONTACTS"
   };
 }
 
@@ -2792,9 +2794,10 @@ function ServiceMapSurface({
   onRoleChange,
   onBack
 }) {
+  const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
-  const [entryType, setEntryType] = useState("ALL");
+  const [entryType, setEntryType] = useState("SERVICES_CONTACTS");
   const [selectedEntryId, setSelectedEntryId] = useState("");
   const [panelOpen, setPanelOpen] = useState(true);
   const [isMobilePanel, setIsMobilePanel] = useState(false);
@@ -2810,7 +2813,7 @@ function ServiceMapSurface({
     const initialFilters = readInitialServiceMapFilters();
     if (initialFilters.keyword) setKeyword(initialFilters.keyword);
     if (initialFilters.region) setRegion(initialFilters.region);
-    if (initialFilters.entryType !== "ALL") setEntryType(initialFilters.entryType);
+    if (initialFilters.entryType !== "SERVICES_CONTACTS") setEntryType(initialFilters.entryType);
   }, []);
 
   useLayoutEffect(() => {
@@ -2904,6 +2907,15 @@ function ServiceMapSurface({
         entry.title,
         entry.description,
         entry.address,
+        entry.categoryLabel,
+        entry.helpTypeLabel,
+        entry.timeTypeLabel,
+        entry.regionLabel,
+        entry.availabilityOrStart,
+        entry.compensationDetails,
+        ...(entry.targetGroupLabels || []),
+        ...(entry.needTags || []),
+        ...(entry.deliveryModes || []),
         entry.providerProfile?.organizationName,
         ...(entry.providerProfile?.services || []),
         ...(entry.providerProfile?.serviceCategories || []),
@@ -2923,6 +2935,8 @@ function ServiceMapSurface({
         entry.municipality?.displayName,
         entry.county,
         entry.address,
+        entry.serviceArea,
+        entry.regionLabel,
         entry.providerProfile?.serviceArea,
         ...(entry.providerProfile?.serviceAreas || []),
         ...(entry.providerProfile?.serviceItems || [])
@@ -2964,6 +2978,49 @@ function ServiceMapSurface({
     setSelectedEntryId(entryId);
     if (entryId && isMobilePanel) setPanelOpen(false);
   }, [isMobilePanel]);
+
+  const handleConnectHelpMapEntry = useCallback(async (entry) => {
+    if (!entry || (entry.type !== "HELP_REQUEST" && entry.type !== "HELP_OFFER")) return;
+    if (entry.isOwn) {
+      setError(readText(t, "workspace_feature_pages.service_map.errors.own_help_listing", "See on sinu enda kuulutus."));
+      return;
+    }
+
+    setError("");
+    try {
+      const ownKind = entry.type === "HELP_REQUEST" ? "offer" : "request";
+      const optionsResponse = await fetch(`/api/help/listings?kind=${encodeURIComponent(ownKind)}&scope=mine&status=OPEN&locale=${encodeURIComponent(locale)}&limit=20`, {
+        cache: "no-store"
+      });
+      const optionsPayload = await optionsResponse.json().catch(() => ({}));
+      const ownListing = Array.isArray(optionsPayload?.items) ? optionsPayload.items[0] : null;
+      if (!optionsResponse.ok || optionsPayload?.ok === false || !ownListing?.id) {
+        throw new Error(readText(t, "workspace_feature_pages.service_map.errors.no_counterpart_listing", "Ühenduse loomiseks peab sul olema vastav avatud abisoov või abipakkumine."));
+      }
+
+      const payload = entry.type === "HELP_REQUEST"
+        ? { requestId: entry.listingId, offerId: ownListing.id }
+        : { requestId: ownListing.id, offerId: entry.listingId };
+      const response = await fetch("/api/help/matches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok || body?.ok === false || !body?.match) {
+        throw new Error(readText(t, "workspace_feature_pages.service_map.errors.connect_failed", "Ühenduse loomine ebaõnnestus."));
+      }
+
+      const roomTarget = body?.match?.roomId ? buildRoomChatPath(body.match.roomId, locale) : "";
+      if (roomTarget) {
+        pushWithTransition(router, roomTarget);
+      }
+    } catch (connectError) {
+      setError(connectError?.message || readText(t, "workspace_feature_pages.service_map.errors.connect_failed", "Ühenduse loomine ebaõnnestus."));
+    }
+  }, [locale, router, t]);
 
   const panelCollapsed = isMobilePanel && !panelOpen;
   const hasResultFilter = Boolean(keyword.trim() || region.trim());
@@ -3044,9 +3101,9 @@ function ServiceMapSurface({
 
               <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
-                ["KOV_SOCIAL_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov_social", "KOV sotsiaalhoolekanne")],
-                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenuseosutaja")],
-                ["ALL", readText(t, "workspace_feature_pages.service_map.types.all", "Kõik")]
+                ["SERVICES_CONTACTS", readText(t, "workspace_feature_pages.service_map.types.services_contacts", "Teenused ja kontaktid")],
+                ["HELP_REQUEST", readText(t, "workspace_feature_pages.service_map.types.help_requests", "Abisoovid")],
+                ["HELP_OFFER", readText(t, "workspace_feature_pages.service_map.types.help_offers", "Abipakkumised")]
               ].map(([value, label]) => (
                   <OptionCard
                     key={value}
@@ -3137,6 +3194,7 @@ function ServiceMapSurface({
           entries={mappableEntries}
           selectedEntryId={selectedEntryId}
           onSelectEntry={handleSelectEntry}
+          onConnectHelpEntry={handleConnectHelpMapEntry}
           t={t}
         />
       </div>
@@ -3778,13 +3836,6 @@ function ServiceProfileSurface({ t }) {
   const availabilityOptions = useMemo(() => serviceProfileAvailabilityOptions(t), [t]);
   const requirementOptions = useMemo(() => serviceProfileRequirementOptions(t), [t]);
   const contactModeOptions = useMemo(() => serviceProfileContactModeOptions(t), [t]);
-  const serviceCategoryOptions = useMemo(
-    () => [
-      { value: "", label: readText(t, "workspace_feature_pages.service_profile.category_options.unspecified", "Täpsustamata") },
-      ...serviceProfileCategoryOptions(t)
-    ],
-    [t]
-  );
   const contactStrategyOptions = useMemo(
     () => [
       { value: "ORGANIZATION", label: readText(t, "workspace_feature_pages.service_profile.contact_strategy.organization", "Kasuta organisatsiooni põhikontakti") },
@@ -3958,27 +4009,31 @@ function ServiceProfileSurface({ t }) {
             }))
             .filter((item) => String(item.address || item.normalizedAddress || item.label || "").trim()),
           serviceItems: form.serviceItems
-            .map((item, index) => ({
-              ...item,
-              contactName: item.contactStrategy === "CUSTOM" ? item.contactName : "",
-              phone: item.contactStrategy === "CUSTOM" ? item.phone : "",
-              email: item.contactStrategy === "CUSTOM" ? item.email : "",
-              website: item.contactStrategy === "CUSTOM" ? item.website : "",
-              categories: splitList(item.categories),
-              ageGroups: splitList(item.ageGroups),
-              targetGroups: splitList(item.targetGroups),
-              requesterRoles: splitList(item.requesterRoles),
-              needTags: splitList(item.needTags),
-              lifeDomains: splitList(item.lifeDomains),
-              deliveryModes: splitList(item.deliveryModes),
-              municipalityIds: splitList(item.municipalityIds),
-              serviceLanguages: splitList(item.serviceLanguages),
-              inquiryLanguages: splitList(item.inquiryLanguages),
-              communicationSupport: splitList(item.communicationSupport),
-              locationIds: Array.isArray(item.locationIds) ? item.locationIds : [],
-              status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
-              sortOrder: index
-            }))
+            .map((item, index) => {
+              const categories = splitList(item.categories);
+              return {
+                ...item,
+                category: categories[0] || "",
+                contactName: item.contactStrategy === "CUSTOM" ? item.contactName : "",
+                phone: item.contactStrategy === "CUSTOM" ? item.phone : "",
+                email: item.contactStrategy === "CUSTOM" ? item.email : "",
+                website: item.contactStrategy === "CUSTOM" ? item.website : "",
+                categories,
+                ageGroups: splitList(item.ageGroups),
+                targetGroups: splitList(item.targetGroups),
+                requesterRoles: splitList(item.requesterRoles),
+                needTags: splitList(item.needTags),
+                lifeDomains: splitList(item.lifeDomains),
+                deliveryModes: splitList(item.deliveryModes),
+                municipalityIds: splitList(item.municipalityIds),
+                serviceLanguages: splitList(item.serviceLanguages),
+                inquiryLanguages: splitList(item.inquiryLanguages),
+                communicationSupport: splitList(item.communicationSupport),
+                locationIds: Array.isArray(item.locationIds) ? item.locationIds : [],
+                status: form.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT",
+                sortOrder: index
+              };
+            })
             .filter((item) => String(item.name || "").trim())
         })
       });
@@ -4187,21 +4242,10 @@ function ServiceProfileSurface({ t }) {
                   {readText(t, "workspace_feature_pages.service_profile.service_items.remove", "Eemalda")}
                 </Button>
               </div>
-              <div className="service-profile-field-stack">
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.name", "Teenuse nimi")}</span>
-                  <ServiceProfileInput value={service.name} onChange={(event) => updateServiceItem(index, "name", event.target.value)} />
-                </Label>
-                <Label>
-                  <span>{readText(t, "workspace_feature_pages.service_profile.service_items.category", "Kategooria")}</span>
-                  <ServiceProfileDropdown
-                    ariaLabel={readText(t, "workspace_feature_pages.service_profile.service_items.category", "Kategooria")}
-                    value={service.category}
-                    onChange={(nextValue) => updateServiceItem(index, "category", nextValue)}
-                    options={serviceCategoryOptions}
-                  />
-                </Label>
-              </div>
+              <Label>
+                <span>{readText(t, "workspace_feature_pages.service_profile.service_items.name", "Teenuse nimi")}</span>
+                <ServiceProfileInput value={service.name} onChange={(event) => updateServiceItem(index, "name", event.target.value)} />
+              </Label>
               <Label>
                 <span>{readText(t, "workspace_feature_pages.service_profile.service_items.description", "Kirjeldus")}</span>
                 <ServiceProfileTextarea

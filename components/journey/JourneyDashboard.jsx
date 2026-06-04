@@ -833,15 +833,10 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         ) : null}
 
         {mode === "start" ? (
-          <section className={cn(cardClassName, "journey-morph-panel origin-center mx-auto w-full max-w-[42rem] gap-[1.15rem]")}>
-            <div className={cn(compactCardClassName, "grid gap-[0.36rem]")}>
-              <p className="m-0 text-[0.82rem] font-[760] leading-[1.15] text-[color:var(--title-color,var(--brand-primary))]">
-                {t("journey.sections.sotsiaalai_label", "SotsiaalAI:")}
-              </p>
-              <p className={cn(bodyTextClassName, "opacity-[0.86]")}>
-                {t("journey.sections.start_description", "Tere. Alustame sinu teekonda. Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama — kirjuta lihtsalt, mis toimub.")}
-              </p>
-            </div>
+          <section className="journey-morph-panel origin-center mx-auto grid w-full max-w-[42rem] gap-[1.15rem] px-[0.2rem] py-[0.35rem]">
+            <p className={cn(bodyTextClassName, "max-w-[38rem] text-[1.02rem] opacity-[0.9]")}>
+              {t("journey.sections.start_description", "Tere. Alustame sinu teekonda. Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama — kirjuta lihtsalt, mis toimub.")}
+            </p>
 
             <form className="grid gap-[1rem]" onSubmit={handleDraftSubmit}>
               <label className={cn("grid gap-[0.45rem]", labelClassName)} htmlFor="journey-situation">
