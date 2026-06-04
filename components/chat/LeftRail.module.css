@@ -236,6 +236,11 @@
   opacity: 1 !important;
 }
 
+.iconBtn:hover .iconBack :global(.back-icon-dot.back-icon-dot--outline),
+.iconBtn:focus-visible .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
+  fill: var(--back-arrow-color) !important;
+}
+
 .tooltip {
   position: absolute;
   top: 50%;
@@ -334,6 +339,11 @@
 
 :global(:root.theme-mono:not([data-contrast="hc"])) .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
   fill: none !important;
+}
+
+:global(:root.theme-mono:not([data-contrast="hc"])) .iconBtn:hover .iconBack :global(.back-icon-dot.back-icon-dot--outline),
+:global(:root.theme-mono:not([data-contrast="hc"])) .iconBtn:focus-visible .iconBack :global(.back-icon-dot.back-icon-dot--outline) {
+  fill: var(--forest-title, #c57171) !important;
 }
 
 :global(:root.theme-light) .tooltip {

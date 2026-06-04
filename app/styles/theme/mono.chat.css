@@ -155,6 +155,11 @@
   fill: none !important;
 }
 
+:root.theme-mono:not([data-contrast="hc"]) .chat-rail-icon-btn:is(:hover, :focus-visible) .back-icon-dot.back-icon-dot--outline,
+:root.theme-mono:not([data-contrast="hc"]) :is(.chat-rail-icon-btn, .chat-side-control-btn, .chat-tools-btn, .chat-document-attach-btn, .chat-listen-btn, .chat-send-btn, .chat-assistant-action-btn, .chat-dictate-btn):is(:hover, :focus-visible) :is(circle.back-icon-dot.back-icon-dot--outline)[fill] {
+  fill: var(--forest-title) !important;
+}
+
 :root.theme-mono:not([data-contrast="hc"]) :is(.chat-left-actions, .chat-right-actions) :is(
   .chat-rail-icon-btn,
   button,
