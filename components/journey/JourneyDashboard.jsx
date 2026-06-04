@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Archive, Check, Compass, FileText, ListChecks, Lock, Map, Plus, Route, WandSparkles } from "lucide-react";
+import { Archive, Check, FileText, ListChecks, Lock, Map, Plus, Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
@@ -450,19 +450,16 @@ function RoleScopedWorkspace({ role, t, locale }) {
 
 function EmptyJourneyStart({ onStart, disabled, t }) {
   return (
-    <section className="grid min-h-[min(32rem,calc(100dvh-5rem))] place-items-center">
+    <section className="grid min-h-[min(24rem,calc(100dvh-7rem))] place-items-center">
       <button
         type="button"
-        className="group relative grid size-[clamp(8.8rem,28vw,13rem)] place-items-center rounded-full border border-[color:var(--subpage-card-border,var(--glass-modal-border,rgba(255,255,255,0.25)))] [background:radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.28),rgba(255,255,255,0.08)_42%,rgba(255,255,255,0.03)_72%)] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_1.5rem_4rem_rgba(15,23,42,0.18)] outline-none backdrop-blur-[1.2rem] transition-[transform,box-shadow,border-color,opacity] duration-500 ease-out hover:scale-[1.035] hover:shadow-[0_1.8rem_5rem_rgba(15,23,42,0.24)] focus-visible:scale-[1.035] focus-visible:ring-2 focus-visible:ring-[color:var(--title-color,var(--brand-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:scale-[0.98] motion-reduce:transition-opacity motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100"
+        className="group relative grid size-[clamp(4.35rem,12vw,5.15rem)] place-items-center rounded-full border border-[color:var(--subpage-card-border,var(--glass-modal-border,rgba(255,255,255,0.24)))] [background:linear-gradient(145deg,rgba(255,255,255,0.18),rgba(255,255,255,0.055)),var(--seg-card-bg,var(--subpage-card-bg))] text-[color:var(--title-color,var(--brand-primary))] shadow-[0_0.9rem_2.2rem_rgba(15,23,42,0.16),inset_0_0_0_1px_rgba(255,255,255,0.08)] outline-none backdrop-blur-[1rem] transition-[transform,box-shadow,border-color,opacity] duration-300 ease-out hover:scale-[1.045] hover:shadow-[0_1.05rem_2.6rem_rgba(15,23,42,0.22),inset_0_0_0_1px_rgba(255,255,255,0.12)] focus-visible:scale-[1.045] focus-visible:ring-2 focus-visible:ring-[color:var(--title-color,var(--brand-primary))] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:scale-[0.97] motion-reduce:transition-opacity motion-reduce:hover:scale-100 motion-reduce:focus-visible:scale-100"
         onClick={onStart}
         disabled={disabled}
         aria-label={t("journey.empty_start.label", "Alusta teekonda")}
       >
-        <span className="absolute inset-[16%] rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] opacity-[0.72]" aria-hidden="true" />
-        <span className="absolute left-[24%] top-[60%] h-[2px] w-[52%] origin-left rotate-[-24deg] rounded-full bg-current opacity-[0.28]" aria-hidden="true" />
-        <span className="absolute left-[30%] top-[58%] size-[0.7rem] rounded-full bg-current opacity-[0.62] shadow-[1.8rem_-1.15rem_0_-0.1rem_current,3.8rem_-2.1rem_0_-0.16rem_current]" aria-hidden="true" />
-        <Compass size={58} strokeWidth={1.45} aria-hidden="true" className="relative z-[1] drop-shadow-[0_0.65rem_1.6rem_rgba(0,0,0,0.16)]" />
-        <span className="pointer-events-none absolute top-[calc(100%+0.85rem)] whitespace-nowrap rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] px-[0.78rem] py-[0.38rem] text-[0.88rem] font-[720] leading-[1.1] text-[color:var(--seg-card-text,var(--subpage-card-text))] opacity-0 shadow-[var(--seg-card-shadow,none)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+        <Route size={30} strokeWidth={1.72} aria-hidden="true" className="relative z-[1]" />
+        <span className="pointer-events-none absolute top-[calc(100%+0.68rem)] whitespace-nowrap rounded-full border border-[color:var(--seg-card-border,var(--subpage-card-border))] [background:var(--seg-card-bg,var(--subpage-card-bg))] px-[0.72rem] py-[0.34rem] text-[0.84rem] font-[720] leading-[1.1] text-[color:var(--seg-card-text,var(--subpage-card-text))] opacity-0 shadow-[var(--seg-card-shadow,none)] transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
           {t("journey.empty_start.label", "Alusta teekonda")}
         </span>
       </button>
@@ -763,25 +760,27 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
           <RoleScopedWorkspace role={normalizedRole} t={t} locale={locale} />
         ) : (
           <>
-        <header className={cn(cardClassName, "md:grid-cols-[1fr_auto] md:items-end")}>
-          <div className="grid gap-[0.48rem]">
-            <div className="flex flex-wrap items-center gap-[0.55rem] text-[0.82rem] font-[700] uppercase tracking-[0.08em] text-[color:var(--title-color,var(--brand-primary))]">
-              <Route size={17} aria-hidden="true" />
-              {t("journey.header.eyebrow", "Private journey layer")}
+        {mode === "list" ? (
+          <header className={cn(cardClassName, "md:grid-cols-[1fr_auto] md:items-end")}>
+            <div className="grid gap-[0.48rem]">
+              <div className="flex flex-wrap items-center gap-[0.55rem] text-[0.82rem] font-[700] uppercase tracking-[0.08em] text-[color:var(--title-color,var(--brand-primary))]">
+                <Route size={17} aria-hidden="true" />
+                {t("journey.header.eyebrow", "Private journey layer")}
+              </div>
+              <h1 className={titleClassName}>
+                {t("journey.title", "Teekond")}
+              </h1>
+              <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
+                {t("journey.header.description", "Kirjelda olukorda, vaata koostatud ülevaade üle ja salvesta see privaatse teekonnana. Midagi ei jagata automaatselt.")}
+              </p>
             </div>
-            <h1 className={titleClassName}>
-              {t("journey.title", "Teekond")}
-            </h1>
-            <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
-              {t("journey.header.description", "Kirjelda olukorda, vaata koostatud ülevaade üle ja salvesta see privaatse teekonnana. Midagi ei jagata automaatselt.")}
-            </p>
-          </div>
 
-          <Button onClick={handleStartNew} disabled={busy || mode !== "list"}>
-            <Plus size={18} aria-hidden="true" />
-            {t("journey.actions.start_new", "Start journey")}
-          </Button>
-        </header>
+            <Button onClick={handleStartNew} disabled={busy}>
+              <Plus size={18} aria-hidden="true" />
+              {t("journey.actions.start_new", "Start journey")}
+            </Button>
+          </header>
+        ) : null}
 
         {mode === "list" ? (
           <section className={cn(cardClassName, "gap-[0.78rem]")}>
@@ -834,27 +833,19 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         ) : null}
 
         {mode === "start" ? (
-          <section className={cn(cardClassName, "journey-morph-panel origin-center")}>
-            <div className="flex items-start gap-[0.72rem]">
-              <span className={iconBubbleClassName}>
-                <WandSparkles size={19} aria-hidden="true" />
-              </span>
-              <div className="grid gap-[0.34rem]">
-                <h2 className={sectionTitleClassName}>
-                  {t("journey.sections.start_title", "Tere. Alustame sinu teekonda.")}
-                </h2>
-                <p className={bodyTextClassName}>
-                  {t("journey.sections.start_description", "Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama. SotsiaalAI aitab sellest koostada privaatse ülevaate, mille saad enne salvestamist üle vaadata.")}
-                </p>
-                <p className={bodyTextClassName}>
-                  {t("journey.sections.start_privacy", "Ülevaade salvestatakse ainult siis, kui kinnitad. Midagi ei jagata automaatselt.")}
-                </p>
-              </div>
+          <section className={cn(cardClassName, "journey-morph-panel origin-center mx-auto w-full max-w-[42rem] gap-[1.15rem]")}>
+            <div className={cn(compactCardClassName, "grid gap-[0.36rem]")}>
+              <p className="m-0 text-[0.82rem] font-[760] leading-[1.15] text-[color:var(--title-color,var(--brand-primary))]">
+                {t("journey.sections.sotsiaalai_label", "SotsiaalAI:")}
+              </p>
+              <p className={cn(bodyTextClassName, "opacity-[0.86]")}>
+                {t("journey.sections.start_description", "Tere. Alustame sinu teekonda. Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama — kirjuta lihtsalt, mis toimub.")}
+              </p>
             </div>
 
-            <form className="grid gap-[0.82rem]" onSubmit={handleDraftSubmit}>
+            <form className="grid gap-[1rem]" onSubmit={handleDraftSubmit}>
               <label className={cn("grid gap-[0.45rem]", labelClassName)} htmlFor="journey-situation">
-                {t("journey.labels.situation", "Situation description")}
+                {t("journey.labels.situation", "Olukorra kirjeldus")}
                 <textarea
                   id="journey-situation"
                   ref={situationInputRef}
@@ -866,13 +857,9 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
                 />
               </label>
 
-              <div className="flex flex-wrap gap-[0.62rem]">
+              <div className="flex justify-center pt-[0.2rem]">
                 <Button type="submit" disabled={busy || !situation.trim()}>
-                  <WandSparkles size={17} aria-hidden="true" />
-                  {t("journey.actions.create_draft", "Koosta teekonna ülevaade")}
-                </Button>
-                <Button variant="secondary" onClick={handleCancel} disabled={busy}>
-                  {t("journey.actions.cancel", "Tühista")}
+                  {t("journey.empty_start.label", "Alusta teekonda")}
                 </Button>
               </div>
             </form>

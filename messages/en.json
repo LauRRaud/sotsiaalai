@@ -4039,12 +4039,13 @@
     },
     "sections": {
       "start_title": "Hello. Let us start your journey.",
-      "start_description": "Describe your situation in your own words. You do not need to know everything or phrase it perfectly. SotsiaalAI helps prepare a private overview that you can review before saving.",
+      "start_description": "Hello. Let us start your journey. Describe your situation in your own words. You do not need to know everything or phrase it perfectly, just write what is happening.",
       "review_title": "Overview before saving",
       "review_description": "Review whether SotsiaalAI organized the situation correctly. The journey is saved only when you confirm.",
       "active_title": "Active journey",
       "archived_title": "Previous journeys",
-      "start_privacy": "The overview is saved only when you confirm. Nothing is shared automatically."
+      "start_privacy": "The overview is saved only when you confirm. Nothing is shared automatically.",
+      "sotsiaalai_label": "SotsiaalAI:"
     },
     "placeholders": {
       "situation": "For example: I care for my mother and cannot manage alone anymore. She needs help washing and preparing food. I do not know whether to contact the municipality or a service provider."

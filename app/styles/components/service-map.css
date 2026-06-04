@@ -2606,32 +2606,29 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 
 .service-map-leaflet__legend-marker .service-map-leaflet__marker {
   width: 1.72rem;
-  height: 1.72rem;
-  box-shadow: 0 0 0 1.15px var(--service-map-marker-ring, rgba(15, 23, 42, 0.52));
+  height: 2.15rem;
+  filter: drop-shadow(0 0 0.45px var(--service-map-marker-ring, rgba(15, 23, 42, 0.52)));
 }
 
 .service-map-leaflet__marker {
   position: relative;
   display: grid;
-  width: 2.32rem;
-  height: 2.32rem;
+  width: 2.34rem;
+  height: 2.93rem;
   place-items: center;
   border: 0;
-  border-radius: 50% 50% 50% 0.28rem;
-  color: #fff;
-  box-shadow:
-    0 0 0 1.35px var(--service-map-marker-ring, rgba(15, 23, 42, 0.52)),
-    0 1px 2px rgba(15, 23, 42, 0.18);
+  color: var(--service-map-marker-fill, #475569);
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18));
   font-family: var(--font-aino), system-ui, sans-serif;
   isolation: isolate;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: auto;
   text-align: center;
-  transform: rotate(-45deg);
   user-select: none;
-  --service-map-marker-label-size: 1.04rem;
-  --service-map-marker-label-tracking: 0.02em;
-  --service-map-legend-marker-label-size: 0.9rem;
+  --service-map-marker-fill: #475569;
+  --service-map-marker-label-size: 1.06rem;
+  --service-map-marker-label-tracking: 0;
+  --service-map-legend-marker-label-size: 0.74rem;
   --service-map-marker-ring: rgba(15, 23, 42, 0.52);
 }
 
@@ -2639,33 +2636,54 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   display: none;
 }
 
-.service-map-leaflet__marker-label {
-  position: relative;
+.service-map-leaflet__marker-shape {
+  position: absolute;
+  inset: 0;
   display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.service-map-leaflet__marker-pin {
+  fill: currentColor;
+  stroke: var(--service-map-marker-ring, rgba(15, 23, 42, 0.52));
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.service-map-leaflet__marker-label {
+  position: absolute;
+  top: 35.84%;
+  left: 50%;
+  display: grid;
+  width: 1.36rem;
+  height: 1.36rem;
+  place-items: center;
   z-index: 1;
+  color: currentColor;
   font-size: var(--service-map-marker-label-size);
   font-weight: 820;
   letter-spacing: var(--service-map-marker-label-tracking);
   line-height: 1;
   text-transform: uppercase;
-  transform: rotate(45deg);
+  transform: translate(-50%, -50%);
 }
 
 .service-map-leaflet__marker--kov {
-  background: #2f5f8f;
+  --service-map-marker-fill: #2f5f8f;
   --service-map-marker-ring: rgba(22, 65, 104, 0.92);
 }
 
 .service-map-leaflet__marker--provider {
-  background: #168a72;
+  --service-map-marker-fill: #168a72;
   --service-map-marker-ring: rgba(10, 94, 77, 0.94);
 }
 
 .service-map-leaflet__marker--mixed {
-  background: #475569;
+  --service-map-marker-fill: #475569;
   --service-map-marker-ring: rgba(30, 41, 59, 0.9);
-  --service-map-marker-label-size: 0.88rem;
-  --service-map-marker-label-tracking: 0.01em;
+  --service-map-marker-label-size: 0.76rem;
 }
 
 .service-map-leaflet__marker--group {
@@ -2673,12 +2691,14 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-leaflet__marker--selected {
-  box-shadow:
-    0 0 0 1.35px var(--service-map-marker-ring, rgba(15, 23, 42, 0.52)),
-    0 0 0 5px rgba(15, 23, 42, 0.24);
+  filter:
+    drop-shadow(0 1px 2px rgba(15, 23, 42, 0.18))
+    drop-shadow(0 0 5px rgba(15, 23, 42, 0.34));
 }
 
 .service-map-leaflet__legend-marker .service-map-leaflet__marker-label {
+  width: 1rem;
+  height: 1rem;
   font-size: var(--service-map-legend-marker-label-size);
 }
 

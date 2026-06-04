@@ -4039,12 +4039,13 @@
     },
     "sections": {
       "start_title": "Tere. Alustame sinu teekonda.",
-      "start_description": "Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama. SotsiaalAI aitab sellest koostada privaatse ülevaate, mille saad enne salvestamist üle vaadata.",
+      "start_description": "Tere. Alustame sinu teekonda. Kirjelda oma olukorda oma sõnadega. Sa ei pea kõike teadma ega õigesti sõnastama, kirjuta lihtsalt, mis toimub.",
       "review_title": "Ülevaade enne salvestamist",
       "review_description": "Vaata üle, kas SotsiaalAI korrastas olukorra õigesti. Teekond salvestatakse alles siis, kui kinnitad.",
       "active_title": "Aktiivne teekond",
       "archived_title": "Varasemad teekonnad",
-      "start_privacy": "Ülevaade salvestatakse ainult siis, kui kinnitad. Midagi ei jagata automaatselt."
+      "start_privacy": "Ülevaade salvestatakse ainult siis, kui kinnitad. Midagi ei jagata automaatselt.",
+      "sotsiaalai_label": "SotsiaalAI:"
     },
     "placeholders": {
       "situation": "Näiteks: hooldan ema ja ei jaksa enam üksi. Ta vajab abi pesemisel ja söögi tegemisel. Ma ei tea, kas peaksin pöörduma KOV-i või teenuseosutaja poole."
