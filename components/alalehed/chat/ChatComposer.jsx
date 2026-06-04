@@ -168,8 +168,6 @@ export default function ChatComposer({
   onActivateDeepResearchMode,
   onActivateHelpRequestMode,
   onActivateHelpOfferMode,
-  onActivateJourneyMode,
-  showJourneyTool = false,
   showDocumentAttachButton = false,
   onPickDocumentFile,
   voiceEnabled = true,
@@ -539,10 +537,6 @@ export default function ChatComposer({
     closeToolsMenu();
     onActivateHelpOfferMode?.();
   }, [closeToolsMenu, onActivateHelpOfferMode]);
-  const handleJourneyModeSelect = useCallback(() => {
-    closeToolsMenu();
-    onActivateJourneyMode?.();
-  }, [closeToolsMenu, onActivateJourneyMode]);
   const checkPrivacyBeforeSend = useCallback(async (text) => {
     const workflow = resolvePrivacyWorkflow({ activeModeKey, isRoomMode });
     try {
@@ -871,12 +865,6 @@ export default function ChatComposer({
             </span>
             <span className={toolLabelClassName}>{helpOfferModeLabel}</span>
           </button>
-          {!isRoomMode && showJourneyTool ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleJourneyModeSelect}>
-              <span aria-hidden="true" className={toolIconSlotClassName}>
-                <JourneyModeIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuModeIconClassName} />
-              </span>
-              <span className={toolLabelClassName}>{journeyModeLabel}</span>
-            </button> : null}
           {!isRoomMode ? <button type="button" role="menuitem" className={`${toolItemBaseClassName} text-[color:var(--pt-100)] light:text-[#3f241f]`} onClick={handleDeepResearchModeSelect}>
               <span aria-hidden="true" className={toolIconSlotClassName}>
                 <DeepResearchIcon stroke={iconStroke} strokeWidth={toolIconStrokeWidth} className={menuLargeModeIconClassName} />

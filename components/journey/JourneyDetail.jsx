@@ -22,6 +22,7 @@ import {
 import { pillInputBaseClassName, textAreaInputBaseClassName } from "@/components/ui/inputClassNames";
 import { localizePath } from "@/lib/localizePath";
 import { buildServiceMapHandoff } from "@/lib/journey/serviceMapHandoff";
+import { buildHelpMediationHandoff } from "@/lib/journey/helpMediationHandoff";
 import { buildHealthContactQuestionsDraft, hasHealthContactSignal } from "@/lib/journey/healthContact";
 import { pushWithTransition } from "@/lib/routeTransition";
 
@@ -428,6 +429,7 @@ function RelatedObjectsPanel({ journey, t }) {
     ["linkedDocumentIds", t("journey.related.documents", "Seotud dokumendid")],
     ["linkedServiceMapEntryIds", t("journey.related.service_contacts", "Seotud teenusekaardi kontaktid")],
     ["linkedHelpRequestIds", t("journey.related.help_requests", "Seotud abisoovid")],
+    ["linkedHelpOfferIds", t("journey.related.help_offers", "Seotud abipakkumised")],
     ["linkedRoomIds", t("journey.related.rooms", "Seotud ruumid")]
   ];
 
@@ -492,6 +494,44 @@ function PreInquirySharePanel({ journey, href, t }) {
         <Button as="a" href={href}>
           <Send size={17} aria-hidden="true" />
           {t("journey.share.continue", "Jätka eelpöördumise koostamisega")}
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+function HelpRequestSharePanel({ journey, href, t }) {
+  const shareOptions = [
+    ["summary", t("journey.helpMediation.share.summary", "olukorra lühikokkuvõte"), Boolean(journey?.summary)],
+    ["category", t("journey.helpMediation.share.category", "abi liik"), true],
+    ["region", t("journey.helpMediation.share.region", "piirkond"), true],
+    ["timing", t("journey.helpMediation.share.timing", "aeg või sagedus"), false],
+    ["conditions", t("journey.helpMediation.share.conditions", "tingimused"), false],
+    ["ownWords", t("journey.helpMediation.share.ownWords", "kasutaja enda sõnastatud vajadus"), true]
+  ];
+
+  return (
+    <section className={cn(compactCardClassName, "grid gap-[0.7rem]")}>
+      <div className="grid gap-[0.3rem]">
+        <h3 className="m-0 text-[1rem] font-[740] leading-[1.18]">
+          {t("journey.helpMediation.share.title", "Vali, millist infot soovid abisoovis kasutada.")}
+        </h3>
+        <p className={bodyTextClassName}>
+          {t("journey.helpMediation.share.privacy", "Kogu Teekonda ei kopeerita kuulutusse. Vaatad abisoovi enne avaldamist üle ja kinnitad eraldi, mida kaardil näidatakse.")}
+        </p>
+      </div>
+      <div className="grid gap-[0.42rem] sm:grid-cols-2">
+        {shareOptions.map(([key, label, checked]) => (
+          <label key={key} className="flex items-center gap-[0.48rem] rounded-[0.72rem] border border-[color:var(--subpage-card-border)] px-[0.62rem] py-[0.52rem] text-[0.92rem] font-[650] leading-[1.18]">
+            <input type="checkbox" defaultChecked={checked} />
+            <span>{label}</span>
+          </label>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-[0.52rem]">
+        <Button as="a" href={href}>
+          <HeartPulse size={17} aria-hidden="true" />
+          {t("journey.helpMediation.share.continue", "Alusta abisoovi")}
         </Button>
       </div>
     </section>
@@ -566,6 +606,7 @@ export default function JourneyDetail({ journeyId }) {
   const [healthDraftOpen, setHealthDraftOpen] = useState(false);
   const [healthQuestionsDraft, setHealthQuestionsDraft] = useState("");
   const [preInquiryShareOpen, setPreInquiryShareOpen] = useState(false);
+  const [helpRequestShareOpen, setHelpRequestShareOpen] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [notFound, setNotFound] = useState(false);
@@ -578,6 +619,14 @@ export default function JourneyDetail({ journeyId }) {
   const serviceMapHref = serviceMapHandoff?.href
     ? localizePath(serviceMapHandoff.href, locale)
     : localizePath("/teenusekaart", locale);
+  const helpMediationHandoff = useMemo(
+    () => (journey ? buildHelpMediationHandoff(journey) : null),
+    [journey]
+  );
+  const helpOffersHref = localizePath(helpMediationHandoff?.viewOffersHref || "/teenusekaart?type=HELP_OFFER", locale);
+  const helpRequestsHref = localizePath(helpMediationHandoff?.browseRequestsHref || "/teenusekaart?type=HELP_REQUEST", locale);
+  const createHelpRequestHref = localizePath(helpMediationHandoff?.createRequestHref || "/vestlus?workflow=help_request", locale);
+  const createHelpOfferHref = localizePath(helpMediationHandoff?.createOfferHref || "/vestlus?workflow=help_offer", locale);
   const preInquiryHref = journeyId
     ? localizePath(`/eelpoordumised?fromJourney=${encodeURIComponent(journeyId)}&workspaceRole=CLIENT`, locale)
     : localizePath("/eelpoordumised", locale);
@@ -998,6 +1047,53 @@ export default function JourneyDetail({ journeyId }) {
                   </Button>
                 </div>
               </section>
+
+              {helpMediationHandoff?.hasPracticalNeed ? (
+                <section className={cardClassName}>
+                  <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">
+                    <div className="grid gap-[0.36rem]">
+                      <h2 className={cn(sectionTitleClassName, "flex items-center gap-[0.52rem]")}>
+                        <HeartPulse size={18} aria-hidden="true" />
+                        {t("journey.helpMediation.title", "Abivahendus")}
+                      </h2>
+                      <p className={bodyTextClassName}>
+                        {helpMediationHandoff.municipalityName
+                          ? t("journey.helpMediation.offersFoundHint", "Teekonna signaalid viitavad praktilisele abivajadusele. Vaata esmalt sobivaid abipakkumisi sinu piirkonnas.")
+                          : t("journey.helpMediation.noRegionHint", "Teekonna signaalid viitavad praktilisele abivajadusele. Piirkonna lisamine aitab sobivaid abipakkumisi täpsemalt leida.")}
+                      </p>
+                      <p className={bodyTextClassName}>
+                        {t("journey.helpMediation.privacy", "Teekond ei avalda midagi automaatselt. Abisoovi loomisel valid eraldi, millise info kaasa võtad ja mida kaardil näidatakse.")}
+                      </p>
+                      {helpMediationHandoff.taxonomy?.relatedServiceCategories?.length ? (
+                        <p className={bodyTextClassName}>
+                          {t("journey.helpMediation.serviceHint", "Sarnase vajadusega võib olla seotud ka KOV teenus või teenuseosutaja kontakt.")}
+                        </p>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-wrap justify-end gap-[0.52rem]">
+                      <Button as="a" href={helpOffersHref} variant="secondary">
+                        <Map size={17} aria-hidden="true" />
+                        {t("journey.helpMediation.viewOffers", "Vaata abipakkumisi")}
+                      </Button>
+                      <Button type="button" onClick={() => setHelpRequestShareOpen((current) => !current)}>
+                        <HeartPulse size={17} aria-hidden="true" />
+                        {t("journey.helpMediation.createRequest", "Loo abisoov")}
+                      </Button>
+                      <Button as="a" href={helpRequestsHref} variant="secondary">
+                        <Map size={17} aria-hidden="true" />
+                        {t("journey.helpMediation.viewRequests", "Vaata abisoove")}
+                      </Button>
+                      <Button as="a" href={createHelpOfferHref} variant="secondary">
+                        <HeartPulse size={17} aria-hidden="true" />
+                        {t("journey.helpMediation.createOffer", "Loo abipakkumine")}
+                      </Button>
+                    </div>
+                  </div>
+                  {helpRequestShareOpen ? (
+                    <HelpRequestSharePanel journey={journey} href={createHelpRequestHref} t={t} />
+                  ) : null}
+                </section>
+              ) : null}
 
               <section className={cardClassName}>
                 <div className="flex flex-wrap items-start justify-between gap-[0.82rem]">

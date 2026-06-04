@@ -2775,14 +2775,15 @@ function hasServiceMapCoordinates(entry) {
 
 function readInitialServiceMapFilters() {
   if (typeof window === "undefined") {
-    return { keyword: "", region: "", entryType: "SERVICES_CONTACTS" };
+    return { keyword: "", region: "", entryType: "KOV_SOCIAL_CONTACT" };
   }
   const params = new URLSearchParams(window.location.search || "");
-  const entryType = String(params.get("type") || "SERVICES_CONTACTS").trim().toUpperCase();
+  const entryType = String(params.get("type") || "KOV_SOCIAL_CONTACT").trim().toUpperCase();
+  const normalizedEntryType = entryType === "SERVICES_CONTACTS" ? "KOV_SOCIAL_CONTACT" : entryType;
   return {
     keyword: params.get("q") || params.get("keyword") || "",
     region: params.get("municipalityName") || params.get("municipality") || params.get("county") || "",
-    entryType: ["SERVICES_CONTACTS", "KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "HELP_REQUEST", "HELP_OFFER", "ALL"].includes(entryType) ? entryType : "SERVICES_CONTACTS"
+    entryType: ["KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "HELP_REQUEST", "HELP_OFFER"].includes(normalizedEntryType) ? normalizedEntryType : "KOV_SOCIAL_CONTACT"
   };
 }
 
@@ -2797,7 +2798,7 @@ function ServiceMapSurface({
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [region, setRegion] = useState("");
-  const [entryType, setEntryType] = useState("SERVICES_CONTACTS");
+  const [entryType, setEntryType] = useState("KOV_SOCIAL_CONTACT");
   const [selectedEntryId, setSelectedEntryId] = useState("");
   const [panelOpen, setPanelOpen] = useState(true);
   const [isMobilePanel, setIsMobilePanel] = useState(false);
@@ -2813,7 +2814,7 @@ function ServiceMapSurface({
     const initialFilters = readInitialServiceMapFilters();
     if (initialFilters.keyword) setKeyword(initialFilters.keyword);
     if (initialFilters.region) setRegion(initialFilters.region);
-    if (initialFilters.entryType !== "SERVICES_CONTACTS") setEntryType(initialFilters.entryType);
+    if (initialFilters.entryType !== "KOV_SOCIAL_CONTACT") setEntryType(initialFilters.entryType);
   }, []);
 
   useLayoutEffect(() => {
@@ -2915,6 +2916,8 @@ function ServiceMapSurface({
         entry.compensationDetails,
         ...(entry.targetGroupLabels || []),
         ...(entry.needTags || []),
+        ...(entry.relatedServiceCategories || []),
+        ...(entry.lifeDomains || []),
         ...(entry.deliveryModes || []),
         entry.providerProfile?.organizationName,
         ...(entry.providerProfile?.services || []),
@@ -3101,7 +3104,8 @@ function ServiceMapSurface({
 
               <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
-                ["SERVICES_CONTACTS", readText(t, "workspace_feature_pages.service_map.types.services_contacts", "Teenused ja kontaktid")],
+                ["KOV_SOCIAL_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV")],
+                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.services", "Teenused")],
                 ["HELP_REQUEST", readText(t, "workspace_feature_pages.service_map.types.help_requests", "Abisoovid")],
                 ["HELP_OFFER", readText(t, "workspace_feature_pages.service_map.types.help_offers", "Abipakkumised")]
               ].map(([value, label]) => (

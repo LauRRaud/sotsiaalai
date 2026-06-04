@@ -2685,15 +2685,11 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 .service-map-leaflet__marker--help-request {
   --service-map-marker-fill: #b45309;
   --service-map-marker-ring: rgba(146, 64, 14, 0.95);
-  --service-map-marker-label-padding: 5px;
-  --service-map-marker-label-size: min(14.8px, var(--service-map-marker-label-max-size));
 }
 
 .service-map-leaflet__marker--help-offer {
   --service-map-marker-fill: #7c3aed;
   --service-map-marker-ring: rgba(91, 33, 182, 0.92);
-  --service-map-marker-label-padding: 5px;
-  --service-map-marker-label-size: min(14.8px, var(--service-map-marker-label-max-size));
 }
 
 .service-map-leaflet__marker--mixed {

@@ -592,8 +592,8 @@ function markerLabelText(group) {
   const allProviders = entries.length > 0 && entries.every((entry) => entry?.type === "SERVICE_PROVIDER");
   const allKov = entries.length > 0 && entries.every((entry) => entry?.type !== "SERVICE_PROVIDER" && !isHelpMapEntry(entry));
 
-  if (allHelpRequests) return "A?";
-  if (allHelpOffers) return "A+";
+  if (allHelpRequests) return "?";
+  if (allHelpOffers) return "+";
   if (allProviders) return "T";
   if (allKov) return "K";
   return "KT";

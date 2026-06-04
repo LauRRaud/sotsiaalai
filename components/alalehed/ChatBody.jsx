@@ -2062,13 +2062,6 @@ export default function ChatBody({
     startFreshConversation("help_offer");
     return true;
   }, [startFreshConversation]);
-  const activateJourneyMode = useCallback(() => {
-    if (isRoomMode) {
-      return false;
-    }
-    startFreshConversation("journey");
-    return true;
-  }, [isRoomMode, startFreshConversation]);
   const createJourneyDraftFromText = useCallback(async (text) => {
     const response = await fetch("/api/journeys/draft", {
       method: "POST",
@@ -2741,8 +2734,6 @@ export default function ChatBody({
       onActivateDeepResearchMode={activateDeepResearchMode}
       onActivateHelpRequestMode={activateHelpRequestMode}
       onActivateHelpOfferMode={activateHelpOfferMode}
-      onActivateJourneyMode={activateJourneyMode}
-      showJourneyTool={userRole === "CLIENT"}
       placeholderText={composerPlaceholderText}
       forcePlaceholderVisible={composerForcePlaceholderVisible}
       hideComposerTools={hideComposerTools}
