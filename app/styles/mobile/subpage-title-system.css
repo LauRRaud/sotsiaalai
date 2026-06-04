@@ -16,6 +16,7 @@
     --mobile-header-title-line-height: 1.05;
     --mobile-header-title-tracking: 0.003em;
     --mobile-header-browser-y-offset: 0rem;
+    --mobile-header-pwa-y-offset: 0rem;
     --mobile-header-wrap-correction: 0rem;
   }
 
@@ -41,6 +42,60 @@
         var(--workspace-guide-panel-overscan-top, 0px) +
         var(--mobile-header-info-top) - 0.74rem
     );
+  }
+
+  .workspace-dashboard-panel,
+  .workspace-dashboard-panel .workspace-guide-panel-scroll,
+  .wellbeing-page-surface,
+  .wellbeing-page-surface .workspace-guide-panel-scroll {
+    --mobile-header-title-top: 0.92rem;
+    --mobile-header-title-bottom: 0.1rem;
+    --mobile-header-wrap-correction: -0.18rem;
+    --mobile-header-control-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 1.64rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 1.64rem
+    );
+  }
+
+  :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+    :is(.glass-subpage-title, .subpage-mobile-title, .policy-mobile-title, .glass-page-title) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .rag-admin-shell-card {
+    --mobile-header-title-top: 0.98rem;
+    --mobile-header-control-top: -0.62rem;
+    padding-top: calc(var(--mobile-header-title-top) + 2.65rem) !important;
+  }
+
+  .rag-admin-shell-card .rag-admin-shell-back {
+    position: absolute !important;
+    left: var(--mobile-header-back-left) !important;
+    top: calc(
+      var(--mobile-header-control-top) +
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
+    ) !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+
+  .rag-admin-shell-card .rag-admin-shell-title {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .admin-framework-acceptances-page {
+    padding-top: calc(var(--mobile-header-title-top) + 2.9rem) !important;
   }
 
   :is(
@@ -95,19 +150,12 @@
     margin-left: 0 !important;
     padding-top: calc(
       var(--mobile-header-title-top) +
-        var(--mobile-header-browser-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
     ) !important;
     padding-right: var(--mobile-header-title-inline-reserve) !important;
     padding-bottom: var(--mobile-header-title-bottom) !important;
     padding-left: var(--mobile-header-title-inline-reserve) !important;
-  }
-
-  .workspace-dashboard-panel > .glass-subpage-header > :is(.glass-subpage-title-wrap, .policy-mobile-title-wrap) {
-    padding-top: calc(
-      var(--mobile-header-title-top) +
-        var(--mobile-header-browser-y-offset, 0rem) +
-        0.8rem
-    ) !important;
   }
 
   :is(.glass-ring, .subscription-modal-content, .account-settings-modal-content)
@@ -147,7 +195,8 @@
     left: var(--mobile-header-back-left) !important;
     top: calc(
       var(--mobile-header-control-top) +
-        var(--mobile-header-browser-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
     ) !important;
     right: auto !important;
     bottom: auto !important;
@@ -175,7 +224,8 @@
     right: var(--mobile-header-info-right) !important;
     top: calc(
       var(--mobile-header-control-info-top) +
-        var(--mobile-header-browser-y-offset, 0rem)
+        var(--mobile-header-browser-y-offset, 0rem) +
+        var(--mobile-header-pwa-y-offset, 0rem)
     ) !important;
     z-index: 35 !important;
   }
@@ -260,8 +310,8 @@
       var(--font-aino),
       Arial,
       sans-serif !important;
-    font-size: var(--mobile-header-title-font) !important;
-    font-weight: 400 !important;
+    font-size: clamp(1.16rem, 4.65vw, 1.34rem) !important;
+    font-weight: 450 !important;
     line-height: var(--mobile-header-title-line-height) !important;
     letter-spacing: var(--mobile-header-title-tracking) !important;
     text-shadow: var(--glass-modal-title-shadow) !important;

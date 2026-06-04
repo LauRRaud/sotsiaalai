@@ -248,18 +248,24 @@ export default function ChatMobileTopNav({
     ? {
         left: "calc(env(safe-area-inset-left,0px) + clamp(2.78rem,10.8vw,3.02rem))",
         right: "calc(env(safe-area-inset-right,0px) + 0.1rem)",
-        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.12rem)"
+        top: "calc(var(--mobile-safe-top, env(safe-area-inset-top,0px)) + 0.12rem)",
+        "--chat-mobile-topnav-button-size": "clamp(2.7rem,10.8vw,3.02rem)",
+        "--chat-mobile-topnav-label-top": "4.46rem"
       }
     : isAndroidPlatform
     ? {
         left: "calc(env(safe-area-inset-left,0px) + 3.36rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.26rem)",
-        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.18rem)"
+        top: "calc(var(--mobile-safe-top, env(safe-area-inset-top,0px)) + 0.18rem)",
+        "--chat-mobile-topnav-button-size": "clamp(2.92rem,11.8vw,3.34rem)",
+        "--chat-mobile-topnav-label-top": "4.62rem"
       }
     : {
         left: "calc(env(safe-area-inset-left,0px) + 3.68rem)",
         right: "calc(env(safe-area-inset-right,0px) + 0.34rem)",
-        top: "calc(var(--chat-mobile-topnav-safe-top, env(safe-area-inset-top,0px)) + 0.08rem)"
+        top: "calc(var(--mobile-safe-top, env(safe-area-inset-top,0px)) + 0.08rem)",
+        "--chat-mobile-topnav-button-size": "clamp(2.86rem,11.4vw,3.28rem)",
+        "--chat-mobile-topnav-label-top": "4.58rem"
       };
 
   const labels = useMemo(
@@ -676,12 +682,7 @@ export default function ChatMobileTopNav({
           }
         }}
         className={cn(
-          "pointer-events-auto relative inline-flex items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
-          isCompactAndroidViewport
-            ? "h-[clamp(2.86rem,11.6vw,3.22rem)] w-[clamp(2.86rem,11.6vw,3.22rem)]"
-            : isAndroidPlatform
-            ? "h-[clamp(3.08rem,12.45vw,3.56rem)] w-[clamp(3.08rem,12.45vw,3.56rem)]"
-            : "h-[clamp(2.96rem,11.9vw,3.42rem)] w-[clamp(2.96rem,11.9vw,3.42rem)]",
+          "pointer-events-auto relative inline-flex h-[var(--chat-mobile-topnav-button-size)] w-[var(--chat-mobile-topnav-button-size)] min-h-[var(--chat-mobile-topnav-button-size)] min-w-[var(--chat-mobile-topnav-button-size)] items-center justify-center rounded-[1.45rem] border-0 bg-transparent p-0 transition-[transform,opacity,color] duration-200 ease-out focus-visible:outline-none",
           "opacity-100",
           isDisabled ? "cursor-default" : "cursor-pointer"
         )}
@@ -828,13 +829,16 @@ export default function ChatMobileTopNav({
               );
             })}
           </div>
-        </div>
-      </div>
 
-      <div className="mobile-shared-topnav-title-wrap pointer-events-none absolute inset-x-0 top-[4.32rem] flex justify-center px-[0.45rem] text-center">
-        <span className={cn("mobile-shared-topnav-title max-w-[14rem] whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]", isCompactAndroidViewport ? "text-[clamp(1.26rem,5.2vw,1.46rem)]" : isAndroidPlatform ? "text-[clamp(1.4rem,5.75vw,1.64rem)]" : "text-[clamp(1.34rem,5.45vw,1.56rem)]")}>
-          {labels[previewFocusedItem.key]}
-        </span>
+          <div
+            className="mobile-shared-topnav-title-wrap pointer-events-none absolute left-1/2 top-[var(--chat-mobile-topnav-label-top)] z-[2] flex w-[min(9.4rem,32vw)] justify-center text-center"
+            style={{ transform: `translateX(calc(-50% + ${centerOffsetRem}rem))` }}
+          >
+            <span className="mobile-shared-topnav-title max-w-full whitespace-normal break-words [text-wrap:balance] font-medium leading-[1.04] tracking-[0.012em] text-[#c57171] light:text-[#7a3a38] hc:text-[color:var(--hc-accent)]">
+              {labels[previewFocusedItem.key]}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

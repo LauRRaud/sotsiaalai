@@ -10,7 +10,7 @@ import { useI18n } from "@/components/i18n/I18nProvider";
 import { resolveApiMessage } from "@/lib/i18n/resolveApiMessage";
 
 const pageClassName =
-  "flex w-full min-w-0 max-w-full flex-col gap-[1rem] overflow-x-clip text-[color:var(--admin-text)] " +
+  "admin-framework-acceptances-page flex w-full min-w-0 max-w-full flex-col gap-[1rem] overflow-x-clip text-[color:var(--admin-text)] " +
   "[--admin-text:var(--documents-page-text)] [--admin-muted:var(--documents-page-muted)] [--admin-surface:var(--documents-card-bg)] " +
   "[--admin-surface-2:var(--documents-subpanel-bg)] [--admin-surface-3:var(--documents-content-bg)] [--admin-border:var(--documents-card-border)] " +
   "[--admin-border-strong:var(--documents-subpanel-border)] [--admin-shadow-soft:var(--documents-soft-shadow)] [--admin-shadow:var(--documents-strong-shadow)] " +

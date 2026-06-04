@@ -110,7 +110,8 @@ const BackgroundContent = memo(function BackgroundContent({
   showParticles = true,
   forceMobileBendsVisible = false,
   colorBendsColors = ["#7e4442"],
-  colorBendsOpacity = COLOR_BENDS_OPACITY_DEFAULT
+  colorBendsOpacity = COLOR_BENDS_OPACITY_DEFAULT,
+  routeKey = ""
 }) {
   const layerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
@@ -188,6 +189,9 @@ const BackgroundContent = memo(function BackgroundContent({
       if (timer) window.clearTimeout(timer);
     };
   }, []);
+  useEffect(() => {
+    setColorBendsPaused(false);
+  }, [routeKey]);
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const mql = q => typeof window.matchMedia === "function" ? window.matchMedia(q) : null;
@@ -600,6 +604,7 @@ function BackgroundLayer() {
     forceMobileBendsVisible={forceMobileBendsVisible}
     colorBendsColors={colorBendsColors}
     colorBendsOpacity={colorBendsOpacity}
+    routeKey={normalizedPathname}
   />;
 }
 export default memo(BackgroundLayer);

@@ -33,7 +33,7 @@ export default function RagAdminLandingWorkspace({ locale }) {
         <div className={ragAdminShellCardClassName}>
           <BackButton
             ariaLabel={locale?.startsWith("et") ? "Tagasi" : "Back"}
-            className={glassPageBackTopLeftClassName}
+            className={`${glassPageBackTopLeftClassName} rag-admin-shell-back`}
             onClick={() => {
               if (typeof window !== "undefined") {
                 window.location.assign(localizePath("/", locale));

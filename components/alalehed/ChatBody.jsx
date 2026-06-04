@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import LoginModal from "@/components/LoginModal";
 import { useAccessibility } from "@/components/accessibility/AccessibilityProvider";
@@ -349,6 +349,7 @@ export default function ChatBody({
   emailVerifiedEntry = false
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
     data: session,
@@ -1091,6 +1092,22 @@ export default function ChatBody({
       workspaceRestoreTransitionRafRef.current = 0;
     };
   }, [workspaceSuppressOpenTransition]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    return () => {
+      if (workspaceRestoreTransitionRafRef.current) {
+        window.clearTimeout(workspaceRestoreTransitionRafRef.current);
+        workspaceRestoreTransitionRafRef.current = 0;
+      }
+      if (workspaceSurfaceReadyTimerRef.current) {
+        window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
+        workspaceSurfaceReadyTimerRef.current = 0;
+      }
+      workspaceRestoredOpenRef.current = false;
+      setWorkspaceSuppressOpenTransition(false);
+      setWorkspaceSurfaceReady(false);
+    };
+  }, [pathname]);
   useEffect(() => {
     if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
       window.clearTimeout(workspaceSurfaceReadyTimerRef.current);

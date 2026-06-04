@@ -1,9 +1,9 @@
 /* Homepage-only mobile rules. Desktop/shared homepage CSS stays in app/styles/components/home.css. */
 @media (max-width: 768px) {
   body.homepage .homepage-root {
-    height: var(--glass-mobile-root-vh, 100dvh) !important;
-    min-height: var(--glass-mobile-root-vh, 100dvh) !important;
-    max-height: var(--glass-mobile-root-vh, 100dvh) !important;
+    height: auto !important;
+    min-height: var(--home-mobile-canvas-height, var(--glass-mobile-root-vh, 100dvh)) !important;
+    max-height: none !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
@@ -12,10 +12,11 @@
 
   .homepage-root .home-footer-logo-wrap {
     margin-top: clamp(1rem, 3.4vh, 2.2rem) !important;
+    margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem) !important;
   }
 
   .homepage-root > div > footer {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.12rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.65rem);
   }
 }
 

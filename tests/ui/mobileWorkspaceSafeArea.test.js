@@ -90,6 +90,6 @@ test("workspace feature pages keep mobile safe areas without browser-mode layout
   );
   assert.match(
     mobileCss,
-    /:is\([\s\S]*?\.policy-mobile-title-wrap,[\s\S]*?\.glass-subpage-title-wrap,[\s\S]*?\.workspace-guide-panel \.glass-subpage-title-wrap,[\s\S]*?\.workspace-feature-panel \.glass-subpage-title-wrap[\s\S]*?\)\s*\{[\s\S]*?padding-top:\s*var\(--mobile-common-title-top\)\s*!important;/
+    /:is\([\s\S]*?\.workspace-dashboard-panel,[\s\S]*?\.workspace-feature-panel[\s\S]*?\)\s*:is\(\.glass-subpage-title-wrap,\s*\.policy-mobile-title-wrap\)\s*\{[\s\S]*?padding-top:\s*calc\([\s\S]*?var\(--mobile-header-title-top\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
 });
