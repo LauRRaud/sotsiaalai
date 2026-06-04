@@ -7,6 +7,7 @@ function readSource(path) {
 export function readServiceMapCssBundle() {
   return [
     "app/styles/components/service-map.css",
-    "app/styles/components/service-map.mobile.css"
+    "app/styles/components/service-map.mobile.css",
+    "app/styles/mobile/service-map.css"
   ].filter((path) => existsSync(new URL(`../../${path}`, import.meta.url))).map(readSource).join("\n");
 }

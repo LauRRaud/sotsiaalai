@@ -322,7 +322,7 @@
     --workspace-subpage-title-margin-top: clamp(2.15rem, 5.4vh, 3.25rem);
     padding-right: var(--workspace-dashboard-panel-edge-x);
     padding-left: var(--workspace-dashboard-panel-edge-x);
-    padding-top: 0;
+    padding-top: clamp(0.18rem, 0.65vh, 0.42rem);
   }
 
   .backButton {
