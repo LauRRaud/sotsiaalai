@@ -495,12 +495,13 @@ function markerLabelText(group) {
 }
 
 function markerHtml(group, selected) {
+  const label = markerLabelText(group);
   return [
     `<span class="${markerClassName(group, selected)}">`,
     `<svg class="service-map-leaflet__marker-shape" viewBox="0 0 48 60" aria-hidden="true" focusable="false">`,
     `<path class="service-map-leaflet__marker-pin" fill-rule="evenodd" clip-rule="evenodd" d="M24 59C20.6 53.5 16.95 48.38 13.06 43.64C6.35 35.45 3 28.25 3 22.05C3 9.88 12.4 1 24 1C35.6 1 45 9.88 45 22.05C45 28.25 41.65 35.45 34.94 43.64C31.05 48.38 27.4 53.5 24 59ZM24 35.7A14.2 14.2 0 1 0 24 7.3A14.2 14.2 0 0 0 24 35.7Z" />`,
+    `<text class="service-map-leaflet__marker-label" x="24" y="21.5" text-anchor="middle" dominant-baseline="central">${label}</text>`,
     `</svg>`,
-    `<span class="service-map-leaflet__marker-label">${markerLabelText(group)}</span>`,
     `</span>`
   ].join("");
 }

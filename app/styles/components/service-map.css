@@ -2626,8 +2626,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
   text-align: center;
   user-select: none;
   --service-map-marker-fill: #475569;
-  --service-map-marker-label-x: 50%;
-  --service-map-marker-label-y: 35.84%;
   --service-map-marker-label-size: 1.06rem;
   --service-map-marker-label-tracking: 0;
   --service-map-legend-marker-label-size: 0.74rem;
@@ -2655,34 +2653,23 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-leaflet__marker-label {
-  position: absolute;
-  top: var(--service-map-marker-label-y);
-  left: var(--service-map-marker-label-x);
-  display: grid;
-  width: 1.36rem;
-  height: 1.36rem;
-  place-items: center;
-  z-index: 1;
-  color: currentColor;
+  fill: currentColor;
   font-size: var(--service-map-marker-label-size);
   font-weight: 820;
   letter-spacing: var(--service-map-marker-label-tracking);
-  line-height: 1;
+  dominant-baseline: central;
+  text-anchor: middle;
+  pointer-events: none;
   text-transform: uppercase;
-  transform: translate(-50%, -50%);
 }
 
 .service-map-leaflet__marker--kov {
   --service-map-marker-fill: #2f5f8f;
-  --service-map-marker-label-x: 50.18%;
-  --service-map-marker-label-y: 39.25%;
   --service-map-marker-ring: rgba(22, 65, 104, 0.92);
 }
 
 .service-map-leaflet__marker--provider {
   --service-map-marker-fill: #168a72;
-  --service-map-marker-label-x: 50.24%;
-  --service-map-marker-label-y: 39.75%;
   --service-map-marker-ring: rgba(10, 94, 77, 0.94);
 }
 
@@ -2703,8 +2690,6 @@ html[data-theme-switching="1"] .service-map-workspace__filters-shell::before {
 }
 
 .service-map-leaflet__legend-marker .service-map-leaflet__marker-label {
-  width: 1rem;
-  height: 1rem;
   font-size: var(--service-map-legend-marker-label-size);
 }
 
