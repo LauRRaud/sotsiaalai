@@ -67,10 +67,10 @@ test("service map markers use flat 2D drop-shaped icon backgrounds", () => {
   assert.match(markerBlock, /height:\s*2\.93rem/);
   assert.match(markerBlock, /color:\s*var\(--service-map-marker-fill,\s*#475569\)/);
   assert.match(markerBlock, /--service-map-marker-hole-diameter:\s*28\.4px/);
-  assert.match(markerBlock, /--service-map-marker-label-padding:\s*5\.6px/);
+  assert.match(markerBlock, /--service-map-marker-label-padding:\s*4px/);
   assert.match(markerBlock, /--service-map-marker-label-max-size:\s*calc\(var\(--service-map-marker-hole-diameter\) - \(2 \* var\(--service-map-marker-label-padding\)\)\)/);
-  assert.match(markerBlock, /--service-map-marker-label-size:\s*min\(17\.2px,\s*var\(--service-map-marker-label-max-size\)\)/);
-  assert.match(markerBlock, /--service-map-legend-marker-label-size:\s*min\(15\.2px,\s*var\(--service-map-marker-label-max-size\)\)/);
+  assert.match(markerBlock, /--service-map-marker-label-size:\s*min\(19\.4px,\s*var\(--service-map-marker-label-max-size\)\)/);
+  assert.match(markerBlock, /--service-map-legend-marker-label-size:\s*min\(17\.4px,\s*var\(--service-map-marker-label-max-size\)\)/);
   assert.match(markerBlock, /filter:\s*drop-shadow\(0 1px 2px rgba\(15,\s*23,\s*42,\s*0\.18\)\)/);
   assert.doesNotMatch(markerBlock, /inset\s+-/);
   assert.match(markerShapeBlock, /position:\s*absolute/);
