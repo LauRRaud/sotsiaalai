@@ -35,7 +35,7 @@
     :is(.workspace-dashboard-panel, .wellbeing-page-surface)
     .workspace-dashboard-card
     [class*="cardIcon"] {
-    transform: translateY(0.18rem) !important;
+    transform: translateY(0.3rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -60,7 +60,7 @@
     [class*="cardIcon"] {
     width: clamp(3.18rem, 13vw, 3.48rem) !important;
     height: clamp(3.18rem, 13vw, 3.48rem) !important;
-    transform: translateY(0.34rem) !important;
+    transform: translateY(0.94rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]

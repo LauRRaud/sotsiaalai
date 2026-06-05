@@ -529,6 +529,12 @@
   margin: -28% !important;
 }
 
+.dashboardCardIcon[data-workspace-card-icon="pre-inquiry"] svg {
+  width: 122%;
+  height: 122%;
+  margin: -11%;
+}
+
 .serviceMapInlineIcon {
   width: 132% !important;
   height: 132% !important;

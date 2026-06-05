@@ -127,6 +127,7 @@ function DashboardCardIcon({ type }) {
   const serviceMapId = useId().replaceAll(":", "");
   const serviceMapCutoutMaskId = `${serviceMapId}-service-map-cutout`;
   const serviceMapLogoMaskId = `${serviceMapId}-service-map-logo`;
+  const preInquiryPencilMaskId = `${serviceMapId}-pre-inquiry-pencil`;
 
   if (type === "document") {
     return (
@@ -170,6 +171,28 @@ function DashboardCardIcon({ type }) {
   if (type === "mailbox") {
     return (
       <Mail className={styles.mailboxInlineIcon} strokeWidth={1.62} aria-hidden="true" focusable="false" />
+    );
+  }
+  if (type === "pre-inquiry") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <defs>
+          <mask id={preInquiryPencilMaskId} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+            <rect width="24" height="24" fill="#fff" />
+            <path d="M11.6 16.71 12.02 14.31l5.71-5.71a1.31 1.31 0 0 1 1.86 0l.83.83a1.31 1.31 0 0 1 0 1.86L14.71 17l-2.4.42a.61.61 0 0 1-.71-.71Z" fill="#000" stroke="#000" strokeWidth="3.05" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="m16.85 9.48 2.69 2.69" stroke="#000" strokeWidth="3.05" strokeLinecap="round" />
+          </mask>
+        </defs>
+        <g mask={`url(#${preInquiryPencilMaskId})`}>
+          <path d="M5.85 3.35h7.35l4.6 4.6v10.3a2.18 2.18 0 0 1-2.18 2.18H5.85a2.18 2.18 0 0 1-2.18-2.18V5.53a2.18 2.18 0 0 1 2.18-2.18Z" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M13.2 3.35v3.42a1.55 1.55 0 0 0 1.55 1.55h3.05" stroke="currentColor" strokeWidth="1.48" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="8.6" cy="8.5" r="1.35" stroke="currentColor" strokeWidth="1.42" />
+          <path d="M6.6 12.65c.38-1.42 1.04-2.07 2-2.07s1.62.65 2 2.07" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M7.15 15.05h6.1M7.15 17.45h4.8" stroke="currentColor" strokeWidth="1.42" strokeLinecap="round" />
+        </g>
+        <path d="M11.6 16.71 12.02 14.31l5.71-5.71a1.31 1.31 0 0 1 1.86 0l.83.83a1.31 1.31 0 0 1 0 1.86L14.71 17l-2.4.42a.61.61 0 0 1-.71-.71Z" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="m16.85 9.48 2.69 2.69" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" />
+      </svg>
     );
   }
   if (type === "map") {

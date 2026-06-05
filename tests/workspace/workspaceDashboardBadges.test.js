@@ -70,12 +70,12 @@ test("workspace dashboard attaches badges by visible role card key and aliases",
   assert.equal(socialWorkerCards.find((card) => card.key === "wellbeing")?.badge?.type, "attention");
 });
 
-test("workspace dashboard keeps pre-inquiry compose icon only for client view", () => {
+test("workspace dashboard uses a client-specific pre-inquiry icon and staff mailbox icon", () => {
   const clientCard = cardsFor("CLIENT").find((card) => card.key === "pre_inquiries");
   const staffCard = cardsFor("SOCIAL_WORKER").find((card) => card.key === "pre_inquiries");
   const providerCard = cardsFor("SERVICE_PROVIDER").find((card) => card.key === "pre_inquiries");
 
-  assert.equal(clientCard?.icon, "compose");
+  assert.equal(clientCard?.icon, "pre-inquiry");
   assert.equal(staffCard?.icon, "mailbox");
   assert.equal(providerCard?.icon, "mailbox");
 });
