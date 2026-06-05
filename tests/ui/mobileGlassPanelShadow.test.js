@@ -28,7 +28,35 @@ test("mobile glass panels do not inherit desktop shell shadows", () => {
   );
   assert.match(
     finalSurfacesCss,
-    /html\[data-layout="mobile"\] body\[data-layout="mobile"\][\s\S]*?:is\(\.workspace-dashboard-panel,\s*\.wellbeing-page-surface\)[\s\S]*?\.workspace-dashboard-card\s*\{[\s\S]*?--workspace-card-icon-size:\s*clamp\(3rem,\s*12\.4vw,\s*3\.35rem\) !important;[\s\S]*?row-gap:\s*1rem !important;[\s\S]*?box-shadow:\s*none !important;/
+    /html\[data-layout="mobile"\] body\[data-layout="mobile"\][\s\S]*?:is\(\.workspace-dashboard-panel,\s*\.wellbeing-page-surface\)[\s\S]*?\.workspace-dashboard-card\s*\{[\s\S]*?--workspace-card-icon-size:\s*clamp\(2\.82rem,\s*11\.5vw,\s*3\.1rem\) !important;[\s\S]*?row-gap:\s*0\.82rem !important;[\s\S]*?box-shadow:\s*none !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.workspace-dashboard-card\s*\[class\*="cardIcon"\]\s*\{[\s\S]*?transform:\s*translateY\(0\.18rem\) !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.workspace-dashboard-card\s*\[class\*="cardTitle"\]\s*\{[\s\S]*?font-size:\s*clamp\(1\.14rem,\s*4\.7vw,\s*1\.28rem\) !important;[\s\S]*?transform:\s*translateY\(0\.34rem\) !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardTitle"\]\s*\{[\s\S]*?max-width:\s*8\.15em !important;[\s\S]*?font-size:\s*clamp\(1\.07rem,\s*4\.38vw,\s*1\.16rem\) !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardIcon"\]\s*\{[\s\S]*?transform:\s*translateY\(0\.34rem\) !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.policy-scroll-page-ring\.policy-mobile-tall\s*\{[\s\S]*?--policy-scroll-overscan-bottom:\s*calc\([\s\S]*?clamp\(2\.1rem,\s*6vh,\s*3\.4rem\)[\s\S]*?\) !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.policy-scroll-page-ring\.policy-mobile-tall[\s\S]*?\.policy-scroll-page-scroller\s*\{[\s\S]*?padding-bottom:\s*var\(--policy-scroll-overscan-bottom\) !important;[\s\S]*?mask-image:\s*none !important;/
+  );
+  assert.match(
+    finalSurfacesCss,
+    /\.policy-scroll-page-ring\.policy-mobile-tall::before,[\s\S]*?\.policy-scroll-page-ring\.policy-mobile-tall::after\s*\{[\s\S]*?content:\s*none !important;[\s\S]*?display:\s*none !important;/
   );
   const titleImportIndex = mobileEntryCss.lastIndexOf(
     '@import url("./mobile/subpage-title-system.css");'

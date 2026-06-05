@@ -26,9 +26,16 @@
   html[data-layout="mobile"] body[data-layout="mobile"]
     :is(.workspace-dashboard-panel, .wellbeing-page-surface)
     .workspace-dashboard-card {
-    --workspace-card-icon-size: clamp(3rem, 12.4vw, 3.35rem) !important;
-    row-gap: 1rem !important;
+    --workspace-card-icon-size: clamp(2.82rem, 11.5vw, 3.1rem) !important;
+    row-gap: 0.82rem !important;
     box-shadow: none !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+    .workspace-dashboard-card
+    [class*="cardIcon"] {
+    transform: translateY(0.18rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -44,5 +51,51 @@
     [class*="cardTitle"] {
     font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
     line-height: 1.1 !important;
+    transform: translateY(0.34rem) !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .workspace-dashboard-panel
+    .workspace-dashboard-card[class*="card_document_drafting"]
+    [class*="cardIcon"] {
+    width: clamp(3.18rem, 13vw, 3.48rem) !important;
+    height: clamp(3.18rem, 13vw, 3.48rem) !important;
+    transform: translateY(0.34rem) !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .workspace-dashboard-panel
+    .workspace-dashboard-card[class*="card_document_drafting"]
+    [class*="cardTitle"] {
+    max-width: 8.15em !important;
+    font-size: clamp(1.07rem, 4.38vw, 1.16rem) !important;
+    line-height: 1.04 !important;
+    transform: translateY(0.2rem) !important;
+    text-wrap: balance;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall {
+    --policy-scroll-overscan-bottom: calc(
+      env(safe-area-inset-bottom, 0px) + clamp(2.1rem, 6vh, 3.4rem)
+    ) !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall
+    .policy-scroll-page-scroller {
+    padding-bottom: var(--policy-scroll-overscan-bottom) !important;
+    scroll-padding-bottom: calc(var(--policy-scroll-overscan-bottom) + 1.25rem) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall::before,
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .policy-scroll-page-ring.policy-mobile-tall::after {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
   }
 }
