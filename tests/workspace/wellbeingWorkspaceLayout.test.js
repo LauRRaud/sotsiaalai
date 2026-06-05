@@ -74,8 +74,8 @@ test("workspace routes wellbeing through the real wellbeing page", () => {
   assert.match(source, /const route = routeByCardKey\[cardKey\];[\s\S]*?if \(route\) navigateTo\(route\);/);
   assert.match(source, /onClick=\{card\.disabled \? undefined : handleCardDirectClick\}/);
   assert.match(source, /onPointerUp=\{card\.disabled \? undefined : handleCardDirectPointerUp\}/);
-  assert.match(source, /window\.location\.assign\(href\);/);
   assert.match(source, /router\.push\(href\);/);
+  assert.doesNotMatch(source, /window\.location\.assign\(href\);/);
   assert.doesNotMatch(source, /workspacePanelMorph:\s*"mobile-workspace-route"/);
   assert.doesNotMatch(source, /WellbeingEmbeddedPanel/);
   assert.doesNotMatch(source, /wellbeingEmbeddedOpen/);

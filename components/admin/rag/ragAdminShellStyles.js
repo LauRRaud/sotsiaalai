@@ -12,9 +12,10 @@ export const ragAdminShellInnerClassName =
 
 export const ragAdminShellCardClassName =
   `rag-admin-shell-card relative isolate flex w-full flex-col gap-3 rounded-[1.6rem] px-[clamp(0.95rem,2.2vw,1.4rem)] py-[clamp(0.85rem,2vw,1.15rem)] ` +
-  `[background:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] ` +
-  `[border:none] text-[color:var(--documents-page-text)] shadow-[0_7px_18px_rgba(0,0,0,0.10)] ` +
-  `backdrop-blur-[16px] [-webkit-backdrop-filter:blur(16px)] ${glassSubpageSurfaceScopeClassName}`;
+  `border border-[color:var(--glass-border-color,var(--admin-border,var(--documents-card-border)))] ` +
+  `bg-[color-mix(in_srgb,var(--admin-surface,var(--documents-card-bg))_88%,var(--glass-surface-bg,transparent)_12%)] ` +
+  `text-[color:var(--documents-page-text)] shadow-[0_7px_16px_rgba(0,0,0,0.10)] ` +
+  `min-[769px]:backdrop-blur-[16px] min-[769px]:[-webkit-backdrop-filter:blur(16px)] ${glassSubpageSurfaceScopeClassName}`;
 
 export const ragAdminShellTitleClassName =
   `rag-admin-shell-title ${glassPageTitleClassName} !mt-0 !mb-0 w-full text-center text-[color:var(--title-color,var(--brand-primary))]`;

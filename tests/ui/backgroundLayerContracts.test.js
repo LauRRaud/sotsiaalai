@@ -95,8 +95,10 @@ test("color bends do not render one frame at fallback strength", () => {
   assert.match(source, /const \[mobileBendsVisible, setMobileBendsVisible\] = useState\(false\);/);
   assert.match(source, /setMobileBendsVisible\(true\)/);
   assert.match(source, /\}, \[mounted, deviceProfileReady, mobileBackgroundMode, routeKey, showColorBends\]\);/);
-  assert.match(source, /data-mobile-bends=\{forceMobileBendsVisible \|\| mobileBendsVisible \? "ready" : "pending"\}/);
-  assert.match(source, /style=\{\{\s*"--saai-bends-opacity": colorBendsOpacity\s*\}\}/);
+  assert.match(source, /const colorBendsReady = !isHomepage \|\| forceMobileBendsVisible \|\| mobileBendsVisible;/);
+  assert.match(source, /data-mobile-bends=\{colorBendsReady \? "ready" : "pending"\}/);
+  assert.match(source, /const initialInlineBendsOpacity = \(\(\) => \{/);
+  assert.match(source, /style=\{\{\s*"--saai-bends-opacity": initialInlineBendsOpacity\s*\}\}/);
   assert.match(backgroundCss, /html\[data-theme-switching="1"\]\s+\[data-bg-layer\]\s+\.bg-bends-layer\s*\{[\s\S]*?transition:\s*none\s*!important;/);
   assert.match(accessibilityProviderSource, /const hadContrast = html\.getAttribute\("data-contrast"\) \|\| DEFAULT_PREFS\.contrast;/);
   assert.match(accessibilityProviderSource, /hadContrast !== nextContrast \|\|/);
@@ -125,14 +127,45 @@ test("homepage color bends still fade on scroll when motion is reduced", () => {
   assert.match(source, /const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0;/);
   assert.match(source, /const HOME_SCROLL_BIND_RETRY_FRAMES = 16;/);
   assert.match(source, /const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = \[80, 220, 520\];/);
+  assert.match(source, /const HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS = 650;/);
+  assert.match(source, /const HOME_BACKGROUND_SCROLL_STORAGE_KEY = "sotsiaalai:home-background-scroll-y";/);
+  assert.match(source, /function computeHomeBendsOpacity\(/);
+  assert.match(source, /function readStoredHomeScrollY\(\)/);
+  assert.match(source, /function writeStoredHomeScrollY\(y\)/);
+  assert.match(source, /let homeBackgroundScrollRestoreGuardUntil = 0;/);
+  assert.match(source, /function markHomeBackgroundScrollRestoreGuard\(\)/);
+  assert.match(source, /function shouldUseStoredHomeScrollRestore\(\)/);
   assert.match(
     source,
-    /el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*if \(!isHomepage\) return;[\s\S]*const bindHomepageRoot = \(\) => \{[\s\S]*?homepageRoot\.addEventListener\("scroll", onScroll, \{ passive: true \}\);[\s\S]*?bindAttempts < HOME_SCROLL_BIND_RETRY_FRAMES[\s\S]*?HOME_SCROLL_RESTORE_SYNC_DELAYS_MS\.forEach\(delay => \{[\s\S]*?bindHomepageRoot\(\);[\s\S]*?onScroll\(\);[\s\S]*?\}, \[isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey\]\);/
+    /const initialInlineBendsOpacity = \(\(\) => \{[\s\S]*?const currentY =[\s\S]*?const y = shouldUseStoredHomeScrollRestore\(\)[\s\S]*?\? Math\.max\(readStoredHomeScrollY\(\), currentY\)[\s\S]*?: currentY;[\s\S]*?computeHomeBendsOpacity\(\{[\s\S]*?mobileBackgroundMode: detectMobileLikeDevice\(\),[\s\S]*?\.toFixed\(3\);[\s\S]*?\}\)\(\);/
   );
   assert.match(
     source,
-    /const bendsOpacity = mobileBackgroundMode[\s\S]*?const floorOpacity = colorBendsOpacity \* MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;[\s\S]*?: \(1 - clamp\(\(y - 240\) \/ 220, 0, 1\)\) \* colorBendsOpacity;/
+    /useLayoutEffect\(\(\) => \{[\s\S]*?el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*?if \(!isHomepage\) return;[\s\S]*?const storedHomeScrollY = readStoredHomeScrollY\(\);[\s\S]*?const useStoredRestore = storedHomeScrollY > 14 && shouldUseStoredHomeScrollRestore\(\);[\s\S]*?restoreGuardUntil[\s\S]*?const applyOpacityForY = \(y, \{ persist = true \} = \{\}\) => \{[\s\S]*?writeStoredHomeScrollY\(y\);[\s\S]*?window\.addEventListener\("pageshow", onScroll\);[\s\S]*?if \(useStoredRestore\) \{[\s\S]*?applyOpacityForY\(storedHomeScrollY, \{ persist: false \}\);[\s\S]*?update\(\);[\s\S]*?HOME_SCROLL_RESTORE_SYNC_DELAYS_MS\.forEach\(delay => \{[\s\S]*?bindHomepageRoot\(\);[\s\S]*?onScroll\(\);[\s\S]*?\}, \[isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey\]\);/
   );
+  assert.match(
+    source,
+    /function computeHomeBendsOpacity\([\s\S]*?const floorOpacity = colorBendsOpacity \* MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;[\s\S]*?return \(1 - clamp\(\(y - 240\) \/ 220, 0, 1\)\) \* colorBendsOpacity;/
+  );
+});
+
+test("mobile homepage keeps particles but delays their fade until the overscanned canvas is mounted", () => {
+  assert.match(
+    source,
+    /const allowParticles = showParticles && deviceProfileReady;/
+  );
+  assert.match(
+    source,
+    /\{deviceProfileReady && particlesReady && allowParticles && <div[\s\S]*?className="bg-particles-layer"/
+  );
+  assert.match(
+    source,
+    /isHomepage && mobileBackgroundMode \? 360 : mobileBackgroundMode \? 0 : 120/
+  );
+});
+
+test("background layer no longer owns app prepaint blackout state", () => {
+  assert.doesNotMatch(source, /data-app-prepaint|INITIAL_PREPAINT_MAX_MS/);
 });
 
 test("workspace route morph pauses animated color bends instead of repainting behind the panel", () => {

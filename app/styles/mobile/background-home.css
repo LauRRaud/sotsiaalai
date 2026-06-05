@@ -1,24 +1,7 @@
 /* Mobile background layers, home cards, glass boxes and landing typography. */
 
 :root {
-  --mobile-background-prepaint: #000;
   --mobile-background-reveal-duration: 900ms;
-}
-
-html[data-app-prepaint],
-html[data-app-prepaint] body,
-html[data-app-prepaint] .app-root,
-html[data-app-prepaint] [data-bg-layer] {
-  background: var(--mobile-background-prepaint) !important;
-  background-image: none !important;
-}
-
-html[data-app-prepaint]
-  [data-bg-layer]
-  :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transition: none !important;
 }
 
 [data-bg-layer][data-mobile-bends="ready"] .bg-bends-layer,
@@ -43,6 +26,15 @@ html[data-app-prepaint]
   }
   [data-bg-layer] .bg-bends-layer {
     transition-duration: 4000ms, 0s;
+  }
+
+  [data-bg-layer][data-page="subpage"] .bg-bends-layer {
+    transition-duration: 0s, 0s !important;
+  }
+
+  [data-bg-layer][data-page="subpage"][data-mobile-bends="pending"] .bg-bends-layer {
+    opacity: var(--saai-bends-opacity, 1) !important;
+    visibility: visible !important;
   }
 
   [data-bg-layer] .bg-particles-layer {
@@ -157,12 +149,6 @@ html[data-app-prepaint]
   [data-bg-layer][data-page="home"] .bg-space-layer,
   [data-bg-layer][data-page="home"] .space-backdrop {
     top: 0 !important;
-    bottom: auto !important;
-    height: 100% !important;
-    min-height: 100% !important;
-  }
-  [data-bg-layer][data-page="home"] .particles-container {
-    top: calc(var(--bg-overscan, 0px) * -1) !important;
     bottom: auto !important;
     height: 100% !important;
     min-height: 100% !important;

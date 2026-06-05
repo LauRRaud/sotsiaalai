@@ -32,6 +32,7 @@ const EMBEDDED_WORKSPACE_FEATURES = Object.freeze({
   "__invite": "invite"
 });
 const EMBEDDED_WORKSPACE_FEATURE_VALUES = new Set(Object.values(EMBEDDED_WORKSPACE_FEATURES));
+const WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY = "__SOTSIAALAI_WORKSPACE_SUBPAGE_ENTRY__";
 const EMBEDDED_WORKSPACE_HEADER_META = Object.freeze({
   documents: {
     titleKey: "documents.page_title",
@@ -262,6 +263,25 @@ function formatDashboardCardAriaLabel(card) {
   return badgeLabel ? `${title}: ${badgeLabel}` : title;
 }
 
+function markWorkspaceSubpageEntry(path) {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(
+      WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY,
+      JSON.stringify({
+        ts: Date.now(),
+        path,
+        source: "workspace"
+      })
+    );
+    const url = new URL(window.location.href);
+    if (url.pathname.endsWith("/vestlus")) {
+      url.searchParams.set("workspace", "1");
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+  } catch {}
+}
+
 function dispatchWorkspaceEvent(eventName, detail = {}) {
   if (typeof window === "undefined") return false;
   try {
@@ -338,10 +358,7 @@ export default function WorkspacePanel({
       try {
         router.prefetch?.(href);
       } catch {}
-      if (typeof window !== "undefined") {
-        window.location.assign(href);
-        return;
-      }
+      markWorkspaceSubpageEntry(path);
       router.push(href);
     },
     [locale, router]

@@ -15,19 +15,23 @@
     --mobile-header-title-font: clamp(1.72rem, 6.15vw, 2.14rem);
     --mobile-header-title-line-height: 1.05;
     --mobile-header-title-tracking: 0.003em;
+    --mobile-header-title-shadow: var(--glass-modal-title-shadow, none);
     --mobile-header-browser-y-offset: 0rem;
     --mobile-header-pwa-y-offset: 0rem;
     --mobile-header-wrap-correction: 0rem;
   }
 
   .policy-scroll-page-scroller {
+    --mobile-header-title-top: 0.7rem;
+    --mobile-header-title-bottom: 0.1rem;
+    --mobile-header-wrap-correction: -0.18rem;
     --mobile-header-control-top: calc(
       var(--policy-scroll-edge-pad-top, 0px) +
-        var(--policy-scroll-overscan-top, 0px) - 0.54rem
+        var(--policy-scroll-overscan-top, 0px) - 0.9rem
     );
     --mobile-header-control-info-top: calc(
       var(--policy-scroll-edge-pad-top, 0px) +
-        var(--policy-scroll-overscan-top, 0px) - 0.265rem
+        var(--policy-scroll-overscan-top, 0px) - 0.625rem
     );
   }
 
@@ -46,45 +50,78 @@
 
   .workspace-dashboard-panel,
   .workspace-dashboard-panel .workspace-guide-panel-scroll,
+  .workspace-feature-panel.workspace-scroll-surface,
+  .workspace-feature-panel.workspace-scroll-surface .workspace-guide-panel-scroll,
   .wellbeing-page-surface,
   .wellbeing-page-surface .workspace-guide-panel-scroll {
-    --mobile-header-title-top: 0.92rem;
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.82rem);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.55rem);
+    --mobile-header-title-top: 1.94rem;
     --mobile-header-title-bottom: 0.1rem;
     --mobile-header-wrap-correction: -0.18rem;
     --mobile-header-control-top: calc(
         var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-back-top) - 2.45rem
+        var(--mobile-header-back-top) - 0.74rem
     );
     --mobile-header-control-info-top: calc(
       var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-info-top) - 2.45rem
+        var(--mobile-header-info-top) - 0.74rem
     );
   }
 
-  :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+  :is(.workspace-dashboard-panel, .workspace-feature-panel.workspace-scroll-surface, .wellbeing-page-surface)
     :is(.glass-subpage-title, .subpage-mobile-title, .policy-mobile-title, .glass-page-title) {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
 
-  .workspace-dashboard-panel {
-    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 2.55rem);
-  }
-
-  .wellbeing-page-surface,
-  .wellbeing-page-surface .workspace-guide-panel-scroll {
-    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.82rem);
+  .workspace-dashboard-panel,
+  .workspace-dashboard-panel .workspace-guide-panel-scroll {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) + 0.04rem);
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 0.98rem);
+    --mobile-header-title-top: 1.72rem;
     --mobile-header-control-top: calc(
         var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-back-top) - 1.1rem
+        var(--mobile-header-back-top) - 1.79rem
     );
     --mobile-header-control-info-top: calc(
       var(--glass-ring-pad-top, 0px) +
         var(--workspace-guide-panel-overscan-top, 0px) +
-        var(--mobile-header-info-top) - 1.1rem
+        var(--mobile-header-info-top) - 1.69rem
+    );
+  }
+
+  .workspace-feature-panel.workspace-scroll-surface.wellbeing-page-surface,
+  .workspace-feature-panel.workspace-scroll-surface.wellbeing-page-surface
+    .workspace-guide-panel-scroll {
+    --mobile-header-info-right: calc(env(safe-area-inset-right, 0px) + 1.76rem);
+    --mobile-header-control-top: calc(
+        var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--glass-ring-pad-top, 0px) +
+        var(--workspace-guide-panel-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.64rem
+    );
+  }
+
+  .policy-scroll-page-scroller {
+    --mobile-header-back-left: calc(env(safe-area-inset-left, 0px) - 0.38rem);
+    --mobile-header-title-top: 1.94rem;
+    --mobile-header-control-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) +
+        var(--mobile-header-back-top) - 0.74rem
+    );
+    --mobile-header-control-info-top: calc(
+      var(--policy-scroll-edge-pad-top, 0px) +
+        var(--policy-scroll-overscan-top, 0px) +
+        var(--mobile-header-info-top) - 0.74rem
     );
   }
 
@@ -320,19 +357,45 @@
     font-size: var(--mobile-header-title-font) !important;
     line-height: var(--mobile-header-title-line-height) !important;
     letter-spacing: var(--mobile-header-title-tracking) !important;
+    text-shadow: var(--mobile-header-title-shadow) !important;
+  }
+
+  .invite-modal-content.account-settings-modal-content.glass-mobile-card.mobile-keep-desktop-glass-cards {
+    --account-settings-mobile-height: calc(
+      var(--glass-mobile-root-vh, 100dvh) -
+        var(--mobile-safe-top, env(safe-area-inset-top, 0px)) -
+        var(--mobile-safe-bottom, env(safe-area-inset-bottom, 0px)) -
+        var(--mobile-glass-card-gap, 0.35rem) -
+        var(--mobile-glass-card-gap, 0.35rem)
+    );
+    height: var(--account-settings-mobile-height) !important;
+    min-height: var(--account-settings-mobile-height) !important;
+    max-height: var(--account-settings-mobile-height) !important;
+  }
+
+  .account-settings-modal-content .account-modal-title-wrap {
+    flex: 0 0 auto !important;
+  }
+
+  .account-settings-modal-content .invite-modal-scroll {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem) !important;
+    scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem) !important;
   }
 
   .chat-mobile-topnav .mobile-shared-topnav-title {
     color: var(--title-color, var(--brand-primary, #c57171)) !important;
     font-family:
-      var(--font-aino-headline),
       var(--font-aino),
       Arial,
       sans-serif !important;
-    font-size: clamp(1.16rem, 4.65vw, 1.34rem) !important;
+    font-size: clamp(1.36rem, 5.5vw, 1.54rem) !important;
     font-weight: 450 !important;
     line-height: var(--mobile-header-title-line-height) !important;
     letter-spacing: var(--mobile-header-title-tracking) !important;
-    text-shadow: var(--glass-modal-title-shadow) !important;
+    text-shadow: none !important;
   }
 }

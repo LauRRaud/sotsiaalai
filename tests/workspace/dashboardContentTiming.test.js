@@ -14,10 +14,21 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   const pageInfoCss = readSource("components/ui/PageInfoButton.module.css");
 
   assert.match(chatBodySource, /const WORKSPACE_SURFACE_SETTLE_MS = 680;/);
-  assert.match(chatBodySource, /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(false\);/);
+  assert.match(
+    chatBodySource,
+    /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(\(\) => initialWorkspaceOpenFromSearch\);/
+  );
+  assert.match(
+    chatBodySource,
+    /const \[workspaceSuppressOpenTransition,\s*setWorkspaceSuppressOpenTransition\] = useState\(\(\) => initialWorkspaceOpenFromSearch\);/
+  );
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(false\);[\s\S]*?if \(!workspaceOpen\) return;/);
   assert.match(chatBodySource, /setWorkspaceSurfaceReady\(true\);[\s\S]*?WORKSPACE_SURFACE_SETTLE_MS/);
-  assert.match(chatBodySource, /workspaceSurfaceReady=\{workspaceSurfaceReady\}/);
+  assert.match(
+    chatBodySource,
+    /const workspacePanelVisible =[\s\S]*?workspaceOpen && \(workspaceSurfaceReady \|\| workspaceSuppressOpenTransition\);/
+  );
+  assert.match(chatBodySource, /workspaceSurfaceReady=\{workspacePanelVisible\}/);
 
   assert.match(chatBodyViewSource, /workspaceSurfaceReady,/);
   assert.match(chatBodyViewSource, /<WorkspacePanel[\s\S]*?visible=\{workspaceSurfaceReady\}/);
@@ -37,7 +48,7 @@ test("chat workspace keeps dashboard content visually stable while the glass sur
   assert.doesNotMatch(pageInfoCss, /page-info-corner-reveal/);
   assert.match(
     workspaceCss,
-    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--mobile-header-control-top,\s*0\.05rem\)\s*!important;/
+    /\.backButton\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top,\s*0\.05rem\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     workspaceCss,
@@ -166,11 +177,23 @@ test("restored workspace returns already settled without replaying the dashboard
 
   assert.match(
     chatBodySource,
-    /const workspaceRestoredOpenRef = useRef\(false\);/
+    /const initialWorkspaceOpenFromSearch =[\s\S]*?Boolean\(String\(searchParams\.get\("workspace"\) \|\| ""\)\.trim\(\)\);/
   );
   assert.match(
     chatBodySource,
-    /const \[workspaceSuppressOpenTransition,\s*setWorkspaceSuppressOpenTransition\] = useState\(false\);/
+    /const \[workspaceOpen,\s*setWorkspaceOpen\] = useState\(\(\) => initialWorkspaceOpenFromSearch\);/
+  );
+  assert.match(
+    chatBodySource,
+    /const \[workspaceSurfaceReady,\s*setWorkspaceSurfaceReady\] = useState\(\(\) => initialWorkspaceOpenFromSearch\);/
+  );
+  assert.match(
+    chatBodySource,
+    /const \[workspaceSuppressOpenTransition,\s*setWorkspaceSuppressOpenTransition\] = useState\(\(\) => initialWorkspaceOpenFromSearch\);/
+  );
+  assert.match(
+    chatBodySource,
+    /const workspaceRestoredOpenRef = useRef\(initialWorkspaceOpenFromSearch\);/
   );
   assert.match(
     chatBodySource,
@@ -182,7 +205,20 @@ test("restored workspace returns already settled without replaying the dashboard
   );
   assert.match(
     chatBodySource,
+    /if \(workspaceSuppressOpenTransition\) \{[\s\S]*?setWorkspaceSurfaceReady\(true\);[\s\S]*?return;[\s\S]*?\}/
+  );
+  assert.match(
+    chatBodySource,
+    /const workspacePanelVisible =[\s\S]*?workspaceOpen && \(workspaceSurfaceReady \|\| workspaceSuppressOpenTransition\);/
+  );
+  assert.match(chatBodySource, /workspaceSurfaceReady=\{workspacePanelVisible\}/);
+  assert.match(
+    chatBodySource,
     /workspaceSuppressOpenTransition[\s\S]*?"chat-container--workspace-restore-no-transition"/
+  );
+  assert.match(
+    chatBodySource,
+    /layoutTransitionsReady && !prefs\?\.reduceMotion && !workspaceSuppressOpenTransition[\s\S]*?transition:border-top-left-radius/
   );
   assert.match(
     readSource("app/styles/components/chat-focus.css"),
@@ -224,12 +260,18 @@ test("workspace card navigation keeps supported subpages inside the same glass p
     workspaceSource,
     /router\.prefetch\?\.\(href\)/
   );
+  assert.match(workspaceSource, /const WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY = "__SOTSIAALAI_WORKSPACE_SUBPAGE_ENTRY__";/);
+  assert.match(
+    workspaceSource,
+    /function markWorkspaceSubpageEntry\(path\) \{[\s\S]*?source:\s*"workspace"[\s\S]*?url\.searchParams\.set\("workspace",\s*"1"\);[\s\S]*?window\.history\.replaceState/
+  );
+  assert.match(navigateToMatch[1], /markWorkspaceSubpageEntry\(path\);[\s\S]*?router\.push\(href\);/);
   assert.match(
     workspaceSource,
     /for \(const path of WORKSPACE_ROUTE_PREFETCH_PATHS\) \{[\s\S]*?router\.prefetch\(localizePath\(path,\s*locale\)\);/
   );
   assert.match(navigateToMatch[1], /router\.push\(href\);/);
-  assert.match(navigateToMatch[1], /window\.location\.assign\(href\);/);
+  assert.doesNotMatch(navigateToMatch[1], /window\.location\.assign\(href\);/);
   assert.doesNotMatch(navigateToMatch[1], /workspacePanelMorph/);
   assert.match(workspaceSource, /activeEmbeddedFeature === "documents"[\s\S]*?<DocumentsPage[\s\S]*?embedded/);
   assert.match(workspaceSource, /activeEmbeddedFeature === "document_drafting"[\s\S]*?<AgentModePage[\s\S]*?embedded/);
@@ -409,10 +451,28 @@ test("workspace subpage back controls mark the dashboard for instant restore", (
   const documentsSource = readSource("components/documents/DocumentsPage.jsx");
   const agentSource = readSource("components/agent/AgentModePage.jsx");
   const covisionSource = readSource("components/covision/CovisionPage.jsx");
+  const wellbeingSource = readSource("components/wellbeing/WellbeingPage.jsx");
 
   for (const source of [documentsSource, agentSource, covisionSource]) {
     assert.match(source, /const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";?/);
     assert.match(source, /function markChatWorkspaceRestore\(\) \{[\s\S]*?window\.sessionStorage\.setItem\([\s\S]*?CHAT_WORKSPACE_RESTORE_STORAGE_KEY,[\s\S]*?JSON\.stringify\(\{ ts: Date\.now\(\) \}\)[\s\S]*?\);?[\s\S]*?\}/);
     assert.match(source, /const handleBack = useCallback\(\(\) => \{[\s\S]*?markChatWorkspaceRestore\(\);?[\s\S]*?(?:router\.push|pushWithTransition)\(/);
   }
+
+  assert.match(
+    wellbeingSource,
+    /JSON\.stringify\(\{[\s\S]*?ts:\s*Date\.now\(\),[\s\S]*?workspace:\s*true,[\s\S]*?suppressOpenTransition:\s*true,[\s\S]*?source:\s*"wellbeing"[\s\S]*?\}\)/
+  );
+  assert.match(
+    wellbeingSource,
+    /const WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY = "__SOTSIAALAI_WORKSPACE_SUBPAGE_ENTRY__";/
+  );
+  assert.match(
+    wellbeingSource,
+    /function consumeWorkspaceSubpageEntry\(expectedPath\) \{[\s\S]*?window\.sessionStorage\.getItem\(WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY\)[\s\S]*?parsed\?\.source === "workspace" && parsed\?\.path === expectedPath/
+  );
+  assert.match(
+    wellbeingSource,
+    /markChatWorkspaceRestore\(\);[\s\S]*?if \(consumeWorkspaceSubpageEntry\("\/tooheaolu"\)\) \{[\s\S]*?router\.back\(\);[\s\S]*?return;[\s\S]*?\}[\s\S]*?navigate\("\/vestlus\?workspace=1"\);/
+  );
 });

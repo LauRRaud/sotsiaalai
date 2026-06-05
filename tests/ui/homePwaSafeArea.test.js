@@ -12,6 +12,7 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   const mobileCss = readMobileCssBundle();
   const mobileIndexCss = read("app/styles/mobile/index.css");
   const mobileBackgroundCss = read("app/styles/mobile/background-home.css");
+  const mobileChatBootstrapCss = read("app/styles/mobile/chat-bootstrap.css");
   const mobileFoundationsCss = read("app/styles/mobile/foundations.css");
   const mobilePolicyScrollCss = read("app/styles/mobile/policy-scroll.css");
   const mobileModalSurfaceCss = read("app/styles/mobile/modal-surfaces.css");
@@ -22,6 +23,7 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   const backgroundLayer = read("components/backgrounds/BackgroundLayer.jsx");
   const clickPulseCursor = read("components/ClickPulseCursor.jsx");
   const viewportLayoutSetter = read("components/ViewportLayoutSetter.jsx");
+  const providers = read("app/providers.jsx");
   const manifest = read("public/site.webmanifest");
   const layout = read("app/layout.js");
   const cssFilesWithoutPwaLayout = [
@@ -55,10 +57,11 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     "mobile homepage hero should keep the cards in their original upper position"
   );
   assert.match(globalsCss, /@import url\("\.\/mobile\/index\.css"\) screen and \(max-width: 768px\);/);
+  assert.match(globalsCss, /@import url\("\.\/mobile\/chat-bootstrap\.css"\);/);
   assert.match(mobileIndexCss, /@import url\("\.\.\/mobile\.css"\);/);
   assert.doesNotMatch(mobileIndexCss, /mobile-background\.css/);
-  assert.match(mobileCss, /--mobile-background-prepaint:\s*#000;/);
-  assert.match(mobileBackgroundCss, /html\[data-app-prepaint\][\s\S]*?background:\s*var\(--mobile-background-prepaint\)\s*!important;/);
+  assert.doesNotMatch(mobileCss, /data-app-prepaint|mobile-background-prepaint/);
+  assert.doesNotMatch(mobileBackgroundCss, /data-app-prepaint|mobile-background-prepaint/);
   assert.doesNotMatch(cssFilesWithoutPwaLayout, /data-display-mode="standalone"/);
   assert.doesNotMatch(cssFilesWithoutPwaLayout, /data-display-mode="fullscreen"/);
   assert.doesNotMatch(cssFilesWithoutPwaLayout, /--pwa-/);
@@ -66,11 +69,23 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     mobileBackgroundCss,
     /\[data-bg-layer\]\[data-mobile-bends="ready"\] \.bg-bends-layer,[\s\S]*?\.bg-particles-layer\[data-mobile-visible="ready"\][\s\S]*?transition-duration:\s*var\(--mobile-background-reveal-duration\),\s*0s\s*!important;/
   );
-  assert.match(backgroundLayer, /const INITIAL_PREPAINT_MAX_MS = 2400;/);
   assert.match(
-    backgroundLayer,
-    /window\.setTimeout\(\(\) => \{[\s\S]*?root\.removeAttribute\("data-app-prepaint"\);[\s\S]*?\}, INITIAL_PREPAINT_MAX_MS\)/
+    mobileBackgroundCss,
+    /\[data-bg-layer\]\[data-page="subpage"\] \.bg-bends-layer\s*\{[\s\S]*?transition-duration:\s*0s,\s*0s\s*!important;/
   );
+  assert.match(
+    mobileBackgroundCss,
+    /\[data-bg-layer\]\[data-page="subpage"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible\s*!important;/
+  );
+  assert.doesNotMatch(
+    mobileBackgroundCss,
+    /\[data-bg-layer\]\[data-page="home"\] \.particles-container\s*\{[\s\S]*?height:\s*100%/
+  );
+  assert.match(
+    mobileChatBootstrapCss,
+    /html\[data-layout="mobile"\] \.chat-page-shell \.chat-input-row:not\(\.chat-input-row--embedded\)\s*\{[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?bottom:\s*calc\([\s\S]*?var\(--chat-composer-mobile-bottom-base,\s*2\.5rem\)[\s\S]*?var\(--chat-vk-offset,\s*0px\)[\s\S]*?\)\s*!important;/
+  );
+  assert.doesNotMatch(backgroundLayer, /INITIAL_PREPAINT_MAX_MS|data-app-prepaint/);
   assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.addEventListener\("scroll"/);
   assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.removeEventListener\("scroll"/);
   assert.match(
@@ -85,6 +100,10 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     viewportLayoutSetter,
     /const syncAfterRouteRestore = \(\) => \{[\s\S]*?applyLayoutFlag\(window\.matchMedia\?\.\(MOBILE_QUERY\)\?\.matches \?\? window\.innerWidth <= 768\);[\s\S]*?applyVhVar\(stableLayoutHeightRef\.current\);[\s\S]*?\};[\s\S]*?\}, \[pathname\]\);/
   );
+  assert.match(providers, /const timers = \[80, 220, 520\]\.map\(delay => window\.setTimeout\(clearIfStale, delay\)\);/);
+  assert.match(providers, /window\.addEventListener\("resize", clearIfStale\);/);
+  assert.match(providers, /window\.visualViewport\?\.addEventListener\("resize", clearIfStale\);/);
+  assert.match(providers, /window\.addEventListener\("pageshow", clearIfStale\);/);
   assert.match(
     clickPulseCursor,
     /window\.matchMedia\?\.\("\(hover: hover\) and \(pointer: fine\)"\)/
@@ -105,13 +124,27 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.match(manifest, /"background_color": "#6f5853"/);
   assert.match(manifest, /"theme_color": "#6f5853"/);
   assert.match(layout, /themeColor:\s*\[[\s\S]*?\{ media:\s*"\(prefers-color-scheme: light\)",\s*color:\s*"#f4f2ee" \}[\s\S]*?\{ media:\s*"\(prefers-color-scheme: dark\)",\s*color:\s*"#101010" \}/);
-  assert.match(layout, /const APP_PREPAINT_GUARD_SCRIPT = `\(function \(\) \{/);
-  assert.match(layout, /function syncLayoutFlag\(\) \{[\s\S]*?root\.setAttribute\("data-layout", "mobile"\);[\s\S]*?body\.setAttribute\("data-layout", "mobile"\);[\s\S]*?root\.removeAttribute\("data-layout"\);/);
+  assert.doesNotMatch(layout, /data-app-prepaint|APP_PREPAINT_GUARD_SCRIPT|app-prepaint-guard/);
+  assert.match(layout, /const LAYOUT_INIT_SCRIPT = `\(function \(\) \{/);
+  assert.match(layout, /function syncLayoutFlag\(\) \{[\s\S]*?root\.setAttribute\("data-layout", "mobile"\);[\s\S]*?root\.removeAttribute\("data-layout"\);[\s\S]*?\}/);
+  assert.doesNotMatch(layout, /body\.setAttribute\("data-layout", "mobile"\)/);
+  assert.doesNotMatch(layout, /body\.removeAttribute\("data-layout"\)/);
   assert.match(layout, /syncLayoutFlag\(\);[\s\S]*?window\.requestAnimationFrame\(syncLayoutFlag\);/);
   assert.match(layout, /window\.addEventListener\("resize", syncLayoutFlag\);/);
-  assert.match(layout, /function clearAppPrepaint\(\) \{[\s\S]*?root\.removeAttribute\("data-app-prepaint"\);[\s\S]*?\}/);
-  assert.match(layout, /window\.addEventListener\("pagehide", function \(\) \{[\s\S]*?window\.clearTimeout\(fallbackTimer\);[\s\S]*?clearAppPrepaint\(\);[\s\S]*?\}\);/);
-  assert.match(layout, /window\.addEventListener\("pageshow", function \(event\) \{[\s\S]*?syncLayoutFlag\(\);[\s\S]*?if \(event && event\.persisted\) clearAppPrepaint\(\);[\s\S]*?\}\);/);
-  assert.match(layout, /<script[\s\S]*?id="app-prepaint-guard"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: APP_PREPAINT_GUARD_SCRIPT \}\}/);
+  assert.doesNotMatch(layout, /clearAppPrepaint|fallbackTimer|pagehide/);
+  assert.match(layout, /window\.addEventListener\("pageshow", function \(\) \{[\s\S]*?syncLayoutFlag\(\);[\s\S]*?\}\);/);
+  assert.match(layout, /<script[\s\S]*?id="app-layout-init"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: LAYOUT_INIT_SCRIPT \}\}/);
+  assert.match(
+    mobileFoundationsCss,
+    /html\[data-layout="mobile"\] \[data-bg-layer\]\[data-page="subpage"\],[\s\S]*?body\[data-layout="mobile"\] \[data-bg-layer\]\[data-page="subpage"\]\s*\{[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?min-height:\s*100dvh\s*!important;/
+  );
+  assert.match(
+    mobileFoundationsCss,
+    /html\[data-layout="mobile"\][\s\S]*?\[data-bg-layer\]\[data-page="subpage"\][\s\S]*?:is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\),[\s\S]*?body\[data-layout="mobile"\][\s\S]*?\[data-bg-layer\]\[data-page="subpage"\][\s\S]*?:is\(\.bg-space-layer,\s*\.space-backdrop,\s*\.bg-bends-layer,\s*\.bg-particles-layer\)\s*\{[\s\S]*?top:\s*0\s*!important;[\s\S]*?bottom:\s*0\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+  );
+  assert.doesNotMatch(
+    mobileFoundationsCss,
+    /:is\([\s\S]*?\.particles-container[\s\S]*?\)\s*\{[\s\S]*?height:\s*100%\s*!important;/
+  );
   assert.doesNotMatch(mobileCss, /--home-safe-area-bg/);
 });

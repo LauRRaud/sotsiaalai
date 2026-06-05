@@ -13,7 +13,7 @@ test("mobile orbital stack list has no PWA-specific display mode override", () =
   assert.match(css, /\.profile-orbit-stack-list/);
   assert.match(
     css,
-    /\.profile-orbit-stack-panel\s*\{[\s\S]*?overflow:\s*visible;[\s\S]*?--orbit-stack-panel-mask:\s*none;[\s\S]*?-webkit-mask-image:\s*none;[\s\S]*?mask-image:\s*none;/
+    /\.profile-orbit-stack-panel\s*\{[\s\S]*?overflow:\s*visible;[\s\S]*?padding-top:\s*0;[\s\S]*?padding-bottom:\s*0;[\s\S]*?--orbit-stack-panel-mask:\s*none;[\s\S]*?-webkit-mask-image:\s*none;[\s\S]*?mask-image:\s*none;/
   );
   assert.match(
     css,
@@ -21,7 +21,7 @@ test("mobile orbital stack list has no PWA-specific display mode override", () =
   );
   assert.match(
     css,
-    /\.profile-orbit-stack-list\s*\{[\s\S]*?--stack-edge-fade:\s*0rem;[\s\S]*?padding-top:\s*0;[\s\S]*?padding-bottom:\s*0;[\s\S]*?--orbit-stack-list-mask:\s*none;[\s\S]*?-webkit-mask-image:\s*none;[\s\S]*?mask-image:\s*none;/
+    /\.profile-orbit-stack-list\s*\{[\s\S]*?--stack-safe-pad-top:\s*clamp\(4\.5rem,\s*10vh,\s*5\.85rem\);[\s\S]*?--stack-safe-pad-bottom:\s*clamp\(5\.25rem,\s*11\.5vh,\s*7rem\);[\s\S]*?padding-top:\s*var\(--stack-safe-pad-top\)\s*!important;[\s\S]*?padding-bottom:\s*var\(--stack-safe-pad-bottom\)\s*!important;[\s\S]*?--orbit-stack-list-mask:\s*none;[\s\S]*?-webkit-mask-image:\s*none;[\s\S]*?mask-image:\s*none;/
   );
   assert.doesNotMatch(
     css,

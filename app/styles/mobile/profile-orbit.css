@@ -282,8 +282,8 @@
       var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     );
-    padding-top: clamp(0.36rem, 1.15vh, 0.62rem);
-    padding-bottom: clamp(0.34rem, 1.1vh, 0.6rem);
+    padding-top: 0;
+    padding-bottom: 0;
     padding-left: clamp(0.8rem, 3vw, 1rem);
     padding-right: clamp(0.8rem, 3vw, 1rem);
     --orbit-stack-panel-fade-top: 0rem;
@@ -325,13 +325,8 @@
     bottom: 0;
   }
   .profile-orbit-stack-list {
-    --stack-edge-fade: 0rem;
-    --stack-safe-pad-top: calc(
-      var(--stack-edge-fade) + clamp(0.14rem, 0.45vh, 0.32rem)
-    );
-    --stack-safe-pad-bottom: calc(
-      var(--stack-edge-fade) + clamp(0.14rem, 0.45vh, 0.32rem)
-    );
+    --stack-safe-pad-top: clamp(4.5rem, 10vh, 5.85rem);
+    --stack-safe-pad-bottom: clamp(5.25rem, 11.5vh, 7rem);
     position: relative;
     z-index: 2;
     flex: 1;
@@ -340,8 +335,8 @@
     overflow-y: auto;
     overscroll-behavior-y: contain;
     scroll-behavior: auto;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: var(--stack-safe-pad-top) !important;
+    padding-bottom: var(--stack-safe-pad-bottom) !important;
     gap: clamp(1.75rem, 4vh, 2.8rem) !important;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;

@@ -77,7 +77,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
   );
   assert.match(
     mobileHeaderCss,
-    /\.policy-scroll-page-scroller\s*\{[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top,\s*0px\)[\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\) - 0\.54rem[\s\S]*?\);/
+    /\.policy-scroll-page-scroller\s*\{[\s\S]*?--mobile-header-back-left:\s*calc\(env\(safe-area-inset-left,\s*0px\) - 0\.38rem\);[\s\S]*?--mobile-header-title-top:\s*1\.94rem;[\s\S]*?--mobile-header-control-top:\s*calc\([\s\S]*?var\(--policy-scroll-edge-pad-top,\s*0px\)[\s\S]*?var\(--policy-scroll-overscan-top,\s*0px\)[\s\S]*?var\(--mobile-header-back-top\) - 0\.74rem[\s\S]*?\);/
   );
   assert.match(
     mobileHeaderCss,

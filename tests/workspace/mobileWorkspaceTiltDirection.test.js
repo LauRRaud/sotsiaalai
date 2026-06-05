@@ -32,6 +32,7 @@ test("workspace dashboard card navigation uses plain route push without tilt or 
     navigateToMatch[1],
     /router\.push\(href\);/
   );
+  assert.doesNotMatch(navigateToMatch[1], /window\.location\.assign\(href\);/);
 });
 
 test("workspace dashboard back button closes the in-chat workspace", () => {

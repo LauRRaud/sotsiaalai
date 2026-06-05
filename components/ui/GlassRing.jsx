@@ -125,6 +125,7 @@ const GlassRing = forwardRef(function GlassRing(
     };
     const onRouteTransition = event => {
       const detail = event?.detail ?? {};
+      if (detail?.workspacePanelMorph) return;
       const nextDirection = detail?.glassRingTilt;
       startTilt(nextDirection);
     };

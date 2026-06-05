@@ -118,14 +118,45 @@
     overflow: hidden;
   }
 
+  html[data-layout="mobile"] [data-bg-layer][data-page="subpage"],
+  body[data-layout="mobile"] [data-bg-layer][data-page="subpage"] {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+  }
+
+  html[data-layout="mobile"]
+    [data-bg-layer][data-page="subpage"]
+    :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer),
+  body[data-layout="mobile"]
+    [data-bg-layer][data-page="subpage"]
+    :is(.bg-space-layer, .space-backdrop, .bg-bends-layer, .bg-particles-layer) {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    will-change: auto !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+
   html[data-layout="mobile"]
     [data-bg-layer]
     :is(
       .bg-space-layer,
       .space-backdrop,
       .bg-bends-layer,
-      .bg-particles-layer,
-      .particles-container
+      .bg-particles-layer
     ),
   body[data-layout="mobile"]
     [data-bg-layer]
@@ -133,8 +164,7 @@
       .bg-space-layer,
       .space-backdrop,
       .bg-bends-layer,
-      .bg-particles-layer,
-      .particles-container
+      .bg-particles-layer
     ) {
     height: 100% !important;
     min-height: 100% !important;
@@ -183,6 +213,8 @@
     --glass-ring-sheen: none;
     --glass-ring-edge-stroke-width: 0px;
     --glass-ring-edge-stroke-opacity: 0;
+    --glass-shell-shadow: none !important;
+    --glass-modal-shadow: none !important;
     width: calc(
       100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
@@ -222,6 +254,22 @@
       1.4vh,
       calc(1.1 * var(--base-rem))
     );
+  }
+
+  :root.theme-mid .glass-ring.glass-ring--desktop-stable,
+  :root.theme-light .glass-ring.glass-ring--desktop-stable,
+  :root.theme-night .glass-ring.glass-ring--desktop-stable,
+  :root.theme-mono .glass-ring.glass-ring--desktop-stable,
+  .glass-ring.glass-ring--desktop-stable,
+  .glass-subpage-surface,
+  .workspace-feature-panel.workspace-scroll-surface,
+  .wellbeing-page-surface,
+  .mobile-keep-desktop-glass-cards {
+    --glass-shell-shadow: none !important;
+    --glass-modal-shadow: none !important;
+    --mid-shell-soft-shadow: none !important;
+    box-shadow: none !important;
+    filter: none !important;
   }
 }
 

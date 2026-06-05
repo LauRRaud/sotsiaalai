@@ -159,6 +159,8 @@ const accountModalContentClassName =
   `!w-[var(--ring-diameter,var(--ring-diameter-default))] !min-w-[var(--ring-diameter,var(--ring-diameter-default))] !h-[var(--ring-diameter,var(--ring-diameter-default))] !min-h-[var(--ring-diameter,var(--ring-diameter-default))] !max-w-[var(--ring-diameter,var(--ring-diameter-default))] !max-h-[var(--ring-diameter,var(--ring-diameter-default))] !aspect-square !rounded-full ` +
   `max-[768px]:!min-w-0 max-[768px]:!min-h-0 max-[768px]:!aspect-auto max-[768px]:!rounded-[var(--mobile-glass-card-radius,clamp(1.05rem,3.8vw,1.45rem))] ` +
   `![border:none] !bg-[color:var(--glass-ring-surface-bg,var(--glass-surface-bg,rgba(0,0,0,0.25)))] !shadow-[var(--glass-shell-shadow,none)] ` +
+  `max-[768px]:[--account-settings-mobile-height:calc(var(--glass-mobile-root-vh,100dvh)-var(--mobile-safe-top,env(safe-area-inset-top,0px))-var(--mobile-safe-bottom,env(safe-area-inset-bottom,0px))-var(--mobile-glass-card-gap,0.35rem)-var(--mobile-glass-card-gap,0.35rem))] ` +
+  `max-[768px]:!h-[var(--account-settings-mobile-height)] max-[768px]:!min-h-[var(--account-settings-mobile-height)] max-[768px]:!max-h-[var(--account-settings-mobile-height)] ` +
   `pt-[clamp(2.35rem,4.5vh,3.35rem)] !px-[clamp(2rem,4vw,3rem)] !pb-[clamp(1.55rem,3.2vh,2.25rem)] ` +
   `text-[1.12rem] leading-[1.35] tracking-[0.03rem] ` +
   `max-[768px]:text-[1.18rem] max-[768px]:leading-[1.4] ` +

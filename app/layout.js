@@ -144,7 +144,7 @@ const THEME_INIT_SCRIPT = `(function () {
   );
   applyHomeFlag();
 })();`;
-const APP_PREPAINT_GUARD_SCRIPT = `(function () {
+const LAYOUT_INIT_SCRIPT = `(function () {
   var root = document.documentElement;
   if (!root) return;
   function isMobileViewport() {
@@ -154,30 +154,18 @@ const APP_PREPAINT_GUARD_SCRIPT = `(function () {
     return window.innerWidth <= 768;
   }
   function syncLayoutFlag() {
-    var body = document.body;
     if (isMobileViewport()) {
       root.setAttribute("data-layout", "mobile");
-      if (body) body.setAttribute("data-layout", "mobile");
     } else {
       root.removeAttribute("data-layout");
-      if (body) body.removeAttribute("data-layout");
     }
-  }
-  function clearAppPrepaint() {
-    root.removeAttribute("data-app-prepaint");
   }
   syncLayoutFlag();
   window.requestAnimationFrame(syncLayoutFlag);
-  var fallbackTimer = window.setTimeout(clearAppPrepaint, 2400);
   window.addEventListener("resize", syncLayoutFlag);
   window.visualViewport && window.visualViewport.addEventListener("resize", syncLayoutFlag);
-  window.addEventListener("pagehide", function () {
-    window.clearTimeout(fallbackTimer);
-    clearAppPrepaint();
-  });
-  window.addEventListener("pageshow", function (event) {
+  window.addEventListener("pageshow", function () {
     syncLayoutFlag();
-    if (event && event.persisted) clearAppPrepaint();
   });
   window.addEventListener("load", syncLayoutFlag);
 })();`;
@@ -303,15 +291,15 @@ export default async function RootLayout({
   const initialTheme = initialA11yPrefs?.theme || "mono";
   const initialUiProfile = normalizeUiProfile(initialA11yPrefs?.uiProfile);
   const initialTextScale = normalizeTextScale(initialA11yPrefs?.uiScale);
-  return <html lang={locale} data-app-prepaint="1" data-theme-mode={initialTheme} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialTheme === "light" || initialTheme === "mid" ? "theme-light" : ""} ${initialTheme === "mid" ? "theme-mid" : ""} ${initialTheme === "night" ? "theme-night" : ""} ${initialTheme === "mono" ? "theme-mono" : ""}`.trim()} suppressHydrationWarning>
+  return <html lang={locale} data-theme-mode={initialTheme} data-color-theme={initialA11yPrefs?.colorTheme || "default"} data-ui-scale={initialUiProfile} data-ui-profile={initialUiProfile} data-text-scale={initialTextScale} data-ui-scale-auto="0" data-contrast={initialA11yPrefs?.contrast || "normal"} data-reduce-motion={initialA11yPrefs?.reduceMotion ? "1" : "0"} data-reduce-transparency={initialA11yPrefs?.reduceTransparency ? "1" : "0"} className={`${aino.variable} ${ainoHeadline.variable} ${initialTheme === "light" || initialTheme === "mid" ? "theme-light" : ""} ${initialTheme === "mid" ? "theme-mid" : ""} ${initialTheme === "night" ? "theme-night" : ""} ${initialTheme === "mono" ? "theme-mono" : ""}`.trim()} suppressHydrationWarning>
       <head>
         <meta
           name="format-detection"
           content="telephone=no, email=no, address=no, date=no"
         />
         <script
-          id="app-prepaint-guard"
-          dangerouslySetInnerHTML={{ __html: APP_PREPAINT_GUARD_SCRIPT }}
+          id="app-layout-init"
+          dangerouslySetInnerHTML={{ __html: LAYOUT_INIT_SCRIPT }}
         />
         <Script id="ui-scale-init" strategy="beforeInteractive">
           {UI_SCALE_INIT_SCRIPT}

@@ -189,3 +189,59 @@ test("workspace handoff delays are desktop-only", async () => {
     globalThis.document = previousDocument;
   }
 });
+
+test("workspace morph transitions do not persist glass-ring tilt markers", async () => {
+  const { pushWithTransition } = await import("../../lib/routeTransition.js");
+  const previousWindow = globalThis.window;
+  const previousDocument = globalThis.document;
+  const stored = [];
+
+  globalThis.window = {
+    sessionStorage: {
+      setItem(key, value) {
+        stored.push({ key, value });
+      },
+      removeItem() {}
+    },
+    dispatchEvent() {},
+    setTimeout(callback) {
+      callback();
+      return 1;
+    },
+    clearTimeout() {},
+    matchMedia() {
+      return { matches: false };
+    },
+    innerWidth: 1280
+  };
+  globalThis.document = {
+    documentElement: {
+      getAttribute() {
+        return "desktop";
+      }
+    },
+    body: {
+      getAttribute() {
+        return "desktop";
+      }
+    }
+  };
+
+  try {
+    pushWithTransition(
+      {
+        push() {}
+      },
+      "/tooheaolu",
+      {
+        glassRingTilt: "right",
+        workspacePanelMorph: "content-handoff"
+      }
+    );
+
+    assert.deepEqual(stored, []);
+  } finally {
+    globalThis.window = previousWindow;
+    globalThis.document = previousDocument;
+  }
+});

@@ -15,4 +15,5 @@
 @import url("./theme/mono.css");
 @import url("./theme/hc.css");
 @import url("./utilities/helpers.css");
+@import url("./mobile/chat-bootstrap.css");
 @import url("./mobile/index.css") screen and (max-width: 768px);

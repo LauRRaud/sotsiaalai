@@ -1237,6 +1237,7 @@
       "wellbeing_page": {
         "title": "Tööheaolu",
         "info_label": "Ava Tööheaolu info",
+        "tool_info_label": "Ava tööriista info",
         "back_label": "Tagasi",
         "tools_label": "Tööheaolu tööriistad",
         "placeholder": "Töövoog lisandub järgmises etapis.",
@@ -2429,6 +2430,10 @@
         "wellbeing": {
           "title": "Tööheaolu",
           "body": "Tööheaolu tööriistad aitavad sotsiaalvaldkonna spetsialistil märgata töökoormust, emotsionaalset koormust, taastumise vajadust, korduvaid katkestusi ja keeruliste juhtumite mõju. Tööruumis saab teha kiirkontrolli, vaadata nädala või kuu ülevaadet, märkida raske juhtum, käsitleda töövägivalla olukorda ning sõnastada taastumise, tööpiiride, katkestuste, tööprotsesside, rollipiiride ja alustaja toe järgmisi samme."
+        },
+        "wellbeing_quick_check": {
+          "title": "Kiirkontroll",
+          "body": "Kiirkontroll aitab kiiresti märgata töökoormuse, taastumise ja emotsionaalse pinge seisu ning valida järgmise väikese sammu."
         },
         "materials_adding": {
           "title": "Materjalide lisamine",
@@ -4350,21 +4355,21 @@
     },
     "quick_check": {
       "title": "Kiirkontroll",
-      "intro": "Kiirkontroll aitab kiiresti m?rgata t??koormuse, taastumise ja emotsionaalse pinge seisu ning valida j?rgmise v?ikese sammu.",
-      "risk_support": "Riskim?rgid ja toe vajadus",
-      "difficult_case_marker": "Raske juhtum, mida ei peaks ?ksi kandma",
-      "covision_need": "Vajab kovisiooni v?i kolleegituge",
+      "intro": "Kiirkontroll aitab kiiresti märgata töökoormuse, taastumise ja emotsionaalse pinge seisu ning valida järgmise väikese sammu.",
+      "risk_support": "Riskimärgid ja toe vajadus",
+      "difficult_case_marker": "Raske juhtum, mida ei peaks üksi kandma",
+      "covision_need": "Vajab kovisiooni või kolleegituge",
       "support_need": "Vajab juhiga toe kokkulepet",
-      "output_heading": "Praktiline v?ljund",
+      "output_heading": "Praktiline väljund",
       "load_factors": "Koormustegurid",
-      "no_load_factors": "K?rgeid koormustegureid ei ilmnenud.",
+      "no_load_factors": "Kõrgeid koormustegureid ei ilmnenud.",
       "resource_factors": "Puuduvad ressursid",
-      "no_resource_factors": "P?hiressursid paistavad olemas.",
-      "risk_markers": "Riskim?rgid",
-      "no_risk_markers": "Eraldi riskim?rki ei m?rgitud.",
+      "no_resource_factors": "Põhiressursid paistavad olemas.",
+      "risk_markers": "Riskimärgid",
+      "no_risk_markers": "Eraldi riskimärki ei märgitud.",
       "save": "Salvesta kiirkontroll",
-      "no_actions": "J?tka praeguste kokkulepete hoidmist ja tee uus kiirkontroll hiljem.",
-      "privacy": "Kiirkontroll salvestub privaatselt. Jaga selle p?hjal tehtud t?helepanekuid alles siis, kui oled sisu ?le vaadanud."
+      "no_actions": "Jätka praeguste kokkulepete hoidmist ja tee uus kiirkontroll hiljem.",
+      "privacy": "Kiirkontroll salvestub privaatselt. Jaga selle põhjal tehtud tähelepanekuid alles siis, kui oled sisu üle vaadanud."
     },
     "hard_case": {
       "title": "Raske juhtum",

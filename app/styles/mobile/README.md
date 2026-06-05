@@ -3,8 +3,9 @@
 `app/styles/mobile/index.css` is the only global mobile entry imported from `globals.css`.
 
 - `../mobile.css` is the compatibility wrapper for the old mobile monolith. It imports owner files in cascade order.
+- `chat-bootstrap.css` owns critical mobile chat composer anchoring keyed off the early `data-layout="mobile"` script; it is imported globally because it must run before route hydration.
 - `subpage-title-system.css` owns shared mobile header placement and title fitting: title, back button and optional info button.
-- `background-home.css` owns mobile home background behavior and app prepaint reveal.
+- `background-home.css` owns mobile home background behavior and reveal transitions.
 - `accessibility-modal-fields.css` owns accessibility modal fieldset spacing.
 - `login-modal.css` and `login-otp-close.css` own login and OTP modal mobile placement.
 - `modal-surfaces.css` owns mobile glass modal surfaces for invite, subscription, help listings, materials and framework pages.

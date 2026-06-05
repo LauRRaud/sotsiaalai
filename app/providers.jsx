@@ -11,8 +11,25 @@ function RouteScrollReset() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
-    clearStaleScrollLock();
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    const clearIfStale = () => {
+      clearStaleScrollLock();
+    };
+    clearIfStale();
+    const timers = [80, 220, 520].map(delay => window.setTimeout(clearIfStale, delay));
+    window.addEventListener("resize", clearIfStale);
+    window.addEventListener("orientationchange", clearIfStale);
+    window.addEventListener("pageshow", clearIfStale);
+    window.addEventListener("focus", clearIfStale);
+    window.visualViewport?.addEventListener("resize", clearIfStale);
+    return () => {
+      timers.forEach(timer => window.clearTimeout(timer));
+      window.removeEventListener("resize", clearIfStale);
+      window.removeEventListener("orientationchange", clearIfStale);
+      window.removeEventListener("pageshow", clearIfStale);
+      window.removeEventListener("focus", clearIfStale);
+      window.visualViewport?.removeEventListener("resize", clearIfStale);
+    };
   }, [pathname]);
 
   return null;

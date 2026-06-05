@@ -97,15 +97,17 @@ test("home role card intro is remembered across chat navigation returns", () => 
   assert.doesNotMatch(homePage, /\{showHomeBottomSections \? <div>/);
   assert.match(homeCss, /\.homepage-root \.home-bottom-sections-preintro,[\s\S]*?\.homepage-root \.home-footer-preintro\s*\{[\s\S]*?display:\s*none;/);
   assert.doesNotMatch(homeCss, /@media \(max-width: 768px\)[\s\S]*?home-bottom-sections-preintro/);
-  assert.match(mobileCss, /\.homepage-root \.home-bottom-sections-preintro,[\s\S]*?\.homepage-root \.home-footer-preintro\s*\{[\s\S]*?display:\s*block;/);
+  assert.doesNotMatch(mobileCss, /home-bottom-sections-preintro/);
+  assert.doesNotMatch(mobileCss, /home-footer-preintro/);
   assert.match(
     homePage,
     /window\.addEventListener\("pageshow", check\);[\s\S]*?window\.visualViewport\?\.addEventListener\("resize", check\);/
   );
-  assert.match(
-    homePage,
-    /if \(mobile && !isLoginOpen\) \{[\s\S]*?setShowHomeBottomSections\(true\);[\s\S]*?setShowHomeFooter\(true\);[\s\S]*?\}/
-  );
+  assert.doesNotMatch(homePage, /if \(mobile && !isLoginOpen\)/);
+  assert.match(homePage, /const shouldShow = !isLoginOpen && cardsIntroDone;/);
+  assert.match(homePage, /window\.addEventListener\("wheel", onWheel, \{ passive: true \}\);/);
+  assert.match(homePage, /const hasScrollableAncestor = \(target, deltaY\) => \{[\s\S]*?canScrollElement\(node, deltaY\)[\s\S]*?\};/);
+  assert.match(homePage, /if \(Math\.abs\(afterY - beforeY\) > 0\.5\) return;[\s\S]*?window\.scrollBy\(\{/);
   assert.match(
     homePage,
     /const fallbackTimer = registerTimeout\(\(\) => \{[\s\S]*?if \(!isLoginOpen\) revealHomeBottomSections\(\);[\s\S]*?\}, HOME_FULL_INTRO_REVEAL_FALLBACK_MS\);/

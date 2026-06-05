@@ -47,8 +47,12 @@
 
   html[data-platform="android"] .profile-orbit-stack-list,
   body[data-platform="android"] .profile-orbit-stack-list {
+    --stack-safe-pad-top: clamp(4.65rem, 10.5vh, 6.1rem) !important;
+    --stack-safe-pad-bottom: clamp(5.45rem, 12vh, 7.25rem) !important;
     justify-content: flex-start !important;
     overscroll-behavior-y: auto !important;
+    padding-top: var(--stack-safe-pad-top) !important;
+    padding-bottom: var(--stack-safe-pad-bottom) !important;
     gap: clamp(1.84rem, 4.2vh, 2.92rem) !important;
   }
 
@@ -78,9 +82,9 @@
       var(--glass-mobile-root-vh, 100dvh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
         (2 * var(--mobile-glass-card-gap, 0.35rem))
     ) !important;
-    padding-top: clamp(0.9rem, 2.8vh, 1.25rem) !important;
+    padding-top: 0 !important;
     padding-right: clamp(0.8rem, 3vw, 1rem) !important;
-    padding-bottom: clamp(0.85rem, 2.6vh, 1.2rem) !important;
+    padding-bottom: 0 !important;
     padding-left: clamp(0.8rem, 3vw, 1rem) !important;
     border-radius: var(
       --mobile-glass-card-radius,

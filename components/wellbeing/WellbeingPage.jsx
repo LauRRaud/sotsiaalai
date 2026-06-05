@@ -35,7 +35,6 @@ import {
   workspaceGuidePanelScrollClassName
 } from "@/components/ui/glassPageStyles";
 import { localizePath } from "@/lib/localizePath";
-import { pushWithTransition } from "@/lib/routeTransition";
 import { WELLBEING_INFO_ID, wellbeingTools } from "@/lib/wellbeingTools";
 import workspaceStyles from "@/components/chat/WorkspacePanel.module.css";
 import HardCaseWorkflow from "./HardCaseWorkflow";
@@ -51,6 +50,7 @@ import WorkProcessesWorkflow from "./WorkProcessesWorkflow";
 import styles from "./WellbeingPage.module.css";
 
 const CHAT_WORKSPACE_RESTORE_STORAGE_KEY = "__SOTSIAALAI_CHAT_WORKSPACE_RESTORE__";
+const WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY = "__SOTSIAALAI_WORKSPACE_SUBPAGE_ENTRY__";
 
 const iconMap = {
   BadgeCheck,
@@ -99,9 +99,32 @@ function markChatWorkspaceRestore() {
   try {
     window.sessionStorage.setItem(
       CHAT_WORKSPACE_RESTORE_STORAGE_KEY,
-      JSON.stringify({ ts: Date.now() })
+      JSON.stringify({
+        ts: Date.now(),
+        workspace: true,
+        suppressOpenTransition: true,
+        source: "wellbeing"
+      })
     );
   } catch {}
+}
+
+function consumeWorkspaceSubpageEntry(expectedPath) {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = window.sessionStorage.getItem(WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY);
+    if (!raw) return false;
+    window.sessionStorage.removeItem(WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY);
+    const parsed = JSON.parse(raw);
+    const ts = Number(parsed?.ts || 0);
+    const fresh = Number.isFinite(ts) && Date.now() - ts < 30 * 60 * 1000;
+    return fresh && parsed?.source === "workspace" && parsed?.path === expectedPath;
+  } catch {
+    try {
+      window.sessionStorage.removeItem(WORKSPACE_SUBPAGE_ENTRY_STORAGE_KEY);
+    } catch {}
+    return false;
+  }
 }
 
 function ToolIcon({ name }) {
@@ -116,7 +139,7 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
   const infoId = activeTool?.infoId || WELLBEING_INFO_ID;
 
   const navigate = useCallback((path) => {
-    pushWithTransition(router, localizePath(path, locale));
+    router.push(localizePath(path, locale));
   }, [locale, router]);
 
   const handleBack = useCallback(() => {
@@ -125,8 +148,12 @@ export default function WellbeingPage({ activeTool = null, locale = "et" }) {
       return;
     }
     markChatWorkspaceRestore();
-    navigate("/vestlus");
-  }, [activeTool, navigate]);
+    if (consumeWorkspaceSubpageEntry("/tooheaolu")) {
+      router.back();
+      return;
+    }
+    navigate("/vestlus?workspace=1");
+  }, [activeTool, navigate, router]);
 
   return (
     <div className={cn(shellClassName, styles.page)}>

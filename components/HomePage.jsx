@@ -201,10 +201,6 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
         window.matchMedia?.("(max-width: 768px)")?.matches ??
         window.innerWidth <= 768;
       setIsMobile(mobile);
-      if (mobile && !isLoginOpen) {
-        setShowHomeBottomSections(true);
-        setShowHomeFooter(true);
-      }
     };
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") check();
@@ -266,6 +262,43 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
       root?.removeEventListener("scroll", onScroll);
     };
   }, [isMobile]);
+  useEffect(() => {
+    if (typeof window === "undefined" || !isMobile) return;
+    const canScrollElement = (element, deltaY) => {
+      if (!(element instanceof HTMLElement)) return false;
+      const style = window.getComputedStyle(element);
+      const scrollable = /(auto|scroll)/.test(style.overflowY) && element.scrollHeight > element.clientHeight + 1;
+      if (!scrollable) return false;
+      if (deltaY > 0) return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+      if (deltaY < 0) return element.scrollTop > 0;
+      return false;
+    };
+    const hasScrollableAncestor = (target, deltaY) => {
+      let node = target instanceof HTMLElement ? target : null;
+      while (node && node !== document.body && node !== document.documentElement) {
+        if (canScrollElement(node, deltaY)) return true;
+        node = node.parentElement;
+      }
+      return false;
+    };
+    const onWheel = event => {
+      if (!event.deltaY || isHomeOverlayOpen || isLoginOpen) return;
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
+      if (hasScrollableAncestor(event.target, event.deltaY)) return;
+      const beforeY = window.scrollY || document.documentElement.scrollTop || 0;
+      window.requestAnimationFrame(() => {
+        const afterY = window.scrollY || document.documentElement.scrollTop || 0;
+        if (Math.abs(afterY - beforeY) > 0.5) return;
+        window.scrollBy({
+          top: event.deltaY,
+          left: 0,
+          behavior: "auto"
+        });
+      });
+    };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [isHomeOverlayOpen, isLoginOpen, isMobile]);
   useEffect(() => {
     if (homeA11yReady || typeof window === "undefined") return;
     const activate = () => setHomeA11yReady(true);
@@ -450,7 +483,7 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
         HOME_FOOTER_STAGGER_MS
       );
     };
-    const shouldShow = !isLoginOpen && (isMobile || cardsIntroDone);
+    const shouldShow = !isLoginOpen && cardsIntroDone;
     if (!shouldShow) {
       setShowHomeBottomSections(false);
       setShowHomeFooter(false);

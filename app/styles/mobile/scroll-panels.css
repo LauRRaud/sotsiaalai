@@ -121,7 +121,7 @@
 
   :is(
       .glass-ring:not(.profile-container),
-      .glass-subpage-surface,
+      .glass-subpage-surface:not(.rag-admin-shell-card),
       .workspace-guide-panel.glass-subpage-surface,
       .materials-page-content.glass-subpage-surface,
       .subscription-modal-content,

@@ -1,0 +1,48 @@
+/* Final mobile surface contract. Keep after page-specific mobile overrides. */
+
+@media (max-width: 768px) {
+  html[data-layout="mobile"].theme-mid body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-light body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-night body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"].theme-mono body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    .glass-ring.glass-ring--desktop-stable,
+  .glass-ring,
+  .glass-subpage-surface,
+  .workspace-dashboard-panel,
+  .workspace-feature-panel.workspace-scroll-surface,
+  .wellbeing-page-surface,
+  .mobile-keep-desktop-glass-cards {
+    --glass-shell-shadow: none !important;
+    --glass-modal-shadow: none !important;
+    --mid-shell-soft-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+    .workspace-dashboard-card {
+    --workspace-card-icon-size: clamp(3rem, 12.4vw, 3.35rem) !important;
+    row-gap: 1rem !important;
+    box-shadow: none !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+    .workspace-dashboard-card:focus-visible {
+    box-shadow: 0 0 0 2px
+      var(--covision-focus-ring, var(--btn-primary-focus-ring-color, rgba(197, 113, 113, 0.28))) !important;
+  }
+
+  html[data-layout="mobile"] body[data-layout="mobile"]
+    :is(.workspace-dashboard-panel, .wellbeing-page-surface)
+    .workspace-dashboard-card
+    [class*="cardTitle"] {
+    font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
+    line-height: 1.1 !important;
+  }
+}

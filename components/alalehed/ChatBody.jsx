@@ -365,6 +365,9 @@ export default function ChatBody({
   } = useAccessibility();
   const prefsIsLightTheme = prefs?.theme === "light" || prefs?.theme === "mid";
   const prefsUsesInputHoleSurface = prefs?.contrast === "hc" || !prefsIsLightTheme;
+  const initialWorkspaceOpenFromSearch =
+    typeof searchParams?.get === "function" &&
+    Boolean(String(searchParams.get("workspace") || "").trim());
   const [domChatSurfaceMode, setDomChatSurfaceMode] = useState(null);
   const isLightTheme = domChatSurfaceMode?.isLightTheme ?? prefsIsLightTheme;
   const usesInputHoleSurface = domChatSurfaceMode?.usesInputHoleSurface ?? prefsUsesInputHoleSurface;
@@ -383,9 +386,9 @@ export default function ChatBody({
   );
   const voiceEnabled = Boolean(session?.user?.isAdmin || session?.subActive);
   const [inputFocused, setInputFocused] = useState(false);
-  const [workspaceOpen, setWorkspaceOpen] = useState(false);
-  const [workspaceSurfaceReady, setWorkspaceSurfaceReady] = useState(false);
-  const [workspaceSuppressOpenTransition, setWorkspaceSuppressOpenTransition] = useState(false);
+  const [workspaceOpen, setWorkspaceOpen] = useState(() => initialWorkspaceOpenFromSearch);
+  const [workspaceSurfaceReady, setWorkspaceSurfaceReady] = useState(() => initialWorkspaceOpenFromSearch);
+  const [workspaceSuppressOpenTransition, setWorkspaceSuppressOpenTransition] = useState(() => initialWorkspaceOpenFromSearch);
   const {
     isMobile,
     mobileRailVisible,
@@ -447,7 +450,7 @@ export default function ChatBody({
   const sourcesButtonRef = useRef(null);
   const backTapGuardRef = useRef(0);
   const workspaceSurfaceReadyTimerRef = useRef(0);
-  const workspaceRestoredOpenRef = useRef(false);
+  const workspaceRestoredOpenRef = useRef(initialWorkspaceOpenFromSearch);
   const workspaceRestoreTransitionRafRef = useRef(0);
   const refreshMask = useCallback((options = {}) => {
     const immediate = options.immediate === true;
@@ -1114,6 +1117,11 @@ export default function ChatBody({
       workspaceSurfaceReadyTimerRef.current = 0;
     }
 
+    if (workspaceSuppressOpenTransition) {
+      setWorkspaceSurfaceReady(true);
+      return;
+    }
+
     setWorkspaceSurfaceReady(false);
     if (!workspaceOpen) return;
 
@@ -1138,7 +1146,7 @@ export default function ChatBody({
       window.clearTimeout(workspaceSurfaceReadyTimerRef.current);
       workspaceSurfaceReadyTimerRef.current = 0;
     };
-  }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceOpen]);
+  }, [layoutTransitionsReady, prefs?.reduceMotion, workspaceOpen, workspaceSuppressOpenTransition]);
   useEffect(() => {
     return () => {
       if (workspaceSurfaceReadyTimerRef.current && typeof window !== "undefined") {
@@ -2693,6 +2701,8 @@ export default function ChatBody({
           paddingBottom: 0
         }
       : null;
+  const workspacePanelVisible =
+    workspaceOpen && (workspaceSurfaceReady || workspaceSuppressOpenTransition);
   const chatRingStyle = chatRingSurfaceStyle
     ? { ...chatVars, ...workspaceOpenRingPaddingStyle, ...chatRingSurfaceStyle }
     : { ...chatVars, ...workspaceOpenRingPaddingStyle };
@@ -2717,7 +2727,7 @@ export default function ChatBody({
         "min-[768px]:[&_.chat-left-actions]:left-[max(0px,calc(var(--hud-edge-left)+0.2rem))] " +
         "min-[768px]:[&_.top-nav--chat]:left-[max(0px,calc(var(--hud-edge-left)+0.9rem))] " +
         "min-[768px]:[&_.chat-right-actions]:right-[max(0px,calc(var(--hud-edge-right)+0.2rem))]",
-      layoutTransitionsReady && !prefs?.reduceMotion
+      layoutTransitionsReady && !prefs?.reduceMotion && !workspaceSuppressOpenTransition
         ? "min-[768px]:[transition:border-top-left-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-top-right-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-left-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),border-bottom-right-radius_680ms_cubic-bezier(0.22,0.61,0.36,1),width_680ms_cubic-bezier(0.22,0.61,0.36,1),min-width_680ms_cubic-bezier(0.22,0.61,0.36,1),max-width_680ms_cubic-bezier(0.22,0.61,0.36,1),height_680ms_cubic-bezier(0.22,0.61,0.36,1),min-height_680ms_cubic-bezier(0.22,0.61,0.36,1),max-height_680ms_cubic-bezier(0.22,0.61,0.36,1),inline-size_680ms_cubic-bezier(0.22,0.61,0.36,1),block-size_680ms_cubic-bezier(0.22,0.61,0.36,1),transform_680ms_cubic-bezier(0.22,0.61,0.36,1)]"
         : null,
       focusActive
@@ -2739,7 +2749,7 @@ export default function ChatBody({
       profileOpen={profileOpen}
       closeProfile={closeProfile}
       workspaceOpen={workspaceOpen}
-      workspaceSurfaceReady={workspaceSurfaceReady}
+      workspaceSurfaceReady={workspacePanelVisible}
       onWorkspaceToggle={toggleWorkspace}
       onWorkspaceClose={closeWorkspace}
       isEntering={isEntering}

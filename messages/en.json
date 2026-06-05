@@ -1237,6 +1237,7 @@
       "wellbeing_page": {
         "title": "Work wellbeing",
         "info_label": "Open Work wellbeing info",
+        "tool_info_label": "Open tool information",
         "back_label": "Back",
         "tools_label": "Work wellbeing tools",
         "placeholder": "Workflow will be added in the next stage.",
@@ -2429,6 +2430,10 @@
         "wellbeing": {
           "title": "Work wellbeing",
           "body": "Work wellbeing tools help a social-sector specialist notice workload, emotional load, recovery needs, recurring interruptions, and the effect of difficult cases. The workspace can later support quick checks, weekly or monthly overviews, difficult-case notes, workplace-violence situations, recovery, work boundaries, interruptions, work processes, role boundaries, and starter support."
+        },
+        "wellbeing_quick_check": {
+          "title": "Quick check",
+          "body": "The quick check helps you notice workload, recovery, and emotional strain, then choose one small next step."
         },
         "materials_adding": {
           "title": "Adding materials",

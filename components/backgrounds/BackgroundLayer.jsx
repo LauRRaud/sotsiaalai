@@ -36,12 +36,70 @@ const COLOR_BENDS_ROTATION_SPEED_DESKTOP = 0;
 const COLOR_BENDS_ROTATION_SPEED_MOBILE = 0;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
 const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0;
-const INITIAL_PREPAINT_MAX_MS = 2400;
 const HOME_SCROLL_BIND_RETRY_FRAMES = 16;
 const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = [80, 220, 520];
+const HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS = 650;
+const HOME_BACKGROUND_SCROLL_STORAGE_KEY = "sotsiaalai:home-background-scroll-y";
+let homeBackgroundScrollRestoreGuardUntil = 0;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
+}
+
+function markHomeBackgroundScrollRestoreGuard() {
+  if (typeof window === "undefined") return;
+  const now = window.performance?.now?.() ?? Date.now();
+  homeBackgroundScrollRestoreGuardUntil = now + HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS;
+}
+
+function shouldUseStoredHomeScrollRestore() {
+  if (typeof window === "undefined") return false;
+  const now = window.performance?.now?.() ?? Date.now();
+  if (homeBackgroundScrollRestoreGuardUntil > now) return true;
+  try {
+    const navigation = window.performance?.getEntriesByType?.("navigation")?.[0];
+    return navigation?.type === "back_forward" && now < HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS;
+  } catch {
+    return false;
+  }
+}
+
+function computeHomeBendsOpacity({
+  y = 0,
+  viewportHeight = 1,
+  mobileBackgroundMode = false,
+  colorBendsOpacity = COLOR_BENDS_OPACITY_DEFAULT
+}) {
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+  if (mobileBackgroundMode) {
+    const fadeStart = Math.min(120, viewportHeight * 0.16);
+    const fadeDistance = Math.max(220, viewportHeight * 0.48);
+    const progress = clamp((y - fadeStart) / fadeDistance, 0, 1);
+    const floorOpacity = colorBendsOpacity * MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;
+    return colorBendsOpacity - progress * (colorBendsOpacity - floorOpacity);
+  }
+  return (1 - clamp((y - 240) / 220, 0, 1)) * colorBendsOpacity;
+}
+
+function readStoredHomeScrollY() {
+  if (typeof window === "undefined") return 0;
+  try {
+    const raw = window.sessionStorage.getItem(HOME_BACKGROUND_SCROLL_STORAGE_KEY);
+    const value = Number(raw);
+    return Number.isFinite(value) && value > 0 ? value : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function writeStoredHomeScrollY(y) {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(
+      HOME_BACKGROUND_SCROLL_STORAGE_KEY,
+      String(Math.max(0, Math.round(Number(y) || 0)))
+    );
+  } catch {}
 }
 
 function detectMobileLikeDevice() {
@@ -129,49 +187,47 @@ const BackgroundContent = memo(function BackgroundContent({
   const mobileBackgroundMode = mobileLike || platform === "android" || platform === "ios";
   const mobileColorBendsPhase = 14;
   const allowParticles = showParticles && deviceProfileReady;
-  const backgroundReadyForInitialReveal =
-    mounted &&
-    deviceProfileReady &&
-    (!showColorBends || forceMobileBendsVisible || mobileBendsVisible) &&
-    (!showParticles ||
-      (particlesReady && (!allowParticles || !mobileBackgroundMode || mobileParticlesVisible)));
+  const colorBendsReady = !isHomepage || forceMobileBendsVisible || mobileBendsVisible;
   const baseParallaxActive = deviceProfileReady && !reduceMotion && !mobileBackgroundMode;
   // Mobile browser chrome and the homepage's inner scroll container make this
   // parallax feel unstable, so keep particles static there.
   const particlesParallaxActive = false;
+  const initialInlineBendsOpacity = (() => {
+    if (typeof window === "undefined" || !isHomepage) return colorBendsOpacity;
+    const currentY =
+      window.scrollY ||
+        document.documentElement?.scrollTop ||
+        document.body?.scrollTop ||
+        0;
+    const y = shouldUseStoredHomeScrollRestore()
+      ? Math.max(readStoredHomeScrollY(), currentY)
+      : currentY;
+    const viewportHeight =
+      window.visualViewport?.height ||
+      window.innerHeight ||
+      document.documentElement?.clientHeight ||
+      1;
+    return computeHomeBendsOpacity({
+      y,
+      viewportHeight,
+      mobileBackgroundMode: detectMobileLikeDevice(),
+      colorBendsOpacity
+    }).toFixed(3);
+  })();
   useEffect(() => setMounted(true), []);
   useEffect(() => {
-    if (!mounted || typeof document === "undefined" || typeof window === "undefined") return;
-    const root = document.documentElement;
-    if (!root?.hasAttribute("data-app-prepaint")) return;
-    const timeoutId = window.setTimeout(() => {
-      root.removeAttribute("data-app-prepaint");
-    }, INITIAL_PREPAINT_MAX_MS);
-    return () => window.clearTimeout(timeoutId);
-  }, [mounted, routeKey]);
-  useLayoutEffect(() => {
-    if (
-      !backgroundReadyForInitialReveal ||
-      typeof document === "undefined" ||
-      typeof window === "undefined"
-    ) {
-      return;
-    }
-    const root = document.documentElement;
-    if (!root?.hasAttribute("data-app-prepaint")) return;
-    let rafOne = 0;
-    let rafTwo = 0;
-    rafOne = window.requestAnimationFrame(() => {
-      rafTwo = window.requestAnimationFrame(() => {
-        if (!root.hasAttribute("data-app-prepaint")) return;
-        root.removeAttribute("data-app-prepaint");
-      });
-    });
-    return () => {
-      if (rafOne) window.cancelAnimationFrame(rafOne);
-      if (rafTwo) window.cancelAnimationFrame(rafTwo);
+    if (typeof window === "undefined") return;
+    const onPopState = () => markHomeBackgroundScrollRestoreGuard();
+    const onPageShow = event => {
+      if (event?.persisted) markHomeBackgroundScrollRestoreGuard();
     };
-  }, [backgroundReadyForInitialReveal]);
+    window.addEventListener("popstate", onPopState);
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, []);
   useEffect(() => {
     if (typeof window === "undefined") return;
     let timer = 0;
@@ -263,7 +319,7 @@ const BackgroundContent = memo(function BackgroundContent({
 
     const timeoutId = window.setTimeout(() => {
       setMobileParticlesVisible(true);
-    }, mobileBackgroundMode ? 0 : 120);
+    }, isHomepage && mobileBackgroundMode ? 360 : mobileBackgroundMode ? 0 : 120);
 
     return () => window.clearTimeout(timeoutId);
   }, [
@@ -271,6 +327,7 @@ const BackgroundContent = memo(function BackgroundContent({
     deviceProfileReady,
     particlesReady,
     allowParticles,
+    isHomepage,
     mobileBackgroundMode
   ]);
   useEffect(() => {
@@ -349,7 +406,7 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [reduceMotion, baseParallaxActive, isHomepage, colorBendsOpacity]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;
     el.style.setProperty("--saai-bends-opacity", String(colorBendsOpacity));
@@ -359,8 +416,13 @@ const BackgroundContent = memo(function BackgroundContent({
     let bindAttempts = 0;
     let homepageRoot = null;
     const restoreSyncTimers = new Set();
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const isUsableElement = value => value instanceof HTMLElement;
+    const storedHomeScrollY = readStoredHomeScrollY();
+    const useStoredRestore = storedHomeScrollY > 14 && shouldUseStoredHomeScrollRestore();
+    const restoreGuardUntil =
+      useStoredRestore
+        ? (window.performance?.now?.() ?? Date.now()) + HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS
+        : 0;
     const getHomepageRoot = () => {
       const root = document.querySelector(".homepage-root");
       return isUsableElement(root) ? root : null;
@@ -380,24 +442,32 @@ const BackgroundContent = memo(function BackgroundContent({
         0
       );
     };
-    const update = () => {
-      raf = 0;
-      const y = resolveScrollY();
+    const applyOpacityForY = (y, { persist = true } = {}) => {
       const viewportHeight =
         window.visualViewport?.height ||
         window.innerHeight ||
         document.documentElement.clientHeight ||
         1;
-      const bendsOpacity = mobileBackgroundMode
-        ? (() => {
-            const fadeStart = Math.min(120, viewportHeight * 0.16);
-            const fadeDistance = Math.max(220, viewportHeight * 0.48);
-            const progress = clamp((y - fadeStart) / fadeDistance, 0, 1);
-            const floorOpacity = colorBendsOpacity * MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;
-            return colorBendsOpacity - progress * (colorBendsOpacity - floorOpacity);
-          })()
-        : (1 - clamp((y - 240) / 220, 0, 1)) * colorBendsOpacity;
+      const bendsOpacity = computeHomeBendsOpacity({
+        y,
+        viewportHeight,
+        mobileBackgroundMode,
+        colorBendsOpacity
+      });
       el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
+      if (persist) writeStoredHomeScrollY(y);
+    };
+    const update = () => {
+      raf = 0;
+      const y = resolveScrollY();
+      const useStoredDuringRestore =
+        restoreGuardUntil > 0 &&
+        window.performance.now() < restoreGuardUntil &&
+        y < 14;
+      applyOpacityForY(
+        useStoredDuringRestore ? storedHomeScrollY : y,
+        { persist: !useStoredDuringRestore }
+      );
     };
     const onScroll = () => {
       if (raf) return;
@@ -422,8 +492,12 @@ const BackgroundContent = memo(function BackgroundContent({
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("pageshow", onScroll);
     window.visualViewport?.addEventListener("resize", onScroll);
     bindHomepageRoot();
+    if (useStoredRestore) {
+      applyOpacityForY(storedHomeScrollY, { persist: false });
+    }
     update();
     HOME_SCROLL_RESTORE_SYNC_DELAYS_MS.forEach(delay => {
       const timer = window.setTimeout(() => {
@@ -441,6 +515,7 @@ const BackgroundContent = memo(function BackgroundContent({
       }
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("pageshow", onScroll);
       window.visualViewport?.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
@@ -518,8 +593,8 @@ const BackgroundContent = memo(function BackgroundContent({
         data-page={isHomepage ? "home" : "subpage"}
         data-parallax={baseParallaxActive ? "on" : "off"}
         data-particles-parallax={particlesParallaxActive ? "on" : "off"}
-        data-mobile-bends={forceMobileBendsVisible || mobileBendsVisible ? "ready" : "pending"}
-        style={{ "--saai-bends-opacity": colorBendsOpacity }}
+        data-mobile-bends={colorBendsReady ? "ready" : "pending"}
+        style={{ "--saai-bends-opacity": initialInlineBendsOpacity }}
         aria-hidden="true"
         suppressHydrationWarning
       >
