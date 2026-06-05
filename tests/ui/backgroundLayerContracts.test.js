@@ -94,6 +94,7 @@ test("missing DOM theme class does not mask stored mono preference", () => {
 test("color bends do not render one frame at fallback strength", () => {
   assert.match(source, /const \[mobileBendsVisible, setMobileBendsVisible\] = useState\(false\);/);
   assert.match(source, /setMobileBendsVisible\(true\)/);
+  assert.match(source, /\}, \[mounted, deviceProfileReady, mobileBackgroundMode, routeKey, showColorBends\]\);/);
   assert.match(source, /data-mobile-bends=\{forceMobileBendsVisible \|\| mobileBendsVisible \? "ready" : "pending"\}/);
   assert.match(source, /style=\{\{\s*"--saai-bends-opacity": colorBendsOpacity\s*\}\}/);
   assert.match(backgroundCss, /html\[data-theme-switching="1"\]\s+\[data-bg-layer\]\s+\.bg-bends-layer\s*\{[\s\S]*?transition:\s*none\s*!important;/);
@@ -121,9 +122,16 @@ test("color bends playback is controlled by app reduced-motion state only", () =
 });
 
 test("homepage color bends still fade on scroll when motion is reduced", () => {
+  assert.match(source, /const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0;/);
+  assert.match(source, /const HOME_SCROLL_BIND_RETRY_FRAMES = 16;/);
+  assert.match(source, /const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = \[80, 220, 520\];/);
   assert.match(
     source,
-    /el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*if \(!isHomepage\) return;[\s\S]*const bendsOpacity = mobileBackgroundMode[\s\S]*: \(1 - clamp\(\(y - 240\) \/ 220, 0, 1\)\) \* colorBendsOpacity;/
+    /el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*if \(!isHomepage\) return;[\s\S]*const bindHomepageRoot = \(\) => \{[\s\S]*?homepageRoot\.addEventListener\("scroll", onScroll, \{ passive: true \}\);[\s\S]*?bindAttempts < HOME_SCROLL_BIND_RETRY_FRAMES[\s\S]*?HOME_SCROLL_RESTORE_SYNC_DELAYS_MS\.forEach\(delay => \{[\s\S]*?bindHomepageRoot\(\);[\s\S]*?onScroll\(\);[\s\S]*?\}, \[isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey\]\);/
+  );
+  assert.match(
+    source,
+    /const bendsOpacity = mobileBackgroundMode[\s\S]*?const floorOpacity = colorBendsOpacity \* MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO;[\s\S]*?: \(1 - clamp\(\(y - 240\) \/ 220, 0, 1\)\) \* colorBendsOpacity;/
   );
 });
 

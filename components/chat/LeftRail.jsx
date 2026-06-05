@@ -650,6 +650,7 @@ export default function LeftRail({
             const scale = 0.88 + (1 - norm) * 0.36;
             const opacity = slotOffset === 0 ? 1 : 0.32 + (1 - norm) * 0.48;
             const zIndex = 10 - Math.abs(slotOffset);
+            const itemLiftY = item.key === "back" ? -(3.2 * railProfileScale) : 0;
 
             const onActivate = event => {
               dismissAllRailTooltips();
@@ -694,7 +695,7 @@ export default function LeftRail({
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offsetX.toFixed(
                     2
-                  )}px) translateY(${offsetY.toFixed(2)}px) scale(${scale.toFixed(3)})`,
+                  )}px) translateY(${(offsetY + itemLiftY).toFixed(2)}px) scale(${scale.toFixed(3)})`,
                   opacity: opacity.toFixed(3),
                   zIndex
                 }}
@@ -744,9 +745,6 @@ export default function LeftRail({
                 {item.key === "back" ? (
                   <BackIcon
                     className={cn(styles.iconSvg, styles.iconBack)}
-                    dotFilled={false}
-                    dotStroke="var(--back-arrow-color)"
-                    dotStrokeWidth={2.35}
                     glyphScale={0.74}
                     strokeWidth={3}
                   />

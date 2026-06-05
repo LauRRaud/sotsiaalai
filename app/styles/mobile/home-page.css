@@ -10,6 +10,11 @@
     overscroll-behavior-y: contain;
   }
 
+  .homepage-root .home-bottom-sections-preintro,
+  .homepage-root .home-footer-preintro {
+    display: block;
+  }
+
   .homepage-root .home-footer-logo-wrap {
     margin-top: clamp(1rem, 3.4vh, 2.2rem) !important;
     margin-bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem) !important;

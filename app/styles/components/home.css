@@ -247,6 +247,11 @@ html[data-reduce-motion="1"] .homepage-root .home-card-front-logo [class*="home-
   }
 }
 
+.homepage-root .home-bottom-sections-preintro,
+.homepage-root .home-footer-preintro {
+  display: none;
+}
+
 .homepage-root .home-about-panel {
   border: none !important;
   -webkit-backdrop-filter: none !important;

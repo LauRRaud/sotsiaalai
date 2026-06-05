@@ -120,17 +120,19 @@ export default function ViewportLayoutSetter() {
     applyPlatformFlag();
     stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
     const onMqChange = e => applyLayoutFlag(e.matches);
+    const syncViewportState = () => {
+      applyLayoutFlag(mql.matches);
+      applyDisplayModeFlag();
+      applyPlatformFlag();
+      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+    };
     const scheduleViewportSync = (delays = []) => {
       window.requestAnimationFrame(() => {
-        applyDisplayModeFlag();
-        applyPlatformFlag();
-        stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+        syncViewportState();
       });
       delays.forEach(delay => {
         window.setTimeout(() => {
-          applyDisplayModeFlag();
-          applyPlatformFlag();
-          stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+          syncViewportState();
         }, delay);
       });
     };
@@ -195,6 +197,22 @@ export default function ViewportLayoutSetter() {
         main.focus();
       } catch {}
     });
+  }, [pathname]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const syncAfterRouteRestore = () => {
+      applyLayoutFlag(window.matchMedia?.(MOBILE_QUERY)?.matches ?? window.innerWidth <= 768);
+      applyDisplayModeFlag();
+      applyPlatformFlag();
+      stableLayoutHeightRef.current = applyVhVar(stableLayoutHeightRef.current);
+    };
+    syncAfterRouteRestore();
+    const frame = window.requestAnimationFrame(syncAfterRouteRestore);
+    const timer = window.setTimeout(syncAfterRouteRestore, 160);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
   }, [pathname]);
   return null;
 }

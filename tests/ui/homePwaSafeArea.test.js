@@ -74,6 +74,18 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.addEventListener\("scroll"/);
   assert.doesNotMatch(viewportLayoutSetter, /visualViewport\?\.removeEventListener\("scroll"/);
   assert.match(
+    viewportLayoutSetter,
+    /const syncViewportState = \(\) => \{[\s\S]*?applyLayoutFlag\(mql\.matches\);[\s\S]*?applyVhVar\(stableLayoutHeightRef\.current\);[\s\S]*?\};/
+  );
+  assert.match(
+    viewportLayoutSetter,
+    /window\.requestAnimationFrame\(\(\) => \{[\s\S]*?syncViewportState\(\);[\s\S]*?\}\);/
+  );
+  assert.match(
+    viewportLayoutSetter,
+    /const syncAfterRouteRestore = \(\) => \{[\s\S]*?applyLayoutFlag\(window\.matchMedia\?\.\(MOBILE_QUERY\)\?\.matches \?\? window\.innerWidth <= 768\);[\s\S]*?applyVhVar\(stableLayoutHeightRef\.current\);[\s\S]*?\};[\s\S]*?\}, \[pathname\]\);/
+  );
+  assert.match(
     clickPulseCursor,
     /window\.matchMedia\?\.\("\(hover: hover\) and \(pointer: fine\)"\)/
   );
@@ -93,5 +105,13 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.match(manifest, /"background_color": "#6f5853"/);
   assert.match(manifest, /"theme_color": "#6f5853"/);
   assert.match(layout, /themeColor:\s*\[[\s\S]*?\{ media:\s*"\(prefers-color-scheme: light\)",\s*color:\s*"#f4f2ee" \}[\s\S]*?\{ media:\s*"\(prefers-color-scheme: dark\)",\s*color:\s*"#101010" \}/);
+  assert.match(layout, /const APP_PREPAINT_GUARD_SCRIPT = `\(function \(\) \{/);
+  assert.match(layout, /function syncLayoutFlag\(\) \{[\s\S]*?root\.setAttribute\("data-layout", "mobile"\);[\s\S]*?body\.setAttribute\("data-layout", "mobile"\);[\s\S]*?root\.removeAttribute\("data-layout"\);/);
+  assert.match(layout, /syncLayoutFlag\(\);[\s\S]*?window\.requestAnimationFrame\(syncLayoutFlag\);/);
+  assert.match(layout, /window\.addEventListener\("resize", syncLayoutFlag\);/);
+  assert.match(layout, /function clearAppPrepaint\(\) \{[\s\S]*?root\.removeAttribute\("data-app-prepaint"\);[\s\S]*?\}/);
+  assert.match(layout, /window\.addEventListener\("pagehide", function \(\) \{[\s\S]*?window\.clearTimeout\(fallbackTimer\);[\s\S]*?clearAppPrepaint\(\);[\s\S]*?\}\);/);
+  assert.match(layout, /window\.addEventListener\("pageshow", function \(event\) \{[\s\S]*?syncLayoutFlag\(\);[\s\S]*?if \(event && event\.persisted\) clearAppPrepaint\(\);[\s\S]*?\}\);/);
+  assert.match(layout, /<script[\s\S]*?id="app-prepaint-guard"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: APP_PREPAINT_GUARD_SCRIPT \}\}/);
   assert.doesNotMatch(mobileCss, /--home-safe-area-bg/);
 });

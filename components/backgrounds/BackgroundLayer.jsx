@@ -35,8 +35,10 @@ const COLOR_BENDS_SPEED_MOBILE = 0;
 const COLOR_BENDS_ROTATION_SPEED_DESKTOP = 0;
 const COLOR_BENDS_ROTATION_SPEED_MOBILE = 0;
 const WORKSPACE_MORPH_BACKGROUND_PAUSE_MS = WORKSPACE_PANEL_MORPH_MS + 240;
-const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0.22;
+const MOBILE_HOME_BENDS_OPACITY_FLOOR_RATIO = 0;
 const INITIAL_PREPAINT_MAX_MS = 2400;
+const HOME_SCROLL_BIND_RETRY_FRAMES = 16;
+const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = [80, 220, 520];
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
@@ -146,7 +148,7 @@ const BackgroundContent = memo(function BackgroundContent({
       root.removeAttribute("data-app-prepaint");
     }, INITIAL_PREPAINT_MAX_MS);
     return () => window.clearTimeout(timeoutId);
-  }, [mounted]);
+  }, [mounted, routeKey]);
   useLayoutEffect(() => {
     if (
       !backgroundReadyForInitialReveal ||
@@ -247,7 +249,7 @@ const BackgroundContent = memo(function BackgroundContent({
   useEffect(() => {
     if (!mounted || !deviceProfileReady) return;
     setMobileBendsVisible(true);
-  }, [mounted, deviceProfileReady, mobileBackgroundMode]);
+  }, [mounted, deviceProfileReady, mobileBackgroundMode, routeKey, showColorBends]);
   useEffect(() => {
     if (
       !mounted ||
@@ -353,7 +355,10 @@ const BackgroundContent = memo(function BackgroundContent({
     el.style.setProperty("--saai-bends-opacity", String(colorBendsOpacity));
     if (!isHomepage) return;
     let raf = 0;
+    let bindRetry = 0;
+    let bindAttempts = 0;
     let homepageRoot = null;
+    const restoreSyncTimers = new Set();
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const isUsableElement = value => value instanceof HTMLElement;
     const getHomepageRoot = () => {
@@ -398,15 +403,39 @@ const BackgroundContent = memo(function BackgroundContent({
       if (raf) return;
       raf = window.requestAnimationFrame(update);
     };
-    update();
+
+    const bindHomepageRoot = () => {
+      const nextHomepageRoot = getHomepageRoot();
+      if (nextHomepageRoot && nextHomepageRoot !== homepageRoot) {
+        if (homepageRoot) {
+          homepageRoot.removeEventListener("scroll", onScroll);
+        }
+        homepageRoot = nextHomepageRoot;
+        homepageRoot.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      }
+      if (!nextHomepageRoot && bindAttempts < HOME_SCROLL_BIND_RETRY_FRAMES) {
+        bindAttempts += 1;
+        bindRetry = window.requestAnimationFrame(bindHomepageRoot);
+      }
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    homepageRoot = getHomepageRoot();
-    if (homepageRoot) {
-      homepageRoot.addEventListener("scroll", onScroll, { passive: true });
-    }
     window.addEventListener("resize", onScroll);
     window.visualViewport?.addEventListener("resize", onScroll);
+    bindHomepageRoot();
+    update();
+    HOME_SCROLL_RESTORE_SYNC_DELAYS_MS.forEach(delay => {
+      const timer = window.setTimeout(() => {
+        restoreSyncTimers.delete(timer);
+        bindHomepageRoot();
+        onScroll();
+      }, delay);
+      restoreSyncTimers.add(timer);
+    });
     return () => {
+      if (bindRetry) window.cancelAnimationFrame(bindRetry);
+      restoreSyncTimers.forEach(timer => window.clearTimeout(timer));
       if (homepageRoot) {
         homepageRoot.removeEventListener("scroll", onScroll);
       }
@@ -415,7 +444,7 @@ const BackgroundContent = memo(function BackgroundContent({
       window.visualViewport?.removeEventListener("resize", onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [isHomepage, mobileBackgroundMode, colorBendsOpacity]);
+  }, [isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey]);
   useEffect(() => {
     const el = layerRef.current;
     if (!el || typeof window === "undefined") return;

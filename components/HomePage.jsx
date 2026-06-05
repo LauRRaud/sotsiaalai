@@ -31,6 +31,8 @@ const CARD_FADE_DELAY_MS = 500;
 const SOFT_FADE_DELAY_MS = 40;
 const SOFT_FADE_DURATION_MS = 600;
 const HOME_FOOTER_STAGGER_MS = 220;
+const HOME_FULL_INTRO_REVEAL_FALLBACK_MS =
+  INTRO_ANIMATION_DELAY_MS + CARD_FADE_DELAY_MS + CARD_FADE_DURATION_MS + 800;
 const CARD_FLIP_TO_BACK_MS = 1250;
 const CARD_FLIP_TO_FRONT_MS = 1250;
 const CARD_AUTO_PREVIEW_PAUSE_MS = 2000;
@@ -193,11 +195,36 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
     };
   }, [LoginModalComponent, isLoginOpen]);
   useEffect(() => {
-    const check = () => setIsMobile(typeof window !== "undefined" && window.innerWidth <= 768);
+    if (typeof window === "undefined") return;
+    const check = () => {
+      const mobile =
+        window.matchMedia?.("(max-width: 768px)")?.matches ??
+        window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (mobile && !isLoginOpen) {
+        setShowHomeBottomSections(true);
+        setShowHomeFooter(true);
+      }
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") check();
+    };
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+    window.addEventListener("orientationchange", check);
+    window.addEventListener("pageshow", check);
+    window.visualViewport?.addEventListener("resize", check);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    const restoreTimers = [80, 220, 520].map(delay => window.setTimeout(check, delay));
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+      window.removeEventListener("pageshow", check);
+      window.visualViewport?.removeEventListener("resize", check);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      restoreTimers.forEach(timer => window.clearTimeout(timer));
+    };
+  }, [isLoginOpen]);
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
     let swapTimeoutId = null;
@@ -415,17 +442,27 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
       setShowHomeFooter(true);
       return;
     }
+    let footerTimer = null;
+    const revealHomeBottomSections = () => {
+      setShowHomeBottomSections(true);
+      footerTimer = registerTimeout(
+        () => setShowHomeFooter(true),
+        HOME_FOOTER_STAGGER_MS
+      );
+    };
     const shouldShow = !isLoginOpen && (isMobile || cardsIntroDone);
     if (!shouldShow) {
       setShowHomeBottomSections(false);
       setShowHomeFooter(false);
-      return;
+      const fallbackTimer = registerTimeout(() => {
+        if (!isLoginOpen) revealHomeBottomSections();
+      }, HOME_FULL_INTRO_REVEAL_FALLBACK_MS);
+      return () => {
+        clearRegisteredTimeout(fallbackTimer);
+        clearRegisteredTimeout(footerTimer);
+      };
     }
-    setShowHomeBottomSections(true);
-    const footerTimer = registerTimeout(
-      () => setShowHomeFooter(true),
-      HOME_FOOTER_STAGGER_MS
-    );
+    revealHomeBottomSections();
     return () => clearRegisteredTimeout(footerTimer);
   }, [cardsIntroDone, clearRegisteredTimeout, introMode, isLoginOpen, isMobile, prefs.reduceMotion, registerTimeout]);
   const flipAllowed = leftFadeDone && rightFadeDone && !isLoginOpen;
@@ -805,10 +842,15 @@ export default function HomePage({ initialIntroVariant = HOME_FULL_INTRO } = {})
               </a>
             </div> : null}
         </section>
-        {showHomeBottomSections ? <div>
+        <div
+          className={cn("home-bottom-sections", !showHomeBottomSections ? "home-bottom-sections-preintro" : null)}
+          aria-hidden={!showHomeBottomSections}
+        >
             <HomeAboutSection id="meist" showAdminLinks={isAuthed && isAdmin} />
-            {showHomeFooter ? <HomeFooter /> : null}
-          </div> : null}
+            <div className={cn("home-footer-shell", !showHomeFooter ? "home-footer-preintro" : null)}>
+              <HomeFooter />
+            </div>
+          </div>
       </div>
       {LoginModalComponent ? <LoginModalComponent open={isLoginOpen} onClose={() => setIsLoginOpen(false)} suppressRedirect onAuthSuccess={handleLoginSuccess} /> : null}
     </>;

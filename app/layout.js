@@ -144,6 +144,43 @@ const THEME_INIT_SCRIPT = `(function () {
   );
   applyHomeFlag();
 })();`;
+const APP_PREPAINT_GUARD_SCRIPT = `(function () {
+  var root = document.documentElement;
+  if (!root) return;
+  function isMobileViewport() {
+    try {
+      return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+    } catch {}
+    return window.innerWidth <= 768;
+  }
+  function syncLayoutFlag() {
+    var body = document.body;
+    if (isMobileViewport()) {
+      root.setAttribute("data-layout", "mobile");
+      if (body) body.setAttribute("data-layout", "mobile");
+    } else {
+      root.removeAttribute("data-layout");
+      if (body) body.removeAttribute("data-layout");
+    }
+  }
+  function clearAppPrepaint() {
+    root.removeAttribute("data-app-prepaint");
+  }
+  syncLayoutFlag();
+  window.requestAnimationFrame(syncLayoutFlag);
+  var fallbackTimer = window.setTimeout(clearAppPrepaint, 2400);
+  window.addEventListener("resize", syncLayoutFlag);
+  window.visualViewport && window.visualViewport.addEventListener("resize", syncLayoutFlag);
+  window.addEventListener("pagehide", function () {
+    window.clearTimeout(fallbackTimer);
+    clearAppPrepaint();
+  });
+  window.addEventListener("pageshow", function (event) {
+    syncLayoutFlag();
+    if (event && event.persisted) clearAppPrepaint();
+  });
+  window.addEventListener("load", syncLayoutFlag);
+})();`;
 export const metadata = {
   title: "SotsiaalAI",
   description: "Platvormil on kaks rollipõhist tehisintellekti assistenti: üks sotsiaalvaldkonna spetsialistidele ja teine eluküsimusega pöördujatele.",
@@ -271,6 +308,10 @@ export default async function RootLayout({
         <meta
           name="format-detection"
           content="telephone=no, email=no, address=no, date=no"
+        />
+        <script
+          id="app-prepaint-guard"
+          dangerouslySetInnerHTML={{ __html: APP_PREPAINT_GUARD_SCRIPT }}
         />
         <Script id="ui-scale-init" strategy="beforeInteractive">
           {UI_SCALE_INIT_SCRIPT}

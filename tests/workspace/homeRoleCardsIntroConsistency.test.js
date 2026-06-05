@@ -51,12 +51,18 @@ test("home role card blur backdrop fades with the same intro on desktop and mobi
 test("home role card intro is remembered across chat navigation returns", () => {
   const homePage = readSource("components/HomePage.jsx");
   const appPage = readSource("app/page.js");
+  const homeCss = readSource("app/styles/components/home.css");
+  const mobileCss = readMobileCssBundle();
 
   assert.match(homePage, /const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";/);
   assert.match(homePage, /const HOME_FULL_INTRO = "full";/);
   assert.match(homePage, /const HOME_SOFT_INTRO = "soft";/);
   assert.match(homePage, /const SOFT_FADE_DELAY_MS = 40;/);
   assert.match(homePage, /const SOFT_FADE_DURATION_MS = 600;/);
+  assert.match(
+    homePage,
+    /const HOME_FULL_INTRO_REVEAL_FALLBACK_MS =[\s\S]*?INTRO_ANIMATION_DELAY_MS \+ CARD_FADE_DELAY_MS \+ CARD_FADE_DURATION_MS \+ 800;/
+  );
   assert.doesNotMatch(homePage, /HOME_INTRO_SEEN_KEY/);
   assert.doesNotMatch(homePage, /HOME_INTRO_SEEN_COOKIE/);
   assert.doesNotMatch(homePage, /persistHomeIntroSeen/);
@@ -86,6 +92,24 @@ test("home role card intro is remembered across chat navigation returns", () => 
   assert.match(homePage, /const isSoftIntro = introMode === HOME_SOFT_INTRO && !prefs\.reduceMotion;/);
   assert.match(homePage, /const delayMs = isFullIntro \? INTRO_ANIMATION_DELAY_MS : SOFT_FADE_DELAY_MS;/);
   assert.match(homePage, /if \(introMode !== HOME_FULL_INTRO\) \{[\s\S]*?setShowHomeBottomSections\(true\);[\s\S]*?setShowHomeFooter\(true\);[\s\S]*?return;/);
+  assert.match(homePage, /className=\{cn\("home-bottom-sections", !showHomeBottomSections \? "home-bottom-sections-preintro" : null\)\}/);
+  assert.match(homePage, /className=\{cn\("home-footer-shell", !showHomeFooter \? "home-footer-preintro" : null\)\}/);
+  assert.doesNotMatch(homePage, /\{showHomeBottomSections \? <div>/);
+  assert.match(homeCss, /\.homepage-root \.home-bottom-sections-preintro,[\s\S]*?\.homepage-root \.home-footer-preintro\s*\{[\s\S]*?display:\s*none;/);
+  assert.doesNotMatch(homeCss, /@media \(max-width: 768px\)[\s\S]*?home-bottom-sections-preintro/);
+  assert.match(mobileCss, /\.homepage-root \.home-bottom-sections-preintro,[\s\S]*?\.homepage-root \.home-footer-preintro\s*\{[\s\S]*?display:\s*block;/);
+  assert.match(
+    homePage,
+    /window\.addEventListener\("pageshow", check\);[\s\S]*?window\.visualViewport\?\.addEventListener\("resize", check\);/
+  );
+  assert.match(
+    homePage,
+    /if \(mobile && !isLoginOpen\) \{[\s\S]*?setShowHomeBottomSections\(true\);[\s\S]*?setShowHomeFooter\(true\);[\s\S]*?\}/
+  );
+  assert.match(
+    homePage,
+    /const fallbackTimer = registerTimeout\(\(\) => \{[\s\S]*?if \(!isLoginOpen\) revealHomeBottomSections\(\);[\s\S]*?\}, HOME_FULL_INTRO_REVEAL_FALLBACK_MS\);/
+  );
   assert.match(homePage, /introMode === HOME_SOFT_INTRO \? "is-visible" : "", "relative z-\[4\]"/);
   assert.doesNotMatch(appPage, /HOME_INTRO_SEEN_COOKIE/);
   assert.match(appPage, /return <HomePage \/>;/);
