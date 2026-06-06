@@ -22,7 +22,7 @@ export async function GET(request) {
     });
     const requestedType = String(query.type || "").trim().toUpperCase();
     const serviceOnlyTypes = new Set(["KOV_SOCIAL_CONTACT", "KOV_GENERAL_CONTACT", "KOV_CONTACT", "SERVICE_PROVIDER", "SERVICES_CONTACTS"]);
-    const helpOnlyTypes = new Set(["HELP_REQUEST", "HELP_OFFER"]);
+    const helpOnlyTypes = new Set(["HELP_REQUEST", "HELP_OFFER", "HELP_LISTINGS"]);
     const shouldLoadServices = !requestedType || requestedType === "ALL" || serviceOnlyTypes.has(requestedType);
     const shouldLoadHelp = !requestedType || requestedType === "ALL" || helpOnlyTypes.has(requestedType);
     const [serviceEntries, helpEntries] = await Promise.all([

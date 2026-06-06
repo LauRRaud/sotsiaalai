@@ -129,19 +129,23 @@ test("homepage color bends still fade on scroll when motion is reduced", () => {
   assert.match(source, /const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = \[80, 220, 520\];/);
   assert.match(source, /const HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS = 650;/);
   assert.match(source, /const HOME_BACKGROUND_SCROLL_STORAGE_KEY = "sotsiaalai:home-background-scroll-y";/);
+  assert.match(source, /const HOME_BACKGROUND_RESET_ON_RETURN_KEY = "sotsiaalai:home-background-reset-on-return";/);
+  assert.match(source, /const HOME_BACKGROUND_RESET_RETURN_PATHS = new Set\(\[[\s\S]*?"\/kasutusjuhend"[\s\S]*?"\/kasutustingimused"[\s\S]*?"\/privaatsustingimused"[\s\S]*?\]\);/);
   assert.match(source, /function computeHomeBendsOpacity\(/);
   assert.match(source, /function readStoredHomeScrollY\(\)/);
   assert.match(source, /function writeStoredHomeScrollY\(y\)/);
+  assert.match(source, /function markHomeBackgroundResetOnReturn\(\)/);
+  assert.match(source, /function consumeHomeBackgroundResetOnReturn\(\)/);
   assert.match(source, /let homeBackgroundScrollRestoreGuardUntil = 0;/);
   assert.match(source, /function markHomeBackgroundScrollRestoreGuard\(\)/);
   assert.match(source, /function shouldUseStoredHomeScrollRestore\(\)/);
   assert.match(
     source,
-    /const initialInlineBendsOpacity = \(\(\) => \{[\s\S]*?const currentY =[\s\S]*?const y = shouldUseStoredHomeScrollRestore\(\)[\s\S]*?\? Math\.max\(readStoredHomeScrollY\(\), currentY\)[\s\S]*?: currentY;[\s\S]*?computeHomeBendsOpacity\(\{[\s\S]*?mobileBackgroundMode: detectMobileLikeDevice\(\),[\s\S]*?\.toFixed\(3\);[\s\S]*?\}\)\(\);/
+    /const initialInlineBendsOpacity = \(\(\) => \{[\s\S]*?const resetHomeBackground = shouldResetHomeBackgroundOnReturn\(\);[\s\S]*?const y = resetHomeBackground[\s\S]*?\? 0[\s\S]*?: shouldUseStoredHomeScrollRestore\(\)[\s\S]*?\? Math\.max\(readStoredHomeScrollY\(\), currentY\)[\s\S]*?: currentY;[\s\S]*?computeHomeBendsOpacity\(\{[\s\S]*?mobileBackgroundMode: detectMobileLikeDevice\(\),[\s\S]*?\.toFixed\(3\);[\s\S]*?\}\)\(\);/
   );
   assert.match(
     source,
-    /useLayoutEffect\(\(\) => \{[\s\S]*?el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*?if \(!isHomepage\) return;[\s\S]*?const storedHomeScrollY = readStoredHomeScrollY\(\);[\s\S]*?const useStoredRestore = storedHomeScrollY > 14 && shouldUseStoredHomeScrollRestore\(\);[\s\S]*?restoreGuardUntil[\s\S]*?const applyOpacityForY = \(y, \{ persist = true \} = \{\}\) => \{[\s\S]*?writeStoredHomeScrollY\(y\);[\s\S]*?window\.addEventListener\("pageshow", onScroll\);[\s\S]*?if \(useStoredRestore\) \{[\s\S]*?applyOpacityForY\(storedHomeScrollY, \{ persist: false \}\);[\s\S]*?update\(\);[\s\S]*?HOME_SCROLL_RESTORE_SYNC_DELAYS_MS\.forEach\(delay => \{[\s\S]*?bindHomepageRoot\(\);[\s\S]*?onScroll\(\);[\s\S]*?\}, \[isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey\]\);/
+    /useLayoutEffect\(\(\) => \{[\s\S]*?el\.style\.setProperty\("--saai-bends-opacity", String\(colorBendsOpacity\)\);[\s\S]*?if \(!isHomepage\) return;[\s\S]*?const resetHomeBackgroundOnReturn = consumeHomeBackgroundResetOnReturn\(\);[\s\S]*?const useStoredRestore =[\s\S]*?!resetHomeBackgroundOnReturn[\s\S]*?storedHomeScrollY > 14[\s\S]*?shouldUseStoredHomeScrollRestore\(\);[\s\S]*?const resetHomepageScrollPosition = \(\) => \{[\s\S]*?window\.scrollTo\?\.\(\{ top: 0, left: 0, behavior: "auto" \}\);[\s\S]*?const applyOpacityForY = \(y, \{ persist = true \} = \{\}\) => \{[\s\S]*?writeStoredHomeScrollY\(y\);[\s\S]*?const consumePendingHomeReset = \(\) => \{[\s\S]*?consumeHomeBackgroundResetOnReturn\(\)[\s\S]*?applyOpacityForY\(0, \{ persist: false \}\);[\s\S]*?if \(consumePendingHomeReset\(\)\) return;[\s\S]*?if \(resetHomeBackgroundOnReturn\) \{[\s\S]*?resetHomepageScrollPosition\(\);[\s\S]*?applyOpacityForY\(0, \{ persist: false \}\);[\s\S]*?HOME_SCROLL_RESTORE_SYNC_DELAYS_MS\.forEach\(delay => \{[\s\S]*?if \(resetHomeBackgroundOnReturn\) resetHomepageScrollPosition\(\);[\s\S]*?bindHomepageRoot\(\);[\s\S]*?onScroll\(\);[\s\S]*?\}, \[isHomepage, mobileBackgroundMode, colorBendsOpacity, routeKey\]\);/
   );
   assert.match(
     source,

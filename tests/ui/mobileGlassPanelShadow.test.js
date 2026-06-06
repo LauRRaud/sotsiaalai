@@ -44,15 +44,15 @@ test("mobile glass panels do not inherit desktop shell shadows", () => {
   );
   assert.match(
     finalSurfacesCss,
-    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardIcon"\]\s*\{[\s\S]*?width:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.12\) !important;[\s\S]*?height:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.12\) !important;[\s\S]*?transform:\s*translateY\(0\.18rem\) !important;/
+    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardIcon"\]\s*\{[\s\S]*?width:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.22\) !important;[\s\S]*?height:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.22\) !important;[\s\S]*?transform:\s*translateY\(0\.8rem\) !important;/
   );
   assert.match(
     finalSurfacesCss,
-    /\.policy-scroll-page-ring\.policy-mobile-tall\s*\{[\s\S]*?--policy-scroll-overscan-bottom:\s*calc\([\s\S]*?clamp\(2\.1rem,\s*6vh,\s*3\.4rem\)[\s\S]*?\) !important;/
+    /\.policy-scroll-page-ring\.policy-mobile-tall\s*\{[\s\S]*?--policy-scroll-overscan-bottom:\s*calc\([\s\S]*?clamp\(2\.1rem,\s*6vh,\s*3\.4rem\)[\s\S]*?\) !important;[\s\S]*?padding-bottom:\s*0 !important;/
   );
   assert.match(
     finalSurfacesCss,
-    /\.policy-scroll-page-ring\.policy-mobile-tall[\s\S]*?\.policy-scroll-page-scroller\s*\{[\s\S]*?padding-bottom:\s*var\(--policy-scroll-overscan-bottom\) !important;[\s\S]*?mask-image:\s*none !important;/
+    /\.policy-scroll-page-ring\.policy-mobile-tall[\s\S]*?\.policy-scroll-page-scroller\s*\{[\s\S]*?padding-bottom:\s*var\(--policy-scroll-overscan-bottom\) !important;[\s\S]*?scroll-padding-bottom:\s*calc\(var\(--policy-scroll-overscan-bottom\) \+ 1\.25rem\) !important;[\s\S]*?mask-image:\s*none !important;/
   );
   assert.match(
     finalSurfacesCss,

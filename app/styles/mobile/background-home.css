@@ -37,6 +37,11 @@
     visibility: visible !important;
   }
 
+  [data-bg-layer][data-page="home"][data-mobile-bends="pending"] .bg-bends-layer {
+    opacity: var(--saai-bends-opacity, 1) !important;
+    visibility: visible !important;
+  }
+
   [data-bg-layer] .bg-particles-layer {
     transition-duration: 4500ms, 0s;
   }

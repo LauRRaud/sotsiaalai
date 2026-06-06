@@ -221,3 +221,57 @@ test("service map mobile filter toggle is larger with a larger arrow and narrow 
     /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__filters:not\(\.service-map-workspace__filters--collapsed\) \.service-map-workspace__toggle[\s\S]*?background:\s*transparent\s*!important/
   );
 });
+
+test("service map mobile toolbar keeps the filter toggle centered after later cascade rules", () => {
+  const serviceMapCss = readServiceMapCssBundle();
+  const mobileServiceMapCss = readSource("app/styles/mobile/service-map.css");
+  const finalMobileOverride = serviceMapCss.slice(
+    serviceMapCss.indexOf(mobileServiceMapCss) + mobileServiceMapCss.lastIndexOf("@media (max-width: 768px)"),
+    serviceMapCss.indexOf(mobileServiceMapCss) + mobileServiceMapCss.lastIndexOf("@media (max-width: 560px)")
+  );
+
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-workspace \.service-map-workspace__toggle,[\s\S]*?\.service-map-workspace \.service-map-workspace__filters:not\(\.service-map-workspace__filters--collapsed\) \.service-map-workspace__toggle:focus-visible\s*\{[\s\S]*?top:\s*var\(--service-map-mobile-control-top\)\s*!important;[\s\S]*?right:\s*auto\s*!important;[\s\S]*?left:\s*50%\s*!important;[\s\S]*?transform:\s*translateX\(-50%\)\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-workspace--toolbar-feedback \.service-map-workspace__info\.service-map-workspace__info\s*\{[\s\S]*?top:\s*var\(--service-map-mobile-control-top\)\s*!important;[\s\S]*?right:\s*var\(--service-map-mobile-side-control-gap\)\s*!important;[\s\S]*?left:\s*auto\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-workspace \.service-map-workspace__back\.service-map-workspace__back\s*\{[\s\S]*?display:\s*none\s*!important;[\s\S]*?visibility:\s*hidden\s*!important;[\s\S]*?pointer-events:\s*none\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-toolbar__identity\s*\{[\s\S]*?display:\s*flex\s*!important;[\s\S]*?position:\s*absolute\s*!important;[\s\S]*?top:\s*calc\(var\(--service-map-mobile-control-top\) - 0\.3rem\)\s*!important;[\s\S]*?left:\s*var\(--service-map-mobile-side-control-gap\)\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-workspace__map\s*\{[\s\S]*?left:\s*var\(--service-map-mobile-map-inset\)\s*!important;[\s\S]*?width:\s*auto\s*!important;[\s\S]*?height:\s*auto\s*!important;[\s\S]*?border-radius:\s*var\(--service-map-map-radius\)\s*!important;[\s\S]*?transform:\s*none\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-toolbar__fields\s*\{[\s\S]*?display:\s*grid;[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\);[\s\S]*?gap:\s*var\(--service-map-mobile-field-gap\);/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-workspace--toolbar-feedback \.service-map-toolbar__fields\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)\s*!important;[\s\S]*?width:\s*100%\s*!important;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-toolbar__types\s*\{[\s\S]*?display:\s*grid\s*!important;[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-toolbar__types \.service-map-toolbar__type-card:nth-child\(3\)\s*\{[\s\S]*?grid-column:\s*1 \/ -1;/
+  );
+  assert.match(
+    finalMobileOverride,
+    /\.service-map-toolbar__type-card\s*\{[\s\S]*?flex:\s*initial\s*!important;[\s\S]*?width:\s*100%\s*!important;/
+  );
+  assert.doesNotMatch(
+    finalMobileOverride,
+    /\.service-map-workspace \.service-map-workspace__toggle[\s\S]*?right:\s*var\(--mobile-header-info-right\)\s*!important/
+  );
+});

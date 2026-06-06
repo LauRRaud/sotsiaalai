@@ -77,6 +77,22 @@ test("home quick carousel removes the installed PWA slot and keeps labels stable
   assert.doesNotMatch(homeCss, /home-before-link-item\[data-home-quick-type="install"\][\s\S]*?visibility:\s*hidden\s*!important/);
 });
 
+test("home mobile quick carousel loads with privacy focused", () => {
+  assert.match(source, /const activeQuickKeyRef = useRef\("privacy"\)/);
+  assert.match(source, /const \[activeQuickKey, setActiveQuickKey\] = useState\("privacy"\)/);
+  assert.match(source, /window\.addEventListener\("pageshow",\s*updateInstallTarget\)/);
+  assert.match(source, /list\.querySelector\('\[data-home-quick-key="privacy"\]'\)/);
+  assert.match(source, /applyActiveKey\(items,\s*target\?\.dataset\?\.homeQuickKey \|\| "privacy"\)/);
+  assert.match(source, /\[90,\s*260,\s*620,\s*1120,\s*1800,\s*2600\]\.forEach\(\(delay\) => \{/);
+  assert.match(source, /if \(!target \|\| list\.clientWidth <= 0 \|\| target\.offsetWidth <= 0\) \{/);
+  assert.match(source, /const layoutObserver =[\s\S]*?new ResizeObserver\(\(\) => scheduleInitialCenter\(\)\)/);
+  assert.match(source, /window\.addEventListener\("pageshow",\s*handlePageRestore\)/);
+  assert.match(source, /document\.addEventListener\("visibilitychange",\s*handleVisibilityChange\)/);
+  assert.match(source, /quickCarouselProgrammaticRef\.current = true;[\s\S]*?centerQuickItem\(list,\s*target,\s*behavior\);/);
+  assert.match(source, /const clearInitialTimers = \(\) => \{[\s\S]*?initialTimers\.splice\(0\)\.forEach\(\(timer\) => window\.clearTimeout\(timer\)\)/);
+  assert.match(source, /clearInitialTimers\(\);[\s\S]*?centerInitialItem\(\);/);
+});
+
 test("home quick link labels stay short in English and Russian", () => {
   assert.equal(enMessages.about.links.terms, "Terms");
   assert.equal(enMessages.about.links.privacy, "Privacy");

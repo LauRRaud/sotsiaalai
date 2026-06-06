@@ -80,6 +80,27 @@ test("workspace dashboard uses a client-specific pre-inquiry icon and staff mail
   assert.equal(providerCard?.icon, "mailbox");
 });
 
+test("workspace dashboard card icons keep a consistent visible stroke weight", () => {
+  const source = readFileSync(new URL("../../components/chat/WorkspacePanel.jsx", import.meta.url), "utf8");
+  const dashboardIconSource = source.slice(
+    source.indexOf("function DashboardCardIcon"),
+    source.indexOf("function getDashboardCardIcon")
+  );
+  const css = readFileSync(new URL("../../components/chat/WorkspacePanel.module.css", import.meta.url), "utf8");
+
+  assert.match(dashboardIconSource, /<Route className=\{styles\.journeyInlineIcon\} strokeWidth=\{1\.55\}/);
+  assert.match(dashboardIconSource, /<Mail className=\{styles\.mailboxInlineIcon\} strokeWidth=\{1\.55\}/);
+  assert.match(dashboardIconSource, /type === "compose"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
+  assert.match(dashboardIconSource, /type === "pre-inquiry"[\s\S]*?stroke="currentColor" strokeWidth="1\.55"/);
+  assert.match(dashboardIconSource, /type === "map"[\s\S]*?<svg className=\{styles\.serviceMapInlineIcon\}[\s\S]*?stroke="currentColor" strokeWidth="1\.55"/);
+  assert.match(dashboardIconSource, /type === "document"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
+  assert.match(dashboardIconSource, /type === "materials"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"[\s\S]*?strokeWidth="1\.55"/);
+  assert.match(dashboardIconSource, /<AddPersonIcon strokeColor="currentColor" strokeWidth=\{1\.55\}/);
+  assert.match(css, /vector-effect:\s*non-scaling-stroke/);
+  assert.doesNotMatch(dashboardIconSource, /serviceMapLogoMaskId|serviceMapCutoutMaskId|fill="currentColor" mask/);
+  assert.doesNotMatch(dashboardIconSource, /strokeWidth=\{1\.72\}|strokeWidth=\{1\.62\}|strokeWidth="1\.65"|strokeWidth="1\.6"|strokeWidth="1\.48"|strokeWidth="1\.42"/);
+});
+
 test("workspace panel renders badge as visual chrome with accessible card label", () => {
   const source = readFileSync(new URL("../../components/chat/WorkspacePanel.jsx", import.meta.url), "utf8");
   const css = readFileSync(new URL("../../components/chat/WorkspacePanel.module.css", import.meta.url), "utf8");

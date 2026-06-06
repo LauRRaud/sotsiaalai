@@ -728,10 +728,13 @@
         "all": "All",
         "kov": "Municipality contact",
         "kov_social": "Local welfare department",
-        "provider": "Service provider"
+        "provider": "Services",
+        "help_listings": "Help requests and offers"
       },
       "marker_kov": "KOV",
       "marker_provider": "Provider",
+      "marker_help_request": "Help request",
+      "marker_help_offer": "Help offer",
       "marker_kov_short": "M",
       "marker_provider_short": "S",
       "marker_group_title": "{count} contacts",
@@ -4128,7 +4131,7 @@
     },
     "workspace": {
       "client": {
-        "title": "Journey workspace",
+        "title": "Workspace",
         "description": "Your private Journeys and next steps are collected here. A Journey is not shared before your separate confirmation.",
         "start": "Start Journey",
         "continue": "Continue latest Journey",

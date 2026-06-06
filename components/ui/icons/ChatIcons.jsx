@@ -87,7 +87,7 @@ export function RoomsIcon({ isLightTheme = false, className, ...props }) {
   );
 }
 
-export function AddPersonIcon({ isLightTheme = false, className, strokeColor, ...props }) {
+export function AddPersonIcon({ isLightTheme = false, className, strokeColor, strokeWidth = 1.5, ...props }) {
   const stroke = strokeColor || resolveThemeColor(isLightTheme);
   return (
     <svg
@@ -102,7 +102,7 @@ export function AddPersonIcon({ isLightTheme = false, className, strokeColor, ..
         <path
           d="M9.3 15H14.7C16.8 15 18.4 16 19 17.6C19.5 18.9 19.4 20.1 19.2 21C18.7 23 16.3 23.6 12 23.6C7.7 23.6 5.3 23 4.8 21C4.6 20.1 4.5 18.9 5 17.6C5.6 16 7.2 15 9.3 15Z"
           stroke={stroke}
-          strokeWidth="1.5"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -111,21 +111,21 @@ export function AddPersonIcon({ isLightTheme = false, className, strokeColor, ..
           cy="7"
           r="4"
           stroke={stroke}
-          strokeWidth="1.5"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M20.2 8.7V12.9"
           stroke={stroke}
-          strokeWidth="1.5"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M18.1 10.8H22.3"
           stroke={stroke}
-          strokeWidth="1.5"
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
         />

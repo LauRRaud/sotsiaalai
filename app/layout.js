@@ -147,6 +147,18 @@ const THEME_INIT_SCRIPT = `(function () {
 const LAYOUT_INIT_SCRIPT = `(function () {
   var root = document.documentElement;
   if (!root) return;
+  var HOME_BG_SCROLL_KEY = "sotsiaalai:home-background-scroll-y";
+  var HOME_BG_RESET_KEY = "sotsiaalai:home-background-reset-on-return";
+  var HOME_BG_RESET_PATHS = {
+    "/kasutusjuhend": true,
+    "/kasutustingimused": true,
+    "/privaatsustingimused": true
+  };
+  function normalizePath(value) {
+    var raw = String(value || "/").split("#")[0].split("?")[0] || "/";
+    if (raw.charAt(0) !== "/") raw = "/" + raw;
+    return raw.replace(/^\\/(et|ru|en)(?=\\/|$)/, "") || "/";
+  }
   function isMobileViewport() {
     try {
       return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
@@ -160,14 +172,52 @@ const LAYOUT_INIT_SCRIPT = `(function () {
       root.removeAttribute("data-layout");
     }
   }
+  function markHomeBackgroundReset(event) {
+    if (normalizePath(window.location && window.location.pathname) !== "/") return;
+    var target = normalizePath(event && event.detail && event.detail.href);
+    if (!HOME_BG_RESET_PATHS[target]) return;
+    try {
+      window.sessionStorage.setItem(HOME_BG_RESET_KEY, "1");
+      window.sessionStorage.removeItem(HOME_BG_SCROLL_KEY);
+    } catch {}
+  }
+  function resetHomeBackgroundReturn() {
+    if (normalizePath(window.location && window.location.pathname) !== "/") return;
+    try {
+      if (window.sessionStorage.getItem(HOME_BG_RESET_KEY) !== "1") return;
+      window.sessionStorage.removeItem(HOME_BG_RESET_KEY);
+      window.sessionStorage.removeItem(HOME_BG_SCROLL_KEY);
+    } catch {
+      return;
+    }
+    var homeRoot = document.querySelector(".homepage-root");
+    homeRoot && homeRoot.scrollTo && homeRoot.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    window.scrollTo && window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+    var bgLayer = document.querySelector("[data-bg-layer]");
+    bgLayer && bgLayer.style.setProperty("--saai-bends-opacity", "0.78");
+  }
+  function scheduleHomeBackgroundReset() {
+    resetHomeBackgroundReturn();
+    window.requestAnimationFrame(resetHomeBackgroundReturn);
+    window.setTimeout(resetHomeBackgroundReturn, 120);
+    window.setTimeout(resetHomeBackgroundReturn, 360);
+  }
   syncLayoutFlag();
+  scheduleHomeBackgroundReset();
   window.requestAnimationFrame(syncLayoutFlag);
   window.addEventListener("resize", syncLayoutFlag);
   window.visualViewport && window.visualViewport.addEventListener("resize", syncLayoutFlag);
+  window.addEventListener("sotsiaalai:route-transition", markHomeBackgroundReset);
   window.addEventListener("pageshow", function () {
     syncLayoutFlag();
+    scheduleHomeBackgroundReset();
   });
-  window.addEventListener("load", syncLayoutFlag);
+  window.addEventListener("load", function () {
+    syncLayoutFlag();
+    scheduleHomeBackgroundReset();
+  });
 })();`;
 export const metadata = {
   title: "SotsiaalAI",

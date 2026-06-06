@@ -617,6 +617,7 @@ function isKovServiceMapEntry(entry) {
 function serviceMapEntryMatchesType(entry, entryType) {
   if (!entryType || entryType === "ALL") return true;
   if (entryType === "SERVICES_CONTACTS") return entry?.type !== "HELP_REQUEST" && entry?.type !== "HELP_OFFER";
+  if (entryType === "HELP_LISTINGS") return entry?.type === "HELP_REQUEST" || entry?.type === "HELP_OFFER";
   if (entryType === "HELP_REQUEST" || entryType === "HELP_OFFER") return entry?.type === entryType;
   if (entryType === "KOV_SOCIAL_CONTACT" || entryType === "KOV_CONTACT") return isKovServiceMapEntry(entry);
   return entry?.type === entryType;
@@ -2786,11 +2787,16 @@ function readInitialServiceMapFilters() {
   }
   const params = new URLSearchParams(window.location.search || "");
   const entryType = String(params.get("type") || "KOV_SOCIAL_CONTACT").trim().toUpperCase();
-  const normalizedEntryType = entryType === "SERVICES_CONTACTS" ? "KOV_SOCIAL_CONTACT" : entryType;
+  const normalizedEntryType =
+    entryType === "SERVICES_CONTACTS"
+      ? "KOV_SOCIAL_CONTACT"
+      : entryType === "HELP_REQUEST" || entryType === "HELP_OFFER"
+        ? "HELP_LISTINGS"
+        : entryType;
   return {
     keyword: params.get("q") || params.get("keyword") || "",
     region: params.get("municipalityName") || params.get("municipality") || params.get("county") || "",
-    entryType: ["KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "HELP_REQUEST", "HELP_OFFER"].includes(normalizedEntryType) ? normalizedEntryType : "KOV_SOCIAL_CONTACT"
+    entryType: ["KOV_SOCIAL_CONTACT", "SERVICE_PROVIDER", "HELP_LISTINGS"].includes(normalizedEntryType) ? normalizedEntryType : "KOV_SOCIAL_CONTACT"
   };
 }
 
@@ -3112,9 +3118,8 @@ function ServiceMapSurface({
               <div className="service-map-toolbar__types" role="radiogroup" aria-label="Kirje liik">
               {[
                 ["KOV_SOCIAL_CONTACT", readText(t, "workspace_feature_pages.service_map.types.kov", "KOV")],
-                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.services", "Teenused")],
-                ["HELP_REQUEST", readText(t, "workspace_feature_pages.service_map.types.help_requests", "Abisoovid")],
-                ["HELP_OFFER", readText(t, "workspace_feature_pages.service_map.types.help_offers", "Abipakkumised")]
+                ["SERVICE_PROVIDER", readText(t, "workspace_feature_pages.service_map.types.provider", "Teenused")],
+                ["HELP_LISTINGS", readText(t, "workspace_feature_pages.service_map.types.help_listings", "Abisoovid ja pakkumised")]
               ].map(([value, label]) => (
                   <OptionCard
                     key={value}

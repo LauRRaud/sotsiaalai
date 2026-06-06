@@ -22,6 +22,11 @@ const journeyDashboardSource = readFileSync(
   "utf8"
 );
 
+const journeyCss = readFileSync(
+  new URL("../../app/styles/components/journey.css", import.meta.url),
+  "utf8"
+);
+
 function getToolsMenuPanel(source) {
   const start = source.indexOf("const toolsMenuPanel =");
   const end = source.indexOf("const sideControlsClassName", start);
@@ -52,4 +57,40 @@ test("journey empty start icon does not use GPU render classes that soften the i
   assert.ok(iconClass.includes("journey-empty-orbit-icon"));
   assert.doesNotMatch(iconClass, /transform-gpu/);
   assert.doesNotMatch(iconClass, /backface-visibility/);
+});
+
+test("journey empty start icon keeps the button effect but has no icon drop shadow", () => {
+  const iconRule = journeyCss.match(/\.journey-empty-orbit-icon\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+  const hoverIconRule = journeyCss.match(/\.profile-orbit-menu__center\.dock-item:is\(:hover, :focus-visible\)\s*\n\s*\.journey-empty-orbit-icon\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+
+  assert.match(iconRule, /color:\s*var\(--orbit-accent/);
+  assert.doesNotMatch(iconRule, /filter:/);
+  assert.doesNotMatch(iconRule, /drop-shadow/);
+  assert.doesNotMatch(hoverIconRule, /filter:/);
+  assert.doesNotMatch(hoverIconRule, /drop-shadow/);
+});
+
+test("journey client workspace buttons use primary styling and no leading icons", () => {
+  const clientWorkspace = journeyDashboardSource.slice(
+    journeyDashboardSource.indexOf('t("journey.workspace.client.title"'),
+    journeyDashboardSource.indexOf('t("journey.workspace.privacyNote"')
+  );
+
+  assert.doesNotMatch(clientWorkspace, /variant="secondary"/);
+  assert.doesNotMatch(clientWorkspace, /<Plus\b/);
+});
+
+test("journey client workspace does not duplicate the page title intro", () => {
+  assert.doesNotMatch(journeyDashboardSource, /journey\.header\.eyebrow/);
+  assert.doesNotMatch(journeyDashboardSource, /journey\.header\.description/);
+});
+
+test("journey cards use readable primary actions without button icons", () => {
+  const journeyCard = journeyDashboardSource.slice(
+    journeyDashboardSource.indexOf("function JourneyCard"),
+    journeyDashboardSource.indexOf("function DraftChipList")
+  );
+
+  assert.doesNotMatch(journeyCard, /variant="secondary"/);
+  assert.doesNotMatch(journeyCard, /<Archive\b/);
 });

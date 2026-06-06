@@ -728,10 +728,13 @@
         "all": "Kõik",
         "kov": "KOV",
         "kov_social": "KOV sotsiaalhoolekanne",
-        "provider": "Teenuseosutaja"
+        "provider": "Teenused",
+        "help_listings": "Abisoovid ja pakkumised"
       },
       "marker_kov": "KOV",
       "marker_provider": "Teenuseosutaja",
+      "marker_help_request": "Abisoov",
+      "marker_help_offer": "Abipakkumine",
       "marker_kov_short": "K",
       "marker_provider_short": "T",
       "marker_group_title": "{count} kontakti",
@@ -4128,7 +4131,7 @@
     },
     "workspace": {
       "client": {
-        "title": "Teekonna tööpind",
+        "title": "Töölaud",
         "description": "Siin on sinu privaatsed Teekonnad ja järgmised sammud. Teekonda ei jagata enne sinu eraldi kinnitust.",
         "start": "Alusta Teekonda",
         "continue": "Jätka viimast Teekonda",

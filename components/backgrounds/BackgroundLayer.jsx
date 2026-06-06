@@ -40,10 +40,21 @@ const HOME_SCROLL_BIND_RETRY_FRAMES = 16;
 const HOME_SCROLL_RESTORE_SYNC_DELAYS_MS = [80, 220, 520];
 const HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS = 650;
 const HOME_BACKGROUND_SCROLL_STORAGE_KEY = "sotsiaalai:home-background-scroll-y";
+const HOME_BACKGROUND_RESET_ON_RETURN_KEY = "sotsiaalai:home-background-reset-on-return";
+const HOME_BACKGROUND_RESET_RETURN_PATHS = new Set([
+  "/kasutusjuhend",
+  "/kasutustingimused",
+  "/privaatsustingimused"
+]);
 let homeBackgroundScrollRestoreGuardUntil = 0;
 function stripLocaleFromPathname(pathname = "/") {
   const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return normalized.replace(/^\/(et|ru|en)(?=\/|$)/, "") || "/";
+}
+
+function normalizeBackgroundPath(value = "/") {
+  const raw = String(value || "/").split("#")[0].split("?")[0] || "/";
+  return stripLocaleFromPathname(raw.startsWith("/") ? raw : `/${raw}`);
 }
 
 function markHomeBackgroundScrollRestoreGuard() {
@@ -100,6 +111,34 @@ function writeStoredHomeScrollY(y) {
       String(Math.max(0, Math.round(Number(y) || 0)))
     );
   } catch {}
+}
+
+function markHomeBackgroundResetOnReturn() {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(HOME_BACKGROUND_RESET_ON_RETURN_KEY, "1");
+    window.sessionStorage.removeItem(HOME_BACKGROUND_SCROLL_STORAGE_KEY);
+  } catch {}
+}
+
+function shouldResetHomeBackgroundOnReturn() {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.sessionStorage.getItem(HOME_BACKGROUND_RESET_ON_RETURN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function consumeHomeBackgroundResetOnReturn() {
+  if (typeof window === "undefined") return false;
+  const shouldReset = shouldResetHomeBackgroundOnReturn();
+  if (!shouldReset) return false;
+  try {
+    window.sessionStorage.removeItem(HOME_BACKGROUND_RESET_ON_RETURN_KEY);
+    window.sessionStorage.removeItem(HOME_BACKGROUND_SCROLL_STORAGE_KEY);
+  } catch {}
+  return true;
 }
 
 function detectMobileLikeDevice() {
@@ -194,12 +233,15 @@ const BackgroundContent = memo(function BackgroundContent({
   const particlesParallaxActive = false;
   const initialInlineBendsOpacity = (() => {
     if (typeof window === "undefined" || !isHomepage) return colorBendsOpacity;
+    const resetHomeBackground = shouldResetHomeBackgroundOnReturn();
     const currentY =
       window.scrollY ||
         document.documentElement?.scrollTop ||
         document.body?.scrollTop ||
         0;
-    const y = shouldUseStoredHomeScrollRestore()
+    const y = resetHomeBackground
+      ? 0
+      : shouldUseStoredHomeScrollRestore()
       ? Math.max(readStoredHomeScrollY(), currentY)
       : currentY;
     const viewportHeight =
@@ -217,17 +259,66 @@ const BackgroundContent = memo(function BackgroundContent({
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const onPopState = () => markHomeBackgroundScrollRestoreGuard();
+    const resetTimers = new Set();
+    let resetFrame = 0;
+    const resetHomeReturnIfNeeded = () => {
+      if (!shouldResetHomeBackgroundOnReturn()) return;
+      if (normalizeBackgroundPath(window.location.pathname) !== "/") return;
+      consumeHomeBackgroundResetOnReturn();
+      const root = document.querySelector(".homepage-root");
+      root?.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      window.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+      layerRef.current?.style.setProperty("--saai-bends-opacity", String(colorBendsOpacity));
+    };
+    const scheduleHomeReturnReset = () => {
+      resetHomeReturnIfNeeded();
+      if (resetFrame) window.cancelAnimationFrame(resetFrame);
+      resetFrame = window.requestAnimationFrame(() => {
+        resetFrame = 0;
+        resetHomeReturnIfNeeded();
+      });
+      [120, 360].forEach(delay => {
+        const timer = window.setTimeout(() => {
+          resetTimers.delete(timer);
+          resetHomeReturnIfNeeded();
+        }, delay);
+        resetTimers.add(timer);
+      });
+    };
+    const onPopState = () => {
+      markHomeBackgroundScrollRestoreGuard();
+      scheduleHomeReturnReset();
+    };
     const onPageShow = event => {
       if (event?.persisted) markHomeBackgroundScrollRestoreGuard();
+      scheduleHomeReturnReset();
     };
+    resetHomeReturnIfNeeded();
     window.addEventListener("popstate", onPopState);
     window.addEventListener("pageshow", onPageShow);
     return () => {
+      if (resetFrame) window.cancelAnimationFrame(resetFrame);
+      resetTimers.forEach(timer => window.clearTimeout(timer));
       window.removeEventListener("popstate", onPopState);
       window.removeEventListener("pageshow", onPageShow);
     };
-  }, []);
+  }, [colorBendsOpacity]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleRouteTransition = event => {
+      if (!isHomepage) return;
+      const targetPath = normalizeBackgroundPath(event?.detail?.href || "");
+      if (HOME_BACKGROUND_RESET_RETURN_PATHS.has(targetPath)) {
+        markHomeBackgroundResetOnReturn();
+      }
+    };
+    window.addEventListener("sotsiaalai:route-transition", handleRouteTransition);
+    return () => {
+      window.removeEventListener("sotsiaalai:route-transition", handleRouteTransition);
+    };
+  }, [isHomepage]);
   useEffect(() => {
     if (typeof window === "undefined") return;
     let timer = 0;
@@ -417,10 +508,14 @@ const BackgroundContent = memo(function BackgroundContent({
     let homepageRoot = null;
     const restoreSyncTimers = new Set();
     const isUsableElement = value => value instanceof HTMLElement;
-    const storedHomeScrollY = readStoredHomeScrollY();
-    const useStoredRestore = storedHomeScrollY > 14 && shouldUseStoredHomeScrollRestore();
+    const resetHomeBackgroundOnReturn = consumeHomeBackgroundResetOnReturn();
+    const storedHomeScrollY = resetHomeBackgroundOnReturn ? 0 : readStoredHomeScrollY();
+    const useStoredRestore =
+      !resetHomeBackgroundOnReturn &&
+      storedHomeScrollY > 14 &&
+      shouldUseStoredHomeScrollRestore();
     const restoreGuardUntil =
-      useStoredRestore
+      useStoredRestore || resetHomeBackgroundOnReturn
         ? (window.performance?.now?.() ?? Date.now()) + HOME_BACKGROUND_SCROLL_RESTORE_GUARD_MS
         : 0;
     const getHomepageRoot = () => {
@@ -442,6 +537,13 @@ const BackgroundContent = memo(function BackgroundContent({
         0
       );
     };
+    const resetHomepageScrollPosition = () => {
+      const root = getHomepageRoot();
+      root?.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      window.scrollTo?.({ top: 0, left: 0, behavior: "auto" });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    };
     const applyOpacityForY = (y, { persist = true } = {}) => {
       const viewportHeight =
         window.visualViewport?.height ||
@@ -457,8 +559,24 @@ const BackgroundContent = memo(function BackgroundContent({
       el.style.setProperty("--saai-bends-opacity", bendsOpacity.toFixed(3));
       if (persist) writeStoredHomeScrollY(y);
     };
+    const consumePendingHomeReset = () => {
+      if (!consumeHomeBackgroundResetOnReturn()) return false;
+      resetHomepageScrollPosition();
+      applyOpacityForY(0, { persist: false });
+      return true;
+    };
     const update = () => {
       raf = 0;
+      if (consumePendingHomeReset()) return;
+      if (
+        resetHomeBackgroundOnReturn &&
+        restoreGuardUntil > 0 &&
+        window.performance.now() < restoreGuardUntil
+      ) {
+        resetHomepageScrollPosition();
+        applyOpacityForY(0, { persist: false });
+        return;
+      }
       const y = resolveScrollY();
       const useStoredDuringRestore =
         restoreGuardUntil > 0 &&
@@ -495,6 +613,10 @@ const BackgroundContent = memo(function BackgroundContent({
     window.addEventListener("pageshow", onScroll);
     window.visualViewport?.addEventListener("resize", onScroll);
     bindHomepageRoot();
+    if (resetHomeBackgroundOnReturn) {
+      resetHomepageScrollPosition();
+      applyOpacityForY(0, { persist: false });
+    }
     if (useStoredRestore) {
       applyOpacityForY(storedHomeScrollY, { persist: false });
     }
@@ -502,6 +624,7 @@ const BackgroundContent = memo(function BackgroundContent({
     HOME_SCROLL_RESTORE_SYNC_DELAYS_MS.forEach(delay => {
       const timer = window.setTimeout(() => {
         restoreSyncTimers.delete(timer);
+        if (resetHomeBackgroundOnReturn) resetHomepageScrollPosition();
         bindHomepageRoot();
         onScroll();
       }, delay);

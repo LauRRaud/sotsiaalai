@@ -216,7 +216,7 @@ test("service map back button uses desktop toolbar panel and mobile page anchor"
   );
   assert.match(
     css,
-    /@media \(max-width:\s*768px\)[\s\S]*?\.service-map-workspace__back\s*\{[\s\S]*?top:\s*calc\(env\(safe-area-inset-top,\s*0px\) \+ 0\.53rem\)\s*!important[\s\S]*?left:\s*calc\(env\(safe-area-inset-left,\s*0px\) \+ 0\.37rem\)\s*!important[\s\S]*?display:\s*flex\s*!important/
+    /:is\([\s\S]*?\.service-map-workspace[\s\S]*?\)\s*:is\([\s\S]*?\.service-map-workspace__back[\s\S]*?\)\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/
   );
   assert.match(
     css,
@@ -241,7 +241,7 @@ test("workspace dashboard back button keeps the same shared page anchor", () => 
     /<GlassSubpageHeader[\s\S]*?onBack=\{handleWorkspaceBack\}[\s\S]*?backAriaLabel=\{text\(t,\s*"buttons\.back_previous",\s*"Tagasi"\)\}/
   );
   assert.match(source, /backClassName=\{styles\.backButton\}/);
-  assert.match(css, /^\.backButton\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*var\(--mobile-header-control-top,\s*0\.05rem\)\s*!important;/m);
+  assert.match(css, /^\.backButton\s*\{[\s\S]*?left:\s*var\(--mobile-header-back-left,\s*0\.55rem\)\s*!important;[\s\S]*?top:\s*calc\([\s\S]*?var\(--mobile-header-control-top,\s*0\.05rem\)[\s\S]*?var\(--mobile-header-browser-y-offset,\s*0rem\)[\s\S]*?var\(--mobile-header-pwa-y-offset,\s*0rem\)[\s\S]*?\)\s*!important;/m);
   assert.match(css, /@media \(max-width:\s*768px\)[\s\S]*?\.panel\s*\{/);
   assert.doesNotMatch(source, /glassPageBackTopLeftClassName/);
 });
@@ -256,7 +256,15 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(
     css,
-    /\.service-map-toolbar__types\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1\.5fr\) minmax\(0,\s*1\.18fr\) minmax\(0,\s*0\.58fr\)/
+    /\.service-map-toolbar__types\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__types \.service-map-toolbar__type-card:nth-child\(3\)\s*\{[\s\S]*?grid-column:\s*1 \/ -1/
+  );
+  assert.match(
+    css,
+    /\.service-map-toolbar__fields\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/
   );
   assert.match(
     css,
@@ -300,6 +308,9 @@ test("service map multi-line mobile toolbar stays compact and gives provider tab
   );
   assert.match(source, /const SERVICE_MAP_RESULT_BUTTON_LIMIT = 56;/);
   assert.match(source, /filteredEntries\.slice\(0,\s*SERVICE_MAP_RESULT_BUTTON_LIMIT\)\.map/);
+  assert.match(source, /\["HELP_LISTINGS",\s*readText\(t,\s*"workspace_feature_pages\.service_map\.types\.help_listings"/);
+  assert.doesNotMatch(source, /\["HELP_REQUEST",\s*readText\(t,\s*"workspace_feature_pages\.service_map\.types\.help_requests"/);
+  assert.doesNotMatch(source, /\["HELP_OFFER",\s*readText\(t,\s*"workspace_feature_pages\.service_map\.types\.help_offers"/);
   assert.doesNotMatch(
     source,
     /name="service-map-entry-type"[\s\S]*?fitTextLines/

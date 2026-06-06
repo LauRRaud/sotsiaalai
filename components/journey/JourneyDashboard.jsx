@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Archive, Check, FileText, ListChecks, Lock, Map, Plus, Route } from "lucide-react";
+import { Check, FileText, ListChecks, Lock, Map, Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffectiveRole } from "@/components/auth/useEffectiveRole";
@@ -208,18 +208,16 @@ function JourneyCard({ journey, onArchive, busy, t, locale }) {
         </div>
 
         <div className="flex flex-wrap gap-[0.5rem]">
-          <Button as="a" href={detailHref} variant="secondary" size="sm">
+          <Button as="a" href={detailHref} size="sm">
             {t("journey.actions.open", "Open journey")}
           </Button>
           {!archived ? (
             <Button
-              variant="secondary"
               size="sm"
               onClick={() => onArchive(journey.id)}
               disabled={busy}
               aria-label={t("journey.actions.archive_named", { title: journey.title }, "Archive journey {title}")}
             >
-              <Archive size={16} aria-hidden="true" />
               {t("journey.actions.archive", "Archive")}
             </Button>
           ) : null}
@@ -802,28 +800,6 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
         ) : (
           <>
         {mode === "list" ? (
-          <header className={cn(cardClassName, "md:grid-cols-[1fr_auto] md:items-end")}>
-            <div className="grid gap-[0.48rem]">
-              <div className="flex flex-wrap items-center gap-[0.55rem] text-[0.82rem] font-[700] uppercase tracking-[0.08em] text-[color:var(--title-color,var(--brand-primary))]">
-                <Route size={17} aria-hidden="true" />
-                {t("journey.header.eyebrow", "Private journey layer")}
-              </div>
-              <h1 className={titleClassName}>
-                {t("journey.title", "Teekond")}
-              </h1>
-              <p className={cn(bodyTextClassName, "max-w-[58rem]")}>
-                {t("journey.header.description", "Kirjelda olukorda, vaata koostatud ülevaade üle ja salvesta see privaatse teekonnana. Midagi ei jagata automaatselt.")}
-              </p>
-            </div>
-
-            <Button onClick={handleStartNew} disabled={busy}>
-              <Plus size={18} aria-hidden="true" />
-              {t("journey.actions.start_new", "Start journey")}
-            </Button>
-          </header>
-        ) : null}
-
-        {mode === "list" ? (
           <section className={cn(cardClassName, "gap-[0.78rem]")}>
             <div className="flex flex-wrap items-center justify-between gap-[0.7rem]">
               <div className="grid gap-[0.26rem]">
@@ -835,23 +811,22 @@ export default function JourneyDashboard({ embedded = false, onBack = null, hide
                 </p>
               </div>
               {latestJourney ? (
-                <Button as="a" href={localizePath(`/teekond/${encodeURIComponent(latestJourney.id)}`, locale)} variant="secondary">
+                <Button as="a" href={localizePath(`/teekond/${encodeURIComponent(latestJourney.id)}`, locale)}>
                   {t("journey.workspace.client.continue", "Jätka viimast Teekonda")}
                 </Button>
               ) : null}
             </div>
             <div className="flex flex-wrap gap-[0.56rem]">
-              <Button onClick={handleStartNew} variant="secondary" disabled={busy}>
-                <Plus size={17} aria-hidden="true" />
+              <Button onClick={handleStartNew} disabled={busy}>
                 {t("journey.workspace.client.start", "Alusta Teekonda")}
               </Button>
-              <Button as="a" href={localizePath("/eelpoordumised", locale)} variant="secondary">
+              <Button as="a" href={localizePath("/eelpoordumised", locale)}>
                 {t("journey.workspace.client.relatedPreInquiries", "Eelpöördumised")}
               </Button>
-              <Button as="a" href={localizePath("/teenusekaart", locale)} variant="secondary">
+              <Button as="a" href={localizePath("/teenusekaart", locale)}>
                 {t("chat.workspace.cards.service_map.title", "Teenusekaart")}
               </Button>
-              <Button as="a" href={localizePath("/documents", locale)} variant="secondary">
+              <Button as="a" href={localizePath("/documents", locale)}>
                 {t("chat.workspace.cards.documents.title", "Dokumendid")}
               </Button>
             </div>

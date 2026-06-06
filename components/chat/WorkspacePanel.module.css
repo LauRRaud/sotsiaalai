@@ -523,6 +523,14 @@
   margin: -7%;
 }
 
+.dashboardCardIcon svg path,
+.dashboardCardIcon svg circle,
+.dashboardCardIcon svg rect,
+.dashboardCardIcon svg line,
+.dashboardCardIcon svg polyline {
+  vector-effect: non-scaling-stroke;
+}
+
 .dashboardCardIcon[data-workspace-card-icon="map"] .serviceMapInlineIcon {
   width: 156% !important;
   height: 156% !important;

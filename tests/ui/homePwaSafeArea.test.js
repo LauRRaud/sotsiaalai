@@ -47,6 +47,11 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
     "homepage root should not create a competing inner scroll container"
   );
   assert.match(
+    mobileFoundationsCss,
+    /@supports \(height:\s*100lvh\)[\s\S]*?body\.homepage,[\s\S]*?html\[data-initial-page="home"\] body\.app-root\s*\{[\s\S]*?--home-mobile-stable-vh:\s*max\(var\(--glass-mobile-root-vh,\s*100dvh\),\s*100lvh\);[\s\S]*?--home-mobile-canvas-height:\s*calc\([\s\S]*?var\(--home-mobile-stable-vh\)[\s\S]*?\+ var\(--home-mobile-safe-bottom\)[\s\S]*?\);/,
+    "homepage mobile background should keep a stable large-viewport floor behind browser chrome"
+  );
+  assert.match(
     mobileCss,
     /\.homepage-root \.home-hero-section\s*\{[\s\S]*?min-height:\s*auto;/,
     "mobile homepage hero should not push the cards downward in PWA mode"
@@ -76,6 +81,10 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.match(
     mobileBackgroundCss,
     /\[data-bg-layer\]\[data-page="subpage"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible\s*!important;/
+  );
+  assert.match(
+    mobileBackgroundCss,
+    /\[data-bg-layer\]\[data-page="home"\]\[data-mobile-bends="pending"\] \.bg-bends-layer\s*\{[\s\S]*?opacity:\s*var\(--saai-bends-opacity,\s*1\)\s*!important;[\s\S]*?visibility:\s*visible\s*!important;/
   );
   assert.doesNotMatch(
     mobileBackgroundCss,
@@ -132,6 +141,10 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   assert.match(layout, /syncLayoutFlag\(\);[\s\S]*?window\.requestAnimationFrame\(syncLayoutFlag\);/);
   assert.match(layout, /window\.addEventListener\("resize", syncLayoutFlag\);/);
   assert.doesNotMatch(layout, /clearAppPrepaint|fallbackTimer|pagehide/);
+  assert.match(layout, /var HOME_BG_RESET_KEY = "sotsiaalai:home-background-reset-on-return";/);
+  assert.match(layout, /var HOME_BG_RESET_PATHS = \{[\s\S]*?"\/kasutusjuhend": true,[\s\S]*?"\/kasutustingimused": true,[\s\S]*?"\/privaatsustingimused": true[\s\S]*?\};/);
+  assert.match(layout, /window\.addEventListener\("sotsiaalai:route-transition", markHomeBackgroundReset\);/);
+  assert.match(layout, /function resetHomeBackgroundReturn\(\) \{[\s\S]*?window\.sessionStorage\.removeItem\(HOME_BG_RESET_KEY\);[\s\S]*?window\.scrollTo && window\.scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\);[\s\S]*?bgLayer && bgLayer\.style\.setProperty\("--saai-bends-opacity", "0\.78"\);/);
   assert.match(layout, /window\.addEventListener\("pageshow", function \(\) \{[\s\S]*?syncLayoutFlag\(\);[\s\S]*?\}\);/);
   assert.match(layout, /<script[\s\S]*?id="app-layout-init"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: LAYOUT_INIT_SCRIPT \}\}/);
   assert.match(

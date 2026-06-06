@@ -264,16 +264,25 @@ export default function HomeAboutSection({
     const handleAppInstalled = () => {
       setQuickInstallAvailable(false);
     };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        updateInstallTarget();
+      }
+    };
 
     updateInstallTarget();
     mobileQuery?.addEventListener?.("change", updateInstallTarget);
     standaloneQuery?.addEventListener?.("change", updateInstallTarget);
     fullscreenQuery?.addEventListener?.("change", updateInstallTarget);
+    window.addEventListener("pageshow", updateInstallTarget);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("appinstalled", handleAppInstalled);
     return () => {
       mobileQuery?.removeEventListener?.("change", updateInstallTarget);
       standaloneQuery?.removeEventListener?.("change", updateInstallTarget);
       fullscreenQuery?.removeEventListener?.("change", updateInstallTarget);
+      window.removeEventListener("pageshow", updateInstallTarget);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
@@ -549,32 +558,92 @@ export default function HomeAboutSection({
       rafId = window.requestAnimationFrame(updateActive);
     };
 
-    const centerInitialItem = () => {
-      if (quickListInitialCenterRef.current || !isMobile()) {
+    const centerInitialItem = (behavior = "auto") => {
+      const items = itemElements();
+      if (!isMobile() || !items.length) {
         scheduleUpdate();
-        return;
+        return false;
       }
 
       const target =
         list.querySelector('[data-home-quick-key="privacy"]') ||
-        itemElements()[Math.floor(itemElements().length / 2)];
+        items[Math.floor(items.length / 2)];
+      if (!target || list.clientWidth <= 0 || target.offsetWidth <= 0) {
+        return false;
+      }
 
-      centerQuickItem(list, target, "auto");
-
+      if (quickCarouselSettleTimerRef.current) {
+        window.clearTimeout(quickCarouselSettleTimerRef.current);
+      }
+      quickCarouselProgrammaticRef.current = true;
+      applyActiveKey(items, target?.dataset?.homeQuickKey || "privacy");
+      centerQuickItem(list, target, behavior);
+      quickCarouselSettleTimerRef.current = window.setTimeout(() => {
+        quickCarouselProgrammaticRef.current = false;
+        quickCarouselSettleTimerRef.current = 0;
+      }, 220);
       quickListInitialCenterRef.current = true;
-      scheduleUpdate();
+      return true;
     };
 
-    const initialFrame = window.requestAnimationFrame(centerInitialItem);
+    const initialTimers = [];
+    const clearInitialTimers = () => {
+      initialTimers.splice(0).forEach((timer) => window.clearTimeout(timer));
+    };
+    const scheduleInitialCenter = () => {
+      if (!isMobile()) {
+        scheduleUpdate();
+        return;
+      }
+
+      clearInitialTimers();
+      centerInitialItem();
+      [90, 260, 620, 1120, 1800, 2600].forEach((delay) => {
+        const timer = window.setTimeout(() => {
+          if (isMobile()) {
+            centerInitialItem();
+          }
+        }, delay);
+        initialTimers.push(timer);
+      });
+    };
+    const handlePageRestore = () => {
+      quickListInitialCenterRef.current = false;
+      scheduleInitialCenter();
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        handlePageRestore();
+      }
+    };
+    const initialFrame = window.requestAnimationFrame(() => {
+      scheduleInitialCenter();
+    });
+    const layoutObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => scheduleInitialCenter())
+        : null;
+    layoutObserver?.observe(list);
     list.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("pageshow", handlePageRestore);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     mobileQuery?.addEventListener?.("change", scheduleUpdate);
 
     return () => {
       window.cancelAnimationFrame(initialFrame);
+      clearInitialTimers();
+      if (quickCarouselSettleTimerRef.current) {
+        window.clearTimeout(quickCarouselSettleTimerRef.current);
+        quickCarouselSettleTimerRef.current = 0;
+      }
+      quickCarouselProgrammaticRef.current = false;
       if (rafId) window.cancelAnimationFrame(rafId);
+      layoutObserver?.disconnect?.();
       list.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("pageshow", handlePageRestore);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       mobileQuery?.removeEventListener?.("change", scheduleUpdate);
     };
   }, [quickLinkSignature]);
