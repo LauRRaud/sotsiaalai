@@ -58,9 +58,9 @@
     .workspace-dashboard-panel
     .workspace-dashboard-card[class*="card_document_drafting"]
     [class*="cardIcon"] {
-    width: clamp(3.18rem, 13vw, 3.48rem) !important;
-    height: clamp(3.18rem, 13vw, 3.48rem) !important;
-    transform: translateY(0.94rem) !important;
+    width: var(--workspace-card-icon-size) !important;
+    height: var(--workspace-card-icon-size) !important;
+    transform: translateY(0.3rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
