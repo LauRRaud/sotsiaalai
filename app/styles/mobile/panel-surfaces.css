@@ -51,7 +51,7 @@
     [class*="cardTitle"] {
     font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
     line-height: 1.1 !important;
-    transform: translateY(0.34rem) !important;
+    transform: translateY(0.22rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -67,11 +67,12 @@
     .workspace-dashboard-panel
     .workspace-dashboard-card[class*="card_document_drafting"]
     [class*="cardTitle"] {
-    max-width: 8.15em !important;
-    font-size: clamp(1.07rem, 4.38vw, 1.16rem) !important;
-    line-height: 1.04 !important;
-    transform: translateY(0.2rem) !important;
-    text-wrap: balance;
+    max-width: 100% !important;
+    font-size: clamp(1.14rem, 4.7vw, 1.28rem) !important;
+    line-height: 1.1 !important;
+    transform: translateY(0.22rem) !important;
+    white-space: nowrap !important;
+    text-wrap: nowrap;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]

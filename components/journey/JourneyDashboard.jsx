@@ -461,7 +461,7 @@ function RoleScopedWorkspace({ role, t, locale }) {
           <RoleWorkspaceAction
             href={documentsHref}
             icon={FileText}
-            title={t("chat.workspace.cards.document_drafting.title", "Dokumendi koostamine")}
+            title={t("chat.workspace.cards.document_drafting.title", "Koosta dokument")}
             description={t("journey.workspace.specialist.documentsDescription", "Kasuta olemasolevaid dokumendi töövahendeid.")}
           />
         )}

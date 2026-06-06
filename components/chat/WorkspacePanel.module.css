@@ -656,7 +656,8 @@
 }
 
 .card_document_drafting .cardTitle {
-  max-width: 7.35em;
+  max-width: none;
+  white-space: nowrap;
 }
 
 :global(:root.theme-light) .panel,

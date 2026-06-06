@@ -36,11 +36,11 @@ test("mobile glass panels do not inherit desktop shell shadows", () => {
   );
   assert.match(
     finalSurfacesCss,
-    /\.workspace-dashboard-card\s*\[class\*="cardTitle"\]\s*\{[\s\S]*?font-size:\s*clamp\(1\.14rem,\s*4\.7vw,\s*1\.28rem\) !important;[\s\S]*?transform:\s*translateY\(0\.34rem\) !important;/
+    /\.workspace-dashboard-card\s*\[class\*="cardTitle"\]\s*\{[\s\S]*?font-size:\s*clamp\(1\.14rem,\s*4\.7vw,\s*1\.28rem\) !important;[\s\S]*?transform:\s*translateY\(0\.22rem\) !important;/
   );
   assert.match(
     finalSurfacesCss,
-    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardTitle"\]\s*\{[\s\S]*?max-width:\s*8\.15em !important;[\s\S]*?font-size:\s*clamp\(1\.07rem,\s*4\.38vw,\s*1\.16rem\) !important;/
+    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardTitle"\]\s*\{[\s\S]*?max-width:\s*100% !important;[\s\S]*?font-size:\s*clamp\(1\.14rem,\s*4\.7vw,\s*1\.28rem\) !important;[\s\S]*?white-space:\s*nowrap !important;/
   );
   assert.match(
     finalSurfacesCss,
