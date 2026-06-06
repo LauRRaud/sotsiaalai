@@ -499,7 +499,7 @@ function EmptyJourneyStart({ onStart, disabled, t }) {
               >
                 <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
                   <Route
-                    className="journey-empty-orbit-icon absolute left-1/2 top-1/2 block h-[var(--orbit-center-icon-size)] w-[var(--orbit-center-icon-size)] -translate-x-1/2 -translate-y-1/2 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]"
+                    className="journey-empty-orbit-icon absolute left-1/2 top-1/2 block h-[var(--orbit-center-icon-size)] w-[var(--orbit-center-icon-size)] -translate-x-1/2 -translate-y-1/2 pointer-events-none origin-center transition-none z-[3]"
                     strokeWidth={1.72}
                     aria-hidden="true"
                     focusable="false"

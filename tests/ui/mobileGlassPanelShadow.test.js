@@ -44,7 +44,7 @@ test("mobile glass panels do not inherit desktop shell shadows", () => {
   );
   assert.match(
     finalSurfacesCss,
-    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardIcon"\]\s*\{[\s\S]*?width:\s*var\(--workspace-card-icon-size\) !important;[\s\S]*?height:\s*var\(--workspace-card-icon-size\) !important;[\s\S]*?transform:\s*translateY\(0\.3rem\) !important;/
+    /\.workspace-dashboard-card\[class\*="card_document_drafting"\][\s\S]*?\[class\*="cardIcon"\]\s*\{[\s\S]*?width:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.12\) !important;[\s\S]*?height:\s*calc\(var\(--workspace-card-icon-size\) \* 1\.12\) !important;[\s\S]*?transform:\s*translateY\(0\.18rem\) !important;/
   );
   assert.match(
     finalSurfacesCss,

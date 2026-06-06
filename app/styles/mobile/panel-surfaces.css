@@ -58,9 +58,9 @@
     .workspace-dashboard-panel
     .workspace-dashboard-card[class*="card_document_drafting"]
     [class*="cardIcon"] {
-    width: var(--workspace-card-icon-size) !important;
-    height: var(--workspace-card-icon-size) !important;
-    transform: translateY(0.3rem) !important;
+    width: calc(var(--workspace-card-icon-size) * 1.12) !important;
+    height: calc(var(--workspace-card-icon-size) * 1.12) !important;
+    transform: translateY(0.18rem) !important;
   }
 
   html[data-layout="mobile"] body[data-layout="mobile"]
@@ -99,4 +99,5 @@
     display: none !important;
     opacity: 0 !important;
   }
+
 }

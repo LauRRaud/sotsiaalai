@@ -17,6 +17,11 @@ const workspaceCardsSource = readFileSync(
   "utf8"
 );
 
+const journeyDashboardSource = readFileSync(
+  new URL("../../components/journey/JourneyDashboard.jsx", import.meta.url),
+  "utf8"
+);
+
 function getToolsMenuPanel(source) {
   const start = source.indexOf("const toolsMenuPanel =");
   const end = source.indexOf("const sideControlsClassName", start);
@@ -39,4 +44,12 @@ test("client workspace keeps Teekond as a separate dashboard card", () => {
   assert.match(workspaceCardsSource, /title:\s*text\(t,\s*"chat\.workspace\.cards\.journey\.title",\s*"Teekond"\)/);
   assert.match(workspaceCardsSource, /route:\s*"\/teekond"/);
   assert.match(workspaceCardsSource, /\?\s*\[\[journeyCard,\s*serviceMapCard\]\]/);
+});
+
+test("journey empty start icon does not use GPU render classes that soften the icon", () => {
+  const iconClass = journeyDashboardSource.match(/className="([^"]*journey-empty-orbit-icon[^"]*)"/)?.[1] || "";
+
+  assert.ok(iconClass.includes("journey-empty-orbit-icon"));
+  assert.doesNotMatch(iconClass, /transform-gpu/);
+  assert.doesNotMatch(iconClass, /backface-visibility/);
 });
