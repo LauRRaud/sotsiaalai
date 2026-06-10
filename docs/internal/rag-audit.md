@@ -2,7 +2,7 @@
 
 STATUS: current engineering audit
 
-Last reviewed: 2026-05-05
+Last reviewed: 2026-06-10
 
 This document summarizes the current `lib/chat` and `lib/rag` architecture, with a file-by-file assessment of role, maturity, limitations and likely conflicts.
 
@@ -935,12 +935,53 @@ Next step:
 - If the live smoke happened earlier than the default window but is still intentionally valid, run `npm run rag:check:v24a-live-trace -- --max-age-minutes=1440`.
 - For a targeted overview smoke already present in the DB, run e.g. `npm run rag:check:v24a-live-trace -- --case=overview_lastekaitse --conversation-id=conv-540948d4-0733-4072-b8e0-421ccc549dcf --max-age-minutes=1440`.
 
+### Platform Live Smoke 2026-06-10
+
+Status: DONE / live smoke PASS, server trace checker PASS
+
+Setup:
+
+- Server was already at the same commit as local `main` (`719efaed`), so no deploy was needed before smoke.
+- Smoke was run over `/api/chat` against `https://sotsiaal.ai` with an authenticated session cookie, one fresh conversation per question with `persist: true` and a client-generated `conv-<uuid>` id.
+- Note for future scripted smokes: `/api/chat` persists messages only when the client supplies a plausible `convId`; `persist: true` alone does not create a conversation.
+
+Live question set and routing results (all HTTP 200):
+
+| Question | Mode | EvidencePackage | Package-aware | Displayed sources |
+| --- | --- | --- | --- | --- |
+| `Mis on murekohad lastekaitses?` | `overview_synthesis` | yes (temporal 2021-2025) | no | 3 distinct Sotsiaaltöö documents |
+| `Mis vahe on koduteenusel ja tugiisikuteenusel?` | `comparison` | yes | no | SHS § 23 and § 17 only |
+| `Mis ütleb SHS § 42?` | `explicit_paragraph` | no | no | SHS § 42 only |
+| `Millised on Kuusalu valla koduteenuse tingimused?` | `municipality_service_benefit_list` | no | yes | KOV service page, forms, KOV RT § 6 |
+| `Mida Astangu Keskus pakub?` | `resource_discovery` | yes | no | Astangu organization profile only |
+| `Millised organisatsioonid või materjalid aitavad puudega inimest?` | `resource_discovery` | yes | no | 3 non-legal organization/material sources |
+| `Mul pole raha üüri ja toidu jaoks, mida teha?` | `life_situation_guidance` | yes | no | SHS § 8 and § 135 official sources |
+
+Server trace checker:
+
+- `npm run rag:check:v24a-live-trace` on the server returned `ok: true` with all four cases green against fresh rows (age 1-2 minutes).
+- `overview_lastekaitse` carried V2.7 temporal EvidencePackage metadata: `source_years = [2021, 2023, 2025]`, `temporal_year_range = 2021-2025`, `temporal_has_multi_year_range = true`, trace summary year range present.
+- `comparison_koduteenus_tugiisik` displayed only paragraphs 23 and 17.
+- `legal_exact_shs_42` kept `evidence_package_present = false`.
+- `kov_kuusalu_koduteenus` kept `package_aware_answering_used = true`.
+
+Answer quality observations:
+
+- The overview answer was a genuine multi-document synthesis and used the V2.7 temporal framing wording (`Varasemad allikad rõhutavad...` / `Uuemad materjalid lisavad...`) without claiming a trend from publication years alone.
+- The life-situation answer led with vältimatu sotsiaalabi next steps, displayed official SHS sources instead of journal background, and asked for the municipality.
+- The resource-discovery answer mixed organization, KOV service and material sources instead of an SHS-only list.
+
+Minor observations (not failures, candidates for later cleanup):
+
+- Kuusalu displayed sources contained one duplicated source id (`kov_kuusalu_vald_item_kuusalu_vald_service_koduteenus` twice) and one generic non-namespaced id (`forms_page`).
+- Overview selected 3 distinct documents, which is the diversity minimum. With a rich corpus this is acceptable but keeps the V2.8 selector/display diversity tuning question open as an optional improvement, not a blocker.
+
 ## Current Next Steps
 
-1. Platform smoke after deploy/restart with the current live question set.
-2. Run `npm run rag:check:v24a-live-trace` after fresh smoke; use `--case=<case_id>` and `--conversation-id=<conversation_id>` for targeted already-run smoke rows.
-3. Add temporal-framing smoke checks for broad article-corpus questions such as `Mis on murekohad lastekaitses?` where selected evidence may span older and newer years.
-4. If live smoke shows source diversity is still too narrow, start V2.8 selector/display diversity tuning as a separate patch.
+1. Final broad regression and `npm run build` after the live-smoke documentation update.
+2. Source metadata backfill: missing `authority`, `last_checked`, `url_canonical`, `content_hash` on `organizations` / `unknown` records, plus legacy `source_status = known` normalization. Plan first with `rag:audit:freshness`, `organization:audit-metadata` and `rag:plan:metadata`.
+3. Golden eval set for general thematic RAG (overview, resource discovery, life situation, comparison).
+4. V2.8 selector/display diversity tuning only if eval or live use shows broad questions use too little of the corpus; the 2026-06-10 smoke did not show a blocking diversity failure.
 
 Guardrails:
 
@@ -952,19 +993,20 @@ Guardrails:
 
 ## Next Window Handoff Task
 
-Start with platform live smoke after deploy/restart.
+Platform live smoke and the server trace check passed on 2026-06-10; that validation milestone is closed.
 
 Task:
 
-- Deploy/restart as needed.
-- Run platform live smoke with the current live question set.
-- Confirm that broad multi-year overview/resource-discovery answers use light temporal framing without claiming unsupported trends.
-- Update this audit section with final validation and live-smoke results.
+- Run the final broad RAG/chat regression command and `npm run build`.
+- Start the source metadata backfill track: run `rag:audit:freshness`, `organization:audit-metadata` and `rag:plan:metadata` to produce a concrete backfill plan before changing any stored metadata.
+- Design the golden eval set for overview/resource-discovery/life-situation/comparison modes.
 
 Expected final sequence:
 
-1. Platform live smoke.
-2. V2.8 selector/display diversity tuning only if live evidence remains too narrow.
+1. Final regression/build.
+2. Metadata backfill (plan first, then apply).
+3. Golden eval.
+4. V2.8 diversity tuning only if eval shows broad questions use too little of the corpus.
 
 ## Previous V2.4A Live Smoke Prompt List
 
