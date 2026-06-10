@@ -1571,6 +1571,27 @@ class UpdateMetadata(BaseModel):
     district_name: Optional[str] = None
     district_id: Optional[str] = None
 
+# Metadata-only patch surface for backfill: scalar identity/freshness fields that are
+# safe to update without re-parsing, re-chunking or re-embedding the document.
+PATCH_METADATA_ALLOWED_KEYS = {
+    "collection_id",
+    "content_hash",
+    "authority",
+    "source_status",
+    "last_checked",
+    "checked_at",
+    "retrieved_at",
+    "url_canonical",
+    "url",
+    "source_url",
+    "jurisdiction_level",
+    "country",
+    "year",
+}
+
+class PatchMetadata(BaseModel):
+    metadata: Dict[str, Optional[str | int | float | bool]]
+
 ALLOWED_INCLUDE = {"documents", "embeddings", "metadatas", "distances", "uris", "data"}
 
 def clean_include(include):
@@ -4257,6 +4278,58 @@ def update_document_metadata(doc_id: str, payload: UpdateMetadata):
         "collection": COLLECTION_NAME,
         "pageStart": start_page,
         "pageEnd": end_page,
+    }
+
+@app.post("/documents/{doc_id}/patch-meta", dependencies=[Depends(_require_key)])
+def patch_document_metadata(doc_id: str, payload: PatchMetadata):
+    raw_updates = payload.metadata or {}
+    unknown = sorted(set(raw_updates) - PATCH_METADATA_ALLOWED_KEYS)
+    if unknown:
+        raise HTTPException(400, f"Unsupported patch-meta fields: {', '.join(unknown)}")
+
+    updates = {}
+    for key, value in raw_updates.items():
+        if value is None:
+            continue
+        if key == "year":
+            value = normalize_year(value)
+            if value is None:
+                continue
+        if not isinstance(value, (str, int, float, bool)):
+            raise HTTPException(400, f"patch-meta field {key} must be a scalar value")
+        updates[key] = value
+    if not updates:
+        raise HTTPException(400, "No patchable metadata values provided")
+
+    with REGISTRY_LOCK:
+        reg = _load_registry_unlocked()
+        entry = reg.get(doc_id)
+        if not entry:
+            raise HTTPException(404, "Document not in registry")
+        entry.update(updates)
+        entry["updatedAt"] = now_iso()
+        _save_registry_unlocked(reg)
+
+    chunks_updated = 0
+    try:
+        got = collection.get(where={"doc_id": doc_id}, include=["metadatas"], limit=100000)
+        ids = got.get("ids", []) or []
+        if ids:
+            metadatas = got.get("metadatas") or []
+            new_metadatas = []
+            for index in range(len(ids)):
+                row = metadatas[index] if index < len(metadatas) and isinstance(metadatas[index], dict) else {}
+                new_metadatas.append({**row, **updates})
+            collection.update(ids=ids, metadatas=new_metadatas)
+            chunks_updated = len(ids)
+    except Exception as exc:
+        raise HTTPException(500, f"Registry updated but chunk metadata update failed: {exc}")
+
+    return {
+        "ok": True,
+        "docId": doc_id,
+        "updated_fields": sorted(updates.keys()),
+        "chunks_updated": chunks_updated,
     }
 
 @app.delete("/documents/{doc_id}", dependencies=[Depends(_require_key)])

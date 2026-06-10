@@ -112,7 +112,8 @@
     "organization:validate": "node scripts/validate-organization-metadata.mjs",
     "organization:audit-metadata": "node scripts/audit-organization-metadata.mjs",
     "organization:ingest:plan": "node scripts/ingest-organization-rag-folder.mjs --dry-run",
-    "organization:ingest": "node scripts/ingest-organization-rag-folder.mjs --ingest"
+    "organization:ingest": "node scripts/ingest-organization-rag-folder.mjs --ingest",
+    "rag:backfill:metadata": "node scripts/backfill-rag-metadata.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",
