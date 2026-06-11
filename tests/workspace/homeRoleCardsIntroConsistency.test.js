@@ -9,7 +9,7 @@ function readSource(path) {
 }
 
 test("home role card blur backdrop fades with the same intro on desktop and mobile", () => {
-  const homeCss = readSource("app/styles/components/home.css");
+  const homeCss = readSource("app/styles/features/home/desktop.css");
   const mobileCss = readMobileCssBundle();
   const homePage = readSource("components/HomePage.jsx");
 
@@ -51,7 +51,7 @@ test("home role card blur backdrop fades with the same intro on desktop and mobi
 test("home role card intro is remembered across chat navigation returns", () => {
   const homePage = readSource("components/HomePage.jsx");
   const appPage = readSource("app/page.js");
-  const homeCss = readSource("app/styles/components/home.css");
+  const homeCss = readSource("app/styles/features/home/desktop.css");
   const mobileCss = readMobileCssBundle();
 
   assert.match(homePage, /const HOME_RETURN_FROM_CHAT_KEY = "sotsiaalai:home-return-from-chat";/);

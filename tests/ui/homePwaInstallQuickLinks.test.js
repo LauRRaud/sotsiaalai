@@ -63,7 +63,7 @@ test("home quick links fit the six public icons on one desktop row", () => {
 });
 
 test("home quick carousel removes the installed PWA slot and keeps labels stable while arrows scroll", () => {
-  const homeCss = readFileSync(new URL("../../app/styles/components/home.css", import.meta.url), "utf8");
+  const homeCss = readFileSync(new URL("../../app/styles/features/home/desktop.css", import.meta.url), "utf8");
 
   assert.match(source, /const quickCarouselProgrammaticRef = useRef\(false\)/);
   assert.match(source, /const quickCarouselSettleTimerRef = useRef\(0\)/);

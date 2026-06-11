@@ -1,3 +1,4 @@
+import "./styles/features/home/index.css";
 import { cookies } from "next/headers";
 import HomePage from "@/components/HomePage";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

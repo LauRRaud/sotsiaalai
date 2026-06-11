@@ -16,7 +16,7 @@ test("home role cards do not render edge glow wrappers", () => {
 });
 
 test("home role card stylesheet does not reintroduce edge glow rules", () => {
-  const source = readSource("app/styles/components/home.css");
+  const source = readSource("app/styles/features/home/desktop.css");
 
   assert.doesNotMatch(source, /home-card-edge-glow/);
   assert.doesNotMatch(source, /home-card-static-glow/);
@@ -25,7 +25,7 @@ test("home role card stylesheet does not reintroduce edge glow rules", () => {
 });
 
 test("home role cards keep ordinary idle and hover light shadows", () => {
-  const componentStyles = readSource("app/styles/components/home.css");
+  const componentStyles = readSource("app/styles/features/home/desktop.css");
   const darkTheme = readSource("app/styles/theme/dark.css");
 
   assert.match(componentStyles, /--home-card-idle-shadow/);

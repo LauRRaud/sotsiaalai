@@ -4,7 +4,7 @@ const MOBILE_CSS_FILES = [
   "app/styles/mobile/foundations.css",
   "app/styles/mobile/touch-controls.css",
   "app/styles/mobile/background-home.css",
-  "app/styles/mobile/home-page.css",
+  "app/styles/features/home/mobile.css",
   "app/styles/mobile/register.css",
   "app/styles/mobile/profile-orbit.css",
   "app/styles/mobile/platform-android.css",
