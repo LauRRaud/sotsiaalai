@@ -5,7 +5,7 @@ import "../styles/components/chat-focus.shared.css";
 import "../styles/components/workspace-help-listings.css";
 import "../styles/components/selected-listing.css";
 import "../styles/components/invite-modal.css";
-import "../styles/components/service-map.css";
+import "../styles/features/service-map/index.css";
 import "../styles/components/documents-workspace.shared.css";
 import "../styles/components/documents-ui.shared.css";
 import "../styles/components/documents-agent.css";

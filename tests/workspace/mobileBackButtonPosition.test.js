@@ -224,7 +224,7 @@ test("service map mobile filter toggle is larger with a larger arrow and narrow 
 
 test("service map mobile toolbar keeps the filter toggle centered after later cascade rules", () => {
   const serviceMapCss = readServiceMapCssBundle();
-  const mobileServiceMapCss = readSource("app/styles/mobile/service-map.css");
+  const mobileServiceMapCss = readSource("app/styles/features/service-map/mobile.css");
   const finalMobileOverride = serviceMapCss.slice(
     serviceMapCss.indexOf(mobileServiceMapCss) + mobileServiceMapCss.lastIndexOf("@media (max-width: 768px)"),
     serviceMapCss.indexOf(mobileServiceMapCss) + mobileServiceMapCss.lastIndexOf("@media (max-width: 560px)")

@@ -1,0 +1,5 @@
+/* Service-map feature vertical. Route-imported by the pages that render it
+   (teenusekaart, teenuseprofiil, eelpoordumised, vestlus) — not part of the
+   global cascade. mobile.css carries its own max-width media queries. */
+@import url("./desktop.css");
+@import url("./mobile.css");

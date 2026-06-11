@@ -1,5 +1,5 @@
 import "../styles/components/chat-shell.css";
-import "../styles/components/service-map.css";
+import "../styles/features/service-map/index.css";
 import "../styles/components/documents-workspace.shared.css";
 import "../styles/components/documents-ui.shared.css";
 import "../styles/theme/mono.chat.css";
