@@ -11327,7 +11327,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "medium",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_044",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11374,7 +11374,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://tervisekassa.ee/sites/default/files/Pikk_Covid_patsiendijuhend_web.pdf"
+    "dedupe_key": "https://tervisekassa.ee/sites/default/files/Pikk_Covid_patsiendijuhend_web.pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "tervisekassa_pikk_covid_esmatasandil_kasitlusjuhend",
@@ -11404,7 +11405,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "high",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_045",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11451,7 +11452,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://tervisekassa.ee/sites/default/files/Pikk_Covid_käsitlusjuhend_web.pdf"
+    "dedupe_key": "https://tervisekassa.ee/sites/default/files/Pikk_Covid_käsitlusjuhend_web.pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "tervisekassa_pereoenduse_tegevusjuhend",
@@ -11711,7 +11713,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "high",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_049",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11758,7 +11760,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/infektsioonikontrollialase_toimepidevuse_ja_riskijuhtimise_juhendmaterjal (2023).pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/infektsioonikontrollialase_toimepidevuse_ja_riskijuhtimise_juhendmaterjal (2023).pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "terviseamet_infektsioonikontrollialase_toimepidevuse_ja_riskijuhtimise_m",
@@ -11785,7 +11788,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "high",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_050",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11832,7 +11835,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/infektsioonikontrollialase_toimepidevuse_ja_riskijuhtimise_metoodika.pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/infektsioonikontrollialase_toimepidevuse_ja_riskijuhtimise_metoodika.pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "terviseamet_nakkushaiguste_ennetamise_ja_torjealane_tegevusjuhend_hoolde",
@@ -11862,7 +11866,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "high",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_051",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11909,7 +11913,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/Nakkushaiguste_ennetamise_ja_torjealane_tegevusjuhend_hooldekodudele (2017).pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-10/Nakkushaiguste_ennetamise_ja_torjealane_tegevusjuhend_hooldekodudele (2017).pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "terviseamet_hoolekandeasutuste_tegevusjuhis_covid_19_tingimustes",
@@ -11940,7 +11945,7 @@
     "language": "et",
     "link_check_status": [],
     "ingest_status": "ingest_candidate",
-    "ingest_priority": "high",
+    "ingest_priority": "low",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_052",
     "notes": "Duplikaadid ühendatud: 1 lisakirjet.",
@@ -11987,7 +11992,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-11/Hoolekandeasutuste tegevusjuhis COVID-19 tingimustes.pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-11/Hoolekandeasutuste tegevusjuhis COVID-19 tingimustes.pdf",
+    "priority_note": "covid-era guidance; deprioritized 2026-06-11 per owner decision"
   },
   {
     "source_id": "terviseamet_kokkuvote_2024_aasta_kohta_haridus_ja_sotsiaalasutuste_tervi",
