@@ -1,0 +1,8 @@
+/* Profile orbit/dock feature vertical. Route-imported by /profiil and
+   /vestlus (JourneyDashboard renders the orbit inside the workspace panel).
+   Order mirrors globals.css: mono before hc, mobile chain last. mobile.css
+   has rules without their own media wrappers, so it is imported with the
+   chain's max-width condition. */
+@import url("./mono.css");
+@import url("./hc.css");
+@import url("./mobile.css") screen and (max-width: 768px);

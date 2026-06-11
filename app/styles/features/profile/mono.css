@@ -1,0 +1,84 @@
+/* Mono theme overrides owned by the profile orbit/dock. Extracted 1:1 from theme/mono.css; loaded via features/profile/index.css. */
+
+:root.theme-mono:not([data-contrast="hc"]):not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper,
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper {
+  --orbit-accent: #c57171;
+  --orbit-mobile-accent: var(--forest-highlight);
+  --orbit-keypad-fill: var(--forest-orbit-surface);
+  --orbit-keypad-fill-item: var(--forest-orbit-surface);
+  --orbit-keypad-fill-center: var(--forest-orbit-surface);
+  --orbit-button-shadow:
+    inset 0 0 0 1px rgba(214, 214, 214, 0.04),
+    inset 0 1px 0 rgba(214, 214, 214, 0.03);
+  --orbit-button-shadow-hover:
+    0 0 20px rgba(230, 230, 230, 0.18),
+    inset 0 0 0 1px rgba(214, 214, 214, 0.05),
+    inset 0 1px 0 rgba(214, 214, 214, 0.04);
+  --orbit-button-shadow-center:
+    0 0 22px rgba(230, 230, 230, 0.18),
+    inset 0 0 0 1px rgba(214, 214, 214, 0.06),
+    inset 0 1px 0 rgba(214, 214, 214, 0.04);
+  --orbit-button-shadow-center-hover:
+    0 0 28px rgba(230, 230, 230, 0.22),
+    inset 0 0 0 1px rgba(214, 214, 214, 0.08),
+    inset 0 1px 0 rgba(214, 214, 214, 0.05);
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper :is(.profile-orbit-menu__item, .profile-orbit-stack-bubble, .profile-orbit-mobile-action).dock-item {
+  color: var(--forest-highlight);
+  background:
+    radial-gradient(
+      156% 112% at 50% -18%,
+      rgba(214, 214, 214, 0.052) 0%,
+      rgba(214, 214, 214, 0.022) 38%,
+      rgba(214, 214, 214, 0) 70%
+    ),
+    radial-gradient(
+      144% 124% at 50% 118%,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0) 52%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(50, 50, 50, 0.84) 0%,
+      rgba(36, 36, 36, 0.88) 54%,
+      rgba(24, 24, 24, 0.94) 100%
+    ) !important;
+  border: none !important;
+  --pin-gloss-op: 0.08;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-menu__center.dock-item {
+  color: var(--orbit-accent, #c57171);
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon,
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon {
+  color: var(--forest-title, #c57171) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-label,
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action__label,
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-stack-label {
+  color: var(--forest-highlight, #c8c8c8) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(svg, path, circle, rect, line, polyline, polygon),
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(svg, path, circle, rect, line, polyline, polygon) {
+  color: var(--forest-title, #c57171) !important;
+  stroke: var(--forest-title, #c57171) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-item-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]),
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-mobile-action.dock-item .dock-icon :is(path, circle, rect, polygon)[fill]:not([fill="none"]) {
+  fill: var(--forest-title, #c57171) !important;
+}
+
+:root.theme-mono:not([data-contrast="hc"]) .profile-email-dock-wrapper.profile-orbit-menu-wrapper .profile-orbit-static-glow {
+  box-shadow:
+    inset 0 0 0 1px rgba(214, 214, 214, 0.22),
+    inset 0 0 7px rgba(230, 230, 230, 0.08),
+    0 0 2px rgba(230, 230, 230, 0.16),
+    0 0 10px rgba(230, 230, 230, 0.11),
+    0 0 22px rgba(230, 230, 230, 0.07) !important;
+}

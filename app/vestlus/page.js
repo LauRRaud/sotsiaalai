@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 import "../styles/features/chat/index.css";
 import "../styles/features/chat/focus.css";
+import "../styles/features/profile/index.css";
 import "../styles/components/workspace-help-listings.css";
 import "../styles/components/selected-listing.css";
 import "../styles/components/invite-modal.css";
