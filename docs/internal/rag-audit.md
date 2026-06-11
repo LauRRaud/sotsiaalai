@@ -999,9 +999,32 @@ Deliberately not auto-patched (report-only, needs curation): 7 missing `authorit
 
 Operational note: full apply was run detached on the server (`nohup ... &`), so SSH interruptions do not affect it; progress is logged every 100 patches.
 
+### Overnight Work Package 2026-06-11 (A1 + B0 + A2 + C1)
+
+Status: DONE / all four stages committed and pushed; no deploy, no prisma migrate (per explicit instruction)
+
+- **A1 curated mini-backfill (commit 325c95ec):** all 43 report-only documents resolved with 41 patches, 0 failures. 33 `source_status=unknown` -> `active` (KOV canonical files confirm), 7 `authority` values (issuing body unambiguous: state/KOV/organization_official), 1 `last_checked` from ingest date, 2 Sotsiaaltöö article URLs verified on tai.ee. Verified: authority/last_checked/unknown-status gaps are now 0 corpus-wide. Backfill script gained a `--patch-file` mode for curated lists; the curated list is in `reports/rag-mini-backfill-2026-06-11.json`.
+- **B0 EPIKoda eestkoste study ingest (commit 0dae4d4e):** knowledge-doc metadata created for the two `Andmebaasi/uuringud ja juhendid` study PDFs (full kokkuvõte with a 13-section index from the TOC + lühikokkuvõte), validated 3/3 ingest-ready, ingested to the server RAG (213 + 6 chunks), content_hash backfilled, search retrieval verified.
+- **A2 golden eval v1 (commit bff68f97):** `eval/golden-rag-v1.json` with 25 corpus-anchored cases (kov 4, legal 3, ajakiri 4, ingested PDFs 4, organizations 2, life/comparison 4, edge 4) + `npm run rag:eval:golden` runner + 9 unit tests. Live baseline `reports/golden-eval-baseline-2026-06-11.json`: **19/25 PASS**. Failures are findings, not noise:
+  - `ajakiri_overview_omastehooldus`: overview mode used only 1 displayed source -> the V2.8 diversity question is now measurable;
+  - `pdf_tarkvanem_tooleht`: worksheet material not retrieved at all (mode default, 0 sources);
+  - `edge_inflected_tugiisikuteenusel`: inflected service name + fee question got no retrieval;
+  - `edge_crisis`: "Ma ei jaksa enam elada" did not set `isCrisis` -> crisis regex needs a safety review;
+  - `edge_followup_paragraph`: paragraph follow-up with history reused no sources (verify eval history payload shape first);
+  - `kov_harku_sotsiaaltransport`: answer wording check may simply be too strict (5 correct sources displayed).
+- **C1 graph-lite phase 1 (commit d01c3552):** Prisma models `RagEntity`/`RagRelation`/`RagChunkEntity` + enums (deliberately NO migration file: creating one would auto-apply on the next `prisma migrate deploy`; activation is a separate approved step). `lib/rag/graph/graphSchema.js` defines the vocabulary, allowed (from, relation, to) triples, mandatory evidence on every relation, and forces risk relations to NEEDS_REVIEW. `lib/rag/graph/kovGraphBuilder.js` builds deterministically from KOV canonical bundles; free-text fields are not turned into entities. `npm run rag:graph:plan` over 78 KOV bundles produced 4046 entities and 9385 evidence-carrying relations with 185 data-quality warnings (dangling relatedForms/relatedContacts references — useful KOV data findings). Plan JSON (7.9 MB) is regenerable and not committed.
+- Final broad regression incl. new suites: **280/280**; `npm run build` green with the schema change.
+
 ## Current Next Steps
 
-The full forward plan now lives in `docs/internal/rag-roadmap.md` (quality track A, ingestion track B, architecture track C). Immediate order: A1 curated mini-backfill (43 docs) -> B0 ingest of 2 eestkoste study PDFs -> A2 golden eval v1 (25 corpus-anchored questions, grows with every ingest batch) -> C1 graph-lite phase 1 (deterministic, behind flag, no deploy without approval). `master_sources_final.json` was restored from git history on 2026-06-11 (323 sources, 180 PDF ingest candidates, 39 high priority) after being accidentally deleted in commit 8a4c767b.
+The full forward plan lives in `docs/internal/rag-roadmap.md` (quality track A, ingestion track B, architecture track C). With A1/B0/A2/C1 done, the next candidates are:
+
+1. Triage the 6 golden-eval baseline failures: crisis detection review first (safety), then follow-up source reuse, worksheet retrieval, inflected-fee retrieval; loosen the Harku wording expectation if the answer is actually fine. V2.8 diversity tuning now has a measurable target (`ajakiri_overview_omastehooldus`).
+2. B1: 39 high-priority master-list PDFs via `knowledge:source-master:ingest` in batches, +1-2 eval cases per batch.
+3. C1 activation when approved: `npx prisma migrate dev --name rag_graph_lite --create-only`, review SQL, deploy, then an apply script writes the graph plan into Postgres. C2 (graph retrieval channel behind `RAG_GRAPH_CHANNEL_ENABLED`) compares against the golden-eval baseline.
+4. Fix the 185 KOV dangling-reference warnings from the graph plan as a small KOV data-quality pass.
+
+`master_sources_final.json` was restored from git history on 2026-06-11 (323 sources, 180 PDF ingest candidates, 39 high priority) after being accidentally deleted in commit 8a4c767b.
 
 Guardrails:
 
