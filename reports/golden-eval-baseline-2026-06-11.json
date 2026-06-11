@@ -1,0 +1,768 @@
+{
+  "ok": false,
+  "eval_file": "eval/golden-rag-v1.json",
+  "base_url": "https://sotsiaal.ai",
+  "generated_at": "2026-06-11T02:20:57.085Z",
+  "summary": {
+    "total": 25,
+    "pass": 19,
+    "fail": 6,
+    "by_family": {
+      "kov": {
+        "pass": 3,
+        "fail": 1
+      },
+      "legal": {
+        "pass": 3,
+        "fail": 0
+      },
+      "ajakiri": {
+        "pass": 3,
+        "fail": 1
+      },
+      "ingested_pdf": {
+        "pass": 3,
+        "fail": 1
+      },
+      "organization": {
+        "pass": 2,
+        "fail": 0
+      },
+      "life_situation": {
+        "pass": 2,
+        "fail": 0
+      },
+      "comparison": {
+        "pass": 2,
+        "fail": 0
+      },
+      "edge": {
+        "pass": 1,
+        "fail": 3
+      }
+    },
+    "failed_case_ids": [
+      "kov_harku_sotsiaaltransport",
+      "ajakiri_overview_omastehooldus",
+      "pdf_tarkvanem_tooleht",
+      "edge_inflected_tugiisikuteenusel",
+      "edge_crisis",
+      "edge_followup_paragraph"
+    ]
+  },
+  "results": [
+    {
+      "id": "kov_kuusalu_koduteenus",
+      "family": "kov",
+      "ok": true,
+      "mode": "municipality_service_benefit_list",
+      "displayed_count": 4,
+      "displayed_titles": [
+        "Koduteenus",
+        "Koduteenus",
+        "Taotluste vormid",
+        "Sotsiaalhoolekandelise abi andmise kord Kuusalu vallas § 6 Koduteenus"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected municipality_service_benefit_list, got municipality_service_benefit_list"
+        },
+        {
+          "name": "package_aware",
+          "ok": true,
+          "detail": "expected true, got true"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 4"
+        },
+        {
+          "name": "displayed_includes:koduteenus",
+          "ok": true,
+          "detail": "titles: koduteenus | koduteenus | taotluste vormid | sotsiaalhoolekandelise abi andmise kord kuusalu vallas § 6 koduteenus"
+        },
+        {
+          "name": "answer_includes:koduteenus",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "kov_harku_sotsiaaltransport",
+      "family": "kov",
+      "ok": false,
+      "mode": "municipality_service_benefit",
+      "displayed_count": 5,
+      "displayed_titles": [
+        "Sotsiaaltransporditeenus",
+        "Sotsiaal- ja tervishoiuosakonna kontaktid",
+        "Lapsehoiuteenus",
+        "Sotsiaaltransporditeenuse taotlus",
+        "Täisealise isiku hooldus"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 5"
+        },
+        {
+          "name": "displayed_excludes:kuusalu",
+          "ok": true,
+          "detail": "titles: sotsiaaltransporditeenus | sotsiaal- ja tervishoiuosakonna kontaktid | lapsehoiuteenus | sotsiaaltransporditeenuse taotlus | taisealise isiku hooldus"
+        },
+        {
+          "name": "answer_includes:sotsiaaltransport",
+          "ok": false,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "kov_kuusalu_vormid",
+      "family": "kov",
+      "ok": true,
+      "mode": "municipality_service_benefit_list",
+      "displayed_count": 4,
+      "displayed_titles": [
+        "Koduteenus",
+        "Koduteenus",
+        "Taotluste vormid",
+        "Sotsiaalhoolekandelise abi andmise kord Kuusalu vallas § 6 Koduteenus"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 4"
+        },
+        {
+          "name": "answer_includes:vorm",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "kov_leakage_guard_narva",
+      "family": "kov",
+      "ok": true,
+      "mode": "municipality_service_benefit_list",
+      "displayed_count": 3,
+      "displayed_titles": [
+        "Koduteenus",
+        "Koduteenus",
+        "Tervise- ja sotsiaalosakond"
+      ],
+      "checks": [
+        {
+          "name": "displayed_excludes:kuusalu",
+          "ok": true,
+          "detail": "titles: koduteenus | koduteenus | tervise- ja sotsiaalosakond"
+        },
+        {
+          "name": "displayed_excludes:harku",
+          "ok": true,
+          "detail": "titles: koduteenus | koduteenus | tervise- ja sotsiaalosakond"
+        },
+        {
+          "name": "displayed_excludes:anija",
+          "ok": true,
+          "detail": "titles: koduteenus | koduteenus | tervise- ja sotsiaalosakond"
+        },
+        {
+          "name": "answer_excludes:kuusalu vald",
+          "ok": true,
+          "detail": "reply checked"
+        },
+        {
+          "name": "answer_excludes:harku vald",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "legal_shs_42",
+      "family": "legal",
+      "ok": true,
+      "mode": "explicit_paragraph",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 42 Puudega isikule eluruumi tagamine"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected explicit_paragraph, got explicit_paragraph"
+        },
+        {
+          "name": "evidence_package",
+          "ok": true,
+          "detail": "expected false, got false"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "displayed_includes:§ 42",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 42 puudega isikule eluruumi tagamine"
+        }
+      ]
+    },
+    {
+      "id": "legal_shs_17",
+      "family": "legal",
+      "ok": true,
+      "mode": "explicit_paragraph",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 17 Koduteenuse eesmärk ja sisu"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected explicit_paragraph, got explicit_paragraph"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "displayed_includes:§ 17",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 17 koduteenuse eesmark ja sisu"
+        }
+      ]
+    },
+    {
+      "id": "legal_inflected_paragraph",
+      "family": "legal",
+      "ok": true,
+      "mode": "explicit_paragraph",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "displayed_includes:§ 23",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 23 tugiisikuteenuse eesmark ja sisu"
+        }
+      ]
+    },
+    {
+      "id": "ajakiri_overview_lastekaitse",
+      "family": "ajakiri",
+      "ok": true,
+      "mode": "overview_synthesis",
+      "displayed_count": 3,
+      "displayed_titles": [
+        "Sotsiaalministeerium otsib koos partneritega võimalusi laste heaolu suurendamiseks",
+        "Hea töö ei sünni Excelis – lastekaitsetöötajad ootavad järelevalvelt selgust ja tuge",
+        "Lastega töötavad spetsialistid saavad lapse muresid märgata varakult"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected overview_synthesis, got overview_synthesis"
+        },
+        {
+          "name": "evidence_package",
+          "ok": true,
+          "detail": "expected true, got true"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 3, got 3"
+        },
+        {
+          "name": "answer_includes:lastekaitse",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "ajakiri_overview_omastehooldus",
+      "family": "ajakiri",
+      "ok": false,
+      "mode": "overview_synthesis",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Omastehooldus. Perekonna ja ühiskonna liit?"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": false,
+          "detail": "expected >= 2, got 1"
+        },
+        {
+          "name": "answer_includes:hoold",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "ajakiri_ai_eetika",
+      "family": "ajakiri",
+      "ok": true,
+      "mode": "default",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Tehisintellekt sotsiaaltöös: praktika, kaalutlused ja väärtuspõhised piirid"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "displayed_includes:tehisintellekt",
+          "ok": true,
+          "detail": "titles: tehisintellekt sotsiaaltoos: praktika, kaalutlused ja vaartuspohised piirid"
+        },
+        {
+          "name": "answer_includes:eetili",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "ajakiri_sloveenia_hooldus",
+      "family": "ajakiri",
+      "ok": true,
+      "mode": "default",
+      "displayed_count": 5,
+      "displayed_titles": [
+        "Pikaajaline hooldus Sloveenias: probleemid ja tulevikusuunad",
+        "Tegevustest pikaajalise hoolduse vallas",
+        "Kuidas algas ajakirja Sotsiaaltöö teekond?",
+        "Pikaajalise hoolduse praegused probleemid ja võimalikud lahendused",
+        "Pikaajaline hooldus seisab muutuste lävel"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 5"
+        },
+        {
+          "name": "displayed_includes:sloveenia",
+          "ok": true,
+          "detail": "titles: pikaajaline hooldus sloveenias: probleemid ja tulevikusuunad | tegevustest pikaajalise hoolduse vallas | kuidas algas ajakirja sotsiaaltoo teekond? | pikaajalise hoolduse praegused probleemid ja voimalikud lahendused | pikaajaline hooldus seisab muutuste lavel"
+        },
+        {
+          "name": "answer_includes:sloveenia",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "pdf_hea_tava_terviseprobleemiga_laps",
+      "family": "ingested_pdf",
+      "ok": true,
+      "mode": "overview_synthesis",
+      "displayed_count": 4,
+      "displayed_titles": [
+        "Terviseprobleemiga laste ja nende perede toetamise hea tava",
+        "Riiklik perelepitusteenus",
+        "Sotsiaalministeerium otsib koos partneritega võimalusi laste heaolu suurendamiseks",
+        "Pandeemia mõju laste vaimsele tervisele ja kuidas neid toetada. 1. osa"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 4"
+        },
+        {
+          "name": "displayed_includes:terviseprobleemiga",
+          "ok": true,
+          "detail": "titles: terviseprobleemiga laste ja nende perede toetamise hea tava | riiklik perelepitusteenus | sotsiaalministeerium otsib koos partneritega voimalusi laste heaolu suurendamiseks | pandeemia moju laste vaimsele tervisele ja kuidas neid toetada. 1. osa"
+        },
+        {
+          "name": "answer_includes:pere",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "pdf_eestkoste_uuring",
+      "family": "ingested_pdf",
+      "ok": true,
+      "mode": "overview_synthesis",
+      "displayed_count": 4,
+      "displayed_titles": [
+        "Täisealiste psüühikahäirega inimeste, sh eestkostetavate uuringu kokkuvõte",
+        "Täisealiste psüühikahäirega inimeste, sh eestkostetavate uuringu lühikokkuvõte",
+        "Kuidas MTÜ Ambla Kihelkonna Tugiteenused oma kliente toetab",
+        "Inimeste teadlikkus vaimse tervise säilitamisest ja psüühikahäiretest"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 4"
+        },
+        {
+          "name": "displayed_includes:eestkoste",
+          "ok": true,
+          "detail": "titles: taisealiste psuuhikahairega inimeste, sh eestkostetavate uuringu kokkuvote | taisealiste psuuhikahairega inimeste, sh eestkostetavate uuringu luhikokkuvote | kuidas mtu ambla kihelkonna tugiteenused oma kliente toetab | inimeste teadlikkus vaimse tervise sailitamisest ja psuuhikahairetest"
+        },
+        {
+          "name": "answer_includes:eestkoste",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "pdf_vaimne_tervis_koolis",
+      "family": "ingested_pdf",
+      "ok": true,
+      "mode": "resource_discovery",
+      "displayed_count": 4,
+      "displayed_titles": [
+        "Koolilaste ja noorte vaimne tervis",
+        "Pandeemia mõju laste vaimsele tervisele ja kuidas neid toetada. 1. osa",
+        "Pagulaste vaimne tervis vajab rohkem tähelepanu",
+        "Vaimse tervise probleemiga inimeste elu pärast elukohavahetust"
+      ],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 4"
+        },
+        {
+          "name": "displayed_includes:vaimne tervis",
+          "ok": true,
+          "detail": "titles: koolilaste ja noorte vaimne tervis | pandeemia moju laste vaimsele tervisele ja kuidas neid toetada. 1. osa | pagulaste vaimne tervis vajab rohkem tahelepanu | vaimse tervise probleemiga inimeste elu parast elukohavahetust"
+        }
+      ]
+    },
+    {
+      "id": "pdf_tarkvanem_tooleht",
+      "family": "ingested_pdf",
+      "ok": false,
+      "mode": "default",
+      "displayed_count": 0,
+      "displayed_titles": [],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": false,
+          "detail": "expected >= 1, got 0"
+        },
+        {
+          "name": "answer_includes_any:tööleht|abiküsimus",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "org_astangu",
+      "family": "organization",
+      "ok": true,
+      "mode": "resource_discovery",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Astangu Kutserehabilitatsiooni Keskus"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected resource_discovery, got resource_discovery"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "displayed_includes:astangu",
+          "ok": true,
+          "detail": "titles: astangu kutserehabilitatsiooni keskus"
+        },
+        {
+          "name": "displayed_url_required",
+          "ok": true,
+          "detail": "urls: https://www.astangu.ee/et"
+        }
+      ]
+    },
+    {
+      "id": "org_puudega_inimese_abi",
+      "family": "organization",
+      "ok": true,
+      "mode": "resource_discovery",
+      "displayed_count": 3,
+      "displayed_titles": [
+        "Kuressaare Hoolekanne ja selle uuendusmeelne meeskond",
+        "Terviseprobleemiga laste ja nende perede toetamise hea tava",
+        "Raske ja sügava puudega lastele suunatud tugiisiku- ja lapsehoiuteenus"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected resource_discovery, got resource_discovery"
+        },
+        {
+          "name": "evidence_package",
+          "ok": true,
+          "detail": "expected true, got true"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 2, got 3"
+        },
+        {
+          "name": "displayed_excludes:sotsiaalhoolekande seadus",
+          "ok": true,
+          "detail": "titles: kuressaare hoolekanne ja selle uuendusmeelne meeskond | terviseprobleemiga laste ja nende perede toetamise hea tava | raske ja sugava puudega lastele suunatud tugiisiku- ja lapsehoiuteenus"
+        }
+      ]
+    },
+    {
+      "id": "life_raha_uur_toit",
+      "family": "life_situation",
+      "ok": true,
+      "mode": "life_situation_guidance",
+      "displayed_count": 2,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 8 Vältimatu sotsiaalabi",
+        "Sotsiaalhoolekande seadus § 135 Riigieelarvest makstav täiendav sotsiaaltoetus"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected life_situation_guidance, got life_situation_guidance"
+        },
+        {
+          "name": "evidence_package",
+          "ok": true,
+          "detail": "expected true, got true"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 2"
+        },
+        {
+          "name": "answer_includes_any:vältimatu|sotsiaalosakon",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "life_eakas_kodus",
+      "family": "life_situation",
+      "ok": true,
+      "mode": "life_situation_guidance",
+      "displayed_count": 1,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 26 Täisealise isiku hoolduse eesmärk ja sisu"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected life_situation_guidance, got life_situation_guidance"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 1"
+        },
+        {
+          "name": "answer_includes_any:koduteenus|abivajaduse hindami",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "comparison_kodu_tugiisik",
+      "family": "comparison",
+      "ok": true,
+      "mode": "comparison",
+      "displayed_count": 2,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu",
+        "Sotsiaalhoolekande seadus § 17 Koduteenuse eesmärk ja sisu"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected comparison, got comparison"
+        },
+        {
+          "name": "evidence_package",
+          "ok": true,
+          "detail": "expected true, got true"
+        },
+        {
+          "name": "displayed_includes:§ 17",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 23 tugiisikuteenuse eesmark ja sisu | sotsiaalhoolekande seadus § 17 koduteenuse eesmark ja sisu"
+        },
+        {
+          "name": "displayed_includes:§ 23",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 23 tugiisikuteenuse eesmark ja sisu | sotsiaalhoolekande seadus § 17 koduteenuse eesmark ja sisu"
+        },
+        {
+          "name": "displayed_excludes:§ 44",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 23 tugiisikuteenuse eesmark ja sisu | sotsiaalhoolekande seadus § 17 koduteenuse eesmark ja sisu"
+        },
+        {
+          "name": "displayed_excludes:§ 45",
+          "ok": true,
+          "detail": "titles: sotsiaalhoolekande seadus § 23 tugiisikuteenuse eesmark ja sisu | sotsiaalhoolekande seadus § 17 koduteenuse eesmark ja sisu"
+        }
+      ]
+    },
+    {
+      "id": "comparison_kodu_isiklik_abistaja",
+      "family": "comparison",
+      "ok": true,
+      "mode": "comparison",
+      "displayed_count": 3,
+      "displayed_titles": [
+        "Sotsiaalhoolekande seadus § 27 Isikliku abistaja teenuse eesmärk ja sisu",
+        "Sotsiaalhoolekande seadus § 17 Koduteenuse eesmärk ja sisu",
+        "Sotsiaalhoolekande seadus § 29 Nõuded teenust vahetult osutavale isikule"
+      ],
+      "checks": [
+        {
+          "name": "mode",
+          "ok": true,
+          "detail": "expected comparison, got comparison"
+        },
+        {
+          "name": "displayed_min",
+          "ok": true,
+          "detail": "expected >= 1, got 3"
+        },
+        {
+          "name": "answer_includes:isiklik",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "edge_inflected_tugiisikuteenusel",
+      "family": "edge",
+      "ok": false,
+      "mode": "default",
+      "displayed_count": 0,
+      "displayed_titles": [],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": false,
+          "detail": "expected >= 1, got 0"
+        },
+        {
+          "name": "answer_includes:tugiisik",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "edge_no_corpus_answer",
+      "family": "edge",
+      "ok": true,
+      "mode": "default",
+      "displayed_count": 0,
+      "displayed_titles": [],
+      "checks": [
+        {
+          "name": "answer_includes_any:ei leia|ei ole|pole|ei sisalda|ei saa|puudub",
+          "ok": true,
+          "detail": "reply checked"
+        },
+        {
+          "name": "answer_excludes:keskmine brutopalk on",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "edge_crisis",
+      "family": "edge",
+      "ok": false,
+      "mode": "default",
+      "displayed_count": 0,
+      "displayed_titles": [],
+      "checks": [
+        {
+          "name": "crisis",
+          "ok": false,
+          "detail": "expected true, got false"
+        },
+        {
+          "name": "answer_includes_any:112|kriis|abi",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    },
+    {
+      "id": "edge_followup_paragraph",
+      "family": "edge",
+      "ok": false,
+      "mode": "default",
+      "displayed_count": 0,
+      "displayed_titles": [],
+      "checks": [
+        {
+          "name": "displayed_min",
+          "ok": false,
+          "detail": "expected >= 1, got 0"
+        },
+        {
+          "name": "answer_includes:tugiisik",
+          "ok": true,
+          "detail": "reply checked"
+        }
+      ]
+    }
+  ]
+}
