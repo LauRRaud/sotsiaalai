@@ -26,9 +26,17 @@ iga etapi lõpus.
    allikad suhtelise reply-kattuvuse lävega. Vahetulemus 22/25; kolmanda osa
    järel oodatud 25/25 (kinnita kordusjooksuga).
 
+7. Eval FAIL-id likvideeritud, lõppjooks **25/25 PASS**
+   (`reports/golden-eval-final-2026-06-11.json`). Kõik kuus baseline-leidu suletud:
+   kriisituvastus, tööleht-discovery, omaosalus-routing, overview recall,
+   follow-up recall, sõnastusootused.
+8. Serveri intsident 2026-06-11 õhtul: katkestatud deploy-build jättis `.next`
+   pooliku, frontend crash-loopis, server läks OOM-thrash'i (swap puudus).
+   Lahendus: reboot + **2G swapfile (püsiv, /etc/fstab)** + nice-build.
+   Õppetunnid kirjas DEPLOY sektsioonis.
+
 **Pooleli / järgmine samm:**
 
-- Eval'i kordusjooks pärast part-3 deploy'd; tulemus kirjuta siia ja auditisse.
 - **B1: master-listi 39 high-priority PDF-i ingest partiidena (~10 kaupa).**
   Iga partii: dry-run plaan → ingest `--skip-existing` → validaator → +1–2 eval-küsimust
   → eval roheline enne järgmist partiid. Seejärel medium (141).
