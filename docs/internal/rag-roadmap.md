@@ -35,11 +35,20 @@ iga etapi lõpus.
    Lahendus: reboot + **2G swapfile (püsiv, /etc/fstab)** + nice-build.
    Õppetunnid kirjas DEPLOY sektsioonis.
 
+9. B1 partii 1 (2026-06-11 õhtu): 6 covid-aegset kirjet langetatud low-prioriteediks
+   (omaniku otsus), seejärel 10 high-priority PDF-i ingest: **8 sisse (608 chunk'i:
+   Õiguskantsleri abivajava lapse juhend, AKI andmekaitsejuhendid, pereõendus,
+   karjäärispetsialistid, õpilase tugi, laagrite vaimne tervis, gripijuhend),
+   2 surnud linki** (Terviseameti URL-id 404 → master-listis `needs_review`).
+   Otsing leiab uued dokumendid; +2 eval-küsimust (27 kokku), mõlemad PASS.
+   Andmebaasis nüüd 5665 dokumenti / 28220 vektorit.
+
 **Pooleli / järgmine samm:**
 
-- **B1: master-listi 39 high-priority PDF-i ingest partiidena (~10 kaupa).**
-  Iga partii: dry-run plaan → ingest `--skip-existing` → validaator → +1–2 eval-küsimust
-  → eval roheline enne järgmist partiid. Seejärel medium (141).
+- **B1 jätk: high-priority järgmised partiid (~24 tk järel: 34 kandidaati − 10 tehtud).**
+  Sama muster: dry-run plaan → ingest `--skip-existing` → otsingu-kontroll →
+  +1–2 eval-küsimust → eval roheline. Seejärel medium (141).
+- Surnud linkidega kirjete (2 tk, `needs_review`) uute URL-ide leidmine.
 - Siis: B4 organisatsioonikorje automatiseerimine; C1 aktiveerimine kokkuleppel;
   C2 graph-otsingukanal + eval-võrdlus.
 

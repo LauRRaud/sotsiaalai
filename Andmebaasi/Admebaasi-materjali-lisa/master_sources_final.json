@@ -12169,7 +12169,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "high",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_055",
@@ -12217,7 +12217,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-11/patsiendiohutusjuhtumi_raporteerimise_ja_menetlemise_juhend.pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2024-11/patsiendiohutusjuhtumi_raporteerimise_ja_menetlemise_juhend.pdf",
+    "status_note": "download 404 on 2026-06-11; find new canonical URL"
   },
   {
     "source_id": "terviseamet_pohak_i_aasta_kokkuvote",
@@ -12392,7 +12393,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "high",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_058",
@@ -12440,7 +12441,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2026-04/Täiskasvanute vaktsineerimine_0.pdf"
+    "dedupe_key": "https://www.terviseamet.ee/sites/default/files/documents/2026-04/Täiskasvanute vaktsineerimine_0.pdf",
+    "status_note": "download 404 on 2026-06-11; find new canonical URL"
   },
   {
     "source_id": "riigikontroll_omavalitsuste_tegevus_erivajadustega_inimeste_toetamisel",
