@@ -1001,10 +1001,7 @@ Operational note: full apply was run detached on the server (`nohup ... &`), so 
 
 ## Current Next Steps
 
-1. Curated mini-backfill for the 43 report-only documents (7 authority, 33 source_status=unknown, 1 last_checked, 2 article URLs) — manual decisions, can use the same patch-meta endpoint.
-2. Golden eval set for general thematic RAG (overview, resource discovery, life situation, comparison).
-3. V2.8 selector/display diversity tuning only if eval or live use shows broad questions use too little of the corpus; the 2026-06-10 smoke did not show a blocking diversity failure.
-4. Parallel track: graph-lite layer (Postgres RagEntity/RagRelation/RagChunkEntity); phase 1 deterministic ingest from KOV canonical files, RT structure and organization profiles. Now unblocked by clean collection/content-hash metadata.
+The full forward plan now lives in `docs/internal/rag-roadmap.md` (quality track A, ingestion track B, architecture track C). Immediate order: A1 curated mini-backfill (43 docs) -> B0 ingest of 2 eestkoste study PDFs -> A2 golden eval v1 (25 corpus-anchored questions, grows with every ingest batch) -> C1 graph-lite phase 1 (deterministic, behind flag, no deploy without approval). `master_sources_final.json` was restored from git history on 2026-06-11 (323 sources, 180 PDF ingest candidates, 39 high priority) after being accidentally deleted in commit 8a4c767b.
 
 Guardrails:
 

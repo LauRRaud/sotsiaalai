@@ -1,0 +1,59 @@
+# SotsiaalAI RAG tegevuskava
+
+Seis: 2026-06-11
+Omanik: Laur + Claude
+Seotud: `docs/internal/rag-audit.md` (tehniline audit ja tehtud tööde logi)
+
+## Tehtud vundament (vt audit)
+
+- V1.1–V2.7A runtime-tööd valmis; platvormi live smoke + trace checker PASS (2026-06-10).
+- Metaandmete backfill valmis (2026-06-11): 5547 patch'i, `collection_id` augud 0, KOV `content_hash` täidetud; rag-service'is on nüüd `patch-meta` endpoint ja `rag:backfill:metadata` tööriist.
+- `master_sources_final.json` taastatud (323 allikat, sh 180 PDF-linki, 39 high priority).
+
+## Rada A — kvaliteet (järjekorras)
+
+- **A1. Kureeritud mini-backfill (43 dokumenti).** 7 puuduvat `authority`, 33 `source_status=unknown`, 1 `last_checked`, 2 artikli URL-i. Üheselt tuletatavad rakendatakse patch-meta kaudu, kahtlased jäävad raportisse ettepanekutega.
+- **A2. Golden eval v1 (25 küsimust).** Kaks dimensiooni: režiim × korpuse perekond. Jaotus: KOV 4, SHS/RT legal 3, ajakiri Sotsiaaltöö 4, ingest'itud PDF-id 4, organisatsioonid 2, eluolukord/võrdlus 4, piirijuhud 4. Komplekt JSON-ina repos + runner, mis jooksutab `/api/chat` vastu ja võrdleb: õige režiim, kohustuslikud/keelatud kuvatud allikad, vastuse sisunõuded. Tulemus = baseline-skoor.
+- **A3. V2.8 diversity tuning.** AINULT kui eval näitab, et laiad küsimused kasutavad korpust liiga kitsalt. 2026-06-10 smoke blokeerivat probleemi ei näidanud.
+
+**Põhireegel:** eval (A2) peab olemas olema enne suuri ingest-laineid ja arhitektuurimuudatusi — muidu pole võrdlusbaasi.
+
+## Rada B — materjali ingest (partiidena, iga partii järel eval)
+
+- **B0. 2 eestkoste-uuringu PDF-i** (`Andmebaasi/uuringud ja juhendid/Taisealiste-psuuhikahairega-...-2026*.pdf`). Metadata-JSON-id samale mustrile nagu hea tava 2025 failil, ingest `knowledge:folder:ingest` kaudu. Väike, võib teha enne A2 — annab eval'ile kohe küsimused.
+- **B1. Master-listi high-priority PDF-id (39).** `knowledge:source-master:ingest -- --priority high` partiidena (~10 kaupa), iga partii: validaator → pisteline kontroll → 1–2 uut eval-küsimust → eval roheline enne järgmist partiid.
+- **B2. Medium-priority PDF-id (141).** Sama muster, suuremad partiid, kui B1 kogemus on puhas.
+- **B3. Ajakirjaartiklid master-listist (11).** Olemasolev journal-torustik (`rag:ingest:ajakiri`).
+- **B4. Organisatsioonikorje automatiseerimine (60 orgi).** Skript, mis teeb `organisatsiooni_korje_task_starters.md` töö programselt: lehed alla, LLM-API ekstraktsioon, 4 tuumfaili, `organization:validate`, ebakindel → `needs_review` (inimkontroll). Alustada A-prioriteedi organisatsioonidest. EI mingit käsitsi ChatGPT-vestlustööd.
+- **B5. HTML/teemalehed (50).** Valikuliselt `/ingest/url` kaudu, alustades kõrgeima väärtusega lehtedest.
+- **Registrid (16) jäävad `referenced_only`** — RAG-i ei lähe.
+
+**Reeglid:** enne uut allikat dedupe-kontroll master-listi vastu (`normalized_url`); `--skip-existing` alati peal; ükski partii ei lähe sisse ilma validaatorita; eval kasvab koos korpusega (iga partii lisab küsimusi).
+
+## Rada C — arhitektuur (paralleelne, feature flag'ide taga)
+
+- **C1. Graph-lite faas 1.** Prisma mudelid (RagEntity, RagRelation, RagChunkEntity) + deterministlik ingest KOV kanoonilistest failidest, RT struktuurist ja organisatsiooniprofiilidest. Entity-tüübid: SERVICE, BENEFIT, LAW, LEGAL_SECTION, MUNICIPALITY, ORGANIZATION (roles-atribuudiga), FORM, CONTACT_POINT, TARGET_GROUP. Lubatud kolmikud (domain/range) valideeritakse insertil. DEADLINE/ELIGIBILITY_CRITERION ei ole sõlmed, vaid serva atribuudid. Kood + migratsioon + testid lokaalselt; deploy/migrate ainult kokkuleppel.
+- **C2. Graph-otsingukanal + debug-võrdlus.** Uus kanal `retrievalOrchestrator`-is flag'i taga (`RAG_GRAPH_CHANNEL_ENABLED=0` vaikimisi); vana vs uue pipeline'i kõrvutamise tööriist; mõõtmine golden eval'iga. Sisselülitamine ainult siis, kui eval-skoor ei lange.
+- **C3. LLM-planner eksperiment.** Deterministlik `questionPlanner` jääb; LLM-versioon flag'i taha; eval võrdleb.
+- **C4. Graph-lite faas 2.** LLM-ekstraktsioon artiklitest (NEED, RISK_SIGNAL, WORKFLOW, ESCALATES_TO jne), kõik `review_needed` staatusega; riski-/kriisiseosed alati inimkontrolliga.
+
+## Soovitatav järjekord
+
+```text
+1. A1  mini-backfill                      (väike, kohe)
+2. B0  2 uuringu-PDF-i sisse              (väike, kohe)
+3. A2  golden eval v1 + baseline          (võtmesamm)
+4. C1  graph-lite faas 1                  (paralleelselt A2-ga võimalik)
+5. B1  high-priority PDF-id partiidena    (eval valvab)
+6. C2  graph-kanal + võrdlus              (vajab A2 + C1)
+7. B2-B5 ülejäänud ingest                 (jooksvalt)
+8. A3/C3/C4 vastavalt eval-tulemustele
+```
+
+## Püsivad guardrail'id
+
+- Olemasolev RAG ja Chroma collection jäävad puutumata; uus alati flag'i taha; vaikimisi vana pipeline.
+- Deploy ja prisma migrate ainult kasutaja teadmisel.
+- Legal exact ja KOV/SourcePackage rajad on kaitstud regressioonidega enne iga muudatust.
+- Iga seos graph-kihis kannab evidence-viidet (chunk/source); ilma selleta seost ei looda.
+- Audit (`rag-audit.md`) uueneb iga tööpaketi järel; see roadmap uueneb, kui etapp valmib või järjekord muutub.
