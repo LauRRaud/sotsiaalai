@@ -203,6 +203,26 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 - Tööriistaõppetunnid: (a) `git checkout` Windowsis kirjutab CRLF, aga testid otsivad LF-mustreid → normaliseeri LF enne commit'i; (b) PowerShelli Get/Set-Content rikub UTF-8 täpitähed → failimuudatused ainult Edit-tööriista/node-skriptiga; (c) visuaalne kontroll auth-tagustel lehtedel käib testkasutajaga (scripts/tmp-create-e2e-user.mjs + tmp-create-login-token.mjs, temp-token signin-vormi).
 - Mobiilikett: 22 → 19 faili (service-map, documents-ui, chat-mobile-layout väljas).
 
+### Etapp 5a — policy, tehtud 11.06.2026 (commit 462c5a45)
+- `features/policy/{index,pages,responsive,mobile}.css`; 3 route'i; policy-scroll mobiiliketist väljas.
+- **Uus muster:** policy mobile.css-il pole oma @media-ümbriseid (toetus keti tingimusele) → index.css impordib selle `screen and (max-width: 768px)` tingimusega. Kontrolli seda IGA mobiiliketi faili kolimisel (`bare top-level selector` skann).
+
+### Etapp 5b — home, tehtud 11.06.2026 (commit 3b166316)
+- `features/home/{index,desktop,mobile}.css`; ainult app/page.js; home.css väljus globals.css-ist, home-page.css ketist.
+- **Plaanikorrektuur:** mobile/background-home.css ja mobile/home-scroll.css JÄÄVAD ketti — background-home stiilib globaalseid pindu (bg-kihid, back-button, account-settings modal) ja home-scroll sisaldab skoopimata profile-orbit-stack reegleid. Nimi ≠ omanik; kontrolli sisu.
+- Enne järjekorravahetust kontrolliti selektor+omadus kattuvused home/mobile ↔ home-scroll: 0.
+
+### Etapp 5c — profile orbit/dock, tehtud 11.06.2026 (commit 16171155)
+- `features/profile/{index,mono,hc,mobile}.css`; route'id: /profiil ja /vestlus (JourneyDashboard renderdab orbiiti seal). hc.css: 113 KB (algne) → 77 KB.
+- **Metoodikaõppetund (peaaegu-õnnetus):** teemafailist eraldades peab heuristik lubama teemaklassid (.theme-mono jt) AINULT scope'ina ja nõudma lisaks feature-klassi — vastasel korral tuleks kaasa kogu `:root.theme-mono` muutujapalett. Iga ekstrakti järel valideeri, et igas reeglis on feature-klass.
+- Feature-klasside loend vajab laiendamist tegelike DOM-klassideni (profile-orbit + profile-email + dock-*) — pelgalt plaani prefiksist ei piisa; vaata, mida komponendid päriselt renderdavad.
+- Testi-regexid võivad sõltuda reeglite JÄRJEKORRAST failis (nt non-greedy match leiab esimese esinemise) — kui ekstrakt jätab failis ette teise sama selektoriga ploki, võib test valet plokki lugeda. Lahendus: vii KÕIK feature-plokid välja (ka @media-sisesed).
+
+### Etapp 5 jääk — järeldused edasiseks
+- **invite, register ja login on JAGATUD UI, mitte route-vertikaalid:** InviteModal avaneb GlassSubpageHeaderi kaudu pea igal alamlehel; LoginModal kasutab register-input* klasse igal avalikul lehel. Need kuuluvad §3 `shared/` kausta (etapp 5 lõpuosa: glass.css register-osa + ui-glow → shared/), mitte lehe-importi.
+- workspace-help-listings.css ja selected-listing.css on juba route-skoobitud (ainult vestlus impordib) — kolimine features/ alla on madala väärtusega ümbernimetamine; teha koos invite/shared otsusega.
+- mobile-shared kett on nüüd 22 → 16 faili (väljas: service-map, documents-ui, chat-mobile-layout, policy-scroll, home-page, profile-orbit).
+
 ## 8. Mida MITTE teha
 
 - Ära tee "suurt pauku" — ühe commitiga kogu struktuuri liigutamine teeb visuaalsete regressioonide leidmise võimatuks
