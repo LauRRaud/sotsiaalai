@@ -1,7 +1,6 @@
-import "../styles/components/chat-shell.css"
+import "../styles/features/chat/index.css"
 import "../styles/features/documents/index.css"
 import "../styles/features/documents/agent.css"
-import "../styles/theme/mono.chat.css"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"

@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 import "../styles/components/invite-modal.css";
-import "../styles/theme/mono.chat.css";
+import "../styles/features/chat/mono.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

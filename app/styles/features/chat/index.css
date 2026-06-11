@@ -1,0 +1,12 @@
+/* Chat feature vertical. Route-imported by the pages that render the chat
+   shell (vestlus, dokreziim, eelpoordumised, teenusekaart, teenuseprofiil) —
+   not part of the global cascade.
+   mobile.css used to load from the global mobile chain (before route CSS),
+   so it stays first; mono.css and hc.css are theme overrides whose selectors
+   out-rank shell.css regardless of order. focus.css is an extra imported
+   only by /vestlus. chat-bootstrap.css intentionally stays in globals.css
+   (must load before hydration, see mobile/README.md). */
+@import url("./mobile.css");
+@import url("./shell.css");
+@import url("./mono.css");
+@import url("./hc.css");

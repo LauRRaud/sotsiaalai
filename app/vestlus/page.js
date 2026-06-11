@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-import "../styles/components/chat-shell.css";
-import "../styles/components/chat-focus.shared.css";
+import "../styles/features/chat/index.css";
+import "../styles/features/chat/focus.css";
 import "../styles/components/workspace-help-listings.css";
 import "../styles/components/selected-listing.css";
 import "../styles/components/invite-modal.css";
@@ -9,7 +9,6 @@ import "../styles/features/service-map/index.css";
 import "../styles/features/documents/index.css";
 import "../styles/features/documents/agent.css";
 import "../styles/features/documents/library.css";
-import "../styles/theme/mono.chat.css";
 import { cookies } from "next/headers";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

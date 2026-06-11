@@ -18,6 +18,12 @@ const legacyCssBundles = new Map([
       path.join(repoRoot, "app", "styles", "features", "documents", "agent.css"),
       path.join(repoRoot, "app", "styles", "features", "documents", "library.css")
     ]
+  ],
+  [
+    // Chat-owned high-contrast overrides were extracted out of hc.css;
+    // tests that read hc.css keep seeing the full pre-split contract.
+    path.join(repoRoot, "app", "styles", "theme", "hc.css"),
+    [path.join(repoRoot, "app", "styles", "features", "chat", "hc.css")]
   ]
 ]);
 

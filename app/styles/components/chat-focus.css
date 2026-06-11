@@ -2,8 +2,8 @@
  * Compatibility aggregator. The global import path now imports the
  * ownership-split files directly from globals.css.
  */
-@import url("./chat-shell.css");
-@import url("./chat-focus.shared.css");
+@import url("../features/chat/shell.css");
+@import url("../features/chat/focus.css");
 @import url("./workspace-help-listings.css");
 @import url("./selected-listing.css");
 @import url("./invite-modal.css");

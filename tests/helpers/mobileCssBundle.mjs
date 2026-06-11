@@ -11,7 +11,7 @@ const MOBILE_CSS_FILES = [
   "app/styles/mobile/accessibility-modal-fields.css",
   "app/styles/mobile/login-modal.css",
   "app/styles/mobile/modal-surfaces.css",
-  "app/styles/mobile/chat-mobile-layout.css",
+  "app/styles/features/chat/mobile.css",
   "app/styles/mobile/accessibility-touch.css",
   "app/styles/mobile/motion.css",
   "app/styles/mobile/subpage-title-system.css",

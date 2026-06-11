@@ -9,7 +9,7 @@
 - `accessibility-modal-fields.css` owns accessibility modal fieldset spacing.
 - `login-modal.css` and `login-otp-close.css` own login and OTP modal mobile placement.
 - `modal-surfaces.css` owns mobile glass modal surfaces for invite, subscription, help listings, materials and framework pages.
-- `chat-mobile-layout.css` owns mobile chat drawer, rails and composer placement.
+- Chat mobile layout rules moved to `app/styles/features/chat/mobile.css`; the chat vertical (shell + mobile + mono + hc overrides) is route-imported via `app/styles/features/chat/index.css`. Only `chat-bootstrap.css` stays global (pre-hydration requirement below).
 - `policy-scroll.css` owns public policy page mobile scroll geometry, but it is loaded through the shared mobile cascade so policy pages do not get route-specific import order.
 - Documents mobile rules moved to `app/styles/features/documents/mobile.css`; the whole documents vertical is route-imported via `app/styles/features/documents/index.css`.
 - Service-map mobile rules moved to `app/styles/features/service-map/mobile.css`; the whole feature vertical (desktop + mobile) is route-imported via `app/styles/features/service-map/index.css` and is no longer part of the shared mobile cascade.
