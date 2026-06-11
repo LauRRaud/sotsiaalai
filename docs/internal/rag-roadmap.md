@@ -52,21 +52,22 @@ npm run knowledge:source-master:ingest -- --priority high --limit 10 --skip-exis
 npm run rag:backfill:metadata           (dry-run)
 npm run rag:graph:plan -- --json reports/rag-graph-plan.json
 
-# KIIRE deploy (Lauri standardvoog — kasuta seda rutiinsete muudatuste puhul;
-# build jookseb sooja .next cache peal ja sait jaab ules):
-#   lokaalselt:  git add . ; git commit -m "..." ; git push origin main
-#   serveris:    ssh sotsiaalai
-#                cd /home/ubuntu/apps/sotsiaalai && git pull && npm run build
-#                sudo systemctl restart sotsiaalai-frontend.service
-#                systemctl status sotsiaalai-frontend.service --no-pager
-# (rag-service'i restart ainult siis, kui rag-service/main.py muutus:
-#   sudo systemctl restart sotsiaalai-rag.service)
-
-# ETTEVAATLIK deploy (ainult Prisma migratsiooni voi riskantse muudatuse puhul;
-# peatab frontendi build'i ajaks, teeb varukoopiad, jooksutab migrate):
-npm run deploy:server
-# NB: kui jooksutad taustal/timeout'iga, anna vahemalt 25 min — katkestatud
-# build jatab .next pooleli ja frontend laheb crash-loopi (juhtus 2026-06-11).
+# DEPLOY — Lauri otsekasklus (repo juurest):
+AI -m "muudatuste kirjeldus"
+# AI = scripts/ai-deploy.mjs: git add -A + commit + push + npm run deploy:server
+# (deploy:server: serveris git pull, prisma migrate deploy, build, teenuste restart).
+# Lipud: --skip-deploy (ainult commit+push), --skip-build (ilma frontendi buildita).
+# Kiire tavaliselt seetottu, et serveri .next cache on soe.
+#
+# Kasiraja variant (kui tahad ise sammhaaval):
+#   git add . ; git commit -m "..." ; git push origin main
+#   ssh sotsiaalai ; cd /home/ubuntu/apps/sotsiaalai ; git pull ; npm run build
+#   sudo systemctl restart sotsiaalai-frontend.service
+# rag-service restart ainult siis, kui rag-service/main.py muutus.
+#
+# NB automatiseeringule: kui jooksutad deploy'd taustal/timeout'iga, anna
+# vahemalt 25 min — katkestatud build jatab .next pooleli ja frontend laheb
+# crash-loopi (juhtus 2026-06-11). Eelista nohup-lahtihaagitud kaivitust.
 ```
 
 **Püsireeglid:** vt "Püsivad guardrail'id" all; lühidalt — kõik uus flag'i taha,
