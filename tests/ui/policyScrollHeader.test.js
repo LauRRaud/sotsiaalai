@@ -13,7 +13,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
   const terms = read("components/alalehed/KasutustingimusedBody.jsx");
   const privacy = read("components/alalehed/PrivaatsusBody.jsx");
   const mobileCss = readMobileCssBundle();
-  const policyMobileCss = read("app/styles/mobile/policy-scroll.css");
+  const policyMobileCss = read("app/styles/features/policy/mobile.css");
   const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
 
   for (const source of [guide, terms, privacy]) {
@@ -107,7 +107,7 @@ test("policy pages use the scroll-surface back header pattern", () => {
 });
 
 test("policy desktop pages use the workspace panel scroll geometry", () => {
-  const policyDesktopCss = read("app/styles/utilities/policy-pages-responsive.css");
+  const policyDesktopCss = read("app/styles/features/policy/responsive.css");
 
   assert.match(
     policyDesktopCss,

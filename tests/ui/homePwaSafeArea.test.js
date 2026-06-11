@@ -14,7 +14,7 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   const mobileBackgroundCss = read("app/styles/mobile/background-home.css");
   const mobileChatBootstrapCss = read("app/styles/mobile/chat-bootstrap.css");
   const mobileFoundationsCss = read("app/styles/mobile/foundations.css");
-  const mobilePolicyScrollCss = read("app/styles/mobile/policy-scroll.css");
+  const mobilePolicyScrollCss = read("app/styles/features/policy/mobile.css");
   const mobileModalSurfaceCss = read("app/styles/mobile/modal-surfaces.css");
   const mobileChatLayoutCss = read("app/styles/features/chat/mobile.css");
   const globalsCss = read("app/styles/globals.css");

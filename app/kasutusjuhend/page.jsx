@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
-import "../styles/utilities/policy-pages.css";
-import "../styles/utilities/policy-pages-responsive.css";
+import "../styles/features/policy/index.css";
 import KasutusjuhendBody from "@/components/alalehed/KasutusjuhendBody";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";
 import { buildLocalizedMetadata } from "@/lib/metadata";

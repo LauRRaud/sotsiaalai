@@ -1,0 +1,9 @@
+/* Policy feature vertical (kasutustingimused, privaatsustingimused,
+   kasutusjuhend). Route-imported — not part of the global cascade.
+   mobile.css contains rules without their own media wrappers (it relied on
+   the global mobile chain's max-width condition), so it is imported here
+   with the same condition. It also stays first, mirroring its old position
+   before route CSS. */
+@import url("./mobile.css") screen and (max-width: 768px);
+@import url("./pages.css");
+@import url("./responsive.css");
