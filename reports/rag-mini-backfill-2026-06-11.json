@@ -1,0 +1,383 @@
+{
+  "generated_at": "2026-06-11",
+  "description": "Curated mini-backfill for the 43 report-only documents from the 2026-06-10 metadata backfill. Additive patches only.",
+  "note": "All 43 findings resolved: 33 source_status active (KOV canonical files confirm), 7 authority values (issuing body unambiguous), 1 last_checked from ingest date, 2 article URLs verified on tai.ee.",
+  "patches": [
+    {
+      "docId": "kov-tallinn",
+      "patch": {
+        "source_status": "active",
+        "authority": "KOV"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active",
+        "kov_bundle_authority_is_kov"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_kati_nolvak",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_reet_maiste",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_mari_tool",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_birgit_jurjens",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_jelena_plakk",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_eva_kaukver",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_kaja_laanest",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_astrit_fedorits",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::turi-vald::item::turi_vald_contact_katri_meltsas",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::haljala_vald::item::haljala_vald_contact_airi_oosalu",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::haljala_vald::item::haljala_vald_contact_margit_kukor",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::haljala_vald::item::haljala_vald_contact_liis_kytt",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::haljala_vald::item::haljala_vald_contact_sirle_nukk",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_toimetulekutoetuse_taotlus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_laste_toitlustamise_toetuse_avaldus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_sotsiaaltoetuse_avaldus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_matusetoetuse_taotlus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_transporditeenuse_avaldus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_lapsehoiuteenuse_taotlus",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_sunnitoetuse_ii_osa",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_sunnitoetuse_i_osa",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_form_sunnitoetuse_taotlus_print",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_katrin_liiv",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_maie_sirkas",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_kai_viirmann",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_heidy_murula",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_leena_masing",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_eike_magi",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_liis_pork",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_kristel_laan",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_lydia_kruusmann",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "kov::anija-vald::item::anija_vald_contact_airi_horrak",
+      "patch": {
+        "source_status": "active"
+      },
+      "reasons": [
+        "kov_canonical_sources_are_active"
+      ]
+    },
+    {
+      "docId": "sm-terviseprobleemiga-laste-perede-hea-tava-2025",
+      "patch": {
+        "authority": "state"
+      },
+      "reasons": [
+        "authority_derivable: issued by Sotsiaalministeerium"
+      ]
+    },
+    {
+      "docId": "tarkvanem-tooleht-abikusimused-vestluseks-algkoolilapsega",
+      "patch": {
+        "authority": "state"
+      },
+      "reasons": [
+        "authority_derivable: tarkvanem.ee is operated by Tervise Arengu Instituut"
+      ]
+    },
+    {
+      "docId": "ska-seksuaalvagivalla-kriisiabikeskusi-tutvustav-voldik-est",
+      "patch": {
+        "authority": "state",
+        "last_checked": "2026-05-03",
+        "checked_at": "2026-05-03"
+      },
+      "reasons": [
+        "authority_derivable: issued by Sotsiaalkindlustusamet",
+        "last_checked_from_ingest_createdAt_2026-05-03"
+      ]
+    },
+    {
+      "docId": "paasteamet-hoolekande-ja-tervishoiuasutuste-tuleohutus",
+      "patch": {
+        "authority": "state"
+      },
+      "reasons": [
+        "authority_derivable: issued by Paasteamet"
+      ]
+    },
+    {
+      "docId": "harno-opitulemuste-vahendamine-asendamine-ja-oppeainest-vabastamine",
+      "patch": {
+        "authority": "state"
+      },
+      "reasons": [
+        "authority_derivable: issued by HARNO"
+      ]
+    },
+    {
+      "docId": "peaasi-ee-koolilaste-ja-noorte-vaimne-tervis",
+      "patch": {
+        "authority": "organization_official"
+      },
+      "reasons": [
+        "authority_derivable: peaasi.ee is run by MTU Peaasjad (NGO)"
+      ]
+    },
+    {
+      "docId": "sotsiaaltoo-2-2025-tehisintellekt-sotsiaaltoos-praktika-kaalutlused-ja-vaartuspohised-piirid-2025-2",
+      "patch": {
+        "url": "https://www.tai.ee/et/sotsiaaltoo/tehisintellekt-sotsiaaltoos-praktika-kaalutlused-ja-vaartuspohised-piirid",
+        "url_canonical": "https://www.tai.ee/et/sotsiaaltoo/tehisintellekt-sotsiaaltoos-praktika-kaalutlused-ja-vaartuspohised-piirid"
+      },
+      "reasons": [
+        "exact_title_match_on_tai_ee"
+      ]
+    },
+    {
+      "docId": "sotsiaaltoo-1-2021-pikaajaline-hooldus-sloveenias-2021-1",
+      "patch": {
+        "url": "https://www.tai.ee/et/valjaanded/ajakiri-sotsiaaltoo/sotsiaaltoeoe-2021-1/pikaajaline-hooldus-sloveenias-probleemid-ja-tulevikusuunad",
+        "url_canonical": "https://www.tai.ee/et/valjaanded/ajakiri-sotsiaaltoo/sotsiaaltoeoe-2021-1/pikaajaline-hooldus-sloveenias-probleemid-ja-tulevikusuunad"
+      },
+      "reasons": [
+        "exact_title_match_on_tai_ee"
+      ]
+    }
+  ]
+}

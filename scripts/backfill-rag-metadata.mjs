@@ -45,6 +45,7 @@ function parseArgs(argv = []) {
     else if (arg === "--api-key") args.apiKey = argv[++index] || "";
     else if (arg === "--limit") args.limit = Math.max(0, Number.parseInt(argv[++index] || "0", 10) || 0);
     else if (arg === "--json") args.jsonPath = argv[++index] || null;
+    else if (arg === "--patch-file") args.patchFile = argv[++index] || null;
     else throw new Error(`Unknown option: ${arg}`);
   }
   return args;
@@ -195,6 +196,37 @@ async function main() {
   }
 
   const baseUrl = ragServiceBaseUrl(args.baseUrl);
+
+  if (args.patchFile) {
+    const raw = JSON.parse(await fs.readFile(args.patchFile, "utf8"));
+    const patches = (Array.isArray(raw) ? raw : raw.patches || []).map(item => ({
+      docId: item.docId,
+      title: item.title || null,
+      patch: item.patch,
+      reasons: item.reasons || ["curated_patch_file"]
+    }));
+    const output = {
+      ok: true,
+      mode: args.apply ? "apply" : "dry-run",
+      base_url: baseUrl,
+      patch_file: args.patchFile,
+      planned_patches: patches.length,
+      sample_patches: patches.slice(0, 5)
+    };
+    if (args.apply && patches.length > 0) {
+      console.error(`[backfill] applying ${patches.length} curated patches ...`);
+      const { applied, failures } = await applyPatches(baseUrl, args.apiKey, patches, { logEvery: 10 });
+      output.applied = applied;
+      output.failures = failures;
+      output.ok = failures.length === 0;
+    }
+    const serialized = JSON.stringify(output, null, 2);
+    if (args.jsonPath) await fs.writeFile(args.jsonPath, serialized, "utf8");
+    console.log(serialized);
+    if (!output.ok) process.exitCode = 1;
+    return;
+  }
+
   console.error(`[backfill] fetching documents from ${baseUrl} ...`);
   const docs = await fetchAllDocuments(baseUrl, args.apiKey);
   const plan = buildBackfillPlan(docs);
