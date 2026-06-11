@@ -60,6 +60,15 @@ npm run deploy:server
 deploy/migrate ainult kasutaja teadmisel, eval kasvab koos korpusega, iga partii
 järel commit + push + selle sektsiooni uuendus.
 
+**Mudeli soovitus (Fable 5 reasoning effort):**
+
+- `medium` — rutiinne töö: ingest-partiid (B1/B2), eval/smoke jooksud, deploy'd,
+  skriptid olemasoleva mustri järgi, raportid, dokumentatsioon.
+- `high` — peen diagnostika ja disain: mitme kihi koosmõju bugid (nt atributsiooni/
+  ranking'u loogika), graph-lite arhitektuur (C1 aktiveerimine, C2 otsingukanal),
+  V2.8 diversity tuning, LLM-planneri eksperiment (C3), riskantne runtime-muudatus
+  legal-exact'i või KOV-radade lähedal.
+
 ## Tehtud vundament (vt audit)
 
 - V1.1–V2.7A runtime-tööd valmis; platvormi live smoke + trace checker PASS (2026-06-10).
