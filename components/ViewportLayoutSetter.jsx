@@ -82,10 +82,14 @@ function applyVhVar(previousStableLayoutHeight = 0) {
     previousStableLayoutHeight
   });
   const previousStable = Math.max(0, Number(previousStableLayoutHeight) || 0);
+  // iOS standalone underreports innerHeight at cold launch; growth must pass
+  // through immediately or the background stays short of the screen bottom.
+  // Only small shrinks are frozen to avoid scroll/keyboard jitter.
   if (
     previousStable > 0 &&
     (displayMode === "standalone" || displayMode === "fullscreen") &&
-    Math.abs(layoutHeight - previousStable) <= 96
+    layoutHeight < previousStable &&
+    previousStable - layoutHeight <= 96
   ) {
     layoutHeight = previousStable;
   }

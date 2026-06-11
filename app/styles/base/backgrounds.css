@@ -72,7 +72,13 @@
   inset: 0;
   width: 100vw;
   height: var(--app-height, 100dvh);
+  /* --app-height can lag behind the real viewport on iOS standalone launch;
+     never let the backdrop end above the bottom safe area. */
   min-height: var(--app-height, 100dvh);
+  min-height: max(
+    var(--app-height, 100dvh),
+    calc(100lvh + env(safe-area-inset-bottom, 0px))
+  );
   z-index: 0;
   pointer-events: none !important;
   background-color: transparent;

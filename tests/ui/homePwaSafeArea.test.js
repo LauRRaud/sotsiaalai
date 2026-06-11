@@ -103,6 +103,21 @@ test("mobile layout no longer ships standalone/fullscreen PWA CSS overrides", ()
   );
   assert.match(
     viewportLayoutSetter,
+    /layoutHeight < previousStable &&[\s\S]*?previousStable - layoutHeight <= 96/,
+    "standalone height freeze must only suppress small shrinks, never growth (iOS launch underreport)"
+  );
+  assert.doesNotMatch(
+    viewportLayoutSetter,
+    /Math\.abs\(layoutHeight - previousStable\)/,
+    "symmetric freeze would pin the underreported launch height forever in PWA mode"
+  );
+  assert.match(
+    baseBackgroundsCss,
+    /\[data-bg-layer\]\s*\{[\s\S]*?min-height:\s*max\(\s*var\(--app-height,\s*100dvh\),\s*calc\(100lvh \+ env\(safe-area-inset-bottom,\s*0px\)\)\s*\);/,
+    "background layer must keep a large-viewport + safe-area floor so a stale --app-height cannot expose chrome bands at the bottom edge"
+  );
+  assert.match(
+    viewportLayoutSetter,
     /window\.requestAnimationFrame\(\(\) => \{[\s\S]*?syncViewportState\(\);[\s\S]*?\}\);/
   );
   assert.match(
