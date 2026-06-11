@@ -114,7 +114,8 @@
     "organization:ingest:plan": "node scripts/ingest-organization-rag-folder.mjs --dry-run",
     "organization:ingest": "node scripts/ingest-organization-rag-folder.mjs --ingest",
     "rag:backfill:metadata": "node scripts/backfill-rag-metadata.mjs",
-    "rag:eval:golden": "node scripts/run-golden-eval.mjs"
+    "rag:eval:golden": "node scripts/run-golden-eval.mjs",
+    "rag:graph:plan": "node scripts/build-rag-graph.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.4.0",

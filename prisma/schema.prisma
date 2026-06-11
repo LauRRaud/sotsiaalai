@@ -2373,3 +2373,111 @@ model MaterialSubmission {
   @@index([status, createdAt])
   @@index([reviewedAt])
 }
+
+// ---------------------------------------------------------------------------
+// RAG graph-lite (phase 1): deterministic knowledge-graph layer.
+// Tables are created by a future migration; phase 1 ships schema + offline
+// builders only. Every relation must carry evidence (source document and/or
+// chunk reference). See docs/internal/rag-roadmap.md track C.
+// ---------------------------------------------------------------------------
+
+enum RagEntityType {
+  SERVICE
+  BENEFIT
+  LAW
+  LEGAL_SECTION
+  MUNICIPALITY
+  ORGANIZATION
+  FORM
+  CONTACT_POINT
+  TARGET_GROUP
+  NEED
+  RISK_SIGNAL
+  DOCUMENT_TYPE
+  WORKFLOW
+}
+
+enum RagRelationType {
+  REGULATES
+  BELONGS_TO
+  PROVIDED_BY
+  ORGANIZED_BY
+  SUITABLE_FOR
+  REQUIRES
+  RELATED_TO
+  HAS_LEGAL_BASIS
+  HAS_DOCUMENT
+  HAS_FORM
+  HAS_NEXT_STEP
+  HAS_CONTACT_POINT
+  ASSESSES
+  MITIGATES_RISK
+  ESCALATES_TO
+  APPLIES_TO
+  AVAILABLE_IN
+}
+
+enum RagGraphReviewStatus {
+  AUTO_APPROVED
+  NEEDS_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model RagEntity {
+  id             String               @id @default(cuid())
+  type           RagEntityType
+  name           String
+  normalizedName String
+  externalKey    String               @unique
+  aliases        String[]             @default([])
+  roles          String[]             @default([])
+  description    String?              @db.Text
+  confidence     Float                @default(1)
+  reviewStatus   RagGraphReviewStatus @default(AUTO_APPROVED)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  relationsFrom RagRelation[]    @relation("RagRelationFrom")
+  relationsTo   RagRelation[]    @relation("RagRelationTo")
+  chunkLinks    RagChunkEntity[]
+
+  @@index([type, normalizedName])
+  @@index([normalizedName])
+}
+
+model RagRelation {
+  id               String               @id @default(cuid())
+  fromEntityId     String
+  toEntityId       String
+  relationType     RagRelationType
+  confidence       Float                @default(1)
+  evidenceChunkId  String?
+  sourceDocumentId String?
+  evidenceRef      String?
+  extractor        String               @default("deterministic_kov_v1")
+  reviewStatus     RagGraphReviewStatus @default(AUTO_APPROVED)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  fromEntity RagEntity @relation("RagRelationFrom", fields: [fromEntityId], references: [id], onDelete: Cascade)
+  toEntity   RagEntity @relation("RagRelationTo", fields: [toEntityId], references: [id], onDelete: Cascade)
+
+  @@unique([fromEntityId, toEntityId, relationType, sourceDocumentId])
+  @@index([relationType])
+  @@index([toEntityId])
+}
+
+model RagChunkEntity {
+  id           String   @id @default(cuid())
+  chunkId      String
+  entityId     String
+  relevance    Float    @default(1)
+  evidenceText String?  @db.Text
+  createdAt    DateTime @default(now())
+
+  entity RagEntity @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([chunkId, entityId])
+  @@index([entityId])
+}
