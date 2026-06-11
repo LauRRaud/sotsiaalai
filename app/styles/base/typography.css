@@ -1,15 +1,4 @@
 @layer base {
-  .headline-bold {
-    font-family: var(--font-aino-headline), var(--font-aino), Arial, sans-serif;
-  }
-  .right-card-primary .headline-bold,
-  .left-card-primary .headline-bold {
-    font-weight: 400;
-  }
-  .right-card-primary .headline-bold {
-    color: var(--brand-primary);
-  }
-
   body,
   p,
   ul,

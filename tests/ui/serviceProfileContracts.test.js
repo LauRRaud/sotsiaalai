@@ -91,7 +91,7 @@ test("service profile keeps publishing state inside the publish section and un-n
 
   assert.match(sectionBlock, /border-top:\s*1px solid var\(--workspace-feature-border\)/);
   assert.doesNotMatch(sectionBlock, /background:/);
-  assert.match(css, /\.service-profile-subsection > \.grid > \.button,/);
+  assert.match(css, /\.service-profile-subsection > \.grid > \.button\s*\{/);
 });
 
 test("service profile uses controlled service-level choices for categories, target groups and languages", () => {

@@ -34,29 +34,6 @@ main#main > .main-content.glass-box {
   box-sizing: border-box;
   z-index: 20;
 }
-.site-footer {
-  position: relative;
-  z-index: 12;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  min-height: clamp(9rem, 22vh, 18rem);
-  padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 0.1rem);
-  pointer-events: none;
-}
-.site-footer-inner {
-  display: flex;
-  width: min(92vw, 58rem);
-  justify-content: center;
-  align-items: center;
-}
-.site-footer-logo {
-  width: clamp(18rem, 34vw, 28rem);
-  height: auto;
-  opacity: 0.8;
-  margin-top: 2.6rem;
-}
 .home-footer-logo-base path:last-of-type {
   opacity: 1;
 }
@@ -77,7 +54,4 @@ main#main > .main-content.glass-box {
     rgba(0, 0, 0, 0.22) 82%,
     transparent 100%
   );
-}
-body.homepage:not(.home-chat-open):not(.home-profile-open) .site-footer {
-  display: none;
 }

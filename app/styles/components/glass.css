@@ -862,7 +862,6 @@ html[data-contrast="hc"] .register-role-options .register-role-button.register-o
 }
 
 .register-option-card,
-.register-framework-card,
 .register-checkbox-card {
   transition:
     background 560ms cubic-bezier(0.22, 0.61, 0.36, 1),
@@ -872,7 +871,6 @@ html[data-contrast="hc"] .register-role-options .register-role-button.register-o
 }
 
 :root:not(.theme-light):not(.theme-mid) .register-option-card,
-:root:not(.theme-light):not(.theme-mid) .register-framework-card,
 :root:not(.theme-light):not(.theme-mid) .register-checkbox-card {
   --seg-card-bg-active: var(
     --seg-card-bg-hover,
@@ -918,7 +916,6 @@ html[data-contrast="hc"] .register-role-options .register-role-button.register-o
 }
 
 .register-option-card[data-checked="true"],
-.register-framework-card[data-checked="true"],
 .register-checkbox-card[data-checked="true"] {
   background: var(--seg-card-bg-selected, var(--btn-primary-bg-hover)) !important;
   border-color: var(--seg-card-border-selected, transparent) !important;
@@ -929,10 +926,7 @@ html[data-contrast="hc"] .register-role-options .register-role-button.register-o
 }
 
 .register-option-card[data-checked="true"],
-.register-option-card[data-checked="true"] > span:last-child,
-.register-framework-card[data-checked="true"],
-.register-framework-card[data-checked="true"] > span:last-child,
-.register-framework-card[data-checked="true"] .register-policy-link {
+.register-option-card[data-checked="true"] > span:last-child {
   color: var(--title-color, var(--brand-primary)) !important;
 }
 

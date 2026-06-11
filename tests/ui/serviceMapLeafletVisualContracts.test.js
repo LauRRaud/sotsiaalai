@@ -539,10 +539,6 @@ test("service map popup and desktop one-line toolbar preserve glass and back ali
   );
   assert.match(
     css,
-    /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace--toolbar-feedback \.service-map-toolbar__identity\s*\{[\s\S]*?position:\s*absolute[\s\S]*?top:\s*calc\(var\(--service-map-toolbar-control-top\)[\s\S]*?left:\s*calc\(var\(--service-map-toolbar-icon-edge-gap\) \+ var\(--service-map-toolbar-icon-inner-nudge\)\)/
-  );
-  assert.match(
-    css,
     /@media \(max-width:\s*1180px\)[\s\S]*?\.service-map-workspace__filters-shell\s*\{[\s\S]*?align-items:\s*center[\s\S]*?justify-content:\s*center[\s\S]*?width:\s*min\(calc\(100vw - 2rem\),\s*30rem\)/
   );
   assert.match(
