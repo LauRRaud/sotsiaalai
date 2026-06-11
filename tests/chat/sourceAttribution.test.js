@@ -1432,3 +1432,29 @@ test("overview synthesis keeps reply-supported article even when title lacks que
     "non-overview synthesis keeps the strict topic/anchor contract"
   );
 });
+
+test("generic paragraph follow-up displays reply-supported source via overlap", () => {
+  const sources = [
+    {
+      id: "shs-23",
+      source_type: "national_law",
+      title: "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu",
+      evidenceText: "Tugiisikuteenuse eesmärk on iseseisva toimetuleku toetamine juhendamise ja motiveerimise kaudu."
+    },
+    {
+      id: "shs-44",
+      source_type: "national_law",
+      title: "Sotsiaalhoolekande seadus § 44 Võlanõustamisteenus",
+      evidenceText: "Võlanõustamine aitab võlgadega seotud probleeme lahendada ja ennetada."
+    }
+  ];
+  const reply = "SHS § 23 järgi on tugiisikuteenuse eesmärk toetada inimese iseseisvat toimetulekut juhendamise ja motiveerimise kaudu.";
+  const attribution = buildSourceAttribution(reply, sources, {
+    query: "Räägi sellest paragrahvist lähemalt",
+    riskPolicy: { riskLevel: "low", requiredEvidence: "medium", insufficientEvidenceMode: false }
+  });
+
+  assert.deepEqual(attribution.displayed_source_ids, ["shs-23"],
+    "reply-supported paragraph must display; unrelated paragraph stays hidden");
+  assert.equal(attribution.filter_reasons["shs-44"], "weak_reply_overlap");
+});

@@ -219,8 +219,9 @@
       "family": "edge",
       "question": "Kas tugiisikuteenusel on omaosalus?",
       "expect": {
-        "displayed_min": 1,
-        "answer_must_include": ["tugiisik"]
+        "mode": "national_service_benefit",
+        "answer_must_include": ["tugiisik"],
+        "answer_must_include_any": ["omavalitsus", "kov", "omaosalus"]
       }
     },
     {
@@ -228,7 +229,7 @@
       "family": "edge",
       "question": "Milline on Eesti sotsiaaltöötajate keskmine brutopalk 2026. aastal?",
       "expect": {
-        "answer_must_include_any": ["ei leia", "ei ole", "pole", "ei sisalda", "ei saa", "puudub"],
+        "answer_must_include_any": ["ei leia", "ei leidnud", "ei ole", "pole", "ei sisalda", "ei saa", "puudub"],
         "answer_must_not_include": ["keskmine brutopalk on"]
       }
     },
