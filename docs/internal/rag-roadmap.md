@@ -45,11 +45,7 @@ iga etapi lõpus.
 
 **Pooleli / järgmine samm:**
 
-- NB UUELE SESSIOONILE: B1 partii 3 (viimased ~12 high PDF-i) kaivitati serveris
-  nohup-iga 2026-06-11 hilisohtul. Tulemus: /tmp/b1-batch3-result.json serveris
-  (ingest_results massiiv). Kontrolli see ule, lisa 1-2 eval-kusimust, commit,
-  uuenda see sektsioon. Kui fail puudub/poolik, kaivita uuesti:
-  npm run knowledge:source-master:ingest -- --priority high --limit 40 --skip-existing
+- B1 HIGH-OSA VALMIS (2026-06-11 hiline ohtu): partii 3 = 12 uut, 0 viga. Kokku 32 high-priority PDF-i sees, 2 surnud linki needs_review. DB 5689 dok / 31530 vektorit. Jargmine: +eval-kusimus partii 3 sisule, siis B2 medium (141) partiidena
 
 - B1 partii 2 TEHTUD (12 uut, 0 viga: SKA MARAC/kübervägivald/perevägivald/naiste tugikeskus, Praxise erivajaduse-uuringud, Päästeameti ohutusjuhendid; DB 5677 dok / 30047 vektorit; +1 eval, 28 kokku). **B1 jätk: high järel ~12.**
   Sama muster: dry-run plaan → ingest `--skip-existing` → otsingu-kontroll →
