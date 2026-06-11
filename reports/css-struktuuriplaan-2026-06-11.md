@@ -173,7 +173,37 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 | Mobiili globaalne kett | 20 faili, sh 3 feature-faili (~37 KB võõrast) | ainult shared (~12 faili) |
 | Feature'i CSS-i asukohti | kuni 6 faili | 1 kaust |
 
-## 7. Mida MITTE teha
+## 7. Teostuse logi (täiendatakse jooksvalt)
+
+### Etapp 0 — tehtud 11.06.2026 (commit 6917558d)
+- Baseline'id: `reports/css-audit-baseline.txt` (notSeen 49), `reports/css-test-refs-baseline.txt` (131 viidet, mitte 88), `reports/test-failures-baseline-2026-06-11.txt` (**12 kukkuvat testi olid olemas juba enne CSS-tööd** — kõiki järgnevaid etappe võrreldakse selle, mitte nulli vastu), `reports/jscpd-css-baseline/`.
+- jscpd märkus: lokaalne jscpd@4.2.5 annab CSS-ile 1089 dup-rida; vana raporti 4697/5175 tuli jscpd 5 erineva tokeniseerijaga. Edaspidi võrdleme 4.2.5 numbreid.
+- `dup:check` npm skript lisatud; styles.zip repost väljas + gitignore'is.
+
+### Etapp 1 — tehtud 11.06.2026 (commit 2aa977b7)
+- P1 surnud klassid kustutatud (~190 rida) + 3 meedia-duplikaati. notSeen 49 → 28 (jääk = leaflet + dünaamilised + teadlikult hoitud .skip-link/.defer-fade/.theme-dark).
+- 2 kontrakti-testi valvasid just kustutatud duplikaate — uuendatud samas commitis (valideerib §1 "testid loevad lähtekoodi" hoiatust).
+
+### Etapp 2 — tehtud 11.06.2026 (commit fc48f4b6)
+- `features/service-map/{index,desktop,mobile}.css`; 4 route'i; mobiiliketist väljas (~22 KB / mobiililehekülg).
+- **Plaanikorrektuur:** prefiksipõhine tükeldamine (§4 rida 1) EI ole 1:1 võimalik — prefiksid on failis läbisegi ja tükeldamine rikuks kaskaadijärjekorra (§7 keeld). Kolisime tervikfailidena; sisemine tükeldamine lükkub etappi 6.
+- **Plaanikorrektuur:** hc.css-is pole service-map-OMASEID plokke — kõik 22 viidet on jagatud `:is()`-loendites. themes.css polnud vaja; light/mid/night/mono reeglid elasid juba komponendifailis.
+
+### Etapp 3 — tehtud 11.06.2026 (commit a6bc33a2)
+- `features/documents/{index,workspace,ui,agent,library,mobile,mono}.css`; 16 route'i (mitte 13); agent/library eraldi lisaimpordid 3 lehel, et CSS-maht lehe kohta ei kasvaks.
+- index.css järjekord peegeldab vana kaskaadi: mobile (oli globaalketis, st enne route-CSS-i) → workspace → ui → mono.
+- **Plaanikorrektuur:** hc.css "81-realine documents-plokk ×2" (§1) osutus muutujapaletiks, mille koopiad elavad ERI selektorite all ERI väärtustega (drawer-panel--chat-glass; register/invite-modalid; documents-ui omas scope'is) — see on jscpd valepositiivne, mitte ühendatav duplikaat. Documents'i hc-ülekirjutused elasid juba documents-ui.shared.css sees (õige muster!).
+- Testiloaderi `legacyCssBundles` (documents-mode.css tombstone) suunatud uutele teedele.
+
+### Etapp 4 — tehtud 11.06.2026 (commit c3e32e0d)
+- `features/chat/{index,shell,focus,mono,mobile,hc}.css`; 5 chat-route'i + /ruum (ainult mono.css); chat-bootstrap.css jäi globaalseks (README hüdratsiooninõue).
+- hc.css-ist eraldatud 606 rida / 67 chat-omast reeglit → features/chat/hc.css. hc.css 113 KB → 88 KB (plaani DoD ~60 KB täitub profile-orbit ×77 eraldamisega etapis 5).
+- **Metoodikaõppetund:** chat-omasuse kontroll peab olema klassitoken-range — reegel on feature-oma ainult siis, kui KÕIK selektori klassid (väljaspool :not()) on feature'i omad. Leebem heuristik ("selektoris esineb chat-klass") oleks ekslikult kaasa võtnud jagatud :is()-loendite reegleid (nt geneeriline glow-reset, mille kontrakti-test kinni püüdis).
+- Testiloaderisse hc.css → +features/chat/hc.css bundle, nii et 18 hc-kontrakti testi ei vajanud muudatusi.
+- Tööriistaõppetunnid: (a) `git checkout` Windowsis kirjutab CRLF, aga testid otsivad LF-mustreid → normaliseeri LF enne commit'i; (b) PowerShelli Get/Set-Content rikub UTF-8 täpitähed → failimuudatused ainult Edit-tööriista/node-skriptiga; (c) visuaalne kontroll auth-tagustel lehtedel käib testkasutajaga (scripts/tmp-create-e2e-user.mjs + tmp-create-login-token.mjs, temp-token signin-vormi).
+- Mobiilikett: 22 → 19 faili (service-map, documents-ui, chat-mobile-layout väljas).
+
+## 8. Mida MITTE teha
 
 - Ära tee "suurt pauku" — ühe commitiga kogu struktuuri liigutamine teeb visuaalsete regressioonide leidmise võimatuks
 - Ära muuda kaskaadijärjekorda kolimisel: @importide järjekord globals.css-is ja mobile.css-is on tahtlik (README: "later files intentionally override earlier foundations"); feature'i sees säilita reeglite järjekord algul 1:1
