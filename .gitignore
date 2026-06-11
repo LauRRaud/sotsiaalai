@@ -83,3 +83,6 @@ prisma/dev.db-journal
 
 # Windows reserved device names
 /CON
+
+# CSS restructure: local style archives stay out of the repo
+app/styles/*.zip

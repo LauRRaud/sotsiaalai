@@ -1,0 +1,129 @@
+﻿tests\helpers\mobileCssBundle.mjs	4	"app/styles/mobile/foundations.css",
+tests\helpers\mobileCssBundle.mjs	5	"app/styles/mobile/touch-controls.css",
+tests\helpers\mobileCssBundle.mjs	6	"app/styles/mobile/background-home.css",
+tests\helpers\mobileCssBundle.mjs	7	"app/styles/mobile/home-page.css",
+tests\helpers\mobileCssBundle.mjs	8	"app/styles/mobile/register.css",
+tests\helpers\mobileCssBundle.mjs	9	"app/styles/mobile/profile-orbit.css",
+tests\helpers\mobileCssBundle.mjs	10	"app/styles/mobile/platform-android.css",
+tests\helpers\mobileCssBundle.mjs	11	"app/styles/mobile/accessibility-modal-fields.css",
+tests\helpers\mobileCssBundle.mjs	12	"app/styles/mobile/login-modal.css",
+tests\helpers\mobileCssBundle.mjs	13	"app/styles/mobile/modal-surfaces.css",
+tests\helpers\mobileCssBundle.mjs	14	"app/styles/mobile/chat-mobile-layout.css",
+tests\helpers\mobileCssBundle.mjs	15	"app/styles/mobile/accessibility-touch.css",
+tests\helpers\mobileCssBundle.mjs	16	"app/styles/mobile/motion.css",
+tests\helpers\mobileCssBundle.mjs	17	"app/styles/mobile/subpage-title-system.css",
+tests\helpers\mobileCssBundle.mjs	18	"app/styles/mobile/login-otp-close.css",
+tests\helpers\mobileCssBundle.mjs	19	"app/styles/mobile/home-scroll.css",
+tests\helpers\mobileCssBundle.mjs	20	"app/styles/mobile/scroll-panels.css",
+tests\helpers\mobileCssBundle.mjs	21	"app/styles/mobile/invite-workspace.css",
+tests\helpers\serviceMapCssBundle.mjs	9	"app/styles/components/service-map.css",
+tests\helpers\serviceMapCssBundle.mjs	10	"app/styles/components/service-map.mobile.css",
+tests\helpers\serviceMapCssBundle.mjs	11	"app/styles/mobile/service-map.css",
+tests\helpers\serviceMapCssBundle.mjs	12	"app/styles/mobile/subpage-title-system.css"
+tests\materials\adminPanelPlacement.test.js	37	const glassCss = readSource("app/styles/components/glass.css")
+tests\materials\adminPanelPlacement.test.js	46	const helpersCss = readSource("app/styles/utilities/helpers.css")
+tests\profile\accountSettingsMobileLayout.test.js	10	const css = read("app/styles/mobile/subpage-title-system.css");
+tests\profile\accountSettingsMobileLayout.test.js	28	const css = read("app/styles/mobile/subpage-title-system.css");
+tests\profile\orbitalMenuHcTheme.test.js	66	const css = readCss("../../app/styles/theme/hc.css");
+tests\profile\orbitalMenuHcTheme.test.js	136	const css = readCss("../../app/styles/theme/hc.css");
+tests\profile\orbitalMenuHcTheme.test.js	148	const css = readCss("../../app/styles/theme/hc.css");
+tests\profile\orbitalMenuLightMidGlow.test.js	10	const css = readCss("app/styles/components/glass.css");
+tests\ui\backgroundLayerContracts.test.js	14	new URL("../../app/styles/base/backgrounds.css", import.meta.url),
+tests\ui\chatMobileTopNavHighContrast.test.js	10	const css = read("app/styles/theme/hc.css");
+tests\ui\chatMobileTopNavHighContrast.test.js	24	const headerCss = read("app/styles/mobile/subpage-title-system.css");
+tests\ui\chatToolsJourneyContract.test.js	26	new URL("../../app/styles/components/journey.css", import.meta.url),
+tests\ui\covisionPageLayout.test.js	33	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\dashboardInfoOverlayContracts.test.js	28	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\dashboardInfoOverlayContracts.test.js	29	const helpersCoreCss = read("app/styles/utilities/helpers-core.css");
+tests\ui\documentsWorkspaceLayout.test.js	12	const css = read("app/styles/utilities/helpers.css");
+tests\ui\documentsWorkspaceLayout.test.js	13	const documentsCss = read("app/styles/components/documents-mode.css");
+tests\ui\documentsWorkspaceLayout.test.js	72	const css = read("app/styles/utilities/helpers.css");
+tests\ui\documentsWorkspaceLayout.test.js	73	const glassCss = read("app/styles/components/glass.css");
+tests\ui\documentsWorkspaceLayout.test.js	74	const documentsCss = read("app/styles/components/documents-mode.css");
+tests\ui\hcSurfaceContracts.test.js	11	const css = read("app/styles/components/chat-focus.css");
+tests\ui\hcSurfaceContracts.test.js	13	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	42	const css = read("app/styles/components/chat-focus.css");
+tests\ui\hcSurfaceContracts.test.js	67	const css = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	87	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	89	const documents = read("app/styles/components/documents-mode.css");
+tests\ui\hcSurfaceContracts.test.js	122	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	123	const glass = read("app/styles/components/glass.css");
+tests\ui\hcSurfaceContracts.test.js	156	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	188	const mono = read("app/styles/theme/mono.css");
+tests\ui\hcSurfaceContracts.test.js	201	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	211	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	212	const glass = read("app/styles/components/glass.css");
+tests\ui\hcSurfaceContracts.test.js	252	const glass = read("app/styles/components/glass.css");
+tests\ui\hcSurfaceContracts.test.js	261	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	282	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	300	const hc = read("app/styles/theme/hc.css");
+tests\ui\hcSurfaceContracts.test.js	309	const hc = read("app/styles/theme/hc.css");
+tests\ui\homeHighContrastCards.test.js	10	const css = readSource("app/styles/theme/hc.css");
+tests\ui\homePublicSubpageHeader.test.js	37	const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
+tests\ui\homePwaInstallQuickLinks.test.js	66	const homeCss = readFileSync(new URL("../../app/styles/components/home.css", import.meta.url), "utf8");
+tests\ui\homePwaSafeArea.test.js	13	const mobileIndexCss = read("app/styles/mobile/index.css");
+tests\ui\homePwaSafeArea.test.js	14	const mobileBackgroundCss = read("app/styles/mobile/background-home.css");
+tests\ui\homePwaSafeArea.test.js	15	const mobileChatBootstrapCss = read("app/styles/mobile/chat-bootstrap.css");
+tests\ui\homePwaSafeArea.test.js	16	const mobileFoundationsCss = read("app/styles/mobile/foundations.css");
+tests\ui\homePwaSafeArea.test.js	17	const mobilePolicyScrollCss = read("app/styles/mobile/policy-scroll.css");
+tests\ui\homePwaSafeArea.test.js	18	const mobileModalSurfaceCss = read("app/styles/mobile/modal-surfaces.css");
+tests\ui\homePwaSafeArea.test.js	19	const mobileChatLayoutCss = read("app/styles/mobile/chat-mobile-layout.css");
+tests\ui\homePwaSafeArea.test.js	20	const globalsCss = read("app/styles/globals.css");
+tests\ui\homePwaSafeArea.test.js	21	const coreCss = read("app/styles/base/core.css");
+tests\ui\homePwaSafeArea.test.js	22	const baseBackgroundsCss = read("app/styles/base/backgrounds.css");
+tests\ui\lightMidGlowControls.test.js	11	const css = readCss("app/styles/components/glass.css");
+tests\ui\lightMidGlowControls.test.js	31	const css = readCss("app/styles/components/glass.css");
+tests\ui\lightMidGlowControls.test.js	53	const css = readCss("app/styles/components/glass.css");
+tests\ui\lightMidGlowControls.test.js	78	const css = readCss("app/styles/components/glass.css");
+tests\ui\lightMidGlowControls.test.js	102	const css = readCss("app/styles/components/glass.css");
+tests\ui\mobileGlassPanelShadow.test.js	10	const foundationsCss = readSource("app/styles/mobile/foundations.css");
+tests\ui\mobileGlassPanelShadow.test.js	11	const finalSurfacesCss = readSource("app/styles/mobile/panel-surfaces.css");
+tests\ui\mobileGlassPanelShadow.test.js	12	const mobileEntryCss = readSource("app/styles/mobile.css");
+tests\ui\mobileGlassPanelShadow.test.js	13	const stableCss = readSource("app/styles/utilities/glass-ring-stable.shared.css");
+tests\ui\mobileGlassPanelShadow.test.js	72	const titleCss = readSource("app/styles/mobile/subpage-title-system.css");
+tests\ui\mobileHeaderPlacement.test.js	11	const globalsCss = read("app/styles/globals.css");
+tests\ui\mobileHeaderPlacement.test.js	12	const mobileIndexCss = read("app/styles/mobile/index.css");
+tests\ui\mobileHeaderPlacement.test.js	13	const headerCss = read("app/styles/mobile/subpage-title-system.css");
+tests\ui\mobileHeaderPlacement.test.js	14	const scrollPanelsCss = read("app/styles/mobile/scroll-panels.css");
+tests\ui\mobileWorkspacePageSpacing.test.js	12	const css = read("app/styles/components/documents-mode.css");
+tests\ui\mobileWorkspacePageSpacing.test.js	14	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\mobileWorkspacePageSpacing.test.js	80	const css = read("app/styles/components/documents-mode.css");
+tests\ui\mobileWorkspacePageSpacing.test.js	104	const css = read("app/styles/components/documents-mode.css");
+tests\ui\mobileWorkspacePageSpacing.test.js	144	const css = read("app/styles/components/documents-mode.css");
+tests\ui\monoThemeContracts.test.js	11	const globals = read("app/styles/globals.css");
+tests\ui\monoThemeContracts.test.js	37	const mono = `${read("app/styles/theme/mono.css")}\n${read("app/styles/theme/mono.chat.css")}\n${read("app/styles/theme/mono.documents.css")}`;
+tests\ui\monoThemeContracts.test.js	43	const darkTheme = read("app/styles/theme/dark.css");
+tests\ui\monoThemeContracts.test.js	44	const documentsMode = read("app/styles/components/documents-workspace.shared.css");
+tests\ui\policyScrollHeader.test.js	16	const policyMobileCss = read("app/styles/mobile/policy-scroll.css");
+tests\ui\policyScrollHeader.test.js	17	const mobileHeaderCss = read("app/styles/mobile/subpage-title-system.css");
+tests\ui\policyScrollHeader.test.js	110	const policyDesktopCss = read("app/styles/utilities/policy-pages-responsive.css");
+tests\ui\preInquiriesPageContracts.test.js	181	const css = read("app/styles/utilities/helpers.css");
+tests\ui\preInquiriesPageContracts.test.js	207	const css = read("app/styles/utilities/helpers.css");
+tests\ui\preInquiriesPageContracts.test.js	225	const css = read("app/styles/utilities/helpers.css");
+tests\ui\preInquiriesPageContracts.test.js	229	const chatFocusCss = read("app/styles/components/chat-focus.css");
+tests\ui\scrollSurfaceHeader.test.js	20	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\serviceMapLeafletVisualContracts.test.js	161	const glassCss = read("app/styles/components/glass.css");
+tests\ui\serviceProfileContracts.test.js	45	const css = read("app/styles/utilities/helpers-core.css");
+tests\ui\subpageSurfaceGlow.test.js	20	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\subpageSurfaceGlow.test.js	21	const glassCss = read("app/styles/components/glass.css");
+tests\ui\themeChromeContracts.test.js	11	const core = read("app/styles/base/core.css");
+tests\ui\workspaceModalHeaderLayout.test.js	15	const helpersCss = read("app/styles/utilities/helpers.css");
+tests\ui\workspaceModalHeaderLayout.test.js	17	const hcCss = read("app/styles/theme/hc.css");
+tests\workspace\dashboardCardsShine.test.js	79	const hc = read("app/styles/theme/hc.css");
+tests\workspace\dashboardContentTiming.test.js	129	const css = readSource("app/styles/components/chat-focus.css");
+tests\workspace\dashboardContentTiming.test.js	150	const helpersCss = readSource("app/styles/utilities/helpers.css");
+tests\workspace\dashboardContentTiming.test.js	151	const chatFocusCss = readSource("app/styles/components/chat-focus.css");
+tests\workspace\dashboardContentTiming.test.js	224	readSource("app/styles/components/chat-focus.css"),
+tests\workspace\dashboardContentTiming.test.js	318	const documentsCss = readSource("app/styles/components/documents-mode.css");
+tests\workspace\dashboardContentTiming.test.js	381	const cssSource = readSource("app/styles/components/chat-focus.css");
+tests\workspace\helpListingsLayout.test.js	16	const helpersCssSource = readSource("app/styles/utilities/helpers.css");
+tests\workspace\helpListingsLayout.test.js	69	const helpersCssSource = readSource("app/styles/utilities/helpers.css");
+tests\workspace\homeRoleCardsGlow.test.js	19	const source = readSource("app/styles/components/home.css");
+tests\workspace\homeRoleCardsGlow.test.js	28	const componentStyles = readSource("app/styles/components/home.css");
+tests\workspace\homeRoleCardsGlow.test.js	29	const darkTheme = readSource("app/styles/theme/dark.css");
+tests\workspace\homeRoleCardsIntroConsistency.test.js	12	const homeCss = readSource("app/styles/components/home.css");
+tests\workspace\homeRoleCardsIntroConsistency.test.js	54	const homeCss = readSource("app/styles/components/home.css");
+tests\workspace\mobileBackButtonPosition.test.js	20	const mobileHeaderCss = readSource("app/styles/mobile/subpage-title-system.css");
+tests\workspace\mobileBackButtonPosition.test.js	125	const glassStyles = readSource("app/styles/components/glass.css");
+tests\workspace\mobileBackButtonPosition.test.js	227	const mobileServiceMapCss = readSource("app/styles/mobile/service-map.css");
+tests\workspace\mobileWorkspaceTiltDirection.test.js	71	readSource("app/styles/components/documents-workspace.shared.css"),

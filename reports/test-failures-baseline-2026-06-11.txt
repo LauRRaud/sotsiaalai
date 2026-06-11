@@ -1,0 +1,13 @@
+﻿✖ service map toolbar names the KOV social welfare department tab (7.7228ms)
+✖ mobile chat top nav keeps the active label under the focused icon (5.0132ms)
+✖ dashboard info overlay uses the same close button system as the conversation drawer (28.0937ms)
+✖ documents workspace routes keep the outer page fixed and scroll inside the glass panel (23.4351ms)
+✖ documents and dokreziim hero controls use the shared glass subpage header (15.6165ms)
+✖ mobile chat header does not ship standalone display-mode layout overrides (12.3035ms)
+✖ workspace and framework scroll pages keep the back button inside the scrolling surface (25.2163ms)
+✖ register ring surface matches chat and profile glass surface token (13.2643ms)
+✖ workspace admin role selector persists through profile view-role API (4.592ms)
+✖ workspace service map card renders its icon inline without a late-loading mask asset (5.1007ms)
+✖ workspace dashboard card icons keep a consistent visible stroke weight (3.5015ms)
+✖ workspace dashboard header starts at the same desktop top edge as embedded subpages (3.4136ms)
+✖ failing tests:
