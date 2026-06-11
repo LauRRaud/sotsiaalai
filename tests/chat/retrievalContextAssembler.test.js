@@ -211,3 +211,16 @@ test("buildLegalExactSelection reports insufficient support when exact paragraph
   assert.deepEqual(result.missingParagraphRefs, ["999"]);
   assert.deepEqual(result.selectionGroups, []);
 });
+
+test("national service benefit detection covers fee questions about concrete services", async () => {
+  const { isNationalServiceBenefitQuestion } = await import("../../lib/chat/retrievalContextAssembler.js");
+
+  assert.equal(isNationalServiceBenefitQuestion("Kas tugiisikuteenusel on omaosalus?"), true);
+  assert.equal(isNationalServiceBenefitQuestion("Kui suur on koduteenuse omaosalus?"), true);
+  assert.equal(isNationalServiceBenefitQuestion("Kas koduteenus on tasuline?"), true);
+  assert.equal(isNationalServiceBenefitQuestion("Mis teenuseid riik pakub?"), true);
+
+  assert.equal(isNationalServiceBenefitQuestion("Kas Kuusalu vallas on koduteenus tasuline?"), false);
+  assert.equal(isNationalServiceBenefitQuestion("Mis on murekohad lastekaitses?"), false);
+  assert.equal(isNationalServiceBenefitQuestion("Tere"), false);
+});

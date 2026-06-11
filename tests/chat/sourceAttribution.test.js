@@ -1389,3 +1389,46 @@ test("package-aware attribution displays only package-confirmed sources", () => 
   assert.deepEqual(attribution.displayed_source_ids, ["service-info"]);
   assert.equal(attribution.filtered_out_source_ids.includes("journal-background"), true);
 });
+
+test("overview synthesis keeps reply-supported article even when title lacks query tokens", () => {
+  const sources = [
+    {
+      id: "omastehooldus-article",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Omastehooldus. Perekonna ja ühiskonna liit?",
+      evidenceText: "Omastehooldajate koormus ja puhkuse puudumine on peamised raskused."
+    },
+    {
+      id: "koduteenused-article",
+      source_type: "journal_article",
+      collection_id: "sotsiaaltoo_articles",
+      title: "Koduteenuste korralduses on parandamisruumi",
+      evidenceText: "Koduteenuste korraldus vajab parandamist, et hooldajad saaksid puhkust ja tuge."
+    }
+  ];
+  const reply = "Omastehooldajate koormus on suur ning koduteenuste korraldus vajab parandamist, sest hooldajad ei saa piisavalt puhkust ja tuge.";
+  const query = "mis raskused on omastehooldajatel?";
+  const riskPolicy = { riskLevel: "low", requiredEvidence: "medium", insufficientEvidenceMode: false };
+
+  const overview = buildSourceAttribution(reply, sources, {
+    query,
+    queryPlan: { mode: "overview_synthesis", selection_strategy: "overview_diversity_then_depth" },
+    riskPolicy
+  });
+  assert.deepEqual(new Set(overview.displayed_source_ids), new Set([
+    "omastehooldus-article",
+    "koduteenused-article"
+  ]), "overview must display the materially used article despite title token mismatch");
+
+  const thematic = buildSourceAttribution(reply, sources, {
+    query,
+    queryPlan: { mode: "thematic_synthesis", selection_strategy: "multi_source_diversity" },
+    riskPolicy
+  });
+  assert.equal(
+    thematic.filter_reasons["koduteenused-article"],
+    "query_anchor_mismatch",
+    "non-overview synthesis keeps the strict topic/anchor contract"
+  );
+});
