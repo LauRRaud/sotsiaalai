@@ -86,3 +86,6 @@ prisma/dev.db-journal
 
 # CSS restructure: local style archives stay out of the repo
 app/styles/*.zip
+
+# Local-only e2e/test helper scripts (create local test accounts; never commit)
+scripts/tmp-*.mjs
