@@ -1,0 +1,11 @@
+/* Documents feature vertical. Route-imported by every page that renders the
+   documents workspace UI — not part of the global cascade.
+   Order mirrors the pre-restructure cascade: mobile rules used to load from
+   the global mobile chain (before route CSS), so mobile.css stays first;
+   mono.css (theme-mono overrides) used to be the last documents import.
+   agent.css and library.css are extras imported only by the routes that
+   need them. */
+@import url("./mobile.css");
+@import url("./workspace.css");
+@import url("./ui.css");
+@import url("./mono.css");

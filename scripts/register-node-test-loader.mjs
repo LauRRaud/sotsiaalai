@@ -12,11 +12,11 @@ const legacyCssBundles = new Map([
   [
     path.join(repoRoot, "app", "styles", "components", "documents-mode.css"),
     [
-      path.join(repoRoot, "app", "styles", "components", "documents-workspace.shared.css"),
-      path.join(repoRoot, "app", "styles", "components", "documents-ui.shared.css"),
-      path.join(repoRoot, "app", "styles", "mobile", "documents-ui.css"),
-      path.join(repoRoot, "app", "styles", "components", "documents-agent.css"),
-      path.join(repoRoot, "app", "styles", "components", "documents-library.css")
+      path.join(repoRoot, "app", "styles", "features", "documents", "workspace.css"),
+      path.join(repoRoot, "app", "styles", "features", "documents", "ui.css"),
+      path.join(repoRoot, "app", "styles", "features", "documents", "mobile.css"),
+      path.join(repoRoot, "app", "styles", "features", "documents", "agent.css"),
+      path.join(repoRoot, "app", "styles", "features", "documents", "library.css")
     ]
   ]
 ]);

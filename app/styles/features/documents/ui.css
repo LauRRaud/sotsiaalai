@@ -1,4 +1,4 @@
-﻿.documents-panel {
+.documents-panel {
   position: relative;
   overflow: visible;
   background: var(--documents-panel-bg, var(--documents-subpanel-bg));

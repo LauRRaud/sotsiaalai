@@ -1,9 +1,7 @@
 import "../styles/components/chat-shell.css";
 import "../styles/features/service-map/index.css";
-import "../styles/components/documents-workspace.shared.css";
-import "../styles/components/documents-ui.shared.css";
+import "../styles/features/documents/index.css";
 import "../styles/theme/mono.chat.css";
-import "../styles/theme/mono.documents.css";
 import { cookies } from "next/headers";
 import WorkspaceFeaturePage from "@/components/workspace/WorkspaceFeaturePage";
 import { getLocaleFromCookies, getMessagesSync } from "@/lib/i18n";

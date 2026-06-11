@@ -11,7 +11,7 @@
 - `modal-surfaces.css` owns mobile glass modal surfaces for invite, subscription, help listings, materials and framework pages.
 - `chat-mobile-layout.css` owns mobile chat drawer, rails and composer placement.
 - `policy-scroll.css` owns public policy page mobile scroll geometry, but it is loaded through the shared mobile cascade so policy pages do not get route-specific import order.
-- `documents-ui.css` owns documents/agent workspace mobile layout, but it is loaded through the shared mobile cascade.
+- Documents mobile rules moved to `app/styles/features/documents/mobile.css`; the whole documents vertical is route-imported via `app/styles/features/documents/index.css`.
 - Service-map mobile rules moved to `app/styles/features/service-map/mobile.css`; the whole feature vertical (desktop + mobile) is route-imported via `app/styles/features/service-map/index.css` and is no longer part of the shared mobile cascade.
 - Component CSS modules keep their own mobile rules only when the rules are local to that component, for example rail direction, picker sizing, grid density or a feature form layout. They must not reposition shared mobile page chrome: back button, page title, info button, glass shell size or root background.
 

@@ -34,14 +34,14 @@ test("profile orbital theme switch includes mono before high contrast", () => {
 });
 
 test("mono theme renders black and gray glass, icons, controls and home/about tokens", () => {
-  const mono = `${read("app/styles/theme/mono.css")}\n${read("app/styles/theme/mono.chat.css")}\n${read("app/styles/theme/mono.documents.css")}`;
+  const mono = `${read("app/styles/theme/mono.css")}\n${read("app/styles/theme/mono.chat.css")}\n${read("app/styles/features/documents/mono.css")}`;
   const orbital = read("components/effects/Components/OrbitalMenu/OrbitalMenu.css");
   const infoButton = read("components/ui/PageInfoButton.module.css");
   const leftRail = read("components/chat/LeftRail.module.css");
   const rightRail = read("components/chat/RightRail.module.css");
   const workspacePanel = read("components/chat/WorkspacePanel.module.css");
   const darkTheme = read("app/styles/theme/dark.css");
-  const documentsMode = read("app/styles/components/documents-workspace.shared.css");
+  const documentsMode = read("app/styles/features/documents/workspace.css");
   const serviceMap = readServiceMapCssBundle();
   const loginModal = read("components/LoginModal.jsx");
   const inviteModal = read("components/invite/InviteModal.jsx");

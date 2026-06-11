@@ -68,7 +68,7 @@ test("workspace subpage back buttons return instantly without collapse morphs", 
     /workspaceReturn\(locale,\s*router,\s*\{\s*persistGlassRingTilt:\s*false\s*\}\);/
   );
   assert.match(
-    readSource("app/styles/components/documents-workspace.shared.css"),
+    readSource("app/styles/features/documents/workspace.css"),
     /\.documents-workspace-shell--agent\s*\{[\s\S]*?--glass-ring-tilt-perspective:\s*4200px;[\s\S]*?--glass-ring-tilt-angle-left:\s*-0\.85deg;[\s\S]*?--glass-ring-tilt-angle-right:\s*0\.85deg;/
   );
 

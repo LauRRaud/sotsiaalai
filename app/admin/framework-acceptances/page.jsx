@@ -1,6 +1,4 @@
-import "../../styles/components/documents-workspace.shared.css";
-import "../../styles/components/documents-ui.shared.css";
-import "../../styles/theme/mono.documents.css";
+import "../../styles/features/documents/index.css";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";

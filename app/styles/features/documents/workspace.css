@@ -1,4 +1,4 @@
-﻿.documents-workspace {
+.documents-workspace {
   --documents-page-text: var(--glass-modal-text);
   --documents-page-muted: color-mix(in srgb, var(--documents-page-text) 88%, transparent);
   --documents-page-strong: var(--documents-page-text);
