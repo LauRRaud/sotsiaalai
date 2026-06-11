@@ -45,7 +45,7 @@ iga etapi lõpus.
 
 **Pooleli / järgmine samm:**
 
-- **B1 jätk: high-priority järgmised partiid (~24 tk järel: 34 kandidaati − 10 tehtud).**
+- B1 partii 2 TEHTUD (12 uut, 0 viga: SKA MARAC/kübervägivald/perevägivald/naiste tugikeskus, Praxise erivajaduse-uuringud, Päästeameti ohutusjuhendid; DB 5677 dok / 30047 vektorit; +1 eval, 28 kokku). **B1 jätk: high järel ~12.**
   Sama muster: dry-run plaan → ingest `--skip-existing` → otsingu-kontroll →
   +1–2 eval-küsimust → eval roheline. Seejärel medium (141).
 - Surnud linkidega kirjete (2 tk, `needs_review`) uute URL-ide leidmine.

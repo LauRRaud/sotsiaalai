@@ -262,6 +262,16 @@
       }
     },
     {
+      "id": "pdf_marac_mudel",
+      "family": "ingested_pdf",
+      "question": "Mis on MARAC mudel ja kuidas seda lähisuhtevägivalla juhtumites kasutatakse?",
+      "expect": {
+        "displayed_min": 1,
+        "displayed_must_include": ["MARAC"],
+        "answer_must_include": ["MARAC"]
+      }
+    },
+    {
       "id": "edge_followup_paragraph",
       "family": "edge",
       "question": "Räägi sellest paragrahvist lähemalt",
