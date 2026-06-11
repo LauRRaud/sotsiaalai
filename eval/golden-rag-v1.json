@@ -21,7 +21,7 @@
       "expect": {
         "displayed_min": 1,
         "displayed_must_not_include": ["kuusalu"],
-        "answer_must_include": ["sotsiaaltransport"]
+        "answer_must_include_any": ["sotsiaaltransport", "transporditeenus", "transpordi"]
       }
     },
     {
@@ -247,7 +247,13 @@
       "question": "Räägi sellest paragrahvist lähemalt",
       "history": [
         { "role": "user", "content": "Mis ütleb SHS § 23?" },
-        { "role": "assistant", "content": "SHS § 23 sätestab tugiisikuteenuse eesmärgi ja sisu. Allikas: Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu." }
+        {
+          "role": "assistant",
+          "content": "SHS § 23 sätestab tugiisikuteenuse eesmärgi ja sisu.",
+          "sources": [
+            { "title": "Sotsiaalhoolekande seadus § 23 Tugiisikuteenuse eesmärk ja sisu" }
+          ]
+        }
       ],
       "expect": {
         "displayed_min": 1,

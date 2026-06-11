@@ -139,3 +139,10 @@ test("Question Planner V2.1 does not let resource discovery override specific do
   assert.equal(result.mode, "specific_document_summary");
   assert.notEqual(result.mode, "resource_discovery");
 });
+
+test("Question Planner routes worksheet material questions to resource discovery", () => {
+  const result = plan("Kas on abiküsimuste töölehti vestluseks algkoolilapsega?");
+
+  assert.equal(result.mode, "resource_discovery");
+  assert.equal(result.needs_rag, true);
+});
