@@ -976,12 +976,35 @@ Minor observations (not failures, candidates for later cleanup):
 - Kuusalu displayed sources contained one duplicated source id (`kov_kuusalu_vald_item_kuusalu_vald_service_koduteenus` twice) and one generic non-namespaced id (`forms_page`).
 - Overview selected 3 distinct documents, which is the diversity minimum. With a rich corpus this is acceptable but keeps the V2.8 selector/display diversity tuning question open as an optional improvement, not a blocker.
 
+### Source Metadata Backfill 2026-06-10/11
+
+Status: DONE / full apply on server, 5547/5547 patches, 0 failures
+
+Scope:
+
+- Added `POST /documents/{doc_id}/patch-meta` to the RAG service: metadata-only patch of registry plus Chroma chunk metadata via `collection.update`, whitelisted scalar fields, no re-parse/re-chunk/re-embed, works for all document types. This closed the gap that `update-meta` re-processes the whole file, supports only FILE documents and would have downgraded `source_type` to legacy `file`.
+- Added `scripts/backfill-rag-metadata.mjs` (`npm run rag:backfill:metadata`), dry-run by default, `--apply` / `--limit` / `--json` options. Patches are additive only; existing values are never overwritten. Script is idempotent and safe to re-run after interruption.
+- Backfill rules applied:
+  - R1: `journal_article` without `collection_id` -> `collection_id = sotsiaaltoo_articles` (636 documents).
+  - R2: `kov_services` document without `content_hash` -> identity `stableHash` with the same sha256 convention as `kovMetadataUpgradeLib.mjs` (4931 documents; 20 in the verified trial apply, 4911 in the full run).
+- `tests/scripts/backfillRagMetadata.test.js`: 8 unit tests for the patch rules, report findings and base-URL normalization.
+
+Corpus state before -> after (live `/documents` scan, 5655 documents):
+
+- missing `collection_id`: 636 -> 0 (`sotsiaaltoo_articles` now has 638 documents).
+- missing `content_hash`: 4938 -> 7 (the 7 remaining are non-`kov_services` collections that were deliberately out of scope).
+- RAG service health unchanged: 5655 documents, 27393 vectors, search healthy; verified registry + chunk metadata + untouched neighbor fields on a patched document.
+
+Deliberately not auto-patched (report-only, needs curation): 7 missing `authority`, 33 `source_status = unknown`, 1 missing `last_checked`, 2 `sotsiaaltoo_articles` without a URL. `year` on KOV web pages and URLs for PDF-collection article parts were left alone on purpose.
+
+Operational note: full apply was run detached on the server (`nohup ... &`), so SSH interruptions do not affect it; progress is logged every 100 patches.
+
 ## Current Next Steps
 
-1. Final broad regression and `npm run build` after the live-smoke documentation update.
-2. Source metadata backfill: missing `authority`, `last_checked`, `url_canonical`, `content_hash` on `organizations` / `unknown` records, plus legacy `source_status = known` normalization. Plan first with `rag:audit:freshness`, `organization:audit-metadata` and `rag:plan:metadata`.
-3. Golden eval set for general thematic RAG (overview, resource discovery, life situation, comparison).
-4. V2.8 selector/display diversity tuning only if eval or live use shows broad questions use too little of the corpus; the 2026-06-10 smoke did not show a blocking diversity failure.
+1. Curated mini-backfill for the 43 report-only documents (7 authority, 33 source_status=unknown, 1 last_checked, 2 article URLs) — manual decisions, can use the same patch-meta endpoint.
+2. Golden eval set for general thematic RAG (overview, resource discovery, life situation, comparison).
+3. V2.8 selector/display diversity tuning only if eval or live use shows broad questions use too little of the corpus; the 2026-06-10 smoke did not show a blocking diversity failure.
+4. Parallel track: graph-lite layer (Postgres RagEntity/RagRelation/RagChunkEntity); phase 1 deterministic ingest from KOV canonical files, RT structure and organization profiles. Now unblocked by clean collection/content-hash metadata.
 
 Guardrails:
 
