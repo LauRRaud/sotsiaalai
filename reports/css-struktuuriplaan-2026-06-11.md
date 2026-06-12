@@ -263,8 +263,15 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 - Teemafailid nüüd: hc 77 / mono 37 / mid 23 / light 15 / dark 13 / night 11 KB (algselt 111/43/32/27/21/12). dark, night ja light lähenevad 10 KB sihile juba enne muutujastamist.
 - **Leid (pre-existing, mitte regressioon):** default-dark homepage muutujapalett võidab mono oma spetsiifilisusega (6 vs 4 klassi-taset) — nii oli ka enne kolimist. Muutujastamise faasis tasub :not()-ahelate spetsiifilisus teadlikult lahendada (nt :where() või kihtide kaudu).
 
-### Tegemata (järgmised sammud)
-- **Etapp 6 tuum — literaalreeglid → muutujad:** teemafailide jäägis on literaalseid ülekirjutusreegleid ~hc 179 / mono ~47 / light ~50 / mid ~26 tk; igaüks vajab baasreegli muutmist (var() tarbimine) + teemaväärtuste deklareerimist. Tee feature-kaupa, mõõda visuaalselt iga teema all. Sama mehaanikaga saab enne välja tõmmata veel feature-teemaplokke (invite/materials/help-listings on jagatud UI → shared/ teemafail?).
+### Etapp 6c — kaskaadi-konsolideerimise PILOOT, tehtud 12.06.2026 (commit 5faa5f35)
+- Piloot, et valideerida õige tööriist allesjäänud teemadubleerimise jaoks. **Tähtis ümbermõtestamine:** allesjäänud "dup" EI ole "sama komponent, ERI väärtused per teema" (mille muutujastamine lahendaks), vaid valdavalt **BAIDI-IDENTSED koopiad**, mis eksisteerivad ainult sellepärast, et vaiketeema (dark) on väljendatud `:not(.theme-light):not(.theme-mid):not(.theme-night):not(.theme-mono):not([data-contrast="hc"])` ahelana, mis välistab night'i → night peab oma koopia tegema.
+- Empiiriline tõestus: night'i `.help-listings-panel` ja `.invite-glow-panel.invite-list-panel` reeglid olid baidi-identsed dark'i omadega. Konsolideerimine = eemaldatud dark'i selektorist üks `:not(.theme-night)` token → reegel katab nüüd ka night'i; kustutatud night'i 2 koopiat.
+- jscpd app/styles dup 1400 → 1388 (üks kloonipaar kadus) — **konsolideerimine VÄHENDAB dup'i** (ekstraktsioon tõstis seda 1089→1400). Brauseriproov: night vs dark arvutatud `background`/`border`/`box-shadow` identsed → null visuaalne muutus.
+- **Õppetund: õige tööriist on KASKAADI-KONSOLIDEERIMINE, mitte literaal→muutuja.** modal-confirm ja rooms-action-btn on AINULT mid.css-is (ühe teema literaalid — pole dup'i, mida eemaldada); login-modal-otp reeglid juba kasutavad `var()`-e. Päris "literaal-erineb-per-teema" juhtumeid on vähe.
+
+### Tegemata (järgmised sammud) — UUENDATUD piloodi põhjal
+- **Etapp 6 tuum on enamjaolt KASKAADI-KONSOLIDEERIMINE, mitte muutujastamine.** Käi läbi vaiketeema (`:not()`-ahela) reeglid; iga reegli kohta, mis on baidi-identne mõne `:root.theme-X` koopiaga, eemalda see `:not(.theme-X)` ahelast ja kustuta koopia. Ohutu AINULT kui kehad on baidi-identsed (kontrolli enne!). Kui kehad erinevad → jäta rahule (genuine per-teema). Mõõda dup iga sammu järel (peab langema), testid baseline'i vastu, brauseriproov night/dark/mono arvutatud stiilidel.
+- **Tõeline muutujastamine** ainult seal, kus 3+ teemat annavad samale komponendile ERI väärtused — neid on vähe; tuvasta enne grep'iga, ära eelda.
 - **Väikesed eraldi tööd:** OrbitalMenu.css failisisene dedup (531 rida); LeftRail↔RightRail ühendamine (~670 rida); tombstone'ide kustutamine pärast testide ümbersuunamist (chat-focus.css, documents-mode.css, glass.css ja helpers-core.css aggregaatorid, a11y.css); invite/help-listings/selected-listing shared-otsus.
 
 ## 8. Mida MITTE teha
