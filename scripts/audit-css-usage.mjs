@@ -105,6 +105,7 @@ if (args.json) {
       2
     )
   );
+  enforceMaxNotSeen();
   process.exit(0);
 }
 
@@ -146,6 +147,20 @@ console.log(
   "\nNote: this is a static heuristic. Dynamic class names, theme/body classes, media-only states and rarely opened UI can be false positives."
 );
 
+enforceMaxNotSeen();
+
+function enforceMaxNotSeen() {
+  if (args.maxNotSeen === undefined) return;
+  if (totalUnused > args.maxNotSeen) {
+    console.error(
+      `\ncss:audit guard: notSeen ${totalUnused} exceeds --max-not-seen ${args.maxNotSeen}. ` +
+        "Either remove the dead selectors or, for verified false positives (leaflet/dynamic classes), raise the limit consciously."
+    );
+    process.exit(1);
+  }
+  console.log(`\ncss:audit guard: notSeen ${totalUnused} <= ${args.maxNotSeen} OK`);
+}
+
 function extractClassNames(selector) {
   const names = new Set();
   const withoutEscapedDots = selector.replace(/\\\./g, "");
@@ -165,6 +180,7 @@ function parseArgs(argv) {
     sources: [],
     json: false,
     top: undefined,
+    maxNotSeen: undefined,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -182,6 +198,14 @@ function parseArgs(argv) {
 
     if (arg === "--json") {
       parsed.json = true;
+      continue;
+    }
+
+    if (arg === "--max-not-seen") {
+      parsed.maxNotSeen = Number(requiredValue(argv, ++index, "--max-not-seen"));
+      if (!Number.isFinite(parsed.maxNotSeen) || parsed.maxNotSeen < 0) {
+        throw new Error("--max-not-seen must be a non-negative number");
+      }
       continue;
     }
 
