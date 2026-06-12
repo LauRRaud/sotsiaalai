@@ -5,4 +5,5 @@
    in the global mobile chain: they also style global surfaces
    (bg layers, back button, profile-orbit stack), see mobile/README.md. */
 @import url("./desktop.css");
+@import url("./themes.css");
 @import url("./mobile.css");

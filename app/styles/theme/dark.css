@@ -314,30 +314,6 @@
     0 0 0 3px var(--btn-primary-focus-ring-color);
 }
 
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) body.homepage,
-:root:not(.theme-light):not(.theme-mid):not(.theme-night):not([data-contrast="hc"]) .homepage-root {
-  --home-prose-color: rgba(242, 241, 239, 0.92);
-  --home-card-blur: 0.6rem;
-  --home-card-saturate: 118%;
-  --home-card-surface-saturate: 122%;
-  --home-card-light-opacity: 0.78;
-  --home-card-dark-opacity: 0.68;
-  --home-panel-shadow-idle:
-    0 0 10px rgba(248, 253, 255, 0.14),
-    0 0 20px rgba(248, 253, 255, 0.065);
-  --home-panel-shadow-active:
-    0 0 12px rgba(248, 253, 255, 0.2),
-    0 0 24px rgba(248, 253, 255, 0.1);
-  --home-card-idle-shadow:
-    0 0 10px rgba(248, 253, 255, 0.14),
-    0 0 20px rgba(248, 253, 255, 0.065);
-  --home-card-hover-shadow:
-    0 0 12px rgba(248, 253, 255, 0.2),
-    0 0 24px rgba(248, 253, 255, 0.1);
-  --home-scroll-cue-color: #c57171;
-  --home-title-color: #c57171;
-  --home-link-color: var(--brand-primary);
-}
 :root:not(.theme-light)
   .profile-email-dock-wrapper:not(.profile-orbit-menu-wrapper)
   .dock-item,

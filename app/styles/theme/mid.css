@@ -265,43 +265,8 @@
 }
 
 /* Home cue and opening banner share the same mid-tone accent. */
-:root.theme-mid body.homepage {
-  --home-panel-bg: rgba(203, 190, 186, 0.79);
-  --home-scroll-cue-color: rgba(226, 196, 188, 0.9);
-  --home-title-color: var(--home-scroll-cue-color);
-  --home-card-light-opacity: 0.74;
-  --home-card-dark-opacity: 0.81;
-  --home-card-shell-shadow:
-    0 28px 38px -20px rgba(12, 7, 6, 0.32),
-    0 16px 22px -18px rgba(12, 7, 6, 0.22);
-  --home-card-shell-shadow-return:
-    0 22px 30px -20px rgba(12, 7, 6, 0.22),
-    0 14px 18px -18px rgba(12, 7, 6, 0.15);
-  --home-panel-shadow-idle: 0 11px 24px rgba(20, 12, 10, 0.16);
-  --home-panel-shadow-active: 0 14px 30px rgba(20, 12, 10, 0.19);
-  --home-card-glow-idle:
-    0 0 8px rgba(255, 244, 240, 0.09), 0 0 16px rgba(255, 244, 240, 0.05);
-  --home-card-glow-active:
-    0 0 11px rgba(255, 244, 240, 0.145), 0 0 21px rgba(255, 244, 240, 0.078);
-  --home-card-shadow-idle:
-    var(--home-card-shell-shadow);
-  --home-card-shadow-active:
-    var(--home-card-shell-shadow);
-}
-
-:root.theme-mid .homepage-root .home-about-title {
-  color: #7a3a38 !important;
-}
-
-:root.theme-mid .home-scroll-cue .home-scroll-cue-mouse,
-:root.theme-mid .home-scroll-cue .home-scroll-cue-arrow {
-  opacity: 1 !important;
-}
 
 /* Home/footer brand marks in mid: keep softer presence over warm backdrop. */
-:root.theme-mid .home-footer-logo {
-  opacity: 0.58 !important;
-}
 
 /* Keep conversation drawer cards in mid transparent, including hover/active states. */
 

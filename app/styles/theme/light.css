@@ -254,46 +254,6 @@
   --subscription-error-color: #c57171;
 }
 
-:root.theme-light body.homepage {
-  --home-prose-color: var(--text-strong, #1f2937);
-  --home-panel-bg: rgba(251, 249, 246, 0.93);
-  --home-card-blur: 0.75rem;
-  --home-card-saturate: 100%;
-  --home-card-shell-shadow:
-    0 28px 38px -20px rgba(12, 7, 6, 0.3),
-    0 16px 22px -18px rgba(12, 7, 6, 0.2);
-  --home-card-shell-shadow-return:
-    0 22px 30px -20px rgba(12, 7, 6, 0.2),
-    0 14px 18px -18px rgba(12, 7, 6, 0.14);
-  --home-panel-shadow-idle: 0 14px 30px rgba(0, 0, 0, 0.14);
-  --home-panel-shadow-active: 0 18px 36px rgba(0, 0, 0, 0.16);
-  --home-card-glow-idle:
-    0 0 8px rgba(255, 255, 255, 0.11),
-    0 0 16px rgba(255, 255, 255, 0.06);
-  --home-card-glow-active:
-    0 0 11px rgba(255, 255, 255, 0.16),
-    0 0 21px rgba(255, 255, 255, 0.085);
-  --home-card-shadow-idle:
-    var(--home-card-shell-shadow);
-  --home-card-shadow-active:
-    var(--home-card-shell-shadow);
-  --home-card-surface-saturate: 104%;
-  --home-card-light-opacity: 0.78;
-  --home-card-dark-opacity: 0.85;
-  --home-scroll-cue-color: #7a3a38;
-  --home-title-color: #7a3a38;
-  --home-link-color: var(--link-color, #7a3a38);
-}
-
-:root.theme-light:not(.theme-mid) body.homepage {
-  background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%) !important;
-}
-
-:root.theme-light:not(.theme-mid) body.homepage .homepage-root {
-  background: transparent !important;
-  background-image: none !important;
-}
-
 :root.theme-light:not(.theme-mid) .space-backdrop[data-mode="light"] {
   --space-backdrop-glow: none;
   background: linear-gradient(180deg, #f4f2ee 0%, #e9e6df 100%);

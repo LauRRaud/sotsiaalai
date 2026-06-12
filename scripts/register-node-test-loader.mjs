@@ -30,12 +30,18 @@ const legacyCssBundles = new Map([
   ],
   [
     path.join(repoRoot, "app", "styles", "theme", "mono.css"),
-    [path.join(repoRoot, "app", "styles", "features", "profile", "mono.css")]
+    [
+      path.join(repoRoot, "app", "styles", "features", "profile", "mono.css"),
+      path.join(repoRoot, "app", "styles", "features", "home", "themes.css")
+    ]
   ],
   [
-    // Chat standard-theme overrides extracted to features/chat/themes.css.
+    // Feature standard-theme overrides extracted to features/*/themes.css.
     path.join(repoRoot, "app", "styles", "theme", "dark.css"),
-    [path.join(repoRoot, "app", "styles", "features", "chat", "themes.css")]
+    [
+      path.join(repoRoot, "app", "styles", "features", "chat", "themes.css"),
+      path.join(repoRoot, "app", "styles", "features", "home", "themes.css")
+    ]
   ]
 ]);
 

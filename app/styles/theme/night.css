@@ -13,10 +13,6 @@
   );
 }
 
-:root.theme-night .home-footer-logo {
-  opacity: 0.62 !important;
-}
-
 :root.theme-night {
   --glass-surface-bg: rgba(13, 17, 24, 0.35);
   --glass-ring-surface-bg: rgba(16, 21, 31, 0.41);
