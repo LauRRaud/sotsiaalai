@@ -5,6 +5,40 @@
    controls (left) and the avatar/workspace controls (right) stay in their own
    module files. */
 
+/* Rail container. Each rail module composes this and adds only its side:
+   `left`/`right` and the side-specific width var. */
+.rail {
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));
+  pointer-events: none;
+  outline: none;
+  z-index: 70;
+  --rail-profile-scale: 1;
+  --rail-item-size: var(--hud-icon, 3rem);
+  --rail-icon-scale: 0.79;
+  --rail-step-factor: 1.12;
+  --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
+  --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));
+  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
+  overflow: visible;
+  overscroll-behavior: contain;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+:global(html[data-ui-profile="mac"]) .rail,
+:global(html[data-ui-scale="mac"]) .rail {
+  --rail-profile-scale: 1;
+  --rail-step-factor: 1.38;
+}
+
+:global(html[data-ui-profile="lg"]) .rail,
+:global(html[data-ui-scale="lg"]) .rail {
+  --rail-profile-scale: 1;
+}
+
 .slot {
   position: absolute;
   top: calc(50% + var(--glass-center-offset, 0px));
@@ -255,4 +289,23 @@
   :global(html[data-contrast="hc"]) .tooltip {
     background: var(--chat-card-surface-night-flat-bg, rgb(11, 15, 23));
   }
+}
+
+/* While a modal is open both rails drop behind it and fade out. Targets the
+   shared .rail/.slot/.tooltip classes, so it covers LeftRail and RightRail. */
+:global(body.modal-open) .rail,
+:global(body.help-listings-modal-open) .rail,
+:global(body.modal-open) .slot,
+:global(body.help-listings-modal-open) .slot,
+:global(body.modal-open) .tooltip,
+:global(body.help-listings-modal-open) .tooltip {
+  z-index: 20;
+}
+
+:global(body.modal-open) .rail,
+:global(body.help-listings-modal-open) .rail,
+:global(body.modal-open) .tooltip,
+:global(body.help-listings-modal-open) .tooltip {
+  opacity: 0;
+  pointer-events: none;
 }

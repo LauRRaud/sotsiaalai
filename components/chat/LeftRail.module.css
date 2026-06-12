@@ -17,26 +17,9 @@
 }
 
 .leftRail {
-  position: absolute;
+  composes: rail from './rail.module.css';
   left: calc(var(--glass-edge-left, 0px) + var(--rail-inset, -0.7rem));
-  top: 0;
-  transform: translateY(-50%);
   width: var(--left-rail-width, clamp(4.6rem, 8vw, 5.8rem));
-  height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));
-  pointer-events: none;
-  outline: none;
-  z-index: 70;
-  --rail-profile-scale: 1;
-  --rail-item-size: var(--hud-icon, 3rem);
-  --rail-icon-scale: 0.79;
-  --rail-step-factor: 1.12;
-  --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
-  --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));
-  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
-  overflow: visible;
-  overscroll-behavior: contain;
-  -webkit-mask-image: none;
-  mask-image: none;
 }
 
 .leftRailInputFocused {
@@ -52,17 +35,6 @@
 
 .leftRailInputFocused .tooltipAnchor {
   pointer-events: none;
-}
-
-:global(html[data-ui-profile="mac"]) .leftRail,
-:global(html[data-ui-scale="mac"]) .leftRail {
-  --rail-profile-scale: 1;
-  --rail-step-factor: 1.38;
-}
-
-:global(html[data-ui-profile="lg"]) .leftRail,
-:global(html[data-ui-scale="lg"]) .leftRail {
-  --rail-profile-scale: 1;
 }
 
 .item {
@@ -315,21 +287,4 @@
   .iconRooms {
     transform: scale(var(--chat-mobile-icon-scale-rooms)) translateY(0) !important;
   }
-}
-
-:global(body.modal-open) .leftRail,
-:global(body.help-listings-modal-open) .leftRail,
-:global(body.modal-open) .slot,
-:global(body.help-listings-modal-open) .slot,
-:global(body.modal-open) .tooltip,
-:global(body.help-listings-modal-open) .tooltip {
-  z-index: 20;
-}
-
-:global(body.modal-open) .leftRail,
-:global(body.help-listings-modal-open) .leftRail,
-:global(body.modal-open) .tooltip,
-:global(body.help-listings-modal-open) .tooltip {
-  opacity: 0;
-  pointer-events: none;
 }

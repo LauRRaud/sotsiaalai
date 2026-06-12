@@ -34,37 +34,9 @@
 }
 
 .rightRail {
-  position: absolute;
+  composes: rail from './rail.module.css';
   right: calc(var(--glass-edge-right, 0px) + var(--rail-inset, -0.7rem));
-  top: 0;
-  transform: translateY(-50%);
   width: var(--right-rail-width, clamp(4.6rem, 8vw, 5.8rem));
-  height: min(78vh, calc(var(--chat-diameter, 100vmin) * 0.8));
-  pointer-events: none;
-  outline: none;
-  z-index: 70;
-  --rail-profile-scale: 1;
-  --rail-item-size: var(--hud-icon, 3rem);
-  --rail-icon-scale: 0.79;
-  --rail-step-factor: 1.12;
-  --rail-edge-offset: calc(var(--rail-item-size) * 0.5);
-  --rail-step: calc(var(--rail-item-size) * var(--rail-step-factor));
-  --rail-tooltip-gap: calc(0.4rem * var(--rail-profile-scale));
-  overflow: visible;
-  overscroll-behavior: contain;
-  -webkit-mask-image: none;
-  mask-image: none;
-}
-
-:global(html[data-ui-profile="mac"]) .rightRail,
-:global(html[data-ui-scale="mac"]) .rightRail {
-  --rail-profile-scale: 1;
-  --rail-step-factor: 1.38;
-}
-
-:global(html[data-ui-profile="lg"]) .rightRail,
-:global(html[data-ui-scale="lg"]) .rightRail {
-  --rail-profile-scale: 1;
 }
 
 .item {
@@ -178,23 +150,6 @@
 
 :global(:root.theme-light) .tooltip::before {
   content: none;
-}
-
-:global(body.modal-open) .rightRail,
-:global(body.help-listings-modal-open) .rightRail,
-:global(body.modal-open) .slot,
-:global(body.help-listings-modal-open) .slot,
-:global(body.modal-open) .tooltip,
-:global(body.help-listings-modal-open) .tooltip {
-  z-index: 20;
-}
-
-:global(body.modal-open) .rightRail,
-:global(body.help-listings-modal-open) .rightRail,
-:global(body.modal-open) .tooltip,
-:global(body.help-listings-modal-open) .tooltip {
-  opacity: 0;
-  pointer-events: none;
 }
 
 @media (max-width: 768px) {
