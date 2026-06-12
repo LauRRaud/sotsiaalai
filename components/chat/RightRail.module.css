@@ -1,22 +1,12 @@
 .slot {
-  position: absolute;
-  top: calc(50% + var(--glass-center-offset, 0px));
-  height: 0;
-  width: 100%;
-  align-self: stretch;
-  z-index: 70;
-  pointer-events: none;
-  overflow: visible;
+  composes: slot from './rail.module.css';
 }
 .pointerBlocked {
-  pointer-events: none;
+  composes: pointerBlocked from './rail.module.css';
 }
 
 .mobileRailTransition {
-  will-change: opacity, transform;
-  transition:
-    opacity 220ms ease,
-    transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  composes: mobileRailTransition from './rail.module.css';
 }
 
 @media (max-width: 768px) {
@@ -103,9 +93,7 @@
 }
 
 .tooltipAnchor {
-  pointer-events: none;
-  transition: none !important;
-  will-change: auto !important;
+  composes: tooltipAnchor from './rail.module.css';
 }
 
 .item:focus-visible {
@@ -114,7 +102,7 @@
 }
 
 .isActive {
-  opacity: 1;
+  composes: isActive from './rail.module.css';
 }
 
 .iconBtn {
