@@ -8953,7 +8953,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_011",
@@ -9001,7 +9001,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://tai.ee/sites/default/files/2025-05/lvtu_lopparuanne_16mai2025.pdf"
+    "dedupe_key": "https://tai.ee/sites/default/files/2025-05/lvtu_lopparuanne_16mai2025.pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input; retry after rag-service batching fix)"
   },
   {
     "source_id": "tai_espad_2024_uimastite_tarvitamine_koolinoorte_seas",
@@ -9333,7 +9334,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_016",
@@ -9381,7 +9382,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://staging.tai.ee/sites/default/files/2026-02/aastaaruanne_2025_18.02.pdf"
+    "dedupe_key": "https://staging.tai.ee/sites/default/files/2026-02/aastaaruanne_2025_18.02.pdf",
+    "status_note": "staging URL returns 401; find published canonical URL"
   },
   {
     "source_id": "statistikaamet_lapse_heaolu_mootmise_kasitlus",
@@ -9711,7 +9713,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_021",
@@ -9759,7 +9761,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/sotsiaaltrendid_7.pdf"
+    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/sotsiaaltrendid_7.pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
   },
   {
     "source_id": "statistikaamet_vaesus_eestis",
@@ -9786,7 +9789,7 @@
     "audience": "BOTH",
     "language": "et",
     "link_check_status": [],
-    "ingest_status": "ingest_candidate",
+    "ingest_status": "needs_review",
     "ingest_priority": "medium",
     "source_status": "known",
     "duplicate_group_id": "dup_exact_022",
@@ -9834,7 +9837,8 @@
     "registry_role": "dedupe_seed_and_ingest_planning",
     "user_facing_knowledge": false,
     "recommended_pipeline": "knowledge_doc_pipeline",
-    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/Vaesus_Eestis_sisu.pdf"
+    "dedupe_key": "https://www.stat.ee/sites/default/files/2020-07/Vaesus_Eestis_sisu.pdf",
+    "status_note": "embeddings BadRequest 2026-06-12 (oversized input)"
   },
   {
     "source_id": "statistikaamet_eesti_statistika_kvartalikiri_2_2018",
