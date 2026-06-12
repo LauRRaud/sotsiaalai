@@ -223,6 +223,21 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 - workspace-help-listings.css ja selected-listing.css on juba route-skoobitud (ainult vestlus impordib) — kolimine features/ alla on madala väärtusega ümbernimetamine; teha koos invite/shared otsusega.
 - mobile-shared kett on nüüd 22 → 16 faili (väljas: service-map, documents-ui, chat-mobile-layout, policy-scroll, home-page, profile-orbit).
 
+### Etapp 5d — glass.css → shared/, tehtud 12.06.2026 (commit 1e2b5b07)
+- components/glass.css (38 KB) tükeldatud 1:1 järjestikustel piiridel: `shared/{glass-core,ui-glow,register}.css`. glass.css jäi aggregaatoriks (@import ×3) → globals.css ja kõik 14 testiviidet muutmata; testiloader inline'ib suhtelised @impordid.
+- **Aggregaatori muster on odavaim tükeldamisviis:** null testimuudatust, null kaskaadiriski (baidijärjekord identne). Kasuta sama helpers-core.css jaoks, kui see ette võetakse.
+- register/login kontrollid kinnitatud jagatud UI-ks → shared/, mitte features/register/.
+
+### Etapp 7 — valveseadmed, tehtud 12.06.2026 (commit d9119dab)
+- `css:audit:check` (--max-not-seen 30; praegu 28, jääk = leaflet/dünaamilised) ja `dup:check:ci` (jscpd --threshold 7%; praegu 6,34%) — mõlemad `npm run check` ketis (CI-workflowsid/git-hooke repos pole).
+- `app/styles/README.md`: struktuur + 5 ownership-reeglit.
+- Läved on teadlikult "praegune tase + varu" — etapp 6 (muutujastamine) järel langeta.
+
+### Tegemata (järgmised sammud)
+- **Etapp 5 lõppjääk:** utilities/helpers-core.css tükeldamine (kasuta 5d aggregaatori mustrit; sisemine struktuur on suurte @media-plokkidega läbisegi — piirid vali sisu, mitte prefiksi järgi); invite/help-listings/selected-listing kuuluvad samasse otsusesse (jagatud modaalid).
+- **Etapp 6:** teemade muutujastamine (suurim võit; theme/hc.css on veel 77 KB, mono.css 43 KB, dark.css :not()-ahelad). Alusta väikseimast teemast; iga teema × feature kombinatsioon vajab visuaalset kontrolli.
+- **Väikesed eraldi tööd:** OrbitalMenu.css failisisene dedup (531 rida); LeftRail↔RightRail ühendamine (~670 rida); tombstone'ide kustutamine pärast testide ümbersuunamist (chat-focus.css, documents-mode.css, glass.css aggregaator, a11y.css).
+
 ## 8. Mida MITTE teha
 
 - Ära tee "suurt pauku" — ühe commitiga kogu struktuuri liigutamine teeb visuaalsete regressioonide leidmise võimatuks
