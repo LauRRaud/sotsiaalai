@@ -53,8 +53,13 @@ iga etapi lõpus.
   parandus deploytud (rag-service/main.py); 6 suurt uuringuraportit (462-863
   chunki, varem BadRequest) taasingestitud 0 veaga. DB 5824 dok / 50410 vektorit.
   +1 eval (vaesus-statistika, 30 kokku, PASS). Tunable RAG_EMBED_MAX_* env.
-- Edasi: needs_review URL-ide parandus, OCR-rada voldikutele, siis rada C
-  (graph-lite aktiveerimine + otsingukanal — high-reZiim).
+- RADA C SEIS 2026-06-12: C1 AKTIVEERITUD (migratsioon rakendatud, graaf Postgresis:
+  4046 entiteeti / 9385 seost). C2 kanal ehitatud + testitud + deploytud, env-flag
+  VALJAS. Eval-vordlus test-override kaudu: graaf sees 28/30 vs valjas 30/30 —
+  comparison-reZiimis graafipäringud lahjendasid §17/§23 tasakaalu. PARANDUS TEHTUD
+  (mode-gate: comparison/legal/overview/lookup valistatud), commit ootab deploy +
+  kordusvordlust. Kanal lubatakse alles kui eval >= 30/30 graaf sees.
+- Edasi: mode-gate deploy + kordusvordlus; needs_review URL-id; OCR-rada voldikutele.
 
 **Käsud, mida vajad:**
 
