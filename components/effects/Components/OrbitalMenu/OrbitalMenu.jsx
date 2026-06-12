@@ -35,6 +35,16 @@ const ORBIT_BUTTON_GLOW_STYLE = {
   "--edge-only-bottom-tail-start": "36%"
 };
 
+// Shared by the four orbit glow buttons (centre hub, desktop item, mobile
+// action, stack bubble); each adds its own per-variant class tail.
+const ORBIT_GLOW_BTN_CLASS =
+  "ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow";
+
+// Edge-glow sheen layer rendered inside every dock glow button.
+const OrbitStaticGlow = () => (
+  <OrbitStaticGlow />
+);
+
 function focusWithoutScroll(element) {
   if (!element?.focus) return;
   try {
@@ -616,7 +626,7 @@ export default function OrbitalMenu({
           "--orbit-hide-y": `${Math.round(orbitY * orbitHideScale)}px`,
           "--label-gap-side": item.key === "theme" ? "0.86rem" : item.key === "delete" ? "-0.02rem" : undefined
         }}>
-                <BorderGlow as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} style={ORBIT_BUTTON_GLOW_STYLE} className="ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]" onClick={event => {
+                <BorderGlow as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} style={ORBIT_BUTTON_GLOW_STYLE} className={cn(ORBIT_GLOW_BTN_CLASS, "profile-orbit-menu__item dock-item absolute inset-0 w-[var(--orbit-item-render-size)] h-[var(--orbit-item-render-size)] rounded-full p-0 block cursor-inherit [transform:scale(var(--item-scale))] [transform-origin:center] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow]")} onClick={event => {
             item.onClick?.();
             if (!item.keepOpen) {
               closeMenu();
@@ -629,7 +639,7 @@ export default function OrbitalMenu({
               });
             }
           }} aria-label={item.label} tabIndex={isOpen ? 0 : -1}>
-                  <span className="profile-orbit-static-glow" aria-hidden="true" />
+                  <OrbitStaticGlow />
                   <span className="dock-icon profile-orbit-item-icon w-full h-full grid place-items-center leading-[0] [&>svg]:w-[var(--orbit-item-icon-size)] [&>svg]:h-[var(--orbit-item-icon-size)] [&>svg]:max-w-none [&>svg]:max-h-none [&>svg]:block [&>svg]:stroke-current" aria-hidden="true">
                     {item.icon}
                   </span>
@@ -646,7 +656,7 @@ export default function OrbitalMenu({
       {}
       <div className="profile-orbit-menu__center-shell relative grid place-items-center w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full overflow-visible z-[5]">
         <div className="profile-orbit-menu__center-pulse relative grid place-items-center w-full h-full rounded-full overflow-visible" style={hubPulseStyle}>
-          <BorderGlow ref={hubBtnRef} as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} glowIntensity={0.68} glowRadius={42} edgeSensitivity={20} style={ORBIT_BUTTON_GLOW_STYLE} className="ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]" onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
+          <BorderGlow ref={hubBtnRef} as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} glowIntensity={0.68} glowRadius={42} edgeSensitivity={20} style={ORBIT_BUTTON_GLOW_STYLE} className={cn(ORBIT_GLOW_BTN_CLASS, "profile-orbit-menu__center dock-item relative isolate overflow-visible w-[var(--orbit-center-size)] h-[var(--orbit-center-size)] rounded-full p-0 grid place-items-center z-[1] cursor-inherit [transform:translateZ(0)_scale(1)] [transform-origin:center] [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [transform-style:preserve-3d] outline outline-1 outline-transparent [will-change:transform]")} onClick={handleToggle} aria-expanded={isOpen} aria-controls={menuId} aria-label={isOpen ? toggleLabelClose : toggleLabelOpen}>
             <span className="profile-orbit-menu__hub-icon relative z-[1] grid place-items-center w-full h-full" aria-hidden="true">
               <SmustLogo className="profile-orbit-menu__hub-svg absolute left-1/2 top-1/2 block max-w-full h-auto w-[var(--orbit-center-icon-size)] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none origin-center transform-gpu transition-none z-[3] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]" aria-hidden="true" focusable="false" />
             </span>
@@ -695,12 +705,12 @@ export default function OrbitalMenu({
                     <div className="profile-orbit-mobile-visual w-full grid place-items-center transition-[opacity,filter] duration-[180ms] ease-out [will-change:opacity,filter]" data-orbit-mobile-active={isActive ? "true" : "false"} style={{
                 ...mobileVisualStyle
               }}>
-                      <BorderGlow as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} glowRadius={38} style={ORBIT_BUTTON_GLOW_STYLE} className="ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow] text-[var(--orbit-mobile-accent,#c57171)]" data-orbit-mobile-active={isActive ? "true" : "false"} onPointerDown={() => {
+                      <BorderGlow as="button" type="button" {...ORBIT_BUTTON_GLOW_PROPS} glowRadius={38} style={ORBIT_BUTTON_GLOW_STYLE} className={cn(ORBIT_GLOW_BTN_CLASS, "profile-orbit-mobile-action dock-item relative flex flex-col items-center justify-start gap-[clamp(0.2rem,1vw,0.45rem)] w-[clamp(9rem,58vw,12.8rem)] min-h-[clamp(9rem,58vw,12.8rem)] h-auto rounded-full px-[1rem] pt-[0.9rem] pb-[0.7rem] [transform:translateZ(0)] [transition:box-shadow_0.55s_cubic-bezier(0.16,1,0.3,1),transform_0.22s_ease] [will-change:transform,box-shadow] text-[var(--orbit-mobile-accent,#c57171)]")} data-orbit-mobile-active={isActive ? "true" : "false"} onPointerDown={() => {
                     applyActive(index);
                   }} onClick={() => {
                     onMobileAction(item);
                   }} aria-label={item.label} tabIndex={v.hide ? -1 : 0}>
-                        <span className="profile-orbit-static-glow" aria-hidden="true" />
+                        <OrbitStaticGlow />
                         <span className="dock-icon w-full h-auto flex-shrink-0 grid place-items-center leading-none min-h-[clamp(2.6rem,14vw,3.8rem)]" aria-hidden="true">
                           {item.icon}
                         </span>
@@ -743,8 +753,8 @@ export default function OrbitalMenu({
                 behavior: prefersReducedMotion ? "auto" : "smooth"
               });
             }} aria-label={item.label}>
-                  <BorderGlow as="span" {...ORBIT_BUTTON_GLOW_PROPS} glowRadius={36} style={ORBIT_BUTTON_GLOW_STYLE} className="ui-glow-button-frame ui-glow-button-control profile-orbit-edge-glow profile-orbit-stack-bubble dock-item" aria-hidden="true">
-                    <span className="profile-orbit-static-glow" aria-hidden="true" />
+                  <BorderGlow as="span" {...ORBIT_BUTTON_GLOW_PROPS} glowRadius={36} style={ORBIT_BUTTON_GLOW_STYLE} className={cn(ORBIT_GLOW_BTN_CLASS, "profile-orbit-stack-bubble dock-item")} aria-hidden="true">
+                    <OrbitStaticGlow />
                     <span className="dock-icon">
                       {item.icon}
                     </span>
