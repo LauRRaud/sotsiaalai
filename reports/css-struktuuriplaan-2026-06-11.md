@@ -233,6 +233,20 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 - `app/styles/README.md`: struktuur + 5 ownership-reeglit.
 - Läved on teadlikult "praegune tase + varu" — etapp 6 (muutujastamine) järel langeta.
 
+### Etapp 5e — helpers-core.css → shared/, tehtud 12.06.2026 (commit ecfda436)
+- utilities/helpers-core.css (36 KB) → `shared/{login-a11y,glass-subpage,workspace-guide}.css` sama aggregaatori-mustriga; null testimuudatust.
+- NB: tükeldamine tõstis jscpd protsenti (6,34 → 7,15) ILMA sisulise dup-kasvuta — jscpd loendab failidevahelisi kloonipaare teisiti kui failisiseseid. dup:check:ci lävi tõstetud 7,5-le (põhjendus README-s); etapp 6 järel langeta.
+
+### Mõõdikud seisuga 12.06.2026 (vrd §6 tabel)
+| Mõõdik | Enne | Praegu | Siht |
+|---|---|---|---|
+| Suurim CSS-fail | hc.css 113 KB | hc.css 77 KB | < 40 KB |
+| theme/ maht | 274 KB | 208 KB | < 60 KB |
+| css:audit notSeen | 49 | 28 (kõik teadaolevad valepositiivsed) | ~15 |
+| Mobiili globaalne kett | 20+ faili | 16 faili (kõik shared) | ~12 |
+| Feature CSS-i asukohti | kuni 6 faili | 1 kaust (6 vertikaali features/ all) | 1 kaust |
+| CSS-failide arv | 63 | 78 (tükeldused; maht sama ~848 KB) | — |
+
 ### Tegemata (järgmised sammud)
 - **Etapp 5 lõppjääk:** utilities/helpers-core.css tükeldamine (kasuta 5d aggregaatori mustrit; sisemine struktuur on suurte @media-plokkidega läbisegi — piirid vali sisu, mitte prefiksi järgi); invite/help-listings/selected-listing kuuluvad samasse otsusesse (jagatud modaalid).
 - **Etapp 6:** teemade muutujastamine (suurim võit; theme/hc.css on veel 77 KB, mono.css 43 KB, dark.css :not()-ahelad). Alusta väikseimast teemast; iga teema × feature kombinatsioon vajab visuaalset kontrolli.

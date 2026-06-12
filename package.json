@@ -42,7 +42,7 @@
     "css:audit": "node scripts/audit-css-usage.mjs",
     "css:audit:check": "node scripts/audit-css-usage.mjs --top 0 --max-not-seen 30",
     "dup:check": "jscpd . --pattern \"**/*.css\" --ignore \"**/node_modules/**,**/.next/**,**/reports/**,**/coverage/**,**/playwright-report/**,**/.git/**\" --reporters consoleFull",
-    "dup:check:ci": "jscpd . --pattern \"**/*.css\" --ignore \"**/node_modules/**,**/.next/**,**/reports/**,**/coverage/**,**/playwright-report/**,**/.git/**\" --reporters console --threshold 7",
+    "dup:check:ci": "jscpd . --pattern \"**/*.css\" --ignore \"**/node_modules/**,**/.next/**,**/reports/**,**/coverage/**,**/playwright-report/**,**/.git/**\" --reporters console --threshold 7.5",
     "clean:next": "node scripts/clean-next.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

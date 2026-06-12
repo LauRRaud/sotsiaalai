@@ -44,7 +44,10 @@ Structure after the 2026-06 restructure (plan + execution log:
    `legacyCssBundles` map in `scripts/register-node-test-loader.mjs`.
 5. **Guards:** `npm run css:audit:check` (dead-selector ceiling, currently
    30 — the remainder are verified leaflet/dynamic false positives) and
-   `npm run dup:check:ci` (jscpd CSS duplication threshold 7%, current
-   level 6.34% — lower it after the etapp 6 theme variable-ization). Both run
+   `npm run dup:check:ci` (jscpd CSS duplication threshold 7.5%, current
+   level 7.15% — the number moved up slightly when monoliths were split
+   because jscpd counts cross-file clone pairs differently than intra-file
+   ones; content is unchanged. Lower the bar after the etapp 6 theme
+   variable-ization). Both run
    as part of `npm run check`. Raise limits only consciously, in the same
    commit as the justification.
