@@ -298,3 +298,18 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 - Ära kustuta tombstone-faile ega muuda failiteid enne, kui vastavad testid (88 viidet) on samas commitis uuendatud
 - Ära puuduta leaflet-* reegleid ega dünaamilisi klasse (koondraport p 2)
 - Ära lisa uusi reegleid vanadesse monoliitidesse migratsiooni ajal — kehtesta reegel kohe etapis 0
+
+## 9. CSS-võla roadmap (13.06.2026, mõõdetud)
+
+Allesjäänud CSS-võlg EI ole 5 eraldi tööd vaid **2 juurprobleemi 5 sümptomiga**. Mõõdetud andmed: 4637 `!important` CSS-is, 1360 Tailwindi `!`-modifikaatorit JSX-is, ainult 2/93 CSS-faili kasutab `@layer`.
+
+**Juur A — kaks stiilisüsteemi ilma kihihierarhiata.** Tailwind v4 utiliidid on `@layer utilities` sees; 91/93 käsitsi-CSS-faili on **kihistamata** → võidavad Tailwindi vaikimisi (kihistamata > kihistatud, sõltumata spetsiifikatsioonist). Seetõttu eksisteerib 1360 Tailwindi `!`-modifikaatorit (sunnivad Tailwindi võitma käsitsi-CSS-i). CSS-`!important` enamasti EI võitle Tailwindiga (võidab niikuinii) — see on CSS-CSS teema-sõda. Top `!`-failid: LoginModal 68, AgentModePage 47, ChatBody 40, ProfiilBody 33.
+
+**Juur B — override-põhine teemamine (mitte muutuja-põhine).** Sümptomid: `:not(.theme-X)`-ahelad (vaiketeema "dark jama"), ~1680 `!important` pinna-omadustel (background 440 / box-shadow 373 / color 306 / border 365 / backdrop-filter 196), värvi-dubleerimine teemafailides. **Need 3 on SAMA probleem** — `var(--surface)` baasis + `:root.theme-X { --surface }` kaotaks korraga `:not()`-ahelad, pinna-`!important`-id JA värvi-korduse. Suurim failisuuruse-võit (hc.css 77 KB).
+
+**Soovitatav järjekord:**
+1. **Kihi-arhitektuur** (juur A): käsitsi-CSS `@layer`-isse `utilities` järel → prioriteet tahtlikuks, avab `!important`/`!` eemaldamise. Pilootida ühel komponendil enne globaalset.
+2. **Teemade muutujastamine** (juur B, etapp 6 tuum): `:not()`+pinna-`!important`+värvid → `var()`. Suurim võit, **kõrgeim risk** (iga teema × feature brauserikontroll; kontraktitestid EI püüa visuaalseid regressioone).
+3. **styles/ failide ümberjaotus** (kosmeetiline): inkrementaalne, madal risk, sõltumatu.
+
+**Sissepääs:** piiratud piloot (üks pind-omadus / üks feature) mõõdab tegeliku võidu + riski enne laienemist. Plaanidoki §8 "ära tee suurt pauku" kehtib eriti siin.
