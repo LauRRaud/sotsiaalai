@@ -164,14 +164,20 @@ Alternatiiv teemadele, kui muutujapõhine üleminek tundub liiga suur: jaga hc.c
 
 ## 6. Mõõdikud
 
-| Mõõdik | Enne | Siht |
-|---|---|---|
-| Suurim CSS-fail | hc.css 113 KB | < 40 KB |
-| theme/ maht | 274 KB | < 60 KB (muutujad) |
-| jscpd CSS dup-read | 5 175 | < 1 500 |
-| css:audit notSeen | 49 | ~15 (ainult leaflet + dünaamilised) |
-| Mobiili globaalne kett | 20 faili, sh 3 feature-faili (~37 KB võõrast) | ainult shared (~12 faili) |
-| Feature'i CSS-i asukohti | kuni 6 faili | 1 kaust |
+| Mõõdik | Enne | Siht | Saavutatud (12.06, etapp 6b järel) |
+|---|---|---|---|
+| Suurim CSS-fail | hc.css 113 KB | < 40 KB | hc.css 77 KB — **osaliselt**; edasine ekstraktsioon EI ole ohutu (empiiriliselt kontrollitud, vt allpool) |
+| theme/ maht | 274 KB | < 60 KB (muutujad) | 176 KB (hc 77 / mono 37 / mid 23 / light 15 / dark 13 / night 11) — **osaliselt** |
+| jscpd CSS dup-read (app/styles, jscpd 4.x) | 1 089 (lokaalne baseline; raporti 5 175 oli jscpd 5) | < 1 500 | 1 400 — **siht täidetud**, kuid TÕUSIS 1089→1400 (vt märkus) |
+| css:audit notSeen | 49 | ~15 | 28 (jääk = leaflet + dünaamilised; valvur lävi 30) — **täidetud** |
+| Mobiili globaalne kett | 22 faili, sh 6 feature-faili | ainult shared (~16) | 16 faili, 0 feature-faili — **täidetud** |
+| Feature'i CSS-i asukohti | kuni 6 faili | 1 kaust | 1 kaust (service-map, documents, chat, policy, home, profile) — **täidetud** |
+
+**Kriitiline märkus dup-arvule:** ekstraktsioon (etapid 2–6b) EI vähenda dubleerimist — see tõstab seda. Kui chat'i teemareeglid 4 failist koondati ühte `features/chat/themes.css`-i, hakkas jscpd nägema kloone selle ja `chat/{mono,hc}.css` vahel (per-teema struktuur on sarnane) → 1089 → 1400. See on otsene tõestus, et **DoD failisuuruse- ja dup-sihte ei saa ekstraktsiooniga täita — need nõuavad muutujastamist** (baasreegel tarbib `var()`, teema deklareerib väärtuse → struktuurne kordus kaob). Ekstraktsioon lahendas "feature ühes kohas" eesmärgi; muutujastamine on eraldi, kõrge riskiga faas (§7 "Tegemata").
+
+**Etapp 6 staatus:** struktuurne osa (6a chat-, 6b home-teemaplokid feature'itesse) tehtud. Muutujastamise tuum (literaalreeglid → `var()`) on teadlikult TEGEMATA — see on kõrge riskiga, nõuab iga teema × feature visuaalkontrolli, ja dup on juba sihi all. Täielik kaart §7 lõpus "Tegemata".
+
+**Miks hc.css/mono.css edasine ekstraktsioon EI ole ohutu (empiiriliselt, 12.06):** hc.css 197 reeglist on ~20 muutujapaletti, ~45 globaalset, ~83 "ühefeature'i" ja ~49 ilmselget ristfeature `:is()`-loendit. Aga "ühefeature'i" arv petab: hc.css kasutab tihedalt `:is()`-loendeid, kus ÜKS reegel katab mitut feature'i (nt `:is(.chat-send-btn, .chat-listen-btn, .workspace-feature-panel svg, .documents-workspace svg)`). Prooviekstraktsioon "documents" prefiksiga tõmbaks ekslikult kaasa jagatud chat/workspace-reeglid; "service-map" tõmbaks jagatud nupu-reseti JA geneerilise glow-reseti (sama reegel, mis murdis testi etapis 4). Järeldus: hc.css jääk on tõeliselt ristlõikav — kuulub teemafaili VÕI vajab ettevaatlikku muutujastamist, mitte mehaanilist ekstraktsiooni. Klassiprefiksi-heuristik EI tööta `:is()`-rikkas failis.
 
 ## 7. Teostuse logi (täiendatakse jooksvalt)
 
